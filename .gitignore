@@ -11,3 +11,11 @@ __pycache__/
 
 # 操作系统的目录元数据
 .DS_Store
+
+# 数据集与运行产物：体积大、可重新下载或重新生成，一律不进 git。
+# 可复现所需的配置、种子与上游版本写在仓里，产物本身留在本地。
+data/
+runs/
+
+# 官方 toolkit 的本地 checkout（接入方式待 ADR 定，见 third_party/README.md）
+third_party/video_to_data/
