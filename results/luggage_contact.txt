@@ -1,0 +1,20 @@
+# script   : stages/recovery/luggage_contact.py
+# md5      : d9ca8e877368d55a728429ea4f198fd4
+# commit   : nogit (dirty)
+# run_at   : 2026-09-28T00:37:16+08:00
+# ---------------------------------------------------------------
+关节分组： {'左手': ['LeftHand', 'LeftHandThumb1', 'LeftHandThumb2', 'LeftHandThumb3', 'LeftHandThumbEnd', 'LeftHandIndex1', '…'], '右手': ['RightHand', 'RightHandThumb1', 'RightHandThumb2', 'RightHandThumb3', 'RightHandThumbEnd', 'RightHandIndex1', '…'], '左脚': ['LeftFoot', 'LeftToeBase', 'LeftToeEnd'], '右脚': ['RightFoot', 'RightToeBase', 'RightToeEnd']}
+
+== Tier 1 · ep29 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06 · 467 帧 · 物体总位移 0.68 m · 运动帧 25%
+部位      最近p5      中位   <2cm帧   <5cm帧   <10cm帧     运动帧中<5cm
+左手    0.216m  0.298m       0       0        0           0%
+右手    0.286m  0.366m       0       0        0           0%
+左脚    0.029m  0.154m       0      77      153          61%
+右脚    0.176m  0.279m       0       0        0           0%
+
+== Tier 2 · ep29 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06 · 467 帧 · 物体总位移 0.65 m · 运动帧 57%
+部位      最近p5      中位   <2cm帧   <5cm帧   <10cm帧     运动帧中<5cm
+左手    0.037m  0.262m       8      39       91           9%
+右手    0.055m  0.262m       6      22       75           5%
+左脚    0.018m  0.146m      26      77      153          27%
+右脚    0.160m  0.287m       0       0        0           0%
