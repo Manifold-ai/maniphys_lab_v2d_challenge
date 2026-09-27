@@ -57,8 +57,11 @@ rsync "${RS[@]}" \
 
 [ "${V2D_DRYRUN:-0}" = 1 ] && exit 0
 # 记下这次同步的源码版本，fc_run.sh 写进运行记录（服务器上的副本不是 git 仓）
-# git describe --dirty 看不到未跟踪的新文件，另用 git status --porcelain 判断
-SRC_DESC="$(git -C "$ROOT" describe --always --abbrev=12)"; [ -n "$(git -C "$ROOT" status --porcelain)" ] && SRC_DESC="$SRC_DESC-dirty"
+# git describe --dirty 看不到未跟踪的新文件，另用 git status --porcelain 判断。
+# results/ 不算：它被上面的 H 规则挡在同步之外，服务器上的代码与它无关；回流下来、还没提交的结果文件
+# 不应让这次同步被标成 dirty（否则每次 record 之后下一次同步都是 dirty）。
+SRC_DESC="$(git -C "$ROOT" describe --always --abbrev=12)"
+[ -n "$(git -C "$ROOT" status --porcelain -- . ':(exclude)results')" ] && SRC_DESC="$SRC_DESC-dirty"
 ssh "$V2D_HOST" "printf '%s\n' '$SRC_DESC' > '$V2D_REMOTE/.v2d-source-commit'"
 [ $# -eq 0 ] && exit 0
 ssh "$V2D_HOST" "cd '$V2D_REMOTE' && set -a && [ -f .env ] && . ./.env; set +a; $(printf '%q ' "$@")"
