@@ -8,6 +8,8 @@
 #   sudo bash deploy/ml40/migrate_docker_storage.sh            # 只做预检，不改任何东西
 #   sudo bash deploy/ml40/migrate_docker_storage.sh --apply    # 预检通过后执行迁移
 #   sudo bash deploy/ml40/migrate_docker_storage.sh --cleanup  # 验收满意后，删除系统盘上的旧备份
+#   第二个参数 --reuse-copy：/lab_data 上已有上次回滚留下的副本时复用它（rsync --delete 增量同步成与旧目录一致），
+#   停机时间只剩同步差异；预检也要带上它：sudo bash ... check --reuse-copy
 #
 # 安全设计：预检不过就退出；旧目录只改名不删除；启动或验收失败自动回滚到迁移前。
 set -euo pipefail
@@ -22,6 +24,7 @@ DKR_CONF=/etc/docker/daemon.json
 TS=$(date +%Y%m%d-%H%M%S)
 LOGDIR=/lab_data/rxzhou/ops/docker-migration-$TS
 MODE=${1:-check}
+REUSE_ARG=${2:-}
 
 say() { printf '[%s] %s\n' "$(date +%H:%M:%S)" "$*"; }
 die() { say "中止：$*"; exit 1; }
@@ -40,9 +43,13 @@ fi
 say "预检"
 [ -z "$(docker ps -q)" ] || die "有运行中的容器：$(docker ps --format '{{.Names}}' | tr '\n' ' ')"
 [ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null)" ] || die "GPU 上有进程在跑"
-for d in "$NEW_CTD" "$NEW_DKR" "$OLD_CTD$BAK_SUFFIX" "$OLD_DKR$BAK_SUFFIX"; do
+for d in "$OLD_CTD$BAK_SUFFIX" "$OLD_DKR$BAK_SUFFIX"; do
   [ ! -e "$d" ] || die "$d 已存在"
 done
+if [ -e "$NEW_CTD" ] || [ -e "$NEW_DKR" ]; then
+  [ "$REUSE_ARG" = --reuse-copy ] || die "$NEW_CTD 或 $NEW_DKR 已存在（上次回滚留下的副本？）。确认后加第二个参数 --reuse-copy 复用"
+  say "复用 /lab_data 上已有的副本：按旧目录 rsync --delete 增量同步"
+fi
 [ -d "$OLD_CTD" ] && [ -d "$OLD_DKR" ] || die "旧目录不全"
 [ -f "$CTD_CONF" ] || die "没有 $CTD_CONF"
 grep -qE '^\s*root\s*=' "$CTD_CONF" && die "$CTD_CONF 已有未注释的 root 行，先人工确认"
@@ -88,9 +95,9 @@ trap 'rc=$?; [ $rc -ne 0 ] && rollback; exit $rc' EXIT
 say "停止 docker / containerd"
 systemctl stop docker.socket docker containerd
 say "拷贝 $OLD_CTD → $NEW_CTD"
-rsync -aHAXS --numeric-ids "$OLD_CTD/" "$NEW_CTD/"
+rsync -aHAXS --numeric-ids --delete "$OLD_CTD/" "$NEW_CTD/"
 say "拷贝 $OLD_DKR → $NEW_DKR"
-rsync -aHAXS --numeric-ids "$OLD_DKR/" "$NEW_DKR/"
+rsync -aHAXS --numeric-ids --delete "$OLD_DKR/" "$NEW_DKR/"
 
 # ── 改配置 ─────────────────────────────────────────────────────────
 if [ "$CTD_EDIT" = uncomment ]; then
@@ -113,14 +120,16 @@ MOVED=1
 # ── 启动与验收 ─────────────────────────────────────────────────────
 say "启动 containerd / docker"
 systemctl start containerd docker
-sleep 3
+for _ in $(seq 30); do docker info >/dev/null 2>&1 && break; sleep 2; done   # 等 dockerd 真正起来再验收
 [ "$(docker info --format '{{.DockerRootDir}}')" = "$NEW_DKR" ] || die "Docker Root Dir 不是 $NEW_DKR"
-containerd config dump 2>/dev/null | grep -qE "^root = \"$NEW_CTD\"" || die "containerd root 不是 $NEW_CTD"
+# containerd 2.x 的 config dump 用单引号写字符串（root = '/var/lib/containerd'，2026-09-28 ml40 实测）；两种引号都认
+containerd config dump 2>/dev/null | grep -qE "^root = [\"']$NEW_CTD[\"']\$" || die "containerd root 不是 $NEW_CTD"
 docker image ls --no-trunc --format '{{.Repository}}:{{.Tag}} {{.ID}}' | sort > "$LOGDIR/images.after"
 diff -u "$LOGDIR/images.before" "$LOGDIR/images.after" || die "镜像列表或 ID 变了"
-# 用镜像 ID 而不是名字：排在第一的可能是 <none>:<none>，按名字 docker run 会失败并把成功的迁移回滚掉
-IMG=$(awk '$1=="flash_chord:latest"{print $2; exit}' "$LOGDIR/images.after")
-[ -n "$IMG" ] || IMG=$(head -1 "$LOGDIR/images.after" | cut -d' ' -f2)
+# 优先用 flash_chord:latest；没有时用第一个镜像的 ID——排在第一的可能是 <none>:<none>，按名字 docker run 会失败，
+# 把成功的迁移回滚掉
+IMG=flash_chord:latest
+grep -q '^flash_chord:latest ' "$LOGDIR/images.after" || IMG=$(head -1 "$LOGDIR/images.after" | cut -d' ' -f2)
 docker run --rm --runtime=nvidia --gpus all --entrypoint nvidia-smi "$IMG" -L | tee "$LOGDIR/gpu_check.txt" | grep -q "L40S" \
   || die "容器里看不到 GPU"
 docker info > "$LOGDIR/docker_info.after" 2>&1
