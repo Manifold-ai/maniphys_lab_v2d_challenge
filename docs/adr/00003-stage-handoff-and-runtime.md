@@ -49,8 +49,10 @@ GPU 默认不占，显式 `V2D_GPU=1` 才加。
 **ml40 的镜像就地重建**，不从 mf4090 搬：经 Mac 中转实测 0.23–1.2 MB/s，7.5 GB 要数小时；ml40 经腾讯镜像站拉到的
 CUDA base 与 mf4090 上 `flash_chord:latest` 的前 11 层 diff_id 逐一相同，PyPI / ghcr 直连可达。构建走
 `V2D_BUILD_DIRECT=1`（不读 `.env`、不传代理）。镜像 ID 与 4090 不同，运行记录写 base 层 diff_id 与依赖 freeze 以便对账。
-ml40 的 docker 用 containerd 镜像存储，镜像层在 `/var/lib/containerd`，系统盘放不下；须等管理员把 containerd root
-一并迁到 `/lab_data` 之后才能构建。
+ml40 的 docker 用 containerd 镜像存储，镜像层在 `/var/lib/containerd`（系统盘）。原定存储迁移后再构建；2026-09-28 改为**先在系统盘构建**：
+系统盘可用已回升到约 45 GB，镜像约 22 GB，构建后约剩 19 GB，够 Day 1（训练中 state 只留最近 2 份）。rxzhou 在 sudo 组但没有 ml40 的
+账号密码，迁移（`deploy/ml40/migrate_docker_storage.sh`，预检要求没有运行中的容器）要等管理员或拿到密码后，在两次训练之间的空窗执行，
+届时镜像随 containerd 一起迁走（迁移量因此多约 28 GB）。**批量训练前必须完成迁移。**
 
 ## Options Considered
 
@@ -93,3 +95,4 @@ ml40 的 docker 用 containerd 镜像存储，镜像层在 `/var/lib/containerd`
 
 - 2026-09-25：初稿（Proposed）。
 - 2026-09-26：加多主机（`V2D_ENV`）与 ml40 就地重建镜像的决定。
+- 2026-09-28：ml40 改为存储迁移前先在系统盘构建镜像（系统盘回升到 45 GB、暂无 ml40 sudo 密码）；批量训练前仍须迁移。

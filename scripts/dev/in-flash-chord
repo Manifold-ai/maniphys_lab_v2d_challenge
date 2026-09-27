@@ -13,8 +13,23 @@ U="$(id -un)"; G="$(id -gn)"
 printf 'root:x:0:0:root:/root:/bin/bash\n%s:x:%s:%s:%s:/tmp:/bin/bash\n' "$U" "$(id -u)" "$(id -g)" "$U" > "$ID/passwd"
 printf 'root:x:0:\n%s:x:%s:\n' "$G" "$(id -g)" > "$ID/group"
 GPU=(); [ "${V2D_GPU:-0}" = 1 ] && GPU=(--runtime=nvidia --gpus "device=${V2D_GPU_DEVICE:-0}")
-exec docker run --rm "${GPU[@]}" --network host --user "$(id -u):$(id -g)" \
+# 宿主机上已设置的这些变量按名字转发进容器：-e NAME 只写变量名，值由 docker 从环境读，不进 argv
+# （这台机器多人共用，argv 对所有人可见；CLAUDE.md：凭据不落命令行）。
+ENVS=()
+for v in WANDB_API_KEY WANDB_RUN_ID WANDB_RESUME WANDB_TAGS WANDB_INIT_TIMEOUT \
+         XLA_PYTHON_CLIENT_PREALLOCATE XLA_CLIENT_MEM_FRACTION TF_CPP_MIN_LOG_LEVEL; do
+  [ -n "${!v+x}" ] && ENVS+=(-e "$v")
+done
+# V2D_CONTAINER_NAME：给容器命名，便于接管与 docker stop。
+# V2D_DETACH=1：后台运行且不 --rm，打印容器 ID 后返回；由调用方 docker logs / wait / rm（fc_run.sh 用）。
+RUNMODE=(--rm); [ "${V2D_DETACH:-0}" = 1 ] && RUNMODE=(-d)
+NAME=(); [ -n "${V2D_CONTAINER_NAME:-}" ] && NAME=(--name "$V2D_CONTAINER_NAME" --label "v2d.owner=$U")
+# 容器里看不到 .env（凭据）：用空文件遮住；W&B key 只经上面的环境变量白名单进容器
+MASK=(); [ -f "$ROOT/.env" ] && MASK=(-v /dev/null:/repo/.env:ro)
+# Warp kernel 缓存放宿主机，续训/重试不用每次重编（HOME=/tmp，Warp 默认缓存目录是 ~/.cache/warp）
+WARP_CACHE="$HOME/.cache/flash_chord/warp"; mkdir -p "$WARP_CACHE"
+exec docker run "${RUNMODE[@]}" "${NAME[@]}" "${GPU[@]}" "${ENVS[@]}" --network host --user "$(id -u):$(id -g)" \
   -e HOME=/tmp -e "USER=$U" -e NVIDIA_DRIVER_CAPABILITIES=all -e MUJOCO_GL=egl -e PYOPENGL_PLATFORM=egl \
-  -v "$ASSETS:/v2d/assets:ro" -v "$FC:/workspace" -v "$ROOT:/repo" \
+  -v "$ASSETS:/v2d/assets:ro" -v "$FC:/workspace" -v "$ROOT:/repo" "${MASK[@]}" -v "$WARP_CACHE:/tmp/.cache/warp" \
   -v "$ID/passwd:/etc/passwd:ro" -v "$ID/group:/etc/group:ro" \
   -w /workspace --entrypoint /bin/bash flash_chord:latest -lc "$*"

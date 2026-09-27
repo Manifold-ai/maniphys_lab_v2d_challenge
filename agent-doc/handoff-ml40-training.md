@@ -96,6 +96,7 @@ V2D_ENV=ml40 scripts/dev/pull-runs '../etc'     # rc=1
 
 ## 不要做
 
-- 迁移完成前，在 ml40 上 docker load / pull / build / run（会写 `/var/lib/containerd`，系统盘放不下，也会干扰管理员拷贝）。
+- ~~迁移完成前，在 ml40 上 docker load / pull / build / run~~（2026-09-28 按 ADR-00003 修订：系统盘回升到 45 GB，改为先在系统盘构建；
+  迁移要在两次训练之间的空窗做，批量训练前必须完成）。
 - `ssh -A` 转发 agent 进 mf4090（多人共用，有 sudo 的人能借用）。
 - 让 `.env`（含代理凭据）进 ml40 的构建环境。
