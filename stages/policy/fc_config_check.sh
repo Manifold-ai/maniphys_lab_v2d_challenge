@@ -13,6 +13,7 @@ while IFS= read -r line || [ -n "$line" ]; do
   while (( i < ${#tok[@]} )) && [[ ${tok[$i]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do envs+=("${tok[$i]}"); i=$((i + 1)); done
   args=("${tok[@]:$i}"); run=${args[0]}; pq=${args[1]}
   echo "== $run"
+  [ -f "runs/flash_chord/$run/DONE" ] && { echo "  已完成（DONE），跳过核对"; continue; }
   cmd="$(env "${envs[@]}" V2D_PRINT_CMD=1 bash stages/policy/fc_run.sh "${args[@]}" < /dev/null)" || { echo "  fc_run 打印模式失败"; fail=1; continue; }
   echo "  命令：${cmd:0:160}…"
   # training.{experiment_name,run_name,wandb_entity,wandb_project} 在配方里是 ${logging.*} 的引用，随 logging 覆盖一起变
