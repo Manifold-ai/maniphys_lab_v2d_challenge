@@ -34,6 +34,13 @@ for k in keys:
         print(f"  {k:<32} {m[k]}")
 if missing:
     print(f"  (JSON 里缺 {', '.join(missing)})")
+# chord_sr 取自 reference_tracking（harness.py：ReconBody 任务原生判据，pelvis / palm / object 三组门槛，
+# palm 与 object 在 reset_freeze_steps 之后才计）；上面的 termination_cause_fraction 是旧的物体中心口径
+# （palm 当 wrist、门槛从第 0 帧起算），两者不可混读。
+rt = d.get("reference_tracking") or {}
+print(f"  reference_tracking.success_rate   {rt.get('success_rate')}   (= chord_sr)")
+print(f"  reference_tracking.failure_cause  {rt.get('failure_cause_fraction')}")
+print(f"  reference_tracking.reference_end  {rt.get('reference_end_fraction')}")
 PY
 }
 if [ -s "$OUTJ" ]; then echo "fc_eval: 已有结果 $OUTJ"; summary; exit 0; fi
