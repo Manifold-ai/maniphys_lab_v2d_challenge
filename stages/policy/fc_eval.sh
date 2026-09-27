@@ -18,31 +18,7 @@ fi
 [[ $STEP =~ ^[0-9]+$ ]] || die "$O 里没有 policy_*.safetensors"
 P="$O/policy_${STEP}.safetensors"; [ -f "$P" ] || die "没有 $P"
 OUTJ="$O/eval_${STEP}_w${WORLDS}.json"; LOG="runs/logs/$RUN.eval_${STEP}_w${WORLDS}.log"
-summary() {
-  # 评测器 JSON：指标在 metrics 下、键不带前缀；checkpoint 与设置在顶层（ml40 冒烟评测实测）
-  python3 - "$OUTJ" <<'PY'
-import json, sys
-d = json.load(open(sys.argv[1]))
-m = d.get("metrics", {})
-print(f"  checkpoint_sha256 {str(d.get('checkpoint_sha256'))[:16]}…  environment_steps {d.get('environment_steps')}"
-      f"  world_count {d.get('world_count')}  step_count {d.get('step_count')}  non_finite_worlds {d.get('non_finite_worlds')}")
-keys = ["add_auc", "chord_sr", "maniptrans_sr", "spider_sr_uncentered", "mppe_cm", "mean_add_m",
-        "object_position_error_m", "object_orientation_error_deg", "termination_cause_fraction"]
-missing = [k for k in keys if k not in m]
-for k in keys:
-    if k in m:
-        print(f"  {k:<32} {m[k]}")
-if missing:
-    print(f"  (JSON 里缺 {', '.join(missing)})")
-# chord_sr 取自 reference_tracking（harness.py：ReconBody 任务原生判据，pelvis / palm / object 三组门槛，
-# palm 与 object 在 reset_freeze_steps 之后才计）；上面的 termination_cause_fraction 是旧的物体中心口径
-# （palm 当 wrist、门槛从第 0 帧起算），两者不可混读。
-rt = d.get("reference_tracking") or {}
-print(f"  reference_tracking.success_rate   {rt.get('success_rate')}   (= chord_sr)")
-print(f"  reference_tracking.failure_cause  {rt.get('failure_cause_fraction')}")
-print(f"  reference_tracking.reference_end  {rt.get('reference_end_fraction')}")
-PY
-}
+summary() { python3 stages/policy/eval_summary.py "$OUTJ"; }   # 口径说明见 eval_summary.py
 if [ -s "$OUTJ" ]; then echo "fc_eval: 已有结果 $OUTJ"; summary; exit 0; fi
 exec 9>"$O/.eval.lock"; flock -n 9 || die "$O 正在被另一个 fc_eval 评测"
 others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ')"
