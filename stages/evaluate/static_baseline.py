@@ -88,8 +88,15 @@ def evaluator_baseline(cfg: dict, gate_rad: float) -> None:
     # 其余物体指标也用评测器自己的函数算，与评测 JSON 的同名字段逐项可比（chord_sr 需要仿真里的 palm/pelvis 误差，算不了）
     sp_ok, sp_pos, sp_ori = spider_success(static, pose)
     mt_ok, _, _ = maniptrans_success(static, pose, np.zeros(pose.shape[1], dtype=np.int64))
+    mppe = object_mppe_cm(static, pose)
     print(f"  static-object object_position_error_m {sp_pos.mean():.4f}; object_orientation_error_deg {np.degrees(sp_ori.mean()):.2f}; "
-          f"mppe_cm {object_mppe_cm(static, pose):.3f}; spider_sr_uncentered {sp_ok.mean():.3f}; maniptrans_sr {mt_ok.mean():.3f}")
+          f"mppe_cm {mppe:.3f}; spider_sr_uncentered {sp_ok.mean():.3f}; maniptrans_sr {mt_ok.mean():.3f}")
+    # 机器可读的一行（字段名同评测 JSON），供 stages/evaluate/verdict.py 当“不动基线”读
+    print("  summary_json " + json.dumps({
+        "add_auc": auc, "mean_add_m": float(add.mean()), "object_position_error_m": float(sp_pos.mean()),
+        "object_orientation_error_deg": float(np.degrees(sp_ori.mean())), "mppe_cm": mppe,
+        "spider_sr_uncentered": float(sp_ok.mean()), "maniptrans_sr": float(mt_ok.mean()), "parquet": parquet,
+    }, sort_keys=True))
     xyzw = pose[:, 0, 3:7]
     rotation_profile(xyzw, gate_rad)
 

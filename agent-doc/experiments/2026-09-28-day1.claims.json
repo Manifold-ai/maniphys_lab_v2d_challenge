@@ -1,0 +1,161 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "prereg": {
+      "file": "agent-doc/experiments/2026-09-28-day1.md",
+      "grep": "^- 评测器|^- \\*\\*通过\\*\\*|^\\*\\*判据修正"
+    },
+    "verdict": {
+      "file": "results/day1/verdict.txt"
+    },
+    "eval_ml40": {
+      "file": "results/ml40/day1/eval_t1-ep20-w2048-cap10m-ml40.txt",
+      "grep": "^#|^  [a-z]"
+    },
+    "eval_mf4090": {
+      "file": "results/ml40/day1/eval_t1-ep20-w2048-cap1m-mf4090.txt",
+      "grep": "^#|^  [a-z]"
+    },
+    "static": {
+      "file": "results/day1/static_baseline_ep20.txt",
+      "grep": "^# (command|md5|source)|^\\[evaluator|^  (frames|static-object|angle|per-frame|cumulative|a static)"
+    },
+    "wb": {
+      "file": "results/ml40/day1/wb_summary.txt",
+      "grep": "^==|^  +(stage|[0-9])|throughput|per stage"
+    },
+    "smoke0925": {
+      "file": "results/day1/eval_smoke_t1_ep20_w256_0925.txt",
+      "grep": "^#|^  [a-z]"
+    },
+    "manifests": {
+      "file": "results/day1/verdict.txt",
+      "grep": "^input manifests"
+    },
+    "harness": {
+      "text": "FlashCHORD src/flash_chord/evaluation/harness.py (upstream v0.4.0), verbatim excerpts:\n    reference_tracking = score_reference_tracking(rollout, reference_criteria)\n    metrics = replace(\n        score_rollout(rollout, thresholds),\n        chord_sr=reference_tracking.success_rate,\n    )\nreference_tracking_criteria(), ReconBody branch:\n        error_names=(\"pelvis_position_m\", \"pelvis_orientation_rad\", \"palm_position_m\", \"palm_orientation_rad\", \"object_position_m\", \"object_orientation_rad\"),\n        active_after_step=(-1, -1, freeze, freeze, freeze, freeze),\n        causes=((\"pelvis\", (0, 1)), (\"palm\", (2, 3)), (\"object\", (4, 5))),\ndef score_rollout(...): \"\"\"Apply the legacy object-centric metrics to either wrist or ReconBody palm diagnostics.\"\"\"\n    standard_names = (\"wrist_position_m\" if \"wrist_position_m\" in names else \"palm_position_m\", ...)\nmetrics.py chord_success(): causes = tracking_cause_masks(tracking_error, thresholds) -- limits applied from step 0; termination_cause_fraction is computed from these causes."
+    },
+    "precheck": {
+      "file": "agent-doc/experiments/2026-09-28-day1.md",
+      "grep": "^\\| 5 \\|"
+    }
+  },
+  "claims": [
+    {
+      "id": "verdict_revised",
+      "evidence": [
+        "prereg",
+        "verdict"
+      ],
+      "claim": "Under the Day 1 pass criteria as revised before any evaluation (chord_sr > 0, maniptrans_sr > 0 and ADD-AUC above the static-object baseline), neither final policy passes."
+    },
+    {
+      "id": "verdict_original",
+      "evidence": [
+        "prereg",
+        "verdict"
+      ],
+      "claim": "Under the original Day 1 pass criteria (ADD-AUC > 0.465 instead of the static baseline), neither final policy passes either."
+    },
+    {
+      "id": "fails_on_add_only",
+      "evidence": [
+        "verdict"
+      ],
+      "claim": "Both final policies satisfy chord_sr > 0 and maniptrans_sr > 0 and fail only the ADD-AUC criterion."
+    },
+    {
+      "id": "worse_than_static",
+      "evidence": [
+        "verdict",
+        "static"
+      ],
+      "claim": "On ADD-AUC and on mean object position error, both final policies do worse than an object that is never moved."
+    },
+    {
+      "id": "rotation_little",
+      "evidence": [
+        "verdict",
+        "static"
+      ],
+      "claim": "The ml40 policy's mean object orientation error is only about 7 degrees lower than that of a never-moving object, so it reproduces little of the reference rotation."
+    },
+    {
+      "id": "buffer_better",
+      "evidence": [
+        "eval_ml40",
+        "eval_mf4090",
+        "verdict"
+      ],
+      "claim": "In this single-seed comparison on one sequence, the run with the 10M replay buffer outperformed the run with the 1M buffer on task-native success rate (chord_sr), mean object position error and MPPE."
+    },
+    {
+      "id": "buffer_gap_early",
+      "evidence": [
+        "wb"
+      ],
+      "claim": "The training-curve gap between the 1M-buffer and the 10M-buffer runs is already present in curriculum stage 0, while the virtual object controller scale is still 1."
+    },
+    {
+      "id": "voc_decay_rotation",
+      "evidence": [
+        "wb"
+      ],
+      "claim": "In both runs the object orientation tracking error during training rises as the virtual object controller scale is decayed to zero."
+    },
+    {
+      "id": "chord_semantics",
+      "evidence": [
+        "harness",
+        "eval_mf4090"
+      ],
+      "claim": "The chord_sr in the evaluation output is the task-native reference-tracking success rate with pelvis, palm and object limits, and the termination_cause_fraction field comes from a different, legacy object-centric scorer."
+    },
+    {
+      "id": "smoke_all_three",
+      "evidence": [
+        "smoke0925"
+      ],
+      "claim": "In the 9/25 smoke evaluation every world crossed the task-native object, palm and pelvis limits."
+    },
+    {
+      "id": "inputs_identical",
+      "evidence": [
+        "manifests"
+      ],
+      "claim": "The inputs used to evaluate the mf4090 policy on ml40 were byte-identical to those on mf4090."
+    },
+    {
+      "id": "static_same_reference",
+      "evidence": [
+        "static"
+      ],
+      "claim": "The static-object baseline was computed with the evaluator's own reference loader and metric functions, reading the reference parquet named in the evaluated policy's embedded config."
+    },
+    {
+      "id": "same_parquet",
+      "evidence": [
+        "precheck",
+        "static"
+      ],
+      "claim": "Both Day 1 runs trained on the same ep20 reference parquet, with an identical sha256 on both machines."
+    },
+    {
+      "id": "ctrl_true",
+      "control": "true",
+      "evidence": [
+        "eval_ml40"
+      ],
+      "claim": "The ml40 final policy was evaluated with 4096 worlds."
+    },
+    {
+      "id": "ctrl_false",
+      "control": "false",
+      "evidence": [
+        "eval_ml40",
+        "eval_mf4090"
+      ],
+      "claim": "The mf4090 final policy achieved a higher task-native success rate (chord_sr) than the ml40 final policy."
+    }
+  ]
+}

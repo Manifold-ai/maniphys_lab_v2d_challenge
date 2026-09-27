@@ -36,6 +36,11 @@ def summarize(path: str) -> bool:
     missing = [k for k in KEYS if k not in m] + ([] if rt else ["reference_tracking"])
     if missing:
         print(f"  MISSING {', '.join(missing)}")
+    # 机器可读的一行，供 stages/evaluate/verdict.py 按判据比较
+    compact = {k: m.get(k) for k in KEYS if k != "termination_cause_fraction"}
+    compact.update(environment_steps=d.get("environment_steps"), world_count=d.get("world_count"),
+                   checkpoint_sha256=d.get("checkpoint_sha256"), reference_tracking=rt)
+    print("  summary_json " + json.dumps(compact, sort_keys=True))
     return not missing
 
 

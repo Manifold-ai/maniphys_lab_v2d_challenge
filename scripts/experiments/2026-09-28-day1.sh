@@ -26,9 +26,9 @@ unset V2D_ENV
 
 scripts/dev/pull-results
 V2D_ENV=ml40 scripts/dev/pull-results
-if diff <(grep -E '^sha |files hashed' results/day1/policy_inputs_mf4090policy_on_mf4090.txt) \
-        <(grep -E '^sha |files hashed' results/ml40/day1/policy_inputs_mf4090policy_on_ml40.txt); then
-  echo "输入清单：mf4090 与 ml40 逐字节一致"
-else
-  echo "输入清单：两台不一致（见上）" >&2; exit 1
-fi
+
+# 本地：按登记的判据下结论（含两台输入清单的比对，不一致则失败），再用 jev 核对要写进 SOP 的结论
+scripts/dev/record day1/verdict python3 stages/evaluate/verdict.py --static results/day1/static_baseline_ep20.txt \
+  --eval results/ml40/day1/eval_t1-ep20-w2048-cap10m-ml40.txt --eval results/ml40/day1/eval_t1-ep20-w2048-cap1m-mf4090.txt \
+  --manifests results/day1/policy_inputs_mf4090policy_on_mf4090.txt results/ml40/day1/policy_inputs_mf4090policy_on_ml40.txt
+scripts/dev/record day1/jev_claims python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-day1.claims.json

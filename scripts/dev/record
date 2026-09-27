@@ -19,7 +19,8 @@ NAME=${1:?用法：record <名字> <命令...>}; shift
 OUT="results/$NAME.txt"; mkdir -p "$(dirname "$OUT")"
 md5of() { if command -v md5sum >/dev/null; then md5sum "$1" | cut -d' ' -f1; else md5 -q "$1"; fi; }
 if git rev-parse --git-dir >/dev/null 2>&1; then
-  SRC="$(git describe --always --abbrev=12)"; [ -n "$(git status --porcelain)" ] && SRC="$SRC-dirty"
+  SRC="$(git describe --always --abbrev=12)"   # results/ 是产物，未提交的结果文件不算 dirty（同 scripts/dev/remote）
+  [ -n "$(git status --porcelain -- . ':(exclude)results')" ] && SRC="$SRC-dirty"
 else
   SRC="$(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 fi
