@@ -273,7 +273,8 @@ cp "$SRC/scripts/dev/in-flash-chord" "$SB/ifcroot/scripts/dev/in-flash-chord"; t
 A="$CTR/run_argv"
 check "后台运行、不 --rm、容器名与属主标签" 'grep -qx -- "-d" $A && ! grep -qx -- "--rm" $A && grep -qx "fc-x" $A && grep -qx "v2d.owner=$ME" $A'
 check "key 只以变量名出现（-e WANDB_API_KEY），值不在 argv" 'grep -qx WANDB_API_KEY $A && ! grep -q "$KEY" $A'
-check "容器里 .env 被遮住、Warp 缓存挂载、占 GPU" 'grep -qx "/dev/null:/repo/.env:ro" $A && grep -q ":/tmp/.cache/warp$" $A && grep -qx -- "--gpus" $A'
+check "容器里 .env 被遮住、Warp 缓存挂在 /warp-cache 并设 WARP_CACHE_PATH、占 GPU" 'grep -qx "/dev/null:/repo/.env:ro" $A && grep -q ":/warp-cache$" $A && grep -qx "WARP_CACHE_PATH=/warp-cache" $A && grep -qx -- "--gpus" $A'
+check "没有任何挂载点落在 /tmp/.cache 下（否则 W&B 缓存目录不可写）" '! grep -q ":/tmp/.cache" $A'
 check "最后一个参数是完整命令串（parquet 含 = 仍是一个单元）" '[ "$(tail -1 $A)" = "bash /repo/stages/policy/fc_train.sh '"'"'/repo/a/sequence_id=q/robot_name=g1/d.parquet'"'"' 2048 409600 /repo/o" ]'
 
 echo; echo "结果：PASS $PASS  FAIL $FAIL"

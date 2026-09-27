@@ -26,10 +26,12 @@ RUNMODE=(--rm); [ "${V2D_DETACH:-0}" = 1 ] && RUNMODE=(-d)
 NAME=(); [ -n "${V2D_CONTAINER_NAME:-}" ] && NAME=(--name "$V2D_CONTAINER_NAME" --label "v2d.owner=$U")
 # 容器里看不到 .env（凭据）：用空文件遮住；W&B key 只经上面的环境变量白名单进容器
 MASK=(); [ -f "$ROOT/.env" ] && MASK=(-v /dev/null:/repo/.env:ro)
-# Warp kernel 缓存放宿主机，续训/重试不用每次重编（HOME=/tmp，Warp 默认缓存目录是 ~/.cache/warp）
+# Warp kernel 缓存放宿主机，续训/重试不用每次重编。挂到独立的 /warp-cache 并用 WARP_CACHE_PATH 指过去：
+# 不能挂在 /tmp/.cache/ 下面——docker 会以 root 创建中间目录 /tmp/.cache，容器里的用户就写不了
+# /tmp/.cache/wandb（W&B 上传 artifact 时 PermissionError，训练在第一个 checkpoint 崩溃；ml40 自测抓到）。
 WARP_CACHE="$HOME/.cache/flash_chord/warp"; mkdir -p "$WARP_CACHE"
 exec docker run "${RUNMODE[@]}" "${NAME[@]}" "${GPU[@]}" "${ENVS[@]}" --network host --user "$(id -u):$(id -g)" \
   -e HOME=/tmp -e "USER=$U" -e NVIDIA_DRIVER_CAPABILITIES=all -e MUJOCO_GL=egl -e PYOPENGL_PLATFORM=egl \
-  -v "$ASSETS:/v2d/assets:ro" -v "$FC:/workspace" -v "$ROOT:/repo" "${MASK[@]}" -v "$WARP_CACHE:/tmp/.cache/warp" \
+  -v "$ASSETS:/v2d/assets:ro" -v "$FC:/workspace" -v "$ROOT:/repo" "${MASK[@]}" -v "$WARP_CACHE:/warp-cache" -e WARP_CACHE_PATH=/warp-cache \
   -v "$ID/passwd:/etc/passwd:ro" -v "$ID/group:/etc/group:ro" \
   -w /workspace --entrypoint /bin/bash flash_chord:latest -lc "$*"
