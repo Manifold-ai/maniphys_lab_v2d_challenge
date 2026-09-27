@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-day1.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 0209413571379f15756c1b0014cbd39e  agent-doc/experiments/2026-09-28-day1.claims.json
+# source   : efa83357169b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T15:24:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+verdict_revised      P(supported)=0.95  verified               [prereg, verdict]  Under the Day 1 pass criteria as revised before any evaluation (chord_sr > 0, maniptrans_sr > 0 and ADD-AUC above the static-object baseline), neither final policy passes.
+verdict_original     P(supported)=0.94  verified               [prereg, verdict]  Under the original Day 1 pass criteria (ADD-AUC > 0.465 instead of the static baseline), neither final policy passes either.
+fails_on_add_only    P(supported)=0.94  verified               [verdict]  Both final policies satisfy chord_sr > 0 and maniptrans_sr > 0 and fail only the ADD-AUC criterion.
+worse_than_static    P(supported)=0.95  verified               [verdict, static]  On ADD-AUC and on mean object position error, both final policies do worse than an object that is never moved.
+rotation_little      P(supported)=0.71  verified               [verdict, static]  The ml40 policy's mean object orientation error is only about 7 degrees lower than that of a never-moving object, so it reproduces little of the reference rotation.
+buffer_better        P(supported)=0.96  verified               [eval_ml40, eval_mf4090, verdict]  In this single-seed comparison on one sequence, the run with the 10M replay buffer outperformed the run with the 1M buffer on task-native success rate (chord_sr), mean object position error and MPPE.
+buffer_gap_early     P(supported)=0.92  verified               [wb]  The training-curve gap between the 1M-buffer and the 10M-buffer runs is already present in curriculum stage 0, while the virtual object controller scale is still 1.
+voc_decay_rotation   P(supported)=0.74  verified               [wb]  In both runs the object orientation tracking error during training rises as the virtual object controller scale is decayed to zero.
+chord_semantics      P(supported)=0.93  verified               [harness, eval_mf4090]  The chord_sr in the evaluation output is the task-native reference-tracking success rate with pelvis, palm and object limits, and the termination_cause_fraction field comes from a different, legacy object-centric scorer.
+smoke_all_three      P(supported)=0.55  UNVERIFIED             [smoke0925]  In the 9/25 smoke evaluation every world crossed the task-native object, palm and pelvis limits.
+inputs_identical     P(supported)=0.98  verified               [manifests]  The inputs used to evaluate the mf4090 policy on ml40 were byte-identical to those on mf4090.
+static_same_reference P(supported)=0.30  UNVERIFIED             [static]  The static-object baseline was computed with the evaluator's own reference loader and metric functions, reading the reference parquet named in the evaluated policy's embedded config.
+same_parquet         P(supported)=0.88  verified               [precheck, static]  Both Day 1 runs trained on the same ep20 reference parquet, with an identical sha256 on both machines.
+ctrl_true            P(supported)=0.98  control(true) ok       [eval_ml40]  The ml40 final policy was evaluated with 4096 worlds.
+ctrl_false           P(supported)=0.01  control(false) ok      [eval_ml40, eval_mf4090]  The mf4090 final policy achieved a higher task-native success rate (chord_sr) than the ml40 final policy.
+controls behaved as expected

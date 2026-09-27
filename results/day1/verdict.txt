@@ -1,0 +1,41 @@
+# command  : python3 stages/evaluate/verdict.py --static results/day1/static_baseline_ep20.txt --eval results/ml40/day1/eval_t1-ep20-w2048-cap10m-ml40.txt --eval results/ml40/day1/eval_t1-ep20-w2048-cap1m-mf4090.txt --manifests results/day1/policy_inputs_mf4090policy_on_mf4090.txt results/ml40/day1/policy_inputs_mf4090policy_on_ml40.txt 
+# md5      : c7e2b42d9cd76aaf3ff8ef6526160333  stages/evaluate/verdict.py
+# md5      : cf9615da06d5c2dffbb40a4e75d18e12  results/day1/static_baseline_ep20.txt
+# md5      : 7b1e8f8b6d25a8e43e32f4b98c9d62e9  results/ml40/day1/eval_t1-ep20-w2048-cap10m-ml40.txt
+# md5      : b10f77fe5629175d48659dda6f5f49c6  results/ml40/day1/eval_t1-ep20-w2048-cap1m-mf4090.txt
+# md5      : 7f2f987cb4446761107c4824142983a4  results/day1/policy_inputs_mf4090policy_on_mf4090.txt
+# md5      : b02f9d14c444813d788ffce903af400c  results/ml40/day1/policy_inputs_mf4090policy_on_ml40.txt
+# source   : efa83357169b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T15:24:21-0600
+# ---------------------------------------------------------------
+do-nothing baseline (results/day1/static_baseline_ep20.txt): add_auc 0.4708, object_position_error 1.70 cm, object_orientation_error 49.22 deg, mppe 3.26 cm, spider_sr 0.000, maniptrans_sr 0.000
+
+== t1-ep20-w2048-cap10m-ml40: 4096 worlds, 349,999,104 steps, checkpoint sha256 959c729e11c61184…
+  chord_sr       0.791504 > 0 (3242 of 4096 worlds): PASS
+  maniptrans_sr  0.000488281 > 0 (2 of 4096 worlds): PASS
+  add_auc        0.431269 > 0.470841: FAIL
+  add_auc vs the original bar: 0.431269 > 0.465: FAIL
+  VERDICT revised criteria: FAIL; original criteria: FAIL
+  spider_sr_uncentered 0.000244141 (1 of 4096 worlds); task-native failure causes {'object': 0.1962890625, 'palm': 0.20654296875, 'pelvis': 0.192626953125}
+  minus do-nothing: add_auc -0.0396; object_position_error +2.40 cm; object_orientation_error -6.97 deg; mppe +1.96 cm
+
+== t1-ep20-w2048-cap1m-mf4090: 4096 worlds, 349,999,104 steps, checkpoint sha256 6545b652d3a53424…
+  chord_sr       0.0170898 > 0 (70 of 4096 worlds): PASS
+  maniptrans_sr  0.00439453 > 0 (18 of 4096 worlds): PASS
+  add_auc        0.422089 > 0.470841: FAIL
+  add_auc vs the original bar: 0.422089 > 0.465: FAIL
+  VERDICT revised criteria: FAIL; original criteria: FAIL
+  spider_sr_uncentered 0.0012207 (5 of 4096 worlds); task-native failure causes {'object': 0.395751953125, 'palm': 0.982421875, 'pelvis': 0.6875}
+  minus do-nothing: add_auc -0.0488; object_position_error +7.34 cm; object_orientation_error -3.14 deg; mppe +6.76 cm
+
+t1-ep20-w2048-cap10m-ml40 minus t1-ep20-w2048-cap1m-mf4090:
+  add_auc                        0.431269 - 0.422089 = +0.00918085
+  chord_sr                       0.791504 - 0.0170898 = +0.774414
+  maniptrans_sr                  0.000488281 - 0.00439453 = -0.00390625
+  spider_sr_uncentered           0.000244141 - 0.0012207 = -0.000976562
+  mppe_cm                        5.21434 - 10.013 = -4.79866
+  object_position_error_m        0.0409543 - 0.0904001 = -0.0494458
+  object_orientation_error_deg   42.2464 - 46.0842 = -3.83786
+
+input manifests: 6 vs 6 files; byte-identical: True (results/day1/policy_inputs_mf4090policy_on_mf4090.txt vs results/ml40/day1/policy_inputs_mf4090policy_on_ml40.txt)

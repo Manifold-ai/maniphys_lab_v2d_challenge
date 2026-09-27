@@ -1,0 +1,25 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_baseline.py\ /repo/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_349999104.safetensors\ --tier1-episode\ 20 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 3cee99a551c3d55f1daead127ba30af5  stages/evaluate/static_baseline.py
+# md5      : c9cc8812996478d2b7d6e80cb737d00b  runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_349999104.safetensors
+# source   : efa83357169b
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T05:23:41+0800
+# ---------------------------------------------------------------
+[evaluator definition] reference /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+  frames 553, bodies 1, source_frame_playback True, playback_fps 50.0, vertices 500 per body (seed 0, trimesh)
+  static-object ADD-AUC 0.4708 (per body 0.4708); mean ADD 6.79 cm; max position drift 4.0 cm
+  static-object object_position_error_m 0.0170; object_orientation_error_deg 49.22; mppe_cm 3.256; spider_sr_uncentered 0.000; maniptrans_sr 0.000
+  summary_json {"add_auc": 0.47084086799276675, "maniptrans_sr": 0.0, "mean_add_m": 0.06786279706008184, "mppe_cm": 3.2558741023411804, "object_orientation_error_deg": 49.22067286646971, "object_position_error_m": 0.016985202194659866, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet", "spider_sr_uncentered": 0.0}
+  angle vs frame 0: mean 49.2 deg, max 179.9 deg (frame 359), final 50.4 deg
+  per-frame increment: median 0.096 deg, p99 3.71, max 4.28 (frame 395); > 5 deg: 0 frames
+  cumulative rotation 338.4 deg; frames with increment > 0.5 deg: 172 (first 209, last 420)
+  a static object first exceeds the 1.5 rad (85.9 deg) gate at frame 269; frames above the gate: 138
+  angle vs frame 0 every 20 frames: 0:0 20:0 40:1 60:0 80:0 100:0 120:0 140:1 160:1 180:1 200:1 220:13 240:37 260:71 280:100 300:100 320:104 340:135 360:179 380:149 400:96 420:51 440:50 460:51 480:50 500:50 520:51 540:51
+[original 2026-09-27 method] Tier 1 episode 20 2026-06-08_16-57-34_rice_cooker_clockwise_04 (episode_000020.parquet)
+  frames 553; static-object ADD-AUC 0.4708; mean ADD 6.7 cm; max position drift 4.0 cm
+  angle vs frame 0: mean 49.2 deg, max 179.9 deg (frame 359), final 50.4 deg
+  per-frame increment: median 0.096 deg, p99 3.71, max 4.28 (frame 395); > 5 deg: 0 frames
+  cumulative rotation 338.4 deg; frames with increment > 0.5 deg: 172 (first 209, last 420)
+  a static object first exceeds the 1.5 rad (85.9 deg) gate at frame 269; frames above the gate: 138
+  angle vs frame 0 every 20 frames: 0:0 20:0 40:1 60:0 80:0 100:0 120:0 140:1 160:1 180:1 200:1 220:13 240:37 260:71 280:100 300:100 320:104 340:135 360:179 380:149 400:96 420:51 440:50 460:51 480:50 500:50 520:51 540:51

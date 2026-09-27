@@ -1,0 +1,23 @@
+# command  : python3 stages/policy/policy_inputs.py runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_349999104.safetensors 
+# md5      : c7ca01443790a6833f63d444508dbbab  stages/policy/policy_inputs.py
+# md5      : c9cc8812996478d2b7d6e80cb737d00b  runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_349999104.safetensors
+# source   : efa83357169b
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T05:23:50+0800
+# ---------------------------------------------------------------
+policy runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_349999104.safetensors  sha256 6545b652d3a534243f181a7df2ebf249674363d857b3c6169288ee24f87da25b
+  user.environment_steps = 349999104
+  user.curriculum_stage = 8
+  user.voc_scale = 0.0
+  user.immediate_first_frame_probability = 0.5
+  user.checkpoint_set_id = 64cde43da9034b1f833a7d0c0b32e6b4
+cfg output_dir = /repo/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090  (dir)
+cfg reference.parquet = /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet  (file)
+cfg task.parquet = /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet  (file)
+sha 1a76797209599615a3a4496443163bbcf7ccf72fc5af1a2ba6ffaa0062a5cce8  runs/motion/tier1/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+sha 0d90fe7d688a6da0b82b0f8053231a1c8986de34aa839f8113ed53a610c09227  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/material.mtl
+sha 85b47cdfec184edde71f07f0196c59dd241800d48e303c65aebff607ddc7af66  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/material_0.png
+sha 13d618a56dfa4a83d9758efe42023ed677a281ab7dc5eabb2f9b9dad6f556b98  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.obj
+sha 3ca858449cf9ee7c1d19e4e17d49558ebd9d170186a6ec226e1961c6c5250975  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.urdf
+sha 9e3503b5396b42a4e8ce4e55d70a158eb1e54ed1e1029ec168a0d425eefcd705  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+6 files hashed, 0 config paths missing
