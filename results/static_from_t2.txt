@@ -1,0 +1,21 @@
+# script   : stages/recovery/static_from_t2.py
+# md5      : 0abe5ebd8020e553f1d9bfb28c4be98d
+# commit   : nogit (dirty)
+# run_at   : 2026-09-24T22:34:19+08:00
+# ---------------------------------------------------------------
+ ep 物体                      T1静止%   T2检出%    精确率    召回率
+  8 skinny_wood_chair         76%      0%   100%     0%
+ 10 white_desk                75%      0%   100%     0%
+ 26 skateboard                74%      0%   100%     0%
+ 18 blue_trash_can            71%      0%   100%     0%
+ 20 rice_cooker               68%      0%   100%     0%
+ 29 rolling_luggage           67%      1%   100%     2%
+  0 tall_bar_stool            64%      0%   100%     0%
+  5 big_black_box             64%      0%   100%     0%
+  6 monitor                   60%      0%   100%     0%
+ 13 snack_box                 59%      1%   100%     2%
+ 12 black_platform            57%      0%   100%     0%
+ 24 watering_can              53%      0%   100%     0%
+
+全局: 精确率 100.0%  召回率 0.5%  F1 1.0
+       TP=49 FP=0 FN=9354 TN=13586

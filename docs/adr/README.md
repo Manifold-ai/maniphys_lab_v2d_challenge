@@ -8,10 +8,13 @@
 
 ## 索引
 
-| ID | 管什么 |
-|---|---|
+| ID | 管什么 | 状态 |
+|---|---|---|
+| [00001](00001-training-stack.md) | 策略训练栈：FlashCHORD 为主，Isaac Lab ReconBody 备选 | Proposed |
+| [00002](00002-tier-isolation.md) | 档位隔离：净室参数 + 运行时守卫，不跨档热启动 | Proposed |
+| [00003](00003-stage-handoff-and-runtime.md) | 环节交接格式、toolkit 接入、一次性容器运行方式 | Proposed |
 
-尚无 ADR。待写的候选见 [`../roadmap.md`](../roadmap.md) 的「待写的 ADR」。
+其余候选见 [`../roadmap.md`](../roadmap.md) 的「待写的 ADR」。
 
 ## 与别处的分工
 

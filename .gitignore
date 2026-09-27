@@ -19,3 +19,7 @@ runs/
 
 # 官方 toolkit 的本地 checkout（接入方式待 ADR 定，见 third_party/README.md）
 third_party/video_to_data/
+
+# 第二台及以后的训练机：只覆盖 V2D_HOST / V2D_REMOTE，经 V2D_ENV=<名字> 选择（见 scripts/dev/_load-env）
+.env.*
+!.env.example

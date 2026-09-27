@@ -1,0 +1,22 @@
+# script   : stages/recovery/decompose.py
+# md5      : 464d2fb434bccc70b43caa2fbe8e01b7
+# commit   : nogit (dirty)
+# run_at   : 2026-09-24T22:33:46+08:00
+# ---------------------------------------------------------------
+=== AUC 分解 (30 episodes 平均) ===
+  raw          AUC mean 0.423  median 0.383
+  trans_only   AUC mean 0.881  median 0.879
+  rot_only     AUC mean 0.462  median 0.427
+
+解读: trans_only = 旋转完美修复后能达到的 AUC；rot_only = 平移完美修复后的 AUC
+
+=== 物体尺寸 vs AUC 相关性 ===
+  物体半径 mean 0.402 m  range 0.129-0.975 m
+  Pearson(半径, AUC) = -0.829
+
+  最大的 5 个物体:
+    squeegee             半径 0.98 m  AUC 0.144
+    white_desk           半径 0.85 m  AUC 0.196
+    round_table          半径 0.70 m  AUC 0.098
+    rolling_luggage      半径 0.66 m  AUC 0.137
+    skinny_wood_chair    半径 0.61 m  AUC 0.210

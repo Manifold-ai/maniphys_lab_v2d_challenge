@@ -1,0 +1,20 @@
+# script   : stages/recovery/fk_probe.py
+# md5      : 0e601b9da56b97a4f655bc9f1ea5c8a2
+# commit   : nogit (dirty)
+# run_at   : 2026-09-25T00:17:59+08:00
+# ---------------------------------------------------------------
+指尖关节 10 个, 手掌 [14, 42]
+
+ ep 物体                       最近     中位     运动时     静止时
+  0 tall_bar_stool        0.00m  0.02m   0.01m   0.10m
+  1 vacuum                0.00m  0.03m   0.03m   0.47m
+  2 blue_easter_basket    0.00m  0.02m   0.02m   0.53m
+  3 contigo_coffee_mug    0.00m  0.01m   0.01m   0.03m
+  4 baseball_bat          0.00m  0.01m   0.01m   0.61m
+  5 big_black_box         0.00m  0.02m   0.01m   0.03m
+  6 monitor               0.00m  0.01m   0.01m   0.07m
+  7 iron                  0.00m  0.01m   0.01m   0.02m
+
+运动时手-物距离中位数 0.012 m
+静止时手-物距离中位数 0.087 m
+=> 分离度 7.31x

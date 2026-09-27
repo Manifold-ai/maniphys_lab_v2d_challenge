@@ -1,0 +1,42 @@
+# script   : stages/recovery/baseline_t2.py
+# md5      : 309ff9fa460df52a8ff6a203185502d8
+# commit   : nogit (dirty)
+# run_at   : 2026-09-24T22:33:42+08:00
+# ---------------------------------------------------------------
+ ep 物体                       AUC    ADD均值  ADD p95    平移mm    旋转°
+ 18 blue_trash_can         0.067   107.8mm   122.1mm    24.6   27.2
+ 14 round_table            0.098   103.9mm   139.5mm    14.0   23.2
+ 21 tall_bar_stool         0.113    88.8mm   116.5mm    15.5   22.5
+ 29 rolling_luggage        0.137    89.7mm   108.0mm    22.2   25.2
+ 28 squeegee               0.144   127.5mm   232.3mm    11.0   25.3
+ 13 snack_box              0.153    79.7mm    94.1mm    22.0   26.3
+ 10 white_desk             0.196   106.6mm   179.9mm    19.4   16.0
+  0 tall_bar_stool         0.210    92.8mm   133.7mm    19.4   22.0
+  8 skinny_wood_chair      0.210    78.6mm   110.7mm    22.9   21.8
+  5 big_black_box          0.239    99.8mm   158.5mm    20.8   19.9
+ 26 skateboard             0.243    76.2mm   108.5mm    24.1   27.2
+ 22 step_ladder            0.295    66.3mm    81.9mm    16.5   24.3
+ 19 cane                   0.349    63.8mm   105.1mm    26.7   17.2
+  1 vacuum                 0.355    62.2mm    94.0mm    14.4   16.6
+ 12 black_platform         0.373    63.9mm   108.5mm    18.1   15.7
+ 15 wet_floor_sign         0.392    58.9mm    90.2mm    21.6   17.7
+  6 monitor                0.420    56.6mm    74.1mm    16.1   23.9
+  4 baseball_bat           0.474    52.0mm    75.4mm    10.2   26.9
+ 17 traffic_cone           0.499    49.2mm    54.6mm    14.7   29.0
+ 23 toy_stroller           0.567    44.2mm    62.5mm    22.8   19.7
+  9 big_red_bowl           0.614    40.8mm    62.5mm    23.4   19.1
+ 20 rice_cooker            0.651    38.0mm    57.3mm    21.0   20.1
+  3 contigo_coffee_mug     0.661    36.5mm    46.1mm    22.9   25.7
+ 24 watering_can           0.684    34.5mm    44.5mm    14.1   24.1
+ 11 light_blue_book        0.703    33.6mm    51.3mm    18.2   17.6
+  7 iron                   0.712    32.6mm    50.8mm    20.6   21.7
+ 27 woven_basket           0.727    31.7mm    49.3mm    17.5   19.6
+ 25 cyan_water_bottle      0.754    29.6mm    51.9mm    16.3   19.4
+  2 blue_easter_basket     0.783    26.9mm    40.2mm    15.8   11.6
+ 16 spray_bottle           0.875    20.5mm    29.8mm    14.2   15.5
+
+=== 汇总 (30 episodes) ===
+ADD-AUC      : mean 0.423  median 0.383  min 0.067  max 0.875
+ADD 均值     : mean 63.1 mm  median 60.5 mm  max 127.5 mm
+物体平移误差 : 18.7 mm   (MP-SR 阈值 30mm)
+物体旋转误差 : 21.4°    (MP-SR 阈值 30°)

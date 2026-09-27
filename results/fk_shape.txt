@@ -1,0 +1,14 @@
+# script   : stages/recovery/fk_shape.py
+# md5      : 73f8dbb4a7f5b0c3c3023420dcec7af5
+# commit   : nogit (dirty)
+# run_at   : 2026-09-25T00:17:53+08:00
+# ---------------------------------------------------------------
+rig_data['joint_names'] 长度: 78
+  前 3: [np.str_('Root'), np.str_('Hips'), np.str_('Spine1')]
+
+layer 返回类型: SOMAPoseOutput
+  .joints shape: torch.Size([5, 77, 3])
+
+关节张量 shape: (5, 77, 3)
+=> 返回 77 个关节；rig 有 78 个
+   ⇒ 已不含 Root，**不该再丢**，直接用 -> 77

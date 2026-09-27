@@ -1,0 +1,40 @@
+# script   : stages/recovery/static_signal.py
+# md5      : f37ea3c5538a5e018a6d706cab83a69a
+# commit   : nogit (dirty)
+# run_at   : 2026-09-24T22:34:19+08:00
+# ---------------------------------------------------------------
+ ep 物体                        帧   静止段    覆盖%     段内表观转角     真实残留
+  8 skinny_wood_chair       708     2    76%     20.82°    1.89°
+ 18 blue_trash_can          858     4    68%     14.37°    1.30°
+ 20 rice_cooker             553     4    63%     15.36°    0.91°
+ 10 white_desk              794     2    61%     22.75°    1.82°
+  0 tall_bar_stool          778     3    60%     14.03°    1.40°
+ 13 snack_box               922     4    58%      9.85°    0.72°
+ 26 skateboard              669     4    56%     13.33°    0.74°
+ 22 step_ladder             719     2    50%     14.50°    1.13°
+ 12 black_platform          700     2    46%     15.64°    0.93°
+  5 big_black_box          1003     4    44%     14.72°    1.14°
+ 29 rolling_luggage         467     5    43%      7.34°    1.37°
+ 15 wet_floor_sign          715     4    35%      9.85°    1.04°
+ 21 tall_bar_stool          678     2    32%     19.82°    0.82°
+  6 monitor                 546     3    30%     14.05°    1.10°
+ 14 round_table             993     3    28%     11.75°    1.07°
+  7 iron                    896     3    19%      9.55°    1.14°
+ 19 cane                    886     2    14%     11.00°    0.97°
+  1 vacuum                  747     1    13%     11.25°    1.79°
+ 11 light_blue_book         900     2    12%      8.23°    0.78°
+ 16 spray_bottle            477     1    11%      9.75°    0.95°
+ 23 toy_stroller            946     2    10%      6.52°    1.02°
+ 24 watering_can            748     1     5%     11.17°    1.82°
+  2 blue_easter_basket      980     0     0%      0.00°    0.00°
+  3 contigo_coffee_mug      781     0     0%      0.00°    0.00°
+  4 baseball_bat            803     0     0%      0.00°    0.00°
+  9 big_red_bowl            870     0     0%      0.00°    0.00°
+ 17 traffic_cone            440     0     0%      0.00°    0.00°
+ 25 cyan_water_bottle       859     0     0%      0.00°    0.00°
+ 27 woven_basket            565     0     0%      0.00°    0.00°
+ 28 squeegee                988     0     0%      0.00°    0.00°
+
+静止帧总覆盖率: 27.0%  (6216/22989)
+静止段内表观转角 mean 9.52°  (真实残留 0.86°)
+=> 信噪比约 11.1x

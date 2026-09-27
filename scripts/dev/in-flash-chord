@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# 在一次性 FlashCHORD 容器里跑命令（训练机上执行）。参数照官方 flash_chord/docker/run.sh start：
+# 同一镜像、host 网络、uid 身份映射、EGL 渲染、NVIDIA_DRIVER_CAPABILITIES=all、资产只读挂 /v2d/assets。
+# 额外：整仓挂 /repo——我们的 parquet 在 runs/，里面的网格路径写的是 /repo/...；
+# 训练产物用 output_dir=/repo/runs/flash_chord/... 落进 runs/，不写进上游目录树。
+# V2D_GPU=1 时加 GPU（这台 4090 共用，默认不占）。用法：scripts/dev/in-flash-chord '<bash 命令>'
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"
+FC="$ROOT/third_party/video_to_data/robotic_grounding/flash_chord"
+ASSETS="$FC/../source/robotic_grounding/robotic_grounding/assets"
+ID="$HOME/.cache/flash_chord/oneoff"; mkdir -p "$ID"
+U="$(id -un)"; G="$(id -gn)"
+printf 'root:x:0:0:root:/root:/bin/bash\n%s:x:%s:%s:%s:/tmp:/bin/bash\n' "$U" "$(id -u)" "$(id -g)" "$U" > "$ID/passwd"
+printf 'root:x:0:\n%s:x:%s:\n' "$G" "$(id -g)" > "$ID/group"
+GPU=(); [ "${V2D_GPU:-0}" = 1 ] && GPU=(--runtime=nvidia --gpus "device=${V2D_GPU_DEVICE:-0}")
+exec docker run --rm "${GPU[@]}" --network host --user "$(id -u):$(id -g)" \
+  -e HOME=/tmp -e "USER=$U" -e NVIDIA_DRIVER_CAPABILITIES=all -e MUJOCO_GL=egl -e PYOPENGL_PLATFORM=egl \
+  -v "$ASSETS:/v2d/assets:ro" -v "$FC:/workspace" -v "$ROOT:/repo" \
+  -v "$ID/passwd:/etc/passwd:ro" -v "$ID/group:/etc/group:ro" \
+  -w /workspace --entrypoint /bin/bash flash_chord:latest -lc "$*"

@@ -1,0 +1,6 @@
+# script   : stages/recovery/check_tier2_export.py tier2_v54
+# md5      : e8ed5b0b8c4e4f0a43eba0b5fc7d145f
+# run_at   : 2026-09-25T13:15:27+08:00
+# ---------------------------------------------------------------
+tier2_v54（OpenCV 系，直接与 Tier 1 parquet 比）: raw 0.423 → 0.707（应为 0.423 → 净室版，首次评测）
+第 0 帧平移偏离 >1 mm 的序列: [(17, np.float64(14.8))]

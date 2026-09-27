@@ -1,0 +1,41 @@
+# script   : stages/recovery/denoise_v1.py
+# md5      : 84c360454f396bdd0b7b8c9b55c04865
+# commit   : nogit (dirty)
+# run_at   : 2026-09-24T22:34:20+08:00
+# ---------------------------------------------------------------
+ ep 物体                        原始     降噪后      增益    静止%
+  8 skinny_wood_chair      0.210   0.796  +0.586    68%
+ 18 blue_trash_can         0.067   0.634  +0.568    57%
+ 21 tall_bar_stool         0.113   0.639  +0.526    21%
+ 13 snack_box              0.153   0.551  +0.398    36%
+ 22 step_ladder            0.295   0.662  +0.366    40%
+ 14 round_table            0.098   0.403  +0.305    17%
+ 29 rolling_luggage        0.137   0.408  +0.270    30%
+  5 big_black_box          0.239   0.494  +0.255    45%
+  0 tall_bar_stool         0.210   0.453  +0.243    49%
+ 12 black_platform         0.373   0.609  +0.236    38%
+ 15 wet_floor_sign         0.392   0.570  +0.178    31%
+ 10 white_desk             0.196   0.365  +0.168    60%
+  7 iron                   0.712   0.861  +0.150    24%
+ 26 skateboard             0.243   0.381  +0.138    48%
+ 24 watering_can           0.684   0.819  +0.135    54%
+  1 vacuum                 0.355   0.458  +0.103    24%
+ 25 cyan_water_bottle      0.754   0.823  +0.069    14%
+ 28 squeegee               0.144   0.201  +0.057    11%
+ 19 cane                   0.349   0.406  +0.057    18%
+  9 big_red_bowl           0.614   0.665  +0.051    12%
+  3 contigo_coffee_mug     0.661   0.711  +0.050    19%
+  2 blue_easter_basket     0.783   0.832  +0.050    34%
+  6 monitor                0.420   0.466  +0.047    43%
+ 27 woven_basket           0.727   0.759  +0.031    35%
+ 16 spray_bottle           0.875   0.898  +0.023    30%
+ 20 rice_cooker            0.651   0.672  +0.020    39%
+ 17 traffic_cone           0.499   0.507  +0.008    23%
+  4 baseball_bat           0.474   0.474  +0.000     4%
+ 23 toy_stroller           0.567   0.563  -0.003    14%
+ 11 light_blue_book        0.703   0.697  -0.007    14%
+
+原始   AUC mean 0.423
+降噪后 AUC mean 0.593   (增益 +0.169)
+改善的序列 27/30   变差的 2/30
+参考: 只修旋转上界 0.881 | CHORD 0.918

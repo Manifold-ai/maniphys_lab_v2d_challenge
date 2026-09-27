@@ -44,14 +44,15 @@ P3 与 P4 依赖 P1 的评测闭环与 P2 的下游管线，两者之间可并�
 
 以下决定在动手前需要落成 ADR，编号按落地顺序分配：
 
-- 官方 toolkit 的接入方式：git submodule、固定 commit 的本地 checkout，还是按需拷贝
-  （`third_party/`）。
-- Isaac 侧的运行环境：Isaac Lab / Isaac Sim 版本、容器基础镜像、GPU 机器从哪来。
-- 环节之间的交接格式：`recovery` 与 `retarget` 之间传什么（沿用 LeRobot v2.1 还是
-  官方 parquet 分区）、坐标系与帧号的约定。
+- ~~官方 toolkit 的接入方式~~ → [ADR-00003](adr/00003-stage-handoff-and-runtime.md)（Proposed）
+- ~~Isaac 侧的运行环境~~ → [ADR-00003](adr/00003-stage-handoff-and-runtime.md)、
+  训练栈选择见 [ADR-00001](adr/00001-training-stack.md)（均 Proposed）
+- ~~环节之间的交接格式~~ → [ADR-00003](adr/00003-stage-handoff-and-runtime.md)（Proposed）
+- 档位隔离的机制 → [ADR-00002](adr/00002-tier-isolation.md)（Proposed，原不在候选里）
 - 本地评测与官方评测的关系：复算哪些指标、偏差多大算对账失败。
 - 实验记录的形态：`runs/` 下的目录约定、哪些元数据必须随每次运行落盘。
 
 ## 变更记录
 
 - 2026-09-23：初稿。
+- 2026-09-25：三项候选由 ADR-00001/00002/00003 覆盖（Proposed）；新增档位隔离 ADR。
