@@ -57,6 +57,8 @@ rsync "${RS[@]}" \
 
 [ "${V2D_DRYRUN:-0}" = 1 ] && exit 0
 # 记下这次同步的源码版本，fc_run.sh 写进运行记录（服务器上的副本不是 git 仓）
-ssh "$V2D_HOST" "printf '%s\n' '$(git -C "$ROOT" describe --always --dirty --abbrev=12)' > '$V2D_REMOTE/.v2d-source-commit'"
+# git describe --dirty 看不到未跟踪的新文件，另用 git status --porcelain 判断
+SRC_DESC="$(git -C "$ROOT" describe --always --abbrev=12)"; [ -n "$(git -C "$ROOT" status --porcelain)" ] && SRC_DESC="$SRC_DESC-dirty"
+ssh "$V2D_HOST" "printf '%s\n' '$SRC_DESC' > '$V2D_REMOTE/.v2d-source-commit'"
 [ $# -eq 0 ] && exit 0
 ssh "$V2D_HOST" "cd '$V2D_REMOTE' && set -a && [ -f .env ] && . ./.env; set +a; $(printf '%q ' "$@")"
