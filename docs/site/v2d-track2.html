@@ -1,0 +1,1346 @@
+<title>V2D Track 2 进度</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --surface:#f7f7f7; --text:#1a1a1a; --heading:#000000; --muted:#666666; --faint:#9a9a9a;
+  --border:#e1e1e1; --primary:#004831; --green:#76b900; --hover:#eef4e6; --scrim:rgba(0,0,0,.28);
+  --note-bg:#f1f6ea; --warn:#9a5a0b; --warn-bg:#fbf3e8; --bad:#b3261e; --ok:#3d7a00;
+  --sans:Arial,Helvetica,"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:"Roboto Mono",SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --header-h:56px; --side-w:264px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111111; --surface:#1a1a1a; --text:#eeeeee; --heading:#ffffff; --muted:#a0a0a0; --faint:#6d6d6d;
+    --border:#2e2e2e; --primary:#8fd12a; --hover:#1d2614; --scrim:rgba(0,0,0,.55);
+    --note-bg:#172010; --warn:#e0a458; --warn-bg:#241b10; --bad:#f28b82; --ok:#8fd12a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111111; --surface:#1a1a1a; --text:#eeeeee; --heading:#ffffff; --muted:#a0a0a0; --faint:#6d6d6d;
+  --border:#2e2e2e; --primary:#8fd12a; --hover:#1d2614; --scrim:rgba(0,0,0,.55);
+  --note-bg:#172010; --warn:#e0a458; --warn-bg:#241b10; --bad:#f28b82; --ok:#8fd12a;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--text); font-family:var(--sans); font-size:15.5px; line-height:1.65}
+
+/* ── 顶栏 ── */
+.hdr{position:sticky; top:env(safe-area-inset-top,0px); z-index:30; background:var(--bg); border-bottom:1px solid var(--border);
+  height:var(--header-h); display:flex; align-items:center; gap:14px; padding-inline:24px}
+.brand{display:flex; align-items:center; gap:10px; min-width:0; overflow:hidden; font-weight:700; color:var(--heading); font-size:16px; white-space:nowrap; text-decoration:none}
+.brand .mk{width:14px; height:14px; background:var(--green); flex:none}
+.brand .sub{font-weight:400; color:var(--muted); font-size:14px}
+.hdr .end{margin-left:auto; flex:none; display:flex; align-items:center; gap:18px; font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap}
+.menu{display:none; flex:none; font:inherit; font-size:13px; font-weight:700; color:var(--heading); background:transparent; border:1px solid var(--border); padding:4px 10px; cursor:pointer}
+.lang{display:inline-flex; border:1px solid var(--border)}
+.lang button{font:inherit; font-size:12px; font-family:var(--sans); background:transparent; color:var(--muted); border:0; padding:3px 10px; cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--green); color:#000; font-weight:700}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+
+/* ── 两栏 ── */
+.shell{display:grid; grid-template-columns:var(--side-w) minmax(0,1fr); max-width:1280px; margin-inline:auto}
+.side{position:sticky; top:calc(env(safe-area-inset-top,0px) + var(--header-h)); align-self:start;
+  height:calc(100vh - var(--header-h)); overflow-y:auto; padding-block:24px 40px; padding-inline:16px 14px; border-right:1px solid var(--border); font-size:14px}
+.side ul{list-style:none; margin:0; padding:0}
+.side a{display:block; color:var(--text); text-decoration:none; padding:6px 12px; line-height:1.4}
+.side a:hover{background:var(--hover)}
+.side a.active{box-shadow:inset 3px 0 0 var(--green); font-weight:700; color:var(--heading); background:var(--hover)}
+.side .home{font-weight:700; color:var(--heading); margin-bottom:10px}
+.side .grp{margin-bottom:4px}
+.side .grp>a{display:flex; justify-content:space-between; gap:8px; font-weight:700; color:var(--heading)}
+.side .grp>a .n{font-family:var(--mono); font-weight:400; font-size:12px; color:var(--muted)}
+.side .grp ul{padding-bottom:8px}
+.side .grp ul a{padding-left:26px; color:var(--muted)}
+.side .grp ul a.active{color:var(--heading)}
+.js .side .grp:not(.open) ul{display:none}
+.side .foot{margin-top:24px; padding:12px 12px 0; border-top:1px solid var(--border); font-size:12px; color:var(--muted); line-height:1.5}
+
+main{padding-block:28px 88px; padding-inline:48px; min-width:0}
+.pg{max-width:820px}
+.pg:focus{outline:none}
+.pb{display:grid; grid-template-columns:minmax(0,1fr); gap:18px}
+.crumb{max-width:820px; min-height:20px; margin-bottom:14px; display:flex; flex-wrap:wrap; gap:6px; font-family:var(--mono); font-size:12px; color:var(--muted)}
+.crumb a{color:var(--muted)}
+.crumb .sep{color:var(--faint)}
+.crumb [aria-current]{color:var(--heading)}
+
+/* ── 排版 ── */
+h1,h2,h3{color:var(--heading); font-weight:700; line-height:1.25; margin:0; text-wrap:balance}
+h1{font-size:2rem}
+h2{font-size:1.3rem; margin-top:18px}
+h3{font-size:1.1rem}
+p{margin:0; max-width:72ch}
+a{color:var(--text); text-decoration:underline; text-decoration-color:var(--faint); text-underline-offset:2px}
+a:hover{text-decoration-color:var(--text)}
+code{font-family:var(--mono); font-size:.86em; color:var(--primary); background:var(--surface); padding:1px 5px; border-radius:3px; overflow-wrap:anywhere}
+.muted{color:var(--muted)}
+.kicker{font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.03em}
+.lead{font-size:17px; max-width:68ch}
+ul.bl{margin:0; padding-left:22px; display:grid; gap:8px; max-width:72ch}
+ul.bl li::marker{font-weight:700; color:var(--heading)}
+ul.bl ul{margin:6px 0 0; padding-left:20px; display:grid; gap:4px}
+ol.steps{margin:0; padding-left:26px; display:grid; gap:10px; max-width:76ch}
+ol.steps li::marker{font-weight:700; color:var(--heading)}
+b{color:var(--heading)}
+
+/* 提示框 */
+.adm{border-left:3px solid var(--green); background:var(--note-bg); padding:12px 16px; display:grid; gap:4px}
+.adm .t{font-weight:700; color:var(--heading); font-size:14px}
+.adm.w{border-left-color:var(--warn); background:var(--warn-bg)}
+.adm p{font-size:14.5px}
+.adm ul{margin:4px 0 0; padding-left:20px; display:grid; gap:4px; font-size:14.5px}
+
+/* 数字：用 box-shadow 画分隔线，换行时也只有单线 */
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); border:1px solid var(--border); background:var(--surface); overflow:hidden}
+.fig{padding:14px 16px; display:grid; gap:2px; align-content:start; box-shadow:1px 0 0 var(--border), 0 1px 0 var(--border)}
+.fig .v{font-family:var(--mono); font-size:24px; font-weight:500; color:var(--heading); font-variant-numeric:tabular-nums}
+.fig .v.z{color:var(--bad)}
+.fig .l{font-size:12.5px; color:var(--muted); line-height:1.45}
+
+/* 表格 */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14px; font-variant-numeric:tabular-nums}
+th{text-align:left; font-weight:700; color:var(--heading); border-bottom:2px solid var(--border); padding:8px 16px 8px 0; white-space:nowrap}
+td{padding:8px 16px 8px 0; border-bottom:1px solid var(--border); vertical-align:top}
+tbody tr:hover td{background:var(--hover)}
+td.n{font-family:var(--mono); font-size:13px; white-space:nowrap}
+.pill{display:inline-block; font-size:12px; font-weight:700; padding:1px 8px; border-radius:3px; border:1px solid currentColor; white-space:nowrap; line-height:1.6}
+.pill.ok{color:var(--ok)} .pill.w{color:var(--warn)} .pill.b{color:var(--bad)} .pill.o{color:var(--muted)}
+
+/* 跳转列表：分区页的二级目录 */
+.jump{list-style:none; margin:0; padding:0; border-top:1px solid var(--border)}
+.jump a{display:grid; grid-template-columns:minmax(7em,12em) minmax(0,1fr) auto; gap:4px 20px; align-items:baseline;
+  padding:14px 10px; border-bottom:1px solid var(--border); text-decoration:none; color:var(--text)}
+.jump a:hover{background:var(--hover)}
+.jump .jt{font-weight:700; color:var(--heading)}
+.jump .jd{color:var(--muted); font-size:14.5px}
+.jump .jk{font-family:var(--mono); font-size:13px; color:var(--heading); white-space:nowrap; font-variant-numeric:tabular-nums}
+.jump .jk::after{content:"  →"; content:"  →" / ""; white-space:pre; color:var(--green)}
+
+/* 首页卡片 */
+.cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.card{border:1px solid var(--border); padding:16px 18px; display:grid; gap:8px; align-content:start}
+.card h3 a{text-decoration:none; color:var(--heading); display:flex; justify-content:space-between; gap:8px}
+.card h3 a::after{content:"→"; content:"→" / ""; color:var(--green); font-weight:400}
+.card h3 a:hover{color:var(--primary)}
+.card p{color:var(--muted); font-size:14px}
+.card ul{list-style:none; margin:0; padding:10px 0 0; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px}
+
+/* 首页待办 */
+.todo{list-style:none; margin:0; padding:0; border-top:1px solid var(--border)}
+.todo li{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:4px 14px; align-items:baseline; padding:12px 4px; border-bottom:1px solid var(--border)}
+.todo li>div{display:grid; gap:2px}
+.todo li>div span{color:var(--muted); font-size:14px}
+.todo .who{font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap}
+
+/* SOP 阶段 */
+.stepper{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--border)}
+.stepper a{display:grid; gap:4px; align-content:start; padding:14px 16px; border-right:1px solid var(--border); text-decoration:none; color:var(--text)}
+.stepper a:last-child{border-right:0}
+.stepper a:hover{background:var(--hover)}
+.stepper .sn{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.stepper .st{font-weight:700; color:var(--heading)}
+.stepper .sd{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.stepper a.now{box-shadow:inset 0 3px 0 var(--green)}
+
+/* 流程图 */
+.flowd{display:flex; flex-wrap:wrap; align-items:center; gap:8px; border:1px solid var(--border); background:var(--surface); padding:16px}
+.fbox{border:1px solid var(--border); background:var(--bg); padding:7px 11px; font-size:13.5px; display:grid; gap:1px; line-height:1.35; color:var(--heading)}
+.fbox small{font-size:12px; color:var(--muted)}
+.fbox.dash{border-style:dashed; color:var(--muted)}
+.fbox.sel{border-color:var(--green); box-shadow:inset 0 0 0 1px var(--green)}
+.fstack{display:grid; gap:6px}
+.farr{color:var(--muted); font-family:var(--mono); line-height:1}
+
+/* 图表 */
+.chart{overflow-x:auto; border:1px solid var(--border); padding:16px}
+.chart svg{width:100%; min-width:540px; height:auto; display:block}
+.chart .lab{fill:var(--text); font-family:var(--sans); font-size:13px; font-weight:700}
+.chart .sub{fill:var(--muted); font-family:var(--sans); font-size:11.5px}
+.chart .num{fill:var(--muted); font-family:var(--mono); font-size:12px}
+.chart .num.sel{fill:var(--heading); font-weight:500}
+.chart .tk{fill:var(--muted); font-family:var(--mono); font-size:11px}
+.chart .grid{stroke:var(--border); stroke-width:1}
+.chart .bar{fill:var(--faint)}
+.chart .bar.sel{fill:var(--green)}
+.chart .bar.nc{fill:none; stroke:var(--faint); stroke-width:1.2; stroke-dasharray:3 2}
+
+/* 展开块 */
+details.more{border:1px solid var(--border)}
+details.more>summary{cursor:pointer; padding:10px 14px; font-weight:700; color:var(--heading); list-style:none}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"+"; content:"+" / ""; display:inline-block; width:1.2em; font-family:var(--mono); color:var(--green)}
+details.more[open]>summary::before{content:"−"; content:"−" / ""}
+details.more>div{padding:2px 14px 14px; display:grid; grid-template-columns:minmax(0,1fr); gap:12px}
+pre.code{margin:0; overflow-x:auto; background:var(--surface); padding:12px 14px; font-family:var(--mono); font-size:12.5px; line-height:1.55; color:var(--text); white-space:pre}
+
+.adr-meta{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:13px; color:var(--muted)}
+
+/* 翻页与页脚 */
+.pn{max-width:820px; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:48px}
+.pn a{border:1px solid var(--border); padding:12px 16px; text-decoration:none; color:var(--text); display:grid; gap:2px}
+.pn a:hover{border-color:var(--green)}
+.pn .k{font-size:12px; color:var(--muted)}
+.pn .t{font-weight:700; color:var(--heading)}
+.pn .nx{grid-column:2; text-align:right}
+footer.pf{max-width:820px; margin-top:28px; padding-top:14px; border-top:1px solid var(--border); font-size:13px; color:var(--muted); display:grid; gap:4px}
+
+/* 语言 */
+.l-en{display:none}
+body.en .l-zh{display:none}
+body.en .l-en{display:revert}
+body.en .pb.l-en{display:grid}
+
+/* ── 窄屏 ── */
+@media (max-width:960px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .menu{display:inline-block}
+  .side{position:fixed; z-index:25; top:calc(env(safe-area-inset-top,0px) + var(--header-h)); bottom:0; left:0; height:auto;
+    width:min(300px,86vw); background:var(--bg); transform:translateX(-102%); visibility:hidden;
+    transition:transform .18s ease-out, visibility 0s linear .18s}
+  body.nav-open .side{transform:none; visibility:visible; transition:transform .18s ease-out, visibility 0s}
+  body.nav-open::after{content:""; position:fixed; inset:0; background:var(--scrim); z-index:20}
+  main{padding-block:22px 72px; padding-inline:16px}
+  .hdr{padding-inline:16px; gap:10px}
+  .hdr .end .meta{display:none}
+  h1{font-size:1.65rem}
+  .cards{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:720px){
+  .stepper{grid-template-columns:minmax(0,1fr)}
+  .stepper a{border-right:0; border-bottom:1px solid var(--border)}
+  .stepper a:last-child{border-bottom:0}
+  .stepper a.now{box-shadow:inset 3px 0 0 var(--green)}
+  .flowd{flex-direction:column; align-items:stretch}
+  .farr{transform:rotate(90deg); align-self:center}
+  .jump a{grid-template-columns:minmax(0,1fr) auto}
+  .jump .jd{grid-column:1 / -1; grid-row:2}
+  .todo li{grid-template-columns:auto minmax(0,1fr)}
+  .todo .who{grid-column:2}
+  .pn{grid-template-columns:minmax(0,1fr)} .pn .nx{grid-column:1}
+}
+@media (max-width:480px){ .brand .sub{display:none} }
+@media (prefers-reduced-motion: reduce){ .side, body.nav-open .side{transition:none} }
+</style>
+
+<header class="hdr">
+  <button class="menu" id="menu" type="button" aria-controls="side" aria-expanded="false"><span class="l-zh">目录</span><span class="l-en">Menu</span></button>
+  <a class="brand" href="#home"><span class="mk" aria-hidden="true"></span>maniphysAI lab <span class="sub">V2D Track 2</span></a>
+  <div class="end">
+    <span class="meta">2026-09-27</span><span class="meta">toolkit v0.4.0</span>
+    <div class="lang" role="group" aria-label="Language / 语言"><button type="button" id="lang-zh" aria-pressed="true">中文</button><button type="button" id="lang-en" aria-pressed="false">EN</button></div>
+  </div>
+</header>
+
+<div class="shell">
+
+<nav class="side" id="side" aria-label="目录 / Contents">
+  <a class="home" href="#home"><span class="l-zh">首页</span><span class="l-en">Home</span></a>
+  <div class="grp" data-sec="progress"><a href="#progress"><span class="l-zh">进度</span><span class="l-en">Progress</span><span class="n">4</span></a>
+    <ul>
+      <li><a href="#status"><span class="l-zh">现状</span><span class="l-en">Status</span></a></li>
+      <li><a href="#denoise"><span class="l-zh">Tier 2 降噪</span><span class="l-en">Tier 2 denoising</span></a></li>
+      <li><a href="#edge"><span class="l-zh">特殊情况</span><span class="l-en">Special cases</span></a></li>
+      <li><a href="#next"><span class="l-zh">下一步与待办</span><span class="l-en">Next steps and to-dos</span></a></li>
+    </ul></div>
+  <div class="grp" data-sec="arch"><a href="#arch"><span class="l-zh">当前架构</span><span class="l-en">Current architecture</span><span class="n">4</span></a>
+    <ul>
+      <li><a href="#flow"><span class="l-zh">数据流</span><span class="l-en">Pipeline</span></a></li>
+      <li><a href="#modules"><span class="l-zh">模块</span><span class="l-en">Modules</span></a></li>
+      <li><a href="#runtime"><span class="l-zh">运行环境</span><span class="l-en">Runtime</span></a></li>
+      <li><a href="#deps"><span class="l-zh">依赖与缺口</span><span class="l-en">Dependencies and gaps</span></a></li>
+    </ul></div>
+  <div class="grp" data-sec="adr"><a href="#adr"><span class="l-zh">架构决定</span><span class="l-en">Architecture decisions</span><span class="n">3</span></a>
+    <ul>
+      <li><a href="#adr1"><span class="l-zh">ADR-00001 训练栈</span><span class="l-en">ADR-00001 Training stack</span></a></li>
+      <li><a href="#adr2"><span class="l-zh">ADR-00002 档位隔离</span><span class="l-en">ADR-00002 Tier isolation</span></a></li>
+      <li><a href="#adr3"><span class="l-zh">ADR-00003 交接与运行</span><span class="l-en">ADR-00003 Handoff and runtime</span></a></li>
+    </ul></div>
+  <div class="grp" data-sec="sop"><a href="#sop"><span class="l-zh">L40S 训练 SOP</span><span class="l-en">L40S training SOP</span><span class="n">6</span></a>
+    <ul>
+      <li><a href="#sop-pre"><span class="l-zh">前置条件</span><span class="l-en">Prerequisites</span></a></li>
+      <li><a href="#sop-deploy"><span class="l-zh">部署</span><span class="l-en">Deployment</span></a></li>
+      <li><a href="#sop-day1"><span class="l-zh">Day 1 验证</span><span class="l-en">Day 1 validation</span></a></li>
+      <li><a href="#sop-batch"><span class="l-zh">批量训练</span><span class="l-en">Batch training</span></a></li>
+      <li><a href="#sop-monitor"><span class="l-zh">监控与停止</span><span class="l-en">Monitoring and stops</span></a></li>
+      <li><a href="#sop-risk"><span class="l-zh">已知风险</span><span class="l-en">Known risks</span></a></li>
+    </ul></div>
+  <div class="foot"><span class="l-zh">封榜 2026-11-04 17:00 EST（待确认）</span><span class="l-en">Freeze 2026-11-04 17:00 EST (unconfirmed)</span></div>
+</nav>
+
+<main id="main">
+<div class="crumb" id="crumb"></div>
+
+<!-- ═════════════ 首页 ═════════════ -->
+<section class="pg" id="pg-home" data-sec="home" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
+  <h1>V2D Track 2 工作文档</h1>
+  <p class="lead">两档 60 条参考轨迹已就绪，Tier 2 物体轨迹降噪做到 ADD-AUC 0.707（合规版）。Day 1 两条全程训练（Tier 1 ep20 电饭煲）都一次跑完，但都没通过事先登记的判据：ADD-AUC 0.431 / 0.422，低于物体完全不动时的 0.471。批量训练暂停，先在满配下跑官方 snack_box 样例做对照。封榜 2026-11-04 17:00 EST，从 9/27 算还有 38 天。</p>
+  <div class="adm w"><span class="t">封榜时间待确认</span><p>未合并的规则草案（PR #164）里另有 11/5 和 11/10 两个日期。</p></div>
+  <div class="figs">
+    <div class="fig"><span class="v">0.707</span><span class="l">Tier 2 ADD-AUC（原始 0.423）</span></div>
+    <div class="fig"><span class="v z">0.431</span><span class="l">Day 1 最好的 ADD-AUC（ep20，ml40）；物体完全不动是 0.471</span></div>
+    <div class="fig"><span class="v">0.79</span><span class="l">同一 policy 的任务原生成功率 chord_sr；100 万 buffer 那条只有 0.017</span></div>
+    <div class="fig"><span class="v">2 h 10 min</span><span class="l">满配单策略实测（ml40 L40S，一次跑完）</span></div>
+  </div>
+  <h2>现在要做的三件事</h2>
+  <ul class="todo">
+    <li><span class="pill w">下一步</span><div><b><a href="#sop-pre">ml40 的 docker 存储迁移</a></b><span>趁两次训练之间做：<code>deploy/ml40/migrate_docker_storage.sh</code>，先检查再 <code>--apply</code></span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待办</span><div><b><a href="#sop-day1">满配跑官方 snack_box 对照</a></b><span>ml40、1000 万 buffer，判据先登记；用来分清是配方问题还是 ep20 数据问题</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待办</span><div><b><a href="#next">逐帧查 ep20 为什么没转动电饭煲</a></b><span>评测只给汇总；导出 rollout，看朝向误差在哪一段累积</span></div><span class="who">rxzhou</span></li>
+  </ul>
+  <h2>目录</h2>
+  <div class="cards">
+    <section class="card"><h3><a href="#progress">进度</a></h3><p>各环节状态、降噪结果、特殊情况、下一步</p>
+      <ul><li><a href="#status">现状</a></li><li><a href="#denoise">Tier 2 降噪</a></li><li><a href="#edge">特殊情况</a></li><li><a href="#next">下一步与待办</a></li></ul></section>
+    <section class="card"><h3><a href="#arch">当前架构</a></h3><p>数据怎么流、代码长什么样、跑在哪里</p>
+      <ul><li><a href="#flow">数据流</a></li><li><a href="#modules">模块</a></li><li><a href="#runtime">运行环境</a></li><li><a href="#deps">依赖与缺口</a></li></ul></section>
+    <section class="card"><h3><a href="#adr">架构决定</a></h3><p>三份 ADR，均为 Proposed，待团队确认</p>
+      <ul><li><a href="#adr1">ADR-00001 训练栈</a></li><li><a href="#adr2">ADR-00002 档位隔离</a></li><li><a href="#adr3">ADR-00003 交接与运行</a></li></ul></section>
+    <section class="card"><h3><a href="#sop">L40S 训练 SOP</a></h3><p>在 ml40 上训练，从前置条件到批量</p>
+      <ul><li><a href="#sop-pre">前置条件</a></li><li><a href="#sop-deploy">部署</a></li><li><a href="#sop-day1">Day 1 验证</a></li><li><a href="#sop-batch">批量训练</a></li><li><a href="#sop-monitor">监控与停止</a></li><li><a href="#sop-risk">已知风险</a></li></ul></section>
+  </div>
+</div>
+<div class="pb l-en" lang="en">
+  <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
+  <h1>V2D Track 2 working notes</h1>
+  <p class="lead">Reference trajectories for 60 sequences across two tiers are ready, and Tier 2 object-trajectory denoising reaches ADD-AUC 0.707 (rule-compliant version). Both Day 1 full runs (Tier 1 ep20, rice cooker) finished in one attempt, but neither passed the pre-registered criteria: ADD-AUC 0.431 and 0.422, below the 0.471 of an object that never moves. Batch training is on hold; the next step is a full-recipe control run on the official snack_box sample. The freeze is 2026-11-04 17:00 EST, 38 days from 9/27.</p>
+  <div class="adm w"><span class="t">Freeze date unconfirmed</span><p>The unmerged draft rules (PR #164) also mention November 5 and November 10.</p></div>
+  <div class="figs">
+    <div class="fig"><span class="v">0.707</span><span class="l">Tier 2 ADD-AUC (raw 0.423)</span></div>
+    <div class="fig"><span class="v z">0.431</span><span class="l">Best Day 1 ADD-AUC (ep20, ml40); an object that never moves scores 0.471</span></div>
+    <div class="fig"><span class="v">0.79</span><span class="l">Task-native success rate chord_sr of that policy; the 1M-buffer run reaches 0.017</span></div>
+    <div class="fig"><span class="v">2 h 10 min</span><span class="l">Measured full-recipe run (ml40 L40S, one attempt)</span></div>
+  </div>
+  <h2>Top three right now</h2>
+  <ul class="todo">
+    <li><span class="pill w">Next</span><div><b><a href="#sop-pre">Docker storage migration on ml40</a></b><span>Between two trainings: <code>deploy/ml40/migrate_docker_storage.sh</code>, check first, then <code>--apply</code></span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To do</span><div><b><a href="#sop-day1">Full-recipe snack_box control</a></b><span>ml40 with the 10M buffer, criteria registered first; tells a recipe problem from an ep20 data problem</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To do</span><div><b><a href="#next">Find out frame by frame why ep20 does not turn the cooker</a></b><span>The evaluator only reports aggregates; export rollouts and see where the orientation error builds up</span></div><span class="who">rxzhou</span></li>
+  </ul>
+  <h2>Contents</h2>
+  <div class="cards">
+    <section class="card"><h3><a href="#progress">Progress</a></h3><p>Stage status, denoising results, special cases, next steps</p>
+      <ul><li><a href="#status">Status</a></li><li><a href="#denoise">Tier 2 denoising</a></li><li><a href="#edge">Special cases</a></li><li><a href="#next">Next steps and to-dos</a></li></ul></section>
+    <section class="card"><h3><a href="#arch">Current architecture</a></h3><p>How data flows, what the code looks like, where it runs</p>
+      <ul><li><a href="#flow">Pipeline</a></li><li><a href="#modules">Modules</a></li><li><a href="#runtime">Runtime</a></li><li><a href="#deps">Dependencies and gaps</a></li></ul></section>
+    <section class="card"><h3><a href="#adr">Architecture decisions</a></h3><p>Three ADRs, all Proposed and awaiting team review</p>
+      <ul><li><a href="#adr1">ADR-00001 Training stack</a></li><li><a href="#adr2">ADR-00002 Tier isolation</a></li><li><a href="#adr3">ADR-00003 Handoff and runtime</a></li></ul></section>
+    <section class="card"><h3><a href="#sop">L40S training SOP</a></h3><p>Training on ml40, from prerequisites to batch runs</p>
+      <ul><li><a href="#sop-pre">Prerequisites</a></li><li><a href="#sop-deploy">Deployment</a></li><li><a href="#sop-day1">Day 1 validation</a></li><li><a href="#sop-batch">Batch training</a></li><li><a href="#sop-monitor">Monitoring and stops</a></li><li><a href="#sop-risk">Known risks</a></li></ul></section>
+  </div>
+</div>
+</section>
+
+<!-- ═════════════ 进度 ═════════════ -->
+<section class="pg" id="pg-progress" data-sec="progress" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>进度</h1>
+  <p>截至 2026-09-27（Day 1 结果）。每一页只讲一件事。</p>
+  <ul class="jump">
+    <li><a href="#status"><span class="jt">现状</span><span class="jd">各环节能不能用，卡在哪</span><span class="jk">7 个环节</span></a></li>
+    <li><a href="#denoise"><span class="jt">Tier 2 降噪</span><span class="jd">从原始 0.423 做到 0.707，以及被数据否定的方向</span><span class="jk">0.707</span></a></li>
+    <li><a href="#edge"><span class="jt">特殊情况</span><span class="jd">需要单独处理的序列与环境问题</span><span class="jk">6 条</span></a></li>
+    <li><a href="#next"><span class="jt">下一步与待办</span><span class="jd">接下来做什么，谁负责</span><span class="jk">3 项待办</span></a></li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Progress</h1>
+  <p>As of 2026-09-27 (Day 1 results). Each page covers one topic.</p>
+  <ul class="jump">
+    <li><a href="#status"><span class="jt">Status</span><span class="jd">Which stages work and where we are stuck</span><span class="jk">7 stages</span></a></li>
+    <li><a href="#denoise"><span class="jt">Tier 2 denoising</span><span class="jd">From a raw 0.423 to 0.707, and the directions the data ruled out</span><span class="jk">0.707</span></a></li>
+    <li><a href="#edge"><span class="jt">Special cases</span><span class="jd">Sequences and environment issues that need special handling</span><span class="jk">6 cases</span></a></li>
+    <li><a href="#next"><span class="jt">Next steps and to-dos</span><span class="jd">What comes next and who owns it</span><span class="jk">3 to-dos</span></a></li>
+  </ul>
+</div>
+</section>
+
+<section class="pg" id="pg-status" data-sec="progress" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>现状</h1>
+  <p>关键数字在<a href="#home">首页</a>，这里只列各环节的状态。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>环节</th><th>状态</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>环境</td><td><span class="pill ok">可用</span></td><td>mf4090：Isaac Lab 2.3.2 镜像、上游 v0.4.0、FlashCHORD 镜像。ml40：FlashCHORD 镜像已在系统盘重建（前 11 层与 104 个依赖和 mf4090 一致）；docker 存储迁移待做</td></tr>
+      <tr><td>数据转换与重定向</td><td><span class="pill ok">可用</span></td><td>官方 <code>soma_to_g1</code> + 骨长包装；两档 60 条批量跑通</td></tr>
+      <tr><td>Tier 2 降噪</td><td><span class="pill ok">可用</span></td><td>v5.4 净室版，导出时挂 Tier 1 读取守卫</td></tr>
+      <tr><td>策略训练</td><td><span class="pill w">跑通，未达标</span></td><td>FlashCHORD 全程可断点续训，两台各一条 ep20 一次跑完；两条都没过 Day 1 判据，见 <a href="#sop-day1">Day 1 验证</a></td></tr>
+      <tr><td>评测</td><td><span class="pill w">部分</span></td><td>FlashCHORD 评测器 4096 世界约 5 分钟；<code>fc_eval.sh</code>、“物体不动”基线、按判据下结论的脚本都在仓库里；对真值的离线评测（Tier 2 用）待写</td></tr>
+      <tr><td>Tier 3</td><td><span class="pill o">未开始</span></td><td>官方不提供重建结果，需从 exo 视频自己做</td></tr>
+      <tr><td>提交</td><td><span class="pill b">阻塞</span></td><td>官方 <code>eval_robotic_grounding.py</code> 未发布</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Status</h1>
+  <p>Key figures are on the <a href="#home">home page</a>; this page lists the state of each stage.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Stage</th><th>State</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Environment</td><td><span class="pill ok">Ready</span></td><td>mf4090: Isaac Lab 2.3.2 image, upstream v0.4.0, FlashCHORD image. ml40: FlashCHORD image rebuilt on the root disk (first 11 layers and all 104 dependencies match mf4090); the docker storage migration is still to do</td></tr>
+      <tr><td>Conversion and retargeting</td><td><span class="pill ok">Ready</span></td><td>Official <code>soma_to_g1</code> plus a bone-length wrapper; all 60 sequences processed in batch</td></tr>
+      <tr><td>Tier 2 denoising</td><td><span class="pill ok">Ready</span></td><td>v5.4 clean-room version; export runs with a Tier 1 read guard</td></tr>
+      <tr><td>Policy training</td><td><span class="pill w">Runs, below bar</span></td><td>Full FlashCHORD runs resume from checkpoints; one ep20 run per machine finished in one attempt; neither passed the Day 1 criteria, see <a href="#sop-day1">Day 1 validation</a></td></tr>
+      <tr><td>Evaluation</td><td><span class="pill w">Partial</span></td><td>The FlashCHORD evaluator takes about 5 minutes for 4096 worlds; <code>fc_eval.sh</code>, the do-nothing baseline and the verdict script are in the repository; offline evaluation against ground truth (needed for Tier 2) is not written yet</td></tr>
+      <tr><td>Tier 3</td><td><span class="pill o">Not started</span></td><td>No reconstructions are provided; we must build them from the exo video</td></tr>
+      <tr><td>Submission</td><td><span class="pill b">Blocked</span></td><td>The official <code>eval_robotic_grounding.py</code> is not released</td></tr>
+    </tbody>
+  </table></div>
+</div>
+</section>
+
+<section class="pg" id="pg-denoise" data-sec="progress" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>Tier 2 降噪</h1>
+  <p>Tier 2 的噪声是从 0 开始、有上限的随机游走（旋转与平移上限约 30° / 30 mm）。静止段里观测到的增量就是漂移增量，v1 以后的各版本都建立在这一点上。下图为各版本对 Tier 1 真值的 ADD-AUC。</p>
+  <div class="chart" role="img" aria-label="Tier 2 降噪各版本的 ADD-AUC">
+    <svg viewBox="0 0 640 250">
+      <line class="grid" x1="130" y1="10" x2="130" y2="212"/><line class="grid" x1="247.5" y1="10" x2="247.5" y2="212"/>
+      <line class="grid" x1="365" y1="10" x2="365" y2="212"/><line class="grid" x1="482.5" y1="10" x2="482.5" y2="212"/>
+      <line class="grid" x1="600" y1="10" x2="600" y2="212"/>
+      <text class="lab" x="0" y="24">原始</text><rect class="bar" x="130" y="15" width="198.8" height="9"/><text class="num" x="336" y="24">0.423</text>
+      <text class="lab" x="0" y="52">v1</text><text class="sub" x="26" y="52">静止段积分</text><rect class="bar" x="130" y="43" width="278.7" height="9"/><text class="num" x="416" y="52">0.593</text>
+      <text class="lab" x="0" y="80">v5</text><text class="sub" x="26" y="80">支撑面 + 布朗桥</text><rect class="bar" x="130" y="71" width="309.3" height="9"/><text class="num" x="447" y="80">0.658</text>
+      <text class="lab" x="0" y="108">v5.1</text><text class="sub" x="38" y="108">翻面与换高度</text><rect class="bar" x="130" y="99" width="325.7" height="9"/><text class="num" x="463" y="108">0.693</text>
+      <text class="lab" x="0" y="136">v5.2</text><text class="sub" x="38" y="136">静止判据</text><rect class="bar nc" x="130" y="127" width="345" height="9"/><text class="num" x="483" y="136">0.734</text>
+      <text class="lab" x="0" y="164">v5.3</text><text class="sub" x="38" y="164">不穿地</text><rect class="bar nc" x="130" y="155" width="351.6" height="9"/><text class="num" x="489" y="164">0.748</text>
+      <text class="lab" x="0" y="192">v5.4</text><text class="sub" x="38" y="192">净室参数</text><rect class="bar sel" x="130" y="183" width="332.3" height="9"/><text class="num sel" x="470" y="192">0.707</text>
+      <text class="tk" x="130" y="232" text-anchor="middle">0</text><text class="tk" x="247.5" y="232" text-anchor="middle">0.25</text>
+      <text class="tk" x="365" y="232" text-anchor="middle">0.5</text><text class="tk" x="482.5" y="232" text-anchor="middle">0.75</text>
+      <text class="tk" x="600" y="232" text-anchor="middle">1</text>
+    </svg>
+  </div>
+  <div class="adm"><span class="t">读图</span><p>虚线框的 v5.2、v5.3 参数来自 Tier 1，合规有疑问，只作参照。绿色的 v5.4 用于提交，所有参数只由 Tier 2 推出，代价 −0.041，见 <a href="#adr2">ADR-00002</a>。</p></div>
+  <details class="more"><summary>被数据否定的方向（4 条）</summary><div>
+    <div class="tbl"><table>
+      <thead><tr><th>方向</th><th>结果</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td>纯时序平滑</td><td class="n">+0.001</td><td><code>smooth_baseline.txt</code></td></tr>
+        <tr><td>用手锚定物体（完美根也不行）</td><td class="n">0.225</td><td><code>oracle_root.txt</code></td></tr>
+        <tr><td>抓握刚性：干净数据上按手传播</td><td class="n">0.225，段末 50° / 136 mm</td><td><code>grasp_rigidity.txt</code></td></tr>
+        <tr><td>手的逐帧增量融合</td><td class="n">噪声是漂移步长的 2.1 倍</td><td><code>increment_noise.txt</code></td></tr>
+      </tbody>
+    </table></div>
+  </div></details>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Tier 2 denoising</h1>
+  <p>Tier 2 noise is a capped random walk that starts at zero (caps of about 30° and 30 mm). Inside a static segment, every observed increment is a drift increment, and every version from v1 on builds on that fact. The chart shows ADD-AUC of each version against the Tier 1 ground truth.</p>
+  <div class="chart" role="img" aria-label="ADD-AUC of each Tier 2 denoising version">
+    <svg viewBox="0 0 640 250">
+      <line class="grid" x1="180" y1="10" x2="180" y2="212"/><line class="grid" x1="285" y1="10" x2="285" y2="212"/>
+      <line class="grid" x1="390" y1="10" x2="390" y2="212"/><line class="grid" x1="495" y1="10" x2="495" y2="212"/>
+      <line class="grid" x1="600" y1="10" x2="600" y2="212"/>
+      <text class="lab" x="0" y="24">raw</text><rect class="bar" x="180" y="15" width="177.7" height="9"/><text class="num" x="365" y="24">0.423</text>
+      <text class="lab" x="0" y="52">v1</text><text class="sub" x="40" y="52">static integration</text><rect class="bar" x="180" y="43" width="249.1" height="9"/><text class="num" x="437" y="52">0.593</text>
+      <text class="lab" x="0" y="80">v5</text><text class="sub" x="40" y="80">support + bridge</text><rect class="bar" x="180" y="71" width="276.4" height="9"/><text class="num" x="464" y="80">0.658</text>
+      <text class="lab" x="0" y="108">v5.1</text><text class="sub" x="40" y="108">flips, heights</text><rect class="bar" x="180" y="99" width="291.1" height="9"/><text class="num" x="479" y="108">0.693</text>
+      <text class="lab" x="0" y="136">v5.2</text><text class="sub" x="40" y="136">static threshold</text><rect class="bar nc" x="180" y="127" width="308.3" height="9"/><text class="num" x="496" y="136">0.734</text>
+      <text class="lab" x="0" y="164">v5.3</text><text class="sub" x="40" y="164">no penetration</text><rect class="bar nc" x="180" y="155" width="314.2" height="9"/><text class="num" x="502" y="164">0.748</text>
+      <text class="lab" x="0" y="192">v5.4</text><text class="sub" x="40" y="192">clean-room</text><rect class="bar sel" x="180" y="183" width="296.9" height="9"/><text class="num sel" x="485" y="192">0.707</text>
+      <text class="tk" x="180" y="232" text-anchor="middle">0</text><text class="tk" x="285" y="232" text-anchor="middle">0.25</text>
+      <text class="tk" x="390" y="232" text-anchor="middle">0.5</text><text class="tk" x="495" y="232" text-anchor="middle">0.75</text>
+      <text class="tk" x="600" y="232" text-anchor="middle">1</text>
+    </svg>
+  </div>
+  <div class="adm"><span class="t">Reading the chart</span><p>The dashed bars, v5.2 and v5.3, use parameters derived from Tier 1, so their compliance is doubtful; they are shown for reference only. The green bar, v5.4, is the submission version: every parameter comes from Tier 2 alone, at a cost of −0.041. See <a href="#adr2">ADR-00002</a>.</p></div>
+  <details class="more"><summary>Directions ruled out by data (4)</summary><div>
+    <div class="tbl"><table>
+      <thead><tr><th>Direction</th><th>Result</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Pure temporal smoothing</td><td class="n">+0.001</td><td><code>smooth_baseline.txt</code></td></tr>
+        <tr><td>Anchoring the object to the hand (fails even with a perfect root)</td><td class="n">0.225</td><td><code>oracle_root.txt</code></td></tr>
+        <tr><td>Grasp rigidity: propagating with the hand on clean data</td><td class="n">0.225, 50° / 136 mm at segment end</td><td><code>grasp_rigidity.txt</code></td></tr>
+        <tr><td>Fusing per-frame hand increments</td><td class="n">noise is 2.1× the drift step</td><td><code>increment_noise.txt</code></td></tr>
+      </tbody>
+    </table></div>
+  </div></details>
+</div>
+</section>
+
+<section class="pg" id="pg-edge" data-sec="progress" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>特殊情况</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>情况</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>吸尘器斜靠椅背，Tier 1 间隙 −22.5 mm</td><td>不是平放，看回放确认，不改数据</td></tr>
+      <tr><td>行李箱左右手接触都是 0（两档）</td><td>这条本来就是用左脚推：Tier 1 双手全程离物体超过 10 cm，物体动的帧里 61% 左脚在 5 cm 内。<b>不调接触阈值</b>，调大会把 Tier 2 噪声造成的假接触当真（<code>results/luggage_contact.txt</code>，9/27 更正）</td></tr>
+      <tr><td>Tier 2 熨斗、电饭煲陷进桌面约 2 cm</td><td>不穿地约束只管地面；先看训练是否受影响</td></tr>
+      <tr><td>交通锥第 0 帧就低于地面 23.5 mm</td><td>地面平面与重建的固有误差，被抬起约 14 mm，记录不处理</td></tr>
+      <tr><td>旧版留下的 <code>*_g1_support.usda</code></td><td>会被优先加载且已不对齐，重定向前删除</td></tr>
+      <tr><td>mf4090 连 GitHub 时连接被重置</td><td>在 Mac 上打 git bundle，传过去再 fetch</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Special cases</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>Case</th><th>Handling</th></tr></thead>
+    <tbody>
+      <tr><td>Vacuum leaning on a chair back, Tier 1 gap −22.5 mm</td><td>It does not rest flat; confirm on replay and leave the data unchanged</td></tr>
+      <tr><td>Luggage has zero contact frames for both hands (both tiers)</td><td>The sequence is a left-foot push: in Tier 1 both hands stay more than 10 cm from the object, and the left foot is within 5 cm in 61% of the frames where the object moves. <b>Do not raise the contact threshold</b>; that would turn Tier 2 noise into fake contacts (<code>results/luggage_contact.txt</code>, corrected 9/27)</td></tr>
+      <tr><td>Tier 2 iron and rice cooker sink about 2 cm into the tabletop</td><td>The no-penetration constraint only covers the floor; check whether training is affected first</td></tr>
+      <tr><td>Traffic cone already 23.5 mm below the floor at frame 0</td><td>An inherent error between the ground plane and the reconstruction; it gets lifted about 14 mm. Recorded, not fixed</td></tr>
+      <tr><td>Leftover <code>*_g1_support.usda</code> from the old retargeter</td><td>It is loaded first and is misaligned; delete it before retargeting</td></tr>
+      <tr><td>Connections from mf4090 to GitHub get reset</td><td>Pack a git bundle on the Mac, copy it over, then fetch</td></tr>
+    </tbody>
+  </table></div>
+</div>
+</section>
+
+<section class="pg" id="pg-next" data-sec="progress" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>下一步与待办</h1>
+  <h2>下一步</h2>
+  <ul class="bl">
+    <li><b>Day 1 结论</b>：ep20 两条全程（1000 万 / 100 万 buffer）都没过判据，ADD-AUC 低于物体完全不动；按 <a href="#sop-day1">Day 1 验证</a>的规则，不开批量。</li>
+    <li><b>满配 snack_box 对照</b>：ml40、1000 万 buffer，判据先登记。它过了，问题在 ep20 这条数据；它也不过，先查配方与环境。mf4090 上 100 万 buffer 的 snack_box 约 16:50（丹佛时间）跑完，只作参考。</li>
+    <li><b>逐帧诊断 ep20</b>：导出评测 rollout，看朝向误差在哪一段累积、机器人有没有尝试转动。参考要求把电饭煲原地转近一圈（累计 338°，集中在第 209–420 帧）。</li>
+    <li><b>对准比赛口径的离线评测</b>：仿真物体轨迹对 Tier 1 真值算 ADD-AUC 与 MPPE，只做分析。</li>
+    <li><b>训练杠杆</b>，各自单独试：
+      <ul>
+        <li>播放速度：1.67 倍速还是真实时长（见 <a href="#adr1">ADR-00001</a>）</li>
+        <li>Tier 2 参考轨迹的抖动：v5.3 实测逐帧角加速度中位 0.98°，Tier 1 是 0.12°；v5.4 未单独测</li>
+        <li>行李箱是脚推、手部奖励为 0，看配方能不能训出来</li>
+        <li>按终止原因逐条分析</li>
+      </ul></li>
+  </ul>
+  <div class="adm w"><span class="t">可能改变训练方向</span><p>规则草案提议最终排名用私有 holdout。如果 Track 2 的 holdout 里有没见过的序列，训练要转向跨序列泛化。</p></div>
+  <h2>待办</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>事项</th><th>谁</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>ml40 docker 存储迁移（训练间隙）；约 L40S 使用时段，见 <a href="#sop-pre">前置条件</a></td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+      <tr><td>邮件组委会：holdout、评测脚本与栈、开发期用 Tier 1、跨档热启动、Track 1 与 Track 2 的数据能否互用</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+      <tr><td>登录 Kaggle 查看 12 个竞赛的 Rules 页</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Next steps and to-dos</h1>
+  <h2>Next steps</h2>
+  <ul class="bl">
+    <li><b>Day 1 outcome</b>: both full ep20 runs (10M and 1M buffer) fail the criteria, with ADD-AUC below an object that never moves; by the rule in <a href="#sop-day1">Day 1 validation</a>, the batch stays on hold.</li>
+    <li><b>Full-recipe snack_box control</b>: ml40 with the 10M buffer, criteria registered first. If it passes, the problem is in the ep20 data; if it fails too, check the recipe and environment first. The 1M-buffer snack_box on mf4090 ends around 16:50 Denver time and is for reference only.</li>
+    <li><b>Frame-by-frame diagnosis of ep20</b>: export evaluation rollouts and see where the orientation error builds up and whether the robot tries to turn the cooker. The reference turns it in place almost a full circle (338° in total, within frames 209–420).</li>
+    <li><b>Offline evaluation on the challenge's terms</b>: compute ADD-AUC and MPPE of the simulated object trajectory against Tier 1 ground truth, for analysis only.</li>
+    <li><b>Training levers</b>, each tried on its own:
+      <ul>
+        <li>Playback speed: 1.67× or real time (see <a href="#adr1">ADR-00001</a>)</li>
+        <li>Jitter in the Tier 2 reference: median per-frame angular acceleration 0.98° measured on v5.3, versus 0.12° for Tier 1; v5.4 not measured separately</li>
+        <li>The luggage is pushed with a foot and gets no hand reward; check whether the recipe can learn it</li>
+        <li>Per-sequence analysis by termination cause</li>
+      </ul></li>
+  </ul>
+  <div class="adm w"><span class="t">Could change the training direction</span><p>The draft rules propose final rankings on a private holdout. If the Track 2 holdout contains unseen sequences, training has to shift toward cross-sequence generalization.</p></div>
+  <h2>To-dos</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Owner</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>ml40 docker storage migration (between trainings); book L40S time slots; see <a href="#sop-pre">Prerequisites</a></td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+      <tr><td>Email the organizers: holdout, evaluation script and stack, Tier 1 use during development, cross-tier warm start, whether Track 1 and Track 2 data may be used across tracks</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+      <tr><td>Sign in to Kaggle and read the Rules page of the 12 competitions</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+</section>
+
+<!-- ═════════════ 当前架构 ═════════════ -->
+<section class="pg" id="pg-arch" data-sec="arch" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>当前架构</h1>
+  <p>描述此刻代码实际的样子。每段之间只经文件交接，下游只读上游的产物，不 import 上游代码。代码在分支 <code>track2/p1-training</code>，已 push 到 GitHub。</p>
+  <ul class="jump">
+    <li><a href="#flow"><span class="jt">数据流</span><span class="jd">从挑战数据到提交，每段用哪个脚本</span><span class="jk">6 段</span></a></li>
+    <li><a href="#modules"><span class="jt">模块</span><span class="jd">仓库里六个目录各管什么、到了哪一步</span><span class="jk">6 个目录</span></a></li>
+    <li><a href="#runtime"><span class="jt">运行环境</span><span class="jd">Mac、两台训练机、两个镜像各自做什么</span><span class="jk">2 台训练机</span></a></li>
+    <li><a href="#deps"><span class="jt">依赖与缺口</span><span class="jd">对外依赖的版本，以及还没补上的东西</span><span class="jk">5 个缺口</span></a></li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Current architecture</h1>
+  <p>What the code looks like right now. Stages hand off only through files: each stage reads the previous stage's outputs and never imports its code. The code is on branch <code>track2/p1-training</code>, pushed to GitHub.</p>
+  <ul class="jump">
+    <li><a href="#flow"><span class="jt">Pipeline</span><span class="jd">From challenge data to submission, and the script for each stage</span><span class="jk">6 stages</span></a></li>
+    <li><a href="#modules"><span class="jt">Modules</span><span class="jd">What each of the six folders owns and how far along it is</span><span class="jk">6 folders</span></a></li>
+    <li><a href="#runtime"><span class="jt">Runtime</span><span class="jd">What the Mac, the two training machines and the two images do</span><span class="jk">2 machines</span></a></li>
+    <li><a href="#deps"><span class="jt">Dependencies and gaps</span><span class="jd">External dependency versions and what is still missing</span><span class="jk">5 gaps</span></a></li>
+  </ul>
+</div>
+</section>
+
+<section class="pg" id="pg-flow" data-sec="arch" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>数据流</h1>
+  <p>三档走同一条链。实线框已跑通，虚线框未开始或受阻，绿框是训练所在环节。</p>
+  <div class="flowd" role="img" aria-label="从挑战数据到提交的流程">
+    <div class="fbox">挑战数据<small>每档一个目录</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fstack">
+      <div class="fbox">Tier 1<small>直接用</small></div>
+      <div class="fbox">Tier 2<small>v5.4 降噪 · 守卫</small></div>
+      <div class="fbox dash">Tier 3<small>视频重建 · 未开始</small></div>
+    </div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">转换<small>challenge_to_soma</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">重定向<small>soma_to_g1 + 骨长</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">对齐检查<small>间隙 &lt; 20 mm</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox sel">FlashCHORD 训练</div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">评测</div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox dash">提交<small>脚本未发布</small></div>
+  </div>
+  <ol class="steps">
+    <li><b>转换</b>：<code>challenge_to_soma.py</code> 把挑战 parquet 转成官方重定向的输入目录。人体带逐帧骨长参数，丢掉会让关节整体偏 13.5 mm。</li>
+    <li><b>Tier 2 降噪</b>：<code>export_tier2.py v5.4</code>，进程一启动就禁止读取 Tier 1，每条序列产出一个位姿文件。</li>
+    <li><b>重定向与对齐检查</b>：<code>batch.sh</code> 在一次性容器里跑官方 <code>soma_to_g1</code>，再查物体与地面、桌面的间隙。</li>
+    <li><b>训练</b>：<code>fc_train.sh</code>，FlashCHORD G1 FlashSAC，全程 3.5 亿环境步；replay buffer 容量默认 1000 万，要 48 GB 显存。</li>
+    <li><b>评测</b>：<code>evaluate_policy.py</code> 输出 ADD-AUC、MPPE 与成功率。评测 JSON 里的成功率字段是 <code>spider_sr_uncentered</code>、<code>maniptrans_sr</code>、<code>chord_sr</code>；按字段名推断前两个对应 SP-SR、MP-SR，未与官方评测核对。它对照策略自己的参考轨迹，所以还需要对真值的离线评测（见<a href="#next">下一步</a>）。</li>
+    <li><b>提交</b>：官方要求用 <code>eval_robotic_grounding.py</code> 生成，尚未发布。每周 5 次，最后三天不限。</li>
+  </ol>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Pipeline</h1>
+  <p>All three tiers go through the same chain. Solid boxes run today, dashed boxes are not started or blocked, and the green box is where training happens.</p>
+  <div class="flowd" role="img" aria-label="Pipeline from challenge data to submission">
+    <div class="fbox">Challenge data<small>one folder per tier</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fstack">
+      <div class="fbox">Tier 1<small>used as is</small></div>
+      <div class="fbox">Tier 2<small>v5.4 denoise · guard</small></div>
+      <div class="fbox dash">Tier 3<small>video rebuild · not started</small></div>
+    </div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">Convert<small>challenge_to_soma</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">Retarget<small>soma_to_g1 + bone length</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">Alignment check<small>gap &lt; 20 mm</small></div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox sel">FlashCHORD training</div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox">Evaluation</div>
+    <span class="farr" aria-hidden="true">→</span>
+    <div class="fbox dash">Submission<small>script not released</small></div>
+  </div>
+  <ol class="steps">
+    <li><b>Convert</b>: <code>challenge_to_soma.py</code> turns a challenge parquet into the input folder of the official retargeter. The body keeps its per-frame bone-length parameters; dropping them shifts every joint by 13.5 mm.</li>
+    <li><b>Denoise Tier 2</b>: <code>export_tier2.py v5.4</code> blocks all Tier 1 reads as soon as the process starts, and writes one pose file per sequence.</li>
+    <li><b>Retarget and check alignment</b>: <code>batch.sh</code> runs the official <code>soma_to_g1</code> in a throwaway container, then measures the gap between the object and the floor or tabletop.</li>
+    <li><b>Train</b>: <code>fc_train.sh</code>, FlashCHORD G1 FlashSAC, 350 million environment steps per full run. The default replay buffer size is 10 million, which needs a 48 GB GPU.</li>
+    <li><b>Evaluate</b>: <code>evaluate_policy.py</code> reports ADD-AUC, MPPE and success rates. The success-rate fields in the evaluation JSON are <code>spider_sr_uncentered</code>, <code>maniptrans_sr</code> and <code>chord_sr</code>; judging by the names, the first two correspond to SP-SR and MP-SR, which has not been checked against the official evaluation. It compares against the policy's own reference, so an offline evaluation against ground truth is still needed (see <a href="#next">next steps</a>).</li>
+    <li><b>Submit</b>: the organizers require <code>eval_robotic_grounding.py</code>, which is not released. Up to 5 submissions per week, unlimited in the final three days.</li>
+  </ol>
+</div>
+</section>
+
+<section class="pg" id="pg-modules" data-sec="arch" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>模块</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>位置</th><th>内容</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td><code>libs/v2d_infra</code></td><td>路径、FK 唯一入口（带缓存）、ADD-AUC、档位隔离守卫</td><td><span class="pill ok">有测试</span></td></tr>
+      <tr><td><code>stages/recovery</code></td><td>Tier 2 导出（v5.4）、净室参数、不读数据的纯函数核心；其余为分析脚本</td><td><span class="pill ok">Tier 2 可用</span></td></tr>
+      <tr><td><code>stages/retarget</code></td><td>转换、官方读取器的骨长包装、对齐检查、批处理</td><td><span class="pill ok">60 条跑通</span></td></tr>
+      <tr><td><code>stages/policy</code></td><td>FlashCHORD 与 Isaac Lab 的训练入口</td><td><span class="pill w">仅冒烟</span></td></tr>
+      <tr><td><code>stages/evaluate</code></td><td>本仓还没有评测代码；目前用 FlashCHORD 自带评测器（见<a href="#status">现状</a>）</td><td><span class="pill o">目录为空</span></td></tr>
+      <tr><td><code>scripts/dev</code></td><td>多主机同步与远端执行（<code>V2D_ENV</code>）、结果与 policy 回流、两个一次性容器入口、镜像构建</td><td><span class="pill ok">可用</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Modules</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>Location</th><th>Contents</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td><code>libs/v2d_infra</code></td><td>Paths, the single FK entry point (with a cache), ADD-AUC, the tier isolation guard</td><td><span class="pill ok">Tested</span></td></tr>
+      <tr><td><code>stages/recovery</code></td><td>Tier 2 export (v5.4), clean-room parameters, a pure-function core that reads no data; the rest are analysis scripts</td><td><span class="pill ok">Tier 2 ready</span></td></tr>
+      <tr><td><code>stages/retarget</code></td><td>Conversion, the bone-length wrapper around the official reader, alignment check, batch runner</td><td><span class="pill ok">60 done</span></td></tr>
+      <tr><td><code>stages/policy</code></td><td>Training entry points for FlashCHORD and Isaac Lab</td><td><span class="pill w">Smoke only</span></td></tr>
+      <tr><td><code>stages/evaluate</code></td><td>No evaluation code in this repository yet; the FlashCHORD evaluator is used for now (see <a href="#status">Status</a>)</td><td><span class="pill o">Empty</span></td></tr>
+      <tr><td><code>scripts/dev</code></td><td>Multi-host sync and remote execution (<code>V2D_ENV</code>), pulling back results and policies, two throwaway-container launchers, image build</td><td><span class="pill ok">Ready</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+</section>
+
+<section class="pg" id="pg-runtime" data-sec="arch" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>运行环境</h1>
+  <p>下文说"mf4090""ml40"指机器，"4090""L40S"只指显卡本身。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>位置</th><th>用途</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>Mac 工作树</td><td>编辑代码与文档；<code>scripts/dev/remote</code> 同步到训练机后执行，<code>V2D_ENV=ml40</code> 切到 ml40。<code>results/</code> 单向回流到 Mac：mf4090 回到 <code>results/</code>，其他主机回到 <code>results/&lt;主机&gt;/</code></td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>mf4090（共用，1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 只能用 100 万 buffer，Day 1 显示它明显变差，不用来衡量配方</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>ml40（共用，1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 10 min，峰值显存 40,273 MiB</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>镜像 <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 + 官方 toolkit：重定向与 Isaac Lab 训练（只在 mf4090）</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有，ml40 上的在系统盘，存储迁移后复核</td><td><span class="pill ok">可用</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">容器一律一次性启动、整仓挂 <code>/repo</code>，换机器要用相同布局，原因见 <a href="#adr3">ADR-00003</a>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Runtime</h1>
+  <p>Below, "mf4090" and "ml40" name the machines; "4090" and "L40S" refer only to the GPUs.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Where</th><th>Used for</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>Mac working tree</td><td>Editing code and docs; <code>scripts/dev/remote</code> syncs to a training machine and runs there, <code>V2D_ENV=ml40</code> targets ml40. <code>results/</code> flows one way back to the Mac: mf4090 into <code>results/</code>, other hosts into <code>results/&lt;host&gt;/</code></td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>mf4090 (shared, 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD fits only with a 1M buffer, which Day 1 showed to be clearly worse, so it is not used to measure the recipe</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>ml40 (shared, 1× L40S 48 GB, 45,458 MiB free, 28 cores, 111 GiB RAM)</td><td>Full-recipe FlashCHORD training and evaluation; one full run takes 2 h 10 min with a 40,273 MiB memory peak</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>Image <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 plus the official toolkit: retargeting and Isaac Lab training (mf4090 only)</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>Image <code>flash_chord</code> (22 GB)</td><td>FlashCHORD: FlashSAC training and evaluation; on both machines, on ml40 still on the root disk, to be rechecked after the storage migration</td><td><span class="pill ok">Ready</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Containers are always throwaway and mount the whole repository at <code>/repo</code>, so every machine needs the same layout; <a href="#adr3">ADR-00003</a> explains why.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-deps" data-sec="arch" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>依赖与缺口</h1>
+  <h2>对外依赖</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>依赖</th><th>用途</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>HF 数据集 track_2</td><td>Tier 1、Tier 2 数据</td><td>已下载；Tier 3 需自己从视频重建</td></tr>
+      <tr><td>上游 toolkit v0.4.0（33129dd）</td><td>重定向、FlashCHORD、Isaac Lab 任务、重建模块</td><td>本地固定版本，源码不改</td></tr>
+      <tr><td>py-soma-x 0.2.1</td><td>SOMA-X 人体模型</td><td>宿主机与容器一致</td></tr>
+    </tbody>
+  </table></div>
+  <h2>已知缺口</h2>
+  <ul class="bl">
+    <li>官方评测脚本未发布；排行榜用哪套栈、按什么播放速度评测，官方未说明。</li>
+    <li>对真值的离线评测还没写（见<a href="#next">下一步</a>）。</li>
+    <li><code>runs/</code> 运行记录的字段已在<a href="#sop-batch">批量训练</a>列出，还没写进契约。</li>
+    <li>Tier 3 整条链路未开始。</li>
+    <li>契约表全空；现有测试写明"暂无契约 ID"。</li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Dependencies and gaps</h1>
+  <h2>External dependencies</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Dependency</th><th>Used for</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>HF dataset track_2</td><td>Tier 1 and Tier 2 data</td><td>Downloaded; Tier 3 must be rebuilt from video</td></tr>
+      <tr><td>Upstream toolkit v0.4.0 (33129dd)</td><td>Retargeting, FlashCHORD, Isaac Lab tasks, reconstruction modules</td><td>Pinned local copy, source unmodified</td></tr>
+      <tr><td>py-soma-x 0.2.1</td><td>SOMA-X body model</td><td>Same version on host and in containers</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Known gaps</h2>
+  <ul class="bl">
+    <li>The official evaluation script is not released; which stack and which playback speed the leaderboard uses is not stated.</li>
+    <li>Offline evaluation against ground truth is not written yet (see <a href="#next">next steps</a>).</li>
+    <li>The run-record fields are listed in <a href="#sop-batch">Batch training</a> but not yet in a contract.</li>
+    <li>The whole Tier 3 pipeline has not started.</li>
+    <li>The contract tables are empty; existing tests state that they have no contract ID yet.</li>
+  </ul>
+</div>
+</section>
+
+<!-- ═════════════ 架构决定 ═════════════ -->
+<section class="pg" id="pg-adr" data-sec="adr" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>架构决定</h1>
+  <p>三份都是 Proposed，待团队确认。决定变了就改正文，末尾留一行变更记录。原文在 <code>docs/adr/</code>。</p>
+  <ul class="jump">
+    <li><a href="#adr1"><span class="jt">ADR-00001 训练栈</span><span class="jd">用 FlashCHORD：Isaac Lab 每个策略 18.6 小时，装不进 5 周</span><span class="jk">≈2 h 对 18.6 h</span></a></li>
+    <li><a href="#adr2"><span class="jt">ADR-00002 档位隔离</span><span class="jd">净室参数加运行时守卫，Tier 2/3 不碰 Tier 1</span><span class="jk">−0.041</span></a></li>
+    <li><a href="#adr3"><span class="jt">ADR-00003 交接与运行</span><span class="jd">只经文件交接；多台训练机；ml40 就地重建镜像</span><span class="jk">4 条交接边</span></a></li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Architecture decisions</h1>
+  <p>All three are Proposed and awaiting team review. When a decision changes, the text is updated and a line is added to its change log. The originals are in <code>docs/adr/</code>.</p>
+  <ul class="jump">
+    <li><a href="#adr1"><span class="jt">ADR-00001 Training stack</span><span class="jd">Use FlashCHORD: at 18.6 hours per policy, Isaac Lab does not fit in 5 weeks</span><span class="jk">≈2 h vs 18.6 h</span></a></li>
+    <li><a href="#adr2"><span class="jt">ADR-00002 Tier isolation</span><span class="jd">Clean-room parameters plus a runtime guard; Tier 2/3 never touch Tier 1</span><span class="jk">−0.041</span></a></li>
+    <li><a href="#adr3"><span class="jt">ADR-00003 Handoff and runtime</span><span class="jd">File-only handoff, multiple training machines, image rebuilt on ml40</span><span class="jk">4 handoff edges</span></a></li>
+  </ul>
+</div>
+</section>
+
+<section class="pg" id="pg-adr1" data-sec="adr" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>ADR-00001 训练栈用 FlashCHORD</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25，2026-09-26 更新数字</span><span><code>docs/adr/00001-training-stack.md</code></span></div>
+  <p>决定因素是时间：最坏情况 90 个策略，Isaac Lab 每个 18.6 小时装不进 5 周。代价是依赖 48 GB 卡，以及官方评测栈与播放速度未知。Isaac Lab 保留作备选。</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>FlashCHORD FlashSAC</th><th>Isaac Lab ReconBody</th></tr></thead>
+    <tbody>
+      <tr><td>单策略时长（4090，按稳态吞吐推算）</td><td class="n">≈ 1.9–2.2 h（replay buffer 100 万）</td><td class="n">≈ 18.6 h</td></tr>
+      <tr><td>吞吐</td><td class="n">≈ 50,500 环境步/秒 · 2048 个并行环境</td><td class="n">3.34 s/iter · 4096 个并行环境</td></tr>
+      <tr><td>90 个策略</td><td class="n">≈ 170–200 卡时</td><td class="n">≈ 1,700 卡时</td></tr>
+      <tr><td>4090 能否满配</td><td>不能：replay buffer 1000 万超过 XLA 显存上限</td><td>能：4096 个并行环境仅 9.3 GB</td></tr>
+      <tr><td>评测</td><td>自带，直接出比赛指标</td><td>指标只进 TensorBoard</td></tr>
+      <tr><td>默认播放速度</td><td>逐帧，30 fps 参考按 1.67 倍速播放</td><td>按 fps 重采样</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm w"><span class="t">未证实</span><p>表里的时长来自 4090、replay buffer 缩到 100 万。满配 1000 万在 L40S 上按账算放得下，但没跑过，时长和显存余量都以 ml40 冒烟实测为准。播放速度是否与官方评测一致也未知，第一个全程训练的策略出来后，同一条序列在两种速度下各训一次对照。</p></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>ADR-00001 Train with FlashCHORD</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25, numbers updated 2026-09-26</span><span><code>docs/adr/00001-training-stack.md</code></span></div>
+  <p>Time decides it. In the worst case we need 90 policies, and at 18.6 hours each, Isaac Lab does not fit in 5 weeks. The cost is a dependency on a 48 GB card, and the organizers have not said which stack or playback speed they evaluate with. Isaac Lab stays as the fallback.</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>FlashCHORD FlashSAC</th><th>Isaac Lab ReconBody</th></tr></thead>
+    <tbody>
+      <tr><td>Time per policy (4090, extrapolated from steady throughput)</td><td class="n">≈ 1.9–2.2 h (1-million replay buffer)</td><td class="n">≈ 18.6 h</td></tr>
+      <tr><td>Throughput</td><td class="n">≈ 50,500 env steps/s · 2048 parallel envs</td><td class="n">3.34 s/iter · 4096 parallel envs</td></tr>
+      <tr><td>90 policies</td><td class="n">≈ 170–200 GPU-hours</td><td class="n">≈ 1,700 GPU-hours</td></tr>
+      <tr><td>Full recipe on a 4090</td><td>No: a 10-million replay buffer exceeds the XLA memory limit</td><td>Yes: 4096 parallel envs use only 9.3 GB</td></tr>
+      <tr><td>Evaluation</td><td>Built in, reports challenge metrics</td><td>Metrics go only to TensorBoard</td></tr>
+      <tr><td>Default playback</td><td>One frame per step, so a 30 fps reference plays at 1.67×</td><td>Resampled by fps</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm w"><span class="t">Unverified</span><p>The times in the table come from the 4090 with the replay buffer cut to 1 million. The full 10-million buffer should fit on the L40S by our accounting, but it has never run; time and memory headroom come from the ml40 smoke run. Whether the playback speed matches the official evaluation is also unknown: once the first fully trained policy exists, the same sequence is trained at both speeds for comparison.</p></div>
+</div>
+</section>
+
+<section class="pg" id="pg-adr2" data-sec="adr" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>ADR-00002 档位隔离：净室参数 + 运行时守卫</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25</span><span><code>docs/adr/00002-tier-isolation.md</code></span></div>
+  <p>规则原文要求 Tier 2/3 的方法用 “anything other than the clean trajectory captions provided in Tier 1”，也就是不能用 Tier 1 的干净轨迹。下表是 jev（TypeSafe 的判断模型）估计的概率，不是组委会的裁定。对照：明显违规的例子得 0.92，明显合规的得 0.08。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>做法</th><th>违背该条款</th><th>推理时用了 Tier 1 派生信息</th><th>判断</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 2 推理只读 Tier 2</td><td class="n">0.06</td><td class="n">0.06</td><td><span class="pill ok">合规</span></td></tr>
+      <tr><td>v5.4：参数只由 Tier 2 与物理常识推出</td><td class="n">0.07</td><td class="n">0.07</td><td><span class="pill ok">提交用</span></td></tr>
+      <tr><td>用 Tier 1 − Tier 2 估噪声上限与步长，做成门限（v5.3）</td><td class="n">0.72</td><td class="n">0.49</td><td><span class="pill b">不用</span></td></tr>
+      <tr><td>在 Tier 1 轨迹生成的噪声上调静止阈值（v5.2）</td><td class="n">0.50</td><td class="n">0.81</td><td><span class="pill b">不用</span></td></tr>
+      <tr><td>用 Tier 1 训出的权重热启动 Tier 2/3 策略</td><td class="n">0.42</td><td class="n">0.74</td><td><span class="pill b">不做</span></td></tr>
+      <tr><td>方法定型后只拿 Tier 1 测一次、不据此回调</td><td class="n">0.20</td><td class="n">—</td><td><span class="pill w">邮件确认</span></td></tr>
+    </tbody>
+  </table></div>
+  <p>原文用的是 "encouraged"，不是 "must not"；把它当硬规则执行是我们选的最严解读。官方对外部数据、跨 track 数据都还没有条文（规则草案 PR #164 标为 "Awaiting confirmation"）。</p>
+  <p>决定：以 0.041 的 ADD-AUC 换掉 Tier 2 整档被判违规的风险。官方若允许开发期用 Tier 1，换一个目录即可切回 v5.3。</p>
+  <details class="more"><summary>守卫怎么实现</summary><div>
+    <p><code>libs/v2d_infra/tier_guard.py</code> 在提交管线进程启动时调用，拦截 open、np.load、pq.read_table、pq.ParquetFile、glob 五条读取路径，读 Tier 1 目录直接抛错。守卫下重导 v5.3，与改前 30/30 逐位一致，证明导出全程没读 Tier 1。</p>
+  </div></details>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>ADR-00002 Tier isolation: clean-room parameters plus a runtime guard</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25</span><span><code>docs/adr/00002-tier-isolation.md</code></span></div>
+  <p>The rule requires Tier 2/3 methods to use “anything other than the clean trajectory captions provided in Tier 1”, i.e. no Tier 1 clean trajectories. The table gives probabilities estimated by jev (TypeSafe's judgment model); it is not an organizer ruling. Controls: a clear violation scores 0.92, a clearly compliant case 0.08.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Practice</th><th>Breaks the rule</th><th>Uses Tier 1-derived info at inference</th><th>Decision</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 2 inference reads only Tier 2</td><td class="n">0.06</td><td class="n">0.06</td><td><span class="pill ok">Compliant</span></td></tr>
+      <tr><td>v5.4: parameters from Tier 2 and physics alone</td><td class="n">0.07</td><td class="n">0.07</td><td><span class="pill ok">Submission</span></td></tr>
+      <tr><td>Noise caps and step size estimated from Tier 1 − Tier 2, used as gates (v5.3)</td><td class="n">0.72</td><td class="n">0.49</td><td><span class="pill b">Not used</span></td></tr>
+      <tr><td>Static threshold tuned on noise generated from Tier 1 trajectories (v5.2)</td><td class="n">0.50</td><td class="n">0.81</td><td><span class="pill b">Not used</span></td></tr>
+      <tr><td>Warm-starting Tier 2/3 policies from Tier 1 weights</td><td class="n">0.42</td><td class="n">0.74</td><td><span class="pill b">Not done</span></td></tr>
+      <tr><td>Measuring once against Tier 1 after the method is frozen, without tuning on it</td><td class="n">0.20</td><td class="n">—</td><td><span class="pill w">Ask by email</span></td></tr>
+    </tbody>
+  </table></div>
+  <p>The wording is "encouraged", not "must not"; treating it as a hard rule is our own strictest reading. The organizers have no rule yet on external data or cross-track data (draft rules PR #164 marks it "Awaiting confirmation").</p>
+  <p>Decision: give up 0.041 ADD-AUC to remove the risk of the whole Tier 2 entry being ruled invalid. If the organizers allow Tier 1 use during development, switching back to v5.3 only means pointing to a different folder.</p>
+  <details class="more"><summary>How the guard works</summary><div>
+    <p><code>libs/v2d_infra/tier_guard.py</code> is called when a submission-pipeline process starts. It intercepts five read paths (open, np.load, pq.read_table, pq.ParquetFile, glob) and raises on any read of the Tier 1 folder. Re-exporting v5.3 under the guard matched the previous output bit for bit on 30 of 30 sequences, which shows the export never reads Tier 1.</p>
+  </div></details>
+</div>
+</section>
+
+<section class="pg" id="pg-adr3" data-sec="adr" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>ADR-00003 环节交接与运行方式</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25，2026-09-26 修订</span><span><code>docs/adr/00003-stage-handoff-and-runtime.md</code></span></div>
+  <div class="tbl"><table>
+    <thead><tr><th>边</th><th>产物</th><th>位置</th></tr></thead>
+    <tbody>
+      <tr><td>recovery → retarget</td><td>每条序列一个 npz：物体位姿（OpenCV 系、全长）、可见性、方法版本与参数</td><td><code>runs/recovery/tier2_v5X/</code></td></tr>
+      <tr><td>retarget 输入</td><td>官方目录结构 + <code>v2d_meta.json</code>（档位、源帧率、位姿来源）</td><td><code>runs/motion_src/tierN/</code></td></tr>
+      <tr><td>retarget → policy</td><td>官方 motion_v1 parquet，每档一个 motion root</td><td><code>runs/motion/tierN/</code></td></tr>
+      <tr><td>policy → evaluate</td><td>checkpoint + 评测 JSON</td><td><code>runs/flash_chord/&lt;run&gt;/</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>上游 toolkit 以固定版本的本地副本接入，源码不改，行为改动在本仓包装；mf4090 连 GitHub 受限，升级靠 git bundle。容器一律一次性启动，整仓挂 <code>/repo</code>，因为 parquet 里的网格路径写的是 <code>/repo/...</code>；默认不占 GPU。</p>
+  <details class="more"><summary>多台训练机（9/26 新增）</summary><div>
+    <ul class="bl">
+      <li><code>.env</code> 放共用变量与凭据，<code>.env.&lt;名字&gt;</code> 只覆盖主机与路径，用 <code>V2D_ENV=&lt;名字&gt;</code> 选择。名字写错直接报错，不回落到默认主机，因为同步带 <code>--delete</code>。</li>
+      <li>回流按主机分目录：<code>runs/&lt;主机&gt;/</code>、<code>results/&lt;主机&gt;/</code>；只拉 policy 与日志，不拉 state。</li>
+      <li>ml40 的镜像就地重建，不从 mf4090 搬：经 Mac 中转只有 0.23–1.2 MB/s；registry mirror 上的 CUDA base 与 mf4090 上 flash_chord 镜像的前 11 层 diff_id 相同。构建走直连模式，不读 <code>.env</code>、不传代理。</li>
+    </ul>
+  </div></details>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>ADR-00003 Stage handoff and runtime</h1>
+  <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25, revised 2026-09-26</span><span><code>docs/adr/00003-stage-handoff-and-runtime.md</code></span></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Edge</th><th>Artifact</th><th>Location</th></tr></thead>
+    <tbody>
+      <tr><td>recovery → retarget</td><td>One npz per sequence: object pose (OpenCV frame, full length), visibility, method version and parameters</td><td><code>runs/recovery/tier2_v5X/</code></td></tr>
+      <tr><td>retarget input</td><td>Official folder layout plus <code>v2d_meta.json</code> (tier, source fps, pose source)</td><td><code>runs/motion_src/tierN/</code></td></tr>
+      <tr><td>retarget → policy</td><td>Official motion_v1 parquet, one motion root per tier</td><td><code>runs/motion/tierN/</code></td></tr>
+      <tr><td>policy → evaluate</td><td>Checkpoint plus evaluation JSON</td><td><code>runs/flash_chord/&lt;run&gt;/</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>The upstream toolkit is a pinned local copy with its source left unmodified; behavior changes live in wrappers in this repository. mf4090 cannot reach GitHub reliably, so upgrades go through a git bundle. Containers are always throwaway and mount the whole repository at <code>/repo</code>, because mesh paths inside the parquet files point to <code>/repo/...</code>; they use no GPU unless asked.</p>
+  <details class="more"><summary>Multiple training machines (added 9/26)</summary><div>
+    <ul class="bl">
+      <li><code>.env</code> holds shared variables and credentials; <code>.env.&lt;name&gt;</code> overrides only the host and path and is selected with <code>V2D_ENV=&lt;name&gt;</code>. A misspelled name stops with an error instead of falling back to the default host, because the sync uses <code>--delete</code>.</li>
+      <li>Pull-backs land in per-host folders, <code>runs/&lt;host&gt;/</code> and <code>results/&lt;host&gt;/</code>; only policies and logs come back, never state files.</li>
+      <li>The ml40 image is rebuilt in place instead of copied from mf4090: relaying through the Mac runs at 0.23–1.2 MB/s, and the CUDA base on the registry mirror has the same diff_ids as the first 11 layers of the flash_chord image on mf4090. The build runs in direct mode, reading no <code>.env</code> and passing no proxy.</li>
+    </ul>
+  </div></details>
+</div>
+</section>
+
+<!-- ═════════════ L40S 训练 SOP ═════════════ -->
+<section class="pg" id="pg-sop" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>L40S 训练 SOP</h1>
+  <p class="lead">目标：在 ml40 上跑通 FlashCHORD 满配训练，先确认单个策略的实际时长和成功率，再批量训练 Tier 1 与 Tier 2 各 30 条。</p>
+  <div class="adm w"><span class="t">Day 1 未通过，批量暂停</span><p>两条 ep20 全程的 ADD-AUC 都低于物体完全不动（见 <a href="#sop-day1">Day 1 验证</a>）。下一步：训练间隙做 ml40 的 docker 存储迁移，然后满配跑 snack_box 对照。</p></div>
+  <div class="stepper">
+    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">前置条件</span><span><span class="pill ok">完成</span></span><span class="sd">镜像先建在系统盘；存储迁移放到训练间隙</span></a>
+    <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">部署</span><span><span class="pill ok">完成</span></span><span class="sd">镜像验收、同步、W&amp;B、续训实测</span></a>
+    <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 验证</span><span><span class="pill b">未通过</span></span><span class="sd">ep20 两条低于不动基线；snack_box 对照待做</span></a>
+    <a href="#sop-batch"><span class="sn">4 · 待定</span><span class="st">批量训练</span><span><span class="pill o">暂停</span></span><span class="sd">Tier 1 → Tier 2</span></a>
+  </div>
+  <h2>跑起来之后</h2>
+  <ul class="jump">
+    <li><a href="#sop-monitor"><span class="jt">监控与停止</span><span class="jd">看哪些信号，出现了怎么处理</span><span class="jk">4 条规则</span></a></li>
+    <li><a href="#sop-risk"><span class="jt">已知风险</span><span class="jd">构建镜像源、共享卡、播放速度、陷桌面、官方评测、mf4090 磁盘、100 万 buffer、选序列</span><span class="jk">8 条</span></a></li>
+  </ul>
+  <p class="muted">排期：L40S 满配实测一条 2 h 10 min（中位 47,310 步/秒）。单卡顺序跑，每档 30 条约 65 小时，两档约 5.4 天。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>L40S training SOP</h1>
+  <p class="lead">Goal: run full-recipe FlashCHORD training on ml40, measure the real time and success rate of one policy first, then batch-train the 30 Tier 1 and 30 Tier 2 sequences.</p>
+  <div class="adm w"><span class="t">Day 1 failed, batch on hold</span><p>Both full ep20 runs score an ADD-AUC below an object that never moves (see <a href="#sop-day1">Day 1 validation</a>). Next: the docker storage migration on ml40 between trainings, then a full-recipe snack_box control run.</p></div>
+  <div class="stepper">
+    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">Prerequisites</span><span><span class="pill ok">Done</span></span><span class="sd">image built on the root disk first; storage migration moved between trainings</span></a>
+    <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">Deployment</span><span><span class="pill ok">Done</span></span><span class="sd">image check, sync, W&amp;B, resume test</span></a>
+    <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 validation</span><span><span class="pill b">Failed</span></span><span class="sd">both ep20 runs below the do-nothing baseline; snack_box control to do</span></a>
+    <a href="#sop-batch"><span class="sn">4 · TBD</span><span class="st">Batch training</span><span><span class="pill o">On hold</span></span><span class="sd">Tier 1 → Tier 2</span></a>
+  </div>
+  <h2>Once it runs</h2>
+  <ul class="jump">
+    <li><a href="#sop-monitor"><span class="jt">Monitoring and stops</span><span class="jd">Which signals to watch and what to do when they fire</span><span class="jk">4 rules</span></a></li>
+    <li><a href="#sop-risk"><span class="jt">Known risks</span><span class="jd">Build mirror, shared card, playback speed, tabletop sinking, official evaluation, mf4090 disk, 1M buffer, sequence choice</span><span class="jk">8 risks</span></a></li>
+  </ul>
+  <p class="muted">Schedule: one full-recipe run takes 2 h 10 min on the L40S (median 47,310 steps/s). Run back to back on one card, 30 sequences take about 65 hours per tier, about 5.4 days for both.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-pre" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>前置条件</h1>
+  <p>原定 9/29 前做完，9/27 已不再阻塞训练。ml40 的规格 9/26 已只读核实。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>项</th><th>状态</th><th>说明</th><th>谁</th></tr></thead>
+    <tbody>
+      <tr><td>docker 存储迁移</td><td><span class="pill w">待做，不阻塞</span></td><td>ml40 的 docker 用 containerd 镜像存储，镜像在 <code>/var/lib/containerd</code>，只改 data-root 搬不走。脚本 <code>deploy/ml40/migrate_docker_storage.sh</code>：默认只检查；<code>--apply</code> 迁移，有容器在跑就拒绝，失败自动回滚；<code>--cleanup</code> 删旧数据。验收看 <code>df /</code> 的可用空间，不能只看 <code>docker info</code></td><td>rxzhou（sudo 已可用）</td></tr>
+      <tr><td><code>/lab_data/rxzhou</code> 可写目录</td><td><span class="pill ok">完成</span></td><td>rxzhou:mfshared、2775；迁移后仓库副本搬到这里</td><td>rxzhou</td></tr>
+      <tr><td>L40S 使用时段</td><td><span class="pill w">待办</span></td><td>满配训练整卡峰值 40,273 MiB（实测），别人中途占卡会挤掉 Warp 的显存</td><td>rxzhou</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm"><span class="t">迁移没赶在训练前怎么办（已定）</span>
+    <p>flash_chord 镜像先建在系统盘上，训练照常开；docker 存储迁移放到两次训练之间做（ADR-00003 修订）。备选的“mf4090 用 100 万 buffer 顶上”已被 Day 1 否定：那样训出来的 policy 明显更差。</p></div>
+  <details class="more"><summary>联系管理员时要讲清的三件事</summary><div>
+    <ol class="steps">
+      <li>这台 docker 用 containerd 镜像存储（<code>docker info</code> 里 driver-type 是 <code>io.containerd.snapshotter.v1</code>），要把 <code>/etc/containerd/config.toml</code> 的 root 一起迁；<code>daemon.json</code> 里的 nvidia runtime 与 registry-mirrors 保留。</li>
+      <li>建 <code>/lab_data/v2d</code>（mfshared，2775）。</li>
+      <li>停 docker 会中断训练容器，迁移窗口要在开训之前。</li>
+    </ol>
+  </div></details>
+  <details class="more"><summary>已完成（5 项）</summary><div>
+    <div class="tbl"><table>
+      <thead><tr><th>项</th><th>说明</th><th>谁</th></tr></thead>
+      <tbody>
+        <tr><td>git 分支与 push</td><td>分支 <code>track2/p1-training</code>，已 push 到 GitHub；Day 1 训练用源码 <code>7e30e3d</code>，评测用 <code>0947f19</code></td><td>rxzhou</td></tr>
+        <tr><td>ml40 上的 flash_chord 镜像</td><td>系统盘上重建；前 11 层 diff_id 与 mf4090 相同，104 个 Python 依赖名字与版本完全一致；ID <code>sha256:96c808f9…</code></td><td>rxzhou</td></tr>
+        <tr><td>W&amp;B</td><td>两台端到端自测通过；entity <code>zhou-rongx-northeastern-university</code>，project <code>v2d-track2</code>，每段一个 run</td><td>rxzhou</td></tr>
+        <tr><td>多主机同步</td><td><code>V2D_ENV=ml40</code>；<code>V2D_DRYRUN=1</code> 只列清单；<code>pull-runs</code> 回流 policy</td><td>rxzhou（交给 coding agent）</td></tr>
+        <tr><td>ml40 规格</td><td>驱动 580.126.20、CUDA 13.0；空闲 45,458 MiB，比上游 README 的 46,000 少 542 MiB；28 核、111 GiB 内存；Docker 29.8.1 与 nvidia runtime 可用</td><td>rxzhou</td></tr>
+      </tbody>
+    </table></div>
+  </div></details>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Prerequisites</h1>
+  <p>Originally due before 9/29; since 9/27 none of these blocks training. The ml40 spec was checked read-only on 9/26.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>State</th><th>Notes</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>Docker storage migration</td><td><span class="pill w">To do, not blocking</span></td><td>Docker on ml40 uses the containerd image store, so images live in <code>/var/lib/containerd</code> and changing the data-root alone does not move them. Script <code>deploy/ml40/migrate_docker_storage.sh</code>: checks only by default; <code>--apply</code> migrates, refuses while containers run and rolls back on failure; <code>--cleanup</code> deletes the old data. Check free space on <code>/</code>, not just <code>docker info</code></td><td>rxzhou (sudo works)</td></tr>
+      <tr><td>Writable <code>/lab_data/rxzhou</code></td><td><span class="pill ok">Done</span></td><td>rxzhou:mfshared, mode 2775; the repository copy moves here after the migration</td><td>rxzhou</td></tr>
+      <tr><td>L40S time slot</td><td><span class="pill w">To do</span></td><td>A full-recipe run peaks at 40,273 MiB for the whole card (measured); anyone who grabs the card mid-run squeezes the memory Warp needs</td><td>rxzhou</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm"><span class="t">If the migration is late (decided)</span>
+    <p>The flash_chord image is built on the root disk first and training goes ahead; the docker storage migration happens between two trainings (ADR-00003 revision). The fallback of filling in with a 1M buffer on mf4090 was ruled out by Day 1: that produces clearly worse policies.</p></div>
+  <details class="more"><summary>Three points to make to the admin</summary><div>
+    <ol class="steps">
+      <li>Docker here uses the containerd image store (<code>docker info</code> shows driver-type <code>io.containerd.snapshotter.v1</code>), so the root in <code>/etc/containerd/config.toml</code> has to move as well; keep the nvidia runtime and registry-mirrors in <code>daemon.json</code>.</li>
+      <li>Create <code>/lab_data/v2d</code> (mfshared, 2775).</li>
+      <li>Stopping docker kills training containers, so the migration window has to come before training starts.</li>
+    </ol>
+  </div></details>
+  <details class="more"><summary>Done (5)</summary><div>
+    <div class="tbl"><table>
+      <thead><tr><th>Item</th><th>Notes</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Git branch and push</td><td>Branch <code>track2/p1-training</code>, pushed to GitHub; Day 1 trained from source <code>7e30e3d</code> and evaluated from <code>0947f19</code></td><td>rxzhou</td></tr>
+        <tr><td>flash_chord image on ml40</td><td>Rebuilt on the root disk; the first 11 diff_ids match mf4090 and all 104 Python dependencies match by name and version; ID <code>sha256:96c808f9…</code></td><td>rxzhou</td></tr>
+        <tr><td>W&amp;B</td><td>End-to-end self-test passed on both machines; entity <code>zhou-rongx-northeastern-university</code>, project <code>v2d-track2</code>, one run per segment</td><td>rxzhou</td></tr>
+        <tr><td>Multi-host sync</td><td><code>V2D_ENV=ml40</code>; <code>V2D_DRYRUN=1</code> only lists changes; <code>pull-runs</code> brings policies back</td><td>rxzhou (delegated to a coding agent)</td></tr>
+        <tr><td>ml40 spec</td><td>Driver 580.126.20, CUDA 13.0; 45,458 MiB free, 542 MiB below the 46,000 in the upstream README; 28 cores, 111 GiB RAM; Docker 29.8.1 with the nvidia runtime works</td><td>rxzhou</td></tr>
+      </tbody>
+    </table></div>
+  </div></details>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-deploy" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>部署</h1>
+  <p>存储迁移完成之后按顺序做。任何一步不符就停下，回报再定。</p>
+  <div class="adm"><span class="t">9/27 实际</span><p>镜像先在系统盘上建好（迁移之前），第 2–7 步都已做完。迁移之后只需复核第 1 步，再确认镜像 ID 不变、GPU 可用。</p></div>
+  <ol class="steps">
+    <li><b>验收迁移</b>：<code>df /</code> 可用约 90 GB，<code>docker info</code> 的 Runtimes 含 nvidia，4 个 <code>v2d_*</code> 镜像都在，<code>/lab_data/v2d</code> 可写。</li>
+    <li><b>重建镜像</b>：在 ml40 上 <code>V2D_BUILD_DIRECT=1 scripts/dev/build-flash-chord</code>（约 22 GB）。核对前 11 层 diff_id 与 mf4090 上的镜像相同，记下镜像 ID 与依赖 freeze。为什么不从 mf4090 搬，见 <a href="#adr3">ADR-00003</a>。</li>
+    <li><b>同步代码</b>：<code>V2D_ENV=ml40 scripts/dev/remote</code>，推完从 Mac 侧做 sha256 核对。</li>
+    <li><b>上游 toolkit</b>：ml40 上已是 v0.4.0（33129dd），与 mf4090 逐文件一致，不用再拉。</li>
+    <li><b>训练输入</b>：<code>runs/motion</code>、<code>runs/motion_src</code>、<code>runs/recovery</code> 已逐字节一致（9/26 核对，0 差异）；开训前再比一次清单，mf4090 上重新导出过才补传。</li>
+    <li><b>确认 Tier 2 用 v5.4</b>：<code>runs/motion_src/tier2/*/v2d_meta.json</code> 里 <code>object_pose_source</code> 指向 <code>tier2_v54</code>。</li>
+    <li><b>确认卡空闲</b>：<code>nvidia-smi --query-compute-apps</code> 与 <code>docker ps</code> 都为空，而且在约好的时段内。</li>
+  </ol>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Deployment</h1>
+  <p>In order, after the storage migration. If any step does not match, stop and report before deciding.</p>
+  <div class="adm"><span class="t">What happened on 9/27</span><p>The image was built on the root disk first (before the migration), and steps 2–7 are done. After the migration, only step 1 needs rechecking, plus confirming that the image ID is unchanged and the GPU works.</p></div>
+  <ol class="steps">
+    <li><b>Check the migration</b>: about 90 GB free on <code>/</code>, the nvidia runtime listed under Runtimes in <code>docker info</code>, all 4 <code>v2d_*</code> images present, <code>/lab_data/v2d</code> writable.</li>
+    <li><b>Rebuild the image</b>: on ml40, <code>V2D_BUILD_DIRECT=1 scripts/dev/build-flash-chord</code> (about 22 GB). Check that the first 11 diff_ids match the image on mf4090, and record the image ID and the dependency freeze. <a href="#adr3">ADR-00003</a> explains why it is not copied from mf4090.</li>
+    <li><b>Sync code</b>: <code>V2D_ENV=ml40 scripts/dev/remote</code>, then check sha256 from the Mac.</li>
+    <li><b>Upstream toolkit</b>: already v0.4.0 (33129dd) on ml40 and identical to mf4090 file for file; nothing to fetch.</li>
+    <li><b>Training inputs</b>: <code>runs/motion</code>, <code>runs/motion_src</code> and <code>runs/recovery</code> are already byte-identical (checked 9/26, zero differences). Compare the lists once more before training; resend only if mf4090 re-exported something.</li>
+    <li><b>Confirm Tier 2 uses v5.4</b>: <code>object_pose_source</code> in <code>runs/motion_src/tier2/*/v2d_meta.json</code> points to <code>tier2_v54</code>.</li>
+    <li><b>Confirm the card is free</b>: both <code>nvidia-smi --query-compute-apps</code> and <code>docker ps</code> are empty, and it is inside the agreed time slot.</li>
+  </ol>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-day1" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>Day 1 验证</h1>
+  <p>四次运行按顺序跑，序列都是 Tier 1 ep20（rice_cooker）。通过条件事先定好，跑完不再改。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>顺序</th><th>运行</th><th>要点</th><th>通过条件</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>满配冒烟</td><td><code>fc_train.sh &lt;ep20&gt; 2048 4096000 …</code>，replay buffer 容量保持默认 1000 万；显存每 200 ms 采一次</td><td>exit 0；日志有 <code>compiled FlashSAC JAX executables</code>，跑过 409,600 步进入更新；无 OOM、base limit 报错；整卡峰值超过 44,000 MiB 就改用 800 万。另记峰值、稳态吞吐、<code>XLA backend will use up to</code> 行、onnxruntime provider</td></tr>
+      <tr><td class="n">2</td><td>ep20 全程</td><td><code>fc_train.sh &lt;ep20&gt; 2048 349999104 /repo/runs/flash_chord/t1_ep20_w2048_cap10m_ml40</code></td><td>跑到 100%，拿到 <code>policy_349999104.safetensors</code>；记录真实时长</td></tr>
+      <tr><td class="n">3</td><td>官方 snack_box 对照</td><td>同样配方，parquet 用官方自带样例</td><td>官方样例能训出来，用来区分配方问题与数据问题</td></tr>
+      <tr><td class="n">4</td><td>评测</td><td><code>evaluate_policy.py evaluation.checkpoint=…</code></td><td><code>chord_sr</code>、<code>maniptrans_sr</code> 都 &gt; 0；ADD-AUC 高于冒烟时的 0.46，具体阈值开跑前写进运行记录</td></tr>
+    </tbody>
+  </table></div>
+  <h2>结果（9/27，丹佛时间）</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>顺序</th><th>状态</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><span class="pill ok">通过</span></td><td>整卡峰值 40,273 MiB，稳态 50,580 步/秒；正式跑保持默认 1000 万 buffer</td></tr>
+      <tr><td class="n">2</td><td><span class="pill ok">完成</span></td><td>ml40 12:44–14:54，2 h 10 min，一次跑完。mf4090 另跑了一条 100 万 buffer 版本（12:35–14:41）</td></tr>
+      <tr><td class="n">3</td><td><span class="pill w">未完成</span></td><td>snack_box 目前只在 mf4090 上以 100 万 buffer 跑（约 16:50 结束，只作参考）；满配版本还要在 ml40 上跑</td></tr>
+      <tr><td class="n">4</td><td><span class="pill b">未通过</span></td><td>登记的门槛是 ADD-AUC &gt; 0.4708（物体完全不动，评测前修正；原写 0.465）。两条 ep20 的 chord_sr、maniptrans_sr 都 &gt; 0，ADD-AUC 0.431 / 0.422，两套门槛都没过</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>ml40 上评测，4096 世界</th><th>物体不动</th><th>1000 万 buffer</th><th>100 万 buffer</th></tr></thead>
+    <tbody>
+      <tr><td>ADD-AUC</td><td class="n">0.471</td><td class="n">0.431</td><td class="n">0.422</td></tr>
+      <tr><td>chord_sr（任务原生）</td><td class="n">—</td><td class="n">0.79</td><td class="n">0.017</td></tr>
+      <tr><td>maniptrans_sr</td><td class="n">0</td><td class="n">0.0005</td><td class="n">0.0044</td></tr>
+      <tr><td>MPPE</td><td class="n">3.3 cm</td><td class="n">5.2 cm</td><td class="n">10.0 cm</td></tr>
+      <tr><td>物体位置误差</td><td class="n">1.7 cm</td><td class="n">4.1 cm</td><td class="n">9.0 cm</td></tr>
+      <tr><td>物体朝向误差</td><td class="n">49.2°</td><td class="n">42.2°</td><td class="n">46.1°</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>两个 policy 都把电饭煲推离了原位（位置误差比不动多 2.4 / 7.3 cm），朝向误差只比不动少 7° / 3°。参考要把它原地转近一圈（累计 338°）。</li>
+    <li>1000 万 buffer 明显好于 100 万，训练曲线从课程第 0 阶段（VOC=1）就分开（单种子）。100 万 buffer 不再用来衡量配方。</li>
+    <li>评测 JSON 的 <code>chord_sr</code> 按任务原生门槛（pelvis、palm、object）算，失败原因看 <code>reference_tracking.failure_cause_fraction</code>；<code>termination_cause_fraction</code> 是旧口径，别混读。</li>
+    <li>记录：<code>agent-doc/experiments/2026-09-28-day1.md</code>。表里每个数都由 <code>scripts/experiments/2026-09-28-day1.sh</code> 重新生成到 <code>results/day1/</code>，判定由 <code>stages/evaluate/verdict.py</code> 计算，结论经 jev 核对（13 条中 10 条 ≥ 0.7，其余标为未核实）。</li>
+  </ul>
+  <div class="adm"><span class="t">Day 1 之后</span><p>ep20 与 snack_box 都通过：开始批量。snack_box 通过、ep20 不通过：问题在我们的数据，逐项排查参考轨迹。两者都不通过：先查配方与环境，不开批量。<b>现状</b>：ep20 未通过，满配 snack_box 还没跑，批量暂停。</p></div>
+  <details class="more"><summary>冒烟命令（在 ml40 仓目录下执行）</summary><div>
+<pre class="code">P='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet'
+timeout 1800 nvidia-smi --query-gpu=timestamp,memory.used,utilization.gpu \
+  --format=csv,noheader -lms 200 &gt; runs/logs/fc_smoke_ml40_cap10m.gpu &amp;
+timeout 1800 nvidia-smi --query-compute-apps=pid,used_memory \
+  --format=csv,noheader -lms 200 &gt; runs/logs/fc_smoke_ml40_cap10m.apps &amp;
+timeout 1700 env V2D_GPU=1 scripts/dev/in-flash-chord \
+  "TF_CPP_MIN_LOG_LEVEL=0 bash /repo/stages/policy/fc_train.sh '$P' 2048 4096000 /repo/runs/flash_chord/smoke_ml40_t1_ep20_w2048_cap10m" \
+  &gt; runs/logs/fc_smoke_ml40_cap10m.log 2&gt;&amp;1; echo exit=$?
+grep -E 'exceeds the base limit|RESOURCE_EXHAUSTED|out of memory' runs/logs/fc_smoke_ml40_cap10m.log   # 应无输出
+pgrep -af '[n]vidia-smi --query'   # 应无输出</pre>
+    <p class="muted"><code>.apps</code> 文件按进程记显存，用来分清是不是别人占了卡。稳态吞吐用后半段 progress 行回归，不用日志里的累计均值（含编译时间）。</p>
+  </div></details>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Day 1 validation</h1>
+  <p>Four runs, in order, all on Tier 1 ep20 (rice_cooker). Pass conditions are fixed in advance and not changed after the runs.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Order</th><th>Run</th><th>Key settings</th><th>Pass condition</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>Full-buffer smoke</td><td><code>fc_train.sh &lt;ep20&gt; 2048 4096000 …</code>, replay buffer size left at the default 10 million; GPU memory sampled every 200 ms</td><td>Exit 0; the log shows <code>compiled FlashSAC JAX executables</code> and passes 409,600 steps into updates; no OOM or base-limit error; if the whole-card peak exceeds 44,000 MiB, use 8 million. Also record the peak, the steady throughput, the <code>XLA backend will use up to</code> line and the onnxruntime provider</td></tr>
+      <tr><td class="n">2</td><td>Full ep20 run</td><td><code>fc_train.sh &lt;ep20&gt; 2048 349999104 /repo/runs/flash_chord/t1_ep20_w2048_cap10m_ml40</code></td><td>Reaches 100% and writes <code>policy_349999104.safetensors</code>; record the real time</td></tr>
+      <tr><td class="n">3</td><td>Official snack_box control</td><td>Same recipe on the bundled sample parquet</td><td>The official sample trains, which separates a recipe problem from a data problem</td></tr>
+      <tr><td class="n">4</td><td>Evaluation</td><td><code>evaluate_policy.py evaluation.checkpoint=…</code></td><td><code>chord_sr</code> and <code>maniptrans_sr</code> both &gt; 0; ADD-AUC above the 0.46 of the smoke run, with the exact threshold written into the run record before the run</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Results (9/27, Denver time)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Order</th><th>State</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td><span class="pill ok">Passed</span></td><td>Whole-card peak 40,273 MiB, steady 50,580 steps/s; the full runs keep the default 10M buffer</td></tr>
+      <tr><td class="n">2</td><td><span class="pill ok">Done</span></td><td>ml40 12:44–14:54, 2 h 10 min, one attempt. mf4090 ran a 1M-buffer version as well (12:35–14:41)</td></tr>
+      <tr><td class="n">3</td><td><span class="pill w">Not done</span></td><td>snack_box has only run on mf4090 with the 1M buffer so far (ends around 16:50, reference only); the full-recipe version still has to run on ml40</td></tr>
+      <tr><td class="n">4</td><td><span class="pill b">Failed</span></td><td>The registered bar is ADD-AUC &gt; 0.4708 (an object that never moves; revised before evaluation, originally 0.465). Both ep20 runs have chord_sr and maniptrans_sr &gt; 0, but ADD-AUC is 0.431 and 0.422, below both bars</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Evaluated on ml40, 4096 worlds</th><th>Object never moves</th><th>10M buffer</th><th>1M buffer</th></tr></thead>
+    <tbody>
+      <tr><td>ADD-AUC</td><td class="n">0.471</td><td class="n">0.431</td><td class="n">0.422</td></tr>
+      <tr><td>chord_sr (task-native)</td><td class="n">—</td><td class="n">0.79</td><td class="n">0.017</td></tr>
+      <tr><td>maniptrans_sr</td><td class="n">0</td><td class="n">0.0005</td><td class="n">0.0044</td></tr>
+      <tr><td>MPPE</td><td class="n">3.3 cm</td><td class="n">5.2 cm</td><td class="n">10.0 cm</td></tr>
+      <tr><td>Object position error</td><td class="n">1.7 cm</td><td class="n">4.1 cm</td><td class="n">9.0 cm</td></tr>
+      <tr><td>Object orientation error</td><td class="n">49.2°</td><td class="n">42.2°</td><td class="n">46.1°</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>Both policies push the cooker away from its place (position error 2.4 and 7.3 cm above the do-nothing case), and their orientation error is only 7° and 3° below it. The reference turns the cooker in place almost a full circle (338° in total).</li>
+    <li>The 10M buffer is clearly better than 1M, and the training curves separate already in curriculum stage 0 (VOC = 1), single seed. The 1M buffer is no longer used to measure the recipe.</li>
+    <li>The evaluation JSON's <code>chord_sr</code> uses the task-native limits (pelvis, palm, object); read failure causes from <code>reference_tracking.failure_cause_fraction</code>. <code>termination_cause_fraction</code> is a legacy measure; do not mix the two.</li>
+    <li>Record: <code>agent-doc/experiments/2026-09-28-day1.md</code>. Every number here is regenerated into <code>results/day1/</code> by <code>scripts/experiments/2026-09-28-day1.sh</code>, the verdict is computed by <code>stages/evaluate/verdict.py</code>, and the conclusions were checked with jev (10 of 13 at 0.7 or above; the rest are marked unverified).</li>
+  </ul>
+  <div class="adm"><span class="t">After Day 1</span><p>Both ep20 and snack_box pass: start the batch. snack_box passes and ep20 fails: the problem is in our data, so inspect the reference step by step. Both fail: check the recipe and environment first, and hold the batch. <b>Now</b>: ep20 failed and the full-recipe snack_box has not run yet, so the batch is on hold.</p></div>
+  <details class="more"><summary>Smoke command (run from the repository folder on ml40)</summary><div>
+<pre class="code">P='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet'
+timeout 1800 nvidia-smi --query-gpu=timestamp,memory.used,utilization.gpu \
+  --format=csv,noheader -lms 200 &gt; runs/logs/fc_smoke_ml40_cap10m.gpu &amp;
+timeout 1800 nvidia-smi --query-compute-apps=pid,used_memory \
+  --format=csv,noheader -lms 200 &gt; runs/logs/fc_smoke_ml40_cap10m.apps &amp;
+timeout 1700 env V2D_GPU=1 scripts/dev/in-flash-chord \
+  "TF_CPP_MIN_LOG_LEVEL=0 bash /repo/stages/policy/fc_train.sh '$P' 2048 4096000 /repo/runs/flash_chord/smoke_ml40_t1_ep20_w2048_cap10m" \
+  &gt; runs/logs/fc_smoke_ml40_cap10m.log 2&gt;&amp;1; echo exit=$?
+grep -E 'exceeds the base limit|RESOURCE_EXHAUSTED|out of memory' runs/logs/fc_smoke_ml40_cap10m.log   # should print nothing
+pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
+    <p class="muted">The <code>.apps</code> file records memory per process, which tells our run apart from another user's. Take the steady throughput from a regression over the second half of the progress lines, not the cumulative average in the log, which includes compile time.</p>
+  </div></details>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-batch" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>批量训练</h1>
+  <ul class="bl">
+    <li>单卡顺序排队：先 Tier 1 30 条，再 Tier 2 30 条；每条一个输出目录 <code>runs/flash_chord/t{档}_ep{序号}_…/</code>。</li>
+    <li>每次运行落盘一份记录：仓库 commit、上游 commit、镜像 ID 与 base 层、parquet 的 sha256、完整配置（<code>--cfg job --resolve</code> 的输出）、seed、GPU 型号、开始与结束时间、评测 JSON。</li>
+    <li>每份 checkpoint 约 165 MB（policy 4.9 MB + state 160 MB），一次全程存 35 份约 5.8 GB。训练完用 <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> 把 policy 和日志拉回本地；state 只用于续训，留在训练机上，批量时只留最后 2 份。</li>
+    <li>不做跨档热启动：Tier 2 的策略从头训练，理由见 <a href="#adr2">ADR-00002</a>。</li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Batch training</h1>
+  <ul class="bl">
+    <li>One card, one queue: the 30 Tier 1 sequences first, then the 30 Tier 2 sequences; one output folder per run, <code>runs/flash_chord/t{tier}_ep{id}_…/</code>.</li>
+    <li>Every run writes a record: repository commit, upstream commit, image ID and base layers, parquet sha256, full config (output of <code>--cfg job --resolve</code>), seed, GPU model, start and end time, evaluation JSON.</li>
+    <li>Each checkpoint is about 165 MB (policy 4.9 MB + state 160 MB), and a full run saves 35 of them, about 5.8 GB. After training, <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> brings the policies and logs back; state files are only for resuming, stay on the training machine, and only the last 2 are kept during the batch.</li>
+    <li>No cross-tier warm start: Tier 2 policies train from scratch, as <a href="#adr2">ADR-00002</a> explains.</li>
+  </ul>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-monitor" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>监控与停止</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>信号</th><th>来源</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>吞吐比 Day 1 实测低 30% 以上</td><td>日志里的 <code>env steps/s</code></td><td>停下查是否有别的进程占卡</td></tr>
+      <tr><td>non-finite world 或 NaN</td><td>训练日志、评测 JSON 的 <code>non_finite_worlds</code></td><td>换 seed 重跑一次，仍出现就记录并跳过</td></tr>
+      <tr><td>显存 OOM</td><td>进程退出码、XLA 报错</td><td>记录后把 replay buffer 容量降到 800 万重跑（再不行 600 万），并在运行记录里标明偏离配方</td></tr>
+      <tr><td>评测成功率为 0</td><td>评测 JSON 的 <code>reference_tracking.failure_cause_fraction</code>（任务原生口径；<code>termination_cause_fraction</code> 是旧口径）</td><td>按原因归类（object、palm、pelvis），不当场调参，攒够样本再统一处理</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Monitoring and stops</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>Signal</th><th>Where</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Throughput more than 30% below the Day 1 measurement</td><td><code>env steps/s</code> in the log</td><td>Stop and check whether another process is using the card</td></tr>
+      <tr><td>Non-finite world or NaN</td><td>Training log, <code>non_finite_worlds</code> in the evaluation JSON</td><td>Rerun once with another seed; if it happens again, record it and skip</td></tr>
+      <tr><td>Out of memory</td><td>Exit code, XLA error</td><td>Record it, rerun with a replay buffer size of 8 million (then 6 million), and mark the run as deviating from the recipe</td></tr>
+      <tr><td>Evaluation success rate is 0</td><td><code>reference_tracking.failure_cause_fraction</code> in the evaluation JSON (task-native; <code>termination_cause_fraction</code> is a legacy measure)</td><td>Group by cause (object, palm, pelvis); do not tune on the spot, handle them together once there are enough samples</td></tr>
+    </tbody>
+  </table></div>
+</div>
+</section>
+
+<section class="pg" id="pg-sop-risk" data-sec="sop" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>已知风险</h1>
+  <ul class="bl">
+    <li><b>构建走不走镜像源</b>：BuildKit 的 FROM 是否经 daemon 的 registry-mirrors 拉取，未核实。若 diff_id 对不上或拉取失败，先停下回报，不改 base。</li>
+    <li><b>共享卡</b>：JAX 的显存上限按整卡算，别人中途占卡，先被挤掉的是 Warp 那部分，可能跑了几小时才 OOM。时段约定要写清起止。</li>
+    <li><b>播放速度</b>：FlashCHORD 默认 1.67 倍速，官方口径未知（见 <a href="#adr1">ADR-00001</a>）；Day 1 之后抽一条训练真实时长版本对比。</li>
+    <li><b>陷桌面</b>：Tier 2 的熨斗、电饭煲陷进桌面约 2 cm，观察这两条的终止原因是否集中在物体。</li>
+    <li><b>官方评测</b>：<code>eval_robotic_grounding.py</code> 发布当天，用它重评已有 checkpoint，核对本地指标。</li>
+    <li><b>mf4090 磁盘</b>：只剩约 20 GB，checkpoint 回传前先清理不再需要的冒烟产物。</li>
+    <li><b>100 万 buffer</b>：Day 1 里它从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子）。4090 放不下默认的 1000 万，mf4090 上的 FlashCHORD 训练不用来比较配方。</li>
+    <li><b>选序列</b>：起步序列按平移挑的，ep20 物体只平移 4 cm，却要原地转近一圈。按物体位移和在动帧排难度会漏掉旋转，后续挑序列要同时看累计转角。</li>
+  </ul>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Known risks</h1>
+  <ul class="bl">
+    <li><b>Build mirror path</b>: whether BuildKit's FROM pulls through the daemon's registry-mirrors is unverified. If the diff_ids do not match or the pull fails, stop and report instead of changing the base.</li>
+    <li><b>Shared card</b>: JAX sizes its memory limit from the whole card, so if someone takes the card mid-run, Warp's share is squeezed first and the run can fail hours in. Agree on explicit start and end times.</li>
+    <li><b>Playback speed</b>: FlashCHORD plays at 1.67× by default and the official setting is unknown (see <a href="#adr1">ADR-00001</a>); after Day 1, train one sequence at real time as well and compare.</li>
+    <li><b>Tabletop sinking</b>: the Tier 2 iron and rice cooker sink about 2 cm into the tabletop; watch whether their termination causes concentrate on the object.</li>
+    <li><b>Official evaluation</b>: on the day <code>eval_robotic_grounding.py</code> is released, re-evaluate existing checkpoints with it and reconcile the local metrics.</li>
+    <li><b>mf4090 disk</b>: about 20 GB left; clear smoke-run outputs that are no longer needed before syncing checkpoints back.</li>
+    <li><b>1M buffer</b>: on Day 1 it was clearly worse from curriculum stage 0 on (chord_sr 0.017 versus 0.79, single seed). The 4090 cannot hold the default 10M, so FlashCHORD training on mf4090 is not used to compare recipes.</li>
+    <li><b>Sequence choice</b>: the starting sequences were picked by translation; ep20 moves the object only 4 cm but turns it in place almost a full circle. Ranking difficulty by object displacement and moving frames misses rotation, so future picks should also look at the total rotation.</li>
+  </ul>
+</div>
+</section>
+
+<nav class="pn" id="pn" aria-label="翻页 / Pages"></nav>
+<footer class="pf">
+  <span class="l-zh">本页源文件：<code>docs/site/v2d-track2.html</code>。源文档：<code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-day1.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>。降噪、对齐检查与 Day 1 的原始输出在 <code>results/</code>（文件头带命令、脚本 md5、源码版本、机器与时间）；ml40 的事实见 handoff 的核实表。</span>
+  <span class="l-en">This page's source: <code>docs/site/v2d-track2.html</code>. Source documents: <code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-day1.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>. Raw output for denoising, alignment and Day 1 is in <code>results/</code> (headers record the command, script md5, source version, host and time); ml40 facts are in the handoff's verified-facts table.</span>
+</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var body = document.body, de = document.documentElement;
+  de.classList.add("js");
+  var side = document.getElementById("side"), crumb = document.getElementById("crumb"), pn = document.getElementById("pn"), menu = document.getElementById("menu");
+  var pages = Array.prototype.slice.call(document.querySelectorAll("section.pg"));
+  var links = Array.prototype.slice.call(side.querySelectorAll("a[href^='#']"));
+  var order = links.map(function(a){ return a.getAttribute("href").slice(1); });
+  var groups = Array.prototype.slice.call(side.querySelectorAll(".grp"));
+  // 页面 id 带 pg- 前缀，路由 token 不带：避免浏览器按锚点滚到隐藏页的位置
+  function page(id){ return document.getElementById("pg-" + id); }
+  // 旧版单页的锚点仍能跳到对应页面
+  var ALIAS = {architecture:"arch", decisions:"adr", pending:"next", gaps:"deps", "sop-timeline":"sop"};
+  var cur = null;
+
+  function label(id){
+    var a = side.querySelector("a[href='#" + id + "']");
+    if (!a) return "";
+    var c = a.cloneNode(true), n = c.querySelector(".n");
+    if (n) n.parentNode.removeChild(n);
+    return c.innerHTML;
+  }
+  function resolve(h){
+    var lang = null;
+    if (h === "en") { lang = "en"; h = "home"; }
+    else if (/-en$/.test(h)) { lang = "en"; h = h.slice(0, -3); }
+    if (ALIAS[h]) h = ALIAS[h];
+    if (!h || !page(h)) h = "home";
+    return {id: h, lang: lang};
+  }
+  function canon(r, raw){
+    if (raw && raw !== r.id) { try { history.replaceState(null, "", "#" + r.id); } catch (e) {} }
+  }
+  function nameIt(pg){
+    var h1 = pg.querySelector(".pb." + (body.classList.contains("en") ? "l-en" : "l-zh") + " h1");
+    if (h1) pg.setAttribute("aria-label", h1.textContent);
+  }
+  function setNav(open){
+    body.classList.toggle("nav-open", open);
+    menu.setAttribute("aria-expanded", String(open));
+  }
+  function show(id, moved){
+    var pg = page(id), sec = pg.getAttribute("data-sec");
+    cur = pg;
+    pages.forEach(function(p){ p.hidden = p !== pg; });
+    links.forEach(function(a){
+      var on = a.getAttribute("href") === "#" + id;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    groups.forEach(function(g){ g.classList.toggle("open", g.getAttribute("data-sec") === sec); });
+    var c = [];
+    if (id !== "home") {
+      c.push('<a href="#home">' + label("home") + "</a>");
+      if (sec !== id) c.push('<a href="#' + sec + '">' + label(sec) + "</a>");
+      c.push('<span aria-current="page">' + label(id) + "</span>");
+    }
+    crumb.innerHTML = c.join('<span class="sep" aria-hidden="true">/</span>');
+    var i = order.indexOf(id), h = "";
+    if (i > 0) h += '<a class="pv" href="#' + order[i-1] + '"><span class="k"><span class="l-zh">← 上一页</span><span class="l-en">← Previous</span></span><span class="t">' + label(order[i-1]) + "</span></a>";
+    if (i > -1 && i < order.length - 1) h += '<a class="nx" href="#' + order[i+1] + '"><span class="k"><span class="l-zh">下一页 →</span><span class="l-en">Next →</span></span><span class="t">' + label(order[i+1]) + "</span></a>";
+    pn.innerHTML = h;
+    nameIt(pg);
+    setNav(false);
+    if (moved) { window.scrollTo(0, 0); try { pg.focus({preventScroll: true}); } catch (e) { pg.focus(); } }
+  }
+  function setLang(lang, save){
+    body.classList.toggle("en", lang === "en");
+    de.lang = lang === "en" ? "en" : "zh-CN";
+    document.getElementById("lang-zh").setAttribute("aria-pressed", String(lang !== "en"));
+    document.getElementById("lang-en").setAttribute("aria-pressed", String(lang === "en"));
+    if (cur) nameIt(cur);
+    if (save) { try { localStorage.setItem("v2d-lang", lang); } catch (e) {} }
+  }
+  function route(moved){
+    var raw = location.hash.replace(/^#/, ""), r = resolve(raw);
+    if (r.lang) setLang(r.lang, true);
+    canon(r, raw);
+    show(r.id, moved);
+  }
+
+  var raw0 = location.hash.replace(/^#/, ""), start = resolve(raw0), lang = start.lang;
+  if (lang) { try { localStorage.setItem("v2d-lang", lang); } catch (e) {} }
+  else { try { lang = localStorage.getItem("v2d-lang") === "en" ? "en" : "zh"; } catch (e) { lang = "zh"; } }
+  canon(start, raw0);
+  setLang(lang, false);
+  show(start.id, false);
+
+  window.addEventListener("hashchange", function(){ route(true); });
+  document.getElementById("lang-zh").addEventListener("click", function(){ setLang("zh", true); });
+  document.getElementById("lang-en").addEventListener("click", function(){ setLang("en", true); });
+  menu.addEventListener("click", function(e){ e.stopPropagation(); setNav(!body.classList.contains("nav-open")); });
+  document.addEventListener("click", function(e){
+    if (body.classList.contains("nav-open") && !side.contains(e.target)) setNav(false);
+  });
+  side.addEventListener("click", function(e){ if (e.target.closest && e.target.closest("a")) setNav(false); });
+  side.addEventListener("focusout", function(e){
+    var to = e.relatedTarget;
+    if (body.classList.contains("nav-open") && to && !side.contains(to) && to !== menu) setNav(false);
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key !== "Escape" || !body.classList.contains("nav-open")) return;
+    var inside = side.contains(document.activeElement);
+    setNav(false);
+    if (inside) menu.focus();
+  });
+})();
+</script>
