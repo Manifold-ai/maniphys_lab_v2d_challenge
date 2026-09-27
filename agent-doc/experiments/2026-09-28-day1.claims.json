@@ -38,6 +38,10 @@
     "precheck": {
       "file": "agent-doc/experiments/2026-09-28-day1.md",
       "grep": "^\\| 5 \\|"
+    },
+    "static_code": {
+      "file": "stages/evaluate/static_baseline.py",
+      "grep": "from flash_chord|^        [A-Za-z_]+,$|load_reference\\(|reference_object_pose\\(|object_add\\(|add_auc\\(|spider_success\\(|maniptrans_success\\(|object_mppe_cm\\(|cfg\\[\\\"task\\\"\\]\\[\\\"parquet\\\"\\]|def embedded_config|user.resolved_config_json|evaluator_baseline\\(embedded_config"
     }
   },
   "claims": [
@@ -114,6 +118,7 @@
     {
       "id": "smoke_all_three",
       "evidence": [
+        "harness",
         "smoke0925"
       ],
       "claim": "In the 9/25 smoke evaluation every world crossed the task-native object, palm and pelvis limits."
@@ -128,6 +133,7 @@
     {
       "id": "static_same_reference",
       "evidence": [
+        "static_code",
         "static"
       ],
       "claim": "The static-object baseline was computed with the evaluator's own reference loader and metric functions, reading the reference parquet named in the evaluated policy's embedded config."
