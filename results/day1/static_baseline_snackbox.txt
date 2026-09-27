@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_baseline.py\ /repo/runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/policy_160006144.safetensors 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 3cee99a551c3d55f1daead127ba30af5  stages/evaluate/static_baseline.py
+# md5      : 9989b587c2311046efc72fb6a0430e60  runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/policy_160006144.safetensors
+# source   : 9d4af67870c1
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T05:37:30+0800
+# ---------------------------------------------------------------
+[evaluator definition] reference /v2d/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet
+  frames 800, bodies 1, source_frame_playback True, playback_fps 50.0, vertices 500 per body (seed 0, trimesh)
+  static-object ADD-AUC 0.5662 (per body 0.5662); mean ADD 61.64 cm; max position drift 196.8 cm
+  static-object object_position_error_m 0.6013; object_orientation_error_deg 61.08; mppe_cm 60.173; spider_sr_uncentered 0.000; maniptrans_sr 0.000
+  summary_json {"add_auc": 0.566171875, "maniptrans_sr": 0.0, "mean_add_m": 0.6163744386417546, "mppe_cm": 60.17292882270062, "object_orientation_error_deg": 61.0844353292, "object_position_error_m": 0.6012574294484218, "parquet": "/v2d/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet", "spider_sr_uncentered": 0.0}
+  angle vs frame 0: mean 61.1 deg, max 179.8 deg (frame 601), final 168.7 deg
+  per-frame increment: median 0.000 deg, p99 2.30, max 2.92 (frame 474); > 5 deg: 0 frames
+  cumulative rotation 250.3 deg; frames with increment > 0.5 deg: 164 (first 446, last 704)
+  a static object first exceeds the 1.5 rad (85.9 deg) gate at frame 504; frames above the gate: 296
+  angle vs frame 0 every 20 frames: 0:0 20:0 40:0 60:0 80:0 100:0 120:0 140:0 160:0 180:0 200:0 220:0 240:0 260:0 280:0 300:0 320:0 340:0 360:0 380:0 400:0 420:0 440:1 460:16 480:57 500:81 520:115 540:124 560:127 580:155 600:179 620:169 640:166 660:166 680:168 700:169 720:169 740:169 760:169 780:169
