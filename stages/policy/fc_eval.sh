@@ -19,15 +19,21 @@ fi
 P="$O/policy_${STEP}.safetensors"; [ -f "$P" ] || die "没有 $P"
 OUTJ="$O/eval_${STEP}_w${WORLDS}.json"; LOG="runs/logs/$RUN.eval_${STEP}_w${WORLDS}.log"
 summary() {
+  # 评测器 JSON：指标在 metrics 下、键不带前缀；checkpoint 与设置在顶层（ml40 冒烟评测实测）
   python3 - "$OUTJ" <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1]))
-m = d.get("metrics", d)
-keys = ["evaluation/add_auc", "evaluation/chord_sr", "evaluation/maniptrans_sr", "evaluation/spider_sr_uncentered",
-        "evaluation/mppe_cm", "evaluation/spider_position_error_centered_m", "evaluation/world_count"]
+m = d.get("metrics", {})
+print(f"  checkpoint_sha256 {str(d.get('checkpoint_sha256'))[:16]}…  environment_steps {d.get('environment_steps')}"
+      f"  world_count {d.get('world_count')}  step_count {d.get('step_count')}  non_finite_worlds {d.get('non_finite_worlds')}")
+keys = ["add_auc", "chord_sr", "maniptrans_sr", "spider_sr_uncentered", "mppe_cm", "mean_add_m",
+        "object_position_error_m", "object_orientation_error_deg", "termination_cause_fraction"]
+missing = [k for k in keys if k not in m]
 for k in keys:
     if k in m:
-        print(f"  {k:<48} {m[k]}")
+        print(f"  {k:<32} {m[k]}")
+if missing:
+    print(f"  (JSON 里缺 {', '.join(missing)})")
 PY
 }
 if [ -s "$OUTJ" ]; then echo "fc_eval: 已有结果 $OUTJ"; summary; exit 0; fi
