@@ -47,7 +47,7 @@
      另起一个 tmux 跑 `V2D_WAIT_FOR_LOG=runs/logs/ml40_playback.log stages/evaluate/playback_analysis.sh 10m`。
    - 两对都 ANALYSIS_DONE 后，在 Mac 上 `scripts/dev/pull-results`（ml40 加 `V2D_ENV=ml40`），再按计划跑 `stages/evaluate/playback_compare.py`。
 3. 其余触发的下一步：T4 查重定向管线、T1 查接近与抓取、reset 与 VOC（都先写计划、review 再跑）。
-4. 邮件组委会：holdout、评测脚本与栈、播放速度与评测用的仿真栈（官方文档没写；当前 Isaac Lab 按真实时长、FlashCHORD G1 逐帧 1.67 倍速，见回放实验记录末节）、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
+4. 邮件组委会：holdout、评测脚本与栈、播放速度（官方文档没写；FlashCHORD 两种都支持，G1 配方默认逐帧 1.67 倍速，评测器沿用 checkpoint 的设置；问 eval_robotic_grounding.py 怎么定，见回放实验记录末节）、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
 5. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
 6. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
 
