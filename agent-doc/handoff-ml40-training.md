@@ -1,6 +1,6 @@
 # 交接：ml40（L40S）上开 FlashCHORD 训练
 
-- 最近更新：2026-09-28 09:10 MDT；分支 `track2/p1-training`（已 push）
+- 最近更新：2026-09-28 17:05 MDT；分支 `track2/p1-training`（已 push）
 - 时区：服务器日志是北京时间，比 Mac（MDT）早 14 小时；对用户一律报丹佛时间
 
 ## 当前状态（本节取代下文“未完成 / 阻塞”“下一步”“兜底”三节，那几节只作 9/26 的历史）
@@ -37,19 +37,25 @@
 - `results/ml40/ops/test_fc_wrappers_after_move.txt` → 62 通过、0 失败
 - `V2D_ENV=ml40 V2D_DRYRUN=1 scripts/dev/remote` → 只列本地改动；`.v2d-source-commit` 已加保护规则，不再被 `--delete` 删掉
 
-未完成：
-1. 满配 snack_box 对照第 2 次（`ctrl-snackbox-w2048-cap10m-ml40b`）：09-28 07:32 MDT 在 ml40 tmux `v2d-day1b` 启动，过了第一个 checkpoint，
-   预计 09:35 前后评测完；日志 `runs/logs/ml40_day1b.log`，最后一行 DAY1B_DONE / DAY1B_FAILED。判据见 `agent-doc/experiments/2026-09-28-day1b.md` 的 A 节。
-2. 回放速度对照（T2，计划 `agent-doc/plan-playback-2026-09-28.md` 第 2 版，执行记录 `agent-doc/experiments/2026-09-28-playback.md`）：
-   - mf4090：tmux `v2d-playback` 跑 `stages/policy/queues/mf4090_playback.sh`（正式训练 08:48 开始，预计 10:52 训完）；
-     tmux `v2d-analysis` 跑 `stages/evaluate/playback_analysis.sh 1m`，等训练链写出 PLAYBACK_TRAIN_DONE 后自动做 100 万一对的诊断。
-   - ml40：snack 链结束后同步代码、`fc_config_check.sh` 核对 `queues/ml40_playback{_smoke,}.txt`，tmux 启动 `stages/policy/queues/ml40_playback.sh`，
-     另起一个 tmux 跑 `V2D_WAIT_FOR_LOG=runs/logs/ml40_playback.log stages/evaluate/playback_analysis.sh 10m`。
-   - 两对都 ANALYSIS_DONE 后，在 Mac 上 `scripts/dev/pull-results`（ml40 加 `V2D_ENV=ml40`），再按计划跑 `stages/evaluate/playback_compare.py`。
-3. 其余触发的下一步：T4 查重定向管线、T1 查接近与抓取、reset 与 VOC（都先写计划、review 再跑）。
-4. 邮件组委会：holdout、评测脚本与栈、播放速度（官方文档没写；FlashCHORD 两种都支持，G1 配方默认逐帧 1.67 倍速，评测器沿用 checkpoint 的设置；问 eval_robotic_grounding.py 怎么定，见回放实验记录末节）、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
-5. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
-6. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
+- 满配 snack_box 对照第 2 次：不通过（边缘），见 `agent-doc/experiments/2026-09-28-day1b.md`。
+- 回放速度对照（T2）：预算内没有差别，见 `agent-doc/experiments/2026-09-28-playback.md`。官方评测按什么速度回放没有公开，
+  `eval_robotic_grounding.py` 在 HF 与 GitHub 都没有发布（`results/playback/find_eval_script*.txt`）。
+
+未完成（09-28 17:05 MDT）：
+1. Day 2（计划 `agent-doc/plan-day2-2026-09-28.md` 第 2 版，登记于 67f1d86；执行记录 `agent-doc/experiments/2026-09-28-day2.md`）：
+   - ml40：tmux `v2d-day2` 预检已完成，接着跑训练链（日志 `runs/logs/day2_train_ml40.log`：6 条冒烟，再 6 条满配）；
+     tmux `v2d-day2-eval` 等训练链结束再评测（`runs/logs/day2_eval_ml40.log`）。
+   - mf4090：第一次开链因显存上限参数与计划不一致，三条冒烟全被跳过（见执行记录的“执行偏差”）；16:58 MDT 用整卡总量作上限重开：
+     tmux `v2d-day2-r2`（`runs/logs/day2_train_mf4090_r2.log`）与 `v2d-day2-r2-eval`（`runs/logs/day2_eval_mf4090_r2.log`）。
+   - 链在跑时服务器上有 `runs/.chain-active-*`，`scripts/dev/remote` 拒绝同步；只读检查用普通 ssh。
+   - 四条链最后一行分别是 DAY2_TRAIN_DONE / DAY2_EVAL_DONE（或 …_FAILED）。都结束后：`scripts/dev/pull-results` 与
+     `V2D_ENV=ml40 scripts/dev/pull-results`，再 `scripts/dev/record day2/compare python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json`，
+     jev 核对承重结论，填执行记录。
+2. 邮件组委会：草稿 `agent-doc/organizer-email-draft-2026-09-28.md`，等用户发出。
+3. 其余：T4 查重定向、T1 查接近与抓取（都先写计划、review 再跑）；snack 满配的逐帧诊断；按 Day 2 判定写 Tier 1 批量训练计划
+   （16 条只有地面的序列要 `scene.support=false`）。
+4. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
+5. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
 
 工作方式（用户要求）：长时间运行或需要等待的活放服务器后台（tmux / `setsid nohup … < /dev/null &`），自己写日志、最后一行写结论；
 Mac 只发短命令，用户会断网。分析与诊断脚本一律进仓库，经 `scripts/dev/record` 落到 `results/`。
