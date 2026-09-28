@@ -32,10 +32,25 @@ def main() -> int:
     ap.add_argument("--eval", action="append", required=True)
     ap.add_argument("--orig-add-bar", type=float, help="原判据的 ADD-AUC 门槛（Day 1 ep20 为 0.465）；不给就不报原判据")
     ap.add_argument("--manifests", nargs=2)
+    ap.add_argument("--bar-check-diag", help="诊断报告（diag_report.py）：其中用评测器顶点复算的不动 ADD-AUC 与 --static 的差"
+                                             "超过 --bar-tolerance 时改用复算值（Day 1b 登记的规则）")
+    ap.add_argument("--bar-tolerance", type=float, default=0.002)
     a = ap.parse_args()
 
     st = summary(a.static)
     bar = st["add_auc"]
+    if a.bar_check_diag:
+        re_bar = None
+        for line in Path(a.bar_check_diag).read_text().splitlines():
+            if line.strip().startswith("summary_json "):
+                re_bar = json.loads(line.strip()[len("summary_json "):])["static_add_auc"]
+        if re_bar is None:
+            raise SystemExit(f"{a.bar_check_diag}: 没有 summary_json 行")
+        use = abs(re_bar - bar) > a.bar_tolerance
+        print(f"门槛核对：--static {bar:.4f}；评测器顶点复算 {re_bar:.4f}（{a.bar_check_diag}）；差 {re_bar - bar:+.4f}，"
+              f"{'超过' if use else '未超过'} {a.bar_tolerance} → 用{'复算值' if use else ' --static 的值'}")
+        if use:
+            bar = re_bar
     print(f"do-nothing baseline ({a.static}): add_auc {bar:.4f}, object_position_error {st['object_position_error_m'] * 100:.2f} cm, "
           f"object_orientation_error {st['object_orientation_error_deg']:.2f} deg, mppe {st['mppe_cm']:.2f} cm, "
           f"spider_sr {st['spider_sr_uncentered']:.3f}, maniptrans_sr {st['maniptrans_sr']:.3f}")

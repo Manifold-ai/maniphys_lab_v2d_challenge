@@ -8,13 +8,14 @@
   G3 按位姿算的物体朝向误差与评测器自己的 object_orientation_rad 最大差 < 0.1°（查 xyzw 顺序与帧对齐）
   G4 已知答案：由参考算出的“增量 > 0.5° 的首末帧”“首次超过 1.5 rad 的帧”等于 --expect-ref（来自 static_baseline_*.txt）
   G5 按判据逐世界重算的成功率等于评测报告
-  G6 事先预测（可选 --predict 帧 度）：任务原生判据下成功的每个世界，该帧物体离自身初始朝向 ≥ 给定角度
+  G6 几何自检（可选 --predict-frame 帧）：任务原生判据下成功的每个世界，该帧物体离自身初始朝向 ≥
+     参考在该帧离初始朝向 − 1.5 rad − 该世界第 0 帧的朝向误差 − 0.1°（三角不等式，逐世界）
 
 转动进度：取参考在关注段内逐帧世界系增量 log(R_t R_{t-1}^T) 之和的方向为主轴，把参考与实际的增量都投影到主轴上带符号累加。
 零均值抖动相消、不受四元数正负号影响、主轴不必竖直。单帧增量 > 30° 记为跳变。
 
 用法：python diag_report.py <npz> --diag-json D --same-card-json E [--cross-card-json F] --segments 209 420
-        --expect-ref 209 420 269 [--predict 359 94] [--svg out.svg] [--title 名字]
+        --expect-ref 209 420 269 [--predict-frame 359] [--svg out.svg] [--title 名字]
 """
 import argparse
 import json
@@ -128,7 +129,7 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     ap.add_argument("--cross-card-json")
     ap.add_argument("--segments", type=int, nargs=2, required=True)
     ap.add_argument("--expect-ref", type=int, nargs=3, required=True, metavar=("FIRST_MOVE", "LAST_MOVE", "FIRST_GATE"))
-    ap.add_argument("--predict", type=float, nargs=2, metavar=("FRAME", "MIN_DEG"))
+    ap.add_argument("--predict-frame", type=int, help="G6 几何自检所用的帧（参考离初始朝向接近最大的那帧，ep20 为 359）")
     ap.add_argument("--svg")
     ap.add_argument("--title", default="")
     a = ap.parse_args()
@@ -204,13 +205,20 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     success = reached & ~invalid & ~np.logical_or.reduce(list(cause_fail.values()))
     rec, rep = float(success.mean()), float(d["reported_success_rate"])
     gates.append(("G5 逐世界成功率重算", abs(rec - rep) < 1e-9, f"重算 {rec:.4f} vs 报告 {rep:.4f}；门槛 {dict(zip(crit['error_names'], thr))}"))
-    if a.predict:
-        pf, pmin = int(a.predict[0]), a.predict[1]
+    if a.predict_frame is not None:
+        # 三角不等式：成功的世界在第 pf 帧（门槛生效后）朝向误差 ≤ 1.5 rad，所以它离自身初始朝向
+        # ≥ 参考在该帧离初始朝向的角度 − 1.5 rad − 它第 0 帧的朝向误差；再留 0.1° 数值余量。逐世界判
+        pf = int(a.predict_frame)
         turned = angle_deg(np.einsum("wij,wkj->wik", Ra[pf], Ra[0]))                       # (W,) 第 pf 帧离自身初始朝向
-        ok = bool(success.any()) and bool((turned[success] >= pmin).all())
-        worst = turned[success].min() if success.any() else float("nan")
-        detail = f"成功世界 {int(success.sum())} 个，最小 {worst:.1f}°；全部世界中位 {np.median(turned):.1f}°"
-        gates.append((f"G6 事先预测：成功世界第 {pf} 帧转离初始朝向 ≥ {pmin:.0f}°", ok, detail))
+        bound = ang0_ref[pf] - GATE_DEG - ori[0] - 0.1                                       # (W,)
+        slack = turned - bound
+        ok = bool((slack[success] >= 0).all())  # 没有成功的世界时不适用（记为通过并注明）
+        worst = slack[success].min() if success.any() else float("nan")
+        detail = (f"参考该帧离初始 {ang0_ref[pf]:.1f}°；成功世界 {int(success.sum())} 个，转离初始朝向最小 "
+                  f"{turned[success].min() if success.any() else float('nan'):.1f}°，比各自下界多出的最小余量 {worst:.2f}°")
+        if not success.any():
+            detail = "没有成功的世界，不适用"
+        gates.append((f"G6 几何自检：成功世界第 {pf} 帧转离初始朝向 ≥ 各自下界", ok, detail))
     valid = all(ok for _, ok, _ in gates)
     print("== 闸")
     for name, ok, detail in gates:
@@ -233,10 +241,12 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     print(f"== Q0 ADD-AUC 分段（全程：policy {auc_full:.4f}，物体不动 {auc_static_full:.4f}，差 {auc_full - auc_static_full:+.4f}；"
           "贡献 = 段帧数/总帧数 × 段内 ADD-AUC，各段相加即全程）")
     tot_gap = auc_full - auc_static_full
+    seg_gaps = []
     for label, f0, f1 in segs:
         n = f1 - f0
         ap_, as_ = auc(add[f0:f1]), auc(add_static[f0:f1])
         cp, cs = n / T * ap_, n / T * as_
+        seg_gaps.append(cp - cs)
         share = (cp - cs) / tot_gap if abs(tot_gap) > 1e-12 else float("nan")
         print(f"  第 {label:<9} 帧 {n:>3}：段内 policy {ap_:.4f} / 不动 {as_:.4f}；贡献 {cp:.4f} / {cs:.4f}，差 {cp - cs:+.4f}"
               f"（占全程差 {share:.0%}）；位置误差均值 policy {pos[f0:f1].mean():.1f} cm / 不动 {pos_static[f0:f1].mean():.1f} cm；"
@@ -274,7 +284,7 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     peak = (sgn * (phi_a[s0:s1 + 1] - phi_a[s0])).max(0)
     ratio = net_a / net_r if net_r != 0 else np.full(W, np.nan)
     need = 1 - GATE_DEG / abs(net_r) if abs(net_r) > GATE_DEG else 0.0
-    jumps = int((np.degrees(np.linalg.norm(inc_a, axis=-1)) > 30).sum())
+    jumps = int((angle_deg(np.einsum("twij,twkj->twik", Ra[1:], Ra[:-1])) > 30).sum())  # 用转角而非 rotvec 范数：近 180° 也数得到
     unsigned_r = float(np.degrees(np.linalg.norm(inc_r[s0:s1], axis=-1).sum()))
     print("== Q2 绕参考主轴的转动")
     print(f"  参考：第 {s0}–{s1} 帧净转 {net_r:.1f}°（增量绝对值之和 {unsigned_r:.1f}°，含抖动）；主轴与竖直方向夹角 "
@@ -302,6 +312,17 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
         ds = "，".join(f"{n} {np.median(dist[f0:f1, i]):.1f} cm" for i, n in enumerate(pnames))
         print(f"  第 {label:<9}：palm 误差中位 {np.median(palm[f0:f1]):.1f} cm；参考手到物体 {ds}；参考接触标记 {cs}")
 
+    print(f"  距离所用顶点：{d['palm_dist_vertex_source']}（trimesh 与评测器顶点一致：{bool(d['trimesh_matches_evaluator'])}）")
+    contact_dist = {}
+    for i, sname in enumerate(sides):
+        k = next((j for j, pn in enumerate(pnames) if pn.startswith(sname)), None)
+        m = contact[:, i]
+        if k is None or not m.any():
+            print(f"  参考 {sname} 手接触帧 {int(m.sum())}：没有对应的 palm 帧或没有接触帧")
+            continue
+        contact_dist[sname] = float(np.median(dist[m, k]))
+        print(f"  参考 {sname} 手的接触帧（{int(m.sum())} 帧）上，{pnames[k]} 到物体距离中位 {contact_dist[sname]:.1f} cm")
+
     # ── Q4 失败的世界 ─────────────────────────────────────────────────
     fail = ~success
     print(f"== Q4 任务原生判据：成功 {int(success.sum())}，失败 {int(fail.sum())}")
@@ -310,6 +331,13 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
         causes = first_cause[fail].tolist()
         print(f"  失败世界首次越线帧四分位 {q25:.0f}/{q50:.0f}/{q75:.0f}；首个越线的原因："
               + "；".join(f"{c} {causes.count(c)}" for c in dict.fromkeys(causes)))
+
+    static_share = (seg_gaps[0] + seg_gaps[2]) / tot_gap if abs(tot_gap) > 1e-12 else float("nan")
+    summary = {"worlds": W, "valid": valid, "add_auc": auc_full, "static_add_auc": auc_static_full, "segment_gap": seg_gaps,
+               "non_manipulation_gap_share": static_share, "median_net_ratio": float(np.median(ratio)), "required_ratio": need,
+               "palm_error_median_cm": [float(np.median(palm[f0:f1])) for _, f0, f1 in segs],
+               "contact_palm_mesh_dist_cm": contact_dist, "success": int(success.sum())}
+    print("summary_json " + json.dumps(summary, ensure_ascii=False))
 
     if a.svg:
         lo, mid, hi = np.percentile(add * 100, [25, 50, 75], axis=1)       # 各帧在世界间的四分位

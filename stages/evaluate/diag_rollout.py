@@ -67,7 +67,12 @@ def main() -> int:
     harness.score_reference_tracking = score_wrapper
     sys.argv = [EVAL_SCRIPT, f"evaluation.checkpoint={a.policy}", f"evaluation.world_count={a.worlds}",
                 f"evaluation.metrics_output={out}.json", f"hydra.run.dir={out}_hydra"]
-    runpy.run_path(EVAL_SCRIPT, run_name="__main__")
+    sys.path.insert(0, str(Path(EVAL_SCRIPT).parent))  # 与直接运行该脚本时的 sys.path 一致
+    try:
+        runpy.run_path(EVAL_SCRIPT, run_name="__main__")
+    except SystemExit as e:  # 上游若以 sys.exit(...) 结束：成功就继续存 npz，失败原样抛出
+        if e.code not in (0, None):
+            raise
 
     if calls != {"record": 1, "score": 1} or cap.get("reference") is None:
         print(f"包装调用次数不对或拿不到参考：{calls}；上游可能改了 evaluate_checkpoint 的调用方式", file=sys.stderr)
@@ -93,6 +98,12 @@ def main() -> int:
     mesh_paths = list(attr(ref, "object_mesh_paths"))
     mesh = np.asarray(trimesh.load(resolve_asset_path(str(mesh_paths[0]), reference_path=parquet), force="mesh").vertices,
                       np.float64)
+    # trimesh 读的网格与评测器（仿真模型里已缩放、已变换的网格）是否同一坐标系：按评测器的抽样规则从 trimesh 顶点重抽，
+    # 与 rollout 的 object_vertices_o 比。一致才用全部顶点算距离，否则退回评测器的 500 个顶点
+    pick = np.random.default_rng(metrics.ADD_VERTEX_SEED).choice(len(mesh), size=metrics.ADD_VERTEX_COUNT,
+                                                                  replace=len(mesh) < metrics.ADD_VERTEX_COUNT)
+    trimesh_matches = bool(np.allclose(mesh[pick], verts[0], atol=1e-5))
+    dist_verts = mesh if trimesh_matches else verts[0]
     q = refp[:, 0, 3:7]
     x, y, z, w = q[:, 0], q[:, 1], q[:, 2], q[:, 3]
     rot = np.stack([np.stack([1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)], -1),
@@ -100,7 +111,7 @@ def main() -> int:
                     np.stack([2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)], -1)], -2)
     palm_dist = np.empty((T, len(palm_idx)))
     for t in range(T):
-        world_verts = mesh @ rot[t].T + refp[t, 0, :3]
+        world_verts = dist_verts @ rot[t].T + refp[t, 0, :3]
         for k, i in enumerate(palm_idx):
             palm_dist[t, k] = np.sqrt(((world_verts - fpos[t, i]) ** 2).sum(1).min())
     sides = list(attr(ref, "sides"))
@@ -130,8 +141,10 @@ def main() -> int:
         upstream_md5=np.array(json.dumps({Path(p).name: md5(p) for p in
                                           (harness.__file__, rollout.__file__, metrics.__file__, EVAL_SCRIPT)})),
         mesh_vertex_count=np.int64(len(mesh)),
+        trimesh_matches_evaluator=np.bool_(trimesh_matches),
+        palm_dist_vertex_source=np.array("trimesh_all_vertices" if trimesh_matches else "evaluator_object_vertices_o"),
     )
-    print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}）  report: {out}.json")
+    print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}；trimesh 顶点与评测器一致 {trimesh_matches}）  report: {out}.json")
     return 0
 
 
