@@ -1,0 +1,35 @@
+# command  : python3 stages/evaluate/verdict.py --static results/playback/static_baseline_ep20_rt.txt --eval results/ml40/playback/eval_t1-ep20-w2048-cap10m-rt-ml40.txt --eval results/playback/eval_t1-ep20-w2048-cap1m-rt-mf4090.txt 
+# md5      : 197ac01c4330351dfa79f6d18cb334aa  stages/evaluate/verdict.py
+# md5      : 6d0f5105ea3e40bcb2f90c9c2903c89f  results/playback/static_baseline_ep20_rt.txt
+# md5      : a14bcfb3355f4d8e758640da056cd2bf  results/ml40/playback/eval_t1-ep20-w2048-cap10m-rt-ml40.txt
+# md5      : 1daa1838c310e91aadf4261d6a0a2b28  results/playback/eval_t1-ep20-w2048-cap1m-rt-mf4090.txt
+# source   : 62c3208ca65f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T14:18:46-0600
+# ---------------------------------------------------------------
+do-nothing baseline (results/playback/static_baseline_ep20_rt.txt): add_auc 0.4703, object_position_error 1.70 cm, object_orientation_error 49.24 deg, mppe 3.26 cm, spider_sr 0.000, maniptrans_sr 0.000
+
+== t1-ep20-w2048-cap10m-rt-ml40: 4096 worlds, 349,999,104 steps, checkpoint sha256 0d528b5add7f129c…
+  chord_sr       0.809082 > 0 (3314 of 4096 worlds): PASS
+  maniptrans_sr  0.886963 > 0 (3633 of 4096 worlds): PASS
+  add_auc        0.546834 > 0.470277: PASS
+  VERDICT: PASS
+  spider_sr_uncentered 0.843994 (3457 of 4096 worlds); task-native failure causes {'object': 0.12890625, 'palm': 0.144287109375, 'pelvis': 0.08447265625}
+  minus do-nothing: add_auc +0.0766; object_position_error +1.68 cm; object_orientation_error -21.15 deg; mppe +0.66 cm
+
+== t1-ep20-w2048-cap1m-rt-mf4090: 4096 worlds, 349,999,104 steps, checkpoint sha256 63357471ae6580b1…
+  chord_sr       0 > 0 (0 of 4096 worlds): FAIL
+  maniptrans_sr  0 > 0 (0 of 4096 worlds): FAIL
+  add_auc        0.379839 > 0.470277: FAIL
+  VERDICT: FAIL
+  spider_sr_uncentered 0 (0 of 4096 worlds); task-native failure causes {'object': 0.99365234375, 'palm': 1.0, 'pelvis': 0.99951171875}
+  minus do-nothing: add_auc -0.0904; object_position_error +22.27 cm; object_orientation_error +10.87 deg; mppe +21.42 cm
+
+t1-ep20-w2048-cap10m-rt-ml40 minus t1-ep20-w2048-cap1m-rt-mf4090:
+  add_auc                        0.546834 - 0.379839 = +0.166995
+  chord_sr                       0.809082 - 0 = +0.809082
+  maniptrans_sr                  0.886963 - 0 = +0.886963
+  spider_sr_uncentered           0.843994 - 0 = +0.843994
+  mppe_cm                        3.92114 - 24.6717 = -20.7506
+  object_position_error_m        0.0337343 - 0.23971 = -0.205976
+  object_orientation_error_deg   28.0878 - 60.1029 = -32.015

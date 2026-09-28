@@ -1,0 +1,22 @@
+# command  : python3 stages/evaluate/playback_compare.py --arm 10m frame results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s330012672.txt results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s340013056.txt results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s349999104.txt --arm 10m real results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s330012672.txt results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s340013056.txt results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s349999104.txt 
+# md5      : d35904470f0a799c65401e12af5e590e  stages/evaluate/playback_compare.py
+# md5      : a707d22cabea467c305ff8f0aad432dd  results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s330012672.txt
+# md5      : b6d0ae74764c73397ce6709663ee2ee1  results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s340013056.txt
+# md5      : a0a1cac2ff76eea02451b52bea0c0533  results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s349999104.txt
+# md5      : 325d6598f88b1da10da2a1642a22e562  results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s330012672.txt
+# md5      : 7245b0a86c200233c3ae8f502aa08b42  results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s340013056.txt
+# md5      : 339ff40f3886d68206c0eccdb6bb3b76  results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s349999104.txt
+# source   : 62c3208ca65f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T14:19:49-0600
+# ---------------------------------------------------------------
+== 10m 逐帧回放（1.67 倍速）：L 三个 checkpoint 64.3, 70.5, 69.5 → 平均 68.1°，最大差 6.2°；关注段起点落后量 -25.4°
+   新增落后量（三个 checkpoint 平均）：起转 +77.1°；停顿 +5.6°；快转 +12.4°
+   操作段 palm 误差中位 4.7 cm；成功世界 [3460, 3237, 3306]（共 4096）；净转过半那部分的 L 67.3°；最后一个 checkpoint 首个越线原因 {'object': 697, 'palm': 93}
+== 10m 真实时长：L 三个 checkpoint 75.9, 69.5, 72.8 → 平均 72.7°，最大差 6.4°；关注段起点落后量 -21.4°
+   新增落后量（三个 checkpoint 平均）：起转 +77.6°；停顿 -27.6°；快转 +44.6°
+   操作段 palm 误差中位 4.5 cm；成功世界 [3253, 3614, 3351]（共 4096）；净转过半那部分的 L 72.6°；最后一个 checkpoint 首个越线原因 {'object': 456, 'palm': 289}
+S = 6.4°；E = max(15°, 2S) = 15.0°
+Δ(10m) = 68.1 − 72.7 = -4.6°
+健康（真实时长满配操作段 palm 误差 4.5 ≤ 7.5 cm）：是；走平（第一个 75.9 − 最后 72.8 ≤ max(10, S_对照 6.2)）：是
+判定：预算内没有差别

@@ -1,0 +1,10 @@
+# command  : python3 stages/evaluate/diag_report_diff.py results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt results/playback/diag_t1-ep20-w2048-cap1m-mf4090_s349999104.txt 
+# md5      : 21b6ecd3075792c4903c5af6c1a88f89  stages/evaluate/diag_report_diff.py
+# md5      : 1984387331aa9f5289c7680bcaf4935c  results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt
+# md5      : 47f2800b6a0dbe89cbc47d44355d78f2  results/playback/diag_t1-ep20-w2048-cap1m-mf4090_s349999104.txt
+# source   : a4b137f0c933
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T00:58:49+0800
+# ---------------------------------------------------------------
+比对 results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt → results/playback/diag_t1-ep20-w2048-cap1m-mf4090_s349999104.txt：去掉 Q2b、summary_json、svg 与 G1 行之后，旧 37 行、新 37 行
+其余逐行相同

@@ -1,0 +1,56 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag_report.py\ /repo/runs/diag/t1-ep20-w2048-cap1m-rt-mf4090/s330012672/rollout_w4096.npz\ --diag-json\ /repo/runs/diag/t1-ep20-w2048-cap1m-rt-mf4090/s330012672/rollout_w4096.json\ --same-card-json\ /repo/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/eval_330012672_w4096.json\ \ --segments\ 348\ 700\ --expect-ref\ 353\ 700\ 447\ --predict-frame\ 598\ --frame-scale\ 1.6666667\ --phases\ 348\ 448\ 523\ 700\ --svg\ /repo/results/playback/diag_t1-ep20-w2048-cap1m-rt-mf4090_s330012672.svg\ --title\ \'t1-ep20-w2048-cap1m-rt-mf4090\ 第\ 330012672\ 步（4096\ 世界）\' 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 4702cc96d2ec75d9f6fe3c9c4f52ae5c  stages/evaluate/diag_report.py
+# md5      : b0ee080ab59c64841812a2eed805efdb  runs/diag/t1-ep20-w2048-cap1m-rt-mf4090/s330012672/rollout_w4096.npz
+# md5      : 8b75682552f874eaa6be299dbe304577  runs/diag/t1-ep20-w2048-cap1m-rt-mf4090/s330012672/rollout_w4096.json
+# md5      : 6c9d023af08ca7bf93159adacbb44122  runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/eval_330012672_w4096.json
+# source   : a4b137f0c933
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T01:32:19+0800
+# ---------------------------------------------------------------
+policy /repo/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/policy_330012672.safetensors；世界 4096，帧 921；关注段 348–700；上游文件 md5 {"harness.py": "8006e8e7d20e5ca47eb6fa89d45348a8", "rollout.py": "0890b5fd93d9450f470f13decbb43a5c", "metrics.py": "9056bd88708e80d35147643f327ed574", "evaluate_policy.py": "a3902c5c9ff234602748b2cfb4facccb"}；包装调用 {"record": 1, "score": 1}
+== 闸
+  PASS  G0 形状：T 921/921，W 4096/4096，B 1
+  PASS  G1 同卡：不逐位相同，改用 |z| < 3 与 |ΔADD-AUC| < 0.0050（0.005 × √(4096/世界数)）：chord_sr 0.0000 vs 0.0000（z 0.00），ADD-AUC 差 0.00116
+  PASS  G2 重算全程 ADD-AUC：重算 0.377109 vs JSON 0.377109
+  PASS  G3 朝向误差对账：最大差 0.0556°
+  PASS  G4 参考的已知答案：算得 (353, 700, 447)，应为 (353, 700, 447)
+  PASS  G5 逐世界成功率重算：重算 0.0000 vs 报告 0.0000；门槛 {'pelvis_position_m': 0.7, 'pelvis_orientation_rad': 1.5, 'palm_position_m': 0.15, 'palm_orientation_rad': 1.5, 'object_position_m': 0.1, 'object_orientation_rad': 1.5}
+  PASS  G6 几何自检：成功世界第 598 帧转离初始朝向 ≥ 各自下界：没有成功的世界，不适用
+  （描述）最后一帧物体位姿去重后的不同轨迹 3958 条（有效样本量的上限）
+  VALIDITY PASS
+== Q0 ADD-AUC 分段（全程：policy 0.3771，物体不动 0.4703，差 -0.0932；贡献 = 段帧数/总帧数 × 段内 ADD-AUC，各段相加即全程）
+  第 0–347     帧 348：段内 policy 0.8454 / 不动 1.0000；贡献 0.3194 / 0.3779，差 -0.0584（占全程差 63%）；位置误差均值 policy 4.7 cm / 不动 0.3 cm；ADD 中位 policy 0.6 cm / 不动 0.2 cm
+  第 348–700   帧 353：段内 policy 0.1340 / 不动 0.1243；贡献 0.0514 / 0.0476，差 +0.0037（占全程差 -4%）；位置误差均值 policy 20.9 cm / 不动 1.8 cm；ADD 中位 policy 11.2 cm / 不动 14.2 cm
+  第 701–920   帧 220：段内 policy 0.0265 / 不动 0.1875；贡献 0.0063 / 0.0448，差 -0.0385（占全程差 41%）；位置误差均值 policy 56.1 cm / 不动 3.7 cm；ADD 中位 policy 83.5 cm / 不动 7.7 cm
+== Q1 物体朝向误差（°）
+  世界中位：0:0.2  167:1.0  348:15.1  448:59.9  500:71.6  524:69.0  598:65.9  600:66.1  700:82.5  920:111.4
+  分段平均：0–347 11.8；348–700 77.1；701–920 108.9
+  逐世界首次超过 1.5 rad：99.6% 的世界越过，首次越线帧四分位 447/666/730
+  （口径：世界中位曲线）首次超过 1.5 rad 在第 729 帧
+== Q2 绕参考主轴的转动
+  参考：第 348–700 帧净转 307.2°（增量绝对值之和 310.3°，含抖动）；主轴与竖直方向夹角 0.5°；第 700 帧不越 1.5 rad 所需净转比约 72%
+  净转动比（第 348–700 帧）：四分位 0.00/0.63/0.71
+  净转动（°，第 348 帧到末帧）：四分位 0.00/139.53/217.02
+  段内峰值进度（°）：四分位 0.03/195.95/218.83
+  净转动比达到所需比值的世界 19.0%；实际单帧增量 > 30° 的跳变 100 次
+  转动进度（°，世界中位 / 参考）：0:0/0  167:-0/0  348:13/1  448:29/87  500:31/100  524:33/101  598:119/180  600:120/181  700:213/309  920:157/310
+  分类（事先登记）：净转过半 2251；转过但没保持或没跟上 428；基本没转 1286；其他 131
+== Q2b 落后量（绕参考主轴、从第 0 帧起算，°；正 = 落后于参考，负 = 提前转了）
+  世界中位：第 348 帧 -11.3；第 700 帧 +95.8；末帧 +152.7
+  第 700 帧落后量四分位 74.9/95.8/299.5；第 348–700 帧内首次越过 1.5 rad 的世界 45.7%
+  阶段 348–448：参考转 85.9°（0.86°/帧，43°/s），policy 世界中位转 12.6°；新增落后量四分位 +65.9/+73.2/+85.9
+  阶段 448–523：参考转 13.3°（0.18°/帧，9°/s），policy 世界中位转 1.0°；新增落后量四分位 +7.8/+12.4/+13.3
+  阶段 523–700：参考转 208.1°（1.18°/帧，59°/s），policy 世界中位转 170.8°；新增落后量四分位 +11.0/+37.3/+208.1
+  净转过半的 2251 个世界：第 700 帧落后量中位 +75.5
+== Q3 手（只报数）：palm 位置误差取两手中较大者（同评测器，门槛 0.15 m）；参考手到参考物体网格顶点的最近距离（palm 坐标帧，非手掌表面）
+  第 0–347    ：palm 误差中位 12.7 cm；参考手到物体 left_hand_palm_link 53.2 cm，right_hand_palm_link 15.2 cm；参考接触标记 left 接触 0%，right 接触 39%
+  第 348–700  ：palm 误差中位 11.2 cm；参考手到物体 left_hand_palm_link 52.4 cm，right_hand_palm_link 5.9 cm；参考接触标记 left 接触 0%，right 接触 100%
+  第 701–920  ：palm 误差中位 165.8 cm；参考手到物体 left_hand_palm_link 62.4 cm，right_hand_palm_link 36.9 cm；参考接触标记 left 接触 0%，right 接触 27%
+  距离所用顶点：trimesh_all_vertices（trimesh 与评测器顶点一致：True）
+  参考 left 手接触帧 0：没有对应的 palm 帧或没有接触帧
+  参考 right 手的接触帧（547 帧）上，right_hand_palm_link 到物体距离中位 5.9 cm
+== Q4 任务原生判据：成功 0，失败 4096
+  失败世界首次越线帧四分位 132/441/711；首个越线的原因：object 1306；palm 2790
+summary_json {"worlds": 4096, "valid": true, "add_auc": 0.3771085128204313, "static_add_auc": 0.4702768729641694, "segment_gap": [-0.05843176826203683, 0.0037312958061889306, -0.0384678876878902], "non_manipulation_gap_share": 1.0400489586854629, "median_net_ratio": 0.6312566851007904, "required_ratio": 0.7202611773994525, "palm_error_median_cm": [12.748824059963226, 11.202744767069817, 165.8452033996582], "contact_palm_mesh_dist_cm": {"right": 5.935164168477058}, "success": 0, "frames": 921, "segments": [348, 700], "ref_net_deg": 307.2282512332819, "lag_deg": {"s0": -11.337365317025874, "s1": 95.76344504030585, "last": 152.68766041408855}, "phase_bounds": [348, 448, 523, 700], "phase_lag_deg": [73.21702131432176, 12.355058203467962, 37.27006737599992], "window_cross_share": 0.456787109375, "half_rotated": 2251, "half_rotated_lag_s1_deg": 75.53296155228139, "first_fail_causes": {"object": 1306, "palm": 2790}}
+svg: /repo/results/playback/diag_t1-ep20-w2048-cap1m-rt-mf4090_s330012672.svg

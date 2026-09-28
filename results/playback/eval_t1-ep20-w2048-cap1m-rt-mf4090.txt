@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep20-w2048-cap1m-rt-mf4090 349999104 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : a4b137f0c933
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T00:52:31+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep20-w2048-cap1m-rt-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/policy_349999104.safetensors  sha256 63357471ae6580b1…
+  environment_steps 349999104  world_count 4096  step_count 921  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.3798390573839152
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        24.671745718993847
+  mean_add_m                                     0.26818585390201427
+  object_position_error_m                        0.2397101741544441
+  object_orientation_error_deg                   60.10287246575784
+  termination_cause_fraction (legacy object-centric) {'object': 0.99365234375, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 0.99365234375, 'palm': 1.0, 'pelvis': 0.99951171875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.3798390573839152, "checkpoint_sha256": "63357471ae6580b15aa158972444e893bbe10510d1951f580cae9b6e7f770bfa", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.26818585390201427, "mppe_cm": 24.671745718993847, "object_orientation_error_deg": 60.10287246575784, "object_position_error_m": 0.2397101741544441, "reference_tracking": {"failure_cause_fraction": {"object": 0.99365234375, "palm": 1.0, "pelvis": 0.99951171875}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "world_count": 4096}

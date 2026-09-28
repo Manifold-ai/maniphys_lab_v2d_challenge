@@ -1,0 +1,38 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "compare": {"file": "results/playback/compare.txt"},
+    "verdict_rt": {"file": "results/playback/verdict_rt_runs.txt", "grep": "do-nothing baseline|== |chord_sr|maniptrans_sr|add_auc|VERDICT|minus do-nothing"},
+    "eval_frame10m": {"file": "results/ml40/day1/eval_t1-ep20-w2048-cap10m-ml40.txt", "grep": "command|add_auc  |chord_sr  |maniptrans_sr  "},
+    "static_frame": {"file": "results/day1/static_baseline_ep20.txt", "grep": "static-object ADD-AUC"},
+    "seg_frame10m": {"file": "results/ml40/playback/diag_t1-ep20-w2048-cap10m-ml40_s349999104.txt", "grep": "^policy |== Q0|^  第 "},
+    "seg_rt10m": {"file": "results/ml40/playback/diag_t1-ep20-w2048-cap10m-rt-ml40_s349999104.txt", "grep": "^policy |== Q0|^  第 "},
+    "predictions": {"file": "agent-doc/plan-playback-2026-09-28.md", "grep": "^\\| 假设|^\\| 速度上限|^\\| 起步要时间|^\\| 与时间无关|^\\| 预算内没有差别|^- 预算内没有差别"}
+  },
+  "claims": [
+    {"id": "verdict_no_difference", "evidence": ["compare"],
+     "claim": "The registered decision for the playback comparison is 'no difference within the budget': for the full-recipe pair the rotation lag at the end of the manipulation window averaged 68.1 degrees with 1.67x playback and 72.7 degrees at real time, a difference of -4.6 degrees."},
+    {"id": "e_driven_by_1m", "evidence": ["compare"],
+     "claim": "The effect threshold E of 139.3 degrees was driven by the 1M real-time arm, whose lag varied by 69.7 degrees across its last three checkpoints, while the two full-recipe arms varied by 6.2 and 6.4 degrees."},
+    {"id": "robust_to_e", "evidence": ["compare"],
+     "claim": "If E were computed only from the full-recipe arms' variation, it would be 15 degrees, and the full-recipe difference of 4.6 degrees would still be below half of it, so the decision would be the same."},
+    {"id": "start_phase_same", "evidence": ["compare"],
+     "claim": "In the full-recipe pair the lag accrued during the start phase of the rotation was essentially the same at 1.67x playback (77.1 degrees) and at real time (77.6 degrees)."},
+    {"id": "start_prediction_refuted", "evidence": ["predictions", "compare"],
+     "claim": "The plan predicted that if starting the rotation needs a fixed amount of wall time, the start-phase lag would fall to about 45 degrees at real time, but the observed full-recipe real-time start-phase lag stayed at about 78 degrees."},
+    {"id": "rt_full_passes_day1", "evidence": ["verdict_rt"],
+     "claim": "Against its own real-time do-nothing baseline of 0.470, the full-recipe real-time policy passed the Day 1 criteria with chord_sr 0.809, maniptrans_sr 0.887 and ADD-AUC 0.547."},
+    {"id": "frame_full_fails", "evidence": ["eval_frame10m", "static_frame"],
+     "claim": "The full-recipe policy trained with 1.67x playback had ADD-AUC 0.431, below its do-nothing baseline of 0.471, and maniptrans_sr of about 0.0005."},
+    {"id": "segment_sources", "evidence": ["seg_frame10m", "seg_rt10m"],
+     "claim": "Relative to each arm's do-nothing baseline, the full-recipe real-time policy did better than the 1.67x policy in the manipulation segment and in the segment after it, but worse in the segment before the manipulation."},
+    {"id": "one_m_rt_unstable", "evidence": ["compare"],
+     "claim": "The 1M real-time arm had no successful worlds at any of its last three checkpoints."},
+    {"id": "healthy_converged", "evidence": ["compare"],
+     "claim": "The full-recipe real-time arm met the registered health condition, with a manipulation-segment palm error of 4.5 cm, and the registered convergence condition."},
+    {"id": "ctrl_true", "control": "true", "evidence": ["verdict_rt"],
+     "claim": "The full-recipe real-time policy was evaluated on 4096 worlds."},
+    {"id": "ctrl_false", "control": "false", "evidence": ["compare"],
+     "claim": "The registered decision of the playback comparison is that real-time playback is better."}
+  ]
+}

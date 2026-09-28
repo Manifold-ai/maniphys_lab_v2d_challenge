@@ -1,0 +1,49 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "compare": {
+      "file": "results/playback/compare.txt"
+    },
+    "rule": {
+      "file": "agent-doc/plan-playback-2026-09-28.md",
+      "grep": "^\\*\\*主指标\\*\\*|S = 各臂三个 checkpoint"
+    },
+    "compare_10m_only": {
+      "file": "results/playback/compare_10m_only.txt"
+    }
+  },
+  "claims": [
+    {
+      "id": "e_driven_by_1m",
+      "evidence": [
+        "rule",
+        "compare"
+      ],
+      "claim": "The effect threshold E of 139.3 degrees was driven by the 1M real-time arm, whose lag varied by 69.7 degrees across its last three checkpoints, while the two full-recipe arms varied by 6.2 and 6.4 degrees."
+    },
+    {
+      "id": "robust_to_e",
+      "evidence": [
+        "compare",
+        "compare_10m_only"
+      ],
+      "claim": "When the decision script is given only the two full-recipe arms, E becomes 15 degrees and the decision is still 'no difference within the budget', the same as with all four arms."
+    },
+    {
+      "id": "ctrl_true",
+      "control": "true",
+      "evidence": [
+        "compare"
+      ],
+      "claim": "The 1M real-time arm had no successful worlds at any of its last three checkpoints."
+    },
+    {
+      "id": "ctrl_false",
+      "control": "false",
+      "evidence": [
+        "compare_10m_only"
+      ],
+      "claim": "When given only the two full-recipe arms, the decision script concludes that real-time playback is better."
+    }
+  ]
+}

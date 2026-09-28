@@ -1,0 +1,13 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-playback-run2.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 132654b6f24c46c6dac1124ede0747f2  agent-doc/experiments/2026-09-28-playback-run2.claims.json
+# source   : 62c3208ca65f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T14:19:49-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+e_driven_by_1m       P(supported)=0.92  verified               [rule, compare]  The effect threshold E of 139.3 degrees was driven by the 1M real-time arm, whose lag varied by 69.7 degrees across its last three checkpoints, while the two full-recipe arms varied by 6.2 and 6.4 degrees.
+robust_to_e          P(supported)=0.93  verified               [compare, compare_10m_only]  When the decision script is given only the two full-recipe arms, E becomes 15 degrees and the decision is still 'no difference within the budget', the same as with all four arms.
+ctrl_true            P(supported)=0.98  control(true) ok       [compare]  The 1M real-time arm had no successful worlds at any of its last three checkpoints.
+ctrl_false           P(supported)=0.10  control(false) ok      [compare_10m_only]  When given only the two full-recipe arms, the decision script concludes that real-time playback is better.
+controls behaved as expected
