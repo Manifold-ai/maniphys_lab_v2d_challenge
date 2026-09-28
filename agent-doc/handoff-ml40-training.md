@@ -1,6 +1,6 @@
 # 交接：ml40（L40S）上开 FlashCHORD 训练
 
-- 最近更新：2026-09-27 23:10 MDT；分支 `track2/p1-training`（已 push，第 2 次尝试的队列在 cab309e）
+- 最近更新：2026-09-28 09:10 MDT；分支 `track2/p1-training`（已 push）
 - 时区：服务器日志是北京时间，比 Mac（MDT）早 14 小时；对用户一律报丹佛时间
 
 ## 当前状态（本节取代下文“未完成 / 阻塞”“下一步”“兜底”三节，那几节只作 9/26 的历史）
@@ -38,16 +38,18 @@
 - `V2D_ENV=ml40 V2D_DRYRUN=1 scripts/dev/remote` → 只列本地改动；`.v2d-source-commit` 已加保护规则，不再被 `--delete` 删掉
 
 未完成：
-1. 满配 snack_box 对照第 2 次（`ctrl-snackbox-w2048-cap10m-ml40b`，`V2D_WANDB_UPLOAD_CKPT=0`，从 0 重来，判据不变）：已同步到 ml40，
-   配置核对通过（`results/ml40/day1/cfgcheck_ml40_day1b_attempt2.txt`，与配方不同 10 个键、意外 0 个），23:00 MDT GPU 空闲。
-   等用户和 yqchen 约好时段再启动：`tmux new-session -d -s v2d-day1b stages/policy/queues/ml40_day1b.sh`（仓库根）。
-   同配置的 ep20 在 ml40 上训练用了 2 h 10 min。日志 `runs/logs/ml40_day1b.log`，最后一行 DAY1B_DONE / DAY1B_FAILED；
-   跑完按 day1b 文档的判据用 `stages/evaluate/verdict.py` 判定。
-2. 按诊断触发的下一步（都先写计划、review 再跑）：T2 回放速度对照（1.67 倍速 vs 真实时长）、T4 查重定向管线、
-   T1 查接近与抓取、reset 与 VOC。
-3. 邮件组委会：holdout、评测脚本与栈、播放速度、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
-4. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
-5. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
+1. 满配 snack_box 对照第 2 次（`ctrl-snackbox-w2048-cap10m-ml40b`）：09-28 07:32 MDT 在 ml40 tmux `v2d-day1b` 启动，过了第一个 checkpoint，
+   预计 09:35 前后评测完；日志 `runs/logs/ml40_day1b.log`，最后一行 DAY1B_DONE / DAY1B_FAILED。判据见 `agent-doc/experiments/2026-09-28-day1b.md` 的 A 节。
+2. 回放速度对照（T2，计划 `agent-doc/plan-playback-2026-09-28.md` 第 2 版，执行记录 `agent-doc/experiments/2026-09-28-playback.md`）：
+   - mf4090：tmux `v2d-playback` 跑 `stages/policy/queues/mf4090_playback.sh`（正式训练 08:48 开始，预计 10:52 训完）；
+     tmux `v2d-analysis` 跑 `stages/evaluate/playback_analysis.sh 1m`，等训练链写出 PLAYBACK_TRAIN_DONE 后自动做 100 万一对的诊断。
+   - ml40：snack 链结束后同步代码、`fc_config_check.sh` 核对 `queues/ml40_playback{_smoke,}.txt`，tmux 启动 `stages/policy/queues/ml40_playback.sh`，
+     另起一个 tmux 跑 `V2D_WAIT_FOR_LOG=runs/logs/ml40_playback.log stages/evaluate/playback_analysis.sh 10m`。
+   - 两对都 ANALYSIS_DONE 后，在 Mac 上 `scripts/dev/pull-results`（ml40 加 `V2D_ENV=ml40`），再按计划跑 `stages/evaluate/playback_compare.py`。
+3. 其余触发的下一步：T4 查重定向管线、T1 查接近与抓取、reset 与 VOC（都先写计划、review 再跑）。
+4. 邮件组委会：holdout、评测脚本与栈、播放速度（上游 G1 只接受逐帧回放的参考，见回放计划事实 15）、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
+5. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
+6. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
 
 工作方式（用户要求）：长时间运行或需要等待的活放服务器后台（tmux / `setsid nohup … < /dev/null &`），自己写日志、最后一行写结论；
 Mac 只发短命令，用户会断网。分析与诊断脚本一律进仓库，经 `scripts/dev/record` 落到 `results/`。
