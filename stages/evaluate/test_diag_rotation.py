@@ -6,6 +6,7 @@
 用法：python stages/evaluate/test_diag_rotation.py
 """
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -112,7 +113,10 @@ def main() -> int:
         line = next((ln for ln in out.splitlines() if ln.strip().startswith("解读（逐世界）")), "")
         check("三类解读计数 4/2/2", all(s in line for s in ("跟着转了 4", "尝试了但没跟上 2", "基本没转 2")), line)
         jitter = next((ln for ln in out.split("== 失败的世界")[1].splitlines() if "增量绝对值之和中位" in ln), "")
-        check("抖动世界：带符号净转 0°、绝对值之和约 105°", "实际 中位 0.0°" in jitter and "绝对值之和中位 10" in jitter, jitter)
+        m = re.search(r"实际 中位 (-?[0-9.]+)°.*绝对值之和中位 ([0-9.]+)°", jitter)
+        # 抖动序列在 0.5° 与 0° 之间交替：第 209 帧取 0°、第 420 帧取 0.5°，真实净转动就是 0.5°
+        check("抖动世界：带符号净转 |x| < 1°、绝对值之和约 105°",
+              bool(m) and abs(float(m.group(1))) < 1 and 100 < float(m.group(2)) < 110, jitter)
         check("SVG 标签配对完整", svg_balanced((tmp / "c.svg").read_text()))
         npz, run, refp = build(tmp, ref_chord=0.90)
         p = run_diag(npz, run, refp)
