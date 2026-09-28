@@ -1,89 +1,137 @@
-"""按官方评测路径跑一次，同时把 rollout 的逐帧数据存成 npz（在 FlashCHORD 容器里跑，占 GPU）。
+"""按官方评测路径跑一次，同时把被打分的那个 rollout 存成 npz（在 FlashCHORD 容器里跑，占 GPU）。
 
-评测只输出汇总，逐帧诊断需要 rollout 本身。这里照 scripts/evaluate_policy.py 的 main() 组好评测配置、调用
-harness.evaluate_checkpoint，只额外包一层 harness.record_object_pose_rollout 与 harness.score_reference_tracking
-（harness 在模块顶层导入它们、在 evaluate_checkpoint 里按名字调用），存下 rollout 与任务原生判据。
-所以存下的逐帧数据和同一次评测的汇总指标出自同一个 rollout。包装没被调用（上游改了调用方式）就报错退出，
-不会悄悄产出空结果。不向 W&B 发布。
+做法：在 flash_chord.evaluation.harness 模块里包一层 record_object_pose_rollout 与 score_reference_tracking（harness 在模块顶层
+导入它们、在 evaluate_checkpoint 里按名字调用），然后用 runpy 运行**未改动的** scripts/evaluate_policy.py，参数照抄
+stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐帧数据就是它打分用的那个 rollout。
+两个函数必须各恰好被调用 1 次，物体刚体必须只有 1 个，数值必须全部有限，否则报错退出。
+另存（都用评测器自己的函数与顶点）：逐帧逐世界 ADD、“物体保持第 0 帧参考位姿”的逐帧 ADD、参考手（palm 坐标帧）位置与它到
+参考物体网格顶点的最近距离、参考里各手的接触标记、上游四个文件的 md5。ADD 存 float64，其余浮点数组存 float32。
 
-用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> [--worlds 256]
-输出：<前缀>.npz（逐帧数据与判据）、<前缀>.json（与 fc_eval 同格式的评测报告）
+用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096   （容器内路径）
+输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
 import argparse
 import dataclasses
+import hashlib
 import json
+import runpy
+import struct
 import sys
+from pathlib import Path
 
 import numpy as np
 
-CONFIG_DIR = "/workspace/src/flash_chord/configs"  # scripts/evaluate_policy.py：config_path="../src/flash_chord/configs"
+EVAL_SCRIPT = "/workspace/scripts/evaluate_policy.py"
+
+
+def md5(path: str) -> str:
+    return hashlib.md5(Path(path).read_bytes()).hexdigest()
+
+
+def attr(obj, name):
+    v = getattr(obj, name)
+    return v() if callable(v) else v
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("policy")
     ap.add_argument("out_prefix")
-    ap.add_argument("--worlds", type=int, default=256)
+    ap.add_argument("--worlds", type=int, default=4096)
     a = ap.parse_args()
+    out = a.out_prefix
+    for suffix in (".npz", ".json"):
+        Path(out + suffix).unlink(missing_ok=True)  # 旧输出先删，失败时不会误读上一次的
 
-    from flash_chord.configuration import instantiate_typed, resolve_path
-    from flash_chord.evaluation import harness
-    from flash_chord.training.flash_sac.evaluation import EvaluationConfig
-    from hydra import compose, initialize_config_dir
+    import trimesh
+    from flash_chord.assets.registry import resolve_asset_path
+    from flash_chord.evaluation import harness, metrics, rollout
 
-    captured = {}
+    calls = {"record": 0, "score": 0}
+    cap = {}
     record, score = harness.record_object_pose_rollout, harness.score_reference_tracking
 
     def record_wrapper(*args, **kwargs):
-        captured["rollout"] = record(*args, **kwargs)
-        return captured["rollout"]
+        calls["record"] += 1
+        cap["rollout"] = record(*args, **kwargs)
+        cap["reference"] = kwargs.get("reference")
+        return cap["rollout"]
 
-    def score_wrapper(rollout, criteria):
-        captured["criteria"] = criteria
-        captured["tracking"] = score(rollout, criteria)
-        return captured["tracking"]
+    def score_wrapper(*args, **kwargs):
+        calls["score"] += 1
+        cap["criteria"] = args[1] if len(args) > 1 else kwargs["criteria"]
+        cap["tracking"] = score(*args, **kwargs)
+        return cap["tracking"]
 
     harness.record_object_pose_rollout = record_wrapper
     harness.score_reference_tracking = score_wrapper
+    sys.argv = [EVAL_SCRIPT, f"evaluation.checkpoint={a.policy}", f"evaluation.world_count={a.worlds}",
+                f"evaluation.metrics_output={out}.json", f"hydra.run.dir={out}_hydra"]
+    runpy.run_path(EVAL_SCRIPT, run_name="__main__")
 
-    with initialize_config_dir(config_dir=CONFIG_DIR, version_base="1.3"):
-        cfg = compose(config_name="evaluate_policy",
-                      overrides=[f"evaluation.checkpoint={a.policy}", f"evaluation.world_count={a.worlds}"])
-    evaluation = instantiate_typed(cfg.evaluation, EvaluationConfig)
-    outcome = harness.evaluate_checkpoint(
-        resolve_path(evaluation.checkpoint),
-        world_count=evaluation.world_count,
-        start_frame=evaluation.start_frame,
-        reset_mode=evaluation.reset_mode,
-        motion_start_frame=evaluation.motion_start_frame,
-        motion_end_frame=evaluation.motion_end_frame,
-        source_root=evaluation.source_root,
-    )
-    if "rollout" not in captured or "criteria" not in captured:
-        print("包装没有被调用：上游不再按名字调用 harness.record_object_pose_rollout / score_reference_tracking",
-              file=sys.stderr)
+    if calls != {"record": 1, "score": 1} or cap.get("reference") is None:
+        print(f"包装调用次数不对或拿不到参考：{calls}；上游可能改了 evaluate_checkpoint 的调用方式", file=sys.stderr)
         return 2
-    r, c = captured["rollout"], captured["criteria"]
+    r, c, ref = cap["rollout"], cap["criteria"], cap["reference"]
+    ach, refp = np.asarray(r.achieved_pose_w, np.float64), np.asarray(r.reference_pose_w, np.float64)
+    verts = np.asarray(r.object_vertices_o, np.float64)
+    T, W, B = ach.shape[:3]
+    if B != 1:
+        print(f"物体刚体有 {B} 个，本诊断只支持 1 个", file=sys.stderr)
+        return 2
+    add = metrics.object_add(ach, refp, verts)[:, :, 0]                                            # (T,W) m
+    add_static = metrics.object_add(np.broadcast_to(refp[:1], refp.shape)[:, None], refp, verts)[:, 0, 0]  # (T,) m
+
+    # 参考手：palm 坐标帧位置（与评测器 palm 误差用的是同一组参考手腕），到参考物体网格（全部顶点）的最近距离
+    s0 = int(r.start_frame)
+    names = list(attr(ref, "robot_frame_names"))
+    fpos = np.asarray(attr(ref, "robot_frame_pos_w"), np.float64)[s0:s0 + T]                     # (T,F,3)
+    palm_idx = [i for i, n in enumerate(names) if "palm" in n]
+    with open(a.policy, "rb") as f:  # 参考 parquet 取自 policy 内嵌的配置（与评测器重建环境用的是同一份）
+        n = struct.unpack("<Q", f.read(8))[0]
+        parquet = json.loads(json.loads(f.read(n))["__metadata__"]["user.resolved_config_json"])["task"]["parquet"].strip("'")
+    mesh_paths = list(attr(ref, "object_mesh_paths"))
+    mesh = np.asarray(trimesh.load(resolve_asset_path(str(mesh_paths[0]), reference_path=parquet), force="mesh").vertices,
+                      np.float64)
+    q = refp[:, 0, 3:7]
+    x, y, z, w = q[:, 0], q[:, 1], q[:, 2], q[:, 3]
+    rot = np.stack([np.stack([1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)], -1),
+                    np.stack([2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)], -1),
+                    np.stack([2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)], -1)], -2)
+    palm_dist = np.empty((T, len(palm_idx)))
+    for t in range(T):
+        world_verts = mesh @ rot[t].T + refp[t, 0, :3]
+        for k, i in enumerate(palm_idx):
+            palm_dist[t, k] = np.sqrt(((world_verts - fpos[t, i]) ** 2).sum(1).min())
+    sides = list(attr(ref, "sides"))
+    contact = np.stack([np.asarray(ref.contact_active(s), bool)[s0:s0 + T] for s in sides], -1) if sides else np.zeros((T, 0), bool)
+
+    arrays = {"achieved_pose_w": ach, "reference_pose_w": refp, "tracking_error": np.asarray(r.tracking_error, np.float64),
+              "add": add, "add_static": add_static, "ref_palm_pos": fpos[:, palm_idx], "ref_palm_mesh_dist": palm_dist}
+    bad = [k for k, v in arrays.items() if not np.isfinite(v).all()]
+    if bad:
+        print(f"非有限值：{bad}", file=sys.stderr)
+        return 2
     criteria = dataclasses.asdict(c) if dataclasses.is_dataclass(c) else dict(vars(c))
     np.savez_compressed(
-        a.out_prefix + ".npz",
-        achieved_pose_w=r.achieved_pose_w,
-        reference_pose_w=r.reference_pose_w,
-        tracking_error=r.tracking_error,
+        out + ".npz",
+        **{k: (v if k in ("add", "add_static") else v.astype(np.float32)) for k, v in arrays.items()},  # ADD 留 float64：重算全程 ADD-AUC 要与评测 JSON 对到 1e-6
+        object_vertices_o=verts.astype(np.float32),
         tracking_error_names=np.array(r.tracking_error_names),
-        control_fps=np.float64(r.control_fps),
-        start_frame=np.int64(r.start_frame),
+        ref_palm_names=np.array([names[i] for i in palm_idx]),
+        contact_sides=np.array(sides), contact_active=contact,
+        completion_truncated=np.asarray(r.completion.truncated, bool),
+        completion_progress=np.asarray(r.completion.reference_progress, np.float64),
         non_finite_worlds=np.array(r.non_finite_worlds, dtype=np.int64),
-        completion_truncated=np.asarray(r.completion.truncated),
-        completion_progress=np.asarray(r.completion.reference_progress, dtype=np.float64),
         criteria_json=np.array(json.dumps(criteria)),
-        reported_success_rate=np.float64(captured["tracking"].success_rate),
-        policy=np.array(str(a.policy)),
-        world_count=np.int64(evaluation.world_count),
+        reported_success_rate=np.float64(cap["tracking"].success_rate),
+        control_fps=np.float64(r.control_fps), start_frame=np.int64(s0), step_count=np.int64(T), world_count=np.int64(W),
+        policy=np.array(str(a.policy)), wrapper_calls=np.array(json.dumps(calls)),
+        upstream_md5=np.array(json.dumps({Path(p).name: md5(p) for p in
+                                          (harness.__file__, rollout.__file__, metrics.__file__, EVAL_SCRIPT)})),
+        mesh_vertex_count=np.int64(len(mesh)),
     )
-    report = harness.write_evaluation_report(a.out_prefix + ".json", outcome)
-    print(json.dumps(harness.evaluation_scalars(outcome), indent=2, sort_keys=True))
-    print(f"rollout: {a.out_prefix}.npz  report: {report}")
+    print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}）  report: {out}.json")
     return 0
 
 
