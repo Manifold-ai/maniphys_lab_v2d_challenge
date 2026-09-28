@@ -1,0 +1,29 @@
+# command  : env V2D_GPU=1 scripts/dev/in-flash-chord python\ /repo/stages/policy/palm_frame_probe.py\ /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 2ba7ccd91fcf807c87ce350ab2e1eb4b  stages/policy/palm_frame_probe.py
+# md5      : cb37bac8374d5d7510312dc5371e7476  runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+# source   : 45c4843828d0-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:31:29+0800
+# ---------------------------------------------------------------
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 313.97 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.73 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.29 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 48.88 ms  (cached)
+== source_frame_playback=True: 553 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 57), p99 0.0003 mm; orientation max 5.615e-07 rad (frame 187), p99 4.430e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 422), p99 0.0004 mm; orientation max 6.020e-07 rad (frame 303), p99 4.030e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 921 frames, is_resampled True
+  left_hand_palm_link: position max 0.3248 mm (frame 821), p99 0.2537 mm; orientation max 2.030e-03 rad (frame 1), p99 4.411e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.6056 mm (frame 821), p99 0.3862 mm; orientation max 9.792e-04 rad (frame 871), p99 5.092e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad

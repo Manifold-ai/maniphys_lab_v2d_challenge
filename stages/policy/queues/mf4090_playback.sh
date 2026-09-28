@@ -31,6 +31,13 @@ R=runs/flash_chord/$RUN
 if [ ! -f "$R/DONE" ] && compgen -G "$R/state_*.safetensors" > /dev/null; then
   fail "$R 有 checkpoint 却没有 DONE：续训不恢复 replay，要从 0 重来就先移走该目录"
 fi
+# 正向核对：配置核对展开的两份配置里确实是真实时长回放、放宽后的校验容差（核对只拦意外的差异，漏写覆盖拦不住）
+for r in "$SMOKE" "$RUN"; do
+  y=runs/cfgcheck/$r.yaml
+  [ -f "$y" ] || fail "缺 $y：先在本机跑 fc_config_check.sh"
+  grep -q "source_frame_playback: false" "$y" && grep -q "frame_position_tolerance: 0.002" "$y" \
+    && grep -q "frame_orientation_tolerance: 0.005" "$y" || fail "$y 里不是真实时长回放或容差不对"
+done
 
 # 1. 冒烟
 S=runs/flash_chord/$SMOKE

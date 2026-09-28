@@ -1,8 +1,8 @@
 # command  : stages/policy/playback_facts.sh 
-# md5      : 772e7d837a2f3d3d780f3a1133c4461a  stages/policy/playback_facts.sh
-# source   : 3f87c6381472-dirty
+# md5      : 05aba1adb64149fdd2d69bd9ec8a0f60  stages/policy/playback_facts.sh
+# source   : 45c4843828d0-dirty
 # host     : VM-1-2-ubuntu
-# run_at   : 2026-09-28T21:51:04+0800
+# run_at   : 2026-09-28T22:33:42+0800
 # ---------------------------------------------------------------
 upstream 33129dd
 == 1. 各配方的回放方式
@@ -201,3 +201,52 @@ upstream 33129dd
 120                  f"reference fps ({reference.fps}) != control fps ({self.config.sim.fps}); "
 == 6. 上游里有没有比赛评测脚本
 git ls-files 里含 eval_robotic_grounding 的文件数：0
+== 7. 训练入口按配置传回放方式
+--- third_party/video_to_data/robotic_grounding/flash_chord/scripts/train_flash_sac.py（匹配 source_frame_playback=|motion_speed=）
+53              motion_speed=cfg.task.motion_speed,
+64              source_frame_playback=bool(cfg.task.source_frame_playback),
+== 8. G1 绑定参考时的 palm 校验：逐帧、不区分插值帧（Sharpa 对插值帧另有宽容差）
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/embodiments/g1_dex3.py（匹配 frame_position_tolerance|frame_orientation_tolerance）
+151      frame_position_tolerance: float = 1.0e-4
+152      frame_orientation_tolerance: float = 1.0e-4
+177          for name in ("joint_limit_tolerance", "frame_position_tolerance", "frame_orientation_tolerance"):
+474          if float(position_error.max()) > config.frame_position_tolerance:
+476          if float(orientation_error.max()) > config.frame_orientation_tolerance:
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/embodiments/g1_dex3.py:451-479
+  451  def _validate_palm_frames(binding: RobotReferenceBinding, reference, config: G1Dex3Config) -> None:
+  452      if not isinstance(reference, NamedFrameReference):
+  453          raise TypeError("G1 Dex3 palm-frame validation requires a NamedFrameReference")
+  454      names = tuple(reference.robot_frame_names())
+  455      index = {name: position for position, name in enumerate(names)}
+  456      required = tuple(f"{side}_hand_palm_link" for side in _SIDES)
+  457      missing = [name for name in required if name not in index]
+  458      if missing:
+  459          raise ValueError(f"G1 reference is missing palm frames: {missing}")
+  460      target_position = np.asarray(reference.robot_frame_pos_w(), dtype=np.float64)
+  461      target_quaternion = np.asarray(reference.robot_frame_quat_w(), dtype=np.float64)
+  462      for side, name in zip(_SIDES, required, strict=True):
+  463          hand = binding.hand(side)
+  464          source_id = index[name]
+  465          position_error = np.linalg.norm(
+  466              np.asarray(hand.wrist_pos_w, dtype=np.float64) - target_position[:, source_id], axis=1
+  467          )
+  468          actual_quaternion = np.asarray(hand.wrist_quat_w, dtype=np.float64)
+  469          expected_quaternion = target_quaternion[:, source_id]
+  470          actual_quaternion /= np.linalg.norm(actual_quaternion, axis=1, keepdims=True)
+  471          expected_quaternion /= np.linalg.norm(expected_quaternion, axis=1, keepdims=True)
+  472          dot = np.abs(np.sum(actual_quaternion * expected_quaternion, axis=1))
+  473          orientation_error = 2.0 * np.arccos(np.clip(dot, -1.0, 1.0))
+  474          if float(position_error.max()) > config.frame_position_tolerance:
+  475              raise ValueError(f"{name} position differs from the reference by {float(position_error.max()):.9g} m")
+  476          if float(orientation_error.max()) > config.frame_orientation_tolerance:
+  477              raise ValueError(
+  478                  f"{name} orientation differs from the reference by {float(orientation_error.max()):.9g} rad"
+  479              )
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/embodiments/vega_sharpa.py（匹配 interpolated_frame_(position|orientation)_tolerance: float）
+134      interpolated_frame_position_tolerance: float | None = 0.02
+135      interpolated_frame_orientation_tolerance: float | None = 0.1
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/embodiments/vega_sharpa.py:523-526
+  523      if reference.metadata.is_resampled:
+  524          if config.interpolated_frame_position_tolerance is not None:
+  525              interpolation_position = _positive_tolerance(
+  526                  config.interpolated_frame_position_tolerance,

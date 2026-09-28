@@ -56,3 +56,12 @@ lines "$C/envs/base.py" 'fps'
 
 echo "== 6. 上游里有没有比赛评测脚本"
 echo "git ls-files 里含 eval_robotic_grounding 的文件数：$(git -C third_party/video_to_data ls-files | grep -c eval_robotic_grounding || true)"
+
+echo "== 7. 训练入口按配置传回放方式"
+lines third_party/video_to_data/robotic_grounding/flash_chord/scripts/train_flash_sac.py 'source_frame_playback=|motion_speed='
+
+echo "== 8. G1 绑定参考时的 palm 校验：逐帧、不区分插值帧（Sharpa 对插值帧另有宽容差）"
+lines "$C/embodiments/g1_dex3.py" 'frame_position_tolerance|frame_orientation_tolerance'
+blk "$C/embodiments/g1_dex3.py" "def _validate_palm_frames" 28
+lines "$C/embodiments/vega_sharpa.py" 'interpolated_frame_(position|orientation)_tolerance: float'
+blk "$C/embodiments/vega_sharpa.py" "if reference.metadata.is_resampled:" 3

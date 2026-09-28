@@ -18,7 +18,7 @@ while IFS= read -r line || [ -n "$line" ]; do
   echo "  命令：${cmd:0:160}…"
   # training.{experiment_name,run_name,wandb_entity,wandb_project} 在配方里是 ${logging.*} 的引用，随 logging 覆盖一起变
   allowed="logging,output_dir,task.parquet,scene.world_count,training.total_environment_steps,training.experiment_name,training.run_name,training.wandb_entity,training.wandb_project"
-  for o in "${args[@]:4}"; do allowed+=",${o%%=*}"; done
+  for o in "${args[@]:4}"; do k=${o%%=*}; k=${k#+}; k=${k#+}; allowed+=",$k"; done   # +键 / ++键 是 Hydra 的追加写法，按键名放行
   scripts/dev/in-flash-chord "$cmd --cfg job --resolve" > "runs/cfgcheck/$run.yaml" 2> "runs/cfgcheck/$run.err" \
     || { echo "  展开本次配置失败，见 runs/cfgcheck/$run.err"; fail=1; continue; }
   scripts/dev/in-flash-chord "cd /workspace && python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac \"task.parquet='$pq'\" --cfg job --resolve" \
