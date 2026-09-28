@@ -1,0 +1,17 @@
+# command  : grep -E 冒烟\|SMOKE\|DAY2_TRAIN\|正向核对 runs/logs/day2_train_mf4090.log 
+# md5      : 66e7532af9497a02544c4bf29442398d  runs/logs/day2_train_mf4090.log
+# source   : 67f1d8643265
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T06:56:25+0800
+# ---------------------------------------------------------------
+=== 2026-09-29 06:33:06 CST 正向核对：3 条 run 的冒烟与正式配置都与期望表一致
+=== 2026-09-29 06:33:06 CST 冒烟 smoke-t1-ep20-w2048-cap4m-rt-mf4090
+SMOKE_FAIL smoke-t1-ep20-w2048-cap4m-rt-mf4090：整卡显存峰值 23843 MiB 超过 23000
+=== 2026-09-29 06:47:21 CST 冒烟判据没过：t1-ep20-w2048-cap4m-rt-mf4090 SKIPPED
+=== 2026-09-29 06:47:21 CST 冒烟 smoke-t1-ep20-w2048-cap4m-mf4090
+SMOKE_FAIL smoke-t1-ep20-w2048-cap4m-mf4090：整卡显存峰值 23845 MiB 超过 23000
+=== 2026-09-29 06:50:37 CST 冒烟判据没过：t1-ep20-w2048-cap4m-mf4090 SKIPPED
+=== 2026-09-29 06:50:37 CST 冒烟 smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090
+SMOKE_FAIL smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090：整卡显存峰值 23855 MiB 超过 23000
+=== 2026-09-29 06:53:50 CST 冒烟判据没过：t1-ep20-w2048-cap4m-rt-s43-mf4090 SKIPPED
+=== 2026-09-29 06:53:50 CST DAY2_TRAIN_DONE（完成 0、失败 0、跳过 3）

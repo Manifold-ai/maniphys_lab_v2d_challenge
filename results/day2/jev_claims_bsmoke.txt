@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-day2-bsmoke.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 6d9946d87e728047a841070d950e20dc  agent-doc/experiments/2026-09-28-day2-bsmoke.claims.json
+# source   : 67f1d8643265-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T16:57:06-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+registered_memory_rule P(supported)=0.84  verified               [plan_b]  For the mf4090 B runs, the Day 2 plan decides that a 4M replay buffer does not fit only when the log shows an XLA RESOURCE_EXHAUSTED / base limit message or a Warp out of memory message; the plan text states no whole-card peak memory threshold.
+registered_oom_fallback P(supported)=0.97  verified               [plan_b]  The Day 2 plan says that if the full B training runs out of memory midway it is recorded as 'B has no result' without automatically lowering the buffer, and that a fallback to a 3M buffer is decided by a human.
+skip_reason_peak_only P(supported)=0.92  verified               [chainlog]  The training chain marked all three mf4090 B smokes as failing, and for each one the only failure reason it printed was that the whole-card peak memory (23843, 23845 and 23855 MiB) exceeded 23000.
+pass_with_card_total P(supported)=0.78  verified               [check_rule, check_rt, check_frame, check_s43]  When the memory ceiling is set to 24564 MiB, all three B smokes pass the smoke check, which includes having no RESOURCE_EXHAUSTED or base limit message in the log, a final checkpoint at the expected step count, and the Day 1 image fingerprint.
+tight_margin_anticipated P(supported)=0.84  verified               [queue_comment]  Before the run, the mf4090 smoke queue noted that the B real-time smoke was lengthened past the first curriculum stage and a checkpoint save because the memory margin was only about 0.9 GB.
+ctrl_true_ckpt       P(supported)=0.88  control(true) ok       [check_rt]  The B real-time smoke's latest complete checkpoint is at 36,001,792 steps.
+ctrl_false_oom       P(supported)=0.12  control(false) ok      [chainlog]  The training chain reported that the B real-time smoke crashed with a RESOURCE_EXHAUSTED error.
+controls behaved as expected

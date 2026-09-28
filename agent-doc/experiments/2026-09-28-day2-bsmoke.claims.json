@@ -1,0 +1,28 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "plan_b": {"file": "agent-doc/plan-day2-2026-09-28.md", "grep": "^### B\\.|B-rt：真实时长|显存：冒烟按|正式训练中途放不下|300 万回退由人决定|400 万 buffer 比 100 万多"},
+    "queue_comment": {"file": "stages/policy/queues/mf4090_day2_smoke.txt", "grep": "^#"},
+    "chainlog": {"file": "results/day2/chainlog_day2_train_mf4090.txt"},
+    "check_rule": {"file": "stages/policy/smoke_check.sh", "grep": "^# "},
+    "check_rt": {"file": "results/day2/smokecheck_cardtotal_smoke-t1-ep20-w2048-cap4m-rt-mf4090.txt"},
+    "check_frame": {"file": "results/day2/smokecheck_cardtotal_smoke-t1-ep20-w2048-cap4m-mf4090.txt"},
+    "check_s43": {"file": "results/day2/smokecheck_cardtotal_smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090.txt"}
+  },
+  "claims": [
+    {"id": "registered_memory_rule", "evidence": ["plan_b"],
+     "claim": "For the mf4090 B runs, the Day 2 plan decides that a 4M replay buffer does not fit only when the log shows an XLA RESOURCE_EXHAUSTED / base limit message or a Warp out of memory message; the plan text states no whole-card peak memory threshold."},
+    {"id": "registered_oom_fallback", "evidence": ["plan_b"],
+     "claim": "The Day 2 plan says that if the full B training runs out of memory midway it is recorded as 'B has no result' without automatically lowering the buffer, and that a fallback to a 3M buffer is decided by a human."},
+    {"id": "skip_reason_peak_only", "evidence": ["chainlog"],
+     "claim": "The training chain marked all three mf4090 B smokes as failing, and for each one the only failure reason it printed was that the whole-card peak memory (23843, 23845 and 23855 MiB) exceeded 23000."},
+    {"id": "pass_with_card_total", "evidence": ["check_rule", "check_rt", "check_frame", "check_s43"],
+     "claim": "When the memory ceiling is set to 24564 MiB, all three B smokes pass the smoke check, which includes having no RESOURCE_EXHAUSTED or base limit message in the log, a final checkpoint at the expected step count, and the Day 1 image fingerprint."},
+    {"id": "tight_margin_anticipated", "evidence": ["queue_comment"],
+     "claim": "Before the run, the mf4090 smoke queue noted that the B real-time smoke was lengthened past the first curriculum stage and a checkpoint save because the memory margin was only about 0.9 GB."},
+    {"id": "ctrl_true_ckpt", "evidence": ["check_rt"], "control": "true",
+     "claim": "The B real-time smoke's latest complete checkpoint is at 36,001,792 steps."},
+    {"id": "ctrl_false_oom", "evidence": ["chainlog"], "control": "false",
+     "claim": "The training chain reported that the B real-time smoke crashed with a RESOURCE_EXHAUSTED error."}
+  ]
+}
