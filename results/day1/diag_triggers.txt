@@ -1,0 +1,16 @@
+# command  : python3 stages/evaluate/diag_triggers.py --main results/day1/diag_t1-ep20-w2048-cap10m-ml40.txt --control results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt --extra results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt 
+# md5      : eb50acfbdf5bd096b5a5d8b3ae22c567  stages/evaluate/diag_triggers.py
+# md5      : 5b9f6f2a795fa2e8e8a5f48d536b9c71  results/day1/diag_t1-ep20-w2048-cap10m-ml40.txt
+# md5      : d1b4fa2cfd5d98b7a225a8a844c347af  results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt
+# md5      : 1984387331aa9f5289c7680bcaf4935c  results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt
+# source   : 23b2edd8094d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T22:57:38-0600
+# ---------------------------------------------------------------
+主：VALIDITY PASS；ADD-AUC 0.4315 vs 不动 0.4708；非操作段占差 182%；中位净转比 0.70（需 0.72）；palm 误差中位（分段）[4.7, 5.1, 10.0] cm；接触帧距离 {'right': 5.931125767529011}
+对照：VALIDITY PASS；ADD-AUC 0.5410 vs 不动 0.5662；非操作段占差 126%；中位净转比 0.56（需 0.55）；palm 误差中位（分段）[8.5, 62.7, 151.7] cm；接触帧距离 {'left': 2.5558162480592728, 'right': 2.780592255294323}
+results/day1/diag_t1-ep20-w2048-cap1m-mf4090.txt：VALIDITY PASS；ADD-AUC 0.4213 vs 不动 0.4708；非操作段占差 144%；中位净转比 0.76（需 0.72）；palm 误差中位（分段）[10.4, 9.2, 16.0] cm；接触帧距离 {'right': 5.931125767529011}
+触发  T1 非操作段失分为主 → 查接近与抓取阶段、reset 与 VOC 设置；对照也如此 → 归到配方层
+触发  T2 滞后（中位净转比 < 所需） → 做回放速度对照（1.67 倍速 vs 真实时长）
+未触发  T3 手没跟上（操作段 palm 误差 ≥ 7.5 cm）
+触发  T4 参考手离物体远（比对照远 ≥ 2 cm） → 查重定向管线（主 5.931125767529011 cm，对照 2.5558162480592728 cm）

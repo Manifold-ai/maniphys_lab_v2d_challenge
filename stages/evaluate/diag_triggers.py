@@ -23,7 +23,7 @@ def summary(path: str) -> dict:
     raise SystemExit(f"{path}: 没有 summary_json 行")
 
 
-def closest_contact(s: dict) -> float | None:
+def closest_contact(s: dict):  # 返回 float 或 None（不写 X | None：Mac 自带的 python3 太旧）
     d = s.get("contact_palm_mesh_dist_cm") or {}
     return min(d.values()) if d else None
 
