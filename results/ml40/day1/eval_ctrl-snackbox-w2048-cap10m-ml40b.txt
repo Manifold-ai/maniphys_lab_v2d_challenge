@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh ctrl-snackbox-w2048-cap10m-ml40b 349999104 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : cab309e8924f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-28T23:27:19+0800
+# ---------------------------------------------------------------
+fc_eval: ctrl-snackbox-w2048-cap10m-ml40b policy_349999104（4096 世界）→ runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/eval_349999104_w4096.json
+== runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/policy_349999104.safetensors  sha256 4f78ed83ecaed459…
+  environment_steps 349999104  world_count 4096  step_count 800  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.5638529777526855
+  chord_sr                                       0.921630859375
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.966552734375
+  mppe_cm                                        4.305580047748831
+  mean_add_m                                     0.05796048650879171
+  object_position_error_m                        0.04147291706877288
+  object_orientation_error_deg                   14.800613275748164
+  termination_cause_fraction (legacy object-centric) {'object': 0.073974609375, 'wrist': 0.066162109375}
+  reference_tracking.success_rate (= chord_sr)   0.921630859375
+  reference_tracking.failure_cause_fraction      {'object': 0.073974609375, 'palm': 0.066162109375, 'pelvis': 0.0556640625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.5638529777526855, "checkpoint_sha256": "4f78ed83ecaed45988c9203682e9303a31de1b3998daa98f443ae19921c00347", "chord_sr": 0.921630859375, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.05796048650879171, "mppe_cm": 4.305580047748831, "object_orientation_error_deg": 14.800613275748164, "object_position_error_m": 0.04147291706877288, "reference_tracking": {"failure_cause_fraction": {"object": 0.073974609375, "palm": 0.066162109375, "pelvis": 0.0556640625}, "reference_end_fraction": 1.0, "success_rate": 0.921630859375}, "spider_sr_uncentered": 0.966552734375, "world_count": 4096}

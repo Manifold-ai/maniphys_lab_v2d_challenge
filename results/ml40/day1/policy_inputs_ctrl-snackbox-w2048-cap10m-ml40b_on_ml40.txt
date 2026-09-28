@@ -1,0 +1,27 @@
+# command  : python3 stages/policy/policy_inputs.py runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/policy_349999104.safetensors 
+# md5      : c7ca01443790a6833f63d444508dbbab  stages/policy/policy_inputs.py
+# md5      : 7c5046dbf9262e1fe2d9c3d7d2ff110f  runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/policy_349999104.safetensors
+# source   : cab309e8924f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-28T23:32:22+0800
+# ---------------------------------------------------------------
+policy runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/policy_349999104.safetensors  sha256 4f78ed83ecaed45988c9203682e9303a31de1b3998daa98f443ae19921c00347
+  user.environment_steps = 349999104
+  user.curriculum_stage = 8
+  user.voc_scale = 0.0
+  user.immediate_first_frame_probability = 0.5
+  user.checkpoint_set_id = 17d529b218ef45f9a8b7c7304216392e
+cfg output_dir = /repo/runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b  (dir)
+cfg reference.parquet = /v2d/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet  (file)
+cfg task.parquet = /v2d/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet  (file)
+sha 1a31d46961bbc4d502fafa09f397f153dc3ad07362850e890e25e960cfd29678  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/reconstructed_stage/2026-03-06_10-24-18_snack_box_pick_and_place_01_support.usda
+sha e9ec851bd1e424680365c729225fa7fccd995f9980bb511af069d30c1949ea25  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/ground_plane.json
+sha 0d90fe7d688a6da0b82b0f8053231a1c8986de34aa839f8113ed53a610c09227  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/object/material.mtl
+sha 4e2d7fa813eba126345723dca5ab52b11b773f015d99968f7b7172e6bae4d265  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/object/material_0.png
+sha 380248270cb7e23aed66c33e74d100e1e4dd5e329ff3d8d63ac85753c859066a  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/object/textured_mesh.obj
+sha 3ca858449cf9ee7c1d19e4e17d49558ebd9d170186a6ec226e1961c6c5250975  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/object/textured_mesh.urdf
+sha 42463f3e82ea6fb0a461e0512dc32c8076ae539b42eb40c47f331c499f6a2153  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/poses.npy
+sha 6a3c61c171534be9226a383db02a00b4d951569a7b228c60fc0a2f56e06cd441  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/reconstructed_mesh/output_aligned.glb
+sha 04f55c50a6dfc04826b73b22cc42cde90d9209e003d242b3d300b0a631c9671d  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet
+sha 9229dc7efb39d4542a3299a4d265400928cd29a965fe30ae1539a412e9662f81  third_party/video_to_data/robotic_grounding/flash_chord/../source/robotic_grounding/robotic_grounding/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/soma_params.npz
+10 files hashed, 0 config paths missing

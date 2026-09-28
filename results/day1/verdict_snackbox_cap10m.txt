@@ -1,0 +1,23 @@
+# command  : python3 stages/evaluate/verdict.py --static results/day1/static_baseline_snackbox.txt --eval results/ml40/day1/eval_ctrl-snackbox-w2048-cap10m-ml40b.txt --bar-check-diag results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt --manifests results/day1/policy_inputs_snackbox_on_mf4090.txt results/ml40/day1/policy_inputs_ctrl-snackbox-w2048-cap10m-ml40b_on_ml40.txt 
+# md5      : 197ac01c4330351dfa79f6d18cb334aa  stages/evaluate/verdict.py
+# md5      : e72fa8d89cacfaa9a02864a6c10d370d  results/day1/static_baseline_snackbox.txt
+# md5      : dea4ef6b913ae0bb0989318e4228ed85  results/ml40/day1/eval_ctrl-snackbox-w2048-cap10m-ml40b.txt
+# md5      : d1b4fa2cfd5d98b7a225a8a844c347af  results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt
+# md5      : 56f7afe8d305895c401ff9fc97b25c3f  results/day1/policy_inputs_snackbox_on_mf4090.txt
+# md5      : 8d84029cefe5e2d4ab75d66c4082e7fe  results/ml40/day1/policy_inputs_ctrl-snackbox-w2048-cap10m-ml40b_on_ml40.txt
+# source   : 76f1bcdcdb3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T09:32:54-0600
+# ---------------------------------------------------------------
+门槛核对：--static 0.5662；评测器顶点复算 0.5662（results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt）；差 +0.0000，未超过 0.002 → 用 --static 的值
+do-nothing baseline (results/day1/static_baseline_snackbox.txt): add_auc 0.5662, object_position_error 60.13 cm, object_orientation_error 61.08 deg, mppe 60.17 cm, spider_sr 0.000, maniptrans_sr 0.000
+
+== ctrl-snackbox-w2048-cap10m-ml40b: 4096 worlds, 349,999,104 steps, checkpoint sha256 4f78ed83ecaed459…
+  chord_sr       0.921631 > 0 (3775 of 4096 worlds): PASS
+  maniptrans_sr  0 > 0 (0 of 4096 worlds): FAIL
+  add_auc        0.563853 > 0.566172: FAIL
+  VERDICT: FAIL
+  spider_sr_uncentered 0.966553 (3959 of 4096 worlds); task-native failure causes {'object': 0.073974609375, 'palm': 0.066162109375, 'pelvis': 0.0556640625}
+  minus do-nothing: add_auc -0.0023; object_position_error -55.98 cm; object_orientation_error -46.28 deg; mppe -55.87 cm
+
+input manifests: 10 vs 10 files; byte-identical: True (results/day1/policy_inputs_snackbox_on_mf4090.txt vs results/ml40/day1/policy_inputs_ctrl-snackbox-w2048-cap10m-ml40b_on_ml40.txt)
