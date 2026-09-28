@@ -1,0 +1,48 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "verdict10m": {
+      "file": "results/day1/verdict_snackbox_cap10m.txt"
+    },
+    "registration": {
+      "file": "agent-doc/experiments/2026-09-28-day1b.md",
+      "grep": "^### A\\. 满配 snack_box 对照：`ctrl|设置：官方 G1 配方|通过：`chord_sr|不动基线：用评测器|判定前用 B|边缘：|下一步按诊断证据定|结论只写到|不通过 →"
+    },
+    "cfg10m": {
+      "file": "results/ml40/day1/cfgcheck_ml40_day1b_attempt2.txt",
+      "grep": "==|允许|意外|共 "
+    },
+    "inputs": {
+      "file": "results/ml40/day1/check_inputs_snackbox_ml40.txt",
+      "grep": "^== |sha256|object_name"
+    }
+  },
+  "claims": [
+    {
+      "id": "official_not_beating",
+      "evidence": [
+        "verdict10m",
+        "registration",
+        "cfg10m",
+        "inputs"
+      ],
+      "claim": "In this run, the official G1 recipe trained on the official snack_box sample did not exceed the do-nothing ADD-AUC."
+    },
+    {
+      "id": "ctrl_true",
+      "control": "true",
+      "evidence": [
+        "verdict10m"
+      ],
+      "claim": "The full-recipe snack_box policy was evaluated on 4096 worlds."
+    },
+    {
+      "id": "ctrl_false",
+      "control": "false",
+      "evidence": [
+        "verdict10m"
+      ],
+      "claim": "The full-recipe snack_box policy's ADD-AUC exceeded the do-nothing baseline."
+    }
+  ]
+}

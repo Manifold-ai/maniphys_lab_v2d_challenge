@@ -1,0 +1,12 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-day1b-snack-run2.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 6c677fed21831d9a46caa23a4b5ca56c  agent-doc/experiments/2026-09-28-day1b-snack-run2.claims.json
+# source   : 49de0e069a86-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T10:30:31-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+official_not_beating P(supported)=0.87  verified               [verdict10m, registration, cfg10m, inputs]  In this run, the official G1 recipe trained on the official snack_box sample did not exceed the do-nothing ADD-AUC.
+ctrl_true            P(supported)=0.97  control(true) ok       [verdict10m]  The full-recipe snack_box policy was evaluated on 4096 worlds.
+ctrl_false           P(supported)=0.02  control(false) ok      [verdict10m]  The full-recipe snack_box policy's ADD-AUC exceeded the do-nothing baseline.
+controls behaved as expected

@@ -1,0 +1,39 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "verdict10m": {"file": "results/day1/verdict_snackbox_cap10m.txt"},
+    "verdict1m": {"file": "results/day1/verdict_snackbox.txt", "grep": "command|== |chord_sr|maniptrans_sr|add_auc|VERDICT|minus do-nothing|manifests"},
+    "registration": {"file": "agent-doc/experiments/2026-09-28-day1b.md", "grep": "^### A\\. 满配 snack_box 对照：`ctrl|设置：官方 G1 配方|通过：`chord_sr|不动基线：用评测器|判定前用 B|边缘：|下一步按诊断证据定|结论只写到|不通过 →"},
+    "queues": {"text": "stages/policy/queues/mf4090_day1.txt (Day 1, trained on mf4090): V2D_WANDB_TAG=control ctrl-snackbox-w2048-cap1m-mf4090 <official snack parquet> 2048 349999104 training.replay.capacity=1000000\nstages/policy/queues/ml40_day1b.txt (Day 1b attempt 2, trained on ml40): V2D_WANDB_TAG=control V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 ctrl-snackbox-w2048-cap10m-ml40b <official snack parquet> 2048 349999104"},
+    "cfg10m": {"file": "results/ml40/day1/cfgcheck_ml40_day1b_attempt2.txt", "grep": "==|允许|意外|共 "},
+    "prefix_fact": {"file": "agent-doc/plan-day1b-2026-09-27.md", "grep": "上游 snack parquet 相对|多出来的约 320 帧|snack 静止的前 440 帧"},
+    "diag1m_snack": {"file": "results/day1/diag_ctrl-snackbox-w2048-cap1m-mf4090.txt", "grep": "^policy |VALIDITY|== Q0|第 0–445|第 446–704|第 705–799"},
+    "triggers": {"file": "results/day1/diag_triggers.txt", "grep": "^主：|^对照：|T1"}
+  },
+  "claims": [
+    {"id": "fail_per_registration", "evidence": ["verdict10m", "registration"],
+     "claim": "Under its registered criteria the full-recipe snack_box control did not pass: its maniptrans_sr was 0 and its ADD-AUC of 0.5639 was below the do-nothing baseline of 0.5662, although chord_sr was above 0."},
+    {"id": "marginal_band", "evidence": ["verdict10m", "registration"],
+     "claim": "The full-recipe snack_box control's ADD-AUC is within 0.01 of the do-nothing baseline, which the registration labels as a marginal result."},
+    {"id": "no_causal_branch", "evidence": ["registration"],
+     "claim": "The registration says a marginal result does not take any of the SOP's causal branches, and the next step is then decided from diagnostic evidence or an additional seed."},
+    {"id": "tracks_box", "evidence": ["verdict10m"],
+     "claim": "The full-recipe snack_box policy succeeded under the task-native criteria in about 92% of 4096 worlds and its object position error was about 56 cm lower than that of leaving the object still."},
+    {"id": "numbers_1m_vs_10m", "evidence": ["verdict1m", "verdict10m"],
+     "claim": "The 1M-buffer snack_box policy had chord_sr 0 and ADD-AUC about 0.540, while the full-recipe snack_box policy had chord_sr about 0.922 and ADD-AUC about 0.564."},
+    {"id": "same_recipe_except_buffer", "evidence": ["queues", "cfg10m", "verdict10m"],
+     "claim": "The 1M and full-recipe snack_box runs used the official recipe with byte-identical inputs and differ in configuration only in the replay buffer capacity and logging settings."},
+    {"id": "buffer_causal", "evidence": ["queues", "cfg10m", "verdict1m", "verdict10m"],
+     "claim": "The improvement from the 1M snack_box run to the full-recipe snack_box run can be attributed to the larger replay buffer."},
+    {"id": "t1_consistent", "evidence": ["verdict10m", "diag1m_snack", "prefix_fact", "triggers"],
+     "claim": "For the full-recipe snack_box policy, the shortfall against the do-nothing ADD-AUC comes from the static segments, as the Day 1b finding that the bar is dominated by static segments would predict."},
+    {"id": "prefix_317", "evidence": ["prefix_fact"],
+     "claim": "About 317 of the first 440 static frames of the official snack_box sample are a prefix that was added upstream."},
+    {"id": "official_not_beating", "evidence": ["verdict10m", "queues", "cfg10m"],
+     "claim": "In this run, the official G1 recipe trained on the official snack_box sample did not exceed the do-nothing ADD-AUC."},
+    {"id": "ctrl_true", "control": "true", "evidence": ["verdict10m"],
+     "claim": "The full-recipe snack_box policy was evaluated on 4096 worlds."},
+    {"id": "ctrl_false", "control": "false", "evidence": ["verdict10m"],
+     "claim": "The full-recipe snack_box policy's ADD-AUC exceeded the do-nothing baseline."}
+  ]
+}
