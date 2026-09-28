@@ -25,6 +25,14 @@ if ! ssh "$V2D_HOST" "test -f '$V2D_REMOTE/$SENTINEL'" 2>/dev/null; then
   echo "远端 ${V2D_REMOTE} 未初始化（缺 ${SENTINEL}）。先跑: scripts/dev/init-remote" >&2
   exit 1
 fi
+# 服务器上有长链在跑（链启动时写 runs/.chain-active-<名字>，结束时删）就拒绝同步：同步会改写 .v2d-source-commit、
+# 换掉链后面才调用的脚本，链的来历核对会停掉剩下的训练。确要同步设 V2D_FORCE_SYNC=1。只读的查询请直接用 ssh。
+active="$(ssh "$V2D_HOST" "cat '$V2D_REMOTE'/runs/.chain-active-* 2>/dev/null" || true)"
+if [ -n "$active" ] && [ "${V2D_FORCE_SYNC:-0}" != 1 ]; then
+  echo "远端有长链在跑，拒绝同步：" >&2; echo "$active" | sed 's/^/  /' >&2
+  echo "（确要同步设 V2D_FORCE_SYNC=1；只读查询请直接 ssh）" >&2
+  exit 1
+fi
 
 # --filter ':- .gitignore' 复用 .gitignore，所以 data/ 和 runs/ 不上传。
 #

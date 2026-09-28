@@ -1,0 +1,47 @@
+# command  : env V2D_GPU=1 V2D_CONTAINER_NAME=palm-probe-all scripts/dev/in-flash-chord python\ /repo/stages/policy/palm_frame_probe.py\ /repo/runs/motion/tier1/whole_body/soma/sequence_id=\*/robot_name=g1/data.parquet 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 9f49a2a03fb8ad69f42156515d3f7c1c  stages/policy/palm_frame_probe.py
+# source   : 755b63a364ea-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T05:33:21+0800
+# ---------------------------------------------------------------
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+Traceback (most recent call last):
+  File "/repo/stages/policy/palm_frame_probe.py", line 90, in <module>
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 317.81 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.71 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.30 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 48.57 ms  (cached)
+== source_frame_playback=True: 477 frames, is_resampled False
+  left_hand_palm_link: position max 0.0005 mm (frame 258), p99 0.0004 mm; orientation max 5.162e-07 rad (frame 336), p99 3.909e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 151), p99 0.0003 mm; orientation max 4.787e-07 rad (frame 222), p99 4.143e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 794 frames, is_resampled True
+  left_hand_palm_link: position max 0.7435 mm (frame 109), p99 0.4926 mm; orientation max 1.125e-03 rad (frame 109), p99 7.290e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.5496 mm (frame 689), p99 0.2729 mm; orientation max 1.057e-03 rad (frame 691), p99 3.710e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+    main()
+  File "/repo/stages/policy/palm_frame_probe.py", line 81, in main
+    probe(pq, frame_playback=True)
+  File "/repo/stages/policy/palm_frame_probe.py", line 55, in probe
+    setup = setup_scene(
+            ^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/setup.py", line 85, in setup_scene
+    scene = build_scene(embodiment, reference, **scene_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/builder.py", line 461, in build_scene
+    support = add_support_surfaces(copy, support_usda) if support_usda is not None else None
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/support.py", line 91, in add_support_surfaces
+    raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+ValueError: support surface contains no Cylinder or Cube collision shapes: /repo/runs/motion/tier1/whole_body/reconstructed_stage/2026-03-18_19-36-56_g1_box_rotate_01_support.usda

@@ -1,0 +1,39 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/sequence_stats.py\ /repo/runs/motion/tier1/whole_body/soma 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : f87e6c37ef2178a8747f364cbe64a5e4  stages/policy/sequence_stats.py
+# source   : 755b63a364ea-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T05:31:52+0800
+# ---------------------------------------------------------------
+30 条序列（/repo/runs/motion/tier1/whole_body/soma）
+sequence_id	frames	fps	net_m	maxdisp_m	path_m	moving	rot_total_deg	rot_max_deg	radius_m	contact_L	contact_R
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	30	0.89	1.11	5.27	57%	569	170	0.16	184	0
+2026-03-18_19-36-56_g1_box_rotate_01	1003	30	0.58	0.86	2.28	36%	333	127	0.52	665	685
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	30	0.15	1.05	7.20	83%	2475	180	0.18	380	446
+2026-04-24_11-40-52_baseball_bat_rotate_05	803	30	0.43	1.95	8.32	90%	3217	180	0.29	475	561
+2026-04-24_13-56-58_light_blue_book_pick_place_09	901	30	0.55	1.25	5.98	70%	759	180	0.16	825	791
+2026-04-25_17-20-04_black_platform_turn_05	700	30	0.50	0.50	1.09	40%	199	180	0.53	439	383
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	30	0.01	0.42	3.83	74%	897	78	0.13	0	558
+2026-04-29_11-53-57_tall_bar_stool_pull_08	678	30	1.13	1.13	4.32	54%	435	130	0.60	441	442
+2026-05-01_11-15-05_woven_basket_ground_desk_10	565	30	1.46	1.52	3.13	66%	385	119	0.18	330	314
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	794	30	1.06	1.06	1.38	25%	113	89	0.86	453	479
+2026-05-01_17-04-55_traffic_cone_ground_table_02	440	30	1.22	1.97	4.05	67%	652	179	0.30	215	220
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	30	0.45	0.92	2.33	28%	185	39	0.53	359	399
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	30	1.05	1.64	6.52	61%	690	179	0.38	0	434
+2026-05-18_17-06-21_vacuum_left_lean_02	747	30	0.10	1.21	6.53	71%	970	85	0.61	452	54
+2026-05-19_10-19-48_cane_swing_05	886	30	1.00	1.26	17.65	75%	1346	178	0.58	399	318
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	30	0.54	1.02	8.73	86%	1047	180	0.97	642	678
+2026-05-22_16-52-36_step_ladder_drag_03	719	30	1.19	1.20	3.59	50%	422	180	0.41	0	430
+2026-05-28_14-44-09_round_table_flip_08	993	30	1.27	1.31	3.22	58%	450	180	0.71	806	746
+2026-05-29_15-20-43_iron_round_table_02	896	30	0.07	0.29	1.85	60%	272	109	0.17	0	695
+2026-05-29_15-43-20_watering_can_pour_right_02	748	30	0.02	0.17	0.94	42%	390	77	0.19	0	519
+2026-06-01_11-26-44_monitor_rotate_05	546	30	0.38	0.41	0.79	37%	247	180	0.39	331	342
+2026-06-02_10-04-42_blue_easter_basket_place_10	980	30	0.98	1.00	5.85	72%	812	104	0.16	431	169
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	30	0.88	1.37	4.99	79%	337	180	0.34	798	797
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	30	0.78	0.79	1.10	34%	113	92	0.60	343	446
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	870	30	0.47	1.10	4.75	87%	1317	180	0.17	610	589
+2026-06-05_15-08-08_skinny_wood_chair_push_10	708	30	0.57	0.57	0.76	23%	57	32	0.61	252	248
+2026-06-05_16-05-08_skateboard_rotate_ground_10	669	30	0.16	0.16	0.65	27%	451	180	0.41	246	260
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	30	0.68	0.68	1.01	29%	110	39	0.66	0	0
+2026-06-08_16-57-34_rice_cooker_clockwise_04	553	30	0.04	0.04	0.19	32%	338	180	0.16	0	328
+2026-06-09_10-19-09_snack_box_desk_through_06	922	30	0.11	0.95	4.12	40%	371	75	0.29	353	352

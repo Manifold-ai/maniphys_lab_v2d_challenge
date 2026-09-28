@@ -40,6 +40,8 @@ def summarize(path: str) -> bool:
     compact = {k: m.get(k) for k in KEYS if k != "termination_cause_fraction"}
     compact.update(environment_steps=d.get("environment_steps"), world_count=d.get("world_count"),
                    checkpoint_sha256=d.get("checkpoint_sha256"), reference_tracking=rt)
+    # 2026-09-28 只加不改：配对核对用（Day 2 的比较脚本核对步数、parquet 与 checkpoint 是否对得上）
+    compact.update(step_count=d.get("step_count"), parquet=d.get("parquet"), checkpoint=d.get("checkpoint"))
     print("  summary_json " + json.dumps(compact, sort_keys=True))
     return not missing
 

@@ -1,0 +1,250 @@
+# command  : env V2D_GPU=1 V2D_CONTAINER_NAME=palm-probe-all scripts/dev/in-flash-chord python\ /repo/stages/policy/palm_frame_probe.py\ /repo/runs/motion/tier1/whole_body/soma/sequence_id=\*/robot_name=g1/data.parquet 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 1981d446780fd689a8f6f7094d7ae6d5  stages/policy/palm_frame_probe.py
+# source   : 755b63a364ea-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T05:53:15+0800
+# ---------------------------------------------------------------
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 319.45 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.71 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.32 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 48.77 ms  (cached)
+== source_frame_playback=True: 477 frames, is_resampled False
+  left_hand_palm_link: position max 0.0005 mm (frame 258), p99 0.0004 mm; orientation max 5.162e-07 rad (frame 336), p99 3.909e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 151), p99 0.0003 mm; orientation max 4.787e-07 rad (frame 222), p99 4.143e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 794 frames, is_resampled True
+  left_hand_palm_link: position max 0.7435 mm (frame 109), p99 0.4926 mm; orientation max 1.125e-03 rad (frame 109), p99 7.290e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.5496 mm (frame 689), p99 0.2729 mm; orientation max 1.057e-03 rad (frame 691), p99 3.710e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 1003 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 772), p99 0.0003 mm; orientation max 5.348e-07 rad (frame 520), p99 4.430e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 180), p99 0.0003 mm; orientation max 4.861e-07 rad (frame 957), p99 4.277e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1671 frames, is_resampled True
+  left_hand_palm_link: position max 2.1683 mm (frame 654), p99 0.9329 mm; orientation max 4.494e-03 rad (frame 661), p99 1.807e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 3.5201 mm (frame 1216), p99 0.2843 mm; orientation max 6.389e-03 rad (frame 1214), p99 1.181e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+== source_frame_playback=True: 859 frames, is_resampled False
+  left_hand_palm_link: position max 0.0005 mm (frame 629), p99 0.0004 mm; orientation max 5.599e-07 rad (frame 564), p99 4.354e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 315), p99 0.0004 mm; orientation max 5.331e-07 rad (frame 513), p99 4.487e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1431 frames, is_resampled True
+  left_hand_palm_link: position max 0.8942 mm (frame 719), p99 0.5125 mm; orientation max 1.597e-03 rad (frame 719), p99 1.083e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 1.5969 mm (frame 1261), p99 0.6966 mm; orientation max 1.609e-03 rad (frame 1256), p99 7.955e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 803 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 388), p99 0.0004 mm; orientation max 5.179e-07 rad (frame 663), p99 4.008e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 396), p99 0.0004 mm; orientation max 5.702e-07 rad (frame 561), p99 4.129e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1338 frames, is_resampled True
+  left_hand_palm_link: position max 1.5898 mm (frame 1121), p99 0.6562 mm; orientation max 8.444e-04 rad (frame 229), p99 5.412e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 1.1174 mm (frame 1129), p99 0.3878 mm; orientation max 2.209e-03 rad (frame 1129), p99 7.198e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet
+== source_frame_playback=True: 901 frames, is_resampled False
+  left_hand_palm_link: position max 0.0003 mm (frame 276), p99 0.0003 mm; orientation max 5.356e-07 rad (frame 801), p99 4.490e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 294), p99 0.0003 mm; orientation max 5.145e-07 rad (frame 270), p99 4.204e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1501 frames, is_resampled True
+  left_hand_palm_link: position max 0.1677 mm (frame 79), p99 0.0956 mm; orientation max 6.144e-04 rad (frame 79), p99 2.725e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2717 mm (frame 186), p99 0.1283 mm; orientation max 7.076e-04 rad (frame 556), p99 2.561e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 700 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 543), p99 0.0003 mm; orientation max 5.406e-07 rad (frame 251), p99 4.461e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 543), p99 0.0003 mm; orientation max 5.863e-07 rad (frame 265), p99 4.237e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1166 frames, is_resampled True
+  left_hand_palm_link: position max 0.3808 mm (frame 1019), p99 0.1735 mm; orientation max 8.599e-04 rad (frame 599), p99 3.600e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2879 mm (frame 821), p99 0.1573 mm; orientation max 3.207e-04 rad (frame 1024), p99 1.601e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet
+== source_frame_playback=True: 781 frames, is_resampled False
+  left_hand_palm_link: position max 0.0003 mm (frame 74), p99 0.0003 mm; orientation max 3.345e-07 rad (frame 631), p99 2.770e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 656), p99 0.0003 mm; orientation max 2.905e-07 rad (frame 310), p99 2.421e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1301 frames, is_resampled True
+  left_hand_palm_link: position max 0.0727 mm (frame 1), p99 0.0201 mm; orientation max 3.361e-04 rad (frame 1), p99 5.386e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.1485 mm (frame 1179), p99 0.1089 mm; orientation max 2.472e-04 rad (frame 1), p99 8.676e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 678 frames, is_resampled False
+  left_hand_palm_link: position max 0.0005 mm (frame 336), p99 0.0004 mm; orientation max 5.162e-07 rad (frame 123), p99 3.944e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 463), p99 0.0004 mm; orientation max 4.578e-07 rad (frame 668), p99 3.582e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1129 frames, is_resampled True
+  left_hand_palm_link: position max 0.8149 mm (frame 551), p99 0.3593 mm; orientation max 1.275e-03 rad (frame 551), p99 5.074e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 1.4248 mm (frame 981), p99 0.2897 mm; orientation max 1.217e-03 rad (frame 981), p99 4.170e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+== source_frame_playback=True: 565 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 369), p99 0.0003 mm; orientation max 6.079e-07 rad (frame 258), p99 4.464e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 537), p99 0.0003 mm; orientation max 4.951e-07 rad (frame 191), p99 3.939e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 941 frames, is_resampled True
+  left_hand_palm_link: position max 0.3403 mm (frame 824), p99 0.1901 mm; orientation max 6.032e-04 rad (frame 824), p99 2.994e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2098 mm (frame 824), p99 0.1470 mm; orientation max 3.298e-04 rad (frame 1), p99 1.552e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 794 frames, is_resampled False
+  left_hand_palm_link: position max 0.0003 mm (frame 101), p99 0.0003 mm; orientation max 6.194e-07 rad (frame 450), p99 4.013e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 771), p99 0.0003 mm; orientation max 5.479e-07 rad (frame 383), p99 4.002e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1323 frames, is_resampled True
+  left_hand_palm_link: position max 0.4731 mm (frame 879), p99 0.1192 mm; orientation max 1.527e-03 rad (frame 841), p99 3.241e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 4.7807 mm (frame 876), p99 0.6131 mm; orientation max 2.841e-02 rad (frame 841), p99 4.876e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+== source_frame_playback=True: 440 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 123), p99 0.0003 mm; orientation max 5.825e-07 rad (frame 193), p99 4.261e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 265), p99 0.0003 mm; orientation max 4.987e-07 rad (frame 181), p99 4.164e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 733 frames, is_resampled True
+  left_hand_palm_link: position max 1.7519 mm (frame 566), p99 0.8896 mm; orientation max 3.057e-03 rad (frame 566), p99 1.552e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.7141 mm (frame 566), p99 0.3535 mm; orientation max 1.080e-03 rad (frame 569), p99 5.788e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 858 frames, is_resampled False
+  left_hand_palm_link: position max 0.0005 mm (frame 165), p99 0.0003 mm; orientation max 6.093e-07 rad (frame 659), p99 4.232e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 447), p99 0.0003 mm; orientation max 5.560e-07 rad (frame 681), p99 4.013e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1429 frames, is_resampled True
+  left_hand_palm_link: position max 0.2197 mm (frame 1224), p99 0.1261 mm; orientation max 1.268e-03 rad (frame 1), p99 2.154e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.4017 mm (frame 1289), p99 0.0999 mm; orientation max 3.487e-04 rad (frame 1), p99 1.673e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 715 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 536), p99 0.0003 mm; orientation max 5.447e-07 rad (frame 106), p99 4.065e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 383), p99 0.0003 mm; orientation max 4.674e-07 rad (frame 122), p99 3.777e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1191 frames, is_resampled True
+  left_hand_palm_link: position max 0.2814 mm (frame 861), p99 0.1822 mm; orientation max 4.449e-04 rad (frame 96), p99 2.704e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.1377 mm (frame 606), p99 0.1030 mm; orientation max 4.417e-04 rad (frame 1), p99 2.421e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+== source_frame_playback=True: 747 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 377), p99 0.0003 mm; orientation max 6.180e-07 rad (frame 599), p99 4.072e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 160), p99 0.0003 mm; orientation max 5.049e-07 rad (frame 407), p99 3.817e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1244 frames, is_resampled True
+  left_hand_palm_link: position max 1.5896 mm (frame 639), p99 0.5802 mm; orientation max 4.108e-03 rad (frame 639), p99 1.680e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 1.0747 mm (frame 1069), p99 0.4813 mm; orientation max 1.597e-03 rad (frame 1), p99 4.670e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 886 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 649), p99 0.0004 mm; orientation max 5.179e-07 rad (frame 739), p99 4.185e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 153), p99 0.0003 mm; orientation max 7.065e-07 rad (frame 645), p99 3.823e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1476 frames, is_resampled True
+  left_hand_palm_link: position max 1.9479 mm (frame 1359), p99 0.8021 mm; orientation max 2.846e-03 rad (frame 861), p99 1.158e-03 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 1.5563 mm (frame 1359), p99 0.2115 mm; orientation max 3.899e-03 rad (frame 1361), p99 8.193e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+== source_frame_playback=True: 988 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 850), p99 0.0003 mm; orientation max 5.893e-07 rad (frame 899), p99 4.561e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 824), p99 0.0004 mm; orientation max 5.763e-07 rad (frame 580), p99 4.152e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1646 frames, is_resampled True
+  left_hand_palm_link: position max 0.4313 mm (frame 1504), p99 0.2025 mm; orientation max 1.391e-03 rad (frame 1), p99 3.224e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.4586 mm (frame 1014), p99 0.3134 mm; orientation max 2.682e-03 rad (frame 1), p99 9.607e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 719 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 192), p99 0.0003 mm; orientation max 5.196e-07 rad (frame 222), p99 3.908e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 332), p99 0.0003 mm; orientation max 5.397e-07 rad (frame 218), p99 3.967e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1198 frames, is_resampled True
+  left_hand_palm_link: position max 0.1319 mm (frame 1021), p99 0.0667 mm; orientation max 3.664e-04 rad (frame 1), p99 7.775e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2377 mm (frame 1019), p99 0.1408 mm; orientation max 4.377e-04 rad (frame 1), p99 1.124e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 993 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 794), p99 0.0003 mm; orientation max 5.709e-07 rad (frame 818), p99 3.898e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 821), p99 0.0003 mm; orientation max 5.281e-07 rad (frame 903), p99 3.909e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1654 frames, is_resampled True
+  left_hand_palm_link: position max 4.5019 mm (frame 1224), p99 0.4587 mm; orientation max 1.483e-02 rad (frame 1224), p99 9.337e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 2.1624 mm (frame 1109), p99 0.4723 mm; orientation max 3.819e-03 rad (frame 1221), p99 8.497e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet
+== source_frame_playback=True: 896 frames, is_resampled False
+  left_hand_palm_link: position max 0.0003 mm (frame 619), p99 0.0003 mm; orientation max 4.183e-07 rad (frame 562), p99 2.935e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 714), p99 0.0003 mm; orientation max 4.480e-07 rad (frame 398), p99 3.159e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1493 frames, is_resampled True
+  left_hand_palm_link: position max 0.1085 mm (frame 1371), p99 0.0460 mm; orientation max 4.394e-04 rad (frame 1), p99 9.760e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2651 mm (frame 1354), p99 0.1079 mm; orientation max 5.109e-04 rad (frame 1351), p99 3.147e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 748 frames, is_resampled False
+  left_hand_palm_link: position max 0.0003 mm (frame 273), p99 0.0003 mm; orientation max 4.879e-07 rad (frame 238), p99 3.451e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0003 mm (frame 305), p99 0.0002 mm; orientation max 3.851e-07 rad (frame 97), p99 3.425e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1246 frames, is_resampled True
+  left_hand_palm_link: position max 0.1560 mm (frame 1106), p99 0.0852 mm; orientation max 4.179e-04 rad (frame 1), p99 1.432e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.4219 mm (frame 1134), p99 0.0693 mm; orientation max 6.965e-04 rad (frame 1134), p99 1.915e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet
+== source_frame_playback=True: 546 frames, is_resampled False
+  left_hand_palm_link: position max 0.0006 mm (frame 387), p99 0.0003 mm; orientation max 3.674e-07 rad (frame 316), p99 3.360e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 494), p99 0.0003 mm; orientation max 5.289e-07 rad (frame 323), p99 3.897e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 909 frames, is_resampled True
+  left_hand_palm_link: position max 0.4688 mm (frame 771), p99 0.2256 mm; orientation max 8.881e-04 rad (frame 761), p99 4.366e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2376 mm (frame 771), p99 0.1301 mm; orientation max 6.207e-04 rad (frame 804), p99 2.678e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet
+== source_frame_playback=True: 980 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 215), p99 0.0003 mm; orientation max 5.946e-07 rad (frame 645), p99 3.877e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 222), p99 0.0003 mm; orientation max 5.239e-07 rad (frame 416), p99 3.923e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1633 frames, is_resampled True
+  left_hand_palm_link: position max 0.6607 mm (frame 466), p99 0.2654 mm; orientation max 2.197e-03 rad (frame 466), p99 6.251e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.4278 mm (frame 136), p99 0.2461 mm; orientation max 1.093e-03 rad (frame 136), p99 5.717e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 946 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 455), p99 0.0003 mm; orientation max 5.075e-07 rad (frame 573), p99 4.269e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 457), p99 0.0004 mm; orientation max 6.079e-07 rad (frame 364), p99 4.439e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1576 frames, is_resampled True
+  left_hand_palm_link: position max 0.1400 mm (frame 1361), p99 0.0913 mm; orientation max 4.212e-04 rad (frame 1), p99 1.771e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.1594 mm (frame 1204), p99 0.0939 mm; orientation max 2.284e-04 rad (frame 1), p99 1.335e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 778 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 292), p99 0.0003 mm; orientation max 4.390e-07 rad (frame 107), p99 3.850e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 747), p99 0.0003 mm; orientation max 4.778e-07 rad (frame 91), p99 3.886e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1296 frames, is_resampled True
+  left_hand_palm_link: position max 0.8157 mm (frame 1099), p99 0.2094 mm; orientation max 7.481e-04 rad (frame 1096), p99 2.778e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.6923 mm (frame 1089), p99 0.2332 mm; orientation max 1.643e-03 rad (frame 1089), p99 3.317e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+== source_frame_playback=True: 870 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 725), p99 0.0003 mm; orientation max 6.108e-07 rad (frame 778), p99 4.285e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 765), p99 0.0004 mm; orientation max 5.438e-07 rad (frame 584), p99 3.929e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1449 frames, is_resampled True
+  left_hand_palm_link: position max 0.6351 mm (frame 1356), p99 0.1825 mm; orientation max 1.148e-03 rad (frame 1356), p99 2.458e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.5539 mm (frame 1356), p99 0.1406 mm; orientation max 7.404e-04 rad (frame 1356), p99 3.054e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 708 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 433), p99 0.0003 mm; orientation max 6.108e-07 rad (frame 501), p99 4.520e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 335), p99 0.0003 mm; orientation max 6.378e-07 rad (frame 394), p99 4.517e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1179 frames, is_resampled True
+  left_hand_palm_link: position max 0.5346 mm (frame 1031), p99 0.2621 mm; orientation max 1.302e-03 rad (frame 1044), p99 4.296e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.6987 mm (frame 1041), p99 0.3164 mm; orientation max 8.118e-04 rad (frame 1044), p99 3.878e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 669 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 414), p99 0.0003 mm; orientation max 4.578e-07 rad (frame 324), p99 3.983e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 264), p99 0.0003 mm; orientation max 5.479e-07 rad (frame 280), p99 3.962e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 1114 frames, is_resampled True
+  left_hand_palm_link: position max 0.7379 mm (frame 614), p99 0.2375 mm; orientation max 1.159e-03 rad (frame 414), p99 4.917e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2335 mm (frame 951), p99 0.1364 mm; orientation max 6.081e-04 rad (frame 414), p99 3.184e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+EMPTY_SUPPORT /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+== source_frame_playback=True（scene.support=false）: 467 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 403), p99 0.0003 mm; orientation max 5.552e-07 rad (frame 46), p99 4.211e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0003 mm (frame 283), p99 0.0003 mm; orientation max 4.722e-07 rad (frame 144), p99 4.144e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False（scene.support=false）: 778 frames, is_resampled True
+  left_hand_palm_link: position max 0.0919 mm (frame 1), p99 0.0490 mm; orientation max 6.256e-04 rad (frame 1), p99 6.093e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.1077 mm (frame 501), p99 0.0711 mm; orientation max 3.290e-04 rad (frame 1), p99 7.510e-05 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+== source_frame_playback=True: 553 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 57), p99 0.0003 mm; orientation max 5.615e-07 rad (frame 187), p99 4.430e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0005 mm (frame 422), p99 0.0004 mm; orientation max 6.020e-07 rad (frame 303), p99 4.030e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 921 frames, is_resampled True
+  left_hand_palm_link: position max 0.3248 mm (frame 821), p99 0.2537 mm; orientation max 2.030e-03 rad (frame 1), p99 4.411e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.6056 mm (frame 821), p99 0.3862 mm; orientation max 9.792e-04 rad (frame 871), p99 5.092e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+#### /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+== source_frame_playback=True: 922 frames, is_resampled False
+  left_hand_palm_link: position max 0.0004 mm (frame 875), p99 0.0003 mm; orientation max 4.598e-07 rad (frame 726), p99 3.598e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.0004 mm (frame 675), p99 0.0003 mm; orientation max 5.058e-07 rad (frame 696), p99 3.976e-07 rad; upstream tolerances 0.0001 m / 0.0001 rad
+== source_frame_playback=False: 1536 frames, is_resampled True
+  left_hand_palm_link: position max 0.3533 mm (frame 1389), p99 0.1377 mm; orientation max 3.699e-04 rad (frame 1394), p99 2.221e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+  right_hand_palm_link: position max 0.2954 mm (frame 371), p99 0.1560 mm; orientation max 5.146e-04 rad (frame 554), p99 2.656e-04 rad; upstream tolerances 0.0001 m / 0.0001 rad
+ALL 30 条建场景成功，重采样后最大偏差：位置 4.7807 mm（/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet）；朝向 2.841e-02 rad（/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet）
+FAILED_COUNT 0
