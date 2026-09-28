@@ -1,0 +1,21 @@
+# command  : python3 stages/evaluate/verdict.py --static results/day1/static_baseline_snackbox.txt --eval results/ml40/day1/eval_ctrl-snackbox-w2048-cap1m-mf4090.txt --manifests results/day1/policy_inputs_snackbox_on_mf4090.txt results/ml40/day1/policy_inputs_snackbox_on_ml40.txt 
+# md5      : 840dc70aab0b2b02577104b4abd613f2  stages/evaluate/verdict.py
+# md5      : e72fa8d89cacfaa9a02864a6c10d370d  results/day1/static_baseline_snackbox.txt
+# md5      : 0713996e2e1b23a8d6a4571680210ed7  results/ml40/day1/eval_ctrl-snackbox-w2048-cap1m-mf4090.txt
+# md5      : 56f7afe8d305895c401ff9fc97b25c3f  results/day1/policy_inputs_snackbox_on_mf4090.txt
+# md5      : aceea25e5a18bfb0478a1ab527861402  results/ml40/day1/policy_inputs_snackbox_on_ml40.txt
+# source   : b9bea02c389c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T18:21:58-0600
+# ---------------------------------------------------------------
+do-nothing baseline (results/day1/static_baseline_snackbox.txt): add_auc 0.5662, object_position_error 60.13 cm, object_orientation_error 61.08 deg, mppe 60.17 cm, spider_sr 0.000, maniptrans_sr 0.000
+
+== ctrl-snackbox-w2048-cap1m-mf4090: 4096 worlds, 349,999,104 steps, checkpoint sha256 072eab94a2d70455…
+  chord_sr       0 > 0 (0 of 4096 worlds): FAIL
+  maniptrans_sr  0.000244141 > 0 (1 of 4096 worlds): PASS
+  add_auc        0.540279 > 0.566172: FAIL
+  VERDICT: FAIL
+  spider_sr_uncentered 0.0500488 (205 of 4096 worlds); task-native failure causes {'object': 1.0, 'palm': 1.0, 'pelvis': 0.99755859375}
+  minus do-nothing: add_auc -0.0259; object_position_error -14.35 cm; object_orientation_error -10.17 deg; mppe -14.26 cm
+
+input manifests: 10 vs 10 files; byte-identical: True (results/day1/policy_inputs_snackbox_on_mf4090.txt vs results/ml40/day1/policy_inputs_snackbox_on_ml40.txt)
