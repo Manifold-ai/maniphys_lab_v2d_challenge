@@ -31,12 +31,41 @@ die() { say "中止：$*"; exit 1; }
 
 [ "$(id -u)" = 0 ] || die "需要 root（sudo bash ...）"
 
-if [ "$MODE" = --cleanup ]; then
-  docker info --format '{{.DockerRootDir}}' | grep -qx "$NEW_DKR" || die "docker 还没在用 $NEW_DKR，不删备份"
-  for d in "$OLD_CTD$BAK_SUFFIX" "$OLD_DKR$BAK_SUFFIX"; do
-    [ -d "$d" ] && { say "删除 $d"; rm -rf --one-file-system "$d"; }
+if [ "$MODE" = cleanup-check ] || [ "$MODE" = --cleanup ]; then
+  # 只删迁移留下的两个备份目录。删之前逐条确认它们已经没人在用；任何一条不符就停，什么都不删。
+  #   sudo bash deploy/ml40/migrate_docker_storage.sh cleanup-check   # 只检查
+  #   sudo bash deploy/ml40/migrate_docker_storage.sh --cleanup       # 检查全过才删
+  BAKS=("${OLD_CTD:?}${BAK_SUFFIX:?}" "${OLD_DKR:?}${BAK_SUFFIX:?}")
+  say "清理前检查"
+  [ "$(docker info --format '{{.DockerRootDir}}')" = "$NEW_DKR" ] || die "docker 还没在用 $NEW_DKR"
+  containerd config dump 2>/dev/null | grep -qE "^root = [\"']$NEW_CTD[\"']\$" || die "containerd root 不是 $NEW_CTD"
+  for d in "${BAKS[@]}"; do
+    [ -d "$d" ] && [ ! -L "$d" ] || die "$d 不存在、不是目录或是符号链接"
+    [ "$(stat -c %U:%G "$d")" = root:root ] || die "$d 不归 root:root"
+    [ "$(findmnt -no TARGET --target "$d")" = / ] || die "$d 不在系统盘上"
   done
-  df -h /; exit 0
+  ! grep -q "$BAK_SUFFIX" /proc/mounts || die "还有挂载指向备份目录：$(grep "$BAK_SUFFIX" /proc/mounts | head -3 | tr '\n' ' ')"
+  users=""
+  for p in /proc/[0-9]*; do
+    for l in "$p"/cwd "$p"/root "$p"/exe "$p"/fd/*; do
+      t=$(readlink "$l" 2>/dev/null) || continue
+      case "$t" in "${BAKS[0]}"|"${BAKS[0]}"/*|"${BAKS[1]}"|"${BAKS[1]}"/*) users+="${p#/proc/} "; break ;; esac
+    done
+  done
+  [ -z "$users" ] || die "还有进程在用备份目录：$users"
+  say "没有进程或挂载在用备份目录"
+  IA=$(ls -d /lab_data/rxzhou/ops/docker-migration-*/images.after 2>/dev/null | sort | tail -1)
+  [ -n "$IA" ] || die "找不到迁移验收时的镜像清单"
+  docker image ls --no-trunc --format '{{.Repository}}:{{.Tag}} {{.ID}}' | sort | diff -u "$IA" - || die "镜像清单与迁移验收时（$IA）不同，先人工确认"
+  say "镜像清单与迁移验收时一致：$(wc -l < "$IA") 个（$IA）"
+  for d in "${BAKS[@]}"; do say "待删：$d  $(du -sxh "$d" | cut -f1)"; done
+  say "系统盘：$(df -h --output=used,avail,pcent / | tail -1)"
+  [ "$MODE" = --cleanup ] || { say "只做了检查。确认后用 --cleanup 删除"; exit 0; }
+  for d in "${BAKS[@]}"; do say "删除 $d"; rm -rf --one-file-system "${d:?}"; done
+  [ "$(docker info --format '{{.DockerRootDir}}')" = "$NEW_DKR" ] || die "删除后 Docker Root Dir 不对"
+  docker image ls --no-trunc --format '{{.Repository}}:{{.Tag}} {{.ID}}' | sort | diff -q "$IA" - >/dev/null || die "删除后镜像清单变了"
+  say "清理完成，docker 与镜像不受影响；系统盘：$(df -h --output=used,avail,pcent / | tail -1)"
+  exit 0
 fi
 
 # ── 预检 ───────────────────────────────────────────────────────────
