@@ -42,6 +42,14 @@
     },
     "train_diff": {
       "file": "results/playback/training_path_diff.txt"
+    },
+    "g1_validation": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "g1_dex3.py|vega_sharpa.py|frame_position_tolerance|frame_orientation_tolerance|interpolated_frame|is_resampled|position_error|orientation_error|raise ValueError"
+    },
+    "probe": {
+      "file": "results/playback/palm_frame_probe.txt",
+      "grep": "^==|palm_link"
     }
   },
   "claims": [
@@ -129,6 +137,20 @@
         "train_diff"
       ],
       "claim": "The training-path scripts show no differences from the commit used for the Day 1 training runs."
+    },
+    {
+      "id": "g1_strict_palm_check",
+      "evidence": [
+        "g1_validation"
+      ],
+      "claim": "The G1 embodiment raises an error when any frame's reference palm position or orientation differs from the robot's computed wrist pose by more than its frame tolerances of 1e-4, with no separate tolerance for interpolated frames, whereas the Sharpa embodiment applies separate tolerances to resampled references."
+    },
+    {
+      "id": "probe_deviation",
+      "evidence": [
+        "probe"
+      ],
+      "claim": "With source-frame playback the palm-frame deviations are far below 1e-4, while after resampling to real time the maximum palm position deviation is about 0.61 mm and the maximum orientation deviation is about 2.0e-3 rad."
     },
     {
       "id": "ctrl_true",

@@ -1,23 +1,25 @@
 # command  : python3 tools/jev_claims.py agent-doc/plan-playback-2026-09-28.claims.json 
 # md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
-# md5      : 7a4dc51557b4134a8407e02e3becad79  agent-doc/plan-playback-2026-09-28.claims.json
-# source   : 3f87c6381472-dirty
+# md5      : f5c250fc0b6a2e9ea0dfc1f93ff201a0  agent-doc/plan-playback-2026-09-28.claims.json
+# source   : 34322e27a7c3-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-09-28T07:51:29-0600
+# run_at   : 2026-09-28T08:40:42-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
 g1_frame_playback    P(supported)=0.98  verified               [recipes]  The G1 FlashSAC recipe enables source-frame playback and keeps motion_speed at 1.0.
 others_half_speed    P(supported)=0.97  verified               [recipes]  The task default and the three Sharpa hand recipes disable source-frame playback and set motion_speed to 0.5.
 resample_when_off    P(supported)=0.93  verified               [loader]  When source-frame playback is off and the control rate differs from the source frame rate, the motion loader resamples positions linearly and quaternions by slerp onto target times spaced at the control rate across the same motion duration.
-eval_config_from_ckpt P(supported)=0.94  verified               [harness]  The evaluation function builds its configuration from the checkpoint's metadata and passes that configuration's motion_speed and source_frame_playback to the scene setup.
-eval_compose_keeps_task P(supported)=0.89  verified               [harness]  The evaluation composition step changes scene, env and termination settings but does not change the task's motion_speed or source_frame_playback.
-eval_steps           P(supported)=0.96  verified               [harness]  The number of evaluation steps equals the reference's frame count minus the start frame.
+eval_config_from_ckpt P(supported)=0.93  verified               [harness]  The evaluation function builds its configuration from the checkpoint's metadata and passes that configuration's motion_speed and source_frame_playback to the scene setup.
+eval_compose_keeps_task P(supported)=0.90  verified               [harness]  The evaluation composition step changes scene, env and termination settings but does not change the task's motion_speed or source_frame_playback.
+eval_steps           P(supported)=0.95  verified               [harness]  The number of evaluation steps equals the reference's frame count minus the start frame.
 curriculum_absolute  P(supported)=0.94  verified               [curriculum]  The FlashSAC ReconBody curriculum defines its stage boundaries as a fixed list of environment-step counts, and its comment says zero VOC begins at 60% of the budget.
 seed_fixed           P(supported)=0.95  verified               [seed]  The FlashSAC training seed is taken from reset.seed, and the training wrapper sets reset.seed to 42.
-preview_in_steps     P(supported)=0.91  verified               [preview]  The ReconBody observation reads reference targets at future offsets of 0, 5 and 10 frames of the reference.
-no_official_eval     P(supported)=0.94  verified               [no_eval_script, ls_remote]  The upstream repository's HEAD is the v0.4.0 tag, and the checked-out upstream tree contains no file named eval_robotic_grounding.
-t2_fired             P(supported)=0.77  verified               [triggers]  In the Day 1b diagnosis the lag trigger T2 fired for the main policy.
-training_path_same   P(supported)=0.99  verified               [train_diff]  The training-path scripts show no differences from the commit used for the Day 1 training runs.
+preview_in_steps     P(supported)=0.89  verified               [preview]  The ReconBody observation reads reference targets at future offsets of 0, 5 and 10 frames of the reference.
+no_official_eval     P(supported)=0.93  verified               [no_eval_script, ls_remote]  The upstream repository's HEAD is the v0.4.0 tag, and the checked-out upstream tree contains no file named eval_robotic_grounding.
+t2_fired             P(supported)=0.78  verified               [triggers]  In the Day 1b diagnosis the lag trigger T2 fired for the main policy.
+training_path_same   P(supported)=0.98  verified               [train_diff]  The training-path scripts show no differences from the commit used for the Day 1 training runs.
+g1_strict_palm_check P(supported)=0.89  verified               [g1_validation]  The G1 embodiment raises an error when any frame's reference palm position or orientation differs from the robot's computed wrist pose by more than its frame tolerances of 1e-4, with no separate tolerance for interpolated frames, whereas the Sharpa embodiment applies separate tolerances to resampled references.
+probe_deviation      P(supported)=0.95  verified               [probe]  With source-frame playback the palm-frame deviations are far below 1e-4, while after resampling to real time the maximum palm position deviation is about 0.61 mm and the maximum orientation deviation is about 2.0e-3 rad.
 ctrl_true            P(supported)=0.98  control(true) ok       [recipes]  The G1 FlashSAC recipe sets the replay capacity to 10,000,000.
 ctrl_false           P(supported)=0.02  control(false) ok      [recipes]  The G1 FlashSAC recipe disables source-frame playback.
 controls behaved as expected
