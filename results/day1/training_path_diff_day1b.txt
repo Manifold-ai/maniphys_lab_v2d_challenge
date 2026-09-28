@@ -1,0 +1,16 @@
+# command  : bash -c F=\"stages/policy/fc_run.sh\ stages/policy/fc_train.sh\ stages/policy/fc_queue.sh\ stages/policy/ckpt_latest.py\ stages/policy/deps_freeze.py\ scripts/dev/in-flash-chord\"\;\ for\ f\ in\ \$F\;\ do\ a=\$\(git\ show\ 7e30e3d:\$f\ \|\ md5\ -q\)\;\ b=\$\(md5\ -q\ \$f\)\;\ echo\ \"\$f\ \ 7e30e3d=\$a\ \ HEAD=\$b\ \ \$\(\[\ \"\$a\"\ =\ \"\$b\"\ \]\ \&\&\ echo\ same\ \|\|\ echo\ DIFFERENT\)\"\;\ done\;\ if\ git\ diff\ --quiet\ 7e30e3d\ HEAD\ --\ \$F\;\ then\ echo\ \"RESULT:\ no\ differences\ between\ 7e30e3d\ \(Day\ 1\ training\ source\)\ and\ HEAD\ in\ these\ training-path\ files\"\;\ else\ echo\ \"RESULT:\ differences\ found\"\;\ fi 
+# md5      : 8b6b3a6fa82bb1d61437a3c30498fd0b  stages/policy/fc_train.sh
+# md5      : dbc4607d81c7334d947512b8e813ba89  stages/policy/fc_queue.sh
+# md5      : 8f40df5256e129e4e90205a4d99d1351  stages/policy/ckpt_latest.py
+# md5      : ed9f8923f3fafba024dd1d59794c5291  stages/policy/deps_freeze.py
+# source   : 625a474a8b2d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T19:02:06-0600
+# ---------------------------------------------------------------
+stages/policy/fc_run.sh  7e30e3d=e083a0cd4823bd0a4e7b1127a5bbdd55  HEAD=e083a0cd4823bd0a4e7b1127a5bbdd55  same
+stages/policy/fc_train.sh  7e30e3d=8b6b3a6fa82bb1d61437a3c30498fd0b  HEAD=8b6b3a6fa82bb1d61437a3c30498fd0b  same
+stages/policy/fc_queue.sh  7e30e3d=dbc4607d81c7334d947512b8e813ba89  HEAD=dbc4607d81c7334d947512b8e813ba89  same
+stages/policy/ckpt_latest.py  7e30e3d=8f40df5256e129e4e90205a4d99d1351  HEAD=8f40df5256e129e4e90205a4d99d1351  same
+stages/policy/deps_freeze.py  7e30e3d=ed9f8923f3fafba024dd1d59794c5291  HEAD=ed9f8923f3fafba024dd1d59794c5291  same
+scripts/dev/in-flash-chord  7e30e3d=c701ed488c5e4f4de646ceb756b0b55f  HEAD=c701ed488c5e4f4de646ceb756b0b55f  same
+RESULT: no differences between 7e30e3d (Day 1 training source) and HEAD in these training-path files

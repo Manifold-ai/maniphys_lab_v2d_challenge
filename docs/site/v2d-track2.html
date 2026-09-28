@@ -291,7 +291,7 @@ body.en .pb.l-en{display:grid}
   <h2>现在要做的三件事</h2>
   <ul class="todo">
     <li><span class="pill w">待办</span><div><b><a href="#sop-day1">满配跑官方 snack_box 对照</a></b><span>100 万 buffer 版本不通过，分不清原因；满配在 ml40 上跑，判据先登记、先约时段</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">待办</span><div><b><a href="#next">逐帧查 ep20 为什么没转动电饭煲</a></b><span>评测只给汇总；导出 rollout，看朝向误差在哪一段累积</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待办</span><div><b><a href="#next">逐帧查 ep20 的 ADD-AUC 丢在哪一段</a></b><span>评测只给汇总；导出评测 rollout，逐段和“物体不动”比，另看物体转了多少、手离物体多远</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">待办</span><div><b><a href="#next">邮件组委会</a></b><span>holdout、评测脚本与栈、播放速度、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>目录</h2>
@@ -320,7 +320,7 @@ body.en .pb.l-en{display:grid}
   <h2>Top three right now</h2>
   <ul class="todo">
     <li><span class="pill w">To do</span><div><b><a href="#sop-day1">Full-recipe snack_box control</a></b><span>The 1M-buffer version failed without telling the causes apart; run the full recipe on ml40, with criteria registered and a time slot booked first</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">To do</span><div><b><a href="#next">Find out frame by frame why ep20 does not turn the cooker</a></b><span>The evaluator only reports aggregates; export rollouts and see where the orientation error builds up</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To do</span><div><b><a href="#next">Find where ep20 loses ADD-AUC, frame by frame</a></b><span>The evaluator only reports aggregates; export evaluation rollouts, compare each segment with an object that never moves, and check how far the object turns and how far the hands are from it</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">To do</span><div><b><a href="#next">Email the organizers</a></b><span>Holdout, evaluation script and stack, playback speed, Tier 1 use during development, cross-tier warm start, data use across tracks</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>Contents</h2>
@@ -503,7 +503,7 @@ body.en .pb.l-en{display:grid}
   <ul class="bl">
     <li><b>Day 1 结论</b>：ep20 两条全程（1000 万 / 100 万 buffer）都没过判据，ADD-AUC 低于物体完全不动；按 <a href="#sop-day1">Day 1 验证</a>的规则，不开批量。</li>
     <li><b>满配 snack_box 对照</b>：ml40、1000 万 buffer，判据先登记。它过了，问题在 ep20 这条数据；它也不过，先查配方与环境。mf4090 上 100 万 buffer 的 snack_box 已评测：不通过（chord_sr 0，ADD-AUC 0.540 低于它的不动基线 0.566），分不清是哪种问题。</li>
-    <li><b>逐帧诊断 ep20</b>：导出评测 rollout，看朝向误差在哪一段累积、机器人有没有尝试转动。参考要求把电饭煲原地转近一圈（累计 338°，集中在第 209–420 帧）。</li>
+    <li><b>逐帧诊断 ep20</b>：导出评测 rollout，把 ADD-AUC 按段拆开和“物体不动”比，另看物体绕参考主轴转了多少、参考手离物体多远。参考在第 209–420 帧把电饭煲原地转近一圈（几何净转约 309°）。计划见 <code>agent-doc/plan-day1b-2026-09-27.md</code>。</li>
     <li><b>对准比赛口径的离线评测</b>：仿真物体轨迹对 Tier 1 真值算 ADD-AUC 与 MPPE，只做分析。</li>
     <li><b>训练杠杆</b>，各自单独试：
       <ul>
@@ -530,7 +530,7 @@ body.en .pb.l-en{display:grid}
   <ul class="bl">
     <li><b>Day 1 outcome</b>: both full ep20 runs (10M and 1M buffer) fail the criteria, with ADD-AUC below an object that never moves; by the rule in <a href="#sop-day1">Day 1 validation</a>, the batch stays on hold.</li>
     <li><b>Full-recipe snack_box control</b>: ml40 with the 10M buffer, criteria registered first. If it passes, the problem is in the ep20 data; if it fails too, check the recipe and environment first. The 1M-buffer snack_box from mf4090 has been evaluated and fails (chord_sr 0, ADD-AUC 0.540 below its do-nothing 0.566), which cannot tell the causes apart.</li>
-    <li><b>Frame-by-frame diagnosis of ep20</b>: export evaluation rollouts and see where the orientation error builds up and whether the robot tries to turn the cooker. The reference turns it in place almost a full circle (338° in total, within frames 209–420).</li>
+    <li><b>Frame-by-frame diagnosis of ep20</b>: export evaluation rollouts, split ADD-AUC by segment and compare with an object that never moves, and also check how far the object turns about the reference axis and how far the reference hands are from it. The reference turns the cooker in place almost a full circle within frames 209–420 (geometric net about 309°). Plan in <code>agent-doc/plan-day1b-2026-09-27.md</code>.</li>
     <li><b>Offline evaluation on the challenge's terms</b>: compute ADD-AUC and MPPE of the simulated object trajectory against Tier 1 ground truth, for analysis only.</li>
     <li><b>Training levers</b>, each tried on its own:
       <ul>
@@ -685,7 +685,7 @@ body.en .pb.l-en{display:grid}
     <thead><tr><th>位置</th><th>用途</th><th>状态</th></tr></thead>
     <tbody>
       <tr><td>Mac 工作树</td><td>编辑代码与文档；<code>scripts/dev/remote</code> 同步到训练机后执行，<code>V2D_ENV=ml40</code> 切到 ml40。<code>results/</code> 单向回流到 Mac：mf4090 回到 <code>results/</code>，其他主机回到 <code>results/&lt;主机&gt;/</code></td><td><span class="pill ok">可用</span></td></tr>
-      <tr><td>mf4090（共用，1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 只能用 100 万 buffer，Day 1 显示它明显变差，不用来衡量配方</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>mf4090（共用，1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 只能用 100 万 buffer，Day 1 里那条明显更差（两条同时换了 GPU 与机器，差别不能单独归因于 buffer），不用来衡量配方</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>ml40（共用，1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 10 min，峰值显存 40,273 MiB</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 + 官方 toolkit：重定向与 Isaac Lab 训练（只在 mf4090）</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有。ml40 上的已随存储迁到 <code>/lab_data</code>，迁移后 64 世界复核评测与迁移前 ADD-AUC 差 0.00015</td><td><span class="pill ok">可用</span></td></tr>
@@ -700,7 +700,7 @@ body.en .pb.l-en{display:grid}
     <thead><tr><th>Where</th><th>Used for</th><th>State</th></tr></thead>
     <tbody>
       <tr><td>Mac working tree</td><td>Editing code and docs; <code>scripts/dev/remote</code> syncs to a training machine and runs there, <code>V2D_ENV=ml40</code> targets ml40. <code>results/</code> flows one way back to the Mac: mf4090 into <code>results/</code>, other hosts into <code>results/&lt;host&gt;/</code></td><td><span class="pill ok">Ready</span></td></tr>
-      <tr><td>mf4090 (shared, 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD fits only with a 1M buffer, which Day 1 showed to be clearly worse, so it is not used to measure the recipe</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>mf4090 (shared, 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD fits only with a 1M buffer; the Day 1 run with it was clearly worse (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone), so it is not used to measure the recipe</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>ml40 (shared, 1× L40S 48 GB, 45,458 MiB free, 28 cores, 111 GiB RAM)</td><td>Full-recipe FlashCHORD training and evaluation; one full run takes 2 h 10 min with a 40,273 MiB memory peak</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>Image <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 plus the official toolkit: retargeting and Isaac Lab training (mf4090 only)</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>Image <code>flash_chord</code> (22 GB)</td><td>FlashCHORD: FlashSAC training and evaluation; on both machines. On ml40 it moved to <code>/lab_data</code> with the storage; a 64-world re-evaluation after the migration differs from the earlier one by 0.00015 ADD-AUC</td><td><span class="pill ok">Ready</span></td></tr>
@@ -953,7 +953,7 @@ body.en .pb.l-en{display:grid}
     </tbody>
   </table></div>
   <div class="adm"><span class="t">迁移没赶在训练前怎么办（已定）</span>
-    <p>flash_chord 镜像先建在系统盘上，训练照常开；docker 存储迁移放到两次训练之间做（ADR-00003 修订）。备选的“mf4090 用 100 万 buffer 顶上”已被 Day 1 否定：那样训出来的 policy 明显更差。</p></div>
+    <p>flash_chord 镜像先建在系统盘上，训练照常开；docker 存储迁移放到两次训练之间做（ADR-00003 修订）。备选的“mf4090 用 100 万 buffer 顶上”已被 Day 1 否定：那样训出来的 policy 明显更差（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。</p></div>
   <details class="more"><summary>联系管理员时要讲清的三件事</summary><div>
     <ol class="steps">
       <li>这台 docker 用 containerd 镜像存储（<code>docker info</code> 里 driver-type 是 <code>io.containerd.snapshotter.v1</code>），要把 <code>/etc/containerd/config.toml</code> 的 root 一起迁；<code>daemon.json</code> 里的 nvidia runtime 与 registry-mirrors 保留。</li>
@@ -986,7 +986,7 @@ body.en .pb.l-en{display:grid}
     </tbody>
   </table></div>
   <div class="adm"><span class="t">If the migration is late (decided)</span>
-    <p>The flash_chord image is built on the root disk first and training goes ahead; the docker storage migration happens between two trainings (ADR-00003 revision). The fallback of filling in with a 1M buffer on mf4090 was ruled out by Day 1: that produces clearly worse policies.</p></div>
+    <p>The flash_chord image is built on the root disk first and training goes ahead; the docker storage migration happens between two trainings (ADR-00003 revision). The fallback of filling in with a 1M buffer on mf4090 was ruled out by Day 1: that produced a clearly worse policy (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone).</p></div>
   <details class="more"><summary>Three points to make to the admin</summary><div>
     <ol class="steps">
       <li>Docker here uses the containerd image store (<code>docker info</code> shows driver-type <code>io.containerd.snapshotter.v1</code>), so the root in <code>/etc/containerd/config.toml</code> has to move as well; keep the nvidia runtime and registry-mirrors in <code>daemon.json</code>.</li>
@@ -1075,8 +1075,8 @@ body.en .pb.l-en{display:grid}
     </tbody>
   </table></div>
   <ul class="bl">
-    <li>两个 policy 都把电饭煲推离了原位（位置误差比不动多 2.4 / 7.3 cm），朝向误差只比不动少 7° / 3°。参考要把它原地转近一圈（累计 338°）。</li>
-    <li>1000 万 buffer 明显好于 100 万，训练曲线从课程第 0 阶段（VOC=1）就分开（单种子）。100 万 buffer 不再用来衡量配方。</li>
+    <li>两个 policy 都把电饭煲推离了原位（位置误差比不动多 2.4 / 7.3 cm）。全程平均朝向误差只比不动少 7° / 3°，但这不等于没转：任务原生判据下不越物体门槛的世界（满配约 80%）必须在第 359 帧把物体转离初始朝向至少约 94°。ADD-AUC 丢在哪一段，由 Day 1b 诊断核实。</li>
+    <li>1000 万 buffer 的 run 明显好于 100 万的，训练曲线从课程第 0 阶段（VOC=1）就分开（单种子）（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。100 万 buffer 不再用来衡量配方。</li>
     <li>ADD-AUC 很大程度上奖励静止段的“不动”：snack_box 前 440 / 800 帧静止，物体完全不动就能拿 0.566，比 ep20 的 0.471 还高。及格线要用每条序列自己的不动基线，不能跨序列套固定值。</li>
     <li>评测 JSON 的 <code>chord_sr</code> 按任务原生门槛（pelvis、palm、object）算，失败原因看 <code>reference_tracking.failure_cause_fraction</code>；<code>termination_cause_fraction</code> 是旧口径，别混读。</li>
     <li>记录：<code>agent-doc/experiments/2026-09-28-day1.md</code>。表里每个数都由 <code>scripts/experiments/2026-09-28-day1.sh</code> 重新生成到 <code>results/day1/</code>，判定由 <code>stages/evaluate/verdict.py</code> 计算，结论经 jev 核对（13 条中 10 条 ≥ 0.7，其余标为未核实）。</li>
@@ -1130,8 +1130,8 @@ pgrep -af '[n]vidia-smi --query'   # 应无输出</pre>
     </tbody>
   </table></div>
   <ul class="bl">
-    <li>Both policies push the cooker away from its place (position error 2.4 and 7.3 cm above the do-nothing case), and their orientation error is only 7° and 3° below it. The reference turns the cooker in place almost a full circle (338° in total).</li>
-    <li>The 10M buffer is clearly better than 1M, and the training curves separate already in curriculum stage 0 (VOC = 1), single seed. The 1M buffer is no longer used to measure the recipe.</li>
+    <li>Both policies push the cooker away from its place (position error 2.4 and 7.3 cm above the do-nothing case). Their mean orientation error is only 7° and 3° below it, but that does not mean they do not turn it: worlds that never cross the task-native object limit (about 80% for the 10M run) must have turned the cooker at least about 94° from its start by frame 359. Where ADD-AUC is lost is checked by the Day 1b diagnosis.</li>
+    <li>The 10M-buffer run is clearly better than the 1M one, and the training curves separate already in curriculum stage 0 (VOC = 1), single seed (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone). The 1M buffer is no longer used to measure the recipe.</li>
     <li>ADD-AUC largely rewards doing nothing during static segments: snack_box is static for 440 of its 800 frames, so an object that never moves scores 0.566, higher than ep20's 0.471. Pass bars must come from each sequence's own do-nothing baseline, not a fixed value across sequences.</li>
     <li>The evaluation JSON's <code>chord_sr</code> uses the task-native limits (pelvis, palm, object); read failure causes from <code>reference_tracking.failure_cause_fraction</code>. <code>termination_cause_fraction</code> is a legacy measure; do not mix the two.</li>
     <li>Record: <code>agent-doc/experiments/2026-09-28-day1.md</code>. Every number here is regenerated into <code>results/day1/</code> by <code>scripts/experiments/2026-09-28-day1.sh</code>, the verdict is computed by <code>stages/evaluate/verdict.py</code>, and the conclusions were checked with jev (10 of 13 at 0.7 or above; the rest are marked unverified).</li>
@@ -1211,7 +1211,7 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
     <li><b>陷桌面</b>：Tier 2 的熨斗、电饭煲陷进桌面约 2 cm，观察这两条的终止原因是否集中在物体。</li>
     <li><b>官方评测</b>：<code>eval_robotic_grounding.py</code> 发布当天，用它重评已有 checkpoint，核对本地指标。</li>
     <li><b>mf4090 磁盘</b>：只剩约 20 GB，checkpoint 回传前先清理不再需要的冒烟产物。</li>
-    <li><b>100 万 buffer</b>：Day 1 里它从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子）。4090 放不下默认的 1000 万，mf4090 上的 FlashCHORD 训练不用来比较配方。</li>
+    <li><b>100 万 buffer</b>：Day 1 里那条从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子）（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。4090 放不下默认的 1000 万，mf4090 上的 FlashCHORD 训练不用来比较配方。</li>
     <li><b>选序列</b>：起步序列按平移挑的，ep20 物体只平移 4 cm，却要原地转近一圈。按物体位移和在动帧排难度会漏掉旋转，后续挑序列要同时看累计转角。</li>
   </ul>
 </div>
@@ -1224,7 +1224,7 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
     <li><b>Tabletop sinking</b>: the Tier 2 iron and rice cooker sink about 2 cm into the tabletop; watch whether their termination causes concentrate on the object.</li>
     <li><b>Official evaluation</b>: on the day <code>eval_robotic_grounding.py</code> is released, re-evaluate existing checkpoints with it and reconcile the local metrics.</li>
     <li><b>mf4090 disk</b>: about 20 GB left; clear smoke-run outputs that are no longer needed before syncing checkpoints back.</li>
-    <li><b>1M buffer</b>: on Day 1 it was clearly worse from curriculum stage 0 on (chord_sr 0.017 versus 0.79, single seed). The 4090 cannot hold the default 10M, so FlashCHORD training on mf4090 is not used to compare recipes.</li>
+    <li><b>1M buffer</b>: on Day 1 that run was clearly worse from curriculum stage 0 on (chord_sr 0.017 versus 0.79, single seed) (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone). The 4090 cannot hold the default 10M, so FlashCHORD training on mf4090 is not used to compare recipes.</li>
     <li><b>Sequence choice</b>: the starting sequences were picked by translation; ep20 moves the object only 4 cm but turns it in place almost a full circle. Ranking difficulty by object displacement and moving frames misses rotation, so future picks should also look at the total rotation.</li>
   </ul>
 </div>

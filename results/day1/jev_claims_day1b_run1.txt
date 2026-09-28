@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-day1b.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 8e7be95dac0054fb6f62408b9fd2de81  agent-doc/experiments/2026-09-28-day1b.claims.json
+# source   : 625a474a8b2d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-27T19:01:43-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sop_rule             P(supported)=0.98  verified               [sop_rule]  Under the SOP's Day 1 rule, if snack_box passes while ep20 fails the problem is attributed to our data, and if both fail the recipe and environment are checked first and no batch training starts.
+snack1m_inconclusive P(supported)=0.89  verified               [prereg_snack1m, verdict_snack1m]  The 1M-buffer snack_box run failed its pre-registered criteria, and its pre-registration states that such a failure cannot separate a recipe problem from a buffer problem.
+no_upstream_reference P(supported)=0.93  verified               [upstream]  Upstream provides neither reference metrics nor a downloadable trained checkpoint for the G1 snack-box sample, and it states the full G1 training reproduction still needed sign-off.
+config_matches_recipe P(supported)=0.72  verified               [cfgcheck, queue]  The planned full-recipe snack_box run differs from the official G1 recipe only in logging, W&B naming and output directory, with no unexpected differences and no training overrides.
+training_code_unchanged P(supported)=0.15  UNVERIFIED             [train_diff]  The training-path scripts show no differences from the commit used for the Day 1 training runs.
+diag_tool_tested     P(supported)=0.61  UNVERIFIED             [diag_test]  The per-frame rotation analysis passed all of its synthetic-data checks, including robustness to per-frame jitter and to quaternion sign flips.
+ctrl_true            P(supported)=0.95  control(true) ok       [queue]  The planned snack_box run uses 2048 worlds.
+ctrl_false           P(supported)=0.03  control(false) ok      [cfgcheck, queue]  The planned snack_box run overrides the replay buffer capacity to 1,000,000.
+controls behaved as expected

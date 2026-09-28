@@ -1,0 +1,102 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "sop_rule": {
+      "file": "docs/site/v2d-track2.html",
+      "grep": "Day 1 之后"
+    },
+    "prereg_snack1m": {
+      "file": "agent-doc/experiments/2026-09-28-day1.md",
+      "grep": "snack_box 对照的评测判据|这条是 100 万 buffer|判定：不通过（chord_sr = 0"
+    },
+    "verdict_snack1m": {
+      "file": "results/day1/verdict_snackbox.txt",
+      "grep": "VERDICT|chord_sr|add_auc  "
+    },
+    "upstream": {
+      "text": "Upstream FlashCHORD (third_party/video_to_data v0.4.0), verbatim excerpts read on the training host:\ndocs/media/README.md: '| Actor | Training steps | SHA-256 |' / '| G1 snack-box | 349,999,104 | `37d0af55b8310bbdaa55176b8defe63d486eff40d2c28fa041aa0ecee5ae815f` |' (listed under 'Workflow GIFs'; 'Policy GIFs: deterministic rollouts from frame 0 using the terminal EVT-07 actors').\nV2D_INTEGRATION.md: 'These are import/scene gates, not the final training-reproduction gate. The release cohort still requires bounded train/save/resume/evaluate smokes and the signed-off full Sharpa, Dexmate/Sharpa, and G1 training runs.'\nA search of the upstream tree for *.safetensors files larger than 1 kB returned none; grep for the sha256 37d0af55 found it only in docs/media/README.md and docs/media/manifest.json. No markdown file in the upstream tree reports AUC, success rate or MPPE numbers next to snack_box."
+    },
+    "cfgcheck": {
+      "file": "results/ml40/day1/cfgcheck_ml40_day1b.txt",
+      "grep": "^==|允许|意外|通过"
+    },
+    "queue": {
+      "file": "stages/policy/queues/ml40_day1b.txt"
+    },
+    "train_diff": {
+      "file": "results/day1/training_path_diff_day1b.txt"
+    },
+    "diag_test": {
+      "file": "results/tests/test_diag_rotation.txt",
+      "grep": "PASS|FAIL|结果"
+    },
+    "diag_test_src": {
+      "file": "stages/evaluate/test_diag_rotation.py",
+      "grep": "正负号|抖动|6–7 不转|绝对值之和"
+    }
+  },
+  "claims": [
+    {
+      "id": "sop_rule",
+      "evidence": [
+        "sop_rule"
+      ],
+      "claim": "Under the SOP's Day 1 rule, if snack_box passes while ep20 fails the problem is attributed to our data, and if both fail the recipe and environment are checked first and no batch training starts."
+    },
+    {
+      "id": "snack1m_inconclusive",
+      "evidence": [
+        "prereg_snack1m",
+        "verdict_snack1m"
+      ],
+      "claim": "The 1M-buffer snack_box run failed its pre-registered criteria, and its pre-registration states that such a failure cannot separate a recipe problem from a buffer problem."
+    },
+    {
+      "id": "no_upstream_reference",
+      "evidence": [
+        "upstream"
+      ],
+      "claim": "Upstream provides neither reference metrics nor a downloadable trained checkpoint for the G1 snack-box sample, and it states the full G1 training reproduction still needed sign-off."
+    },
+    {
+      "id": "config_matches_recipe",
+      "evidence": [
+        "cfgcheck",
+        "queue"
+      ],
+      "claim": "The planned full-recipe snack_box run differs from the official G1 recipe only in logging, W&B naming and output directory, with no unexpected differences and no training overrides."
+    },
+    {
+      "id": "training_code_unchanged",
+      "evidence": [
+        "train_diff"
+      ],
+      "claim": "The training-path scripts show no differences from the commit used for the Day 1 training runs."
+    },
+    {
+      "id": "diag_tool_tested",
+      "evidence": [
+        "diag_test_src",
+        "diag_test"
+      ],
+      "claim": "The per-frame rotation analysis passed all of its synthetic-data checks, including robustness to per-frame jitter and to quaternion sign flips."
+    },
+    {
+      "id": "ctrl_true",
+      "control": "true",
+      "evidence": [
+        "queue"
+      ],
+      "claim": "The planned snack_box run uses 2048 worlds."
+    },
+    {
+      "id": "ctrl_false",
+      "control": "false",
+      "evidence": [
+        "cfgcheck",
+        "queue"
+      ],
+      "claim": "The planned snack_box run overrides the replay buffer capacity to 1,000,000."
+    }
+  ]
+}
