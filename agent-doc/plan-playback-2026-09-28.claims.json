@@ -1,0 +1,150 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "recipes": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "^--- .*configs/(experiment|task)/|^ *[0-9]+ +(motion_speed|source_frame_playback|capacity):"
+    },
+    "loader": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "motion_v1.py|resampling.py|source_frame_playback|playback_times|resample|lerp|slerp|nearest|_fps=|source_fps|num_target_frames|duration|target_times"
+    },
+    "harness": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "harness.py|def evaluate_checkpoint|read_checkpoint_metadata|checkpoint_config\\(|config = saved|config\\[|cfg = OmegaConf|apply_evaluation_composition|Force the unassisted|Mutates only|termination\\[|setup_scene|motion_speed=cfg|source_frame_playback=bool|step_count"
+    },
+    "fc_eval": {
+      "file": "stages/policy/fc_eval.sh",
+      "grep": "checkpoint 自带的配置|evaluation.checkpoint="
+    },
+    "curriculum": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "recon_body_flash_sac.yaml|thresholds|zero VOC|stage fractions|voc_scale"
+    },
+    "seed": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "reference_flash_sac.yaml|reset/recon_body.yaml|fc_train.sh|seed"
+    },
+    "preview": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "recon_body.py|RECON_BODY_FUTURE_OFFSETS|future_frame"
+    },
+    "no_eval_script": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "^upstream |eval_robotic_grounding"
+    },
+    "ls_remote": {
+      "file": "results/playback/upstream_ls_remote.txt"
+    },
+    "triggers": {
+      "file": "results/day1/diag_triggers.txt",
+      "grep": "^主：|T2"
+    },
+    "train_diff": {
+      "file": "results/playback/training_path_diff.txt"
+    }
+  },
+  "claims": [
+    {
+      "id": "g1_frame_playback",
+      "evidence": [
+        "recipes"
+      ],
+      "claim": "The G1 FlashSAC recipe enables source-frame playback and keeps motion_speed at 1.0."
+    },
+    {
+      "id": "others_half_speed",
+      "evidence": [
+        "recipes"
+      ],
+      "claim": "The task default and the three Sharpa hand recipes disable source-frame playback and set motion_speed to 0.5."
+    },
+    {
+      "id": "resample_when_off",
+      "evidence": [
+        "loader"
+      ],
+      "claim": "When source-frame playback is off and the control rate differs from the source frame rate, the motion loader resamples positions linearly and quaternions by slerp onto target times spaced at the control rate across the same motion duration."
+    },
+    {
+      "id": "eval_config_from_ckpt",
+      "evidence": [
+        "harness"
+      ],
+      "claim": "The evaluation function builds its configuration from the checkpoint's metadata and passes that configuration's motion_speed and source_frame_playback to the scene setup."
+    },
+    {
+      "id": "eval_compose_keeps_task",
+      "evidence": [
+        "harness"
+      ],
+      "claim": "The evaluation composition step changes scene, env and termination settings but does not change the task's motion_speed or source_frame_playback."
+    },
+    {
+      "id": "eval_steps",
+      "evidence": [
+        "harness"
+      ],
+      "claim": "The number of evaluation steps equals the reference's frame count minus the start frame."
+    },
+    {
+      "id": "curriculum_absolute",
+      "evidence": [
+        "curriculum"
+      ],
+      "claim": "The FlashSAC ReconBody curriculum defines its stage boundaries as a fixed list of environment-step counts, and its comment says zero VOC begins at 60% of the budget."
+    },
+    {
+      "id": "seed_fixed",
+      "evidence": [
+        "seed"
+      ],
+      "claim": "The FlashSAC training seed is taken from reset.seed, and the training wrapper sets reset.seed to 42."
+    },
+    {
+      "id": "preview_in_steps",
+      "evidence": [
+        "preview"
+      ],
+      "claim": "The ReconBody observation reads reference targets at future offsets of 0, 5 and 10 frames of the reference."
+    },
+    {
+      "id": "no_official_eval",
+      "evidence": [
+        "no_eval_script",
+        "ls_remote"
+      ],
+      "claim": "The upstream repository's HEAD is the v0.4.0 tag, and the checked-out upstream tree contains no file named eval_robotic_grounding."
+    },
+    {
+      "id": "t2_fired",
+      "evidence": [
+        "triggers"
+      ],
+      "claim": "In the Day 1b diagnosis the lag trigger T2 fired for the main policy."
+    },
+    {
+      "id": "training_path_same",
+      "evidence": [
+        "train_diff"
+      ],
+      "claim": "The training-path scripts show no differences from the commit used for the Day 1 training runs."
+    },
+    {
+      "id": "ctrl_true",
+      "control": "true",
+      "evidence": [
+        "recipes"
+      ],
+      "claim": "The G1 FlashSAC recipe sets the replay capacity to 10,000,000."
+    },
+    {
+      "id": "ctrl_false",
+      "control": "false",
+      "evidence": [
+        "recipes"
+      ],
+      "claim": "The G1 FlashSAC recipe disables source-frame playback."
+    }
+  ]
+}

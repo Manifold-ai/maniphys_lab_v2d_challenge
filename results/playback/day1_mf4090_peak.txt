@@ -1,0 +1,7 @@
+# command  : bash -c awk\ -F\"\,\ \"\ \"\{gsub\(/\ MiB/\,\ \\\"\\\"\,\ \\\$2\)\;\ if\ \(\\\$2\ +\ 0\ \>\ m\)\ m\ =\ \\\$2\ +\ 0\}\ END\ \{print\ \\\"peak\ memory.used\ over\ the\ Day\ 1\ run:\ \\\"\ m\ +\ 0\ \\\"\ MiB\\\"\}\"\ runs/logs/t1-ep20-w2048-cap1m-mf4090.gpu 
+# md5      : 0f32fd649dcd034c2facee2bd6f2b142  runs/logs/t1-ep20-w2048-cap1m-mf4090.gpu
+# source   : 3f87c6381472-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:24:13+0800
+# ---------------------------------------------------------------
+peak memory.used over the Day 1 run: 11555 MiB

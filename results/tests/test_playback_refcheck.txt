@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/test_playback_refcheck.py 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 3c28bbc8c92490a8d9d15809530aa825  stages/evaluate/test_playback_refcheck.py
+# source   : 3f87c6381472-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:24:00+0800
+# ---------------------------------------------------------------
+  PASS  合成的真实时长参考全部通过、退出码 0
+  PASS  运行表行：关注段 348–700、G4 352 / 698 / 448、G6 598、换算 1.6666667
+  PASS  R4 可比帧 10 对（真实时长第 0、100 … 900 帧）
+  PASS  R1 帧数不对 → 被 R1 拦下、退出码 1、不打运行表行
+  PASS  R1 仍是逐帧回放 → 被 R1 拦下、退出码 1、不打运行表行
+  PASS  R2 不动 ADD-AUC 差 0.02 → 被 R2 拦下、退出码 1、不打运行表行
+  PASS  R3 越线帧差 12 → 被 R3 拦下、退出码 1、不打运行表行
+  PASS  R4 第 600 帧角度差 5° → 被 R4 拦下、退出码 1、不打运行表行
+  PASS  后面追加的 --tier1-episode 段不影响结果
+  PASS  缺“首次越线”一行时报错退出
+结果：全部通过

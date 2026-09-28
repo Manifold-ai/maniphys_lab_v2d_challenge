@@ -1,0 +1,10 @@
+# command  : git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=10 ls-remote https://github.com/nvidia-isaac/video_to_data HEAD refs/tags/\* 
+# source   : 3f87c6381472-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T07:47:33-0600
+# ---------------------------------------------------------------
+33129dd0f2d2dcfd1164d43fd076542660756ed2	HEAD
+7f4198ae012ee72badd7012c0e1cd5547294bda2	refs/tags/v0.1.0
+751b74453d488139f754dae488e6ffb19791d927	refs/tags/v0.2.0
+595ad68d897b986cd154d4575a022411af096eb3	refs/tags/v0.3.0
+33129dd0f2d2dcfd1164d43fd076542660756ed2	refs/tags/v0.4.0

@@ -1,0 +1,203 @@
+# command  : stages/policy/playback_facts.sh 
+# md5      : 772e7d837a2f3d3d780f3a1133c4461a  stages/policy/playback_facts.sh
+# source   : 3f87c6381472-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T21:51:04+0800
+# ---------------------------------------------------------------
+upstream 33129dd
+== 1. 各配方的回放方式
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/experiment/g1_recon_body_flash_sac.yaml（匹配 motion_speed|source_frame_playback|total_environment_steps|capacity|save_interval）
+16    motion_speed: 1.0
+17    source_frame_playback: true
+52    total_environment_steps: 349999104
+72      capacity: 10000000
+82      save_interval_environment_steps: 10000384
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/experiment/g1_recon_body_ppo.yaml（匹配 motion_speed|source_frame_playback）
+16    motion_speed: 1.0
+17    source_frame_playback: true
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/task/default.yaml（匹配 motion_speed|source_frame_playback）
+4  motion_speed: 0.5
+5  source_frame_playback: false
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/experiment/sharpa_flash_sac.yaml（匹配 motion_speed|source_frame_playback）
+20    motion_speed: 0.5
+21    source_frame_playback: false
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/experiment/sharpa_ppo.yaml（匹配 motion_speed|source_frame_playback）
+20    motion_speed: 0.5
+21    source_frame_playback: false
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/experiment/dexmate_sharpa_flash_sac.yaml（匹配 motion_speed|source_frame_playback）
+22    motion_speed: 0.5
+23    source_frame_playback: false
+== 2. 加载器：逐帧回放与重采样
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/data/motion_v1.py:187-192
+  187      if source_frame_playback and control_fps is None:
+  188          raise ValueError("control_fps is required for source-frame playback")
+  189      if source_frame_playback and motion_speed != 1.0:
+  190          raise ValueError("motion_speed must be 1.0 for source-frame playback")
+  191      if control_fps is None and motion_speed != 1.0:
+  192          raise ValueError("control_fps is required when motion_speed is not 1.0")
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/data/motion_v1.py（匹配 source_fps = _positive_float）
+210      source_fps = _positive_float(cells, "fps")
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/data/motion_v1.py:271-291
+  271      source_times = target_times = None
+  272      resample = (
+  273          not source_frame_playback and control_fps is not None and (control_fps != source_fps or motion_speed != 1.0)
+  274      )
+  275      if control_fps is not None and not source_frame_playback:
+  276          source_times, target_times = playback_times(num_frames, source_fps, control_fps, motion_speed)
+  277      if resample:
+  278          assert source_times is not None and target_times is not None
+  279          joint_pos = lerp(joint_pos, source_times, target_times)
+  280          root_pos = lerp(root_pos, source_times, target_times)
+  281          root_quat = slerp_tracks_wxyz(root_quat, source_times, target_times)
+  282          frame_pos = lerp(frame_pos, source_times, target_times)
+  283          frame_quat = slerp_tracks_wxyz(frame_quat, source_times, target_times)
+  284          object_pos = lerp(object_pos, source_times, target_times)
+  285          object_quat = slerp_tracks_wxyz(object_quat, source_times, target_times)
+  286          articulation = (
+  287              lerp(articulation, source_times, target_times)
+  288              if articulation.shape[1]
+  289              else np.zeros((len(target_times), 0), dtype=articulation.dtype)
+  290          )
+  291          contact_pos = {side: nearest(values, source_times, target_times) for side, values in contact_pos.items()}
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/data/motion_v1.py（匹配 _fps=control_fps）
+312          _fps=control_fps if control_fps is not None else source_fps,
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/data/resampling.py:11-18
+   11  def resample_times(num_frames: int, source_fps: float, target_fps: float) -> tuple[np.ndarray, np.ndarray]:
+   12      """Return uniform source and target timestamps spanning the same motion duration."""
+   13      _validate_timing(num_frames, source_fps, target_fps)
+   14      duration = (num_frames - 1) / source_fps
+   15      num_target_frames = int(round(duration * target_fps)) + 1
+   16      source_times = np.arange(num_frames, dtype=np.float64) / source_fps
+   17      target_times = np.clip(np.arange(num_target_frames, dtype=np.float64) / target_fps, 0.0, duration)
+   18      return source_times, target_times
+== 3. 评测器按 checkpoint 自带配置重建参考
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py:317-348
+  317  def evaluate_checkpoint(
+  318      checkpoint: str | Path,
+  319      *,
+  320      world_count: int = 4096,
+  321      start_frame: int = 0,
+  322      reset_mode: EvaluationResetMode = "explicit",
+  323      motion_start_frame: int | None = None,
+  324      motion_end_frame: int | None = None,
+  325      source_root: str | Path | None = None,
+  326  ) -> EvaluationOutcome:
+  327      """Score one actor checkpoint over ``world_count`` unassisted full-sequence attempts."""
+  328      import jax
+  329      import jax.numpy as jnp
+  330  
+  331      checkpoint_path = Path(checkpoint).expanduser().resolve()
+  332      metadata = read_checkpoint_metadata(checkpoint_path)
+  333      saved = checkpoint_config(metadata)
+  334  
+  335      algorithm = checkpoint_training_algorithm(saved)
+  336      config = saved
+  337      if reset_mode not in ("explicit", "sampled_settled"):
+  338          raise ValueError(f"unsupported evaluation reset mode {reset_mode!r}")
+  339      if motion_start_frame is not None:
+  340          config["task"]["motion_start_frame"] = motion_start_frame
+  341      if motion_end_frame is not None:
+  342          config["task"]["motion_end_frame"] = motion_end_frame
+  343      thresholds = evaluation_thresholds(config)
+  344      reference_criteria = reference_tracking_criteria(config)
+  345      apply_evaluation_composition(config, world_count=world_count, reset_mode=reset_mode)
+  346      config["task"]["parquet"] = _resolve_parquet(config, Path(source_root) if source_root else None)
+  347  
+  348      cfg = OmegaConf.create(config)
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py:173-208
+  173  def apply_evaluation_composition(
+  174      config: dict[str, Any],
+  175      *,
+  176      world_count: int,
+  177      reset_mode: EvaluationResetMode = "explicit",
+  178  ) -> dict[str, Any]:
+  179      """Force the unassisted, non-resetting, full-sequence composition onto a checkpoint config.
+  180  
+  181      Mutates only this in-memory copy. The tracking-failure terms are disabled so a failed world
+  182      keeps advancing instead of freezing at its failure frame; their limits are applied afterwards
+  183      to the recorded errors, and ``reference_end`` completes every world.
+  184      """
+  185      config["scene"]["world_count"] = world_count
+  186      config["env"]["auto_reset"] = False
+  187      config["env"]["voc_scale"] = 0.0
+  188      if reset_mode == "explicit":
+  189          config["env"]["voc"]["max_force"] = 0.0
+  190          config["env"]["voc"]["max_torque"] = 0.0
+  191      config["env"]["reset"]["always_reset_to_first_frame"] = True
+  192      if reset_mode == "explicit":
+  193          config["env"]["reset"]["voc_decay_steps"] = 0
+  194      config["env"]["reset"]["seed"] = 42
+  195      # The resolved config inlines termination under `env` as well as at the top level.
+  196      for termination in _termination_blocks(config):
+  197          if _is_recon_body_termination(termination):
+  198              for name in _RECON_BODY_THRESHOLD_FIELDS:
+  199                  termination[name] = _DISABLED_THRESHOLD
+  200              if not bool(termination["truncate_at_reference_end"]):
+  201                  raise ValueError("evaluation requires reference-end truncation so every world completes")
+  202          else:
+  203              for name in _FAILURE_TERMS:
+  204                  if name in termination:
+  205                      termination[name]["enabled"] = False
+  206              if not bool(termination["reference_end"]["enabled"]):
+  207                  raise ValueError("evaluation requires reference-end truncation so every world completes")
+  208      return config
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py:358-374
+  358      setup = setup_scene(
+  359          parquet=cfg.task.parquet,
+  360          control_fps=env_config.sim.fps,
+  361          motion_speed=cfg.task.motion_speed,
+  362          embodiment=embodiment,
+  363          collision=collision,
+  364          world_count=cfg.scene.world_count,
+  365          include_support=cfg.scene.support,
+  366          decompose_objects=cfg.scene.decompose_objects,
+  367          object_scale_min=cfg.scene.get("object_scale_min", 1.0),
+  368          object_scale_max=cfg.scene.get("object_scale_max", 1.0),
+  369          object_scale_seed=cfg.scene.get("object_scale_seed", 0),
+  370          contact_friction=cfg.scene.get("contact_friction", 1.0),
+  371          object_free_joint_damping=cfg.scene.get("object_free_joint_damping", 0.0),
+  372          source_frame_playback=bool(cfg.task.get("source_frame_playback", False)),
+  373          motion_start_frame=int(cfg.task.get("motion_start_frame", 0)),
+  374          motion_end_frame=int(cfg.task.get("motion_end_frame", -1)),
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py（匹配 step_count = setup.reference.num_frames）
+378      step_count = setup.reference.num_frames - start_frame
+== 4. curriculum 阈值是绝对步数；reset 与种子
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/curriculum/recon_body_flash_sac.yaml:3-7
+    3  # Environment transitions for the 2,048-world, 350M-step FlashSAC budget.
+    4  # The stage fractions exactly match the stable 20,000-iteration PPO recipe:
+    5  # zero VOC begins at 60%, deployment-exact starts enter at 82.5%, and the
+    6  # terminal mixture remains 50% immediate / 50% uniform recovery starts.
+    7  thresholds: [35000320, 70000640, 104998912, 139999232, 174999552, 209999872, 288749568, 306249728, 349999104]
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/curriculum/recon_body_flash_sac.yaml（匹配 voc_scale|immediate_first_frame_probability）
+11      voc_scale: 1.0
+26      voc_scale: 0.75
+29      voc_scale: 0.5
+32      voc_scale: 0.25
+35      voc_scale: 0.1
+38      voc_scale: 0.05
+41      voc_scale: 0.0
+44      voc_scale: 0.0
+46      immediate_first_frame_probability: 0.25
+48      voc_scale: 0.0
+50      immediate_first_frame_probability: 0.50
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/reset/recon_body.yaml（匹配 reset_freeze_steps|voc_decay_steps|seed）
+2  reset_freeze_steps: 50
+3  voc_decay_steps: 10
+11  seed: 42
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/configs/training/reference_flash_sac.yaml（匹配 seed）
+3  seed: ${reset.seed}
+--- stages/policy/fc_train.sh（匹配 reset.seed）
+16    reset.seed=42 "output_dir=${OUT}" "${DEFAULTS[@]}" "$@"
+== 5. 观测里的参考预览按控制步计
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/envs/recon_body.py（匹配 RECON_BODY_FUTURE_OFFSETS =|future_frame = wp.min）
+23  RECON_BODY_FUTURE_OFFSETS = (0, 5, 10)
+192          future_frame = wp.min(frame + future_index * 5, num_frames - 1)
+197          future_frame = wp.min(frame + future_index * 5, num_frames - 1)
+212          future_frame = wp.min(frame + future_index * 5, num_frames - 1)
+220          future_frame = wp.min(frame + future_index * 5, num_frames - 1)
+232          future_frame = wp.min(frame + future_index * 5, num_frames - 1)
+--- third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/envs/base.py（匹配 fps）
+118          if abs(reference.fps - self.config.sim.fps) > 1.0e-6:
+120                  f"reference fps ({reference.fps}) != control fps ({self.config.sim.fps}); "
+== 6. 上游里有没有比赛评测脚本
+git ls-files 里含 eval_robotic_grounding 的文件数：0

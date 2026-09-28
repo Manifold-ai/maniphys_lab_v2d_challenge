@@ -5,7 +5,7 @@
 10 第 0 帧就偏 5°、之后始终落后参考 85.5°（成功，但第 336 帧只转了约 90°：固定 94° 的旧规则会误判，逐世界下界不会）。
 随机翻转四元数正负号。环境自带的朝向误差按位姿算，应当对得上。
 检查：各道闸通过与被拦（G0、G1、G2、G3、G4、G5、G6 各改坏一处）、G6 无成功世界时“不适用”、分类计数、主轴夹角、跳变计数、
-Q0 各段贡献相加等于全程、summary_json、SVG 标签配对、diag_triggers 能读报告并给出四项判定。
+Q0 各段贡献相加等于全程、summary_json、SVG 标签配对、diag_triggers 能读报告并给出四项判定、--frame-scale 只改 Q1、Q2 按关键帧列数的两行。
 用法：python stages/evaluate/test_diag_report.py
 """
 import json
@@ -110,12 +110,13 @@ def build(tmp: Path, tilt_deg=0.0, **broken):
     return success_rate
 
 
-def run(tmp: Path, expect=(210, 420, 270), pf=PF, svg=False):
+def run(tmp: Path, expect=(210, 420, 270), pf=PF, svg=False, extra=()):
     cmd = [sys.executable, str(HERE / "diag_report.py"), str(tmp / "r.npz"), "--diag-json", str(tmp / "diag.json"),
            "--same-card-json", str(tmp / "same.json"), "--segments", str(S0), str(S1), "--expect-ref", *map(str, expect),
            "--predict-frame", str(pf)]
     if svg:
         cmd += ["--svg", str(tmp / "c.svg")]
+    cmd += list(extra)
     return subprocess.run(cmd, capture_output=True, text=True, check=False)
 
 
@@ -173,6 +174,17 @@ def main() -> int:
         ok_sj = s.get("valid") is True and s.get("success") == 5 and "right" in s.get("contact_palm_mesh_dist_cm", {})
         check("summary_json 可解析且内容对", ok_sj, sj)
         check("SVG 标签配对完整", svg_balanced((tmp / "c.svg").read_text()))
+        q1 = line(out, "世界中位：")
+        check("不给 --frame-scale：Q1 仍列 ep20 原帧 100 / 269 / 359", all(f"  {f}:" in q1 for f in (100, 269, 359)), q1)
+        ps = run(tmp, svg=True, extra=("--frame-scale", "1.6666667"))   # 同样带 --svg，才能逐行比较其余输出
+        q1s = line(ps.stdout, "世界中位：")
+        keyed = ("世界中位：", "转动进度（°")   # 这两行按关键帧列数，--frame-scale 只该改它们
+        same_rest = [ln for ln in ps.stdout.splitlines() if not ln.strip().startswith(keyed)] == \
+            [ln for ln in out.splitlines() if not ln.strip().startswith(keyed)]
+        q2s = line(ps.stdout, "转动进度（°")
+        check("--frame-scale 5/3：Q1、Q2 的关键帧改列 167 / 448 / 500、不再列 100，其余输出逐行不变",
+              ps.returncode == 0 and all(f"  {f}:" in q for q in (q1s, q2s) for f in (167, 448, 500))
+              and "  100:" not in q1s + q2s and same_rest, q1s + " | " + q2s)
         (tmp / "main.txt").write_text(out)
         (tmp / "control.txt").write_text(out)
         tr = subprocess.run([sys.executable, str(HERE / "diag_triggers.py"), "--main", str(tmp / "main.txt"),

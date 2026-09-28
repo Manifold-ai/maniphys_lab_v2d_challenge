@@ -1,0 +1,30 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/test_diag_report.py 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 7504192127f95ca334e0faa2e3eb4d6f  stages/evaluate/test_diag_report.py
+# source   : 3f87c6381472-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:25:06+0800
+# ---------------------------------------------------------------
+  PASS  成功率 5/11（世界 0–3 与 10）
+  PASS  全部闸通过、退出码 0
+  PASS  G1 判为逐位相同
+  PASS  G6：贴着下界的世界放行（最小转角 < 94° 仍通过）
+  PASS  四类计数 5/4/2/0
+  PASS  主轴竖直
+  PASS  跳变 2 次
+  PASS  Q0 三段贡献相加等于全程
+  PASS  summary_json 可解析且内容对
+  PASS  SVG 标签配对完整
+  PASS  不给 --frame-scale：Q1 仍列 ep20 原帧 100 / 269 / 359
+  PASS  --frame-scale 5/3：Q1、Q2 的关键帧改列 167 / 448 / 500、不再列 100，其余输出逐行不变
+  PASS  diag_triggers 给出四项判定
+  PASS  G0 改坏后被拦（退出码 3、不给分类）
+  PASS  G1 改坏后被拦（退出码 3、不给分类）
+  PASS  G2 改坏后被拦（退出码 3、不给分类）
+  PASS  G3 改坏后被拦（退出码 3、不给分类）
+  PASS  G5 改坏后被拦（退出码 3、不给分类）
+  PASS  G4 已知答案不符时被拦
+  PASS  G6 成功世界没转够时被拦
+  PASS  没有成功世界：G6 不适用、仍通过
+  PASS  主轴倾斜 20°：夹角算对、分类不变
+结果：全部通过

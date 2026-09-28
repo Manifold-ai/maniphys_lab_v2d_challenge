@@ -15,7 +15,8 @@
 零均值抖动相消、不受四元数正负号影响、主轴不必竖直。单帧增量 > 30° 记为跳变。
 
 用法：python diag_report.py <npz> --diag-json D --same-card-json E [--cross-card-json F] --segments 209 420
-        --expect-ref 209 420 269 [--predict-frame 359] [--svg out.svg] [--title 名字]
+        --expect-ref 209 420 269 [--predict-frame 359] [--frame-scale 1] [--svg out.svg] [--title 名字]
+  --frame-scale：Q1、Q2 按关键帧列数时另列的 ep20 帧（100、269、300、359、360）按此倍数换算；按真实时长回放（30 → 50 fps）给 5/3。只影响打印。
 """
 import argparse
 import json
@@ -130,6 +131,7 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     ap.add_argument("--segments", type=int, nargs=2, required=True)
     ap.add_argument("--expect-ref", type=int, nargs=3, required=True, metavar=("FIRST_MOVE", "LAST_MOVE", "FIRST_GATE"))
     ap.add_argument("--predict-frame", type=int, help="G6 几何自检所用的帧（参考离初始朝向接近最大的那帧，ep20 为 359）")
+    ap.add_argument("--frame-scale", type=float, default=1.0, help="Q1、Q2 另列关键帧的换算倍数（真实时长回放给 5/3），只影响打印")
     ap.add_argument("--svg")
     ap.add_argument("--title", default="")
     a = ap.parse_args()
@@ -253,7 +255,8 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
               f"ADD 中位 policy {np.median(add[f0:f1]) * 100:.1f} cm / 不动 {np.median(add_static[f0:f1]) * 100:.1f} cm")
 
     # ── Q1 朝向误差 ───────────────────────────────────────────────────
-    kf = sorted({0, s0, (s0 + s1) // 2, s1, T - 1} | {f for f in (100, 269, 300, 359, 360) if f < T})
+    ep20_frames = {int(round(f * a.frame_scale)) for f in (100, 269, 300, 359, 360)}
+    kf = sorted({0, s0, (s0 + s1) // 2, s1, T - 1} | {f for f in ep20_frames if f < T})
     med = np.median(ori, 1)
     obj_ori_i = col["object_orientation_rad"]
     obj_act = act[obj_ori_i]
