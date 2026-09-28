@@ -169,19 +169,15 @@ def main() -> int:
         full = float(re.search(r"全程：policy ([0-9.]+)", out).group(1))
         check("Q0 三段贡献相加等于全程", len(contrib) == 3 and abs(sum(contrib) - full) < 3e-4, f"{contrib} vs {full}")
         sj = line(out, "summary_json ")
-        ok_sj = False
-        try:
-            s = json.loads(sj.strip()[len("summary_json "):])
-            ok_sj = s["valid"] is True and s["success"] == 5 and "right" in s["contact_palm_mesh_dist_cm"]
-        except Exception:  # noqa: BLE001
-            pass
+        s = json.loads(sj.strip()[len("summary_json "):]) if sj else {}
+        ok_sj = s.get("valid") is True and s.get("success") == 5 and "right" in s.get("contact_palm_mesh_dist_cm", {})
         check("summary_json 可解析且内容对", ok_sj, sj)
         check("SVG 标签配对完整", svg_balanced((tmp / "c.svg").read_text()))
         (tmp / "main.txt").write_text(out)
         (tmp / "control.txt").write_text(out)
         tr = subprocess.run([sys.executable, str(HERE / "diag_triggers.py"), "--main", str(tmp / "main.txt"),
                              "--control", str(tmp / "control.txt")], capture_output=True, text=True, check=False)
-        check("diag_triggers 给出四项判定", tr.returncode == 0 and len(re.findall(r"^(触发|未触发)  T[1-4]", tr.stdout, re.M)) == 4,
+        check("diag_triggers 给出四项判定", tr.returncode == 0 and len(re.findall(r"^(触发|未触发)  T[1-4]", tr.stdout, re.MULTILINE)) == 4,
               tr.stdout + tr.stderr)
         for key, gate in (("shape", "G0"), ("same_card", "G1"), ("add_auc", "G2"), ("env_ori", "G3"), ("reported", "G5")):
             build(tmp, **{key: True})
