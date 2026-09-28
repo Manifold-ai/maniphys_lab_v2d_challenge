@@ -1,0 +1,9 @@
+# command  : cat runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40/run_record.jsonl 
+# md5      : 81777ac932b87fd1456d9b63bb5e6154  runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40/run_record.jsonl
+# source   : 67f1d8643265
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T07:16:42+0800
+# ---------------------------------------------------------------
+{"time": "2026-09-28T09:56:27+0800", "event": "start", "attempt": "1", "segment": "1", "run": "ctrl-snackbox-w2048-cap10m-ml40", "host": "VM-0-16-ubuntu", "gpu": "NVIDIA L40S, 580.126.20", "image": "sha256:96c808f9f8e4355d858c60329a999b3c89f49527d81d14d6bb9e3adbdba6431a", "image_base11_sha": "e2934912858820b8", "deps_freeze_sha": "df0cf35711a68fb3", "source_commit": "23b2edd8094d", "upstream": "33129dd", "parquet": "/v2d/assets/human_motion_data/whole_body/soma/sequence_id=2026-03-06_10-24-18_snack_box_pick_and_place_01/robot_name=g1/data.parquet", "parquet_sha256": "04f55c50a6dfc04826b73b22cc42cde90d9209e003d242b3d300b0a631c9671d", "world_count": "2048", "total_steps": "349999104", "overrides": "", "resume_from": "none", "wandb_id": "ctrl-snackbox-w2048-cap10m-ml40-s1"}
+{"time": "2026-09-28T10:02:08+0800", "event": "exit", "attempt": "1", "segment": "1", "rc": "1"}
+{"time": "2026-09-28T10:02:08+0800", "event": "abort", "reason": "retries_exhausted"}

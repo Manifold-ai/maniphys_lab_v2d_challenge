@@ -1,0 +1,324 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "v54": {
+      "file": "results/check_tier2_v54.txt",
+      "grep": "raw 0.423"
+    },
+    "day1_verdict": {
+      "file": "results/day1/verdict.txt",
+      "grep": "do-nothing baseline|^== t1|chord_sr  |maniptrans_sr  |add_auc  |VERDICT"
+    },
+    "day1b_triggers": {
+      "file": "results/day1/diag_triggers.txt"
+    },
+    "snack_attempt1": {
+      "file": "agent-doc/experiments/2026-09-28-day1b.md",
+      "grep": "20:02 退出码 1|AuthenticationError|to verify API token|V2D_WANDB_UPLOAD_CKPT=0"
+    },
+    "snack10m": {
+      "file": "results/day1/verdict_snackbox_cap10m.txt",
+      "grep": "do-nothing baseline|^== ctrl|chord_sr  |maniptrans_sr  |add_auc  |VERDICT|spider_sr"
+    },
+    "compare": {
+      "file": "results/playback/compare.txt"
+    },
+    "compare10m": {
+      "file": "results/playback/compare_10m_only.txt",
+      "grep": "^== |S = |Δ|健康|判定"
+    },
+    "rt_verdict": {
+      "file": "results/playback/verdict_rt_runs.txt",
+      "grep": "do-nothing baseline|^== t1|chord_sr  |maniptrans_sr  |add_auc  |VERDICT"
+    },
+    "page": {
+      "file": "results/playback/official_playback_sources.txt",
+      "grep": "^== 1|Robotic Grounding|Embodiment and simulator|evaluated against the clean|eval_robotic_grounding.py script|AUC, SP-SR|出现次数|^  0$"
+    },
+    "v020": {
+      "file": "results/playback/official_playback_sources.txt",
+      "grep": "^== 2\\. release/0\\.2\\.0|^release/0\\.2\\.0 (tracking_command_cfg|tracking_utils\\.py: |tracking_command\\.py: |tracking_command\\.py:1(372|395|397)|base_env_cfg)|timing\\.py：这个版本没有"
+    },
+    "v030_v040": {
+      "file": "results/playback/official_playback_sources.txt",
+      "grep": "^== 2\\. (release/0\\.3\\.0|v0\\.4\\.0)|^(release/0\\.3\\.0|v0\\.4\\.0) (tracking_utils\\.py:7[23]|tracking_command_cfg\\.py:6[05]|timing\\.py:(15|16|34))"
+    },
+    "fc_default": {
+      "file": "results/playback/upstream_playback_facts.txt",
+      "grep": "g1_recon_body_flash_sac\\.yaml|^11:|^17    source_frame_playback: true"
+    },
+    "eval_search": {
+      "file": "results/playback/eval_script_search.txt"
+    },
+    "eval_frame": {
+      "file": "results/ml40/day2/eval_t1-ep20-w2048-cap10m-ml40_s349999104.txt",
+      "grep": "# command|summary_json"
+    },
+    "eval_rt": {
+      "file": "results/ml40/day2/eval_t1-ep20-w2048-cap10m-rt-ml40_s349999104.txt",
+      "grep": "# command|summary_json"
+    },
+    "identity": {
+      "file": "results/ml40/day2/identity_compare_t1-ep20-w2048-cap10m-rt-ml40_s349999104_day2_preflight_ml40.txt",
+      "grep": "# command|add_auc  |chord_sr  |RESULT"
+    },
+    "xeval_f2r": {
+      "file": "results/ml40/day2/xeval_t1-ep20-w2048-cap10m-ml40_s349999104_real.txt",
+      "grep": "# command|summary_json"
+    },
+    "xeval_r2f": {
+      "file": "results/ml40/day2/xeval_t1-ep20-w2048-cap10m-rt-ml40_s349999104_frame.txt",
+      "grep": "# command|summary_json"
+    },
+    "empty_count": {
+      "file": "results/day2/empty_support_count.txt"
+    },
+    "probe_all": {
+      "file": "results/day2/palm_frame_probe_all.txt",
+      "grep": "^ALL|FAILED_COUNT"
+    },
+    "plan_pick": {
+      "file": "agent-doc/plan-day2-2026-09-28.md",
+      "grep": "^  \\| (ep|26|10|13) \\||选序列"
+    },
+    "plan_rule": {
+      "file": "agent-doc/plan-day2-2026-09-28.md",
+      "grep": "^- 场景：|^- 指标三项|^- 每项在每个场景|差要 ≥ 阈值|^- 一条序列：|^- 结论（至少"
+    },
+    "bar_ep26_f": {
+      "file": "results/ml40/day2/bar_smoke-t1-ep26-w2048-cap10m-ml40.txt",
+      "grep": "summary_json"
+    },
+    "bar_ep26_r": {
+      "file": "results/ml40/day2/bar_smoke-t1-ep26-w2048-cap10m-rt-ml40.txt",
+      "grep": "summary_json"
+    },
+    "bar_ep13_f": {
+      "file": "results/ml40/day2/bar_smoke-t1-ep13-w2048-cap10m-ml40.txt",
+      "grep": "summary_json"
+    },
+    "bar_ep13_r": {
+      "file": "results/ml40/day2/bar_smoke-t1-ep13-w2048-cap10m-rt-ml40.txt",
+      "grep": "summary_json"
+    },
+    "bar_b_rt": {
+      "file": "results/day2/bar_smoke-t1-ep20-w2048-cap4m-rt-mf4090.txt",
+      "grep": "summary_json"
+    },
+    "bar_b_frame": {
+      "file": "results/day2/bar_smoke-t1-ep20-w2048-cap4m-mf4090.txt",
+      "grep": "summary_json"
+    },
+    "bar_b_s43": {
+      "file": "results/day2/bar_smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090.txt",
+      "grep": "summary_json"
+    },
+    "snack_log": {
+      "file": "results/ml40/day1/snack_attempt1_log_excerpt.txt"
+    },
+    "snack_runrec": {
+      "file": "results/ml40/day1/snack_attempt1_run_record.txt",
+      "grep": "# command|event"
+    },
+    "snack_files": {
+      "file": "results/ml40/day1/snack_attempt1_files.txt"
+    },
+    "snack_upload": {
+      "file": "results/ml40/day1/snack_attempt2_upload_setting.txt"
+    }
+  },
+  "claims": [
+    {
+      "id": "tier2_v54",
+      "evidence": [
+        "v54"
+      ],
+      "claim": "The clean-room Tier 2 denoiser v5.4 raises the object-trajectory ADD-AUC against Tier 1 from 0.423 (raw) to 0.707."
+    },
+    {
+      "id": "day1_ep20_fail",
+      "evidence": [
+        "day1_verdict"
+      ],
+      "claim": "On Day 1 both full ep20 runs failed the verdict: the 10M-buffer run had ADD-AUC 0.431 with chord_sr 0.79 and the 1M-buffer run had ADD-AUC 0.422 with chord_sr 0.017, both below the do-nothing baseline of 0.4708."
+    },
+    {
+      "id": "day1b_triggers",
+      "evidence": [
+        "day1b_triggers"
+      ],
+      "claim": "The Day 1b diagnosis triggered T1 (non-manipulation segments account for 182% of the ADD-AUC gap for the main policy and 126% for the control), T2 (median net-rotation ratio 0.70 below the required 0.72) and T4 (reference hand about 5.9 cm from the object at contact frames versus about 2.6 cm for the control), and did not trigger T3."
+    },
+    {
+      "id": "snack_attempt1",
+      "evidence": [
+        "snack_attempt1",
+        "snack_log",
+        "snack_runrec",
+        "snack_files",
+        "snack_upload"
+      ],
+      "claim": "The first full-recipe snack_box attempt exited after its first checkpoint because the W&B client could not reach the server to verify the API token when uploading a checkpoint artifact, and the second attempt turned checkpoint upload off with V2D_WANDB_UPLOAD_CKPT=0."
+    },
+    {
+      "id": "snack_fail",
+      "evidence": [
+        "snack10m"
+      ],
+      "claim": "The full-recipe snack_box control failed: chord_sr 0.922 passed, but maniptrans_sr was 0 and ADD-AUC 0.5639 stayed below the do-nothing baseline 0.5662, a gap of 0.0023."
+    },
+    {
+      "id": "playback_verdict",
+      "evidence": [
+        "compare"
+      ],
+      "claim": "The registered verdict of the playback comparison is 'no difference within the budget': for the full-recipe pair the average end-of-window rotation lag was 68.1 degrees at 1.67x playback and 72.7 degrees at real time."
+    },
+    {
+      "id": "playback_10m_only",
+      "evidence": [
+        "compare10m"
+      ],
+      "claim": "Computed from the two full-recipe arms only, the effect threshold E is 15 degrees and the verdict is still 'no difference within the budget'."
+    },
+    {
+      "id": "rt_passes",
+      "evidence": [
+        "rt_verdict"
+      ],
+      "claim": "The full-recipe real-time ep20 policy passes the Day 1 criteria on its own real-time reference: chord_sr 0.809, maniptrans_sr 0.887 and ADD-AUC 0.547 against a do-nothing baseline of 0.470."
+    },
+    {
+      "id": "page_silent",
+      "evidence": [
+        "page"
+      ],
+      "claim": "The challenge page says submissions are produced with the eval_robotic_grounding.py script and scored against the clean multi-view captioned object trajectory, and the words playback, fps, frame rate, Hz, real time and speed occur 0 times in its source."
+    },
+    {
+      "id": "v020_asis",
+      "evidence": [
+        "v020"
+      ],
+      "claim": "In release 0.2.0 the Isaac Lab whole-body tracking command does not resample the reference (target_fps defaults to None, meaning the data is used as-is) and advances the reference frame index by one per environment step."
+    },
+    {
+      "id": "v030_resample",
+      "evidence": [
+        "v030_v040"
+      ],
+      "claim": "In release 0.3.0 and v0.4.0 the Isaac Lab tracking command resamples the reference so that it is sampled at 1 / (env_step_dt * motion_speed), with motion_speed defaulting to 1.0."
+    },
+    {
+      "id": "fc_frame_default",
+      "evidence": [
+        "fc_default"
+      ],
+      "claim": "The FlashCHORD G1 FlashSAC experiment config sets source_frame_playback to true."
+    },
+    {
+      "id": "eval_unreleased",
+      "evidence": [
+        "eval_search"
+      ],
+      "claim": "The search found no eval_robotic_grounding.py in the Hugging Face dataset nvidia/video_to_data_challenge (which has no .py files) or in the file trees of the listed branches of nvidia-isaac/video_to_data, and none of the GitHub releases has attachments."
+    },
+    {
+      "id": "evaluator_follows_ckpt",
+      "evidence": [
+        "eval_frame",
+        "eval_rt"
+      ],
+      "claim": "Evaluated with the plain fc_eval.sh wrapper, the frame-trained ep20 policy ran 553 reference steps and the real-time-trained ep20 policy ran 921."
+    },
+    {
+      "id": "identity_gate",
+      "evidence": [
+        "identity"
+      ],
+      "claim": "Evaluating the real-time ep20 checkpoint through the playback-override wrapper without changing anything gave ADD-AUC 0.544 against 0.547 from the plain evaluation, a difference of about 0.003, and the comparison was reported as consistent."
+    },
+    {
+      "id": "xeval_drop",
+      "evidence": [
+        "eval_frame",
+        "xeval_f2r",
+        "eval_rt",
+        "xeval_r2f"
+      ],
+      "claim": "For the frame-trained ep20 policy, evaluating at real time instead of frame by frame lowers chord_sr from about 0.79 to about 0.03 and raises MPPE from about 5.2 cm to about 12.6 cm; for the real-time-trained policy, evaluating frame by frame instead of at real time lowers maniptrans_sr from about 0.887 to about 0.012 and raises MPPE from about 3.9 cm to about 18.6 cm."
+    },
+    {
+      "id": "empty_support",
+      "evidence": [
+        "empty_count",
+        "probe_all"
+      ],
+      "claim": "The probe reported EMPTY_SUPPORT for 16 Tier 1 sequences, and all 30 sequences built a scene with no failures."
+    },
+    {
+      "id": "palm_probe",
+      "evidence": [
+        "probe_all"
+      ],
+      "claim": "After resampling to real time, the largest palm deviation over all 30 Tier 1 sequences was 4.78 mm in position and 2.84e-2 rad in orientation, on the white_desk_lower_to_ground sequence."
+    },
+    {
+      "id": "day2_pick",
+      "evidence": [
+        "plan_pick"
+      ],
+      "claim": "The Day 2 plan picks ep26 skateboard_rotate_ground (669 frames, 1114 at real time, floor only), ep10 white_desk_lower_to_ground (794 and 1323, floor only) and ep13 snack_box_desk_through (922 and 1536, with a support surface)."
+    },
+    {
+      "id": "day2_rule",
+      "evidence": [
+        "plan_rule"
+      ],
+      "claim": "The Day 2 rule compares the two training playbacks in three evaluation scenarios, gives each metric to the arm whose worst loss across scenarios is smaller by at least 0.05 for gap, 0.2 for success rate or 1.0 cm for MPPE, and declares one playback more robust only when at least two valid non-floor sequences favor it and none favor the other."
+    },
+    {
+      "id": "ml40_smokes",
+      "evidence": [
+        "bar_ep26_f",
+        "bar_ep26_r",
+        "bar_ep13_f",
+        "bar_ep13_r"
+      ],
+      "claim": "The ml40 smoke rollouts gave references of 669 and 1114 frames for ep26 with do-nothing ADD-AUC 0.4406 and 0.4411, and 922 and 1536 frames for ep13 with do-nothing ADD-AUC 0.1648 and 0.1644."
+    },
+    {
+      "id": "mf4090_bars",
+      "evidence": [
+        "bar_b_rt",
+        "bar_b_frame",
+        "bar_b_s43"
+      ],
+      "claim": "The three mf4090 B smoke rollouts gave references of 921, 553 and 921 frames with do-nothing ADD-AUC 0.4703, 0.4708 and 0.4703."
+    },
+    {
+      "id": "ctrl_true_bar",
+      "evidence": [
+        "day1_verdict"
+      ],
+      "control": "true",
+      "claim": "The Day 1 do-nothing baseline ADD-AUC for ep20 is 0.4708."
+    },
+    {
+      "id": "ctrl_false_snack",
+      "evidence": [
+        "snack10m"
+      ],
+      "control": "false",
+      "claim": "The full-recipe snack_box control passed all of its criteria."
+    },
+    {
+      "id": "ctrl_false_script",
+      "evidence": [
+        "eval_search"
+      ],
+      "control": "false",
+      "claim": "eval_robotic_grounding.py was found on the main branch of nvidia-isaac/video_to_data."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# command  : ls runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40 
+# source   : 67f1d8643265
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T07:16:42+0800
+# ---------------------------------------------------------------
+hydra
+policy_10000384.safetensors
+run_record.jsonl
+state_10000384.safetensors
+wandb

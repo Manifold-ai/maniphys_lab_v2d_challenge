@@ -1,0 +1,18 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "chainlog_ml40": {"file": "results/ml40/day2/chainlog_day2_train_ml40.txt"},
+    "bar_ep10_f": {"file": "results/ml40/day2/bar_smoke-t1-ep10-w2048-cap10m-ml40.txt", "grep": "summary_json"},
+    "bar_ep10_r": {"file": "results/ml40/day2/bar_smoke-t1-ep10-w2048-cap10m-rt-ml40.txt", "grep": "summary_json"}
+  },
+  "claims": [
+    {"id": "ml40_six_smokes", "evidence": ["chainlog_ml40"],
+     "claim": "On ml40 all six Day 2 smokes passed, with references of 669 and 1114 frames for ep26, 922 and 1536 for ep13, and 794 and 1323 for ep10, and full training of t1-ep26-w2048-cap10m-ml40 started right after the last smoke."},
+    {"id": "ep10_bars", "evidence": ["bar_ep10_f", "bar_ep10_r"],
+     "claim": "The ep10 smoke rollouts gave references of 794 and 1323 frames, both with a do-nothing ADD-AUC of about 0.339."},
+    {"id": "ctrl_true_order", "evidence": ["chainlog_ml40"], "control": "true",
+     "claim": "The ep26 frame-by-frame smoke passed before the ep13 smokes."},
+    {"id": "ctrl_false_skip", "evidence": ["chainlog_ml40"], "control": "false",
+     "claim": "One of the ml40 Day 2 smokes was skipped because it failed its checks."}
+  ]
+}

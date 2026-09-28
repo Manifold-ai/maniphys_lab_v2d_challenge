@@ -129,6 +129,10 @@ td.n{font-family:var(--mono); font-size:13px; white-space:nowrap}
 .card h3 a:hover{color:var(--primary)}
 .card p{color:var(--muted); font-size:14px}
 .card ul{list-style:none; margin:0; padding:10px 0 0; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px}
+.card.wide{grid-column:1 / -1}
+
+/* jev 核验分数 */
+.jv{font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap}
 
 /* 首页待办 */
 .todo{list-style:none; margin:0; padding:0; border-top:1px solid var(--border)}
@@ -136,6 +140,7 @@ td.n{font-family:var(--mono); font-size:13px; white-space:nowrap}
 .todo li>div{display:grid; gap:2px}
 .todo li>div span{color:var(--muted); font-size:14px}
 .todo .who{font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap}
+.todo li>.pill{min-width:5.4em; text-align:center}
 
 /* SOP 阶段 */
 .stepper{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--border)}
@@ -231,7 +236,7 @@ body.en .pb.l-en{display:grid}
   <button class="menu" id="menu" type="button" aria-controls="side" aria-expanded="false"><span class="l-zh">目录</span><span class="l-en">Menu</span></button>
   <a class="brand" href="#home"><span class="mk" aria-hidden="true"></span>maniphysAI lab <span class="sub">V2D Track 2</span></a>
   <div class="end">
-    <span class="meta">2026-09-27</span><span class="meta">toolkit v0.4.0</span>
+    <span class="meta">2026-09-28</span><span class="meta">toolkit v0.4.0</span>
     <div class="lang" role="group" aria-label="Language / 语言"><button type="button" id="lang-zh" aria-pressed="true">中文</button><button type="button" id="lang-en" aria-pressed="false">EN</button></div>
   </div>
 </header>
@@ -246,6 +251,14 @@ body.en .pb.l-en{display:grid}
       <li><a href="#denoise"><span class="l-zh">Tier 2 降噪</span><span class="l-en">Tier 2 denoising</span></a></li>
       <li><a href="#edge"><span class="l-zh">特殊情况</span><span class="l-en">Special cases</span></a></li>
       <li><a href="#next"><span class="l-zh">下一步与待办</span><span class="l-en">Next steps and to-dos</span></a></li>
+    </ul></div>
+  <div class="grp" data-sec="exp"><a href="#exp"><span class="l-zh">训练实验</span><span class="l-en">Training experiments</span><span class="n">5</span></a>
+    <ul>
+      <li><a href="#day1b"><span class="l-zh">Day 1b 逐帧诊断</span><span class="l-en">Day 1b frame-by-frame diagnosis</span></a></li>
+      <li><a href="#snack"><span class="l-zh">snack 满配对照</span><span class="l-en">Full-recipe snack control</span></a></li>
+      <li><a href="#playback"><span class="l-zh">回放速度对照</span><span class="l-en">Playback speed comparison</span></a></li>
+      <li><a href="#official"><span class="l-zh">官方评测口径</span><span class="l-en">Official evaluation settings</span></a></li>
+      <li><a href="#day2"><span class="l-zh">Day 2（进行中）</span><span class="l-en">Day 2 (running)</span></a></li>
     </ul></div>
   <div class="grp" data-sec="arch"><a href="#arch"><span class="l-zh">当前架构</span><span class="l-en">Current architecture</span><span class="n">4</span></a>
     <ul>
@@ -280,22 +293,24 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 工作文档</h1>
-  <p class="lead">两档 60 条参考轨迹已就绪，Tier 2 物体轨迹降噪做到 ADD-AUC 0.707（合规版）。Day 1 两条全程训练（Tier 1 ep20 电饭煲）都一次跑完，但都没通过事先登记的判据：ADD-AUC 0.431 / 0.422，低于物体完全不动时的 0.471。批量训练暂停，先在满配下跑官方 snack_box 样例做对照。封榜 2026-11-04 17:00 EST，从 9/27 算还有 38 天。</p>
+  <p class="lead">两档 60 条参考轨迹已就绪，Tier 2 物体轨迹降噪做到 ADD-AUC 0.707（合规版）。训练这边，ep20 满配按配方默认的 1.67 倍速回放没过 Day 1 判据；同一配方换成真实时长回放训出的那条，按它自己的参考过了（ADD-AUC 0.547，不动基线 0.470；MP-SR 0.887）。官方评测按什么速度回放没有写，评测脚本也没发布，所以 Day 2 在三条新序列上把两种训练各按两种回放评一遍，按最坏情况选训练回放。判定 9/29 早上出。封榜 2026-11-04 17:00 EST，从 9/28 算还有 37 天。</p>
   <div class="adm w"><span class="t">封榜时间待确认</span><p>未合并的规则草案（PR #164）里另有 11/5 和 11/10 两个日期。</p></div>
   <div class="figs">
     <div class="fig"><span class="v">0.707</span><span class="l">Tier 2 ADD-AUC（原始 0.423）</span></div>
-    <div class="fig"><span class="v z">0.431</span><span class="l">Day 1 最好的 ADD-AUC（ep20，ml40）；物体完全不动是 0.471</span></div>
-    <div class="fig"><span class="v">0.79</span><span class="l">同一 policy 的任务原生成功率 chord_sr；100 万 buffer 那条只有 0.017</span></div>
-    <div class="fig"><span class="v">2 h 10 min</span><span class="l">满配单策略实测（ml40 L40S，一次跑完）</span></div>
+    <div class="fig"><span class="v">0.547</span><span class="l">ep20 满配、真实时长回放的 ADD-AUC；不动基线 0.470。1.67 倍速那条 0.431，不动 0.471</span></div>
+    <div class="fig"><span class="v">0.887</span><span class="l">同一 policy 的 MP-SR（maniptrans_sr）；1.67 倍速那条 0.0005</span></div>
+    <div class="fig"><span class="v">37 天</span><span class="l">从 9/28 到封榜（11/4，待确认）</span></div>
   </div>
   <h2>现在要做的三件事</h2>
   <ul class="todo">
-    <li><span class="pill w">待办</span><div><b><a href="#sop-day1">满配跑官方 snack_box 对照</a></b><span>100 万 buffer 版本不通过，分不清原因；满配在 ml40 上跑，判据先登记、先约时段</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">待办</span><div><b><a href="#next">逐帧查 ep20 的 ADD-AUC 丢在哪一段</a></b><span>评测只给汇总；导出评测 rollout，逐段和“物体不动”比，另看物体转了多少、手离物体多远</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">待办</span><div><b><a href="#next">邮件组委会</a></b><span>holdout、评测脚本与栈、播放速度、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">进行中</span><div><b><a href="#day2">等 Day 2 判定，再写 Tier 1 批量计划</a></b><span>两台机器在跑，判定预计 9/29 早上 7:30–8:00（丹佛时间）；批量计划先写、review 再跑</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待办</span><div><b><a href="#official">发组委会邮件</a></b><span>草稿已备好：评测脚本何时发布、评测按什么速度回放、空支撑面文件、holdout、开发期用 Tier 1 等</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待办</span><div><b><a href="#day1b">查重定向（T4）与操作前的预转（T1）</a></b><span>Day 1b 诊断触发的两项，先写计划、review 再跑</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>目录</h2>
   <div class="cards">
+    <section class="card wide"><h3><a href="#exp">训练实验</a></h3><p>Day 1 之后的诊断、对照与查证，以及正在跑的 Day 2；每页有登记的判据、结果和 jev 核验分数</p>
+      <ul><li><a href="#day1b">Day 1b 逐帧诊断</a></li><li><a href="#snack">snack 满配对照</a></li><li><a href="#playback">回放速度对照</a></li><li><a href="#official">官方评测口径</a></li><li><a href="#day2">Day 2（进行中）</a></li></ul></section>
     <section class="card"><h3><a href="#progress">进度</a></h3><p>各环节状态、降噪结果、特殊情况、下一步</p>
       <ul><li><a href="#status">现状</a></li><li><a href="#denoise">Tier 2 降噪</a></li><li><a href="#edge">特殊情况</a></li><li><a href="#next">下一步与待办</a></li></ul></section>
     <section class="card"><h3><a href="#arch">当前架构</a></h3><p>数据怎么流、代码长什么样、跑在哪里</p>
@@ -309,22 +324,24 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-en" lang="en">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 working notes</h1>
-  <p class="lead">Reference trajectories for 60 sequences across two tiers are ready, and Tier 2 object-trajectory denoising reaches ADD-AUC 0.707 (rule-compliant version). Both Day 1 full runs (Tier 1 ep20, rice cooker) finished in one attempt, but neither passed the pre-registered criteria: ADD-AUC 0.431 and 0.422, below the 0.471 of an object that never moves. Batch training is on hold; the next step is a full-recipe control run on the official snack_box sample. The freeze is 2026-11-04 17:00 EST, 38 days from 9/27.</p>
+  <p class="lead">Reference trajectories for 60 sequences across two tiers are ready, and Tier 2 object-trajectory denoising reaches ADD-AUC 0.707 (rule-compliant version). On training, the full-recipe ep20 run with the recipe's default 1.67× playback failed the Day 1 criteria; the same recipe trained with real-time playback passes on its own reference (ADD-AUC 0.547 against a do-nothing baseline of 0.470; MP-SR 0.887). The organizers have not said which playback speed the evaluation uses, and the evaluation script is not released, so Day 2 trains both ways on three new sequences, evaluates every policy under both playbacks, and picks the training playback by its worst case. The verdict is due on the morning of 9/29. The freeze is 2026-11-04 17:00 EST, 37 days from 9/28.</p>
   <div class="adm w"><span class="t">Freeze date unconfirmed</span><p>The unmerged draft rules (PR #164) also mention November 5 and November 10.</p></div>
   <div class="figs">
     <div class="fig"><span class="v">0.707</span><span class="l">Tier 2 ADD-AUC (raw 0.423)</span></div>
-    <div class="fig"><span class="v z">0.431</span><span class="l">Best Day 1 ADD-AUC (ep20, ml40); an object that never moves scores 0.471</span></div>
-    <div class="fig"><span class="v">0.79</span><span class="l">Task-native success rate chord_sr of that policy; the 1M-buffer run reaches 0.017</span></div>
-    <div class="fig"><span class="v">2 h 10 min</span><span class="l">Measured full-recipe run (ml40 L40S, one attempt)</span></div>
+    <div class="fig"><span class="v">0.547</span><span class="l">ADD-AUC of the full-recipe ep20 run at real-time playback; do-nothing 0.470. The 1.67× run scores 0.431 against 0.471</span></div>
+    <div class="fig"><span class="v">0.887</span><span class="l">MP-SR (maniptrans_sr) of the same policy; 0.0005 for the 1.67× run</span></div>
+    <div class="fig"><span class="v">37 days</span><span class="l">From 9/28 to the freeze (11/4, unconfirmed)</span></div>
   </div>
   <h2>Top three right now</h2>
   <ul class="todo">
-    <li><span class="pill w">To do</span><div><b><a href="#sop-day1">Full-recipe snack_box control</a></b><span>The 1M-buffer version failed without telling the causes apart; run the full recipe on ml40, with criteria registered and a time slot booked first</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">To do</span><div><b><a href="#next">Find where ep20 loses ADD-AUC, frame by frame</a></b><span>The evaluator only reports aggregates; export evaluation rollouts, compare each segment with an object that never moves, and check how far the object turns and how far the hands are from it</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">To do</span><div><b><a href="#next">Email the organizers</a></b><span>Holdout, evaluation script and stack, playback speed, Tier 1 use during development, cross-tier warm start, data use across tracks</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">Running</span><div><b><a href="#day2">Wait for the Day 2 verdict, then plan the Tier 1 batch</a></b><span>Both machines are running; the verdict is expected around 7:30–8:00 on 9/29 (Denver time). The batch plan gets written and reviewed before it runs</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To do</span><div><b><a href="#official">Send the email to the organizers</a></b><span>The draft is ready: when the evaluation script ships, which playback speed the evaluation uses, empty support files, holdout, Tier 1 use during development and more</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To do</span><div><b><a href="#day1b">Check retargeting (T4) and the early turn before manipulation (T1)</a></b><span>The two follow-ups the Day 1b diagnosis triggered; plan and review first</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>Contents</h2>
   <div class="cards">
+    <section class="card wide"><h3><a href="#exp">Training experiments</a></h3><p>The diagnosis, controls and fact-checks after Day 1, plus the running Day 2; each page has the registered criteria, the results and the jev scores</p>
+      <ul><li><a href="#day1b">Day 1b frame-by-frame diagnosis</a></li><li><a href="#snack">Full-recipe snack control</a></li><li><a href="#playback">Playback speed comparison</a></li><li><a href="#official">Official evaluation settings</a></li><li><a href="#day2">Day 2 (running)</a></li></ul></section>
     <section class="card"><h3><a href="#progress">Progress</a></h3><p>Stage status, denoising results, special cases, next steps</p>
       <ul><li><a href="#status">Status</a></li><li><a href="#denoise">Tier 2 denoising</a></li><li><a href="#edge">Special cases</a></li><li><a href="#next">Next steps and to-dos</a></li></ul></section>
     <section class="card"><h3><a href="#arch">Current architecture</a></h3><p>How data flows, what the code looks like, where it runs</p>
@@ -341,22 +358,22 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-progress" data-sec="progress" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>进度</h1>
-  <p>截至 2026-09-27（Day 1 结果）。每一页只讲一件事。</p>
+  <p>截至 2026-09-28 17:20（丹佛时间）。每一页只讲一件事；训练实验的结果单独放在<a href="#exp">训练实验</a>。</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">现状</span><span class="jd">各环节能不能用，卡在哪</span><span class="jk">7 个环节</span></a></li>
     <li><a href="#denoise"><span class="jt">Tier 2 降噪</span><span class="jd">从原始 0.423 做到 0.707，以及被数据否定的方向</span><span class="jk">0.707</span></a></li>
-    <li><a href="#edge"><span class="jt">特殊情况</span><span class="jd">需要单独处理的序列与环境问题</span><span class="jk">6 条</span></a></li>
-    <li><a href="#next"><span class="jt">下一步与待办</span><span class="jd">接下来做什么，谁负责</span><span class="jk">3 项待办</span></a></li>
+    <li><a href="#edge"><span class="jt">特殊情况</span><span class="jd">需要单独处理的序列与环境问题</span><span class="jk">12 条</span></a></li>
+    <li><a href="#next"><span class="jt">下一步与待办</span><span class="jd">接下来做什么，谁负责</span><span class="jk">2 项待办</span></a></li>
   </ul>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Progress</h1>
-  <p>As of 2026-09-27 (Day 1 results). Each page covers one topic.</p>
+  <p>As of 2026-09-28 17:20 (Denver time). Each page covers one topic; training results have their own section, <a href="#exp">Training experiments</a>.</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">Status</span><span class="jd">Which stages work and where we are stuck</span><span class="jk">7 stages</span></a></li>
     <li><a href="#denoise"><span class="jt">Tier 2 denoising</span><span class="jd">From a raw 0.423 to 0.707, and the directions the data ruled out</span><span class="jk">0.707</span></a></li>
-    <li><a href="#edge"><span class="jt">Special cases</span><span class="jd">Sequences and environment issues that need special handling</span><span class="jk">6 cases</span></a></li>
-    <li><a href="#next"><span class="jt">Next steps and to-dos</span><span class="jd">What comes next and who owns it</span><span class="jk">3 to-dos</span></a></li>
+    <li><a href="#edge"><span class="jt">Special cases</span><span class="jd">Sequences and environment issues that need special handling</span><span class="jk">12 cases</span></a></li>
+    <li><a href="#next"><span class="jt">Next steps and to-dos</span><span class="jd">What comes next and who owns it</span><span class="jk">2 to-dos</span></a></li>
   </ul>
 </div>
 </section>
@@ -368,13 +385,13 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>环节</th><th>状态</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td>环境</td><td><span class="pill ok">可用</span></td><td>mf4090：Isaac Lab 2.3.2 镜像、上游 v0.4.0、FlashCHORD 镜像。ml40：FlashCHORD 镜像已重建（前 11 层与 104 个依赖和 mf4090 一致）；9/27 docker、containerd 与仓库副本都已迁到 <code>/lab_data</code>，迁移后复核一致</td></tr>
+      <tr><td>环境</td><td><span class="pill ok">可用</span></td><td>mf4090：Isaac Lab 2.3.2 镜像、上游 v0.4.0、FlashCHORD 镜像。ml40：FlashCHORD 镜像已重建（前 11 层与 104 个依赖和 mf4090 一致）；9/27 docker、containerd 与仓库副本都已迁到 <code>/lab_data</code>，迁移后复核一致。9/28 起两台卡只有 rxzhou 在用，训练链开跑前仍查卡上有没有别的进程</td></tr>
       <tr><td>数据转换与重定向</td><td><span class="pill ok">可用</span></td><td>官方 <code>soma_to_g1</code> + 骨长包装；两档 60 条批量跑通</td></tr>
       <tr><td>Tier 2 降噪</td><td><span class="pill ok">可用</span></td><td>v5.4 净室版，导出时挂 Tier 1 读取守卫</td></tr>
-      <tr><td>策略训练</td><td><span class="pill w">跑通，未达标</span></td><td>FlashCHORD 全程可断点续训，两台各一条 ep20 一次跑完；两条都没过 Day 1 判据，见 <a href="#sop-day1">Day 1 验证</a></td></tr>
-      <tr><td>评测</td><td><span class="pill w">部分</span></td><td>FlashCHORD 评测器 4096 世界约 5 分钟；<code>fc_eval.sh</code>、“物体不动”基线、按判据下结论的脚本都在仓库里；对真值的离线评测（Tier 2 用）待写</td></tr>
+      <tr><td>策略训练</td><td><span class="pill w">部分达标</span></td><td>FlashCHORD 全程可断点续训。ep20 满配按 1.67 倍速回放没过 Day 1 判据，按真实时长回放训出的那条按自己的参考过了（见<a href="#playback">回放速度对照</a>）；官方样例 snack 满配不通过（边缘，见 <a href="#snack">snack 满配对照</a>）。Day 2 在三条新序列上比两种回放，见 <a href="#day2">Day 2</a></td></tr>
+      <tr><td>评测</td><td><span class="pill w">部分</span></td><td>FlashCHORD 评测器 4096 世界约 5 分钟。<code>stages/evaluate</code> 里有：按判据下结论、逐帧诊断、“物体不动”基线、换一种回放评测、Day 2 判定，各带合成测试；对真值的离线评测（Tier 2 用）待写</td></tr>
       <tr><td>Tier 3</td><td><span class="pill o">未开始</span></td><td>官方不提供重建结果，需从 exo 视频自己做</td></tr>
-      <tr><td>提交</td><td><span class="pill b">阻塞</span></td><td>官方 <code>eval_robotic_grounding.py</code> 未发布</td></tr>
+      <tr><td>提交</td><td><span class="pill b">阻塞</span></td><td>官方 <code>eval_robotic_grounding.py</code> 未发布（9/28 查过 HF 数据集与 GitHub 仓库 9 个分支）；评测按什么速度回放也没写，见<a href="#official">官方评测口径</a></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -384,13 +401,13 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>Stage</th><th>State</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>Environment</td><td><span class="pill ok">Ready</span></td><td>mf4090: Isaac Lab 2.3.2 image, upstream v0.4.0, FlashCHORD image. ml40: FlashCHORD image rebuilt (first 11 layers and all 104 dependencies match mf4090); on 9/27 docker, containerd and the repository copy moved to <code>/lab_data</code>, and the post-migration checks match</td></tr>
+      <tr><td>Environment</td><td><span class="pill ok">Ready</span></td><td>mf4090: Isaac Lab 2.3.2 image, upstream v0.4.0, FlashCHORD image. ml40: FlashCHORD image rebuilt (first 11 layers and all 104 dependencies match mf4090); on 9/27 docker, containerd and the repository copy moved to <code>/lab_data</code>, and the post-migration checks match. Since 9/28 rxzhou is the only one using either card; training chains still check for other processes before they start</td></tr>
       <tr><td>Conversion and retargeting</td><td><span class="pill ok">Ready</span></td><td>Official <code>soma_to_g1</code> plus a bone-length wrapper; all 60 sequences processed in batch</td></tr>
       <tr><td>Tier 2 denoising</td><td><span class="pill ok">Ready</span></td><td>v5.4 clean-room version; export runs with a Tier 1 read guard</td></tr>
-      <tr><td>Policy training</td><td><span class="pill w">Runs, below bar</span></td><td>Full FlashCHORD runs resume from checkpoints; one ep20 run per machine finished in one attempt; neither passed the Day 1 criteria, see <a href="#sop-day1">Day 1 validation</a></td></tr>
-      <tr><td>Evaluation</td><td><span class="pill w">Partial</span></td><td>The FlashCHORD evaluator takes about 5 minutes for 4096 worlds; <code>fc_eval.sh</code>, the do-nothing baseline and the verdict script are in the repository; offline evaluation against ground truth (needed for Tier 2) is not written yet</td></tr>
+      <tr><td>Policy training</td><td><span class="pill w">Partly passing</span></td><td>Full FlashCHORD runs resume from checkpoints. The full-recipe ep20 run fails the Day 1 criteria at 1.67× playback, while the real-time run passes on its own reference (see <a href="#playback">Playback speed comparison</a>); the full-recipe run on the official snack sample fails, marginally (see <a href="#snack">Full-recipe snack control</a>). Day 2 compares the two playbacks on three new sequences, see <a href="#day2">Day 2</a></td></tr>
+      <tr><td>Evaluation</td><td><span class="pill w">Partial</span></td><td>The FlashCHORD evaluator takes about 5 minutes for 4096 worlds. <code>stages/evaluate</code> holds the verdict script, the frame-by-frame diagnosis, the do-nothing baseline, evaluation under the other playback and the Day 2 verdict, each with synthetic tests; offline evaluation against ground truth (needed for Tier 2) is not written yet</td></tr>
       <tr><td>Tier 3</td><td><span class="pill o">Not started</span></td><td>No reconstructions are provided; we must build them from the exo video</td></tr>
-      <tr><td>Submission</td><td><span class="pill b">Blocked</span></td><td>The official <code>eval_robotic_grounding.py</code> is not released</td></tr>
+      <tr><td>Submission</td><td><span class="pill b">Blocked</span></td><td>The official <code>eval_robotic_grounding.py</code> is not released (checked on 9/28 in the HF dataset and 9 branches of the GitHub repository), and the playback speed of the evaluation is not stated either; see <a href="#official">Official evaluation settings</a></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -477,6 +494,12 @@ body.en .pb.l-en{display:grid}
       <tr><td>交通锥第 0 帧就低于地面 23.5 mm</td><td>地面平面与重建的固有误差，被抬起约 14 mm，记录不处理</td></tr>
       <tr><td>旧版留下的 <code>*_g1_support.usda</code></td><td>会被优先加载且已不对齐，重定向前删除</td></tr>
       <tr><td>mf4090 连 GitHub 时连接被重置</td><td>在 Mac 上打 git bundle，传过去再 fetch</td></tr>
+      <tr><td>16 / 30 条 Tier 1 序列的官方支撑面文件是空的 Xform（没有 Cube / Cylinder 碰撞体），FlashCHORD 建场景直接报错</td><td>这些序列训练时加 <code>scene.support=false</code>，地面保留；全部 30 条都能建场景（<code>results/day2/palm_frame_probe_all.txt</code>，jev 0.83）。已写进给组委会的邮件</td></tr>
+      <tr><td>真实时长回放时，G1 绑定参考要求每帧 palm 与关节 FK 相差 ≤ 1e-4 m / 1e-4 rad，插值帧过不了</td><td>全部 30 条重采样后实测最大 4.78 mm / 2.84e-2 rad（ep10 白桌子，jev 0.90）；只放宽这两个校验容差：ep20 用 2 mm / 5e-3 rad，Day 2 统一用 15 mm / 0.086 rad（最大值的 3 倍），远小于 15 cm / 1.5 rad 的跟踪门槛</td></tr>
+      <tr><td>训练中把 checkpoint 同步上传成 W&amp;B artifact，客户端核验 token 连不上服务器，训练进程直接退出</td><td>长跑一律 <code>V2D_WANDB_UPLOAD_CKPT=0</code>：指标照常进 W&amp;B，checkpoint 只存本地（snack 第 1 次尝试，jev 0.92）</td></tr>
+      <tr><td>训练链跑着的时候同步代码，会改掉来历、换掉链后面才调用的脚本</td><td>链开跑写 <code>runs/.chain-active-*</code>，<code>scripts/dev/remote</code> 见到就拒绝同步；链在每条 run 前比对来历，变了就停</td></tr>
+      <tr><td>mf4090 上 400 万 buffer 训练时整卡读数 23.8 GB（卡 24 GB）</td><td>XLA 没开预分配、按需扩池，整卡读数反映池子大小；放不放得下只看日志里有没有 RESOURCE_EXHAUSTED / out of memory。Day 2 第一次开链的峰值上限与此不一致，见 <a href="#day2">Day 2</a></td></tr>
+      <tr><td>Mac 经复用连接往 mf4090 传文件会卡住（4.9 MB 五分钟没传完）</td><td>每台机器上各自诊断，只把 <code>results/</code> 回流到 Mac</td></tr>
     </tbody>
   </table></div>
 </div>
@@ -491,6 +514,12 @@ body.en .pb.l-en{display:grid}
       <tr><td>Traffic cone already 23.5 mm below the floor at frame 0</td><td>An inherent error between the ground plane and the reconstruction; it gets lifted about 14 mm. Recorded, not fixed</td></tr>
       <tr><td>Leftover <code>*_g1_support.usda</code> from the old retargeter</td><td>It is loaded first and is misaligned; delete it before retargeting</td></tr>
       <tr><td>Connections from mf4090 to GitHub get reset</td><td>Pack a git bundle on the Mac, copy it over, then fetch</td></tr>
+      <tr><td>For 16 of the 30 Tier 1 sequences the official support file is an empty Xform (no Cube or Cylinder collider), and FlashCHORD fails to build the scene</td><td>Train these sequences with <code>scene.support=false</code>; the floor stays. All 30 sequences build a scene that way (<code>results/day2/palm_frame_probe_all.txt</code>, jev 0.83). Included in the email to the organizers</td></tr>
+      <tr><td>At real-time playback, the G1 binding requires every palm frame to match the joint FK within 1e-4 m / 1e-4 rad, which interpolated frames fail</td><td>Measured over all 30 resampled sequences, the largest deviation is 4.78 mm / 2.84e-2 rad (ep10 white desk, jev 0.90). Only these two check tolerances are relaxed: 2 mm / 5e-3 rad for ep20, and 15 mm / 0.086 rad (3× the maximum) for Day 2, far below the 15 cm / 1.5 rad tracking limits</td></tr>
+      <tr><td>Uploading a checkpoint as a W&amp;B artifact during training: when the client cannot reach the server to verify the token, the training process exits</td><td>Long runs always set <code>V2D_WANDB_UPLOAD_CKPT=0</code>: metrics still go to W&amp;B, checkpoints stay local (first snack attempt, jev 0.92)</td></tr>
+      <tr><td>Syncing code while a training chain runs changes the recorded source and swaps scripts the chain calls later</td><td>A chain writes <code>runs/.chain-active-*</code> when it starts, and <code>scripts/dev/remote</code> refuses to sync while one exists; the chain compares the source before every run and stops if it changed</td></tr>
+      <tr><td>With a 4M buffer on mf4090 the whole card reads 23.8 GB (24 GB card)</td><td>XLA runs without preallocation and grows its pool on demand, so the whole-card reading reflects the pool size; whether the run fits is decided only by RESOURCE_EXHAUSTED / out of memory in the log. The first Day 2 chain used a peak limit that disagreed with this, see <a href="#day2">Day 2</a></td></tr>
+      <tr><td>Copying files from the Mac to mf4090 over the shared connection stalls (4.9 MB not done after five minutes)</td><td>Diagnose on each machine and bring only <code>results/</code> back to the Mac</td></tr>
     </tbody>
   </table></div>
 </div>
@@ -501,26 +530,22 @@ body.en .pb.l-en{display:grid}
   <h1>下一步与待办</h1>
   <h2>下一步</h2>
   <ul class="bl">
-    <li><b>Day 1 结论</b>：ep20 两条全程（1000 万 / 100 万 buffer）都没过判据，ADD-AUC 低于物体完全不动；按 <a href="#sop-day1">Day 1 验证</a>的规则，不开批量。</li>
-    <li><b>满配 snack_box 对照</b>：ml40、1000 万 buffer，判据先登记。它过了，问题在 ep20 这条数据；它也不过，先查配方与环境。mf4090 上 100 万 buffer 的 snack_box 已评测：不通过（chord_sr 0，ADD-AUC 0.540 低于它的不动基线 0.566），分不清是哪种问题。</li>
-    <li><b>逐帧诊断 ep20</b>：导出评测 rollout，把 ADD-AUC 按段拆开和“物体不动”比，另看物体绕参考主轴转了多少、参考手离物体多远。参考在第 209–420 帧把电饭煲原地转近一圈（几何净转约 309°）。计划见 <code>agent-doc/plan-day1b-2026-09-27.md</code>。</li>
-    <li><b>对准比赛口径的离线评测</b>：仿真物体轨迹对 Tier 1 真值算 ADD-AUC 与 MPPE，只做分析。</li>
-    <li><b>训练杠杆</b>，各自单独试：
-      <ul>
-        <li>播放速度：1.67 倍速还是真实时长（见 <a href="#adr1">ADR-00001</a>）</li>
-        <li>Tier 2 参考轨迹的抖动：v5.3 实测逐帧角加速度中位 0.98°，Tier 1 是 0.12°；v5.4 未单独测</li>
-        <li>行李箱是脚推、手部奖励为 0，看配方能不能训出来</li>
-        <li>按终止原因逐条分析</li>
-      </ul></li>
+    <li><b>Day 2 判定</b>（9/29 早上 7:30–8:00 前后）：Q1 定 Tier 1 批量用哪种回放训练；另看 Q2 新序列上能不能过线、Q3 mf4090 的 400 万 buffer 能不能用、Q4 只有地面的序列能不能正常训。见 <a href="#day2">Day 2</a>。</li>
+    <li><b>Tier 1 批量训练计划</b>（Day 2 之后，先写计划、review 再跑）：回放按 Day 2 判定；30 条里 16 条只有地面，要 <code>scene.support=false</code>；ml40 跑满配，mf4090 要不要分担看 Q3；训练链、冒烟核对、不动基线可直接复用 Day 2 的工具。</li>
+    <li><b>T4 查重定向</b>：ep20 的参考手在接触帧上离物体 5.9 cm，官方样例是 2.6 cm（限定：两条的物体与抓法不同）。见 <a href="#day1b">Day 1b 逐帧诊断</a>。</li>
+    <li><b>T1 查操作前的预转</b>：ep20 满配在操作窗口开始前就把电饭煲预转了约 20°，第 1 段丢 0.027；接近与抓取、reset 与 VOC 设置都要看。</li>
+    <li><b>snack 满配逐帧诊断</b>：核实“失分在静止前缀”的推测，目前只有 100 万那条的诊断支持（jev 0.72，证据间接）。</li>
+    <li><b>对准比赛口径的离线评测</b>：仿真物体轨迹对 Tier 1 真值算 ADD-AUC 与 MPPE，Tier 2 要用。</li>
+    <li><b>Tier 2 训练</b>：按我们的净室解读，Tier 1 上的结果不拿来给 Tier 2/3 定超参；等组委会答复，或找 Tier 2 自己的证据。Tier 2 参考的抖动（v5.3 逐帧角加速度中位 0.98°，Tier 1 0.12°）到时单独看。</li>
   </ul>
   <div class="adm w"><span class="t">可能改变训练方向</span><p>规则草案提议最终排名用私有 holdout。如果 Track 2 的 holdout 里有没见过的序列，训练要转向跨序列泛化。</p></div>
   <h2>待办</h2>
   <div class="tbl"><table>
     <thead><tr><th>事项</th><th>谁</th><th>状态</th></tr></thead>
     <tbody>
-      <tr><td>约 L40S 使用时段（满配 snack_box 之前），见 <a href="#sop-pre">前置条件</a></td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
-      <tr><td>邮件组委会：holdout、评测脚本与栈、开发期用 Tier 1、跨档热启动、Track 1 与 Track 2 的数据能否互用</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+      <tr><td>发组委会邮件，草稿 <code>agent-doc/organizer-email-draft-2026-09-28.md</code>：评测脚本何时发布、评测按什么速度回放、真实时长下 G1 的 palm 校验、空支撑面文件、holdout、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
       <tr><td>登录 Kaggle 查看 12 个竞赛的 Rules 页</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+      <tr><td>约 L40S 使用时段</td><td>rxzhou</td><td><span class="pill o">不再需要</span>（9/28 起两台卡只有 rxzhou 在用）</td></tr>
     </tbody>
   </table></div>
 </div>
@@ -528,28 +553,493 @@ body.en .pb.l-en{display:grid}
   <h1>Next steps and to-dos</h1>
   <h2>Next steps</h2>
   <ul class="bl">
-    <li><b>Day 1 outcome</b>: both full ep20 runs (10M and 1M buffer) fail the criteria, with ADD-AUC below an object that never moves; by the rule in <a href="#sop-day1">Day 1 validation</a>, the batch stays on hold.</li>
-    <li><b>Full-recipe snack_box control</b>: ml40 with the 10M buffer, criteria registered first. If it passes, the problem is in the ep20 data; if it fails too, check the recipe and environment first. The 1M-buffer snack_box from mf4090 has been evaluated and fails (chord_sr 0, ADD-AUC 0.540 below its do-nothing 0.566), which cannot tell the causes apart.</li>
-    <li><b>Frame-by-frame diagnosis of ep20</b>: export evaluation rollouts, split ADD-AUC by segment and compare with an object that never moves, and also check how far the object turns about the reference axis and how far the reference hands are from it. The reference turns the cooker in place almost a full circle within frames 209–420 (geometric net about 309°). Plan in <code>agent-doc/plan-day1b-2026-09-27.md</code>.</li>
-    <li><b>Offline evaluation on the challenge's terms</b>: compute ADD-AUC and MPPE of the simulated object trajectory against Tier 1 ground truth, for analysis only.</li>
-    <li><b>Training levers</b>, each tried on its own:
-      <ul>
-        <li>Playback speed: 1.67× or real time (see <a href="#adr1">ADR-00001</a>)</li>
-        <li>Jitter in the Tier 2 reference: median per-frame angular acceleration 0.98° measured on v5.3, versus 0.12° for Tier 1; v5.4 not measured separately</li>
-        <li>The luggage is pushed with a foot and gets no hand reward; check whether the recipe can learn it</li>
-        <li>Per-sequence analysis by termination cause</li>
-      </ul></li>
+    <li><b>Day 2 verdict</b> (around 7:30–8:00 on 9/29): Q1 decides which playback the Tier 1 batch trains with; also Q2, whether the new sequences pass; Q3, whether the 4M buffer on mf4090 is usable; and Q4, whether floor-only sequences train normally. See <a href="#day2">Day 2</a>.</li>
+    <li><b>Tier 1 batch plan</b> (after Day 2; plan and review before running): playback per the Day 2 verdict; 16 of the 30 sequences are floor-only and need <code>scene.support=false</code>; ml40 runs the full recipe, and whether mf4090 shares the load depends on Q3; the training chain, smoke checks and do-nothing baselines carry over from Day 2.</li>
+    <li><b>T4, check retargeting</b>: on ep20 the reference hand is 5.9 cm from the object at contact frames, against 2.6 cm on the official sample (caveat: the two sequences differ in object and grip). See <a href="#day1b">Day 1b frame-by-frame diagnosis</a>.</li>
+    <li><b>T1, the early turn before manipulation</b>: the full-recipe ep20 policy turns the cooker about 20° before the manipulation window starts and loses 0.027 in segment 1; look at approach and grasp, reset and VOC settings.</li>
+    <li><b>Frame-by-frame diagnosis of the full-recipe snack run</b>: check the guess that it loses its score in the static prefix; so far only the 1M run's diagnosis supports it (jev 0.72, indirect evidence).</li>
+    <li><b>Offline evaluation on the challenge's terms</b>: compute ADD-AUC and MPPE of the simulated object trajectory against Tier 1 ground truth; Tier 2 needs it.</li>
+    <li><b>Tier 2 training</b>: under our clean-room reading, Tier 1 results do not set Tier 2/3 hyperparameters; wait for the organizers or find evidence within Tier 2. The jitter of the Tier 2 reference (median per-frame angular acceleration 0.98° on v5.3, 0.12° on Tier 1) gets its own look then.</li>
   </ul>
   <div class="adm w"><span class="t">Could change the training direction</span><p>The draft rules propose final rankings on a private holdout. If the Track 2 holdout contains unseen sequences, training has to shift toward cross-sequence generalization.</p></div>
   <h2>To-dos</h2>
   <div class="tbl"><table>
     <thead><tr><th>Item</th><th>Owner</th><th>State</th></tr></thead>
     <tbody>
-      <tr><td>Book an L40S time slot (before the full-recipe snack_box run); see <a href="#sop-pre">Prerequisites</a></td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
-      <tr><td>Email the organizers: holdout, evaluation script and stack, Tier 1 use during development, cross-tier warm start, whether Track 1 and Track 2 data may be used across tracks</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+      <tr><td>Send the email to the organizers, draft in <code>agent-doc/organizer-email-draft-2026-09-28.md</code>: when the evaluation script ships, which playback speed the evaluation uses, the G1 palm check at real time, empty support files, holdout, Tier 1 use during development, cross-tier warm start, data use across the two tracks</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
       <tr><td>Sign in to Kaggle and read the Rules page of the 12 competitions</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+      <tr><td>Book an L40S time slot</td><td>rxzhou</td><td><span class="pill o">Not needed</span> (since 9/28 rxzhou is the only one using either card)</td></tr>
     </tbody>
   </table></div>
+</div>
+</section>
+
+<!-- ═════════════ 训练实验 ═════════════ -->
+<section class="pg" id="pg-exp" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>训练实验</h1>
+  <p>Day 1 之后做了三次实验、一次查证，Day 2 正在跑。每次都先登记判据再跑，结论由脚本按判据给出。页面上的承重结论都经 jev 核对，P(支持) ≥ 0.7 才算核实，分数写在旁边；没过的标“未核实”。</p>
+  <ul class="jump">
+    <li><a href="#day1b"><span class="jt">Day 1b 逐帧诊断</span><span class="jd">ep20 的 ADD-AUC 丢在哪一段，官方样例作对照</span><span class="jk">T1 T2 T4 触发</span></a></li>
+    <li><a href="#snack"><span class="jt">snack 满配对照</span><span class="jd">官方配方在官方样例上能不能过线</span><span class="jk">不通过（边缘）</span></a></li>
+    <li><a href="#playback"><span class="jt">回放速度对照</span><span class="jd">1.67 倍速对真实时长，转动落后量有没有差别</span><span class="jk">无差别</span></a></li>
+    <li><a href="#official"><span class="jt">官方评测口径</span><span class="jd">官方评测按什么速度回放，评测脚本发没发布</span><span class="jk">未公开</span></a></li>
+    <li><a href="#day2"><span class="jt">Day 2</span><span class="jd">三条新序列 × 两种训练回放 × 两种评测回放</span><span class="jk">进行中</span></a></li>
+  </ul>
+  <h2>时间线（丹佛时间）</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>时间</th><th>实验</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td class="n">9/27 12:44–14:54</td><td><a href="#sop-day1">Day 1</a>：ep20 两条全程</td><td>1.67 倍速下都没过：ADD-AUC 0.431 / 0.422，不动 0.471</td></tr>
+      <tr><td class="n">9/27 19:53–20:24</td><td><a href="#day1b">Day 1b 逐帧诊断</a></td><td>T1、T2、T4 触发，T3 未触发</td></tr>
+      <tr><td class="n">9/27 19:56–20:02</td><td><a href="#snack">snack 满配第 1 次</a></td><td>把 checkpoint 上传到 W&amp;B 时 token 核验失败，训练退出，未判定</td></tr>
+      <tr><td class="n">9/28 07:32–09:32</td><td><a href="#snack">snack 满配第 2 次</a></td><td>不通过（边缘）：ADD-AUC 0.5639 对不动 0.5662，MP-SR 0</td></tr>
+      <tr><td class="n">9/28 08:48–12:57</td><td><a href="#playback">回放速度对照</a></td><td>转动落后量无差别；真实时长那条按自己的参考过了 Day 1 判据</td></tr>
+      <tr><td class="n">9/28 14:40</td><td><a href="#official">官方评测口径</a></td><td>官方没写回放速度；评测脚本未发布</td></tr>
+      <tr><td class="n">9/28 16:33 起</td><td><a href="#day2">Day 2</a></td><td>预检通过，冒烟全过，正式训练中；判定 9/29 早上</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm"><span class="t">怎么读这些分数</span><p>“不动基线”是物体一直停在第 0 帧参考位姿时的 ADD-AUC，随序列和回放方式变（ep20 是 0.471，snack 样例 0.566，Day 2 的 ep13 只有 0.165），及格线用各自的基线。分数只在同一序列、同一评测回放内可比。</p></div>
+  <p class="muted">jev 核对：<code>results/site/jev_claims_sop_page.txt</code>，22 条全部核实，3 道对照题方向正确；ml40 冒烟链与 ep10 的 2 条另行补核（<code>…_ep10.txt</code>），也都核实。第一轮（<code>…_run1.txt</code>）有两条没过，处理见<a href="#snack">snack 满配对照</a>与<a href="#official">官方评测口径</a>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Training experiments</h1>
+  <p>After Day 1 we ran three experiments and one fact-check, and Day 2 is running now. Every experiment registered its criteria before running, and a script produced the verdict from them. The load-bearing conclusions on these pages were checked with jev: a claim counts as verified at P(supported) ≥ 0.7, with the score shown next to it; anything below is marked unverified.</p>
+  <ul class="jump">
+    <li><a href="#day1b"><span class="jt">Day 1b frame-by-frame diagnosis</span><span class="jd">Where ep20 loses ADD-AUC, with the official sample as control</span><span class="jk">T1 T2 T4 fired</span></a></li>
+    <li><a href="#snack"><span class="jt">Full-recipe snack control</span><span class="jd">Whether the official recipe passes on the official sample</span><span class="jk">Fail (marginal)</span></a></li>
+    <li><a href="#playback"><span class="jt">Playback speed comparison</span><span class="jd">1.67× against real time: does the rotation lag differ</span><span class="jk">No difference</span></a></li>
+    <li><a href="#official"><span class="jt">Official evaluation settings</span><span class="jd">Which playback speed the evaluation uses, and whether the script is out</span><span class="jk">Not stated</span></a></li>
+    <li><a href="#day2"><span class="jt">Day 2</span><span class="jd">Three new sequences × two training playbacks × two evaluation playbacks</span><span class="jk">Running</span></a></li>
+  </ul>
+  <h2>Timeline (Denver time)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>When</th><th>Experiment</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">9/27 12:44–14:54</td><td><a href="#sop-day1">Day 1</a>: two full ep20 runs</td><td>Both fail at 1.67×: ADD-AUC 0.431 and 0.422, do-nothing 0.471</td></tr>
+      <tr><td class="n">9/27 19:53–20:24</td><td><a href="#day1b">Day 1b frame-by-frame diagnosis</a></td><td>T1, T2 and T4 fired; T3 did not</td></tr>
+      <tr><td class="n">9/27 19:56–20:02</td><td><a href="#snack">Full-recipe snack, attempt 1</a></td><td>The W&amp;B token check failed while uploading a checkpoint and training exited; no verdict</td></tr>
+      <tr><td class="n">9/28 07:32–09:32</td><td><a href="#snack">Full-recipe snack, attempt 2</a></td><td>Fail (marginal): ADD-AUC 0.5639 against do-nothing 0.5662, MP-SR 0</td></tr>
+      <tr><td class="n">9/28 08:48–12:57</td><td><a href="#playback">Playback speed comparison</a></td><td>No difference in rotation lag; the real-time run passes the Day 1 criteria on its own reference</td></tr>
+      <tr><td class="n">9/28 14:40</td><td><a href="#official">Official evaluation settings</a></td><td>Playback speed not stated; evaluation script not released</td></tr>
+      <tr><td class="n">9/28 from 16:33</td><td><a href="#day2">Day 2</a></td><td>Preflight passed, all smokes passed, full training running; verdict on the morning of 9/29</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm"><span class="t">How to read these scores</span><p>The do-nothing baseline is the ADD-AUC of an object that stays at its frame-0 reference pose. It changes with the sequence and the playback (0.471 for ep20, 0.566 for the snack sample, only 0.165 for Day 2's ep13), and every pass bar uses its own baseline. Scores compare only within one sequence and one evaluation playback.</p></div>
+  <p class="muted">jev: <code>results/site/jev_claims_sop_page.txt</code>, all 22 claims verified and the 3 controls behaved; 2 later claims about the ml40 smoke chain and ep10 were checked separately (<code>…_ep10.txt</code>) and verified too. Two claims failed in the first round (<code>…_run1.txt</code>); see <a href="#snack">Full-recipe snack control</a> and <a href="#official">Official evaluation settings</a> for how they were handled.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-day1b" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>Day 1b 逐帧诊断</h1>
+  <p>Day 1 的评测只给汇总分数。这一步把三个 policy 的评测 rollout 存下来逐帧拆开：ep20 满配（主）、ep20 100 万 buffer、官方样例 snack 100 万（对照）。9/27 19:53–20:24 在 mf4090 上跑，同一张 4090、4096 世界。七道有效性闸（形状、包装前后一致、重算 ADD-AUC 一致、朝向误差一致、参考的已知答案、逐世界成功率、几何自检）三个 policy 全过。</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>ep20 满配</th><th>ep20 100 万</th><th>snack 100 万</th></tr></thead>
+    <tbody>
+      <tr><td>全程 ADD-AUC（不动）</td><td class="n">0.4315（0.4708）</td><td class="n">0.4213（0.4708）</td><td class="n">0.5410（0.5662）</td></tr>
+      <tr><td>第 1 段贡献差（操作前静止）</td><td class="n">−0.027</td><td class="n">−0.033</td><td class="n">−0.032</td></tr>
+      <tr><td>第 2 段贡献差（操作窗口）</td><td class="n">+0.032</td><td class="n">+0.022</td><td class="n">+0.006</td></tr>
+      <tr><td>第 3 段贡献差（操作后）</td><td class="n">−0.045</td><td class="n">−0.038</td><td class="n">0.000</td></tr>
+      <tr><td>中位净转动比（需要）</td><td class="n">0.70（0.72）</td><td class="n">0.76（0.72）</td><td class="n">0.56（0.55）</td></tr>
+      <tr><td>操作段 palm 误差中位</td><td class="n">5.1 cm</td><td class="n">9.2 cm</td><td class="n">62.7 cm</td></tr>
+      <tr><td>参考手在接触帧上离物体（中位）</td><td class="n">右 5.9 cm</td><td class="n">右 5.9 cm</td><td class="n">左 2.6、右 2.8 cm</td></tr>
+      <tr><td>成功世界（4096 个里）</td><td class="n">3285</td><td class="n">62</td><td class="n">0</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">“贡献差”是这一段对全程 ADD-AUC 的贡献减去“物体不动”在同一段的贡献，三段相加等于全程差；负数表示这一段不如不动。</p>
+  <h2>触发了什么（事先登记的数值条件） <span class="jv">jev 0.91</span></h2>
+  <ul class="bl">
+    <li><b>T1 触发</b>：非操作段（第 1、3 段）占全程 ADD-AUC 差距的 182%（主）、126%（对照），都 ≥ 50%，按登记归到配方层：查接近与抓取、reset 与 VOC 设置。</li>
+    <li><b>T2 触发</b>：中位净转动比 0.70，低于第 420 帧不越门槛所需的 0.72，下一步做回放速度对照（已做，见<a href="#playback">回放速度对照</a>）。</li>
+    <li><b>T3 未触发</b>：操作段 palm 误差中位 5.1 cm，低于 7.5 cm。</li>
+    <li><b>T4 触发</b>：参考手在接触帧上离物体 5.9 cm，对照 2.6 cm，差 ≥ 2 cm，下一步查重定向。限定：两条的物体与抓法不同，这个差也可能来自物体形状。</li>
+  </ul>
+  <h2>描述（不设阈值）</h2>
+  <ul class="bl">
+    <li>Day 1 撤回的“没跟上转动”确实不成立：ep20 满配 82% 的世界净转过参考的一半，中位转了 70%（第 209 帧到末帧净转 212°，参考 307°）。</li>
+    <li>ep20 满配的失分分三块：操作前就把电饭煲预转约 20°（第 209 帧朝向误差中位 20°，第 1 段 −0.027）；操作窗口内比不动好（+0.032）；操作结束后物体停在比参考少转约 75° 的位置（第 552 帧朝向误差中位 74.8°，第 3 段 −0.045）。T1 把第 1、3 段算在一起，其中第 3 段实际是转动不足留下的残差。</li>
+    <li>snack 100 万的失分几乎全在静止前缀：盒子在前 446 帧被碰动（位置误差均值 1.4 cm，不动为 0）。</li>
+  </ul>
+  <p class="muted">记录 <code>agent-doc/experiments/2026-09-28-day1b.md</code>；报告 <code>results/day1/diag_*.txt</code>；触发判定 <code>results/day1/diag_triggers.txt</code>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Day 1b frame-by-frame diagnosis</h1>
+  <p>The Day 1 evaluation only reports aggregates. This step saved the evaluation rollouts of three policies and took them apart frame by frame: full-recipe ep20 (main), ep20 with a 1M buffer, and the official snack sample with a 1M buffer (control). It ran on mf4090 from 19:53 to 20:24 on 9/27, on the same 4090 with 4096 worlds. All three policies passed the seven validity gates (shapes, identical results with and without the wrapper, recomputed ADD-AUC, orientation error, known answers of the reference, per-world success, geometric self-check).</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>ep20 full recipe</th><th>ep20 1M</th><th>snack 1M</th></tr></thead>
+    <tbody>
+      <tr><td>Full-run ADD-AUC (do-nothing)</td><td class="n">0.4315 (0.4708)</td><td class="n">0.4213 (0.4708)</td><td class="n">0.5410 (0.5662)</td></tr>
+      <tr><td>Segment 1 contribution gap (static, before manipulation)</td><td class="n">−0.027</td><td class="n">−0.033</td><td class="n">−0.032</td></tr>
+      <tr><td>Segment 2 (manipulation window)</td><td class="n">+0.032</td><td class="n">+0.022</td><td class="n">+0.006</td></tr>
+      <tr><td>Segment 3 (after manipulation)</td><td class="n">−0.045</td><td class="n">−0.038</td><td class="n">0.000</td></tr>
+      <tr><td>Median net rotation ratio (required)</td><td class="n">0.70 (0.72)</td><td class="n">0.76 (0.72)</td><td class="n">0.56 (0.55)</td></tr>
+      <tr><td>Median palm error, manipulation segment</td><td class="n">5.1 cm</td><td class="n">9.2 cm</td><td class="n">62.7 cm</td></tr>
+      <tr><td>Reference hand to object at contact frames (median)</td><td class="n">right 5.9 cm</td><td class="n">right 5.9 cm</td><td class="n">left 2.6, right 2.8 cm</td></tr>
+      <tr><td>Successful worlds (of 4096)</td><td class="n">3285</td><td class="n">62</td><td class="n">0</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">A segment's contribution gap is its contribution to the full-run ADD-AUC minus the do-nothing contribution over the same segment; the three add up to the full-run gap, and a negative value means the segment did worse than not moving.</p>
+  <h2>What fired (registered numeric conditions) <span class="jv">jev 0.91</span></h2>
+  <ul class="bl">
+    <li><b>T1 fired</b>: segments 1 and 3 account for 182% of the ADD-AUC gap for the main policy and 126% for the control, both ≥ 50%, so by the registration this is a recipe-level issue: check approach and grasp, reset and VOC settings.</li>
+    <li><b>T2 fired</b>: the median net rotation ratio is 0.70, below the 0.72 needed to stay inside the limit at frame 420; the next step was a playback speed comparison (done, see <a href="#playback">Playback speed comparison</a>).</li>
+    <li><b>T3 did not fire</b>: the median palm error in the manipulation segment is 5.1 cm, below 7.5 cm.</li>
+    <li><b>T4 fired</b>: the reference hand is 5.9 cm from the object at contact frames against 2.6 cm for the control, a gap of at least 2 cm; the next step is to check retargeting. Caveat: the two sequences differ in object and grip, so the gap may come from object shape.</li>
+  </ul>
+  <h2>Description (no thresholds)</h2>
+  <ul class="bl">
+    <li>The claim withdrawn after Day 1, that the policy does not follow the rotation, is indeed wrong: 82% of full-recipe ep20 worlds turn more than half of the reference's net rotation, with a median of 70% (212° net from frame 209 to the end, against 307° in the reference).</li>
+    <li>The full-recipe ep20 policy loses in three places: it pre-turns the cooker about 20° before manipulation starts (median orientation error 20° at frame 209, segment 1 −0.027); inside the manipulation window it beats doing nothing (+0.032); after manipulation the object rests about 75° short of the reference (median orientation error 74.8° at frame 552, segment 3 −0.045). T1 counts segments 1 and 3 together; segment 3 is really the leftover of the under-rotation.</li>
+    <li>The 1M snack policy loses almost everything in the static prefix: the box gets bumped during the first 446 frames (mean position error 1.4 cm, zero for doing nothing).</li>
+  </ul>
+  <p class="muted">Record <code>agent-doc/experiments/2026-09-28-day1b.md</code>; reports <code>results/day1/diag_*.txt</code>; trigger verdict <code>results/day1/diag_triggers.txt</code>.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-snack" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>snack 满配对照</h1>
+  <p>目的是分清 Day 1 的失败出在配方与环境，还是出在 ep20 这条数据。官方 G1 配方，只给官方样例 parquet，1000 万 buffer、349,999,104 步、种子 42，在 ml40 上训练，4096 世界评测。判据事先登记：chord_sr &gt; 0、maniptrans_sr &gt; 0、ADD-AUC 高于这条序列的不动基线 0.5662；“&gt; 0”只靠 ≤ 3 个世界，或 ADD-AUC 落在门槛 ±0.01 内，另标“边缘”。</p>
+  <h2>第 1 次尝试：中途退出，未判定 <span class="jv">jev 0.92</span></h2>
+  <p>9/27 19:56 开始，20:01 写出第一个 checkpoint（10,000,384 步）。20:02 要把它上传成 W&amp;B artifact 时，客户端核验 API token 连不上服务器（<code>AuthenticationError</code>），异常没被接住，训练进程退出。按登记不续训。第 2 次从 0 重来，关掉 checkpoint 上传（<code>V2D_WANDB_UPLOAD_CKPT=0</code>，指标照常进 W&amp;B），判据不变。</p>
+  <h2>第 2 次尝试：不通过（边缘） <span class="jv">jev 0.94</span></h2>
+  <p>9/28 07:32 开始，一段跑完，09:32 评完。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>项</th><th>满配（第 2 次，ml40）</th><th>100 万（Day 1，mf4090）</th><th>门槛</th></tr></thead>
+    <tbody>
+      <tr><td>chord_sr</td><td class="n">0.922（3775 / 4096）</td><td class="n">0</td><td>&gt; 0 → 过</td></tr>
+      <tr><td>maniptrans_sr</td><td class="n">0（0 / 4096）</td><td class="n">0.00024（1 个世界）</td><td>&gt; 0 → <b>不过</b></td></tr>
+      <tr><td>ADD-AUC</td><td class="n">0.5639</td><td class="n">0.5403</td><td>&gt; 0.5662 → <b>不过</b>，差 −0.0023</td></tr>
+      <tr><td>spider_sr_uncentered</td><td class="n">0.967</td><td class="n">—</td><td>只描述</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>按登记三项要全过，所以不通过；ADD-AUC 落在门槛 ±0.01 内，另标边缘。边缘不走 SOP 的因果分支，下一步按诊断证据定，或补一个种子。</li>
+    <li>官方配方在官方样例上任务原生成功 92%，物体位置误差比不动低约 56 cm，ADD-AUC 仍略低于不动。</li>
+  </ul>
+  <div class="adm w"><span class="t">不下的结论</span><ul>
+    <li>100 万与满配之差不能单归因于 buffer：两条还换了机器（4090 对 L40S），各只有一个种子（jev：“只差 buffer” 0.35、“归因于 buffer” 0.39，未核实）。</li>
+    <li>满配这条的失分是否也出在静止前缀（前 440 帧里约 317 帧是上游加的前缀），目前只有 100 万那条的逐帧诊断支持，属推测（jev 0.72，证据间接）。</li>
+    <li>官方样例 parquet 的 fps 列是 200，采集帧率未知，不对它的回放速度下结论。</li>
+  </ul></div>
+  <p class="muted">记录 <code>agent-doc/experiments/2026-09-28-day1b.md</code> 的 A 节；判定 <code>results/day1/verdict_snackbox_cap10m.txt</code>；第 1 次的原始日志摘录 <code>results/ml40/day1/snack_attempt1_*.txt</code>。第一轮 jev 这条只有 0.66：证据只有我们自己的记录，补上原始日志、run_record 与第 2 次的配置行后重核，论断原文未改。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Full-recipe snack control</h1>
+  <p>The goal is to tell whether the Day 1 failure comes from the recipe and environment or from the ep20 data. Official G1 recipe, given only the official sample parquet, 10M buffer, 349,999,104 steps, seed 42, trained on ml40 and evaluated with 4096 worlds. Criteria registered in advance: chord_sr &gt; 0, maniptrans_sr &gt; 0, and ADD-AUC above this sequence's do-nothing baseline of 0.5662. A "&gt; 0" that rests on ≤ 3 worlds, or an ADD-AUC within ±0.01 of the bar, is also marked marginal.</p>
+  <h2>Attempt 1: exited midway, no verdict <span class="jv">jev 0.92</span></h2>
+  <p>Started at 19:56 on 9/27 and wrote its first checkpoint (10,000,384 steps) at 20:01. At 20:02, when uploading it as a W&amp;B artifact, the client could not reach the server to verify the API token (<code>AuthenticationError</code>); nothing caught the exception and the training process exited. As registered, it was not resumed. Attempt 2 restarted from zero with checkpoint upload off (<code>V2D_WANDB_UPLOAD_CKPT=0</code>; metrics still go to W&amp;B), with the same criteria.</p>
+  <h2>Attempt 2: fail (marginal) <span class="jv">jev 0.94</span></h2>
+  <p>Started at 07:32 on 9/28, ran in one segment, evaluated by 09:32.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Full recipe (attempt 2, ml40)</th><th>1M buffer (Day 1, mf4090)</th><th>Bar</th></tr></thead>
+    <tbody>
+      <tr><td>chord_sr</td><td class="n">0.922 (3775 / 4096)</td><td class="n">0</td><td>&gt; 0 → pass</td></tr>
+      <tr><td>maniptrans_sr</td><td class="n">0 (0 / 4096)</td><td class="n">0.00024 (1 world)</td><td>&gt; 0 → <b>fail</b></td></tr>
+      <tr><td>ADD-AUC</td><td class="n">0.5639</td><td class="n">0.5403</td><td>&gt; 0.5662 → <b>fail</b>, −0.0023</td></tr>
+      <tr><td>spider_sr_uncentered</td><td class="n">0.967</td><td class="n">—</td><td>Descriptive</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>As registered, all three items must pass, so this is a fail; ADD-AUC is within ±0.01 of the bar, so it is also marked marginal. A marginal result takes no causal branch of the SOP; the next step follows the diagnostic evidence or adds a seed.</li>
+    <li>On the official sample, the official recipe succeeds in 92% of worlds by the task-native criteria and its object position error is about 56 cm below doing nothing, yet its ADD-AUC is still slightly below doing nothing.</li>
+  </ul>
+  <div class="adm w"><span class="t">Conclusions we do not draw</span><ul>
+    <li>The gap between the 1M and full runs cannot be put on the buffer alone: the two runs also differ in machine (4090 against L40S) and have one seed each (jev: "differs only in buffer" 0.35, "caused by the buffer" 0.39, unverified).</li>
+    <li>Whether the full run also loses in the static prefix (about 317 of the first 440 frames are a prefix added upstream) is supported only by the 1M run's diagnosis, so it is a guess (jev 0.72, indirect evidence).</li>
+    <li>The sample parquet's fps column says 200 and its capture rate is unknown, so we draw no conclusion about its playback speed.</li>
+  </ul></div>
+  <p class="muted">Record: section A of <code>agent-doc/experiments/2026-09-28-day1b.md</code>; verdict <code>results/day1/verdict_snackbox_cap10m.txt</code>; log excerpts of attempt 1 in <code>results/ml40/day1/snack_attempt1_*.txt</code>. In the first jev round this claim scored only 0.66 because its only evidence was our own record; after adding the raw log, the run record and the attempt 2 config line it was rechecked with the claim text unchanged.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-playback" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>回放速度对照</h1>
+  <p>Day 1b 的 T2 触发（转动跟不上）。FlashCHORD 的 G1 配方默认逐帧回放：每个 50 Hz 控制步走一帧 30 fps 的参考，动作按 1.67 倍速播；关掉逐帧就按 fps 重采样成真实时长（ep20 从 553 帧变成 921 帧）。问题是真实时长训练能不能减小转动落后量。计划 <code>agent-doc/plan-playback-2026-09-28.md</code> 第 2 版，9/28 08:41 登记。</p>
+  <h2>设计</h2>
+  <ul class="bl">
+    <li>满配一对（ml40，1000 万 buffer）与 100 万一对（mf4090，只作描述），两种回放各训一条 ep20。</li>
+    <li>主指标：关注段末的转动落后量 L，取最后三个 checkpoint 的平均；两臂之差超过事先登记的效应阈值 E 才算有差别。</li>
+  </ul>
+  <h2>结果：预算内没有差别 <span class="jv">jev 0.96</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>满配一对</th><th>1.67 倍速</th><th>真实时长</th></tr></thead>
+    <tbody>
+      <tr><td>关注段末落后量 L（三个 checkpoint）</td><td class="n">64.3 / 70.5 / 69.5，平均 68.1°</td><td class="n">75.9 / 69.5 / 72.8，平均 72.7°</td></tr>
+      <tr><td>关注段起点（负 = 提前转）</td><td class="n">−25.4°</td><td class="n">−21.4°</td></tr>
+      <tr><td>新增落后量：起转 / 停顿 / 快转</td><td class="n">+77.1 / +5.6 / +12.4</td><td class="n">+77.6 / −27.6 / +44.6</td></tr>
+      <tr><td>操作段 palm 误差中位</td><td class="n">4.7 cm</td><td class="n">4.5 cm</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>Δ = −4.6°。登记的 E = 139.3°，被 100 万真实时长一臂的 checkpoint 波动（69.7°）撑大了，这是登记规则的缺陷；只用满配两臂算，E = 15°，判定不变 <span class="jv">jev 0.82</span>。</li>
+    <li>起转段新增的落后两种回放几乎相同（77.1° 对 77.6°），与时间无关，按登记转 T4 与 T1。</li>
+    <li>100 万真实时长一臂三个 checkpoint 都没有成功的世界，这个组合训不稳。</li>
+  </ul>
+  <h2>次要结果：真实时长那条过了 Day 1 判据 <span class="jv">jev 0.95</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>ml40 评测，4096 世界</th><th>1.67 倍速训练，逐帧评</th><th>真实时长训练，真实时长评</th></tr></thead>
+    <tbody>
+      <tr><td>不动基线</td><td class="n">0.471</td><td class="n">0.470</td></tr>
+      <tr><td>ADD-AUC</td><td class="n">0.431</td><td class="n">0.547</td></tr>
+      <tr><td>chord_sr</td><td class="n">0.79</td><td class="n">0.809</td></tr>
+      <tr><td>MP-SR（maniptrans_sr）</td><td class="n">0.0005</td><td class="n">0.887</td></tr>
+      <tr><td>SP-SR（spider_sr_uncentered）</td><td class="n">0.0002</td><td class="n">0.844</td></tr>
+      <tr><td>MPPE</td><td class="n">5.2 cm</td><td class="n">3.9 cm</td></tr>
+      <tr><td>Day 1 判据</td><td><span class="pill b">不通过</span></td><td><span class="pill ok">通过</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>两条的转动落后量相同，所以 ADD-AUC 的差别不是来自跟上了转动。分段看，真实时长在操作段（+0.066 对 +0.032）和操作后（+0.053 对 −0.044）更好，操作前反而更差（−0.045 对 −0.027）；来源还没查。</li>
+    <li>它按自己的速度评测。官方评测按什么速度回放未知（见<a href="#official">官方评测口径</a>），这个数不能当榜上分数的预测，但让回放速度这个问题的分量大了很多，Day 2 由此而来。</li>
+  </ul>
+  <details class="more"><summary>开跑前挡下的两次失败</summary><div>
+    <ul class="bl">
+      <li>真实时长的第一次冒烟 13 秒就失败：G1 绑定参考时逐帧要求 palm 与关节 FK 相差 ≤ 1e-4 m / 1e-4 rad，不区分插值帧。实测重采样后 0.61 mm / 2.0e-3 rad，只把这两个校验容差放到 2 mm / 5e-3 rad。</li>
+      <li>诊断试跑的同卡闸没过（包装前后 ADD-AUC 差 0.0064 &gt; 0.005）：同一 policy 两次不包装的 256 世界评测也差 0.0057，是评测本身不逐位可复现；容差改为 0.005 × √(4096 / 世界数)，4096 世界时不变。</li>
+    </ul>
+  </div></details>
+  <p class="muted">记录 <code>agent-doc/experiments/2026-09-28-playback.md</code>；判定 <code>results/playback/compare.txt</code>、<code>compare_10m_only.txt</code>；过线判定 <code>results/playback/verdict_rt_runs.txt</code>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Playback speed comparison</h1>
+  <p>Day 1b fired T2 (the rotation lags). FlashCHORD's G1 recipe plays the reference frame by frame by default: every 50 Hz control step advances one frame of the 30 fps reference, so the motion plays at 1.67×. Turning that off resamples by fps to real time (ep20 goes from 553 to 921 frames). The question is whether training at real time reduces the rotation lag. Plan: version 2 of <code>agent-doc/plan-playback-2026-09-28.md</code>, registered at 08:41 on 9/28.</p>
+  <h2>Design</h2>
+  <ul class="bl">
+    <li>A full-recipe pair (ml40, 10M buffer) and a 1M pair (mf4090, descriptive only): one ep20 run per playback.</li>
+    <li>Main metric: the rotation lag L at the end of the window of interest, averaged over the last three checkpoints; the arms differ only if the gap exceeds a registered effect threshold E.</li>
+  </ul>
+  <h2>Result: no difference within the budget <span class="jv">jev 0.96</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Full-recipe pair</th><th>1.67×</th><th>Real time</th></tr></thead>
+    <tbody>
+      <tr><td>Lag L at window end (three checkpoints)</td><td class="n">64.3 / 70.5 / 69.5, mean 68.1°</td><td class="n">75.9 / 69.5 / 72.8, mean 72.7°</td></tr>
+      <tr><td>Lag at window start (negative = turns early)</td><td class="n">−25.4°</td><td class="n">−21.4°</td></tr>
+      <tr><td>Added lag: start-up / pause / fast turn</td><td class="n">+77.1 / +5.6 / +12.4</td><td class="n">+77.6 / −27.6 / +44.6</td></tr>
+      <tr><td>Median palm error, manipulation segment</td><td class="n">4.7 cm</td><td class="n">4.5 cm</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>Δ = −4.6°. The registered E = 139.3° was inflated by the checkpoint spread of the 1M real-time arm (69.7°), a flaw in the registered rule; computed from the two full-recipe arms only, E = 15° and the verdict is the same <span class="jv">jev 0.82</span>.</li>
+    <li>The lag added during start-up is almost the same at both speeds (77.1° against 77.6°), so it does not depend on time; as registered, the next steps are T4 and T1.</li>
+    <li>The 1M real-time arm has no successful world at any of its three checkpoints; that combination does not train stably.</li>
+  </ul>
+  <h2>Secondary result: the real-time run passes the Day 1 criteria <span class="jv">jev 0.95</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Evaluated on ml40, 4096 worlds</th><th>Trained at 1.67×, evaluated frame by frame</th><th>Trained and evaluated at real time</th></tr></thead>
+    <tbody>
+      <tr><td>Do-nothing baseline</td><td class="n">0.471</td><td class="n">0.470</td></tr>
+      <tr><td>ADD-AUC</td><td class="n">0.431</td><td class="n">0.547</td></tr>
+      <tr><td>chord_sr</td><td class="n">0.79</td><td class="n">0.809</td></tr>
+      <tr><td>MP-SR (maniptrans_sr)</td><td class="n">0.0005</td><td class="n">0.887</td></tr>
+      <tr><td>SP-SR (spider_sr_uncentered)</td><td class="n">0.0002</td><td class="n">0.844</td></tr>
+      <tr><td>MPPE</td><td class="n">5.2 cm</td><td class="n">3.9 cm</td></tr>
+      <tr><td>Day 1 criteria</td><td><span class="pill b">Fail</span></td><td><span class="pill ok">Pass</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>Both runs lag the rotation by the same amount, so the ADD-AUC gap does not come from following the turn better. By segment, real time does better in the manipulation window (+0.066 against +0.032) and after it (+0.053 against −0.044), and worse before it (−0.045 against −0.027); where the gap comes from is not checked yet.</li>
+    <li>It is evaluated at its own speed. Which speed the official evaluation uses is unknown (see <a href="#official">Official evaluation settings</a>), so this number is no forecast of a leaderboard score. It did make the playback question much weightier, which is why Day 2 exists.</li>
+  </ul>
+  <details class="more"><summary>Two failures caught before training</summary><div>
+    <ul class="bl">
+      <li>The first real-time smoke failed after 13 seconds: when binding the reference, G1 requires every palm frame to match the joint FK within 1e-4 m / 1e-4 rad, interpolated frames included. Measured after resampling: 0.61 mm / 2.0e-3 rad. Only these two check tolerances were raised, to 2 mm / 5e-3 rad.</li>
+      <li>The same-card gate of the diagnosis dry run failed (ADD-AUC differs by 0.0064 &gt; 0.005 with and without the wrapper). Two unwrapped 256-world evaluations of the same policy also differ by 0.0057, so the evaluator itself is not bit-reproducible; the tolerance became 0.005 × √(4096 / worlds), unchanged at 4096 worlds.</li>
+    </ul>
+  </div></details>
+  <p class="muted">Record <code>agent-doc/experiments/2026-09-28-playback.md</code>; verdicts <code>results/playback/compare.txt</code> and <code>compare_10m_only.txt</code>; pass check <code>results/playback/verdict_rt_runs.txt</code>.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-official" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>官方评测口径</h1>
+  <p class="lead">9/28 14:40 查证：官方没有写评测按什么速度回放，提交要用的评测脚本也没发布。</p>
+  <h2>官方原文与发布物</h2>
+  <ul class="bl">
+    <li>赛事页面（GitHub main 分支的页面源码）：Track 2 的本体与仿真器固定为 G1 + Dex3；提交物用 <code>eval_robotic_grounding.py</code> 生成；三档都对照干净的多视角物体轨迹，按 AUC、SP-SR、MP-SR、MPPE 计分。页面源码里 playback、fps、frame rate、Hz、real time、speed 一次都没出现。<span class="jv">jev 0.96</span></li>
+    <li><code>eval_robotic_grounding.py</code>：HF 数据集 <code>nvidia/video_to_data_challenge</code>（665 个条目，没有 .py 文件）和 GitHub 仓库 9 个分支的文件树里都没有；4 个发布版本都没有附件。<span class="jv">jev 0.96</span></li>
+  </ul>
+  <h2>各版本代码怎么播参考</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>版本</th><th>路径</th><th>回放</th><th>jev</th></tr></thead>
+    <tbody>
+      <tr><td>release/0.2.0（赛事页面链接的 starter toolkit）</td><td>Isaac Lab</td><td>不重采样（<code>target_fps</code> 默认 None，数据原样用），每个 0.02 s 环境步帧号加 1：30 fps 的参考按 1.67 倍速播</td><td class="n">0.87</td></tr>
+      <tr><td>release/0.3.0、v0.4.0</td><td>Isaac Lab</td><td>重采样到 1 / (env_step_dt × motion_speed)，motion_speed 默认 1.0：真实时长</td><td class="n">0.98</td></tr>
+      <tr><td>v0.4.0</td><td>FlashCHORD G1 配方</td><td><code>source_frame_playback: true</code>，逐帧：1.67 倍速</td><td class="n">0.98</td></tr>
+      <tr><td>v0.4.0</td><td>FlashCHORD 评测器</td><td>沿用 checkpoint 自己的设置：逐帧训练的 ep20 评了 553 步，真实时长训练的评了 921 步</td><td class="n">0.98</td></tr>
+    </tbody>
+  </table></div>
+  <p>当前版本里两条官方训练路径不一致（Isaac Lab 真实时长，FlashCHORD 逐帧），<code>eval_robotic_grounding.py</code> 会怎么定还不知道。FlashCHORD 是官方提供并推荐的加速训练路径，这一点没有疑问。</p>
+  <h2>这件事有多大</h2>
+  <p>Day 2 预检里把 ep20 两条满配各按另一种回放补评了一次（只作参考，不进判定）：</p>
+  <div class="tbl"><table>
+    <thead><tr><th>训练回放</th><th>评测回放</th><th>ADD-AUC</th><th>chord_sr</th><th>MP-SR</th><th>MPPE</th></tr></thead>
+    <tbody>
+      <tr><td>逐帧</td><td>逐帧（匹配）</td><td class="n">0.431</td><td class="n">0.792</td><td class="n">0.0005</td><td class="n">5.2 cm</td></tr>
+      <tr><td>逐帧</td><td>真实时长</td><td class="n">0.409</td><td class="n">0.032</td><td class="n">0.003</td><td class="n">12.6 cm</td></tr>
+      <tr><td>真实时长</td><td>真实时长（匹配）</td><td class="n">0.547</td><td class="n">0.809</td><td class="n">0.887</td><td class="n">3.9 cm</td></tr>
+      <tr><td>真实时长</td><td>逐帧</td><td class="n">0.405</td><td class="n">0.000</td><td class="n">0.012</td><td class="n">18.6 cm</td></tr>
+    </tbody>
+  </table></div>
+  <p>逐帧训练的 policy 改按真实时长评，chord_sr 从 0.79 掉到 0.03、MPPE 从 5.2 升到 12.6 cm；真实时长训练的改按逐帧评，MP-SR 从 0.887 掉到 0.012、MPPE 从 3.9 升到 18.6 cm。<span class="jv">jev 0.74</span> 换回放的评测先过了恒等核对：同一个 checkpoint 经包装、不改任何设置评一次，ADD-AUC 0.544 对 0.547，差 0.003。<span class="jv">jev 0.92</span></p>
+  <p>训练和评测的回放对不上，分数掉得很厉害，而官方口径未知，所以只能在不知道官方口径的情况下选训练回放。Day 2 就是为这个设计的：按三种可能的评测口径取最大损失。</p>
+  <div class="adm w"><span class="t">撤回的说法</span><ul>
+    <li>“官方评测很可能用 1.67 倍速”：只对 FlashCHORD 配方成立，官方文档没有定下，撤回。</li>
+    <li>“评测若走 Isaac Lab，连仿真器都和我们训练用的不同”：FlashCHORD 就是官方提供并推荐的加速训练路径，撤回这条风险。</li>
+    <li>9/28 Day 2 预检后曾把交叉评测笼统说成“两种训练换一种回放都崩了”，jev 0.32：逐帧训练那条的 MP-SR 在匹配回放下本来就只有 0.0005。改为上面按指标逐项的说法。</li>
+  </ul></div>
+  <p>给组委会的邮件草稿已备好（<code>agent-doc/organizer-email-draft-2026-09-28.md</code>），问评测脚本何时发布、按什么速度回放，等 rxzhou 发出。</p>
+  <p class="muted">证据 <code>results/playback/official_playback_sources.txt</code>、<code>eval_script_search.txt</code>、<code>upstream_playback_facts.txt</code>、<code>results/ml40/day2/</code>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Official evaluation settings</h1>
+  <p class="lead">Checked at 14:40 on 9/28: the organizers have not said which playback speed the evaluation uses, and the evaluation script that submissions require is not released.</p>
+  <h2>What the official sources say</h2>
+  <ul class="bl">
+    <li>The challenge page (page source on the GitHub main branch): Track 2 fixes the embodiment and simulator to G1 + Dex3; submissions are produced with <code>eval_robotic_grounding.py</code>; all three tiers are scored against the clean multi-view object trajectory with AUC, SP-SR, MP-SR and MPPE. The words playback, fps, frame rate, Hz, real time and speed never occur in the page source. <span class="jv">jev 0.96</span></li>
+    <li><code>eval_robotic_grounding.py</code> is neither in the HF dataset <code>nvidia/video_to_data_challenge</code> (665 entries, no .py files) nor in the file trees of the 9 branches of the GitHub repository, and none of the 4 releases has attachments. <span class="jv">jev 0.96</span></li>
+  </ul>
+  <h2>How each release plays the reference</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Release</th><th>Path</th><th>Playback</th><th>jev</th></tr></thead>
+    <tbody>
+      <tr><td>release/0.2.0 (the starter toolkit linked from the challenge page)</td><td>Isaac Lab</td><td>No resampling (<code>target_fps</code> defaults to None, data used as-is); the frame index advances by one every 0.02 s env step, so a 30 fps reference plays at 1.67×</td><td class="n">0.87</td></tr>
+      <tr><td>release/0.3.0, v0.4.0</td><td>Isaac Lab</td><td>Resampled to 1 / (env_step_dt × motion_speed), with motion_speed defaulting to 1.0: real time</td><td class="n">0.98</td></tr>
+      <tr><td>v0.4.0</td><td>FlashCHORD G1 recipe</td><td><code>source_frame_playback: true</code>, frame by frame: 1.67×</td><td class="n">0.98</td></tr>
+      <tr><td>v0.4.0</td><td>FlashCHORD evaluator</td><td>Follows the checkpoint's own setting: the frame-trained ep20 policy ran 553 steps, the real-time one 921</td><td class="n">0.98</td></tr>
+    </tbody>
+  </table></div>
+  <p>In the current release the two official training paths disagree (Isaac Lab plays at real time, FlashCHORD frame by frame), and how <code>eval_robotic_grounding.py</code> will do it is unknown. FlashCHORD itself is the officially provided and recommended accelerated training path; that is not in doubt.</p>
+  <h2>How much it matters</h2>
+  <p>The Day 2 preflight also evaluated both full-recipe ep20 policies under the other playback (reference only, not part of the verdict):</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Trained at</th><th>Evaluated at</th><th>ADD-AUC</th><th>chord_sr</th><th>MP-SR</th><th>MPPE</th></tr></thead>
+    <tbody>
+      <tr><td>Frame</td><td>Frame (matched)</td><td class="n">0.431</td><td class="n">0.792</td><td class="n">0.0005</td><td class="n">5.2 cm</td></tr>
+      <tr><td>Frame</td><td>Real time</td><td class="n">0.409</td><td class="n">0.032</td><td class="n">0.003</td><td class="n">12.6 cm</td></tr>
+      <tr><td>Real time</td><td>Real time (matched)</td><td class="n">0.547</td><td class="n">0.809</td><td class="n">0.887</td><td class="n">3.9 cm</td></tr>
+      <tr><td>Real time</td><td>Frame</td><td class="n">0.405</td><td class="n">0.000</td><td class="n">0.012</td><td class="n">18.6 cm</td></tr>
+    </tbody>
+  </table></div>
+  <p>Evaluated at real time, the frame-trained policy's chord_sr drops from 0.79 to 0.03 and its MPPE rises from 5.2 to 12.6 cm; evaluated frame by frame, the real-time-trained policy's MP-SR drops from 0.887 to 0.012 and its MPPE rises from 3.9 to 18.6 cm. <span class="jv">jev 0.74</span> The cross-playback evaluation first passed an identity check: the same checkpoint run through the wrapper with nothing changed gives ADD-AUC 0.544 against 0.547, a difference of 0.003. <span class="jv">jev 0.92</span></p>
+  <p>When the training and evaluation playbacks disagree the scores drop sharply, and the official setting is unknown, so the training playback has to be chosen without knowing it. That is what Day 2 is for: it takes the worst case over three possible evaluation settings.</p>
+  <div class="adm w"><span class="t">Withdrawn statements</span><ul>
+    <li>"The official evaluation most likely uses 1.67×": true only of the FlashCHORD recipe; the official documents settle nothing. Withdrawn.</li>
+    <li>"If the evaluation runs on Isaac Lab, even the simulator differs from the one we train with": FlashCHORD is the officially provided and recommended accelerated path. This risk is withdrawn.</li>
+    <li>After the Day 2 preflight on 9/28 the cross-evaluation was summed up as "both policies collapse under the other playback", jev 0.32: the frame-trained policy's MP-SR was only 0.0005 under its own playback to begin with. Replaced by the per-metric statement above.</li>
+  </ul></div>
+  <p>The email draft to the organizers is ready (<code>agent-doc/organizer-email-draft-2026-09-28.md</code>). It asks when the evaluation script ships and which playback speed it uses, and waits for rxzhou to send it.</p>
+  <p class="muted">Evidence: <code>results/playback/official_playback_sources.txt</code>, <code>eval_script_search.txt</code>, <code>upstream_playback_facts.txt</code>, <code>results/ml40/day2/</code>.</p>
+</div>
+</section>
+
+<section class="pg" id="pg-day2" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <h1>Day 2（进行中）</h1>
+  <p class="lead">官方评测按哪种回放未知时，训练用哪种回放更稳？9/28 16:33 开跑，判定预计 9/29 早上 7:30–8:00（丹佛时间）出。</p>
+  <p>计划、判据、工具、队列与判定规格一起登记于 67f1d86（9/28 16:30），早于任何 Day 2 结果；第 1 版经两份独立审查，第 2 版又经一次复审。计划 <code>agent-doc/plan-day2-2026-09-28.md</code>，执行记录 <code>agent-doc/experiments/2026-09-28-day2.md</code>。</p>
+  <h2>要回答的问题</h2>
+  <ul class="bl">
+    <li><b>Q1</b> 在三种可能的评测口径里，哪种训练回放的最大损失更小？</li>
+    <li><b>Q2</b> 满配在新序列上（两种训练 × 两种评测）能不能过 Day 1 判据？</li>
+    <li><b>Q3</b> mf4090 用 400 万 buffer 能不能做出接近 ml40 满配的 policy？顺带第一次实测种子噪声。</li>
+    <li><b>Q4</b> 只有地面的序列关掉支撑面后能不能正常训练、评测？</li>
+  </ul>
+  <h2>三条新序列 <span class="jv">jev 0.98</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>ep</th><th>序列</th><th>帧（真实时长）</th><th>支撑面</th><th>不动基线（逐帧 / 真实时长）</th></tr></thead>
+    <tbody>
+      <tr><td class="n">26</td><td>skateboard_rotate_ground</td><td class="n">669（1114）</td><td>只有地面</td><td class="n">0.441 / 0.441</td></tr>
+      <tr><td class="n">13</td><td>snack_box_desk_through</td><td class="n">922（1536）</td><td>有</td><td class="n">0.165 / 0.164</td></tr>
+      <tr><td class="n">10</td><td>white_desk_lower_to_ground</td><td class="n">794（1323）</td><td>只有地面</td><td class="n">0.339 / 0.339</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>选法：<code>pick_pilot_sequences.py</code> 按登记的规则机械选出：排除 ep20、ep29、ep1，其余按帧数分三档，各取离中位数最近的一条，三条的支撑面类型不能全相同。</li>
+    <li>每条两种回放各训一条满配（ml40，1000 万 buffer、349,999,104 步、种子 42）。只有地面的加 <code>scene.support=false</code>；真实时长一臂的 palm 校验容差 15 mm / 0.086 rad。这 6 条就是批量里这三条序列的 policy，真正多花的只有输掉的那一臂。</li>
+    <li>最后三个 checkpoint 按匹配回放各评 4096 世界；最终 checkpoint 另按另一种回放评一次。</li>
+    <li>B（mf4090）：ep20、400 万 buffer，真实时长（种子 42 与 43）和逐帧各一条，对照 ml40 满配；两颗种子之差是种子噪声的第一次实测。</li>
+    <li>ep20 只作参考：它是看过结果才提出问题的，不进判定。</li>
+  </ul>
+  <h2>判定规则（事先登记） <span class="jv">jev 0.83</span></h2>
+  <ol class="steps">
+    <li><b>三个场景</b>：固定按逐帧评（R@F 对 F@F）、固定按真实时长评（R@R 对 F@R）、各按 checkpoint 自己的设置评（R@R 对 F@F，也就是 FlashCHORD 评测器的实际行为）。R、F 分别指真实时长训练、逐帧训练。</li>
+    <li><b>三项指标</b>：gap（ADD-AUC − 该回放的不动基线）、SR（SP-SR 与 MP-SR 合成一项，两者都判同一臂赢才算）、MPPE。</li>
+    <li><b>每一项</b>：取一臂在三个场景里的最大损失，最大损失小的那臂赢这一项；差要 ≥ 阈值（gap 0.05、SR 0.2、MPPE 1.0 cm），B 测出种子噪声后取两者较大的。</li>
+    <li><b>每条序列</b>：一臂赢 ≥ 2 项且一项不输，记这臂；四格 SR 都只靠 ≤ 3 个世界且 gap 都 &lt; 0，记“地板”，不算票。</li>
+    <li><b>结论</b>：至少 2 条有效且非地板的序列才下。≥ 2 条记真实时长且没有记逐帧：训练用真实时长更稳；对称：逐帧更稳；其余：无明确偏好，沿用配方默认（逐帧）。</li>
+  </ol>
+  <p class="muted">判定由 <code>stages/evaluate/day2_compare.py</code> 按 <code>day2_spec.json</code> 机械给出；14 项合成测试覆盖了“两臂按逐帧评都触底时真实时长仍赢”和“真实时长 policy 按逐帧评时崩了则判逐帧”。</p>
+  <h2>进度（9/28 17:20）</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>机器</th><th>阶段</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>ml40</td><td>预检：恒等核对、ep20 交叉评测、ep20 三个 checkpoint 的评测</td><td><span class="pill ok">完成</span> 16:49，8 项全成功；恒等核对 ADD-AUC 差 0.003，交叉评测可用（jev 0.92）</td></tr>
+      <tr><td>ml40</td><td>6 条冒烟：帧数核对、不动基线</td><td><span class="pill ok">完成</span> 17:20，6 条全过，帧数都与期望一致（jev：六条全过 0.94；不动基线 ep26 与 ep13 0.95、ep10 0.91）</td></tr>
+      <tr><td>ml40</td><td>6 条满配训练</td><td><span class="pill w">进行中</span> 17:20 开始，每条约 2 h 10 min，预计 9/29 6:20 前后训完</td></tr>
+      <tr><td>ml40</td><td>评测：每条 3 个 checkpoint，另加 1 次换回放</td><td><span class="pill o">等待</span> 训练链结束后自动开始，预计 7:20 前后评完</td></tr>
+      <tr><td>mf4090</td><td>B 的 3 条冒烟</td><td><span class="pill ok">完成</span> 帧数 921 / 553 / 921，不动基线 0.4703 / 0.4708 / 0.4703，与之前 ep20 的基线相同（jev 0.91）</td></tr>
+      <tr><td>mf4090</td><td>B 的 3 条正式训练</td><td><span class="pill w">进行中</span> B-rt 17:02 开始，17:17 已过 3000 万步，日志无 OOM；三条预计 9/29 0:30 前后训完，1:15 前后评完</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm w"><span class="t">执行偏差：mf4090 冒烟的显存上限（16:58 登记，早于 B 的任何正式训练结果）</span>
+    <p>第一次开链时三条 B 冒烟都跑完了，日志里没有任何 OOM，但链以整卡峰值 23843–23855 MiB 超过 23000 为由全部跳过。23000 是开链命令里沿用 Day 1 的参数，没写进计划；计划登记的显存判据只看日志里的 RESOURCE_EXHAUSTED / out of memory。上限改成整卡总量 24564 MiB 后三条重核全过，16:58 用同一来历重开。这是看到读数之后的改动，单独标注；正式训练中途 OOM 仍按计划记“B 无结果”。jev 0.78–0.97（<code>results/day2/jev_claims_bsmoke.txt</code>）。</p></div>
+  <p>预检里 ep20 的交叉评测见<a href="#official">官方评测口径</a>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <h1>Day 2 (running)</h1>
+  <p class="lead">When the official evaluation playback is unknown, which training playback is the safer bet? Started at 16:33 on 9/28; the verdict is expected around 7:30–8:00 on 9/29 (Denver time).</p>
+  <p>The plan, criteria, tools, queues and the verdict spec were registered together in 67f1d86 (16:30 on 9/28), before any Day 2 result; version 1 went through two independent reviews and version 2 through one more. Plan <code>agent-doc/plan-day2-2026-09-28.md</code>; execution record <code>agent-doc/experiments/2026-09-28-day2.md</code>.</p>
+  <h2>Questions</h2>
+  <ul class="bl">
+    <li><b>Q1</b> Across three possible evaluation settings, which training playback has the smaller worst-case loss?</li>
+    <li><b>Q2</b> Does the full recipe pass the Day 1 criteria on new sequences (two training × two evaluation playbacks)?</li>
+    <li><b>Q3</b> Can mf4090 with a 4M buffer produce a policy close to the ml40 full recipe? It also gives the first measurement of seed noise.</li>
+    <li><b>Q4</b> Do floor-only sequences train and evaluate normally with the support surface turned off?</li>
+  </ul>
+  <h2>Three new sequences <span class="jv">jev 0.98</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>ep</th><th>Sequence</th><th>Frames (real time)</th><th>Support</th><th>Do-nothing (frame / real time)</th></tr></thead>
+    <tbody>
+      <tr><td class="n">26</td><td>skateboard_rotate_ground</td><td class="n">669 (1114)</td><td>Floor only</td><td class="n">0.441 / 0.441</td></tr>
+      <tr><td class="n">13</td><td>snack_box_desk_through</td><td class="n">922 (1536)</td><td>Yes</td><td class="n">0.165 / 0.164</td></tr>
+      <tr><td class="n">10</td><td>white_desk_lower_to_ground</td><td class="n">794 (1323)</td><td>Floor only</td><td class="n">0.339 / 0.339</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="bl">
+    <li>Picked mechanically by <code>pick_pilot_sequences.py</code> under the registered rule: exclude ep20, ep29 and ep1, split the rest into three length tiers, take the one nearest each tier's median, and do not let all three share a support type.</li>
+    <li>Each sequence gets one full-recipe run per playback (ml40, 10M buffer, 349,999,104 steps, seed 42). Floor-only sequences add <code>scene.support=false</code>; the real-time arm uses palm check tolerances of 15 mm / 0.086 rad. These six runs are the batch policies for these three sequences, so only the losing arm is extra cost.</li>
+    <li>The last three checkpoints are evaluated with 4096 worlds under the matching playback; the final checkpoint is also evaluated under the other playback.</li>
+    <li>B (mf4090): ep20 with a 4M buffer, one real-time run per seed (42 and 43) and one frame-by-frame run, compared with the ml40 full recipe; the difference between the two seeds is the first measurement of seed noise.</li>
+    <li>ep20 is reference only: its question was raised after seeing its results, so it stays out of the verdict.</li>
+  </ul>
+  <h2>Verdict rule (registered in advance) <span class="jv">jev 0.83</span></h2>
+  <ol class="steps">
+    <li><b>Three scenarios</b>: always evaluate frame by frame (R@F against F@F), always at real time (R@R against F@R), or each at its checkpoint's own setting (R@R against F@F, which is what the FlashCHORD evaluator does). R and F mean trained at real time and frame by frame.</li>
+    <li><b>Three metrics</b>: gap (ADD-AUC minus the do-nothing baseline for that playback), SR (SP-SR and MP-SR merged; it counts only if both favor the same arm), and MPPE.</li>
+    <li><b>Per metric</b>: take each arm's worst loss across the three scenarios; the arm with the smaller worst loss wins the metric if the difference reaches the threshold (gap 0.05, SR 0.2, MPPE 1.0 cm), raised to the measured seed noise once B provides it.</li>
+    <li><b>Per sequence</b>: an arm that wins at least 2 metrics and loses none gets the vote; if all four cells have SR resting on ≤ 3 worlds and a negative gap, the sequence is a "floor" and does not vote.</li>
+    <li><b>Verdict</b>: it needs at least 2 valid, non-floor sequences. At least 2 votes for real time and none for frame: real time is the safer training playback; the mirror case: frame by frame; anything else: no clear preference, keep the recipe default (frame by frame).</li>
+  </ol>
+  <p class="muted"><code>stages/evaluate/day2_compare.py</code> computes the verdict mechanically from <code>day2_spec.json</code>; its 14 synthetic tests include "both arms bottom out under frame evaluation and real time still wins" and "the real-time policy collapses under frame evaluation, so frame wins".</p>
+  <h2>Progress (9/28 17:20)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Machine</th><th>Stage</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>ml40</td><td>Preflight: identity check, ep20 cross-evaluation, ep20 evaluations at three checkpoints</td><td><span class="pill ok">Done</span> 16:49, all 8 steps succeeded; the identity check differs by 0.003 ADD-AUC, so the cross-evaluation is usable (jev 0.92)</td></tr>
+      <tr><td>ml40</td><td>Six smokes: frame count check, do-nothing baselines</td><td><span class="pill ok">Done</span> 17:20, all six passed with the expected frame counts (jev: all six passed 0.94; baselines 0.95 for ep26 and ep13, 0.91 for ep10)</td></tr>
+      <tr><td>ml40</td><td>Six full-recipe runs</td><td><span class="pill w">Running</span> since 17:20, about 2 h 10 min each, expected to finish around 6:20 on 9/29</td></tr>
+      <tr><td>ml40</td><td>Evaluation: three checkpoints per run plus one cross-playback</td><td><span class="pill o">Waiting</span> starts automatically after training, expected done around 7:20</td></tr>
+      <tr><td>mf4090</td><td>Three B smokes</td><td><span class="pill ok">Done</span> 921 / 553 / 921 frames, do-nothing 0.4703 / 0.4708 / 0.4703, the same as the earlier ep20 baselines (jev 0.91)</td></tr>
+      <tr><td>mf4090</td><td>Three B full runs</td><td><span class="pill w">Running</span> B-rt started 17:02 and was past 30M steps by 17:17 with no OOM in the log; all three expected to finish around 0:30 on 9/29, evaluated by about 1:15</td></tr>
+    </tbody>
+  </table></div>
+  <div class="adm w"><span class="t">Execution deviation: the mf4090 smoke memory limit (logged at 16:58, before any B training result)</span>
+    <p>On the first launch all three B smokes finished with no OOM anywhere in their logs, but the chain skipped them all because the whole-card peak of 23843–23855 MiB exceeded 23000. That 23000 was a launch argument carried over from Day 1 and never written into the plan; the plan's registered memory rule looks only for RESOURCE_EXHAUSTED / out of memory in the log. With the limit set to the card total of 24564 MiB all three passed the recheck, and the chains restarted at 16:58 from the same source. The change came after seeing the reading and is marked as such; an OOM during full training is still recorded as "B has no result", as planned. jev 0.78–0.97 (<code>results/day2/jev_claims_bsmoke.txt</code>).</p></div>
+  <p>The ep20 cross-evaluation from the preflight is on <a href="#official">Official evaluation settings</a>.</p>
 </div>
 </section>
 
@@ -655,9 +1145,9 @@ body.en .pb.l-en{display:grid}
       <tr><td><code>libs/v2d_infra</code></td><td>路径、FK 唯一入口（带缓存）、ADD-AUC、档位隔离守卫</td><td><span class="pill ok">有测试</span></td></tr>
       <tr><td><code>stages/recovery</code></td><td>Tier 2 导出（v5.4）、净室参数、不读数据的纯函数核心；其余为分析脚本</td><td><span class="pill ok">Tier 2 可用</span></td></tr>
       <tr><td><code>stages/retarget</code></td><td>转换、官方读取器的骨长包装、对齐检查、批处理</td><td><span class="pill ok">60 条跑通</span></td></tr>
-      <tr><td><code>stages/policy</code></td><td>FlashCHORD 与 Isaac Lab 的训练入口</td><td><span class="pill w">仅冒烟</span></td></tr>
-      <tr><td><code>stages/evaluate</code></td><td>本仓还没有评测代码；目前用 FlashCHORD 自带评测器（见<a href="#status">现状</a>）</td><td><span class="pill o">目录为空</span></td></tr>
-      <tr><td><code>scripts/dev</code></td><td>多主机同步与远端执行（<code>V2D_ENV</code>）、结果与 policy 回流、两个一次性容器入口、镜像构建</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td><code>stages/policy</code></td><td>FlashCHORD 与 Isaac Lab 的训练入口；可断点续训的 <code>fc_run.sh</code>（只留最近 2 份 state）、配置正向核对、冒烟判据、队列与 Day 2 训练链</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td><code>stages/evaluate</code></td><td>评测仍用 FlashCHORD 自带评测器；本仓加了按判据下结论、逐帧诊断、“物体不动”基线、换一种回放评测、Day 2 判定与评测链</td><td><span class="pill ok">有合成测试</span></td></tr>
+      <tr><td><code>scripts/dev</code></td><td>多主机同步与远端执行（<code>V2D_ENV</code>，训练链在跑时拒绝同步）、<code>record</code>（结果落盘带命令、md5、来历）、结果与 policy 回流、两个一次性容器入口、镜像构建</td><td><span class="pill ok">可用</span></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -669,9 +1159,9 @@ body.en .pb.l-en{display:grid}
       <tr><td><code>libs/v2d_infra</code></td><td>Paths, the single FK entry point (with a cache), ADD-AUC, the tier isolation guard</td><td><span class="pill ok">Tested</span></td></tr>
       <tr><td><code>stages/recovery</code></td><td>Tier 2 export (v5.4), clean-room parameters, a pure-function core that reads no data; the rest are analysis scripts</td><td><span class="pill ok">Tier 2 ready</span></td></tr>
       <tr><td><code>stages/retarget</code></td><td>Conversion, the bone-length wrapper around the official reader, alignment check, batch runner</td><td><span class="pill ok">60 done</span></td></tr>
-      <tr><td><code>stages/policy</code></td><td>Training entry points for FlashCHORD and Isaac Lab</td><td><span class="pill w">Smoke only</span></td></tr>
-      <tr><td><code>stages/evaluate</code></td><td>No evaluation code in this repository yet; the FlashCHORD evaluator is used for now (see <a href="#status">Status</a>)</td><td><span class="pill o">Empty</span></td></tr>
-      <tr><td><code>scripts/dev</code></td><td>Multi-host sync and remote execution (<code>V2D_ENV</code>), pulling back results and policies, two throwaway-container launchers, image build</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td><code>stages/policy</code></td><td>Training entry points for FlashCHORD and Isaac Lab; the resumable <code>fc_run.sh</code> (keeps the latest 2 states), forward config checks, smoke criteria, queues and the Day 2 training chain</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td><code>stages/evaluate</code></td><td>Evaluation still uses the FlashCHORD evaluator; this repository adds the verdict script, frame-by-frame diagnosis, do-nothing baselines, evaluation under the other playback, the Day 2 verdict and the evaluation chain</td><td><span class="pill ok">Synthetic tests</span></td></tr>
+      <tr><td><code>scripts/dev</code></td><td>Multi-host sync and remote execution (<code>V2D_ENV</code>; refuses to sync while a training chain runs), <code>record</code> (results saved with command, md5 and source), pulling back results and policies, two throwaway-container launchers, image build</td><td><span class="pill ok">Ready</span></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -685,8 +1175,8 @@ body.en .pb.l-en{display:grid}
     <thead><tr><th>位置</th><th>用途</th><th>状态</th></tr></thead>
     <tbody>
       <tr><td>Mac 工作树</td><td>编辑代码与文档；<code>scripts/dev/remote</code> 同步到训练机后执行，<code>V2D_ENV=ml40</code> 切到 ml40。<code>results/</code> 单向回流到 Mac：mf4090 回到 <code>results/</code>，其他主机回到 <code>results/&lt;主机&gt;/</code></td><td><span class="pill ok">可用</span></td></tr>
-      <tr><td>mf4090（共用，1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 只能用 100 万 buffer，Day 1 里那条明显更差（两条同时换了 GPU 与机器，差别不能单独归因于 buffer），不用来衡量配方</td><td><span class="pill ok">可用</span></td></tr>
-      <tr><td>ml40（共用，1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 10 min，峰值显存 40,273 MiB</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>mf4090（实验室共用，9/28 起只有 rxzhou 在用；1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 放不下 1000 万 buffer；Day 1 的 100 万那条明显更差（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。Day 2 在这台测 400 万 buffer（整卡读数 23.8 GB，冒烟与正式训练到目前都没有 OOM），能不能用看 Q3</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>ml40（实验室共用，9/28 起只有 rxzhou 在用；1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 10 min，峰值显存 40,273 MiB</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 + 官方 toolkit：重定向与 Isaac Lab 训练（只在 mf4090）</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有。ml40 上的已随存储迁到 <code>/lab_data</code>，迁移后 64 世界复核评测与迁移前 ADD-AUC 差 0.00015</td><td><span class="pill ok">可用</span></td></tr>
     </tbody>
@@ -700,8 +1190,8 @@ body.en .pb.l-en{display:grid}
     <thead><tr><th>Where</th><th>Used for</th><th>State</th></tr></thead>
     <tbody>
       <tr><td>Mac working tree</td><td>Editing code and docs; <code>scripts/dev/remote</code> syncs to a training machine and runs there, <code>V2D_ENV=ml40</code> targets ml40. <code>results/</code> flows one way back to the Mac: mf4090 into <code>results/</code>, other hosts into <code>results/&lt;host&gt;/</code></td><td><span class="pill ok">Ready</span></td></tr>
-      <tr><td>mf4090 (shared, 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD fits only with a 1M buffer; the Day 1 run with it was clearly worse (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone), so it is not used to measure the recipe</td><td><span class="pill ok">Ready</span></td></tr>
-      <tr><td>ml40 (shared, 1× L40S 48 GB, 45,458 MiB free, 28 cores, 111 GiB RAM)</td><td>Full-recipe FlashCHORD training and evaluation; one full run takes 2 h 10 min with a 40,273 MiB memory peak</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>mf4090 (lab machine, only rxzhou uses it since 9/28; 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD cannot hold the 10M buffer; the Day 1 run with a 1M buffer was clearly worse (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone). Day 2 tests a 4M buffer here (whole card reads 23.8 GB, no OOM in the smokes or full training so far); Q3 decides whether it is usable</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>ml40 (lab machine, only rxzhou uses it since 9/28; 1× L40S 48 GB, 45,458 MiB free, 28 cores, 111 GiB RAM)</td><td>Full-recipe FlashCHORD training and evaluation; one full run takes 2 h 10 min with a 40,273 MiB memory peak</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>Image <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 plus the official toolkit: retargeting and Isaac Lab training (mf4090 only)</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>Image <code>flash_chord</code> (22 GB)</td><td>FlashCHORD: FlashSAC training and evaluation; on both machines. On ml40 it moved to <code>/lab_data</code> with the storage; a 64-world re-evaluation after the migration differs from the earlier one by 0.00015 ADD-AUC</td><td><span class="pill ok">Ready</span></td></tr>
     </tbody>
@@ -724,7 +1214,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <h2>已知缺口</h2>
   <ul class="bl">
-    <li>官方评测脚本未发布；排行榜用哪套栈、按什么播放速度评测，官方未说明。</li>
+    <li>官方评测脚本未发布（9/28 查过 HF 数据集与 GitHub 仓库 9 个分支）；评测按什么速度回放官方没写，两条官方训练路径的默认值也不一致，见<a href="#official">官方评测口径</a>。</li>
     <li>对真值的离线评测还没写（见<a href="#next">下一步</a>）。</li>
     <li><code>runs/</code> 运行记录的字段已在<a href="#sop-batch">批量训练</a>列出，还没写进契约。</li>
     <li>Tier 3 整条链路未开始。</li>
@@ -744,7 +1234,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <h2>Known gaps</h2>
   <ul class="bl">
-    <li>The official evaluation script is not released; which stack and which playback speed the leaderboard uses is not stated.</li>
+    <li>The official evaluation script is not released (checked on 9/28 in the HF dataset and 9 branches of the GitHub repository); the organizers have not said which playback speed the evaluation uses, and the two official training paths default to different ones, see <a href="#official">Official evaluation settings</a>.</li>
     <li>Offline evaluation against ground truth is not written yet (see <a href="#next">next steps</a>).</li>
     <li>The run-record fields are listed in <a href="#sop-batch">Batch training</a> but not yet in a contract.</li>
     <li>The whole Tier 3 pipeline has not started.</li>
@@ -791,7 +1281,8 @@ body.en .pb.l-en{display:grid}
       <tr><td>默认播放速度</td><td>逐帧，30 fps 参考按 1.67 倍速播放</td><td>按 fps 重采样</td></tr>
     </tbody>
   </table></div>
-  <div class="adm w"><span class="t">未证实</span><p>表里的时长来自 4090、replay buffer 缩到 100 万。满配 1000 万在 L40S 上按账算放得下，但没跑过，时长和显存余量都以 ml40 冒烟实测为准。播放速度是否与官方评测一致也未知，第一个全程训练的策略出来后，同一条序列在两种速度下各训一次对照。</p></div>
+  <div class="adm w"><span class="t">未证实</span><p>表里的时长来自 4090、replay buffer 缩到 100 万。满配 1000 万在 L40S 上按账算放得下，但没跑过，时长和显存余量都以 ml40 冒烟实测为准。播放速度是否与官方评测一致也未知，第一个全程训练的策略出来后，同一条序列在两种速度下各训一次对照。</p>
+    <p><b>9/28 进展</b>（ADR 正文未改）：满配在 ml40 上实测 2 h 10 min，显存峰值 40,273 MiB。两种速度的对照已做，转动落后量没有差别，但真实时长那条按自己的参考过了 Day 1 判据；官方评测口径仍未知。见<a href="#playback">回放速度对照</a>与<a href="#official">官方评测口径</a>。</p></div>
 </div>
 <div class="pb l-en" lang="en">
   <h1>ADR-00001 Train with FlashCHORD</h1>
@@ -808,7 +1299,8 @@ body.en .pb.l-en{display:grid}
       <tr><td>Default playback</td><td>One frame per step, so a 30 fps reference plays at 1.67×</td><td>Resampled by fps</td></tr>
     </tbody>
   </table></div>
-  <div class="adm w"><span class="t">Unverified</span><p>The times in the table come from the 4090 with the replay buffer cut to 1 million. The full 10-million buffer should fit on the L40S by our accounting, but it has never run; time and memory headroom come from the ml40 smoke run. Whether the playback speed matches the official evaluation is also unknown: once the first fully trained policy exists, the same sequence is trained at both speeds for comparison.</p></div>
+  <div class="adm w"><span class="t">Unverified</span><p>The times in the table come from the 4090 with the replay buffer cut to 1 million. The full 10-million buffer should fit on the L40S by our accounting, but it has never run; time and memory headroom come from the ml40 smoke run. Whether the playback speed matches the official evaluation is also unknown: once the first fully trained policy exists, the same sequence is trained at both speeds for comparison.</p>
+    <p><b>Progress on 9/28</b> (ADR text unchanged): the full recipe measured 2 h 10 min on ml40 with a 40,273 MiB memory peak. The two-speed comparison is done: the rotation lag does not differ, but the real-time run passes the Day 1 criteria on its own reference; the official evaluation setting is still unknown. See <a href="#playback">Playback speed comparison</a> and <a href="#official">Official evaluation settings</a>.</p></div>
 </div>
 </section>
 
@@ -907,34 +1399,34 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <h1>L40S 训练 SOP</h1>
   <p class="lead">目标：在 ml40 上跑通 FlashCHORD 满配训练，先确认单个策略的实际时长和成功率，再批量训练 Tier 1 与 Tier 2 各 30 条。</p>
-  <div class="adm w"><span class="t">Day 1 未通过，批量暂停</span><p>两条 ep20 全程的 ADD-AUC 都低于物体完全不动（见 <a href="#sop-day1">Day 1 验证</a>）。ml40 的存储迁移 9/27 已完成（停机约 15 秒）。下一步：满配跑 snack_box 对照。</p></div>
+  <div class="adm w"><span class="t">批量等 Day 2 判定</span><p>Day 1 的两条 ep20 在 1.67 倍速下都没过；同一配方按真实时长训出的那条过了（见<a href="#playback">回放速度对照</a>）。官方评测按什么速度回放未知，Day 2 在三条新序列上比两种回放，9/29 早上出判定，之后写批量计划、review 再跑。</p></div>
   <div class="stepper">
     <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">前置条件</span><span><span class="pill ok">完成</span></span><span class="sd">镜像先建在系统盘；存储迁移 9/27 完成</span></a>
     <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">部署</span><span><span class="pill ok">完成</span></span><span class="sd">镜像验收、同步、W&amp;B、续训实测</span></a>
-    <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 验证</span><span><span class="pill b">未通过</span></span><span class="sd">ep20 两条低于不动基线；snack_box 对照待做</span></a>
-    <a href="#sop-batch"><span class="sn">4 · 待定</span><span class="st">批量训练</span><span><span class="pill o">暂停</span></span><span class="sd">Tier 1 → Tier 2</span></a>
+    <a href="#day2" class="now"><span class="sn">3 · 9/27–9/29</span><span class="st">验证：Day 1 → Day 2</span><span><span class="pill w">进行中</span></span><span class="sd">Day 1 未通过；诊断与对照已做；Day 2 训练中</span></a>
+    <a href="#sop-batch"><span class="sn">4 · Day 2 之后</span><span class="st">批量训练</span><span><span class="pill o">等判定</span></span><span class="sd">Tier 1 → Tier 2</span></a>
   </div>
   <h2>跑起来之后</h2>
   <ul class="jump">
-    <li><a href="#sop-monitor"><span class="jt">监控与停止</span><span class="jd">看哪些信号，出现了怎么处理</span><span class="jk">4 条规则</span></a></li>
-    <li><a href="#sop-risk"><span class="jt">已知风险</span><span class="jd">构建镜像源、共享卡、播放速度、陷桌面、官方评测、mf4090 磁盘、100 万 buffer、选序列</span><span class="jk">8 条</span></a></li>
+    <li><a href="#sop-monitor"><span class="jt">监控与停止</span><span class="jd">看哪些信号，出现了怎么处理</span><span class="jk">8 条规则</span></a></li>
+    <li><a href="#sop-risk"><span class="jt">已知风险</span><span class="jd">构建镜像源、共享卡、播放速度、陷桌面、官方评测、mf4090 磁盘、100 万 buffer、选序列、判据与参数不一致</span><span class="jk">9 条</span></a></li>
   </ul>
   <p class="muted">排期：L40S 满配实测一条 2 h 10 min（中位 47,310 步/秒）。单卡顺序跑，每档 30 条约 65 小时，两档约 5.4 天。</p>
 </div>
 <div class="pb l-en" lang="en">
   <h1>L40S training SOP</h1>
   <p class="lead">Goal: run full-recipe FlashCHORD training on ml40, measure the real time and success rate of one policy first, then batch-train the 30 Tier 1 and 30 Tier 2 sequences.</p>
-  <div class="adm w"><span class="t">Day 1 failed, batch on hold</span><p>Both full ep20 runs score an ADD-AUC below an object that never moves (see <a href="#sop-day1">Day 1 validation</a>). The ml40 storage migration finished on 9/27 (about 15 s of downtime). Next: a full-recipe snack_box control run.</p></div>
+  <div class="adm w"><span class="t">The batch waits for the Day 2 verdict</span><p>Both Day 1 ep20 runs failed at 1.67×; the same recipe trained at real time passes (see <a href="#playback">Playback speed comparison</a>). The official evaluation playback is unknown, so Day 2 compares the two playbacks on three new sequences; the verdict comes on the morning of 9/29, and the batch plan gets written and reviewed after that.</p></div>
   <div class="stepper">
     <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">Prerequisites</span><span><span class="pill ok">Done</span></span><span class="sd">image built on the root disk first; storage migration done 9/27</span></a>
     <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">Deployment</span><span><span class="pill ok">Done</span></span><span class="sd">image check, sync, W&amp;B, resume test</span></a>
-    <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 validation</span><span><span class="pill b">Failed</span></span><span class="sd">both ep20 runs below the do-nothing baseline; snack_box control to do</span></a>
-    <a href="#sop-batch"><span class="sn">4 · TBD</span><span class="st">Batch training</span><span><span class="pill o">On hold</span></span><span class="sd">Tier 1 → Tier 2</span></a>
+    <a href="#day2" class="now"><span class="sn">3 · 9/27–9/29</span><span class="st">Validation: Day 1 → Day 2</span><span><span class="pill w">Running</span></span><span class="sd">Day 1 failed; diagnosis and controls done; Day 2 training</span></a>
+    <a href="#sop-batch"><span class="sn">4 · After Day 2</span><span class="st">Batch training</span><span><span class="pill o">Awaiting verdict</span></span><span class="sd">Tier 1 → Tier 2</span></a>
   </div>
   <h2>Once it runs</h2>
   <ul class="jump">
-    <li><a href="#sop-monitor"><span class="jt">Monitoring and stops</span><span class="jd">Which signals to watch and what to do when they fire</span><span class="jk">4 rules</span></a></li>
-    <li><a href="#sop-risk"><span class="jt">Known risks</span><span class="jd">Build mirror, shared card, playback speed, tabletop sinking, official evaluation, mf4090 disk, 1M buffer, sequence choice</span><span class="jk">8 risks</span></a></li>
+    <li><a href="#sop-monitor"><span class="jt">Monitoring and stops</span><span class="jd">Which signals to watch and what to do when they fire</span><span class="jk">8 rules</span></a></li>
+    <li><a href="#sop-risk"><span class="jt">Known risks</span><span class="jd">Build mirror, shared card, playback speed, tabletop sinking, official evaluation, mf4090 disk, 1M buffer, sequence choice, criteria versus parameters</span><span class="jk">9 risks</span></a></li>
   </ul>
   <p class="muted">Schedule: one full-recipe run takes 2 h 10 min on the L40S (median 47,310 steps/s). Run back to back on one card, 30 sequences take about 65 hours per tier, about 5.4 days for both.</p>
 </div>
@@ -949,7 +1441,7 @@ body.en .pb.l-en{display:grid}
     <tbody>
       <tr><td>docker 存储迁移</td><td><span class="pill ok">完成</span></td><td>9/27 15:48：docker 与 containerd 迁到 <code>/lab_data</code>，镜像与 ID 不变，停机约 15 秒（<code>deploy/ml40/migrate_docker_storage.sh</code>）。第一次尝试因验收检查只认双引号、而 containerd 2.x 写单引号，自动回滚；修好后重跑。系统盘上的旧数据 9/27 已用 <code>--cleanup</code> 删除（删前检查全过），系统盘 85% → 25%</td><td>rxzhou</td></tr>
       <tr><td><code>/lab_data/rxzhou</code> 可写目录</td><td><span class="pill ok">完成</span></td><td>rxzhou:mfshared、2775；仓库副本已搬到 <code>/lab_data/rxzhou/v2d/</code>（校验和零差异，包装测试 62/62），旧副本 9/27 已删（删前逐文件比对，没有独有文件）</td><td>rxzhou</td></tr>
-      <tr><td>L40S 使用时段</td><td><span class="pill w">待办</span></td><td>满配训练整卡峰值 40,273 MiB（实测），别人中途占卡会挤掉 Warp 的显存</td><td>rxzhou</td></tr>
+      <tr><td>L40S 使用时段</td><td><span class="pill o">不再需要</span></td><td>满配训练整卡峰值 40,273 MiB（实测），别人中途占卡会挤掉 Warp 的显存。9/28 起两台卡只有 rxzhou 在用，训练链开跑与每条 run 前仍查卡上有没有别的进程，有就停</td><td>rxzhou</td></tr>
     </tbody>
   </table></div>
   <div class="adm"><span class="t">迁移没赶在训练前怎么办（已定）</span>
@@ -982,7 +1474,7 @@ body.en .pb.l-en{display:grid}
     <tbody>
       <tr><td>Docker storage migration</td><td><span class="pill ok">Done</span></td><td>9/27 15:48: docker and containerd moved to <code>/lab_data</code>, images and IDs unchanged, about 15 s of downtime (<code>deploy/ml40/migrate_docker_storage.sh</code>). The first attempt rolled back because the check accepted only double quotes while containerd 2.x writes single quotes; fixed and rerun. The old data on the root disk was removed with <code>--cleanup</code> on 9/27 after all pre-deletion checks passed; the root disk went from 85% to 25%</td><td>rxzhou</td></tr>
       <tr><td>Writable <code>/lab_data/rxzhou</code></td><td><span class="pill ok">Done</span></td><td>rxzhou:mfshared, mode 2775; the repository copy now lives in <code>/lab_data/rxzhou/v2d/</code> (zero checksum differences, wrapper tests 62/62); the old copy was deleted on 9/27 after a file-by-file comparison found nothing unique in it</td><td>rxzhou</td></tr>
-      <tr><td>L40S time slot</td><td><span class="pill w">To do</span></td><td>A full-recipe run peaks at 40,273 MiB for the whole card (measured); anyone who grabs the card mid-run squeezes the memory Warp needs</td><td>rxzhou</td></tr>
+      <tr><td>L40S time slot</td><td><span class="pill o">Not needed</span></td><td>A full-recipe run peaks at 40,273 MiB for the whole card (measured); anyone who grabs the card mid-run squeezes the memory Warp needs. Since 9/28 rxzhou is the only one using either card; training chains still check for other processes when they start and before every run, and stop if they find one</td><td>rxzhou</td></tr>
     </tbody>
   </table></div>
   <div class="adm"><span class="t">If the migration is late (decided)</span>
@@ -1059,7 +1551,7 @@ body.en .pb.l-en{display:grid}
     <tbody>
       <tr><td class="n">1</td><td><span class="pill ok">通过</span></td><td>整卡峰值 40,273 MiB，稳态 50,580 步/秒；正式跑保持默认 1000 万 buffer</td></tr>
       <tr><td class="n">2</td><td><span class="pill ok">完成</span></td><td>ml40 12:44–14:54，2 h 10 min，一次跑完。mf4090 另跑了一条 100 万 buffer 版本（12:35–14:41）</td></tr>
-      <tr><td class="n">3</td><td><span class="pill w">未完成</span></td><td>100 万 buffer 版本（mf4090，16:39 跑完）不通过：chord_sr 0（0/4096），ADD-AUC 0.540 低于本序列的不动基线 0.566，几乎所有世界在 pelvis 上越线。按登记，这分不清配方问题和 buffer 问题；满配版本还要在 ml40 上跑</td></tr>
+      <tr><td class="n">3</td><td><span class="pill b">未通过（边缘）</span></td><td>100 万 buffer 版本（mf4090，16:39 跑完）不通过：chord_sr 0（0/4096），ADD-AUC 0.540 低于本序列的不动基线 0.566，几乎所有世界在 pelvis 上越线。满配版本 9/28 在 ml40 上跑完（第 1 次因 W&amp;B 上传中途退出，第 2 次一段跑完），也不通过：chord_sr 0.922、maniptrans_sr 0、ADD-AUC 0.5639 对 0.5662，边缘。见 <a href="#snack">snack 满配对照</a></td></tr>
       <tr><td class="n">4</td><td><span class="pill b">未通过</span></td><td>登记的门槛是 ADD-AUC &gt; 0.4708（物体完全不动，评测前修正；原写 0.465）。两条 ep20 的 chord_sr、maniptrans_sr 都 &gt; 0，ADD-AUC 0.431 / 0.422，两套门槛都没过</td></tr>
     </tbody>
   </table></div>
@@ -1081,7 +1573,7 @@ body.en .pb.l-en{display:grid}
     <li>评测 JSON 的 <code>chord_sr</code> 按任务原生门槛（pelvis、palm、object）算，失败原因看 <code>reference_tracking.failure_cause_fraction</code>；<code>termination_cause_fraction</code> 是旧口径，别混读。</li>
     <li>记录：<code>agent-doc/experiments/2026-09-28-day1.md</code>。表里每个数都由 <code>scripts/experiments/2026-09-28-day1.sh</code> 重新生成到 <code>results/day1/</code>，判定由 <code>stages/evaluate/verdict.py</code> 计算，结论经 jev 核对（13 条中 10 条 ≥ 0.7，其余标为未核实）。</li>
   </ul>
-  <div class="adm"><span class="t">Day 1 之后</span><p>ep20 与 snack_box 都通过：开始批量。snack_box 通过、ep20 不通过：问题在我们的数据，逐项排查参考轨迹。两者都不通过：先查配方与环境，不开批量。<b>现状</b>：ep20 未通过，满配 snack_box 还没跑，批量暂停。</p></div>
+  <div class="adm"><span class="t">Day 1 之后</span><p>ep20 与 snack_box 都通过：开始批量。snack_box 通过、ep20 不通过：问题在我们的数据，逐项排查参考轨迹。两者都不通过：先查配方与环境，不开批量。<b>现状</b>：ep20（1.67 倍速）未通过，满配 snack_box 也不通过（边缘），按这条规则不开批量。之后按诊断证据走：Day 1b 逐帧诊断 → 回放速度对照 → Day 2，见<a href="#exp">训练实验</a>。</p></div>
   <details class="more"><summary>冒烟命令（在 ml40 仓目录下执行）</summary><div>
 <pre class="code">P='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet'
 timeout 1800 nvidia-smi --query-gpu=timestamp,memory.used,utilization.gpu \
@@ -1114,7 +1606,7 @@ pgrep -af '[n]vidia-smi --query'   # 应无输出</pre>
     <tbody>
       <tr><td class="n">1</td><td><span class="pill ok">Passed</span></td><td>Whole-card peak 40,273 MiB, steady 50,580 steps/s; the full runs keep the default 10M buffer</td></tr>
       <tr><td class="n">2</td><td><span class="pill ok">Done</span></td><td>ml40 12:44–14:54, 2 h 10 min, one attempt. mf4090 ran a 1M-buffer version as well (12:35–14:41)</td></tr>
-      <tr><td class="n">3</td><td><span class="pill w">Not done</span></td><td>The 1M-buffer version (mf4090, finished 16:39) fails: chord_sr 0 (0 of 4096), ADD-AUC 0.540 below this sequence's do-nothing 0.566, and nearly every world crosses the pelvis limit. As registered, this cannot tell a recipe problem from a buffer problem; the full-recipe version still has to run on ml40</td></tr>
+      <tr><td class="n">3</td><td><span class="pill b">Failed (marginal)</span></td><td>The 1M-buffer version (mf4090, finished 16:39) fails: chord_sr 0 (0 of 4096), ADD-AUC 0.540 below this sequence's do-nothing 0.566, and nearly every world crosses the pelvis limit. The full-recipe version ran on ml40 on 9/28 (attempt 1 exited midway on a W&amp;B upload, attempt 2 ran in one segment) and fails too: chord_sr 0.922, maniptrans_sr 0, ADD-AUC 0.5639 against 0.5662, marginal. See <a href="#snack">Full-recipe snack control</a></td></tr>
       <tr><td class="n">4</td><td><span class="pill b">Failed</span></td><td>The registered bar is ADD-AUC &gt; 0.4708 (an object that never moves; revised before evaluation, originally 0.465). Both ep20 runs have chord_sr and maniptrans_sr &gt; 0, but ADD-AUC is 0.431 and 0.422, below both bars</td></tr>
     </tbody>
   </table></div>
@@ -1136,7 +1628,7 @@ pgrep -af '[n]vidia-smi --query'   # 应无输出</pre>
     <li>The evaluation JSON's <code>chord_sr</code> uses the task-native limits (pelvis, palm, object); read failure causes from <code>reference_tracking.failure_cause_fraction</code>. <code>termination_cause_fraction</code> is a legacy measure; do not mix the two.</li>
     <li>Record: <code>agent-doc/experiments/2026-09-28-day1.md</code>. Every number here is regenerated into <code>results/day1/</code> by <code>scripts/experiments/2026-09-28-day1.sh</code>, the verdict is computed by <code>stages/evaluate/verdict.py</code>, and the conclusions were checked with jev (10 of 13 at 0.7 or above; the rest are marked unverified).</li>
   </ul>
-  <div class="adm"><span class="t">After Day 1</span><p>Both ep20 and snack_box pass: start the batch. snack_box passes and ep20 fails: the problem is in our data, so inspect the reference step by step. Both fail: check the recipe and environment first, and hold the batch. <b>Now</b>: ep20 failed and the full-recipe snack_box has not run yet, so the batch is on hold.</p></div>
+  <div class="adm"><span class="t">After Day 1</span><p>Both ep20 and snack_box pass: start the batch. snack_box passes and ep20 fails: the problem is in our data, so inspect the reference step by step. Both fail: check the recipe and environment first, and hold the batch. <b>Now</b>: ep20 (at 1.67×) failed and the full-recipe snack_box fails too (marginal), so by this rule the batch stays on hold. What followed went by the diagnostic evidence: the Day 1b diagnosis, then the playback speed comparison, then Day 2; see <a href="#exp">Training experiments</a>.</p></div>
   <details class="more"><summary>Smoke command (run from the repository folder on ml40)</summary><div>
 <pre class="code">P='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet'
 timeout 1800 nvidia-smi --query-gpu=timestamp,memory.used,utilization.gpu \
@@ -1156,19 +1648,23 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
 <section class="pg" id="pg-sop-batch" data-sec="sop" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>批量训练</h1>
+  <div class="adm w"><span class="t">计划等 Day 2 判定后写</span><p>先写计划、review 再跑。已知要定的：回放按 Day 2 的 Q1；30 条里 16 条只有地面，要 <code>scene.support=false</code>；真实时长一臂放宽 palm 校验容差；mf4090 分不分担看 Q3。Day 2 的训练链（期望表逐键核对配置、冒烟核帧数与不动基线、来历与卡的检查、同步守卫）和评测链可以直接复用。</p></div>
   <ul class="bl">
-    <li>单卡顺序排队：先 Tier 1 30 条，再 Tier 2 30 条；每条一个输出目录 <code>runs/flash_chord/t{档}_ep{序号}_…/</code>。</li>
+    <li>单卡顺序排队：先 Tier 1 30 条，再 Tier 2 30 条；每条一个输出目录 <code>runs/flash_chord/t{档}-ep{序号}-…/</code>。</li>
     <li>每次运行落盘一份记录：仓库 commit、上游 commit、镜像 ID 与 base 层、parquet 的 sha256、完整配置（<code>--cfg job --resolve</code> 的输出）、seed、GPU 型号、开始与结束时间、评测 JSON。</li>
-    <li>每份 checkpoint 约 165 MB（policy 4.9 MB + state 160 MB），一次全程存 35 份约 5.8 GB。训练完用 <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> 把 policy 和日志拉回本地；state 只用于续训，留在训练机上，批量时只留最后 2 份。</li>
+    <li>每份 checkpoint 约 165 MB（policy 4.9 MB + state 160 MB）。<code>fc_run.sh</code> 默认只留最近 2 份 state（<code>V2D_KEEP_STATES</code>），policy 全留，一条全程约 0.5 GB。训练完用 <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> 把 policy 和日志拉回本地；state 只用于续训，留在训练机上。</li>
+    <li>长跑关掉 W&amp;B 的 checkpoint 上传（<code>V2D_WANDB_UPLOAD_CKPT=0</code>），见<a href="#edge">特殊情况</a>。</li>
     <li>不做跨档热启动：Tier 2 的策略从头训练，理由见 <a href="#adr2">ADR-00002</a>。</li>
   </ul>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Batch training</h1>
+  <div class="adm w"><span class="t">The plan comes after the Day 2 verdict</span><p>It gets written and reviewed before it runs. Already known: the playback follows Day 2's Q1; 16 of the 30 sequences are floor-only and need <code>scene.support=false</code>; the real-time arm relaxes the palm check tolerances; whether mf4090 shares the load depends on Q3. The Day 2 training chain (key-by-key config checks against an expectation table, smoke checks of frame counts and do-nothing baselines, source and card checks, the sync guard) and its evaluation chain carry over as they are.</p></div>
   <ul class="bl">
-    <li>One card, one queue: the 30 Tier 1 sequences first, then the 30 Tier 2 sequences; one output folder per run, <code>runs/flash_chord/t{tier}_ep{id}_…/</code>.</li>
+    <li>One card, one queue: the 30 Tier 1 sequences first, then the 30 Tier 2 sequences; one output folder per run, <code>runs/flash_chord/t{tier}-ep{id}-…/</code>.</li>
     <li>Every run writes a record: repository commit, upstream commit, image ID and base layers, parquet sha256, full config (output of <code>--cfg job --resolve</code>), seed, GPU model, start and end time, evaluation JSON.</li>
-    <li>Each checkpoint is about 165 MB (policy 4.9 MB + state 160 MB), and a full run saves 35 of them, about 5.8 GB. After training, <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> brings the policies and logs back; state files are only for resuming, stay on the training machine, and only the last 2 are kept during the batch.</li>
+    <li>Each checkpoint is about 165 MB (policy 4.9 MB + state 160 MB). <code>fc_run.sh</code> keeps only the latest 2 states by default (<code>V2D_KEEP_STATES</code>) and every policy, about 0.5 GB per full run. After training, <code>V2D_ENV=ml40 scripts/dev/pull-runs &lt;run&gt;</code> brings the policies and logs back; state files are only for resuming and stay on the training machine.</li>
+    <li>Long runs turn off W&amp;B checkpoint upload (<code>V2D_WANDB_UPLOAD_CKPT=0</code>); see <a href="#edge">Special cases</a>.</li>
     <li>No cross-tier warm start: Tier 2 policies train from scratch, as <a href="#adr2">ADR-00002</a> explains.</li>
   </ul>
 </div>
@@ -1180,9 +1676,13 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
   <div class="tbl"><table>
     <thead><tr><th>信号</th><th>来源</th><th>处理</th></tr></thead>
     <tbody>
+      <tr><td>训练链与评测链结束</td><td><code>runs/logs/&lt;链名&gt;.log</code> 的最后一行：<code>DAY2_TRAIN_DONE</code> / <code>DAY2_EVAL_DONE</code>（带完成、失败、跳过的条数），或 <code>…_FAILED</code></td><td>回流结果（<code>scripts/dev/pull-results</code>，ml40 加 <code>V2D_ENV=ml40</code>），跑判定，jev 核对承重结论</td></tr>
+      <tr><td>冒烟不过</td><td><code>smoke_check.sh</code>：DONE、编译完成、无 RESOURCE_EXHAUSTED、最新 checkpoint 步数、W&amp;B 同步、显存上限、镜像指纹；再加 256 世界 rollout 核帧数、算不动基线</td><td>这条的正式训练记 SKIPPED，继续下一条。显存上限要与计划登记的判据一致，否则会误杀（9/28 mf4090）</td></tr>
+      <tr><td>来历变了，或卡上有别人的进程</td><td>链在每条 run 前比对 <code>.v2d-source-commit</code>、查 <code>nvidia-smi</code></td><td>停整条链。链在跑时 <code>scripts/dev/remote</code> 拒绝同步，只读检查用普通 ssh</td></tr>
       <tr><td>吞吐比 Day 1 实测低 30% 以上</td><td>日志里的 <code>env steps/s</code></td><td>停下查是否有别的进程占卡</td></tr>
       <tr><td>non-finite world 或 NaN</td><td>训练日志、评测 JSON 的 <code>non_finite_worlds</code></td><td>换 seed 重跑一次，仍出现就记录并跳过</td></tr>
-      <tr><td>显存 OOM</td><td>进程退出码、XLA 报错</td><td>记录后把 replay buffer 容量降到 800 万重跑（再不行 600 万），并在运行记录里标明偏离配方</td></tr>
+      <tr><td>显存 OOM</td><td>进程退出码（<code>fc_run.sh</code> 返回 4）、XLA 报错</td><td>记录后把 replay buffer 容量降到 800 万重跑（再不行 600 万），并在运行记录里标明偏离配方。训练链遇到 OOM 就停掉剩下的同配置 run；Day 2 的 B 按登记不降档，记“无结果”</td></tr>
+      <tr><td>W&amp;B 上传把训练带崩</td><td>日志里的 <code>AuthenticationError</code></td><td>长跑一律 <code>V2D_WANDB_UPLOAD_CKPT=0</code>；崩了按登记从 0 重来，不续训（续训不恢复 replay）</td></tr>
       <tr><td>评测成功率为 0</td><td>评测 JSON 的 <code>reference_tracking.failure_cause_fraction</code>（任务原生口径；<code>termination_cause_fraction</code> 是旧口径）</td><td>按原因归类（object、palm、pelvis），不当场调参，攒够样本再统一处理</td></tr>
     </tbody>
   </table></div>
@@ -1192,9 +1692,13 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
   <div class="tbl"><table>
     <thead><tr><th>Signal</th><th>Where</th><th>Action</th></tr></thead>
     <tbody>
+      <tr><td>A training or evaluation chain finishes</td><td>The last line of <code>runs/logs/&lt;chain&gt;.log</code>: <code>DAY2_TRAIN_DONE</code> / <code>DAY2_EVAL_DONE</code> (with counts of done, failed and skipped), or <code>…_FAILED</code></td><td>Pull results (<code>scripts/dev/pull-results</code>, with <code>V2D_ENV=ml40</code> for ml40), run the verdict, check the load-bearing claims with jev</td></tr>
+      <tr><td>A smoke fails</td><td><code>smoke_check.sh</code>: DONE, compile finished, no RESOURCE_EXHAUSTED, latest checkpoint step, W&amp;B sync, memory limit, image fingerprint; plus a 256-world rollout to check frame counts and compute the do-nothing baseline</td><td>That run's full training is marked SKIPPED and the chain moves on. The memory limit must match the criterion registered in the plan, or it kills good runs (mf4090, 9/28)</td></tr>
+      <tr><td>The source changed, or someone else's process is on the card</td><td>Before every run the chain compares <code>.v2d-source-commit</code> and checks <code>nvidia-smi</code></td><td>The whole chain stops. While a chain runs, <code>scripts/dev/remote</code> refuses to sync; use plain ssh for read-only checks</td></tr>
       <tr><td>Throughput more than 30% below the Day 1 measurement</td><td><code>env steps/s</code> in the log</td><td>Stop and check whether another process is using the card</td></tr>
       <tr><td>Non-finite world or NaN</td><td>Training log, <code>non_finite_worlds</code> in the evaluation JSON</td><td>Rerun once with another seed; if it happens again, record it and skip</td></tr>
-      <tr><td>Out of memory</td><td>Exit code, XLA error</td><td>Record it, rerun with a replay buffer size of 8 million (then 6 million), and mark the run as deviating from the recipe</td></tr>
+      <tr><td>Out of memory</td><td>Exit code (<code>fc_run.sh</code> returns 4), XLA error</td><td>Record it, rerun with a replay buffer size of 8 million (then 6 million), and mark the run as deviating from the recipe. A training chain that hits OOM skips the remaining runs with the same config; Day 2's B arm, as registered, does not downsize and is recorded as "no result"</td></tr>
+      <tr><td>A W&amp;B upload takes training down</td><td><code>AuthenticationError</code> in the log</td><td>Long runs always set <code>V2D_WANDB_UPLOAD_CKPT=0</code>; if a run still crashes, restart from zero as registered instead of resuming (resuming does not restore the replay buffer)</td></tr>
       <tr><td>Evaluation success rate is 0</td><td><code>reference_tracking.failure_cause_fraction</code> in the evaluation JSON (task-native; <code>termination_cause_fraction</code> is a legacy measure)</td><td>Group by cause (object, palm, pelvis); do not tune on the spot, handle them together once there are enough samples</td></tr>
     </tbody>
   </table></div>
@@ -1206,34 +1710,36 @@ pgrep -af '[n]vidia-smi --query'   # should print nothing</pre>
   <h1>已知风险</h1>
   <ul class="bl">
     <li><b>构建走不走镜像源</b>：BuildKit 的 FROM 是否经 daemon 的 registry-mirrors 拉取，未核实。若 diff_id 对不上或拉取失败，先停下回报，不改 base。</li>
-    <li><b>共享卡</b>：JAX 的显存上限按整卡算，别人中途占卡，先被挤掉的是 Warp 那部分，可能跑了几小时才 OOM。时段约定要写清起止。</li>
-    <li><b>播放速度</b>：FlashCHORD 默认 1.67 倍速，官方口径未知（见 <a href="#adr1">ADR-00001</a>）；Day 1 之后抽一条训练真实时长版本对比。</li>
+    <li><b>共享卡</b>：JAX 的显存上限按整卡算，别人中途占卡，先被挤掉的是 Warp 那部分，可能跑了几小时才 OOM。9/28 起两台卡只有 rxzhou 在用；训练链开跑与每条 run 前查卡，有别人的进程就停。</li>
+    <li><b>播放速度</b>：官方没写评测按什么速度回放，评测脚本也没发布；FlashCHORD 评测器沿用 checkpoint 自己的设置。ep20 两条满配换一种回放评，分数都明显变差（见<a href="#official">官方评测口径</a>）。Day 2 按三种评测口径的最大损失选训练回放；邮件已备好问组委会。</li>
     <li><b>陷桌面</b>：Tier 2 的熨斗、电饭煲陷进桌面约 2 cm，观察这两条的终止原因是否集中在物体。</li>
-    <li><b>官方评测</b>：<code>eval_robotic_grounding.py</code> 发布当天，用它重评已有 checkpoint，核对本地指标。</li>
-    <li><b>mf4090 磁盘</b>：只剩约 20 GB，checkpoint 回传前先清理不再需要的冒烟产物。</li>
-    <li><b>100 万 buffer</b>：Day 1 里那条从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子）（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。4090 放不下默认的 1000 万，mf4090 上的 FlashCHORD 训练不用来比较配方。</li>
-    <li><b>选序列</b>：起步序列按平移挑的，ep20 物体只平移 4 cm，却要原地转近一圈。按物体位移和在动帧排难度会漏掉旋转，后续挑序列要同时看累计转角。</li>
+    <li><b>官方评测</b>：<code>eval_robotic_grounding.py</code> 发布当天，用它重评已有 checkpoint，核对本地指标与回放方式。</li>
+    <li><b>mf4090 磁盘</b>：9/28 还剩约 18 GB；<code>fc_run.sh</code> 只留最近 2 份 state，一条全程约 0.5 GB，B 的三条放得下。回传前先清理不再需要的冒烟产物。</li>
+    <li><b>100 万 buffer</b>：Day 1 里那条从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子）（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。4090 放不下默认的 1000 万；400 万能不能用由 Day 2 的 Q3 判。</li>
+    <li><b>选序列</b>：起步序列按平移挑的，ep20 物体只平移 4 cm，却要原地转近一圈。按物体位移和在动帧排难度会漏掉旋转；Day 2 改为按帧数分档机械挑选，并要求支撑面类型不全相同。</li>
+    <li><b>判据与参数不一致</b>：9/28 mf4090 开链时给的显存上限（23000 MiB）没写进计划，与登记的判据（只看 OOM 字样）不一致，三条冒烟被误判跳过。开链参数要从登记的判据推出来，开链前逐项对一遍。</li>
   </ul>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Known risks</h1>
   <ul class="bl">
     <li><b>Build mirror path</b>: whether BuildKit's FROM pulls through the daemon's registry-mirrors is unverified. If the diff_ids do not match or the pull fails, stop and report instead of changing the base.</li>
-    <li><b>Shared card</b>: JAX sizes its memory limit from the whole card, so if someone takes the card mid-run, Warp's share is squeezed first and the run can fail hours in. Agree on explicit start and end times.</li>
-    <li><b>Playback speed</b>: FlashCHORD plays at 1.67× by default and the official setting is unknown (see <a href="#adr1">ADR-00001</a>); after Day 1, train one sequence at real time as well and compare.</li>
+    <li><b>Shared card</b>: JAX sizes its memory limit from the whole card, so if someone takes the card mid-run, Warp's share is squeezed first and the run can fail hours in. Since 9/28 rxzhou is the only one using either card; training chains check the card when they start and before every run, and stop if another user's process is there.</li>
+    <li><b>Playback speed</b>: the organizers have not said which playback speed the evaluation uses, and the evaluation script is not out; the FlashCHORD evaluator follows each checkpoint's own setting. Both full-recipe ep20 policies score clearly worse under the other playback (see <a href="#official">Official evaluation settings</a>). Day 2 picks the training playback by its worst case over three evaluation settings; the email to the organizers is ready.</li>
     <li><b>Tabletop sinking</b>: the Tier 2 iron and rice cooker sink about 2 cm into the tabletop; watch whether their termination causes concentrate on the object.</li>
-    <li><b>Official evaluation</b>: on the day <code>eval_robotic_grounding.py</code> is released, re-evaluate existing checkpoints with it and reconcile the local metrics.</li>
-    <li><b>mf4090 disk</b>: about 20 GB left; clear smoke-run outputs that are no longer needed before syncing checkpoints back.</li>
-    <li><b>1M buffer</b>: on Day 1 that run was clearly worse from curriculum stage 0 on (chord_sr 0.017 versus 0.79, single seed) (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone). The 4090 cannot hold the default 10M, so FlashCHORD training on mf4090 is not used to compare recipes.</li>
-    <li><b>Sequence choice</b>: the starting sequences were picked by translation; ep20 moves the object only 4 cm but turns it in place almost a full circle. Ranking difficulty by object displacement and moving frames misses rotation, so future picks should also look at the total rotation.</li>
+    <li><b>Official evaluation</b>: on the day <code>eval_robotic_grounding.py</code> is released, re-evaluate existing checkpoints with it and reconcile the local metrics and the playback.</li>
+    <li><b>mf4090 disk</b>: about 18 GB left on 9/28; <code>fc_run.sh</code> keeps only the latest 2 states, about 0.5 GB per full run, so the three B runs fit. Clear smoke outputs that are no longer needed before syncing checkpoints back.</li>
+    <li><b>1M buffer</b>: on Day 1 that run was clearly worse from curriculum stage 0 on (chord_sr 0.017 versus 0.79, single seed) (the two runs also differ in GPU and machine, so the gap is not attributable to the buffer alone). The 4090 cannot hold the default 10M; whether 4M is usable is Day 2's Q3.</li>
+    <li><b>Sequence choice</b>: the starting sequences were picked by translation; ep20 moves the object only 4 cm but turns it in place almost a full circle. Ranking difficulty by displacement and moving frames misses rotation; Day 2 instead picks mechanically by length tiers and requires mixed support types.</li>
+    <li><b>Criteria versus parameters</b>: on 9/28 the memory limit given when launching the mf4090 chain (23000 MiB) was not in the plan and disagreed with the registered criterion (OOM messages only), so three good smokes were skipped. Launch parameters must follow from the registered criteria; check them item by item before launching.</li>
   </ul>
 </div>
 </section>
 
 <nav class="pn" id="pn" aria-label="翻页 / Pages"></nav>
 <footer class="pf">
-  <span class="l-zh">本页源文件：<code>docs/site/v2d-track2.html</code>。源文档：<code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-day1.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>。降噪、对齐检查与 Day 1 的原始输出在 <code>results/</code>（文件头带命令、脚本 md5、源码版本、机器与时间）；ml40 的事实见 handoff 的核实表。</span>
-  <span class="l-en">This page's source: <code>docs/site/v2d-track2.html</code>. Source documents: <code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-day1.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>. Raw output for denoising, alignment and Day 1 is in <code>results/</code> (headers record the command, script md5, source version, host and time); ml40 facts are in the handoff's verified-facts table.</span>
+  <span class="l-zh">本页源文件：<code>docs/site/v2d-track2.html</code>，内容截至 2026-09-28 17:20（丹佛时间）。源文档：<code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/plan-day2-2026-09-28.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>。原始输出在 <code>results/</code>（文件头带命令、脚本 md5、源码版本、机器与时间）；本页承重结论的 jev 核对在 <code>results/site/jev_claims_sop_page*.txt</code>（规格 <code>agent-doc/experiments/2026-09-28-sop-page*.claims.json</code>）。</span>
+  <span class="l-en">This page's source: <code>docs/site/v2d-track2.html</code>, current as of 2026-09-28 17:20 (Denver time). Source documents: <code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/plan-day2-2026-09-28.md</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>. Raw output is in <code>results/</code> (headers record the command, script md5, source version, host and time); the jev check of this page's load-bearing claims is in <code>results/site/jev_claims_sop_page*.txt</code> (specs <code>agent-doc/experiments/2026-09-28-sop-page*.claims.json</code>).</span>
 </footer>
 </main>
 </div>

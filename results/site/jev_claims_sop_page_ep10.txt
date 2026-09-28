@@ -1,0 +1,13 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-sop-page-ep10.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : a0f6d622760c7298a6fe6b7fdb3e9ec4  agent-doc/experiments/2026-09-28-sop-page-ep10.claims.json
+# source   : 9e235bce726d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T17:31:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ml40_six_smokes      P(supported)=0.94  verified               [chainlog_ml40]  On ml40 all six Day 2 smokes passed, with references of 669 and 1114 frames for ep26, 922 and 1536 for ep13, and 794 and 1323 for ep10, and full training of t1-ep26-w2048-cap10m-ml40 started right after the last smoke.
+ep10_bars            P(supported)=0.91  verified               [bar_ep10_f, bar_ep10_r]  The ep10 smoke rollouts gave references of 794 and 1323 frames, both with a do-nothing ADD-AUC of about 0.339.
+ctrl_true_order      P(supported)=0.96  control(true) ok       [chainlog_ml40]  The ep26 frame-by-frame smoke passed before the ep13 smokes.
+ctrl_false_skip      P(supported)=0.03  control(false) ok      [chainlog_ml40]  One of the ml40 Day 2 smokes was skipped because it failed its checks.
+controls behaved as expected

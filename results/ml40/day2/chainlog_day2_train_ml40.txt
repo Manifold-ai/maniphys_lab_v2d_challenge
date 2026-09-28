@@ -1,0 +1,14 @@
+# command  : grep -E 正向核对\|冒烟\ .\*通过\|冒烟判据\|SKIPPED\|正式\ t1\|DAY2_TRAIN runs/logs/day2_train_ml40.log 
+# md5      : 9b62955a1c6e2a485177d1ee827fa8b2  runs/logs/day2_train_ml40.log
+# source   : 67f1d8643265
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T07:31:10+0800
+# ---------------------------------------------------------------
+=== 2026-09-29 06:49:20 CST 正向核对：6 条 run 的冒烟与正式配置都与期望表一致
+=== 2026-09-29 06:54:16 CST 冒烟 smoke-t1-ep26-w2048-cap10m-ml40 通过：669 帧，不动基线见 results/day2/bar_smoke-t1-ep26-w2048-cap10m-ml40.txt
+=== 2026-09-29 06:59:22 CST 冒烟 smoke-t1-ep26-w2048-cap10m-rt-ml40 通过：1114 帧，不动基线见 results/day2/bar_smoke-t1-ep26-w2048-cap10m-rt-ml40.txt
+=== 2026-09-29 07:04:25 CST 冒烟 smoke-t1-ep13-w2048-cap10m-ml40 通过：922 帧，不动基线见 results/day2/bar_smoke-t1-ep13-w2048-cap10m-ml40.txt
+=== 2026-09-29 07:09:41 CST 冒烟 smoke-t1-ep13-w2048-cap10m-rt-ml40 通过：1536 帧，不动基线见 results/day2/bar_smoke-t1-ep13-w2048-cap10m-rt-ml40.txt
+=== 2026-09-29 07:14:54 CST 冒烟 smoke-t1-ep10-w2048-cap10m-ml40 通过：794 帧，不动基线见 results/day2/bar_smoke-t1-ep10-w2048-cap10m-ml40.txt
+=== 2026-09-29 07:20:12 CST 冒烟 smoke-t1-ep10-w2048-cap10m-rt-ml40 通过：1323 帧，不动基线见 results/day2/bar_smoke-t1-ep10-w2048-cap10m-rt-ml40.txt
+=== 2026-09-29 07:20:12 CST 正式 t1-ep26-w2048-cap10m-ml40

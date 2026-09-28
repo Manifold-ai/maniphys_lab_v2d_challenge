@@ -1,0 +1,7 @@
+# command  : grep -n upload_checkpoints runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/hydra/s1/.hydra/config.yaml 
+# md5      : fab00f1c91ca4019d43da859b87747ce  runs/flash_chord/ctrl-snackbox-w2048-cap10m-ml40b/hydra/s1/.hydra/config.yaml
+# source   : 67f1d8643265
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T07:17:03+0800
+# ---------------------------------------------------------------
+334:  upload_checkpoints: false

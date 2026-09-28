@@ -1,0 +1,15 @@
+# command  : grep -nE AuthenticationError\|log_artifact\|Traceback runs/logs/ctrl-snackbox-w2048-cap10m-ml40.s1.log 
+# md5      : a114a19e4ca19bb2872c557b0cc01201  runs/logs/ctrl-snackbox-w2048-cap10m-ml40.s1.log
+# source   : 67f1d8643265
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T07:17:03+0800
+# ---------------------------------------------------------------
+125:Traceback (most recent call last):
+135:    self.run.log_artifact(
+145:  File "/opt/venv/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 3175, in log_artifact
+146:    return self._log_artifact(
+148:  File "/opt/venv/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 3326, in _log_artifact
+149:    self._assert_can_log_artifact(artifact)
+150:  File "/opt/venv/lib/python3.11/site-packages/wandb/sdk/wandb_run.py", line 3374, in _assert_can_log_artifact
+159:    raise AuthenticationError(
+160:wandb.errors.errors.AuthenticationError: Unable to connect to server to verify API token.
