@@ -15,7 +15,7 @@ exec >> runs/logs/ml40_day1b.log 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "$*"; say DAY1B_FAILED; exit 1; }
 trap 'say "DAY1B_FAILED（第 $LINENO 行命令失败）"' ERR
-SMOKE=smoke-snackbox-w2048-cap10m-ml40; RUN=ctrl-snackbox-w2048-cap10m-ml40
+SMOKE=smoke-snackbox-w2048-cap10m-ml40; RUN=ctrl-snackbox-w2048-cap10m-ml40b   # 第 2 次尝试，见 queues/ml40_day1b.txt
 DAY1_BASE11=e2934912858820b8; DAY1_FREEZE=df0cf35711a68fb3   # Day 1 满配 ep20 的 run_record.jsonl
 PEAK_MAX_MIB=44000                                           # 沿用 Day 1 冒烟判据
 say "start, source $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
