@@ -1,6 +1,6 @@
 # 交接：ml40（L40S）上开 FlashCHORD 训练
 
-- 最近更新：2026-09-27 18:25 MDT；分支 `track2/p1-training`（已 push）
+- 最近更新：2026-09-27 23:10 MDT；分支 `track2/p1-training`（已 push，第 2 次尝试的队列在 cab309e）
 - 时区：服务器日志是北京时间，比 Mac（MDT）早 14 小时；对用户一律报丹佛时间
 
 ## 当前状态（本节取代下文“未完成 / 阻塞”“下一步”“兜底”三节，那几节只作 9/26 的历史）
@@ -19,6 +19,10 @@
   `move_repo.sh --cleanup` 删了仓库旧副本（14 GB）；两者先跑 `cleanup-check`，删前把检查再跑一遍（没有进程或挂载在用、镜像清单与验收时一致、
   旧副本的每个文件新副本都有）。系统盘 85% → 25%；`~/v2d` 下其他文件、8 个镜像（含 4 个 `v2d_*`）、Warp 缓存都在。
 - snack_box（100 万 buffer）评测不通过：chord_sr 0、ADD-AUC 0.540 低于它的不动基线 0.566（`results/day1/verdict_snackbox.txt`）。
+- Day 1b 逐帧诊断（mf4090）：三个 policy 的有效性闸全过；T1、T2、T4 触发，T3 没触发。数字、解读与限定见
+  `agent-doc/experiments/2026-09-28-day1b.md`，触发判定 `results/day1/diag_triggers.txt`。
+- 满配 snack_box 对照第 1 次（`ctrl-snackbox-w2048-cap10m-ml40`）：冒烟通过（SMOKE_OK），正式训练 19:56 MDT 开始，20:02 在第一个
+  checkpoint 上传 W&B artifact 时因 token 核验连不上服务器退出。目录与 W&B run 原样保留，不续训。
 
 | 东西 | 位置 |
 |---|---|
@@ -34,8 +38,13 @@
 - `V2D_ENV=ml40 V2D_DRYRUN=1 scripts/dev/remote` → 只列本地改动；`.v2d-source-commit` 已加保护规则，不再被 `--delete` 删掉
 
 未完成：
-1. 满配 snack_box 对照（ml40、1000 万 buffer）：判据先登记（门槛用它的不动基线 0.5662），和 ml40 其他用户约好时段。
-2. ep20 逐帧诊断：导出评测 rollout，看朝向误差在哪一段累积。
+1. 满配 snack_box 对照第 2 次（`ctrl-snackbox-w2048-cap10m-ml40b`，`V2D_WANDB_UPLOAD_CKPT=0`，从 0 重来，判据不变）：已同步到 ml40，
+   配置核对通过（`results/ml40/day1/cfgcheck_ml40_day1b_attempt2.txt`，与配方不同 10 个键、意外 0 个），23:00 MDT GPU 空闲。
+   等用户和 yqchen 约好时段再启动：`tmux new-session -d -s v2d-day1b stages/policy/queues/ml40_day1b.sh`（仓库根）。
+   同配置的 ep20 在 ml40 上训练用了 2 h 10 min。日志 `runs/logs/ml40_day1b.log`，最后一行 DAY1B_DONE / DAY1B_FAILED；
+   跑完按 day1b 文档的判据用 `stages/evaluate/verdict.py` 判定。
+2. 按诊断触发的下一步（都先写计划、review 再跑）：T2 回放速度对照（1.67 倍速 vs 真实时长）、T4 查重定向管线、
+   T1 查接近与抓取、reset 与 VOC。
 3. 邮件组委会：holdout、评测脚本与栈、播放速度、开发期用 Tier 1、跨档热启动、两个 Track 的数据能否互用。
 4. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
 5. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
