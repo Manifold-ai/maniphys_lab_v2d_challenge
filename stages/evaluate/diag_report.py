@@ -16,6 +16,7 @@
 
 用法：python diag_report.py <npz> --diag-json D --same-card-json E [--cross-card-json F] --segments 209 420
         --expect-ref 209 420 269 [--predict-frame 359] [--frame-scale 1] [--svg out.svg] [--title 名字]
+  --phases F0 F1 …（可选，升序）：Q2b 按这些帧分阶段记新增的落后量（回放速度对照登记的是第 209、269、314、420 帧及其按时间换算）。
   --frame-scale：Q1、Q2 按关键帧列数时另列的 ep20 帧（100、269、300、359、360）按此倍数换算；按真实时长回放（30 → 50 fps）给 5/3。只影响打印。
 """
 import argparse
@@ -131,11 +132,14 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     ap.add_argument("--segments", type=int, nargs=2, required=True)
     ap.add_argument("--expect-ref", type=int, nargs=3, required=True, metavar=("FIRST_MOVE", "LAST_MOVE", "FIRST_GATE"))
     ap.add_argument("--predict-frame", type=int, help="G6 几何自检所用的帧（参考离初始朝向接近最大的那帧，ep20 为 359）")
+    ap.add_argument("--phases", type=int, nargs="+", help="Q2b 分阶段的边界帧（升序）")
     ap.add_argument("--frame-scale", type=float, default=1.0, help="Q1、Q2 另列关键帧的换算倍数（真实时长回放给 5/3），只影响打印")
     ap.add_argument("--svg")
     ap.add_argument("--title", default="")
     a = ap.parse_args()
     s0, s1 = a.segments
+    if a.phases and (len(a.phases) < 2 or any(x >= y for x, y in zip(a.phases, a.phases[1:]))):
+        raise SystemExit(f"--phases 要至少两个升序的帧，收到 {a.phases}")
 
     def load_json(path):
         with open(path) as f:
@@ -151,6 +155,8 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     names = [str(n) for n in d["tracking_error_names"]]
     crit = json.loads(str(d["criteria_json"]))
     T, W, B = ach.shape[:3]
+    if a.phases and a.phases[-1] >= T:
+        raise SystemExit(f"--phases 的末帧 {a.phases[-1]} 超出 rollout 的 {T} 帧")
     col = {n: i for i, n in enumerate(names)}
     gates = []
     print(f"policy {d['policy']}；世界 {W}，帧 {T}；关注段 {s0}–{s1}；上游文件 md5 {d['upstream_md5']}；包装调用 {d['wrapper_calls']}")
@@ -303,6 +309,28 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     else:
         print("  分类：闸没过，不给")
 
+    # ── Q2b 落后量（回放速度对照的主指标）──────────────────────────────
+    # 从第 0 帧起算、绕同一主轴：关注段开始前提前转的部分也算进去（净转动比只从关注段起点算，会漏掉它）
+    lag = sgn * (phi_r[:, None] - phi_a)                                   # (T,W) °，正 = 落后于参考
+    in_window = crossed & (first >= s0) & (first <= s1)
+    fps = diag.get("sim_control_fps")
+    print("== Q2b 落后量（绕参考主轴、从第 0 帧起算，°；正 = 落后于参考，负 = 提前转了）")
+    print(f"  世界中位：第 {s0} 帧 {np.median(lag[s0]):+.1f}；第 {s1} 帧 {np.median(lag[s1]):+.1f}；末帧 {np.median(lag[-1]):+.1f}")
+    q25, q50, q75 = pct(lag[s1])
+    print(f"  第 {s1} 帧落后量四分位 {q25:.1f}/{q50:.1f}/{q75:.1f}；第 {s0}–{s1} 帧内首次越过 1.5 rad 的世界 {in_window.mean():.1%}")
+    phase_lag = []
+    for f0, f1 in zip(a.phases or [], (a.phases or [])[1:]):
+        acc = lag[f1] - lag[f0]                                            # (W,) 这一阶段新增的落后量
+        dr = sgn * (phi_r[f1] - phi_r[f0])
+        speed = f"，{abs(dr) / (f1 - f0) * fps:.0f}°/s" if fps else ""
+        q25, q50, q75 = pct(acc)
+        phase_lag.append(float(q50))
+        print(f"  阶段 {f0}–{f1}：参考转 {dr:.1f}°（{abs(dr) / (f1 - f0):.2f}°/帧{speed}），policy 世界中位转 {np.median(sgn * (phi_a[f1] - phi_a[f0])):.1f}°；"
+              f"新增落后量四分位 {q25:+.1f}/{q50:+.1f}/{q75:+.1f}")
+    half = np.array([c == "净转过半" for c in cls]) if valid else np.zeros(W, dtype=bool)
+    if half.any():
+        print(f"  净转过半的 {int(half.sum())} 个世界：第 {s1} 帧落后量中位 {np.median(lag[s1][half]):+.1f}")
+
     # ── Q3 手 ─────────────────────────────────────────────────────────
     palm = err[..., col["palm_position_m"]] * 100
     dist = d["ref_palm_mesh_dist"].astype(np.float64) * 100
@@ -339,7 +367,12 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
     summary = {"worlds": W, "valid": valid, "add_auc": auc_full, "static_add_auc": auc_static_full, "segment_gap": seg_gaps,
                "non_manipulation_gap_share": static_share, "median_net_ratio": float(np.median(ratio)), "required_ratio": need,
                "palm_error_median_cm": [float(np.median(palm[f0:f1])) for _, f0, f1 in segs],
-               "contact_palm_mesh_dist_cm": contact_dist, "success": int(success.sum())}
+               "contact_palm_mesh_dist_cm": contact_dist, "success": int(success.sum()),
+               "frames": T, "segments": [s0, s1], "ref_net_deg": float(net_r),
+               "lag_deg": {"s0": float(np.median(lag[s0])), "s1": float(np.median(lag[s1])), "last": float(np.median(lag[-1]))},
+               "phase_bounds": list(a.phases or []), "phase_lag_deg": phase_lag, "window_cross_share": float(in_window.mean()),
+               "half_rotated": int(half.sum()), "half_rotated_lag_s1_deg": float(np.median(lag[s1][half])) if half.any() else None,
+               "first_fail_causes": {c or "未越线": int(n) for c, n in zip(*np.unique(first_cause[~success].astype(str), return_counts=True))}}
     print("summary_json " + json.dumps(summary, ensure_ascii=False))
 
     if a.svg:

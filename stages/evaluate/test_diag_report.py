@@ -5,7 +5,7 @@
 10 第 0 帧就偏 5°、之后始终落后参考 85.5°（成功，但第 336 帧只转了约 90°：固定 94° 的旧规则会误判，逐世界下界不会）。
 随机翻转四元数正负号。环境自带的朝向误差按位姿算，应当对得上。
 检查：各道闸通过与被拦（G0、G1、G2、G3、G4、G5、G6 各改坏一处）、G6 无成功世界时“不适用”、分类计数、主轴夹角、跳变计数、
-Q0 各段贡献相加等于全程、summary_json、SVG 标签配对、diag_triggers 能读报告并给出四项判定、--frame-scale 只改 Q1、Q2 按关键帧列数的两行。
+Q0 各段贡献相加等于全程、summary_json、SVG 标签配对、diag_triggers 能读报告并给出四项判定、--frame-scale 只改 Q1、Q2 按关键帧列数的两行、Q2b 落后量与 --phases、summary_json 的新字段。
 用法：python stages/evaluate/test_diag_report.py
 """
 import json
@@ -174,6 +174,20 @@ def main() -> int:
         ok_sj = s.get("valid") is True and s.get("success") == 5 and "right" in s.get("contact_palm_mesh_dist_cm", {})
         check("summary_json 可解析且内容对", ok_sj, sj)
         check("SVG 标签配对完整", svg_balanced((tmp / "c.svg").read_text()))
+        q2b = line(out, "世界中位：第 209 帧")
+        check("Q2b 落后量：第 209 帧 0、第 420 帧中位 260（11 个世界排序后的第 6 个）", "第 209 帧 +0" in q2b and "第 420 帧 +260.0" in q2b, q2b)
+        check("Q2b 净转过半的 5 个世界（0–3 落后 30°、10 落后 85.5°）中位 30", "净转过半的 5 个世界：第 420 帧落后量中位 +30.0" in out,
+              line(out, "净转过半的"))
+        ok_new = (s.get("frames") == T and s.get("segments") == [S0, S1] and abs(s.get("ref_net_deg", 0) - 300) < 0.5
+                  and abs(s.get("window_cross_share", 0) - 6 / 11) < 1e-9 and s.get("phase_lag_deg") == [] and s.get("half_rotated") == 5
+                  and "first_fail_causes" in s)
+        check("summary_json 新字段：帧数、关注段、参考净转 300°、段内越线 6/11（世界 4–9）", ok_new, sj)
+        pp = run(tmp, extra=("--phases", "209", "300", "420"))
+        sp = json.loads(line(pp.stdout, "summary_json ").strip()[len("summary_json "):] or "{}")
+        check("--phases 209 300 420：两段各一行、summary 里两段落后量", pp.returncode == 0 and pp.stdout.count("  阶段 ") == 2
+              and len(sp.get("phase_lag_deg", [])) == 2 and sp.get("phase_bounds") == [209, 300, 420], pp.stdout[-900:])
+        pb = run(tmp, extra=("--phases", "300", "209"))
+        check("--phases 不是升序时报错退出", pb.returncode not in (0, 3) and "升序" in pb.stderr, pb.stderr[-300:])
         q1 = line(out, "世界中位：")
         check("不给 --frame-scale：Q1 仍列 ep20 原帧 100 / 269 / 359", all(f"  {f}:" in q1 for f in (100, 269, 359)), q1)
         ps = run(tmp, svg=True, extra=("--frame-scale", "1.6666667"))   # 同样带 --svg，才能逐行比较其余输出
