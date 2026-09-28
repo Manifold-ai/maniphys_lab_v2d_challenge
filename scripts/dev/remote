@@ -59,6 +59,7 @@ rsync "${RS[@]}" \
       --filter='H /results/***' --filter='P /results/***' \
       --filter='P /third_party/video_to_data/***' \
       --filter="P /$SENTINEL" \
+      --filter='P /.v2d-source-commit' \
       --filter='+ /.env.example' \
       --filter=':- .gitignore' \
       --exclude '.git/' \

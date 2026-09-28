@@ -1,0 +1,17 @@
+# command  : python3 stages/policy/eval_compare.py runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w64.json runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w256.json --max-add-auc-diff 0.005 
+# md5      : 51ccc105277701f08db61a39e68de30a  stages/policy/eval_compare.py
+# md5      : 0f7455133d234f70cce5ced020d8ef6a  runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w64.json
+# md5      : 573ce69fcc5871984cab8a3cd3f63e17  runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w256.json
+# source   : ae4f74bdf129
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-28T05:49:59+0800
+# ---------------------------------------------------------------
+new runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w64.json: 64 worlds; ref runs/flash_chord/smoke-t1-ep20-w2048-cap10m-ml40/eval_4096000_w256.json: 256 worlds; same checkpoint sha256: True (092b6d0b30673e10…)
+  add_auc                        0.47021 vs 0.470061  diff +0.000149663
+  chord_sr                       0 vs 0  diff +0
+  maniptrans_sr                  0 vs 0  diff +0
+  spider_sr_uncentered           0 vs 0  diff +0
+  mppe_cm                        3.29565 vs 3.29334  diff +0.00231578
+  object_position_error_m        0.0176018 vs 0.0175553  diff +4.65247e-05
+  object_orientation_error_deg   49.355 vs 49.3522  diff +0.00286479
+|ADD-AUC diff| 0.000150 < 0.005: True; RESULT CONSISTENT

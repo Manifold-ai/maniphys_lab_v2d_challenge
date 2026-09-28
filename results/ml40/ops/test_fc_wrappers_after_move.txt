@@ -1,0 +1,91 @@
+# command  : bash stages/policy/test_fc_wrappers.sh 
+# md5      : 3b0a055912081193a19d41a124dfc1df  stages/policy/test_fc_wrappers.sh
+# source   : ae4f74bdf129
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-28T05:51:46+0800
+# ---------------------------------------------------------------
+== T1 正常跑完
+  PASS  退出码 0、写 DONE
+  PASS  最终 policy 在、policy 全留 4 份、state 只留 2 份
+  PASS  容器已删除
+  PASS  W&B：id=<run>-s1、tag、key 已注入、代理没注入、init 超时 180、后台运行、占 GPU、容器名
+  PASS  W&B 覆盖：online、entity、project、group=<run>、name=<run>-s1
+  PASS  hydra.run.dir 在输出目录里
+  PASS  首次不带 resume
+  PASS  段日志完整、实时日志也有
+  PASS  运行记录：start/exit/done，含 sha256、commit、镜像、base 层与依赖指纹
+  PASS  GPU 采样有数据
+  PASS  W&B key 没出现在日志、记录、命令里
+  PASS  代理密码没出现在任何地方
+== T2 已完成的再跑：跳过
+  PASS  退出码 0 且提示跳过
+== T3 意外退出后自动续（新 W&B 段）
+  PASS  退出码 0、DONE
+  PASS  第 2 段从 state_102400 续
+  PASS  第 2 段 W&B id 是 -s2，group 不变
+  PASS  两段各有独立的段日志
+== T4 最新 state 写到一半（policy 完整）：退回上一份
+  PASS  续训指向 state_102400，跳过 state 半写的 204800
+== T5 显存不足：不重试；大日志下也能判出；无害的 XLA 提示不算
+  PASS  退出码 4、只跑 1 次、记录 oom
+  PASS  OOM 行在最前、后面 20 万行日志：仍判为 oom（不因 SIGPIPE 漏判）
+  PASS  有"ran out of memory…not a failure"的意外退出：当作崩溃重试并完成
+== T6 重试用完
+  PASS  退出码 2、共 3 次、记录 retries_exhausted
+== T7 fc_stop：不重试，重跑后续上
+  PASS  退出码 3、只跑 1 次、STOP 已清、记录 stopped
+  PASS  重跑从最新 checkpoint 续并完成（第 2 段）
+== T8 运行中被外部 docker stop（没有 STOP）：退出码 5，不重试
+  PASS  stop 退出码 137 → fc_run 退出码 5、只跑 1 次、记录 killed
+  PASS  stop 退出码 143 → fc_run 退出码 5、只跑 1 次、记录 killed
+== T9 接管：fc_run 死了、容器还在跑，再运行 fc_run 就接上
+  PASS  没有另起容器、记录 adopt、段日志完整、完成
+== T10 回收：容器已崩溃退出但没被删 → 先回收再续
+  PASS  记录 reap（139），随后从 state_102400 续并完成
+== T11 回收到 137（例如机器重启）：没有 STOP → 自动续，不当作外部停止
+  PASS  reap 137 后直接开新段并完成
+== T12 GPU 上有别人的进程：拒绝启动
+  PASS  退出码 6、没起容器
+== T13 续训一致性（与本 lineage 起点比）
+  PASS  覆盖参数不同 → 拒绝
+  PASS  镜像不同 → 拒绝
+  PASS  V2D_FORCE_RESUME=1 可强制续
+  PASS  起点没有覆盖参数、续训加了 → 拒绝（原因是 overrides）
+  PASS  锁在上一次 fc_run 退出后立即释放
+  PASS  第一次在 checkpoint 前就挂、改参数重来 → 新 lineage 的续训不被误拒
+== T14 checkpoint 全部不完整：拒绝从 0 覆盖
+  PASS  退出码 2、没起容器
+  PASS  V2D_FORCE_RESTART=1 → 从 0 开始并完成
+== T15 STOP：退避期间可取消；启动时残留的会被清掉
+  PASS  退避中放 STOP → 退出码 3、不再开新段
+  PASS  启动时残留的 STOP（容器早已不在）→ 清掉并正常跑完
+== T16 同名容器不是自己起的：不接管也不删除
+  PASS  退出码 2、对方容器还在
+== T17 数字排序与剪枝
+  PASS  ckpt_latest 选 340013056
+  PASS  剪枝后只剩 90003456 与 340013056
+  PASS  不存在的目录 → 无输出、退出码 0
+== T18 参数校验与互斥
+  PASS  run 名非法
+  PASS  步数不整除
+  PASS  parquet 不存在
+  PASS  V2D_KEEP_STATES=0 被拒
+  PASS  另一个 fc_run 持锁时拒绝
+  PASS  V2D_WANDB=1 但 .env 没有 key → 拒绝
+== T19 队列：解析、逐行环境变量、失败即停、重跑跳过已完成
+  PASS  第 1 项带 tag 与容量覆盖
+  PASS  第 2 项 V2D_WANDB=0 → logging.mode=disabled、不注入 key
+  PASS  第 3 项失败后队列停下，第 4 项没跑
+  PASS  修好后重跑：前两项跳过、第 4 项完成
+== T20 fc_train.sh 的默认值与 parquet 引号
+  PASS  没给 logging.mode → 补 disabled；没给 hydra.run.dir → 放进输出目录
+  PASS  给了就不重复补
+  PASS  parquet 整体加单引号给 Hydra
+== T21 真实 in-flash-chord 拼出的 docker 参数（假 docker 只记 argv）
+  PASS  后台运行、不 --rm、容器名与属主标签
+  PASS  key 只以变量名出现（-e WANDB_API_KEY），值不在 argv
+  PASS  容器里 .env 被遮住、Warp 缓存挂在 /warp-cache 并设 WARP_CACHE_PATH、占 GPU
+  PASS  没有任何挂载点落在 /tmp/.cache 下（否则 W&B 缓存目录不可写）
+  PASS  最后一个参数是完整命令串（parquet 含 = 仍是一个单元）
+
+结果：PASS 62  FAIL 0

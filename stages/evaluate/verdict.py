@@ -8,6 +8,7 @@ ADD-AUC > “物体全程不动”基线（2026-09-27 14:38 MDT 修正，评测�
 
 用法：python3 stages/evaluate/verdict.py --static results/day1/static_baseline_ep20.txt \
         --eval results/ml40/day1/eval_<run>.txt --eval ... [--orig-add-bar 0.465] [--manifests A B]
+（原判据只对 Day 1 ep20 有意义，snack_box 等后来登记的判据不传 --orig-add-bar。）
 """
 import argparse
 import json
@@ -29,7 +30,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--static", required=True)
     ap.add_argument("--eval", action="append", required=True)
-    ap.add_argument("--orig-add-bar", type=float, default=0.465)
+    ap.add_argument("--orig-add-bar", type=float, help="原判据的 ADD-AUC 门槛（Day 1 ep20 为 0.465）；不给就不报原判据")
     ap.add_argument("--manifests", nargs=2)
     a = ap.parse_args()
 
@@ -45,13 +46,16 @@ def main() -> int:
         name = Path(p).stem.removeprefix("eval_")
         crit = [("chord_sr", m["chord_sr"], 0.0), ("maniptrans_sr", m["maniptrans_sr"], 0.0), ("add_auc", m["add_auc"], bar)]
         revised = all(v > b for _, v, b in crit)
-        original = m["chord_sr"] > 0 and m["maniptrans_sr"] > 0 and m["add_auc"] > a.orig_add_bar
+        original = None if a.orig_add_bar is None else (m["chord_sr"] > 0 and m["maniptrans_sr"] > 0 and m["add_auc"] > a.orig_add_bar)
         print(f"\n== {name}: {w} worlds, {m['environment_steps']:,} steps, checkpoint sha256 {m['checkpoint_sha256'][:16]}…")
         for k, v, b in crit:
             extra = f" ({round(v * w)} of {w} worlds)" if k in RATES else ""
             print(f"  {k:<14} {v:.6g} > {b:.6g}{extra}: {'PASS' if v > b else 'FAIL'}")
-        print(f"  add_auc vs the original bar: {m['add_auc']:.6g} > {a.orig_add_bar}: {'PASS' if m['add_auc'] > a.orig_add_bar else 'FAIL'}")
-        print(f"  VERDICT revised criteria: {'PASS' if revised else 'FAIL'}; original criteria: {'PASS' if original else 'FAIL'}")
+        if a.orig_add_bar is None:
+            print(f"  VERDICT: {'PASS' if revised else 'FAIL'}")
+        else:
+            print(f"  add_auc vs the original bar: {m['add_auc']:.6g} > {a.orig_add_bar}: {'PASS' if m['add_auc'] > a.orig_add_bar else 'FAIL'}")
+            print(f"  VERDICT revised criteria: {'PASS' if revised else 'FAIL'}; original criteria: {'PASS' if original else 'FAIL'}")
         print(f"  spider_sr_uncentered {m['spider_sr_uncentered']:.6g} ({round(m['spider_sr_uncentered'] * w)} of {w} worlds); "
               f"task-native failure causes {m['reference_tracking'].get('failure_cause_fraction')}")
         print(f"  minus do-nothing: add_auc {m['add_auc'] - bar:+.4f}; object_position_error {(m['object_position_error_m'] - st['object_position_error_m']) * 100:+.2f} cm; "
