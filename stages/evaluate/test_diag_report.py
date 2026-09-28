@@ -102,9 +102,11 @@ def build(tmp: Path, tilt_deg=0.0, **broken):
                "maniptrans_sr": 0.0, "mppe_cm": 3.0}
     diag = {"metrics": metrics, "checkpoint_sha256": "x", "world_count": W, "step_count": T + (1 if broken.get("shape") else 0)}
     same = json.loads(json.dumps(diag))
-    if broken.get("same_card"):  # 世界少时 chord_sr 的 z 检验很弱，另把 ADD-AUC 改掉 0.01（> 0.005 的容差）
+    if broken.get("same_card"):  # 世界少时 chord_sr 的 z 检验很弱，另把 ADD-AUC 改掉 0.2（> 11 个世界时的容差 0.005 × √(4096/11) ≈ 0.096）
         same["metrics"]["chord_sr"] = 0.0 if success_rate > 0.5 else 1.0
-        same["metrics"]["add_auc"] += 0.01
+        same["metrics"]["add_auc"] += 0.2
+    if broken.get("same_card_small"):  # 只差 0.05：在 11 个世界的容差以内，不该拦
+        same["metrics"]["add_auc"] += 0.05
     (tmp / "diag.json").write_text(json.dumps(diag))
     (tmp / "same.json").write_text(json.dumps(same))
     return success_rate
@@ -210,6 +212,10 @@ def main() -> int:
             p = run(tmp)
             check(f"{gate} 改坏后被拦（退出码 3、不给分类）", p.returncode == 3 and f"FAIL  {gate}" in p.stdout and "分类：闸没过" in p.stdout,
                   p.stdout[:800])
+        build(tmp, same_card_small=True)
+        p = run(tmp)
+        check("G1 容差随世界数缩放：11 个世界时 ADD-AUC 差 0.05 放行", p.returncode == 0 and "PASS  G1" in p.stdout and "0.0965" in p.stdout,
+              line(p.stdout, "G1"))
         build(tmp)
         p = run(tmp, expect=(209, 420, 269))
         check("G4 已知答案不符时被拦", p.returncode == 3 and "FAIL  G4" in p.stdout, p.stdout[:600])

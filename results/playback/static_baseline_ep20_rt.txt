@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_baseline.py\ /repo/runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/policy_4096000.safetensors 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 3cee99a551c3d55f1daead127ba30af5  stages/evaluate/static_baseline.py
+# md5      : f421593d6fa86b93e0c508c9c08f66d7  runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/policy_4096000.safetensors
+# source   : 34322e27a7c3
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:39:03+0800
+# ---------------------------------------------------------------
+[evaluator definition] reference /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+  frames 921, bodies 1, source_frame_playback False, playback_fps 50.0, vertices 500 per body (seed 0, trimesh)
+  static-object ADD-AUC 0.4703 (per body 0.4703); mean ADD 6.79 cm; max position drift 4.0 cm
+  static-object object_position_error_m 0.0170; object_orientation_error_deg 49.24; mppe_cm 3.256; spider_sr_uncentered 0.000; maniptrans_sr 0.000
+  summary_json {"add_auc": 0.4702768729641694, "maniptrans_sr": 0.0, "mean_add_m": 0.0678838439985662, "mppe_cm": 3.256386490666266, "object_orientation_error_deg": 49.2376635365461, "object_position_error_m": 0.016982037014541835, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet", "spider_sr_uncentered": 0.0}
+  angle vs frame 0: mean 49.2 deg, max 179.9 deg (frame 598), final 50.4 deg
+  per-frame increment: median 0.055 deg, p99 2.28, max 2.57 (frame 658); > 5 deg: 0 frames
+  cumulative rotation 337.4 deg; frames with increment > 0.5 deg: 267 (first 353, last 700)
+  a static object first exceeds the 1.5 rad (85.9 deg) gate at frame 447; frames above the gate: 231
+  angle vs frame 0 every 20 frames: 0:0 20:0 40:0 60:1 80:0 100:0 120:0 140:0 160:0 180:0 200:0 220:0 240:0 260:1 280:1 300:1 320:1 340:1 360:8 380:21 400:37 420:56 440:78 460:100 480:100 500:100 520:100 540:110 560:130 580:156 600:179 620:161 640:144 660:109 680:84 700:51 720:51 740:50 760:50 780:51 800:50 820:50 840:50 860:51 880:50 900:51 920:50

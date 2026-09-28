@@ -68,5 +68,7 @@ if [ "$segs" = 1 ]; then say "正式训练一段跑完"; else say "注意：正�
 
 # 4. 最终 policy 的评测与输入清单
 scripts/dev/record "playback/eval_$RUN" stages/policy/fc_eval.sh "$RUN" "$STEPS"
+n="$(python3 -c 'import json, sys; print(json.load(open(sys.argv[1]))["step_count"])' "$R/eval_${STEPS}_w4096.json")"
+[ "$n" = 921 ] || fail "正式评测步数 $n，不是 921"
 scripts/dev/record "playback/policy_inputs_$RUN" python3 stages/policy/policy_inputs.py "$R/policy_$STEPS.safetensors"
 say PLAYBACK_TRAIN_DONE

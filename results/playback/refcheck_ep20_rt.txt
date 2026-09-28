@@ -1,0 +1,16 @@
+# command  : python3 stages/evaluate/playback_refcheck.py results/day1/static_baseline_ep20.txt results/playback/static_baseline_ep20_rt.txt --row smoke-t1-ep20-w2048-cap1m-rt-mf4090 4096000 - 
+# md5      : b60c0b9751ffc94496fcf801f3336e73  stages/evaluate/playback_refcheck.py
+# md5      : cf9615da06d5c2dffbb40a4e75d18e12  results/day1/static_baseline_ep20.txt
+# md5      : 4a56ad11aff394f95aaf780709171070  results/playback/static_baseline_ep20_rt.txt
+# source   : 34322e27a7c3
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T22:39:09+0800
+# ---------------------------------------------------------------
+参考核对（逐帧回放 results/day1/static_baseline_ep20.txt vs 真实时长 results/playback/static_baseline_ep20_rt.txt；换算倍数 1.666667）
+  PASS  R1 帧数与回放方式：真实时长 921 帧（应为 921）；source_frame_playback 逐帧 True / 真实时长 False
+  PASS  R2 不动 ADD-AUC：0.4708 → 0.4703（差 -0.0006，容差 0.010）
+  PASS  R3 首次越 1.5 rad：源第 269 帧 × 1.6667 = 448.3；真实时长第 447 帧
+  PASS  R4 离初始朝向的角度：10 对可比帧，最大差 0°（真实时长第 900 帧 vs 源第 540 帧）
+G4 已知答案（真实时长参考）：增量 > 0.5° 首帧 353、末帧 700；首次越 1.5 rad 第 447 帧
+按时间换算：关注段 209–420 → 348–700；G6 帧 359 → 598
+diag_row smoke-t1-ep20-w2048-cap1m-rt-mf4090 4096000 348 700 353 700 447 598 - 1.6666667

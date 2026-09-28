@@ -3,7 +3,8 @@
 输入 diag_rollout.py 存的 npz 与它的评测 JSON、同一张卡上原样 fc_eval.sh 的评测 JSON，可选另一张卡上的参照评测 JSON（只描述）。
 计划与事先登记见 agent-doc/plan-day1b-2026-09-27.md（第 2 版）。任何一道闸不过：只打印数字、不给分类，退出码 3。
   G0 形状：T、W 与评测 JSON 一致，物体刚体 1 个
-  G1 同卡：包装后的评测与原样评测的指标逐位相同；不同则要求 chord_sr 的 |z| < 3 且 |ΔADD-AUC| < 0.005（注明）
+  G1 同卡：包装后的评测与原样评测的指标逐位相同；不同则要求 chord_sr 的 |z| < 3 且 |ΔADD-AUC| < 0.005 × √(4096 / 世界数)（注明）。
+     容差随世界数缩放：4096 世界时就是登记的 0.005；同一冒烟 policy 两次不包装的 256 世界评测就差 0.0057（results/playback/repeat_eval_smoke_w256.txt）
   G2 由 npz 的逐帧 ADD 重算的全程 ADD-AUC 等于评测 JSON（|Δ| < 1e-6）
   G3 按位姿算的物体朝向误差与评测器自己的 object_orientation_rad 最大差 < 0.1°（查 xyzw 顺序与帧对齐）
   G4 已知答案：由参考算出的“增量 > 0.5° 的首末帧”“首次超过 1.5 rad 的帧”等于 --expect-ref（来自 static_baseline_*.txt）
@@ -176,8 +177,9 @@ def main() -> int:  # 报告按登记的条目顺序写，拆开反而难对照
         se = np.sqrt(max(p * (1 - p), 1e-12) * (1 / n1 + 1 / n2))
         z = (p1 - p2) / se
         dadd = abs(m1["add_auc"] - m2["add_auc"])
-        gates.append(("G1 同卡：不逐位相同，改用 |z| < 3 与 |ΔADD-AUC| < 0.005",
-                      abs(z) < 3 and dadd < 0.005 and diag["checkpoint_sha256"] == same["checkpoint_sha256"],
+        tol = 0.005 * np.sqrt(4096 / min(n1, n2))   # ADD-AUC 是世界平均，评测不逐位可复现带来的差按 1/√世界数 缩放
+        gates.append((f"G1 同卡：不逐位相同，改用 |z| < 3 与 |ΔADD-AUC| < {tol:.4f}（0.005 × √(4096/世界数)）",
+                      abs(z) < 3 and dadd < tol and diag["checkpoint_sha256"] == same["checkpoint_sha256"],
                       f"chord_sr {p1:.4f} vs {p2:.4f}（z {z:.2f}），ADD-AUC 差 {dadd:.5f}"))
     auc_full = auc(add)
     gates.append(("G2 重算全程 ADD-AUC", abs(auc_full - m1["add_auc"]) < 1e-6, f"重算 {auc_full:.6f} vs JSON {m1['add_auc']:.6f}"))
