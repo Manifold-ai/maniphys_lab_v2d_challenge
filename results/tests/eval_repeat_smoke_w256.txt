@@ -1,0 +1,17 @@
+# command  : bash -c V2D_EVAL_WORLDS=256\ stages/policy/fc_eval.sh\ smoke_t1_ep20_w256\ 3072000\ \>/dev/null\ \&\&\ python3\ stages/policy/eval_compare.py\ runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.json\ runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.run1.json\ --max-add-auc-diff\ 0.005\;\ true 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# md5      : 51ccc105277701f08db61a39e68de30a  stages/policy/eval_compare.py
+# md5      : 69ed116aa8b0f2893dc79c4654126bde  runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.run1.json
+# source   : db96a8bcbf00-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T09:50:58+0800
+# ---------------------------------------------------------------
+new runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.json: 256 worlds; ref runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.run1.json: 256 worlds; same checkpoint sha256: True (488db0cf9cf01a61…)
+  add_auc                        0.46746 vs 0.463204  diff +0.00425591
+  chord_sr                       0 vs 0  diff +0
+  maniptrans_sr                  0 vs 0  diff +0
+  spider_sr_uncentered           0 vs 0  diff +0
+  mppe_cm                        4.26497 vs 5.41693  diff -1.15197
+  object_position_error_m        0.0275412 vs 0.0392131  diff -0.0116719
+  object_orientation_error_deg   49.9481 vs 50.7164  diff -0.768316
+|ADD-AUC diff| 0.004256 < 0.005: True; RESULT CONSISTENT

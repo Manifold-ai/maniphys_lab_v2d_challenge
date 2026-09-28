@@ -1,0 +1,8 @@
+# command  : stages/policy/smoke_check.sh smoke-t1-ep20-w2048-cap10m-ml40 4096000 44000 e2934912858820b8 df0cf35711a68fb3 
+# md5      : af9062a05f9a7783e475b69d847e1ac9  stages/policy/smoke_check.sh
+# source   : db96a8bcbf00-dirty
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-28T09:47:29+0800
+# ---------------------------------------------------------------
+日志 runs/logs/smoke-t1-ep20-w2048-cap10m-ml40.s1.log；checkpoint 4096000；显存峰值 40273 MiB；镜像指纹 e2934912858820b8 / df0cf35711a68fb3
+SMOKE_OK smoke-t1-ep20-w2048-cap10m-ml40

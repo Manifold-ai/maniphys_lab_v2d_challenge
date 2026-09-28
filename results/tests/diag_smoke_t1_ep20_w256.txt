@@ -1,0 +1,49 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag_report.py\ /repo/runs/diag/smoke_t1_ep20_w256/rollout_w256.npz\ --diag-json\ /repo/runs/diag/smoke_t1_ep20_w256/rollout_w256.json\ --same-card-json\ /repo/runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.json\ \ --segments\ 209\ 420\ --expect-ref\ 209\ 420\ 269\ --predict-frame\ 359\ --svg\ /repo/results/tests/diag_smoke_t1_ep20_w256.svg\ --title\ \'smoke_t1_ep20_w256（256\ 世界）\' 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 83766a23e233ec963fcd2905b9b8525e  stages/evaluate/diag_report.py
+# md5      : daa80056c5f0e6a813291978e805f1fa  runs/diag/smoke_t1_ep20_w256/rollout_w256.npz
+# md5      : eb6ad502955df163fd93c5d4d5794ec5  runs/diag/smoke_t1_ep20_w256/rollout_w256.json
+# md5      : 69ed116aa8b0f2893dc79c4654126bde  runs/flash_chord/smoke_t1_ep20_w256/eval_3072000_w256.json
+# source   : db96a8bcbf00-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-28T09:49:56+0800
+# ---------------------------------------------------------------
+policy /repo/runs/flash_chord/smoke_t1_ep20_w256/policy_3072000.safetensors；世界 256，帧 553；关注段 209–420；上游文件 md5 {"harness.py": "8006e8e7d20e5ca47eb6fa89d45348a8", "rollout.py": "0890b5fd93d9450f470f13decbb43a5c", "metrics.py": "9056bd88708e80d35147643f327ed574", "evaluate_policy.py": "a3902c5c9ff234602748b2cfb4facccb"}；包装调用 {"record": 1, "score": 1}
+== 闸
+  PASS  G0 形状：T 553/553，W 256/256，B 1
+  PASS  G1 同卡：不逐位相同，改用 |z| < 3 与 |ΔADD-AUC| < 0.005：chord_sr 0.0000 vs 0.0000（z 0.00），ADD-AUC 差 0.00245
+  PASS  G2 重算全程 ADD-AUC：重算 0.465651 vs JSON 0.465651
+  PASS  G3 朝向误差对账：最大差 0.0115°
+  PASS  G4 参考的已知答案：算得 (209, 420, 269)，应为 (209, 420, 269)
+  PASS  G5 逐世界成功率重算：重算 0.0000 vs 报告 0.0000；门槛 {'pelvis_position_m': 0.7, 'pelvis_orientation_rad': 1.5, 'palm_position_m': 0.15, 'palm_orientation_rad': 1.5, 'object_position_m': 0.1, 'object_orientation_rad': 1.5}
+  PASS  G6 几何自检：成功世界第 359 帧转离初始朝向 ≥ 各自下界：没有成功的世界，不适用
+  （描述）最后一帧物体位姿去重后的不同轨迹 249 条（有效样本量的上限）
+  VALIDITY PASS
+== Q0 ADD-AUC 分段（全程：policy 0.4657，物体不动 0.4708，差 -0.0052；贡献 = 段帧数/总帧数 × 段内 ADD-AUC，各段相加即全程）
+  第 0–208     帧 209：段内 policy 0.9927 / 不动 1.0000；贡献 0.3752 / 0.3779，差 -0.0028（占全程差 53%）；位置误差均值 policy 0.7 cm / 不动 0.3 cm；ADD 中位 policy 0.3 cm / 不动 0.2 cm
+  第 209–420   帧 212：段内 policy 0.1220 / 不动 0.1256；贡献 0.0468 / 0.0481，差 -0.0014（占全程差 27%）；位置误差均值 policy 3.6 cm / 不动 1.8 cm；ADD 中位 policy 14.2 cm / 不动 14.2 cm
+  第 421–552   帧 132：段内 policy 0.1831 / 不动 0.1875；贡献 0.0437 / 0.0448，差 -0.0010（占全程差 20%）；位置误差均值 policy 5.7 cm / 不动 3.7 cm；ADD 中位 policy 7.7 cm / 不动 7.7 cm
+== Q1 物体朝向误差（°）
+  世界中位：0:0.1  100:0.7  209:1.6  269:87.7  300:100.0  314:100.6  359:179.9  360:179.2  420:51.4  552:50.4
+  分段平均：0–208 1.4；209–420 96.8；421–552 51.9
+  逐世界首次超过 1.5 rad：100.0% 的世界越过，首次越线帧四分位 269/269/269
+  （口径：世界中位曲线）首次超过 1.5 rad 在第 269 帧
+== Q2 绕参考主轴的转动
+  参考：第 209–420 帧净转 307.1°（增量绝对值之和 310.4°，含抖动）；主轴与竖直方向夹角 0.5°；第 420 帧不越 1.5 rad 所需净转比约 72%
+  净转动比（第 209–420 帧）：四分位 -0.00/-0.00/0.00
+  净转动（°，第 209 帧到末帧）：四分位 -0.00/-0.00/0.00
+  段内峰值进度（°）：四分位 0.00/0.00/0.00
+  净转动比达到所需比值的世界 0.0%；实际单帧增量 > 30° 的跳变 0 次
+  转动进度（°，世界中位 / 参考）：0:0/0  100:0/0  209:0/1  269:0/88  300:0/100  314:0/101  359:0/180  360:0/181  420:0/309  552:0/310
+  分类（事先登记）：净转过半 0；转过但没保持或没跟上 1；基本没转 254；其他 1
+== Q3 手（只报数）：palm 位置误差取两手中较大者（同评测器，门槛 0.15 m）；参考手到参考物体网格顶点的最近距离（palm 坐标帧，非手掌表面）
+  第 0–208    ：palm 误差中位 126.9 cm；参考手到物体 left_hand_palm_link 53.2 cm，right_hand_palm_link 15.2 cm；参考接触标记 left 接触 0%，right 接触 39%
+  第 209–420  ：palm 误差中位 239.6 cm；参考手到物体 left_hand_palm_link 52.4 cm，right_hand_palm_link 5.9 cm；参考接触标记 left 接触 0%，right 接触 100%
+  第 421–552  ：palm 误差中位 247.6 cm；参考手到物体 left_hand_palm_link 62.5 cm，right_hand_palm_link 37.3 cm；参考接触标记 left 接触 0%，right 接触 27%
+  距离所用顶点：trimesh_all_vertices（trimesh 与评测器顶点一致：True）
+  参考 left 手接触帧 0：没有对应的 palm 帧或没有接触帧
+  参考 right 手的接触帧（328 帧）上，right_hand_palm_link 到物体距离中位 5.9 cm
+== Q4 任务原生判据：成功 0，失败 256
+  失败世界首次越线帧四分位 51/51/51；首个越线的原因：palm 256
+summary_json {"worlds": 256, "valid": true, "add_auc": 0.4656512241466998, "static_add_auc": 0.47084086799276675, "segment_gap": [-0.002754859855334524, -0.001385818122739614, -0.0010489658679927669], "non_manipulation_gap_share": 0.7329646958740859, "median_net_ratio": -2.7438545436984636e-09, "required_ratio": 0.7201576553762394, "palm_error_median_cm": [126.89421772956848, 239.5924687385559, 247.55241870880127], "contact_palm_mesh_dist_cm": {"right": 5.931125767529011}, "success": 0}
+svg: /repo/results/tests/diag_smoke_t1_ep20_w256.svg
