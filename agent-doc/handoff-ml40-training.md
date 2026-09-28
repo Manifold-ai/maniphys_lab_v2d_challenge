@@ -1,8 +1,48 @@
 # 交接：ml40（L40S）上开 FlashCHORD 训练
 
-- 日期：2026-09-26（MDT）＝ 2026-09-27 凌晨（北京时间）
-- 分支：`main`，HEAD `4f160e3`；本文涉及的改动**尚未提交**（首次 commit 待用户批准）
-- 时区：ml40 管理员在北京时间，比 Mac（MDT）早 14 小时
+- 最近更新：2026-09-27 18:10 MDT；分支 `track2/p1-training`（已 push），HEAD `4e59f94`
+- 时区：服务器日志是北京时间，比 Mac（MDT）早 14 小时；对用户一律报丹佛时间
+
+## 当前状态（本节取代下文“未完成 / 阻塞”“下一步”“兜底”三节，那几节只作 9/26 的历史）
+
+已完成：
+- ml40 上 flash_chord 镜像在系统盘重建：前 11 层 diff_id 与 104 个依赖和 mf4090 一致，ID `sha256:96c808f9…`。
+- Day 1：两条 ep20 全程与 snack_box（100 万 buffer）都一次跑完。评测、判定与 jev 见 `agent-doc/experiments/2026-09-28-day1.md`，
+  其中每个数都由 `scripts/experiments/2026-09-28-day1.sh` 重新生成。结论：ep20 两条都没过（ADD-AUC 低于物体完全不动）。
+- docker / containerd 存储迁到 `/lab_data`：2026-09-27 15:48 MDT，`deploy/ml40/migrate_docker_storage.sh --apply --reuse-copy`，
+  停机约 15 s。第一次尝试在拷完、docker 已在新位置起来后自动回滚，原因是验收检查只认双引号，而 containerd v2.3.5 的
+  `config dump` 写的是 `root = '…'`；已修，重跑复用第一次的副本。
+- 仓库副本搬到 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`（`deploy/ml40/move_repo.sh`，校验和零差异），Mac 的 `.env.ml40`
+  已改到新路径。复核、搬迁与测试由 `deploy/ml40/post_migration.sh` 在 ml40 上后台完成，日志
+  `/lab_data/rxzhou/ops/post-migration-20260928-054829.log`，最后一行 `POST_MIGRATION_DONE`。
+
+| 东西 | 位置 |
+|---|---|
+| ml40 仓库副本 | `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`；旧副本 `~/v2d/maniphys_lab_v2d_challenge.pre-move`（14 GB，待删） |
+| docker / containerd | `/lab_data/docker`、`/lab_data/containerd`；旧数据 `/var/lib/{docker,containerd}.pre-migration`（71 GiB，待 `--cleanup`） |
+| 运维日志 | `/lab_data/rxzhou/ops/`（rxzhou 不用 sudo 可读） |
+| sudo 密码 | Mac 会话 scratchpad 里的 `.sudo_ml40`（0600），只经 stdin 交给 `sudo -S`；用户说用完不必删 |
+
+验证（命令 → 结果）：
+- `ssh ml40 'docker info --format "{{.DockerRootDir}}"'` → `/lab_data/docker`
+- `results/ml40/ops/eval_compare_w64_vs_w256_after_migration.txt` → `CONSISTENT`（新存储上 64 世界与迁移前 256 世界 ADD-AUC 差 0.00015）
+- `results/ml40/ops/test_fc_wrappers_after_move.txt` → 62 通过、0 失败
+- `V2D_ENV=ml40 V2D_DRYRUN=1 scripts/dev/remote` → 只列本地改动；`.v2d-source-commit` 已加保护规则，不再被 `--delete` 删掉
+
+未完成：
+1. 等用户确认：`sudo bash deploy/ml40/migrate_docker_storage.sh --cleanup`（删系统盘上 71 GiB 旧数据）与删除 `.pre-move`；系统盘现在 85%。
+2. snack_box（100 万 buffer）在 ml40 上的评测，按 2026-09-27 15:40 MDT 登记的判据下结论（`verdict.py`，门槛为它自己的不动基线 0.5662）。
+3. 满配 snack_box 对照（ml40、1000 万 buffer）：判据先登记，和 ml40 其他用户约好时段。
+4. ep20 逐帧诊断：导出评测 rollout，看朝向误差在哪一段累积。
+5. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
+6. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
+
+工作方式（用户要求）：长时间运行或需要等待的活放服务器后台（tmux / `setsid nohup … < /dev/null &`），自己写日志、最后一行写结论；
+Mac 只发短命令，用户会断网。分析与诊断脚本一律进仓库，经 `scripts/dev/record` 落到 `results/`。
+
+---
+
+以下为 2026-09-26（MDT）的原始交接，保留作历史。
 
 ## 目标
 

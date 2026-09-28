@@ -290,7 +290,7 @@ body.en .pb.l-en{display:grid}
   </div>
   <h2>现在要做的三件事</h2>
   <ul class="todo">
-    <li><span class="pill w">下一步</span><div><b><a href="#sop-pre">ml40 的 docker 存储迁移</a></b><span>趁两次训练之间做：<code>deploy/ml40/migrate_docker_storage.sh</code>，先检查再 <code>--apply</code></span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">待确认</span><div><b><a href="#sop-pre">清理 ml40 系统盘上的旧数据</a></b><span>存储迁移 9/27 已完成；系统盘上的 docker 旧数据（71 GiB）和仓库旧副本（14 GB）等确认后再删，删完系统盘从 85% 降到约 30%</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">待办</span><div><b><a href="#sop-day1">满配跑官方 snack_box 对照</a></b><span>ml40、1000 万 buffer，判据先登记；用来分清是配方问题还是 ep20 数据问题</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">待办</span><div><b><a href="#next">逐帧查 ep20 为什么没转动电饭煲</a></b><span>评测只给汇总；导出 rollout，看朝向误差在哪一段累积</span></div><span class="who">rxzhou</span></li>
   </ul>
@@ -319,7 +319,7 @@ body.en .pb.l-en{display:grid}
   </div>
   <h2>Top three right now</h2>
   <ul class="todo">
-    <li><span class="pill w">Next</span><div><b><a href="#sop-pre">Docker storage migration on ml40</a></b><span>Between two trainings: <code>deploy/ml40/migrate_docker_storage.sh</code>, check first, then <code>--apply</code></span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">To confirm</span><div><b><a href="#sop-pre">Clean up the old data on ml40's root disk</a></b><span>The storage migration finished on 9/27; the old docker data (71 GiB) and the old repository copy (14 GB) are deleted once confirmed, taking the root disk from 85% to about 30%</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">To do</span><div><b><a href="#sop-day1">Full-recipe snack_box control</a></b><span>ml40 with the 10M buffer, criteria registered first; tells a recipe problem from an ep20 data problem</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill w">To do</span><div><b><a href="#next">Find out frame by frame why ep20 does not turn the cooker</a></b><span>The evaluator only reports aggregates; export rollouts and see where the orientation error builds up</span></div><span class="who">rxzhou</span></li>
   </ul>
@@ -368,7 +368,7 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>环节</th><th>状态</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td>环境</td><td><span class="pill ok">可用</span></td><td>mf4090：Isaac Lab 2.3.2 镜像、上游 v0.4.0、FlashCHORD 镜像。ml40：FlashCHORD 镜像已在系统盘重建（前 11 层与 104 个依赖和 mf4090 一致）；docker 存储迁移待做</td></tr>
+      <tr><td>环境</td><td><span class="pill ok">可用</span></td><td>mf4090：Isaac Lab 2.3.2 镜像、上游 v0.4.0、FlashCHORD 镜像。ml40：FlashCHORD 镜像已重建（前 11 层与 104 个依赖和 mf4090 一致）；9/27 docker、containerd 与仓库副本都已迁到 <code>/lab_data</code>，迁移后复核一致</td></tr>
       <tr><td>数据转换与重定向</td><td><span class="pill ok">可用</span></td><td>官方 <code>soma_to_g1</code> + 骨长包装；两档 60 条批量跑通</td></tr>
       <tr><td>Tier 2 降噪</td><td><span class="pill ok">可用</span></td><td>v5.4 净室版，导出时挂 Tier 1 读取守卫</td></tr>
       <tr><td>策略训练</td><td><span class="pill w">跑通，未达标</span></td><td>FlashCHORD 全程可断点续训，两台各一条 ep20 一次跑完；两条都没过 Day 1 判据，见 <a href="#sop-day1">Day 1 验证</a></td></tr>
@@ -384,7 +384,7 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>Stage</th><th>State</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>Environment</td><td><span class="pill ok">Ready</span></td><td>mf4090: Isaac Lab 2.3.2 image, upstream v0.4.0, FlashCHORD image. ml40: FlashCHORD image rebuilt on the root disk (first 11 layers and all 104 dependencies match mf4090); the docker storage migration is still to do</td></tr>
+      <tr><td>Environment</td><td><span class="pill ok">Ready</span></td><td>mf4090: Isaac Lab 2.3.2 image, upstream v0.4.0, FlashCHORD image. ml40: FlashCHORD image rebuilt (first 11 layers and all 104 dependencies match mf4090); on 9/27 docker, containerd and the repository copy moved to <code>/lab_data</code>, and the post-migration checks match</td></tr>
       <tr><td>Conversion and retargeting</td><td><span class="pill ok">Ready</span></td><td>Official <code>soma_to_g1</code> plus a bone-length wrapper; all 60 sequences processed in batch</td></tr>
       <tr><td>Tier 2 denoising</td><td><span class="pill ok">Ready</span></td><td>v5.4 clean-room version; export runs with a Tier 1 read guard</td></tr>
       <tr><td>Policy training</td><td><span class="pill w">Runs, below bar</span></td><td>Full FlashCHORD runs resume from checkpoints; one ep20 run per machine finished in one attempt; neither passed the Day 1 criteria, see <a href="#sop-day1">Day 1 validation</a></td></tr>
@@ -518,7 +518,7 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>事项</th><th>谁</th><th>状态</th></tr></thead>
     <tbody>
-      <tr><td>ml40 docker 存储迁移（训练间隙）；约 L40S 使用时段，见 <a href="#sop-pre">前置条件</a></td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
+      <tr><td>ml40 系统盘清理（<code>--cleanup</code>、删仓库旧副本，等确认）；约 L40S 使用时段，见 <a href="#sop-pre">前置条件</a></td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
       <tr><td>邮件组委会：holdout、评测脚本与栈、开发期用 Tier 1、跨档热启动、Track 1 与 Track 2 的数据能否互用</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
       <tr><td>登录 Kaggle 查看 12 个竞赛的 Rules 页</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
     </tbody>
@@ -545,7 +545,7 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>Item</th><th>Owner</th><th>State</th></tr></thead>
     <tbody>
-      <tr><td>ml40 docker storage migration (between trainings); book L40S time slots; see <a href="#sop-pre">Prerequisites</a></td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
+      <tr><td>ml40 root-disk cleanup (<code>--cleanup</code> and the old repository copy, once confirmed); book L40S time slots; see <a href="#sop-pre">Prerequisites</a></td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
       <tr><td>Email the organizers: holdout, evaluation script and stack, Tier 1 use during development, cross-tier warm start, whether Track 1 and Track 2 data may be used across tracks</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
       <tr><td>Sign in to Kaggle and read the Rules page of the 12 competitions</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
     </tbody>
@@ -688,7 +688,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>mf4090（共用，1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 只能用 100 万 buffer，Day 1 显示它明显变差，不用来衡量配方</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>ml40（共用，1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 10 min，峰值显存 40,273 MiB</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 + 官方 toolkit：重定向与 Isaac Lab 训练（只在 mf4090）</td><td><span class="pill ok">可用</span></td></tr>
-      <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有，ml40 上的在系统盘，存储迁移后复核</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有。ml40 上的已随存储迁到 <code>/lab_data</code>，迁移后 64 世界复核评测与迁移前 ADD-AUC 差 0.00015</td><td><span class="pill ok">可用</span></td></tr>
     </tbody>
   </table></div>
   <p class="muted">容器一律一次性启动、整仓挂 <code>/repo</code>，换机器要用相同布局，原因见 <a href="#adr3">ADR-00003</a>。</p>
@@ -703,7 +703,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>mf4090 (shared, 1× RTX 4090 24 GB, 22 cores)</td><td>Conversion, denoising, retargeting; Isaac Lab. FlashCHORD fits only with a 1M buffer, which Day 1 showed to be clearly worse, so it is not used to measure the recipe</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>ml40 (shared, 1× L40S 48 GB, 45,458 MiB free, 28 cores, 111 GiB RAM)</td><td>Full-recipe FlashCHORD training and evaluation; one full run takes 2 h 10 min with a 40,273 MiB memory peak</td><td><span class="pill ok">Ready</span></td></tr>
       <tr><td>Image <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 plus the official toolkit: retargeting and Isaac Lab training (mf4090 only)</td><td><span class="pill ok">Ready</span></td></tr>
-      <tr><td>Image <code>flash_chord</code> (22 GB)</td><td>FlashCHORD: FlashSAC training and evaluation; on both machines, on ml40 still on the root disk, to be rechecked after the storage migration</td><td><span class="pill ok">Ready</span></td></tr>
+      <tr><td>Image <code>flash_chord</code> (22 GB)</td><td>FlashCHORD: FlashSAC training and evaluation; on both machines. On ml40 it moved to <code>/lab_data</code> with the storage; a 64-world re-evaluation after the migration differs from the earlier one by 0.00015 ADD-AUC</td><td><span class="pill ok">Ready</span></td></tr>
     </tbody>
   </table></div>
   <p class="muted">Containers are always throwaway and mount the whole repository at <code>/repo</code>, so every machine needs the same layout; <a href="#adr3">ADR-00003</a> explains why.</p>
@@ -907,9 +907,9 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <h1>L40S 训练 SOP</h1>
   <p class="lead">目标：在 ml40 上跑通 FlashCHORD 满配训练，先确认单个策略的实际时长和成功率，再批量训练 Tier 1 与 Tier 2 各 30 条。</p>
-  <div class="adm w"><span class="t">Day 1 未通过，批量暂停</span><p>两条 ep20 全程的 ADD-AUC 都低于物体完全不动（见 <a href="#sop-day1">Day 1 验证</a>）。下一步：训练间隙做 ml40 的 docker 存储迁移，然后满配跑 snack_box 对照。</p></div>
+  <div class="adm w"><span class="t">Day 1 未通过，批量暂停</span><p>两条 ep20 全程的 ADD-AUC 都低于物体完全不动（见 <a href="#sop-day1">Day 1 验证</a>）。ml40 的存储迁移 9/27 已完成（停机约 15 秒）。下一步：满配跑 snack_box 对照。</p></div>
   <div class="stepper">
-    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">前置条件</span><span><span class="pill ok">完成</span></span><span class="sd">镜像先建在系统盘；存储迁移放到训练间隙</span></a>
+    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">前置条件</span><span><span class="pill ok">完成</span></span><span class="sd">镜像先建在系统盘；存储迁移 9/27 完成</span></a>
     <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">部署</span><span><span class="pill ok">完成</span></span><span class="sd">镜像验收、同步、W&amp;B、续训实测</span></a>
     <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 验证</span><span><span class="pill b">未通过</span></span><span class="sd">ep20 两条低于不动基线；snack_box 对照待做</span></a>
     <a href="#sop-batch"><span class="sn">4 · 待定</span><span class="st">批量训练</span><span><span class="pill o">暂停</span></span><span class="sd">Tier 1 → Tier 2</span></a>
@@ -924,9 +924,9 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-en" lang="en">
   <h1>L40S training SOP</h1>
   <p class="lead">Goal: run full-recipe FlashCHORD training on ml40, measure the real time and success rate of one policy first, then batch-train the 30 Tier 1 and 30 Tier 2 sequences.</p>
-  <div class="adm w"><span class="t">Day 1 failed, batch on hold</span><p>Both full ep20 runs score an ADD-AUC below an object that never moves (see <a href="#sop-day1">Day 1 validation</a>). Next: the docker storage migration on ml40 between trainings, then a full-recipe snack_box control run.</p></div>
+  <div class="adm w"><span class="t">Day 1 failed, batch on hold</span><p>Both full ep20 runs score an ADD-AUC below an object that never moves (see <a href="#sop-day1">Day 1 validation</a>). The ml40 storage migration finished on 9/27 (about 15 s of downtime). Next: a full-recipe snack_box control run.</p></div>
   <div class="stepper">
-    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">Prerequisites</span><span><span class="pill ok">Done</span></span><span class="sd">image built on the root disk first; storage migration moved between trainings</span></a>
+    <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">Prerequisites</span><span><span class="pill ok">Done</span></span><span class="sd">image built on the root disk first; storage migration done 9/27</span></a>
     <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">Deployment</span><span><span class="pill ok">Done</span></span><span class="sd">image check, sync, W&amp;B, resume test</span></a>
     <a href="#sop-day1" class="now"><span class="sn">3 · 9/27</span><span class="st">Day 1 validation</span><span><span class="pill b">Failed</span></span><span class="sd">both ep20 runs below the do-nothing baseline; snack_box control to do</span></a>
     <a href="#sop-batch"><span class="sn">4 · TBD</span><span class="st">Batch training</span><span><span class="pill o">On hold</span></span><span class="sd">Tier 1 → Tier 2</span></a>
@@ -947,8 +947,8 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>项</th><th>状态</th><th>说明</th><th>谁</th></tr></thead>
     <tbody>
-      <tr><td>docker 存储迁移</td><td><span class="pill w">待做，不阻塞</span></td><td>ml40 的 docker 用 containerd 镜像存储，镜像在 <code>/var/lib/containerd</code>，只改 data-root 搬不走。脚本 <code>deploy/ml40/migrate_docker_storage.sh</code>：默认只检查；<code>--apply</code> 迁移，有容器在跑就拒绝，失败自动回滚；<code>--cleanup</code> 删旧数据。验收看 <code>df /</code> 的可用空间，不能只看 <code>docker info</code></td><td>rxzhou（sudo 已可用）</td></tr>
-      <tr><td><code>/lab_data/rxzhou</code> 可写目录</td><td><span class="pill ok">完成</span></td><td>rxzhou:mfshared、2775；迁移后仓库副本搬到这里</td><td>rxzhou</td></tr>
+      <tr><td>docker 存储迁移</td><td><span class="pill ok">完成</span></td><td>9/27 15:48：docker 与 containerd 迁到 <code>/lab_data</code>，镜像与 ID 不变，停机约 15 秒（<code>deploy/ml40/migrate_docker_storage.sh</code>）。第一次尝试因验收检查只认双引号、而 containerd 2.x 写单引号，自动回滚；修好后重跑。系统盘上的旧数据 71 GiB 等确认后用 <code>--cleanup</code> 删</td><td>rxzhou</td></tr>
+      <tr><td><code>/lab_data/rxzhou</code> 可写目录</td><td><span class="pill ok">完成</span></td><td>rxzhou:mfshared、2775；仓库副本已搬到 <code>/lab_data/rxzhou/v2d/</code>（校验和零差异，包装测试 62/62），旧副本等确认后删</td><td>rxzhou</td></tr>
       <tr><td>L40S 使用时段</td><td><span class="pill w">待办</span></td><td>满配训练整卡峰值 40,273 MiB（实测），别人中途占卡会挤掉 Warp 的显存</td><td>rxzhou</td></tr>
     </tbody>
   </table></div>
@@ -980,8 +980,8 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>Item</th><th>State</th><th>Notes</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td>Docker storage migration</td><td><span class="pill w">To do, not blocking</span></td><td>Docker on ml40 uses the containerd image store, so images live in <code>/var/lib/containerd</code> and changing the data-root alone does not move them. Script <code>deploy/ml40/migrate_docker_storage.sh</code>: checks only by default; <code>--apply</code> migrates, refuses while containers run and rolls back on failure; <code>--cleanup</code> deletes the old data. Check free space on <code>/</code>, not just <code>docker info</code></td><td>rxzhou (sudo works)</td></tr>
-      <tr><td>Writable <code>/lab_data/rxzhou</code></td><td><span class="pill ok">Done</span></td><td>rxzhou:mfshared, mode 2775; the repository copy moves here after the migration</td><td>rxzhou</td></tr>
+      <tr><td>Docker storage migration</td><td><span class="pill ok">Done</span></td><td>9/27 15:48: docker and containerd moved to <code>/lab_data</code>, images and IDs unchanged, about 15 s of downtime (<code>deploy/ml40/migrate_docker_storage.sh</code>). The first attempt rolled back because the check accepted only double quotes while containerd 2.x writes single quotes; fixed and rerun. The 71 GiB of old data on the root disk is removed with <code>--cleanup</code> once confirmed</td><td>rxzhou</td></tr>
+      <tr><td>Writable <code>/lab_data/rxzhou</code></td><td><span class="pill ok">Done</span></td><td>rxzhou:mfshared, mode 2775; the repository copy now lives in <code>/lab_data/rxzhou/v2d/</code> (zero checksum differences, wrapper tests 62/62); the old copy is deleted once confirmed</td><td>rxzhou</td></tr>
       <tr><td>L40S time slot</td><td><span class="pill w">To do</span></td><td>A full-recipe run peaks at 40,273 MiB for the whole card (measured); anyone who grabs the card mid-run squeezes the memory Warp needs</td><td>rxzhou</td></tr>
     </tbody>
   </table></div>
@@ -1013,7 +1013,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <h1>部署</h1>
   <p>存储迁移完成之后按顺序做。任何一步不符就停下，回报再定。</p>
-  <div class="adm"><span class="t">9/27 实际</span><p>镜像先在系统盘上建好（迁移之前），第 2–7 步都已做完。迁移之后只需复核第 1 步，再确认镜像 ID 不变、GPU 可用。</p></div>
+  <div class="adm"><span class="t">9/27 实际</span><p>镜像先在系统盘上建好（迁移之前），第 2–7 步都已做完。存储迁移之后的复核也已通过：Docker Root Dir 是 <code>/lab_data/docker</code>、镜像 ID 不变、容器里能看到 L40S。</p></div>
   <ol class="steps">
     <li><b>验收迁移</b>：<code>df /</code> 可用约 90 GB，<code>docker info</code> 的 Runtimes 含 nvidia，4 个 <code>v2d_*</code> 镜像都在，<code>/lab_data/v2d</code> 可写。</li>
     <li><b>重建镜像</b>：在 ml40 上 <code>V2D_BUILD_DIRECT=1 scripts/dev/build-flash-chord</code>（约 22 GB）。核对前 11 层 diff_id 与 mf4090 上的镜像相同，记下镜像 ID 与依赖 freeze。为什么不从 mf4090 搬，见 <a href="#adr3">ADR-00003</a>。</li>
@@ -1027,7 +1027,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-en" lang="en">
   <h1>Deployment</h1>
   <p>In order, after the storage migration. If any step does not match, stop and report before deciding.</p>
-  <div class="adm"><span class="t">What happened on 9/27</span><p>The image was built on the root disk first (before the migration), and steps 2–7 are done. After the migration, only step 1 needs rechecking, plus confirming that the image ID is unchanged and the GPU works.</p></div>
+  <div class="adm"><span class="t">What happened on 9/27</span><p>The image was built on the root disk first (before the migration), and steps 2–7 are done. The post-migration recheck passed too: the Docker Root Dir is <code>/lab_data/docker</code>, the image ID is unchanged and containers see the L40S.</p></div>
   <ol class="steps">
     <li><b>Check the migration</b>: about 90 GB free on <code>/</code>, the nvidia runtime listed under Runtimes in <code>docker info</code>, all 4 <code>v2d_*</code> images present, <code>/lab_data/v2d</code> writable.</li>
     <li><b>Rebuild the image</b>: on ml40, <code>V2D_BUILD_DIRECT=1 scripts/dev/build-flash-chord</code> (about 22 GB). Check that the first 11 diff_ids match the image on mf4090, and record the image ID and the dependency freeze. <a href="#adr3">ADR-00003</a> explains why it is not copied from mf4090.</li>
