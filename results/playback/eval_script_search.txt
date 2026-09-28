@@ -1,0 +1,27 @@
+# command  : stages/policy/find_eval_script.sh 
+# md5      : 800ebc8a052d2c33dc8eaf4bf3cbf1bf  stages/policy/find_eval_script.sh
+# source   : d4d9173bca51-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T15:07:57-0600
+# ---------------------------------------------------------------
+== HF 数据集 nvidia/video_to_data_challenge
+  lastModified 2026-09-22T00:23:15.000Z sha 5f68335f3a
+  commit 2026-09-22T00:23:15.000Z 5f68335f3a Initial commit
+  全部 665 个条目；.py 文件 0 个；路径含评测脚本名的 0 个 []
+== GitHub nvidia-isaac/video_to_data：各分支的完整文件树里有没有评测脚本
+  bilyang/mecka-panda-inpainting（truncated=False，2774 个条目）：没有
+  codex/restore-public-defaults（truncated=False，3876 个条目）：没有
+  codex/v2d-challenge-rules-feedback（truncated=False，3012 个条目）：没有
+  docs/v2d-corl-tutorial-website（truncated=False，2997 个条目）：没有
+  dzou/mv-recon（truncated=False，4254 个条目）：没有
+  main（truncated=False，4840 个条目）：没有
+  release/0.1.0（truncated=False，1646 个条目）：没有
+  release/0.2.0（truncated=False，2579 个条目）：没有
+  release/0.3.0（truncated=False，3439 个条目）：没有
+== GitHub 代码搜索（默认分支）：eval_robotic_grounding
+  nvidia-isaac/video_to_data:docs/v2d_challenge/index.html: <p style="font-size: 17px; line-height: 1.65; margin: 0; color: var(--text-color-secondary);"><strong 
+== GitHub 发布与附件
+  v0.4.0 2026-09-23T22:02:16Z 附件：无
+  v0.3.0 2026-09-17T18:28:15Z 附件：无
+  v0.2.0 2026-08-14T04:11:12Z 附件：无
+  v0.1.0 2026-06-15T22:15:30Z 附件：无
