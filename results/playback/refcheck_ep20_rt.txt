@@ -1,10 +1,10 @@
 # command  : python3 stages/evaluate/playback_refcheck.py results/day1/static_baseline_ep20.txt results/playback/static_baseline_ep20_rt.txt --row smoke-t1-ep20-w2048-cap1m-rt-mf4090 4096000 - 
 # md5      : b60c0b9751ffc94496fcf801f3336e73  stages/evaluate/playback_refcheck.py
 # md5      : cf9615da06d5c2dffbb40a4e75d18e12  results/day1/static_baseline_ep20.txt
-# md5      : 4a56ad11aff394f95aaf780709171070  results/playback/static_baseline_ep20_rt.txt
-# source   : 34322e27a7c3
+# md5      : 6d0f5105ea3e40bcb2f90c9c2903c89f  results/playback/static_baseline_ep20_rt.txt
+# source   : bb3ca397d545
 # host     : VM-1-2-ubuntu
-# run_at   : 2026-09-28T22:39:09+0800
+# run_at   : 2026-09-28T22:46:29+0800
 # ---------------------------------------------------------------
 参考核对（逐帧回放 results/day1/static_baseline_ep20.txt vs 真实时长 results/playback/static_baseline_ep20_rt.txt；换算倍数 1.666667）
   PASS  R1 帧数与回放方式：真实时长 921 帧（应为 921）；source_frame_playback 逐帧 True / 真实时长 False

@@ -1,10 +1,10 @@
 # command  : env V2D_EVAL_WORLDS=256 stages/policy/fc_eval.sh smoke-t1-ep20-w2048-cap1m-rt-mf4090 4096000 
 # md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
-# source   : 34322e27a7c3
+# source   : bb3ca397d545
 # host     : VM-1-2-ubuntu
-# run_at   : 2026-09-28T22:39:09+0800
+# run_at   : 2026-09-28T22:46:29+0800
 # ---------------------------------------------------------------
-fc_eval: smoke-t1-ep20-w2048-cap1m-rt-mf4090 policy_4096000（256 世界）→ runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/eval_4096000_w256.json
+fc_eval: 已有结果 runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/eval_4096000_w256.json
 == runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/eval_4096000_w256.json
   checkpoint /repo/runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/policy_4096000.safetensors  sha256 d575c749458d36c8…
   environment_steps 4096000  world_count 256  step_count 921  start_frame 0  reset_mode explicit  non_finite_worlds []

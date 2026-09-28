@@ -2,9 +2,9 @@
 # md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
 # md5      : 3cee99a551c3d55f1daead127ba30af5  stages/evaluate/static_baseline.py
 # md5      : f421593d6fa86b93e0c508c9c08f66d7  runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/policy_4096000.safetensors
-# source   : 34322e27a7c3
+# source   : bb3ca397d545
 # host     : VM-1-2-ubuntu
-# run_at   : 2026-09-28T22:39:03+0800
+# run_at   : 2026-09-28T22:46:24+0800
 # ---------------------------------------------------------------
 [evaluator definition] reference /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
   frames 921, bodies 1, source_frame_playback False, playback_fps 50.0, vertices 500 per body (seed 0, trimesh)
