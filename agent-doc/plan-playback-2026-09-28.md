@@ -107,10 +107,10 @@ snack_box 对照链结束（日志最后一行 DAY1B_DONE 或 DAY1B_FAILED、tmu
 `.v2d-source-commit`，它的评测结果头部来历就不对了。然后配置核对、启动：
 冒烟（满配 + 真实时长，409.6 万步，同时核对镜像指纹）→ 正式 `t1-ep20-w2048-cap10m-rt-ml40` → 4096 世界评测与输入清单。
 
-### 分析链（mf4090，两条训练都结束后；`stages/evaluate/playback_analysis.sh`）
+### 分析链（`stages/evaluate/playback_analysis.sh <1m|10m>`，各自的训练链结束后在同一台机器上跑）
 
-- 满配两臂的三个 checkpoint 经 Mac 中转到 mf4090（`scripts/dev/relay-run`，三端 sha256 一致，写 `COPIED_FROM.json`；
-  ml40 的最终评测 JSON 一并转来作跨卡参照），在 mf4090 上补 `policy_inputs.py` 并与 ml40 的清单比对（执行审查第 9 条）。
+- 每一对在它自己的训练机上诊断：100 万一对在 mf4090，满配一对在 ml40（checkpoint 都在本机，不中转）。原计划把满配的 checkpoint
+  经 Mac 中转到 mf4090，但 Mac → mf4090 的上传实测卡住（4.9 MB 五分钟没传完），中转脚本 `scripts/dev/relay-run` 留作备用。
 - 四臂 × 三个 checkpoint：原样 `fc_eval.sh` → `diag_rollout.py` → `diag_report.py --phases`（1.67 倍速 209 269 314 420；真实时长 348 448 523 700）。
   每臂一张运行表、每个 checkpoint 一个诊断目录与报告，已有的报告不重跑（执行审查第 2 条）。Day 1b 已有的最终 checkpoint rollout 不重录，
   只用新版报告重算，并与旧报告逐行比对（除新增内容外应一致）。
@@ -191,3 +191,4 @@ S = 各臂三个 checkpoint 之间最大差的最大值；E = max(15°, 2S)。Δ
   诊断试跑（256 世界）G1 差 0.0064 没过；同一 policy 两次都不包装的 256 世界评测也差 0.0057（`results/playback/repeat_eval_smoke_w256.txt`），
   包装后的结果离第二次只差 0.0008，说明是评测不逐位可复现的噪声，不是包装的问题。ADD-AUC 是世界平均，噪声按 1/√世界数 缩放。
 - 2026-09-28 09:00 MDT，“走平”的条件改为与对照臂的波动比：原写“低得不超过 max(10°, S)”，而 S 取的是各臂最大差的最大值、含真实时长一臂自己，最后一个与第一个之差不可能超过它，条件永远成立（写对比脚本的测试时发现）。
+- 2026-09-28 09:05 MDT，满配一对的诊断改在 ml40 上做，不再中转到 mf4090（Mac → mf4090 上传卡住）。每一对仍在同一台机器上评，判据不变。
