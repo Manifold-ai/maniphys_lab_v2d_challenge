@@ -1,0 +1,112 @@
+# command  : stages/policy/playback_official_sources.sh 
+# md5      : c394bc8d51553a2536a01142d267fa6d  stages/policy/playback_official_sources.sh
+# source   : 88ab21fac7b5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T14:41:43-0600
+# ---------------------------------------------------------------
+== 0. 版本
+33129dd0f2d2dcfd1164d43fd076542660756ed2	HEAD
+33129dd0f2d2dcfd1164d43fd076542660756ed2	refs/heads/main
+43a3f5b4d479581f2e8bdf5e6ed7ca361d39ec5a	refs/heads/release/0.2.0
+595ad68d897b986cd154d4575a022411af096eb3	refs/heads/release/0.3.0
+33129dd0f2d2dcfd1164d43fd076542660756ed2	refs/tags/v0.4.0
+== 1. 赛事页面（main:docs/v2d_challenge/index.html）里与 Track 2、评测、回放有关的句子
+  Where does the pipeline from human video to grounded data break? Three coupled tracks answer this with shared task suites: 4D reconstruction, robotic grounding, and end-to-end egocentric transfer.
+  Robotic Grounding
+  Embodiment and simulator are fixed and provided: G1 + Dex3, so entries compete on retargeting and policy learning, not simulation engineering. Teams turn human demonstrations into robot policies at varying levels of noise and inaccuracy. This track identifies the tolerance of human-to-robot transfer pipelines to errors and noise from upstream reconstruction.
+  Teams will be evaluated against the clean multi-view captioned object trajectory in all three tiers. For Tiers 2 and 3, teams are encouraged to propose methods for recovering better estimates of the object trajectory using anything
+  Teams will submit recorded evaluations of their trained policies using the eval_robotic_grounding.py script provided to produce the artifact for submission.
+  At each tier, submissions will be evaluated for object-tracking accuracy using AUC, SP-SR, MP-SR, and MPPE as defined in the CHORD manuscript. Strong performance on more challenging tiers will be weighted appropriately when awarding points.
+  Teams will submit reconstructions and recorded evaluations of their end-to-end pipeline using the eval_e2e.py script to produce the artifact for submission.
+  页面源码里 playback / fps / frame rate / Hz / real time / speed 的出现次数：
+  0
+== 2. release/0.2.0：Isaac Lab 全身 tracking command 取参考帧的方式
+--- release/0.2.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_utils.py（匹配 def load_motion_data|resample|target_fps|resolve_playback_timing|step_dt）
+release/0.2.0 tracking_utils.py:33:def load_motion_data(
+--- release/0.2.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command_cfg.py（匹配 motion_speed|target_fps|Resample|uses data as-is|dt: float|dt = ）
+release/0.2.0 tracking_command_cfg.py:57:    dt: float = 0.02
+release/0.2.0 tracking_command_cfg.py:131:    target_fps: float | None = None
+release/0.2.0 tracking_command_cfg.py:132:    """Resample V2D data to this FPS. If None, uses data as-is."""
+--- release/0.2.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command.py（匹配 target_fps|self\.timestep(\[[a-z_]+\])? \+= 1|playback_dt|load_motion_data\(）
+release/0.2.0 tracking_command.py:133:        motion_data = load_motion_data(cfg, self.robot, self.device)
+release/0.2.0 tracking_command.py:1395:            self.timestep[past_freeze] += 1
+release/0.2.0 tracking_command.py:1397:            self.timestep += 1
+--- release/0.2.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/base_env_cfg.py（匹配 decimation =|sim\.dt =|dt=0）
+release/0.2.0 base_env_cfg.py:66:        dt=0.02,
+release/0.2.0 base_env_cfg.py:84:        self.decimation = 4
+release/0.2.0 base_env_cfg.py:87:        self.sim.dt = 0.005
+release/0.2.0 tracking_utils.py: 含 /resample/ 的行数 0
+release/0.2.0 tracking_command.py: 含 /resample\(|target_fps/ 的行数 0
+--- release/0.2.0: 参考帧号自增所在的方法（tracking_command.py）
+release/0.2.0 tracking_command.py:1372:    def _update_command(self) -> None:
+release/0.2.0 tracking_command.py:1395:            self.timestep[past_freeze] += 1
+release/0.2.0 tracking_command.py:1397:            self.timestep += 1
+--- release/0.2.0:robotic_grounding/source/robotic_grounding/robotic_grounding/motion_schema/timing.py：这个版本没有这个文件
+== 2. release/0.3.0：Isaac Lab 全身 tracking command 取参考帧的方式
+--- release/0.3.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_utils.py（匹配 def load_motion_data|resample|target_fps|resolve_playback_timing|step_dt）
+release/0.3.0 tracking_utils.py:21:    resolve_playback_timing,
+release/0.3.0 tracking_utils.py:34:def load_motion_data(
+release/0.3.0 tracking_utils.py:38:    step_dt: float,
+release/0.3.0 tracking_utils.py:47:        step_dt: Environment command step used to derive the playback FPS.
+release/0.3.0 tracking_utils.py:72:    _, target_fps = resolve_playback_timing(cfg.dt, step_dt, cfg.motion_speed)
+release/0.3.0 tracking_utils.py:73:    md = md.resample(target_fps)
+--- release/0.3.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command_cfg.py（匹配 motion_speed|target_fps|Resample|uses data as-is|dt: float|dt = ）
+release/0.3.0 tracking_command_cfg.py:58:    dt: float = 0.02
+release/0.3.0 tracking_command_cfg.py:65:    motion_speed: float = 1.0
+--- release/0.3.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command.py（匹配 target_fps|self\.timestep(\[[a-z_]+\])? \+= 1|playback_dt|load_motion_data\(）
+release/0.3.0 tracking_command.py:133:        self.playback_dt = float(self._env.step_dt)
+release/0.3.0 tracking_command.py:134:        motion_data = load_motion_data(
+release/0.3.0 tracking_command.py:135:            cfg, self.robot, self.device, step_dt=self.playback_dt
+release/0.3.0 tracking_command.py:177:        ) / self.playback_dt
+release/0.3.0 tracking_command.py:181:        self.frame_step = max(1, round(cfg.dt_future_frames / self.playback_dt))
+release/0.3.0 tracking_command.py:1451:            self.timestep[past_freeze] += 1
+release/0.3.0 tracking_command.py:1453:            self.timestep += 1
+--- release/0.3.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/base_env_cfg.py（匹配 decimation =|sim\.dt =|dt=0）
+release/0.3.0 base_env_cfg.py:66:        dt=0.02,
+release/0.3.0 base_env_cfg.py:84:        self.decimation = 4
+release/0.3.0 base_env_cfg.py:87:        self.sim.dt = 0.005
+release/0.3.0 tracking_utils.py: 含 /resample/ 的行数 1
+release/0.3.0 tracking_command.py: 含 /resample\(|target_fps/ 的行数 0
+--- release/0.3.0: 参考帧号自增所在的方法（tracking_command.py）
+release/0.3.0 tracking_command.py:1428:    def _update_command(self) -> None:
+release/0.3.0 tracking_command.py:1451:            self.timestep[past_freeze] += 1
+release/0.3.0 tracking_command.py:1453:            self.timestep += 1
+--- release/0.3.0:robotic_grounding/source/robotic_grounding/robotic_grounding/motion_schema/timing.py（匹配 advance by one reference frame|sampled at|automatic resampling|return env_step_dt）
+release/0.3.0 timing.py:15:    Motion consumers advance by one reference frame per environment step, so
+release/0.3.0 timing.py:16:    the reference must be sampled at ``1 / (env_step_dt * motion_speed)``.
+release/0.3.0 timing.py:28:            "by automatic resampling."
+release/0.3.0 timing.py:34:    return env_step_dt, 1.0 / (env_step_dt * motion_speed)
+== 2. v0.4.0：Isaac Lab 全身 tracking command 取参考帧的方式
+--- v0.4.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_utils.py（匹配 def load_motion_data|resample|target_fps|resolve_playback_timing|step_dt）
+v0.4.0 tracking_utils.py:21:    resolve_playback_timing,
+v0.4.0 tracking_utils.py:34:def load_motion_data(
+v0.4.0 tracking_utils.py:38:    step_dt: float,
+v0.4.0 tracking_utils.py:47:        step_dt: Environment command step used to derive the playback FPS.
+v0.4.0 tracking_utils.py:72:    _, target_fps = resolve_playback_timing(cfg.dt, step_dt, cfg.motion_speed)
+v0.4.0 tracking_utils.py:73:    md = md.resample(target_fps)
+--- v0.4.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command_cfg.py（匹配 motion_speed|target_fps|Resample|uses data as-is|dt: float|dt = ）
+v0.4.0 tracking_command_cfg.py:58:    dt: float = 0.02
+v0.4.0 tracking_command_cfg.py:65:    motion_speed: float = 1.0
+--- v0.4.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/mdp/commands/tracking_command.py（匹配 target_fps|self\.timestep(\[[a-z_]+\])? \+= 1|playback_dt|load_motion_data\(）
+v0.4.0 tracking_command.py:133:        self.playback_dt = float(self._env.step_dt)
+v0.4.0 tracking_command.py:134:        motion_data = load_motion_data(
+v0.4.0 tracking_command.py:135:            cfg, self.robot, self.device, step_dt=self.playback_dt
+v0.4.0 tracking_command.py:177:        ) / self.playback_dt
+v0.4.0 tracking_command.py:181:        self.frame_step = max(1, round(cfg.dt_future_frames / self.playback_dt))
+v0.4.0 tracking_command.py:1451:            self.timestep[past_freeze] += 1
+v0.4.0 tracking_command.py:1453:            self.timestep += 1
+--- v0.4.0:robotic_grounding/source/robotic_grounding/robotic_grounding/tasks/v2d_whole_body/base_env_cfg.py（匹配 decimation =|sim\.dt =|dt=0）
+v0.4.0 base_env_cfg.py:66:        dt=0.02,
+v0.4.0 base_env_cfg.py:84:        self.decimation = 4
+v0.4.0 base_env_cfg.py:87:        self.sim.dt = 0.005
+v0.4.0 tracking_utils.py: 含 /resample/ 的行数 1
+v0.4.0 tracking_command.py: 含 /resample\(|target_fps/ 的行数 0
+--- v0.4.0: 参考帧号自增所在的方法（tracking_command.py）
+v0.4.0 tracking_command.py:1428:    def _update_command(self) -> None:
+v0.4.0 tracking_command.py:1451:            self.timestep[past_freeze] += 1
+v0.4.0 tracking_command.py:1453:            self.timestep += 1
+--- v0.4.0:robotic_grounding/source/robotic_grounding/robotic_grounding/motion_schema/timing.py（匹配 advance by one reference frame|sampled at|automatic resampling|return env_step_dt）
+v0.4.0 timing.py:15:    Motion consumers advance by one reference frame per environment step, so
+v0.4.0 timing.py:16:    the reference must be sampled at ``1 / (env_step_dt * motion_speed)``.
+v0.4.0 timing.py:28:            "by automatic resampling."
+v0.4.0 timing.py:34:    return env_step_dt, 1.0 / (env_step_dt * motion_speed)

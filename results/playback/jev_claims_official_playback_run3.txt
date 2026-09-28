@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-official-playback.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 10cc0807b501229c321188042fd03d02  agent-doc/experiments/2026-09-28-official-playback.claims.json
+# source   : 88ab21fac7b5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T14:42:03-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+page_silent          P(supported)=0.97  verified               [page]  The challenge page does not mention any playback speed, frame rate or control frequency for Track 2; it says the embodiment and simulator are fixed and provided and that teams submit recorded evaluations produced with the provided eval_robotic_grounding.py script.
+v020_as_is           P(supported)=0.72  verified               [v020]  In release/0.2.0 the Isaac Lab whole-body tracking command loads the motion without resampling (target_fps defaults to None, meaning the data is used as-is) and advances one reference frame per environment step of 0.02 seconds.
+v030_resample        P(supported)=0.92  verified               [v030_v040]  In release/0.3.0 and v0.4.0 the Isaac Lab whole-body tracking command resamples the reference to 1/(env_step_dt * motion_speed) with motion_speed defaulting to 1.0, so a reference with a correct fps value plays at its real-time speed.
+flashchord_frame     P(supported)=0.81  verified               [flashchord]  In v0.4.0 the FlashCHORD G1 recipe enables source-frame playback with motion_speed 1.0.
+unknown_disagree     P(supported)=0.72  verified               [page, v030_v040, flashchord]  The official sources do not settle which playback speed the official evaluation uses: the page is silent and, in the current release, the Isaac Lab path resamples to real time while the FlashCHORD G1 recipe plays source frames one per control step.
+withdraw_1p67        P(supported)=0.79  verified               [page, v020, v030_v040, flashchord]  The official sources do not support the conclusion that the official evaluation most likely plays 30 fps data at 1.67 times real speed.
+ctrl_true            P(supported)=0.98  control(true) ok       [page]  The challenge page says teams will submit recorded evaluations using the eval_robotic_grounding.py script.
+ctrl_false           P(supported)=0.02  control(false) ok      [page]  The challenge page states that references are played back at the original capture frame rate during evaluation.
+controls behaved as expected
