@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-28-submission-kit.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 2807f30efc348de13eaff070b5389383  agent-doc/experiments/2026-09-28-submission-kit.claims.json
+# source   : 60a6f743facf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T22:29:48-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+kit_rebuild          P(supported)=0.93  verified               [s1]  The kit's evaluation config rebuilds the environment and task from the checkpoint's own resolved config (use_checkpoint_config is true) and evaluates with deterministic actions.
+one_world            P(supported)=0.86  verified               [s2, s3]  The kit's example batch runner evaluates each episode's checkpoint with one world by default, and all three Track 2 tiers are configured with one world per episode, all episodes scored and a private fraction of 0.
+frame_is_step        P(supported)=0.89  verified               [s4, s5]  In the exported object trajectory the reference_frame column equals the rollout step plus the start frame and time_s equals the step divided by the control rate, and the kit reads the submission frame index from reference_frame.
+grid                 P(supported)=0.89  verified               [s6, s7]  The packer requires a row for every reference frame of every scored episode in each expected world, and the public sample submission has a single world with 553 contiguous frames (0 to 552) for episode 20.
+runtime              P(supported)=0.83  verified               [s0, s4]  The kit's evaluator must run with the FlashCHORD runtime at upstream commit aee95f25ae, because the public v0.4.0 release lacks the trajectory export.
+per_episode_sr       P(supported)=0.80  verified               [s8]  On the Track 2 leaderboard SP-SR and MP-SR are fractions of episodes judged by each episode's mean position and orientation errors, and each metric is averaged across episodes.
+all_episodes         P(supported)=0.81  verified               [s6, s8]  A Track 2 submission must include a trajectory for every scored episode, produced with one checkpoint per episode.
+hash_lists_empty     P(supported)=0.99  verified               [s3]  The accepted evaluator script and evaluator code hash lists in config/tracks.json are currently empty.
+rt_misaligned        P(supported)=0.16  UNVERIFIED             [s4, s5, s6, s7, eval_rt, eval_frame]  Since a submitted row's frame index is simply the rollout step, a real-time-playback ep20 policy, whose rollout runs 921 steps, would have its steps 0 to 552 scored against reference frames 0 to 552, whereas the frame-by-frame ep20 policy runs exactly 553 steps, one per reference frame.
+ctrl_true_30eps      P(supported)=0.98  control(true) ok       [s7]  The public Track 2 sample submission covers 30 episodes.
+ctrl_false_4096      P(supported)=0.02  control(false) ok      [s2]  The kit's example batch runner evaluates each episode with 4096 worlds by default.
+ctrl_false_time      P(supported)=0.11  control(false) ok      [s4, s5]  The kit converts time_s into a 30 frames-per-second frame index before matching rows to the reference.
+controls behaved as expected

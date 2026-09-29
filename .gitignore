@@ -26,3 +26,5 @@ third_party/video_to_data/
 
 # remote 同步时写到服务器上的源码版本号（本地不需要）
 .v2d-source-commit
+# 官方 submission kit（邮件 2026-09-28；只读，不改源码）
+third_party/v2d_submission_kit/

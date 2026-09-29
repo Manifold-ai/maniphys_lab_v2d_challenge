@@ -1,0 +1,66 @@
+# command  : stages/evaluate/submission_kit_facts.sh 
+# md5      : 8d834424f5c3b1fe9f70bbbdb4bd87da  stages/evaluate/submission_kit_facts.sh
+# source   : 60a6f743facf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T22:29:10-0600
+# ---------------------------------------------------------------
+== 0. 来源
+kit https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_submission_kit.zip
+kit sha256 8a16961659fdb2876f8e35d55da1540af80adbca3399787f9c9ad135ec2c11af，55 个文件
+README.md:23:Provide a GitHub commit URL for the code that produced each submission. Accept the rules for
+README.md:30:Run it with the public FlashCHORD runtime at this revision. The included evaluator files match it:
+README.md:34:    commit  aee95f25ae0943f335d8bb42fa95b6a9acfa266f
+README.md:37:Public runtime: https://github.com/nvidia-isaac/video_to_data/tree/aee95f25ae0943f335d8bb42fa95b6a9acfa266f/robotic_grounding/flash_chord
+== 1. 评测按 checkpoint 自己的配置重建（kit 的 evaluate_policy 配置）
+flash_chord/src/flash_chord/configs/evaluate_policy.yaml:6:# The environment, task, embodiment, and strategy selections are rebuilt from the checkpoint's
+flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:3:deterministic: true
+flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:4:use_checkpoint_config: true
+flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:6:world_count: 4096
+flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:7:start_frame: 0
+flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:9:motion_start_frame: null
+== 2. 示例批量评测：每条 episode 默认几个世界
+examples/run_policy_evaluation.py:4:Use one trained checkpoint per episode. The kit includes evaluate_policy.py and its Hydra
+examples/run_policy_evaluation.py:42:    parser.add_argument("--world-count", type=int, default=1)
+examples/run_policy_evaluation.py:49:        parser.error("--world-count must be positive")
+examples/run_policy_evaluation.py:74:            f"evaluation.world_count={args.world_count}",
+== 3. 官方计分设置（config/tracks.json）
+config/tracks.json: 顶层键 ['accepted_eval_code_sha256', 'accepted_eval_script_sha256', 'challenge_url', 'contact_email', 'dataset_url', 'hf_repo', 'metric_display', 'mirror', 'registration_url', 'rules', 'timeline', 'tracks']
+config/tracks.json: accepted_eval_script_sha256 = []
+config/tracks.json: accepted_eval_code_sha256 = []
+config/tracks.json: track_2_tier1 {"scored_episodes": "all", "private_fraction": 0, "worlds_per_episode": 1, "metrics": ["add_auc", "spider_sr", "maniptrans_sr", "mppe_cm"], "reference": "multi_view_ground_truth", "data_root": "track_2/baseline"}
+config/tracks.json: track_2_tier2 {"scored_episodes": "all", "private_fraction": 0, "worlds_per_episode": 1, "metrics": ["add_auc", "spider_sr", "maniptrans_sr", "mppe_cm"], "reference": "multi_view_ground_truth", "data_root": "track_2/baseline"}
+config/tracks.json: track_2_tier3 {"scored_episodes": "all", "private_fraction": 0, "worlds_per_episode": 1, "metrics": ["add_auc", "spider_sr", "maniptrans_sr", "mppe_cm"], "reference": "multi_view_ground_truth", "data_root": "track_2/baseline"}
+== 4. 导出轨迹的帧号（上游 main aee95f2，FlashCHORD rollout.py 补丁里新增的行）
+upstream aee95f2 rollout.py patch:34:+        b"flash_chord.row_order": b"step,environment_id,object_body_id",
+upstream aee95f2 rollout.py patch:35:+        b"flash_chord.control_fps": str(rollout.control_fps).encode(),
+upstream aee95f2 rollout.py patch:50:+            pa.field("reference_frame", pa.int32(), nullable=False),
+upstream aee95f2 rollout.py patch:51:+            pa.field("time_s", pa.float64(), nullable=False),
+upstream aee95f2 rollout.py patch:156:+                    "reference_frame": pa.array(row_steps + rollout.start_frame),
+upstream aee95f2 rollout.py patch:157:+                    "time_s": pa.array(row_steps.astype(np.float64) / rollout.control_fps),
+upstream aee95f2 commit message:17:The kit's packaged `evaluate_policy.py` expects this API. Public v0.4.0
+upstream aee95f2 commit message:18:currently lacks the trajectory export and its configuration field.
+== 5. kit 读轨迹：frame_index 取自哪一列
+v2dlb/submission_parquet.py:8:    reference_frame       int32    step + start_frame
+v2dlb/submission_parquet.py:9:    time_s                float64  step / control_fps
+v2dlb/submission_parquet.py:53:    frame_index: np.ndarray             # (N,) int64  (reference_frame)
+v2dlb/submission_parquet.py:146:            _column(table, "reference_frame" if "reference_frame" in columns else "step"), dtype=np.int64
+== 6. 打包器：要求的（世界, 帧, 物体）格子、缺行报错、参考不一致的警告、缺 episode 报错
+tools/pack_submission.py:174:            f"error: {len(missing)} of {len(required)} scored episodes have no trajectory: {missing}"
+tools/pack_submission.py:203:                [range(worlds_expected), ref.frame_index.tolist(), range(bodies)],
+tools/pack_submission.py:221:        absent = wanted.difference(got)
+tools/pack_submission.py:232:                "      Note the evaluator numbers rows by reference_frame = step + start_frame, "
+tools/pack_submission.py:317:                f"\nWARNING: the reference the evaluator recorded does not match the released\n"
+v2dlb/trajectory.py:18:which is not a rotation. Those frames are dropped. A frame is dropped for the whole episode if
+v2dlb/trajectory.py:96:        frame_index=frame_index[keep],
+== 7. 样例提交 CSV 的格子
+data/track_2_sample_submission.csv: 22989 行，30 条 episode，世界 ['w000']
+data/track_2_sample_submission.csv: e000020 553 帧，第 0–552 帧，连续 True
+data/track_2_sample_submission.csv: e000026 669 帧，第 0–668 帧，连续 True
+data/track_2_sample_submission.csv: e000013 922 帧，第 0–921 帧，连续 True
+data/track_2_sample_submission.csv: e000010 794 帧，第 0–793 帧，连续 True
+== 8. Track 2 说明：每条 episode 一个 checkpoint、全部计分 episode、SP-SR / MP-SR 的口径
+tracks/track_2/README.md:38:Replace `track_2_tier1` in both commands for another tier. Include all scored episodes and use
+tracks/track_2/README.md:39:one checkpoint per episode. Accept the rules on that tier's four Kaggle competitions before
+tracks/track_2/README.md:45:each episode, then averages across episodes. AUC, SP-SR, and MP-SR are **higher is better**;
+tracks/track_2/README.md:51:| SP-SR | Fraction of episodes whose mean object position error is at most 10 cm and mean orientation error is at most 0.5 radians. |
+tracks/track_2/README.md:52:| MP-SR | Fraction of episodes where every object stays under 3 cm mean position error and 30 degrees mean orientation error. |

@@ -1,0 +1,42 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "s0": {"file": "results/submission/kit_facts.txt", "grep": "^kit |^README.md:"},
+    "s1": {"file": "results/submission/kit_facts.txt", "grep": "evaluate_policy.yaml:|flash_sac.yaml:"},
+    "s2": {"file": "results/submission/kit_facts.txt", "grep": "run_policy_evaluation.py:"},
+    "s3": {"file": "results/submission/kit_facts.txt", "grep": "^config/tracks.json:"},
+    "s4": {"file": "results/submission/kit_facts.txt", "grep": "^upstream aee95f2"},
+    "s5": {"file": "results/submission/kit_facts.txt", "grep": "submission_parquet.py:"},
+    "s6": {"file": "results/submission/kit_facts.txt", "grep": "pack_submission.py:|trajectory.py:"},
+    "s7": {"file": "results/submission/kit_facts.txt", "grep": "track_2_sample_submission.csv:"},
+    "s8": {"file": "results/submission/kit_facts.txt", "grep": "tracks/track_2/README.md:"},
+    "eval_rt": {"file": "results/ml40/day2/eval_t1-ep20-w2048-cap10m-rt-ml40_s349999104.txt", "grep": "# command|summary_json"},
+    "eval_frame": {"file": "results/ml40/day2/eval_t1-ep20-w2048-cap10m-ml40_s349999104.txt", "grep": "# command|summary_json"}
+  },
+  "claims": [
+    {"id": "kit_rebuild", "evidence": ["s1"],
+     "claim": "The kit's evaluation config rebuilds the environment and task from the checkpoint's own resolved config (use_checkpoint_config is true) and evaluates with deterministic actions."},
+    {"id": "one_world", "evidence": ["s2", "s3"],
+     "claim": "The kit's example batch runner evaluates each episode's checkpoint with one world by default, and all three Track 2 tiers are configured with one world per episode, all episodes scored and a private fraction of 0."},
+    {"id": "frame_is_step", "evidence": ["s4", "s5"],
+     "claim": "In the exported object trajectory the reference_frame column equals the rollout step plus the start frame and time_s equals the step divided by the control rate, and the kit reads the submission frame index from reference_frame."},
+    {"id": "grid", "evidence": ["s6", "s7"],
+     "claim": "The packer requires a row for every reference frame of every scored episode in each expected world, and the public sample submission has a single world with 553 contiguous frames (0 to 552) for episode 20."},
+    {"id": "runtime", "evidence": ["s0", "s4"],
+     "claim": "The kit's evaluator must run with the FlashCHORD runtime at upstream commit aee95f25ae, because the public v0.4.0 release lacks the trajectory export."},
+    {"id": "per_episode_sr", "evidence": ["s8"],
+     "claim": "On the Track 2 leaderboard SP-SR and MP-SR are fractions of episodes judged by each episode's mean position and orientation errors, and each metric is averaged across episodes."},
+    {"id": "all_episodes", "evidence": ["s6", "s8"],
+     "claim": "A Track 2 submission must include a trajectory for every scored episode, produced with one checkpoint per episode."},
+    {"id": "hash_lists_empty", "evidence": ["s3"],
+     "claim": "The accepted evaluator script and evaluator code hash lists in config/tracks.json are currently empty."},
+    {"id": "rt_misaligned", "evidence": ["s4", "s5", "s6", "s7", "eval_rt", "eval_frame"],
+     "claim": "Since a submitted row's frame index is simply the rollout step, a real-time-playback ep20 policy, whose rollout runs 921 steps, would have its steps 0 to 552 scored against reference frames 0 to 552, whereas the frame-by-frame ep20 policy runs exactly 553 steps, one per reference frame."},
+    {"id": "ctrl_true_30eps", "evidence": ["s7"], "control": "true",
+     "claim": "The public Track 2 sample submission covers 30 episodes."},
+    {"id": "ctrl_false_4096", "evidence": ["s2"], "control": "false",
+     "claim": "The kit's example batch runner evaluates each episode with 4096 worlds by default."},
+    {"id": "ctrl_false_time", "evidence": ["s4", "s5"], "control": "false",
+     "claim": "The kit converts time_s into a 30 frames-per-second frame index before matching rows to the reference."}
+  ]
+}
