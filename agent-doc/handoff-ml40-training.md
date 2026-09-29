@@ -48,6 +48,10 @@
    - mf4090：第一次开链因显存上限参数与计划不一致，三条冒烟全被跳过（见执行记录的“执行偏差”）；16:58 MDT 用整卡总量作上限重开：
      tmux `v2d-day2-r2`（`runs/logs/day2_train_mf4090_r2.log`）与 `v2d-day2-r2-eval`（`runs/logs/day2_eval_mf4090_r2.log`）。
    - 链在跑时服务器上有 `runs/.chain-active-*`，`scripts/dev/remote` 拒绝同步；只读检查用普通 ssh。
+   - 9/28 23:05 用户选 B（按“固定逐帧”处理，见执行记录）：23:08 强制同步 ml40（来历 f540d48），原训练链在 ep13 逐帧完成后按来历核对停下，
+     ep13、ep10 的真实时长不再开跑；原评测链评 ep26 两条与 ep13 逐帧。之后 tmux `v2d-day2b` 的等待包装在原评测链结束后开
+     `day2b_train_ml40`（ep10、ep4、ep2 逐帧满配），tmux `v2d-day2b-eval` 随后评测（`runs/logs/day2b_eval_ml40.log`）。
+     **这些链结束前不要再同步 ml40**：评测链在等待结束后才记来历，中途同步会让它们停下。
    - 四条链最后一行分别是 DAY2_TRAIN_DONE / DAY2_EVAL_DONE（或 …_FAILED）。都结束后：`scripts/dev/pull-results` 与
      `V2D_ENV=ml40 scripts/dev/pull-results`，再 `scripts/dev/record day2/compare python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json`，
      jev 核对承重结论，填执行记录。
