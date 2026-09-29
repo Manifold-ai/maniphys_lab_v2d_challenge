@@ -1,0 +1,17 @@
+# command  : python3 stages/policy/pick_pilot_sequences.py results/day2/sequence_stats_tier1.txt results/batch_summary_v040.tsv results/day2/empty_support_tier1.txt 26\,10\,13\,4\,2\,21 
+# md5      : a6c55014e02163035cfc89e08baa7bad  stages/policy/pick_pilot_sequences.py
+# md5      : b9cb0dc88a930d1646cdc942c9fdf4c5  results/day2/sequence_stats_tier1.txt
+# md5      : 51879b6a59964b1174d753b426b07fd0  results/batch_summary_v040.tsv
+# md5      : 032e8e849db61cc9dd09bc991dd6f27e  results/day2/empty_support_tier1.txt
+# source   : 1bf3ecdb8c64
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T00:10:49-0600
+# ---------------------------------------------------------------
+候选 21 条（排除 ep20（已做）, ep29（没有接触帧）, ep1（支撑面差 −22.5 mm）；另排除已选的 ep2, ep4, ep10, ep13, ep21, ep26）
+短档 440–715 帧，中位 565：选 ep27 2026-05-01_11-15-05_woven_basket_ground_desk_10（565 帧）
+中档 719–870 帧，中位 781：选 ep3 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05（781 帧）
+长档 886–1003 帧，中位 946：选 ep23 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04（946 帧）
+结果：
+  ep27	2026-05-01_11-15-05_woven_basket_ground_desk_10	565 帧	真实时长 941 帧	有支撑面
+  ep3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781 帧	真实时长 1301 帧	有支撑面
+  ep23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946 帧	真实时长 1576 帧	只有地面（scene.support=false）
