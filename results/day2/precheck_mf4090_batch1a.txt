@@ -1,0 +1,20 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/mf4090_batch1a.expect.tsv stages/policy/queues/mf4090_batch1a_smoke.txt stages/policy/queues/mf4090_batch1a.txt 
+# md5      : 35db5e3c2711ff14789568069ba89963  stages/policy/precheck_expect.sh
+# md5      : fc9fec0a1b3d6237e1db69e2233d9318  stages/policy/queues/mf4090_batch1a.expect.tsv
+# md5      : 5db9e252a60f6bbc5cca10ccc43cec31  stages/policy/queues/mf4090_batch1a_smoke.txt
+# md5      : 21104e6600b4838bb8734d3ff7d73849  stages/policy/queues/mf4090_batch1a.txt
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T23:28:56+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t1-ep1-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep1-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep6-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep6-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep8-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep8-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep11-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep11-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep14-w2048-cap4m-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep14-w2048-cap4m-mf4090.yaml：11 条断言，全过
+PRECHECK_OK（5 条 run）

@@ -1,0 +1,20 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/ml40_batch1a.expect.tsv stages/policy/queues/ml40_batch1a_smoke.txt stages/policy/queues/ml40_batch1a.txt 
+# md5      : 35db5e3c2711ff14789568069ba89963  stages/policy/precheck_expect.sh
+# md5      : 43518f6668e1697aa56953c6a305fb16  stages/policy/queues/ml40_batch1a.expect.tsv
+# md5      : e20e7cc70b6af4017c0b948abbdf5861  stages/policy/queues/ml40_batch1a_smoke.txt
+# md5      : 1a79fe3b7ecfcb8bf5da108ff6b19492  stages/policy/queues/ml40_batch1a.txt
+# source   : 43b8acc2ca0d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T23:28:56+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t1-ep0-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep0-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep5-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep5-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep7-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep7-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep9-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep9-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep12-w2048-cap10m-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep12-w2048-cap10m-ml40.yaml：11 条断言，全过
+PRECHECK_OK（5 条 run）
