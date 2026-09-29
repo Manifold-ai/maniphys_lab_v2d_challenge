@@ -1,0 +1,54 @@
+# command  : stages/policy/fc_config_check.sh stages/policy/queues/mf4090_night1_smoke.txt 
+# md5      : 13805d522333d6c60255cfda1e317872  stages/policy/fc_config_check.sh
+# md5      : afb66aaecdbd0316a18b665ed287896f  stages/policy/queues/mf4090_night1_smoke.txt
+# source   : 224dcced25ff
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T14:22:54+0800
+# ---------------------------------------------------------------
+== smoke-t1-ep21-w2048-cap4m-mf4090
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet 2…
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep21-w2048-cap4m-mf4090'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep21-w2048-cap4m-mf4090-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t1-ep21-w2048-cap4m-mf4090'
+  允许  scene.support: 配方=True → 本次=False
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep21-w2048-cap4m-mf4090'
+  允许  training.replay.capacity: 配方=10000000 → 本次=4000000
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep21-w2048-cap4m-mf4090-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 13 个，其中意外 0 个
+== smoke-t1-ep27-w2048-cap4m-mf4090
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parq…
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep27-w2048-cap4m-mf4090'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep27-w2048-cap4m-mf4090-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t1-ep27-w2048-cap4m-mf4090'
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep27-w2048-cap4m-mf4090'
+  允许  training.replay.capacity: 配方=10000000 → 本次=4000000
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep27-w2048-cap4m-mf4090-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 12 个，其中意外 0 个
+== smoke-t1-ep3-w2048-cap4m-mf4090
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/da…
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep3-w2048-cap4m-mf4090'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep3-w2048-cap4m-mf4090-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t1-ep3-w2048-cap4m-mf4090'
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep3-w2048-cap4m-mf4090'
+  允许  training.replay.capacity: 配方=10000000 → 本次=4000000
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep3-w2048-cap4m-mf4090-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 12 个，其中意外 0 个
+== 配置核对通过

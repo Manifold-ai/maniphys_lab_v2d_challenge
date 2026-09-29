@@ -52,6 +52,10 @@
      ep13、ep10 的真实时长不再开跑；原评测链评 ep26 两条与 ep13 逐帧。之后 tmux `v2d-day2b` 的等待包装在原评测链结束后开
      `day2b_train_ml40`（ep10、ep4、ep2 逐帧满配），tmux `v2d-day2b-eval` 随后评测（`runs/logs/day2b_eval_ml40.log`）。
      **这些链结束前不要再同步 ml40**：评测链在等待结束后才记来历，中途同步会让它们停下。
+   - mf4090：B 的三条已评完（真实时长两颗种子都没训起来；逐帧与 ml40 满配相近，只作描述）。9/29 00:24 按
+     `agent-doc/plan-mf4090-night-2026-09-29.md` 开今晚 3 条逐帧满配（ep21、ep27、ep3，400 万 buffer）：tmux `v2d-night1`
+     （`runs/logs/night1_train_mf4090.log`）与 `v2d-night1-eval`（`runs/logs/night1_eval_mf4090.log`），执行记录
+     `agent-doc/experiments/2026-09-29-mf4090-night1.md`。预计 07:10 训完、07:55 评完。
    - 四条链最后一行分别是 DAY2_TRAIN_DONE / DAY2_EVAL_DONE（或 …_FAILED）。都结束后：`scripts/dev/pull-results` 与
      `V2D_ENV=ml40 scripts/dev/pull-results`，再 `scripts/dev/record day2/compare python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json`，
      jev 核对承重结论，填执行记录。
