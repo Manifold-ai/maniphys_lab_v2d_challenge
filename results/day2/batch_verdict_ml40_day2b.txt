@@ -1,0 +1,33 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/ml40_day2b.expect.tsv results/ml40/day2 
+# md5      : d53ff922e69bd0aa60fa923163e29a5b  stages/evaluate/batch_verdict.py
+# md5      : 7b23e59e70450106168dfabeb1d73f42  stages/policy/queues/ml40_day2b.expect.tsv
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:34:39-0600
+# ---------------------------------------------------------------
+
+== t1-ep10-w2048-cap10m-ml40（2026-05-01_11-36-40_white_desk_lower_to_ground_10，frame，794 帧）：不动基线 0.3390；gap 走势 -0.097 / -0.123 / -0.097
+  chord_sr       0.7026 > 0（2878 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2419 > 0.339：不过
+  另报：SP-SR 0.7859（3219 / 4096），MPPE 9.54 cm
+  判定：不通过
+  summary_json {"run": "t1-ep10-w2048-cap10m-ml40", "sequence_id": "2026-05-01_11-36-40_white_desk_lower_to_ground_10", "playback": "frame", "frames": 794, "bar": 0.33902707808564236, "add_auc": 0.24192767779833124, "gap": -0.09709940028731112, "chord_sr": 0.70263671875, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.785888671875, "mppe_cm": 9.539212304191775, "verdict": "FAIL", "marginal": []}
+
+== t1-ep4-w2048-cap10m-ml40（2026-04-24_11-40-52_baseball_bat_rotate_05，frame，803 帧）：不动基线 0.1306；gap 走势 +0.007 / +0.017 / +0.015
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.1458 > 0.1306：过
+  另报：SP-SR 0（0 / 4096），MPPE 109.91 cm
+  判定：不通过
+  summary_json {"run": "t1-ep4-w2048-cap10m-ml40", "sequence_id": "2026-04-24_11-40-52_baseball_bat_rotate_05", "playback": "frame", "frames": 803, "bar": 0.13060398505603985, "add_auc": 0.14578201464965362, "gap": 0.015178029593613779, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 109.9138480919029, "verdict": "FAIL", "marginal": []}
+
+== t1-ep2-w2048-cap10m-ml40（2026-06-02_10-04-42_blue_easter_basket_place_10，frame，980 帧）：不动基线 0.1327；gap 走势 +0.170 / +0.158 / +0.146
+  chord_sr       0.006836 > 0（28 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.279 > 0.1327：过
+  另报：SP-SR 0.0166（68 / 4096），MPPE 32.84 cm
+  判定：不通过
+  summary_json {"run": "t1-ep2-w2048-cap10m-ml40", "sequence_id": "2026-06-02_10-04-42_blue_easter_basket_place_10", "playback": "frame", "frames": 980, "bar": 0.13271683673469387, "add_auc": 0.2789877132493622, "gap": 0.14627087651466836, "chord_sr": 0.0068359375, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0166015625, "mppe_cm": 32.83545977907427, "verdict": "FAIL", "marginal": []}
+
+合计：通过 0、不通过 3、无效 0

@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep26-w2048-cap10m-ml40 340013056 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : f540d48d7305
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T13:49:33+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep26-w2048-cap10m-ml40 policy_340013056（4096 世界）→ runs/flash_chord/t1-ep26-w2048-cap10m-ml40/eval_340013056_w4096.json
+== runs/flash_chord/t1-ep26-w2048-cap10m-ml40/eval_340013056_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep26-w2048-cap10m-ml40/policy_340013056.safetensors  sha256 4ebff033714cdf7c…
+  environment_steps 340013056  world_count 4096  step_count 669  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.481035742880874
+  chord_sr                                       0.98876953125
+  maniptrans_sr                                  0.96142578125
+  spider_sr_uncentered                           0.67041015625
+  mppe_cm                                        2.496278982515777
+  mean_add_m                                     0.10028771553267316
+  object_position_error_m                        0.015571236244508327
+  object_orientation_error_deg                   28.235442157442446
+  termination_cause_fraction (legacy object-centric) {'object': 0.00390625, 'wrist': 0.01123046875}
+  reference_tracking.success_rate (= chord_sr)   0.98876953125
+  reference_tracking.failure_cause_fraction      {'object': 0.00390625, 'palm': 0.01123046875, 'pelvis': 0.0048828125}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.481035742880874, "checkpoint": "/repo/runs/flash_chord/t1-ep26-w2048-cap10m-ml40/policy_340013056.safetensors", "checkpoint_sha256": "4ebff033714cdf7cf2fcd49a623f603d22fceed233384f997eb411187493d36d", "chord_sr": 0.98876953125, "environment_steps": 340013056, "maniptrans_sr": 0.96142578125, "mean_add_m": 0.10028771553267316, "mppe_cm": 2.496278982515777, "object_orientation_error_deg": 28.235442157442446, "object_position_error_m": 0.015571236244508327, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.00390625, "palm": 0.01123046875, "pelvis": 0.0048828125}, "reference_end_fraction": 1.0, "success_rate": 0.98876953125}, "spider_sr_uncentered": 0.67041015625, "step_count": 669, "world_count": 4096}

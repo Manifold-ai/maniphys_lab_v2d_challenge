@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-29-results.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 93db106f3ad67b753a2ab252d9a19922  agent-doc/experiments/2026-09-29-results.claims.json
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:36:14-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep26_pass            P(supported)=0.83  verified               [v_day2]  The frame-playback ep26 policy trained on ml40 passes the Day 1 criteria: ADD-AUC 0.492 against a do-nothing baseline of 0.4406, and chord_sr and maniptrans_sr both 0.9561.
+ep27_pass            P(supported)=0.89  verified               [v_night1, q_night1]  The frame-playback ep27 policy trained on mf4090 with a 4M buffer passes the Day 1 criteria, with ADD-AUC 0.6487 against a baseline of 0.2721 and maniptrans_sr 0.3208.
+day2_ep13_ep10_fail  P(supported)=0.87  verified               [v_day2]  In the ml40 Day 2 table, the frame-playback ep13 and ep10 policies fail the Day 1 criteria, and both have maniptrans_sr 0.
+day2b_all_fail       P(supported)=0.89  verified               [v_day2b]  In the ml40 Day 2b table, the ep10, ep4 and ep2 policies all fail the Day 1 criteria, and all three have maniptrans_sr 0.
+night1_ep21_ep3_fail P(supported)=0.82  verified               [v_night1]  In the mf4090 night1 table, the ep21 and ep3 policies fail the Day 1 criteria, and both have maniptrans_sr 0.
+no_invalid_new       P(supported)=0.98  verified               [v_day2b, v_night1]  None of the six runs in the ml40 Day 2b table and the mf4090 night1 table was marked invalid.
+q1_no_conclusion     P(supported)=0.97  verified               [compare]  The registered Day 2 comparison reaches no Q1 conclusion because only one valid non-floor voting sequence remains.
+q3_not_usable        P(supported)=0.96  verified               [compare]  Under the registered Q3 rule, a 4M buffer on mf4090 is not usable for real-time playback because neither seed reaches the bar, and the measured seed-to-seed difference in gap is about -0.010.
+ctrl_true_ep4        P(supported)=0.98  control(true) ok       [v_day2b]  The frame-playback ep4 policy has chord_sr 0.
+ctrl_false_ep3       P(supported)=0.02  control(false) ok      [v_night1]  The frame-playback ep3 policy passes the Day 1 criteria.
+controls behaved as expected

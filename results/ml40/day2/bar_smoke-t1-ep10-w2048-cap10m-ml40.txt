@@ -1,10 +1,10 @@
 # command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_bar_from_rollout.py\ /repo/runs/diag/smoke-t1-ep10-w2048-cap10m-ml40/rollout_w256.npz 
 # md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
 # md5      : 8296a2f53b6b89b2a5ea7387a7dc655b  stages/evaluate/static_bar_from_rollout.py
-# md5      : ad70644bd301583297223d429d479dc0  runs/diag/smoke-t1-ep10-w2048-cap10m-ml40/rollout_w256.npz
-# source   : 67f1d8643265
+# md5      : 62014062aa3c58d052c9a0ae0d4bd19b  runs/diag/smoke-t1-ep10-w2048-cap10m-ml40/rollout_w256.npz
+# source   : f540d48d7305
 # host     : VM-0-16-ubuntu
-# run_at   : 2026-09-29T07:14:54+0800
+# run_at   : 2026-09-29T14:55:59+0800
 # ---------------------------------------------------------------
 rollout /repo/runs/diag/smoke-t1-ep10-w2048-cap10m-ml40/rollout_w256.npz：794 帧；policy /repo/runs/flash_chord/smoke-t1-ep10-w2048-cap10m-ml40/policy_4096000.safetensors
   不动基线 ADD-AUC 0.3390（评测器顶点；trimesh 与评测器顶点一致：True）

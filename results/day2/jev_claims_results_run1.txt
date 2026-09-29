@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-29-results.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : c7c70830846d6b6d834c051f1c18d976  agent-doc/experiments/2026-09-29-results.claims.json
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:35:42-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep26_pass            P(supported)=0.18  UNVERIFIED             [v_day2]  The frame-playback ep26 policy trained on ml40 passes the Day 1 criteria: ADD-AUC 0.492 against a do-nothing baseline of 0.4406, and chord_sr and maniptrans_sr both 0.9561.
+ep27_pass            P(supported)=0.76  verified               [v_night1]  The frame-playback ep27 policy trained on mf4090 with a 4M buffer passes the Day 1 criteria, with ADD-AUC 0.6487 against a baseline of 0.2721 and maniptrans_sr 0.3208.
+others_fail_mp0      P(supported)=0.51  UNVERIFIED             [v_day2, v_day2b, v_night1]  The frame-playback policies for ep13, ep10, ep4, ep2, ep21 and ep3 all fail the Day 1 criteria, and each of them has maniptrans_sr 0.
+no_invalid_new       P(supported)=0.98  verified               [v_day2b, v_night1]  None of the six runs in the ml40 Day 2b table and the mf4090 night1 table was marked invalid.
+q1_no_conclusion     P(supported)=0.97  verified               [compare]  The registered Day 2 comparison reaches no Q1 conclusion because only one valid non-floor voting sequence remains.
+q3_not_usable        P(supported)=0.96  verified               [compare]  Under the registered Q3 rule, a 4M buffer on mf4090 is not usable for real-time playback because neither seed reaches the bar, and the measured seed-to-seed difference in gap is about -0.010.
+ctrl_true_ep4        P(supported)=0.98  control(true) ok       [v_day2b]  The frame-playback ep4 policy has chord_sr 0.
+ctrl_false_ep3       P(supported)=0.02  control(false) ok      [v_night1]  The frame-playback ep3 policy passes the Day 1 criteria.
+controls behaved as expected

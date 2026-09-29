@@ -1,0 +1,33 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/mf4090_day2.expect.tsv results/day2 
+# md5      : d53ff922e69bd0aa60fa923163e29a5b  stages/evaluate/batch_verdict.py
+# md5      : 3cf5b1f42fc054ce6d6204e9b2587dd0  stages/policy/queues/mf4090_day2.expect.tsv
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:34:41-0600
+# ---------------------------------------------------------------
+
+== t1-ep20-w2048-cap4m-rt-mf4090（2026-06-08_16-57-34_rice_cooker_clockwise_04，real，921 帧）：不动基线 0.4703；gap 走势 -0.043 / -0.053 / -0.049
+  chord_sr       0.1384 > 0（567 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.4215 > 0.4703：不过
+  另报：SP-SR 0.0007324（3 / 4096），MPPE 13.48 cm
+  判定：不通过
+  summary_json {"run": "t1-ep20-w2048-cap4m-rt-mf4090", "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "playback": "real", "frames": 921, "bar": 0.4702768729641694, "add_auc": 0.42147315208609015, "gap": -0.04880372087807927, "chord_sr": 0.138427734375, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.000732421875, "mppe_cm": 13.483690508558674, "verdict": "FAIL", "marginal": []}
+
+== t1-ep20-w2048-cap4m-mf4090（2026-06-08_16-57-34_rice_cooker_clockwise_04，frame，553 帧）：不动基线 0.4708；gap 走势 -0.033 / -0.053 / -0.023
+  chord_sr       0.6931 > 0（2839 / 4096 个世界）：过
+  maniptrans_sr  0.01562 > 0（64 / 4096 个世界）：过
+  add_auc        0.4478 > 0.4708：不过
+  另报：SP-SR 0.006592（27 / 4096），MPPE 4.44 cm
+  判定：不通过
+  summary_json {"run": "t1-ep20-w2048-cap4m-mf4090", "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "playback": "frame", "frames": 553, "bar": 0.47084086799276675, "add_auc": 0.44775829349676477, "gap": -0.023082574496001984, "chord_sr": 0.693115234375, "maniptrans_sr": 0.015625, "spider_sr_uncentered": 0.006591796875, "mppe_cm": 4.439739186312391, "verdict": "FAIL", "marginal": []}
+
+== t1-ep20-w2048-cap4m-rt-s43-mf4090（2026-06-08_16-57-34_rice_cooker_clockwise_04，real，921 帧）：不动基线 0.4703；gap 走势 -0.058 / -0.060 / -0.059
+  chord_sr       0.1145 > 0（469 / 4096 个世界）：过
+  maniptrans_sr  0.0002441 > 0（1 / 4096 个世界）：过
+  add_auc        0.4112 > 0.4703：不过
+  另报：SP-SR 0（0 / 4096），MPPE 11.26 cm
+  判定：不通过（边缘：maniptrans_sr 只靠 1 个世界）
+  summary_json {"run": "t1-ep20-w2048-cap4m-rt-s43-mf4090", "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "playback": "real", "frames": 921, "bar": 0.4702768729641694, "add_auc": 0.41122867281869235, "gap": -0.05904820014547707, "chord_sr": 0.114501953125, "maniptrans_sr": 0.000244140625, "spider_sr_uncentered": 0.0, "mppe_cm": 11.261392693848773, "verdict": "FAIL", "marginal": ["maniptrans_sr 只靠 1 个世界"]}
+
+合计：通过 0、不通过 3、无效 0

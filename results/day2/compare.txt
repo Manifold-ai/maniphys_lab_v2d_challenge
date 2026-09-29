@@ -1,0 +1,35 @@
+# command  : python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json 
+# md5      : 4e0c8ad6def737bca37308b6040706f6  stages/evaluate/day2_compare.py
+# md5      : 674ff9004efdcef5fbf33ddbad8d96ba  stages/evaluate/day2_spec.json
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:35:09-0600
+# ---------------------------------------------------------------
+== ep26（计票）：无偏好
+   逐帧训练 @ 逐帧评测：gap +0.051 SP 0.946 MP 0.956 MPPE 2.73；Day 1 判据 过
+   逐帧训练 @ 真实时长评测：gap -0.037 SP 0.151 MP 0.172 MPPE 9.06；Day 1 判据 不过
+   真实时长训练 @ 逐帧评测：gap -0.020 SP 0.012 MP 0.006 MPPE 9.96；Day 1 判据 不过（边缘）
+   真实时长训练 @ 真实时长评测：gap +0.039 SP 0.630 MP 0.893 MPPE 2.53；Day 1 判据 过
+   三个场景的最大损失（R / F，阈值）：gap 0.071 / 0.076（0.05）→ =；mppe 7.229 / 6.531（2.2223）→ =；sr 0.950 / 0.721（0.2）→ F
+   真实时长赢 无；逐帧赢 ['sr']
+== ep10（计票）：无效
+   有效性：缺文件或缺字段：results/ml40/day2/xeval_t1-ep10-w2048-cap10m-ml40_s349999104_real.txt
+   逐帧训练 @ 逐帧评测：gap -0.097 SP 0.786 MP 0.000 MPPE 9.54
+== ep13（计票）：无效
+   有效性：缺文件或缺字段：results/ml40/day2/xeval_t1-ep13-w2048-cap10m-rt-ml40_s349999104_frame.txt
+   逐帧训练 @ 逐帧评测：gap +0.125 SP 0.001 MP 0.000 MPPE 9.86
+   逐帧训练 @ 真实时长评测：gap +0.055 SP 0.000 MP 0.000 MPPE 39.56
+== ep20（只作参考）：无偏好
+   逐帧训练 @ 逐帧评测：gap -0.040 SP 0.000 MP 0.000 MPPE 5.21；Day 1 判据 不过（边缘）
+   逐帧训练 @ 真实时长评测：gap -0.061 SP 0.001 MP 0.003 MPPE 12.58；Day 1 判据 不过
+   真实时长训练 @ 逐帧评测：gap -0.066 SP 0.014 MP 0.012 MPPE 18.55；Day 1 判据 不过
+   真实时长训练 @ 真实时长评测：gap +0.077 SP 0.844 MP 0.887 MPPE 3.92；Day 1 判据 过
+   三个场景的最大损失（R / F，阈值）：gap 0.026 / 0.138（0.05）→ R；mppe 13.337 / 8.662（2.2223）→ F；sr 0.000 / 0.886（0.2）→ R
+   真实时长赢 ['gap', 'sr']；逐帧赢 ['mppe']
+Q1 判定：不下结论（有效且非地板的计票序列只有 1 条）（计票 1 条：R 0、F 0、无偏好 1）
+== Q3 mf4090（400 万 buffer）
+   b_rt gap -0.049 SP 0.001 MP 0.000 MPPE 13.48（Day 1 判据 不过）→ 不达标
+   b_rt_s43 gap -0.059 SP 0.000 MP 0.000 MPPE 11.26（Day 1 判据 不过（边缘））→ 不达标
+   对照 ctrl_rt gap +0.077 SP 0.844 MP 0.887 MPPE 3.92；mf4090 400 万 → 不可用（两颗种子都要达标）
+   B-frame（只报数）gap -0.023 SP 0.007 MP 0.016 MPPE 4.44 chord 0.693；对照 gap -0.040 SP 0.000 MP 0.000 MPPE 5.21 chord 0.792
+   种子噪声（43 − 42）：gap -0.010，sp -0.001，mp +0.000，mppe -2.222（已并入 Q1 的阈值）

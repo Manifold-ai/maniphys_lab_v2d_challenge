@@ -1,0 +1,33 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/mf4090_night1.expect.tsv results/day2 
+# md5      : d53ff922e69bd0aa60fa923163e29a5b  stages/evaluate/batch_verdict.py
+# md5      : 10bec1e37ca341b7c1e504032f58e7c0  stages/policy/queues/mf4090_night1.expect.tsv
+# source   : f646e83f09fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T08:34:40-0600
+# ---------------------------------------------------------------
+
+== t1-ep21-w2048-cap4m-mf4090（2026-04-29_11-53-57_tall_bar_stool_pull_08，frame，678 帧）：不动基线 0.1942；gap 走势 +0.096 / +0.089 / +0.064
+  chord_sr       0.6848 > 0（2805 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2583 > 0.1942：过
+  另报：SP-SR 0.8533（3495 / 4096），MPPE 13.71 cm
+  判定：不通过
+  summary_json {"run": "t1-ep21-w2048-cap4m-mf4090", "sequence_id": "2026-04-29_11-53-57_tall_bar_stool_pull_08", "playback": "frame", "frames": 678, "bar": 0.19422935103244837, "add_auc": 0.2582737070269289, "gap": 0.06404435599448055, "chord_sr": 0.684814453125, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.853271484375, "mppe_cm": 13.713055090661355, "verdict": "FAIL", "marginal": []}
+
+== t1-ep27-w2048-cap4m-mf4090（2026-05-01_11-15-05_woven_basket_ground_desk_10，frame，565 帧）：不动基线 0.2721；gap 走势 +0.297 / +0.412 / +0.377
+  chord_sr       0.9377 > 0（3841 / 4096 个世界）：过
+  maniptrans_sr  0.3208 > 0（1314 / 4096 个世界）：过
+  add_auc        0.6487 > 0.2721：过
+  另报：SP-SR 0.9656（3955 / 4096），MPPE 5.65 cm
+  判定：通过
+  summary_json {"run": "t1-ep27-w2048-cap4m-mf4090", "sequence_id": "2026-05-01_11-15-05_woven_basket_ground_desk_10", "playback": "frame", "frames": 565, "bar": 0.27212389380530977, "add_auc": 0.6487003292657633, "gap": 0.3765764354604535, "chord_sr": 0.937744140625, "maniptrans_sr": 0.32080078125, "spider_sr_uncentered": 0.965576171875, "mppe_cm": 5.648759309652231, "verdict": "PASS", "marginal": []}
+
+== t1-ep3-w2048-cap4m-mf4090（2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05，frame，781 帧）：不动基线 0.5388；gap 走势 -0.303 / -0.326 / -0.294
+  chord_sr       0.1865 > 0（764 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2446 > 0.5388：不过
+  另报：SP-SR 0.0002441（1 / 4096），MPPE 44.98 cm
+  判定：不通过
+  summary_json {"run": "t1-ep3-w2048-cap4m-mf4090", "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "playback": "frame", "frames": 781, "bar": 0.5388124199743918, "add_auc": 0.24460360518490915, "gap": -0.29420881478948263, "chord_sr": 0.1865234375, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.000244140625, "mppe_cm": 44.97890757672064, "verdict": "FAIL", "marginal": []}
+
+合计：通过 1、不通过 2、无效 0

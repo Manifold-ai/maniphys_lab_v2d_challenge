@@ -1,0 +1,101 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "v_day2": {
+      "file": "results/day2/batch_verdict_ml40_day2.txt",
+      "grep": "^== |判定|chord_sr  |maniptrans_sr  |add_auc  |另报|合计"
+    },
+    "v_day2b": {
+      "file": "results/day2/batch_verdict_ml40_day2b.txt",
+      "grep": "^== |判定|maniptrans_sr  |chord_sr  |add_auc  |合计"
+    },
+    "v_night1": {
+      "file": "results/day2/batch_verdict_mf4090_night1.txt",
+      "grep": "^== |判定|chord_sr  |maniptrans_sr  |add_auc  |另报|合计"
+    },
+    "compare": {
+      "file": "results/day2/compare.txt",
+      "grep": "Q1 判定|== Q3|b_rt|mf4090 400 万|种子噪声"
+    },
+    "q_night1": {
+      "file": "stages/policy/queues/mf4090_night1.expect.tsv",
+      "grep": "^run|ep27"
+    }
+  },
+  "claims": [
+    {
+      "id": "ep26_pass",
+      "evidence": [
+        "v_day2"
+      ],
+      "claim": "The frame-playback ep26 policy trained on ml40 passes the Day 1 criteria: ADD-AUC 0.492 against a do-nothing baseline of 0.4406, and chord_sr and maniptrans_sr both 0.9561."
+    },
+    {
+      "id": "ep27_pass",
+      "evidence": [
+        "v_night1",
+        "q_night1"
+      ],
+      "claim": "The frame-playback ep27 policy trained on mf4090 with a 4M buffer passes the Day 1 criteria, with ADD-AUC 0.6487 against a baseline of 0.2721 and maniptrans_sr 0.3208."
+    },
+    {
+      "id": "day2_ep13_ep10_fail",
+      "evidence": [
+        "v_day2"
+      ],
+      "claim": "In the ml40 Day 2 table, the frame-playback ep13 and ep10 policies fail the Day 1 criteria, and both have maniptrans_sr 0."
+    },
+    {
+      "id": "day2b_all_fail",
+      "evidence": [
+        "v_day2b"
+      ],
+      "claim": "In the ml40 Day 2b table, the ep10, ep4 and ep2 policies all fail the Day 1 criteria, and all three have maniptrans_sr 0."
+    },
+    {
+      "id": "night1_ep21_ep3_fail",
+      "evidence": [
+        "v_night1"
+      ],
+      "claim": "In the mf4090 night1 table, the ep21 and ep3 policies fail the Day 1 criteria, and both have maniptrans_sr 0."
+    },
+    {
+      "id": "no_invalid_new",
+      "evidence": [
+        "v_day2b",
+        "v_night1"
+      ],
+      "claim": "None of the six runs in the ml40 Day 2b table and the mf4090 night1 table was marked invalid."
+    },
+    {
+      "id": "q1_no_conclusion",
+      "evidence": [
+        "compare"
+      ],
+      "claim": "The registered Day 2 comparison reaches no Q1 conclusion because only one valid non-floor voting sequence remains."
+    },
+    {
+      "id": "q3_not_usable",
+      "evidence": [
+        "compare"
+      ],
+      "claim": "Under the registered Q3 rule, a 4M buffer on mf4090 is not usable for real-time playback because neither seed reaches the bar, and the measured seed-to-seed difference in gap is about -0.010."
+    },
+    {
+      "id": "ctrl_true_ep4",
+      "evidence": [
+        "v_day2b"
+      ],
+      "control": "true",
+      "claim": "The frame-playback ep4 policy has chord_sr 0."
+    },
+    {
+      "id": "ctrl_false_ep3",
+      "evidence": [
+        "v_night1"
+      ],
+      "control": "false",
+      "claim": "The frame-playback ep3 policy passes the Day 1 criteria."
+    }
+  ]
+}

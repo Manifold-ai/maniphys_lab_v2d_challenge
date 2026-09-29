@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep4-w2048-cap10m-ml40 330012672 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : f540d48d7305
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-29T21:52:52+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep4-w2048-cap10m-ml40 policy_330012672（4096 世界）→ runs/flash_chord/t1-ep4-w2048-cap10m-ml40/eval_330012672_w4096.json
+== runs/flash_chord/t1-ep4-w2048-cap10m-ml40/eval_330012672_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep4-w2048-cap10m-ml40/policy_330012672.safetensors  sha256 aa22127d2d98878b…
+  environment_steps 330012672  world_count 4096  step_count 803  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.13793741988660685
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        116.52966533928276
+  mean_add_m                                     1.1805976013792416
+  object_position_error_m                        1.161442973481361
+  object_orientation_error_deg                   104.4372329243853
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.13793741988660685, "checkpoint": "/repo/runs/flash_chord/t1-ep4-w2048-cap10m-ml40/policy_330012672.safetensors", "checkpoint_sha256": "aa22127d2d98878b8acab270618fa8de80038d5ef3b201fec43c107b31396b8a", "chord_sr": 0.0, "environment_steps": 330012672, "maniptrans_sr": 0.0, "mean_add_m": 1.1805976013792416, "mppe_cm": 116.52966533928276, "object_orientation_error_deg": 104.4372329243853, "object_position_error_m": 1.161442973481361, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 1.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 803, "world_count": 4096}
