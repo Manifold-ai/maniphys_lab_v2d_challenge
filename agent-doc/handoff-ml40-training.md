@@ -60,6 +60,13 @@
    - 9/29 09:29 起 Tier 1 批量第 1 批（剩下 21 条逐帧满配，计划 `agent-doc/plan-batch1-tier1-2026-09-29.md`，执行记录
      `agent-doc/experiments/2026-09-29-batch1.md`）：每台 tmux `v2d-b1a`、`v2d-b1a-eval`、`v2d-b1b`、`v2d-b1b-eval`，A 段评完后 B 段自动开跑。
      预计 A 段 mf4090 21:45、ml40 22:35 评完；B 段 ml40 约 9/30 12:05、mf4090 约 13:10 评完。**两段结束前不要同步两台。**
+   - 看 policy 效果（用户偏好：交互查看器转发到 Mac 的 localhost，不导视频）：`stages/evaluate/policy_viewer.py`（116592b / 08161ac）。
+     批量期间仓库不能同步，副本放在 ml40 的 `runs/viewer/policy_viewer.py`，rerun-sdk 0.27.3 装在 `runs/viewer/pydeps`（`--no-deps`，腾讯云 PyPI 镜像）。
+     - viser：ml40 容器 `viser-8080/8081/8082`（ep26 逐帧 / ep27 逐帧 400 万 / ep4 逐帧），Mac 上 `ssh -N -L 8080..8082` 转发到 localhost；
+       训练链换 run 前会查卡，ml40 上的定时器 12:00 自动 `docker stop` 这三个容器（`runs/logs/viser_autostop.log`）。
+     - rerun：三条 `.rrd` 录在 ml40 `runs/viewer/rrd/`，已拉回 Mac 的 `runs/viewer/rrd/`；Mac 上 `rerun --serve-web --bind 127.0.0.1
+       --web-viewer-port 9090 --port 9876 runs/viewer/rrd/*.rrd`，浏览器开 http://localhost:9090 。录制只占 GPU 约 3 分钟一条。
+     - Mac → 服务器上传几 MB 的文件会卡住（ml40 也是）：换不走复用的新连接也卡；切成 512 KB 分块逐块传再拼回、核 sha256 可行。
    - 四条链最后一行分别是 DAY2_TRAIN_DONE / DAY2_EVAL_DONE（或 …_FAILED）。都结束后：`scripts/dev/pull-results` 与
      `V2D_ENV=ml40 scripts/dev/pull-results`，再 `scripts/dev/record day2/compare python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json`，
      jev 核对承重结论，填执行记录。
