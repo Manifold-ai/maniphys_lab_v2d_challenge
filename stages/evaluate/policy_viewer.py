@@ -5,10 +5,11 @@
   viewer.backend=viser  → ViewerViser(port=$V2D_VISER_PORT，默认 8080；label=$V2D_VIEW_LABEL)。交互式，一直运行到被停掉。
   viewer.backend=rerun  → ViewerRerun(app_id=$V2D_VIEW_LABEL, record_to_rrd=$V2D_RRD_PATH)，只写 .rrd 文件：
                           ViewerRerun 在不连地址、不开网页时会 rr.spawn() 本地窗口，服务器上没有显示器，这里把 spawn 换成空操作；
-                          录满 viewer.num_frames 帧就退出。rerun-sdk 不在镜像里，用 PYTHONPATH 指向另装的目录（版本 >= 0.27.1，同 Newton 的要求）。
+                          录满 viewer.num_frames 帧就退出。rerun-sdk 不在镜像里，用 `uv pip install --no-deps --target <目录> rerun-sdk==0.27.3` 另装（依赖用镜像自带的；ml40 走腾讯云 PyPI 镜像），
+                          PYTHONPATH 要追加镜像原有的 /workspace/src，不要覆盖。Mac 上用同版本 `uv tool install rerun-sdk==0.27.3` 看 .rrd。
 用法（容器内）：
   V2D_VISER_PORT=8081 V2D_VIEW_LABEL=ep27 python /repo/<本文件> evaluation.checkpoint=<policy> viewer.backend=viser logging.mode=disabled
-  V2D_RRD_PATH=/repo/runs/viewer/rrd/ep27.rrd PYTHONPATH=<rerun 目录> python /repo/<本文件> evaluation.checkpoint=<policy> \
+  V2D_RRD_PATH=/repo/runs/viewer/rrd/ep27.rrd PYTHONPATH=<rerun 目录>/rerun_sdk:<rerun 目录>:/workspace/src python /repo/<本文件> evaluation.checkpoint=<policy> \
       viewer.backend=rerun viewer.num_frames=<帧数> logging.mode=disabled
 """
 import os
