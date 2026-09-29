@@ -41,7 +41,7 @@
 - 回放速度对照（T2）：预算内没有差别，见 `agent-doc/experiments/2026-09-28-playback.md`。官方评测按什么速度回放没有公开，
   `eval_robotic_grounding.py` 在 HF 与 GitHub 都没有发布（`results/playback/find_eval_script*.txt`）。
 
-未完成（09-28 17:05 MDT）：
+未完成（09-28 22:45 MDT）：
 1. Day 2（计划 `agent-doc/plan-day2-2026-09-28.md` 第 2 版，登记于 67f1d86；执行记录 `agent-doc/experiments/2026-09-28-day2.md`）：
    - ml40：tmux `v2d-day2` 预检已完成，接着跑训练链（日志 `runs/logs/day2_train_ml40.log`：6 条冒烟，再 6 条满配）；
      tmux `v2d-day2-eval` 等训练链结束再评测（`runs/logs/day2_eval_ml40.log`）。
@@ -51,11 +51,17 @@
    - 四条链最后一行分别是 DAY2_TRAIN_DONE / DAY2_EVAL_DONE（或 …_FAILED）。都结束后：`scripts/dev/pull-results` 与
      `V2D_ENV=ml40 scripts/dev/pull-results`，再 `scripts/dev/record day2/compare python3 stages/evaluate/day2_compare.py stages/evaluate/day2_spec.json`，
      jev 核对承重结论，填执行记录。
-2. 邮件组委会：草稿 `agent-doc/organizer-email-draft-2026-09-28.md`，等用户发出。
-3. 其余：T4 查重定向、T1 查接近与抓取（都先写计划、review 再跑）；snack 满配的逐帧诊断；按 Day 2 判定写 Tier 1 批量训练计划
+2. 官方 submission kit（9/28 邮件，19:46 MDT 发布）：已下载到 `third_party/v2d_submission_kit/`（不进 git），事实见
+   `results/submission/kit_facts.txt`（jev 8 条核实）。要点：评测按 checkpoint 自己的配置、1 个世界、确定性动作；导出轨迹帧号 = 步数，
+   按 30 fps 参考逐帧计分；每次提交要全部 30 条 episode；评测要用上游 main aee95f2 的 FlashCHORD 运行时（v0.4.0 没有轨迹导出）。
+   推断（未核实）：真实时长训练的 policy 会被错位计分，只有逐帧对齐。Day 2 照跑（用户未答复前的默认），是否取消剩下的真实时长臂待用户定。
+   待办：评测环境升级到 aee95f2 并实测对齐（先写计划、review）；Kaggle 接受规则与凭据（用户）；每次提交要用户点头。
+3. 问组委会：邮件草稿 `agent-doc/organizer-email-draft-2026-09-28.md`（9/28 22:40 按 kit 改写）与 Discord 草稿
+   `agent-doc/organizer-discord-draft-2026-09-28.md`，都等实测对齐后由用户发出。
+4. 其余：T4 查重定向、T1 查接近与抓取（都先写计划、review 再跑）；snack 满配的逐帧诊断；按 Day 2 判定写 Tier 1 批量训练计划
    （16 条只有地面的序列要 `scene.support=false`）。
-4. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
-5. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
+5. Mac 会话 scratchpad 里约 390 个旧文件分拣：可复现的脚本与证据进仓库，涉及队友的内容不进 git。
+6. 轮换 sudo 密码：在对话里出现过多次，而且同一密码在 mf4090 上也能用。
 
 工作方式（用户要求）：长时间运行或需要等待的活放服务器后台（tmux / `setsid nohup … < /dev/null &`），自己写日志、最后一行写结论；
 Mac 只发短命令，用户会断网。分析与诊断脚本一律进仓库，经 `scripts/dev/record` 落到 `results/`。
