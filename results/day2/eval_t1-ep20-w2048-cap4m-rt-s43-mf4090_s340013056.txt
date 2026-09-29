@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep20-w2048-cap4m-rt-s43-mf4090 340013056 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : 67f1d8643265
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-29T13:51:34+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep20-w2048-cap4m-rt-s43-mf4090 policy_340013056（4096 世界）→ runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/eval_340013056_w4096.json
+== runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/eval_340013056_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/policy_340013056.safetensors  sha256 12c1ae78d8e23b7e…
+  environment_steps 340013056  world_count 4096  step_count 921  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.4106687862632329
+  chord_sr                                       0.13330078125
+  maniptrans_sr                                  0.00048828125
+  spider_sr_uncentered                           0.00048828125
+  mppe_cm                                        13.565864841988507
+  mean_add_m                                     0.16071316815996062
+  object_position_error_m                        0.12686850102573585
+  object_orientation_error_deg                   50.24064191774498
+  termination_cause_fraction (legacy object-centric) {'object': 0.60595703125, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.13330078125
+  reference_tracking.failure_cause_fraction      {'object': 0.60595703125, 'palm': 0.84716796875, 'pelvis': 0.681640625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.4106687862632329, "checkpoint": "/repo/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/policy_340013056.safetensors", "checkpoint_sha256": "12c1ae78d8e23b7e34ef5a4df76bf36a2cc9f70881c35e7881d63cb9a61b9981", "chord_sr": 0.13330078125, "environment_steps": 340013056, "maniptrans_sr": 0.00048828125, "mean_add_m": 0.16071316815996062, "mppe_cm": 13.565864841988507, "object_orientation_error_deg": 50.24064191774498, "object_position_error_m": 0.12686850102573585, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.60595703125, "palm": 0.84716796875, "pelvis": 0.681640625}, "reference_end_fraction": 1.0, "success_rate": 0.13330078125}, "spider_sr_uncentered": 0.00048828125, "step_count": 921, "world_count": 4096}
