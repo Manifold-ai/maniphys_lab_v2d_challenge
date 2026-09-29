@@ -1,0 +1,17 @@
+# command  : python3 stages/policy/pick_pilot_sequences.py results/day2/sequence_stats_tier1.txt results/batch_summary_v040.tsv results/day2/empty_support_tier1.txt 26\,10\,13 
+# md5      : a6c55014e02163035cfc89e08baa7bad  stages/policy/pick_pilot_sequences.py
+# md5      : b9cb0dc88a930d1646cdc942c9fdf4c5  results/day2/sequence_stats_tier1.txt
+# md5      : 51879b6a59964b1174d753b426b07fd0  results/batch_summary_v040.tsv
+# md5      : 032e8e849db61cc9dd09bc991dd6f27e  results/day2/empty_support_tier1.txt
+# source   : 57bca31f5b84-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-28T23:06:52-0600
+# ---------------------------------------------------------------
+候选 24 条（排除 ep20（已做）, ep29（没有接触帧）, ep1（支撑面差 −22.5 mm）；另排除已选的 ep10, ep13, ep26）
+短档 440–715 帧，中位 678：选 ep21 2026-04-29_11-53-57_tall_bar_stool_pull_08（678 帧）
+中档 719–870 帧，中位 803：选 ep4 2026-04-24_11-40-52_baseball_bat_rotate_05（803 帧）
+长档 886–1003 帧，中位 980：选 ep2 2026-06-02_10-04-42_blue_easter_basket_place_10（980 帧）
+结果：
+  ep21	2026-04-29_11-53-57_tall_bar_stool_pull_08	678 帧	真实时长 1129 帧	只有地面（scene.support=false）
+  ep4	2026-04-24_11-40-52_baseball_bat_rotate_05	803 帧	真实时长 1338 帧	只有地面（scene.support=false）
+  ep2	2026-06-02_10-04-42_blue_easter_basket_place_10	980 帧	真实时长 1633 帧	有支撑面
