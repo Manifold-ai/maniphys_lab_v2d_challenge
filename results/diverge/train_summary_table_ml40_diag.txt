@@ -1,9 +1,9 @@
 # command  : scripts/dev/pipe-py stages/policy/train_nan_scan.py --table 
 # md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
 # md5      : 849b82616730c3d6c498cd574f6f2899  stages/policy/train_nan_scan.py
-# source   : 1867ffd1edf2-dirty
+# source   : e16e4530f7bf
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-09-30T13:04:36-0600
+# run_at   : 2026-09-30T13:32:32-0600
 # ---------------------------------------------------------------
 → ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
 run | 平均回合长度 | 平均回报 | loss_scale | 摘要有 nan
@@ -13,6 +13,7 @@ diag-t1-ep1-cap4m-p185-fp16-s42-ml40 | 72.98563 | 3.2936 | 2097152.0 | 否
 diag-t1-ep1-cap4m-p185-fp16-s42-t60m-ml40 | 203.28935 | 31.667 | 4194304.0 | 否
 diag-t1-ep1-cap4m-v040-fp16-s42-t60m-ml40 | 3.56332 | nan | 0 | 是
 diag-t1-ep28-cap4m-p185-fp16-s42-ml40 | 87.04746 | 4.46357 | 2097152.0 | 否
+diag-t1-ep28-cap4m-p185-fp16-s42-t60m-ml40 | 295.83334 | 54.71856 | 8388608.0 | 否
 diag-t1-ep7-cap10m-v040-s42-ml40 | 5.04202 | nan | 0 | 是
 diag-t1-ep7-cap4m-p185-fp16-s43-ml40 | 246.33333 | 26.52939 | 2097152.0 | 否
 diag-t1-ep7-cap4m-p185-fp16-s44-ml40 | 289.19894 | 32.65902 | 2097152.0 | 否
