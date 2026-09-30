@@ -1,0 +1,26 @@
+# command  : bash -c for\ s\ in\ 330012672\ 340013056\ 349999104\;\ do\ f=runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_\$\{s\}_w4096.log\;\ echo\ \"==\ \$f\"\;\ grep\ -nE\ \"evaluation\ step\ 747/747\|non-finite\|ValueError\|harness.py\"\ \$f\;\ done 
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-30T21:32:15+0800
+# ---------------------------------------------------------------
+== runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_330012672_w4096.log
+3564:evaluation step 747/747
+3565:warning: 2445 worlds recorded non-finite poses and are excluded
+3571:  File "/workspace/src/flash_chord/evaluation/harness.py", line 443, in evaluate_checkpoint
+3574:  File "/workspace/src/flash_chord/evaluation/harness.py", line 526, in score_reference_tracking
+3575:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+3576:ValueError: evaluation must disable task failure termination before scoring the full reference
+== runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_340013056_w4096.log
+3639:evaluation step 747/747
+3640:warning: 2387 worlds recorded non-finite poses and are excluded
+3646:  File "/workspace/src/flash_chord/evaluation/harness.py", line 443, in evaluate_checkpoint
+3649:  File "/workspace/src/flash_chord/evaluation/harness.py", line 526, in score_reference_tracking
+3650:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+3651:ValueError: evaluation must disable task failure termination before scoring the full reference
+== runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_349999104_w4096.log
+3369:evaluation step 747/747
+3370:warning: 2342 worlds recorded non-finite poses and are excluded
+3376:  File "/workspace/src/flash_chord/evaluation/harness.py", line 443, in evaluate_checkpoint
+3379:  File "/workspace/src/flash_chord/evaluation/harness.py", line 526, in score_reference_tracking
+3380:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+3381:ValueError: evaluation must disable task failure termination before scoring the full reference

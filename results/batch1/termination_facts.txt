@@ -1,0 +1,24 @@
+# command  : stages/evaluate/termination_facts.sh 
+# md5      : 2af77cffbce0a4d2672aaceb3843d966  stages/evaluate/termination_facts.sh
+# source   : eb9dd351a530-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T07:33:58-0600
+# ---------------------------------------------------------------
+== v0.4.0 robotic_grounding/flash_chord/src/flash_chord/evaluation/rollout.py
+v0.4.0 rollout.py:277:    non_finite = tuple(int(world) for world in np.flatnonzero(~finite))
+v0.4.0 rollout.py:279:        achieved[:, ~finite] = 0.0
+v0.4.0 rollout.py:280:        print(f"warning: {len(non_finite)} worlds recorded non-finite poses and are excluded", flush=True)
+v0.4.0 rollout.py:283:        terminated=completed_terminated.numpy().astype(np.bool_),
+== v0.4.0 robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py
+v0.4.0 harness.py:504:def score_reference_tracking(
+v0.4.0 harness.py:525:    if completion.terminated.any():
+v0.4.0 harness.py:526:        raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+== aee95f25ae0943f335d8bb42fa95b6a9acfa266f robotic_grounding/flash_chord/src/flash_chord/evaluation/rollout.py
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f rollout.py:429:    non_finite = tuple(int(world) for world in np.flatnonzero(~finite))
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f rollout.py:431:        achieved[:, ~finite] = 0.0
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f rollout.py:432:        print(f"warning: {len(non_finite)} worlds recorded non-finite poses and are excluded", flush=True)
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f rollout.py:435:        terminated=completed_terminated.numpy().astype(np.bool_),
+== aee95f25ae0943f335d8bb42fa95b6a9acfa266f robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f harness.py:559:def score_reference_tracking(
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f harness.py:580:    if completion.terminated.any():
+aee95f25ae0943f335d8bb42fa95b6a9acfa266f harness.py:581:        raise ValueError("evaluation must disable task failure termination before scoring the full reference")

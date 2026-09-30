@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-30-batch1a-mf4090.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : d09b9dd56881f65b944acf7cbf1c2017  agent-doc/experiments/2026-09-30-batch1a-mf4090.claims.json
+# source   : eb9dd351a530-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T07:34:41-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep6_pass             P(supported)=0.96  verified               [criteria, v_mf4090_b1a, sj_ep6]  The ep6 policy passes the Day 1 criteria with ADD-AUC 0.6321 against a do-nothing baseline of 0.4029 and maniptrans_sr 0.5623.
+ep8_pass             P(supported)=0.98  verified               [criteria, v_mf4090_b1a, sj_ep8]  The ep8 policy passes the Day 1 criteria with ADD-AUC 0.6846 against a do-nothing baseline of 0.5978 and maniptrans_sr 0.9795.
+ep11_fail            P(supported)=0.97  verified               [criteria, v_mf4090_b1a, sj_ep11]  The ep11 policy fails the Day 1 criteria with maniptrans_sr 0, and its nonzero chord_sr is carried by only 2 worlds.
+ep14_fail            P(supported)=0.97  verified               [criteria, v_mf4090_b1a, sj_ep14]  The ep14 policy fails the Day 1 criteria with chord_sr 0 and maniptrans_sr 0, although its ADD-AUC of 0.3398 exceeds its do-nothing baseline of 0.1657.
+ep1_invalid          P(supported)=0.99  verified               [v_mf4090_b1a]  In the mf4090 batch 1 segment A verdict, the ep1 run is invalid because its evaluation files are missing.
+ep1_nonfinite        P(supported)=0.98  verified               [ep1_fail]  Each of the three ep1 evaluations reached step 747 of 747, reported 2445, 2387 and 2342 worlds with non-finite poses respectively, and then raised ValueError: evaluation must disable task failure termination before scoring the full reference.
+evaluator_same       P(supported)=0.97  verified               [term_facts]  In both v0.4.0 and aee95f2, rollout.py zeroes the achieved poses of non-finite worlds and prints the exclusion warning, the completion outcome is built from completed_terminated, and score_reference_tracking raises the ValueError whenever completion.terminated has any true entry.
+tally                P(supported)=0.99  verified               [v_mf4090_b1a]  The mf4090 batch 1 segment A verdict reports 2 passes, 2 fails and 1 invalid run.
+ctrl_true_ep8_mppe   P(supported)=0.99  control(true) ok       [v_mf4090_b1a]  The ep8 policy's MPPE is 3.01 cm.
+ctrl_false_ep14_pass P(supported)=0.02  control(false) ok      [criteria, v_mf4090_b1a, sj_ep14]  The ep14 policy passes the Day 1 criteria.
+ctrl_false_ep6_invalid P(supported)=0.01  control(false) ok      [v_mf4090_b1a]  The ep6 run is marked invalid.
+ctrl_false_code      P(supported)=0.02  control(false) ok      [term_facts]  In aee95f2, score_reference_tracking skips terminated worlds instead of raising an error.
+controls behaved as expected

@@ -1,0 +1,136 @@
+{
+  "model": "jev-1.13.0",
+  "note": "证据摆法沿用 2026-09-29-batch1a-ml40 第 2、3 轮：判定论断带判据定义与每条自带 run 名的 summary_json；假对照含一道同证据的判定题。",
+  "evidence": {
+    "criteria": {
+      "file": "stages/evaluate/batch_verdict.py",
+      "grep": "按期望表逐条判 Day 1 判据|^判据（Day 1|^通过 = |只靠 ≤ 3 个世界"
+    },
+    "v_mf4090_b1a": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "^== |判定|chord_sr  |maniptrans_sr  |add_auc  |另报|合计|无效"
+    },
+    "sj_ep6": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep6-w2048"
+    },
+    "sj_ep8": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep8-w2048"
+    },
+    "sj_ep11": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep11-w2048"
+    },
+    "sj_ep14": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep14-w2048"
+    },
+    "ep1_fail": {
+      "file": "results/batch1/ep1_eval_failure_excerpt.txt"
+    },
+    "term_facts": {
+      "file": "results/batch1/termination_facts.txt"
+    }
+  },
+  "claims": [
+    {
+      "id": "ep6_pass",
+      "evidence": [
+        "criteria",
+        "v_mf4090_b1a",
+        "sj_ep6"
+      ],
+      "claim": "The ep6 policy passes the Day 1 criteria with ADD-AUC 0.6321 against a do-nothing baseline of 0.4029 and maniptrans_sr 0.5623."
+    },
+    {
+      "id": "ep8_pass",
+      "evidence": [
+        "criteria",
+        "v_mf4090_b1a",
+        "sj_ep8"
+      ],
+      "claim": "The ep8 policy passes the Day 1 criteria with ADD-AUC 0.6846 against a do-nothing baseline of 0.5978 and maniptrans_sr 0.9795."
+    },
+    {
+      "id": "ep11_fail",
+      "evidence": [
+        "criteria",
+        "v_mf4090_b1a",
+        "sj_ep11"
+      ],
+      "claim": "The ep11 policy fails the Day 1 criteria with maniptrans_sr 0, and its nonzero chord_sr is carried by only 2 worlds."
+    },
+    {
+      "id": "ep14_fail",
+      "evidence": [
+        "criteria",
+        "v_mf4090_b1a",
+        "sj_ep14"
+      ],
+      "claim": "The ep14 policy fails the Day 1 criteria with chord_sr 0 and maniptrans_sr 0, although its ADD-AUC of 0.3398 exceeds its do-nothing baseline of 0.1657."
+    },
+    {
+      "id": "ep1_invalid",
+      "evidence": [
+        "v_mf4090_b1a"
+      ],
+      "claim": "In the mf4090 batch 1 segment A verdict, the ep1 run is invalid because its evaluation files are missing."
+    },
+    {
+      "id": "ep1_nonfinite",
+      "evidence": [
+        "ep1_fail"
+      ],
+      "claim": "Each of the three ep1 evaluations reached step 747 of 747, reported 2445, 2387 and 2342 worlds with non-finite poses respectively, and then raised ValueError: evaluation must disable task failure termination before scoring the full reference."
+    },
+    {
+      "id": "evaluator_same",
+      "evidence": [
+        "term_facts"
+      ],
+      "claim": "In both v0.4.0 and aee95f2, rollout.py zeroes the achieved poses of non-finite worlds and prints the exclusion warning, the completion outcome is built from completed_terminated, and score_reference_tracking raises the ValueError whenever completion.terminated has any true entry."
+    },
+    {
+      "id": "tally",
+      "evidence": [
+        "v_mf4090_b1a"
+      ],
+      "claim": "The mf4090 batch 1 segment A verdict reports 2 passes, 2 fails and 1 invalid run."
+    },
+    {
+      "id": "ctrl_true_ep8_mppe",
+      "evidence": [
+        "v_mf4090_b1a"
+      ],
+      "control": "true",
+      "claim": "The ep8 policy's MPPE is 3.01 cm."
+    },
+    {
+      "id": "ctrl_false_ep14_pass",
+      "evidence": [
+        "criteria",
+        "v_mf4090_b1a",
+        "sj_ep14"
+      ],
+      "control": "false",
+      "claim": "The ep14 policy passes the Day 1 criteria."
+    },
+    {
+      "id": "ctrl_false_ep6_invalid",
+      "evidence": [
+        "v_mf4090_b1a"
+      ],
+      "control": "false",
+      "claim": "The ep6 run is marked invalid."
+    },
+    {
+      "id": "ctrl_false_code",
+      "evidence": [
+        "term_facts"
+      ],
+      "control": "false",
+      "claim": "In aee95f2, score_reference_tracking skips terminated worlds instead of raising an error."
+    }
+  ]
+}

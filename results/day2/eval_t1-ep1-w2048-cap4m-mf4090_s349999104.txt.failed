@@ -1,0 +1,7 @@
+# command  : stages/policy/fc_eval.sh t1-ep1-w2048-cap4m-mf4090 349999104 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-30T12:51:53+0800
+# ---------------------------------------------------------------
+fc_eval: 评测失败（退出码 1），见 runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_349999104_w4096.log

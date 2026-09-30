@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_bar_from_rollout.py\ /repo/runs/diag/smoke-t1-ep16-w2048-cap4m-mf4090/rollout_w256.npz 
+# md5      : c701ed488c5e4f4de646ceb756b0b55f  scripts/dev/in-flash-chord
+# md5      : 8296a2f53b6b89b2a5ea7387a7dc655b  stages/evaluate/static_bar_from_rollout.py
+# md5      : 29081d121a8c6faadc62c7132672eb5b  runs/diag/smoke-t1-ep16-w2048-cap4m-mf4090/rollout_w256.npz
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-30T13:59:09+0800
+# ---------------------------------------------------------------
+rollout /repo/runs/diag/smoke-t1-ep16-w2048-cap4m-mf4090/rollout_w256.npz：477 帧；policy /repo/runs/flash_chord/smoke-t1-ep16-w2048-cap4m-mf4090/policy_4096000.safetensors
+  不动基线 ADD-AUC 0.2660（评测器顶点；trimesh 与评测器顶点一致：True）
+  summary_json {"add_auc": 0.2659853249475891, "frames": 477, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet", "policy": "/repo/runs/flash_chord/smoke-t1-ep16-w2048-cap4m-mf4090/policy_4096000.safetensors", "trimesh_matches_evaluator": true}
