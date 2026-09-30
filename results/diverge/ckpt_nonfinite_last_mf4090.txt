@@ -1,0 +1,78 @@
+# command  : scripts/dev/pipe-py stages/policy/ckpt_nonfinite.py --last ctrl-snackbox-w2048-cap1m-mf4090 resumetest-t1-ep20-cap1m-mf4090 smoke-t1-ep11-w2048-cap4m-mf4090 smoke-t1-ep14-w2048-cap4m-mf4090 smoke-t1-ep16-w2048-cap4m-mf4090 smoke-t1-ep18-w2048-cap4m-mf4090 smoke-t1-ep1-w2048-cap4m-mf4090 smoke-t1-ep20-w2048-cap1m-rt-mf4090 smoke-t1-ep20-w2048-cap4m-mf4090 smoke-t1-ep20-w2048-cap4m-rt-mf4090 smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090 smoke-t1-ep21-w2048-cap4m-mf4090 smoke-t1-ep22-w2048-cap4m-mf4090 smoke-t1-ep24-w2048-cap4m-mf4090 smoke-t1-ep27-w2048-cap4m-mf4090 smoke-t1-ep28-w2048-cap4m-mf4090 smoke-t1-ep29-w2048-cap4m-mf4090 smoke-t1-ep3-w2048-cap4m-mf4090 smoke-t1-ep6-w2048-cap4m-mf4090 smoke-t1-ep8-w2048-cap4m-mf4090 t1-ep11-w2048-cap4m-mf4090 t1-ep14-w2048-cap4m-mf4090 t1-ep16-w2048-cap4m-mf4090 t1-ep18-w2048-cap4m-mf4090 t1-ep20-w2048-cap1m-mf4090 t1-ep20-w2048-cap1m-rt-mf4090 t1-ep20-w2048-cap4m-mf4090 t1-ep20-w2048-cap4m-rt-mf4090 t1-ep20-w2048-cap4m-rt-s43-mf4090 t1-ep21-w2048-cap4m-mf4090 t1-ep22-w2048-cap4m-mf4090 t1-ep27-w2048-cap4m-mf4090 t1-ep3-w2048-cap4m-mf4090 t1-ep6-w2048-cap4m-mf4090 t1-ep8-w2048-cap4m-mf4090 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 127d40a4428c2c5422039d4ad8dfd91c  stages/policy/ckpt_nonfinite.py
+# source   : 1ced9bf7beee-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T08:55:07-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+== ctrl-snackbox-w2048-cap1m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== resumetest-t1-ep20-cap1m-mf4090（policy 2 份）
+   20,000,768 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep11-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep14-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep16-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep18-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep1-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep20-w2048-cap1m-rt-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep20-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep20-w2048-cap4m-rt-mf4090（policy 4 份）
+   36,001,792 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep21-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep22-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep24-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep27-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep28-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep29-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep3-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep6-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== smoke-t1-ep8-w2048-cap4m-mf4090（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep11-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep14-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep16-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep18-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep20-w2048-cap1m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep20-w2048-cap1m-rt-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep20-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep20-w2048-cap4m-rt-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep20-w2048-cap4m-rt-s43-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep21-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep22-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep27-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep3-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep6-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+== t1-ep8-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）

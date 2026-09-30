@@ -1,0 +1,10 @@
+# command  : scripts/dev/pipe-py stages/policy/train_nan_scan.py 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 1489928e5cd0862c290b75cd21dea693  stages/policy/train_nan_scan.py
+# source   : 1ced9bf7beee-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T08:31:49-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+NaN：smoke-t1-ep7-w2048-cap10m-ml40.s1.log  3 项（action_abs_mean_per_env_action、entropy_mean_per_actor_update、return_mean_per_completed_episode）；loss_scale=0，length_mean_per_completed_episode=5.01926
+训练日志 40 个，其中带 W&B 摘要 40 个；摘要里有 NaN 的 1 个

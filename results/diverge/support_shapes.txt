@@ -1,0 +1,35 @@
+# command  : bash -c cd\ runs/motion/tier1/whole_body/reconstructed_stage\ \&\&\ for\ f\ in\ \*_support.usda\;\ do\ printf\ \"%s\\t\"\ \"\$\{f%_support.usda\}\"\;\ s=\$\(grep\ -oE\ \"def\ \(Cube\|Cylinder\|Mesh\|Sphere\|Capsule\)\ \\\"\[\^\\\"\]\*\\\"\|scale\ =\ \\\(\[\^\)\]\*\\\)\|height\ =\ \[0-9.e-\]+\|radius\ =\ \[0-9.e-\]+\|translate\ =\ \\\(\[\^\)\]\*\\\)\"\ \$f\ \|\ tr\ \"\\n\"\ \"\ \"\)\;\ echo\ \"\$\{s:-（空）\}\"\;\ done 
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-30T22:31:00+0800
+# ---------------------------------------------------------------
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	def Cylinder "object_0" height = 0.04 radius = 0.0466262713583489 translate = (-0.6703524654049726, 0.7588439489572992, 0.8579249489875762) 
+2026-03-18_19-36-56_g1_box_rotate_01	（空）
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	def Cylinder "object_0" height = 0.04 radius = 0.05361670623795184 translate = (-1.207300775734293, 0.6721465448906071, 0.7632628675869704) def Cylinder "object_1" height = 0.04 radius = 0.05268964219607114 translate = (-1.3179959185627097, 0.7626626428726306, 0.7669492660655428) 
+2026-04-24_11-40-52_baseball_bat_rotate_05	（空）
+2026-04-24_13-56-58_light_blue_book_pick_place_09	def Cylinder "object_0" height = 0.04 radius = 0.21825407159978735 translate = (-0.9087255351116422, -0.035479385282453514, 0.8565479855842795) 
+2026-04-25_17-20-04_black_platform_turn_05	（空）
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	def Cylinder "object_0" height = 0.04 radius = 0.08481162225048822 translate = (-1.238603304990316, -0.17362171504790616, 0.7572639538131507) 
+2026-04-29_11-53-57_tall_bar_stool_pull_08	（空）
+2026-05-01_11-15-05_woven_basket_ground_desk_10	def Cylinder "object_0" height = 0.04 radius = 0.16913101875816094 translate = (0.23090111099908311, -0.9744983471551923, 0.8516838911014109) 
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	（空）
+2026-05-01_17-04-55_traffic_cone_ground_table_02	def Cylinder "object_0" height = 0.04 radius = 0.12478255645333762 translate = (-0.29309539135011836, 0.643122004942171, 0.7511897739673112) 
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	（空）
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	（空）
+2026-05-18_17-06-21_vacuum_left_lean_02	def Cube "chair_back" translate = (-0.5324, -0.486, 0.715) scale = (0.02, 0.12, 0.27) 
+2026-05-19_10-19-48_cane_swing_05	（空）
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	def Cube "chair_back_top" translate = (0.9309, -0.2483, 0.706) scale = (0.1, 0.13, 0.02) def Cube "chair_back_top_return" translate = (1.0451, -0.342, 0.6875) scale = (0.1, 0.13, 0.02) 
+2026-05-22_16-52-36_step_ladder_drag_03	（空）
+2026-05-28_14-44-09_round_table_flip_08	（空）
+2026-05-29_15-20-43_iron_round_table_02	def Cube "tabletop" translate = (-0.7757, 0.1698, 0.7771) scale = (0.84, 0.282, 0.01) 
+2026-05-29_15-43-20_watering_can_pour_right_02	（空）
+2026-06-01_11-26-44_monitor_rotate_05	def Cylinder "object_0" height = 0.04 radius = 0.4798645384430267 translate = (-1.0921085818436254, 0.17156735096939002, 0.7596419482088983) 
+2026-06-02_10-04-42_blue_easter_basket_place_10	def Cylinder "object_0" height = 0.04 radius = 0.1285814068322424 translate = (-1.0304469268887362, -0.09052110188649923, 0.7590109513991395) 
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	（空）
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	（空）
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	def Cylinder "object_0" height = 0.04 radius = 0.15610055540809342 translate = (-0.8950593179824066, -0.10770559795047221, 0.44876584430138483) 
+2026-06-05_15-08-08_skinny_wood_chair_push_10	（空）
+2026-06-05_16-05-08_skateboard_rotate_ground_10	（空）
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	（空）
+2026-06-08_16-57-34_rice_cooker_clockwise_04	def Cylinder "object_0" height = 0.04 radius = 0.1351534672204729 translate = (-0.34456947920916897, 0.7869074935029406, 0.777391476352695) 
+2026-06-09_10-19-09_snack_box_desk_through_06	def Cylinder "object_0" height = 0.04 radius = 0.3045888555026075 translate = (-0.9725818185937641, -0.1064833273325322, 0.8621988938318569) 
