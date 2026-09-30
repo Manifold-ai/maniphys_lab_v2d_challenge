@@ -1,0 +1,26 @@
+# command  : python3 stages/policy/obs_block_nan_map.py results/diverge/code_facts.txt results/diverge/ckpt_nonfinite_by_tensor_R2_s44.txt 
+# md5      : 519f15334e373e085bb74f2612e8f1ee  stages/policy/obs_block_nan_map.py
+# md5      : fb7ceb9e3c72036f26a4703b907e2eca  results/diverge/code_facts.txt
+# md5      : 1671c8e6a69000dcaf649afd932220a6  results/diverge/ckpt_nonfinite_by_tensor_R2_s44.txt
+# source   : 1867ffd1edf2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T13:02:49-0600
+# ---------------------------------------------------------------
+state.0029：486 维里非有限 386 个
+       下标    宽   非有限    有限  块
+   0-5       6     6     0  wrist_position_pelvis_m[right,left]
+   6-17     12     0    12  wrist_orientation_pelvis_6d[right,left]
+  18-23      6     6     0  wrist_linear_velocity_pelvis_mps[right,left]
+  24-26      3     3     0  object_position_pelvis_m
+  27-32      6     0     6  object_orientation_pelvis_6d
+  33-75     43    43     0  joint_position_relative_default_rad[43]
+  76-118    43    43     0  joint_velocity_radps[43]
+ 119-127     9     0     9  future_root_position_w_m[offsets=0,5,10]
+ 128-145    18     0    18  future_root_orientation_delta_6d[offsets=0,5,10]
+ 146-274   129   129     0  future_joint_position_delta_rad[offsets=0,5,10]
+ 275-292    18    18     0  future_palm_position_delta_w_m[offsets=0,5,10;right,left]
+ 293-328    36     0    36  future_palm_orientation_delta_6d[offsets=0,5,10;right,left]
+ 329-346    18     6    12  live_hand_pose_in_object[position,6d;left,right]
+ 347-355     9     3     6  target_object_pose_in_live_object[position,6d]
+ 356-356     1     0     1  normalized_reference_phase
+ 357-485   129   129     0  processed_target_history[oldest,newest;3x43]

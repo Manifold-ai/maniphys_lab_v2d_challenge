@@ -1,0 +1,51 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/mf4090_batch1b.expect.tsv results/day2 
+# md5      : d53ff922e69bd0aa60fa923163e29a5b  stages/evaluate/batch_verdict.py
+# md5      : c06b15cfd5a12ff8cd6eb7f1723f32cc  stages/policy/queues/mf4090_batch1b.expect.tsv
+# source   : 1867ffd1edf2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T12:59:06-0600
+# ---------------------------------------------------------------
+
+== t1-ep16-w2048-cap4m-mf4090（2026-03-12_15-06-36_spray_bottle_left_desk_ground_02，frame，477 帧）：不动基线 0.2660；gap 走势 -0.009 / -0.014 / -0.011
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2553 > 0.266：不过
+  另报：SP-SR 0.0002441（1 / 4096），MPPE 63.90 cm
+  判定：不通过
+  summary_json {"run": "t1-ep16-w2048-cap4m-mf4090", "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "playback": "frame", "frames": 477, "bar": 0.2659853249475891, "add_auc": 0.2553291240828092, "gap": -0.010656200864779863, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.000244140625, "mppe_cm": 63.89945797661735, "verdict": "FAIL", "marginal": []}
+
+== t1-ep18-w2048-cap4m-mf4090（2026-05-06_10-00-19_blue_trash_can_drag_sideways_08，frame，858 帧）：不动基线 0.3282；gap 走势 +0.285 / +0.275 / +0.233
+  chord_sr       0.8872 > 0（3634 / 4096 个世界）：过
+  maniptrans_sr  0.1521 > 0（623 / 4096 个世界）：过
+  add_auc        0.5609 > 0.3282：过
+  另报：SP-SR 0.9658（3956 / 4096），MPPE 4.15 cm
+  判定：通过
+  summary_json {"run": "t1-ep18-w2048-cap4m-mf4090", "sequence_id": "2026-05-06_10-00-19_blue_trash_can_drag_sideways_08", "playback": "frame", "frames": 858, "bar": 0.32823426573426573, "add_auc": 0.5609330041703089, "gap": 0.23269873843604316, "chord_sr": 0.88720703125, "maniptrans_sr": 0.152099609375, "spider_sr_uncentered": 0.9658203125, "mppe_cm": 4.152068589279245, "verdict": "PASS", "marginal": []}
+
+== t1-ep22-w2048-cap4m-mf4090（2026-05-22_16-52-36_step_ladder_drag_03，frame，719 帧）：不动基线 0.2933；gap 走势 +0.170 / +0.161 / +0.206
+  chord_sr       0.9104 > 0（3729 / 4096 个世界）：过
+  maniptrans_sr  0.7639 > 0（3129 / 4096 个世界）：过
+  add_auc        0.4992 > 0.2933：过
+  另报：SP-SR 0.9832（4027 / 4096），MPPE 3.83 cm
+  判定：通过
+  summary_json {"run": "t1-ep22-w2048-cap4m-mf4090", "sequence_id": "2026-05-22_16-52-36_step_ladder_drag_03", "playback": "frame", "frames": 719, "bar": 0.29328929068150206, "add_auc": 0.4992468227763169, "gap": 0.20595753209481482, "chord_sr": 0.910400390625, "maniptrans_sr": 0.763916015625, "spider_sr_uncentered": 0.983154296875, "mppe_cm": 3.8339934687416664, "verdict": "PASS", "marginal": []}
+
+== t1-ep24-w2048-cap4m-mf4090（2026-05-29_15-43-20_watering_can_pour_right_02，frame，748 帧）：不动基线 0.3911；gap 走势 +0.202 / +0.234 / +0.189
+  chord_sr       0.9966 > 0（4082 / 4096 个世界）：过
+  maniptrans_sr  0.9622 > 0（3941 / 4096 个世界）：过
+  add_auc        0.5802 > 0.3911：过
+  另报：SP-SR 0.9958（4079 / 4096），MPPE 3.24 cm
+  判定：通过
+  summary_json {"run": "t1-ep24-w2048-cap4m-mf4090", "sequence_id": "2026-05-29_15-43-20_watering_can_pour_right_02", "playback": "frame", "frames": 748, "bar": 0.3911263368983957, "add_auc": 0.5801610079678622, "gap": 0.18903467106946648, "chord_sr": 0.99658203125, "maniptrans_sr": 0.962158203125, "spider_sr_uncentered": 0.995849609375, "mppe_cm": 3.2389561951758594, "verdict": "PASS", "marginal": []}
+
+== t1-ep28-w2048-cap4m-mf4090（2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_，frame）：无效，缺 results/day2/eval_t1-ep28-w2048-cap4m-mf4090_s330012672.txt, results/day2/eval_t1-ep28-w2048-cap4m-mf4090_s340013056.txt, results/day2/eval_t1-ep28-w2048-cap4m-mf4090_s349999104.txt
+
+== t1-ep29-w2048-cap4m-mf4090（2026-06-05_18-27-40_rolling_luggage_left_foot_push_06，frame，467 帧）：不动基线 0.2310；gap 走势 +0.368 / +0.403 / +0.427
+  chord_sr       0.9824 > 0（4024 / 4096 个世界）：过
+  maniptrans_sr  0.1736 > 0（711 / 4096 个世界）：过
+  add_auc        0.6579 > 0.231：过
+  另报：SP-SR 0.9893（4052 / 4096），MPPE 3.52 cm
+  判定：通过
+  summary_json {"run": "t1-ep29-w2048-cap4m-mf4090", "sequence_id": "2026-06-05_18-27-40_rolling_luggage_left_foot_push_06", "playback": "frame", "frames": 467, "bar": 0.23099571734475377, "add_auc": 0.6578590670795972, "gap": 0.4268633497348434, "chord_sr": 0.982421875, "maniptrans_sr": 0.173583984375, "spider_sr_uncentered": 0.9892578125, "mppe_cm": 3.5218108238721237, "verdict": "PASS", "marginal": []}
+
+合计：通过 4、不通过 1、无效 1

@@ -1,0 +1,20 @@
+# command  : scripts/dev/pipe-py stages/policy/ckpt_nonfinite.py --last --by-tensor diag-t1-ep7-cap4m-v040-fp32-s43-ml40 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 0e8eeee02474e5c4377c468820a054cd  stages/policy/ckpt_nonfinite.py
+# source   : 1867ffd1edf2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T13:01:21-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+== diag-t1-ep7-cap4m-v040-fp32-s43-ml40（policy 1 份）
+    4,096,000 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+      state.0021 [256]：非有限 256 个，下标 0-255
+      state.0022 [256]：非有限 256 个，下标 0-255
+      state.0023 [1024]：非有限 1024 个，下标 0-1023
+      state.0024 [1024]：非有限 1024 个，下标 0-1023
+      state.0025 [256]：非有限 256 个，下标 0-255
+      state.0026 [256]：非有限 256 个，下标 0-255
+      state.0027 [1024]：非有限 1024 个，下标 0-1023
+      state.0028 [1024]：非有限 1024 个，下标 0-1023
+      state.0029 [486]：非有限 386 个，下标 0-5,18-26,33-118,146-292,329-331,338-340,347-349,357-485
+      state.0030 [486]：非有限 386 个，下标 0-5,18-26,33-118,146-292,329-331,338-340,347-349,357-485
