@@ -51,6 +51,6 @@
 
 ## jev
 
-规格 `agent-doc/experiments/2026-09-30-batch1b-failure-analysis.claims.json`，结果 `results/batch1/jev_claims_failure_analysis.txt`（第 4 轮）：10 条全部核实（0.79–0.99），4 道对照正常。
+规格 `agent-doc/experiments/2026-09-30-batch1b-failure-analysis.claims.json`，结果 `results/batch1/jev_claims_failure_analysis.txt`（第 4 轮）：10 条全部核实（0.82–0.99；原写 0.79，与结果文件不符，9/30 14:30 更正），4 道对照正常。
 门槛那条前三轮只有 0.39、0.46、0.40（`…_run1`–`_run3`）：说法把排行榜按 episode 计的 MP-SR / SP-SR 与本地评测器按世界计的 maniptrans / spider 混在一起，不严谨；
 第 4 轮改为只描述代码里两个函数按世界的判定（证据是代码摘录），0.83。其余各条四轮相差不超过 0.05。

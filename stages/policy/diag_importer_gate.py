@@ -1,6 +1,6 @@
 """诊断队列的导入器核对：计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 附录 A.3 的有效性闸（训练机上跑，只用标准库）。
 
-队列每行用 V2D_FC_SRC= 指定导入器：非空 = 挂载 make_patched_fc_src.sh 生成的 #185 副本，空 = 镜像里的 v0.4.0。
+队列每行用 V2D_FC_SRC= 指定导入器：非空 = 挂载 make_patched_fc_src.sh 生成的 #185 副本；空 = in-flash-chord 默认挂载的仓库 third_party/video_to_data 里的 v0.4.0 源码（scripts/dev/in-flash-chord:9）。
 scripts/dev/in-flash-chord 挂载副本时往 stderr 打一行 `in-flash-chord: /workspace ← <副本真实路径>（…）`；fc_run.sh:194 把训练段那次
 in-flash-chord 的 stderr 写进 runs/logs/<run>.log。runs/logs/<run>.s<段>.log 是 docker logs，只有容器里的输出，不会有这一行
 （A.3 原文写成 .s1.log，是写错了文件；这里两份都数，.s1.log 的行数只作对照）。

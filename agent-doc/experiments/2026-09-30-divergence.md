@@ -38,7 +38,7 @@
 - 09:29:54 扫到 6000 万步的 checkpoint 同样 5892 个非有限参数，按 M2（连续两份）调用 `fc_stop.sh`，09:30:54 退出码 0；run_record 记 exit 137、stopped；
   训练链记“t1-ep28 失败（退出码 3），继续下一条”，09:30:56 开训 ep29（gpu_check 没有卡住，恢复预案没用上）。按 ep1 的轨迹，这一停省了约 2–3 小时 GPU。
   证据 `results/diverge/ep28_nan_watch_log.txt`、`results/diverge/ep28_chain_and_record.txt`。
-- ep28 的目录里留有 state 与 STOP 标记：重训前要先移走 `runs/flash_chord/t1-ep28-w2048-cap4m-mf4090`，否则链按残留跳过。mf4090 的 B 段评测链会对 ep28 记“没有 DONE：不评”。
+- ep28 的目录里留有 `state_50001920`、`state_60002304`（对应的 policy 都含非有限参数），没有 DONE；STOP 标记在 fc_run 退出时已删掉（`fc_run.sh:211–212`）。重跑同名 run 会从 60,002,304 步的 state 续训，所以重训前要先移走 `runs/flash_chord/t1-ep28-w2048-cap4m-mf4090`。（初稿写成“留有 STOP 标记、链按残留跳过”，两处都不对，9/30 14:30 按 fc_run.sh 与目录实况更正。）mf4090 的 B 段评测链会对 ep28 记“没有 DONE：不评”。
 - 按计划登记的判据：ep28 正式训练出现非有限 checkpoint → 方盒添一例。方盒 3 条全部发散（ep1 正式约 4244 万步、ep7 冒烟约 241 万步、ep28 正式约 4000–5000 万步）；
   其中只有 ep28 是登记之后才观察的一例。圆柱与空支撑面已训的 27 条都没有发散。
 
