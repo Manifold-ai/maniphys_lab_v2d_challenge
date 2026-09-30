@@ -1,0 +1,46 @@
+# command  : scripts/dev/pipe-py stages/policy/diag_importer_gate.py stages/policy/queues/diag_ml40_ep7.txt stages/policy/queues/diag_ml40_ep7_fp32.txt stages/policy/queues/diag_ml40_p185_smoke.txt stages/policy/queues/diag_ml40_trunc60m.txt stages/policy/queues/diag_ml40_ext4750.txt 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : f0e16ec5dfa51e31ccaf93387fd6f6e1  stages/policy/diag_importer_gate.py
+# md5      : 64671c82819db55758ad2e5fb24351fe  stages/policy/queues/diag_ml40_ep7.txt
+# md5      : c6a8dd6b73ddcdac808e5530034afe3c  stages/policy/queues/diag_ml40_ep7_fp32.txt
+# md5      : 2ad2ce05da1b6cc47f5c29c55547f48a  stages/policy/queues/diag_ml40_p185_smoke.txt
+# md5      : 9e3c8bfecd748952b988186e5f5ab2d6  stages/policy/queues/diag_ml40_trunc60m.txt
+# md5      : 3cb70563434326ecc55f2369e1cebf1a  stages/policy/queues/diag_ml40_ext4750.txt
+# source   : 792cc96cee57
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T14:35:24-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+== stages/policy/queues/diag_ml40_ep7.txt
+  diag-t1-ep7-cap10m-v040-s42-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s43-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s43-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s44-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s44-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s45-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s45-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s46-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s46-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+== stages/policy/queues/diag_ml40_ep7_fp32.txt
+  diag-t1-ep7-cap4m-v040-fp32-s43-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp32-s44-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp32-s45-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp32-s46-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+== stages/policy/queues/diag_ml40_p185_smoke.txt
+  diag-t1-ep1-cap4m-p185-fp16-s42-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep28-cap4m-p185-fp16-s42-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+== stages/policy/queues/diag_ml40_trunc60m.txt
+  diag-t1-ep1-cap4m-v040-fp16-s42-t60m-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep1-cap4m-p185-fp16-s42-t60m-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep28-cap4m-p185-fp16-s42-t60m-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep1-cap4m-v040-fp32-s42-t60m-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+== stages/policy/queues/diag_ml40_ext4750.txt
+  diag-t1-ep7-cap4m-v040-fp16-s47-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s47-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s48-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s48-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s49-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s49-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-v040-fp16-s50-ml40  导入器 v0.4.0  <run>.log 挂载行 0；.s1.log 挂载行 0  → 有效
+  diag-t1-ep7-cap4m-p185-fp16-s50-ml40  导入器 #185  <run>.log 挂载行 1（指向 /lab_data/rxzhou/v2d/fc_src/v040_p185 的 1）；.s1.log 挂载行 0  → 有效
+合计：有效 27、无效 0、未跑 0

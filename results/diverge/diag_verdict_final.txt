@@ -1,0 +1,62 @@
+# command  : python3 stages/policy/diag_verdict.py --summary results/diverge/train_summary_table_ml40_diag_final.txt --ckpt results/diverge/ckpt_nonfinite_diag_smokes_ml40.txt results/diverge/ckpt_nonfinite_ext4750_ml40.txt results/diverge/ckpt_nonfinite_L0_ml40.txt results/diverge/ckpt_nonfinite_L1_ml40.txt results/diverge/ckpt_nonfinite_L2_ml40.txt results/diverge/ckpt_nonfinite_L3_ml40.txt --gate results/diverge/importer_gate_ml40_final.txt 
+# md5      : 517d71e66288a5a14c3b33a4460a6ec9  stages/policy/diag_verdict.py
+# md5      : d634b14000d7b804a5aded95990180eb  results/diverge/train_summary_table_ml40_diag_final.txt
+# md5      : a50d46f41b461ba1c6c1f02cf32c4d61  results/diverge/ckpt_nonfinite_diag_smokes_ml40.txt
+# md5      : f8905969e6579e1a9a478ce445133959  results/diverge/ckpt_nonfinite_ext4750_ml40.txt
+# md5      : f5d8eec2f3118b09f926a973b1a0b968  results/diverge/ckpt_nonfinite_L0_ml40.txt
+# md5      : 384427f7759ac6f1598cd803892ae646  results/diverge/ckpt_nonfinite_L1_ml40.txt
+# md5      : b9b18e16c14afaab46f5fc98913eee61  results/diverge/ckpt_nonfinite_L2_ml40.txt
+# md5      : 8de2817e770980de048c2d2d474a2101  results/diverge/ckpt_nonfinite_L3_ml40.txt
+# md5      : b2f61fef846cefd678301a0674dd028c  results/diverge/importer_gate_ml40_final.txt
+# source   : 792cc96cee57
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T14:35:35-0600
+# ---------------------------------------------------------------
+== 各条冒烟（导入器核对有效、数据齐全才计数）
+  R3′ 种子 43：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 246.3，回报 26.53）
+  R3′ 种子 44：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 289.2，回报 32.66）
+  R3′ 种子 45：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 266.3，回报 29.18）
+  R3′ 种子 46：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 292.9，回报 33.43）
+  R3′ 种子 47：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 284.1，回报 31.14）
+  R3′ 种子 48：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 243.3，回报 25.57）
+  R3′ 种子 49：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 289.4，回报 32.62）
+  R3′ 种子 50：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 308.5，回报 34.78）
+  R1  种子 43：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.0，回报 nan）
+  R1  种子 44：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 50.8，回报 -3.73）
+  R1  种子 45：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.1，回报 nan）
+  R1  种子 46：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 50.9，回报 -3.74）
+  R1  种子 47：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.1，回报 nan）
+  R1  种子 48：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.1，回报 nan）
+  R1  种子 49：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.0，回报 nan）
+  R1  种子 50：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 51.0，回报 -3.77）
+  R2  种子 43：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.0，回报 nan）
+  R2  种子 44：发散（摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.1，回报 nan）
+  R2  种子 45：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 51.1，回报 -3.57）
+  R2  种子 46：未发散（摘要 nan 否，最终 checkpoint 非有限 0，回合 50.9，回报 -3.72）
+
+== R0 diag-t1-ep7-cap10m-v040-s42-ml40：摘要 nan 是，最终 checkpoint 非有限 5892，回合 5.0，回报 nan
+  → 发散，可复现
+
+== H3（R1 发散 5 / 8，种子 [43, 44, 45, 46, 47, 48, 49, 50]）
+  → 拒绝 H3
+
+== H1′：R1 5 / 8 对 R3′ 0 / 8（配对种子 [43, 44, 45, 46, 47, 48, 49, 50]），单侧 Fisher p = 0.0128
+  → H1′：支持
+  否定结论（R3′ ≥ 2/4 或 ≥ 3/8 → 仅修导入挡不住发散）：不成立（R3′ 0 / 8）
+  次要读数：R3′ 回合长度 ≥ 64 且回报 ≥ 2.37 的 8 / 8
+
+== H4：R1 2 / 4 对 R2 2 / 4（配对种子 [43, 44, 45, 46]），单侧 Fisher p = 0.7571
+  → H4：拒绝 H4（R2 2 / 4：fp32 也会死）
+
+== S（#185 冒烟）
+  ep1：摘要 nan 否，最终 checkpoint 非有限 0，回合 73.0，回报 3.29 → 与非方盒冒烟一致
+  ep28：摘要 nan 否，最终 checkpoint 非有限 0，回合 87.0，回报 4.46 → 只描述，不判假设
+
+== L 组（L40S、单种子，只作旁证；发散 = 6000 万步内任何一份 checkpoint 非有限）
+  L0：发散，第一份非有限 30,001,152 步
+  L1：6 份 checkpoint 全部有限
+  L2：6 份 checkpoint 全部有限
+  L3：发散，第一份非有限 10,000,384 步
+  L0 发散、L1 不发散 → 与 H1′ 一致
+  L3 → 都发散：fp32 单独不够
+  次要读数（第 1 段 35–60M 平均回合长度）另见 wandb_local_history.py --by-stage

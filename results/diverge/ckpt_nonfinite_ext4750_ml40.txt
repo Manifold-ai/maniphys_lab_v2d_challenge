@@ -1,0 +1,24 @@
+# command  : bash -c scripts/dev/pipe-py\ stages/policy/ckpt_nonfinite.py\ --last\ \ diag-t1-ep7-cap4m-v040-fp16-s47-ml40\ diag-t1-ep7-cap4m-p185-fp16-s47-ml40\ diag-t1-ep7-cap4m-v040-fp16-s48-ml40\ diag-t1-ep7-cap4m-p185-fp16-s48-ml40\ diag-t1-ep7-cap4m-v040-fp16-s49-ml40\ diag-t1-ep7-cap4m-p185-fp16-s49-ml40\ diag-t1-ep7-cap4m-v040-fp16-s50-ml40\ diag-t1-ep7-cap4m-p185-fp16-s50-ml40 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 0e8eeee02474e5c4377c468820a054cd  stages/policy/ckpt_nonfinite.py
+# source   : 792cc96cee57
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T14:35:26-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+== diag-t1-ep7-cap4m-v040-fp16-s47-ml40（policy 1 份）
+    4,096,000 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+== diag-t1-ep7-cap4m-p185-fp16-s47-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== diag-t1-ep7-cap4m-v040-fp16-s48-ml40（policy 1 份）
+    4,096,000 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+== diag-t1-ep7-cap4m-p185-fp16-s48-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== diag-t1-ep7-cap4m-v040-fp16-s49-ml40（policy 1 份）
+    4,096,000 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+== diag-t1-ep7-cap4m-p185-fp16-s49-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== diag-t1-ep7-cap4m-v040-fp16-s50-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+== diag-t1-ep7-cap4m-p185-fp16-s50-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
