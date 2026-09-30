@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-29-batch1a-ml40.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 0e1bb7f34d8bee171126977a9f44c9f7  agent-doc/experiments/2026-09-29-batch1a-ml40.claims.json
+# source   : ae93e13f0a99-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-29T20:42:31-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep12_pass            P(supported)=0.46  UNVERIFIED             [v_ml40_b1a]  The ep12 policy passes the Day 1 criteria with ADD-AUC 0.6968 against a do-nothing baseline of 0.3102 and maniptrans_sr 0.9919.
+ep5_pass_low_mp      P(supported)=0.58  UNVERIFIED             [v_ml40_b1a]  The ep5 policy passes the Day 1 criteria with ADD-AUC 0.4111 against a baseline of 0.1782, although its maniptrans_sr is only 0.001221 (5 of 4096 worlds).
+ep0_fail_auc         P(supported)=0.44  UNVERIFIED             [v_ml40_b1a]  The ep0 policy fails the Day 1 criteria because its ADD-AUC of 0.3453 is below its do-nothing baseline of 0.3778, even though its maniptrans_sr is 0.4385.
+ep9_fail_zero        P(supported)=0.66  UNVERIFIED             [v_ml40_b1a]  The ep9 policy fails the Day 1 criteria with chord_sr 0 and maniptrans_sr 0, and its MPPE is 40.49 cm.
+ep7_invalid          P(supported)=0.91  verified               [v_ml40_b1a]  The ep7 run is invalid because its baseline and evaluation files are missing.
+tally                P(supported)=0.97  verified               [v_ml40_b1a]  The ml40 batch 1 segment A verdict reports 2 passes, 2 fails and 1 invalid run.
+ctrl_true_ep12_mppe  P(supported)=0.99  control(true) ok       [v_ml40_b1a]  The ep12 policy's MPPE is 2.10 cm.
+ctrl_false_ep9_pass  P(supported)=0.03  control(false) ok      [v_ml40_b1a]  The ep9 policy passes the Day 1 criteria.
+ctrl_false_ep5_invalid P(supported)=0.01  control(false) ok      [v_ml40_b1a]  The ep5 run is marked invalid.
+controls behaved as expected

@@ -1,0 +1,116 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "v_ml40_b1a": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "^== |判定|chord_sr  |maniptrans_sr  |add_auc  |另报|合计|无效"
+    },
+    "criteria": {
+      "file": "stages/evaluate/batch_verdict.py",
+      "grep": "按期望表逐条判 Day 1 判据|^判据（Day 1|^通过 = |只靠 ≤ 3 个世界"
+    },
+    "sj_ep0": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep0-w2048"
+    },
+    "sj_ep5": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep5-w2048"
+    },
+    "sj_ep9": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep9-w2048"
+    },
+    "sj_ep12": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep12-w2048"
+    }
+  },
+  "claims": [
+    {
+      "id": "ep12_pass",
+      "evidence": [
+        "criteria",
+        "v_ml40_b1a",
+        "sj_ep12"
+      ],
+      "claim": "The ep12 policy passes the Day 1 criteria with ADD-AUC 0.6968 against a do-nothing baseline of 0.3102 and maniptrans_sr 0.9919."
+    },
+    {
+      "id": "ep5_pass_low_mp",
+      "evidence": [
+        "criteria",
+        "v_ml40_b1a",
+        "sj_ep5"
+      ],
+      "claim": "The ep5 policy passes the Day 1 criteria with ADD-AUC 0.4111 against a baseline of 0.1782, although its maniptrans_sr is only 0.001221 (5 of 4096 worlds)."
+    },
+    {
+      "id": "ep0_fail_auc",
+      "evidence": [
+        "criteria",
+        "v_ml40_b1a",
+        "sj_ep0"
+      ],
+      "claim": "The ep0 policy fails the Day 1 criteria because its ADD-AUC of 0.3453 is below its do-nothing baseline of 0.3778, even though its maniptrans_sr is 0.4385."
+    },
+    {
+      "id": "ep9_fail_zero",
+      "evidence": [
+        "criteria",
+        "v_ml40_b1a",
+        "sj_ep9"
+      ],
+      "claim": "The ep9 policy fails the Day 1 criteria with chord_sr 0 and maniptrans_sr 0, and its MPPE is 40.49 cm."
+    },
+    {
+      "id": "ep7_invalid",
+      "evidence": [
+        "v_ml40_b1a"
+      ],
+      "claim": "The ep7 run is invalid because its baseline and evaluation files are missing."
+    },
+    {
+      "id": "tally",
+      "evidence": [
+        "v_ml40_b1a"
+      ],
+      "claim": "The ml40 batch 1 segment A verdict reports 2 passes, 2 fails and 1 invalid run."
+    },
+    {
+      "id": "ctrl_true_ep12_mppe",
+      "evidence": [
+        "v_ml40_b1a"
+      ],
+      "control": "true",
+      "claim": "The ep12 policy's MPPE is 2.10 cm."
+    },
+    {
+      "id": "ctrl_false_ep9_pass",
+      "evidence": [
+        "v_ml40_b1a"
+      ],
+      "control": "false",
+      "claim": "The ep9 policy passes the Day 1 criteria."
+    },
+    {
+      "id": "ctrl_false_ep5_invalid",
+      "evidence": [
+        "v_ml40_b1a"
+      ],
+      "control": "false",
+      "claim": "The ep5 run is marked invalid."
+    },
+    {
+      "id": "ctrl_false_ep0_pass",
+      "evidence": [
+        "criteria",
+        "v_ml40_b1a",
+        "sj_ep0"
+      ],
+      "control": "false",
+      "claim": "The ep0 policy passes the Day 1 criteria."
+    }
+  ],
+  "note": "第 1 轮（results/day2/jev_claims_batch1a_ml40_run1.txt）四条判定只有 0.44–0.66：判定行不带 run 名、证据里没有判据定义。第 2 轮起论断原文不改，补判据定义（batch_verdict.py 开头）与每条自带 run 名和判定的 summary_json 行。 第 3 轮加一道与判定论断同证据的假对照 ctrl_false_ep0_pass，确认补证据后 jev 仍能否掉错的判定（第 2 轮结果留作 _run2）。"
+}
