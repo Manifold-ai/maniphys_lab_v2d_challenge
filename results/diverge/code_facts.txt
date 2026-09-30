@@ -1,0 +1,176 @@
+# command  : stages/policy/divergence_code_facts.sh 
+# md5      : 94e1458bfdac9f9e571094faa9205528  stages/policy/divergence_code_facts.sh
+# source   : af261bf7fdc3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T09:34:25-0600
+# ---------------------------------------------------------------
+## 1. 支撑面：USDA 里的 Cylinder / Cube 各建成什么碰撞体
+== v0.4.0 scene/support.py
+scene/support.py:69:        if type_name not in ("Cylinder", "Cube"):
+scene/support.py:79:        if type_name == "Cylinder":
+scene/support.py:105:        if type_name == "Cylinder":
+scene/support.py:107:            builder.add_shape_cylinder(
+scene/support.py:111:                half_height=0.5 * height,
+scene/support.py:114:        else:  # Cube: USD `size` is the full edge length
+scene/support.py:116:            builder.add_shape_box(body, xform=xform, hx=half, hy=half, hz=half, label=name)
+## 2. BatchNorm 滑动统计：更新式，有无非有限过滤
+== v0.4.0 training/flash_sac/network.py
+training/flash_sac/network.py:113:class UnitBatchNorm(nn.Module):
+training/flash_sac/network.py:116:    update_rate: float = 0.01
+training/flash_sac/network.py:142:            running_mean.value = keep_rate * running_mean.value + self.update_rate * jax.lax.stop_gradient(mean)
+training/flash_sac/network.py:143:            running_variance.value = keep_rate * running_variance.value + self.update_rate * jax.lax.stop_gradient(
+training/flash_sac/network.py:149:        normalized = (value_f32 - mean) * jax.lax.rsqrt(variance + self.epsilon)
+training/flash_sac/network.py:153:class EnsembleUnitBatchNorm(nn.Module):
+training/flash_sac/network.py:157:    update_rate: float = 0.01
+training/flash_sac/network.py:186:            running_mean.value = keep_rate * running_mean.value + self.update_rate * jax.lax.stop_gradient(mean)
+training/flash_sac/network.py:187:            running_variance.value = keep_rate * running_variance.value + self.update_rate * jax.lax.stop_gradient(
+training/flash_sac/network.py:193:        normalized = (value_f32 - mean[:, None, :]) * jax.lax.rsqrt(variance[:, None, :] + self.epsilon)
+training/flash_sac/network.py：匹配 /isfinite|nan_to_num|where\(jnp.isfinite/ 的行数 1
+== v0.4.0 training/flash_sac/network.py
+training/flash_sac/network.py:451:    if not math.isfinite(action_scale) or action_scale <= 0.0:
+## 3. 梯度非有限时：参数跳过更新，统计量照写
+== v0.4.0 training/flash_sac/learner.py
+training/flash_sac/learner.py:226:def _apply_adam_if_finite(
+training/flash_sac/learner.py:606:    actor_finite = gradients_are_finite(actor_gradients)
+training/flash_sac/learner.py:625:    actor_params, actor_optimizer_state = _apply_adam_if_finite(
+training/flash_sac/learner.py:643:        batch_stats=actor_batch_stats,
+training/flash_sac/learner.py:753:    critic_finite = gradients_are_finite(critic_gradients)
+training/flash_sac/learner.py:759:    critic_params, critic_optimizer_state = _apply_adam_if_finite(
+training/flash_sac/learner.py:776:        batch_stats=critic_batch_stats,
+training/flash_sac/learner.py:786:        batch_stats=target_mutable["batch_stats"],
+== v0.4.0 training/flash_sac/learner.py（原文段落 226,245p;625,647p;759,787p）
+training/flash_sac/learner.py:226:def _apply_adam_if_finite(
+training/flash_sac/learner.py:227:    optimizer: optax.GradientTransformation,
+training/flash_sac/learner.py:228:    params,
+training/flash_sac/learner.py:229:    optimizer_state: optax.OptState,
+training/flash_sac/learner.py:230:    gradients,
+training/flash_sac/learner.py:231:    rate: jax.Array,
+training/flash_sac/learner.py:232:    finite: jax.Array,
+training/flash_sac/learner.py:233:    update_transform: Callable[[Any], Any] | None = None,
+training/flash_sac/learner.py:234:):
+training/flash_sac/learner.py:235:    """Skip only parameters and Adam moments; callers retain all other attempted-update state."""
+training/flash_sac/learner.py:236:
+training/flash_sac/learner.py:237:    def apply(_):
+training/flash_sac/learner.py:238:        updates, next_optimizer_state = optimizer.update(gradients, optimizer_state, params)
+training/flash_sac/learner.py:239:        if update_transform is not None:
+training/flash_sac/learner.py:240:            updates = update_transform(updates)
+training/flash_sac/learner.py:241:        updates = jax.tree.map(lambda update: -rate * update, updates)
+training/flash_sac/learner.py:242:        return optax.apply_updates(params, updates), next_optimizer_state
+training/flash_sac/learner.py:243:
+training/flash_sac/learner.py:244:    return jax.lax.cond(finite, apply, lambda _: (params, optimizer_state), operand=None)
+training/flash_sac/learner.py:245:
+training/flash_sac/learner.py:625:    actor_params, actor_optimizer_state = _apply_adam_if_finite(
+training/flash_sac/learner.py:626:        optimizer,
+training/flash_sac/learner.py:627:        state.actor.params,
+training/flash_sac/learner.py:628:        state.actor.optimizer_state,
+training/flash_sac/learner.py:629:        actor_gradients,
+training/flash_sac/learner.py:630:        actor_rate,
+training/flash_sac/learner.py:631:        actor_finite,
+training/flash_sac/learner.py:632:        actor_update_transform,
+training/flash_sac/learner.py:633:    )
+training/flash_sac/learner.py:634:    actor_params = project_unit_parameters(actor_params, config.network.projection_epsilon)
+training/flash_sac/learner.py:635:    loss_scale = update_loss_scale(
+training/flash_sac/learner.py:636:        state.loss_scale,
+training/flash_sac/learner.py:637:        actor_finite,
+training/flash_sac/learner.py:638:        config.optimization,
+training/flash_sac/learner.py:639:        enabled=loss_scaling,
+training/flash_sac/learner.py:640:    )
+training/flash_sac/learner.py:641:    actor_state = state.actor.replace(
+training/flash_sac/learner.py:642:        params=actor_params,
+training/flash_sac/learner.py:643:        batch_stats=actor_batch_stats,
+training/flash_sac/learner.py:644:        optimizer_state=actor_optimizer_state,
+training/flash_sac/learner.py:645:        schedule_step=state.actor.schedule_step + 1,
+training/flash_sac/learner.py:646:    )
+training/flash_sac/learner.py:647:
+training/flash_sac/learner.py:759:    critic_params, critic_optimizer_state = _apply_adam_if_finite(
+training/flash_sac/learner.py:760:        optimizer,
+training/flash_sac/learner.py:761:        state.critic.params,
+training/flash_sac/learner.py:762:        state.critic.optimizer_state,
+training/flash_sac/learner.py:763:        critic_gradients,
+training/flash_sac/learner.py:764:        critic_rate,
+training/flash_sac/learner.py:765:        critic_finite,
+training/flash_sac/learner.py:766:    )
+training/flash_sac/learner.py:767:    critic_params = project_unit_parameters(critic_params, config.network.projection_epsilon)
+training/flash_sac/learner.py:768:    loss_scale = update_loss_scale(
+training/flash_sac/learner.py:769:        state.loss_scale,
+training/flash_sac/learner.py:770:        critic_finite,
+training/flash_sac/learner.py:771:        config.optimization,
+training/flash_sac/learner.py:772:        enabled=loss_scaling,
+training/flash_sac/learner.py:773:    )
+training/flash_sac/learner.py:774:    critic_state = state.critic.replace(
+training/flash_sac/learner.py:775:        params=critic_params,
+training/flash_sac/learner.py:776:        batch_stats=critic_batch_stats,
+training/flash_sac/learner.py:777:        optimizer_state=critic_optimizer_state,
+training/flash_sac/learner.py:778:        schedule_step=state.critic.schedule_step + 1,
+training/flash_sac/learner.py:779:    )
+training/flash_sac/learner.py:780:    target_state = state.target_critic.replace(
+training/flash_sac/learner.py:781:        params=ema_parameters(
+training/flash_sac/learner.py:782:            state.target_critic.params,
+training/flash_sac/learner.py:783:            critic_params,
+training/flash_sac/learner.py:784:            config.optimization.target_tau,
+training/flash_sac/learner.py:785:        ),
+training/flash_sac/learner.py:786:        batch_stats=target_mutable["batch_stats"],
+training/flash_sac/learner.py:787:    )
+## 4. loss scale：有非有限梯度就按系数回退
+== v0.4.0 training/flash_sac/update.py
+training/flash_sac/update.py:59:        finite = jnp.logical_and(finite, jnp.all(jnp.isfinite(gradient)))
+training/flash_sac/update.py:63:def update_loss_scale(
+training/flash_sac/update.py:75:    finite_scale = jnp.where(grow, state.scale * config.loss_scale_growth_factor, state.scale)
+training/flash_sac/update.py:76:    scale = jnp.where(finite, finite_scale, state.scale * config.loss_scale_backoff_factor)
+## 5. 回放缓冲：观测按存储精度写入，采样时转回 float32
+== v0.4.0 training/flash_sac/replay.py
+training/flash_sac/replay.py:33:    observation_storage_dtype: str = "float32"
+training/flash_sac/replay.py:265:        observation=pending.observation.at[index].set(transition.observation.astype(pending.observation.dtype)),
+training/flash_sac/replay.py:271:            transition.next_observation.astype(pending.next_observation.dtype)
+training/flash_sac/replay.py:394:        observation=storage.observation[indices].astype(jnp.float32),
+training/flash_sac/replay.py:399:        next_observation=storage.next_observation[indices].astype(jnp.float32),
+## 6. 观测、终止、重置里的截断与非有限处理（isfinite 只出现在配置校验里）
+envs/observation.py：匹配 /clip\(|nan_to_num|isnan/ 的行数 0
+envs/recon_body.py：匹配 /clip\(|nan_to_num|isnan/ 的行数 0
+lifecycle/termination.py：匹配 /clip\(|nan_to_num|isnan/ 的行数 0
+lifecycle/reset.py：匹配 /clip\(|nan_to_num|isnan/ 的行数 0
+== v0.4.0 lifecycle/termination.py
+lifecycle/termination.py:28:        if not math.isfinite(self.threshold) or self.threshold < 0.0:
+lifecycle/termination.py:512:        if not all(math.isfinite(value) and value >= 0.0 for value in thresholds):
+== v0.4.0 lifecycle/reset.py
+lifecycle/reset.py:536:        if not math.isfinite(resolved) or not 0.0 <= resolved <= 1.0:
+lifecycle/reset.py:628:        if not math.isfinite(self.reset_voc_scale) or self.reset_voc_scale < 0.0:
+lifecycle/reset.py:630:        if not math.isfinite(self.shoulder_spread) or self.shoulder_spread < 0.0:
+lifecycle/reset.py:904:        if not math.isfinite(resolved) or not 0.0 <= resolved <= 1.0:
+lifecycle/reset.py:911:        if not math.isfinite(resolved) or not 0.0 <= resolved <= 1.0:
+## 7. 配方的精度设置
+== v0.4.0 configs/experiment/g1_recon_body_flash_sac.yaml
+configs/experiment/g1_recon_body_flash_sac.yaml:9:  - override /observation: recon_body
+configs/experiment/g1_recon_body_flash_sac.yaml:76:    observation_storage_dtype: float16
+== v0.4.0 configs/training/reference_flash_sac.yaml
+configs/training/reference_flash_sac.yaml:8:mixed_precision: true
+configs/training/reference_flash_sac.yaml:9:compute_dtype: float16
+configs/training/reference_flash_sac.yaml:33:  batch_norm_update_rate: 0.01
+configs/training/reference_flash_sac.yaml:49:  loss_scale_initial: 65536.0
+configs/training/reference_flash_sac.yaml:50:  loss_scale_growth_factor: 2.0
+configs/training/reference_flash_sac.yaml:51:  loss_scale_backoff_factor: 0.5
+configs/training/reference_flash_sac.yaml:52:  loss_scale_growth_interval: 2000
+configs/training/reference_flash_sac.yaml:67:  observation_storage_dtype: float32
+## 8. ReconBody 观测的排列（486 维）
+== v0.4.0 envs/recon_body.py
+envs/recon_body.py:    22	RECON_BODY_OBSERVATION_DIM = 486
+envs/recon_body.py:    23	RECON_BODY_FUTURE_OFFSETS = (0, 5, 10)
+envs/recon_body.py:    24	
+envs/recon_body.py:    25	RECON_BODY_OBSERVATION_BLOCKS = (
+envs/recon_body.py:    26	    ("wrist_position_pelvis_m[right,left]", 6),
+envs/recon_body.py:    27	    ("wrist_orientation_pelvis_6d[right,left]", 12),
+envs/recon_body.py:    28	    ("wrist_linear_velocity_pelvis_mps[right,left]", 6),
+envs/recon_body.py:    29	    ("object_position_pelvis_m", 3),
+envs/recon_body.py:    30	    ("object_orientation_pelvis_6d", 6),
+envs/recon_body.py:    31	    ("joint_position_relative_default_rad[43]", 43),
+envs/recon_body.py:    32	    ("joint_velocity_radps[43]", 43),
+envs/recon_body.py:    33	    ("future_root_position_w_m[offsets=0,5,10]", 9),
+envs/recon_body.py:    34	    ("future_root_orientation_delta_6d[offsets=0,5,10]", 18),
+envs/recon_body.py:    35	    ("future_joint_position_delta_rad[offsets=0,5,10]", 129),
+envs/recon_body.py:    36	    ("future_palm_position_delta_w_m[offsets=0,5,10;right,left]", 18),
+envs/recon_body.py:    37	    ("future_palm_orientation_delta_6d[offsets=0,5,10;right,left]", 36),
+envs/recon_body.py:    38	    ("live_hand_pose_in_object[position,6d;left,right]", 18),
+envs/recon_body.py:    39	    ("target_object_pose_in_live_object[position,6d]", 9),
+envs/recon_body.py:    40	    ("normalized_reference_phase", 1),
+envs/recon_body.py:    41	    ("processed_target_history[oldest,newest;3x43]", 129),
+envs/recon_body.py:    42	)

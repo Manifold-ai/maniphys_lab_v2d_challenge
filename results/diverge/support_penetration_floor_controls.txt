@@ -1,0 +1,11 @@
+# command  : uv run --no-project --with numpy --with pyarrow python stages/retarget/support_penetration.py runs/mf4090/motion_diag/2026-05-01_17-04-55_traffic_cone_ground_table_02 runs/mf4090/motion_diag/2026-05-22_16-52-36_step_ladder_drag_03 
+# md5      : a74964baffbc56d63d86ef7c6c62be94  stages/retarget/support_penetration.py
+# source   : af261bf7fdc3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T09:26:41-0600
+# ---------------------------------------------------------------
+== 2026-05-01_17-04-55_traffic_cone_ground_table_02（440 帧；网格 282928 个顶点，抽 4042 个）
+  地面：最低顶点最低 -16.8 mm（第 94 帧）；穿地超过 5 mm 的帧 123 个；第 0 帧 -14.0 mm
+  Cylinder "object_0"（半径 12.5 cm、高 4.0 cm，中心 [-0.293, 0.643, 0.751]）：最小有符号距离 +9.8 mm（第 393 帧）；嵌入超过 5 mm 的帧 0 个；离形状 1 cm 以内的帧 3 个；第 0 帧 +847.9 mm
+== 2026-05-22_16-52-36_step_ladder_drag_03（719 帧；网格 179840 个顶点，抽 4088 个）
+  地面：最低顶点最低 -13.8 mm（第 299 帧）；穿地超过 5 mm 的帧 136 个；第 0 帧 +3.6 mm

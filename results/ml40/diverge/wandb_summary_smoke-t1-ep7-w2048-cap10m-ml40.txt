@@ -1,0 +1,37 @@
+# command  : sed -n /wandb:\ Run\ history:/\,/wandb:\ View\ run/p runs/logs/smoke-t1-ep7-w2048-cap10m-ml40.s1.log 
+# md5      : 4e7e3b6c788674163f6fd9a927c9c345  runs/logs/smoke-t1-ep7-w2048-cap10m-ml40.s1.log
+# source   : 43b8acc2ca0d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-30T23:27:06+0800
+# ---------------------------------------------------------------
+wandb: Run history:
+wandb:          curriculum/immediate_first_frame_probability ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:           curriculum/reset_to_first_frame_probability ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                                curriculum/stage_index ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                                  curriculum/voc_scale ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:             episode/length_mean_per_completed_episode ▆█▇▇▇▇▇█▇▇███████████████▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: episode/reference_progress_mean_per_completed_episode ▃▆▄▆▆▄▇▄▄▇▆▄▆▅▆▆▆▆▆▆▆▆▆█▂▁▁▂▁▁▁▁▁▁▁▂▁▁▂▁
+wandb:             episode/return_mean_per_completed_episode ▁▅▇▆▄▅▃▃▃▄▅▆▆▆▆▆▆▆▇▆█▇                  
+wandb:                            mixed_precision/loss_scale ▃▃▃▃▃▃▃▃▃▃▃▃▅▅▅▅▅▅▅▅███████▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 policy/action_abs_mean_per_env_action ▁▁▁▁▁█▄▆▆▆▆▆▆▆▆▆▇▇▇▇▇▇▇                 
+wandb:                  policy/entropy_mean_per_actor_update ▁▁▁▁▁▃▄▇████████████████                
+wandb:                                                   +34 ...
+wandb: 
+wandb: Run summary:
+wandb:          curriculum/immediate_first_frame_probability 0
+wandb:           curriculum/reset_to_first_frame_probability 0
+wandb:                                curriculum/stage_index 0
+wandb:                                  curriculum/voc_scale 1
+wandb:             episode/length_mean_per_completed_episode 5.01926
+wandb: episode/reference_progress_mean_per_completed_episode 0.00119
+wandb:             episode/return_mean_per_completed_episode nan
+wandb:                            mixed_precision/loss_scale 0
+wandb:                 policy/action_abs_mean_per_env_action nan
+wandb:                  policy/entropy_mean_per_actor_update nan
+wandb:                                                   +34 ...
+wandb: 
+wandb: 🚀 View run smoke-t1-ep7-w2048-cap10m-ml40-s1 at: https://wandb.ai/zhou-rongx-northeastern-university/v2d-selftest/runs/smoke-t1-ep7-w2048-cap10m-ml40-s1
+wandb: ⭐️ View project at: https://wandb.ai/zhou-rongx-northeastern-university/v2d-selftest
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: /repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40/wandb/run-20260929_084217-smoke-t1-ep7-w2048-cap10m-ml40-s1/logs
+completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40

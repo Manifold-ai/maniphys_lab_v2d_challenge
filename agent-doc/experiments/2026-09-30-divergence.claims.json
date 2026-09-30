@@ -1,0 +1,182 @@
+{
+  "model": "jev-1.13.0",
+  "note": "计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 C2–C5 与 ep28 看守；证据按节摘取。",
+  "evidence": {
+    "code_bn": {
+      "file": "results/diverge/code_facts.txt",
+      "grep": "## 2|training/flash_sac/network.py"
+    },
+    "code_learner": {
+      "file": "results/diverge/code_facts.txt",
+      "grep": "## 3|training/flash_sac/learner.py"
+    },
+    "code_ls": {
+      "file": "results/diverge/code_facts.txt",
+      "grep": "## 4|training/flash_sac/update.py|loss_scale_backoff"
+    },
+    "code_replay_cfg": {
+      "file": "results/diverge/code_facts.txt",
+      "grep": "## 5|## 7|training/flash_sac/replay.py|g1_recon_body_flash_sac.yaml|reference_flash_sac.yaml"
+    },
+    "wandb": {
+      "file": "results/diverge/wandb_local_history.txt"
+    },
+    "tensor_ep1": {
+      "file": "results/diverge/ckpt_nonfinite_by_tensor_ep1.txt"
+    },
+    "tensor_ep7": {
+      "file": "results/diverge/ckpt_nonfinite_by_tensor_ep7_smoke.txt"
+    },
+    "obs_map": {
+      "file": "results/diverge/obs_block_nan_map.txt"
+    },
+    "pen": {
+      "file": "results/diverge/support_penetration.txt"
+    },
+    "pen_floor": {
+      "file": "results/diverge/support_penetration_floor_controls.txt"
+    },
+    "watch": {
+      "file": "results/diverge/ep28_nan_watch_log.txt"
+    },
+    "chain": {
+      "file": "results/diverge/ep28_chain_and_record.txt",
+      "grep": "t1-ep2[89]-w2048-cap4m-mf4090 (失败|已按)|正式 t1-ep2[89]|\"event\""
+    }
+  },
+  "claims": [
+    {
+      "id": "code_bn_ema",
+      "evidence": [
+        "code_bn"
+      ],
+      "claim": "In FlashCHORD v0.4.0, UnitBatchNorm and EnsembleUnitBatchNorm update running_mean and running_variance as an exponential moving average with update rate 0.01, and the only isfinite check in network.py validates action_scale."
+    },
+    {
+      "id": "code_stats_written",
+      "evidence": [
+        "code_learner"
+      ],
+      "claim": "In learner.py, the actor and critic parameters are updated through _apply_adam_if_finite, while the actor, critic and target batch_stats are passed into the new state as plain assignments."
+    },
+    {
+      "id": "code_fp16",
+      "evidence": [
+        "code_replay_cfg"
+      ],
+      "claim": "The G1 ReconBody FlashSAC experiment config sets observation_storage_dtype to float16 while the training default is float32, the replay buffer casts observations to the storage dtype when writing and to float32 when sampling, and training uses mixed precision with compute_dtype float16."
+    },
+    {
+      "id": "code_loss_scale",
+      "evidence": [
+        "code_ls"
+      ],
+      "claim": "When any gradient is non-finite, the loss scale is multiplied by the backoff factor, which the training config sets to 0.5."
+    },
+    {
+      "id": "ep7_onset",
+      "evidence": [
+        "wandb"
+      ],
+      "claim": "In the ep7 smoke's local W&B history, action_abs_mean, the rewards and the critic loss first become NaN at environment step 2,406,400, where the loss scale drops from 262144 to about 6.1e-05, and none of them recovers."
+    },
+    {
+      "id": "ep1_onset",
+      "evidence": [
+        "wandb"
+      ],
+      "claim": "In ep1's local W&B history, the same metrics first become NaN at environment step 42,444,800 in curriculum stage 1 with voc_scale 0.75, after which the loss scale reaches 0 and the mean episode length falls to about 5.9."
+    },
+    {
+      "id": "controls_finite",
+      "evidence": [
+        "wandb"
+      ],
+      "claim": "The local W&B histories of the ep9 smoke and of the full ep6 run have all metrics finite throughout."
+    },
+    {
+      "id": "same_tensors",
+      "evidence": [
+        "tensor_ep1",
+        "tensor_ep7"
+      ],
+      "claim": "The ep1 checkpoint at 50,001,920 steps and the ep7 smoke checkpoint have non-finite values in the same tensors: all of state.0021 to state.0028, and the same 386 of 486 entries of state.0029 and state.0030."
+    },
+    {
+      "id": "obs_blocks",
+      "evidence": [
+        "obs_map"
+      ],
+      "claim": "In the 486-dim statistics, all orientation 6D blocks and the normalized reference phase are finite, while the wrist and object position blocks, the joint position and velocity blocks and the processed target history are entirely non-finite."
+    },
+    {
+      "id": "pen_ep1_ep7",
+      "evidence": [
+        "pen"
+      ],
+      "claim": "In the reference, ep1's vacuum is more than 5 mm below the floor in 385 of 747 frames and never embeds more than 5 mm into its chair-back box, and ep7's iron never embeds more than 5 mm into its tabletop."
+    },
+    {
+      "id": "pen_ep28",
+      "evidence": [
+        "pen"
+      ],
+      "claim": "In the reference, ep28's squeegee embeds up to 10 mm into both chair-back boxes and has vertices passing through them in 239 and 209 frames."
+    },
+    {
+      "id": "floor_controls",
+      "evidence": [
+        "pen_floor"
+      ],
+      "claim": "The ep17 and ep22 references go more than 5 mm below the floor in 123 of 440 and 136 of 719 frames respectively."
+    },
+    {
+      "id": "ep28_stop",
+      "evidence": [
+        "watch",
+        "chain"
+      ],
+      "claim": "The ep28 watcher found the 40,001,536-step checkpoint finite and the 50,001,920 and 60,002,304 checkpoints each with 5892 non-finite parameters, called fc_stop at 09:29:54 MDT with exit code 0, and the training chain then started ep29."
+    },
+    {
+      "id": "ctrl_true_ls",
+      "evidence": [
+        "wandb"
+      ],
+      "control": "true",
+      "claim": "The ep7 smoke's loss scale at environment step 2,355,200 is 262144."
+    },
+    {
+      "id": "ctrl_false_stage0",
+      "evidence": [
+        "wandb"
+      ],
+      "control": "false",
+      "claim": "In ep1's local W&B history, the metrics first become NaN during curriculum stage 0."
+    },
+    {
+      "id": "ctrl_false_fp32",
+      "evidence": [
+        "code_replay_cfg"
+      ],
+      "control": "false",
+      "claim": "The G1 ReconBody FlashSAC experiment config sets observation_storage_dtype to float32."
+    },
+    {
+      "id": "ctrl_false_ep7_embed",
+      "evidence": [
+        "pen"
+      ],
+      "control": "false",
+      "claim": "In the reference, ep7's iron embeds more than 5 mm into its tabletop in more than 100 frames."
+    },
+    {
+      "id": "ctrl_false_single",
+      "evidence": [
+        "watch"
+      ],
+      "control": "false",
+      "claim": "The ep28 watcher stopped the run after finding a single non-finite checkpoint."
+    }
+  ]
+}

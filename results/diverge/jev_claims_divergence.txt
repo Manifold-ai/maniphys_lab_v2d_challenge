@@ -1,0 +1,27 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-30-divergence.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : e282937db8b5b380127c1c053225a14d  agent-doc/experiments/2026-09-30-divergence.claims.json
+# source   : af261bf7fdc3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T09:34:45-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+code_bn_ema          P(supported)=0.92  verified               [code_bn]  In FlashCHORD v0.4.0, UnitBatchNorm and EnsembleUnitBatchNorm update running_mean and running_variance as an exponential moving average with update rate 0.01, and the only isfinite check in network.py validates action_scale.
+code_stats_written   P(supported)=0.94  verified               [code_learner]  In learner.py, the actor and critic parameters are updated through _apply_adam_if_finite, while the actor, critic and target batch_stats are passed into the new state as plain assignments.
+code_fp16            P(supported)=0.85  verified               [code_replay_cfg]  The G1 ReconBody FlashSAC experiment config sets observation_storage_dtype to float16 while the training default is float32, the replay buffer casts observations to the storage dtype when writing and to float32 when sampling, and training uses mixed precision with compute_dtype float16.
+code_loss_scale      P(supported)=0.95  verified               [code_ls]  When any gradient is non-finite, the loss scale is multiplied by the backoff factor, which the training config sets to 0.5.
+ep7_onset            P(supported)=0.98  verified               [wandb]  In the ep7 smoke's local W&B history, action_abs_mean, the rewards and the critic loss first become NaN at environment step 2,406,400, where the loss scale drops from 262144 to about 6.1e-05, and none of them recovers.
+ep1_onset            P(supported)=0.98  verified               [wandb]  In ep1's local W&B history, the same metrics first become NaN at environment step 42,444,800 in curriculum stage 1 with voc_scale 0.75, after which the loss scale reaches 0 and the mean episode length falls to about 5.9.
+controls_finite      P(supported)=0.98  verified               [wandb]  The local W&B histories of the ep9 smoke and of the full ep6 run have all metrics finite throughout.
+same_tensors         P(supported)=0.98  verified               [tensor_ep1, tensor_ep7]  The ep1 checkpoint at 50,001,920 steps and the ep7 smoke checkpoint have non-finite values in the same tensors: all of state.0021 to state.0028, and the same 386 of 486 entries of state.0029 and state.0030.
+obs_blocks           P(supported)=0.92  verified               [obs_map]  In the 486-dim statistics, all orientation 6D blocks and the normalized reference phase are finite, while the wrist and object position blocks, the joint position and velocity blocks and the processed target history are entirely non-finite.
+pen_ep1_ep7          P(supported)=0.71  verified               [pen]  In the reference, ep1's vacuum is more than 5 mm below the floor in 385 of 747 frames and never embeds more than 5 mm into its chair-back box, and ep7's iron never embeds more than 5 mm into its tabletop.
+pen_ep28             P(supported)=0.86  verified               [pen]  In the reference, ep28's squeegee embeds up to 10 mm into both chair-back boxes and has vertices passing through them in 239 and 209 frames.
+floor_controls       P(supported)=0.88  verified               [pen_floor]  The ep17 and ep22 references go more than 5 mm below the floor in 123 of 440 and 136 of 719 frames respectively.
+ep28_stop            P(supported)=0.91  verified               [watch, chain]  The ep28 watcher found the 40,001,536-step checkpoint finite and the 50,001,920 and 60,002,304 checkpoints each with 5892 non-finite parameters, called fc_stop at 09:29:54 MDT with exit code 0, and the training chain then started ep29.
+ctrl_true_ls         P(supported)=0.99  control(true) ok       [wandb]  The ep7 smoke's loss scale at environment step 2,355,200 is 262144.
+ctrl_false_stage0    P(supported)=0.02  control(false) ok      [wandb]  In ep1's local W&B history, the metrics first become NaN during curriculum stage 0.
+ctrl_false_fp32      P(supported)=0.02  control(false) ok      [code_replay_cfg]  The G1 ReconBody FlashSAC experiment config sets observation_storage_dtype to float32.
+ctrl_false_ep7_embed P(supported)=0.02  control(false) ok      [pen]  In the reference, ep7's iron embeds more than 5 mm into its tabletop in more than 100 frames.
+ctrl_false_single    P(supported)=0.02  control(false) ok      [watch]  The ep28 watcher stopped the run after finding a single non-finite checkpoint.
+controls behaved as expected

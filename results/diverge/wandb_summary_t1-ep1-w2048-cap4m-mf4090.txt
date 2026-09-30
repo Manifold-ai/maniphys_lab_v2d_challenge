@@ -1,0 +1,37 @@
+# command  : sed -n /wandb:\ Run\ history:/\,/wandb:\ View\ run/p runs/logs/t1-ep1-w2048-cap4m-mf4090.s1.log 
+# md5      : a3913010c56369b5eff49035b1d59edf  runs/logs/t1-ep1-w2048-cap4m-mf4090.s1.log
+# source   : 43b8acc2ca0d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-09-30T23:27:02+0800
+# ---------------------------------------------------------------
+wandb: Run history:
+wandb:          curriculum/immediate_first_frame_probability ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅▅▅█████
+wandb:           curriculum/reset_to_first_frame_probability ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                                curriculum/stage_index ▁▁▁▁▁▂▂▂▂▃▃▃▄▄▄▄▅▅▅▅▅▅▅▅▅▅▆▆▆▆▆▇▇▇██████
+wandb:                                  curriculum/voc_scale █████▆▆▆▆▅▅▅▅▅▅▃▃▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:             episode/length_mean_per_completed_episode ▇▇███▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: episode/reference_progress_mean_per_completed_episode ▅▅███▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▂▂
+wandb:             episode/return_mean_per_completed_episode ▁▃▃█▆                                   
+wandb:                            mixed_precision/loss_scale ▁▁▅▅██▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 policy/action_abs_mean_per_env_action ▁▆█                                     
+wandb:                  policy/entropy_mean_per_actor_update █▇▆▅▅▃▁▁                                
+wandb:                                                   +34 ...
+wandb: 
+wandb: Run summary:
+wandb:          curriculum/immediate_first_frame_probability 0.5
+wandb:           curriculum/reset_to_first_frame_probability 0
+wandb:                                curriculum/stage_index 8
+wandb:                                  curriculum/voc_scale 0
+wandb:             episode/length_mean_per_completed_episode 5.0786
+wandb: episode/reference_progress_mean_per_completed_episode 0.00459
+wandb:             episode/return_mean_per_completed_episode nan
+wandb:                            mixed_precision/loss_scale 0
+wandb:                 policy/action_abs_mean_per_env_action nan
+wandb:                  policy/entropy_mean_per_actor_update nan
+wandb:                                                   +34 ...
+wandb: 
+wandb: 🚀 View run t1-ep1-w2048-cap4m-mf4090-s1 at: https://wandb.ai/zhou-rongx-northeastern-university/v2d-track2/runs/t1-ep1-w2048-cap4m-mf4090-s1
+wandb: ⭐️ View project at: https://wandb.ai/zhou-rongx-northeastern-university/v2d-track2
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: /repo/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090/wandb/run-20260929_085524-t1-ep1-w2048-cap4m-mf4090-s1/logs
+completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090

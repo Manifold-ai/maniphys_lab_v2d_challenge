@@ -7,6 +7,7 @@ safetensors 格式：8 字节小端头长度 + JSON 头（张量名 → dtype、
 用法（仓库根，或经 scripts/dev/pipe-py 在训练机上跑）：
   python3 stages/policy/ckpt_nonfinite.py <run>...          每个 run 的全部 policy_<步数>.safetensors，按步数排
   python3 stages/policy/ckpt_nonfinite.py --last <run>...   每个 run 只看步数最大的一份完整 checkpoint
+  加 --by-tensor：列出含非有限值的张量、形状与下标区间；加 --steps 40001536,50001920：只看这些步数
   python3 stages/policy/ckpt_nonfinite.py --watch <run> [--interval 120] [--timeout 14400] [--stop-after 2]
       看守：每 interval 秒看一次新写完的 policy；按步数连续 stop-after 份完整 checkpoint 都含非有限参数，就调用
       stages/policy/fc_stop.sh <run> 并退出；run 目录已有 DONE 或 STOP 时只报告、不止损（DONE 优先）。到 timeout 秒也退出。
@@ -56,14 +57,31 @@ def header(path: Path) -> Optional[Tuple[dict, int]]:
         return None
 
 
-def scan(path: Path) -> Optional[dict]:
-    """{'total', 'nan', 'inf', 'skipped'}；不完整返回 None。"""
+def runs_of(indices: List[int]) -> str:
+    """把排好序的下标压成区间：0-3,7,9-12。"""
+    out, start, prev = [], None, None
+    for i in indices:
+        if start is None:
+            start = prev = i
+        elif i == prev + 1:
+            prev = i
+        else:
+            out.append(f"{start}-{prev}" if prev > start else f"{start}")
+            start = prev = i
+    if start is not None:
+        out.append(f"{start}-{prev}" if prev > start else f"{start}")
+    return ",".join(out)
+
+
+def scan(path: Path, by_tensor: bool = False) -> Optional[dict]:
+    """{'total', 'nan', 'inf', 'skipped', 'tensors'}；不完整返回 None。by_tensor 时 tensors 列出含非有限值的张量与下标区间。"""
     got = header(path)
     if got is None:
         return None
     h, base = got
     total = nan = inf = 0
     skipped = []
+    tensors = []
     with path.open("rb") as f:
         for name, v in h.items():
             if name == "__metadata__":
@@ -78,12 +96,17 @@ def scan(path: Path) -> Optional[dict]:
             if sys.byteorder != "little":
                 a.byteswap()
             total += len(a)
-            for x in a:
+            bad = []
+            for i, x in enumerate(a):
                 if x != x:
                     nan += 1
+                    bad.append(i)
                 elif math.isinf(x):
                     inf += 1
-    return {"total": total, "nan": nan, "inf": inf, "skipped": skipped}
+                    bad.append(i)
+            if by_tensor and bad:
+                tensors.append((name, v["shape"], len(bad), runs_of(bad)))
+    return {"total": total, "nan": nan, "inf": inf, "skipped": skipped, "tensors": tensors}
 
 
 def policies(run: str) -> List[Tuple[int, Path]]:
@@ -103,7 +126,12 @@ def line(step: int, r: Optional[dict]) -> str:
     return s + (f"；未扫的非 F32 张量 {r['skipped']}" if r["skipped"] else "")
 
 
-def report(runs: List[str], last_only: bool) -> None:
+def tensor_lines(r: dict) -> None:
+    for name, shape, n, ranges in r.get("tensors", []):
+        print(f"      {name} {shape}：非有限 {n} 个，下标 {ranges}")
+
+
+def report(runs: List[str], last_only: bool, by_tensor: bool = False, steps: Optional[set] = None) -> None:
     for run in runs:
         items = policies(run)
         print(f"== {run}（policy {len(items)} 份）")
@@ -112,17 +140,22 @@ def report(runs: List[str], last_only: bool) -> None:
             continue
         if last_only:
             for step, p in reversed(items):
-                r = scan(p)
+                r = scan(p, by_tensor)
                 if r is not None:
                     print(line(step, r))
+                    tensor_lines(r)
                     break
             else:
                 print("  没有完整的 checkpoint")
             continue
         first_bad = None
         for step, p in items:
-            r = scan(p)
+            if steps and step not in steps:
+                continue
+            r = scan(p, by_tensor)
             print(line(step, r))
+            if r is not None:
+                tensor_lines(r)
             if r is not None and r["nan"] + r["inf"] and first_bad is None:
                 first_bad = step
         print(f"  第一份含非有限参数：{first_bad:,d} 步" if first_bad else "  全部有限")
@@ -181,6 +214,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+")
     ap.add_argument("--last", action="store_true")
+    ap.add_argument("--by-tensor", action="store_true", help="列出含非有限值的张量、形状与下标区间")
+    ap.add_argument("--steps", default="", help="只看这些步数（逗号分隔）")
     ap.add_argument("--watch", action="store_true")
     ap.add_argument("--interval", type=int, default=120)
     ap.add_argument("--timeout", type=int, default=14400)
@@ -196,7 +231,8 @@ def main() -> int:
         if not re.fullmatch(r"[A-Za-z0-9_.:=, -]*", a.tag):
             sys.exit("--tag 只能是字母数字与 _.:=, -")
         return watch(a.runs[0], a.interval, a.timeout, a.stop_after, a.tag)
-    report(a.runs, a.last)
+    steps = {int(x) for x in a.steps.split(",") if x}
+    report(a.runs, a.last, a.by_tensor, steps)
     return 0
 
 

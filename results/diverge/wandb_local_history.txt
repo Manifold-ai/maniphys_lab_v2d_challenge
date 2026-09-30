@@ -1,0 +1,70 @@
+# command  : uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_history.py runs/ml40/wandb_local/smoke-t1-ep7-w2048-cap10m-ml40/run-smoke-t1-ep7-w2048-cap10m-ml40-s1.wandb runs/ml40/wandb_local/smoke-t1-ep9-w2048-cap10m-ml40/run-smoke-t1-ep9-w2048-cap10m-ml40-s1.wandb runs/mf4090/wandb_local/t1-ep1-w2048-cap4m-mf4090/run-t1-ep1-w2048-cap4m-mf4090-s1.wandb runs/mf4090/wandb_local/t1-ep6-w2048-cap4m-mf4090/run-t1-ep6-w2048-cap4m-mf4090-s1.wandb 
+# md5      : 10be52a3c62d8a8546bebd4c164e968a  stages/policy/wandb_local_history.py
+# md5      : 7aa1d8df9c127f3e32c9d0f985e5ce40  runs/ml40/wandb_local/smoke-t1-ep7-w2048-cap10m-ml40/run-smoke-t1-ep7-w2048-cap10m-ml40-s1.wandb
+# md5      : 2cd1274234f84a061a829766881af8b3  runs/ml40/wandb_local/smoke-t1-ep9-w2048-cap10m-ml40/run-smoke-t1-ep9-w2048-cap10m-ml40-s1.wandb
+# md5      : 5f1921d18aaa6425ac323b5138904e85  runs/mf4090/wandb_local/t1-ep1-w2048-cap4m-mf4090/run-t1-ep1-w2048-cap4m-mf4090-s1.wandb
+# md5      : 1b5db5478ee0c7efd4347c1d9cc410f5  runs/mf4090/wandb_local/t1-ep6-w2048-cap4m-mf4090/run-t1-ep6-w2048-cap4m-mf4090-s1.wandb
+# source   : af261bf7fdc3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T09:15:34-0600
+# ---------------------------------------------------------------
+== run-smoke-t1-ep7-w2048-cap10m-ml40-s1.wandb：history 80 行，指标 47 个
+  环境步数取自：_step
+  出现过非有限值的指标 17 个（按第一次出现的行排序）：
+    第 46 行（环境步数 2,406,400）：policy/action_abs_mean_per_env_action = nan；之前最后有限值 4.66008（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward/dense_mean_per_env_step = nan；之前最后有限值 0.0365255（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward/total_mean_per_env_step = nan；之前最后有限值 -0.0818339（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/action_l2_weighted_mean_per_env_step = nan；之前最后有限值 -2.50461e-05（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/action_rate_l2_weighted_mean_per_env_step = nan；之前最后有限值 -0.00180014（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/body_joint_position_weighted_mean_per_env_step = nan；之前最后有限值 0.00651368（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/object_position_weighted_mean_per_env_step = nan；之前最后有限值 0.000631239（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/palm_position_weighted_mean_per_env_step = nan；之前最后有限值 0.00143711（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_components/pelvis_position_weighted_mean_per_env_step = nan；之前最后有限值 0.00997607（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：reward_normalization/scale_denominator = nan；之前最后有限值 1.46037（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：sac/critic_loss_mean_per_update = nan；之前最后有限值 2.03743（第 45 行）；之后没有恢复
+    第 46 行（环境步数 2,406,400）：tracking_error/pelvis_position_m_mean_env_max_per_step = nan；之前最后有限值 0.263023（第 45 行）；之后没有恢复
+    第 47 行（环境步数 2,457,600）：episode/return_mean_per_completed_episode = nan；之前最后有限值 -4.21236（第 46 行）；之后没有恢复
+    第 47 行（环境步数 2,457,600）：policy/entropy_mean_per_actor_update = nan；之前最后有限值 120.514（第 46 行）；之后没有恢复
+    第 47 行（环境步数 2,457,600）：policy/temperature_mean_per_update = nan；之前最后有限值 0.00582926（第 46 行）；之后没有恢复
+    第 47 行（环境步数 2,457,600）：sac/actor_loss_mean_per_update = nan；之前最后有限值 0.148267（第 46 行）；之后没有恢复
+    第 47 行（环境步数 2,457,600）：sac/temperature_loss_mean_per_update = nan；之前最后有限值 0.436244（第 46 行）；之后没有恢复
+  最早发散在第 46 行；第 42–47 行的关键指标：
+    第 42 行（2,201,600 步）：stage_index=0；voc_scale=1；loss_scale=262144；length_mean_per_completed_episode=50.1011；return_mean_per_completed_episode=-4.19085；action_abs_mean_per_env_action=4.65556
+    第 43 行（2,252,800 步）：stage_index=0；voc_scale=1；loss_scale=262144；length_mean_per_completed_episode=50.0459；return_mean_per_completed_episode=-4.30015；action_abs_mean_per_env_action=4.66062
+    第 44 行（2,304,000 步）：stage_index=0；voc_scale=1；loss_scale=262144；length_mean_per_completed_episode=50.235；return_mean_per_completed_episode=-4.1673；action_abs_mean_per_env_action=4.66124
+    第 45 行（2,355,200 步）：stage_index=0；voc_scale=1；loss_scale=262144；length_mean_per_completed_episode=50.1245；return_mean_per_completed_episode=-4.11005；action_abs_mean_per_env_action=4.66008
+    第 46 行（2,406,400 步）：stage_index=0；voc_scale=1；loss_scale=6.10352e-05；length_mean_per_completed_episode=50.2002；return_mean_per_completed_episode=-4.21236；action_abs_mean_per_env_action=nan
+    第 47 行（2,457,600 步）：stage_index=0；voc_scale=1；loss_scale=3.67342e-40；length_mean_per_completed_episode=23.1004；return_mean_per_completed_episode=nan；action_abs_mean_per_env_action=nan
+== run-smoke-t1-ep9-w2048-cap10m-ml40-s1.wandb：history 80 行，指标 47 个
+  环境步数取自：_step
+  所有指标全程有限
+== run-t1-ep1-w2048-cap4m-mf4090-s1.wandb：history 6836 行，指标 47 个
+  环境步数取自：_step
+  出现过非有限值的指标 17 个（按第一次出现的行排序）：
+    第 828 行（环境步数 42,444,800）：episode/return_mean_per_completed_episode = nan；之前最后有限值 2.8888（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：policy/action_abs_mean_per_env_action = nan；之前最后有限值 6.44781（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：policy/entropy_mean_per_actor_update = nan；之前最后有限值 45.7（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：policy/temperature_mean_per_update = nan；之前最后有限值 5.20642e-05（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward/dense_mean_per_env_step = nan；之前最后有限值 0.151369（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward/total_mean_per_env_step = nan；之前最后有限值 0.0501192（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/action_l2_weighted_mean_per_env_step = nan；之前最后有限值 -4.46652e-05（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/action_rate_l2_weighted_mean_per_env_step = nan；之前最后有限值 -0.00110306（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/body_joint_position_weighted_mean_per_env_step = nan；之前最后有限值 0.0501899（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/object_position_weighted_mean_per_env_step = nan；之前最后有限值 0.0111435（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/palm_position_weighted_mean_per_env_step = nan；之前最后有限值 0.00890771（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_components/pelvis_position_weighted_mean_per_env_step = nan；之前最后有限值 0.0162629（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：reward_normalization/scale_denominator = nan；之前最后有限值 3.92821（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：sac/actor_loss_mean_per_update = nan；之前最后有限值 -0.0300736（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：sac/critic_loss_mean_per_update = nan；之前最后有限值 1.42263（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：sac/temperature_loss_mean_per_update = nan；之前最后有限值 1.18975e-06（第 827 行）；之后没有恢复
+    第 828 行（环境步数 42,444,800）：tracking_error/pelvis_position_m_mean_env_max_per_step = nan；之前最后有限值 0.124738（第 827 行）；之后没有恢复
+  最早发散在第 828 行；第 824–829 行的关键指标：
+    第 824 行（42,240,000 步）：stage_index=1；voc_scale=0.75；loss_scale=4.1943e+06；length_mean_per_completed_episode=60.8717；return_mean_per_completed_episode=3.03675；action_abs_mean_per_env_action=6.37825
+    第 825 行（42,291,200 步）：stage_index=1；voc_scale=0.75；loss_scale=4.1943e+06；length_mean_per_completed_episode=59.8498；return_mean_per_completed_episode=2.81155；action_abs_mean_per_env_action=6.45839
+    第 826 行（42,342,400 步）：stage_index=1；voc_scale=0.75；loss_scale=4.1943e+06；length_mean_per_completed_episode=62.1596；return_mean_per_completed_episode=3.44999；action_abs_mean_per_env_action=6.47322
+    第 827 行（42,393,600 步）：stage_index=1；voc_scale=0.75；loss_scale=4.1943e+06；length_mean_per_completed_episode=60.112；return_mean_per_completed_episode=2.8888；action_abs_mean_per_env_action=6.44781
+    第 828 行（42,444,800 步）：stage_index=1；voc_scale=0.75；loss_scale=2.11758e-22；length_mean_per_completed_episode=54.6765；return_mean_per_completed_episode=nan；action_abs_mean_per_env_action=nan
+    第 829 行（42,496,000 步）：stage_index=1；voc_scale=0.75；loss_scale=0；length_mean_per_completed_episode=5.85332；return_mean_per_completed_episode=nan；action_abs_mean_per_env_action=nan
+== run-t1-ep6-w2048-cap4m-mf4090-s1.wandb：history 6836 行，指标 47 个
+  环境步数取自：_step
+  所有指标全程有限
