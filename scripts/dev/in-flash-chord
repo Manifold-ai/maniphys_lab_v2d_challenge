@@ -8,6 +8,14 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"
 FC="$ROOT/third_party/video_to_data/robotic_grounding/flash_chord"
 ASSETS="$FC/../source/robotic_grounding/robotic_grounding/assets"
+# V2D_FC_SRC=<目录>：只把挂到 /workspace 的 flash_chord 源码换成这个目录（诊断用的补丁副本，由 stages/policy/make_patched_fc_src.sh
+# 生成，里面必须有 SOURCE_V2D.txt 说明来历）；素材目录仍取原 checkout。默认不设，行为与原来完全相同。
+if [ -n "${V2D_FC_SRC:-}" ]; then
+  [ -f "$V2D_FC_SRC/SOURCE_V2D.txt" ] && [ -d "$V2D_FC_SRC/src/flash_chord" ] \
+    || { echo "in-flash-chord: V2D_FC_SRC=$V2D_FC_SRC 不是 make_patched_fc_src.sh 生成的源码副本" >&2; exit 2; }
+  FC="$(cd "$V2D_FC_SRC" && pwd -P)"
+  echo "in-flash-chord: /workspace ← $FC（$(head -1 "$FC/SOURCE_V2D.txt")）" >&2
+fi
 ID="$HOME/.cache/flash_chord/oneoff"; mkdir -p "$ID"
 U="$(id -un)"; G="$(id -gn)"
 printf 'root:x:0:0:root:/root:/bin/bash\n%s:x:%s:%s:%s:/tmp:/bin/bash\n' "$U" "$(id -u)" "$(id -g)" "$U" > "$ID/passwd"

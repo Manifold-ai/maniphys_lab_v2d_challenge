@@ -2,15 +2,16 @@
 
 每条序列一个目录，放三个文件：data.parquet（重定向后的 motion_v1，取 object_body_position、object_body_wxyz 的第一个刚体）、
 textured_mesh.obj（物体网格，物体局部系）、<SEQ>_support.usda（支撑面）。支撑面按文本读，不用 pxr：
-Cube = size × xformOp:scale 的轴对齐方盒，Cylinder = radius / height、axis "Z"，都只有 xformOp:translate（与 flash_chord
-scene/support.py 建碰撞体的方式一致）。地面是 z = 0（重定向时已把地面找平到 0）。
+Cube 默认按标注尺寸 size × xformOp:scale 算（上游 8c778f9 / #185 之后的导入方式）；加 --cube-as-v040 则按 v0.4.0 实际建出来的
+碰撞体算：只读 size、忽略 scale，三边都是 size（results/ml40/diverge/support_import_v040.txt 实测为 1 m 立方体）。
+Cylinder = radius / height、axis "Z"，两种导入方式一样。都只有 xformOp:translate。地面是 z = 0（重定向时已把地面找平到 0）。
 
 逐帧把网格顶点（均匀抽约 4000 个）变到世界系，算：
   地面：最低顶点的高度，< 0 为穿地；
   每个支撑形状：顶点到形状的最小有符号距离（形状内部为负，即嵌入深度）；
   方盒另算“穿过薄板”：顶点落在板的两条长边张成的投影范围内，却跑到板的另一侧（相对这一帧物体中心所在的一侧）。
 报：嵌入或穿地超过 5 mm 的帧数、最深值与所在帧、第 0 帧的值、离形状 1 cm 以内的帧数（有接触机会的帧）。
-用法：uv run --no-project --with numpy --with pyarrow python stages/retarget/support_penetration.py <序列目录>...
+用法：uv run --no-project --with numpy --with pyarrow python stages/retarget/support_penetration.py [--cube-as-v040] <序列目录>...
 计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 C5。
 """
 import re
@@ -53,7 +54,7 @@ def rotations(wxyz: np.ndarray) -> np.ndarray:
     ], -2)
 
 
-def load_supports(usda: Path) -> list[dict]:
+def load_supports(usda: Path, cube_as_v040: bool = False) -> list[dict]:
     text = usda.read_text()
     shapes = []
     for m in re.finditer(r'def (Cube|Cylinder) "([^"]+)"[^{]*\{(.*?)\n    \}', text, re.S):
@@ -63,7 +64,7 @@ def load_supports(usda: Path) -> list[dict]:
             size = float(re.search(r"double size = ([0-9.eE+-]+)", body).group(1))
             s = re.search(r"xformOp:scale = \(([^)]*)\)", body)
             scale = [float(x) for x in s.group(1).split(",")] if s else [1.0, 1.0, 1.0]
-            half = 0.5 * size * np.asarray(scale)
+            half = 0.5 * size * (np.ones(3) if cube_as_v040 else np.abs(np.asarray(scale)))
             shapes.append({"kind": kind, "name": name, "center": np.asarray(t), "half": half})
         else:
             axis = re.search(r'axis = "([XYZ])"', body)
@@ -101,7 +102,7 @@ def fmt_mm(x: float) -> str:
     return f"{x * 1000:+.1f} mm"
 
 
-def analyse(d: Path) -> None:
+def analyse(d: Path, cube_as_v040: bool = False) -> None:
     usda = next(d.glob("*_support.usda"))
     seq = usda.name[: -len("_support.usda")]
     verts, n_all = load_vertices(d / "textured_mesh.obj")
@@ -110,11 +111,11 @@ def analyse(d: Path) -> None:
     world = np.einsum("tij,nj->tni", rot, verts) + pos[:, None, :]   # (T, n, 3)
     centroid = world.mean(axis=1)
     T = len(pos)
-    print(f"== {seq}（{T} 帧；网格 {n_all} 个顶点，抽 {len(verts)} 个）")
+    print(f"== {seq}（{T} 帧；网格 {n_all} 个顶点，抽 {len(verts)} 个；方盒按{'v0.4.0 实际导入（只读 size）' if cube_as_v040 else '标注尺寸（size × scale）'}）")
     zmin = world[..., 2].min(axis=1)
     k = int(np.argmin(zmin))
     print(f"  地面：最低顶点最低 {fmt_mm(zmin[k])}（第 {k} 帧）；穿地超过 5 mm 的帧 {int((zmin < -THRESH).sum())} 个；第 0 帧 {fmt_mm(zmin[0])}")
-    for s in load_supports(usda):
+    for s in load_supports(usda, cube_as_v040):
         if s["kind"] == "Cube":
             sd = box_sdf(world, s["center"], s["half"]).min(axis=1)
             thr = through_slab(world, centroid, s["center"], s["half"])
@@ -148,12 +149,14 @@ def selftest() -> None:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        raise SystemExit("用法：support_penetration.py <序列目录>... | --selftest")
+        raise SystemExit("用法：support_penetration.py [--cube-as-v040] <序列目录>... | --selftest")
     if sys.argv[1] == "--selftest":
         selftest()
         return
-    for d in sys.argv[1:]:
-        analyse(Path(d))
+    args = sys.argv[1:]
+    v040 = "--cube-as-v040" in args
+    for d in (a for a in args if a != "--cube-as-v040"):
+        analyse(Path(d), v040)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,16 @@
+# command  : uv run --no-project --with numpy --with pyarrow python stages/retarget/support_penetration.py --cube-as-v040 runs/mf4090/motion_diag/2026-05-18_17-06-21_vacuum_left_lean_02 runs/mf4090/motion_diag/2026-05-29_15-20-43_iron_round_table_02 runs/mf4090/motion_diag/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_ 
+# md5      : ae689de21c25457c9ef6ff6623d5d88e  stages/retarget/support_penetration.py
+# source   : d9791ea0490f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T10:30:47-0600
+# ---------------------------------------------------------------
+== 2026-05-18_17-06-21_vacuum_left_lean_02（747 帧；网格 283294 个顶点，抽 4048 个；方盒按v0.4.0 实际导入（只读 size））
+  地面：最低顶点最低 -23.8 mm（第 393 帧）；穿地超过 5 mm 的帧 385 个；第 0 帧 +0.5 mm
+  Cube "chair_back"（100.0×100.0×100.0 cm，中心 [-0.532, -0.486, 0.715]）：最小有符号距离 -470.6 mm（第 27 帧）；嵌入超过 5 mm 的帧 519 个；离形状 1 cm 以内的帧 527 个；第 0 帧 -463.2 mm；穿过薄板的帧 0 个（最多 0 个顶点，第 0 帧）
+== 2026-05-29_15-20-43_iron_round_table_02（896 帧；网格 298533 个顶点，抽 4035 个；方盒按v0.4.0 实际导入（只读 size））
+  地面：最低顶点最低 +781.6 mm（第 406 帧）；穿地超过 5 mm 的帧 0 个；第 0 帧 +786.2 mm
+  Cube "tabletop"（100.0×100.0×100.0 cm，中心 [-0.776, 0.17, 0.777]）：最小有符号距离 -495.1 mm（第 725 帧）；嵌入超过 5 mm 的帧 896 个；离形状 1 cm 以内的帧 896 个；第 0 帧 -490.4 mm；穿过薄板的帧 0 个（最多 0 个顶点，第 0 帧）
+== 2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_（988 帧；网格 286679 个顶点，抽 4038 个；方盒按v0.4.0 实际导入（只读 size））
+  地面：最低顶点最低 -1.6 mm（第 903 帧）；穿地超过 5 mm 的帧 0 个；第 0 帧 +24.1 mm
+  Cube "chair_back_top"（100.0×100.0×100.0 cm，中心 [0.931, -0.248, 0.706]）：最小有符号距离 -481.0 mm（第 47 帧）；嵌入超过 5 mm 的帧 608 个；离形状 1 cm 以内的帧 619 个；第 0 帧 -476.5 mm；穿过薄板的帧 0 个（最多 0 个顶点，第 0 帧）
+  Cube "chair_back_top_return"（100.0×100.0×100.0 cm，中心 [1.045, -0.342, 0.688]）：最小有符号距离 -497.1 mm（第 130 帧）；嵌入超过 5 mm 的帧 651 个；离形状 1 cm 以内的帧 667 个；第 0 帧 -410.3 mm；穿过薄板的帧 0 个（最多 0 个顶点，第 0 帧）
