@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-30-batch1b-ml40.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 0df6c2cc5c81bb70b89e1e9df25ab857  agent-doc/experiments/2026-09-30-batch1b-ml40.claims.json
+# source   : f6b538731dbf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T09:35:54-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep23_pass            P(supported)=0.96  verified               [criteria, v, sj_ep23]  The ep23 policy passes the Day 1 criteria with ADD-AUC 0.7109 against a do-nothing baseline of 0.1509 and maniptrans_sr 0.9751.
+ep15_fail            P(supported)=0.97  verified               [criteria, v, sj_ep15]  The ep15 policy fails the Day 1 criteria because its maniptrans_sr is 0, although its chord_sr is 0.9817.
+ep17_fail            P(supported)=0.97  verified               [criteria, v, sj_ep17]  The ep17 policy fails the Day 1 criteria with maniptrans_sr 0 and MPPE 9.75 cm.
+ep19_fail            P(supported)=0.96  verified               [criteria, v, sj_ep19]  The ep19 policy fails the Day 1 criteria with maniptrans_sr 0 and MPPE 21.37 cm.
+ep25_fail            P(supported)=0.96  verified               [criteria, v, sj_ep25]  The ep25 policy fails the Day 1 criteria with chord_sr 0, maniptrans_sr 0 and ADD-AUC 0.1263 below its baseline of 0.1378.
+tally                P(supported)=0.98  verified               [v]  The ml40 batch 1 segment B verdict reports 1 pass, 4 fails and no invalid run.
+ctrl_true_ep23_mppe  P(supported)=0.99  control(true) ok       [v]  The ep23 policy's MPPE is 2.85 cm.
+ctrl_false_ep25_pass P(supported)=0.02  control(false) ok      [criteria, v, sj_ep25]  The ep25 policy passes the Day 1 criteria.
+ctrl_false_ep23_invalid P(supported)=0.01  control(false) ok      [v]  The ep23 run is marked invalid.
+controls behaved as expected

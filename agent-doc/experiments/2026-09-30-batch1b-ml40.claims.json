@@ -1,0 +1,114 @@
+{
+  "model": "jev-1.13.0",
+  "note": "证据摆法同 2026-09-29-batch1a-ml40 第 2、3 轮。",
+  "evidence": {
+    "criteria": {
+      "file": "stages/evaluate/batch_verdict.py",
+      "grep": "按期望表逐条判 Day 1 判据|^判据（Day 1|^通过 = |只靠 ≤ 3 个世界"
+    },
+    "v": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "^== |判定|chord_sr  |maniptrans_sr  |add_auc  |另报|合计|无效"
+    },
+    "sj_ep15": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep15-w2048"
+    },
+    "sj_ep17": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep17-w2048"
+    },
+    "sj_ep19": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep19-w2048"
+    },
+    "sj_ep23": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep23-w2048"
+    },
+    "sj_ep25": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "summary_json .*\"run\": \"t1-ep25-w2048"
+    }
+  },
+  "claims": [
+    {
+      "id": "ep23_pass",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep23"
+      ],
+      "claim": "The ep23 policy passes the Day 1 criteria with ADD-AUC 0.7109 against a do-nothing baseline of 0.1509 and maniptrans_sr 0.9751."
+    },
+    {
+      "id": "ep15_fail",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep15"
+      ],
+      "claim": "The ep15 policy fails the Day 1 criteria because its maniptrans_sr is 0, although its chord_sr is 0.9817."
+    },
+    {
+      "id": "ep17_fail",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep17"
+      ],
+      "claim": "The ep17 policy fails the Day 1 criteria with maniptrans_sr 0 and MPPE 9.75 cm."
+    },
+    {
+      "id": "ep19_fail",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep19"
+      ],
+      "claim": "The ep19 policy fails the Day 1 criteria with maniptrans_sr 0 and MPPE 21.37 cm."
+    },
+    {
+      "id": "ep25_fail",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep25"
+      ],
+      "claim": "The ep25 policy fails the Day 1 criteria with chord_sr 0, maniptrans_sr 0 and ADD-AUC 0.1263 below its baseline of 0.1378."
+    },
+    {
+      "id": "tally",
+      "evidence": [
+        "v"
+      ],
+      "claim": "The ml40 batch 1 segment B verdict reports 1 pass, 4 fails and no invalid run."
+    },
+    {
+      "id": "ctrl_true_ep23_mppe",
+      "evidence": [
+        "v"
+      ],
+      "claim": "The ep23 policy's MPPE is 2.85 cm.",
+      "control": "true"
+    },
+    {
+      "id": "ctrl_false_ep25_pass",
+      "evidence": [
+        "criteria",
+        "v",
+        "sj_ep25"
+      ],
+      "claim": "The ep25 policy passes the Day 1 criteria.",
+      "control": "false"
+    },
+    {
+      "id": "ctrl_false_ep23_invalid",
+      "evidence": [
+        "v"
+      ],
+      "claim": "The ep23 run is marked invalid.",
+      "control": "false"
+    }
+  ]
+}
