@@ -1,0 +1,74 @@
+# command  : stages/evaluate/metric_threshold_facts.sh 
+# md5      : 57c6395f63140401bb6016ca1a0d068f  stages/evaluate/metric_threshold_facts.sh
+# source   : 7743c0edd67a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T10:04:06-0600
+# ---------------------------------------------------------------
+evaluation/metrics.py:21:SPIDER_POSITION_THRESHOLD_M = 0.1
+evaluation/metrics.py:22:SPIDER_ORIENTATION_THRESHOLD_RAD = 0.5
+evaluation/metrics.py:23:MANIPTRANS_POSITION_THRESHOLD_M = 0.03
+evaluation/metrics.py:24:MANIPTRANS_ORIENTATION_THRESHOLD_DEG = 30.0
+evaluation/metrics.py:296:def _per_world_pose_error(achieved: np.ndarray, reference: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+evaluation/metrics.py:297:    """Frame-averaged ``(W, B)`` position error in metres and orientation error in radians."""
+evaluation/metrics.py:298:    position = np.linalg.norm(achieved[..., :3] - reference[..., :3], axis=-1).mean(axis=0)
+evaluation/metrics.py:299:    orientation = quaternion_geodesic_angle(achieved[..., 3:], reference[..., 3:]).mean(axis=0)
+evaluation/metrics.py:300:    return position, orientation
+evaluation/metrics.py:301:
+evaluation/metrics.py:302:
+evaluation/metrics.py:303:def spider_success(
+evaluation/metrics.py:304:    achieved_pose_w: np.ndarray,
+evaluation/metrics.py:305:    reference_pose_w: np.ndarray,
+evaluation/metrics.py:306:) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+evaluation/metrics.py:307:    """Per-world success mask, position error in metres, and orientation error in radians.
+evaluation/metrics.py:308:
+evaluation/metrics.py:309:    Position error is raw; the originating implementation's time-mean subtraction is omitted.
+evaluation/metrics.py:310:    """
+evaluation/metrics.py:311:    achieved, reference = _aligned_poses(achieved_pose_w, reference_pose_w)
+evaluation/metrics.py:312:    position, orientation = _per_world_pose_error(achieved, reference)
+evaluation/metrics.py:313:    position_error = position.mean(axis=-1)
+evaluation/metrics.py:314:    orientation_error = orientation.mean(axis=-1)
+evaluation/metrics.py:315:    success = (position_error <= SPIDER_POSITION_THRESHOLD_M) & (orientation_error <= SPIDER_ORIENTATION_THRESHOLD_RAD)
+evaluation/metrics.py:316:    return success, position_error, orientation_error
+evaluation/metrics.py:317:
+evaluation/metrics.py:327:def maniptrans_success(
+evaluation/metrics.py:328:    achieved_pose_w: np.ndarray,
+evaluation/metrics.py:329:    reference_pose_w: np.ndarray,
+evaluation/metrics.py:330:    body_object_ids: np.ndarray,
+evaluation/metrics.py:331:) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+evaluation/metrics.py:332:    """Per-world success mask, position error in metres, and orientation error in degrees.
+evaluation/metrics.py:333:
+evaluation/metrics.py:334:    Bodies are averaged within each object, then every object must clear both thresholds.
+evaluation/metrics.py:335:    """
+evaluation/metrics.py:336:    achieved, reference = _aligned_poses(achieved_pose_w, reference_pose_w)
+evaluation/metrics.py:337:    object_ids = _body_object_ids(body_object_ids, achieved.shape[2])
+evaluation/metrics.py:338:    position, orientation = _per_world_pose_error(achieved, reference)
+evaluation/metrics.py:339:    orientation_deg = np.degrees(orientation)
+evaluation/metrics.py:340:
+evaluation/metrics.py:341:    success = np.ones(achieved.shape[1], dtype=np.bool_)
+evaluation/metrics.py:342:    for object_id in np.unique(object_ids):
+evaluation/metrics.py:343:        members = object_ids == object_id
+evaluation/metrics.py:344:        success &= (position[:, members].mean(axis=-1) < MANIPTRANS_POSITION_THRESHOLD_M) & (
+evaluation/metrics.py:345:            orientation_deg[:, members].mean(axis=-1) < MANIPTRANS_ORIENTATION_THRESHOLD_DEG
+evaluation/metrics.py:346:        )
+evaluation/metrics.py:347:    return success, position.mean(axis=-1), orientation_deg.mean(axis=-1)
+evaluation/metrics.py:348:
+evaluation/metrics.py:349:
+evaluation/metrics.py:385:        object_position_error_m=float(np.mean(spider_position)),
+evaluation/metrics.py:386:        object_position_error_std_m=float(np.std(spider_position)),
+evaluation/metrics.py:387:        object_orientation_error_rad=float(np.mean(spider_orientation)),
+evaluation/metrics.py:388:        object_orientation_error_std_rad=float(np.std(spider_orientation)),
+evaluation/metrics.py:389:        object_orientation_error_deg=float(np.degrees(np.mean(spider_orientation))),
+evaluation/metrics.py:390:        object_orientation_error_std_deg=float(np.degrees(np.std(spider_orientation))),
+evaluation/metrics.py:391:        object_position_error_per_body_m=tuple(float(value) for value in per_body_position.mean(axis=0)),
+evaluation/metrics.py:392:        object_orientation_error_per_body_rad=tuple(float(value) for value in per_body_orientation.mean(axis=0)),
+evaluation/metrics.py:393:        add_auc=auc,
+evaluation/metrics.py:394:        add_auc_per_body=auc_per_body,
+evaluation/metrics.py:395:        mean_add_m=float(np.mean(add)),
+evaluation/metrics.py:396:        mppe_cm=object_mppe_cm(achieved_pose_w, reference_pose_w, world_chunk=world_chunk),
+evaluation/metrics.py:397:        add_std_m=float(np.std(add)),
+evaluation/metrics.py:398:        add_std_per_body_m=tuple(float(np.std(add[..., body])) for body in range(add.shape[2])),
+evaluation/metrics.py:399:        spider_sr_uncentered=float(np.mean(spider_mask)),
+evaluation/metrics.py:400:        spider_position_error_centered_m=float(
+evaluation/metrics.py:401:            np.mean(spider_centered_position_error(achieved_pose_w, reference_pose_w))
+evaluation/metrics.py:402:        ),
+evaluation/metrics.py:403:        maniptrans_sr=float(np.mean(maniptrans_mask)),

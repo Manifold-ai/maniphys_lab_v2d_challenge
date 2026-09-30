@@ -7,6 +7,7 @@ W&B 边训边把每一行 history 写进 run 目录的 run-<id>.wandb（protobuf
 
 用法：uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_history.py [--keys] [--around KEY ...] <run-*.wandb>...
   --keys：只列出指标名与行数（先看有哪些键）
+  --by-stage：按课程阶段汇总（每段最后 25% 行的均值）：voc、参考进度、回合长度、各终止原因、物体位置与朝向误差
 计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 C3。
 """
 import argparse
@@ -117,15 +118,53 @@ def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool
         print(f"    第 {i} 行{f'（{es:,.0f} 步）' if numeric(es) else ''}：{vals}")
 
 
+STAGE_KEYS = (
+    ("voc", "curriculum/voc_scale"),
+    ("进度", "episode/reference_progress_mean_per_completed_episode"),
+    ("回合长", "episode/length_mean_per_completed_episode"),
+    ("终止:物体", "termination/object_fraction_per_completed_episode"),
+    ("终止:手掌", "termination/palm_fraction_per_completed_episode"),
+    ("终止:骨盆", "termination/pelvis_fraction_per_completed_episode"),
+    ("走完", "termination/reference_end_fraction_per_completed_episode"),
+    ("物体位置误差", "tracking_error/object_position_m_mean_env_max_per_step"),
+    ("物体朝向误差", "tracking_error/object_orientation_rad_mean_env_max_per_step"),
+)
+
+
+def by_stage(path: Path) -> None:
+    """按 curriculum/stage_index 分段，每段取最后 25% 的行求均值（同 wb_summary.py 的口径）。"""
+    hist = rows(path)
+    print(f"== {path.name}：history {len(hist)} 行")
+    stages = {}
+    for r in hist:
+        st = r.get("curriculum/stage_index")
+        if numeric(st):
+            stages.setdefault(int(st), []).append(r)
+    print("  段 | 步数范围 | " + " | ".join(name for name, _ in STAGE_KEYS))
+    for st in sorted(stages):
+        rs = stages[st]
+        tail = rs[len(rs) - max(1, len(rs) // 4):]
+        vals = []
+        for _, key in STAGE_KEYS:
+            xs = [r[key] for r in tail if numeric(r.get(key)) and math.isfinite(r[key])]
+            vals.append(f"{sum(xs) / len(xs):.3g}" if xs else "—")
+        lo, hi = rs[0].get("_step"), rs[-1].get("_step")
+        print(f"  {st} | {lo / 1e6:.0f}–{hi / 1e6:.0f}M | " + " | ".join(vals))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("files", nargs="+", type=Path)
     ap.add_argument("--keys", action="store_true")
+    ap.add_argument("--by-stage", action="store_true", help="按课程阶段汇总关键指标（每段最后 25% 的均值）")
     ap.add_argument("--around", nargs="*", default=list(DEFAULT_AROUND))
     ap.add_argument("--step-key", default=None)
     a = ap.parse_args()
     for f in a.files:
-        analyse(f, a.around, a.step_key, a.keys)
+        if a.by_stage:
+            by_stage(f)
+        else:
+            analyse(f, a.around, a.step_key, a.keys)
 
 
 if __name__ == "__main__":

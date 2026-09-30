@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-30-batch1b-failure-analysis.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : 339ed7bcc094a31a1f54f3fd3050fe28  agent-doc/experiments/2026-09-30-batch1b-failure-analysis.claims.json
+# source   : 7743c0edd67a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T10:04:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+thr                  P(supported)=0.40  UNVERIFIED             [thr, kit_names]  In flash_chord v0.4.0, MP-SR counts a world as successful when its time-mean object position error is below 3 cm and its time-mean orientation error is below 30 degrees, while SP-SR requires at most 10 cm and at most 0.5 rad.
+ep23_eval            P(supported)=0.99  verified               [table]  The final ep23 policy has MP-SR 0.975, SP-SR 1.000, mean position error 2.8 cm and mean orientation error 9.4 degrees.
+ep15_near            P(supported)=0.98  verified               [table]  The final ep15 policy has chord 0.982 but MP-SR 0 and SP-SR 0.007, with mean position error 4.5 cm and mean orientation error 30.4 degrees.
+ep17_19_25           P(supported)=0.96  verified               [table]  The final ep17, ep19 and ep25 policies have mean orientation errors of 42.0, 49.1 and 107.6 degrees and chord of 0.831, 0.403 and 0 respectively.
+hard_six             P(supported)=0.83  verified               [table]  The runs ep4, ep9, ep11, ep25, ep2 and ep3 each have chord of at most 0.187, mean position error above 29 cm, moving fraction of at least 70% and total rotation of at least 759 degrees.
+spearman             P(supported)=0.99  verified               [table]  Across the 22 runs, the Spearman correlation with MP-SR is -0.69 for total rotation, -0.68 for path length, -0.50 for moving fraction and +0.10 for the largest single rotation.
+stage_ep23           P(supported)=0.94  verified               [stage]  In ep23's training, reference progress stays between 0.94 and 0.963 in every curriculum stage, including the stages with voc_scale 0.
+stage_ep15_17        P(supported)=0.91  verified               [stage]  In training, the object orientation error of ep15 rises from 0.109 in stage 0 to between 0.53 and 0.55 in stages 6 to 8, and that of ep17 from 0.111 to between 0.61 and 0.64, while from stage 1 on their reference progress stays between 0.91 and 0.94 and between 0.80 and 0.84 respectively.
+stage_ep19           P(supported)=0.98  verified               [stage]  ep19's reference progress is 0.323 in stage 0, peaks at 0.609 in stage 3 and is 0.542 in stage 8.
+stage_ep25           P(supported)=0.94  verified               [stage]  ep25's reference progress falls from 0.702 in stage 1 to 0.216 in stage 8 while its object termination fraction rises from 0.255 to 0.779.
+ctrl_true_ep23_end   P(supported)=0.98  control(true) ok       [stage]  ep23's reference-end fraction in stage 8 is 0.902.
+ctrl_false_ep25_term P(supported)=0.03  control(false) ok      [stage]  ep25's object termination fraction decreases as the curriculum advances.
+ctrl_false_ep15_ori  P(supported)=0.01  control(false) ok      [table]  The final ep15 policy's mean orientation error is below 20 degrees.
+ctrl_false_rho       P(supported)=0.01  control(false) ok      [table]  The Spearman correlation between total rotation and MP-SR is positive.
+controls behaved as expected
