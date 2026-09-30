@@ -55,3 +55,17 @@
   给 `divergence_code_facts.sh` 补上 `learner.py` 三段带行号的原文（`_apply_adam_if_finite` 的文档串“Skip only parameters and Adam moments;
   callers retain all other attempted-update state”，以及三处 `replace(params=…, batch_stats=…)`）后为 0.94；其余各条两轮相差不超过 0.04。
 - 参考几何那条（ep1 穿地、ep7 不嵌入）0.71，刚过线：两条序列放在一条论断里，数值由脚本算出，不靠 jev。
+
+## 更正（10:35，附录 A 第 3 版审查的 BLOCKER）：v0.4.0 把方盒支撑面建成 1 m 立方体
+
+- v0.4.0 `scene/support.py:85–86, 114–116` 对 Cube 只读 USD `size`、不读 `xformOp:scale`。用部署的导入器（md5 95e5e33f…）实际建一次：
+  ep1、ep7、ep28 的方盒半尺寸都是 (0.5, 0.5, 0.5)，圆柱（ep20 对照）正常（`results/ml40/diverge/support_import_v040.txt`）。
+- 按仿真的几何重算参考（`results/diverge/support_penetration_as_v040.txt`，`support_penetration.py --cube-as-v040`）：
+  ep7 熨斗 896 / 896 帧埋在立方体里、深约 49 cm；ep1 吸尘器 519 / 747 帧；ep28 刮水器 608、651 帧。物体从第 0 帧起就在一块实心的静止方块里。
+- **上面 C5 按标注尺寸（薄板）算的方盒部分作废**：“ep28 穿板”“ep7 对桌面干净”描述的是仿真里不存在的几何。地面穿地的部分（ep1、ep17、ep22）不受影响。
+  `support_penetration.py` 文档串里“与 support.py 一致”的说法是错的，已改：默认按标注尺寸（#185 之后的导入），`--cube-as-v040` 按 v0.4.0 实际导入。
+- 上游 8c778f905c（#185，2026-09-29 12:11 MDT）已修，说明原文用这条熨斗的桌面举例；官方评测运行时 aee95f2 早于它 4 个提交（GitHub compare）。
+  打补丁的源码副本（`third_party/patches/` + `stages/policy/make_patched_fc_src.sh`，support.py 与上游 8c778f9 逐字节相同）把桌面建成 (0.42, 0.141, 0.005)
+  （`results/ml40/diverge/support_import_p185.txt`）。
+- 解读随之改变（推断，待附录 A 第 4 版的 GPU 对照）：三条方盒序列发散的触发多半是“物体埋在 1 m 实心方块里”，fp16 存储加统计量不设防是放大。
+  第 1 批里 ep1、ep7、ep28 的训练与评测都建立在错误的几何上；这三条怎么训要看排行榜评测用哪种导入（附录 A.6 要问组委会）。

@@ -1,0 +1,29 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/support_import_check.py\ /repo/runs/motion/tier1/whole_body/reconstructed_stage/2026-05-29_15-20-43_iron_round_table_02_support.usda\ /repo/runs/motion/tier1/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda\ /repo/runs/motion/tier1/whole_body/reconstructed_stage/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda\ /repo/runs/motion/tier1/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 11872de968dc4ece0b3f7ef5fa8e0b22  stages/policy/support_import_check.py
+# md5      : c413ad523c07fa71dd9ac53d8057dc7b  runs/motion/tier1/whole_body/reconstructed_stage/2026-05-29_15-20-43_iron_round_table_02_support.usda
+# md5      : f2fb02c82e66563378c323b2b2e8ad1f  runs/motion/tier1/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+# md5      : a93e92e5cffd8bd74bfc583bd9be6b6e  runs/motion/tier1/whole_body/reconstructed_stage/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+# md5      : dcbd8dfbe968f29926f30cc61b15beb8  runs/motion/tier1/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+# source   : b2279c3cfabd
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-01T00:33:50+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+== 2026-05-29_15-20-43_iron_round_table_02_support.usda
+  tabletop：类型 BOX，shape_scale（Box 为半尺寸）(0.42, 0.141, 0.005)，位置 (-0.7757, 0.1698, 0.7771)
+== 2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+  chair_back：类型 BOX，shape_scale（Box 为半尺寸）(0.01, 0.06, 0.135)，位置 (-0.5324, -0.486, 0.715)
+== 2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+  chair_back_top：类型 BOX，shape_scale（Box 为半尺寸）(0.05, 0.065, 0.01)，位置 (0.9309, -0.2483, 0.706)
+  chair_back_top_return：类型 BOX，shape_scale（Box 为半尺寸）(0.05, 0.065, 0.01)，位置 (1.0451, -0.342, 0.6875)
+== 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+  object_0：类型 CYLINDER，shape_scale（Box 为半尺寸）(0.135153, 0.02, 0.0)，位置 (-0.3446, 0.7869, 0.7774)

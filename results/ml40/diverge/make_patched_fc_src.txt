@@ -1,0 +1,7 @@
+# command  : stages/policy/make_patched_fc_src.sh /lab_data/rxzhou/v2d/fc_src/v040_p185 
+# md5      : d133f50d22153eb0962c171cda035b85  stages/policy/make_patched_fc_src.sh
+# source   : b2279c3cfabd
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-01T00:33:34+0800
+# ---------------------------------------------------------------
+PATCHED_FC_SRC_OK /lab_data/rxzhou/v2d/fc_src/v040_p185
