@@ -62,7 +62,8 @@
   ep1、ep7、ep28 的方盒半尺寸都是 (0.5, 0.5, 0.5)，圆柱（ep20 对照）正常（`results/ml40/diverge/support_import_v040.txt`）。
 - 按仿真的几何重算参考（`results/diverge/support_penetration_as_v040.txt`，`support_penetration.py --cube-as-v040`）：
   ep7 熨斗 896 / 896 帧埋在立方体里、深约 49 cm；ep1 吸尘器 519 / 747 帧；ep28 刮水器 608、651 帧。物体从第 0 帧起就在一块实心的静止方块里。
-- **上面 C5 按标注尺寸（薄板）算的方盒部分作废**：“ep28 穿板”“ep7 对桌面干净”描述的是仿真里不存在的几何。地面穿地的部分（ep1、ep17、ep22）不受影响。
+- **上面 C5 按标注尺寸（薄板）算的方盒部分：对 v0.4.0 的训练作废，对 #185 之后的导入仍成立**（复审指出）：用 v0.4.0 训练时仿真里没有那些薄板；
+  换成 #185 的导入后，ep7 的参考对桌面是干净的，ep28 的参考仍穿过两块薄板。地面穿地的部分（ep1、ep17、ep22）不受影响。
   `support_penetration.py` 文档串里“与 support.py 一致”的说法是错的，已改：默认按标注尺寸（#185 之后的导入），`--cube-as-v040` 按 v0.4.0 实际导入。
 - 上游 8c778f905c（#185，2026-09-29 12:11 MDT）已修，说明原文用这条熨斗的桌面举例；官方评测运行时 aee95f2 早于它 4 个提交（GitHub compare）。
   打补丁的源码副本（`third_party/patches/` + `stages/policy/make_patched_fc_src.sh`，support.py 与上游 8c778f9 逐字节相同）把桌面建成 (0.42, 0.141, 0.005)

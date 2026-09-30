@@ -4,10 +4,11 @@ FlashCHORD 训练结束时 wandb 在日志里打一段 "Run summary"：`wandb: <
 混合精度的 loss_scale 掉到 0。逐个看 runs/logs/*.s1.log，报出三项里有 nan 的 run，附 loss_scale 与回合平均长度。
 还在跑的 run 没有摘要，不在此列（发散要看 checkpoint，见 ckpt_nonfinite.py）。
 
-用法（仓库根）：python3 stages/policy/train_nan_scan.py
+用法（仓库根）：python3 stages/policy/train_nan_scan.py [--table]（--table：每条一行，列出平均回合长度、平均回报、loss_scale）
   Mac 上：scripts/dev/record <名字> scripts/dev/pipe-py stages/policy/train_nan_scan.py（V2D_ENV 选机器）
 """
 import re
+import sys
 from pathlib import Path
 
 NAN_KEYS = (
@@ -36,8 +37,23 @@ def summary(path: Path) -> dict[str, str]:
     return out
 
 
+def table(logs) -> None:
+    """每个带摘要的训练日志一行：平均回合长度、平均回报、loss_scale、摘要有无 nan。"""
+    print("run | 平均回合长度 | 平均回报 | loss_scale | 摘要有 nan")
+    for p in logs:
+        s = summary(p)
+        if not s:
+            continue
+        nan = any(s.get(k, "").lower() == "nan" for k in NAN_KEYS)
+        print(f"{p.name[:-len('.s1.log')]} | {s.get('episode/length_mean_per_completed_episode', '—')} | "
+              f"{s.get('episode/return_mean_per_completed_episode', '—')} | {s.get('mixed_precision/loss_scale', '—')} | {'是' if nan else '否'}")
+
+
 def main() -> None:
     logs = sorted(Path("runs/logs").glob("*.s1.log"))
+    if "--table" in sys.argv[1:]:
+        table(logs)
+        return
     with_summary = 0
     hits = []
     for p in logs:

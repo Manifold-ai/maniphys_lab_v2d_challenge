@@ -1,0 +1,25 @@
+# command  : bash -c $'O=third_party/v2d_submission_kit; echo "Ê\227ß kit sha256 $(shasum -a 256 $O/v2d_submission_kit.zip | cut -c1-64)"; echo "Ê\226∞ kit sha256 $(shasum -a 256 $O/update_a2de2aee/v2d_submission_kit.zip | cut -c1-64)Ôº\2102026-09-30 ‰∏\213ËΩΩÔº\214Ê\234\215Â\212°Â\231® Last-Modified 2026-09-29 06:52:06 GMTÔº\211"; diff -rq $O/v2d_submission_kit $O/update_a2de2aee/v2d_submission_kit; diff -u $O/v2d_submission_kit/tracks/track_2/README.md $O/update_a2de2aee/v2d_submission_kit/tracks/track_2/README.md; true' 
+# source   : 30d6aab3af2b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T10:59:19-0600
+# ---------------------------------------------------------------
+Êóß kit sha256 8a16961659fdb2876f8e35d55da1540af80adbca3399787f9c9ad135ec2c11af
+Êñ∞ kit sha256 a2de2aeed5821c28efedf36ddbe08a7e595f9b7d7298e4be2c07fe4665cf91b3Ôºà2026-09-30 ‰∏ãËΩΩÔºåÊúçÂä°Âô® Last-Modified 2026-09-29 06:52:06 GMTÔºâ
+Files third_party/v2d_submission_kit/v2d_submission_kit/KIT_MANIFEST.json and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/KIT_MANIFEST.json differ
+Files third_party/v2d_submission_kit/v2d_submission_kit/tools/pack_submission.py and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/tools/pack_submission.py differ
+Files third_party/v2d_submission_kit/v2d_submission_kit/tracks/track_2/README.md and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/tracks/track_2/README.md differ
+--- third_party/v2d_submission_kit/v2d_submission_kit/tracks/track_2/README.md	2026-09-28 18:39:38
++++ third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/tracks/track_2/README.md	2026-09-28 22:18:56
+@@ -19,8 +19,10 @@
+ 2. Install the kit dependencies with `pip install -r requirements.txt`. Download the released
+    clean Track 2 reference. Pass its dataset root with `--dataset-root`; the packer finds
+    `track_2/baseline/` or `track_2/tier_1_multiview_caption/`. It checks the evaluated frames and
+-   objects against that reference. The uploader checks the exact rows against the public
+-   `data/track_2_sample_submission.csv`.
++   objects against that reference. If the evaluator uses a different world frame, the packer
++   converts its poses to the released frame after verifying one rigid transform across the episode.
++   For these single-object episodes, the evaluator may label the object `object`. The uploader
++   checks the exact rows against the public `data/track_2_sample_submission.csv`.
+ 3. Set `COMMIT_URL` to your GitHub `/commit/<sha>` URL. The evaluator records the policy checkpoint SHA-256 per
+    episode plus its script and evaluation-code SHA-256. The packer adds its own SHA-256 and the
+    uploader's SHA-256. The scorer collects these values as provenance.
