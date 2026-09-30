@@ -1,7 +1,7 @@
 # 计划：ep1、ep7 训练发散（NaN）排查
 
 - 日期：2026-09-30（MDT）；分支 `track2/p1-training`，起点 1ced9bf
-- 状态：第 3 版。第 2 版（af261bf）的 CPU 步骤与 M1/M2 已执行，结果见 `agent-doc/experiments/2026-09-30-divergence.md`；本版加附录 A（GPU 对照），**附录 A 待审**，审后登记再跑
+- 状态：第 4 版。第 2 版（af261bf）的 CPU 步骤与 M1/M2 已执行，结果见 `agent-doc/experiments/2026-09-30-divergence.md`；附录 A 第 3 版（4e3025a）审查结论 NO GO，本版按审查重写附录 A，**待复审**，复审后登记再跑
 - 相关记录：`agent-doc/experiments/2026-09-29-batch1.md`（ep7 冒烟、ep1 评测失败）
 
 ## 目的
@@ -119,73 +119,85 @@
 - MINOR 8 看守的细节 → DONE 优先于止损（脚本已改、测试 4 条通过）；启动时打印 md5 与提交；加 `.wandb` NaN 报警；止损在事实 3 满足后才打开；
   写好 ep29 的恢复预案；日志收尾用 record 拉回。
 
-## 附录 A：GPU 对照（第 3 版，待审）
+## 附录 A：GPU 对照（第 4 版，待复审）
 
-### A.0 依据（CPU 步骤的结果，见执行记录）
+### A.0 依据
 
-- 方盒 3 条都发散：ep1 正式约 4244 万步、ep7 冒烟约 241 万步、ep28 正式在 4000–5000 万步之间（ep28 是登记后观察的一例）；圆柱与空支撑面已训的 27 条都没有。
-- 放大路径在代码里成立：BatchNorm 滑动统计不过滤非有限值，梯度非有限时只跳过参数更新、统计量照写；G1 配方把回放观测存成 fp16。
-  塌掉后 NaN 只在无界的位置、速度类输入上，6D 朝向始终有限——推断是数值溢出 fp16 而不是仿真状态变 NaN，要实测。
-- 参考几何：ep28 的参考穿过 2 cm 板；ep7 的参考对 1 cm 桌面是干净的；ep1 穿地，但 ep17、ep22 也穿地且没事。
-- 课程按绝对步数切换（`configs/curriculum/recon_body_flash_sac.yaml` 的 thresholds，第 1 段从 35,000,320 步起）；学习率按总优化步数做余弦衰减
-  （`update.py:206–228`，`learning_rate_schedule_updates: null`）。所以 ep1 / ep28 的复现保留总步数 349,999,104、只提前停；ep7 用原冒烟配置（总 4,096,000 步）。
-- `fc_queue.sh` 遇到被停的 run 会停整条队列：提前停的 run 各自单独排。
+- **v0.4.0 把方盒支撑面建成 1 m 立方体**：`scene/support.py:85–86, 114–116` 对 Cube 只读 USD `size`、不读 `xformOp:scale`；ep1、ep7、ep28 的 usda 都是
+  `size = 1` 配不等比的 scale。实际用部署的导入器（md5 95e5e33f…）建出来，三份方盒的半尺寸都是 (0.5, 0.5, 0.5)，圆柱正常
+  （`results/ml40/diverge/support_import_v040.txt`，`stages/policy/support_import_check.py`）。
+- **按仿真的几何，参考物体从第 0 帧起就埋在立方体里**：ep7 熨斗 896 / 896 帧、深约 49 cm；ep1 吸尘器 519 / 747 帧；ep28 刮水器 608、651 帧
+  （`results/diverge/support_penetration_as_v040.txt`）。执行记录里 C5 按标注尺寸（薄板）算的“穿板”“干净”等结论与仿真不符，作废。
+- **上游已修**：8c778f905c（#185，2026-09-29 12:11 MDT）“Honor authored scale for Cube support geometry”，说明原文就用这条熨斗的桌面举例。
+  打补丁后的导入器（本仓 `third_party/patches/`，副本 `/lab_data/rxzhou/v2d/fc_src/v040_p185`，support.py 与上游 8c778f9 逐字节相同）把桌面建成
+  (0.42, 0.141, 0.005)（`results/ml40/diverge/support_import_p185.txt`）。
+- **官方评测运行时 aee95f2 早于这个修复**（GitHub compare：比 8c778f9 落后 4 个提交）；按 kit 的要求评测，这三条的支撑面也会是 1 m 立方体。
+  另外 #184（9/29 06:49 UTC，“Convert Track 2 evaluator poses in the submission kit”）晚于我们下载 kit 的时间，kit 可能已更新。
+- 其余依据同第 3 版：BatchNorm 统计量不过滤、跳步照写；G1 配方观测存 fp16；课程按绝对步数切换；学习率按总优化步数余弦衰减。
+  正式训练的调度长度 = 349,999,104 // 2048 × 4 = 683,592（`config.py:363–372`，`updates_per_collection: 4.0`）。
+- 回放在写满前按 `randint(0, size)` 采样、到 400 万才绕回（审查读 `replay.py:330, 349–350, 406–413`）：ep7 在 241 万步发散之前，400 万与 1000 万 buffer 的算法完全相同。
 
-### A.1 分组（全部在 ml40；mf4090 的链约 12:35 结束前不碰它）
+### A.1 假设（替换正文 H1）
 
-| 组 | 序列 | buffer | 观测存储 | 支撑面 | 种子 | 长度 | 条数 |
+- **H1′**：v0.4.0 的方盒导入（1 m 立方体吞没物体与手）是三条序列发散的触发。
+- **H4**：fp16 观测存储是“一处出事、整条训练死掉”的必要条件（说成“fp16 存储”，不说“溢出”：fp16 还会把所有观测舍入，分不开）。
+- **H3**：与场景和精度无关的随机数值不稳。
+
+### A.2 分组（全部在 ml40；mf4090 的链约 12:35 结束前不碰）
+
+| 组 | 序列 | 导入器 | buffer | 观测存储 | 种子 | 长度 | 队列 |
 |---|---|---|---|---|---|---|---|
-| R0 复现 | ep7 | 1000 万 | fp16 | 原样 | 默认 42（不写覆盖，与原冒烟同一行） | 冒烟 | 1 |
-| R1 | ep7 | 400 万 | fp16 | 原样 | 43–46 | 冒烟 | 4 |
-| R2 | ep7 | 400 万 | **fp32** | 原样 | 43–46 | 冒烟 | 4 |
-| R3 | ep7 | 400 万 | fp16 | **桌面加厚到 4 cm**（顶面不变） | 43–46 | 冒烟 | 4 |
-| L1 | ep1 | 400 万 | fp16 / fp32 各 1 | 原样 | 43 | 截到 6000 万步 | 2 |
-| L2 | ep28 | 400 万 | fp16 / fp32 各 1 | 原样 | 43 | 截到 6000 万步 | 2 |
+| R0 复现 | ep7 | v0.4.0 | 1000 万 | fp16 | 默认 42（原冒烟那一行） | 冒烟 | `diag_ml40_ep7.txt` |
+| R1 | ep7 | v0.4.0 | 400 万 | fp16 | 43–46 | 冒烟 | 同上，与 R3′ 按种子交替 |
+| R3′ | ep7 | **#185** | 400 万 | fp16 | 43–46 | 冒烟 | 同上 |
+| S | ep1、ep28 | **#185** | 400 万 | fp16 | 默认 42 | 冒烟 | `diag_ml40_p185_smoke.txt` |
+| L1、L2 | ep1、ep28 | **#185** | 400 万 | fp16 | 默认 42（原来发散的种子） | 按配置截到 60,002,304 步 | `diag_ml40_trunc60m.txt` |
+| L3（可选） | ep1 | v0.4.0 | 400 万 | **fp32** | 默认 42 | 同上 | 同上，排最后 |
+| R2 | ep7 | v0.4.0 | 400 万 | **fp32** | 43–46 | 冒烟 | `diag_ml40_ep7_fp32.txt`（单独，OOM 只停它） |
 
-- 用 400 万 buffer：fp32 下 1000 万 buffer 的观测要多约 19 GB，1000 万 fp16 冒烟的峰值已是 40.2 GB，放不下；400 万 fp32 多约 7.8 GB。R1 与 R2 只差存储精度，R1 与 R3 只差桌面厚度。
-- 队列（逐字见 `stages/policy/queues/diag_ml40_ep7.txt` 与 `diag_ml40_{ep1,ep28}_{fp16,fp32}_s43.txt`）：run 名带 `diag-` 前缀，W&B 项目 `v2d-selftest`、标签 `diag`，
-  `V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0`；ep7 的 13 条按种子交替排（R0，然后 43 的 R1、R2、R3，再 44……），中途要停时各组都有样本。
-- 不在本轮：G0 零残差动作 rollout（要改 checkpoint 的工具，另写）、G2 去掉方盒（混杂大，只作参考）。
+- 截断按配置做：总步数 60,002,304、`training.optimization.learning_rate_schedule_updates=683592`，正常跑完写 DONE，不靠看守停；前 6000 万步的学习率、课程与正式训练同一条曲线。
+- #185 那几行用 `V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185`（`scripts/dev/in-flash-chord` 只换挂到 `/workspace` 的源码，素材不变）。
+- 撤掉：第 3 版的加厚桌面（仿真根本不读 scale，改厚度没意义；`make_diag_support.py` 保留不用）、看守驱动的截断（`diag_truncated.sh` 与单行队列已删）。
 
-### A.2 判据（执行前登记，结果出来后不改）
+### A.3 判据（执行前登记，结果出来后不改）
 
-- **单条“发散”**：冒烟看 W&B 摘要是否有 nan、最终 checkpoint 是否有非有限参数（`train_nan_scan.py`、`ckpt_nonfinite.py --last`）；
-  截断的 run 看 6000 万步以内任何一份 checkpoint（`ckpt_nonfinite.py` 全部）。
-- **R0**：发散 → 同配置同种子可复现；不发散 → 记为不能稳定复现（GPU 非确定性），不影响下面的判定。
-- **H3（纯随机，与场景和精度无关）**：R1 ≥ 2/4 发散 → 拒绝；1/4 → 补种子 47–50，8 个里 ≥ 3 才拒绝；0/4 → 不拒绝，
-  此时先补 R1b（1000 万 buffer、fp16、种子 43–46，只看是否发散）再解读 R2、R3（400 万 buffer 本身可能让 ep7 不再发散）。
-- **H4（fp16 存储是整条训练死掉的必要条件）**，只在 H3 被拒绝后判：R2 0/4 → 支持；R2 ≥ 2/4 → 不支持（fp32 也会被毒，下一步看统计量过滤）；1/4 → 补种子 47–50。
-- **H1（薄方盒是触发）**，同样前提：R3 0/4 → 支持；R3 ≥ 2/4 → 不支持（与厚度无关）；1/4 → 补种子。
-- **L1、L2**：每组只有 1 个种子，只作旁证。fp16 在 6000 万步内发散、fp32 不发散 → 与 H4 一致；两者都发散 → fp32 不够；fp16 不发散 → 这个种子没复现，不下结论。
-- 判定由脚本给出并落盘，结论写进执行记录，承重结论过 jev。
-
-### A.3 加厚桌面的诊断目录（R3）
-
-- `stages/policy/make_diag_support.py`（测试 `stages/policy/test_make_diag_support.py`，3 项通过）在 ml40 上生成：
-  `python3 stages/policy/make_diag_support.py runs/motion runs/diag/motion_thickbox 2026-05-29_15-20-43_iron_round_table_02 --thicken tabletop 0.04 +z`。
-  只换 usda（桌面 1 cm → 4 cm，顶面 0.7821 m 不变，中心 0.7771 → 0.7621）；parquet 复制（网格、URDF 是绝对路径，仍指原目录），`object` 为相对链接。原目录不动，已有文件不覆盖。
-- 开跑前核对：在容器里调 `flash_chord.assets.registry.support_usda_for_parquet(<诊断 parquet>)`，必须返回诊断目录里的 usda。
-  这个函数会先 `resolve()` parquet 路径，parquet 若是符号链接就会解析回原目录、拿到原来的薄桌面——所以脚本用复制。结果落盘。
-- 诊断目录只在 `runs/diag/`，不进 git，不用于提交用的训练。
+- **单条“发散”**：冒烟看 W&B 摘要有无 nan、最终 checkpoint 有无非有限参数；截断的 run 看任何一份 checkpoint。**次要读数**（一并落盘、只描述）：
+  W&B 摘要里的平均回合长度、平均回报、loss_scale。方盒冒烟原来的回合长度约 50–57（接近 `reset_freeze_steps: 50`），其余冒烟都 ≥ 64。
+- **R0**：发散 → 可复现；不发散 → 记为不能稳定复现（GPU 非确定性），不影响下面。
+- **H3**：R1 ≥ 2/4 发散 → 拒绝。R1 = 1/4 → R1、R3′、R2 一起补种子 47–50（成对），再按下面的差值判；R1 = 0/4 → 停，R2、R3′ 只描述、不判。
+- **H1′**（在拒绝 H3 之后判）：R1 发散数 − R3′ 发散数 ≥ 3 → 支持；否则 R1、R3′ 一起补种子 47–50（成对），报单侧 Fisher 精确检验的 p 值，p < 0.05 才算支持。
+  次要：R3′ 的回合长度是否回到 ≥ 64。
+- **H4**（同样前提）：R1 − R2 ≥ 3 → 支持；否则同样成对补种子、报 p 值。R2 若有发散，对它的 checkpoint 跑 `obs_block_nan_map.py`：
+  6D 朝向块也变 nan → 仿真状态本身出了 nan，存储精度排除。
+- **L1、L2**（单种子，旁证）：6000 万步内所有 checkpoint 都有限、回合长度在非方盒序列的范围内 → “修正导入后 ep1、ep28 越过了原来的发散点”；发散 → 仅修导入不够。
+- **L3**（可选，单种子）：v0.4.0 导入 + fp32 在 6000 万步内不发散 → fp32 单独就能挡住整条训练死掉（物理仍是错的）；发散 → 不够。
+- 判定由 `train_nan_scan.py`、`ckpt_nonfinite.py`、`wandb_local_history.py` 给出并落盘，结论写执行记录，承重结论过 jev。
 
 ### A.4 运行方式
 
-1. 确认 ml40 没有在跑的链、没有 `runs/.chain-active-*`，卡空闲；mf4090 不碰。
-2. 提交本版（队列、脚本、测试）；`V2D_ENV=ml40 V2D_DRYRUN=1 scripts/dev/remote` 看清单（只有增改、没有删除），再同步 ml40。
-3. 在 ml40 上：生成诊断目录（A.3），做查找核对；对 5 个诊断队列各跑 `fc_config_check.sh`，意外差异必须为 0（允许的只有队列行里写出的覆盖键与 parquet 路径）。
-4. tmux `v2d-diag`：`touch runs/.chain-active-diag`；`stages/policy/fc_queue.sh stages/policy/queues/diag_ml40_ep7.txt`；
-   然后依次 `stages/policy/diag_truncated.sh <单行队列> <run> 60002304 "<commit>"` 跑 L1、L2 的 4 条（看守：连续 2 份非有限或写出 6000 万步的 checkpoint 就 fc_stop；
-   驱动脚本对被停的 run 照常返回 0，外层用 `;` 连接）；最后 `rm -f runs/.chain-active-diag`。各段日志在 `runs/logs/`。
-5. 第一条 fp32 冒烟跑起来后看显存峰值；OOM 记“无结果”，不降档、不改别的。
-6. 收尾：`train_nan_scan.py`、`ckpt_nonfinite.py` 经 record 落盘；按 A.2 判定写执行记录；jev。
+1. ml40 没有在跑的链、卡空闲；补丁副本已生成并核对（`results/ml40/diverge/make_patched_fc_src.txt`、`support_import_p185.txt`）。
+2. 登记本版后同步 ml40（先 dry run，删除项必须为 0）；对 4 个诊断队列各跑 `fc_config_check.sh`，意外差异必须为 0（#185 的几行也要过：配置相同，只有导入器不同）。
+3. tmux `v2d-diag`，依次（用 `;` 连接，前一队列停下不影响后一队列）：
+   `echo "diag <commit> $(date)" > runs/.chain-active-diag`（非空，`scripts/dev/remote` 才会拒绝同步）；
+   `fc_queue.sh diag_ml40_ep7.txt`；`fc_queue.sh diag_ml40_p185_smoke.txt`；`fc_queue.sh diag_ml40_trunc60m.txt`；`fc_queue.sh diag_ml40_ep7_fp32.txt`；
+   `rm -f runs/.chain-active-diag`。各队列日志 `runs/logs/diag_*.log`。
+4. 第一条 fp32 冒烟看显存峰值；OOM 记“无结果”，不降档。
+5. 收尾：两台的 `train_nan_scan.py`、诊断 run 的 `ckpt_nonfinite.py` 落盘；本地 `.wandb` 按段汇总；按 A.3 判定写执行记录；jev。
 
 ### A.5 时间与代价
 
-- ep7 的 13 条冒烟每条约 6 分钟，约 80 分钟；L1、L2 的 4 条每条约 25 分钟（6000 万步 + 启动），约 100 分钟。ml40 合计约 3 小时。
-- 磁盘：冒烟每条约 0.16 GB，截断 run 约 0.3 GB（ml40 `/lab_data` 余 1.9 TB）。W&B 只进 `v2d-selftest`。
+- ep7 fp16 队列 9 条冒烟约 55 分钟；S 2 条约 12 分钟；L1、L2、L3 各约 25 分钟；R2 4 条约 25 分钟。ml40 合计约 2.8 小时。
+- 显存：fp32 在 400 万 buffer 的观测约 15.6 GB，小于已在这张卡上跑过的 1000 万 fp16（19.4 GB，峰值 40.2 GB）。
+- 磁盘：冒烟每条约 0.16 GB，截断 run 约 0.3 GB。W&B 只进 `v2d-selftest`。
 
-### A.6 风险
+### A.6 要问组委会（不等 GPU 结果）
 
-- R1 在 400 万 buffer 下 0/4：已登记 R1b。
-- 看守的 `--stop-at-step` 是新加的（测试 6 项通过）；看守若异常退出，截断 run 会一直训下去——每 30 分钟查一次看守日志，异常就手动 `fc_stop`。
-- 同一张卡上顺序跑，前一条异常（非发散的失败）会让 `fc_queue` 停下：R 组冒烟不会被 fc_stop，发散也照常 DONE，只有真出错才会停。
+- 排行榜评测用哪个 FlashCHORD：kit 指定的 aee95f2 早于 #185，ep1、ep7、ep28 的支撑面在那里仍是 1 m 立方体。这决定这三条用哪种几何训练、能不能交出轨迹。
+- kit 是否随 #184 更新过；我们手上的 kit（sha256 8a169616…）是不是最新。先重新下载比对 sha256，接提交流程前要确认。
+
+## 审查与处理（09-30 10:35，附录 A 第 3 版，独立审查：NO GO）
+
+- BLOCKER：v0.4.0 把方盒建成 1 m 立方体，R3 的加厚在仿真里不起作用 → 已实测确认（A.0）；R3 换成 #185 导入器（R3′），H1 改为 H1′；执行记录里 C5 的薄板结论作废。
+- MAJOR 判据：门槛改为两组之差 ≥ 3，否则成对补种子、报 Fisher p；删掉 R1b（400 万与 1000 万在 241 万步前等价）；加次要读数；R2 发散时查 6D 块。
+- MAJOR 截断靠看守：改为按配置截断（总步数 60,002,304 + 学习率调度长度 683,592），看守不再需要。
+- MINOR：`.chain-active-diag` 写入内容；fp32 单独一个队列；H4 的措辞改为“fp16 存储”。
