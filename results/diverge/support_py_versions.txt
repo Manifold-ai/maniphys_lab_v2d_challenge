@@ -1,0 +1,39 @@
+# command  : stages/policy/support_py_versions.sh 
+# md5      : 54f055a49f6b542490cde7b4dcbd8b34  stages/policy/support_py_versions.sh
+# source   : 247c78bb184d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T13:38:06-0600
+# ---------------------------------------------------------------
+== v0.4.0 robotic_grounding/flash_chord/src/flash_chord/scene/support.py  md5 95e5e33f6f635310817130fe22477307
+  support.py:5:The support USDA holds inline ``Cylinder`` / ``Cube`` prims (a translate + dimensions). They
+  support.py:69:        if type_name not in ("Cylinder", "Cube"):
+  support.py:85:            size = prim.GetAttribute("size").Get()
+  support.py:86:            dimensions = (float(size if size is not None else 2.0),)
+  support.py:91:        raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+  support.py:111:                half_height=0.5 * height,
+  support.py:114:        else:  # Cube: USD `size` is the full edge length
+  support.py:115:            half = 0.5 * dimensions[0]
+  support.py:116:            builder.add_shape_box(body, xform=xform, hx=half, hy=half, hz=half, label=name)
+== aee95f2 robotic_grounding/flash_chord/src/flash_chord/scene/support.py  md5 95e5e33f6f635310817130fe22477307
+  support.py:5:The support USDA holds inline ``Cylinder`` / ``Cube`` prims (a translate + dimensions). They
+  support.py:69:        if type_name not in ("Cylinder", "Cube"):
+  support.py:85:            size = prim.GetAttribute("size").Get()
+  support.py:86:            dimensions = (float(size if size is not None else 2.0),)
+  support.py:91:        raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+  support.py:111:                half_height=0.5 * height,
+  support.py:114:        else:  # Cube: USD `size` is the full edge length
+  support.py:115:            half = 0.5 * dimensions[0]
+  support.py:116:            builder.add_shape_box(body, xform=xform, hx=half, hy=half, hz=half, label=name)
+== 8c778f905c robotic_grounding/flash_chord/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+  support.py:5:The support USDA holds inline ``Cylinder`` / ``Cube`` prims with authored transforms and
+  support.py:69:        if type_name not in ("Cylinder", "Cube"):
+  support.py:83:            size = prim.GetAttribute("size").Get()
+  support.py:84:            scale = prim.GetAttribute("xformOp:scale").Get()
+  support.py:85:            scale = (1.0, 1.0, 1.0) if scale is None else tuple(float(value) for value in scale)
+  support.py:86:            if len(scale) != 3 or not all(math.isfinite(value) and value != 0.0 for value in scale):
+  support.py:87:                raise ValueError(f"support shape {prim.GetPath()} must have a finite nonzero scale")
+  support.py:88:            edge = float(size if size is not None else 2.0)
+  support.py:89:            dimensions = tuple(edge * abs(value) for value in scale)
+  support.py:94:        raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+  support.py:114:                half_height=0.5 * height,
+  support.py:117:        else:  # Cube: USD `size * xformOp:scale` gives the full dimensions
