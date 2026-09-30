@@ -1,0 +1,31 @@
+# command  : sed -n 246\,251p\;628\,646p runs/logs/batch1a_train_ml40.log 
+# md5      : 24200969c7a986cb895fd1073e98fe5b  runs/logs/batch1a_train_ml40.log
+# source   : 43b8acc2ca0d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-30T08:14:32+0800
+# ---------------------------------------------------------------
+record: → results/day2/bar_smoke-t1-ep5-w2048-cap10m-ml40.txt（11 行）
+=== 2026-09-29 23:40:37 CST 冒烟 smoke-t1-ep5-w2048-cap10m-ml40 通过：1003 帧，不动基线见 results/day2/bar_smoke-t1-ep5-w2048-cap10m-ml40.txt
+=== 2026-09-29 23:40:37 CST 冒烟 smoke-t1-ep7-w2048-cap10m-ml40
+fc_run: smoke-t1-ep7-w2048-cap10m-ml40 完成
+日志 runs/logs/smoke-t1-ep7-w2048-cap10m-ml40.s1.log；checkpoint 4096000；显存峰值 40209 MiB；镜像指纹 e2934912858820b8 / df0cf35711a68fb3
+SMOKE_OK smoke-t1-ep7-w2048-cap10m-ml40
+evaluation step 896/896
+warning: 172 worlds recorded non-finite poses and are excluded
+Error executing job with overrides: ['evaluation.checkpoint=/repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40/policy_4096000.safetensors', 'evaluation.world_count=256', 'evaluation.metrics_output=/repo/runs/diag/smoke-t1-ep7-w2048-cap10m-ml40/rollout_w256.json']
+Traceback (most recent call last):
+  File "/workspace/scripts/evaluate_policy.py", line 50, in main
+    outcome = evaluate_checkpoint(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/evaluation/harness.py", line 443, in evaluate_checkpoint
+    reference_tracking = score_reference_tracking(rollout, reference_criteria)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/repo/stages/evaluate/diag_rollout.py", line 63, in score_wrapper
+    cap["tracking"] = score(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/evaluation/harness.py", line 526, in score_reference_tracking
+    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+ValueError: evaluation must disable task failure termination before scoring the full reference
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+=== 2026-09-29 23:46:39 CST smoke-t1-ep7-w2048-cap10m-ml40 的 256 世界 diag_rollout 失败：t1-ep7-w2048-cap10m-ml40 SKIPPED

@@ -1,8 +1,8 @@
 # command  : stages/evaluate/submission_kit_facts.sh 
-# md5      : 8d834424f5c3b1fe9f70bbbdb4bd87da  stages/evaluate/submission_kit_facts.sh
-# source   : 60a6f743facf-dirty
+# md5      : 5cd86d4b6c195b338467384db3c6b38b  stages/evaluate/submission_kit_facts.sh
+# source   : cfa8b7336357-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-09-28T22:29:10-0600
+# run_at   : 2026-09-29T17:18:41-0600
 # ---------------------------------------------------------------
 == 0. 来源
 kit https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_submission_kit.zip
@@ -58,9 +58,18 @@ data/track_2_sample_submission.csv: e000020 553 帧，第 0–552 帧，连续 T
 data/track_2_sample_submission.csv: e000026 669 帧，第 0–668 帧，连续 True
 data/track_2_sample_submission.csv: e000013 922 帧，第 0–921 帧，连续 True
 data/track_2_sample_submission.csv: e000010 794 帧，第 0–793 帧，连续 True
+data/track_2_sample_submission.csv: e000011 900 帧，第 0–899 帧，连续 True
 == 8. Track 2 说明：每条 episode 一个 checkpoint、全部计分 episode、SP-SR / MP-SR 的口径
 tracks/track_2/README.md:38:Replace `track_2_tier1` in both commands for another tier. Include all scored episodes and use
 tracks/track_2/README.md:39:one checkpoint per episode. Accept the rules on that tier's four Kaggle competitions before
 tracks/track_2/README.md:45:each episode, then averages across episodes. AUC, SP-SR, and MP-SR are **higher is better**;
 tracks/track_2/README.md:51:| SP-SR | Fraction of episodes whose mean object position error is at most 10 cm and mean orientation error is at most 0.5 radians. |
 tracks/track_2/README.md:52:| MP-SR | Fraction of episodes where every object stays under 3 cm mean position error and 30 degrees mean orientation error. |
+== 9. 打包器与上传：本地重算指标、带哈希、同一个 CSV 传这一档的四个 Kaggle 比赛
+tools/pack_submission.py:14:  - checks scored episodes, frames and objects against the public reference (Track 2) or row
+tools/pack_submission.py:16:  - recomputes Track 2 metrics locally and compares them with the evaluator's metrics JSON,
+tools/pack_submission.py:17:  - carries evaluator and checkpoint hashes into the submission CSV.
+tracks/track_2/README.md:5:`track_2_tier3` (your own reconstruction). Each tier has four Kaggle metric competitions. **Use
+tracks/track_2/README.md:6:the same CSV for all four competitions within that tier.** Submit separately to each tier you
+tracks/track_2/README.md:25:   episode plus its script and evaluation-code SHA-256. The packer adds its own SHA-256 and the
+tracks/track_2/README.md:40:uploading. The uploader validates the CSV and sends it to all four.

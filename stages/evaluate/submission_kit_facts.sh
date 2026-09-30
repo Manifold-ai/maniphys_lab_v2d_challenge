@@ -61,10 +61,14 @@ with open(sys.argv[1]) as f:
         _, episode, world, frame, _ = row[0].split("/")
         frames[episode].append(int(frame[1:])); worlds.add(world)
 print(f"data/track_2_sample_submission.csv: {rows} 行，{len(frames)} 条 episode，世界 {sorted(worlds)}")
-for episode in ("e000020", "e000026", "e000013", "e000010"):
+for episode in ("e000020", "e000026", "e000013", "e000010", "e000011"):
     fr = sorted(frames[episode])
     print(f"data/track_2_sample_submission.csv: {episode} {len(fr)} 帧，第 {fr[0]}–{fr[-1]} 帧，连续 {fr == list(range(fr[0], fr[-1] + 1))}")
 EOF
 
 echo "== 8. Track 2 说明：每条 episode 一个 checkpoint、全部计分 episode、SP-SR / MP-SR 的口径"
 g "one checkpoint per episode|Include all scored episodes|Fraction of episodes|averages across episodes|Accept the rules" tracks/track_2/README.md
+
+echo "== 9. 打包器与上传：本地重算指标、带哈希、同一个 CSV 传这一档的四个 Kaggle 比赛"
+g "recomputes Track 2 metrics locally|carries evaluator and checkpoint hashes|checks scored episodes, frames and objects" tools/pack_submission.py
+g "four Kaggle metric competitions|same CSV for all four|sends it to all four|packer adds its own SHA-256" tracks/track_2/README.md

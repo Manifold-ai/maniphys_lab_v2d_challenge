@@ -1,0 +1,11 @@
+# command  : bash -c for\ f\ in\ runs/logs/day2_train_ml40.log\ runs/logs/day2b_train_ml40.log\ runs/logs/batch1a_train_ml40.log\;\ do\ echo\ \"\$f：冒烟\ rollout\ 通过\ \$\(grep\ -cE\ \"冒烟\ smoke.\*\ 通过\"\ \$f\)\ 条；non-finite\ 警告\ \$\(grep\ -c\ non-finite\ \$f\)\ 行\"\;\ grep\ -n\ non-finite\ \$f\;\ done 
+# md5      : 275c7c6406d62647e100baf938fbcd91  runs/logs/day2_train_ml40.log
+# md5      : ded2b762ba6e9e28859749d59a52f916  runs/logs/day2b_train_ml40.log
+# source   : 43b8acc2ca0d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-09-30T08:15:07+0800
+# ---------------------------------------------------------------
+runs/logs/day2_train_ml40.log：冒烟 rollout 通过 6 条；non-finite 警告 0 行
+runs/logs/day2b_train_ml40.log：冒烟 rollout 通过 3 条；non-finite 警告 0 行
+runs/logs/batch1a_train_ml40.log：冒烟 rollout 通过 4 条；non-finite 警告 1 行
+629:warning: 172 worlds recorded non-finite poses and are excluded
