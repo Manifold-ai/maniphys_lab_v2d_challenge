@@ -59,11 +59,13 @@
    - 9/29 08:30 Day 2、Day 2b、night1 都已评完，结果与登记的判定见两份执行记录（逐帧新序列 8 条里 ep26、ep27 过 Day 1 判据）。
    - 9/29 09:29 起 Tier 1 批量第 1 批（剩下 21 条逐帧满配，计划 `agent-doc/plan-batch1-tier1-2026-09-29.md`，执行记录
      `agent-doc/experiments/2026-09-29-batch1.md`）：每台 tmux `v2d-b1a`、`v2d-b1a-eval`、`v2d-b1b`、`v2d-b1b-eval`，A 段评完后 B 段自动开跑。
-     预计 A 段 mf4090 21:45、ml40 22:35 评完；B 段 ml40 约 9/30 12:05、mf4090 约 13:10 评完。**两段结束前不要同步两台。**
+     预计（9/29 17:13 估算）A 段 ml40 约 20:20、mf4090 约 23:50 评完（慢序列每条晚约 2 小时）；B 段 ml40 约 9/30 09:30–10:30、
+     mf4090 约 9/30 14:45 起。节奏：`stages/policy/run_pace.sh <链日志> <run>...`（Mac 上跑，脚本经 stdin 传过去，不需要同步）。
+     **两段结束前不要同步两台。**
    - 看 policy 效果（用户偏好：交互查看器转发到 Mac 的 localhost，不导视频）：`stages/evaluate/policy_viewer.py`（116592b / 08161ac）。
      批量期间仓库不能同步，副本放在 ml40 的 `runs/viewer/policy_viewer.py`，rerun-sdk 0.27.3 装在 `runs/viewer/pydeps`（`--no-deps`，腾讯云 PyPI 镜像）。
-     - viser：ml40 容器 `viser-8080/8081/8082`（ep26 逐帧 / ep27 逐帧 400 万 / ep4 逐帧），Mac 上 `ssh -N -L 8080..8082` 转发到 localhost；
-       训练链换 run 前会查卡，ml40 上的定时器 12:00 自动 `docker stop` 这三个容器（`runs/logs/viser_autostop.log`）。
+     - viser：9/29 10:32–11:46 在 ml40 开过容器 `viser-8080/8081/8082`（ep26 逐帧 / ep27 逐帧 400 万 / ep4 逐帧），Mac 上 `ssh -N -L 8080..8082`
+       转发到 localhost；按用户要求 11:46 停掉。开着的这段 ep0 训练慢了约 35%（`results/ml40/batch1/pace_ml40_a.txt`），下次训练中别在同一张卡上长开。
      - rerun：三条 `.rrd` 录在 ml40 `runs/viewer/rrd/`，已拉回 Mac 的 `runs/viewer/rrd/`；Mac 上 `rerun --serve-web --bind 127.0.0.1
        --web-viewer-port 9090 --port 9876 runs/viewer/rrd/*.rrd`，浏览器开 http://localhost:9090 。录制只占 GPU 约 3 分钟一条。
      - Mac → 服务器上传几 MB 的文件会卡住（ml40 也是）：换不走复用的新连接也卡；切成 512 KB 分块逐块传再拼回、核 sha256 可行。

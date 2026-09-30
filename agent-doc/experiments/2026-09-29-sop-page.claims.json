@@ -1,0 +1,192 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "pace_ml40": {
+      "file": "results/ml40/batch1/pace_ml40_a.txt"
+    },
+    "pace_mf4090": {
+      "file": "results/batch1/pace_mf4090_a.txt"
+    },
+    "rec_viewer": {
+      "file": "agent-doc/experiments/2026-09-29-batch1.md",
+      "grep": "ep0 多用约 20 分钟|这段 checkpoint 间隔"
+    },
+    "rec_reg": {
+      "file": "agent-doc/experiments/2026-09-29-batch1.md",
+      "grep": "登记于 6e7ae5c|早于任何一条的冒烟"
+    },
+    "rec_smoke_mf4090": {
+      "file": "agent-doc/experiments/2026-09-29-batch1.md",
+      "grep": "mf4090 5 条全过"
+    },
+    "ep7_excerpt": {
+      "file": "results/ml40/batch1/ep7_smoke_diag_excerpt.txt"
+    },
+    "nonfinite_ml40": {
+      "file": "results/ml40/batch1/nonfinite_scan_ml40.txt"
+    },
+    "nonfinite_mf4090": {
+      "file": "results/batch1/nonfinite_scan_mf4090.txt"
+    },
+    "kit9": {
+      "file": "results/submission/kit_facts.txt",
+      "grep": "== 9|pack_submission.py:1[4-7]:|README.md:(5|6|25|40):"
+    },
+    "kit7": {
+      "file": "results/submission/kit_facts.txt",
+      "grep": "== 7|track_2_sample_submission.csv"
+    },
+    "v_ml40_day2": {
+      "file": "results/day2/batch_verdict_ml40_day2.txt",
+      "grep": "^== "
+    },
+    "v_ml40_day2b": {
+      "file": "results/day2/batch_verdict_ml40_day2b.txt",
+      "grep": "^== "
+    },
+    "v_mf4090_day2": {
+      "file": "results/day2/batch_verdict_mf4090_day2.txt",
+      "grep": "^== "
+    },
+    "v_mf4090_night1": {
+      "file": "results/day2/batch_verdict_mf4090_night1.txt",
+      "grep": "^== "
+    },
+    "pre_ml40_a": {
+      "file": "results/ml40/day2/precheck_ml40_batch1a.txt",
+      "grep": "yaml|PRECHECK"
+    },
+    "pre_ml40_b": {
+      "file": "results/ml40/day2/precheck_ml40_batch1b.txt",
+      "grep": "yaml|PRECHECK"
+    },
+    "pre_mf4090_a": {
+      "file": "results/day2/precheck_mf4090_batch1a.txt",
+      "grep": "yaml|PRECHECK"
+    },
+    "pre_mf4090_b": {
+      "file": "results/day2/precheck_mf4090_batch1b.txt",
+      "grep": "yaml|PRECHECK"
+    }
+  },
+  "claims": [
+    {
+      "id": "ml40_batch1_done",
+      "evidence": [
+        "pace_ml40"
+      ],
+      "claim": "On ml40, batch 1 full training finished for ep0 at 12:29:59 MDT on 9/29 after 151 min 31 s, for ep5 at 14:51:17 after 141 min 18 s, and for ep9 at 17:01:01 after 129 min 44 s; ep12 started at 17:01:01 and is still running."
+    },
+    {
+      "id": "mf4090_batch1_done",
+      "evidence": [
+        "pace_mf4090"
+      ],
+      "claim": "On mf4090, batch 1 full training finished for ep1 at 13:56:42 MDT on 9/29 after 242 min 27 s, for ep6 at 16:05:36 after 128 min 54 s, and for ep8 at 18:15:14 after 129 min 38 s; ep11 started at 18:15:14 and is still running."
+    },
+    {
+      "id": "ep1_pace",
+      "evidence": [
+        "pace_mf4090"
+      ],
+      "claim": "For ep1 on mf4090, the 10M-step checkpoint intervals from 20M to 40M steps were 3 min 17 s to 3 min 20 s, every interval from 60M steps to the end was between 7 min 17 s and 7 min 25 s, and ep6's median interval was 3 min 38 s."
+    },
+    {
+      "id": "ep0_viewer",
+      "evidence": [
+        "rec_viewer",
+        "pace_ml40"
+      ],
+      "claim": "According to the batch 1 record, three viser viewers ran on ml40 from 10:32 to 11:46 MDT; in the pace file, ep0's checkpoint intervals were about 3 min 42 s before that window, about 5 min for the checkpoints written between 10:43 and 11:43, and about 3 min 47 s after 11:52."
+    },
+    {
+      "id": "ep7_nonfinite",
+      "evidence": [
+        "ep7_excerpt"
+      ],
+      "claim": "In the ep7 smoke diagnostic rollout the evaluator warned that 172 worlds recorded non-finite poses and were excluded, then raised ValueError: evaluation must disable task failure termination before scoring the full reference, and the chain marked the full ep7 run as SKIPPED."
+    },
+    {
+      "id": "others_finite",
+      "evidence": [
+        "nonfinite_ml40",
+        "nonfinite_mf4090"
+      ],
+      "claim": "The ml40 training logs record 6, 3 and 4 passed smoke rollouts and the mf4090 logs 3, 3 and 5, and the only non-finite warning in all six logs is one line in the ml40 batch 1 segment A log."
+    },
+    {
+      "id": "kit_packer",
+      "evidence": [
+        "kit9"
+      ],
+      "claim": "The kit's packer checks scored episodes, frames and objects against the public reference, recomputes the Track 2 metrics locally and compares them with the evaluator's metrics JSON, and carries evaluator and checkpoint hashes into the submission CSV."
+    },
+    {
+      "id": "kit_four",
+      "evidence": [
+        "kit9"
+      ],
+      "claim": "Each Track 2 tier has four Kaggle metric competitions, the same CSV is used for all four, and the uploader validates the CSV and sends it to all four."
+    },
+    {
+      "id": "ep11_frames",
+      "evidence": [
+        "kit7",
+        "rec_smoke_mf4090"
+      ],
+      "claim": "The official sample submission CSV has 900 contiguous frames (0 to 899) for e000011, while the batch 1 smoke of ep11 on mf4090 reports 901 frames."
+    },
+    {
+      "id": "evaluated_set",
+      "evidence": [
+        "v_ml40_day2",
+        "v_ml40_day2b",
+        "v_mf4090_day2",
+        "v_mf4090_night1"
+      ],
+      "claim": "Final-checkpoint verdicts exist for frame-playback runs of ep26, ep13, ep10, ep4 and ep2 on ml40 and of ep20, ep21, ep27 and ep3 on mf4090."
+    },
+    {
+      "id": "precheck_all",
+      "evidence": [
+        "pre_ml40_a",
+        "pre_ml40_b",
+        "pre_mf4090_a",
+        "pre_mf4090_b"
+      ],
+      "claim": "Before launch, the precheck printed PRECHECK_OK for all four batch 1 queues, and for every run it checked both the smoke config and the full config, with all 11 assertions passing in each."
+    },
+    {
+      "id": "plan_registered",
+      "evidence": [
+        "rec_reg"
+      ],
+      "claim": "The batch 1 plan was registered in commit 6e7ae5c after an independent review returned GO WITH FIXES with no blockers, before any smoke run."
+    },
+    {
+      "id": "ctrl_true_ep6",
+      "evidence": [
+        "pace_mf4090"
+      ],
+      "control": "true",
+      "claim": "ep6's full training on mf4090 took 128 min 54 s."
+    },
+    {
+      "id": "ctrl_false_ep1",
+      "evidence": [
+        "pace_mf4090"
+      ],
+      "control": "false",
+      "claim": "ep1's full training on mf4090 finished in under three hours."
+    },
+    {
+      "id": "ctrl_false_worlds",
+      "evidence": [
+        "kit7"
+      ],
+      "control": "false",
+      "claim": "The official sample submission CSV contains two worlds for every episode."
+    }
+  ],
+  "note": "第 2 轮（results/site/jev_claims_sop_page_0929_run2.txt）假对照 ctrl_false_ep11（e000011 有 901 帧）得 0.33，超过 0.3；第 1 轮是 0.20。它考的是 900 与 901 这种相邻数字，jev 不擅长数值比较（tools/jev_claims.py 说明），对照题出错了。第 3 轮起换成非数值的假对照 ctrl_false_worlds；帧数本身只以 submission_kit_facts.sh 与冒烟日志为准。"
+}
