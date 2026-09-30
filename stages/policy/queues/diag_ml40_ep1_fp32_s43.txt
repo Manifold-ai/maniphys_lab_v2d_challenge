@@ -1,0 +1,2 @@
+# ep1 截断复现（附录 A L1/L2）：总步数与学习率曲线同正式训练，看守在 6000 万步的 checkpoint 写出后 fc_stop。
+V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=diag V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 diag-t1-ep1-cap4m-fp32-s43-ml40 /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet 2048 349999104 training.replay.capacity=4000000 training.replay.observation_storage_dtype=float32 reset.seed=43 training.seed=43

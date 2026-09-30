@@ -3,7 +3,8 @@
 在临时目录里造假的 runs/flash_chord/<run>/policy_<步数>.safetensors（F32），与一个只记录调用的假 stages/policy/fc_stop.sh：
   1. 有限、含 NaN、含 inf、写到一半（大小不对）四种文件的扫描结果；
   2. 看守：按步数连续 2 份非有限才调用 fc_stop；不连续（坏、好、坏）不调用，run 出现 DONE 后退出；
-     已有 DONE 时即使连续 2 份非有限也不调用（DONE 优先）。
+     已有 DONE 时即使连续 2 份非有限也不调用（DONE 优先）；
+  3. --stop-at-step：写出到那一步就 fc_stop（截断），非有限止损在前时按非有限记。
 用法：python3 stages/policy/test_ckpt_nonfinite.py
 """
 import json
@@ -97,6 +98,27 @@ def test_watch_done_beats_stop() -> None:
         out = run(root, "--watch", "r", "--interval", "1", "--timeout", "20", "--tag", "commit abc123")
         assert "NAN_WATCH_DONE" in out and "commit abc123" in out, out
         assert not (root / "fc_stop_calls.txt").exists()
+
+
+def test_watch_stop_at_step() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        d = setup(root, "r")
+        write_ckpt(d / "policy_10.safetensors", [1.0])
+        write_ckpt(d / "policy_20.safetensors", [2.0])
+        out = run(root, "--watch", "r", "--interval", "1", "--timeout", "20", "--stop-at-step", "20")
+        assert "NAN_WATCH_TRUNCATED" in out, out
+        assert (root / "fc_stop_calls.txt").read_text().split() == ["r"]
+
+
+def test_watch_nan_beats_stop_at_step() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        d = setup(root, "r")
+        write_ckpt(d / "policy_10.safetensors", [float("nan")])
+        write_ckpt(d / "policy_20.safetensors", [float("nan")])
+        out = run(root, "--watch", "r", "--interval", "1", "--timeout", "20", "--stop-at-step", "20")
+        assert "NAN_WATCH_STOPPED" in out and "NAN_WATCH_TRUNCATED" not in out, out
 
 
 if __name__ == "__main__":

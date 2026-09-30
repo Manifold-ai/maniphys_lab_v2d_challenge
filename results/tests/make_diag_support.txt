@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/test_make_diag_support.py 
+# md5      : 8b97055a954e192a6af40ba6773b8746  stages/policy/test_make_diag_support.py
+# source   : afabdfe609ad-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T10:08:41-0600
+# ---------------------------------------------------------------
+ok thicken
+ok no overwrite
+ok robot-specific refused
+ALL_OK

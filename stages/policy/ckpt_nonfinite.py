@@ -12,6 +12,7 @@ safetensors 格式：8 字节小端头长度 + JSON 头（张量名 → dtype、
       看守：每 interval 秒看一次新写完的 policy；按步数连续 stop-after 份完整 checkpoint 都含非有限参数，就调用
       stages/policy/fc_stop.sh <run> 并退出；run 目录已有 DONE 或 STOP 时只报告、不止损（DONE 优先）。到 timeout 秒也退出。
       另每轮数一次本地 .wandb 里的 NaN 字样，变了就报（只报警）。--tag 写部署时的 commit，启动时连同脚本 md5 打出。
+      --stop-at-step N：写出 N 步及以后的完整 checkpoint 就 fc_stop（截断复现：总步数不变、学习率曲线不变，只提前停）；非有限止损优先。
       只有 fc_stop.sh 这一个写操作；计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 M1、M2。
 时间一律丹佛时间（MDT，UTC−6）。类型注解用 typing，Mac 自带的 Python 3.9 也能跑。
 """
@@ -172,10 +173,11 @@ def wandb_nan_count(run: str) -> Optional[int]:
         return None
 
 
-def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str) -> int:
+def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str, stop_at_step: int = 0) -> int:
     d = Path("runs/flash_chord", run)
     md5 = hashlib.md5(Path(__file__).read_bytes()).hexdigest() if Path(__file__).is_file() else "?"
-    print(f"=== {now()} MDT 开始看守 {run}：每 {interval} 秒；连续 {stop_after} 份非有限就 fc_stop；最长 {timeout} 秒；"
+    extra = f"；写出 {stop_at_step:,d} 步及以后的 checkpoint 就 fc_stop" if stop_at_step else ""
+    print(f"=== {now()} MDT 开始看守 {run}：每 {interval} 秒；连续 {stop_after} 份非有限就 fc_stop{extra}；最长 {timeout} 秒；"
           f"脚本 md5 {md5}；{tag}", flush=True)
     seen: Dict[int, bool] = {}
     last_wandb = None
@@ -204,6 +206,11 @@ def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str) -> i
             rc = subprocess.run(["stages/policy/fc_stop.sh", run]).returncode
             print(f"=== {now()} MDT fc_stop 退出码 {rc}；NAN_WATCH_STOPPED", flush=True)
             return 0
+        if stop_at_step and any(s >= stop_at_step for s in seen):
+            print(f"=== {now()} MDT 已写出 {max(seen):,d} 步的 checkpoint（≥ {stop_at_step:,d}）：按截断计划 fc_stop {run}", flush=True)
+            rc = subprocess.run(["stages/policy/fc_stop.sh", run]).returncode
+            print(f"=== {now()} MDT fc_stop 退出码 {rc}；NAN_WATCH_TRUNCATED", flush=True)
+            return 0
         if time.time() - t0 > timeout:
             print(f"=== {now()} MDT 到时，扫过 {len(seen)} 份；NAN_WATCH_TIMEOUT", flush=True)
             return 0
@@ -221,6 +228,7 @@ def main() -> int:
     ap.add_argument("--timeout", type=int, default=14400)
     ap.add_argument("--stop-after", type=int, default=2)
     ap.add_argument("--tag", default="", help="启动时照打，记部署的 commit 等")
+    ap.add_argument("--stop-at-step", type=int, default=0, help="看守：写出这一步数及以后的完整 checkpoint 就 fc_stop（截断复现用）")
     a = ap.parse_args()
     for run in a.runs:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", run):
@@ -230,7 +238,7 @@ def main() -> int:
             sys.exit("--watch 只看一个 run，--stop-after ≥ 1")
         if not re.fullmatch(r"[A-Za-z0-9_.:=, -]*", a.tag):
             sys.exit("--tag 只能是字母数字与 _.:=, -")
-        return watch(a.runs[0], a.interval, a.timeout, a.stop_after, a.tag)
+        return watch(a.runs[0], a.interval, a.timeout, a.stop_after, a.tag, a.stop_at_step)
     steps = {int(x) for x in a.steps.split(",") if x}
     report(a.runs, a.last, a.by_tensor, steps)
     return 0

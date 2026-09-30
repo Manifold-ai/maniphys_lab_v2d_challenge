@@ -1,11 +1,13 @@
 # command  : python3 stages/policy/test_ckpt_nonfinite.py 
-# md5      : c8eca070f231ad05565126b2c03f8d6a  stages/policy/test_ckpt_nonfinite.py
-# source   : 1ced9bf7beee-dirty
+# md5      : 7b8875e995f76282b7d2e271ae73670e  stages/policy/test_ckpt_nonfinite.py
+# source   : afabdfe609ad-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-09-30T08:54:16-0600
+# run_at   : 2026-09-30T10:07:37-0600
 # ---------------------------------------------------------------
 ok test_scan
 ok test_watch_stops_on_two_consecutive
 ok test_watch_ignores_non_consecutive
 ok test_watch_done_beats_stop
+ok test_watch_stop_at_step
+ok test_watch_nan_beats_stop_at_step
 ALL_OK
