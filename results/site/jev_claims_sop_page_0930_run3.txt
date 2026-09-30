@@ -1,0 +1,29 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-09-30-sop-page.claims.json 
+# md5      : d308cfc3a04604672fafe484a0d8f099  tools/jev_claims.py
+# md5      : f7981038f8bb537049e804920c6d4b7b  agent-doc/experiments/2026-09-30-sop-page.claims.json
+# source   : 645f670462e0-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T13:40:33-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+batch1_totals        P(supported)=0.78  verified               [v_ml40_a, v_mf4090_a, v_ml40_b, v_mf4090_b]  Across the four batch 1 verdict files, 9 runs pass, 9 fail and 3 are invalid; the invalid runs are ep7 on ml40 and ep1 and ep28 on mf4090.
+mf4090_b_pass        P(supported)=0.98  verified               [v_mf4090_b]  In mf4090 batch 1 segment B, ep18, ep22, ep24 and ep29 pass the batch verdict, and ep24 has the highest maniptrans_sr of the four at 0.962.
+ep16_fail            P(supported)=0.98  verified               [v_mf4090_b]  The final checkpoint of ep16 on mf4090 fails the batch verdict: chord_sr and maniptrans_sr are both 0, and its ADD-AUC of 0.255 is below the do-nothing baseline of 0.266.
+ep16_training        P(supported)=0.98  verified               [train_mf4090_b]  ep16's training summary on mf4090 has no NaN, and its final mean episode length (about 119) is much shorter than that of the other four segment B runs on mf4090, which range from about 374 to 552.
+dist27               P(supported)=0.93  verified               [err27]  Among the 27 runs in the error table, exactly five (ep12, ep8, ep23, ep24 and ep26) have an MP-SR of at least 0.95, and among the listed features, path length and total rotation have the most negative Spearman correlations with MP-SR.
+ep1_nan_pace         P(supported)=0.66  UNVERIFIED             [ckpt_ep1, pace_ep1]  For ep1 on mf4090, the first checkpoint with non-finite parameters is the one at 50,001,920 steps, and in the pace file the 10M-step interval ending at that checkpoint is the first one longer than 3 min 20 s.
+ep28_stop            P(supported)=0.98  verified               [ep28_watch]  The ep28 watcher on mf4090 stopped the run with fc_stop after two consecutive non-finite checkpoints, at 50,001,920 and 60,002,304 steps.
+L0_L1                P(supported)=0.95  verified               [ckpt_L0, ckpt_L1, pace_L]  In the truncated ml40 runs, L0 (ep1 with the v0.4.0 importer) has non-finite parameters from its 30,001,152-step checkpoint on and its 10M-step intervals grow from 3:18 to over 7 minutes, while L1 (ep1 with the #185 importer) has finite parameters in all six checkpoints and intervals of 3:09 to 3:10.
+cube_import          P(supported)=0.97  verified               [import_v040, import_p185]  With the v0.4.0 importer, the box supports of the iron (ep7), vacuum (ep1) and squeegee (ep28) sequences are built as boxes with half extents (0.5, 0.5, 0.5), while the #185-patched importer builds the iron sequence's tabletop with half extents (0.42, 0.141, 0.005).
+aee95f2_same         P(supported)=0.96  verified               [support_versions]  The support.py at aee95f2 has the same md5 as at v0.4.0 and builds a Cube from its size attribute alone, while the version at 8c778f905c differs.
+ep7_embedded         P(supported)=0.65  UNVERIFIED             [embed_v040, ep7_seq]  Under the v0.4.0 geometry, the ep7 iron is embedded more than 5 mm in the tabletop cube in all 896 frames, about 49 cm deep at frame 0.
+verdict_interim      P(supported)=0.98  verified               [verdict_4seeds]  With seeds 43 to 46, R1 diverged in 2 of 4 runs, R3' in 0 of 4 and R2 (fp32 storage) in 2 of 4; H3 and H4 are rejected, and H1' has a one-sided Fisher p of 0.2143, so the registered rule calls for extending to 8 seeds.
+r3_learns            P(supported)=0.92  verified               [verdict_4seeds]  All four R3' smokes reach a mean episode length of at least 64 and a return of at least 2.37, while the R1 and R2 runs that did not diverge stay near an episode length of 51 with a return near -3.7.
+gate_file            P(supported)=0.81  verified               [fc_run_logs, gate]  fc_run.sh appends in-flash-chord's output to runs/logs/<run>.log and writes the container's docker logs to the per-segment .s<N>.log; in the importer check every #185 run has exactly one mount line in its .log and every .s1.log has none.
+r2_blocks            P(supported)=0.84  verified               [obs_R2, bytensor_R2, obs_map_doc]  In the fp32 R2 run with seed 43, the non-finite entries of the 486-dimensional input normalization statistics cover the wrist, object and joint position and velocity blocks, the future joint and palm position deltas, the position parts of the hand-in-object and target-in-object poses, and the target history, while every 6D orientation block and the future root position block stay finite.
+kit_packer           P(supported)=0.97  verified               [kit_diff]  The updated kit changed KIT_MANIFEST.json, tools/pack_submission.py and the Track 2 README, and the README now says the packer converts the evaluator's poses to the released frame when the evaluator uses a different world frame.
+ctrl_true_ep24       P(supported)=0.98  control(true) ok       [v_mf4090_b]  ep24's final checkpoint on mf4090 passes the batch verdict.
+ctrl_false_ep16      P(supported)=0.01  control(false) ok      [v_mf4090_b]  ep16's final checkpoint on mf4090 passes the batch verdict.
+ctrl_false_L1        P(supported)=0.02  control(false) ok      [ckpt_L1]  L1, the ep1 run with the #185 importer, has non-finite parameters in its final checkpoint.
+ctrl_false_r3        P(supported)=0.01  control(false) ok      [verdict_4seeds]  Most of the R3' smokes diverged.
+controls behaved as expected

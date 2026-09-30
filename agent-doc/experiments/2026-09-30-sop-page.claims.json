@@ -1,0 +1,253 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "v_ml40_a": {
+      "file": "results/day2/batch_verdict_ml40_batch1a.txt",
+      "grep": "^== |判定|合计"
+    },
+    "v_mf4090_a": {
+      "file": "results/day2/batch_verdict_mf4090_batch1a.txt",
+      "grep": "^== |判定|合计"
+    },
+    "v_ml40_b": {
+      "file": "results/day2/batch_verdict_ml40_batch1b.txt",
+      "grep": "^== |判定|合计"
+    },
+    "v_mf4090_b": {
+      "file": "results/day2/batch_verdict_mf4090_batch1b.txt"
+    },
+    "train_mf4090_b": {
+      "file": "results/diverge/train_summary_table_mf4090_b.txt",
+      "grep": "^run |^t1-ep(16|18|22|24|29)-"
+    },
+    "err27": {
+      "file": "results/batch1/error_table_with_mf4090_b.txt"
+    },
+    "ckpt_ep1": {
+      "file": "results/diverge/ckpt_nonfinite_ep1.txt",
+      "grep": "^== |  [1-6]0,00|第一份"
+    },
+    "pace_ep1": {
+      "file": "results/batch1/pace_mf4090_a.txt",
+      "grep": "^== t1-|^ +[1-6]0,00[0-9],[0-9]{3} 步"
+    },
+    "ep28_watch": {
+      "file": "results/diverge/ep28_nan_watch_log.txt",
+      "grep": "60,002,304|50,001,920|fc_stop|NAN_WATCH"
+    },
+    "ckpt_L0": {
+      "file": "results/diverge/ckpt_nonfinite_L0_ml40.txt"
+    },
+    "ckpt_L1": {
+      "file": "results/diverge/ckpt_nonfinite_L1_ml40.txt"
+    },
+    "pace_L": {
+      "file": "results/diverge/pace_trunc60m_ml40.txt"
+    },
+    "import_v040": {
+      "file": "results/ml40/diverge/support_import_v040.txt",
+      "grep": "导入器|^== |：类型"
+    },
+    "import_p185": {
+      "file": "results/ml40/diverge/support_import_p185.txt",
+      "grep": "导入器|^== |：类型"
+    },
+    "support_versions": {
+      "file": "results/diverge/support_py_versions.txt",
+      "grep": "^== |support.py:(8[3-6]|11[4-6]):"
+    },
+    "embed_v040": {
+      "file": "results/diverge/support_penetration_as_v040.txt",
+      "grep": "^== |Cube"
+    },
+    "verdict_4seeds": {
+      "file": "results/diverge/diag_verdict_seeds43_46.txt"
+    },
+    "gate": {
+      "file": "results/diverge/importer_gate_ml40.txt"
+    },
+    "fc_run_logs": {
+      "file": "stages/policy/fc_run.sh",
+      "grep": "^LOG=|LOG=\"\\$LOGDIR|in-flash-chord \"\\$CMD\"|SEGLOG=|docker logs \"\\$CNAME\" >> \"\\$SEGLOG\""
+    },
+    "kit_diff": {
+      "text": "[verbatim lines from results/submission/kit_update_diff.txt; the file's header line is not valid UTF-8, so it is quoted]\nFiles third_party/v2d_submission_kit/v2d_submission_kit/KIT_MANIFEST.json and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/KIT_MANIFEST.json differ\nFiles third_party/v2d_submission_kit/v2d_submission_kit/tools/pack_submission.py and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/tools/pack_submission.py differ\nFiles third_party/v2d_submission_kit/v2d_submission_kit/tracks/track_2/README.md and third_party/v2d_submission_kit/update_a2de2aee/v2d_submission_kit/tracks/track_2/README.md differ\n-   objects against that reference. The uploader checks the exact rows against the public\n-   `data/track_2_sample_submission.csv`.\n+   objects against that reference. If the evaluator uses a different world frame, the packer\n+   converts its poses to the released frame after verifying one rigid transform across the episode.\n+   For these single-object episodes, the evaluator may label the object `object`. The uploader\n+   checks the exact rows against the public `data/track_2_sample_submission.csv`."
+    },
+    "obs_R2": {
+      "file": "results/diverge/obs_block_nan_map_R2_s43.txt"
+    },
+    "bytensor_R2": {
+      "file": "results/diverge/ckpt_nonfinite_by_tensor_R2_s43.txt",
+      "grep": "^== |state.0029"
+    },
+    "obs_map_doc": {
+      "file": "stages/policy/obs_block_nan_map.py",
+      "grep": "输入归一化统计量|486"
+    },
+    "penetration_doc": {
+      "file": "stages/retarget/support_penetration.py",
+      "grep": "有符号距离|嵌入或穿地超过 5 mm"
+    },
+    "ep7_seq": {
+      "file": "stages/policy/queues/ml40_batch1a.expect.tsv",
+      "grep": "^run|t1-ep7-"
+    }
+  },
+  "claims": [
+    {
+      "id": "batch1_totals",
+      "evidence": [
+        "v_ml40_a",
+        "v_mf4090_a",
+        "v_ml40_b",
+        "v_mf4090_b"
+      ],
+      "claim": "Across the four batch 1 verdict files, 9 runs pass, 9 fail and 3 are invalid; the invalid runs are ep7 on ml40 and ep1 and ep28 on mf4090."
+    },
+    {
+      "id": "mf4090_b_pass",
+      "evidence": [
+        "v_mf4090_b"
+      ],
+      "claim": "In mf4090 batch 1 segment B, ep18, ep22, ep24 and ep29 pass the batch verdict, and ep24 has the highest maniptrans_sr of the four at 0.962."
+    },
+    {
+      "id": "ep16_fail",
+      "evidence": [
+        "v_mf4090_b"
+      ],
+      "claim": "The final checkpoint of ep16 on mf4090 fails the batch verdict: chord_sr and maniptrans_sr are both 0, and its ADD-AUC of 0.255 is below the do-nothing baseline of 0.266."
+    },
+    {
+      "id": "ep16_training",
+      "evidence": [
+        "train_mf4090_b"
+      ],
+      "claim": "ep16's training summary on mf4090 has no NaN, and its final mean episode length (about 119) is much shorter than that of the other four segment B runs on mf4090, which range from about 374 to 552."
+    },
+    {
+      "id": "dist27",
+      "evidence": [
+        "err27"
+      ],
+      "claim": "Among the 27 runs in the error table, exactly five (ep12, ep8, ep23, ep24 and ep26) have an MP-SR of at least 0.95, and among the listed features, path length and total rotation have the most negative Spearman correlations with MP-SR."
+    },
+    {
+      "id": "ep1_nan_pace",
+      "evidence": [
+        "ckpt_ep1",
+        "pace_ep1"
+      ],
+      "claim": "For ep1 on mf4090, the first checkpoint with non-finite parameters is the one at 50,001,920 steps. In the pace file, apart from the first interval (4 min 53 s, which includes compilation), the 10M-step intervals up to 40M steps are 3 min 17 s to 3 min 20 s, the interval ending at 50,001,920 steps is 6 min 22 s, and the following intervals are about 7 min 20 s."
+    },
+    {
+      "id": "ep28_stop",
+      "evidence": [
+        "ep28_watch"
+      ],
+      "claim": "The ep28 watcher on mf4090 stopped the run with fc_stop after two consecutive non-finite checkpoints, at 50,001,920 and 60,002,304 steps."
+    },
+    {
+      "id": "L0_L1",
+      "evidence": [
+        "ckpt_L0",
+        "ckpt_L1",
+        "pace_L"
+      ],
+      "claim": "In the truncated ml40 runs, L0 (ep1 with the v0.4.0 importer) has non-finite parameters from its 30,001,152-step checkpoint on and its 10M-step intervals grow from 3:18 to over 7 minutes, while L1 (ep1 with the #185 importer) has finite parameters in all six checkpoints and intervals of 3:09 to 3:10."
+    },
+    {
+      "id": "cube_import",
+      "evidence": [
+        "import_v040",
+        "import_p185"
+      ],
+      "claim": "With the v0.4.0 importer, the box supports of the iron (ep7), vacuum (ep1) and squeegee (ep28) sequences are built as boxes with half extents (0.5, 0.5, 0.5), while the #185-patched importer builds the iron sequence's tabletop with half extents (0.42, 0.141, 0.005)."
+    },
+    {
+      "id": "aee95f2_same",
+      "evidence": [
+        "support_versions"
+      ],
+      "claim": "The support.py at aee95f2 has the same md5 as at v0.4.0 and builds a Cube from its size attribute alone, while the version at 8c778f905c differs."
+    },
+    {
+      "id": "ep7_embedded",
+      "evidence": [
+        "embed_v040",
+        "ep7_seq"
+      ],
+      "claim": "Under the v0.4.0 geometry, the ep7 iron is embedded more than 5 mm in the tabletop cube in all 896 frames, about 49 cm deep at frame 0."
+    },
+    {
+      "id": "verdict_interim",
+      "evidence": [
+        "verdict_4seeds"
+      ],
+      "claim": "With seeds 43 to 46, R1 diverged in 2 of 4 runs, R3' in 0 of 4 and R2 (fp32 storage) in 2 of 4; H3 and H4 are rejected, and H1' has a one-sided Fisher p of 0.2143, so the registered rule calls for extending to 8 seeds."
+    },
+    {
+      "id": "r3_learns",
+      "evidence": [
+        "verdict_4seeds"
+      ],
+      "claim": "All four R3' smokes reach a mean episode length of at least 64 and a return of at least 2.37, while the R1 and R2 runs that did not diverge stay near an episode length of 51 with a return near -3.7."
+    },
+    {
+      "id": "gate_file",
+      "evidence": [
+        "fc_run_logs",
+        "gate"
+      ],
+      "claim": "fc_run.sh appends in-flash-chord's output to runs/logs/<run>.log and writes the container's docker logs to the per-segment .s<N>.log; in the importer check every #185 run has exactly one mount line in its .log and every .s1.log has none."
+    },
+    {
+      "id": "r2_blocks",
+      "evidence": [
+        "obs_R2",
+        "bytensor_R2",
+        "obs_map_doc"
+      ],
+      "claim": "In the fp32 R2 run with seed 43, the non-finite entries of the 486-dimensional input normalization statistics cover the wrist, object and joint position and velocity blocks, the future joint and palm position deltas, the position parts of the hand-in-object and target-in-object poses, and the target history, while every 6D orientation block and the future root position block stay finite."
+    },
+    {
+      "id": "kit_packer",
+      "evidence": [
+        "kit_diff"
+      ],
+      "claim": "The updated kit changed KIT_MANIFEST.json, tools/pack_submission.py and the Track 2 README, and the README now says the packer converts the evaluator's poses to the released frame when the evaluator uses a different world frame."
+    },
+    {
+      "id": "ctrl_true_ep24",
+      "evidence": [
+        "v_mf4090_b"
+      ],
+      "control": "true",
+      "claim": "ep24's final checkpoint on mf4090 passes the batch verdict."
+    },
+    {
+      "id": "ctrl_false_ep16",
+      "evidence": [
+        "v_mf4090_b"
+      ],
+      "control": "false",
+      "claim": "ep16's final checkpoint on mf4090 passes the batch verdict."
+    },
+    {
+      "id": "ctrl_false_L1",
+      "evidence": [
+        "ckpt_L1"
+      ],
+      "control": "false",
+      "claim": "L1, the ep1 run with the #185 importer, has non-finite parameters in its final checkpoint."
+    },
+    {
+      "id": "ctrl_false_r3",
+      "evidence": [
+        "verdict_4seeds"
+      ],
+      "control": "false",
+      "claim": "Most of the R3' smokes diverged."
+    }
+  ]
+}
