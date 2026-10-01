@@ -308,7 +308,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 工作文档</h1>
-  <p class="lead">截至 9/30 14:40（丹佛时间），第 1 批 21 条 Tier 1 逐帧满配全部结束：按批量判定脚本的判据通过 9 条、不通过 9 条、无效 3 条（ep1、ep7、ep28）。连同之前的 9 条，30 条里 27 条有最终 checkpoint 的判定，MP-SR ≥ 0.95 的 5 条、0.5–0.95 的 2 条、0 到 0.5 之间 6 条、恰好为 0 的 14 条。无效的三条都用方盒支撑面：FlashCHORD v0.4.0 的导入器不读 USD 的缩放，把方盒建成边长 1 m 的实心立方体，参考物体在第 0 帧就已嵌进立方体（未核实）。上游 #185 已修。ml40 上的 GPU 对照 14:35 全部跑完，按登记判据 A.3 的最终判定是 H1′ 支持：ep7 冒烟（400 万步、L40S）配对种子 43–50，v0.4.0 的导入器 5 / 8 发散，换上 #185 0 / 8，单侧 Fisher p = 0.0128。能下的结论是 v0.4.0 把方盒建成 1 m 立方体是 ep7 冒烟发散的触发，ep1 只有单种子的旁证、方向相同，ep28 只描述；fp16 存储与 BN 统计量在其中各占多少，这组对照回答不了。kit 指定的评测运行时 aee95f2 里没有 #185，能不能用带 #185 的运行时训练与导出，要问组委会，问题还没发。要能提交，还差组委会的答复、按 9/30 重新下载的新 kit 接上评测与打包、每条选 checkpoint，以及 Kaggle 的规则与凭据。封榜 2026-11-04 17:00 EST，从 9/30 算还有 35 天。</p>
+  <p class="lead">截至 9/30 14:40（UTC-6），第 1 批 21 条 Tier 1 逐帧满配全部结束：按批量判定脚本的判据通过 9 条、不通过 9 条、无效 3 条（ep1、ep7、ep28）。连同之前的 9 条，30 条里 27 条有最终 checkpoint 的判定，MP-SR ≥ 0.95 的 5 条、0.5–0.95 的 2 条、0 到 0.5 之间 6 条、恰好为 0 的 14 条。无效的三条都用方盒支撑面：FlashCHORD v0.4.0 的导入器不读 USD 的缩放，把方盒建成边长 1 m 的实心立方体，参考物体在第 0 帧就已嵌进立方体（未核实）。上游 #185 已修。ml40 上的 GPU 对照 14:35 全部跑完，按登记判据 A.3 的最终判定是 H1′ 支持：ep7 冒烟（400 万步、L40S）配对种子 43–50，v0.4.0 的导入器 5 / 8 发散，换上 #185 0 / 8，单侧 Fisher p = 0.0128。能下的结论是 v0.4.0 把方盒建成 1 m 立方体是 ep7 冒烟发散的触发，ep1 只有单种子的旁证、方向相同，ep28 只描述；fp16 存储与 BN 统计量在其中各占多少，这组对照回答不了。kit 指定的评测运行时 aee95f2 里没有 #185，能不能用带 #185 的运行时训练与导出，要问组委会，问题还没发。要能提交，还差组委会的答复、按 9/30 重新下载的新 kit 接上评测与打包、每条选 checkpoint，以及 Kaggle 的规则与凭据。封榜 2026-11-04 17:00 EST，从 9/30 算还有 35 天。</p>
   <div class="adm w"><span class="t">封榜时间待确认</span><p>未合并的规则草案（PR #164）里另有 11/5 和 11/10 两个日期。</p></div>
   <div class="figs">
     <div class="fig"><span class="v">27 / 30</span><span class="l">Tier 1 有最终判定的逐帧满配，按批量判据通过 11 条；剩下 ep1、ep7、ep28 的方盒支撑面在 v0.4.0 里是 1 m 立方体，按登记判据是 ep7 冒烟发散的触发（p = 0.0128）</span></div>
@@ -340,7 +340,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-en" lang="en">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 working notes</h1>
-  <p class="lead">As of 14:40 on 9/30 (Denver time), all 21 Tier 1 frame-playback full-recipe runs of batch 1 are done: by the batch verdict script's criteria, 9 pass, 9 fail and 3 are invalid (ep1, ep7, ep28). With the 9 earlier runs, 27 of the 30 episodes have a verdict on the final checkpoint. MP-SR is at least 0.95 for 5 of them, between 0.5 and 0.95 for 2, between 0 and 0.5 for 6, and exactly 0 for 14. The three invalid episodes all use box supports: the FlashCHORD v0.4.0 importer ignores the USD scale and builds each box as a solid cube with 1 m edges, and the reference object is already inside the cube at frame 0 (unverified). Upstream #185 fixes this. The GPU controls on ml40 all finished at 14:35, and the final verdict under the registered criteria A.3 is that H1′ is supported: in ep7 smokes (4M steps, L40S) with paired seeds 43–50, 5 of 8 runs with the v0.4.0 importer diverge against 0 of 8 with #185, one-sided Fisher p = 0.0128. What we can conclude is that v0.4.0 building the box as a 1 m cube triggers the divergence of the ep7 smokes; ep1 has only single-seed supporting evidence pointing the same way, and ep28 is description only. These controls cannot say how much fp16 storage and the BatchNorm statistics each contribute. aee95f2, the evaluation runtime the kit specifies, does not include #185, so we have to ask the organizers whether we may train and export with a runtime that does; the questions have not been sent yet. Before we can submit we still need their answer, evaluation and packing hooked up to the new kit downloaded on 9/30, a checkpoint choice for each episode, and the Kaggle rules and credentials. The freeze is 2026-11-04 17:00 EST, 35 days from 9/30.</p>
+  <p class="lead">As of 14:40 on 9/30 (UTC-6), all 21 Tier 1 frame-playback full-recipe runs of batch 1 are done: by the batch verdict script's criteria, 9 pass, 9 fail and 3 are invalid (ep1, ep7, ep28). With the 9 earlier runs, 27 of the 30 episodes have a verdict on the final checkpoint. MP-SR is at least 0.95 for 5 of them, between 0.5 and 0.95 for 2, between 0 and 0.5 for 6, and exactly 0 for 14. The three invalid episodes all use box supports: the FlashCHORD v0.4.0 importer ignores the USD scale and builds each box as a solid cube with 1 m edges, and the reference object is already inside the cube at frame 0 (unverified). Upstream #185 fixes this. The GPU controls on ml40 all finished at 14:35, and the final verdict under the registered criteria A.3 is that H1′ is supported: in ep7 smokes (4M steps, L40S) with paired seeds 43–50, 5 of 8 runs with the v0.4.0 importer diverge against 0 of 8 with #185, one-sided Fisher p = 0.0128. What we can conclude is that v0.4.0 building the box as a 1 m cube triggers the divergence of the ep7 smokes; ep1 has only single-seed supporting evidence pointing the same way, and ep28 is description only. These controls cannot say how much fp16 storage and the BatchNorm statistics each contribute. aee95f2, the evaluation runtime the kit specifies, does not include #185, so we have to ask the organizers whether we may train and export with a runtime that does; the questions have not been sent yet. Before we can submit we still need their answer, evaluation and packing hooked up to the new kit downloaded on 9/30, a checkpoint choice for each episode, and the Kaggle rules and credentials. The freeze is 2026-11-04 17:00 EST, 35 days from 9/30.</p>
   <div class="adm w"><span class="t">Freeze date unconfirmed</span><p>The unmerged draft rules (PR #164) also mention November 5 and November 10.</p></div>
   <div class="figs">
     <div class="fig"><span class="v">27 / 30</span><span class="l">Tier 1 episodes with a verdict on a final frame-playback full-recipe checkpoint, 11 passing the batch criteria; the box supports of the other three (ep1, ep7, ep28) are 1 m cubes in v0.4.0, which the registered criteria find to trigger the ep7 smoke divergence (p = 0.0128)</span></div>
@@ -375,7 +375,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-progress" data-sec="progress" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>进度</h1>
-  <p>截至 2026-09-30 14:40（丹佛时间）。第 1 批 21 条已全部出判定；ml40 上的发散排查 14:35 跑完，按登记判据出了最终判定。每一页只讲一件事；训练结果单独放在<a href="#exp">训练实验</a>，第 1 批见<a href="#batch1">第 1 批批量</a>，ep1、ep7、ep28 的发散见<a href="#diverge">发散排查</a>。</p>
+  <p>截至 2026-09-30 14:40（UTC-6）。第 1 批 21 条已全部出判定；ml40 上的发散排查 14:35 跑完，按登记判据出了最终判定。每一页只讲一件事；训练结果单独放在<a href="#exp">训练实验</a>，第 1 批见<a href="#batch1">第 1 批批量</a>，ep1、ep7、ep28 的发散见<a href="#diverge">发散排查</a>。</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">现状</span><span class="jd">各环节能不能用、卡在哪；第 1 批的判定、方盒支撑面与 kit 更新</span><span class="jk">7 个环节</span></a></li>
     <li><a href="#denoise"><span class="jt">Tier 2 降噪</span><span class="jd">从原始 0.423 做到 0.707，以及被数据否定的方向</span><span class="jk">0.707</span></a></li>
@@ -385,7 +385,7 @@ body.en .pb.l-en{display:grid}
 </div>
 <div class="pb l-en" lang="en">
   <h1>Progress</h1>
-  <p>As of 2026-09-30 14:40 (Denver time). All 21 batch 1 runs have a verdict, and the divergence investigation on ml40 finished at 14:35 with a final verdict under the registered criteria. Each page covers one topic. Training results have their own section, <a href="#exp">Training experiments</a>: batch 1 is on <a href="#batch1">Batch 1</a>, and the ep1, ep7 and ep28 divergence on <a href="#diverge">Divergence investigation</a>.</p>
+  <p>As of 2026-09-30 14:40 (UTC-6). All 21 batch 1 runs have a verdict, and the divergence investigation on ml40 finished at 14:35 with a final verdict under the registered criteria. Each page covers one topic. Training results have their own section, <a href="#exp">Training experiments</a>: batch 1 is on <a href="#batch1">Batch 1</a>, and the ep1, ep7 and ep28 divergence on <a href="#diverge">Divergence investigation</a>.</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">Status</span><span class="jd">Which stages work and where we are stuck; batch 1 verdicts, box supports and the kit update</span><span class="jk">7 stages</span></a></li>
     <li><a href="#denoise"><span class="jt">Tier 2 denoising</span><span class="jd">From a raw 0.423 to 0.707, and the directions the data ruled out</span><span class="jk">0.707</span></a></li>
@@ -398,7 +398,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-status" data-sec="progress" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>现状</h1>
-  <p>截至 9/30 14:40（丹佛时间）。关键数字在<a href="#home">首页</a>，这里只列各环节的状态。</p>
+  <p>截至 9/30 14:40（UTC-6）。关键数字在<a href="#home">首页</a>，这里只列各环节的状态。</p>
   <div class="tbl"><table>
     <thead><tr><th>环节</th><th>状态</th><th>说明</th></tr></thead>
     <tbody>
@@ -408,13 +408,13 @@ body.en .pb.l-en{display:grid}
       <tr><td>策略训练</td><td><span class="pill w">部分达标</span></td><td>FlashCHORD 满配可断点续训；按官方计分固定用逐帧回放。第 1 批（21 条 Tier 1，9/29 09:29 开跑）9/30 12:59 全部判定完：通过 9、不通过 9、无效 3。无效的 ep1、ep7、ep28 都是方盒支撑面的序列（见<a href="#edge">特殊情况</a>）。Tier 1 的 30 条里 27 条有判定，11 条通过；MP-SR ≥ 0.95 的 5 条（ep12、ep8、ep23、ep24、ep26）。判定文件 <code>results/day2/batch_verdict_{ml40,mf4090}_batch1{a,b}.txt</code>，27 条汇总 <code>results/batch1/error_table_with_mf4090_b.txt</code>。这里的“通过”是 <code>stages/evaluate/batch_verdict.py</code> 的判据（最终 checkpoint 上 chord_sr &gt; 0、MP-SR &gt; 0、ADD-AUC 高于不动基线），不是排行榜成功率。发散排查 14:35 跑完，按登记判据 A.3 的最终判定是 H1′ 支持（v0.4.0 把方盒建成 1 m 立方体是 ep7 冒烟发散的触发；ep1 只有单种子旁证，ep28 只描述）：ep7 冒烟（400 万步、L40S、fp16 存储）用 v0.4.0 时 8 个种子里 5 条发散，用 #185 时 0 / 8，单侧 Fisher p = 0.0128（<code>results/diverge/diag_verdict_final.txt</code>，见<a href="#diverge">发散排查</a>）。机器（14:40）：两台都空闲、没有排任务，mf4090 从 12:35 评完第 1 批起（最后一项评测 <code>results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt</code>），ml40 从 14:35 跑完诊断队列起（<code>agent-doc/experiments/2026-09-30-divergence.md</code>）；下一批先写计划（见<a href="#next">下一步与待办</a>）；官方样例 snack 满配不通过（边缘，见 <a href="#snack">snack 满配对照</a>）</td></tr>
       <tr><td>评测</td><td><span class="pill w">部分</span></td><td>FlashCHORD 评测器 4096 世界约 5 分钟一次；mf4090 B 段 15 项评测全部成功，最后一份结果 12:35 落盘。<code>stages/evaluate</code> 里有按判据下结论（单条与批量）、逐帧诊断、“物体不动”基线、换一种回放评测、Day 2 判定、policy 查看器，9/30 加了多条误差汇总 <code>batch_error_table.py</code>；其中 5 个脚本带合成测试。读代码确认：评测器只要有一个世界被判终止就整条报错，v0.4.0 与 aee95f2 相同（<code>results/batch1/termination_facts.txt</code>）。官方 kit 的评测是 1 个世界、确定性动作，要上游 aee95f2 的运行时，还没装</td></tr>
       <tr><td>Tier 3</td><td><span class="pill o">未开始</span></td><td>官方不提供重建结果，需从 exo 视频自己做</td></tr>
-      <tr><td>提交</td><td><span class="pill w">未就绪</span></td><td>kit 有更新：9/30 重新下载的压缩包 sha256 a2de2aee…（服务器修改时间 9/29 00:52，丹佛时间），和手上的 8a169616… 比改了 <code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>。README 新写：评测器的世界系与公开参考不同时，打包器先核对整条 episode 是同一个刚体变换，再把位姿换算到发布的世界系（<code>results/submission/kit_update_diff.txt</code>）。旧的 kit 事实摘录 <code>results/submission/kit_facts.txt</code> 按旧 kit 写，要重做。kit 指定的评测运行时 aee95f2 里 <code>scene/support.py</code> 与 v0.4.0 的 md5 相同（95e5e33f…，<code>results/diverge/support_py_versions.txt</code>），同样会把 ep1、ep7、ep28 的方盒支撑面建成 1 m 实心立方体；修掉它的上游 #185 比 aee95f2 晚 4 个提交（GitHub compare，记在 <code>agent-doc/experiments/2026-09-30-divergence.md</code>）。能不能用带 #185 的运行时训练与导出，要问组委会，还没问。还缺：ep1、ep7、ep28 三条可用的 policy、aee95f2 评测环境、每条选 checkpoint 的规则与批量出轨迹的脚本、Kaggle 规则与凭据（rxzhou）。见<a href="#official">官方评测与提交</a></td></tr>
+      <tr><td>提交</td><td><span class="pill w">未就绪</span></td><td>kit 有更新：9/30 重新下载的压缩包 sha256 a2de2aee…（服务器修改时间 9/29 00:52，UTC-6），和手上的 8a169616… 比改了 <code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>。README 新写：评测器的世界系与公开参考不同时，打包器先核对整条 episode 是同一个刚体变换，再把位姿换算到发布的世界系（<code>results/submission/kit_update_diff.txt</code>）。旧的 kit 事实摘录 <code>results/submission/kit_facts.txt</code> 按旧 kit 写，要重做。kit 指定的评测运行时 aee95f2 里 <code>scene/support.py</code> 与 v0.4.0 的 md5 相同（95e5e33f…，<code>results/diverge/support_py_versions.txt</code>），同样会把 ep1、ep7、ep28 的方盒支撑面建成 1 m 实心立方体；修掉它的上游 #185 比 aee95f2 晚 4 个提交（GitHub compare，记在 <code>agent-doc/experiments/2026-09-30-divergence.md</code>）。能不能用带 #185 的运行时训练与导出，要问组委会，还没问。还缺：ep1、ep7、ep28 三条可用的 policy、aee95f2 评测环境、每条选 checkpoint 的规则与批量出轨迹的脚本、Kaggle 规则与凭据（rxzhou）。见<a href="#official">官方评测与提交</a></td></tr>
     </tbody>
   </table></div>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Status</h1>
-  <p>As of 14:40 on 9/30 (Denver time). Key figures are on the <a href="#home">home page</a>; this page lists the state of each stage.</p>
+  <p>As of 14:40 on 9/30 (UTC-6). Key figures are on the <a href="#home">home page</a>; this page lists the state of each stage.</p>
   <div class="tbl"><table>
     <thead><tr><th>Stage</th><th>State</th><th>Notes</th></tr></thead>
     <tbody>
@@ -424,7 +424,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>Policy training</td><td><span class="pill w">Partly passing</span></td><td>Full FlashCHORD runs resume from checkpoints; training uses frame-by-frame playback only, following the official scoring. Batch 1 (21 Tier 1 episodes, started 09:29 on 9/29) had all its verdicts by 12:59 on 9/30: 9 pass, 9 fail, 3 invalid. The invalid ones, ep1, ep7 and ep28, are the sequences with box supports (see <a href="#edge">Special cases</a>). Of the 30 Tier 1 episodes, 27 have a verdict and 11 pass; 5 reach MP-SR ≥ 0.95 (ep12, ep8, ep23, ep24, ep26). Verdicts in <code>results/day2/batch_verdict_{ml40,mf4090}_batch1{a,b}.txt</code>, all 27 in <code>results/batch1/error_table_with_mf4090_b.txt</code>. "Pass" means the criteria in <code>stages/evaluate/batch_verdict.py</code> (on the final checkpoint: chord_sr &gt; 0, MP-SR &gt; 0, ADD-AUC above the do-nothing baseline), not a leaderboard success rate. The divergence investigation finished at 14:35, and the final verdict under the registered criteria (appendix A.3) supports H1′ (v0.4.0 building the boxes as 1 m cubes is the trigger of the ep7 smoke divergence; ep1 has only single-seed supporting evidence, and ep28 is description only): in the ep7 smoke runs (4M steps, L40S, fp16 storage), 5 of 8 seeds diverge with v0.4.0 and 0 of 8 with #185, one-sided Fisher p = 0.0128 (<code>results/diverge/diag_verdict_final.txt</code>; see <a href="#diverge">Divergence investigation</a>). Machines at 14:40: both idle with nothing queued, mf4090 since it finished evaluating batch 1 at 12:35 (last evaluation <code>results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt</code>) and ml40 since the diagnostic queues ended at 14:35 (<code>agent-doc/experiments/2026-09-30-divergence.md</code>); the next batch gets a plan first (see <a href="#next">Next steps and to-dos</a>); the full-recipe run on the official snack sample fails, marginally (see <a href="#snack">Full-recipe snack control</a>)</td></tr>
       <tr><td>Evaluation</td><td><span class="pill w">Partial</span></td><td>One FlashCHORD evaluation of 4096 worlds takes about 5 minutes; all 15 evaluations of mf4090 segment B succeeded, the last result landing at 12:35. <code>stages/evaluate</code> holds the verdict scripts (single run and batch), the frame-by-frame diagnosis, the do-nothing baseline, evaluation under the other playback, the Day 2 verdict and a policy viewer, plus, since 9/30, a cross-run error table, <code>batch_error_table.py</code>; 5 of these scripts have synthetic tests. Reading the code: the evaluator raises an error for the whole run as soon as one world is marked terminated, and v0.4.0 and aee95f2 behave the same (<code>results/batch1/termination_facts.txt</code>). The official kit evaluates one world with deterministic actions and needs the upstream aee95f2 runtime, which is not installed yet</td></tr>
       <tr><td>Tier 3</td><td><span class="pill o">Not started</span></td><td>No reconstructions are provided; we must build them from the exo video</td></tr>
-      <tr><td>Submission</td><td><span class="pill w">Not ready</span></td><td>The kit changed: the archive downloaded again on 9/30 has sha256 a2de2aee… (server modification time 00:52 on 9/29, Denver time), and compared with our 8a169616… it changes <code>KIT_MANIFEST.json</code>, <code>tools/pack_submission.py</code> and <code>tracks/track_2/README.md</code>. The README now says that when the evaluator uses a different world frame from the public reference, the packer checks that one rigid transform holds across the episode and converts the poses to the released frame (<code>results/submission/kit_update_diff.txt</code>). Our kit excerpt, <code>results/submission/kit_facts.txt</code>, was written against the old kit and has to be redone. In aee95f2, the evaluation runtime the kit names, <code>scene/support.py</code> has the same md5 as in v0.4.0 (95e5e33f…, <code>results/diverge/support_py_versions.txt</code>), so it also builds the box supports of ep1, ep7 and ep28 as solid 1 m cubes; upstream #185, which fixes this, is 4 commits after aee95f2 (GitHub compare, noted in <code>agent-doc/experiments/2026-09-30-divergence.md</code>). Whether we may train and export with a runtime that includes #185 is a question for the organizers, not yet asked. Still missing: usable policies for ep1, ep7 and ep28, the aee95f2 evaluation runtime, a checkpoint-per-episode rule and a script to produce the trajectories, and the Kaggle rules and credentials (rxzhou). See <a href="#official">Official evaluation and submission</a></td></tr>
+      <tr><td>Submission</td><td><span class="pill w">Not ready</span></td><td>The kit changed: the archive downloaded again on 9/30 has sha256 a2de2aee… (server modification time 00:52 on 9/29, UTC-6), and compared with our 8a169616… it changes <code>KIT_MANIFEST.json</code>, <code>tools/pack_submission.py</code> and <code>tracks/track_2/README.md</code>. The README now says that when the evaluator uses a different world frame from the public reference, the packer checks that one rigid transform holds across the episode and converts the poses to the released frame (<code>results/submission/kit_update_diff.txt</code>). Our kit excerpt, <code>results/submission/kit_facts.txt</code>, was written against the old kit and has to be redone. In aee95f2, the evaluation runtime the kit names, <code>scene/support.py</code> has the same md5 as in v0.4.0 (95e5e33f…, <code>results/diverge/support_py_versions.txt</code>), so it also builds the box supports of ep1, ep7 and ep28 as solid 1 m cubes; upstream #185, which fixes this, is 4 commits after aee95f2 (GitHub compare, noted in <code>agent-doc/experiments/2026-09-30-divergence.md</code>). Whether we may train and export with a runtime that includes #185 is a question for the organizers, not yet asked. Still missing: usable policies for ep1, ep7 and ep28, the aee95f2 evaluation runtime, a checkpoint-per-episode rule and a script to produce the trajectories, and the Kaggle rules and credentials (rxzhou). See <a href="#official">Official evaluation and submission</a></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -577,7 +577,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-next" data-sec="progress" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>下一步与待办</h1>
-  <p>截至 9/30 14:40（丹佛时间）。第 1 批已经结束，发散排查 14:35 出了最终判定（H1′ 支持，见<a href="#diverge">发散排查</a>），两台卡都空着、没有排任务。下面每一项的负责人都是 rxzhou；凡是要动 GPU 或改配方的，先写计划、review 再跑。</p>
+  <p>截至 9/30 14:40（UTC-6）。第 1 批已经结束，发散排查 14:35 出了最终判定（H1′ 支持，见<a href="#diverge">发散排查</a>），两台卡都空着、没有排任务。下面每一项的负责人都是 rxzhou；凡是要动 GPU 或改配方的，先写计划、review 再跑。</p>
   <h2>下一步</h2>
   <ul class="todo">
     <li><span class="pill w">待办</span><div><b><a href="#official">给组委会发邮件</a></b><span>草稿 <code>agent-doc/organizer-email-draft-2026-09-28.md</code> 还是 9/28 的版本。要按“固定逐帧”的决定改写（真实时长那两问已不急），再加上发散计划附录 A.6 的三问：能否用 aee95f2 + #185（或 ≥ 8c778f9 的运行时）训练与导出轨迹；kit 指定的版本会不会更新；若不能，ep1、ep7、ep28 这三条（在 aee95f2 下物体埋在 1 m 实心方块里）怎么提交。在这种几何上 ep7 的 13 条冒烟（R0、R1 8 条、R2 4 条）没有一条学起来，8 条 NaN、5 条停在回合约 51（<code>results/diverge/train_summary_table_ml40_diag_final.txt</code>），所以我们推测这三条按 aee95f2 交不出有意义的轨迹（推断，没在 aee95f2 上实测）。评测器遇到被判终止的世界直接报错怎么办，草稿里也还没有。空支撑面、commit URL 要不要公开、能否重复评测、开发期用 Tier 1 这几问保留。改完 review，由 rxzhou 发</span></div><span class="who">rxzhou</span></li>
@@ -595,13 +595,13 @@ body.en .pb.l-en{display:grid}
     <tbody>
       <tr><td>snack 满配逐帧诊断：核实“失分在静止前缀”的推测，目前只有 100 万那条的诊断支持（jev 0.72，证据间接）</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
       <tr><td>在 Kaggle 上接受 Track 2 各档四个比赛的规则，配好 API 凭据（环境变量或 <code>kaggle.json</code>，不经对话）</td><td>rxzhou</td><td><span class="pill w">待办</span></td></tr>
-      <tr><td>参赛说明会 10/7 12:00（丹佛时间；官方写的是太平洋时间 11:00），接入方式另行通知</td><td>rxzhou</td><td><span class="pill o">待定</span></td></tr>
+      <tr><td>参赛说明会 10/7 12:00（UTC-6；官方写的是太平洋时间 11:00），接入方式另行通知</td><td>rxzhou</td><td><span class="pill o">待定</span></td></tr>
     </tbody>
   </table></div>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Next steps and to-dos</h1>
-  <p>As of 14:40 on 9/30 (Denver time). Batch 1 is over, the divergence investigation reached its final verdict at 14:35 (H1′ supported, see <a href="#diverge">Divergence investigation</a>), and both cards are idle with nothing queued. rxzhou owns every item below; anything that uses a GPU or changes the recipe gets a plan and a review before it runs.</p>
+  <p>As of 14:40 on 9/30 (UTC-6). Batch 1 is over, the divergence investigation reached its final verdict at 14:35 (H1′ supported, see <a href="#diverge">Divergence investigation</a>), and both cards are idle with nothing queued. rxzhou owns every item below; anything that uses a GPU or changes the recipe gets a plan and a review before it runs.</p>
   <h2>Next steps</h2>
   <ul class="todo">
     <li><span class="pill w">To do</span><div><b><a href="#official">Email the organizers</a></b><span>The draft, <code>agent-doc/organizer-email-draft-2026-09-28.md</code>, is still the 9/28 version. Rewrite it after the frame-by-frame decision (the two real-time questions are no longer urgent) and add the three questions from appendix A.6 of the divergence plan: may we train and export trajectories with aee95f2 plus #185 (or a runtime at or after 8c778f9); will the version the kit names be updated; if not, how should ep1, ep7 and ep28 be submitted, given that under aee95f2 their objects sit inside solid 1 m blocks. On that geometry none of the 13 ep7 smoke runs (R0, 8 of R1, 4 of R2) learned anything: 8 hit NaN and 5 stalled at an episode length of about 51 (<code>results/diverge/train_summary_table_ml40_diag_final.txt</code>), so we infer that aee95f2 would not yield meaningful trajectories for these episodes (an inference, not tested on aee95f2). The draft also lacks the question of what to do when the evaluator fails on a terminated world. Keep the questions on empty supports, whether the commit URL must be public, repeated evaluations and Tier 1 use during development. Review the rewrite; rxzhou sends it</span></div><span class="who">rxzhou</span></li>
@@ -619,7 +619,7 @@ body.en .pb.l-en{display:grid}
     <tbody>
       <tr><td>Frame-by-frame diagnosis of the full-recipe snack run: check the guess that it loses its score in the static prefix; so far only the 1M run's diagnosis supports it (jev 0.72, indirect evidence)</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
       <tr><td>Accept the rules of the four competitions of each Track 2 tier on Kaggle and set up API credentials (environment variable or <code>kaggle.json</code>, never through the chat)</td><td>rxzhou</td><td><span class="pill w">To do</span></td></tr>
-      <tr><td>Participant webinar on 10/7 at 12:00 Denver time (11:00 Pacific in the announcement); access details to follow</td><td>rxzhou</td><td><span class="pill o">Pending</span></td></tr>
+      <tr><td>Participant webinar on 10/7 at 12:00 UTC-6 (11:00 Pacific in the announcement); access details to follow</td><td>rxzhou</td><td><span class="pill o">Pending</span></td></tr>
     </tbody>
   </table></div>
 </div>
@@ -640,7 +640,7 @@ body.en .pb.l-en{display:grid}
     <li><a href="#batch1"><span class="jt">第 1 批批量</span><span class="jd">剩下 21 条 Tier 1 的逐帧满配：ep23、ep24 等 9 条通过，ep1、ep7、ep28 无效</span><span class="jk">9/21 通过</span></a></li>
     <li><a href="#diverge"><span class="jt">发散排查</span><span class="jd">ep1、ep7、ep28 为什么训出 NaN：v0.4.0 把它们的方盒支撑面建成 1 m 立方体，8 个种子的 GPU 对照判定它是 ep7 冒烟发散的触发</span><span class="jk">H1′ 支持</span></a></li>
   </ul>
-  <h2>时间线（丹佛时间）</h2>
+  <h2>时间线（UTC-6）</h2>
   <div class="tbl"><table>
     <thead><tr><th>时间</th><th>实验</th><th>结果</th></tr></thead>
     <tbody>
@@ -675,7 +675,7 @@ body.en .pb.l-en{display:grid}
     <li><a href="#batch1"><span class="jt">Batch 1</span><span class="jd">Frame-playback full-recipe runs of the remaining 21 Tier 1 episodes: 9 pass, including ep23 and ep24; ep1, ep7 and ep28 are invalid</span><span class="jk">9/21 pass</span></a></li>
     <li><a href="#diverge"><span class="jt">Divergence investigation</span><span class="jd">Why ep1, ep7 and ep28 train into NaN: v0.4.0 builds their box supports as 1 m cubes, and the GPU controls with 8 seeds find that this triggers the divergence of the ep7 smokes</span><span class="jk">H1′ supported</span></a></li>
   </ul>
-  <h2>Timeline (Denver time)</h2>
+  <h2>Timeline (UTC-6)</h2>
   <div class="tbl"><table>
     <thead><tr><th>When</th><th>Experiment</th><th>Result</th></tr></thead>
     <tbody>
@@ -1007,7 +1007,7 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">为什么训练固定用逐帧（推断，jev 0.16，未核实）</span><p>帧号就是步数、计分按源帧对齐，所以只有逐帧回放（一步走一个源帧）能和计分格子一一对上；真实时长训练的 policy 一次评测跑 921 步（ep20），前 553 步会被拿去对完整的 553 帧参考，时间轴错位。这一条是读代码推出的，jev 没能从原文直接支持，还没在新评测器上实测。登记的 Day 2 分支两条都不完全吻合，由用户决定按“固定逐帧”处理（见 <a href="#day2">Day 2</a>）。</p></div>
 
   <h2>9/30 的 kit 更新</h2>
-  <p>9/30 重新下载的 kit sha256 <code>a2de2aee…</code>（服务器 Last-Modified 9/29 00:52 MDT，即 06:52 GMT），手上旧的是 <code>8a169616…</code>。逐文件比较只有三个文件不同：<code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>（<code>results/submission/kit_update_diff.txt</code>）。顶层 <code>README.md</code> 没变，评测运行时仍指定 aee95f2。</p>
+  <p>9/30 重新下载的 kit sha256 <code>a2de2aee…</code>（服务器 Last-Modified 9/29 00:52 UTC-6，即 06:52 GMT），手上旧的是 <code>8a169616…</code>。逐文件比较只有三个文件不同：<code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>（<code>results/submission/kit_update_diff.txt</code>）。顶层 <code>README.md</code> 没变，评测运行时仍指定 aee95f2。</p>
   <div class="adm"><span class="t">Track 2 README 第 2 步新加的两句（原文）</span><p>“If the evaluator uses a different world frame, the packer converts its poses to the released frame after verifying one rigid transform across the episode. For these single-object episodes, the evaluator may label the object <code>object</code>.”</p></div>
   <p>打包器源码里对应的改动（读新 kit 的 <code>tools/pack_submission.py</code>，行号按新版）：</p>
   <ul class="bl">
@@ -1020,7 +1020,7 @@ body.en .pb.l-en{display:grid}
 
   <h2>评测运行时 aee95f2 的方盒支撑面问题</h2>
   <p>kit 指定的运行时 aee95f2（kit <code>README.md:34</code>）里，<code>scene/support.py</code> 与 v0.4.0 逐字节相同（md5 <code>95e5e33f…</code>），对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>（<code>support.py:85–86, 114–116</code>；<code>results/diverge/support_py_versions.txt</code>，jev 0.96）。30 条里只有 ep1（vacuum）、ep7（iron）、ep28（squeegee）用方盒支撑面（<code>results/diverge/support_shapes.txt</code>），在仿真里都被建成边长 1 m 的实心立方体，半尺寸 (0.5, 0.5, 0.5)（<code>results/ml40/diverge/support_import_v040.txt</code>，jev 0.97）。按这个几何，参考物体从第 0 帧起就埋在方块里：ep7 的 896 帧全部嵌入超过 5 mm，ep1 是 747 帧里的 519 帧，ep28 对两块方盒分别是 988 帧里的 608、651 帧（<code>results/diverge/support_penetration_as_v040.txt</code>；jev 0.54，未核实）。本段三处 jev 都是第 5 轮，见 <code>results/site/jev_claims_sop_page_0930.txt</code>。</p>
-  <p>上游 8c778f905c（#185，9/29 12:11 MDT）修了这个问题，比 aee95f2 晚 4 个提交（<code>agent-doc/experiments/2026-09-30-divergence.md</code> 更正一节）。我们打了 #185 补丁的源码副本把 ep7 的桌面建成半尺寸 (0.42, 0.141, 0.005)（<code>results/ml40/diverge/support_import_p185.txt</code>）。这份副本基于 v0.4.0，没有轨迹导出，只能用来训练和做对照。</p>
+  <p>上游 8c778f905c（#185，9/29 12:11 UTC-6）修了这个问题，比 aee95f2 晚 4 个提交（<code>agent-doc/experiments/2026-09-30-divergence.md</code> 更正一节）。我们打了 #185 补丁的源码副本把 ep7 的桌面建成半尺寸 (0.42, 0.141, 0.005)（<code>results/ml40/diverge/support_import_p185.txt</code>）。这份副本基于 v0.4.0，没有轨迹导出，只能用来训练和做对照。</p>
   <p>ml40（L40S）上的对照 9/30 14:35 全部跑完，细节与判据见<a href="#diverge">发散排查</a>。ep7 冒烟 400 万步：v0.4.0 导入的 13 条（R0；fp16 种子 43–50 共 8 条；fp32 种子 43–46 共 4 条）没有一条学起来，8 条出 NaN，另外 5 条停在回合长度约 51、回报约 −3.7；#185 导入的 8 条（fp16 种子 43–50）都没发散，回合长度 243–309、回报 25.6–34.8。ep1 截到 6000 万步（单种子）：v0.4.0 fp16 从 30,001,152 步那份起 NaN，v0.4.0 fp32 从第一份（10,000,384 步）起就 NaN，#185 的 6 份全部有限。</p>
   <p>按登记判据 A.3 的最终判定（9/30 14:35）：“v0.4.0 把方盒建成 1 m 立方体是发散的触发”（H1′）得到支持，v0.4.0 fp16 发散 5 / 8 对 #185 fp16 0 / 8（配对种子 43–50），单侧 Fisher p = 0.0128 &lt; 0.05；“fp16 存储是必要条件”（H4）被拒绝。结论的范围：H1′ 是在 ep7 冒烟（400 万步、L40S）上检验的；ep1 只有上面的单种子旁证，方向相同；ep28 登记为只描述。fp16 存储与 BN 统计量在其中各占多少，这组对照说不了（<code>results/diverge/diag_verdict_final.txt</code>、<code>results/diverge/train_summary_table_ml40_diag_final.txt</code>、<code>results/diverge/ckpt_nonfinite_L{0,1,3}_ml40.txt</code>；jev 第 5 轮：最终判定 0.98、种子 47–50 0.98、L3 0.96、L0 与 L1 0.95，<code>results/site/jev_claims_sop_page_0930.txt</code>）。</p>
   <p>评测器遇到坏世界的处理在 aee95f2 与 v0.4.0 里相同：非有限世界只把位姿清零，只要有世界被判终止就报错（<code>results/batch1/termination_facts.txt</code>，jev 0.97，<code>results/day2/jev_claims_batch1a_mf4090.txt</code>）。第 1 批里 ep7 冒烟的 256 世界 rollout 有 172 个世界非有限、随后报错（<code>results/ml40/batch1/ep7_smoke_diag_excerpt.txt</code>）；ep1 训练发散，3 份 checkpoint 的评测都报错（<code>results/batch1/ep1_eval_failure_excerpt.txt</code>）。官方只评 1 个世界，这个世界被判终止，这条就交不出轨迹。第 1 批里非有限世界都和这个报错一起出现，所以我们推测世界发散也会走到这一步，还没在 aee95f2 上实测。</p>
@@ -1069,7 +1069,7 @@ body.en .pb.l-en{display:grid}
     <li>“两种训练换一种回放都崩了”（jev 0.32）：逐帧训练那条的 MP-SR 在匹配回放下本来就只有 0.0005，改为上面按指标逐项的说法。</li>
     <li>9/29 版“还缺什么”把 ep7 的评测器报错单列一项，写成训好的 policy 在 1 个世界里也可能发散：9/30 查到 ep1、ep7、ep28 的方盒支撑面在 v0.4.0 与 aee95f2 里都被建成 1 m 立方体，这一项并进上面的“方盒支撑面问题”。9/30 14:35 按登记判据判定 1 m 立方体是 ep7 冒烟发散的触发（H1′ 支持，单侧 Fisher p = 0.0128，<code>results/diverge/diag_verdict_final.txt</code>），ep1 只有单种子旁证。</li>
   </ul></div>
-  <p class="muted">给组委会的邮件与 Discord 草稿（<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>）最后改于 9/28 22:53（57bca31），早于“固定逐帧”的决定，也没有附录 A.6 的三问，发之前要重写：真实时长能否计分已不急，方盒支撑面的三问要加进去，评测器遇到发散世界直接报错、提交用的 commit URL 要不要公开、能否重复评测仍要问。参赛说明会 10/7 12:00（丹佛时间；官方写的是太平洋时间 11:00）。</p>
+  <p class="muted">给组委会的邮件与 Discord 草稿（<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>）最后改于 9/28 22:53（57bca31），早于“固定逐帧”的决定，也没有附录 A.6 的三问，发之前要重写：真实时长能否计分已不急，方盒支撑面的三问要加进去，评测器遇到发散世界直接报错、提交用的 commit URL 要不要公开、能否重复评测仍要问。参赛说明会 10/7 12:00（UTC-6；官方写的是太平洋时间 11:00）。</p>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Official evaluation and submission</h1>
@@ -1096,7 +1096,7 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">Why training uses frame-by-frame playback (inference, jev 0.16, unverified)</span><p>Frame number equals step and scoring is aligned to source frames, so only frame-by-frame playback (one source frame per step) lines up with the scoring grid one to one; a real-time-trained policy runs 921 steps on ep20, and its first 553 steps would be scored against the full 553-frame reference, out of step. This was inferred from the code; jev could not confirm it from the sources directly, and it has not been tested on the new evaluator. Neither registered Day 2 branch fitted exactly, and the user decided to treat it as "fixed frame-by-frame" (see <a href="#day2">Day 2</a>).</p></div>
 
   <h2>The 9/30 kit update</h2>
-  <p>The kit downloaded again on 9/30 has sha256 <code>a2de2aee…</code> (server Last-Modified 00:52 MDT on 9/29, 06:52 GMT); the copy we had was <code>8a169616…</code>. A file-by-file comparison finds three changed files: <code>KIT_MANIFEST.json</code>, <code>tools/pack_submission.py</code> and <code>tracks/track_2/README.md</code> (<code>results/submission/kit_update_diff.txt</code>). The top-level <code>README.md</code> is unchanged and still names aee95f2 as the evaluation runtime.</p>
+  <p>The kit downloaded again on 9/30 has sha256 <code>a2de2aee…</code> (server Last-Modified 00:52 UTC-6 on 9/29, 06:52 GMT); the copy we had was <code>8a169616…</code>. A file-by-file comparison finds three changed files: <code>KIT_MANIFEST.json</code>, <code>tools/pack_submission.py</code> and <code>tracks/track_2/README.md</code> (<code>results/submission/kit_update_diff.txt</code>). The top-level <code>README.md</code> is unchanged and still names aee95f2 as the evaluation runtime.</p>
   <div class="adm"><span class="t">The two sentences added to step 2 of the Track 2 README (verbatim)</span><p>"If the evaluator uses a different world frame, the packer converts its poses to the released frame after verifying one rigid transform across the episode. For these single-object episodes, the evaluator may label the object <code>object</code>."</p></div>
   <p>What changed in the packer source (read from the new kit's <code>tools/pack_submission.py</code>; line numbers refer to the new file):</p>
   <ul class="bl">
@@ -1109,7 +1109,7 @@ body.en .pb.l-en{display:grid}
 
   <h2>Box supports in the aee95f2 evaluation runtime</h2>
   <p>In aee95f2, the runtime the kit names (kit <code>README.md:34</code>), <code>scene/support.py</code> is byte-identical to v0.4.0 (md5 <code>95e5e33f…</code>): for a USD Cube it reads <code>size</code> and ignores <code>xformOp:scale</code> (<code>support.py:85–86, 114–116</code>; <code>results/diverge/support_py_versions.txt</code>, jev 0.96). Only three of the 30 sequences use box supports, ep1 (vacuum), ep7 (iron) and ep28 (squeegee) (<code>results/diverge/support_shapes.txt</code>), and in simulation each box becomes a solid 1 m cube with half extents (0.5, 0.5, 0.5) (<code>results/ml40/diverge/support_import_v040.txt</code>, jev 0.97). With that geometry the reference object sits inside the cube from frame 0: in ep7 all 896 frames are embedded by more than 5 mm, in ep1 519 of 747 frames, and in ep28 608 and 651 of 988 frames for its two boxes (<code>results/diverge/support_penetration_as_v040.txt</code>; jev 0.54, unverified). All three jev scores in this paragraph are from round 5, in <code>results/site/jev_claims_sop_page_0930.txt</code>.</p>
-  <p>Upstream 8c778f905c (#185, 12:11 MDT on 9/29) fixed this, 4 commits after aee95f2 (<code>agent-doc/experiments/2026-09-30-divergence.md</code>, correction section). Our #185-patched source copy builds the ep7 tabletop with half extents (0.42, 0.141, 0.005) (<code>results/ml40/diverge/support_import_p185.txt</code>). That copy is based on v0.4.0 and has no trajectory export, so it is only good for training and controls.</p>
+  <p>Upstream 8c778f905c (#185, 12:11 UTC-6 on 9/29) fixed this, 4 commits after aee95f2 (<code>agent-doc/experiments/2026-09-30-divergence.md</code>, correction section). Our #185-patched source copy builds the ep7 tabletop with half extents (0.42, 0.141, 0.005) (<code>results/ml40/diverge/support_import_p185.txt</code>). That copy is based on v0.4.0 and has no trajectory export, so it is only good for training and controls.</p>
   <p>The controls on ml40 (L40S) all finished by 14:35 on 9/30; details and criteria are in <a href="#diverge">Divergence investigation</a>. In 4M-step ep7 smokes, none of the 13 runs with the v0.4.0 importer (R0, 8 fp16 runs with seeds 43–50 and 4 fp32 runs with seeds 43–46) learned anything: 8 produced NaN and the other 5 stalled at an episode length of about 51 with a return of about −3.7. The 8 runs with the #185 importer (fp16, seeds 43–50) did not diverge and reached episode lengths of 243–309 and returns of 25.6–34.8. With ep1 cut at 60M steps (one seed), v0.4.0 in fp16 is NaN from the 30,001,152-step checkpoint on, v0.4.0 in fp32 is NaN from its first checkpoint (10,000,384 steps), and all 6 #185 checkpoints are finite.</p>
   <p>Final verdict under the registered criteria A.3 (14:35 on 9/30): the hypothesis that v0.4.0 building the boxes as 1 m cubes triggers the divergence (H1′) is supported, with v0.4.0 fp16 diverging in 5 of 8 runs against 0 of 8 for #185 fp16 (paired seeds 43–50), one-sided Fisher p = 0.0128 &lt; 0.05. The hypothesis that fp16 storage is necessary (H4) is rejected. Scope: H1′ was tested on ep7 smokes (4M steps, L40S); ep1 has only the single-seed evidence above, pointing the same way; ep28 was registered as description only. These controls cannot say how much fp16 storage and the BN statistics each contribute (<code>results/diverge/diag_verdict_final.txt</code>, <code>results/diverge/train_summary_table_ml40_diag_final.txt</code>, <code>results/diverge/ckpt_nonfinite_L{0,1,3}_ml40.txt</code>; jev round 5: final verdict 0.98, seeds 47–50 0.98, L3 0.96, L0 and L1 0.95, <code>results/site/jev_claims_sop_page_0930.txt</code>).</p>
   <p>aee95f2 and v0.4.0 treat bad worlds the same way: a non-finite world only has its poses zeroed, and any world flagged as terminated makes the evaluator raise an error (<code>results/batch1/termination_facts.txt</code>, jev 0.97, <code>results/day2/jev_claims_batch1a_mf4090.txt</code>). In batch 1, 172 of the 256 worlds in the ep7 smoke rollout went non-finite before the error (<code>results/ml40/batch1/ep7_smoke_diag_excerpt.txt</code>), and ep1 diverged in training, with all three checkpoint evaluations raising the error (<code>results/batch1/ep1_eval_failure_excerpt.txt</code>). The official evaluation runs one world; if that world is flagged as terminated, the episode yields no trajectory. In batch 1 the non-finite worlds always came with this error, so we infer that a world that blows up ends the same way; this has not been tested on aee95f2.</p>
@@ -1158,7 +1158,7 @@ body.en .pb.l-en{display:grid}
     <li>"Both policies collapse under the other playback" (jev 0.32): the frame-trained policy's MP-SR was only 0.0005 under its own playback to begin with; replaced by the per-metric statement above.</li>
     <li>The 9/29 version of "What is still missing" listed the ep7 evaluator error as its own item and warned that a trained policy might blow up its single official world too. On 9/30 we found that v0.4.0 and aee95f2 both build the box supports of ep1, ep7 and ep28 as 1 m cubes, so that item is folded into the box-support section above. At 14:35 on 9/30 the registered criteria found the 1 m cube to be the trigger of the ep7 smoke divergence (H1′ supported, one-sided Fisher p = 0.0128, <code>results/diverge/diag_verdict_final.txt</code>); ep1 has only single-seed evidence.</li>
   </ul></div>
-  <p class="muted">The email and Discord drafts to the organizers (<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>) were last changed at 22:53 on 9/28 (57bca31), before the frame-by-frame decision, and they lack the three questions in appendix A.6, so they need a rewrite before sending: whether real-time policies can be scored is no longer urgent, the three box-support questions go in, and how the evaluator should treat a world that blows up, whether the commit URL must be public and whether evaluations may be repeated are still open. The participant webinar is on 10/7 at 12:00 Denver time (11:00 Pacific in the announcement).</p>
+  <p class="muted">The email and Discord drafts to the organizers (<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>) were last changed at 22:53 on 9/28 (57bca31), before the frame-by-frame decision, and they lack the three questions in appendix A.6, so they need a rewrite before sending: whether real-time policies can be scored is no longer urgent, the three box-support questions go in, and how the evaluator should treat a world that blows up, whether the commit URL must be public and whether evaluations may be repeated are still open. The participant webinar is on 10/7 at 12:00 UTC-6 (11:00 Pacific in the announcement).</p>
 </div>
 </section>
 
@@ -1169,7 +1169,7 @@ body.en .pb.l-en{display:grid}
   <p>计划与判据登记于 67f1d86（9/28 16:30）；执行记录 <code>agent-doc/experiments/2026-09-28-day2.md</code>（Day 2、Day 2b）与 <code>2026-09-29-mf4090-night1.md</code>（昨晚 mf4090 三条）。判定由脚本机械给出（<code>stages/evaluate/batch_verdict.py</code>、<code>day2_compare.py</code>）。</p>
   <h2>经过</h2>
   <div class="tbl"><table>
-    <thead><tr><th>时间（丹佛）</th><th>事件</th></tr></thead>
+    <thead><tr><th>时间（UTC-6）</th><th>事件</th></tr></thead>
     <tbody>
       <tr><td class="n">9/28 16:33–17:20</td><td>预检通过（恒等核对 ADD-AUC 差 0.003）；ml40 6 条冒烟全过。mf4090 冒烟被一个没登记的显存上限误判，按登记的判据重核后 16:58 重开（执行偏差，单独标注）</td></tr>
       <tr><td class="n">9/28 19:46–22:30</td><td>官方 kit 发布；核对后确认计分按源帧逐帧对齐（见<a href="#official">官方评测与提交</a>）</td></tr>
@@ -1212,7 +1212,7 @@ body.en .pb.l-en{display:grid}
   <p>Plan and criteria registered in 67f1d86 (16:30 on 9/28); execution records <code>agent-doc/experiments/2026-09-28-day2.md</code> (Day 2, Day 2b) and <code>2026-09-29-mf4090-night1.md</code> (last night's three mf4090 runs). Verdicts are produced mechanically by scripts (<code>stages/evaluate/batch_verdict.py</code>, <code>day2_compare.py</code>).</p>
   <h2>What happened</h2>
   <div class="tbl"><table>
-    <thead><tr><th>Time (Denver)</th><th>Event</th></tr></thead>
+    <thead><tr><th>Time (UTC-6)</th><th>Event</th></tr></thead>
     <tbody>
       <tr><td class="n">9/28 16:33–17:20</td><td>Preflight passed (identity check, ADD-AUC difference 0.003); all six ml40 smokes passed. The mf4090 smokes were wrongly failed by an unregistered memory limit, rechecked against the registered criterion and relaunched at 16:58 (execution deviation, marked as such)</td></tr>
       <tr><td class="n">9/28 19:46–22:30</td><td>The official kit came out; checking it confirmed that scoring aligns frame by frame to source frames (see <a href="#official">Official evaluation and submission</a>)</td></tr>
@@ -1265,7 +1265,7 @@ body.en .pb.l-en{display:grid}
     </tbody>
   </table></div>
 
-  <h2>经过（丹佛时间）</h2>
+  <h2>经过（UTC-6）</h2>
   <div class="tbl"><table>
     <thead><tr><th>段 · 机器</th><th>冒烟</th><th>正式训练</th><th>评测</th><th>评测项</th></tr></thead>
     <tbody>
@@ -1360,7 +1360,7 @@ body.en .pb.l-en{display:grid}
     </tbody>
   </table></div>
 
-  <h2>What happened (Denver time)</h2>
+  <h2>What happened (UTC-6)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Segment · machine</th><th>Smokes</th><th>Full training</th><th>Evaluation</th><th>Evaluations</th></tr></thead>
     <tbody>
@@ -1446,14 +1446,14 @@ body.en .pb.l-en{display:grid}
 
 <section class="pg" id="pg-diverge" data-sec="exp" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
-  <div class="kicker">截至 2026-09-30 14:40（丹佛时间）· 最终判定</div>
+  <div class="kicker">截至 2026-09-30 14:40（UTC-6）· 最终判定</div>
   <h1>ep1、ep7、ep28 发散排查</h1>
   <p class="lead">第 1 批里用方盒支撑面的三条 Tier 1 序列都训出了 NaN：ep1、ep28 在正式训练的 4000–5000 万步之间，ep7 在冒烟的约 241 万步，三条的批量判定都是无效。已经核实的是场景建错了：FlashCHORD v0.4.0 把这三条的方盒支撑面建成边长 1 m 的实心立方体。按这个几何用脚本重算，参考物体从第 0 帧起就埋在里面（脚本输出，jev 未核实，见文末）。上游 #185 已修，kit 指定的评测运行时 aee95f2 没有这个修复。ml40 上的 GPU 对照 14:35 全部跑完，按登记判据的最终判定：“1 m 立方体是发散的触发”（H1′）得到支持，ep7 冒烟的 8 个配对种子里 v0.4.0 发散 5 条、#185 发散 0 条，单侧 Fisher p = 0.0128；H3（随机数值不稳）和 H4（fp16 存储是必要条件）被拒绝；ep1 的截断复现里，fp32 存储的 L3 也发散了。结论的范围：H1′ 是在 ep7 冒烟（400 万步、L40S）上检验的，ep1 只有单种子旁证、方向相同，ep28 登记为只描述。</p>
   <p>计划 <code>agent-doc/plan-ep1-ep7-divergence-2026-09-30.md</code>（CPU 部分第 2 版 af261bf；附录 A 的 GPU 对照第 3 版 10:35 独立审查 NO GO，第 4 版复审 GO WITH FIXES，按意见改成第 5 版后 11:07 登记于 1867ffd）；执行记录 <code>agent-doc/experiments/2026-09-30-divergence.md</code>；结果在 <code>results/diverge/</code> 与 <code>results/ml40/diverge/</code>。本页把三种说法分开写：“判定”是登记判据经 <code>stages/policy/diag_verdict.py</code> 给出的；“描述”是看到结果后的读数，不计入判据；推断都标成推断或未核实。</p>
 
   <h2>经过</h2>
   <div class="tbl"><table>
-    <thead><tr><th>时间（丹佛）</th><th>事件</th></tr></thead>
+    <thead><tr><th>时间（UTC-6）</th><th>事件</th></tr></thead>
     <tbody>
       <tr><td class="n">9/29 09:40–09:46</td><td>ep7 冒烟（ml40）训完，256 世界诊断 rollout 报 172 个世界非有限，随后评测器报错；ep7 按登记跳过，没进正式训练（当时定为放进下一批，9/30 查到方盒问题后改为等组委会答复再训）</td></tr>
       <tr><td class="n">9/29 10:15</td><td>ep1（mf4090）50,001,920 步的 checkpoint 起全是 NaN；链没有察觉，一直训到 13:56</td></tr>
@@ -1493,7 +1493,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <p class="muted">标注尺寸取自 USDA（<code>results/diverge/support_shapes.txt</code>），#185 的尺寸取自 <code>results/ml40/diverge/support_import_p185.txt</code>。嵌入按物体网格抽样顶点到方盒的最小有符号距离算，负数表示在盒内（<code>stages/retarget/support_penetration.py --cube-as-v040</code>，<code>results/diverge/support_penetration_as_v040.txt</code>）。后两列是脚本输出；ep7 这一行的论断 jev 五轮在 0.39–0.65 之间（第 5 轮 0.54），<b>未核实</b>（见文末）。</p>
   <ul class="bl">
-    <li>上游 8c778f905c（#185，“Honor authored scale for Cube support geometry”，9/29 12:11 MDT）改成按 <code>size × scale</code> 建盒。kit 指定的 aee95f2 比它早 4 个提交，<code>support.py</code> 与 v0.4.0 逐字节相同（md5 95e5e33f…），所以在官方运行时里这三条同样是 1 m 立方体。</li>
+    <li>上游 8c778f905c（#185，“Honor authored scale for Cube support geometry”，9/29 12:11 UTC-6）改成按 <code>size × scale</code> 建盒。kit 指定的 aee95f2 比它早 4 个提交，<code>support.py</code> 与 v0.4.0 逐字节相同（md5 95e5e33f…），所以在官方运行时里这三条同样是 1 m 立方体。</li>
     <li>我们的补丁 <code>third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch</code> 只取上游 <code>support.py</code> 的改动；<code>stages/policy/make_patched_fc_src.sh</code> 生成打过补丁的源码副本（<code>support.py</code> md5 4d6eab11…，与上游 8c778f9 相同）。队列行写 <code>V2D_FC_SRC=&lt;副本&gt;</code> 时，<code>scripts/dev/in-flash-chord</code> 把副本挂到容器的 <code>/workspace</code> 并往 stderr 打一行挂载说明；写空的 <code>V2D_FC_SRC=</code> 就挂原来 <code>third_party/video_to_data</code> 里的上游 v0.4.0 源码（<code>scripts/dev/in-flash-chord</code> 第 9 行）。</li>
     <li>按 #185 的几何，参考本身的情况：ep7 iron_round_table_02 对 1 cm 桌面最多嵌入 0.5 mm；ep1 vacuum_left_lean_02 对椅背最多嵌入 4.1 mm；ep28 squeegee_sweep_away_from_you_03 在 239、209 帧里有顶点从两块 2 cm 板的另一侧穿出（<code>results/diverge/support_penetration.txt</code>）。ep1 另有 385 / 747 帧低于地面超过 5 mm（最深 23.8 mm），ep17、ep22 也穿地（123 / 440、136 / 719 帧），两条都训完没事（<code>support_penetration_floor_controls.txt</code>）。</li>
     <li>第 1 批里这三条的训练与评测都跑在 v0.4.0 的几何上，它们的无效判定说明不了 policy 在正确几何上能学成什么样。</li>
@@ -1599,14 +1599,14 @@ body.en .pb.l-en{display:grid}
   <p class="muted">L3 与 ⑤ 跑完后为最终判定新写的结果文件（都在 <code>results/diverge/</code>，14:20–14:35 落盘）：<code>diag_verdict_final.txt</code>、<code>importer_gate_ml40_final.txt</code>、<code>ckpt_nonfinite_ext4750_ml40.txt</code>、<code>ckpt_nonfinite_L3_ml40.txt</code>、<code>wandb_by_stage_L.txt</code>、<code>train_summary_table_ml40_diag_final.txt</code>；<code>pace_trunc60m_ml40.txt</code> 14:20 重跑，含 L3。</p>
 </div>
 <div class="pb l-en" lang="en">
-  <div class="kicker">As of 14:40 on 2026-09-30 (Denver time) · final verdict</div>
+  <div class="kicker">As of 14:40 on 2026-09-30 (UTC-6) · final verdict</div>
   <h1>Divergence in ep1, ep7 and ep28</h1>
   <p class="lead">The three Tier 1 sequences in batch 1 that use box support surfaces all trained into NaN: ep1 and ep28 between 40M and 50M steps of their full runs, ep7 at about 2.41M steps of its smoke, and all three are invalid in the batch verdicts. What is verified is that the scene is built wrong: FlashCHORD v0.4.0 builds these box supports as solid 1 m cubes. Recomputed by script on that geometry, the reference object sits inside the cube from frame 0 (script output, not verified by jev; see the end of the page). Upstream #185 fixes this; aee95f2, the evaluation runtime the kit pins, does not have the fix. The GPU controls on ml40 all finished at 14:35, and the final verdict under the registered criteria supports H1′, that the 1 m cube triggers the divergence: over 8 paired seeds of the ep7 smoke, 5 diverged on v0.4.0 and 0 on #185, one-sided Fisher p = 0.0128. H3 (random numerical instability) and H4 (fp16 storage is necessary) are rejected, and in the truncated ep1 reruns L3, with fp32 storage, diverged as well. The scope is narrow: H1′ was tested on ep7 smokes (4M steps, L40S); ep1 has only single-seed supporting evidence pointing the same way; ep28 was registered as description only.</p>
   <p>Plan <code>agent-doc/plan-ep1-ep7-divergence-2026-09-30.md</code> (CPU part in version 2, af261bf; the GPU controls in appendix A got NO GO from the independent review of version 3 at 10:35 and GO WITH FIXES from the re-review of version 4, and were registered as version 5 in 1867ffd at 11:07 after the fixes); execution record <code>agent-doc/experiments/2026-09-30-divergence.md</code>; results in <code>results/diverge/</code> and <code>results/ml40/diverge/</code>. This page keeps three kinds of statement apart: a verdict comes from the registered criteria via <code>stages/policy/diag_verdict.py</code>; a description is a reading taken after the results and does not count toward any criterion; inferences are marked as inferences or as unverified.</p>
 
   <h2>What happened</h2>
   <div class="tbl"><table>
-    <thead><tr><th>Time (Denver)</th><th>Event</th></tr></thead>
+    <thead><tr><th>Time (UTC-6)</th><th>Event</th></tr></thead>
     <tbody>
       <tr><td class="n">9/29 09:40–09:46</td><td>The ep7 smoke (ml40) finished training; its 256-world diagnostic rollout reported 172 non-finite worlds and the evaluator then raised an error; ep7 was skipped as registered and never got a full run (the plan then was the next batch; since the box finding on 9/30 it waits for the organizers' answer)</td></tr>
       <tr><td class="n">9/29 10:15</td><td>Every ep1 checkpoint (mf4090) from 50,001,920 steps on is NaN; the chain did not notice and trained on until 13:56</td></tr>
@@ -1646,7 +1646,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <p class="muted">Authored sizes from the USDA files (<code>results/diverge/support_shapes.txt</code>); #185 sizes from <code>results/ml40/diverge/support_import_p185.txt</code>. Embedding is the minimum signed distance from sampled object-mesh vertices to the box, negative inside (<code>stages/retarget/support_penetration.py --cube-as-v040</code>, <code>results/diverge/support_penetration_as_v040.txt</code>). The last two columns are script output; over five rounds jev gave the ep7 row's claim 0.39–0.65 (0.54 in round 5), so it is <b>unverified</b> (see the end of the page).</p>
   <ul class="bl">
-    <li>Upstream 8c778f905c (#185, "Honor authored scale for Cube support geometry", 12:11 MDT on 9/29) builds the box from <code>size × scale</code>. The kit's aee95f2 is 4 commits older and its <code>support.py</code> is byte-identical to v0.4.0 (md5 95e5e33f…), so the official runtime also builds these three boxes as 1 m cubes.</li>
+    <li>Upstream 8c778f905c (#185, "Honor authored scale for Cube support geometry", 12:11 UTC-6 on 9/29) builds the box from <code>size × scale</code>. The kit's aee95f2 is 4 commits older and its <code>support.py</code> is byte-identical to v0.4.0 (md5 95e5e33f…), so the official runtime also builds these three boxes as 1 m cubes.</li>
     <li>Our patch <code>third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch</code> takes only the upstream change to <code>support.py</code>; <code>stages/policy/make_patched_fc_src.sh</code> builds a patched source copy (<code>support.py</code> md5 4d6eab11…, the same as upstream 8c778f9). A queue line with <code>V2D_FC_SRC=&lt;copy&gt;</code> makes <code>scripts/dev/in-flash-chord</code> mount the copy at <code>/workspace</code> in the container and print one mount line to stderr; an empty <code>V2D_FC_SRC=</code> mounts the original upstream v0.4.0 source from <code>third_party/video_to_data</code> (line 9 of <code>scripts/dev/in-flash-chord</code>).</li>
     <li>Under the #185 geometry the references look different: the ep7 iron embeds at most 0.5 mm into the 1 cm tabletop; the ep1 vacuum at most 4.1 mm into the chair back; the ep28 squeegee has vertices coming out the far side of the two 2 cm boards in 239 and 209 frames (<code>results/diverge/support_penetration.txt</code>). ep1 is also more than 5 mm below the floor in 385 of 747 frames (deepest 23.8 mm), but ep17 and ep22 go below the floor too (123 of 440 and 136 of 719 frames) and both trained without trouble (<code>support_penetration_floor_controls.txt</code>).</li>
     <li>Batch 1 trained and evaluated these three on the v0.4.0 geometry, so their invalid verdicts say nothing about what a policy could learn on the correct geometry.</li>
@@ -2269,7 +2269,7 @@ body.en .pb.l-en{display:grid}
       <tr><td class="n">4</td><td>评测</td><td><code>evaluate_policy.py evaluation.checkpoint=…</code></td><td><code>chord_sr</code>、<code>maniptrans_sr</code> 都 &gt; 0；ADD-AUC 高于冒烟时的 0.46，具体阈值开跑前写进运行记录</td></tr>
     </tbody>
   </table></div>
-  <h2>结果（9/27，丹佛时间）</h2>
+  <h2>结果（9/27，UTC-6）</h2>
   <div class="tbl"><table>
     <thead><tr><th>顺序</th><th>状态</th><th>结果</th></tr></thead>
     <tbody>
@@ -2324,7 +2324,7 @@ pgrep -af '[n]vidia-smi --query'   # 应无输出</pre>
       <tr><td class="n">4</td><td>Evaluation</td><td><code>evaluate_policy.py evaluation.checkpoint=…</code></td><td><code>chord_sr</code> and <code>maniptrans_sr</code> both &gt; 0; ADD-AUC above the 0.46 of the smoke run, with the exact threshold written into the run record before the run</td></tr>
     </tbody>
   </table></div>
-  <h2>Results (9/27, Denver time)</h2>
+  <h2>Results (9/27, UTC-6)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Order</th><th>State</th><th>Result</th></tr></thead>
     <tbody>
@@ -2576,7 +2576,7 @@ V2D_ENV=ml40 scripts/dev/pull-results</pre>
   <ul class="bl">
     <li>只读查询直接 ssh（例子见下）。</li>
     <li>仓内只用标准库的 Python 脚本用 <code>scripts/dev/pipe-py</code> 跑：脚本经 ssh stdin 送过去，在远端仓库根用宿主机的 python3（两台都是 3.10）执行，不同步。参数只能用字母、数字和 <code>_./=:,+-</code>。要落盘就在前面加 <code>scripts/dev/record &lt;名字&gt;</code>，结果直接写到 Mac 的 <code>results/</code>。</li>
-    <li>节奏用 <code>stages/policy/run_pace.sh &lt;日志&gt; &lt;run&gt;...</code>，同样经 stdin、不同步。日志可以是训练链日志，也可以是 <code>fc_queue.sh</code> 的队列日志（9/30 起两种都认）；时间换成丹佛时间。</li>
+    <li>节奏用 <code>stages/policy/run_pace.sh &lt;日志&gt; &lt;run&gt;...</code>，同样经 stdin、不同步。日志可以是训练链日志，也可以是 <code>fc_queue.sh</code> 的队列日志（9/30 起两种都认）；时间换成 UTC-6。</li>
     <li>要在服务器上长时间跑的新脚本（看守、<code>queue_after.sh</code>）先复制到 <code>runs/tools/</code>，核对 md5，用 <code>setsid nohup</code> 或 tmux 起。别经前台 ssh 或 <code>pipe-py</code> 跑，Mac 断网它就断了。</li>
   </ul>
   <details class="more"><summary>只读查询与扫描（Mac，仓库根）</summary><div>
@@ -2655,7 +2655,7 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
   <ul class="bl">
     <li>Read-only checks go over plain ssh (examples below).</li>
     <li>Repository Python scripts that use only the standard library run through <code>scripts/dev/pipe-py</code>: the script goes over ssh stdin and runs from the server's repository root with the host python3 (3.10 on both machines), without a sync. Arguments may only contain letters, digits and <code>_./=:,+-</code>. Put <code>scripts/dev/record &lt;name&gt;</code> in front to save the output straight into <code>results/</code> on the Mac.</li>
-    <li>Pace comes from <code>stages/policy/run_pace.sh &lt;log&gt; &lt;run&gt;...</code>, also over stdin without a sync. The log can be a training chain log or an <code>fc_queue.sh</code> queue log (both work since 9/30); times are converted to Denver time.</li>
+    <li>Pace comes from <code>stages/policy/run_pace.sh &lt;log&gt; &lt;run&gt;...</code>, also over stdin without a sync. The log can be a training chain log or an <code>fc_queue.sh</code> queue log (both work since 9/30); times are converted to UTC-6.</li>
     <li>New scripts that run for a long time on the server (the watcher, <code>queue_after.sh</code>) are copied into <code>runs/tools/</code> first, checked by md5, and started with <code>setsid nohup</code> or in tmux. Do not run them through a foreground ssh or <code>pipe-py</code>; they die when the Mac goes offline.</li>
   </ul>
   <details class="more"><summary>Read-only checks and scans (Mac, repository root)</summary><div>
@@ -2716,7 +2716,7 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
 
   <div class="adm w"><span class="t">1. v0.4.0 把方盒支撑面建成 1 m 立方体</span>
     <p>FlashCHORD v0.4.0 的 <code>scene/support.py:85–86、114–116</code> 对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>。Tier 1 里支撑面是 Cube 的只有 ep1（vacuum）、ep7（iron）、ep28（squeegee）三条（<code>results/diverge/support_shapes.txt</code>），仿真里全被建成半尺寸 (0.5, 0.5, 0.5) 的实心立方体（<code>results/ml40/diverge/support_import_v040.txt</code>）<span class="jv">jev 0.97</span>。按这个几何，参考物体从第 0 帧起就埋在方块里：ep1 519 / 747 帧、ep28 两块各 608、651 帧嵌入超过 5 mm；ep7 896 / 896 帧，第 0 帧深约 49 cm（<code>results/diverge/support_penetration_as_v040.txt</code>；ep7 这句 jev 第 5 轮 0.54，五轮都低于 0.7，未核实）。第 1 批这三条都无效。</p>
-    <p>官方 kit 指定的评测运行时 aee95f2 的 <code>support.py</code> 与 v0.4.0 相同（md5 95e5e33f…，<code>results/diverge/support_py_versions.txt</code>）<span class="jv">jev 0.96</span>。上游 8c778f905c（#185，9/29 12:11 MDT）已修；我们的补丁副本把 ep7 桌面建成 (0.42, 0.141, 0.005)（<code>results/ml40/diverge/support_import_p185.txt</code>），目前只用于诊断。</p>
+    <p>官方 kit 指定的评测运行时 aee95f2 的 <code>support.py</code> 与 v0.4.0 相同（md5 95e5e33f…，<code>results/diverge/support_py_versions.txt</code>）<span class="jv">jev 0.96</span>。上游 8c778f905c（#185，9/29 12:11 UTC-6）已修；我们的补丁副本把 ep7 桌面建成 (0.42, 0.141, 0.005)（<code>results/ml40/diverge/support_import_p185.txt</code>），目前只用于诊断。</p>
     <p>按计划附录 A.3 登记的判据，H1′（v0.4.0 的 1 m 立方体是发散的触发）的最终判定是支持（9/30 14:35，<code>results/diverge/diag_verdict_final.txt</code>）：ep7 冒烟 R1（v0.4.0）5 / 8 发散，R3′（#185）0 / 8，配对种子 43–50，单侧 Fisher p = 0.0128 <span class="jv">jev 0.98</span>。范围只到 ep7 冒烟（400 万步、L40S）；ep1 只有截断复现的单种子旁证（L0 用 v0.4.0 发散、L1 用 #185 不发散，同向），ep28 登记为只描述。fp16 存储和 BN 统计量在其中各占多少，这个判定说明不了（见第 2 条）。</p>
     <p>怎么办：能不能用 aee95f2 + #185 训练与导出要问组委会（计划附录 A.6，还没发）。按计划的理解，若允许，30 条都要在同一个运行时上重新导出（附录 A.6 引 <code>pack_submission.py:286–300</code>，是旧 kit 8a169616 的行号，读代码的结论，没另外落盘）。Tier 2 排队前，用 <code>support_import_check.py</code> 查一遍要训序列的支撑面（Tier 2 还没查）。</p></div>
 
@@ -2753,7 +2753,7 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
 
   <div class="adm w"><span class="t">1. v0.4.0 builds box supports as 1 m cubes</span>
     <p>In FlashCHORD v0.4.0, <code>scene/support.py:85–86, 114–116</code> reads only <code>size</code> from a USD Cube and ignores <code>xformOp:scale</code>. In Tier 1 only ep1 (vacuum), ep7 (iron) and ep28 (squeegee) have Cube supports (<code>results/diverge/support_shapes.txt</code>), and in simulation all of them become solid cubes with half extents (0.5, 0.5, 0.5) (<code>results/ml40/diverge/support_import_v040.txt</code>) <span class="jv">jev 0.97</span>. With that geometry the reference object sits inside the cube from frame 0: ep1 is embedded more than 5 mm in 519 of 747 frames and ep28 in 608 and 651 frames for its two boxes; ep7 in 896 of 896 frames, about 49 cm deep at frame 0 (<code>results/diverge/support_penetration_as_v040.txt</code>; the ep7 figure scored jev 0.54 in round 5 and below 0.7 in all five rounds, unverified). All three are invalid in batch 1.</p>
-    <p>The evaluation runtime named by the official kit, aee95f2, has the same <code>support.py</code> as v0.4.0 (md5 95e5e33f…, <code>results/diverge/support_py_versions.txt</code>) <span class="jv">jev 0.96</span>. Upstream fixed it in 8c778f905c (#185, 12:11 MDT on 9/29); our patched copy builds ep7's tabletop as (0.42, 0.141, 0.005) (<code>results/ml40/diverge/support_import_p185.txt</code>) and is used only for diagnosis so far.</p>
+    <p>The evaluation runtime named by the official kit, aee95f2, has the same <code>support.py</code> as v0.4.0 (md5 95e5e33f…, <code>results/diverge/support_py_versions.txt</code>) <span class="jv">jev 0.96</span>. Upstream fixed it in 8c778f905c (#185, 12:11 UTC-6 on 9/29); our patched copy builds ep7's tabletop as (0.42, 0.141, 0.005) (<code>results/ml40/diverge/support_import_p185.txt</code>) and is used only for diagnosis so far.</p>
     <p>Under the criteria registered in plan appendix A.3, the final verdict on H1′ (the v0.4.0 1 m cube triggers the divergence) is "supported" (14:35 on 9/30, <code>results/diverge/diag_verdict_final.txt</code>): in the ep7 smokes, R1 (v0.4.0) diverged in 5 of 8 and R3′ (#185) in 0 of 8, paired seeds 43–50, one-sided Fisher p = 0.0128 <span class="jv">jev 0.98</span>. The scope is the ep7 smoke only (4M steps, L40S); ep1 has only the single-seed truncated reproductions as side evidence (L0 on v0.4.0 diverged, L1 on #185 did not, pointing the same way), and ep28 was registered as description only. The verdict says nothing about how much fp16 storage and the BN statistics each contribute (see item 2).</p>
     <p>What to do: whether we may train and export with aee95f2 + #185 is a question for the organizers (plan appendix A.6, not sent yet). As the plan reads it, if they allow it, all 30 episodes have to be re-exported on one runtime (appendix A.6 cites <code>pack_submission.py:286–300</code>, line numbers of the old kit 8a169616, from reading the code, not saved as a result). Before queueing Tier 2, check the supports of the sequences to be trained with <code>support_import_check.py</code> (Tier 2 has not been checked).</p></div>
 
@@ -2788,8 +2788,8 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
 
 <nav class="pn" id="pn" aria-label="翻页 / Pages"></nav>
 <footer class="pf">
-  <span class="l-zh">本页源文件：<code>docs/site/v2d-track2.html</code>，内容截至 2026-09-30 14:40（丹佛时间）。源文档：<code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/experiments/2026-09-29-{mf4090-night1,batch1}.md</code> · <code>agent-doc/experiments/2026-09-30-{divergence,batch1b-failure-analysis}.md</code> · <code>agent-doc/plan-{day2-2026-09-28,batch1-tier1-2026-09-29,ep1-ep7-divergence-2026-09-30}.md</code> · <code>results/submission/{kit_facts,kit_update_diff}.txt</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>。原始输出在 <code>results/</code>（文件头带命令、脚本 md5、源码版本、机器与时间）；本页承重结论的 jev 核对在 <code>results/site/jev_claims_sop_page*.txt</code>（规格 <code>agent-doc/experiments/2026-09-{28,29,30}-sop-page*.claims.json</code>）。</span>
-  <span class="l-en">This page's source: <code>docs/site/v2d-track2.html</code>, current as of 2026-09-30 14:40 (Denver time). Source documents: <code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/experiments/2026-09-29-{mf4090-night1,batch1}.md</code> · <code>agent-doc/experiments/2026-09-30-{divergence,batch1b-failure-analysis}.md</code> · <code>agent-doc/plan-{day2-2026-09-28,batch1-tier1-2026-09-29,ep1-ep7-divergence-2026-09-30}.md</code> · <code>results/submission/{kit_facts,kit_update_diff}.txt</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>. Raw output is in <code>results/</code> (headers record the command, script md5, source version, host and time); the jev check of this page's load-bearing claims is in <code>results/site/jev_claims_sop_page*.txt</code> (specs <code>agent-doc/experiments/2026-09-{28,29,30}-sop-page*.claims.json</code>).</span>
+  <span class="l-zh">本页源文件：<code>docs/site/v2d-track2.html</code>，内容截至 2026-09-30 14:40（UTC-6）。源文档：<code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/experiments/2026-09-29-{mf4090-night1,batch1}.md</code> · <code>agent-doc/experiments/2026-09-30-{divergence,batch1b-failure-analysis}.md</code> · <code>agent-doc/plan-{day2-2026-09-28,batch1-tier1-2026-09-29,ep1-ep7-divergence-2026-09-30}.md</code> · <code>results/submission/{kit_facts,kit_update_diff}.txt</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>。原始输出在 <code>results/</code>（文件头带命令、脚本 md5、源码版本、机器与时间）；本页承重结论的 jev 核对在 <code>results/site/jev_claims_sop_page*.txt</code>（规格 <code>agent-doc/experiments/2026-09-{28,29,30}-sop-page*.claims.json</code>）。</span>
+  <span class="l-en">This page's source: <code>docs/site/v2d-track2.html</code>, current as of 2026-09-30 14:40 (UTC-6). Source documents: <code>agent-doc/progress-2026-09-25.md</code> · <code>agent-doc/handoff-ml40-training.md</code> · <code>agent-doc/experiments/2026-09-28-{day1,day1b,playback,day2}.md</code> · <code>agent-doc/experiments/2026-09-29-{mf4090-night1,batch1}.md</code> · <code>agent-doc/experiments/2026-09-30-{divergence,batch1b-failure-analysis}.md</code> · <code>agent-doc/plan-{day2-2026-09-28,batch1-tier1-2026-09-29,ep1-ep7-divergence-2026-09-30}.md</code> · <code>results/submission/{kit_facts,kit_update_diff}.txt</code> · <code>docs/architecture-current.md</code> · <code>docs/adr/00001–00003</code>. Raw output is in <code>results/</code> (headers record the command, script md5, source version, host and time); the jev check of this page's load-bearing claims is in <code>results/site/jev_claims_sop_page*.txt</code> (specs <code>agent-doc/experiments/2026-09-{28,29,30}-sop-page*.claims.json</code>).</span>
 </footer>
 </main>
 </div>
