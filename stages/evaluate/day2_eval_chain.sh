@@ -4,7 +4,9 @@
 #   1. 附加表里的 identity 行：把该 checkpoint 用 eval_playback_override.py --playback same 评一次，与已有的 fc_eval JSON 比
 #      （|ΔADD-AUC| < 0.005、chord_sr |z| < 3、替换函数调用 1 次）；不过就不做任何交叉评测（匹配回放的评测照做）
 #   2. 期望表每条 DONE 的 run：最后三个 checkpoint 按训练时的回放各评 4096 世界（fc_eval.sh，经 record 落成 day2/eval_<run>_s<步数>），
-#      核对 step_count；xeval=yes 的另把最终 checkpoint 按另一种回放评一次（day2/xeval_<run>_s<步数>_<frame|real>）
+#      核对 step_count；xeval=yes 的另把最终 checkpoint 按另一种回放评一次（day2/xeval_<run>_s<步数>_<frame|real>）。
+#      V2D_EVAL_STEPS="349999104" 时只评列出的步数（Tier 2 批量只评最终 checkpoint，计划 agent-doc/plan-t2-batch-2026-10-01.md）；
+#      run 目录里有 NONFINITE（fc_run_watched.sh 写的：训完但最新 policy 含非有限参数）的不评
 #   3. 附加表里的 eval / xeval 行（例如 ep20 两条满配的交叉评测、B 的对照）
 # 期望表同 stages/policy/day2_train_chain.sh。附加表（TSV，无表头，# 开头是注释）：
 #   identity <run> <step>
@@ -24,6 +26,8 @@ say() { echo "=== $(date '+%F %T %Z') $*"; }
 die() { say "$*"; say DAY2_EVAL_FAILED; exit 1; }
 exp_frames() { python3 -c 'import sys; n = int(sys.argv[2]); print(n if sys.argv[1] == "frame" else int(round((n - 1) / 30.0 * 50.0)) + 1)' "$1" "$2"; }
 jget() { python3 -c 'import json, sys; print(json.load(open(sys.argv[1])).get(sys.argv[2]))' "$1" "$2"; }
+EVAL_STEPS="${V2D_EVAL_STEPS:-330012672 340013056 349999104}"
+[[ $EVAL_STEPS =~ ^[0-9]+( [0-9]+)*$ ]] || { echo "V2D_EVAL_STEPS 只能是空格分隔的步数：$EVAL_STEPS" >&2; exit 2; }
 
 if [ -n "${V2D_WAIT_FOR_LOG:-}" ]; then
   say "等 $V2D_WAIT_FOR_LOG 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED"
@@ -31,7 +35,7 @@ if [ -n "${V2D_WAIT_FOR_LOG:-}" ]; then
   say "训练链已结束：$(tail -1 "$V2D_WAIT_FOR_LOG")"
 fi
 SRC0="$(cat .v2d-source-commit 2>/dev/null || echo unknown)"
-say "start $NAME, source $SRC0, 期望表 $EXPECT, 附加表 $EXTRA"
+say "start $NAME, source $SRC0, 期望表 $EXPECT, 附加表 $EXTRA, 评测步数 $EVAL_STEPS"
 case "$SRC0" in *-dirty*|*-syncing*|unknown) die "来历 $SRC0 不干净，先提交再同步" ;; esac
 check_src() { [ "$(cat .v2d-source-commit 2>/dev/null || echo unknown)" = "$SRC0" ] || die "来历变了（开头 $SRC0，现在 $(cat .v2d-source-commit 2>/dev/null)），停下"; }
 o="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ')"; [ -z "$o" ] || die "GPU 上有别的进程（$o），停下"
@@ -85,7 +89,8 @@ fi
 # 2. 期望表
 [ "$EXPECT" = - ] || while IFS=$'\t' read -r run smoke seq pb src support pos ori cap seed xev; do
   if [ ! -f "runs/flash_chord/$run/DONE" ]; then say "$run 没有 DONE：不评"; continue; fi
-  for step in 330012672 340013056 349999104; do matched "$run" "$step" "$pb" "$src"; done
+  if [ -f "runs/flash_chord/$run/NONFINITE" ]; then say "$run 的最新 policy 含非有限参数（NONFINITE）：不评"; continue; fi
+  for step in $EVAL_STEPS; do matched "$run" "$step" "$pb" "$src"; done
   if [ "$xev" = yes ]; then
     other=real; [ "$pb" = real ] && other=frame
     cross "$run" 349999104 "$other" "$src" "$pos" "$ori"

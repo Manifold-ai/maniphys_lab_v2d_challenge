@@ -3,10 +3,15 @@
 # 展开最终配置（--cfg job --resolve），与只指定 parquet 的官方 G1 配方逐键比较。
 # 允许的差异：logging.*（及其派生的 training.experiment_name/run_name/wandb_entity/wandb_project）、output_dir、task.parquet、scene.world_count、training.total_environment_steps、
 # 以及队列行里显式写出的覆盖键（例如 training.replay.capacity）。其余任何差异都算失败。
-# 用法：stages/policy/fc_config_check.sh <队列文件>；结果写到 runs/cfgcheck/
+# 用法：stages/policy/fc_config_check.sh <队列文件>...；结果写到 runs/cfgcheck/。一次给多份队列（例如同一段的冒烟与正式）时，
+#   同一个 parquet 的官方配方只展开一次。
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"; cd "$ROOT"
-Q=${1:?用法：fc_config_check.sh <队列文件>}; mkdir -p runs/cfgcheck; fail=0
+[ $# -ge 1 ] || { echo "用法：fc_config_check.sh <队列文件>..." >&2; exit 2; }
+mkdir -p runs/cfgcheck; fail=0
+declare -A RECIPE   # parquet → 这次已展开过的官方配方文件：冒烟与正式同一个 parquet，官方配方只展开一次（每条省一次容器启动）
+for Q in "$@"; do
+echo "=== 队列 $Q"
 while IFS= read -r line || [ -n "$line" ]; do
   line="${line%%#*}"; [[ -z "${line//[[:space:]]/}" ]] && continue
   read -r -a tok <<< "$line"; envs=(); i=0
@@ -23,9 +28,15 @@ while IFS= read -r line || [ -n "$line" ]; do
   done
   scripts/dev/in-flash-chord "$cmd --cfg job --resolve" > "runs/cfgcheck/$run.yaml" 2> "runs/cfgcheck/$run.err" \
     || { echo "  展开本次配置失败，见 runs/cfgcheck/$run.err"; fail=1; continue; }
-  scripts/dev/in-flash-chord "cd /workspace && python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac \"task.parquet='$pq'\" --cfg job --resolve" \
-    > "runs/cfgcheck/$run.recipe.yaml" 2> "runs/cfgcheck/$run.recipe.err" \
-    || { echo "  展开官方配方失败，见 runs/cfgcheck/$run.recipe.err"; fail=1; continue; }
+  if [ -n "${RECIPE[$pq]:-}" ]; then
+    cp "${RECIPE[$pq]}" "runs/cfgcheck/$run.recipe.yaml"; echo "  官方配方沿用 ${RECIPE[$pq]}（同一 parquet）"
+  else
+    scripts/dev/in-flash-chord "cd /workspace && python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac \"task.parquet='$pq'\" --cfg job --resolve" \
+      > "runs/cfgcheck/$run.recipe.yaml" 2> "runs/cfgcheck/$run.recipe.err" \
+      || { echo "  展开官方配方失败，见 runs/cfgcheck/$run.recipe.err"; fail=1; continue; }
+    RECIPE[$pq]="runs/cfgcheck/$run.recipe.yaml"
+  fi
   scripts/dev/in-flash-chord "python /repo/stages/policy/cfg_diff.py /repo/runs/cfgcheck/$run.recipe.yaml /repo/runs/cfgcheck/$run.yaml $allowed" || fail=1
 done < "$Q"
+done
 [ "$fail" = 0 ] && echo "== 配置核对通过" || { echo "== 配置核对有问题"; exit 1; }

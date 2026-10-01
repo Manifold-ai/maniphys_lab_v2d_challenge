@@ -1,0 +1,36 @@
+# command  : ssh -o ConnectTimeout=15 -o ServerAliveInterval=5 -o ServerAliveCountMax=3 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ sha256sum\ runs/motion/tier2/whole_body/soma/sequence_id=\*/robot_name=g1/data.parquet\ \&\&\ grep\ -h\ \'\"path\":\ \"runs/recovery/\'\ runs/motion_src/tier2/\*/v2d_meta.json\ \|\ sort\ \|\ uniq\ -c\ \|\ awk\ \'\{print\ \$1\,\ \$3\}\'\ \|\ sed\ \'s/episode_0000\[0-9\]\[0-9\].npz//\'\ \|\ sort\ \|\ uniq\ -c 
+# source   : b7ed6cc999ae-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:11:30-0600
+# ---------------------------------------------------------------
+4b2e9bc945aa88d9dd4c454bac442e47773a5dea161200d5184d58943c8405f9  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+77bd77d1c6f37a07e2638b5e6bb836ef22365582ba3d569906b597a866ac5027  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+fda07d7e68f4b736a73a49a396c5b4d738a3ae13e421db3cfd8c37f01f42bfe5  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+23056feee1749d0e7d6ffe11d5b053e77d34be7c727d226d6741e53fec6e3587  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+e385601eb35353c90296f95f304b47a0523da05bd73fd19c44ce9a184e0a445e  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet
+1f0b0a64aa9d97c455a355dd60285826ee19e6cb7b07fbdf4ce293f677283ad1  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+43ae3458aaf2e949af171f04f0533962dc0e3977d774b53ca364fd8d8f363d73  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet
+9c3428364b623bb7707079972d7a5d470dcf51e3e9fe8eccc49693708debbea0  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet
+7167572f3da98844df58c329f40ad158a2aee2606ea4152afebb6a6e28d16154  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+48e9312656e0ef0e5dfd74713f647c0a025adac8b5529b78c768c83a727c89e6  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+1c4b650cfc90c3b64b1430e719c0b5465ca1da2b705aa65e773859a0c52a806d  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+b9306e556a8934e7b29cf65ff40526c761ef153bd649b9cf59511fd5f0f6316c  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+3ca1fdafa1e422c2ce60edcc722e2e29de8e062881189281ba3eb302e42122c3  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+b104cea6f03b3ad61ee6ed5b163b0efe7285d6a623605f4a874553d016647653  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+97bb3c92c8b2a886c0bc782e0e6dfdd5dcc794ab9b5b8866aa4fad91ae79ee9a  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+d435d6480aa1a561a0da4a42d7d387ebf2cfaadb2c85ad5ec4292a1001ef5150  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+21172bc94f83862236a7b832d45551a2c50a285ed326558cc144769d0c333114  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet
+bbfd68cabc9bb43218c5f6c1159b849557ed4528612ada3e577d1726d006f382  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet
+6506405bb4f0ae58ea3383ac5838fb3d6114c92551e856b43e20755c28898862  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet
+90342ae09595085e84bd54e8cd7f5bb57a24db944f7418652de621a24b9feeab  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+0b07cecdb64ff068ad153163f780bda15b1f426862de41ee665dfe7a23215abf  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet
+c50f8d97876dfbb8eb047e1229494c60de0630a95818f7080a46c4e03dd0d0b1  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet
+ef24a5583b140636bb3a1b78fc763959cad203cb65cc066034f577a9f7956286  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet
+2e8233e4994f83e6412c097be93fe1728d4bb093a29051336679820e06147c22  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+2cfced18fd3004c9359acf0c1ea5102c5922608fb042467c0d7f4827f2761a44  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+c65b32e25ddfb2f046f2610cae4644fe7810da73e815386be3b8a3c5cf435bab  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet
+da32efb3d66e6aa7e972aff895b18b65a1670d40a1cf02610539566e09ec83e3  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+e4d148e3e2106845622b17d4e9f4f50c34f73f12da2806f646bcd77a388b9c23  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+8de63710ad8438b1847cea301639b5d56554364b2358f12c6feec8901c25a321  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+9486c223ba5b7d3a5ffa2a1176192b917682f3b4ea7cd0566eb07e3dc657aa84  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+     30 1 "runs/recovery/tier2_v54/",

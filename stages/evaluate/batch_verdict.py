@@ -5,8 +5,10 @@
 “> 0” 只靠 ≤ 3 个世界，或 ADD-AUC 落在基线 ±0.01 内 → 另标“边缘”。另两个 checkpoint 只报走势（gap = ADD-AUC − 基线）。
 有效性闸（任何一条不满足 → 这条只列数、不判定）：三份评测都在、step_count = 期望帧数（逐帧 = 源帧数，真实时长 = round((N−1)·5/3)+1）、
 基线帧数 = 期望帧数、评测输出里 non_finite_worlds 为空、结果头的来历不带 -dirty / -syncing、三份评测的 checkpoint sha256 两两不同。
-用法：python3 stages/evaluate/batch_verdict.py <期望表> <结果目录>
+用法：python3 stages/evaluate/batch_verdict.py <期望表> <结果目录> [--steps 349999104]
   结果目录里要有 eval_<run>_s<步数>.txt 与 bar_<冒烟 run>.txt（例：results/ml40/day2、results/day2）。
+  --steps：只看列出的步数（逗号分隔，最大的当最终 checkpoint）；Tier 2 批量只评最终 checkpoint（计划 agent-doc/plan-t2-batch-2026-10-01.md）。
+  只有一个步数时没有走势，也不做“checkpoint sha256 两两不同”这一条。
 """
 import json
 import re
@@ -40,14 +42,22 @@ def expected_frames(playback: str, src: int) -> int:
 
 
 def main() -> int:
-    expect, root = Path(sys.argv[1]), Path(sys.argv[2])
+    args = sys.argv[1:]
+    steps = STEPS
+    if "--steps" in args:
+        i = args.index("--steps")
+        steps = tuple(sorted(int(x) for x in args[i + 1].split(",") if x))
+        del args[i:i + 2]
+        if not steps:
+            raise SystemExit("--steps 不能为空")
+    expect, root = Path(args[0]), Path(args[1])
     rows = [ln.split("\t") for ln in expect.read_text().splitlines()[1:] if ln.strip()]
     tally = {"通过": 0, "不通过": 0, "无效": 0}
     for run, smoke, seq, pb, src, *_ in rows:
         want = expected_frames(pb, int(src))
         problems = []
         bar_path = root / f"bar_{smoke}.txt"
-        evals = {s: root / f"eval_{run}_s{s}.txt" for s in STEPS}
+        evals = {s: root / f"eval_{run}_s{s}.txt" for s in steps}
         missing = [str(p) for p in [bar_path, *evals.values()] if not p.exists()]
         if missing:
             print(f"\n== {run}（{seq}，{pb}）：无效，缺 {', '.join(missing)}")
@@ -66,12 +76,12 @@ def main() -> int:
             if re.search(r"-dirty|-syncing", source) or not source:
                 problems.append(f"第 {s} 步来历 {source or '缺'}")
             shas.add(m.get("checkpoint_sha256"))
-        if len(shas) != len(STEPS):
-            problems.append("三份评测的 checkpoint sha256 不是两两不同")
-        final, _, _ = loaded[STEPS[-1]]
+        if len(steps) > 1 and len(shas) != len(steps):
+            problems.append(f"{len(steps)} 份评测的 checkpoint sha256 不是两两不同")
+        final, _, _ = loaded[steps[-1]]
         w = final["world_count"]
         b = bar["add_auc"]
-        gaps = [loaded[s][0]["add_auc"] - b for s in STEPS]
+        gaps = [loaded[s][0]["add_auc"] - b for s in steps]
         print(f"\n== {run}（{seq}，{pb}，{want} 帧）：不动基线 {b:.4f}；gap 走势 {' / '.join(f'{g:+.3f}' for g in gaps)}")
         if problems:
             print("  无效：" + "；".join(problems))

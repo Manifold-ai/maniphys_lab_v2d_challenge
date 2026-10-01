@@ -1,0 +1,40 @@
+# command  : scripts/dev/pipe-py stages/policy/support_kinds.py runs/motion/tier2/whole_body/reconstructed_stage 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : b7ed6cc999ae-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:11:18-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+sequence_id	shapes	scaled_cube	md5
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	Cylinder×1	no	05cb55214db197e3cbffb06cc66e1497
+2026-03-18_19-36-56_g1_box_rotate_01	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	Cylinder×2	no	55ce75bf14e682de9fc61e20964f8701
+2026-04-24_11-40-52_baseball_bat_rotate_05	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-04-24_13-56-58_light_blue_book_pick_place_09	Cylinder×1	no	121eef4b511abe34038d89977d9d2272
+2026-04-25_17-20-04_black_platform_turn_05	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	Cylinder×1	no	915839ac3f4fef01c799a904bff7a036
+2026-04-29_11-53-57_tall_bar_stool_pull_08	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-01_11-15-05_woven_basket_ground_desk_10	Cylinder×1	no	fc6515863a34c3b3656e6d55df28d7ce
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-01_17-04-55_traffic_cone_ground_table_02	Cylinder×1	no	c9d8c94bfe1303b7d25b1d0014159b17
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-18_17-06-21_vacuum_left_lean_02	Cube×1	yes	f2fb02c82e66563378c323b2b2e8ad1f
+2026-05-19_10-19-48_cane_swing_05	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	Cube×2	yes	a93e92e5cffd8bd74bfc583bd9be6b6e
+2026-05-22_16-52-36_step_ladder_drag_03	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-28_14-44-09_round_table_flip_08	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-05-29_15-20-43_iron_round_table_02	Cube×1	yes	c413ad523c07fa71dd9ac53d8057dc7b
+2026-05-29_15-43-20_watering_can_pour_right_02	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-01_11-26-44_monitor_rotate_05	Cylinder×1	no	5aa5fbfccf16f3210eb19a18fb12951a
+2026-06-02_10-04-42_blue_easter_basket_place_10	Cylinder×1	no	cfcb149ef1a1d397e922c7cb7e19321f
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	Cylinder×1	no	749adc4a9634f9d1407eac15d04a90a9
+2026-06-05_15-08-08_skinny_wood_chair_push_10	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-05_16-05-08_skateboard_rotate_ground_10	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-08_16-57-34_rice_cooker_clockwise_04	Cylinder×1	no	dcbd8dfbe968f29926f30cc61b15beb8
+2026-06-09_10-19-09_snack_box_desk_through_06	Cylinder×1	no	34893400ec45bd4f766c37c7e87bad9d
+# 共 30 个：只有地面 16，带 scale 的方盒 3，其他 11

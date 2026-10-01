@@ -8,11 +8,13 @@ safetensors 格式：8 字节小端头长度 + JSON 头（张量名 → dtype、
   python3 stages/policy/ckpt_nonfinite.py <run>...          每个 run 的全部 policy_<步数>.safetensors，按步数排
   python3 stages/policy/ckpt_nonfinite.py --last <run>...   每个 run 只看步数最大的一份完整 checkpoint
   加 --by-tensor：列出含非有限值的张量、形状与下标区间；加 --steps 40001536,50001920：只看这些步数
+  加 --fail-on-nonfinite：看过的 checkpoint 里有非有限参数、或 --last 找不到完整的一份，退出码 1（冒烟判据与训练链用）
   python3 stages/policy/ckpt_nonfinite.py --watch <run> [--interval 120] [--timeout 14400] [--stop-after 2]
       看守：每 interval 秒看一次新写完的 policy；按步数连续 stop-after 份完整 checkpoint 都含非有限参数，就调用
       stages/policy/fc_stop.sh <run> 并退出；run 目录已有 DONE 或 STOP 时只报告、不止损（DONE 优先）。到 timeout 秒也退出。
       另每轮数一次本地 .wandb 里的 NaN 字样，变了就报（只报警）。--tag 写部署时的 commit，启动时连同脚本 md5 打出。
       --stop-at-step N：写出 N 步及以后的完整 checkpoint 就 fc_stop（截断复现：总步数不变、学习率曲线不变，只提前停）；非有限止损优先。
+      --parent PID：这个进程不在了就退出（NAN_WATCH_ORPHAN），免得包装脚本被杀后看守一直挂着、日后误停同名 run。
       只有 fc_stop.sh 这一个写操作；计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 M1、M2。
 时间一律丹佛时间（MDT，UTC−6）。类型注解用 typing，Mac 自带的 Python 3.9 也能跑。
 """
@@ -20,6 +22,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import struct
 import subprocess
@@ -132,12 +135,15 @@ def tensor_lines(r: dict) -> None:
         print(f"      {name} {shape}：非有限 {n} 个，下标 {ranges}")
 
 
-def report(runs: List[str], last_only: bool, by_tensor: bool = False, steps: Optional[set] = None) -> None:
+def report(runs: List[str], last_only: bool, by_tensor: bool = False, steps: Optional[set] = None) -> bool:
+    """打印报告；返回是否“有问题”：看过的 checkpoint 里有非有限参数，或 --last 时某个 run 没有完整的一份。"""
+    problem = False
     for run in runs:
         items = policies(run)
         print(f"== {run}（policy {len(items)} 份）")
         if not items:
             print("  没有 policy checkpoint")
+            problem = problem or last_only
             continue
         if last_only:
             for step, p in reversed(items):
@@ -145,9 +151,11 @@ def report(runs: List[str], last_only: bool, by_tensor: bool = False, steps: Opt
                 if r is not None:
                     print(line(step, r))
                     tensor_lines(r)
+                    problem = problem or bool(r["nan"] + r["inf"])
                     break
             else:
                 print("  没有完整的 checkpoint")
+                problem = True
             continue
         first_bad = None
         for step, p in items:
@@ -160,6 +168,8 @@ def report(runs: List[str], last_only: bool, by_tensor: bool = False, steps: Opt
             if r is not None and r["nan"] + r["inf"] and first_bad is None:
                 first_bad = step
         print(f"  第一份含非有限参数：{first_bad:,d} 步" if first_bad else "  全部有限")
+        problem = problem or first_bad is not None
+    return problem
 
 
 def wandb_nan_count(run: str) -> Optional[int]:
@@ -173,7 +183,17 @@ def wandb_nan_count(run: str) -> Optional[int]:
         return None
 
 
-def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str, stop_at_step: int = 0) -> int:
+def alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+
+
+def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str, stop_at_step: int = 0, parent: int = 0) -> int:
     d = Path("runs/flash_chord", run)
     md5 = hashlib.md5(Path(__file__).read_bytes()).hexdigest() if Path(__file__).is_file() else "?"
     extra = f"；写出 {stop_at_step:,d} 步及以后的 checkpoint 就 fc_stop" if stop_at_step else ""
@@ -183,6 +203,9 @@ def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str, stop
     last_wandb = None
     t0 = time.time()
     while True:
+        if parent and not alive(parent):
+            print(f"=== {now()} MDT 父进程 {parent} 已不在，扫过 {len(seen)} 份；NAN_WATCH_ORPHAN", flush=True)
+            return 0
         finished = (d / "DONE").exists() or (d / "STOP").exists()
         for step, p in policies(run):
             if step in seen:
@@ -202,6 +225,9 @@ def watch(run: str, interval: int, timeout: int, stop_after: int, tag: str, stop
         steps = sorted(seen)
         tail = [seen[s] for s in steps[-stop_after:]]
         if len(tail) == stop_after and all(tail):
+            if (d / "DONE").exists():  # 扫描期间 run 刚好写了 DONE：已结束的 run 不止损（DONE 优先），交给训完后的最终检查
+                print(f"=== {now()} MDT 连续 {stop_after} 份非有限，但 run 已 DONE，不止损；NAN_WATCH_DONE", flush=True)
+                return 0
             print(f"=== {now()} MDT 连续 {stop_after} 份非有限（{', '.join(f'{s:,d}' for s in steps[-stop_after:])} 步）：fc_stop {run}", flush=True)
             rc = subprocess.run(["stages/policy/fc_stop.sh", run]).returncode
             print(f"=== {now()} MDT fc_stop 退出码 {rc}；NAN_WATCH_STOPPED", flush=True)
@@ -229,6 +255,8 @@ def main() -> int:
     ap.add_argument("--stop-after", type=int, default=2)
     ap.add_argument("--tag", default="", help="启动时照打，记部署的 commit 等")
     ap.add_argument("--stop-at-step", type=int, default=0, help="看守：写出这一步数及以后的完整 checkpoint 就 fc_stop（截断复现用）")
+    ap.add_argument("--fail-on-nonfinite", action="store_true", help="看过的 checkpoint 有非有限参数（或 --last 没有完整的一份）时退出码 1")
+    ap.add_argument("--parent", type=int, default=0, help="看守：这个进程不在了就退出")
     a = ap.parse_args()
     for run in a.runs:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", run):
@@ -238,10 +266,10 @@ def main() -> int:
             sys.exit("--watch 只看一个 run，--stop-after ≥ 1")
         if not re.fullmatch(r"[A-Za-z0-9_.:=, -]*", a.tag):
             sys.exit("--tag 只能是字母数字与 _.:=, -")
-        return watch(a.runs[0], a.interval, a.timeout, a.stop_after, a.tag, a.stop_at_step)
+        return watch(a.runs[0], a.interval, a.timeout, a.stop_after, a.tag, a.stop_at_step, a.parent)
     steps = {int(x) for x in a.steps.split(",") if x}
-    report(a.runs, a.last, a.by_tensor, steps)
-    return 0
+    problem = report(a.runs, a.last, a.by_tensor, steps)
+    return 1 if a.fail_on_nonfinite and problem else 0
 
 
 if __name__ == "__main__":
