@@ -28,3 +28,6 @@ third_party/video_to_data/
 .v2d-source-commit
 # 官方 submission kit（邮件 2026-09-28；只读，不改源码）
 third_party/v2d_submission_kit/
+
+# SOP 页面的视频素材（数据集派生，不进 git；发布时从 runs/site_media 经 Artifact files 上传）
+docs/site/media/
