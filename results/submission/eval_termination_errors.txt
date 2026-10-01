@@ -1,0 +1,24 @@
+# command  : bash -c $'echo "## mf4090ï¼\232ep1 æ\255£å¼\217è®\255ç»\203ä¸\211ä»½è¯\204æµ\213æ\227¥å¿\227é\207\214ç\232\204æ\212¥é\224\231ä¸\216é\235\236æ\234\211é\231\220ä¸\226ç\225\214è\255¦å\221\212"; ssh -o ConnectTimeout=15 mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -H -E \\"must disable task failure termination|worlds recorded non-finite poses\\" runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_*_w4096.log | cut -c1-240"; echo "## ml40ï¼\232ep7 å\206\222ç\203\237ç\232\204 256 ä¸\226ç\225\214 rolloutï¼\210è®\255ç»\203é\223¾æ\227¥å¿\227ï¼\211"; ssh -o ConnectTimeout=15 ml40 "cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -E \\"smoke-t1-ep7|must disable task failure termination|worlds recorded non-finite poses\\" runs/logs/batch1a_train_ml40.log | cut -c1-240 | head -8"' 
+# source   : 4d9e0459d6c6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T16:17:20-0600
+# ---------------------------------------------------------------
+## mf4090ï¼šep1 æ­£å¼è®­ç»ƒä¸‰ä»½è¯„æµ‹æ—¥å¿—é‡Œçš„æŠ¥é”™ä¸éæœ‰é™ä¸–ç•Œè­¦å‘Š
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_330012672_w4096.log:warning: 2445 worlds recorded non-finite poses and are excluded
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_330012672_w4096.log:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_330012672_w4096.log:ValueError: evaluation must disable task failure termination before scoring the full reference
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_340013056_w4096.log:warning: 2387 worlds recorded non-finite poses and are excluded
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_340013056_w4096.log:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_340013056_w4096.log:ValueError: evaluation must disable task failure termination before scoring the full reference
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_349999104_w4096.log:warning: 2342 worlds recorded non-finite poses and are excluded
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_349999104_w4096.log:    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+runs/logs/t1-ep1-w2048-cap4m-mf4090.eval_349999104_w4096.log:ValueError: evaluation must disable task failure termination before scoring the full reference
+## ml40ï¼šep7 å†’çƒŸçš„ 256 ä¸–ç•Œ rolloutï¼ˆè®­ç»ƒé“¾æ—¥å¿—ï¼‰
+/repo/runs/cfgcheck/smoke-t1-ep7-w2048-cap10m-ml40.yamlï¼š11 æ¡æ–­è¨€ï¼Œå…¨è¿‡
+=== 2026-09-29 23:40:37 CST å†’çƒŸ smoke-t1-ep7-w2048-cap10m-ml40
+fc_run: smoke-t1-ep7-w2048-cap10m-ml40 å®Œæˆ
+æ—¥å¿— runs/logs/smoke-t1-ep7-w2048-cap10m-ml40.s1.logï¼›checkpoint 4096000ï¼›æ˜¾å­˜å³°å€¼ 40209 MiBï¼›é•œåƒæŒ‡çº¹ e2934912858820b8 / df0cf35711a68fb3
+SMOKE_OK smoke-t1-ep7-w2048-cap10m-ml40
+warning: 172 worlds recorded non-finite poses and are excluded
+Error executing job with overrides: ['evaluation.checkpoint=/repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40/policy_4096000.safetensors', 'evaluation.world_count=256', 'evaluation.metrics_output=/repo/runs/diag/smoke-t1-ep7-w2048-cap10
+    raise ValueError("evaluation must disable task failure termination before scoring the full reference")

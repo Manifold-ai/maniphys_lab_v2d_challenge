@@ -1,0 +1,146 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "pin": {
+   "file": "results/submission/runtime_pin_facts.txt",
+   "grep": "^kit |README.md:|HTTP 头|#188|Pin the FlashCHORD|Cube support|scaling"
+  },
+  "diff": {
+   "file": "results/submission/runtime_pin_facts.txt",
+   "grep": "之间改动的文件|^  (added|modified|removed) |support.py @|补丁副本"
+  },
+  "term": {
+   "file": "results/submission/runtime_pin_facts.txt",
+   "grep": "harness.py|termination.py:|recon_body.yaml"
+  },
+  "support": {
+   "file": "results/submission/runtime_pin_facts.txt",
+   "grep": "空支撑面|  support.py:|setup.py:|flash_sac.yaml"
+  },
+  "tally": {
+   "file": "results/submission/eval_outcome_tally.txt"
+  },
+  "batch1": {
+   "file": "agent-doc/experiments/2026-09-29-batch1.md",
+   "grep": "must disable task failure|172 worlds|3 项评测都报错|记 SKIPPED"
+  },
+  "nan_ep7": {
+   "file": "results/diverge/ckpt_nonfinite_ep7_smoke.txt",
+   "grep": "==|非有限"
+  },
+  "nan_ep1": {
+   "file": "results/diverge/ckpt_nonfinite_ep1.txt",
+   "grep": "==|第一份含非有限|349,999,104"
+  },
+  "errors": {
+   "file": "results/submission/eval_termination_errors.txt"
+  }
+ },
+ "claims": [
+  {
+   "id": "q1_pin",
+   "evidence": [
+    "pin"
+   ],
+   "claim": "旧 kit（zip sha256 a2de2aee…）的 README 把 FlashCHORD 运行时钉在提交 aee95f25…；新 kit（0f2f9f4b…）的 README 钉在 8c778f905c…，上游 #188 的说明写明这个版本包含 Cube 支撑面的缩放修复。"
+  },
+  {
+   "id": "q1_diff",
+   "evidence": [
+    "diff"
+   ],
+   "claim": "aee95f2 到 8c778f9 之间，FlashCHORD 源码只改了 scene/support.py 和它的测试 tests/scene/test_support.py；其余改动都在 docs/v2d_challenge 下。"
+  },
+  {
+   "id": "q1_patch",
+   "evidence": [
+    "diff"
+   ],
+   "claim": "ml40 上 #185 补丁副本的 support.py 与上游 8c778f9 的 support.py md5 相同，都是 4d6eab112a442bb2b533dfb11bc7160c；aee95f2 的是 95e5e33f…，与它们不同。"
+  },
+  {
+   "id": "q2_threshold",
+   "evidence": [
+    "term"
+   ],
+   "claim": "评测器把 ReconBody 终止的阈值设成 _DISABLED_THRESHOLD = 1.0e6，而终止判断是误差大于阈值；配方里的阈值原本是 0.10 到 1.50 这个量级。harness.py 在有世界被判终止时报 evaluation must disable task failure termination。"
+  },
+  {
+   "id": "q2_tally",
+   "evidence": [
+    "tally"
+   ],
+   "claim": "已落盘的 96 份评测全部成功出分，合计 393216 个世界，non_finite_worlds 非空的是 0 份；其中 46 份的 MP-SR 为 0，MPPE 最大的一份是 116.7 cm。"
+  },
+  {
+   "id": "q2_nan",
+   "evidence": [
+    "errors",
+    "nan_ep7",
+    "nan_ep1"
+   ],
+   "claim": "评测器报 must disable task failure termination 的两条 run 是 ep7 的冒烟和 ep1 的正式训练，这两条 run 的 policy checkpoint 都含非有限参数（NaN）。"
+  },
+  {
+   "id": "q3_runtime",
+   "evidence": [
+    "support"
+   ],
+   "claim": "在 8c778f9 里，支撑面文件没有 Cylinder 或 Cube 时 support.py 会报错；setup.py 只在 include_support 为真时才去取支撑面文件，为假时 support_usda 是 None；include_support 为真却找不到支撑面也报错。"
+  },
+  {
+   "id": "q3_ckptcfg",
+   "evidence": [
+    "support"
+   ],
+   "claim": "kit 的评测配置 flash_sac.yaml 里 use_checkpoint_config 是 true。"
+  },
+  {
+   "id": "q3_results",
+   "evidence": [
+    "tally"
+   ],
+   "claim": "只有地面（scene.support=false）的 16 条逐帧 run 里 9 条通过，MP-SR 最高的 5 个是 0.992、0.979、0.975、0.962、0.956；有支撑面的 11 条里 2 条通过。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "pin"
+   ],
+   "claim": "新 kit 的 README 里 Public runtime 一行指向 8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_pin",
+   "evidence": [
+    "pin"
+   ],
+   "claim": "新 kit 的 README 仍然把运行时钉在 aee95f25…，没有换。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_tally",
+   "evidence": [
+    "tally"
+   ],
+   "claim": "已落盘的评测里有 5 份的 non_finite_worlds 非空，另有 12 份评测失败。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_support",
+   "evidence": [
+    "support"
+   ],
+   "claim": "在 8c778f9 里，支撑面文件为空时 support.py 不报错，会自动按只有地面建场景。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_threshold",
+   "evidence": [
+    "term"
+   ],
+   "claim": "评测器把终止阈值设成 0，所以任何跟踪误差都会让世界被判终止。",
+   "control": "false"
+  }
+ ]
+}

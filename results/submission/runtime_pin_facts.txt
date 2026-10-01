@@ -1,0 +1,60 @@
+# command  : stages/evaluate/runtime_pin_facts.sh 
+# md5      : 234d3164daf9415b756c8bcb5d01e57f  stages/evaluate/runtime_pin_facts.sh
+# source   : 4d9e0459d6c6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T16:15:53-0600
+# ---------------------------------------------------------------
+== 1. 运行时
+kit third_party/v2d_submission_kit/update_a2de2aee：zip sha256 a2de2aeed5821c28…
+  README.md:34:    commit  aee95f25ae0943f335d8bb42fa95b6a9acfa266f
+  README.md:37:Public runtime: https://github.com/nvidia-isaac/video_to_data/tree/aee95f25ae0943f335d8bb42fa95b6a9acfa266f/robotic_grounding/flash_chord
+kit third_party/v2d_submission_kit/update_0f2f9f4b：zip sha256 0f2f9f4bb01082a4…
+  README.md:42:    commit  8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef
+  README.md:45:Public runtime: https://github.com/nvidia-isaac/video_to_data/tree/8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef/robotic_grounding/flash_chord
+新 kit 的 HTTP 头 last-modified: Thu, 01 Oct 2026 19:43:26 GMT
+上游 #188（e2df8819fa）提交说明里关于 kit 的几行：
+  2026-10-01T19:40:47Z Clarify challenge submission workflow and refresh participant kit (#188)
+  ## Submission kit fixes
+  
+  - Pin the FlashCHORD runtime to `8c778f9`, which includes Cube support
+  scaling.
+  - Convert Track 2 poses with the selected tier's input reference and
+  score against the clean reference.
+  - Support `--frame-references` for custom reconstructed inputs and
+  document it in the track guide and agent skill.
+  
+aee95f2 → 8c778f9 之间改动的文件（GitHub compare）：
+  added docs/v2d_challenge/assets/v2d_submission_kit.zip
+  modified docs/v2d_challenge/index.html
+  modified docs/v2d_challenge/leaderboard.js
+  modified docs/v2d_challenge/leaderboard.json
+  modified robotic_grounding/flash_chord/src/flash_chord/scene/support.py
+  modified robotic_grounding/flash_chord/tests/scene/test_support.py
+support.py @ aee95f2 md5 95e5e33f6f635310817130fe22477307
+support.py @ 8c778f9 md5 4d6eab112a442bb2b533dfb11bc7160c
+ml40 上的 #185 补丁副本：导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+== 2. 终止（8c778f9；harness.py 与 aee95f2 的 md5 相同）
+harness.py @ aee95f2 md5 229cba2a88b93115383a1ab89af46e0f
+harness.py @ 8c778f9 md5 229cba2a88b93115383a1ab89af46e0f
+  harness.py:65:_DISABLED_THRESHOLD = 1.0e6
+  harness.py:224:    Mutates only this in-memory copy. The tracking-failure terms are disabled so a failed world
+  harness.py:225:    keeps advancing instead of freezing at its failure frame; their limits are applied afterwards
+  harness.py:242:                termination[name] = _DISABLED_THRESHOLD
+  harness.py:580:    if completion.terminated.any():
+  harness.py:581:        raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+  termination.py:604:        pelvis_position_error > pelvis_position_threshold or pelvis_orientation_error > pelvis_orientation_threshold
+  termination.py:641:            max_palm_position_error > palm_position_threshold or max_palm_orientation_error > palm_orientation_threshold
+  termination.py:644:            max_object_position_error > object_position_threshold
+  termination.py:651:    terminated[world] = wp.max(pelvis_failed, wp.max(palm_failed, object_failed))
+  configs/termination/recon_body.yaml:2:pelvis_position_threshold: 0.70
+  configs/termination/recon_body.yaml:3:pelvis_orientation_threshold: 1.50
+  configs/termination/recon_body.yaml:4:palm_position_threshold: 0.15
+  configs/termination/recon_body.yaml:5:palm_orientation_threshold: 1.50
+  configs/termination/recon_body.yaml:6:object_position_threshold: 0.10
+  configs/termination/recon_body.yaml:7:object_orientation_threshold: 1.50
+== 3. 空支撑面（8c778f9）
+  support.py:94:        raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+  setup.py:61:    support_usda = support_usda_for_reference(reference) if include_support else None
+  setup.py:62:    if include_support and support_usda is None:
+  setup.py:64:            "scene support is enabled, but no support asset could be resolved from the reference metadata: "
+  kit configs/evaluation/flash_sac.yaml:4:use_checkpoint_config: true

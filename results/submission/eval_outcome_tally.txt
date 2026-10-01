@@ -1,0 +1,10 @@
+# command  : python3 stages/evaluate/eval_outcome_tally.py 
+# md5      : 28f8e2c42ceed74f8f1b7aeca5b962b4  stages/evaluate/eval_outcome_tally.py
+# source   : 4d9e0459d6c6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T16:15:47-0600
+# ---------------------------------------------------------------
+评测结果文件 96 个，其中成功出分的 96 份，合计 393216 个世界；non_finite_worlds 非空的 0 份
+成功出分的评测里 MP-SR 为 0 的 46 份；MPPE 最大的一份 116.7 cm（eval_t1-ep25-w2048-cap10m-ml40_s330012672.txt）
+只有地面（scene.support=false）：逐帧 run 16 条（16 条序列），通过 9 条；MP-SR 最高的 5 个 0.992, 0.979, 0.975, 0.962, 0.956
+有支撑面：逐帧 run 11 条（11 条序列），通过 2 条；MP-SR 最高的 5 个 0.562, 0.321, 0.016, 0.000, 0.000
