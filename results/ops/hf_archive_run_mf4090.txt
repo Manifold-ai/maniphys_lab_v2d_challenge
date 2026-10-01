@@ -1,0 +1,135 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ grep\ -v\ -E\ \'@\|hf_\[A-Za-z0-9\]\{20\}\'\ runs/logs/hf_archive_run.log\ \|\ grep\ -v\ -E\ \'\^\(Files\|Workers\|-\{5\,\}\|=\{5\,\}\)\|\^\ \*\$\' 
+# source   : 8968a027a53f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T09:53:14-0600
+# ---------------------------------------------------------------
+=== 2026-10-01 23:32:05 CST 开始；工具 md5 2d460944516af9cdc4e60f427b140160；清单 runs/hf_archive_manifest_mf4090.json（39 个文件）；可用 5297 MB
+2026-10-01 23:32:07 开始上传 39 个文件到私有仓库 Rongxuan-Zhou/v2d-track2-archive（6.24 GB）
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py:158: FutureWarning: 
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+Use `upload_folder` instead:
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-archive", repo_type="model", folder_path="runs/hf_stage")
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
+[K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             [K[F[K[F[K[F[K[F[K[F[K[F[K[F
+                             2026-10-01 23:49:42 上传结束，用时 17.6 分钟；HF_UPLOAD_DONE
+  ok  mf4090/runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/state_340013056.safetensors  本地 160121068 / cc2fc3ae2d5d…  仓库 160121068 / cc2fc3ae2d5d…
+  ok  mf4090/runs/flash_chord/resumetest-t1-ep20-cap1m-mf4090/state_10000384.safetensors  本地 160121044 / daf35355e271…  仓库 160121044 / daf35355e271…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep1-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121028 / f244856b96ab…  仓库 160121028 / f244856b96ab…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep11-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121052 / 771d11bf2481…  仓库 160121052 / 771d11bf2481…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep14-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121036 / bfa1e1931b14…  仓库 160121036 / bfa1e1931b14…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep16-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121060 / 21d02987e121…  仓库 160121060 / 21d02987e121…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep18-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121060 / 250ecb6b3f77…  仓库 160121060 / 250ecb6b3f77…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/state_4096000.safetensors  本地 160121132 / 9dfa5f775fda…  仓库 160121132 / 9dfa5f775fda…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121044 / b0ed63ce162d…  仓库 160121044 / b0ed63ce162d…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_30001152.safetensors  本地 160121140 / d8308b084ac6…  仓库 160121140 / d8308b084ac6…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_36001792.safetensors  本地 160121140 / 5f2c01783619…  仓库 160121140 / 5f2c01783619…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090/state_4096000.safetensors  本地 160121156 / ceeb3380131d…  仓库 160121156 / ceeb3380131d…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep21-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121044 / 7242d26b9dd4…  仓库 160121044 / 7242d26b9dd4…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep22-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121036 / 5c83d5dc1836…  仓库 160121036 / 5c83d5dc1836…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121052 / 8662367cff2d…  仓库 160121052 / 8662367cff2d…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep27-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121052 / 68b0867a2597…  仓库 160121052 / 68b0867a2597…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep28-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121060 / f479d2a04dc1…  仓库 160121060 / f479d2a04dc1…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep29-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121068 / ff1ab329f73a…  仓库 160121068 / ff1ab329f73a…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep3-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121060 / 6b33cf8b0faf…  仓库 160121060 / 6b33cf8b0faf…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep6-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121028 / b706024ff9a3…  仓库 160121028 / b706024ff9a3…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep8-w2048-cap4m-mf4090/state_4096000.safetensors  本地 160121044 / 240b3db3ecc1…  仓库 160121044 / 240b3db3ecc1…
+  ok  mf4090/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121004 / 5cc8799d776e…  仓库 160121004 / 5cc8799d776e…
+  ok  mf4090/runs/flash_chord/t1-ep11-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121028 / 3f39748d6d9d…  仓库 160121028 / 3f39748d6d9d…
+  ok  mf4090/runs/flash_chord/t1-ep14-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121012 / c5f71f18811e…  仓库 160121012 / c5f71f18811e…
+  ok  mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121036 / 9da3ff26f01b…  仓库 160121036 / 9da3ff26f01b…
+  ok  mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121036 / bbb0128efda0…  仓库 160121036 / bbb0128efda0…
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/state_340013056.safetensors  本地 160121020 / 575b5db1100a…  仓库 160121020 / 575b5db1100a…
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/state_340013056.safetensors  本地 160121108 / cc6fb549a938…  仓库 160121108 / cc6fb549a938…
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121020 / 1da7b9811a66…  仓库 160121020 / 1da7b9811a66…
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-mf4090/state_340013056.safetensors  本地 160121108 / a6d575a0971b…  仓库 160121108 / a6d575a0971b…
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/state_340013056.safetensors  本地 160121124 / 48b760dea5f8…  仓库 160121124 / 48b760dea5f8…
+  ok  mf4090/runs/flash_chord/t1-ep21-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121012 / dc99d2502c43…  仓库 160121012 / dc99d2502c43…
+  ok  mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121012 / a2bfae476fb4…  仓库 160121012 / a2bfae476fb4…
+  ok  mf4090/runs/flash_chord/t1-ep24-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121020 / 9cb354208a1d…  仓库 160121020 / 9cb354208a1d…
+  ok  mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121020 / f1c08909301e…  仓库 160121020 / f1c08909301e…
+  ok  mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121036 / 21d26c4aae12…  仓库 160121036 / 21d26c4aae12…
+  ok  mf4090/runs/flash_chord/t1-ep3-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121036 / 227fb80e4ff1…  仓库 160121036 / 227fb80e4ff1…
+  ok  mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160120996 / 0162e73e04b4…  仓库 160120996 / 0162e73e04b4…
+  ok  mf4090/runs/flash_chord/t1-ep8-w2048-cap4m-mf4090/state_340013056.safetensors  本地 160121012 / 9dd300dbd912…  仓库 160121012 / 9dd300dbd912…
+39 / 39 个文件核对一致；HF_VERIFY_OK
+  ok  mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors  下载后 sha256 9da3ff26f01bad05…，清单 9da3ff26f01bad05…
+  ok  mf4090/runs/flash_chord/smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors  下载后 sha256 8662367cff2ddf17…，清单 8662367cff2ddf17…
+  ok  mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors  下载后 sha256 a2bfae476fb4737e…，清单 a2bfae476fb4737e…
+抽查 3 个，3 个一致（随机种子 1790869784）；HF_SPOTCHECK_OK
+删 ctrl-snackbox-w2048-cap1m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/state_340013056.safetensors）
+删 resumetest-t1-ep20-cap1m-mf4090/state_10000384.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/resumetest-t1-ep20-cap1m-mf4090/state_10000384.safetensors）
+删 smoke-t1-ep1-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep1-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep1-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep11-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep11-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep11-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep14-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep14-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep14-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep16-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep16-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep16-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep18-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep18-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep18-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep20-w2048-cap1m-rt-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep20-w2048-cap1m-rt-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep20-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep20-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_30001152.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_30001152.safetensors）
+删 smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_36001792.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_36001792.safetensors）
+写 smoke-t1-ep20-w2048-cap4m-rt-mf4090/STATE_PRUNED（36001792 步）
+删 smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep21-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep21-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep21-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep22-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep22-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep22-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep24-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep27-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep27-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep27-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep28-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep28-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep28-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep29-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep29-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep29-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep3-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep3-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep3-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep6-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep6-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep6-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 smoke-t1-ep8-w2048-cap4m-mf4090/state_4096000.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/smoke-t1-ep8-w2048-cap4m-mf4090/state_4096000.safetensors）
+写 smoke-t1-ep8-w2048-cap4m-mf4090/STATE_PRUNED（4096000 步）
+删 t1-ep1-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep11-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep11-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep14-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep14-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep18-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep20-w2048-cap1m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/state_340013056.safetensors）
+删 t1-ep20-w2048-cap1m-rt-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/state_340013056.safetensors）
+删 t1-ep20-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep20-w2048-cap4m-rt-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-mf4090/state_340013056.safetensors）
+删 t1-ep20-w2048-cap4m-rt-s43-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/state_340013056.safetensors）
+删 t1-ep21-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep21-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep24-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep24-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep27-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep29-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep3-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep3-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep6-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-mf4090/state_340013056.safetensors）
+删 t1-ep8-w2048-cap4m-mf4090/state_340013056.safetensors（160 MB，在 Rongxuan-Zhou/v2d-track2-archive:mf4090/runs/flash_chord/t1-ep8-w2048-cap4m-mf4090/state_340013056.safetensors）
+释放 6.24 GB；HF_DELETE_DONE
+=== 2026-10-01 23:52:38 CST t2 目录：删除前 202 个文件、删除后 202 个；期间被训练剪掉的 state 0 个；其他消失的文件：无
+=== 2026-10-01 23:52:38 CST 删除后可用 11054 MB
+=== 2026-10-01 23:52:38 CST HF_ARCHIVE_DONE

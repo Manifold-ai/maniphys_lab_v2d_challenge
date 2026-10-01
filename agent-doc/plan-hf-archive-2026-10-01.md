@@ -45,10 +45,24 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。
 - MINOR 代理地址带用户名密码 → 日志落盘前过滤含 `@` 的行。
 测试：`tools/test_hf_archive.py`（挑文件规则、各道闸、先写记录再删、中途断了重跑），Mac 上全过。
 
-测速（10/1 09:27 CST 23:27）：1 个文件 160 MB 用时 0.7 分钟，约 4 MB/s；全量 6.24 GB 预计约 25 分钟。
+测速（10/1 09:27 UTC-6，服务器日志 23:27 CST）：1 个文件 160 MB 用时 0.7 分钟，约 4 MB/s；全量 6.24 GB 预计约 25 分钟。
 
 ## 风险
 
 - 代理带宽未知，先拿 1 个文件（160 MB）测速，再放全量。
 - 上传在训练进行时做，只占网络与少量 CPU，不碰 GPU。
 - token 在对话里出现过，用户可在归档后作废重建。
+
+## 执行记录（10/1 09:32–09:52 UTC-6）
+
+`tools/hf_archive_run.sh` 在 mf4090 上 setsid 后台跑（工具 md5 2d460944…，与仓库一致）；日志 `results/ops/hf_archive_run_mf4090.txt`
+（落盘前去掉了含 `@` 与 token 样式的行；文件里唯一含 `@` 的是第一行命令回显里的过滤条件），核对与抽查结果 `results/ops/hf_archive_results_mf4090.txt`。
+
+- 清单：用第 2 版工具重新生成，与第 1 版逐项相同（39 个文件、6.24 GB）。
+- 上传：17.6 分钟，私有仓库 `Rongxuan-Zhou/v2d-track2-archive`，路径 `mf4090/runs/flash_chord/<run>/<文件>`。
+- 核对：39 / 39 一致。抽查：3 / 3 一致（随机种子 1790869784；t1-ep16 与 smoke-t1-ep24 等）。
+- 删除：释放 6.24 GB；38 个 run 目录写了 ARCHIVED.json；18 个 Tier 1 冒烟写了 STATE_PRUNED（17 个 4,096,000 步，
+  smoke-t1-ep20-w2048-cap4m-rt-mf4090 是 36,001,792 步，它的冒烟本来就加长到跨过第一个 curriculum 阶段）；正式 run 各留最终 state。
+- t2 目录：删除前后都是 202 个文件，期间没有文件消失（判据满足）。
+- 磁盘：开始时可用 5297 MB，结束时 11054 MB。
+- 全部判据满足，HF_ARCHIVE_DONE。

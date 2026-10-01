@@ -1,0 +1,80 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo \'## Ê\212ΩÊ\237•\'; cat runs/hf_archive_mf4090.spotcheck.json; echo; echo \'## Ê†∏ÂØπÔº\21039 ‰∏™Ê\226\207‰ª∂Ôº\211\'; python3 -c "import json; v=json.load(open(\'runs/hf_archive_mf4090.verified.json\')); [print(r[\'path_in_repo\'], r[\'size\'], r[\'sha256\'], \'match\' if r[\'match\'] else \'MISMATCH\') for r in v]"; echo; echo \'## ARCHIVED.json ‰∏\216 STATE_PRUNED ‰∏™Ê\225∞\'; ls runs/flash_chord/*/ARCHIVED.json | wc -l; ls runs/flash_chord/*/STATE_PRUNED | wc -l; echo \'## Á£\201Á\233\230\'; df -Pk . | awk \'NR==2 {print int($4/1024), "MB free"}\'' 
+# source   : 8968a027a53f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T09:53:15-0600
+# ---------------------------------------------------------------
+## ÊäΩÊü•
+{
+ "seed": 1790869784,
+ "checked": [
+  {
+   "path_in_repo": "mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors",
+   "size": 160121036,
+   "sha256": "9da3ff26f01bad0590c0fc4621bcbf087453ba34bcfcef7966b33acf828a800e",
+   "expected": "9da3ff26f01bad0590c0fc4621bcbf087453ba34bcfcef7966b33acf828a800e",
+   "match": true
+  },
+  {
+   "path_in_repo": "mf4090/runs/flash_chord/smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors",
+   "size": 160121052,
+   "sha256": "8662367cff2ddf17cfef5cb8ce5b4244eb4f71e15d322046b4b6eec1f6983be2",
+   "expected": "8662367cff2ddf17cfef5cb8ce5b4244eb4f71e15d322046b4b6eec1f6983be2",
+   "match": true
+  },
+  {
+   "path_in_repo": "mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors",
+   "size": 160121012,
+   "sha256": "a2bfae476fb4737ec863e4ecf73e5f226587f05b76fcce3da46a42d08611ec49",
+   "expected": "a2bfae476fb4737ec863e4ecf73e5f226587f05b76fcce3da46a42d08611ec49",
+   "match": true
+  }
+ ],
+ "ok": true
+}
+
+## Ê†∏ÂØπÔºà39 ‰∏™Êñá‰ª∂Ôºâ
+mf4090/runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/state_340013056.safetensors 160121068 cc2fc3ae2d5d3ce698f5dfa9499ab28b30331bef3180902eae73852d6c92b25c match
+mf4090/runs/flash_chord/resumetest-t1-ep20-cap1m-mf4090/state_10000384.safetensors 160121044 daf35355e271672d40658706da02157c544c9c498b5c064899bed7eaf437c1c9 match
+mf4090/runs/flash_chord/smoke-t1-ep1-w2048-cap4m-mf4090/state_4096000.safetensors 160121028 f244856b96ab5cda96a68bd158767f03d431ab5fa02798a6366522dc0d48b306 match
+mf4090/runs/flash_chord/smoke-t1-ep11-w2048-cap4m-mf4090/state_4096000.safetensors 160121052 771d11bf2481f4fe97cfe54e2cd8766c3363bd30a5b03a3df36ff9ffd59b99ab match
+mf4090/runs/flash_chord/smoke-t1-ep14-w2048-cap4m-mf4090/state_4096000.safetensors 160121036 bfa1e1931b14b9d7f146b0a1a9ab7ec1604de697da24587253fd532e54265076 match
+mf4090/runs/flash_chord/smoke-t1-ep16-w2048-cap4m-mf4090/state_4096000.safetensors 160121060 21d02987e121c80d3dcbab9def3d3748b4722bea282884e916387af829a5a38b match
+mf4090/runs/flash_chord/smoke-t1-ep18-w2048-cap4m-mf4090/state_4096000.safetensors 160121060 250ecb6b3f7793d364334f78cfbbbf51e4448fbaf1e6a760e95bee92fac93ecd match
+mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap1m-rt-mf4090/state_4096000.safetensors 160121132 9dfa5f775fdae89bfc58ca09430191fb080ba132f4104ff9ec1fd431360faedb match
+mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-mf4090/state_4096000.safetensors 160121044 b0ed63ce162d9637ea1ddd397abab15152156ad6feb2a97785e9fb4e4c7f4a06 match
+mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_30001152.safetensors 160121140 d8308b084ac6116049427ad0156e518606153944e511e7eb880365621cc69a4b match
+mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-mf4090/state_36001792.safetensors 160121140 5f2c017836190fceebec731c8bb5e820e27edaf1a4f062a956fd98d4927bf28f match
+mf4090/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090/state_4096000.safetensors 160121156 ceeb3380131d3772c226c7aa86f75c810c77ff9a14c18c91ba95e4f06d07d968 match
+mf4090/runs/flash_chord/smoke-t1-ep21-w2048-cap4m-mf4090/state_4096000.safetensors 160121044 7242d26b9dd4bcf3ab262c0ad2e37e894729da6265e2527dcbd54e895f788d68 match
+mf4090/runs/flash_chord/smoke-t1-ep22-w2048-cap4m-mf4090/state_4096000.safetensors 160121036 5c83d5dc18360988f093b658681c527bbf5b9210f6c6ef5010039f92e6094f90 match
+mf4090/runs/flash_chord/smoke-t1-ep24-w2048-cap4m-mf4090/state_4096000.safetensors 160121052 8662367cff2ddf17cfef5cb8ce5b4244eb4f71e15d322046b4b6eec1f6983be2 match
+mf4090/runs/flash_chord/smoke-t1-ep27-w2048-cap4m-mf4090/state_4096000.safetensors 160121052 68b0867a259765dbba7987015a22530fa478fa62e7cbb26c4003fb52beb952c0 match
+mf4090/runs/flash_chord/smoke-t1-ep28-w2048-cap4m-mf4090/state_4096000.safetensors 160121060 f479d2a04dc1976dde52574077be4a5561554e716a370e91d1b072b117597cfc match
+mf4090/runs/flash_chord/smoke-t1-ep29-w2048-cap4m-mf4090/state_4096000.safetensors 160121068 ff1ab329f73ae3f9e3964514cea532ad7ff388da9adfb58f3805ac8c1f6e851a match
+mf4090/runs/flash_chord/smoke-t1-ep3-w2048-cap4m-mf4090/state_4096000.safetensors 160121060 6b33cf8b0faf97211238febe6043aa123fd010f0e4f2a0eb9abd6860798ecbc9 match
+mf4090/runs/flash_chord/smoke-t1-ep6-w2048-cap4m-mf4090/state_4096000.safetensors 160121028 b706024ff9a332517851bb8e4097ad4d0ee6f3a4d4ed18f7e8fc2b431aa6bafc match
+mf4090/runs/flash_chord/smoke-t1-ep8-w2048-cap4m-mf4090/state_4096000.safetensors 160121044 240b3db3ecc1df156329c80eb67ce9f13e232b135d8561cfb087deaa3780f663 match
+mf4090/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090/state_340013056.safetensors 160121004 5cc8799d776e539cb82389407e17a0fffaacd0c8c73c5b12ec27308db866d4ba match
+mf4090/runs/flash_chord/t1-ep11-w2048-cap4m-mf4090/state_340013056.safetensors 160121028 3f39748d6d9d36eaa51a93f3b67e5dfe2e47abefa94ba810d29625072cb6a3b2 match
+mf4090/runs/flash_chord/t1-ep14-w2048-cap4m-mf4090/state_340013056.safetensors 160121012 c5f71f18811e16799550bd831cec38022acbe1823d3ef5c9c7f66826958ff417 match
+mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors 160121036 9da3ff26f01bad0590c0fc4621bcbf087453ba34bcfcef7966b33acf828a800e match
+mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-mf4090/state_340013056.safetensors 160121036 bbb0128efda0e61c54f09736672d4a9d2cf8d53f37b44aa6f7fc2f285d3df4a5 match
+mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/state_340013056.safetensors 160121020 575b5db1100a0cd7ec4b66e8a4585587ddc92b190a7c4473669215c02a07f49d match
+mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/state_340013056.safetensors 160121108 cc6fb549a938b102852fc142fedc9490d52f5909a1bd9340b54de0dccb7e0514 match
+mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-mf4090/state_340013056.safetensors 160121020 1da7b9811a66a765aa592e13f8675e3d73081089d8e9b196fd88d96b275df7d5 match
+mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-mf4090/state_340013056.safetensors 160121108 a6d575a0971b9909b448020d800bcce028fbad88b19b514cc507e2692b1e3b94 match
+mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/state_340013056.safetensors 160121124 48b760dea5f86804350a1afa746e32f0def3e9fe6f5273064b360e73f332cc83 match
+mf4090/runs/flash_chord/t1-ep21-w2048-cap4m-mf4090/state_340013056.safetensors 160121012 dc99d2502c43e91b647a605f60c461f76d36172f2496f7ab8da248f119229586 match
+mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/state_340013056.safetensors 160121012 a2bfae476fb4737ec863e4ecf73e5f226587f05b76fcce3da46a42d08611ec49 match
+mf4090/runs/flash_chord/t1-ep24-w2048-cap4m-mf4090/state_340013056.safetensors 160121020 9cb354208a1d0949f5925012f6ea1bf926294abe79751409164cab8732fe8823 match
+mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-mf4090/state_340013056.safetensors 160121020 f1c08909301e74917e4cbf2c74e66ca1aa2387f5391f0ca3def036187a66de0e match
+mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-mf4090/state_340013056.safetensors 160121036 21d26c4aae1295c243f3411c583d1e00b1d902f1c772b17b562cf39fc7f14d90 match
+mf4090/runs/flash_chord/t1-ep3-w2048-cap4m-mf4090/state_340013056.safetensors 160121036 227fb80e4ff1588ffb274311d685b83b700c5df832e497ca559187e2d3df24ef match
+mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-mf4090/state_340013056.safetensors 160120996 0162e73e04b47d10a925e0724facd7c8e346914c7a158123ad76b3bbaba1d824 match
+mf4090/runs/flash_chord/t1-ep8-w2048-cap4m-mf4090/state_340013056.safetensors 160121012 9dd300dbd912d712117308be5397e4b5629bf8480e2c8e0eba59e402d9b40d91 match
+
+## ARCHIVED.json ‰∏é STATE_PRUNED ‰∏™Êï∞
+38
+23
+## Á£ÅÁõò
+11054 MB free
