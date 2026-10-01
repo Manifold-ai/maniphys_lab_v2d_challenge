@@ -1,0 +1,9 @@
+# command  : bash -c $'P="$(sed -n "s/^V2D_PROXY=//p" .env | tail -1 | tr -d "\\"\'")"; [ -n "$P" ] || { echo "Mac .env �\207\214没�\234\211 V2D_PROXY"; exit 1; }; for h in mf4090 ml40; do printf "%s �\217代�\220\206 �\206\222 huggingface.co/api/whoami-v2�\210�\215带 token�\214401 表示�\236�\227�\212�\211: " $h; ssh -o ConnectTimeout=15 $h "read -r P; https_proxy=\\"\\$P\\" curl -s -o /dev/null -w \\"%{http_code} %{time_total}s\\" --max-time 25 https://huggingface.co/api/whoami-v2" <<< "$P"; echo; done' 
+# md5      : 2e6ddb8a35a066544c949018fdc052b7  .env
+# md5      : 2e6ddb8a35a066544c949018fdc052b7  .env
+# source   : bf27cea97332
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T09:06:05-0600
+# ---------------------------------------------------------------
+mf4090 经代理 → huggingface.co/api/whoami-v2（不带 token，401 表示连得上）: 401 0.464521s
+ml40 经代理 → huggingface.co/api/whoami-v2（不带 token，401 表示连得上）: 401 0.522399s
