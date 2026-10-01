@@ -658,7 +658,7 @@ body.en .pb.l-en{display:grid}
       <tr><td class="n">9/30 11:08–14:35</td><td><a href="#diverge">发散排查（GPU，ml40）</a></td><td>ep7 冒烟配对种子 43–50（8 个）：v0.4.0 5/8 发散，换上 #185 0/8，单侧 Fisher p = 0.0128，14:35 按登记判据判定 H1′ 支持；H3 拒绝，H4 在 4 个种子时已拒绝（fp32 存储也 2/4）；L 组单种子旁证：ep1 在 v0.4.0 下 fp16、fp32 都发散，换上 #185 不发散</td></tr>
     </tbody>
   </table></div>
-  <p class="muted">第 1 批的判定见 <code>results/day2/batch_verdict_{ml40,mf4090}_batch1{a,b}.txt</code>；12:35 是 mf4090 B 段最后一项评测（ep29 最终 checkpoint）结果文件的修改时间；它抬头的 run_at 是开始时间 12:32（原为北京时间，已换算），见 <code>results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt</code>。发散排查从 08:57 计划登记（af261bf）、ep28 看守开始算，见 <code>agent-doc/experiments/2026-09-30-divergence.md</code>，最终判定 <code>results/diverge/diag_verdict_final.txt</code>（4 个种子时的中途判定 <code>results/diverge/diag_verdict_seeds43_46.txt</code> 留档），ep28 止损 <code>results/diverge/ep28_nan_watch_log.txt</code>。</p>
+  <p class="muted">第 1 批的判定见 <code>results/day2/batch_verdict_{ml40,mf4090}_batch1{a,b}.txt</code>；12:35 是 mf4090 B 段最后一项评测（ep29 最终 checkpoint）结果文件的修改时间；文件抬头的 run_at 是开始时间 12:32（原为北京时间，已换算），见 <code>results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt</code>。发散排查从 08:57 计划登记（af261bf）、ep28 看守开始算，见 <code>agent-doc/experiments/2026-09-30-divergence.md</code>，最终判定 <code>results/diverge/diag_verdict_final.txt</code>（4 个种子时的中途判定 <code>results/diverge/diag_verdict_seeds43_46.txt</code> 留档），ep28 止损 <code>results/diverge/ep28_nan_watch_log.txt</code>。</p>
   <div class="adm"><span class="t">怎么读这些分数</span><p>“不动基线”是物体一直停在第 0 帧参考位姿时的 ADD-AUC，随序列和回放方式变（ep20 是 0.471，snack 样例 0.566，Day 2 的 ep13 只有 0.165），及格线用各自的基线。分数只在同一序列、同一评测回放内可比。</p></div>
   <p class="muted">jev 核对：<code>results/site/jev_claims_sop_page.txt</code>，22 条全部核实，3 道对照题方向正确；ml40 冒烟链与 ep10 的 2 条另行补核（<code>…_ep10.txt</code>），也都核实。第一轮（<code>…_run1.txt</code>）有两条没过，处理见<a href="#snack">snack 满配对照</a>与<a href="#official">官方评测与提交</a>。9/29 这次更新的 12 条新论断另核一遍（<code>…_0929.txt</code>，规格 <code>agent-doc/experiments/2026-09-29-sop-page.claims.json</code>），全部核实（0.91–0.99）。第 2 轮有一道假对照题失灵：它考 900 与 901 这种相邻数字（0.33，门槛 0.3），而数值比较本来就不交给 jev；换成非数值的对照题后第 3 轮 3 道都正常，三轮的论断分数相差不超过 0.02（<code>…_0929_run1.txt</code>、<code>…_run2.txt</code>）。9/30 这次更新的新论断另核一遍（<code>results/site/jev_claims_sop_page_0930.txt</code>，规格 <code>agent-doc/experiments/2026-09-30-sop-page.claims.json</code>，第 5 轮，14:36）：21 条里 20 条核实（0.79–0.98），5 道对照题正常（真对照 0.98，假对照 0.01–0.02）；最终判定那条（8 个种子 R1 5/8、R3′ 0/8，p = 0.0128，H1′ 支持）0.98。“v0.4.0 几何下 ep7 iron_round_table_02 896 帧全埋、第 0 帧深约 49 cm”五轮是 0.62、0.39、0.65、0.62、0.54，未核实，页面上照写脚本输出并标未核实。前四轮留档（<code>…_0930_run1.txt</code>–<code>…_run4.txt</code>）：R2 观测块那条初稿写“位置块全 NaN”，不准（只取自参考的未来根位置块有限），改准后 0.78–0.84；ep1 节奏那条初稿漏了第一段含编译的 4:53，改准后 0.97。Day 2 的结果与 kit 的事实沿用各自的核对（<code>results/day2/jev_claims_results.txt</code>、<code>results/submission/jev_claims_kit.txt</code>）；第 1 批与发散排查同样沿用各自的核对（<code>results/day2/jev_claims_batch1a_ml40.txt</code>、<code>…_batch1a_mf4090.txt</code>、<code>…_batch1b_ml40.txt</code>、<code>results/batch1/jev_claims_failure_analysis.txt</code>、<code>results/diverge/jev_claims_divergence.txt</code>）。表里的数字不交给 jev，逐个对过判定脚本的输出。</p>
 </div>
@@ -704,7 +704,7 @@ body.en .pb.l-en{display:grid}
   <h1>任务一览</h1>
   <p class="lead">Track 2 的 30 条 episode，每条一张卡：英文任务名（数据集的序列名去掉日期前缀）、官方英文任务原文、两段视频。左边是 exo 相机里的人类示范，右边是重定向到 G1 之后的参考动作，也就是 policy 要去跟的东西。</p>
   <ul class="bl">
-    <li>人类示范取自数据集的 exo 相机视频（这一路视频三档逐字节相同），经重编码、2 倍速、640 宽；数据集许可 CC BY 4.0。</li>
+    <li>人类示范取自数据集的 exo 相机视频（这一路视频三档逐字节相同），经重编码，2 倍速、640 宽；数据集许可 CC BY 4.0。</li>
     <li>G1 参考用的是 FlashCHORD 回放脚本的运动学参考模式：每一帧直接把机器人和物体放到参考位姿，不跑物理，所以它说明的是“要做成什么样”，不代表 policy 的表现，也不说明这条参考在物理上做得到。支撑面只画了顶面（蓝色），桌子本身不在仿真场景里。ep1、ep7、ep28 的方盒支撑面按上游 #185 的几何画；v0.4.0 会把它们建成 1 m 立方体，见<a href="#diverge">发散排查</a>。</li>
     <li>卡片上的判定与 MP-SR、SP-SR 是 Tier 1、逐帧满配、最终 checkpoint、本地 4096 个世界的结果，判定标准见<a href="#batch1">第 1 批批量</a>，不是排行榜分数；来源 <code>results/batch1/error_table_with_mf4090_b.txt</code> 与 <code>results/day2/batch_verdict_*.txt</code>。</li>
     <li>素材清单 <code>results/site/media_manifest.txt</code>；生成脚本 <code>stages/evaluate/site_media_exo.sh</code>、<code>stages/policy/site_media_ref.sh</code>、<code>stages/policy/site_ref_replay.py</code>、<code>tools/site_task_gallery.py</code>，计划 <code>agent-doc/plan-site-media-2026-09-30.md</code>。视频进入视口时才加载。</li>
@@ -828,7 +828,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-snack" data-sec="exp" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>snack 满配对照</h1>
-  <p>目的是分清 Day 1 的失败出在配方与环境，还是出在 ep20 这条数据。官方 G1 配方，只给官方样例 parquet，1000 万 buffer、349,999,104 步、种子 42，在 ml40 上训练，4096 世界评测。判据事先登记：chord_sr &gt; 0、maniptrans_sr &gt; 0、ADD-AUC 高于这条序列的不动基线 0.5662；“&gt; 0”只靠 ≤ 3 个世界，或 ADD-AUC 落在门槛 ±0.01 内，另标“边缘”。</p>
+  <p>目的是分清 Day 1 的失败出在配方与环境，还是出在 ep20 这条数据。用官方 G1 配方，只给官方样例 parquet，1000 万 buffer、349,999,104 步、种子 42，在 ml40 上训练，4096 世界评测。判据事先登记：chord_sr &gt; 0、maniptrans_sr &gt; 0、ADD-AUC 高于这条序列的不动基线 0.5662；“&gt; 0”只靠 ≤ 3 个世界，或 ADD-AUC 落在门槛 ±0.01 内，另标“边缘”。</p>
   <h2>第 1 次尝试：中途退出，未判定 <span class="jv">jev 0.92</span></h2>
   <p>9/27 19:56 开始，20:01 写出第一个 checkpoint（10,000,384 步）。20:02 要把它上传成 W&amp;B artifact 时，客户端核验 API token 连不上服务器（<code>AuthenticationError</code>），异常没被接住，训练进程退出。按登记不续训。第 2 次从 0 重来，关掉 checkpoint 上传（<code>V2D_WANDB_UPLOAD_CKPT=0</code>，指标照常进 W&amp;B），判据不变。</p>
   <h2>第 2 次尝试：不通过（边缘） <span class="jv">jev 0.94</span></h2>
@@ -844,7 +844,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <ul class="bl">
     <li>按登记三项要全过，所以不通过；ADD-AUC 落在门槛 ±0.01 内，另标边缘。边缘不走 SOP 的因果分支，下一步按诊断证据定，或补一个种子。</li>
-    <li>官方配方在官方样例上任务原生成功 92%，物体位置误差比不动低约 56 cm，ADD-AUC 仍略低于不动。</li>
+    <li>官方配方在官方样例上任务原生成功率 92%，物体位置误差比不动低约 56 cm，ADD-AUC 仍略低于不动。</li>
   </ul>
   <div class="adm w"><span class="t">不下的结论</span><ul>
     <li>100 万与满配之差不能单归因于 buffer：两条还换了机器（4090 对 L40S），各只有一个种子（jev：“只差 buffer” 0.35、“归因于 buffer” 0.39，未核实）。</li>
@@ -903,7 +903,7 @@ body.en .pb.l-en{display:grid}
   </table></div>
   <ul class="bl">
     <li>Δ = −4.6°。登记的 E = 139.3°，被 100 万真实时长一臂的 checkpoint 波动（69.7°）撑大了，这是登记规则的缺陷；只用满配两臂算，E = 15°，判定不变 <span class="jv">jev 0.82</span>。</li>
-    <li>起转段新增的落后两种回放几乎相同（77.1° 对 77.6°），与时间无关，按登记转 T4 与 T1。</li>
+    <li>起转段新增的落后量在两种回放下几乎相同（77.1° 对 77.6°），与时间无关，按登记转 T4 与 T1。</li>
     <li>100 万真实时长一臂三个 checkpoint 都没有成功的世界，这个组合训不稳。</li>
   </ul>
   <h2>次要结果：真实时长那条过了 Day 1 判据 <span class="jv">jev 0.95</span></h2>
@@ -925,7 +925,7 @@ body.en .pb.l-en{display:grid}
   </ul>
   <details class="more"><summary>开跑前挡下的两次失败</summary><div>
     <ul class="bl">
-      <li>真实时长的第一次冒烟 13 秒就失败：G1 绑定参考时逐帧要求 palm 与关节 FK 相差 ≤ 1e-4 m / 1e-4 rad，不区分插值帧。实测重采样后 0.61 mm / 2.0e-3 rad，只把这两个校验容差放到 2 mm / 5e-3 rad。</li>
+      <li>真实时长的第一次冒烟 13 秒就失败：G1 绑定参考时逐帧要求 palm 与关节 FK 相差 ≤ 1e-4 m / 1e-4 rad，不区分插值帧。实测重采样后相差 0.61 mm / 2.0e-3 rad，只把这两个校验容差放到 2 mm / 5e-3 rad。</li>
       <li>诊断试跑的同卡闸没过（包装前后 ADD-AUC 差 0.0064 &gt; 0.005）：同一 policy 两次不包装的 256 世界评测也差 0.0057，是评测本身不逐位可复现；容差改为 0.005 × √(4096 / 世界数)，4096 世界时不变。</li>
     </ul>
   </div></details>
@@ -984,7 +984,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-official" data-sec="exp" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>官方评测与提交</h1>
-  <p class="lead">9/28 19:46（kit 压缩包在官网上的修改时间）官方发布 submission kit，定下了评测口径：每条 episode 用一个 checkpoint 跑 1 个世界、确定性动作，导出的轨迹按 30 fps 源帧逐帧计分，每次提交要有全部 30 条 episode。据此训练固定用逐帧回放（用户 9/28 23:05 选定）。9/30 重新下载的 kit 只改了打包器（Track 2 的位姿换算到发布的世界系），口径没变。截至 9/30 14:40，30 条里 27 条有评过的逐帧 policy；ep1、ep7、ep28 卡在官方运行时 aee95f2 的方盒支撑面问题上，要先问组委会。评测环境、选 checkpoint、出轨迹、打包都还没做。</p>
+  <p class="lead">9/28 19:46（kit 压缩包在官网上的修改时间）官方发布 submission kit，定下了评测口径：每条 episode 用一个 checkpoint、以确定性动作跑 1 个世界，导出的轨迹按 30 fps 源帧逐帧计分，每次提交要有全部 30 条 episode。据此训练固定用逐帧回放（用户 9/28 23:05 选定）。9/30 重新下载的 kit 只改了打包器（Track 2 的位姿换算到发布的世界系），口径没变。截至 9/30 14:40，30 条里 27 条有评过的逐帧 policy；ep1、ep7、ep28 卡在官方运行时 aee95f2 的方盒支撑面问题上，要先问组委会。建评测环境、选 checkpoint、出轨迹、打包都还没做。</p>
 
   <h2>kit 里写定的事 <span class="jv">jev 0.80–0.99</span></h2>
   <div class="tbl"><table>
@@ -1007,7 +1007,7 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">为什么训练固定用逐帧（推断，jev 0.16，未核实）</span><p>帧号就是步数、计分按源帧对齐，所以只有逐帧回放（一步走一个源帧）能和计分格子一一对上；真实时长训练的 policy 一次评测跑 921 步（ep20），前 553 步会被拿去对完整的 553 帧参考，时间轴错位。这一条是读代码推出的，jev 没能从原文直接支持，还没在新评测器上实测。登记的 Day 2 分支两条都不完全吻合，由用户决定按“固定逐帧”处理（见 <a href="#day2">Day 2</a>）。</p></div>
 
   <h2>9/30 的 kit 更新</h2>
-  <p>9/30 重新下载的 kit sha256 <code>a2de2aee…</code>（服务器 Last-Modified 9/29 00:52 UTC-6，即 06:52 GMT），手上旧的是 <code>8a169616…</code>。逐文件比较只有三个文件不同：<code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>（<code>results/submission/kit_update_diff.txt</code>）。顶层 <code>README.md</code> 没变，评测运行时仍指定 aee95f2。</p>
+  <p>9/30 重新下载的 kit sha256 是 <code>a2de2aee…</code>（服务器 Last-Modified 9/29 00:52 UTC-6，即 06:52 GMT），手上旧的是 <code>8a169616…</code>。逐文件比较只有三个文件不同：<code>KIT_MANIFEST.json</code>、<code>tools/pack_submission.py</code>、<code>tracks/track_2/README.md</code>（<code>results/submission/kit_update_diff.txt</code>）。顶层 <code>README.md</code> 没变，评测运行时仍指定 aee95f2。</p>
   <div class="adm"><span class="t">Track 2 README 第 2 步新加的两句（原文）</span><p>“If the evaluator uses a different world frame, the packer converts its poses to the released frame after verifying one rigid transform across the episode. For these single-object episodes, the evaluator may label the object <code>object</code>.”</p></div>
   <p>打包器源码里对应的改动（读新 kit 的 <code>tools/pack_submission.py</code>，行号按新版）：</p>
   <ul class="bl">
@@ -1028,8 +1028,8 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">要问组委会（计划附录 A.6，截至 9/30 14:40 还没发）</span><ul>
     <li>能否用 aee95f2 + #185（或 ≥ 8c778f9 的运行时）训练并导出轨迹。</li>
     <li>kit 指定的运行时版本会不会更新。</li>
-    <li>如果不能换，这三条 episode（在 aee95f2 下物体埋在 1 m 实心方块里）该怎么提交。</li>
-  </ul><p>如果只能用 aee95f2，这三条评测时物体就埋在 1 m 实心方块里；在这种几何上 ep7 的 13 条冒烟没有一条学起来，所以我们推测按 aee95f2 这三条交不出有意义的轨迹（推断，没在 aee95f2 上实测；执行记录 <code>agent-doc/experiments/2026-09-30-divergence.md</code> 最终判定一节）。</p><p>如果允许换，我们的理解是 30 条都要在同一个运行时上重新导出：打包器注释写明 “one submission is one evaluator build”（新 kit <code>tools/pack_submission.py:365–366</code>，旧版 288–289 行）。#185 只改了 <code>support.py</code> 和它的测试（9/30 查的上游提交文件列表，没有落盘），被哈希的文件不变，所以我们理解打包器查不出混用，这一条靠我们自己守。ep1、ep7、ep28 怎么训等回复再定（执行记录更正一节）。</p></div>
+    <li>如果不能换，这三条 episode（在 aee95f2 下物体埋在 1 m 实心立方体里）该怎么提交。</li>
+  </ul><p>如果只能用 aee95f2，这三条评测时物体就埋在 1 m 实心立方体里；在这种几何上 ep7 的 13 条冒烟没有一条学起来，所以我们推测按 aee95f2 这三条交不出有意义的轨迹（推断，没在 aee95f2 上实测；执行记录 <code>agent-doc/experiments/2026-09-30-divergence.md</code> 最终判定一节）。</p><p>如果允许换，我们的理解是 30 条都要在同一个运行时上重新导出：打包器注释写明 “one submission is one evaluator build”（新 kit <code>tools/pack_submission.py:365–366</code>，旧版 288–289 行）。#185 只改了 <code>support.py</code> 和它的测试（9/30 查的上游提交文件列表，没有落盘），被哈希的文件不变，所以我们理解打包器查不出混用，这一条靠我们自己守。ep1、ep7、ep28 怎么训等回复再定（执行记录更正一节）。</p></div>
 
   <h2>提交流程</h2>
   <ol class="steps">
@@ -1069,7 +1069,7 @@ body.en .pb.l-en{display:grid}
     <li>“两种训练换一种回放都崩了”（jev 0.32）：逐帧训练那条的 MP-SR 在匹配回放下本来就只有 0.0005，改为上面按指标逐项的说法。</li>
     <li>9/29 版“还缺什么”把 ep7 的评测器报错单列一项，写成训好的 policy 在 1 个世界里也可能发散：9/30 查到 ep1、ep7、ep28 的方盒支撑面在 v0.4.0 与 aee95f2 里都被建成 1 m 立方体，这一项并进上面的“方盒支撑面问题”。9/30 14:35 按登记判据判定 1 m 立方体是 ep7 冒烟发散的触发（H1′ 支持，单侧 Fisher p = 0.0128，<code>results/diverge/diag_verdict_final.txt</code>），ep1 只有单种子旁证。</li>
   </ul></div>
-  <p class="muted">给组委会的邮件与 Discord 草稿（<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>）最后改于 9/28 22:53（57bca31），早于“固定逐帧”的决定，也没有附录 A.6 的三问，发之前要重写：真实时长能否计分已不急，方盒支撑面的三问要加进去，评测器遇到发散世界直接报错、提交用的 commit URL 要不要公开、能否重复评测仍要问。参赛说明会 10/7 12:00（UTC-6；官方写的是太平洋时间 11:00）。</p>
+  <p class="muted">给组委会的邮件与 Discord 草稿（<code>agent-doc/organizer-{email,discord}-draft-2026-09-28.md</code>）最后改于 9/28 22:53（57bca31），早于“固定逐帧”的决定，也没有附录 A.6 的三问，发之前要重写：真实时长能否计分已不急，方盒支撑面的三问要加进去，评测器遇到发散世界直接报错怎么办、提交用的 commit URL 要不要公开、能否重复评测仍要问。参赛说明会 10/7 12:00（UTC-6；官方写的是太平洋时间 11:00）。</p>
 </div>
 <div class="pb l-en" lang="en">
   <h1>Official evaluation and submission</h1>
@@ -1275,7 +1275,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>B · mf4090</td><td class="n">9/29 23:54 – 9/30 00:22</td><td class="n">9/30 00:22 – 11:30 前后</td><td class="n">11:30–12:35 前后</td><td>15 项全部成功；ep28 在 09:30 被 NaN 看守停训，不评</td></tr>
     </tbody>
   </table></div>
-  <p class="muted">训练起止取自节奏文件 <code>results/ml40/batch1/pace_ml40_a_2044.txt</code>、<code>results/batch1/pace_mf4090_a_2044.txt</code>、<code>results/ml40/batch1/pace_ml40_b.txt</code>、<code>results/batch1/pace_mf4090_b.txt</code>（B 段两份是 9/30 07:34 的快照，最后一条的结束以评测链第一项的开始为准）。评测起止取自每项评测结果头的 <code>run_at</code>（<code>results/ml40/day2/eval_t1-*</code>、<code>results/day2/eval_t1-*</code>，服务器北京时间减 14 小时），最后一项的结束按同一条前两项的间隔推算（ml40 两段与 mf4090 A 段与执行记录一致，mf4090 B 段的结束执行记录里没有）；mf4090 A 段 22:44 训完取自执行记录，评测链按计划等训练链结束才开始；ep1 的 3 项报错、没有结果文件，第一份结果（ep6）的 run_at 是 22:54。ep28 的停训见 <code>results/diverge/ep28_nan_watch_log.txt</code>。</p>
+  <p class="muted">训练起止取自节奏文件 <code>results/ml40/batch1/pace_ml40_a_2044.txt</code>、<code>results/batch1/pace_mf4090_a_2044.txt</code>、<code>results/ml40/batch1/pace_ml40_b.txt</code>、<code>results/batch1/pace_mf4090_b.txt</code>（B 段两份是 9/30 07:34 的快照，最后一条的结束以评测链第一项的开始为准）。评测起止取自每项评测结果头的 <code>run_at</code>（<code>results/ml40/day2/eval_t1-*</code>、<code>results/day2/eval_t1-*</code>，服务器北京时间减 14 小时），最后一项的结束按同一条前两项的间隔推算（ml40 两段和 mf4090 A 段与执行记录一致，mf4090 B 段的结束没有写进执行记录）；mf4090 A 段 22:44 训完取自执行记录，评测链按计划等训练链结束才开始；ep1 的 3 项报错、没有结果文件，第一份结果（ep6）的 run_at 是 22:54。ep28 的停训见 <code>results/diverge/ep28_nan_watch_log.txt</code>。</p>
 
   <h2>结果（最终 checkpoint，匹配回放，4096 世界）</h2>
   <div class="tbl"><table>
@@ -1316,25 +1316,25 @@ body.en .pb.l-en{display:grid}
     <div class="fig"><span class="v">6</span><span class="l">MP-SR 在 0 与 0.5 之间：ep0 0.438、ep27 0.321、ep29 0.174、ep18 0.152、ep20 0.016、ep5 0.001</span></div>
     <div class="fig"><span class="v z">14</span><span class="l">MP-SR 恰好为 0</span></div>
   </div>
-  <p>SP-SR ≥ 0.7 的有 15 条。按秩相关（Spearman，n = 27）看各项序列特征对 MP-SR：路程 −0.69、总转角 −0.65、运动占比 −0.50、单段最大转角 −0.03、物体半径 +0.28。难的序列是“一共要走多远、转多少”大的那些，跟某一下转得多猛关系不大（我们的理解）。</p>
+  <p>SP-SR ≥ 0.7 的有 15 条。按秩相关（Spearman，n = 27）看各项序列特征与 MP-SR 的关系：路程 −0.69、总转角 −0.65、运动占比 −0.50、单段最大转角 −0.03、物体半径 +0.28。难的序列是“一共要走多远、转多少”大的那些，跟某一下转得多猛关系不大（我们的理解）。</p>
 
   <h2>失败原因（事后分析，推断为主）</h2>
   <p>门槛出自评测器源码（<code>results/batch1/metric_threshold_facts.txt</code>）：一个世界先对帧取平均误差，MP 要位置 &lt; 3 cm 且朝向 &lt; 30°，SP 要位置 ≤ 10 cm 且朝向 ≤ 0.5 rad（28.6°）。下面的“平均位置 / 平均朝向”是再对 4096 个世界取平均，看典型世界卡在哪一项。</p>
   <ul class="bl">
     <li>ml40 B 段的四条不通过分三种（<code>agent-doc/experiments/2026-09-30-batch1b-failure-analysis.md</code>）。VOC 是给物体的虚拟辅助力，课程里从 1 分段降到 0，评测时没有。
       <ul>
-        <li>朝向跟不住：ep15、ep17 物体一直在手里（chord 0.982、0.831），但 VOC 撤掉的过程中训练时的物体朝向误差一路涨，ep15 从 0.11 到 0.53–0.55 rad，ep17 从 0.11 到 0.61–0.64 rad；最终平均朝向 30.4°、42.0°。</li>
+        <li>朝向跟不住：ep15、ep17 物体一直在手里（chord 0.982、0.831），但在 VOC 撤掉的过程中，训练时的物体朝向误差一路涨，ep15 从 0.11 到 0.53–0.55 rad，ep17 从 0.11 到 0.61–0.64 rad；最终平均朝向 30.4°、42.0°。</li>
         <li>有辅助也学不会：ep19 在 VOC 全开的第 0 段参考进度只有 0.32，最好到 0.61，撤掉后回到 0.54。</li>
         <li>辅助一撤就掉：ep25 的参考进度从第 1 段的 0.70 降到第 8 段的 0.22，物体终止比例从 25% 升到 78%；最终平均位置 114.0 cm，推测是掉了。</li>
       </ul></li>
     <li>mf4090 B 段的 ep16（spray bottle，半径 0.16 m，路程 5.27 m，参考里只有左手接触，184 / 0 帧）：训练的 W&amp;B 摘要没有 NaN，但最终平均回合长度 118.7、回报 15.25，同段另外四条是 374–552 与 68–133（<code>results/diverge/train_summary_table_mf4090_b.txt</code>）。评测 chord 0、SP-SR 只有 1 个世界，平均位置 63.7 cm、平均朝向 85.4°，ADD-AUC 0.255 低于不动基线 0.266。推测训练阶段就没学起来，原因未查。</li>
-    <li>ep29、ep18 卡在 3 cm 的位置线：平均位置 3.5 cm、4.1 cm，平均朝向 5.8°、11.1°，都在 SP 门槛以内（SP-SR 0.989、0.966），MP-SR 只有 0.174、0.152。误差表把 ep22（3.7 cm）、ep6（3.3 cm）也标为卡在位置。ep29 的参考里双手都没有接触帧（0 / 0），序列名是用左脚推 rolling luggage。</li>
+    <li>ep29、ep18 卡在 3 cm 的位置线：平均位置 3.5 cm、4.1 cm，平均朝向 5.8°、11.1°，都在 SP 门槛以内（SP-SR 0.989、0.966），MP-SR 只有 0.174、0.152。误差表把 ep22（3.7 cm）、ep6（3.3 cm）也标为卡在位置。ep29 的参考里双手都没有接触帧（0 / 0），序列名的意思是用左脚推 rolling luggage。</li>
     <li>分析文档按 22 条归纳：MP-SR ≥ 0.95 的 4 条（ep12、ep8、ep23、ep26）都是在地面上推或转的大件，解读里的共同点是用双手。新加的 ep24（watering can）MP-SR 0.962，参考里只有右手接触（0 / 519 帧），半径 0.19 m 落在文档里“小件”的 0.13–0.29 m 范围内，这条归纳要改。</li>
   </ul>
   <p class="muted">分析文档列的改法（VOC 衰减更慢、加大朝向奖励、训练更长）都没试过，偏离官方配方，要另写计划登记；这些 Tier 1 结果也不能拿去调 Tier 2 / Tier 3 的方法。</p>
 
   <div class="adm"><span class="t">每条的用时差别很大</span><p>ep1 第一个 1000 万步 4 分 53 秒（含编译），之后到 4000 万步每 1000 万步 3 分 17 秒到 3 分 20 秒，到 5000 万步那一段 6 分 22 秒，之后 7 分 17 秒到 7 分 25 秒直到训完；同一台上的 ep6、ep8 是 3 分 38 秒左右（<code>results/batch1/pace_mf4090_a_2044.txt</code>）。变慢的起点与 NaN 重合：第一份含 NaN 的 checkpoint 是 50,001,920 步（<code>results/diverge/ckpt_nonfinite_ep1.txt</code>），本地 W&amp;B 历史里 NaN 首次出现在 42,444,800 步（<code>results/diverge/wandb_local_history.txt</code>），都落在第一段变慢的区间里。ml40 上的截断复现同样如此：L0（ep1、v0.4.0 导入器）第一份 NaN 在 30,001,152 步，每 1000 万步（不含第一段的编译，L1 同）从 3 分 18 秒变成 6 分 33 秒，之后 7 分 23 秒到 7 分 27 秒；L1（同样设置、换成 #185 的导入器）6 份 checkpoint 全部有限，一直是 3 分 9 秒到 3 分 10 秒（<code>results/diverge/pace_trunc60m_ml40.txt</code>、<code>ckpt_nonfinite_L0_ml40.txt</code>、<code>ckpt_nonfinite_L1_ml40.txt</code>）。这里只记重合，因果没查；之前写的“课程第一阶段之后接触计算变重”这条推测撤回。ml40 上 ep0 多用了约 20 分钟：9/29 10:32–11:46 同卡开着 3 个 viser 查看器、录了 3 条 rerun，这段每 1000 万步从 3 分 42 秒变成 5 分（<code>results/ml40/batch1/pace_ml40_a.txt</code>）。</p></div>
-  <p class="muted">节奏由 <code>stages/policy/run_pace.sh</code> 按 checkpoint 落盘时间算出，训练期间也能在 Mac 上跑（脚本经 stdin 传到训练机，不需要同步仓库）。</p>
+  <p class="muted">节奏由 <code>stages/policy/run_pace.sh</code> 按 checkpoint 落盘时间算出，这个脚本训练期间也能在 Mac 上跑（经 stdin 传到训练机，不需要同步仓库）。</p>
 
   <p>两条的参考动作对比（G1 运动学回放，2 倍速）：通过的 ep12 <code>black_platform_turn_05</code> 是在地面上转一个大件；彻底失败的 ep25 <code>cyan_water_bottle_rotate_01</code> 是手里连续转一个小瓶子。</p>
   <div class="vids"><figure class="vid"><video data-src="media/ref_ep12.mp4" poster="media/ref_ep12.jpg" muted loop playsinline controls preload="none" width="480" height="360"></video><figcaption>ep12 <code>black_platform_turn_05</code>，MP-SR 0.992，通过</figcaption></figure><figure class="vid"><video data-src="media/ref_ep25.mp4" poster="media/ref_ep25.jpg" muted loop playsinline controls preload="none" width="480" height="360"></video><figcaption>ep25 <code>cyan_water_bottle_rotate_01</code>，MP-SR 0，不通过</figcaption></figure></div>
@@ -1448,7 +1448,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <div class="kicker">截至 2026-09-30 14:40（UTC-6）· 最终判定</div>
   <h1>ep1、ep7、ep28 发散排查</h1>
-  <p class="lead">第 1 批里用方盒支撑面的三条 Tier 1 序列都训出了 NaN：ep1、ep28 在正式训练的 4000–5000 万步之间，ep7 在冒烟的约 241 万步，三条的批量判定都是无效。已经核实的是场景建错了：FlashCHORD v0.4.0 把这三条的方盒支撑面建成边长 1 m 的实心立方体。按这个几何用脚本重算，参考物体从第 0 帧起就埋在里面（脚本输出，jev 未核实，见文末）。上游 #185 已修，kit 指定的评测运行时 aee95f2 没有这个修复。ml40 上的 GPU 对照 14:35 全部跑完，按登记判据的最终判定：“1 m 立方体是发散的触发”（H1′）得到支持，ep7 冒烟的 8 个配对种子里 v0.4.0 发散 5 条、#185 发散 0 条，单侧 Fisher p = 0.0128；H3（随机数值不稳）和 H4（fp16 存储是必要条件）被拒绝；ep1 的截断复现里，fp32 存储的 L3 也发散了。结论的范围：H1′ 是在 ep7 冒烟（400 万步、L40S）上检验的，ep1 只有单种子旁证、方向相同，ep28 登记为只描述。</p>
+  <p class="lead">第 1 批里用方盒支撑面的三条 Tier 1 序列都训出了 NaN：ep1、ep28 在正式训练的 4000–5000 万步之间，ep7 在冒烟的约 241 万步，三条的批量判定都是无效。已经核实的是场景建错了：FlashCHORD v0.4.0 把这三条的方盒支撑面建成边长 1 m 的实心立方体。按这个几何用脚本重算，参考物体从第 0 帧起就埋在里面（脚本输出，jev 未核实，见文末）。上游 #185 已修，kit 指定的评测运行时 aee95f2 没有这个修复。ml40 上的 GPU 对照 14:35 全部跑完。按登记判据的最终判定：“1 m 立方体是发散的触发”（H1′）得到支持，ep7 冒烟的 8 个配对种子里 v0.4.0 发散 5 条、#185 发散 0 条，单侧 Fisher p = 0.0128；H3（随机数值不稳）和 H4（fp16 存储是必要条件）被拒绝；ep1 的截断复现里，fp32 存储的 L3 也发散了。结论的范围：H1′ 是在 ep7 冒烟（400 万步、L40S）上检验的，ep1 只有单种子旁证、方向相同，ep28 登记为只描述。</p>
   <p>计划 <code>agent-doc/plan-ep1-ep7-divergence-2026-09-30.md</code>（CPU 部分第 2 版 af261bf；附录 A 的 GPU 对照第 3 版 10:35 独立审查 NO GO，第 4 版复审 GO WITH FIXES，按意见改成第 5 版后 11:07 登记于 1867ffd）；执行记录 <code>agent-doc/experiments/2026-09-30-divergence.md</code>；结果在 <code>results/diverge/</code> 与 <code>results/ml40/diverge/</code>。本页把三种说法分开写：“判定”是登记判据经 <code>stages/policy/diag_verdict.py</code> 给出的；“描述”是看到结果后的读数，不计入判据；推断都标成推断或未核实。</p>
 
   <h2>经过</h2>
@@ -1482,7 +1482,7 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">ep1 变慢与出 NaN 在时间上重合，原先的推测撤回</span><p>ep1 在 mf4090 上前 4000 万步每 1000 万步 3:17–3:20（第一段 4:53 含编译），到 50,001,920 步那一段 6:22，之后 7:17–7:25（<code>results/batch1/pace_mf4090_a.txt</code>）。ml40 上截断复现的 L0 也一样：3:18 之后，到第一份 NaN（30,001,152 步）那一段 6:33，之后 7:23–7:27；同一序列换 #185 导入的 L1 一直是 3:09–3:10（<code>results/diverge/pace_trunc60m_ml40.txt</code>）。目前只能说变慢与出 NaN 重合，原因没查。9/29 页面上“课程第一阶段之后接触计算变重”的推测撤回。</p></div>
 
   <h2>导入器把方盒建成 1 m 立方体（已核实）</h2>
-  <p>v0.4.0 的 <code>scene/support.py</code> 对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>：85–86 行只取一个边长，114–116 行按这个边长建正方体（<code>results/diverge/support_py_versions.txt</code>）。三条序列的 USDA 都用 <code>scale</code> 标尺寸，用部署的导入器（md5 95e5e33f…）实际建一次，方盒的半尺寸全是 (0.5, 0.5, 0.5)，同一次检查里的圆柱对照正常（<code>results/ml40/diverge/support_import_v040.txt</code>）。</p>
+  <p>v0.4.0 的 <code>scene/support.py</code> 对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>：85–86 行只取一个边长，114–116 行按这个边长建正方体（<code>results/diverge/support_py_versions.txt</code>）。三条序列的 USDA 都用 <code>scale</code> 标尺寸。用部署的导入器（md5 95e5e33f…）实际建一次，方盒的半尺寸全是 (0.5, 0.5, 0.5)，同一次检查里的圆柱对照正常（<code>results/ml40/diverge/support_import_v040.txt</code>）。</p>
   <div class="tbl"><table>
     <thead><tr><th>序列</th><th>标注尺寸</th><th>v0.4.0 建成</th><th>#185 建成（半尺寸，m）</th><th>v0.4.0 几何下物体嵌入 &gt; 5 mm 的帧</th><th>第 0 帧有符号距离</th></tr></thead>
     <tbody>
@@ -1510,7 +1510,7 @@ body.en .pb.l-en{display:grid}
     <li>G1 配方把回放缓冲里的观测存成 float16（<code>g1_recon_body_flash_sac.yaml:76</code>，训练默认 float32），计算用混合精度、<code>compute_dtype: float16</code>。</li>
   </ul>
   <p>塌掉后的 5892 个 NaN 全在 <code>state.0021</code>–<code>state.0030</code>（成对的 256、1024 与 486 维统计量）。486 维的输入归一化统计量逐块看：位置、速度、位置差与目标历史整块 NaN（手在物体系、目标在物体系两块只有位置部分 NaN）；所有 6D 朝向块、只取自参考的未来根位置与参考相位都有限（<code>results/diverge/obs_block_nan_map.txt</code>）。</p>
-  <div class="adm"><span class="t">这部分能说明什么（推断）</span><p>代码解释了“一个批次出事，整条 run 就停下”：统计量变 NaN 以后所有前向输出都是 NaN，参数跳步护不住统计量。它没说明最先是什么出事。上午的推断是 fp16 存储把过大的位置、速度存成 inf；GPU 对照里 fp32 存储的 R2 照样发散，H4 被拒绝，R2 两条发散 run 的 NaN 下标与 ep1（fp16）逐位相同（<code>results/diverge/obs_block_nan_map_R2_s4{3,4}.txt</code>），按 A.3 归入“溢出发生在存储之外”一支，只描述。</p></div>
+  <div class="adm"><span class="t">这部分能说明什么（推断）</span><p>代码解释了“一个批次出事，整条 run 就停下”：统计量变 NaN 以后所有前向输出都是 NaN，参数跳步护不住统计量。它没说明最先是什么出事。上午的推断是 fp16 存储把过大的位置、速度存成 inf；GPU 对照里 fp32 存储的 R2 照样发散，H4 被拒绝。R2 两条发散 run 的 NaN 下标与 ep1（fp16）逐位相同（<code>results/diverge/obs_block_nan_map_R2_s4{3,4}.txt</code>），按 A.3 归入“溢出发生在存储之外”一支，只描述。</p></div>
 
   <h2>GPU 对照（ml40 L40S，9/30 11:08 起）</h2>
   <p>按附录 A 第 5 版。每组只和它的对照差一个因素：R3′ 对 R1 只差导入器，R2 对 R1 只差观测存储精度，L1 对 L0 只差导入器，L3 对 L0 只差存储精度；配置逐键核对，意外差异 0（<code>results/ml40/diverge/cfgcheck_diag_ml40_*.txt</code>）。</p>
@@ -1583,7 +1583,7 @@ body.en .pb.l-en{display:grid}
   <div class="adm w"><span class="t">要问组委会（计划附录 A.6；执行记录里还没有发出的记录）</span><ul>
     <li>能否用 aee95f2 + #185（或 ≥ 8c778f9 的运行时）训练与导出轨迹；</li>
     <li>kit 指定的版本会不会更新；</li>
-    <li>若不能，这三条 episode（在 aee95f2 下物体埋在 1 m 实心方块里）该怎么提交。</li>
+    <li>若不能，这三条 episode（在 aee95f2 下物体埋在 1 m 实心立方体里）该怎么提交。</li>
   </ul></div>
 
   <h2>接下来</h2>
@@ -1807,7 +1807,7 @@ body.en .pb.l-en{display:grid}
     <li><b>Tier 2 降噪</b>：<code>export_tier2.py v5.4</code>，进程一启动就禁止读取 Tier 1，每条序列产出一个位姿文件。</li>
     <li><b>重定向与对齐检查</b>：<code>batch.sh</code> 在一次性容器里跑官方 <code>soma_to_g1</code>，再查物体与地面、桌面的间隙。</li>
     <li><b>训练</b>：<code>fc_train.sh</code>，FlashCHORD G1 FlashSAC，全程 3.5 亿环境步；replay buffer 容量默认 1000 万，要 48 GB 显存。</li>
-    <li><b>评测</b>：<code>evaluate_policy.py</code> 输出 ADD-AUC、MPPE 与成功率。评测 JSON 里的成功率字段是 <code>spider_sr_uncentered</code>、<code>maniptrans_sr</code>、<code>chord_sr</code>，是 4096 个世界里的比例；kit 的计分用 <code>spider_sr</code>、<code>maniptrans_sr</code>，是 episode 的比例（SP-SR、MP-SR）。我们的评测对照策略自己的参考轨迹：Tier 1 的物体参考就是干净轨迹，Tier 2 的是降噪后的。</li>
+    <li><b>评测</b>：<code>evaluate_policy.py</code> 输出 ADD-AUC、MPPE 与成功率。评测 JSON 里的成功率字段 <code>spider_sr_uncentered</code>、<code>maniptrans_sr</code>、<code>chord_sr</code> 是 4096 个世界里的比例；kit 计分用的 <code>spider_sr</code>、<code>maniptrans_sr</code> 是 episode 的比例（SP-SR、MP-SR）。我们的评测以策略自己的参考轨迹为对照：Tier 1 的物体参考就是干净轨迹，Tier 2 的是降噪后的。</li>
     <li><b>提交</b>：kit 的 <code>examples/run_policy_evaluation.py</code>（aee95f2 运行时、1 个世界）出轨迹，<code>tools/pack_submission.py</code> 打包，<code>submit/v2d_submit.py</code> 传到 Kaggle 上这一档的四个比赛。每周 5 次，最后三天不限。见<a href="#official">官方评测与提交</a>。</li>
   </ol>
 </div>
@@ -1888,7 +1888,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>mf4090（实验室共用，9/28 起只有 rxzhou 在用；1× RTX 4090 24 GB，22 核）</td><td>数据转换、降噪、重定向；Isaac Lab。FlashCHORD 放不下 1000 万 buffer；Day 1 的 100 万那条明显更差（两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。400 万 buffer 跑逐帧满配可用（ep27 过线，ep20 与 ml40 满配相近），跑真实时长不可用（Day 2 Q3）；整卡读数 23.8 GB，至今没有 OOM。第 1 批分担一半 Tier 1：没发散的 6 条一条 1 h 57 min 到 2 h 14 min；ep1 从出 NaN 的那一段起变慢，用了 4 h 02 min（<code>results/batch1/pace_mf4090_{a_2044,b}.txt</code>）</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>ml40（实验室共用，9/28 起只有 rxzhou 在用；1× L40S 48 GB，空闲 45,458 MiB，28 核，111 GiB 内存）</td><td>FlashCHORD 满配训练与评测；满配一条 2 h 03 min 到 2 h 31 min（第 1 批 8 条，随序列变，ep0 那条开着查看器；<code>results/ml40/batch1/pace_ml40_{a_2044,b}.txt</code>），峰值显存 40,273 MiB（Day 1）</td><td><span class="pill ok">可用</span></td></tr>
       <tr><td>镜像 <code>robotic-grounding</code></td><td>Isaac Lab 2.3.2 + 官方 toolkit：重定向与 Isaac Lab 训练（只在 mf4090）</td><td><span class="pill ok">可用</span></td></tr>
-      <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有。ml40 上的已随存储迁到 <code>/lab_data</code>，迁移后 64 世界复核评测与迁移前 ADD-AUC 差 0.00015。FlashCHORD 源码默认从仓库的 <code>third_party/video_to_data</code>（v0.4.0）挂进容器；9/30 起 ml40 上另有一份打了上游 #185 补丁的源码副本，队列行写 <code>V2D_FC_SRC=&lt;副本&gt;</code> 时换挂它，只用于发散排查（见<a href="#sop-batch">批量训练</a>）</td><td><span class="pill ok">可用</span></td></tr>
+      <tr><td>镜像 <code>flash_chord</code>（22 GB）</td><td>FlashCHORD：FlashSAC 训练与评测；两台都有。ml40 上的已随存储迁到 <code>/lab_data</code>，迁移后用 64 世界复核评测，ADD-AUC 与迁移前差 0.00015。FlashCHORD 源码默认从仓库的 <code>third_party/video_to_data</code>（v0.4.0）挂进容器；9/30 起 ml40 上另有一份打了上游 #185 补丁的源码副本，队列行写 <code>V2D_FC_SRC=&lt;副本&gt;</code> 时换挂它，只用于发散排查（见<a href="#sop-batch">批量训练</a>）</td><td><span class="pill ok">可用</span></td></tr>
     </tbody>
   </table></div>
   <p class="muted">容器一律一次性启动、整仓挂 <code>/repo</code>，换机器要用相同布局，原因见 <a href="#adr3">ADR-00003</a>。</p>
@@ -1989,7 +1989,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <h1>ADR-00001 训练栈用 FlashCHORD</h1>
   <div class="adr-meta"><span>Status: Proposed</span><span>Date: 2026-09-25，2026-09-26 更新数字</span><span><code>docs/adr/00001-training-stack.md</code></span></div>
-  <p>决定因素是时间：最坏情况 90 个策略，Isaac Lab 每个 18.6 小时装不进 5 周。代价是依赖 48 GB 卡，以及官方评测栈与播放速度未知。Isaac Lab 保留作备选。</p>
+  <p>决定因素是时间：最坏情况下有 90 个策略，Isaac Lab 每个要 18.6 小时，装不进 5 周。代价是依赖 48 GB 卡，以及官方评测栈与播放速度未知。Isaac Lab 保留作备选。</p>
   <div class="tbl"><table>
     <thead><tr><th></th><th>FlashCHORD FlashSAC</th><th>Isaac Lab ReconBody</th></tr></thead>
     <tbody>
@@ -2001,7 +2001,7 @@ body.en .pb.l-en{display:grid}
       <tr><td>默认播放速度</td><td>逐帧，30 fps 参考按 1.67 倍速播放</td><td>按 fps 重采样</td></tr>
     </tbody>
   </table></div>
-  <div class="adm w"><span class="t">未证实</span><p>表里的时长来自 4090、replay buffer 缩到 100 万。满配 1000 万在 L40S 上按账算放得下，但没跑过，时长和显存余量都以 ml40 冒烟实测为准。播放速度是否与官方评测一致也未知，第一个全程训练的策略出来后，同一条序列在两种速度下各训一次对照。</p>
+  <div class="adm w"><span class="t">未证实</span><p>表里的时长来自 4090，且 replay buffer 缩到 100 万。满配 1000 万在 L40S 上按账算放得下，但没跑过，时长和显存余量都以 ml40 冒烟实测为准。播放速度是否与官方评测一致也未知，第一个全程训练的策略出来后，同一条序列在两种速度下各训一次对照。</p>
     <p><b>9/28 进展</b>（ADR 正文未改）：满配在 ml40 上实测 2 h 10 min，显存峰值 40,273 MiB。两种速度的对照已做，转动落后量没有差别，但真实时长那条按自己的参考过了 Day 1 判据；官方评测口径仍未知。见<a href="#playback">回放速度对照</a>。</p>
     <p><b>9/29 进展</b>（ADR 正文待改）：官方 kit 的评测就是 FlashCHORD（要上游 aee95f2 的运行时），按源帧逐帧计分，训练固定用逐帧回放；正文里“官方评测栈与播放速度未知”这项代价已不成立。见<a href="#official">官方评测与提交</a>。</p></div>
 </div>
@@ -2121,7 +2121,7 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <h1>L40S 训练 SOP</h1>
   <p class="lead">目标：在 ml40 上跑通 FlashCHORD 满配训练，先确认单个策略的实际时长和成功率，再批量训练 Tier 1 与 Tier 2 各 30 条。</p>
-  <div class="adm"><span class="t">第 1 批已结束</span><p>Tier 1 第 1 批 21 条 9/29 09:29 开跑，最后一份判定 9/30 12:59 落盘：通过 9、不通过 9、无效 3（ep1、ep7、ep28，都是方盒支撑面的序列）。“通过”指批量判定脚本（<code>stages/evaluate/batch_verdict.py</code>）按 Day 1 判据给的结论，不是排行榜成功率。见<a href="#batch1">第 1 批批量</a>与<a href="#diverge">发散排查</a>。补跑这三条与 Tier 2 的批量计划都还没写。</p></div>
+  <div class="adm"><span class="t">第 1 批已结束</span><p>Tier 1 第 1 批 21 条于 9/29 09:29 开跑，最后一份判定于 9/30 12:59 落盘：通过 9、不通过 9、无效 3（ep1、ep7、ep28，都是方盒支撑面的序列）。“通过”指批量判定脚本（<code>stages/evaluate/batch_verdict.py</code>）按 Day 1 判据给的结论，不是排行榜成功率。见<a href="#batch1">第 1 批批量</a>与<a href="#diverge">发散排查</a>。补跑这三条与 Tier 2 的批量计划都还没写。</p></div>
   <div class="stepper">
     <a href="#sop-pre"><span class="sn">1 · 9/26–9/27</span><span class="st">前置条件</span><span><span class="pill ok">完成</span></span><span class="sd">镜像先建在系统盘；存储迁移 9/27 完成</span></a>
     <a href="#sop-deploy"><span class="sn">2 · 9/27</span><span class="st">部署</span><span><span class="pill ok">完成</span></span><span class="sd">镜像验收、同步、W&amp;B、续训实测</span></a>
@@ -2134,7 +2134,7 @@ body.en .pb.l-en{display:grid}
     <li><a href="#sop-monitor"><span class="jt">监控与停止</span><span class="jd">看哪些信号，出现了怎么处理；链在跑时怎么查；发散看守</span><span class="jk">12 条规则</span></a></li>
     <li><a href="#sop-risk"><span class="jt">已知风险</span><span class="jd">方盒建成 1 m 立方体、一处出事整条训练死掉、摘要看不出卡住，以及之前记下的 11 条</span><span class="jk">14 条</span></a></li>
   </ul>
-  <p class="muted">排期：没发散的满配正式训练，ml40 8 条 2 h 03 min 到 2 h 31 min（ep0 那条开着查看器）、mf4090 6 条 1 h 57 min 到 2 h 14 min，随序列变（秒数舍去；<code>results/ml40/batch1/pace_ml40_{a_2044,b}.txt</code>、<code>results/batch1/pace_mf4090_{a_2044,b}.txt</code>）。ep1 用了 4 h 02 min：从出 NaN 的那一段起变慢（那一段 6 分 22 秒，之后每 1000 万步 7 分 17 秒到 7 分 25 秒），不算在上面的区间里。</p>
+  <p class="muted">排期：没发散的满配正式训练，ml40 的 8 条用时 2 h 03 min 到 2 h 31 min（ep0 那条开着查看器）、mf4090 的 6 条用时 1 h 57 min 到 2 h 14 min，随序列变（秒数舍去；<code>results/ml40/batch1/pace_ml40_{a_2044,b}.txt</code>、<code>results/batch1/pace_mf4090_{a_2044,b}.txt</code>）。ep1 用了 4 h 02 min：从出 NaN 的那一段起变慢（那一段 6 分 22 秒，之后每 1000 万步 7 分 17 秒到 7 分 25 秒），不算在上面的区间里。</p>
 </div>
 <div class="pb l-en" lang="en">
   <h1>L40S training SOP</h1>
@@ -2163,7 +2163,7 @@ body.en .pb.l-en{display:grid}
   <div class="tbl"><table>
     <thead><tr><th>项</th><th>状态</th><th>说明</th><th>谁</th></tr></thead>
     <tbody>
-      <tr><td>docker 存储迁移</td><td><span class="pill ok">完成</span></td><td>9/27 15:48：docker 与 containerd 迁到 <code>/lab_data</code>，镜像与 ID 不变，停机约 15 秒（<code>deploy/ml40/migrate_docker_storage.sh</code>）。第一次尝试因验收检查只认双引号、而 containerd 2.x 写单引号，自动回滚；修好后重跑。系统盘上的旧数据 9/27 已用 <code>--cleanup</code> 删除（删前检查全过），系统盘 85% → 25%</td><td>rxzhou</td></tr>
+      <tr><td>docker 存储迁移</td><td><span class="pill ok">完成</span></td><td>9/27 15:48：docker 与 containerd 迁到 <code>/lab_data</code>，镜像与 ID 不变，停机约 15 秒（<code>deploy/ml40/migrate_docker_storage.sh</code>）。第一次尝试时，验收检查只认双引号，而 containerd 2.x 写单引号，因此自动回滚；修好后重跑。系统盘上的旧数据 9/27 已用 <code>--cleanup</code> 删除（删前检查全过），系统盘 85% → 25%</td><td>rxzhou</td></tr>
       <tr><td><code>/lab_data/rxzhou</code> 可写目录</td><td><span class="pill ok">完成</span></td><td>rxzhou:mfshared、2775；仓库副本已搬到 <code>/lab_data/rxzhou/v2d/</code>（校验和零差异，包装测试 62/62），旧副本 9/27 已删（删前逐文件比对，没有独有文件）</td><td>rxzhou</td></tr>
       <tr><td>L40S 使用时段</td><td><span class="pill o">不再需要</span></td><td>满配训练整卡峰值 40,273 MiB（实测），别人中途占卡会挤掉 Warp 的显存。9/28 起两台卡只有 rxzhou 在用，训练链开跑与每条 run 前仍查卡上有没有别的进程，有就停</td><td>rxzhou</td></tr>
     </tbody>
@@ -2297,7 +2297,7 @@ body.en .pb.l-en{display:grid}
     <li>评测 JSON 的 <code>chord_sr</code> 按任务原生门槛（pelvis、palm、object）算，失败原因看 <code>reference_tracking.failure_cause_fraction</code>；<code>termination_cause_fraction</code> 是旧口径，别混读。</li>
     <li>记录：<code>agent-doc/experiments/2026-09-28-day1.md</code>。表里每个数都由 <code>scripts/experiments/2026-09-28-day1.sh</code> 重新生成到 <code>results/day1/</code>，判定由 <code>stages/evaluate/verdict.py</code> 计算，结论经 jev 核对（13 条中 10 条 ≥ 0.7，其余标为未核实）。</li>
   </ul>
-  <div class="adm"><span class="t">Day 1 之后</span><p>ep20 与 snack_box 都通过：开始批量。snack_box 通过、ep20 不通过：问题在我们的数据，逐项排查参考轨迹。两者都不通过：先查配方与环境，不开批量。<b>现状</b>：ep20（1.67 倍速）未通过，满配 snack_box 也不通过（边缘），按这条规则不开批量。之后按诊断证据走：Day 1b 逐帧诊断 → 回放速度对照 → Day 2，见<a href="#exp">训练实验</a>。Day 2 之后 rxzhou 选了批量与 T1 / T4 诊断并行，第 1 批 9/29 09:29 开跑、9/30 12:35 评完，见<a href="#batch1">第 1 批批量</a>。</p></div>
+  <div class="adm"><span class="t">Day 1 之后</span><p>ep20 与 snack_box 都通过：开始批量。snack_box 通过、ep20 不通过：问题在我们的数据，逐项排查参考轨迹。两者都不通过：先查配方与环境，不开批量。<b>现状</b>：ep20（1.67 倍速）未通过，满配 snack_box 也不通过（边缘），按这条规则不开批量。之后按诊断证据走：Day 1b 逐帧诊断 → 回放速度对照 → Day 2，见<a href="#exp">训练实验</a>。Day 2 之后 rxzhou 选了批量与 T1 / T4 诊断并行，第 1 批于 9/29 09:29 开跑、9/30 12:35 评完，见<a href="#batch1">第 1 批批量</a>。</p></div>
   <details class="more"><summary>冒烟命令（在 ml40 仓目录下执行）</summary><div>
 <pre class="code">P='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet'
 timeout 1800 nvidia-smi --query-gpu=timestamp,memory.used,utilization.gpu \
@@ -2398,7 +2398,7 @@ tmux new-session -d -s v2d-diag -c "$PWD" \
   'echo "diag $(cat .v2d-source-commit) $(date)" &gt; runs/.chain-active-diag
    stages/policy/fc_queue.sh stages/policy/queues/diag_ml40_trunc60m.txt &gt;&gt; runs/logs/diag_ml40_trunc60m.log 2&gt;&amp;1
    rm -f runs/.chain-active-diag'</pre>
-    <p class="muted">队列中途停下（某行失败或被 <code>fc_stop</code>）时日志里有“队列在 &lt;run&gt; 停下（rc=…）”；重跑同一条 <code>fc_queue.sh</code> 命令即从断点继续，有 DONE 的行跳过。</p>
+    <p class="muted">队列中途停下（某行失败或被 <code>fc_stop</code> 停掉）时日志里有“队列在 &lt;run&gt; 停下（rc=…）”；重跑同一条 <code>fc_queue.sh</code> 命令即从断点继续，有 DONE 的行跳过。</p>
   </div></details>
 
   <h2>等上一条链结束再跑：queue_after.sh</h2>
@@ -2598,7 +2598,7 @@ V2D_ENV=ml40 stages/policy/run_pace.sh runs/logs/diag_ml40_trunc60m.log diag-t1-
   </div></details>
 
   <h2>发散看守（ckpt_nonfinite.py --watch）</h2>
-  <p>每 <code>--interval</code> 秒（默认 120）看一次新写完的 policy checkpoint；按步数连续 <code>--stop-after</code> 份（默认 2）完整 checkpoint 都含非有限参数，就调 <code>stages/policy/fc_stop.sh &lt;run&gt;</code> 并退出。run 目录已有 DONE 或 STOP 时只报告、不止损；到 <code>--timeout</code> 秒（默认 14400）也退出。每轮另数一次本地 <code>.wandb</code> 里的 NaN 字样，变了就报，只报警。唯一的写操作是 <code>fc_stop.sh</code>。日志末行是 <code>NAN_WATCH_STOPPED</code>、<code>NAN_WATCH_DONE</code>、<code>NAN_WATCH_TRUNCATED</code> 或 <code>NAN_WATCH_TIMEOUT</code>。</p>
+  <p>每 <code>--interval</code> 秒（默认 120）看一次新写完的 policy checkpoint；按步数连续 <code>--stop-after</code> 份（默认 2）完整 checkpoint 都含非有限参数，就调 <code>stages/policy/fc_stop.sh &lt;run&gt;</code> 并退出。run 目录已有 DONE 或 STOP 时只报告、不止损；到 <code>--timeout</code> 秒（默认 14400）也退出。每轮另数一次本地 <code>.wandb</code> 里的 NaN 字样，变了只报警。唯一的写操作是 <code>fc_stop.sh</code>。日志末行是 <code>NAN_WATCH_STOPPED</code>、<code>NAN_WATCH_DONE</code>、<code>NAN_WATCH_TRUNCATED</code> 或 <code>NAN_WATCH_TIMEOUT</code>。</p>
   <p>9/30 在 mf4090 上看守 ep28：09:23 扫到 50,001,920 步那份有 5892 个非有限参数，09:29:54 扫到 60,002,304 步那份同样，调 <code>fc_stop</code>，09:30:54 退出码 0；训练链记 ep28 失败，接着训 ep29（<code>results/diverge/ep28_nan_watch_log.txt</code>、<code>ep28_chain_and_record.txt</code>）<span class="jv">jev 0.98</span>。<code>--stop-at-step N</code> 是写出 N 步及以后的 checkpoint 就停的截断办法；从附录 A 第 4 版起截断改为按配置做（见<a href="#sop-batch">批量训练</a>），这个选项没再用。</p>
   <details class="more"><summary>命令（看守参数照 ep28 那次；先 Mac，再 mf4090）</summary><div>
 <pre class="code"># Mac，仓库根：复制到 mf4090 的 runs/tools/（不经同步），记下 md5
@@ -2715,13 +2715,13 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
   <p>前三条是 9/30 新增的，来自 ep1、ep7、ep28 的发散排查（<a href="#diverge">发散排查</a>；计划 <code>agent-doc/plan-ep1-ep7-divergence-2026-09-30.md</code>，执行记录 <code>agent-doc/experiments/2026-09-30-divergence.md</code>）。jev 分数取自 <code>results/site/jev_claims_sop_page_0930.txt</code>（第 5 轮，14:36）。</p>
 
   <div class="adm w"><span class="t">1. v0.4.0 把方盒支撑面建成 1 m 立方体</span>
-    <p>FlashCHORD v0.4.0 的 <code>scene/support.py:85–86、114–116</code> 对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>。Tier 1 里支撑面是 Cube 的只有 ep1（vacuum）、ep7（iron）、ep28（squeegee）三条（<code>results/diverge/support_shapes.txt</code>），仿真里全被建成半尺寸 (0.5, 0.5, 0.5) 的实心立方体（<code>results/ml40/diverge/support_import_v040.txt</code>）<span class="jv">jev 0.97</span>。按这个几何，参考物体从第 0 帧起就埋在方块里：ep1 519 / 747 帧、ep28 两块各 608、651 帧嵌入超过 5 mm；ep7 896 / 896 帧，第 0 帧深约 49 cm（<code>results/diverge/support_penetration_as_v040.txt</code>；ep7 这句 jev 第 5 轮 0.54，五轮都低于 0.7，未核实）。第 1 批这三条都无效。</p>
+    <p>FlashCHORD v0.4.0 的 <code>scene/support.py:85–86、114–116</code> 对 USD Cube 只读 <code>size</code>、不读 <code>xformOp:scale</code>。Tier 1 里支撑面是 Cube 的只有 ep1（vacuum）、ep7（iron）、ep28（squeegee）三条（<code>results/diverge/support_shapes.txt</code>），仿真里全被建成半尺寸 (0.5, 0.5, 0.5) 的实心立方体（<code>results/ml40/diverge/support_import_v040.txt</code>）<span class="jv">jev 0.97</span>。按这个几何，参考物体从第 0 帧起就埋在立方体里：ep1 519 / 747 帧、ep28 两块各 608、651 帧嵌入超过 5 mm；ep7 896 / 896 帧，第 0 帧深约 49 cm（<code>results/diverge/support_penetration_as_v040.txt</code>；ep7 这句 jev 第 5 轮 0.54，五轮都低于 0.7，未核实）。第 1 批这三条都无效。</p>
     <p>官方 kit 指定的评测运行时 aee95f2 的 <code>support.py</code> 与 v0.4.0 相同（md5 95e5e33f…，<code>results/diverge/support_py_versions.txt</code>）<span class="jv">jev 0.96</span>。上游 8c778f905c（#185，9/29 12:11 UTC-6）已修；我们的补丁副本把 ep7 桌面建成 (0.42, 0.141, 0.005)（<code>results/ml40/diverge/support_import_p185.txt</code>），目前只用于诊断。</p>
     <p>按计划附录 A.3 登记的判据，H1′（v0.4.0 的 1 m 立方体是发散的触发）的最终判定是支持（9/30 14:35，<code>results/diverge/diag_verdict_final.txt</code>）：ep7 冒烟 R1（v0.4.0）5 / 8 发散，R3′（#185）0 / 8，配对种子 43–50，单侧 Fisher p = 0.0128 <span class="jv">jev 0.98</span>。范围只到 ep7 冒烟（400 万步、L40S）；ep1 只有截断复现的单种子旁证（L0 用 v0.4.0 发散、L1 用 #185 不发散，同向），ep28 登记为只描述。fp16 存储和 BN 统计量在其中各占多少，这个判定说明不了（见第 2 条）。</p>
     <p>怎么办：能不能用 aee95f2 + #185 训练与导出要问组委会（计划附录 A.6，还没发）。按计划的理解，若允许，30 条都要在同一个运行时上重新导出（附录 A.6 引 <code>pack_submission.py:286–300</code>，是旧 kit 8a169616 的行号，读代码的结论，没另外落盘）。Tier 2 排队前，用 <code>support_import_check.py</code> 查一遍要训序列的支撑面（Tier 2 还没查）。</p></div>
 
   <div class="adm w"><span class="t">2. 一处出事，整条训练死掉；fp32 存储也挡不住</span>
-    <p>读 v0.4.0 代码（<code>results/diverge/code_facts.txt</code>，执行记录 C4）：BatchNorm 的滑动统计按 0.01 的速率更新，不过滤非有限值；梯度非有限时 <code>_apply_adam_if_finite</code> 只跳过参数与 Adam 动量，统计量照写；loss scale 遇到非有限梯度就减半；G1 配方把观测存成 float16。按这几处代码推断（未在 GPU 上单独验证）：一个批次里出现非有限输入，统计量就一直是 NaN，之后的前向输出全是 NaN，loss_scale 掉到 0。观察到的是：发散的 run（ep1、ep7 冒烟、ep28、诊断里的 R0、R1、R2、L0、L3）最后一份 checkpoint 都是 5892 / 1,207,577 个 NaN（<code>results/diverge/ckpt_nonfinite_*.txt</code>，ep28 见 <code>ep28_nan_watch_log.txt</code>）；有 W&amp;B 摘要的几条 loss_scale 都是 0（ep28 被停掉，没有摘要；<code>results/diverge/train_summary_table_*.txt</code>）。</p>
+    <p>读 v0.4.0 代码（<code>results/diverge/code_facts.txt</code>，执行记录 C4）：BatchNorm 的滑动统计按 0.01 的速率更新，不过滤非有限值；梯度非有限时 <code>_apply_adam_if_finite</code> 只跳过参数与 Adam 动量，统计量照写；loss scale 遇到非有限梯度就减半；G1 配方把观测存成 float16。按这几处代码推断（未在 GPU 上单独验证）：一个批次里出现非有限输入，统计量就一直是 NaN，之后的前向输出全是 NaN，loss_scale 掉到 0。观察到的是：发散的 run（ep1、ep7 冒烟、ep28、诊断里的 R0、R1、R2、L0、L3）最后一份 checkpoint 都有 5892 / 1,207,577 个 NaN（<code>results/diverge/ckpt_nonfinite_*.txt</code>，ep28 见 <code>ep28_nan_watch_log.txt</code>）；有 W&amp;B 摘要的几条 loss_scale 都是 0（ep28 被停掉，没有摘要；<code>results/diverge/train_summary_table_*.txt</code>）。</p>
     <p>登记的 H4（fp16 存储是必要条件）按 4 个种子已被拒绝：fp32 存储的 R2 同样 2 / 4 发散（<code>results/diverge/diag_verdict_seeds43_46.txt</code>）<span class="jv">jev 0.97</span>；最终判定照旧，⑥（R2 补种子）没跑（<code>results/diverge/diag_verdict_final.txt</code>）。截断复现 L3（ep1、v0.4.0、fp32 存储，L40S、单种子）从第一份 checkpoint（10,000,384 步）起就是 5892 个 NaN（<code>results/diverge/ckpt_nonfinite_L3_ml40.txt</code>）<span class="jv">jev 0.96</span>，与 H4 被拒绝同向。R2 发散后，486 维输入归一化统计量里腕、物体、关节的位置，腕与关节的速度，未来关节与手掌的位置差，目标历史整块 NaN（手在物体系、目标在物体系两块只有位置部分 NaN）；6D 朝向块、只取自参考的未来根位置和参考相位仍有限，与 ep1（fp16）逐位相同（<code>results/diverge/obs_block_nan_map{,_R2_s43,_R2_s44}.txt</code>）<span class="jv">jev 0.79</span>。</p>
     <p>怎么办：训练时自己看守，出 NaN 的 run 不用等跑完（<a href="#sop-monitor">监控与停止</a>）。对策（统计量加非有限过滤、改存储或计算精度）会偏离配方，要另写计划登记，还没做。</p></div>
 
@@ -2737,7 +2737,7 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
       <tr><td>共享卡</td><td>JAX 的显存上限按整卡算，别人中途占卡，先被挤掉的是 Warp 那部分，可能跑了几小时才 OOM。9/28 起两台卡只有 rxzhou 在用；训练链开跑与每条 run 前查卡，有别人的进程就停。</td></tr>
       <tr><td>回放速度</td><td>kit 按源帧逐帧计分，训练固定用逐帧（见<a href="#official">官方评测与提交</a>）。“真实时长训练的 policy 会被错位计分”是读代码推出的（jev 0.16，<code>results/submission/jev_claims_kit.txt</code>，未核实），没在新评测器上实测；接上 aee95f2 后用 ep20 验一次。</td></tr>
       <tr><td>陷桌面</td><td>Tier 2 的 iron、rice cooker 陷进桌面约 2 cm，观察这两条的终止原因是否集中在物体。</td></tr>
-      <tr><td>官方 1 个世界评测</td><td>我们一直按 4096 世界的均值判，官方每条只评 1 个世界、确定性动作，单个世界的结果可能和均值差很多。接上 aee95f2 后先在已评过的 policy 上对比。</td></tr>
+      <tr><td>官方 1 个世界评测</td><td>我们一直按 4096 世界的均值判，官方每条只评 1 个世界、用确定性动作，单个世界的结果可能和均值差很多。接上 aee95f2 后先在已评过的 policy 上对比。</td></tr>
       <tr><td>评测器遇到被判终止的世界直接报错</td><td>ep7 冒烟（256 个世界里 172 个发散）与 ep1 正式训练的评测都这样报错，两条都在 v0.4.0 的 1 m 立方体几何上（<code>agent-doc/experiments/2026-09-29-batch1.md</code>）。第 1 批除这两条和停训未评的 ep28 外，其余 18 条都有完整评测（四份 <code>results/day2/batch_verdict_*_batch1{a,b}.txt</code>）。官方每条只评 1 个世界，policy 在那个世界里若被判终止，这条交不出轨迹，而每次提交要有全部 30 条。</td></tr>
       <tr><td>mf4090 磁盘</td><td>9/29 傍晚剩 13 GB；<code>fc_run.sh</code> 只留最近 2 份 state，一条满配约 0.5 GB、冒烟约 0.16 GB。回传前先清理不再需要的冒烟产物。9/30 没有重新查。</td></tr>
       <tr><td>100 万 buffer</td><td>Day 1 里那条从课程第 0 阶段起就明显更差（chord_sr 0.017 vs 0.79，单种子；两条同时换了 GPU 与机器，差别不能单独归因于 buffer）。4090 放不下默认的 1000 万；400 万跑逐帧可用（ep27 过线），跑真实时长不可用（Day 2 Q3）。</td></tr>

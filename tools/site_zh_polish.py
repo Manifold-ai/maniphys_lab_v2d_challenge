@@ -15,6 +15,10 @@
   jevspec --report <json> --ids <json> --out <前缀>
                                   给选中的改动生成两份 tools/jev_claims.py 规格：<前缀>_fwd.json（原句支持新句？查新增与强化）、
                                   <前缀>_rev.json（新句支持原句？查丢失与弱化），各带真假对照。
+  decide --dir <目录> --groups G1,G2,... --select-out <json>
+                                  按登记判据汇总每条改动：读 <目录>/report_<组>_v4.json（工具结论）、verdict_<组>.json（复核）、
+                                  jevout_<组>_{fwd,rev}.txt（tools/jev_claims.py 的输出）。三项都过才入稿；某一遍 jev 对照失灵，
+                                  那一遍里的改动全部丢掉。打印逐条结论表，把入稿的 id 写到 --select-out。
   check <html> [--base <git 版本>] 与 git 版本（默认 HEAD）比：中文块以外逐字节相同；每块受保护记号序列不变；锁定元素与
                                   带 jev 分数的句子逐字不变。全过打印 ZH_POLISH_OK。
 
@@ -162,22 +166,37 @@ def region_of(regions: list, s: int, e: int):
     return None
 
 
+def paren_depth(src: str, rs: int, k: int) -> int:
+    seg = src[rs:k]
+    return seg.count("（") + seg.count("(") - seg.count("）") - seg.count(")")
+
+
 def sentence_bounds(src: str, s: int, e: int, rs: int, re_: int) -> tuple:
-    """把 [s, e) 扩到所在整句：向前到上一个句末标点或块级标签，向后到下一个句末标点或块级标签。"""
+    """把 [s, e) 扩到所在整句：向前到上一个句末标点或块级标签，向后到下一个句末标点或块级标签。括号里的句末标点不算断句。"""
     left = rs
-    for t in TERMINATORS:
-        k = src.rfind(t, rs, s)
-        if k >= 0:
+    k = s
+    while True:
+        k = max(src.rfind(t, rs, k) for t in TERMINATORS)
+        if k < 0:
+            break
+        if paren_depth(src, rs, k) <= 0:
             left = max(left, k + 1)
+            break
     for t in OPEN_BLOCKS:
         k = src.rfind(t, rs, s)
         if k >= 0:
             left = max(left, src.index(">", k) + 1)
     right = re_
-    for t in TERMINATORS:
-        k = src.find(t, e, re_)
-        if k >= 0:
+    k = e
+    while True:
+        hits = [x for x in (src.find(t, k, re_) for t in TERMINATORS) if x >= 0]
+        if not hits:
+            break
+        k = min(hits)
+        if paren_depth(src, rs, k) <= paren_depth(src, rs, s):
             right = min(right, k + 1)
+            break
+        k += 1
     for t in CLOSE_BLOCKS:
         k = src.find(t, e, re_)
         if k >= 0:
@@ -186,8 +205,14 @@ def sentence_bounds(src: str, s: int, e: int, rs: int, re_: int) -> tuple:
 
 
 def frozen_sentences(src: str, p: Regions) -> list:
+    """经过 jev 核对的句子：<span class="jv"> 里的分数，以及正文里任何提到 jev 的地方（“jev 0.54”“这条 jev 未核实”
+    “jev 分数取自 …”）所在的整句。这些句子的措辞就是当时送去核对的说法，一律不改。"""
+    spans = list(p.jv)
+    for _, rs, re_ in p.regions:
+        for m in re.finditer(r"jev", src[rs:re_]):
+            spans.append((rs + m.start(), rs + m.end()))
     out = []
-    for s, e in p.jv:
+    for s, e in sorted(set(spans)):
         r = region_of(p.regions, s, e)
         if r:
             out.append(sentence_bounds(src, s, e, r[1], r[2]))
@@ -350,6 +375,45 @@ def cmd_jevspec(a) -> int:
     return 0
 
 
+def jev_scores(path: Path) -> tuple:
+    text = path.read_text(encoding="utf-8")
+    scores = {m.group(1): float(m.group(2)) for m in re.finditer(r"^(\S+)\s+P\(supported\)=([0-9.]+)", text, flags=re.M)}
+    return scores, "controls behaved as expected" in text
+
+
+def cmd_decide(a) -> int:
+    d = Path(a.dir)
+    selected = []
+    print("id | 页 | 工具 | 复核 | jev 正向 | jev 反向 | 结论 | 说明")
+    for g in a.groups.split(","):
+        report = json.loads((d / f"report_{g}_v4.json").read_text(encoding="utf-8"))
+        verdict = {v["id"]: v for v in json.loads((d / f"verdict_{g}.json").read_text(encoding="utf-8"))}
+        fwd, fwd_ok = jev_scores(d / f"jevout_{g}_fwd.txt")
+        rev, rev_ok = jev_scores(d / f"jevout_{g}_rev.txt")
+        for r in report:
+            k = r["id"]
+            v = verdict.get(k, {})
+            why = ""
+            if r["status"] != "accepted":
+                why = "工具拒：" + (r["reason"] or "")
+            elif v.get("verdict") != "keep":
+                why = "复核 drop：" + v.get("reason", "没有复核结论")
+            elif not fwd_ok or not rev_ok:
+                why = "jev 对照失灵（" + "、".join(x for x, ok in (("正向", fwd_ok), ("反向", rev_ok)) if not ok) + "），整遍丢掉"
+            elif fwd.get(k, 0) < 0.7 or rev.get(k, 0) < 0.7:
+                why = "jev 低于 0.7"
+            ok = not why
+            if ok:
+                selected.append(k)
+            f = f"{fwd[k]:.2f}" if k in fwd else "-"
+            b = f"{rev[k]:.2f}" if k in rev else "-"
+            print(f"{k} | {r.get('page')} | {'收' if r['status'] == 'accepted' else '拒'} | {v.get('verdict', '-')} | {f} | {b} | "
+                  f"{'入稿' if ok else '不用'} | {why}")
+    Path(a.select_out).write_text(json.dumps(selected), encoding="utf-8")
+    print(f"入稿 {len(selected)} 条，写到 {a.select_out}")
+    return 0
+
+
 def skeleton(src: str, regions: list) -> str:
     out, pos = [], 0
     for page, s, e in regions:
@@ -404,11 +468,16 @@ def main() -> int:
     j.add_argument("--report", required=True)
     j.add_argument("--ids", required=True)
     j.add_argument("--out", required=True)
+    dd = sub.add_parser("decide")
+    dd.add_argument("--dir", required=True)
+    dd.add_argument("--groups", required=True)
+    dd.add_argument("--select-out", required=True)
     c = sub.add_parser("check")
     c.add_argument("html")
     c.add_argument("--base", default="HEAD")
     a = ap.parse_args()
-    return {"extract": cmd_extract, "apply": cmd_apply, "jevspec": cmd_jevspec, "check": cmd_check}[a.cmd](a)
+    return {"extract": cmd_extract, "apply": cmd_apply, "jevspec": cmd_jevspec, "decide": cmd_decide,
+            "check": cmd_check}[a.cmd](a)
 
 
 if __name__ == "__main__":

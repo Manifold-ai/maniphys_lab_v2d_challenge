@@ -1,0 +1,66 @@
+# command  : python3 tools/site_zh_polish.py decide --dir /private/tmp/claude-501/-Users-rongxuanzhou-V2D/c829857b-c70e-4e25-b360-278c1533b028/scratchpad/zhpolish --groups G1\,G2\,G3\,G4\,G5 --select-out /private/tmp/claude-501/-Users-rongxuanzhou-V2D/c829857b-c70e-4e25-b360-278c1533b028/scratchpad/zhpolish/select.json 
+# md5      : c42ff2dd1357b08b7c09397779db091a  tools/site_zh_polish.py
+# source   : 9c38cf5839f5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T23:38:52-0600
+# ---------------------------------------------------------------
+id | 页 | 工具 | 复核 | jev 正向 | jev 反向 | 结论 | 说明
+G1-01 | home | 收 | keep | 0.99 | 0.99 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-02 | home | 收 | keep | 0.87 | 0.81 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-03 | home | 收 | keep | 0.98 | 0.98 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-04 | home | 收 | drop | - | - | 不用 | 复核 drop：“新 kit 接上的评测与打包”把缺的东西从“把新 kit 接上评测与打包”这件事变成“评测与打包”本身，且叠出三个“的”，不比原句清楚。
+G1-05 | home | 收 | keep | 0.99 | 0.99 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-06 | home | 收 | keep | 0.93 | 0.81 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-07 | home | 收 | keep | 0.92 | 0.98 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-08 | home | 收 | keep | 0.96 | 0.98 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-09 | status | 收 | keep | 0.98 | 0.97 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-10 | status | 收 | keep | 0.99 | 0.99 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-11 | edge | 拒 | keep | - | - | 不用 | 工具拒：碰到带 jev 分数的句子 '按这个几何，参考物体从第 0 帧起就在方块里：ep7 896'
+G1-12 | edge | 收 | keep | 0.97 | 0.98 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-13 | next | 收 | keep | 0.97 | 0.97 | 不用 | jev 对照失灵（反向），整遍丢掉
+G1-14 | next | 收 | keep | 0.98 | 0.98 | 不用 | jev 对照失灵（反向），整遍丢掉
+G2-01 | exp | 收 | drop | - | - | 不用 | 复核 drop：“建法”是全站没有的新造词（站内指这件事一律用“几何”或直接说“把方盒建成 1 m 立方体”），且“这种”把登记判据 H1′ 里的具体一次建法放宽成一类做法；原句的“这”紧接前一分句，并非读不通。
+G2-02 | exp | 收 | keep | 0.98 | 0.98 | 入稿 | 
+G2-03 | tasks | 收 | keep | 0.97 | 0.98 | 入稿 | 
+G2-04 | snack | 收 | keep | 0.97 | 0.97 | 入稿 | 
+G2-05 | snack | 收 | keep | 0.97 | 0.97 | 入稿 | 
+G2-06 | playback | 收 | keep | 0.83 | 0.93 | 入稿 | 
+G2-07 | playback | 收 | keep | 0.57 | 0.94 | 不用 | jev 低于 0.7
+G2-08 | playback | 收 | keep | 0.87 | 0.92 | 入稿 | 
+G2-09 | official | 收 | keep | 0.96 | 0.94 | 入稿 | 
+G2-10 | official | 收 | keep | 0.92 | 0.99 | 入稿 | 
+G2-11 | official | 收 | keep | 0.98 | 0.98 | 入稿 | 
+G2-12 | official | 拒 | - | - | - | 不用 | 工具拒：碰到带 jev 分数的句子 '按这个几何，参考物体从第 0 帧起就埋在方块里：ep7 的 '
+G2-13 | official | 收 | keep | 0.85 | 0.94 | 入稿 | 
+G2-14 | official | 收 | keep | 0.72 | 0.87 | 入稿 | 
+G2-15 | official | 收 | keep | 0.86 | 0.60 | 不用 | jev 低于 0.7
+G2-16 | official | 收 | keep | 0.81 | 0.91 | 入稿 | 
+G3-01 | batch1 | 收 | keep | 0.91 | 0.92 | 入稿 | 
+G3-02 | batch1 | 收 | keep | 0.98 | 0.97 | 入稿 | 
+G3-03 | batch1 | 收 | keep | 0.99 | 0.98 | 入稿 | 
+G3-04 | batch1 | 收 | keep | 0.95 | 0.95 | 入稿 | 
+G3-05 | batch1 | 收 | keep | 0.95 | 0.97 | 入稿 | 
+G3-06 | diverge | 收 | keep | 0.97 | 0.99 | 入稿 | 
+G3-07 | diverge | 收 | keep | 0.97 | 0.97 | 入稿 | 
+G3-08 | diverge | 收 | keep | 0.97 | 0.98 | 入稿 | 
+G3-09 | diverge | 收 | drop | - | - | 不用 | 复核 drop：引号内这句与 agent-doc/experiments/2026-09-30-divergence.md:134 的结论逐字相同，属于转述别的文件的原话，按规则引文本身不改；拿不准就不动。
+G3-10 | diverge | 收 | keep | 0.69 | 0.87 | 不用 | jev 低于 0.7
+G3-11 | diverge | 收 | keep | 0.86 | 0.94 | 入稿 | 
+G4-01 | flow | 收 | keep | 0.97 | 0.97 | 入稿 | 
+G4-02 | flow | 收 | keep | 0.95 | 0.96 | 入稿 | 
+G4-03 | modules | 收 | drop | - | - | 不用 | 复核 drop：原文的“与”是刻意配对：补丁源码副本与导入器实建检查同出一个计划附录、一个用来生成副本一个用来验证副本，同句前面“手写队列（fc_queue.sh）与等另一条链结束再跑的队列（queue_after.sh）”也用同一写法，改成顿号会把配对关系抹掉。
+G4-04 | runtime | 收 | keep | 0.93 | 0.94 | 入稿 | 
+G4-05 | runtime | 收 | keep | 0.49 | 0.77 | 不用 | jev 低于 0.7
+G4-06 | adr1 | 收 | keep | 0.95 | 0.98 | 入稿 | 
+G4-07 | adr1 | 收 | keep | 0.97 | 0.98 | 入稿 | 
+G4-08 | sop | 收 | keep | 0.99 | 0.99 | 入稿 | 
+G4-09 | sop | 收 | keep | 0.98 | 0.97 | 入稿 | 
+G4-10 | sop-pre | 收 | keep | 0.95 | 0.97 | 入稿 | 
+G4-11 | sop-day1 | 收 | keep | 0.98 | 0.98 | 入稿 | 
+G5-01 | sop-batch | 收 | keep | 0.98 | 0.98 | 入稿 | 
+G5-02 | sop-monitor | 收 | keep | 0.45 | 0.97 | 不用 | jev 低于 0.7
+G5-03 | sop-monitor | 收 | keep | 0.87 | 0.84 | 入稿 | 
+G5-04 | sop-risk | 收 | keep | 0.87 | 0.93 | 入稿 | 
+G5-05 | sop-risk | 收 | keep | 0.75 | 0.82 | 入稿 | 
+G5-06 | sop-risk | 收 | keep | 0.91 | 0.98 | 入稿 | 
+入稿 35 条，写到 /private/tmp/claude-501/-Users-rongxuanzhou-V2D/c829857b-c70e-4e25-b360-278c1533b028/scratchpad/zhpolish/select.json
