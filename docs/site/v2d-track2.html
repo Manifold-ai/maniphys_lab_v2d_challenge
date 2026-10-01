@@ -2919,6 +2919,10 @@ uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_histor
   function start(v){ load(v).then(function(){ if (!still) { var p = v.play(); if (p && p.catch) p.catch(function(){}); } }); }
   vids.forEach(function(v){
     v.addEventListener("play", function(){ if (!v.src) { load(v).then(function(){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }); } });
+    // blob 地址被拦（例如宿主的 media-src 不放行 blob:）时，退回直接引用发布的文件
+    v.addEventListener("error", function(){
+      if (v.src && v.src.indexOf("blob:") === 0) { v.src = v.getAttribute("data-src"); if (!still) { var p = v.play(); if (p && p.catch) p.catch(function(){}); } }
+    });
   });
   if (!("IntersectionObserver" in window)) return;
   var io = new IntersectionObserver(function(es){
