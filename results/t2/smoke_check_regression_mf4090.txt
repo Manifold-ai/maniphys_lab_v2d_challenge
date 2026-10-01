@@ -1,0 +1,18 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && stages/policy/smoke_check.sh smoke-t1-ep6-w2048-cap4m-mf4090 4096000 24564 e2934912858820b8 df0cf35711a68fb3; echo; echo \'== �\217\221�\225��\232\204 t1-ep1�\210两项�\203��\224�\200\200�\207��\201 1�\211\'; python3 stages/policy/train_nan_scan.py --log runs/logs/t1-ep1-w2048-cap4m-mf4090.s1.log; echo "train_nan_scan rc=$?"; python3 stages/policy/ckpt_nonfinite.py --last --fail-on-nonfinite t1-ep1-w2048-cap4m-mf4090; echo "ckpt_nonfinite rc=$?"; true' 
+# md5      : 3e349f5d6bd7eaaa47f119d44ef6289d  stages/policy/smoke_check.sh
+# md5      : cb69204789e64cbcbde63843dc095b56  stages/policy/train_nan_scan.py
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# source   : 90a73fa8e852
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:42:25-0600
+# ---------------------------------------------------------------
+日志 runs/logs/smoke-t1-ep6-w2048-cap4m-mf4090.s1.log；checkpoint 4096000；显存峰值 23879 MiB；镜像指纹 e2934912858820b8 / df0cf35711a68fb3
+policy：4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）；摘要：smoke-t1-ep6-w2048-cap4m-mf4090.s1.log：平均回合长度 163.31836，平均回报 15.42446，loss_scale 2097152.0；摘要里 nan 0 项
+SMOKE_OK smoke-t1-ep6-w2048-cap4m-mf4090
+
+== 发散的 t1-ep1（两项都应退出码 1）
+t1-ep1-w2048-cap4m-mf4090.s1.log：平均回合长度 5.0786，平均回报 nan，loss_scale 0；摘要里 nan 3 项（action_abs_mean_per_env_action、entropy_mean_per_actor_update、return_mean_per_completed_episode）
+train_nan_scan rc=1
+== t1-ep1-w2048-cap4m-mf4090（policy 35 份）
+  349,999,104 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+ckpt_nonfinite rc=1

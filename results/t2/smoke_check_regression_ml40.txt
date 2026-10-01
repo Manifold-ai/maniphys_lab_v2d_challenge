@@ -1,0 +1,9 @@
+# command  : ssh -o ConnectTimeout=15 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ stages/policy/smoke_check.sh\ smoke-t1-ep12-w2048-cap10m-ml40\ 4096000\ 44000\ e2934912858820b8\ df0cf35711a68fb3 
+# md5      : 3e349f5d6bd7eaaa47f119d44ef6289d  stages/policy/smoke_check.sh
+# source   : 90a73fa8e852
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:42:23-0600
+# ---------------------------------------------------------------
+日志 runs/logs/smoke-t1-ep12-w2048-cap10m-ml40.s1.log；checkpoint 4096000；显存峰值 40347 MiB；镜像指纹 e2934912858820b8 / df0cf35711a68fb3
+policy：4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）；摘要：smoke-t1-ep12-w2048-cap10m-ml40.s1.log：平均回合长度 120.64355，平均回报 8.66256，loss_scale 2097152.0；摘要里 nan 0 项
+SMOKE_OK smoke-t1-ep12-w2048-cap10m-ml40

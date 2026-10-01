@@ -1,0 +1,18 @@
+# command  : ssh -o ConnectTimeout=15 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ stages/policy/chain_preflight.sh 
+# md5      : fe6f040bb10cade1061411e12d633422  stages/policy/chain_preflight.sh
+# source   : 90a73fa8e852
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:40:15-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-01 14:40:16 CST
+  ok   来历 90a73fa8e852
+  ok   GPU 上没有进程
+  ok   没有 runs/.chain-active-*
+  ok   环境里没有 V2D_FC_SRC
+  info 磁盘可用 1892792 MB
+  info 镜像 sha256:96c808f9f8e4355d858c60329a999b3c89f49527d81d14d6bb9e3adbdba6431a
+  ok   镜像指纹 e2934912858820b8 / df0cf35711a68fb3
+  ok   上游 HEAD 33129dd
+  ok   上游工作树（已跟踪的文件）没有改动
+  ok   support.py md5 95e5e33f6f635310817130fe22477307
+PREFLIGHT_OK

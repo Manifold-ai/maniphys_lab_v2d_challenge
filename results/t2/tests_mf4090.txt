@@ -1,0 +1,14 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ t\ in\ test_ckpt_nonfinite\ test_train_nan_scan\ test_make_batch_queue\ test_fc_run_watched\ test_chain_after\;\ do\ printf\ \"%s:\ \"\ \$t\;\ python3\ stages/policy/\$t.py\ 2\>\&1\ \|\ tail\ -1\;\ done\;\ bash\ stages/policy/test_fc_wrappers.sh\ 2\>\&1\ \|\ tail\ -3 
+# md5      : 3b0a055912081193a19d41a124dfc1df  stages/policy/test_fc_wrappers.sh
+# source   : 90a73fa8e852
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T00:40:23-0600
+# ---------------------------------------------------------------
+test_ckpt_nonfinite: ALL_OK
+test_train_nan_scan: ALL_OK
+test_make_batch_queue: 
+test_fc_run_watched: ALL_OK
+test_chain_after: ALL_OK
+  PASS  最后一个参数是完整命令串（parquet 含 = 仍是一个单元）
+
+结果：PASS 62  FAIL 0
