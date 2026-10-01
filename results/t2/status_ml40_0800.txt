@@ -1,0 +1,51 @@
+# command  : ssh -o ConnectTimeout=15 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo \'## �\255�\203�\223��\227��\227�\210A 段�\211\'; grep -E \'^===|fc_run_watched:|SMOKE\' runs/logs/t2a_train_ml40.log; echo \'## �\204�\213�\223��\210A 段�\211\'; tail -1 runs/logs/t2a_eval_ml40.log; echo \'## �\234\213�\210�\227��\227�\232�\220\204 run �\220��\235\236�\234\211�\231\220�\232\204�\211��\217\217�\214�\225��\200\201NAN_WATCH �\223�\200�\200\201�\211��\217\217份�\225�\'; for f in runs/logs/t2-ep*.nanwatch.log; do printf \'%s �\235\236�\234\211�\231\220�\214 %s �\223�\200 %s �\211��\217\217 %s\\n\' $(basename $f .nanwatch.log) $(grep -cE \'�\235\236�\234\211�\231\220 [1-9]\' $f) $(grep -oE \'NAN_WATCH_[A-Z]+\' $f | tail -1 | grep . || echo �\233�\214�\255) $(grep -c \'�\255��\232�\235\236�\234\211�\231\220\' $f); done; echo \'## �\255��\217�\255�\203�\232\204 W&B �\221\230�\201\'; for r in t2-ep0-w2048-cap10m-ml40 t2-ep3-w2048-cap10m-ml40 t2-ep5-w2048-cap10m-ml40; do python3 stages/policy/train_nan_scan.py --log runs/logs/$r.s1.log; done; echo \'## �\234��\231�\'; nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader; df -Pk . | awk \'NR==2 {print int($4/1024), "MB free"}\'; ls runs/.chain-active-*' 
+# md5      : cb69204789e64cbcbde63843dc095b56  stages/policy/train_nan_scan.py
+# source   : 68af395a9b2d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T08:00:54-0600
+# ---------------------------------------------------------------
+## 训练链日志（A 段）
+=== 2026-10-01 14:49:47 CST start t2a_train_ml40, source 90a73fa8e852, 期望表 stages/policy/queues/ml40_t2a.expect.tsv
+=== 2026-10-01 14:49:50 CST 正向核对：5 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-01 14:49:50 CST 冒烟 smoke-t2-ep0-w2048-cap10m-ml40
+SMOKE_OK smoke-t2-ep0-w2048-cap10m-ml40
+=== 2026-10-01 14:55:01 CST 冒烟 smoke-t2-ep0-w2048-cap10m-ml40 通过：778 帧，不动基线见 results/day2/bar_smoke-t2-ep0-w2048-cap10m-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-01 14:55:01 CST 冒烟 smoke-t2-ep3-w2048-cap10m-ml40
+SMOKE_OK smoke-t2-ep3-w2048-cap10m-ml40
+=== 2026-10-01 15:00:37 CST 冒烟 smoke-t2-ep3-w2048-cap10m-ml40 通过：781 帧，不动基线见 results/day2/bar_smoke-t2-ep3-w2048-cap10m-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-01 15:00:37 CST 冒烟 smoke-t2-ep5-w2048-cap10m-ml40
+SMOKE_OK smoke-t2-ep5-w2048-cap10m-ml40
+=== 2026-10-01 15:06:20 CST 冒烟 smoke-t2-ep5-w2048-cap10m-ml40 通过：1003 帧，不动基线见 results/day2/bar_smoke-t2-ep5-w2048-cap10m-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-01 15:06:20 CST 冒烟 smoke-t2-ep8-w2048-cap10m-ml40
+SMOKE_OK smoke-t2-ep8-w2048-cap10m-ml40
+=== 2026-10-01 15:11:28 CST 冒烟 smoke-t2-ep8-w2048-cap10m-ml40 通过：708 帧，不动基线见 results/day2/bar_smoke-t2-ep8-w2048-cap10m-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-01 15:11:28 CST 冒烟 smoke-t2-ep10-w2048-cap10m-ml40
+=== 2026-10-01 15:13:28 CST 冒烟 smoke-t2-ep10-w2048-cap10m-ml40 失败：t2-ep10-w2048-cap10m-ml40 SKIPPED
+=== 2026-10-01 15:13:28 CST 正式 t2-ep0-w2048-cap10m-ml40
+fc_run_watched: t2-ep0-w2048-cap10m-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-01 17:25:17 CST t2-ep0-w2048-cap10m-ml40 完成（1 段）
+=== 2026-10-01 17:25:17 CST 正式 t2-ep3-w2048-cap10m-ml40
+fc_run_watched: t2-ep3-w2048-cap10m-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-01 19:29:34 CST t2-ep3-w2048-cap10m-ml40 完成（1 段）
+=== 2026-10-01 19:29:34 CST 正式 t2-ep5-w2048-cap10m-ml40
+fc_run_watched: t2-ep5-w2048-cap10m-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-01 21:51:20 CST t2-ep5-w2048-cap10m-ml40 完成（1 段）
+=== 2026-10-01 21:51:20 CST 正式 t2-ep8-w2048-cap10m-ml40
+## 评测链（A 段）
+=== 2026-10-01 14:49:47 CST 等 runs/logs/t2a_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：各 run 含非有限的扫描行数、NAN_WATCH 结局、扫描份数
+t2-ep0-w2048-cap10m-ml40 非有限行 0 结局 进行中 扫描 34
+t2-ep3-w2048-cap10m-ml40 非有限行 0 结局 进行中 扫描 34
+t2-ep5-w2048-cap10m-ml40 非有限行 0 结局 进行中 扫描 34
+t2-ep8-w2048-cap10m-ml40 非有限行 0 结局 进行中 扫描 1
+## 正式训练的 W&B 摘要
+t2-ep0-w2048-cap10m-ml40.s1.log：平均回合长度 589.85394，平均回报 130.81398，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep3-w2048-cap10m-ml40.s1.log：平均回合长度 484.02176，平均回报 105.58058，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep5-w2048-cap10m-ml40.s1.log：平均回合长度 441.38159，平均回报 77.69507，loss_scale 2097152.0；摘要里 nan 0 项
+## 机器
+40247 MiB, 96 %
+1890818 MB free
+runs/.chain-active-t2a_eval_ml40
+runs/.chain-active-t2a_train_ml40
+runs/.chain-active-t2b_eval_ml40
+runs/.chain-active-t2c_eval_ml40

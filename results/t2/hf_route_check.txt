@@ -1,0 +1,15 @@
+# command  : bash -c $'for h in mf4090 ml40; do printf "%s â\206\222 huggingface.co: " $h; ssh -o ConnectTimeout=15 $h "curl -s -o /dev/null -w \\"%{http_code} %{time_total}s\\" --max-time 15 https://huggingface.co/api/whoami-v2"; echo; printf "%s â\206\222 hf-mirror.com: " $h; ssh -o ConnectTimeout=15 $h "curl -s -o /dev/null -w \\"%{http_code} %{time_total}s\\" --max-time 15 https://hf-mirror.com"; echo; printf "%s HF token æ\226\207ä»¶: " $h; ssh -o ConnectTimeout=15 $h "test -f ~/.cache/huggingface/token && echo æ\234\211 || echo æ²¡æ\234\211"; done; printf "Mac HF token æ\226\207ä»¶: "; test -f ~/.cache/huggingface/token && echo æ\234\211 || echo æ²¡æ\234\211; printf "Mac .env é\207\214 HF_TOKEN è¡\214æ\225°: "; grep -c "^HF_TOKEN=" .env || true' 
+# md5      : 2e6ddb8a35a066544c949018fdc052b7  .env
+# md5      : 2e6ddb8a35a066544c949018fdc052b7  .env
+# source   : 68af395a9b2d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T08:02:35-0600
+# ---------------------------------------------------------------
+mf4090 â†’ huggingface.co: 000 7.702873s
+mf4090 â†’ hf-mirror.com: 200 0.542918s
+mf4090 HF token æ–‡ä»¶: æ²¡æœ‰
+ml40 â†’ huggingface.co: 000 7.701308s
+ml40 â†’ hf-mirror.com: 200 3.735037s
+ml40 HF token æ–‡ä»¶: æ²¡æœ‰
+Mac HF token æ–‡ä»¶: æ²¡æœ‰
+Mac .env é‡Œ HF_TOKEN è¡Œæ•°: 0

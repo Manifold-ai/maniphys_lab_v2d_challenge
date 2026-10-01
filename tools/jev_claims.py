@@ -25,7 +25,8 @@ def evidence_text(spec: dict) -> dict[str, str]:
     out = {}
     for name, e in spec["evidence"].items():
         if "file" in e:
-            text = (REPO / e["file"]).read_text()
+            # record 的命令回显行可能带坏的 UTF-8 字节（printf %q 处理多字节字符）；按替换字符读，证据正文不受影响
+            text = (REPO / e["file"]).read_text(encoding="utf-8", errors="replace")
             if "grep" in e:
                 text = "\n".join(line for line in text.splitlines() if re.search(e["grep"], line))
             out[name] = f"[file {e['file']}]\n{text}"

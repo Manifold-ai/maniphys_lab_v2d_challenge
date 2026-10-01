@@ -1,0 +1,27 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-01-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f598d1ea2b093ec7930598b76e3664d4  agent-doc/experiments/2026-10-01-sop-page.claims.json
+# source   : 68af395a9b2d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T08:10:16-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_smokes            P(supported)=0.89  verified               [status_ml40, status_mf4090]  到 10/1 08:00，Tier 2 第 1 批 A 段两台共 10 条冒烟，9 条通过；没通过的是 ml40 的 smoke-t2-ep10-w2048-cap10m-ml40，它的正式训练 t2-ep10-w2048-cap10m-ml40 记为 SKIPPED。
+ep10_cause           P(supported)=0.83  verified               [ep10]  ml40 的 ep10 冒烟失败于 W&B 的网络错误 CommError: Error uploading run: context deadline exceeded，失败时目录里还没有任何 checkpoint 文件。
+t2_done6             P(supported)=0.93  verified               [status_ml40, status_mf4090]  到 08:00 训完 6 条正式训练：ml40 的 t2-ep0、t2-ep3、t2-ep5 与 mf4090 的 t2-ep2、t2-ep4、t2-ep6；ml40 的 t2-ep8 与 mf4090 的 t2-ep9 正在训练。
+t2_finite            P(supported)=0.92  verified               [status_ml40, status_mf4090]  训完的 6 条正式训练，最新 policy 都是 349,999,104 步、非有限 0 / 1207577；各 run 的看守日志里扫到非有限参数的行数都是 0。
+t2_summary           P(supported)=0.89  verified               [status_ml40, status_mf4090]  训完的 6 条正式训练，W&B 摘要里 nan 都是 0 项。
+t2_pace              P(supported)=0.99  verified               [pace_ml40, pace_mf4090]  正式训练用时（分:秒）：ml40 的 t2-ep0 131:49、t2-ep3 124:17、t2-ep5 141:46；mf4090 的 t2-ep2 121:24、t2-ep4 127:21、t2-ep6 130:41。
+preflight            P(supported)=0.98  verified               [preflight_ml40, preflight_mf4090]  开链前两台环境核对都是 PREFLIGHT_OK：来历 90a73fa8e852，上游 HEAD 33129dd，support.py 的 md5 是 95e5e33f6f635310817130fe22477307，镜像指纹 e2934912858820b8 / df0cf35711a68fb3。
+regression           P(supported)=0.97  verified               [regression_ml40, regression_mf4090]  新冒烟判据在第 1 批的正常冒烟 smoke-t1-ep12（ml40）与 smoke-t1-ep6（mf4090）上都判 SMOKE_OK；发散的 t1-ep1-w2048-cap4m-mf4090 用 train_nan_scan 与 ckpt_nonfinite 检查都返回退出码 1，最终 policy 有 5892 / 1207577 个 NaN。
+cfgcheck             P(supported)=0.97  verified               [cfg_ml40, cfg_mf4090]  两台的配置核对都通过（CFGCHECK_EXIT=0），A 段与 B 段的预检都是 PRECHECK_OK。
+supports             P(supported)=0.88  verified               [kinds]  Tier 2 的 30 个支撑面文件里，只有地面的 16 个，带 scale 的方盒 3 个，其余 11 个。
+v54                  P(supported)=0.98  verified               [sha]  Tier 2 的 30 条参考，物体位姿全部来自 runs/recovery/tier2_v54。
+hf                   P(supported)=0.97  verified               [hf]  mf4090 与 ml40 直连 huggingface.co 都返回 000（不通），连 hf-mirror.com 返回 200；两台服务器与 Mac 上都没有 HF token 文件。
+disk                 P(supported)=0.92  verified               [status_mf4090]  08:00 前后 mf4090 可用磁盘 5452 MB。
+design               P(supported)=0.97  verified               [plan]  这一批评测链设 V2D_EVAL_STEPS=349999104，只评最终 checkpoint；B 段要等 A 段评完、且 A 段完成至少 3 条才开。
+ctl_true             P(supported)=0.89  control(true) ok       [status_ml40]  ml40 的 t2-ep0-w2048-cap10m-ml40 已经训完。
+ctl_false_ep10       P(supported)=0.01  control(false) ok      [status_ml40]  ml40 的 ep10 冒烟通过了，它的正式训练也已经训完。
+ctl_false_watch      P(supported)=0.08  control(false) ok      [status_ml40, status_mf4090]  到 08:00，发散看守已经对两条正式训练止损。
+ctl_false_hf         P(supported)=0.01  control(false) ok      [hf]  两台服务器都能直连 huggingface.co，Mac 上也有 HF token 文件。
+controls behaved as expected

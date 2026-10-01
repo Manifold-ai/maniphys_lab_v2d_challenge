@@ -1,0 +1,14 @@
+# command  : ssh -o ConnectTimeout=15 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo \'## run_record\'; cat runs/flash_chord/smoke-t2-ep10-w2048-cap10m-ml40/run_record.jsonl | cut -c1-200; echo \'## å\210\206æ®µæ\227¥å¿\227é\207\214ç\232\204æ\212¥é\224\231\'; grep -n -E \'CommError|Error executing job\' runs/logs/smoke-t2-ep10-w2048-cap10m-ml40.s1.log | cut -c1-200; echo \'## ç\233®å½\225é\207\214æ\234\211æ²¡æ\234\211 checkpoint\'; ls runs/flash_chord/smoke-t2-ep10-w2048-cap10m-ml40/ | tr \'\\n\' \' \'' 
+# source   : 68af395a9b2d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T08:02:34-0600
+# ---------------------------------------------------------------
+## run_record
+{"time": "2026-10-01T15:11:28+0800", "event": "start", "attempt": "1", "segment": "1", "run": "smoke-t2-ep10-w2048-cap10m-ml40", "host": "VM-0-16-ubuntu", "gpu": "NVIDIA L40S, 580.126.20", "image": "s
+{"time": "2026-10-01T15:13:28+0800", "event": "exit", "attempt": "1", "segment": "1", "rc": "1"}
+{"time": "2026-10-01T15:13:28+0800", "event": "abort", "reason": "retries_exhausted"}
+## åˆ†æ®µæ—¥å¿—é‡Œçš„æŠ¥é”™
+46:Error executing job with overrides: ['experiment=g1_recon_body_flash_sac', "task.parquet='/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot
+94:wandb.errors.errors.CommError: Error uploading run: context deadline exceeded (Client.Timeout or context cancellation while reading body)
+## ç›®å½•é‡Œæœ‰æ²¡æœ‰ checkpoint
+hydra run_record.jsonl wandb 
