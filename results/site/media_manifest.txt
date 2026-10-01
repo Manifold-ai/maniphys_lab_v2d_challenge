@@ -1,0 +1,131 @@
+# command  : python3 tools/site_media_manifest.py runs/site_media 
+# md5      : 758536387dded40df7fd9d9f4452bcd1  tools/site_media_manifest.py
+# source   : 3ade51abb6f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-09-30T19:06:34-0600
+# ---------------------------------------------------------------
+文件 | 字节 | md5 | 渲染检查
+exo_ep00.jpg | 31568 | 51015e5dc557e824695cf1d49c8a7c4d | 
+exo_ep00.mp4 | 171223 | 2bc6932a506a6ac96b8b2802240937cb | 
+exo_ep01.jpg | 31436 | b33059286a6357f32a0212eb165e1dfc | 
+exo_ep01.mp4 | 184151 | 70a404009c28ee71d7133583917a5910 | 
+exo_ep02.jpg | 30950 | fd4784de0a39878a0b13801e6807f5b6 | 
+exo_ep02.mp4 | 189580 | 4a891e5b1932f4a1fbf5f7abf8a89704 | 
+exo_ep03.jpg | 34448 | 1ca076de57851f838dfdfa25e3b65fa6 | 
+exo_ep03.mp4 | 131238 | 1dbb7617cd67ca46721f933dc93988de | 
+exo_ep04.jpg | 33065 | f23d5430ffe082fc913c43913ea020c4 | 
+exo_ep04.mp4 | 215661 | 74b3988e3d3c7d791aba86f0bbd19f2c | 
+exo_ep05.jpg | 32494 | 7993f8479e5376d2593772d686c83150 | 
+exo_ep05.mp4 | 222314 | b5e4667fa245445899f77ae611cc88f3 | 
+exo_ep06.jpg | 31700 | 7ce5d4e103b18615a209eaed7c7a7334 | 
+exo_ep06.mp4 | 136484 | 689eeff64169cc39f8118864239a984a | 
+exo_ep07.jpg | 31574 | eb6b278fadd2eee6c14ecb8a1e6eef18 | 
+exo_ep07.mp4 | 159290 | e054d8f6ac7cc428bb7651aabd1e82e3 | 
+exo_ep08.jpg | 31176 | cab56c51188ce1a47704fc03230e92ca | 
+exo_ep08.mp4 | 195357 | 4ac9f1ebd8e07fc83d8f53807f7ab473 | 
+exo_ep09.jpg | 32223 | 09391682d5589e54bbac1b46eca6ecdc | 
+exo_ep09.mp4 | 188842 | e424db636b1678476a29034dec62054f | 
+exo_ep10.jpg | 34228 | 004f057376d49912796ce67675473f20 | 
+exo_ep10.mp4 | 226226 | acd47fd0f7f783466e45f9ca58da47ca | 
+exo_ep11.jpg | 33122 | b30dfe98cf103178f8dccff2e66ce87d | 
+exo_ep11.mp4 | 158552 | 3bb7ae51ab55f31be7ccb275ba179e90 | 
+exo_ep12.jpg | 25373 | dc0b2860b3faf815527d47be2f10afe8 | 
+exo_ep12.mp4 | 134233 | 0044286471aa394b9749b96c5d113303 | 
+exo_ep13.jpg | 31493 | 178479c2800b83475bdaa5c6f2b6ace9 | 
+exo_ep13.mp4 | 210566 | f7ff535d356b2b9ae244778dffdb3807 | 
+exo_ep14.jpg | 25141 | 0572267749072b3f0e55a0a4f1fea131 | 
+exo_ep14.mp4 | 213085 | 34d7ec8357dc74fd7a565748001f5732 | 
+exo_ep15.jpg | 31223 | 56e97baa8deee39acaa3c8aa1944da73 | 
+exo_ep15.mp4 | 207225 | 08ea4eca8a6592f22a24a5c804436546 | 
+exo_ep16.jpg | 25629 | 58fcbc9ca68c756e191ec702765c6e8d | 
+exo_ep16.mp4 | 106186 | afc3da948f102a97b681ee16c14e6b55 | 
+exo_ep17.jpg | 33490 | bfdd7863c8979372c4f60cbc55d2dcdf | 
+exo_ep17.mp4 | 132926 | 2a40b72493c83a8438d16b0e49e4045d | 
+exo_ep18.jpg | 30009 | 24ff7626bb14947caec40f7d09f22f38 | 
+exo_ep18.mp4 | 204064 | bf4cd6de76efd12f177d7431d99bbc10 | 
+exo_ep19.jpg | 31901 | 37e28effc91a8c6a6845d77434445efa | 
+exo_ep19.mp4 | 220762 | 81c1fdb1152fd07a78cc1cce49dd1f3e | 
+exo_ep20.jpg | 30714 | 6b45ec63fe5546a2ee6b5d3b6e1cbade | 
+exo_ep20.mp4 | 115589 | 0bcce25d9b2815f1f1582492b7ce7c38 | 
+exo_ep21.jpg | 25984 | 3570d0f8ecc52644c3afe3964200e565 | 
+exo_ep21.mp4 | 180765 | ec35afeb76b8be69bc340432db2ae8e0 | 
+exo_ep22.jpg | 30938 | c8569d536519726908da3b6fdcb9fee4 | 
+exo_ep22.mp4 | 193942 | a1fec833036ba50a9f01c9c521b566ad | 
+exo_ep23.jpg | 31274 | 56ee5ba91bd4f5e58a618f92a44e2a11 | 
+exo_ep23.mp4 | 197243 | a77adf72f89c660c90738fdf69e7e93a | 
+exo_ep24.jpg | 31776 | d781d8330b932a7b8bdac33f196c73f8 | 
+exo_ep24.mp4 | 131495 | c0feaacdd3537824724529c11049d989 | 
+exo_ep25.jpg | 26544 | 983ac5fa49c092f344612eefeac31260 | 
+exo_ep25.mp4 | 164346 | a6f4b85bd707d6eb9ac76ba9fd06aafb | 
+exo_ep26.jpg | 31757 | 24af19f10a771ffaf750b693821022c9 | 
+exo_ep26.mp4 | 154631 | f5ace755a438ba1855001ac63aca1dcf | 
+exo_ep27.jpg | 34378 | 1cac9fbad652790b0e127532f7f777ff | 
+exo_ep27.mp4 | 163629 | 2480b80f817ae316d947d92b3e2380db | 
+exo_ep28.jpg | 25455 | bdcacdf7a99a401a7ac8144d1e196114 | 
+exo_ep28.mp4 | 196779 | e56f146d8e6fa4ae9523d6d6820dc392 | 
+exo_ep29.jpg | 30397 | 3fcbd911217160ac7992ecf9a533ffe5 | 
+exo_ep29.mp4 | 90537 | 2d6e29ea0469034eeaa2e4849883d90f | 
+ref_ep00.jpg | 9357 | 205f44ff41bf65816b13395bf1eb416c | 
+ref_ep00.mp4 | 153584 | 9985bd10d5cb769d134eaa2f97f5b467 | {"frames_rendered": 778, "reference_frames": 778, "first_nonfinite_frame": null, "min_body0_z": 0.7046922445297241, "max_robot_object_xy_m": 0.7025405641304013}
+ref_ep01.jpg | 9080 | 93dbfd39ce366fbe620e1a0ec47c95a1 | 
+ref_ep01.mp4 | 188262 | 54b9ffe639c6c6dc5c38217356a0fc16 | {"frames_rendered": 747, "reference_frames": 747, "first_nonfinite_frame": null, "min_body0_z": 0.7665970325469971, "max_robot_object_xy_m": 1.2099903167494221}
+ref_ep02.jpg | 8162 | f016f6726e6f764b58b9edbda6d97251 | 
+ref_ep02.mp4 | 176695 | 22805602c5133ec39df2f52276b5e213 | {"frames_rendered": 980, "reference_frames": 980, "first_nonfinite_frame": null, "min_body0_z": 0.6602519154548645, "max_robot_object_xy_m": 1.052871483841876}
+ref_ep03.jpg | 8589 | 9ddf3aeeea37c3cae77cf2e6edfb1bd6 | 
+ref_ep03.mp4 | 103150 | 02ad4b4687d3bd1162a65a9e376e3d83 | {"frames_rendered": 781, "reference_frames": 781, "first_nonfinite_frame": null, "min_body0_z": 0.7767848372459412, "max_robot_object_xy_m": 1.2256271822582079}
+ref_ep04.jpg | 7335 | f8de8c04597ff7cef631f4543fa30fa9 | 
+ref_ep04.mp4 | 184933 | a5bde3cea7fc8a21a7c8db4067af8c65 | {"frames_rendered": 803, "reference_frames": 803, "first_nonfinite_frame": null, "min_body0_z": 0.6400313973426819, "max_robot_object_xy_m": 1.42708475334427}
+ref_ep05.jpg | 8419 | 3cee08f4fa6690333522a625ca94f161 | 
+ref_ep05.mp4 | 208706 | 0c40042a315df7357234b70e435d5d78 | {"frames_rendered": 1003, "reference_frames": 1003, "first_nonfinite_frame": null, "min_body0_z": 0.6289108395576477, "max_robot_object_xy_m": 1.1098671940694396}
+ref_ep06.jpg | 8572 | 1c84e680e174089a17eb13aec4b8f8a9 | 
+ref_ep06.mp4 | 101101 | 1eb687512185424e7626f5cad367727a | {"frames_rendered": 546, "reference_frames": 546, "first_nonfinite_frame": null, "min_body0_z": 0.7713116407394409, "max_robot_object_xy_m": 0.9910907245806553}
+ref_ep07.jpg | 9667 | e4ca0aad7cd6cff8bb109a03118b4a3c | 
+ref_ep07.mp4 | 143224 | fccaff85c574632676c18b72b4a516cc | {"frames_rendered": 896, "reference_frames": 896, "first_nonfinite_frame": null, "min_body0_z": 0.779072105884552, "max_robot_object_xy_m": 0.7649353330311344}
+ref_ep07_v040.jpg | 9340 | 78c3b501a097715b4d362b5d0b99c0e0 | 
+ref_ep07_v040.mp4 | 131705 | 9a12957c20c2c2c579c3dab158f725ef | {"frames_rendered": 896, "reference_frames": 896, "first_nonfinite_frame": null, "min_body0_z": 0.779072105884552, "max_robot_object_xy_m": 0.7649353330311344}
+ref_ep08.jpg | 8426 | f82d28a5a54aa19e2c9f1fcb0d143028 | 
+ref_ep08.mp4 | 123284 | 48c320ac3b4edd8101e5a265e4fae8f7 | {"frames_rendered": 708, "reference_frames": 708, "first_nonfinite_frame": null, "min_body0_z": 0.7813555598258972, "max_robot_object_xy_m": 0.8279763940735859}
+ref_ep09.jpg | 8195 | f20d7614da2bbdfa7851535f3c608472 | 
+ref_ep09.mp4 | 169998 | 5482fadb993c8db3236263610a207260 | {"frames_rendered": 870, "reference_frames": 870, "first_nonfinite_frame": null, "min_body0_z": 0.5755388736724854, "max_robot_object_xy_m": 0.9647854025994351}
+ref_ep10.jpg | 8586 | 1caf243a258b3082ead97d9ac79b453f | 
+ref_ep10.mp4 | 151467 | 9cca32dbfa8cdd4c2ddc981fe722fac7 | {"frames_rendered": 794, "reference_frames": 794, "first_nonfinite_frame": null, "min_body0_z": 0.6436334252357483, "max_robot_object_xy_m": 1.143624159559825}
+ref_ep11.jpg | 7638 | 2b93bcb60dd90a4d1dea8d54a9b478fc | 
+ref_ep11.mp4 | 151583 | 19022862f8d9863385cca08513bc9e6d | {"frames_rendered": 901, "reference_frames": 901, "first_nonfinite_frame": null, "min_body0_z": 0.3715326488018036, "max_robot_object_xy_m": 0.9791756252155359}
+ref_ep12.jpg | 6916 | f16aa9821e3cc22387b28805a9ec7a92 | 
+ref_ep12.mp4 | 131659 | e1fa8db3b373d22a1458e33e9db22df2 | {"frames_rendered": 700, "reference_frames": 700, "first_nonfinite_frame": null, "min_body0_z": 0.36036694049835205, "max_robot_object_xy_m": 0.7711356345647707}
+ref_ep13.jpg | 9252 | 9aae953b86d7fdd371aced9b276b1143 | 
+ref_ep13.mp4 | 190594 | d660e11ba63b8522de4eac29b9953503 | {"frames_rendered": 922, "reference_frames": 922, "first_nonfinite_frame": null, "min_body0_z": 0.6129773855209351, "max_robot_object_xy_m": 1.0125548375736153}
+ref_ep14.jpg | 7725 | a270cde28f204d6e5373da7e821d750d | 
+ref_ep14.mp4 | 201511 | 9527bfb5dc05e28c5db343895ed4be8c | {"frames_rendered": 993, "reference_frames": 993, "first_nonfinite_frame": null, "min_body0_z": 0.5658261179924011, "max_robot_object_xy_m": 1.3095645111959002}
+ref_ep15.jpg | 9670 | 3d0f13c608083e6a7d7cf76f2daf1e5b | 
+ref_ep15.mp4 | 188320 | 23157de863d544d25378a6d2ccdeb2d4 | {"frames_rendered": 715, "reference_frames": 715, "first_nonfinite_frame": null, "min_body0_z": 0.7701892256736755, "max_robot_object_xy_m": 1.1231728684439275}
+ref_ep16.jpg | 8836 | 9c8cddba154de186b2442022674c8a2a | 
+ref_ep16.mp4 | 118088 | 4bd9a464e347663dadecac4d562296c8 | {"frames_rendered": 477, "reference_frames": 477, "first_nonfinite_frame": null, "min_body0_z": 0.6197435259819031, "max_robot_object_xy_m": 1.0733108991527003}
+ref_ep17.jpg | 7801 | 6e403c2d582cd9222bc1f1c754c7737d | 
+ref_ep17.mp4 | 115519 | f274b5ab5de53157b48afdfdab303994 | {"frames_rendered": 440, "reference_frames": 440, "first_nonfinite_frame": null, "min_body0_z": 0.6941909193992615, "max_robot_object_xy_m": 1.410243846897812}
+ref_ep18.jpg | 7336 | 40fb9e0190a1ffff633a75503f9f7e17 | 
+ref_ep18.mp4 | 167385 | a29dbf5e1b46c539747778603bf63f16 | {"frames_rendered": 858, "reference_frames": 858, "first_nonfinite_frame": null, "min_body0_z": 0.7775009870529175, "max_robot_object_xy_m": 0.9777788532304234}
+ref_ep19.jpg | 8157 | daed748c6d9e76139bddcabee07b2905 | 
+ref_ep19.mp4 | 230456 | a6715c3b759bb41d4463506929790f5b | {"frames_rendered": 886, "reference_frames": 886, "first_nonfinite_frame": null, "min_body0_z": 0.7772322297096252, "max_robot_object_xy_m": 1.235239116256573}
+ref_ep20.jpg | 8494 | fecd477c36c478a3f9348f13e21bc1ca | 
+ref_ep20.mp4 | 80708 | 0d0731ea4a160217557ba0bdd8d5c003 | {"frames_rendered": 553, "reference_frames": 553, "first_nonfinite_frame": null, "min_body0_z": 0.7676140666007996, "max_robot_object_xy_m": 1.0929452010208507}
+ref_ep21.jpg | 10051 | ce7170fafbffb0f0d9710ba8ad1e5463 | 
+ref_ep21.mp4 | 175208 | 80cc3e793afc7bba22cd89bf7f14a270 | {"frames_rendered": 678, "reference_frames": 678, "first_nonfinite_frame": null, "min_body0_z": 0.7726045250892639, "max_robot_object_xy_m": 0.8864265449108824}
+ref_ep22.jpg | 8445 | 077a6f56541f6db67abc1323e9acf60a | 
+ref_ep22.mp4 | 173455 | e7519cf66e269b3bffdb75efc2d1b163 | {"frames_rendered": 719, "reference_frames": 719, "first_nonfinite_frame": null, "min_body0_z": 0.7711289525032043, "max_robot_object_xy_m": 1.4499044932173721}
+ref_ep23.jpg | 7206 | d9e9b91583bddf23bd8895367bfbe335 | 
+ref_ep23.mp4 | 178675 | c813c9323877a808447472bc11ad523f | {"frames_rendered": 946, "reference_frames": 946, "first_nonfinite_frame": null, "min_body0_z": 0.7088943719863892, "max_robot_object_xy_m": 0.7746768664150852}
+ref_ep24.jpg | 8531 | 4c9e8414e0ca37388c749e2631e32db6 | 
+ref_ep24.mp4 | 90130 | 487d93b7f8d3aebb260a3978c60343aa | {"frames_rendered": 748, "reference_frames": 748, "first_nonfinite_frame": null, "min_body0_z": 0.46172472834587097, "max_robot_object_xy_m": 0.6503550716655614}
+ref_ep25.jpg | 8261 | a3e7d9126908cde06db700abcc5f0a81 | 
+ref_ep25.mp4 | 185788 | c7ff0f04eeee75ae0d354704aef7cbd6 | {"frames_rendered": 859, "reference_frames": 859, "first_nonfinite_frame": null, "min_body0_z": 0.7768871784210205, "max_robot_object_xy_m": 1.3796999008930242}
+ref_ep26.jpg | 7469 | ef2c824ed2815312297d2cf76e80c20a | 
+ref_ep26.mp4 | 113583 | 4745bafbc6168dbddae18ed85acdbc0b | {"frames_rendered": 669, "reference_frames": 669, "first_nonfinite_frame": null, "min_body0_z": 0.5896853804588318, "max_robot_object_xy_m": 0.8319232532088429}
+ref_ep27.jpg | 8780 | c9cfe5351f07da72b36757c2eaa4a760 | 
+ref_ep27.mp4 | 135074 | fb1f39e4ed0b60ac3b4865729abf9393 | {"frames_rendered": 565, "reference_frames": 565, "first_nonfinite_frame": null, "min_body0_z": 0.6382908821105957, "max_robot_object_xy_m": 1.0651641799193465}
+ref_ep28.jpg | 8042 | 593c087240a07b3526d6a5df77711734 | 
+ref_ep28.mp4 | 234688 | 6bc025bcc5e6b9d2ace1185abb758489 | {"frames_rendered": 988, "reference_frames": 988, "first_nonfinite_frame": null, "min_body0_z": 0.7433637976646423, "max_robot_object_xy_m": 0.9401296700577985}
+ref_ep29.jpg | 8538 | a93266548da369a0f6ad90d365b9eb95 | 
+ref_ep29.mp4 | 92316 | 978b2ddb15d4c13cb78aaa703bed0184 | {"frames_rendered": 467, "reference_frames": 467, "first_nonfinite_frame": null, "min_body0_z": 0.7756211161613464, "max_robot_object_xy_m": 0.7297137591366276}
+共 122 个文件，11.17 MB
+MEDIA_OK

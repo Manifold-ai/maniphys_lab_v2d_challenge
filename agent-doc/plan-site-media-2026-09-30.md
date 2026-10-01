@@ -59,3 +59,14 @@
   `.gitignore` 加 `docs/site/media/`；超时按容器名 `docker stop`；任务表支撑面 `missing` 时报错；尺寸超限时只调 CRF（32→35）或宽度，不剪长度；
   任务原文照抄并做 HTML 转义（ep14 原文开头多一个引号）；口头讲稿在 scratchpad 的 `talk/talk_final.md`，不进仓库；
   记忆里“看策略用 viewer、不导 mp4”这次是用户点名要视频，作例外；素材经 scp 拉回 Mac 的 `runs/site_media/`，发布到 https://claude.ai/artifact/Y3bxcJt4oMMMrBKAr4fkhj 。
+
+## 执行记录（9/30 18:47–19:15）
+
+- probe（18:47–18:48，mf4090）：ep20、ep4 用 `site_ref_replay.py` 的运动学参考模式各渲一次，两条全部帧有限、渲染帧数 = 参考帧数，跟随相机下机器人全程在画面里。
+- 正式（18:49 起，两台 tmux，`runs/.chain-active-sitemedia` 挡同步，跑完删除）：mf4090 渲 ep0、2–6、8–15，ml40 先挂 #185 副本渲 ep1、7、28，
+  再渲 ep16–27、29，最后不挂副本渲 ep7 的 v0.4.0 版（`ref_ep07_v040`）；两台 `SITE_MEDIA_REF_DONE fail=0`。exo 30 条在 mf4090 的容器里转码。
+- 执行偏差：exo 片段第一遍按计划 480 宽、CRF 32，30 条共 2.2 MB，人在画面里太小；改成 640 宽、CRF 28 重转（共 5.2 MB），仍在预算内。看到画质后改的，在此标注。
+- 判据：`results/site/media_manifest.txt`（`tools/site_media_manifest.py`）MEDIA_OK，122 个文件共 11.17 MB，31 段参考动画全部帧有限、帧数一致；
+  31 张参考封面拼图人工看过，机器人与物体都在画面里，ep7 v0.4.0 版能看到 1 m 立方体把 iron 包在里面。
+  `tools/site_check.py docs/site/v2d-track2.html --media-dir runs/site_media`：31 页、素材引用 144 个，SITE_OK。素材不进 git（`git ls-files` 里没有 .mp4 / .jpg）。
+- 页面：新页 `pg-tasks`（训练实验组第一项）；Day 1b、第 1 批、发散排查三页内嵌对应视频；中文块的任务名按 M5 清单换成英文（grep 为 0）。视频播放待发布后在 Chrome 实开核对。

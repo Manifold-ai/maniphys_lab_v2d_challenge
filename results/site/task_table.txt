@@ -1,9 +1,9 @@
 # command  : scripts/dev/pipe-py stages/evaluate/site_task_table.py 
 # md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
-# md5      : 027832a54671db05fd181387b9b6eb4f  stages/evaluate/site_task_table.py
-# source   : 80387c9d2a00-dirty
+# md5      : 8816fd92bc833fe34c3ec7528fbe5756  stages/evaluate/site_task_table.py
+# source   : 3ade51abb6f7-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-09-30T18:37:32-0600
+# run_at   : 2026-09-30T19:06:33-0600
 # ---------------------------------------------------------------
 → mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
 ep	sequence_id	short_name	object	frames	support	task

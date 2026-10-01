@@ -1,15 +1,17 @@
 """检查 SOP 单页站点（docs/site/*.html）的结构，发布前跑一遍。只用标准库。
 
-查四件事：
+查四件事（给了 --media-dir 时查第五件）：
   1. 非空元素的开闭标签配对（按嵌套顺序；void 元素与自闭合写法跳过）；
   2. 站内链接 href="#x" 都指向存在的页（页面 id 是 pg-x，路由 token 不带前缀；或页内另有 id="x" 的元素）；
   3. 每个 <section class="pg" id="pg-x"> 在侧栏里都有 #x 链接（翻页顺序取自侧栏，漏了就翻不到）；
-  4. 每页都有中文（l-zh）和英文（l-en）两块。
+  4. 每页都有中文（l-zh）和英文（l-en）两块；
+  5. 页面里 src / poster / data-src 引用的 media/... 素材都在 --media-dir 里（素材不进 git，发布时经 Artifact files 上传）。
 有问题逐条打印并以退出码 1 结束；全过打印 SITE_OK。
 
-用法：python3 tools/site_check.py docs/site/v2d-track2.html
+用法：python3 tools/site_check.py docs/site/v2d-track2.html [--media-dir runs/site_media]
 """
 import re
+from pathlib import Path
 import sys
 from html.parser import HTMLParser
 
@@ -29,12 +31,16 @@ class Checker(HTMLParser):
         self.page_langs: dict[str, set[str]] = {}
         self.current_page: str | None = None
         self.page_depth = 0
+        self.media: list[tuple[str, int]] = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         line = self.getpos()[0]
         if a.get("id"):
             self.ids.add(a["id"])
+        for k in ("src", "poster", "data-src"):
+            if (a.get(k) or "").startswith("media/"):
+                self.media.append((a[k], line))
         if tag == "a" and (a.get("href") or "").startswith("#"):
             self.hrefs.append((a["href"][1:], line))
             if self.in_side:
@@ -83,7 +89,7 @@ class Checker(HTMLParser):
             self.current_page = None
 
 
-def main(path: str) -> int:
+def main(path: str, media_dir=None) -> int:
     text = open(path, encoding="utf-8").read()
     c = Checker()
     c.feed(text)
@@ -105,8 +111,14 @@ def main(path: str) -> int:
     dup = sorted({x for x in c.pages if c.pages.count(x) > 1})
     if dup:
         problems.append(f"重复的页 id：{dup}")
+    if media_dir:
+        for ref, line in c.media:
+            if not (Path(media_dir) / ref[len("media/"):]).is_file():
+                problems.append(f"第 {line} 行：素材 {ref} 不在 {media_dir}")
+    elif c.media:
+        print(f"（页面引用了 {len(c.media)} 个 media/ 素材，没给 --media-dir，未核对）")
     title = re.search(r"<title>([^<]*)</title>", text[:8192])
-    print(f"{path}：{len(c.pages)} 页，站内链接 {len(c.hrefs)} 个，侧栏链接 {len(c.side_links)} 个，标题 {title.group(1) if title else '（无）'}")
+    print(f"{path}：{len(c.pages)} 页，站内链接 {len(c.hrefs)} 个，侧栏链接 {len(c.side_links)} 个，素材引用 {len(c.media)} 个，标题 {title.group(1) if title else '（无）'}")
     for p in problems:
         print(p)
     if problems:
@@ -116,6 +128,12 @@ def main(path: str) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit("用法：site_check.py <html>")
-    sys.exit(main(sys.argv[1]))
+    args = sys.argv[1:]
+    media = None
+    if "--media-dir" in args:
+        i = args.index("--media-dir")
+        media = args[i + 1]
+        del args[i:i + 2]
+    if len(args) != 1:
+        sys.exit("用法：site_check.py <html> [--media-dir <目录>]")
+    sys.exit(main(args[0], media))
