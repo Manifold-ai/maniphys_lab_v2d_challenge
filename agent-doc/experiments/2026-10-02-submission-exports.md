@@ -48,3 +48,21 @@ mf4090 的 compat 06:42:50 结束（`DAY2_EVAL_DONE（成功 7、失败 0）`，
 - 打包器的换算残差在 1e-7 量级，说明 `check_export.py` 报的“评测器参考 vs motion parquet 朝向最大差 0.040–0.043°”是它没先归一化 motion 那一侧四元数造成的（box6 执行记录的推测由此得到证实）。
   这一项只报、不作判据；`check_export.py` 今天还要被导出链调用，先不改，链跑完后再修。
 - 预演的 CSV 在 `runs/submission/csv/`（不进 git），只用于预演，不上传。
+
+## 打包预演 rehearsal2（10/2 11:20–11:30，Mac，两台全部 5 条兼容性验证导出；判据 R1）
+
+ml40 的 compat 10:17:21 结束（`COMPAT_PASS（3 行全部符合）`，门槛 `完成 1`，结论见 box6 执行记录）。`pull_submission.sh compat ml40`：`PULL_OK 4`
+（t1-ep12、t2-ep0；`results/submission/pull_compat_ml40.txt`）。打包时工作树干净，代码链接指向 3b860a0（已在 origin）。
+
+| 项 | 命令 | 结果 | 落盘 |
+|---|---|---|---|
+| Tier 1 | `pack_tier.sh 1 runs/submission/compat/t1 rehearsal2 6 8 12` | 退出码 0，`PACK_OK（预演）`；1954 行；残差最大 1.02e-7 m、1.71e-7 rad；3 条都换算到发布的世界系 | `results/submission/pack/t1_rehearsal2.txt` |
+| Tier 2 | `pack_tier.sh 2 runs/submission/compat/t2 rehearsal2 0 2` | 退出码 0，`PACK_OK（预演）`；1758 行；换算参考 v5.4 帧参考，残差最大 8.78e-8 m、1.40e-7 rad | `results/submission/pack/t2_rehearsal2.txt` |
+| Tier 2 反向对照 | `V2D_PACK_NEGCTL=1 pack_tier.sh 2 runs/submission/compat/t2 rehearsal2_neg 0 2` | `NEGCTL_OK`：两条都报不是一个刚体变换（ep0 0.03407 m、0.5071 rad；ep2 0.02475 m、0.4122 rad），没有写出 CSV | `results/submission/pack/t2_rehearsal2_neg.txt.failed`（预期中的失败） |
+| 本地分数过滤 | Tier 2 两次的屏幕输出与落盘 | “locally computed” 都是 0 处 | 同上 |
+
+**判据 R1 两台都通过**：帧参考 `FRAME_REFS_OK 30`，两轮预演退出码都是 0，两轮反向对照都是 `NEGCTL_OK`，Tier 2 没有本地分数那一行。
+
+只报：Tier 1 交叉核对里 ep8 一致；ep6 的 ADD-AUC 评测器 0.632669、打包器按轨迹重算 0.629922（−0.0027），ep12 评测器 0.649375、打包器 0.671161（+0.0218）。
+同一条轨迹两边算出的 ADD-AUC 不同，差在 ADD 本身（取哪些网格顶点），不在轨迹；排行榜用的是 kit 的算法（与打包器同一套 `v2dlb` 代码）。
+所以本地 4096 世界评测的 ADD-AUC 与排行榜口径每条可能差到约 0.02，方向不定；原因是推测（评测器从仿真里的网格取顶点，kit 从数据集的 glb 取），没核实。

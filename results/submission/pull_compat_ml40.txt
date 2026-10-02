@@ -1,0 +1,8 @@
+# command  : stages/evaluate/pull_submission.sh compat ml40 
+# md5      : ed1d2673b7ceb55f19ed4f790459b4e0  stages/evaluate/pull_submission.sh
+# source   : 3b860a0de3f6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T11:17:52-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+PULL_OK 4
