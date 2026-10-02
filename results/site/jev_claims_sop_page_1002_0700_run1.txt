@@ -1,0 +1,33 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-sop-page-0700.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f2b27e0e19e4b773006c25dd7fef83c8  agent-doc/experiments/2026-10-02-sop-page-0700.claims.json
+# source   : dc5f21e494d1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:15:42-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2b_mf4090           P(supported)=0.97  verified               [status_mf4090]  mf4090 上 Tier 2 第 1 批 B 段的训练链以 DAY2_TRAIN_DONE（完成 8、失败 0、跳过 0、发散 0）结束，评测链以 DAY2_EVAL_DONE（成功 8、失败 0）结束。
+t2b_ml40             P(supported)=0.92  verified               [status_ml40, ml40_eval]  ml40 上 Tier 2 第 1 批 B 段的训练链以 DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）结束，随后 B 段评测链开始，评测步数 349999104。
+ml40_pending         P(supported)=0.99  verified               [status_ml40]  ml40 上 t2-ep10、t2-ep1-…-p185、t2-ep7-…-p185 这三条正式 run 还没有 policy。
+nonfinite            P(supported)=0.66  UNVERIFIED             [status_mf4090, status_ml40]  两台已完成的 Tier 2 正式 run，看守日志里含非有限值的扫描行数都是 0，W&B 摘要里 nan 都是 0 项。
+pace_mf4090          P(supported)=0.97  verified               [pace_mf4090_b]  mf4090 B 段 t2-ep19、t2-ep21、t2-ep23、t2-ep25、t2-ep27 的正式训练用时分别是 128:15、132:29、148:24、115:08、132:25（分:秒），t2-ep27 在 10-02 05:55:51 MDT 完成。
+pace_ml40            P(supported)=0.98  verified               [pace_ml40_b]  ml40 B 段 t2-ep20、t2-ep22、t2-ep24、t2-ep26、t2-ep29 的正式训练用时分别是 126:24、131:34、141:26、129:57、118:30（分:秒），t2-ep29 在 10-02 06:59:11 MDT 完成。
+verdict_b            P(supported)=0.97  verified               [verdict_b_mf4090]  mf4090 的 B 段 8 条按批量判据都不通过，8 条的 maniptrans_sr 都是 0；合计通过 0、不通过 8、无效 0。
+verdict_b_auc        P(supported)=0.98  verified               [verdict_b_mf4090]  t2-ep23 的 ADD-AUC 是 0.5、不动基线 0.1496；t2-ep27 是 0.5511、基线 0.2687；t2-ep21 的 0.1729 低于基线 0.2011；t2-ep25 的 0.1235 低于基线 0.139。
+compat_p23           P(supported)=0.96  verified               [check_t1ep8, check_t1ep8_w2, check_t1ep6, check_t2ep2]  兼容性验证在 mf4090 上的 4 份导出（t1-ep8 的 1 个世界与 2 个世界、t1-ep6 的 1 个世界、t2-ep2 的 1 个世界）核对结果都是 EXPORT_OK，元数据里的 eval_code_sha256 与 eval_script_sha256 都等于 8c778f9 的值。
+compat_p4            P(supported)=0.94  verified               [compare_t1ep6]  t1-ep6 同一 checkpoint 在 4096 个世界上，8c778f9 评测器的 ADD-AUC 是 0.633536，v0.4.0 评测器是 0.632112，差 +0.00142；chord_sr 的 |z| 为 1.18，结论 CONSISTENT。
+compat_neg           P(supported)=0.74  verified               [guard, negctl]  对含 NaN 的 t1-ep1，守卫一行符合期望（COMPAT_EXPECT_OK guard）；关掉守卫的反向对照里 fc_export 退出码 3，评测失败而不是终止报错，也判为符合期望。
+compat_gate_box      P(supported)=0.90  verified               [chain_logs_mf4090]  compat_mf4090 以 COMPAT_PASS（7 行全部符合）结束，门槛文件是 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）；方盒训练链随后开始，smoke-t1-ep1、smoke-t1-ep7、smoke-t1-ep28、smoke-t2-ep28 四条冒烟都是 SMOKE_OK。
+single_world         P(supported)=0.97  verified               [check_t1ep6, compare_t1ep6]  t1-ep6 只导出 1 个世界时 maniptrans_sr 是 0，同一 checkpoint 在 4096 个世界上的 maniptrans_sr 约是 0.57。
+kaggle               P(supported)=0.99  verified               [kaggle]  10/2 这次查到：Tier 1 的四个比赛 userHasEntered 都是 True；Tier 2 的 mp-sr、mppe、sp-sr 是 True，tier2-auc 是 False；Tier 3 的四个都是 False。
+frame_refs           P(supported)=0.97  verified               [frame_refs]  Tier 2 帧参考 30 条全部通过（FRAME_REFS_OK 30）；ep11 粗核排除了 1 帧；ep17 第 0 帧与发布输入的位置差是 14.8 mm。
+armed                P(supported)=0.98  verified               [arm_mf4090, arm_ml40]  两台的导出链都起好了（最后一行 ARMED），预检是 EXPORT_DRYRUN_OK；还没训完的行 mf4090 有 7 行，ml40 有 6 行。
+plan_review          P(supported)=0.98  verified               [plan]  提交流程计划是第 2 版，按 Fable 5.1 的审查修改，审查结论是 GO WITH FIXES、没有 BLOCKER。
+ep20                 P(supported)=0.99  verified               [exports_mf4090]  mf4090 的导出清单里 Tier 1 ep20 用的是 t1-ep20-w2048-cap4m-mf4090，步数 349999104。
+disk                 P(supported)=0.89  verified               [status_mf4090]  mf4090 这次快照里的可用磁盘是 7031 MB。
+ctl_true             P(supported)=0.99  control(true) ok       [kaggle]  这份 Kaggle 状态列出了 12 个 v2d-challenge-track2 比赛。
+ctl_false_b          P(supported)=0.09  control(false) ok      [verdict_b_mf4090]  mf4090 的 B 段 8 条里有 3 条按批量判据通过。
+ctl_false_p4         P(supported)=0.01  control(false) ok      [compare_t1ep6]  t1-ep6 两个评测器的 ADD-AUC 差超过 0.005，结论 INCONSISTENT。
+ctl_false_kaggle     P(supported)=0.01  control(false) ok      [kaggle]  tier2-auc 这个比赛的 userHasEntered 是 True。
+ctl_false_frames     P(supported)=0.01  control(false) ok      [frame_refs]  Tier 2 帧参考有 3 条没通过粗核，最后一行是 FRAME_REFS_FAIL 3。
+controls behaved as expected

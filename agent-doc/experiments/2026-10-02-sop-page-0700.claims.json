@@ -1,0 +1,267 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "status_mf4090": {
+   "file": "results/t2/status_mf4090_0700.txt",
+   "grep": "^== |^## t2b|DAY2_|非有限行|nan 0 项|^## 机器|MB free|MiB, "
+  },
+  "status_ml40": {
+   "file": "results/t2/status_ml40_0700.txt",
+   "grep": "^== |^## t2b|DAY2_|非有限行|nan 0 项|没有 DONE|还没有 policy"
+  },
+  "ml40_eval": {
+   "file": "results/box/chain_logs_ml40_0700.txt"
+  },
+  "pace_mf4090_b": {
+   "file": "results/t2/pace_mf4090_t2b_0700.txt",
+   "grep": "^== |正式开始"
+  },
+  "pace_ml40_b": {
+   "file": "results/t2/pace_ml40_t2b_0700.txt",
+   "grep": "^== |正式开始"
+  },
+  "verdict_b_mf4090": {
+   "file": "results/t2/batch_verdict_mf4090_t2b.txt",
+   "grep": "^== |判定|合计|chord_sr|maniptrans_sr|add_auc|另报"
+  },
+  "check_t1ep8": {
+   "file": "results/submission/compat/mf4090_export_t1-ep8-w2048-cap4m-mf4090_w1_check.txt",
+   "grep": "^== |EXPORT_|eval_code|eval_script|info add_auc"
+  },
+  "check_t1ep8_w2": {
+   "file": "results/submission/compat/mf4090_export_t1-ep8-w2048-cap4m-mf4090_w2_check.txt",
+   "grep": "^== |EXPORT_|eval_code|eval_script"
+  },
+  "check_t1ep6": {
+   "file": "results/submission/compat/mf4090_export_t1-ep6-w2048-cap4m-mf4090_w1_check.txt",
+   "grep": "^== |EXPORT_|eval_code|eval_script|info add_auc"
+  },
+  "check_t2ep2": {
+   "file": "results/submission/compat/mf4090_export_t2-ep2-w2048-cap4m-mf4090_w1_check.txt",
+   "grep": "^== |EXPORT_|eval_code|eval_script"
+  },
+  "compare_t1ep6": {
+   "file": "results/submission/compat/mf4090_eval_t1-ep6-w2048-cap4m-mf4090_w4096_compare.txt"
+  },
+  "guard": {
+   "file": "results/submission/compat/mf4090_guard_t1-ep1-w2048-cap4m-mf4090_w1.txt",
+   "grep": "COMPAT_EXPECT|退出码"
+  },
+  "negctl": {
+   "file": "results/submission/compat/mf4090_negctl_t1-ep1-w2048-cap4m-mf4090_w1.txt",
+   "grep": "COMPAT_EXPECT|退出码"
+  },
+  "chain_logs_mf4090": {
+   "file": "results/box/chain_logs_mf4090_0700.txt"
+  },
+  "kaggle": {
+   "file": "results/submission/kaggle_join_status_1002_0700.txt"
+  },
+  "frame_refs": {
+   "file": "results/submission/frame_refs_t2_mf4090.txt",
+   "grep": "FRAME_REFS|ep11 |ep17 |== Tier 2"
+  },
+  "arm_mf4090": {
+   "file": "results/submission/exports/arm_mf4090.txt"
+  },
+  "arm_ml40": {
+   "file": "results/ml40/submission/exports/arm_ml40.txt"
+  },
+  "plan": {
+   "file": "agent-doc/plan-submission-exports-2026-10-02.md",
+   "grep": "^第 2 版|GO WITH FIXES|^\\| MAJOR"
+  },
+  "exports_mf4090": {
+   "file": "stages/evaluate/exports/mf4090.tsv"
+  }
+ },
+ "claims": [
+  {
+   "id": "t2b_mf4090",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "mf4090 上 Tier 2 第 1 批 B 段的训练链以 DAY2_TRAIN_DONE（完成 8、失败 0、跳过 0、发散 0）结束，评测链以 DAY2_EVAL_DONE（成功 8、失败 0）结束。"
+  },
+  {
+   "id": "t2b_ml40",
+   "evidence": [
+    "status_ml40",
+    "ml40_eval"
+   ],
+   "claim": "ml40 上 Tier 2 第 1 批 B 段的训练链以 DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）结束，随后 B 段评测链开始，评测步数 349999104。"
+  },
+  {
+   "id": "ml40_pending",
+   "evidence": [
+    "status_ml40"
+   ],
+   "claim": "ml40 上 t2-ep10、t2-ep1-…-p185、t2-ep7-…-p185 这三条正式 run 还没有 policy。"
+  },
+  {
+   "id": "nonfinite_mf4090",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "mf4090 的看守日志一节里，t2-ep2、ep4、ep6、ep9、ep11、ep13、ep15、ep17、ep19、ep21、ep23、ep25、ep27 这 13 条 run 的“非有限行”都是 0；W&B 摘要一节里这 13 条的 nan 都是 0 项。"
+  },
+  {
+   "id": "nonfinite_ml40",
+   "evidence": [
+    "status_ml40"
+   ],
+   "claim": "ml40 的看守日志一节里，t2-ep0、ep3、ep5、ep8、ep12、ep14、ep16、ep18、ep20、ep22、ep24、ep26、ep29 这 13 条 run 的“非有限行”都是 0；W&B 摘要一节里这 13 条的 nan 都是 0 项。"
+  },
+  {
+   "id": "pace_mf4090",
+   "evidence": [
+    "pace_mf4090_b"
+   ],
+   "claim": "mf4090 B 段 t2-ep19、t2-ep21、t2-ep23、t2-ep25、t2-ep27 的正式训练用时分别是 128:15、132:29、148:24、115:08、132:25（分:秒），t2-ep27 在 10-02 05:55:51 MDT 完成。"
+  },
+  {
+   "id": "pace_ml40",
+   "evidence": [
+    "pace_ml40_b"
+   ],
+   "claim": "ml40 B 段 t2-ep20、t2-ep22、t2-ep24、t2-ep26、t2-ep29 的正式训练用时分别是 126:24、131:34、141:26、129:57、118:30（分:秒），t2-ep29 在 10-02 06:59:11 MDT 完成。"
+  },
+  {
+   "id": "verdict_b",
+   "evidence": [
+    "verdict_b_mf4090"
+   ],
+   "claim": "mf4090 的 B 段 8 条按批量判据都不通过，8 条的 maniptrans_sr 都是 0；合计通过 0、不通过 8、无效 0。"
+  },
+  {
+   "id": "verdict_b_auc",
+   "evidence": [
+    "verdict_b_mf4090"
+   ],
+   "claim": "t2-ep23 的 ADD-AUC 是 0.5、不动基线 0.1496；t2-ep27 是 0.5511、基线 0.2687；t2-ep21 的 0.1729 低于基线 0.2011；t2-ep25 的 0.1235 低于基线 0.139。"
+  },
+  {
+   "id": "compat_p23",
+   "evidence": [
+    "check_t1ep8",
+    "check_t1ep8_w2",
+    "check_t1ep6",
+    "check_t2ep2"
+   ],
+   "claim": "兼容性验证在 mf4090 上的 4 份导出（t1-ep8 的 1 个世界与 2 个世界、t1-ep6 的 1 个世界、t2-ep2 的 1 个世界）核对结果都是 EXPORT_OK，元数据里的 eval_code_sha256 与 eval_script_sha256 都等于 8c778f9 的值。"
+  },
+  {
+   "id": "compat_p4",
+   "evidence": [
+    "compare_t1ep6"
+   ],
+   "claim": "t1-ep6 同一 checkpoint 在 4096 个世界上，8c778f9 评测器的 ADD-AUC 是 0.633536，v0.4.0 评测器是 0.632112，差 +0.00142；chord_sr 的 |z| 为 1.18，结论 CONSISTENT。"
+  },
+  {
+   "id": "compat_neg",
+   "evidence": [
+    "guard",
+    "negctl"
+   ],
+   "claim": "对含 NaN 的 t1-ep1，守卫一行符合期望（COMPAT_EXPECT_OK guard）；关掉守卫的反向对照里 fc_export 退出码 3，评测失败而不是终止报错，也判为符合期望。"
+  },
+  {
+   "id": "compat_gate_box",
+   "evidence": [
+    "chain_logs_mf4090"
+   ],
+   "claim": "compat_mf4090 以 COMPAT_PASS（7 行全部符合）结束，门槛文件是 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）；方盒训练链随后开始，smoke-t1-ep1、smoke-t1-ep7、smoke-t1-ep28、smoke-t2-ep28 四条冒烟都是 SMOKE_OK。"
+  },
+  {
+   "id": "single_world",
+   "evidence": [
+    "check_t1ep6",
+    "compare_t1ep6"
+   ],
+   "claim": "t1-ep6 只导出 1 个世界时 maniptrans_sr 是 0，同一 checkpoint 在 4096 个世界上的 maniptrans_sr 约是 0.57。"
+  },
+  {
+   "id": "kaggle",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "10/2 这次查到：Tier 1 的四个比赛 userHasEntered 都是 True；Tier 2 的 mp-sr、mppe、sp-sr 是 True，tier2-auc 是 False；Tier 3 的四个都是 False。"
+  },
+  {
+   "id": "frame_refs",
+   "evidence": [
+    "frame_refs"
+   ],
+   "claim": "Tier 2 帧参考 30 条全部通过（FRAME_REFS_OK 30）；ep11 粗核排除了 1 帧；ep17 第 0 帧与发布输入的位置差是 14.8 mm。"
+  },
+  {
+   "id": "armed",
+   "evidence": [
+    "arm_mf4090",
+    "arm_ml40"
+   ],
+   "claim": "两台的导出链都起好了（最后一行 ARMED），预检是 EXPORT_DRYRUN_OK；还没训完的行 mf4090 有 7 行，ml40 有 6 行。"
+  },
+  {
+   "id": "plan_review",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "提交流程计划是第 2 版，按 Fable 5.1 的审查修改，审查结论是 GO WITH FIXES、没有 BLOCKER。"
+  },
+  {
+   "id": "ep20",
+   "evidence": [
+    "exports_mf4090"
+   ],
+   "claim": "mf4090 的导出清单里 Tier 1 ep20 用的是 t1-ep20-w2048-cap4m-mf4090，步数 349999104。"
+  },
+  {
+   "id": "disk",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "mf4090 这次快照里的可用磁盘是 7031 MB。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "这份 Kaggle 状态列出了 12 个 v2d-challenge-track2 比赛。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_b",
+   "evidence": [
+    "verdict_b_mf4090"
+   ],
+   "claim": "mf4090 的 B 段 8 条里有 3 条按批量判据通过。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_p4",
+   "evidence": [
+    "compare_t1ep6"
+   ],
+   "claim": "t1-ep6 两个评测器的 ADD-AUC 差超过 0.005，结论 INCONSISTENT。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_kaggle",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "tier2-auc 这个比赛的 userHasEntered 是 True。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_frames",
+   "evidence": [
+    "frame_refs"
+   ],
+   "claim": "Tier 2 帧参考有 3 条没通过粗核，最后一行是 FRAME_REFS_FAIL 3。",
+   "control": "false"
+  }
+ ]
+}

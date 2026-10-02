@@ -1,0 +1,10 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ grep\ -a\ -H\ \'\^===\'\ runs/logs/t2b_eval_ml40.log\ \|\ tail\ -4\ \|\ cut\ -c1-260\;\ ls\ runs/logs/compat_ml40.gate\ 2\>\&1\ \|\ cut\ -c1-120\;\ tail\ -1\ runs/logs/compat_ml40.log\ \|\ cut\ -c1-200 
+# source   : dc5f21e494d1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:15:07-0600
+# ---------------------------------------------------------------
+runs/logs/t2b_eval_ml40.log:=== 2026-10-01 14:49:47 CST 等 runs/logs/t2b_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/t2b_eval_ml40.log:=== 2026-10-02 20:59:52 CST 训练链已结束：=== 2026-10-02 20:59:11 CST DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）
+runs/logs/t2b_eval_ml40.log:=== 2026-10-02 20:59:52 CST start t2b_eval_ml40, source 90a73fa8e852, 期望表 stages/policy/queues/ml40_t2b.expect.tsv, 附加表 -, 评测步数 349999104
+ls: cannot access 'runs/logs/compat_ml40.gate': No such file or directory
+=== 2026-10-02 11:01:38 CST 等 runs/logs/t2c_eval_ml40.log 结束（它的最后一行变成评测链的结束行）

@@ -1,0 +1,73 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/mf4090_t2b.expect.tsv results/day2 --steps 349999104 
+# md5      : 4fed3d6466ee0885a4d964699eff3e23  stages/evaluate/batch_verdict.py
+# md5      : de6030dd08b6951bc4894ac00552c84a  stages/policy/queues/mf4090_t2b.expect.tsv
+# source   : dc5f21e494d1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:01:16-0600
+# ---------------------------------------------------------------
+
+== t2-ep13-w2048-cap4m-mf4090（2026-06-09_10-19-09_snack_box_desk_through_06，frame，922 帧）：不动基线 0.1592；gap 走势 +0.041
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2006 > 0.1592：过
+  另报：SP-SR 0（0 / 4096），MPPE 27.13 cm
+  判定：不通过
+  summary_json {"run": "t2-ep13-w2048-cap4m-mf4090", "sequence_id": "2026-06-09_10-19-09_snack_box_desk_through_06", "playback": "frame", "frames": 922, "bar": 0.1592326464208243, "add_auc": 0.20056567740285217, "gap": 0.04133303098202787, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 27.134964875533075, "verdict": "FAIL", "marginal": []}
+
+== t2-ep15-w2048-cap4m-mf4090（2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08，frame，715 帧）：不动基线 0.2390；gap 走势 +0.074
+  chord_sr       0.8794 > 0（3602 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.3132 > 0.239：过
+  另报：SP-SR 0.9141（3744 / 4096），MPPE 7.92 cm
+  判定：不通过
+  summary_json {"run": "t2-ep15-w2048-cap4m-mf4090", "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "playback": "frame", "frames": 715, "bar": 0.238986013986014, "add_auc": 0.3132152850811298, "gap": 0.07422927109511579, "chord_sr": 0.87939453125, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.9140625, "mppe_cm": 7.922346193527891, "verdict": "FAIL", "marginal": []}
+
+== t2-ep17-w2048-cap4m-mf4090（2026-05-01_17-04-55_traffic_cone_ground_table_02，frame，440 帧）：不动基线 0.2384；gap 走势 +0.051
+  chord_sr       0.2161 > 0（885 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2895 > 0.2384：过
+  另报：SP-SR 0.001953（8 / 4096），MPPE 34.43 cm
+  判定：不通过
+  summary_json {"run": "t2-ep17-w2048-cap4m-mf4090", "sequence_id": "2026-05-01_17-04-55_traffic_cone_ground_table_02", "playback": "frame", "frames": 440, "bar": 0.23835227272727272, "add_auc": 0.28954557939009234, "gap": 0.051193306662819626, "chord_sr": 0.216064453125, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.001953125, "mppe_cm": 34.4299370436984, "verdict": "FAIL", "marginal": []}
+
+== t2-ep19-w2048-cap4m-mf4090（2026-05-19_10-19-48_cane_swing_05，frame，886 帧）：不动基线 0.1399；gap 走势 +0.040
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.1796 > 0.1399：过
+  另报：SP-SR 0（0 / 4096），MPPE 40.55 cm
+  判定：不通过
+  summary_json {"run": "t2-ep19-w2048-cap4m-mf4090", "sequence_id": "2026-05-19_10-19-48_cane_swing_05", "playback": "frame", "frames": 886, "bar": 0.13988431151241537, "add_auc": 0.1795908495211978, "gap": 0.03970653800878243, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 40.54998883077447, "verdict": "FAIL", "marginal": []}
+
+== t2-ep21-w2048-cap4m-mf4090（2026-04-29_11-53-57_tall_bar_stool_pull_08，frame，678 帧）：不动基线 0.2011；gap 走势 -0.028
+  chord_sr       0.8665 > 0（3549 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.1729 > 0.2011：不过
+  另报：SP-SR 0（0 / 4096），MPPE 8.16 cm
+  判定：不通过
+  summary_json {"run": "t2-ep21-w2048-cap4m-mf4090", "sequence_id": "2026-04-29_11-53-57_tall_bar_stool_pull_08", "playback": "frame", "frames": 678, "bar": 0.2010508849557522, "add_auc": 0.17286819412996635, "gap": -0.028182690825785867, "chord_sr": 0.866455078125, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 8.159046355738692, "verdict": "FAIL", "marginal": []}
+
+== t2-ep23-w2048-cap4m-mf4090（2026-06-03_15-08-03_toy_stroller_back_forth_ground_04，frame，946 帧）：不动基线 0.1496；gap 走势 +0.350
+  chord_sr       0.9514 > 0（3897 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.5 > 0.1496：过
+  另报：SP-SR 0.9973（4085 / 4096），MPPE 4.43 cm
+  判定：不通过
+  summary_json {"run": "t2-ep23-w2048-cap4m-mf4090", "sequence_id": "2026-06-03_15-08-03_toy_stroller_back_forth_ground_04", "playback": "frame", "frames": 946, "bar": 0.14957716701902748, "add_auc": 0.4999873219786436, "gap": 0.35041015495961614, "chord_sr": 0.951416015625, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.997314453125, "mppe_cm": 4.431618749275836, "verdict": "FAIL", "marginal": []}
+
+== t2-ep25-w2048-cap4m-mf4090（2026-03-20_11-59-57_cyan_water_bottle_rotate_01，frame，859 帧）：不动基线 0.1390；gap 走势 -0.016
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.1235 > 0.139：不过
+  另报：SP-SR 0（0 / 4096），MPPE 117.09 cm
+  判定：不通过
+  summary_json {"run": "t2-ep25-w2048-cap4m-mf4090", "sequence_id": "2026-03-20_11-59-57_cyan_water_bottle_rotate_01", "playback": "frame", "frames": 859, "bar": 0.13904249126891735, "add_auc": 0.12350598869279322, "gap": -0.015536502576124128, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 117.08800606141881, "verdict": "FAIL", "marginal": []}
+
+== t2-ep27-w2048-cap4m-mf4090（2026-05-01_11-15-05_woven_basket_ground_desk_10，frame，565 帧）：不动基线 0.2687；gap 走势 +0.282
+  chord_sr       0.8755 > 0（3586 / 4096 个世界）：过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.5511 > 0.2687：过
+  另报：SP-SR 0.8979（3678 / 4096），MPPE 10.27 cm
+  判定：不通过
+  summary_json {"run": "t2-ep27-w2048-cap4m-mf4090", "sequence_id": "2026-05-01_11-15-05_woven_basket_ground_desk_10", "playback": "frame", "frames": 565, "bar": 0.2686946902654867, "add_auc": 0.5511016845703125, "gap": 0.2824069943048258, "chord_sr": 0.87548828125, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.89794921875, "mppe_cm": 10.271578420655029, "verdict": "FAIL", "marginal": []}
+
+合计：通过 0、不通过 8、无效 0

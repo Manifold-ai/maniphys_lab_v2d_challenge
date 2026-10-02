@@ -42,3 +42,30 @@ P5′ 的结论：只要评测器记下的参考就是 motion parquet 的物体�
 
 Mac 回来后要做的：拉回 compat 结果与导出，按计划第 3.5 节的判据与决策表下结论，写进本记录、过 jev；方盒评完后跑
 `batch_verdict.py --steps 349999104` 与 `mount_check.py`；链跑完后整体同步一次（来历会从 90a73fa 更新）。
+
+## mf4090 兼容性验证结果（10/2 06:33–06:43，按计划第 3.5 节下结论）
+
+Tier 2 B 段 06:32:56 评完（成功 8、失败 0），compat 06:33:32 开始，06:42:50 结束：`COMPAT_PASS（7 行全部符合）`，门槛 `完成 1`
+（`runs/logs/compat_mf4090.log`；逐行结果 `results/submission/compat/mf4090_*.txt`）。
+
+| 判据 | 结果 |
+|---|---|
+| P1 加载 | 4 个 export 行（t1-ep8、t1-ep6、t2-ep2 各 1 个世界，t1-ep8 2 个世界）`fc_export.sh` 都退出码 0 |
+| P2 结构 | 4 份导出逐项通过：schema、米、xyzw、世界数、刚体数、起始帧 0、步数等于 motion 帧数（708、546、980）、行数、`reference_frame = step`、`environment_valid` 全真、位姿全有限、`non_finite_worlds` 为空 |
+| P3 来历 | `checkpoint_sha256` 等于 policy 文件；`eval_code_sha256` b1b3ebe3…、`eval_script_sha256` 160d24f5… 等于 8c778f9 的值 |
+| P4 一致 | t1-ep6 4096 世界：8c778f9 ADD-AUC 0.6335、v0.4.0 0.6321，差 +0.0014（< 0.005）；chord_sr 0.9585 对 0.9531，\|z\| 1.18（< 3）；CONSISTENT |
+| N1 守卫 | t1-ep1（含 NaN）`fc_export.sh` 退出码 12，不起容器 |
+| N2 反向对照 | 关掉守卫导出 t1-ep1：评测器出错，`fc_export.sh` 退出码 3（不是终止报错），没有产出能通过核对的导出，符合期望 |
+
+只报：
+- 1 个世界与 4096 世界：t1-ep6 只导 1 个世界时 MP-SR 是 0、ADD-AUC 0.6327，同一 checkpoint 4096 世界的 MP-SR 是 0.5696、ADD-AUC 0.6335。
+  单世界提交是这个分布里的一个样本，本地 4096 世界的 MP-SR 不能直接读成排行榜上这条 episode 会不会成功。
+- t1-ep8 2 个世界的导出：ADD-AUC 0.6732，MP-SR、chord_sr、SP-SR 都是 1.0。
+- 评测器记下的参考位姿与 motion parquet 的物体位姿：位置最大差 0.0000 mm，朝向最大差 0.040–0.043°。这一项 `check_export.py` 没有先把 motion 那一侧的四元数归一化
+  （评测器那一侧归一化了），float32 存储时归一化误差 1e-7 量级就会在 arccos 里放大成这个量级，所以很可能是比较方式造成的（推测，未核实）。
+  打包器两侧都归一化，以 E6、E7 预演实测的换算残差为准。
+- `fc_export.sh` 第一次给某个 run、步数、世界数写日志时，`wc -l < 日志` 会往 stderr 打一句“No such file or directory”，不影响结果（只是显示）。
+
+结论（决策表第一行，mf4090 部分）：v0.4.0 训出的 checkpoint 能在 8c778f9 里加载、导出，提交用 8c778f9 副本导出；ml40 那台的 compat 排在 C 段之后（约 10:40），两台都过才算这一行成立。
+门槛过后 06:43:34 方盒训练链开始：4 条冒烟（t1-ep1、t1-ep7、t1-ep28、t2-ep28）都 `SMOKE_OK`，前三条的 256 世界 rollout 非有限世界都是 0（`runs/logs/box_train_mf4090.log`）；
+正式训练按 t1-ep1、t1-ep7、t1-ep28、t2-ep28 的顺序跑，每条约 2.2 小时，估计 16:00 前后训完。

@@ -1,0 +1,9 @@
+# command  : stages/evaluate/compat_expect.sh guard t1-ep1-w2048-cap4m-mf4090 349999104 1 
+# md5      : 3424e5fc094a3c1f93be78c31c0a37ab  stages/evaluate/compat_expect.sh
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-02T20:41:42+0800
+# ---------------------------------------------------------------
+fc_export: t1-ep1-w2048-cap4m-mf4090 第 349999104 步的 policy 含非有限参数、读不了或还没写完：不导出（349,999,104 步：非有限 5892 / 1207577（NaN 5892，inf 0）） 12
+fc_export.sh 退出码 12（期望 12）
+COMPAT_EXPECT_OK guard
