@@ -1,0 +1,64 @@
+# command  : scripts/dev/push-new-files stages/evaluate/fc_export.sh stages/evaluate/check_export.py stages/evaluate/compat_8c778f9.sh stages/evaluate/compat_expect.sh stages/evaluate/compat/mf4090.tsv stages/evaluate/compat/ml40.tsv stages/evaluate/frame_ref_check.py stages/evaluate/test_fc_export.py stages/evaluate/test_compat_8c778f9.py stages/evaluate/test_check_export.py stages/evaluate/test_frame_ref_check.py stages/policy/fc_src_check.py stages/policy/make_fc_src_8c778f9.sh stages/policy/mount_check.py stages/policy/test_fc_src_check.py stages/policy/test_mount_check.py stages/policy/queues/mf4090_box.expect.tsv stages/policy/queues/mf4090_box_smoke.txt stages/policy/queues/mf4090_box.txt stages/policy/queues/ml40_box.expect.tsv stages/policy/queues/ml40_box_smoke.txt stages/policy/queues/ml40_box.txt stages/retarget/box_ref_check.sh third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch third_party/patches/flash_chord-8c778f9.sha256 third_party/patches/flash_chord-8c778f9.eval.json third_party/patches/flash_chord-p185.sha256 
+# md5      : 16bd8056d76bfa94bc2acb1460402c69  scripts/dev/push-new-files
+# md5      : a16bfc5a779fb60b8003441d6ab9da90  stages/evaluate/fc_export.sh
+# md5      : c185a43ac0f045715377098d42c3485e  stages/evaluate/check_export.py
+# md5      : b245520edc2d551fd08349d12ff8bb75  stages/evaluate/compat_8c778f9.sh
+# md5      : 11a76fdb04e713cc627bc7785446dc8f  stages/evaluate/compat_expect.sh
+# md5      : 99a22c476df2f8c53665478511a812cb  stages/evaluate/compat/mf4090.tsv
+# md5      : 49f0936b499e334fe3a2cd87e6e14ef1  stages/evaluate/compat/ml40.tsv
+# md5      : 0f76c1397309478c841fd21ef2b7b9e2  stages/evaluate/frame_ref_check.py
+# md5      : 0c4dead2eb664d8925d56dccf41af0dc  stages/evaluate/test_fc_export.py
+# md5      : 7bcf2603bd376917cee9bcbe0930cc7a  stages/evaluate/test_compat_8c778f9.py
+# md5      : 37ab05ee86ca4b67dda3e4d373b32da1  stages/evaluate/test_check_export.py
+# md5      : 7843f1cdb8194bbdb318ae4cfa0d9e3f  stages/evaluate/test_frame_ref_check.py
+# md5      : d0a40e0c5226c137758057bb01fb1a6f  stages/policy/fc_src_check.py
+# md5      : df47491ce7fe0da7b738c31dbe26493b  stages/policy/make_fc_src_8c778f9.sh
+# md5      : 1b86de252a7338f9ec2d19e81fcb0ad0  stages/policy/mount_check.py
+# md5      : 9edfa368ab1a63dca6705cc8a60051bd  stages/policy/test_fc_src_check.py
+# md5      : 8f4325e0f8ae3e7dac26753c5312c28d  stages/policy/test_mount_check.py
+# md5      : 2c487f6af1d4fa832a4dd8d4d644a84c  stages/policy/queues/mf4090_box.expect.tsv
+# md5      : 6fc198f4a91ab735885d6c9d22fc79b1  stages/policy/queues/mf4090_box_smoke.txt
+# md5      : a638567c2c78d3f18465e94d909a3163  stages/policy/queues/mf4090_box.txt
+# md5      : 808558d509972cefd5adba1aac9bf3f4  stages/policy/queues/ml40_box.expect.tsv
+# md5      : d883478df4f220fae4d4b486cca037fd  stages/policy/queues/ml40_box_smoke.txt
+# md5      : e36615eef3e16e31c38c050b49acc879  stages/policy/queues/ml40_box.txt
+# md5      : 40522e68b5e8582d816d44fb190c10bf  stages/retarget/box_ref_check.sh
+# md5      : b5ab89813be0d10dbccd8caeeeef0934  third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch
+# md5      : 2c322fa055182e16a322a0cac3ee0234  third_party/patches/flash_chord-8c778f9.sha256
+# md5      : feab375eabc99f6eb83c5c4e967b6a62  third_party/patches/flash_chord-8c778f9.eval.json
+# md5      : 218869b5e310223111be8a9ae37bdcb3  third_party/patches/flash_chord-p185.sha256
+# source   : 3b55a0e2b9fb
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:49:12-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 3b55a0e2b9fb；远端来历 90a73fa8e852
+  ok   a16bfc5a779fb60b8003441d6ab9da90  stages/evaluate/fc_export.sh
+  ok   c185a43ac0f045715377098d42c3485e  stages/evaluate/check_export.py
+  ok   b245520edc2d551fd08349d12ff8bb75  stages/evaluate/compat_8c778f9.sh
+  ok   11a76fdb04e713cc627bc7785446dc8f  stages/evaluate/compat_expect.sh
+  ok   99a22c476df2f8c53665478511a812cb  stages/evaluate/compat/mf4090.tsv
+  ok   49f0936b499e334fe3a2cd87e6e14ef1  stages/evaluate/compat/ml40.tsv
+  ok   0f76c1397309478c841fd21ef2b7b9e2  stages/evaluate/frame_ref_check.py
+  ok   0c4dead2eb664d8925d56dccf41af0dc  stages/evaluate/test_fc_export.py
+  ok   7bcf2603bd376917cee9bcbe0930cc7a  stages/evaluate/test_compat_8c778f9.py
+  ok   37ab05ee86ca4b67dda3e4d373b32da1  stages/evaluate/test_check_export.py
+  ok   7843f1cdb8194bbdb318ae4cfa0d9e3f  stages/evaluate/test_frame_ref_check.py
+  ok   d0a40e0c5226c137758057bb01fb1a6f  stages/policy/fc_src_check.py
+  ok   df47491ce7fe0da7b738c31dbe26493b  stages/policy/make_fc_src_8c778f9.sh
+  ok   1b86de252a7338f9ec2d19e81fcb0ad0  stages/policy/mount_check.py
+  ok   9edfa368ab1a63dca6705cc8a60051bd  stages/policy/test_fc_src_check.py
+  ok   8f4325e0f8ae3e7dac26753c5312c28d  stages/policy/test_mount_check.py
+  ok   2c487f6af1d4fa832a4dd8d4d644a84c  stages/policy/queues/mf4090_box.expect.tsv
+  ok   6fc198f4a91ab735885d6c9d22fc79b1  stages/policy/queues/mf4090_box_smoke.txt
+  ok   a638567c2c78d3f18465e94d909a3163  stages/policy/queues/mf4090_box.txt
+  ok   808558d509972cefd5adba1aac9bf3f4  stages/policy/queues/ml40_box.expect.tsv
+  ok   d883478df4f220fae4d4b486cca037fd  stages/policy/queues/ml40_box_smoke.txt
+  ok   e36615eef3e16e31c38c050b49acc879  stages/policy/queues/ml40_box.txt
+  ok   40522e68b5e8582d816d44fb190c10bf  stages/retarget/box_ref_check.sh
+  ok   b5ab89813be0d10dbccd8caeeeef0934  third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch
+  ok   2c322fa055182e16a322a0cac3ee0234  third_party/patches/flash_chord-8c778f9.sha256
+  ok   feab375eabc99f6eb83c5c4e967b6a62  third_party/patches/flash_chord-8c778f9.eval.json
+  ok   218869b5e310223111be8a9ae37bdcb3  third_party/patches/flash_chord-p185.sha256
+远端来历（放完）90a73fa8e852
+PUSH_OK（27 个文件）

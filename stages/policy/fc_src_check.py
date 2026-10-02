@@ -5,7 +5,8 @@
   2. 副本里有 SOURCE_V2D.txt（scripts/dev/in-flash-chord 只认带它的副本）；
   3. 逐文件比内容：副本与 v0.4.0 不同（含只在一边有）的文件，正好是清单里列的那些；
   4. 清单里每个文件在副本里的 sha256 与清单相同。
-忽略任意层级名为 outputs、logs 的目录与文件（生成副本时 rsync 就排除了它们）、__pycache__/、*.pyc（容器里 import 会往挂载目录写 .pyc）、根下的 SOURCE_V2D.txt，
+忽略任意层级名为 outputs、logs 的目录与文件（生成副本时 rsync 就排除了它们）、__pycache__/、*.pyc（容器里 import 会往挂载目录写 .pyc）、
+.cache/（FlashCHORD 运行时写的凸包缓存，10/1 ml40 实测：副本与对照各自生成，同名文件字节也不同）、根下的 SOURCE_V2D.txt，
 以及根下评测器用过之后可能留下的 wandb/、.hydra/（只报个数）。符号链接比链接目标。
 清单格式同 shasum：每行“sha256  相对 flash_chord 目录的路径”。现有两份：
   third_party/patches/flash_chord-8c778f9.sha256（上游 8c778f9，11 个文件，tools/make_fc_patch.sh 生成）
@@ -23,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 UPSTREAM = ROOT / "third_party/video_to_data"
 BASE = UPSTREAM / "robotic_grounding/flash_chord"
 SKIP_NAMES = {"outputs", "logs"}   # 任意层级、目录或文件，同 make_*_fc_src.sh 里 rsync 不带 / 的 --exclude
-SKIP_DIRS = {"__pycache__", ".pytest_cache"}
+SKIP_DIRS = {"__pycache__", ".pytest_cache", ".cache"}   # .cache：FlashCHORD 建场景时写的凸包缓存（assets/.cache/convex/*.npz），npz 带时间戳，重算一次字节就变
 RUNTIME_TOP = {"wandb", ".hydra"}   # 挂成 /workspace 用过之后，评测器可能在根下留下的运行产物：不比，单独报个数
 WANT_HEAD = os.environ.get("V2D_FC_SRC_BASE_HEAD", "33129dd")   # 只给测试换
 

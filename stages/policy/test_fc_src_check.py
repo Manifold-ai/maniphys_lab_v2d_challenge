@@ -3,7 +3,7 @@
 临时目录里搭最小仓库：真的 fc_src_check.py；third_party/video_to_data 是一个只有一个提交的 git 仓库，里面放一棵小的 flash_chord 树
 （含子目录、目录符号链接）；副本由它复制，再按“补丁”改两个文件、加一个文件，清单列这三个文件的 sha256。HEAD 的期望值经
 V2D_FC_SRC_BASE_HEAD 换成这个临时仓库的短哈希。
-  1. 副本只差清单里的三个文件、有 SOURCE_V2D.txt：FC_SRC_OK；副本里另有 __pycache__/*.pyc、outputs/、logs/、根下 wandb/、.hydra/ 也照样 OK；
+  1. 副本只差清单里的三个文件、有 SOURCE_V2D.txt：FC_SRC_OK；副本里另有 __pycache__/*.pyc、outputs/、logs/、assets/.cache/、根下 wandb/、.hydra/ 也照样 OK；
   2. 多改一个清单外的文件、清单里的 sha256 不对、少了 SOURCE_V2D.txt、对照的已跟踪文件被改过、HEAD 不对、
      目录符号链接指向别处：都 FC_SRC_FAIL。
 用法：python3 stages/policy/test_fc_src_check.py
@@ -62,7 +62,7 @@ def test_ok_and_ignored_noise() -> None:
         root = Path(t); head, copy, man, _ = setup(root)
         rc, out = check(root, copy, man, head)
         assert rc == 0 and out.rstrip().endswith("FC_SRC_OK"), out
-        for d in ("src/flash_chord/__pycache__", "outputs", "logs", "wandb", ".hydra", "src/flash_chord/logs"):
+        for d in ("src/flash_chord/__pycache__", "outputs", "logs", "wandb", ".hydra", "src/flash_chord/logs", "src/flash_chord/assets/.cache/convex"):
             (copy / d).mkdir(parents=True, exist_ok=True)
             (copy / d / "x.pyc").write_text("noise")
         rc, out = check(root, copy, man, head)
