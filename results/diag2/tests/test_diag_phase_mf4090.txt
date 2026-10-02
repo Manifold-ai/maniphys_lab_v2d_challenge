@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/test_diag_phase.py 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : a0f32200577b19544f253afd958f9c23  stages/evaluate/test_diag_phase.py
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-02T23:05:02+0800
+# ---------------------------------------------------------------
+ok  test_classification
+ok  test_gates
+ok  test_control
+ok  test_sync
+ALL_OK

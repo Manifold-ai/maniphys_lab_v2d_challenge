@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/evaluate/diag_rollout.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : c5ea13a60d40a3bd11cdde7a0d944de4  stages/evaluate/diag_rollout.py
+# source   : 2e9d3e63bdc1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T11:47:18-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/diag_rollout.py：远端是 90a73fa 的版本（a7dc04e11fcc9b5f1566662cc6881aa8）
+本地提交 2e9d3e63bdc1；远端来历 90a73fa8e852
+  ok   c5ea13a60d40a3bd11cdde7a0d944de4  stages/evaluate/diag_rollout.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（1 个文件）
