@@ -1,0 +1,9 @@
+# command  : stages/evaluate/arm_diag2.sh ml40 
+# md5      : 482c6bb759f39659ee67f89181958112  stages/evaluate/arm_diag2.sh
+# source   : 90a73fa8e852
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-02T23:05:30+0800
+# ---------------------------------------------------------------
+v2d-diag2: 1 windows (created Fri Oct  2 23:05:30 2026)
+diag2：=== 2026-10-02 23:05:30 CST 等 runs/logs/export_ml40.log 结束（它的最后一行变成导出链的结束行）
+ARMED
