@@ -7,7 +7,10 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
   2. 规矩一：有 NONFINITE、policy 含非有限参数、扫描结果里没有这一步（不完整）都拒绝，退出码 12，不起容器；关掉守卫时照样导出；
   3. 规矩二的识别：评测器报 must disable task failure termination → 13；别的失败 → 3；退出码 0 却缺文件 → 3；
   4. V2D_FC_SRC 不是 8c778f9 副本 → 2；run 名档位与 run 记录里 parquet 的档位不一致 → 2；GPU 有别的进程 → 6；
-  5. 已有完整结果不重复导出；V2D_EXPORT_TRAJ=0 时命令里没有 object_trajectories_output，只要 JSON。
+  5. 已有完整结果不重复导出；V2D_EXPORT_TRAJ=0 时命令里没有 object_trajectories_output，只要 JSON；
+  6. 同一个日志先有一次终止报错、再有一次别的失败：第二次判 3，不判 13（报错分类只看这一次追加的日志）；
+  7. V2D_EXPORT_DRYRUN=1：守卫照常（含 NaN 的仍是 12），通过时只打印命令、退出码 0，不起容器、不写文件；
+  8. 摘要脚本出错不改变导出的退出码。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -51,7 +54,7 @@ def setup(root: Path) -> None:
         (root / d).mkdir(parents=True, exist_ok=True)
     shutil.copy(HERE / "fc_export.sh", root / "stages/evaluate")
     (root / "stages/policy/ckpt_nonfinite.py").write_text(FAKE_NF)
-    (root / "stages/policy/eval_summary.py").write_text("print('SUMMARY')\n")
+    (root / "stages/policy/eval_summary.py").write_text("import os, sys\nprint('SUMMARY')\nsys.exit(int(os.environ.get('FAKE_SUMMARY_RC', '0')))\n")
     for name, text in (("scripts/dev/in-flash-chord", FAKE_IFC), ("bin/nvidia-smi", FAKE_GPU), ("bin/flock", "#!/usr/bin/env bash\nexit 0\n")):
         (root / name).write_text(text)
         (root / name).chmod(0o755)
@@ -142,6 +145,31 @@ def test_traj_off() -> None:
         rc, text, calls = run(root, V2D_EXPORT_WORLDS="4096", V2D_EXPORT_TRAJ="0")
         assert rc == 0 and "object_trajectories_output" not in calls and "evaluation.world_count=4096" in calls, (rc, calls)
         assert out(root, "4096").with_suffix(".json").is_file() and not out(root, "4096").with_suffix(".parquet").exists()
+
+
+def test_rerun_classification() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        rc1, _, _ = run(root, FAKE_EVAL="term")
+        rc2, text2, _ = run(root, FAKE_EVAL="boom")
+        assert (rc1, rc2) == (13, 3), (rc1, rc2, text2)
+
+
+def test_dryrun() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        rc, text, calls = run(root, V2D_EXPORT_DRYRUN="1", FAKE_GPU="busy")
+        assert rc == 0 and not calls and "DRYRUN" in text and "evaluation.world_count=1" in text, (rc, text, calls)
+        assert not (root / f"runs/flash_chord/{RUN}/export_8c778f9").exists() and not (root / "runs/logs").exists()
+        rc, text, calls = run(root, V2D_EXPORT_DRYRUN="1", FAKE_NF="nan")
+        assert rc == 12 and not calls, (rc, text)
+
+
+def test_summary_failure_keeps_exit_code() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        rc, text, _ = run(root, FAKE_SUMMARY_RC="1")
+        assert rc == 0 and "摘要打印失败" in text, (rc, text)
 
 
 if __name__ == "__main__":

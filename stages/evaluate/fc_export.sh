@@ -7,10 +7,12 @@
 #   V2D_EXPORT_WORLDS=1       世界数；V2D_EXPORT_TRAJ=0 只写 metrics JSON（4096 世界的比对用：轨迹每世界每帧一行，太大）
 #   V2D_EXPORT_UNGUARDED=1    跳过 NaN 守卫，只给兼容性验证里含 NaN 的反向对照用
 #   V2D_ALLOW_SHARED_GPU=1    GPU 上有别的进程时也照样导出（默认拒绝，退出码 6）
+#   V2D_EXPORT_DRYRUN=1       预检：守卫、run 记录、v2d_meta.json、输出路径都照常核，然后只打印将在容器里执行的命令，退出码 0；
+#                             不加锁、不查 GPU、不起容器、不写任何文件（链在跑的时候也能用，计划第 7 节第 3 步）
 # 规矩一（用户 10/1 采纳）：含 NaN 的 policy 不拿去导出。run 目录有 NONFINITE，或这一份 policy 有非有限参数、读不了、还没写完，
 #   就拒绝，退出码 12，不起容器。
 # 规矩二（同上）：提交时某条 episode 报 “evaluation must disable task failure termination”，退到同一条 run 里更早的一份有限 checkpoint。
-#   本脚本只负责把这种失败认出来：评测器退出码非零且日志里有这句话，退出码 13；其他失败退出码 3。回退由调用方按步数往前重试。
+#   本脚本只负责把这种失败认出来：评测器退出码非零且这一次追加的日志里有这句话，退出码 13；其他失败退出码 3。回退由调用方按步数往前重试。
 # 运行时：V2D_FC_SRC 必须是 make_fc_src_8c778f9.sh 生成的副本（SOURCE_V2D.txt 第一行含 8c778f905c），否则退出码 2。
 # 输出 runs/flash_chord/<run>/export_8c778f9/s<步数>_w<世界数>/episode_<6 位序号>.{json,parquet}；日志 runs/logs/<run>.export_8c778f9_s<步数>_w<世界数>.log。
 #   episode 序号取自 runs/motion_src/tier<档位>/<序列>/v2d_meta.json：序列取自 run_record.jsonl 第一条 start 记录的 parquet 路径，
@@ -57,7 +59,15 @@ PY
 OUTD="$O/export_8c778f9/s${STEP}_w${W}"
 J="$OUTD/episode_$(printf %06d "$EP").json"; Q="${J%.json}.parquet"
 LOG="runs/logs/$RUN.export_8c778f9_s${STEP}_w${W}.log"
-summary() { python3 stages/policy/eval_summary.py "$J"; }
+# 摘要只供人看：它出错（例如 JSON 缺了它认识的键）不改变导出的结论
+summary() { python3 stages/policy/eval_summary.py "$J" || echo "fc_export: 摘要打印失败（导出本身的结论不变）"; }
+ARGS=("evaluation.checkpoint=/repo/$P" "evaluation.world_count=$W" "evaluation.reset_mode=explicit" "evaluation.metrics_output=/repo/$J")
+[ "$TRAJ" = 1 ] && ARGS+=("evaluation.object_trajectories_output=/repo/$Q")
+ARGS+=("hydra.run.dir=/repo/$OUTD/hydra/episode_$(printf %06d "$EP")" "logging.mode=disabled")
+CMD="cd /workspace && python scripts/evaluate_policy.py $(printf '%q ' "${ARGS[@]}")"
+if [ "${V2D_EXPORT_DRYRUN:-0}" = 1 ]; then
+  echo "fc_export: DRYRUN $RUN policy_$STEP episode $EP world_count=$W traj=$TRAJ"; echo "  $CMD"; exit 0
+fi
 if [ -s "$J" ] && { [ "$TRAJ" = 0 ] || [ -s "$Q" ]; }; then echo "fc_export: 已有结果 $J"; summary; exit 0; fi
 
 exec 9>"$O/.export.lock"; flock -n 9 || die "$O 正在被另一个 fc_export 导出"
@@ -65,18 +75,18 @@ others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null 
 [ -z "$others" ] || [ "${V2D_ALLOW_SHARED_GPU:-0}" = 1 ] || die "GPU 上有别的进程（PID ${others//$'\n'/,}），拒绝导出" 6
 mkdir -p "$OUTD" runs/logs
 rm -f "$J" "$Q"
-ARGS=("evaluation.checkpoint=/repo/$P" "evaluation.world_count=$W" "evaluation.reset_mode=explicit" "evaluation.metrics_output=/repo/$J")
-[ "$TRAJ" = 1 ] && ARGS+=("evaluation.object_trajectories_output=/repo/$Q")
-ARGS+=("hydra.run.dir=/repo/$OUTD/hydra/episode_$(printf %06d "$EP")" "logging.mode=disabled")
+n0="$(wc -l < "$LOG" 2>/dev/null || echo 0)"   # 日志按 run、步数、世界数累积：报错分类只看这一次追加的部分
+n0="$(tr -d " " <<< "$n0")"
 echo "=== $(date '+%F %T %Z') fc_export $RUN policy_$STEP episode $EP world_count=$W traj=$TRAJ ===" | tee -a "$LOG"
-V2D_GPU=1 V2D_CONTAINER_NAME="fc-export-$RUN" scripts/dev/in-flash-chord \
-  "cd /workspace && python scripts/evaluate_policy.py $(printf '%q ' "${ARGS[@]}")" >> "$LOG" 2>&1 9>&-
+V2D_GPU=1 V2D_CONTAINER_NAME="fc-export-$RUN" scripts/dev/in-flash-chord "$CMD" >> "$LOG" 2>&1 9>&-
 rc=$?
-grep -a -F 'in-flash-chord: /workspace ← ' "$LOG" | tail -1   # 这一次挂的是哪份源码（日志按 run、步数、世界数累积，取最后一行）
+NEW="$(tail -n +"$((n0 + 1))" "$LOG")"
+grep -a -F 'in-flash-chord: /workspace ← ' <<< "$NEW" | tail -1   # 这一次挂的是哪份源码
 if [ "$rc" != 0 ]; then
-  grep -q 'must disable task failure termination' "$LOG" \
+  grep -q 'must disable task failure termination' <<< "$NEW" \
     && die "评测器报 must disable task failure termination（退出码 ${rc}）：按规矩二退到同一 run 更早的有限 checkpoint。见 $LOG" 13
   die "导出失败（退出码 ${rc}），见 $LOG" 3
 fi
 [ -s "$J" ] && { [ "$TRAJ" = 0 ] || [ -s "$Q" ]; } || die "评测器退出码 0，但缺 $J 或 ${Q}，见 $LOG" 3
 echo "fc_export: $RUN policy_${STEP}（episode ${EP}，$W 世界）→ $J$([ "$TRAJ" = 1 ] && echo " 与 $Q")"; summary
+exit 0

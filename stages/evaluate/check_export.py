@@ -1,8 +1,8 @@
 """核对一份 8c778f9 导出（stages/evaluate/fc_export.sh 的输出）：结构、来历摘要与 metrics JSON（训练机宿主机上跑：numpy、pyarrow）。
 
 计划 agent-doc/plan-box6-and-eval-runtime-2026-10-01.md 第 3 节的判据 P2、P3。逐项打 ok / FAIL；全过最后一行 EXPORT_OK，否则 EXPORT_FAIL n、退出码 1。
-  P2 结构：轨迹 parquet 的元数据是 flash_chord_object_trajectories_v1、米、xyzw，世界数对、物体刚体 1 个、起始帧 0；
-     步数 = motion parquet 的帧数；行数 = 步数 × 世界数；每一步恰好“世界数”行；reference_frame = step；environment_valid 全真；位姿全有限。
+  P2 结构：轨迹 parquet 的元数据是 flash_chord_object_trajectories_v1、米、xyzw，世界数对、物体刚体数等于 motion parquet 的刚体数、起始帧 0；
+     步数 = motion parquet 的帧数；行数 = 步数 × 世界数 × 刚体数；每一步恰好“世界数 × 刚体数”行；reference_frame = step；environment_valid 全真；位姿全有限。
   P3 来历：轨迹元数据的 checkpoint_sha256 = 这份 policy 文件的 sha256；eval_code_sha256、eval_script_sha256 等于
      third_party/patches/flash_chord-8c778f9.eval.json（tools/make_fc_patch.sh 按上游 8c778f9 的源码算）；reference_parquet = metrics JSON 的 parquet。
      metrics JSON：world_count、step_count、checkpoint_sha256 对得上，non_finite_worlds 为空。
@@ -50,12 +50,12 @@ class Gate:
 
 
 def motion_reference(parquet: Path) -> tuple:
-    """motion_v1 parquet（一行存整条序列）里第一个物体刚体的逐帧位置与 xyzw 四元数。"""
+    """motion_v1 parquet（一行存整条序列）里的物体刚体数，以及第一个刚体的逐帧位置与 xyzw 四元数。"""
     t = pq.read_table(parquet, columns=["object_body_position", "object_body_wxyz"])
     pos = np.asarray(t.column("object_body_position")[0].as_py(), dtype=np.float64)
     wxyz = np.asarray(t.column("object_body_wxyz")[0].as_py(), dtype=np.float64)
-    pos, wxyz = pos.reshape(len(pos), -1, 3)[:, 0], wxyz.reshape(len(wxyz), -1, 4)[:, 0]
-    return pos, np.concatenate([wxyz[:, 1:], wxyz[:, :1]], axis=1)
+    pos, wxyz = pos.reshape(len(pos), -1, 3), wxyz.reshape(len(wxyz), -1, 4)
+    return pos.shape[1], pos[:, 0], np.concatenate([wxyz[:, 0, 1:], wxyz[:, 0, :1]], axis=1)
 
 
 def main() -> int:
@@ -77,7 +77,7 @@ def main() -> int:
     policy = ROOT / "runs/flash_chord" / a.run / f"policy_{a.step}.safetensors"
     ck = sha256(policy)
     ref_parquet = host(rep.get("parquet", ""))
-    pos_ref, quat_ref = motion_reference(ref_parquet)
+    nbody, pos_ref, quat_ref = motion_reference(ref_parquet)
     frames = len(pos_ref)
     digests = json.loads(DIGESTS.read_text())
     print(f"  info policy sha256 {ck[:16]}…；motion parquet {rep.get('parquet')}（{frames} 帧）")
@@ -99,15 +99,16 @@ def main() -> int:
             g(md.get("flash_chord.schema") == SCHEMA, f"schema {md.get('flash_chord.schema')}")
             g(md.get("flash_chord.position_unit") == "meter" and md.get("flash_chord.quaternion_order") == "xyzw",
               f"单位 {md.get('flash_chord.position_unit')}、四元数 {md.get('flash_chord.quaternion_order')}")
-            g(md.get("flash_chord.world_count") == str(a.worlds) and md.get("flash_chord.object_body_count") == "1"
+            g(md.get("flash_chord.world_count") == str(a.worlds) and md.get("flash_chord.object_body_count") == str(nbody)
               and md.get("flash_chord.start_frame") == "0",
               f"元数据 world_count {md.get('flash_chord.world_count')}、object_body_count {md.get('flash_chord.object_body_count')}、"
               f"start_frame {md.get('flash_chord.start_frame')}")
             g(md.get("flash_chord.step_count") == str(frames), f"元数据 step_count {md.get('flash_chord.step_count')} = {frames}")
-            g(t.num_rows == frames * a.worlds, f"行数 {t.num_rows} = {frames} × {a.worlds}")
+            per = a.worlds * nbody
+            g(t.num_rows == frames * per, f"行数 {t.num_rows} = {frames} × {a.worlds} 世界 × {nbody} 个刚体")
             step = t.column("step").to_numpy()
             counts = np.bincount(step, minlength=frames) if len(step) else np.zeros(frames, int)
-            g(len(counts) == frames and bool((counts == a.worlds).all()), f"step 0..{frames - 1} 每步 {a.worlds} 行")
+            g(len(counts) == frames and bool((counts == per).all()), f"step 0..{frames - 1} 每步 {per} 行")
             g(bool((t.column("reference_frame").to_numpy() == step).all()), "reference_frame = step（起始帧 0、连续）")
             g(bool(t.column("environment_valid").to_numpy(zero_copy_only=False).all()), "environment_valid 全真")
             ach = np.stack([t.column(c).to_numpy() for c in ACH], axis=1)
@@ -120,8 +121,8 @@ def main() -> int:
               f"元数据 eval_script_sha256 {str(md.get('flash_chord.eval_script_sha256'))[:16]}… = 8c778f9 的 {digests['eval_script_sha256'][:16]}…")
             g(md.get("flash_chord.reference_parquet") == rep.get("parquet"), "元数据 reference_parquet = JSON 的 parquet")
             print(f"  info 元数据 episode_index {md.get('flash_chord.episode_index', '（无，打包器按文件名 ' + qpath.name + '）')}")
-            if t.num_rows == frames * a.worlds:
-                r0 = ref.reshape(frames, a.worlds, 7)[:, 0]
+            if t.num_rows == frames * per:
+                r0 = ref.reshape(frames, a.worlds, nbody, 7)[:, 0, 0]
                 dp = np.linalg.norm(r0[:, :3] - pos_ref, axis=1).max() * 1000
                 dot = np.abs(np.sum(r0[:, 3:] / np.linalg.norm(r0[:, 3:], axis=1, keepdims=True) * quat_ref, axis=1))
                 da = np.degrees(2 * np.arccos(np.clip(dot, 0, 1))).max()
