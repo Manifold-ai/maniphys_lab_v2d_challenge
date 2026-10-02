@@ -1,0 +1,16 @@
+# command  : scripts/dev/push-new-files stages/policy/fc_src_check.py stages/policy/test_fc_src_check.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 24a52bf3c0f962842edcbdbd01d317cd  stages/policy/test_fc_src_check.py
+# source   : f779ffc34a15
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:50:47-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/policy/fc_src_check.py：远端是 3b55a0e 的版本（d0a40e0c5226c137758057bb01fb1a6f）
+  覆盖 stages/policy/test_fc_src_check.py：远端是 3b55a0e 的版本（9edfa368ab1a63dca6705cc8a60051bd）
+本地提交 f779ffc34a15；远端来历 90a73fa8e852
+  ok   c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+  ok   24a52bf3c0f962842edcbdbd01d317cd  stages/policy/test_fc_src_check.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（2 个文件）

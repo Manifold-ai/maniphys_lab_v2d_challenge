@@ -3,7 +3,7 @@
 # 用法：V2D_FC_SRC=<8c778f9 副本> [V2D_WAIT_FOR_EVAL_LOG=<上一段评测链日志>] stages/evaluate/compat_8c778f9.sh <清单> <日志名>
 #       预检：V2D_COMPAT_DRYRUN=1 加上同样的环境与参数（见文末“预检”）
 # 清单（stages/evaluate/compat/<机器>.tsv）每行 tab 分隔：<类型> <run> <步数> <世界数>；# 开头为注释。四种类型：
-#   export  fc_export.sh 按 kit 的做法导出（metrics JSON + 轨迹 parquet），再用 check_export.py 核结构与来历（判据 P1–P3）
+#   export  fc_export.sh 按 kit 的做法导出（metrics JSON + 轨迹 parquet），再用 check_export.sh（宿主机缺库时进容器跑 check_export.py）核结构与来历（判据 P1–P3）
 #   eval    fc_export.sh 只写 metrics JSON（V2D_EXPORT_TRAJ=0），与同一 checkpoint 在 v0.4.0 评测器下的 eval_<步数>_w<世界数>.json
 #           用 eval_compare.py 比：同一 sha256、ΔADD-AUC < 0.005、chord_sr |z| < 3（判据 P4，与 Day 2 恒等覆盖核对同一道闸）
 #   guard、negctl  含 NaN 的 policy 的两道对照，判定见 compat_expect.sh
@@ -19,8 +19,8 @@
 #    当“上一段训练日志”，门槛 1。check_export.py、eval、guard、negctl 不进门槛：它们管的是导出的格式与来历、已有结果能否沿用、
 #    守卫灵不灵，与方盒怎么训无关；不过的照样记 COMPAT_FAIL，人来看。
 # 5. 日志倒数第二行 COMPAT_PASS / COMPAT_FAIL，最后一行 DAY2_EVAL_DONE（成功 x、失败 y）：沿用评测链的结束行，chain_after.sh 靠它判断这一段结束。
-# 预检（V2D_COMPAT_DRYRUN=1）：不等、不查 GPU、不写标记、日志与门槛，只往标准输出打。核：清单与日志名的拒绝条件、宿主机 python3
-#   能 import numpy 与 pyarrow.parquet、V2D_WAIT_FOR_EVAL_LOG 指的文件已存在、V2D_FC_SRC 核得过、eval 行的旧 JSON 存在；
+# 预检（V2D_COMPAT_DRYRUN=1）：不等、不查 GPU、不写标记、日志与门槛，只往标准输出打。核：清单与日志名的拒绝条件、check_export 能跑
+#   （宿主机有 numpy 与 pyarrow，或有 flash_chord:latest 镜像）、V2D_WAIT_FOR_EVAL_LOG 指的文件已存在、V2D_FC_SRC 核得过、eval 行的旧 JSON 存在；
 #   每行调 fc_export.sh 的 V2D_EXPORT_DRYRUN=1（export、eval、negctl 要退出码 0，guard 要 12）。最后一行 COMPAT_DRYRUN_OK 或 COMPAT_DRYRUN_FAIL n。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
@@ -38,7 +38,7 @@ if [ "$DRY" = 1 ]; then
   chk() { if eval "$2" >/dev/null 2>&1; then echo "  ok   $1"; else echo "  FAIL $1"; bad=$((bad + 1)); fi; }
   echo "== 预检 ${NAME}：清单 ${LIST}（export 行 ${NEXP}），V2D_FC_SRC=${V2D_FC_SRC:-未设}，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
   echo "  ok   $LOG 与 $GATE 都不存在"
-  chk "宿主机 python3 能 import numpy、pyarrow.parquet" "python3 -c '${V2D_COMPAT_PY_IMPORT:-import numpy, pyarrow.parquet}'"   # 变量只给测试换
+  chk "check_export 能跑（宿主机 python3 有 numpy、pyarrow，或经 flash_chord:latest 容器）：$(stages/evaluate/check_export.sh --probe 2>&1)" "stages/evaluate/check_export.sh --probe"
   if [ -n "${V2D_WAIT_FOR_EVAL_LOG:-}" ]; then chk "要等的评测链日志 $V2D_WAIT_FOR_EVAL_LOG 已存在" "[ -f '$V2D_WAIT_FOR_EVAL_LOG' ]"; fi
   chk "V2D_FC_SRC 是核对过的 8c778f9 副本" "[ -n '${V2D_FC_SRC:-}' ] && python3 stages/policy/fc_src_check.py '${V2D_FC_SRC:-/nonexistent}' third_party/patches/flash_chord-8c778f9.sha256"
   chk "third_party/patches/flash_chord-8c778f9.eval.json 存在" "[ -s third_party/patches/flash_chord-8c778f9.eval.json ]"
@@ -89,7 +89,7 @@ while IFS=$'\t' read -r -u 3 kind run step w _; do
     export)
       if V2D_EXPORT_WORLDS="$w" scripts/dev/record "$key" stages/evaluate/fc_export.sh "$run" "$step" >> "$LOG" 2>&1 < /dev/null; then
         xok=$((xok + 1))
-        if scripts/dev/record "${key}_check" python3 stages/evaluate/check_export.py "$run" "$step" "$w" >> "$LOG" 2>&1 < /dev/null; then
+        if scripts/dev/record "${key}_check" stages/evaluate/check_export.sh "$run" "$step" "$w" >> "$LOG" 2>&1 < /dev/null; then
           ok=$((ok + 1)); say "export ${run}（${w} 世界）：导出、核对都通过"
         else
           bad=$((bad + 1)); say "export ${run}（${w} 世界）：导出成功，核对不过（不进门槛），见 results/${key}_check.txt.failed"

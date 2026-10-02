@@ -1,6 +1,6 @@
 """compat_8c778f9.sh（连同 compat_expect.sh、scripts/dev/record、chain_after.sh）的行为测试（暂无契约 ID：运行规范待成文）。只用标准库。
 
-临时目录里搭最小仓库：真的 compat_8c778f9.sh、compat_expect.sh、scripts/dev/record、chain_after.sh；假的 fc_export.sh（按 run 名的环境变量
+临时目录里搭最小仓库：真的 compat_8c778f9.sh、compat_expect.sh、check_export.sh（经 V2D_COMPAT_PY_IMPORT 走宿主机）、scripts/dev/record、chain_after.sh；假的 fc_export.sh（按 run 名的环境变量
 决定退出码，预检模式另有一套）、check_export.py、eval_compare.py、fc_src_check.py、day2_train_chain.sh，PATH 前面放假的 nvidia-smi 与 flock。
 chain_after.sh 按计划第 4.4 节的用法接门槛文件，门槛 1。
   1. 全部符合：门槛“完成 1”，COMPAT_PASS，chain_after 开方盒链；
@@ -60,7 +60,8 @@ GOOD = {f"FAKE_RC_{EP1.replace('-', '_')}": "12", f"FAKE_RC_UNGUARDED_{EP1.repla
 def setup(root: Path, tsv: str = TSV) -> None:
     for d in ("stages/evaluate/compat", "stages/policy", "scripts/dev", "bin", "runs/logs", "third_party/patches"):
         (root / d).mkdir(parents=True, exist_ok=True)
-    for f in ("stages/evaluate/compat_8c778f9.sh", "stages/evaluate/compat_expect.sh", "stages/policy/chain_after.sh", "scripts/dev/record"):
+    for f in ("stages/evaluate/compat_8c778f9.sh", "stages/evaluate/compat_expect.sh", "stages/evaluate/check_export.sh", "stages/policy/chain_after.sh",
+              "scripts/dev/record"):
         shutil.copy(REPO / f, root / f)
     files = {"stages/evaluate/fc_export.sh": FAKE_EXPORT, "stages/evaluate/check_export.py": FAKE_CHECK, "stages/policy/eval_compare.py": FAKE_COMPARE,
              "stages/policy/fc_src_check.py": FAKE_SRC, "stages/policy/day2_train_chain.sh": FAKE_CHAIN, "bin/nvidia-smi": FAKE_GPU,
@@ -68,7 +69,8 @@ def setup(root: Path, tsv: str = TSV) -> None:
     for f, text in files.items():
         (root / f).write_text(text)
     for f in ("stages/evaluate/fc_export.sh", "stages/policy/day2_train_chain.sh", "bin/nvidia-smi", "bin/flock",
-              "stages/evaluate/compat_8c778f9.sh", "stages/evaluate/compat_expect.sh", "stages/policy/chain_after.sh", "scripts/dev/record"):
+              "stages/evaluate/compat_8c778f9.sh", "stages/evaluate/compat_expect.sh", "stages/evaluate/check_export.sh", "stages/policy/chain_after.sh",
+              "scripts/dev/record"):
         (root / f).chmod(0o755)
     (root / "stages/evaluate/compat/mf.tsv").write_text(tsv)
     (root / ".v2d-source-commit").write_text("deadbeef\n")

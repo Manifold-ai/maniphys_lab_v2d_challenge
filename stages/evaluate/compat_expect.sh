@@ -22,7 +22,7 @@ case "$KIND" in
     case "$rc" in
       13) echo "COMPAT_EXPECT_OK negctl：评测器报 must disable task failure termination"; exit 0 ;;
       3)  echo "COMPAT_EXPECT_OK negctl：评测失败（不是终止报错），见 runs/logs/$RUN.export_8c778f9_s${STEP}_w${W}.log"; exit 0 ;;
-      0)  out="$(python3 stages/evaluate/check_export.py "$RUN" "$STEP" "$W" 2>&1)"; crc=$?; echo "$out"
+      0)  out="$(stages/evaluate/check_export.sh "$RUN" "$STEP" "$W" 2>&1)"; crc=$?; echo "$out"
           # 核对脚本自己崩了（Traceback 等）不算“核对不过”：最后一行必须是 EXPORT_FAIL
           if [ "$crc" != 0 ] && tail -1 <<< "$out" | grep -q '^EXPORT_FAIL'; then
             echo "COMPAT_EXPECT_OK negctl：导出成功但核对不过（上面列了不过的项）"; exit 0

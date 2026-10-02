@@ -1,0 +1,17 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ -c\ \'import\ sys\,\ numpy\,\ pyarrow\;\ print\(sys.version.split\(\)\[0\]\,\ \"numpy\"\,\ numpy.__version__\,\ \"pyarrow\"\,\ pyarrow.__version__\)\'\ \&\&\ for\ t\ in\ stages/evaluate/test_fc_export.py\ stages/evaluate/test_compat_8c778f9.py\ stages/policy/test_fc_src_check.py\ stages/policy/test_mount_check.py\ stages/evaluate/test_check_export.py\ stages/evaluate/test_frame_ref_check.py\;\ do\ printf\ \'%s:\ \'\ \$t\;\ python3\ \$t\ 2\>\&1\ \|\ tail\ -1\;\ done 
+# md5      : 0c4dead2eb664d8925d56dccf41af0dc  stages/evaluate/test_fc_export.py
+# md5      : 7bcf2603bd376917cee9bcbe0930cc7a  stages/evaluate/test_compat_8c778f9.py
+# md5      : 24a52bf3c0f962842edcbdbd01d317cd  stages/policy/test_fc_src_check.py
+# md5      : 8f4325e0f8ae3e7dac26753c5312c28d  stages/policy/test_mount_check.py
+# md5      : 37ab05ee86ca4b67dda3e4d373b32da1  stages/evaluate/test_check_export.py
+# source   : f779ffc34a15
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:51:07-0600
+# ---------------------------------------------------------------
+3.10.12 numpy 2.2.6 pyarrow 25.0.1
+stages/evaluate/test_fc_export.py: ALL_OK
+stages/evaluate/test_compat_8c778f9.py: ALL_OK
+stages/policy/test_fc_src_check.py: ALL_OK
+stages/policy/test_mount_check.py: ALL_OK
+stages/evaluate/test_check_export.py: ALL_OK
+stages/evaluate/test_frame_ref_check.py: ALL_OK
