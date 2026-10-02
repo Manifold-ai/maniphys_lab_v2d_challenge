@@ -1,0 +1,104 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "today": {
+   "file": "results/box/t1ep7_divergence_mf4090.txt"
+  },
+  "smoke929": {
+   "file": "results/ml40/batch1/ep7_smoke_diag_excerpt.txt"
+  },
+  "verdict930": {
+   "file": "results/diverge/diag_verdict_final.txt",
+   "grep": "R3′|R1 |R0|H3|最终判定|Fisher|发散 [0-9]"
+  },
+  "tensors": {
+   "file": "agent-doc/experiments/2026-09-30-divergence.md",
+   "grep": "^\\| C2b|^\\| C4 |^\\| C4b|放大路径|fp16（最大 65504）"
+  },
+  "plan": {
+   "file": "agent-doc/plan-box6-and-eval-runtime-2026-10-01.md",
+   "grep": "满 3.5 亿步没跑过|结局|都不人工续训"
+  },
+  "arms930": {
+   "file": "agent-doc/experiments/2026-09-30-divergence.md",
+   "grep": "^\\| R1 ep7 v0.4.0 fp16，种子 43–50|^\\| R3′ ep7 #185 fp16，种子 43–50"
+  }
+ },
+ "claims": [
+  {
+   "id": "smoke_929",
+   "evidence": [
+    "smoke929"
+   ],
+   "claim": "9/29 ml40 上 ep7 的冒烟，诊断 rollout 的 256 个世界里有 172 个记下非有限位姿，随后评测器报 evaluation must disable task failure termination。"
+  },
+  {
+   "id": "controls_930",
+   "evidence": [
+    "arms930",
+    "verdict930"
+   ],
+   "claim": "9/30 的 ep7 冒烟对照里，v0.4.0 导入器（R1）8 个种子发散 5 个，#185 导入器（R3′）8 个种子都没有发散；发散的那些最终 checkpoint 非有限参数都是 5892 个。"
+  },
+  {
+   "id": "bn_path",
+   "evidence": [
+    "tensors"
+   ],
+   "claim": "9/30 的排查查明，发散时非有限的是 state.0021 到 state.0030 这些 BatchNorm 滑动统计量；统计量更新处没有非有限过滤，一个批次里有非有限输入就会让统计量永久变成 nan。"
+  },
+  {
+   "id": "registered",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "方盒计划事先登记过：#185 几何下 8 + 2 条对照全部有限，但满 3.5 亿步没跑过，靠看守兜底。"
+  },
+  {
+   "id": "today_run",
+   "evidence": [
+    "today"
+   ],
+   "claim": "今天 t1-ep7 方盒正式训练在 130,004,992 步时 policy 还全部有限，140,005,376 步与 150,005,760 步各有 5892 个 NaN，看守在 09:52:37 调用 fc_stop。"
+  },
+  {
+   "id": "today_smoke",
+   "evidence": [
+    "today"
+   ],
+   "claim": "今天 t1-ep7 方盒的冒烟是通过的，正式训练 22:54:33 CST 开始。"
+  },
+  {
+   "id": "no_done",
+   "evidence": [
+    "today"
+   ],
+   "claim": "t1-ep7 方盒的 run 目录里有 15 份 policy，没有 DONE 文件。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "today"
+   ],
+   "claim": "看守日志里 100,003,840 步那份 checkpoint 的非有限参数是 0。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_a",
+   "evidence": [
+    "today"
+   ],
+   "claim": "t1-ep7 方盒的正式训练跑满了 349,999,104 步，写出了 DONE。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_b",
+   "evidence": [
+    "arms930",
+    "verdict930"
+   ],
+   "claim": "9/30 的对照里，#185 导入器 8 个种子发散了 5 个。",
+   "control": "false"
+  }
+ ]
+}

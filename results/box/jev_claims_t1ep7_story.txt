@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-t1ep7-story.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 33cab7f8d525d8248272f7c9eeca8093  agent-doc/experiments/2026-10-02-t1ep7-story.claims.json
+# source   : 4585779d7006-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T12:29:57-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+smoke_929            P(supported)=0.96  verified               [smoke929]  9/29 ml40 上 ep7 的冒烟，诊断 rollout 的 256 个世界里有 172 个记下非有限位姿，随后评测器报 evaluation must disable task failure termination。
+controls_930         P(supported)=0.86  verified               [arms930, verdict930]  9/30 的 ep7 冒烟对照里，v0.4.0 导入器（R1）8 个种子发散 5 个，#185 导入器（R3′）8 个种子都没有发散；发散的那些最终 checkpoint 非有限参数都是 5892 个。
+bn_path              P(supported)=0.90  verified               [tensors]  9/30 的排查查明，发散时非有限的是 state.0021 到 state.0030 这些 BatchNorm 滑动统计量；统计量更新处没有非有限过滤，一个批次里有非有限输入就会让统计量永久变成 nan。
+registered           P(supported)=0.72  verified               [plan]  方盒计划事先登记过：#185 几何下 8 + 2 条对照全部有限，但满 3.5 亿步没跑过，靠看守兜底。
+today_run            P(supported)=0.88  verified               [today]  今天 t1-ep7 方盒正式训练在 130,004,992 步时 policy 还全部有限，140,005,376 步与 150,005,760 步各有 5892 个 NaN，看守在 09:52:37 调用 fc_stop。
+today_smoke          P(supported)=0.93  verified               [today]  今天 t1-ep7 方盒的冒烟是通过的，正式训练 22:54:33 CST 开始。
+no_done              P(supported)=0.96  verified               [today]  t1-ep7 方盒的 run 目录里有 15 份 policy，没有 DONE 文件。
+ctl_true             P(supported)=0.98  control(true) ok       [today]  看守日志里 100,003,840 步那份 checkpoint 的非有限参数是 0。
+ctl_false_a          P(supported)=0.01  control(false) ok      [today]  t1-ep7 方盒的正式训练跑满了 349,999,104 步，写出了 DONE。
+ctl_false_b          P(supported)=0.03  control(false) ok      [arms930, verdict930]  9/30 的对照里，#185 导入器 8 个种子发散了 5 个。
+controls behaved as expected
