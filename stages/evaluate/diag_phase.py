@@ -3,7 +3,9 @@
 计划 agent-doc/plan-diag-mpsr0-2026-10-02.md 第 3.2 节与第 4 节（判据执行前登记）。输入：diag_rollout.py --palms 存的 npz、这次评测的 JSON、
 本机已有的同一 checkpoint 4096 世界评测 JSON（本机评测链算的）。
 闸（任何一道不过：只打印数字、不分类，退出码 3）：
-  V0 形状：T、W 与评测 JSON 一致，物体刚体 1 个，没有非有限世界，手掌数据在、各手能与参考接触标记、参考手掌对上，同步闸最大差 < 1e-6 m
+  V0 形状：T、W 与评测 JSON 一致，物体刚体 1 个，没有非有限世界，手掌数据在、各手能与参考接触标记、参考手掌对上，同步闸最大差 < 1e-6 m；
+     手掌坐标帧闸（第 2 版，按审查 M1）：由 npz 重算的“两只手掌到参考手掌距离的较大者”与评测器自己每步记的 tracking_error 的 palm_position_m
+     最大差 < 1e-4 m（评测器先按当前帧打分、再推进帧号，所以第 t 步对参考第 t 帧；另报错一帧的对齐差多少，只报）
   V1 同卡：两份 JSON 的 checkpoint_sha256 相同，且指标逐位相同，或 chord_sr |z| < 3 且 |ΔADD-AUC| < 0.005
   V2 重算：按评测器 metrics.py 的公式由 npz 重算的 MP-SR、SP-SR 与这次 JSON 的 maniptrans_sr、spider_sr_uncentered 相差 < 1e-9；
      由 npz 逐帧 ADD 重算的 ADD-AUC 与 JSON 相差 < 1e-6
@@ -18,7 +20,9 @@
   K  跟踪失败：以上都不中
 结论（第 4 节）：失败世界里占比最大的一组（接近 = A1+A2，抓取 = G1+G2，跟踪 = K）就是主要失败环节；前两组相差不到 10 个百分点记“混合”。
 对照（--role control）：成功世界里带接近或抓取标记的比例 ≤ 10% 记 CONTROL_OK，否则 CONTROL_FAIL（退出码 4，分类门限不可信）。
-另报：各段对时间平均误差的贡献，接触段里手贴着物体的帧比例，灵敏度（A2 用 2.5、10 cm，G1 用 1.5、6 cm），每类挑 3 个世界号供 viser 复看。
+另报：各段对时间平均误差的贡献，接触段里手贴着物体的帧比例，灵敏度（A2 用 2.5、10 cm，G1 用 1.5、6 cm），每类挑 3 个世界号供 viser 复看；
+  第 2 版另加（按审查 M2，只报）：A2 世界的手何时到位（相对 t_c），A1 世界在第 0–9 帧与 t_c 前 10 帧的位置误差，K 世界里接触段贴合不到一半的比例，
+  失败世界里位置不过、朝向不过、两样都不过各多少，G1 实际数了几帧。
 用法：python /repo/stages/evaluate/diag_phase.py <npz> --diag-json D --same-card-json E [--role main|control]
 """
 import argparse
@@ -63,6 +67,25 @@ def auc(add):
     return float(np.trapezoid([np.mean(x < t) for t in AUC_T], x=np.linspace(0, 1, AUC_T.size)))
 
 
+def palm_frame_check(d, sides, rsides, ref_idx):
+    """重算 max_h ‖robot_palm[t,w,h] − ref_palm[t,h]‖，与评测器记的 tracking_error 的 palm_position_m 比。返回 {对齐: 最大差}：
+    0 是第 t 步对参考第 t 帧（判据用这一个），+1、−1 是错一帧（只报，用来说明对齐选对了）。"""
+    names = [str(n) for n in d["tracking_error_names"]]
+    if "palm_position_m" not in names:
+        return {}
+    rec = d["tracking_error"][..., names.index("palm_position_m")].astype(np.float64)        # (T,W)
+    palm = d["robot_palm_pos"].astype(np.float64)                                            # (T,W,H,3)
+    ref = d["ref_palm_pos"].astype(np.float64)                                               # (T,F,3)
+    order = [ref_idx[s] for s in rsides]
+    out = {}
+    for shift in (0, 1, -1):
+        T = palm.shape[0]
+        lo, hi = max(0, -shift), min(T, T - shift)
+        dist = np.linalg.norm(palm[lo:hi] - ref[lo + shift:hi + shift][:, None][:, :, order], axis=-1).max(-1)
+        out[shift] = float(np.abs(dist - rec[lo:hi]).max())
+    return out
+
+
 def same_card(m1, m2, n1, n2):
     numeric = [k for k, v in m1.items() if isinstance(v, (int, float)) and not isinstance(v, bool)]
     if all(m1[k] == m2.get(k) for k in numeric) and n1 == n2:
@@ -93,6 +116,7 @@ def classify(pos_err, ori_err, d_rob, d_ref, contact, active, t_c, t_m, ach, ref
         counted += 1
         ok_frames += np.all([d_rob[t, :, k] <= d_ref[t, k] + g_hand for k in ks], axis=0)
     g1 = (ok_frames / counted < G_FRAC) if counted else np.zeros(W, bool)
+    info = {"g_window": (wg.start, wg.stop - 1), "g_counted": counted}
     g2 = np.zeros(W, bool)
     if t_m is not None:
         e = wg[-1]
@@ -104,7 +128,7 @@ def classify(pos_err, ori_err, d_rob, d_ref, contact, active, t_c, t_m, ach, ref
             g2 |= dp_ach < G_RATIO * dp_ref
         if np.degrees(da_ref) >= G_DEG:
             g2 |= da_ach < G_RATIO * da_ref
-    return {"A1": a1, "A2": a2, "G1": g1, "G2": g2}
+    return {"A1": a1, "A2": a2, "G1": g1, "G2": g2, "_info": info}
 
 
 def categories(flags, mp_ok):
@@ -142,11 +166,15 @@ def main() -> int:
     rnames = [str(s) for s in d["ref_palm_names"]]
     ref_idx = {s: next((i for i, n in enumerate(rnames) if n.startswith(f"{s}_")), None) for s in sides}
     sync = float(d["palm_object_sync_max_abs_m"]) if has_palms else float("nan")
+    frames_ok = has_palms and all(s in ref_idx and ref_idx[s] is not None for s in rsides)
+    pfc = palm_frame_check(d, sides, rsides, ref_idx) if frames_ok else {}
     v0 = (T == diag["step_count"] and W == diag["world_count"] and B == 1 and len(d["non_finite_worlds"]) == 0 and has_palms
           and d["robot_palm_pos"].shape == (T, W, len(rsides), 3) and all(s in rsides for s in sides)
-          and all(i is not None for i in ref_idx.values()) and np.isfinite(sync) and sync < 1e-6 and d["reference_pose_w"].dtype == np.float64)
+          and all(i is not None for i in ref_idx.values()) and np.isfinite(sync) and sync < 1e-6 and d["reference_pose_w"].dtype == np.float64
+          and frames_ok and 0 in pfc and pfc[0] < 1e-4)
     gates.append(("V0 形状与同步", v0, f"T {T}/{diag['step_count']}，W {W}/{diag['world_count']}，B {B}，非有限世界 {len(d['non_finite_worlds'])}，"
-                  f"手掌 {rsides}，参考接触 {sides}，参考手掌 {rnames}，同步最大差 {sync:.3g} m，参考位姿 {d['reference_pose_w'].dtype}"))
+                  f"手掌 {rsides}，参考接触 {sides}，参考手掌 {rnames}，同步最大差 {sync:.3g} m，参考位姿 {d['reference_pose_w'].dtype}；"
+                  f"手掌坐标帧闸：与评测器 palm_position_m 最大差 {pfc.get(0, float('nan')):.3g} m（错一帧时 +1 {pfc.get(1, float('nan')):.3g}、−1 {pfc.get(-1, float('nan')):.3g}，只报）"))
     sc_ok, sc_note = same_card(diag["metrics"], same["metrics"], diag["world_count"], same["world_count"])
     sc_ok = sc_ok and diag.get("checkpoint_sha256") == same.get("checkpoint_sha256")
     gates.append(("V1 同卡", sc_ok, sc_note + ("" if diag.get("checkpoint_sha256") == same.get("checkpoint_sha256") else "；checkpoint_sha256 不同")))
@@ -185,7 +213,8 @@ def main() -> int:
     print("== 参考分段（只用参考）")
     for k, s in enumerate(active):
         print(f"  主动手 {s}：接触 {int(contact[:, k].sum())} 帧，第 {firsts[k]}–{lasts[k]} 帧")
-    print(f"  t_c {t_c}，t_last {t_last}，开动帧 t_m {t_m if t_m is not None else '—（参考物体在接触段里不动）'}；段：接近 0–{t_c - 1}，接触 {t_c}–{t_last}，之后 {t_last + 1}–{T - 1}")
+    seg = lambda lo, hi: f"{lo}–{hi}" if hi >= lo else "无"   # noqa: E731
+    print(f"  t_c {t_c}，t_last {t_last}，开动帧 t_m {t_m if t_m is not None else '—（参考物体在接触段里不动）'}；段：接近 {seg(0, t_c - 1)}，接触 {t_c}–{t_last}，之后 {seg(t_last + 1, T - 1)}")
 
     a0 = ach4[:, :, 0]
     pos_err = np.linalg.norm(a0[..., :3] - p_ref[:, None], axis=-1)            # (T,W)
@@ -218,6 +247,43 @@ def main() -> int:
         verdict = "没有失败世界"
         print("  没有失败世界")
 
+    gi = flags["_info"]
+    print(f"  G1 的窗口第 {gi['g_window'][0]}–{gi['g_window'][1]} 帧，其中有手在接触、实际数了 {gi['g_counted']} 帧"
+          + ("（0 帧：G1 不判）" if gi["g_counted"] == 0 else ""))
+    print("== 读分类时要分清的几件事（第 2 版加，只报）")
+    fail_w = cat != "S"
+    pos_bad = position[:, 0] >= MP_POS
+    ori_bad = np.degrees(orientation[:, 0]) >= MP_DEG
+    if fail_w.any():
+        nfw = int(fail_w.sum())
+        print(f"  失败世界 {nfw} 个：只有位置不过 {int((fail_w & pos_bad & ~ori_bad).sum())}，只有朝向不过 {int((fail_w & ~pos_bad & ori_bad).sum())}，"
+              f"两样都不过 {int((fail_w & pos_bad & ori_bad).sum())}（对称物体的朝向项要单独看）")
+    a2w = np.flatnonzero(cat == "A2")
+    if a2w.size:
+        at_c = [k for k in range(len(active)) if contact[t_c, k]]
+        arrive = []
+        for w in a2w:
+            okt = np.all([d_rob[t_c:t_hi, w, k] <= d_ref[t_c:t_hi, k] + G_HAND for k in at_c], axis=0)
+            arrive.append(int(np.argmax(okt)) if okt.any() else None)
+        got = [x for x in arrive if x is not None]
+        q = np.percentile(got, [25, 50, 75]).round(1).tolist() if got else []
+        print(f"  A2 世界 {a2w.size} 个：手到位（d_rob ≤ d_ref + 3 cm）相对 t_c 的帧数四分位 {q}；30 帧内到位 {sum(x is not None and x < G_WIN for x in arrive)}，"
+              f"更晚才到 {sum(x is not None and x >= G_WIN for x in arrive)}，到第 {t_hi - 1} 帧都没到 {sum(x is None for x in arrive)}")
+    a1w = np.flatnonzero(cat == "A1")
+    if a1w.size:
+        e0 = np.median(pos_err[0:min(10, T)][:, a1w]) * 100
+        e1 = np.median(pos_err[max(0, t_c - 10):t_c][:, a1w]) * 100 if t_c > 0 else float("nan")
+        print(f"  A1 世界 {a1w.size} 个：位置误差中位，第 0–9 帧 {e0:.1f} cm，t_c 前 10 帧 {e1:.1f} cm（前者已经大说明一开始就偏了，不是手碰的）")
+    kw = np.flatnonzero(cat == "K")
+    if kw.size:
+        rk = []
+        for k_ in range(len(active)):
+            fr = contact[:, k_].copy(); fr[t_hi:] = False
+            if fr.any():
+                rk.append((d_rob[fr][:, kw, k_] <= d_ref[fr, k_][:, None] + G_HAND).mean(0))
+        if rk:
+            low = (np.min(rk, axis=0) < 0.5)
+            print(f"  K 世界 {kw.size} 个：接触段里某只主动手贴合不到一半的 {int(low.sum())} 个（{low.mean():.0%}，开动窗口之后才松手的会落在这里）")
     print("== 各段对时间平均误差的贡献（失败世界的中位；贡献 = 段内误差之和 / 总帧数，各段相加即全程平均）")
     fail = cat != "S"
     phases = {"接近": slice(0, t_c), "接触": slice(t_c, t_last + 1), "之后": slice(t_last + 1, T)}

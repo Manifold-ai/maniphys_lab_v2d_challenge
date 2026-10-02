@@ -137,6 +137,7 @@ def main() -> int:
         palms, objects = cap["palms"].arrays()
         ok = np.ones(W, bool); ok[list(r.non_finite_worlds)] = False
         sync = float(np.abs(objects[:, ok].astype(np.float64) - ach[:, ok, :, :3]).max()) if ok.any() else float("nan")
+        palms[:, ~ok] = 0.0   # 同评测器对非有限世界的做法：清零后照存（npz 留着排查），diag_phase.py 的 V0 见到非有限世界就不分类
         arrays["robot_palm_pos"] = palms.astype(np.float64)
         extra = {"robot_palm_sides": np.array(cap["palms"].sides), "palm_object_sync_max_abs_m": np.float64(sync)}
         keep64.add("reference_pose_w")   # 评测器用 float64 的参考位姿算成功判据；逐位重算要同一精度

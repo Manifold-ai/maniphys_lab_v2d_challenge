@@ -7,7 +7,9 @@
   2. 试跑的同步闸不过：DIAG2_FAILED，不跑 4096 世界
   3. 分析退出码 3、4、其他，rollout 失败，缺本机评测日志：分别记闸不过、对照不过、出错，接着做下一行
   4. 拒绝：日志已存在、运行表的行不对
-  5. 等导出链日志结束才开始，本日志里没有结束标记的原文；GPU 先被占、后空出来；一直被占则 DIAG2_FAILED
+  5. 等导出链日志结束才开始，本日志里没有结束标记的原文；GPU 先被占、后空出来；一直被占则 DIAG2_FAILED；
+     做完一行后 GPU 被占，下一行用 GPU 前会等它空出来（第 2 版）
+  6. 本机评测日志里有 in-flash-chord 的挂载说明行（那份评测挂的是源码副本）：这一行跳过、记出错（第 2 版）
 用法：python3 stages/evaluate/test_diag2_chain.py
 """
 import os
@@ -29,7 +31,9 @@ case "$cmd" in
   *diag_rollout.py*)
     run=$(sed -E 's|.*/runs/flash_chord/([^/]+)/policy.*|\1|' <<< "$cmd"); key="FAKE_ROLLOUT_RC_${run//-/_}"; rc="${!key:-0}"
     out=$(sed -E 's|.* /repo/(runs/diag2/[^ ]+) --worlds.*|\1|' <<< "$cmd"); mkdir -p "${out}_hydra"
-    [ "$rc" = 0 ] && touch "$out.npz" "$out.json"; echo "fake rollout $run rc $rc"; exit "$rc" ;;
+    [ "$rc" = 0 ] && touch "$out.npz" "$out.json"
+    if [ -n "${FAKE_BUSY_AFTER:-}" ] && [[ $cmd == *"--worlds 4096"* ]] && [ ! -f runs/busy_done ]; then date +%s > runs/gpu_busy; touch runs/busy_done; fi
+    echo "fake rollout $run rc $rc"; exit "$rc" ;;
   *diag2_sync.py*)
     if [ "${FAKE_SYNC:-ok}" = ok ]; then echo "robot_palm_pos (708, 16, 2, 3)，同步最大差 0 m"; echo SYNC_OK; exit 0; fi
     echo "同步最大差 0.01 m"; echo SYNC_FAIL; exit 1 ;;
@@ -46,7 +50,7 @@ exit 0
 '''
 
 
-def setup(root: Path, table=None, missing_log=()) -> None:
+def setup(root: Path, table=None, missing_log=(), mounted_log=()) -> None:
     for d in ("stages/evaluate/diag2", "scripts/dev", "bin", "runs/logs"):
         (root / d).mkdir(parents=True, exist_ok=True)
     for f in ("stages/evaluate/diag2_chain.sh", "scripts/dev/record"):
@@ -61,7 +65,8 @@ def setup(root: Path, table=None, missing_log=()) -> None:
         (root / f"runs/flash_chord/{r}/policy_349999104.safetensors").write_text("")
         (root / f"runs/flash_chord/{r}/eval_349999104_w4096.json").write_text("{}")
         if r not in missing_log:
-            (root / f"runs/logs/{r}.eval_349999104_w4096.log").write_text("x\n")
+            body = "in-flash-chord: /workspace ← /x/fc_src/v040_p185\n" if r in mounted_log else "x\n"
+            (root / f"runs/logs/{r}.eval_349999104_w4096.log").write_text(body)
 
 
 def env(root: Path, **kw) -> dict:
@@ -165,6 +170,22 @@ def test_waits_and_gpu() -> None:
         root = Path(t); setup(root)
         r = chain(root, FAKE_GPU="busy", V2D_GPU_WAIT_S="2")
         assert r.returncode == 1 and log(root).rstrip().endswith("DIAG2_FAILED") and calls(root) == [], log(root)
+
+
+def test_mid_chain_gpu_and_mounted_log() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        r = chain(root, FAKE_BUSY_AFTER="1", V2D_GPU_WAIT_S="30")
+        lg = log(root)
+        assert r.returncode == 0 and "GPU 空了" in lg and lg.rstrip().endswith("DIAG2_DONE（完成 3、闸不过 0、对照不过 0、出错 0）"), lg
+        i_busy = lg.index("GPU 上有别的进程")
+        assert lg.index(f"{RUNS[0]}：分析") < i_busy < lg.index(f"{RUNS[1]}：诊断 rollout"), lg
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root, mounted_log=(RUNS[1],))
+        r = chain(root)
+        lg = log(root)
+        assert r.returncode == 0 and "挂的是源码副本" in lg and lg.rstrip().endswith("DIAG2_DONE（完成 2、闸不过 0、对照不过 0、出错 1）"), lg
+        assert not any(RUNS[1] in c for c in calls(root)), calls(root)
 
 
 if __name__ == "__main__":

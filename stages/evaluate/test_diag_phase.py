@@ -4,8 +4,10 @@
 12 个世界各造一种情形，期望分类：0、1 成功；2、3 A1（接触前物体被推开 5 cm）；4、5 A2（手停在 20 cm 外）；
 6、7 G1（手到位后第 52 帧离开）；8、9 G2（手贴着物体，但物体只走参考的 30%）；10、11 K（物体跟着走、偏差慢慢长到 15 cm）。
   1. 分类逐个对上，失败世界里接近、抓取各 40%、跟踪 20%，结论“混合”；summary_json 的计数对
-  2. 闸：同步差 1 cm、缺手掌数据、同卡 chord_sr 差太多、JSON 的 MP-SR 被改 → 都退出码 3 且不分类
+  2. 闸：同步差 1 cm、缺手掌数据、左右手对调、手掌对参考错一帧、同卡 chord_sr 差太多、JSON 的 MP-SR 被改 → 都退出码 3 且不分类
+     （tracking_error 的 palm_position_m 按合成数据算，与评测器同义：两只手掌到参考手掌距离的较大者）
   3. 对照：成功世界没有标记 → CONTROL_OK（退出码 0）；把成功世界的手放到 20 cm 外 → CONTROL_FAIL（退出码 4）
+  4. 试跑检查 diag2_sync.py：正常 → SYNC_OK；左右手对调、错一帧、同步差 1 cm、缺手掌数据 → SYNC_FAIL（退出码 1）
 用法：uv run --no-project --python 3.12 --with numpy python stages/evaluate/test_diag_phase.py
 """
 import json
@@ -38,7 +40,8 @@ def geodesic(a, b):
     return 2.0 * np.arctan2(np.sqrt(np.maximum(0.0, 1.0 - dot * dot)), dot)
 
 
-def build(root: Path, far_success_hand=False, sync=0.0, drop_palms=False, mp_tamper=0.0, chord_same=0.5, auc_same_delta=0.0):
+def build(root: Path, far_success_hand=False, sync=0.0, drop_palms=False, mp_tamper=0.0, chord_same=0.5, auc_same_delta=0.0,
+          swap_sides=False, palm_err_shift=0):
     rng = np.random.default_rng(0)
     v = rng.normal(size=(50, 3)); v = 0.05 * v / np.linalg.norm(v, axis=1, keepdims=True)
     t = np.arange(T)
@@ -78,7 +81,11 @@ def build(root: Path, far_success_hand=False, sync=0.0, drop_palms=False, mp_tam
     vw_r = np.einsum("tij,vj->tvi", rotmat(refp[:, 0, 3:]), v) + refp[:, 0, None, :3]
     add = np.linalg.norm(vw_a - vw_r[:, None], axis=-1).mean(-1)
     auc = float(np.trapezoid([np.mean(add < th) for th in np.arange(0.01, 0.10, 0.01)], x=np.linspace(0, 1, 9)))
-    arrays = dict(achieved_pose_w=ach, reference_pose_w=refp.astype(np.float64), tracking_error=np.zeros((T, W, 6), np.float32),
+    te = np.zeros((T, W, 6), np.float32)
+    rp32, pl32 = ref_palm.astype(np.float32).astype(np.float64), palm.astype(np.float32).astype(np.float64)
+    rp_shift = np.roll(rp32, -palm_err_shift, axis=0) if palm_err_shift else rp32
+    te[..., 2] = np.linalg.norm(pl32 - rp_shift[:, None], axis=-1).max(-1)
+    arrays = dict(achieved_pose_w=ach, reference_pose_w=refp.astype(np.float64), tracking_error=te,
                   tracking_error_names=np.array(["pelvis_position_m", "pelvis_orientation_rad", "palm_position_m", "palm_orientation_rad",
                                                  "object_position_m", "object_orientation_rad"]),
                   add=add, add_static=add[:, 0], ref_palm_pos=ref_palm.astype(np.float32), ref_palm_mesh_dist=np.zeros((T, 2), np.float32),
@@ -86,7 +93,7 @@ def build(root: Path, far_success_hand=False, sync=0.0, drop_palms=False, mp_tam
                   contact_sides=np.array(["left", "right"]), contact_active=contact, non_finite_worlds=np.array([], np.int64),
                   policy=np.array("/repo/runs/flash_chord/x/policy_1.safetensors"))
     if not drop_palms:
-        arrays.update(robot_palm_pos=palm.astype(np.float32), robot_palm_sides=np.array(["left", "right"]),
+        arrays.update(robot_palm_pos=palm.astype(np.float32), robot_palm_sides=np.array(["right", "left"] if swap_sides else ["left", "right"]),
                       palm_object_sync_max_abs_m=np.float64(sync))
     np.savez_compressed(root / "r.npz", **arrays)
     metrics = {"add_auc": auc, "chord_sr": 0.5, "maniptrans_sr": float(mp) + mp_tamper, "spider_sr_uncentered": float(sp), "mppe_cm": 1.0}
@@ -118,11 +125,13 @@ def test_classification() -> None:
         assert s["verdict"].startswith("混合"), s["verdict"]
         for c in ("A1", "A2", "G1", "G2", "K"):
             assert set(s["picks"][c]) <= {i for i, e in enumerate(EXPECT) if e == c}, (c, s["picks"])
-        assert "VALIDITY PASS" in r.stdout and "V1 同卡" in r.stdout
+        assert "VALIDITY PASS" in r.stdout and "V1 同卡" in r.stdout and "PASS  V0" in r.stdout and "手掌坐标帧闸：与评测器 palm_position_m 最大差" in r.stdout, r.stdout
+        assert "失败世界 10 个：只有位置不过" in r.stdout and "A2 世界 2 个" in r.stdout and "A1 世界 2 个" in r.stdout and "K 世界 2 个" in r.stdout, r.stdout
 
 
 def test_gates() -> None:
-    for kw, word in (({"sync": 0.01}, "V0"), ({"drop_palms": True}, "V0"), ({"chord_same": 0.9, "auc_same_delta": 0.1}, "V1"), ({"mp_tamper": 1 / 12}, "V2")):
+    for kw, word in (({"sync": 0.01}, "V0"), ({"drop_palms": True}, "V0"), ({"swap_sides": True}, "V0"), ({"palm_err_shift": 1}, "V0"),
+                     ({"chord_same": 0.9, "auc_same_delta": 0.1}, "V1"), ({"mp_tamper": 1 / 12}, "V2")):
         with tempfile.TemporaryDirectory() as t:
             root = Path(t); build(root, **kw)
             r = run(root)
@@ -138,6 +147,16 @@ def test_control() -> None:
         root = Path(t); build(root, far_success_hand=True)
         r = run(root, "control")
         assert r.returncode == 4 and "CONTROL_FAIL" in r.stdout and summary(r.stdout)["control_false_rate"] == 1.0, r.stdout + r.stderr
+
+
+def test_sync() -> None:
+    sync = REPO / "stages/evaluate/diag2_sync.py"
+    for kw, want in (({}, 0), ({"swap_sides": True}, 1), ({"palm_err_shift": 1}, 1), ({"sync": 0.01}, 1), ({"drop_palms": True}, 1)):
+        with tempfile.TemporaryDirectory() as t:
+            root = Path(t); build(root, **kw)
+            r = subprocess.run([sys.executable, str(sync), str(root / "r.npz")], capture_output=True, text=True, timeout=120)
+            last = r.stdout.strip().splitlines()[-1] if r.stdout.strip() else ""
+            assert r.returncode == want and last.startswith("SYNC_OK" if want == 0 else "SYNC_FAIL"), (kw, r.stdout + r.stderr)
 
 
 if __name__ == "__main__":

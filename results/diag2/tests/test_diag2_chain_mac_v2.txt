@@ -1,0 +1,13 @@
+# command  : python3 stages/evaluate/test_diag2_chain.py 
+# md5      : 136114fc532f9fa9d68c76a8dd341878  stages/evaluate/test_diag2_chain.py
+# source   : 9888ab2a2991-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T09:03:17-0600
+# ---------------------------------------------------------------
+ok  test_normal
+ok  test_smoke_sync_fail
+ok  test_row_outcomes
+ok  test_refusals
+ok  test_waits_and_gpu
+ok  test_mid_chain_gpu_and_mounted_log
+ALL_OK

@@ -1,0 +1,11 @@
+# command  : uv run --quiet --no-project --python 3.12 --with numpy python stages/evaluate/test_diag_phase.py 
+# md5      : a0f32200577b19544f253afd958f9c23  stages/evaluate/test_diag_phase.py
+# source   : 9888ab2a2991-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T09:03:34-0600
+# ---------------------------------------------------------------
+ok  test_classification
+ok  test_gates
+ok  test_control
+ok  test_sync
+ALL_OK
