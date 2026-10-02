@@ -1,0 +1,84 @@
+# command  : stages/policy/sim_nan_facts.sh 
+# md5      : 2faee3e7b80dbc3005a5c4298d394be8  stages/policy/sim_nan_facts.sh
+# source   : 9b6b0153d168-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:48:11-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+## 1. 版本
+newton：newton-1.2.0.dist-info
+mujoco_warp：mujoco_warp-3.8.1.dist-info
+warp_lang：warp_lang-1.14.0.dist-info
+## 2. mujoco_warp：约束求解的起点与 warmstart
+== mujoco_warp/_src/solver.py（原文段落 3349,3355p）
+mujoco_warp/_src/solver.py:3349:
+mujoco_warp/_src/solver.py:3350:def _solve(m: types.Model, d: types.Data, ctx: SolverContext):
+mujoco_warp/_src/solver.py:3351:  """Finds forces that satisfy constraints."""
+mujoco_warp/_src/solver.py:3352:  if not (m.opt.disableflags & types.DisableBit.WARMSTART):
+mujoco_warp/_src/solver.py:3353:    wp.copy(d.qacc, d.qacc_warmstart)
+mujoco_warp/_src/solver.py:3354:  else:
+mujoco_warp/_src/solver.py:3355:    wp.copy(d.qacc, d.qacc_smooth)
+== mujoco_warp/_src/forward.py
+mujoco_warp/_src/forward.py:325:  wp.copy(d.qacc_warmstart, d.qacc)
+mujoco_warp/_src/solver.py：匹配 /isnan|isfinite/ 的行数 0
+mujoco_warp/_src/forward.py：匹配 /isnan|isfinite/ 的行数 0
+## 3. Newton 的 SolverMuJoCo.step：状态同步，warmstart 没有被清
+== newton/_src/solvers/mujoco/solver_mujoco.py（原文段落 3266,3289p）
+newton/_src/solvers/mujoco/solver_mujoco.py:3266:    def step(self, state_in: State, state_out: State, control: Control, contacts: Contacts, dt: float) -> None:
+newton/_src/solvers/mujoco/solver_mujoco.py:3267:        if self.use_mujoco_cpu:
+newton/_src/solvers/mujoco/solver_mujoco.py:3268:            self._apply_mjc_control(self.model, state_in, control, self.mj_data)
+newton/_src/solvers/mujoco/solver_mujoco.py:3269:            if self.update_data_interval > 0 and self._step % self.update_data_interval == 0:
+newton/_src/solvers/mujoco/solver_mujoco.py:3270:                # XXX updating the mujoco state at every step may introduce numerical instability
+newton/_src/solvers/mujoco/solver_mujoco.py:3271:                self._update_mjc_data(self.mj_data, self.model, state_in)
+newton/_src/solvers/mujoco/solver_mujoco.py:3272:            self.mj_model.opt.timestep = dt
+newton/_src/solvers/mujoco/solver_mujoco.py:3273:            self._mujoco.mj_step(self.mj_model, self.mj_data)
+newton/_src/solvers/mujoco/solver_mujoco.py:3274:            self._update_newton_state(self.model, state_out, self.mj_data, state_prev=state_in)
+newton/_src/solvers/mujoco/solver_mujoco.py:3275:        else:
+newton/_src/solvers/mujoco/solver_mujoco.py:3276:            self._enable_rne_postconstraint(state_out)
+newton/_src/solvers/mujoco/solver_mujoco.py:3277:            self._apply_mjc_control(self.model, state_in, control, self.mjw_data)
+newton/_src/solvers/mujoco/solver_mujoco.py:3278:            if self.update_data_interval > 0 and self._step % self.update_data_interval == 0:
+newton/_src/solvers/mujoco/solver_mujoco.py:3279:                self._update_mjc_data(self.mjw_data, self.model, state_in)
+newton/_src/solvers/mujoco/solver_mujoco.py:3280:            self.mjw_model.opt.timestep.fill_(dt)
+newton/_src/solvers/mujoco/solver_mujoco.py:3281:            with wp.ScopedDevice(self.model.device):
+newton/_src/solvers/mujoco/solver_mujoco.py:3282:                if self.mjw_model.opt.run_collision_detection:
+newton/_src/solvers/mujoco/solver_mujoco.py:3283:                    self._mujoco_warp_step()
+newton/_src/solvers/mujoco/solver_mujoco.py:3284:                else:
+newton/_src/solvers/mujoco/solver_mujoco.py:3285:                    self._convert_contacts_to_mjwarp(self.model, state_in, contacts)
+newton/_src/solvers/mujoco/solver_mujoco.py:3286:                    self._mujoco_warp_step()
+newton/_src/solvers/mujoco/solver_mujoco.py:3287:
+newton/_src/solvers/mujoco/solver_mujoco.py:3288:            self._update_newton_state(self.model, state_out, self.mjw_data, state_prev=state_in)
+newton/_src/solvers/mujoco/solver_mujoco.py:3289:        self._step += 1
+newton/_src/solvers/mujoco/solver_mujoco.py：匹配 /warmstart/ 的行数 0
+newton/_src/solvers/mujoco/solver_mujoco.py：匹配 /isnan|isfinite/ 的行数 0
+## 4. Warp 对 NaN 的行为
+== warp/native/builtin.h（原文段落 763,768p）
+warp/native/builtin.h:763:inline CUDA_CALLABLE T min(T a, T b) { return _wp_native_fmin(a, b); } \
+warp/native/builtin.h:764:inline CUDA_CALLABLE T max(T a, T b) { return _wp_native_fmax(a, b); } \
+warp/native/builtin.h:765:inline CUDA_CALLABLE T sign(T x) { return x < T(0) ? -1 : 1; } \
+warp/native/builtin.h:766:inline CUDA_CALLABLE T step(T x) { return x < T(0) ? T(1) : T(0); }\
+warp/native/builtin.h:767:inline CUDA_CALLABLE T nonzero(T x) { return x == T(0) ? T(0) : T(1); }\
+warp/native/builtin.h:768:inline CUDA_CALLABLE T clamp(T x, T a, T b) { return _wp_native_fmin(_wp_native_fmax(a, x), b); }\
+== warp/native/quat.h（原文段落 213,223p）
+warp/native/quat.h:213:template <typename Type> inline CUDA_CALLABLE quat_t<Type> normalize(const quat_t<Type>& q)
+warp/native/quat.h:214:{
+warp/native/quat.h:215:    Type l = length(q);
+warp/native/quat.h:216:    if (l > Type(kEps)) {
+warp/native/quat.h:217:        Type inv_l = Type(1) / l;
+warp/native/quat.h:218:
+warp/native/quat.h:219:        return quat_t<Type>(q.x * inv_l, q.y * inv_l, q.z * inv_l, q.w * inv_l);
+warp/native/quat.h:220:    } else {
+warp/native/quat.h:221:        return quat_t<Type>(Type(0), Type(0), Type(0), Type(1));
+warp/native/quat.h:222:    }
+warp/native/quat.h:223:}
+== warp/native/builtin.h
+warp/native/builtin.h:700:// candidate for every `_wp_native_fmin(a, b)` call inside DECLARE_FLOAT_OPS,
+warp/native/builtin.h:703:inline CUDA_CALLABLE float _wp_native_fmin(float a, float b)
+warp/native/builtin.h:711:inline CUDA_CALLABLE double _wp_native_fmin(double a, double b)
+warp/native/builtin.h:719:inline CUDA_CALLABLE half _wp_native_fmin(half a, half b) { return half(_wp_native_fmin(float(a), float(b))); }
+warp/native/builtin.h:721:inline CUDA_CALLABLE bfloat16 _wp_native_fmin(bfloat16 a, bfloat16 b)
+warp/native/builtin.h:723:    return bfloat16(_wp_native_fmin(float(a), float(b)));
+warp/native/builtin.h:727:inline CUDA_CALLABLE float _wp_native_fmax(float a, float b)
+warp/native/builtin.h:735:inline CUDA_CALLABLE double _wp_native_fmax(double a, double b)
+warp/native/builtin.h:743:inline CUDA_CALLABLE half _wp_native_fmax(half a, half b) { return half(_wp_native_fmax(float(a), float(b))); }
+warp/native/builtin.h:745:inline CUDA_CALLABLE bfloat16 _wp_native_fmax(bfloat16 a, bfloat16 b)
+warp/native/builtin.h:747:    return bfloat16(_wp_native_fmax(float(a), float(b)));
