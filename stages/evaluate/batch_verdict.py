@@ -5,10 +5,12 @@
 “> 0” 只靠 ≤ 3 个世界，或 ADD-AUC 落在基线 ±0.01 内 → 另标“边缘”。另两个 checkpoint 只报走势（gap = ADD-AUC − 基线）。
 有效性闸（任何一条不满足 → 这条只列数、不判定）：三份评测都在、step_count = 期望帧数（逐帧 = 源帧数，真实时长 = round((N−1)·5/3)+1）、
 基线帧数 = 期望帧数、评测输出里 non_finite_worlds 为空、结果头的来历不带 -dirty / -syncing、三份评测的 checkpoint sha256 两两不同。
-用法：python3 stages/evaluate/batch_verdict.py <期望表> <结果目录> [--steps 349999104]
+用法：python3 stages/evaluate/batch_verdict.py <期望表> <结果目录> [--steps 349999104] [--bar-root <目录>]
   结果目录里要有 eval_<run>_s<步数>.txt 与 bar_<冒烟 run>.txt（例：results/ml40/day2、results/day2）。
   --steps：只看列出的步数（逗号分隔，最大的当最终 checkpoint）；Tier 2 批量只评最终 checkpoint（计划 agent-doc/plan-t2-batch-2026-10-01.md）。
   只有一个步数时没有走势，也不做“checkpoint sha256 两两不同”这一条。
+  --bar-root：不动基线 bar_<冒烟 run>.txt 另放在这个目录（默认与评测结果同目录）。ep7 发散前 checkpoint 的评测记在 results/ep7/，
+  不动基线仍在 results/day2/ 或 results/ml40/day2/（计划 agent-doc/plan-ep7-eval-and-guards-2026-10-02.md 的 A 部分）。
 """
 import json
 import re
@@ -50,13 +52,19 @@ def main() -> int:
         del args[i:i + 2]
         if not steps:
             raise SystemExit("--steps 不能为空")
+    bar_root = None
+    if "--bar-root" in args:
+        i = args.index("--bar-root")
+        bar_root = Path(args[i + 1])
+        del args[i:i + 2]
     expect, root = Path(args[0]), Path(args[1])
+    bar_root = bar_root or root
     rows = [ln.split("\t") for ln in expect.read_text().splitlines()[1:] if ln.strip()]
     tally = {"通过": 0, "不通过": 0, "无效": 0}
     for run, smoke, seq, pb, src, *_ in rows:
         want = expected_frames(pb, int(src))
         problems = []
-        bar_path = root / f"bar_{smoke}.txt"
+        bar_path = bar_root / f"bar_{smoke}.txt"
         evals = {s: root / f"eval_{run}_s{s}.txt" for s in steps}
         missing = [str(p) for p in [bar_path, *evals.values()] if not p.exists()]
         if missing:

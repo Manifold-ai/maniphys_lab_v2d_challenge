@@ -12,16 +12,23 @@ harness.score_reference_tracking（只记下它是否报错），用 runpy 运�
   first_bad_frame (W,)：这个世界的物体或手掌第一次出现非有限值、或绝对值超过 FAR_M 的帧，没有就是 -1
   evaluator_non_finite_worlds、terminated (W,)、reference_pose_w (T,B,7)、tracking_error 与名字（评测器自己记的，原样）
   score_error：评分阶段的报错文字（没有报错为空串）
+  upstream_md5：上游 harness.py、rollout.py、metrics.py 与 evaluate_policy.py 的 md5（同 diag_rollout.py 的做法）
 最后打印一行 BLOWUP_ROLLOUT_OK 与汇总；评分报 “must disable task failure termination” 不算失败（取证不靠评分），其他异常原样抛出。
+输出的 npz 或 json 已存在就拒绝（退出码 2）：不覆盖上一次的证据。<前缀>.json 是上游评测脚本自己写的报告，评分报错时没有；
+它的分数不用于候选条件与质量的结论（那两项以 8c778f9 副本的 fc_eval 为准），这里的世界号也不与那次评测一一对应。
+V2D_BLOWUP_EVAL_SCRIPT：只给测试用，换掉要运行的评测脚本路径（stages/evaluate/test_blowup_rollout.py）。
 """
 import argparse
+import hashlib
+import json
+import os
 import runpy
 import sys
 from pathlib import Path
 
 import numpy as np
 
-EVAL_SCRIPT = "/workspace/scripts/evaluate_policy.py"
+EVAL_SCRIPT = os.environ.get("V2D_BLOWUP_EVAL_SCRIPT", "/workspace/scripts/evaluate_policy.py")
 FAR_M = 100.0  # 位置绝对值超过它也算崩了：数值很大但还有限的状态同样会毁掉训练
 TERMINATION_ERROR = "must disable task failure termination"
 
@@ -39,6 +46,24 @@ def first_bad_frame(*arrays: np.ndarray) -> np.ndarray:
     return first.astype(np.int64)
 
 
+def upstream_md5(harness) -> dict:
+    """上游评测代码四个文件的 md5；取不到的（例如测试里的假模块）记空串。"""
+    out = {}
+    names = {"harness.py": getattr(harness, "__file__", None), "evaluate_policy.py": EVAL_SCRIPT}
+    for mod in ("rollout", "metrics"):
+        try:
+            m = __import__(f"flash_chord.evaluation.{mod}", fromlist=[mod])
+            names[f"{mod}.py"] = getattr(m, "__file__", None)
+        except Exception:  # noqa: BLE001  测试里没有这两个模块
+            names[f"{mod}.py"] = None
+    for name, path in names.items():
+        try:
+            out[name] = hashlib.md5(Path(path).read_bytes()).hexdigest()
+        except (TypeError, OSError):
+            out[name] = ""
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("policy")
@@ -46,11 +71,12 @@ def main() -> int:
     ap.add_argument("--worlds", type=int, default=4096)
     a = ap.parse_args()
     out = a.out_prefix
-    Path(out + ".npz").unlink(missing_ok=True)  # 旧输出先删，失败时不会误读上一次的
-    Path(out + ".json").unlink(missing_ok=True)
+    for suffix in (".npz", ".json"):
+        if Path(out + suffix).exists():
+            print(f"已存在 {out + suffix}：不覆盖上一次的证据，确认后移走再跑", file=sys.stderr)
+            return 2
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    import diag_palms
     from flash_chord.evaluation import harness
 
     calls = {"record": 0, "score": 0}
@@ -59,6 +85,7 @@ def main() -> int:
 
     def record_wrapper(*args, **kwargs):
         calls["record"] += 1
+        import diag_palms  # 环境建好之后才导入，同 diag_rollout.py
         args = list(args)
         env = args[0] if args else kwargs["env"]
         cap["rec"] = diag_palms.PalmRecorder(env, kwargs["step_count"])
@@ -109,7 +136,8 @@ def main() -> int:
         tracking_error=np.asarray(r.tracking_error, np.float32), tracking_error_names=np.array(r.tracking_error_names),
         score_error=np.array(cap["score_error"]), far_m=np.float64(FAR_M),
         start_frame=np.int64(int(r.start_frame)), step_count=np.int64(objects.shape[0]), world_count=np.int64(objects.shape[1]),
-        policy=np.array(str(a.policy)),
+        policy=np.array(str(a.policy)), wrapper_calls=np.array(json.dumps(calls)),
+        upstream_md5=np.array(json.dumps(upstream_md5(harness))),
     )
     T, W = objects.shape[:2]
     print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}）")

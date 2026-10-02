@@ -1,64 +1,101 @@
 # 计划：ep7 两份最后有限的 checkpoint 的评测（A）与训练的非有限防护（B）
 
-第 2 版，2026-10-02（第 1 版只有 A 部分，9b6b015）。用户 10/2 的决定（原话）：“先评，同时写防护的计划”。事实依据：`agent-doc/experiments/2026-10-02-ep7-divergence-analysis.md`（jev 19 条核实）。
+第 3 版，2026-10-02（第 1 版只有 A 部分，9b6b015；第 2 版加 B 部分，3ce4ea5；第 3 版按审查改 A 部分）。用户 10/2 的决定（原话）：“先评，同时写防护的计划”。事实依据：`agent-doc/experiments/2026-10-02-ep7-divergence-analysis.md`（jev 19 条核实）。
 时间一律 UTC-6。A 部分先成文、先审、先跑；B 部分在本文件第 2 版里补全，另行审查，审过之前不动训练代码、不重训。
 
 ## A. 评两份最后有限的 checkpoint
+
+第 3 版：按独立审查修改（A.6）。
 
 ### A.1 要回答的问题
 
 - Q1：t1-ep7 的 130,004,992 步、t2-ep7 的 140,005,376 步这两份 policy，在评测条件（VOC 为 0、确定性动作、4096 世界）下是什么分数，够不够候选条件。
   用不用它们先凑齐 30 条，由用户看了结果再定；这一步不导出、不打包、不上传。
-- Q2：评测里会不会出现崩掉的世界。出现的话崩在参考的哪一帧附近。
+- Q2：评测条件下会不会出现崩掉的世界。出现的话崩在参考的哪一帧附近。
 
 ### A.2 做法
 
-| 机器 | run | 步数 | 评测运行时 | 何时跑 |
+| 机器 | run | 步数 | 评测运行时 | 取证运行时 |
 |---|---|---|---|---|
-| ml40 | `t2-ep7-w2048-cap10m-p185-ml40` | 140005376 | `/lab_data/rxzhou/v2d/fc_src/fc_8c778f9` | GPU 空着，审过就起 |
-| mf4090 | `t1-ep7-w2048-cap4m-p185-mf4090` | 130004992 | `~/v2d/fc_src/fc_8c778f9` | 等诊断链 `runs/logs/diag2_mf4090.log` 出结束行之后 |
+| ml40 | `t2-ep7-w2048-cap10m-p185-ml40` | 140005376 | `/lab_data/rxzhou/v2d/fc_src/fc_8c778f9` | `/lab_data/rxzhou/v2d/fc_src/v040_p185` |
+| mf4090 | `t1-ep7-w2048-cap4m-p185-mf4090` | 130004992 | `~/v2d/fc_src/fc_8c778f9` | `~/v2d/fc_src/v040_p185` |
 
-每台在 tmux 里跑一条 `stages/evaluate/ep7_ckpt_eval.sh <run> <步数> ep7_eval_<机器>`（新脚本，只新增文件，不替换服务器上任何现有文件）：
+两台的 GPU 都已空闲（mf4090 的诊断链 14:51 结束），同时起。每台由 `stages/evaluate/arm_ep7_eval.sh <机器>` 在 tmux 里起一条
+`stages/evaluate/ep7_ckpt_eval.sh <run> <步数> 896 ep7_eval_<机器>`（都是新文件，不替换服务器上任何现有文件）：
 
-1. 先查：日志不存在、policy 文件在、两份源码副本在、这份 policy 没有非有限参数（规矩一）。
-2. 等 GPU 空出来（最多 7200 秒；mf4090 另等诊断链的结束行），再用 8c778f9 副本跑 `stages/policy/fc_eval.sh`（4096 世界），
-   与方盒评测链是同一条命令、同一运行时，结果落成 `results/day2/eval_<run>_s<步数>.txt`。
-3. 评测失败，或评测 JSON 的 `non_finite_worlds` 非空：再跑一次取证 rollout `stages/evaluate/blowup_rollout.py`（4096 世界，挂 v0.4.0 + #185 副本，
-   与 `diag_rollout.py --palms` 用同一个手掌记录器），把物体与两只手掌逐步的位置原样存成 npz（不清零），并打印崩掉的世界数与第一次出问题的帧的分布。
-   评测成功且没有非有限世界就不跑取证。
-4. 日志最后一行 `EP7_EVAL_DONE（评测 …；非有限世界 …；取证 …）`。
+1. 先查，任何一条不满足就拒绝：日志不存在；policy 文件在；这一步的评测 JSON 与取证 npz 都还不存在（不沿用旧结果、不覆盖旧证据）；
+   两份源码副本各自过 `fc_src_check.py`；`ckpt_nonfinite.py` 给出这一步“非有限 0”（规矩一）。本机还有别的长链在跑也不起。
+2. 等 GPU 空出来（最多 7200 秒），用 8c778f9 副本跑 `stages/policy/fc_eval.sh`（4096 世界），与方盒评测链是同一条命令、同一运行时，
+   结果记在 `results/ep7/eval_<run>_s<步数>.txt`。fc_eval 报 GPU 被占（退出码 6）就等 GPU 空了重跑。
+3. 评测完不论成败，把 fc_eval 自己的日志里的要点行摘到 `results/ep7/evallog_…txt`：挂的是哪份源码、是否走满 896 帧、评测器报了几个非有限世界、
+   有没有报 must disable task failure termination。评测的结局分三种：成功；失败（终止报错）；失败（其他）。
+4. 评测成功时由脚本逐项核候选条件 A-2，记在 `results/ep7/a2_…txt`。
+5. 取证 rollout 每次都跑（`stages/evaluate/blowup_rollout.py`，4096 世界，挂 v0.4.0 + #185 副本，与 `diag_rollout.py --palms` 用同一个手掌记录器）：
+   把物体与两只手掌逐步的位置原样存成 npz（不清零），打印崩掉的世界数与第一次出问题的帧的分布。评分阶段报终止不算它失败。
+6. 日志最后一行 `EP7_EVAL_DONE（评测 …；评测器记的非有限世界 …；A-2 …；取证 …）`。
 
-之后在 Mac 上拉回 `results/`，用 `stages/evaluate/batch_verdict.py stages/policy/queues/<机器>_ep7ckpt.expect.tsv <结果目录> --steps <步数>` 按批量判据出判定（期望表各只有 ep7 一行，取自方盒期望表）。
+之后在 Mac 上拉回 `results/`，用 `stages/evaluate/batch_verdict.py stages/policy/queues/<机器>_ep7ckpt.expect.tsv <results/ep7 目录> --steps <步数> --bar-root <不动基线所在目录>`
+按批量判据出判定（期望表各只有 ep7 一行，取自方盒期望表；`--bar-root` 是这次给 batch_verdict.py 加的可选参数，不给时行为不变，已用两份旧判定逐字核过）。
+评测记在 `results/ep7/` 而不是 `results/day2/`，免得进入此前按 `results/day2/` 统计的评测结局计数。
 
 为什么不直接用 `diag_rollout.py --palms`：它存盘前把非有限世界的手掌清零，评测器也把这些世界的物体位姿清零，崩之前的轨迹看不到；
-评分阶段若因有世界被判终止而报错，它不存盘。mf4090 的诊断链还在用它，这次不改它。
+评分阶段若因有世界被判终止而报错，它不存盘。这次不改它。
 
 ### A.3 判据（跑之前登记）
 
-- **A-1 评测完成**：日志最后一行是 `EP7_EVAL_DONE`，且评测为“成功”。评测失败（例如评测器报 must disable task failure termination）本身是 Q2 的一个结果，照实记。
-- **A-2 候选条件**（与导出链对候选的要求相同）：评测 JSON 里 `world_count` 为 4096、`non_finite_worlds` 为空、`step_count` 为 896、checkpoint sha256 等于这份 policy 文件。
-  满足才说“这份 policy 可以作临时候选”；不满足就说不可以。满足也不自动使用，等用户定。
-- **A-3 质量只报数**：chord_sr、MP-SR、SP-SR、ADD-AUC 与不动基线之差、MPPE，以及 `batch_verdict.py` 的判定。它们不改变 A-2 的结论。
-  t2-ep7 的分数对照的是 Tier 2 v5.4 参考，不和 Tier 1 比，也不拿来调方法。
+- **A-1 评测的结局**：日志最后一行是 `EP7_EVAL_DONE`。“成功”与“失败（终止报错）”都是结果：后者说明评测条件下有世界崩到被判终止，是 Q2 的答案之一，这份 policy 也就过不了 A-2。
+  “失败（其他）”（容器、显存、磁盘等）等于没评成，查明原因后重跑，不当作结果。
+- **A-2 候选条件**（与导出链对候选的要求相同，由脚本逐项核）：评测 JSON 里 `world_count` 为 4096、`non_finite_worlds` 是空列表、`step_count` 为 896、
+  `checkpoint_sha256` 等于这份 policy 文件的 sha256。四项都满足才说“这份 policy 可以作临时候选”。满足也不自动使用，等用户定。
+- **A-2 不满足之后**：这一份就不作候选。要不要试更早的 checkpoint 由用户定；要试的话只按规矩二的次序（步数从大到小，逐份评），不按分数挑。
+- **A-3 质量只报数**：chord_sr、MP-SR、SP-SR、ADD-AUC 与不动基线之差、MPPE，以及 `batch_verdict.py` 的判定，都取自 8c778f9 副本的那次评测。它们不改变 A-2 的结论。
+  取证 rollout 顺带写出的评测 JSON 不用于 A-2、A-3。t2-ep7 的分数对照的是 Tier 2 v5.4 参考，不和 Tier 1 比，也不拿来调方法。
 - **A-4 触发**：
-  - 取证 rollout 报出崩掉的世界数大于 0：报世界数、第一次出问题的帧的最早、中位、最晚与最集中的几帧。只描述，不据此下“触发就是薄桌面”的结论；
-    要下这个结论，另需对照（例如把桌面加厚后同一份 policy 的同样 rollout），那是 B 之后的事。
-  - 两份都没有崩掉的世界：结论只能是“这两份 policy 在 VOC 为 0 的 4096 × 896 步里没有出现”，不能推出训练里不会再出现。触发仍未知，留给 B 的事件日志。
+  - “崩掉的世界”的定义：物体或任一只手掌的位置出现非有限值，或绝对值超过 100 m（数值很大但有限的状态同样会毁掉训练）。评测器自己记的“非有限世界”只看物体位姿，范围更窄，两个数分开报。
+  - 取证与评测是两次独立的 rollout（不同的源码副本，评测本身也不逐位可复现），两边的世界号不对应，只比个数与帧的分布。
+  - 崩掉的世界数大于 0：报世界数、第一次出问题的帧的最早、中位、最晚与最集中的几帧，t1、t2 分开报。只描述，不据此下“触发就是薄桌面”的结论；
+    要下这个结论，另需对照（例如把桌面加厚后同一份 policy 的同样 rollout），那是 B 之后的事。t1-ep7 的帧不拿去设 Tier 2 的任何东西。
+  - 两份都没有崩掉的世界：结论只能是“这两份 policy 在 VOC 为 0 的 4096 × 896 步里没有出现”，不能推出训练里不会再出现。触发仍未知，留给 B 的事件记录。
 - 结论的范围：两份 policy 分别只训到 VOC 0.25、刚进 0.1，评测在 VOC 为 0 下跑，与训练里出事时的条件不同。
 
 ### A.4 风险与守卫
 
-- 与在跑的链抢 GPU：脚本每次用 GPU 之前都等它空出来；mf4090 那条另等诊断链的结束行。ml40 上所有链都已结束（14:30 的快照里没有长链标记）。
-- 改动在跑的链要用的文件：不改。新文件只有 `stages/evaluate/{ep7_ckpt_eval.sh,blowup_rollout.py}`，`diag_rollout.py`、`diag_palms.py`、`fc_eval.sh` 原样。
-- 磁盘：评测 JSON 很小；取证 npz 估计 100–250 MB（896 帧 × 4096 世界 × 物体 1 个、手掌 2 只的位置，加评测器自己的逐步误差）。mf4090 可用 5640 MB（14:30）。
+- 与别的链抢 GPU：起链脚本见到本机有长链标记就不起；链每次用 GPU 之前都等它空出来。14:51 之后两台都没有在跑的链。
+- 改动在跑的链要用的文件：不改。新文件是 `stages/evaluate/{ep7_ckpt_eval.sh,arm_ep7_eval.sh,blowup_rollout.py}`；`diag_rollout.py`、`diag_palms.py`、`fc_eval.sh` 原样。
+- 磁盘：评测 JSON 很小；取证 npz 未压缩约 220 MB（896 帧 × 4096 世界：物体 44 MB、手掌 88 MB、评测器的逐步误差 88 MB）。mf4090 可用 5640 MB（14:30）。
 - 16:47 的收尾任务（拉导出、打包、只跑 `--dry-run`）不受影响：它只读两台的导出表，两档都缺 ep7，按决策表列缺项。
 - 不往 Kaggle 上传任何东西。
 
 ### A.5 测试
 
-- `stages/evaluate/test_ep7_ckpt_eval.py`（6 组，Mac 上全过）：没有非有限世界不跑取证；有非有限世界或评测失败才跑，且取证挂的是 #185 副本、走 GPU；
-  五种拒绝；等别的链结束；GPU 一直被占则停；试跑不写日志。
-- `blowup_rollout.py` 只能在容器里跑。起链前在 ml40 上用 16 个世界试跑一次（占 GPU 约 1 分钟，ml40 空着），确认它能存盘、打印 `BLOWUP_ROLLOUT_OK`。
+- `stages/evaluate/test_ep7_ckpt_eval.py`（8 组，Mac 上全过）：候选条件四项逐项判、缺键记未知；评测报终止与别的失败分开记；取证输出里带 Traceback 仍记完成；
+  fc_eval 退出码 6 时等 GPU 重跑；六种拒绝（含两份副本填反）；评测前后 GPU 被占的两种结局；试跑不写日志。
+- `stages/evaluate/test_blowup_rollout.py`（5 组，要 numpy，Mac 上用 uv 跑过）：假的评测脚本像 hydra 那样打印 Traceback 再 `sys.exit(1)` 时仍然存盘、原始 NaN 不清零；
+  别的异常不存盘；输出已存在就拒绝；`first_bad_frame` 的单元检查。
+- 真实路径的自测（起链前在 ml40 上跑一次，GPU 约 2 分钟）：用 9/29 那份已知会崩的 policy `smoke-t1-ep7-w2048-cap10m-ml40/policy_4096000`
+  （默认的 v0.4.0 几何下 256 个世界里 172 个非有限，随后评分报终止，`results/ml40/batch1/ep7_smoke_diag_excerpt.txt`）跑 256 个世界的取证，
+  期望：`BLOWUP_ROLLOUT_OK`、崩掉的世界数大于 0、`score_error` 非空。这一步只验证代码路径，数字不用于任何结论。那份 policy 若已不在，记一句，改靠上面两组测试。
+
+### A.6 审查记录
+
+独立审查由 Opus 5.5 做（主会话是 Fable 5.1，审查换模型），结论 GO WITH FIXES；审的是第 1 版（9b6b015）。逐条处理：
+
+| 意见 | 处理 |
+|---|---|
+| BLOCKER：评分报终止时 hydra 把 Traceback 打进输出，`scripts/dev/record` 见到 Traceback 就判失败，最要紧的那条路径会被记成“取证 失败” | 取证那条 record 加 `V2D_RECORD_TRACEBACK_OK=1`；测试加一组“输出带 Traceback、退出码 0 → 记完成” |
+| MAJOR：评测失败不分原因，GPU 被占（退出码 6）也当成结果；最直接的证据（评测日志里的非有限世界数与报错）只留在服务器上 | 退出码 6 等 GPU 重跑；评测日志的要点行经 record 摘进 `results/ep7/`；结局分三种，A-1 写明哪些算结果 |
+| MAJOR：取证脚本的容错路径没跑过，16 世界试跑用的是有限的 policy，覆盖不到 | 加 `test_blowup_rollout.py`；另用已知会崩的 policy 做一次真实路径的自测。原来的 16 世界试跑去掉 |
+| A-2 判不了：链只读了一个键，sha256 没人算 | 链里逐项核四项并落盘 |
+| 缺 `non_finite_worlds` 键时默认放行 | 缺键或不是列表记“未知”，A-2 不满足 |
+| 会沿用已有的评测 JSON | 已存在就拒绝 |
+| 源码副本只查了 SOURCE_V2D.txt，两个变量填反也能过 | 两份副本各自过 `fc_src_check.py` |
+| `V2D_EVAL_WORLDS`、`V2D_ALLOW_SHARED_GPU` 会漏进 fc_eval | 开头 unset |
+| A-4 口径：崩掉的定义、世界号不对应、评测器只看物体、t1 与 t2 分开 | 写进 A-4；取证改成每次都跑，不再以评测结果为条件 |
+| 等别的链没有上限 | 去掉“等别的链”这个功能：两台都空了，起链脚本见到长链标记就不起 |
+| 取证前等 GPU 超时会把整条链记成失败，与事实不符 | 改记“取证 没跑（GPU 被占）”，结束行仍是 `EP7_EVAL_DONE` |
+| 没登记 A-2 不满足之后怎么办 | 加一条：只按规矩二的次序，不按分数 |
+| 来历不全 | 日志开头记三个脚本的 md5；npz 里存上游四个文件的 md5 |
+| 小项：取证脚本先删旧输出；评测记录进了 `results/day2/` 的统计；`diag_palms` 导入太早；报错文字不准 | 已存在就拒绝；评测记到 `results/ep7/`，`batch_verdict.py` 加 `--bar-root`；改到环境建好之后导入；改文字，并改为要求扫描输出里出现“非有限 0”那一行 |
 
 ## B. 训练的非有限防护与 ep7 两档重训
 
