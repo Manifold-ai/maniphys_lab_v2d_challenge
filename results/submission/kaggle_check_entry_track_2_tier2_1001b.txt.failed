@@ -1,0 +1,12 @@
+# command  : bash -c cd\ third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit\ \&\&\ uv\ run\ --quiet\ --no-project\ --python\ 3.12\ --with\ \'kaggle\>=2\'\ --with\ kagglesdk\ --with\ pandas\ --with\ pyarrow\ --with\ numpy\ python\ submit/v2d_submit.py\ --track\ track_2_tier2\ --check-entry 
+# source   : 23daeae566cd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T23:52:43-0600
+# ---------------------------------------------------------------
+
+You have not accepted the rules for:
+
+  https://www.kaggle.com/c/v2d-challenge-track2-tier2-auc/rules
+
+Open each one and click accept, then re-run. Kaggle has no API for this, so it is the
+manual acceptance step. It is required once per competition.

@@ -1,0 +1,19 @@
+# command  : tools/kaggle_join_status.sh 
+# md5      : 8974091b78890d0edb0e323f29fd8b06  tools/kaggle_join_status.sh
+# source   : 23daeae566cd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T23:52:50-0600
+# ---------------------------------------------------------------
+比赛 12 个（--search v2d-challenge-track2）
+  v2d-challenge-track2-tier1-auc           deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier1-mp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier1-mppe          deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier1-sp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier2-auc           deadline 2026-11-04 22:00:00  userHasEntered False
+  v2d-challenge-track2-tier2-mp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier2-mppe          deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier2-sp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+  v2d-challenge-track2-tier3-auc           deadline 2026-11-04 22:00:00  userHasEntered False
+  v2d-challenge-track2-tier3-mp-sr         deadline 2026-11-04 22:00:00  userHasEntered False
+  v2d-challenge-track2-tier3-mppe          deadline 2026-11-04 22:00:00  userHasEntered False
+  v2d-challenge-track2-tier3-sp-sr         deadline 2026-11-04 22:00:00  userHasEntered False
