@@ -1,0 +1,18 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_COMPAT_DRYRUN=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ V2D_WAIT_FOR_EVAL_LOG=runs/logs/t2c_eval_ml40.log\ stages/evaluate/compat_8c778f9.sh\ stages/evaluate/compat/ml40.tsv\ compat_ml40 
+# md5      : 6c000f3fbeaa889eceec3c753dccc2f6  stages/evaluate/compat_8c778f9.sh
+# md5      : 49f0936b499e334fe3a2cd87e6e14ef1  stages/evaluate/compat/ml40.tsv
+# source   : c354d7ab5b73
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T21:01:14-0600
+# ---------------------------------------------------------------
+== 预检 compat_ml40：清单 stages/evaluate/compat/ml40.tsv（export 行 2），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，来历 90a73fa8e852
+  ok   runs/logs/compat_ml40.log 与 runs/logs/compat_ml40.gate 都不存在
+  ok   check_export 能跑（宿主机 python3 有 numpy、pyarrow，或经 flash_chord:latest 容器）：check_export：宿主机缺库，走 flash_chord:latest 容器
+  ok   要等的评测链日志 runs/logs/t2c_eval_ml40.log 已存在
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   third_party/patches/flash_chord-8c778f9.eval.json 存在
+  ok   export t1-ep12-w2048-cap10m-ml40（1 世界）：fc_export 预检退出码 0
+  ok   export t2-ep0-w2048-cap10m-ml40（1 世界）：fc_export 预检退出码 0
+  ok   eval t1-ep12-w2048-cap10m-ml40（4096 世界）：fc_export 预检退出码 0
+  ok   eval t1-ep12-w2048-cap10m-ml40 的 v0.4.0 结果 runs/flash_chord/t1-ep12-w2048-cap10m-ml40/eval_349999104_w4096.json 存在
+COMPAT_DRYRUN_OK

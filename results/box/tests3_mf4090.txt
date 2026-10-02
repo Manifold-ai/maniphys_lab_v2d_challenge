@@ -1,0 +1,9 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/test_compat_8c778f9.py\ 2\>\&1\ \|\ tail\ -3 
+# md5      : 6485c96cb1e0701924db51cb80ee5e86  stages/evaluate/test_compat_8c778f9.py
+# source   : c354d7ab5b73
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T21:00:59-0600
+# ---------------------------------------------------------------
+ok test_chain_after_waits_while_compat_waits
+ok test_dryrun
+ALL_OK
