@@ -6,8 +6,10 @@ coordinate_frame=released_track2_world、frame_index [T]、pose_xyzw [T,1,7]（�
   - 来源：runs/motion_src/tier2/<序列>/v2d_meta.json 的 object_pose_source.path（训练用的 motion parquet 就是从它重定向出来的，P5′ 已核残差）；
   - v5.4 的 object_pose 是 [x,y,z,qw,qx,qy,qz]，OpenCV 世界系，与发布数据同一约定；这里换成 xyzw，形状 [T,1,7]；
   - frame_index 取发布的 Tier 2 parquet 的 frame_index 列，要求与 v5.4 帧数相同、严格递增，episode_index 列全等于这条 episode。
-同一世界系的粗核（只报、粗卡）：v5.4 与发布的 Tier 2 输入逐帧位置差的中位数要小于 0.1 m。换错世界系（例如 SOMA 与 OpenCV 差一个
-diag(1,-1,-1)）会差出米级。进程开头 forbid_tier1()：此后读 Tier 1 的任何文件都会抛错。
+同一世界系与四元数布局的粗核（计划第 3.3 节，按审查意见 m6）：v5.4 与发布的 Tier 2 带噪输入第 0 帧位置差 ≤ 20 mm（Tier 2 噪声从第 0 帧的约 0 开始；
+容差同 stages/recovery/check_tier2_export.py 对 v5.4 的 F0_TOL，ep17 被不穿地约束抬了 13.5 mm），逐帧角度差的中位数 < 45°（噪声上限 30°；
+四元数布局弄错时角度差会大得多）。逐帧位置差的中位数只报不卡。换错世界系（例如 SOMA 与 OpenCV 差一个 diag(1,-1,-1)）第 0 帧就会差出米级。
+进程开头 forbid_tier1()：此后读 Tier 1 的任何文件都会抛错。
 输出 runs/submission/frame_refs_t2/episode_XXXXXX.npz 与 manifest.tsv（episode、序列、帧数、来源 npz 的 sha256、输出的 sha256）；
 输出目录已存在就拒绝。最后一行 FRAME_REFS_OK 30 或 FRAME_REFS_FAIL n。
 用法（仓库根）：python3 stages/evaluate/make_frame_references.py [--out runs/submission/frame_refs_t2] [--episodes …]
@@ -24,6 +26,7 @@ import pyarrow.parquet as pq
 ROOT = Path(__file__).resolve().parents[2]
 RELEASED = ROOT / "data/challenge/track_2/tier_2_synthetic_noise/data/chunk-000"
 FRAME = "released_track2_world"
+F0_TOL, ANG_MED_TOL = 0.020, 45.0   # 米、度；见文件头
 
 
 def sha256(path: Path) -> str:
@@ -53,8 +56,9 @@ def one(ep: int, meta: dict, out: Path) -> tuple:
     noisy_xyzw = np.concatenate([noisy[:, :3], noisy[:, 4:7], noisy[:, 3:4]], axis=1)
     dpos = np.linalg.norm(xyzw[:, :3] - noisy_xyzw[:, :3], axis=1)
     dang = angle_deg(xyzw[:, 3:], noisy_xyzw[:, 3:])
-    if not np.median(dpos) < 0.1:
-        raise ValueError(f"v5.4 与发布的 Tier 2 输入位置差中位数 {np.median(dpos):.3f} m，像是世界系不对")
+    if not (dpos[0] <= F0_TOL and np.median(dang) < ANG_MED_TOL):
+        raise ValueError(f"v5.4 与发布的 Tier 2 输入第 0 帧位置差 {dpos[0] * 1000:.1f} mm（要 ≤ {F0_TOL * 1000:.0f} mm）、"
+                         f"角度差中位数 {np.median(dang):.1f}°（要 < {ANG_MED_TOL:.0f}°），像是世界系或四元数布局不对")
     path = out / f"episode_{ep:06d}.npz"
     np.savez(path, episode_index=np.int64(ep), coordinate_frame=np.array(FRAME), frame_index=fi, pose_xyzw=xyzw[:, None, :])
     with np.load(path, allow_pickle=False) as z:   # 照 kit 的 input_frame_reference 读回来核一遍

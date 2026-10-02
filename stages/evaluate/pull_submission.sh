@@ -7,7 +7,8 @@
 #                                                 → data/challenge/track_2/<档位目录>/。打包器用干净参考核帧、算本地分数，用网格算 AUC 的交叉核对
 #   pull_submission.sh refs                       mf4090 的 runs/submission/frame_refs_t2/ → 同名目录（Tier 2 打包的 --frame-references）
 #   pull_submission.sh exports <机器> <结果表名>    远端 runs/exports/<结果表名>.tsv（export_chain.sh 写的）里状态为 ok、fallback 的 JSON 与 parquet
-#                                                 → runs/submission/final/t<档位>/episode_XXXXXX.{json,parquet}；fallback_noeval 的 → runs/submission/final/held/t<档位>/；
+#                                                 → runs/submission/final/t<档位>/episode_XXXXXX.{json,parquet}；no_eval、fallback_noeval 的（不满足候选条件）
+#                                                 → runs/submission/final/held/t<档位>/；
 #                                                 结果表本身存到 runs/submission/final/<结果表名>.tsv；按结果表里的 sha256 核
 #   pull_submission.sh compat <机器>              兼容性验证里 1 个世界的导出（stages/evaluate/compat/<机器>.tsv 的 export 行）→ runs/submission/compat/t<档位>/
 # 机器：mf4090 用 .env，ml40 用 .env.ml40（scripts/dev/_load-env）。最后一行 PULL_OK <文件数> 或 PULL_FAIL <原因>。
@@ -42,7 +43,7 @@ case "$MODE" in
     host_env mf4090
     D=data/challenge/track_2
     for t in tier_1_multiview_caption tier_2_synthetic_noise; do [ ! -e "$D/$t" ] || fail "$D/$t 已存在（要重拉先挪走）"; done
-    ssh "$V2D_HOST" "cd '$V2D_REMOTE' && find $D/tier_1_multiview_caption/meta $D/tier_1_multiview_caption/data $D/tier_1_multiview_caption/mesh \
+    ssh "$V2D_HOST" "set -o pipefail; cd '$V2D_REMOTE' && find $D/tier_1_multiview_caption/meta $D/tier_1_multiview_caption/data $D/tier_1_multiview_caption/mesh \
       $D/tier_1_multiview_caption/README.md $D/tier_2_synthetic_noise/meta $D/tier_2_synthetic_noise/data $D/tier_2_synthetic_noise/README.md -type f | sort" \
       > "$TMP/list" || fail "远端列文件失败"
     remote_sha "$TMP/list" "$TMP/sha"; stream "$TMP/list"
@@ -65,11 +66,11 @@ case "$MODE" in
     F=runs/submission/final
     echo "runs/exports/$NAME.tsv" > "$TMP/t"; remote_sha "$TMP/t" "$TMP/tsha"; stream "$TMP/t"
     place "$TMP/x/runs/exports/$NAME.tsv" "$F/$NAME.tsv" "$(cut -d' ' -f1 < "$TMP/tsha")"
-    awk -F'\t' 'NR > 1 && ($5 == "ok" || $5 == "fallback" || $5 == "fallback_noeval") { print $6; print $7 }' "$F/$NAME.tsv" > "$TMP/list"
+    awk -F'\t' 'NR > 1 && ($5 == "ok" || $5 == "fallback" || $5 == "no_eval" || $5 == "fallback_noeval") { print $6; print $7 }' "$F/$NAME.tsv" > "$TMP/list"
     [ -s "$TMP/list" ] || fail "结果表里没有能拉的行"
     stream "$TMP/list"
     while IFS=$'\t' read -r tier ep run step st j q jsha qsha; do
-      case "$st" in ok|fallback) sub="t$tier" ;; fallback_noeval) sub="held/t$tier" ;; *) continue ;; esac
+      case "$st" in ok|fallback) sub="t$tier" ;; no_eval|fallback_noeval) sub="held/t$tier" ;; *) continue ;; esac
       e6="$(printf %06d "$ep")"
       [[ $(basename "$j") == "episode_$e6.json" && $(basename "$q") == "episode_$e6.parquet" ]] || fail "Tier $tier ep${ep} 的文件名与 episode 不符：$j"
       place "$TMP/x/$j" "$F/$sub/episode_$e6.json" "$jsha"; place "$TMP/x/$q" "$F/$sub/episode_$e6.parquet" "$qsha"

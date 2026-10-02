@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh data 
+# md5      : 184185dff6dfb35a361e36f7d275599b  stages/evaluate/pull_submission.sh
+# source   : 8c0a13477fad
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:18:51-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+Tier 1 干净参考 65 个文件、Tier 2 发布输入 36 个文件；清单的 sha256 8346a7c30fc6426c…
+PULL_OK 101

@@ -1,0 +1,9 @@
+# command  : python3 stages/evaluate/test_export_map.py 
+# md5      : 9177c052823028ef47a3284a44e5be38  stages/evaluate/test_export_map.py
+# source   : 8c0a13477fad-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:46:46-0600
+# ---------------------------------------------------------------
+ok  test_committed_matches_regenerated
+ok  test_fake_ok_and_failures
+ALL_OK

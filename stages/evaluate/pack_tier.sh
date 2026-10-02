@@ -37,10 +37,11 @@ def v(p):
         return "无"
 print("# python", sys.version.split()[0], " ".join(f"{p}={v(p)}" for p in ("numpy", "pandas", "pyarrow", "trimesh", "kaggle")))'
   if [ "$T" = 2 ]; then
-    "${PY[@]}" "$KIT/tools/pack_submission.py" "${args[@]}" 2>&1 | { grep -v '^locally computed:' || true; }
+    # -u：不缓冲，stdout 与 stderr 不会把那一行切开；grep 不锚定行首，混进了别的输出也照样滤掉整行
+    "${PY[@]}" -u "$KIT/tools/pack_submission.py" "${args[@]}" 2>&1 | { grep -v 'locally computed' || true; }
     rc=${PIPESTATUS[0]}
   else
-    "${PY[@]}" "$KIT/tools/pack_submission.py" "${args[@]}" 2>&1; rc=$?
+    "${PY[@]}" -u "$KIT/tools/pack_submission.py" "${args[@]}" 2>&1; rc=$?
   fi
   [ "$rc" = 0 ] || exit "$rc"
   [ -s "$CSV" ] || { echo "pack_tier: 打包器退出码 0 但没有 $CSV"; exit 1; }

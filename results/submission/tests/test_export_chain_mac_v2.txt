@@ -1,0 +1,16 @@
+# command  : python3 stages/evaluate/test_export_chain.py 
+# md5      : df078a73ec0b50f04f87621887420b64  stages/evaluate/test_export_chain.py
+# source   : 8c0a13477fad-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:46:25-0600
+# ---------------------------------------------------------------
+ok  test_normal
+ok  test_candidate_condition
+ok  test_rule2_fallback
+ok  test_row_failures
+ok  test_gpu_waits
+ok  test_gate_and_stops
+ok  test_refusals
+ok  test_waits_for_previous_eval
+ok  test_dryrun
+ALL_OK

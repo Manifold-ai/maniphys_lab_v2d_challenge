@@ -1,0 +1,13 @@
+# command  : python3 stages/evaluate/test_pack_tier.py 
+# md5      : d67f84d19a37c961741516348d898f0b  stages/evaluate/test_pack_tier.py
+# source   : 8c0a13477fad-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:46:47-0600
+# ---------------------------------------------------------------
+ok  test_tier2_filters_local_scores
+ok  test_tier1_keeps_local_scores
+ok  test_rehearsal_config
+ok  test_packer_failure
+ok  test_negctl
+ok  test_refusals
+ALL_OK

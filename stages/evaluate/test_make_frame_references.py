@@ -3,7 +3,7 @@
 临时目录里搭最小仓库：真的 make_frame_references.py 与 libs/v2d_infra/tier_guard.py，假的 v2d_meta.json、v5.4 npz、发布的 Tier 2 parquet。
   1. 正常：输出的 npz 键、类型、形状与 kit 的 tracks/track_2/README.md 一致，xyzw 换对，manifest 的 sha256 对；
      有 pandas 时：kit 的 input_frame_reference 读得进来，convert_track2_frame 拿“刚体变换后的 v5.4”当评测器参考能对上（残差 < 1e-9）；
-  2. v5.4 与发布输入的世界系差一个 diag(1,-1,-1)：FAIL；帧数不一致：FAIL；来源不是 v5.4：FAIL；
+  2. v5.4 与发布输入的世界系差一个 diag(1,-1,-1)：FAIL；v5.4 的四元数按 xyzw 存（布局错）：FAIL；帧数不一致：FAIL；来源不是 v5.4：FAIL；
   3. 输出目录已存在：拒绝；
   4. 档位隔离：v2d_meta 的来源指向 Tier 1 目录时被 tier_guard 拦下（FAIL，不是读进来）。
 用法：uv run --no-project --python 3.12 --with numpy --with pyarrow --with pandas python stages/evaluate/test_make_frame_references.py
@@ -29,7 +29,7 @@ def quat_wxyz(n, rng):
     q = rng.normal(size=(n, 4)); return q / np.linalg.norm(q, axis=1, keepdims=True)
 
 
-def setup(root: Path, eps=(0, 1), src_dir="runs/recovery/tier2_v54", denoiser="v5.4", flip=(), short=()) -> dict:
+def setup(root: Path, eps=(0, 1), src_dir="runs/recovery/tier2_v54", denoiser="v5.4", flip=(), short=(), swapq=()) -> dict:
     for f in ("stages/evaluate/make_frame_references.py", "libs/v2d_infra/tier_guard.py"):
         (root / f).parent.mkdir(parents=True, exist_ok=True); shutil.copy(REPO / f, root / f)
     rng = np.random.default_rng(0); truth = {}
@@ -40,6 +40,8 @@ def setup(root: Path, eps=(0, 1), src_dir="runs/recovery/tier2_v54", denoiser="v
         noisy = v54.copy(); noisy[:, :3] += 0.01
         if ep in flip:   # 世界系错了：位置 y、z 取反
             v54 = v54.copy(); v54[:, 1:3] *= -1; v54[:, 1:3] += 3.0
+        if ep in swapq:   # 四元数布局错了：按 xyzw 存
+            v54 = v54.copy(); v54[:, 3:7] = v54[:, [4, 5, 6, 3]]
         seq = f"seq{ep}"
         npz = root / src_dir / f"episode_{ep:06d}.npz"; npz.parent.mkdir(parents=True, exist_ok=True)
         np.savez(npz, object_pose=v54[:-1] if ep in short else v54, visible=np.ones(T, bool), meta=np.array("x"))
@@ -100,7 +102,8 @@ def kit_check(out: Path, truth: dict) -> None:
 
 
 def test_failures() -> None:
-    for kw, word in (({"flip": (1,)}, "像是世界系不对"), ({"short": (1,)}, "v5.4 形状"), ({"denoiser": "v5.3"}, "来源不是 v5.4")):
+    for kw, word in (({"flip": (1,)}, "像是世界系或四元数布局不对"), ({"swapq": (1,)}, "像是世界系或四元数布局不对"),
+                     ({"short": (1,)}, "v5.4 形状"), ({"denoiser": "v5.3"}, "来源不是 v5.4")):
         with tempfile.TemporaryDirectory() as t:
             root = Path(t); setup(root, **kw)
             r = run(root, "--episodes", "0", "1")
