@@ -1,0 +1,30 @@
+# command  : scripts/dev/push-new-files stages/evaluate/diag_palms.py stages/evaluate/diag_phase.py stages/evaluate/diag2_sync.py stages/evaluate/diag2_chain.sh stages/evaluate/arm_diag2.sh stages/evaluate/diag2/mf4090.tsv stages/evaluate/diag2/ml40.tsv stages/evaluate/test_diag_phase.py stages/evaluate/test_diag2_chain.py agent-doc/plan-diag-mpsr0-2026-10-02.md 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 88c07ed924fcf19ad3aec6125ff9c2b6  stages/evaluate/diag_palms.py
+# md5      : 78ac3940792d2ce3423f07e000adcc0b  stages/evaluate/diag_phase.py
+# md5      : ad54e8f2f9637d54dcb5ab95a7c718f1  stages/evaluate/diag2_sync.py
+# md5      : fd3a07229dc9dd79aa7df69cfea07962  stages/evaluate/diag2_chain.sh
+# md5      : 482c6bb759f39659ee67f89181958112  stages/evaluate/arm_diag2.sh
+# md5      : c74cb24d7f0ee857b39c8a3ad9b13514  stages/evaluate/diag2/mf4090.tsv
+# md5      : 0a0a65d0d5771ce72261131c825071fc  stages/evaluate/diag2/ml40.tsv
+# md5      : a0f32200577b19544f253afd958f9c23  stages/evaluate/test_diag_phase.py
+# md5      : 136114fc532f9fa9d68c76a8dd341878  stages/evaluate/test_diag2_chain.py
+# md5      : 0c0987d14d3e3239d0d7c8d0c4c7f453  agent-doc/plan-diag-mpsr0-2026-10-02.md
+# source   : a9576a2354df
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T09:04:27-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 a9576a2354df；远端来历 90a73fa8e852
+  ok   88c07ed924fcf19ad3aec6125ff9c2b6  stages/evaluate/diag_palms.py
+  ok   78ac3940792d2ce3423f07e000adcc0b  stages/evaluate/diag_phase.py
+  ok   ad54e8f2f9637d54dcb5ab95a7c718f1  stages/evaluate/diag2_sync.py
+  ok   fd3a07229dc9dd79aa7df69cfea07962  stages/evaluate/diag2_chain.sh
+  ok   482c6bb759f39659ee67f89181958112  stages/evaluate/arm_diag2.sh
+  ok   c74cb24d7f0ee857b39c8a3ad9b13514  stages/evaluate/diag2/mf4090.tsv
+  ok   0a0a65d0d5771ce72261131c825071fc  stages/evaluate/diag2/ml40.tsv
+  ok   a0f32200577b19544f253afd958f9c23  stages/evaluate/test_diag_phase.py
+  ok   136114fc532f9fa9d68c76a8dd341878  stages/evaluate/test_diag2_chain.py
+  ok   0c0987d14d3e3239d0d7c8d0c4c7f453  agent-doc/plan-diag-mpsr0-2026-10-02.md
+远端来历（放完）90a73fa8e852
+PUSH_OK（10 个文件）

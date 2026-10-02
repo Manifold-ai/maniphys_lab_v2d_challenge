@@ -1,6 +1,6 @@
 # 计划：提交流程与两档各 30 条导出（只导出、打包、预检，不上传）
 
-第 2 版，10/2 01:10（UTC-6），分支 `track2/p1-training`。第 1 版 8c0a134 经 Fable 5.1 审查（GO WITH FIXES，没有 BLOCKER），按第 9 节修改。
+第 2 版，10/2 00:46（UTC-6），分支 `track2/p1-training`。第 1 版 8c0a134 经 Fable 5.1 审查（GO WITH FIXES，没有 BLOCKER），按第 9 节修改。
 时间一律 UTC-6；服务器日志是北京时间（UTC+8）。
 
 用户 10/1 23:50 的决定（原文）：
@@ -204,7 +204,7 @@ flowchart LR
 
 ## 9. 审查记录
 
-10/2 00:50–01:08，Fable 5.1 审第 1 版（8c0a134）：GO WITH FIXES，没有 BLOCKER；四套测试它在 Mac 上重跑全过；对八个问题逐条给了 file:line 证据，
+10/2 00:19–00:37，Fable 5.1 审第 1 版（8c0a134）：GO WITH FIXES，没有 BLOCKER；四套测试它在 Mac 上重跑全过；对八个问题逐条给了 file:line 证据，
 确认没有任何上传路径、Tier 2 路径里除官方打包器外不读 Tier 1、帧参考的格式与 kit 一致。修改如下：
 
 | 意见 | 处理 |
