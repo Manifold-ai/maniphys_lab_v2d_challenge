@@ -1,0 +1,19 @@
+# command  : ssh -o ConnectTimeout=20 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && python3 -c \'import sys; print("host python", sys.version.split()[0])\'; python3 -c \'import numpy\' 2>&1 | tail -1; for t in stages/evaluate/test_fc_export.py stages/evaluate/test_compat_8c778f9.py stages/policy/test_fc_src_check.py stages/policy/test_mount_check.py; do printf \'%s: \' $t; python3 $t 2>&1 | tail -1; done; echo \'å®¹å\231¨é\207\214ï¼\210å®¿ä¸»æ\234ºæ²¡æ\234\211 numpyï¼\211ï¼\232\'; V2D_GPU=0 scripts/dev/in-flash-chord \'cd /repo && for t in stages/evaluate/test_check_export.py stages/evaluate/test_frame_ref_check.py; do printf "%s: " $t; python $t 2>&1 | tail -1; done\' 2>&1 | grep -v \'in-flash-chord:\'' 
+# md5      : 0c4dead2eb664d8925d56dccf41af0dc  stages/evaluate/test_fc_export.py
+# md5      : c1df3904648379ae170a29c34c29c2d7  stages/evaluate/test_compat_8c778f9.py
+# md5      : 24a52bf3c0f962842edcbdbd01d317cd  stages/policy/test_fc_src_check.py
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 37ab05ee86ca4b67dda3e4d373b32da1  stages/evaluate/test_check_export.py
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:52:52-0600
+# ---------------------------------------------------------------
+host python 3.10.12
+ModuleNotFoundError: No module named 'numpy'
+stages/evaluate/test_fc_export.py: ALL_OK
+stages/evaluate/test_compat_8c778f9.py: ALL_OK
+stages/policy/test_fc_src_check.py: ALL_OK
+stages/policy/test_mount_check.py: ALL_OK
+å®¹å™¨é‡Œï¼ˆå®¿ä¸»æœºæ²¡æœ‰ numpyï¼‰ï¼š
+stages/evaluate/test_check_export.py: ALL_OK
+stages/evaluate/test_frame_ref_check.py: ALL_OK

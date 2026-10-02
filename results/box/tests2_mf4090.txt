@@ -1,0 +1,7 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && printf \'test_compat_8c778f9Ôº\210check_export.sh ‰π\213Â\220\216Ôº\211: \'; python3 stages/evaluate/test_compat_8c778f9.py 2>&1 | tail -1' 
+# md5      : c1df3904648379ae170a29c34c29c2d7  stages/evaluate/test_compat_8c778f9.py
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:53:07-0600
+# ---------------------------------------------------------------
+test_compat_8c778f9Ôºàcheck_export.sh ‰πãÂêéÔºâ: ALL_OK

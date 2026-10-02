@@ -1,0 +1,22 @@
+# command  : ssh -o ConnectTimeout=20 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185 stages/policy/fc_config_check.sh stages/policy/queues/ml40_box_smoke.txt stages/policy/queues/ml40_box.txt 2>&1 | grep -v "in-flash-chord: /workspace" | grep -E "�\204\217�\226|�\205\215置核对|FAIL|失败" && V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185 stages/policy/precheck_expect.sh stages/policy/queues/ml40_box.expect.tsv stages/policy/queues/ml40_box_smoke.txt stages/policy/queues/ml40_box.txt 2>&1 | grep -v "in-flash-chord: /workspace"' 
+# md5      : a03b41360852bd1c4fc544f2e03611ee  stages/policy/fc_config_check.sh
+# md5      : d883478df4f220fae4d4b486cca037fd  stages/policy/queues/ml40_box_smoke.txt
+# md5      : e36615eef3e16e31c38c050b49acc879  stages/policy/queues/ml40_box.txt
+# md5      : 0b621b956475565a752bb5eb502d59c3  stages/policy/precheck_expect.sh
+# md5      : 808558d509972cefd5adba1aac9bf3f4  stages/policy/queues/ml40_box.expect.tsv
+# md5      : d883478df4f220fae4d4b486cca037fd  stages/policy/queues/ml40_box_smoke.txt
+# md5      : e36615eef3e16e31c38c050b49acc879  stages/policy/queues/ml40_box.txt
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:55:27-0600
+# ---------------------------------------------------------------
+  共 284 个键；与官方配方不同 11 个，其中意外 0 个
+  共 284 个键；与官方配方不同 11 个，其中意外 0 个
+  共 284 个键；与官方配方不同 10 个，其中意外 0 个
+  共 284 个键；与官方配方不同 10 个，其中意外 0 个
+== 配置核对通过
+/repo/runs/cfgcheck/smoke-t2-ep1-w2048-cap10m-p185-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t2-ep1-w2048-cap10m-p185-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep7-w2048-cap10m-p185-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t2-ep7-w2048-cap10m-p185-ml40.yaml：11 条断言，全过
+PRECHECK_OK（2 条 run）

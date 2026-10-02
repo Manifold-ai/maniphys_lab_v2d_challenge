@@ -1,0 +1,38 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/frame_ref_check.py\ --tier\ 2 
+# md5      : 0f76c1397309478c841fd21ef2b7b9e2  stages/evaluate/frame_ref_check.py
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:56:39-0600
+# ---------------------------------------------------------------
+== Tier 2：30 条 episode；容差位置 0.001 m、角度 0.001 rad（同 kit）
+  ok   ep0  2026-06-04_14-16-23_tall_bar_stool_tip_up_04：计分帧 778 / 778，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep1  2026-05-18_17-06-21_vacuum_left_lean_02：计分帧 747 / 747，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep2  2026-06-02_10-04-42_blue_easter_basket_place_10：计分帧 980 / 980，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep3  2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05：计分帧 781 / 781，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep4  2026-04-24_11-40-52_baseball_bat_rotate_05：计分帧 803 / 803，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep5  2026-03-18_19-36-56_g1_box_rotate_01：计分帧 1003 / 1003，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep6  2026-06-01_11-26-44_monitor_rotate_05：计分帧 546 / 546，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep7  2026-05-29_15-20-43_iron_round_table_02：计分帧 896 / 896，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep8  2026-06-05_15-08-08_skinny_wood_chair_push_10：计分帧 708 / 708，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep9  2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03：计分帧 870 / 870，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep10 2026-05-01_11-36-40_white_desk_lower_to_ground_10：计分帧 794 / 794，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep11 2026-04-24_13-56-58_light_blue_book_pick_place_09：计分帧 900 / 901，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep12 2026-04-25_17-20-04_black_platform_turn_05：计分帧 700 / 700，位置残差 0.0000 mm，角度残差 0.0001 mrad
+  ok   ep13 2026-06-09_10-19-09_snack_box_desk_through_06：计分帧 922 / 922，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep14 2026-05-28_14-44-09_round_table_flip_08：计分帧 993 / 993，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep15 2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08：计分帧 715 / 715，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep16 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02：计分帧 477 / 477，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep17 2026-05-01_17-04-55_traffic_cone_ground_table_02：计分帧 440 / 440，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep18 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08：计分帧 858 / 858，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep19 2026-05-19_10-19-48_cane_swing_05：计分帧 886 / 886，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep20 2026-06-08_16-57-34_rice_cooker_clockwise_04：计分帧 553 / 553，位置残差 0.0000 mm，角度残差 0.0001 mrad
+  ok   ep21 2026-04-29_11-53-57_tall_bar_stool_pull_08：计分帧 678 / 678，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep22 2026-05-22_16-52-36_step_ladder_drag_03：计分帧 719 / 719，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep23 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04：计分帧 946 / 946，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep24 2026-05-29_15-43-20_watering_can_pour_right_02：计分帧 748 / 748，位置残差 0.0000 mm，角度残差 0.0002 mrad
+  ok   ep25 2026-03-20_11-59-57_cyan_water_bottle_rotate_01：计分帧 859 / 859，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep26 2026-06-05_16-05-08_skateboard_rotate_ground_10：计分帧 669 / 669，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep27 2026-05-01_11-15-05_woven_basket_ground_desk_10：计分帧 565 / 565，位置残差 0.0002 mm，角度残差 0.0001 mrad
+  ok   ep28 2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_：计分帧 988 / 988，位置残差 0.0001 mm，角度残差 0.0001 mrad
+  ok   ep29 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06：计分帧 467 / 467，位置残差 0.0001 mm，角度残差 0.0001 mrad
+FRAME_REF_OK

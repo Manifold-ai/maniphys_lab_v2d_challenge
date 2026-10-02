@@ -1,0 +1,21 @@
+# command  : scripts/dev/push-new-files stages/evaluate/check_export.sh stages/evaluate/compat_8c778f9.sh stages/evaluate/compat_expect.sh stages/evaluate/test_compat_8c778f9.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh
+# md5      : c972d6ff2f6039974a76018de5308d02  stages/evaluate/compat_8c778f9.sh
+# md5      : 3424e5fc094a3c1f93be78c31c0a37ab  stages/evaluate/compat_expect.sh
+# md5      : c1df3904648379ae170a29c34c29c2d7  stages/evaluate/test_compat_8c778f9.py
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:52:41-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/compat_8c778f9.sh：远端是 3b55a0e 的版本（b245520edc2d551fd08349d12ff8bb75）
+  覆盖 stages/evaluate/compat_expect.sh：远端是 3b55a0e 的版本（11a76fdb04e713cc627bc7785446dc8f）
+  覆盖 stages/evaluate/test_compat_8c778f9.py：远端是 3b55a0e 的版本（7bcf2603bd376917cee9bcbe0930cc7a）
+本地提交 781accdcba56；远端来历 90a73fa8e852
+  ok   99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh
+  ok   c972d6ff2f6039974a76018de5308d02  stages/evaluate/compat_8c778f9.sh
+  ok   3424e5fc094a3c1f93be78c31c0a37ab  stages/evaluate/compat_expect.sh
+  ok   c1df3904648379ae170a29c34c29c2d7  stages/evaluate/test_compat_8c778f9.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（4 个文件）

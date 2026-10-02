@@ -42,14 +42,17 @@
 7. **帧号对得上**（代码事实，审查核过）：`challenge_to_soma.py` 的 `fill_invisible` 保留全部 T 帧，评测器的 `reference_frame = step`（起始帧 0），
    打包器只要可见帧，而可见帧是 0..T−1 的子集。所以帧号不需要换算。v5.4 的 npz 是 `[x,y,z,qw,qx,qy,qz]`，与发布数据同一约定，给 `--frame-references` 时换成 xyzw。
 8. **在哪跑打包**：kit 在 `.gitignore` 里，同步不到服务器。镜像里有 Python 3.11.15、numpy 2.4.6、pyarrow 24、trimesh 4.12.2，没有 pandas；
-   两台服务器都没有 uv。mf4090 宿主机的 python3 是 3.10，带 pyarrow 25 与 numpy 2.2.6；ml40 宿主机还没核（第 7 节第 3 步核）。
+   两台服务器都没有 uv。mf4090 宿主机的 python3 是 3.10，带 pyarrow 25 与 numpy 2.2.6；ml40 宿主机的 python3 没有 numpy（第 7 节第 3 步实测，
+   `results/box/tests_ml40.txt`），所以 check_export 经 `stages/evaluate/check_export.sh` 在 ml40 上进容器跑。
    所以服务器只负责用 GPU 导出轨迹（每条 episode 1 个世界，几百 KB）；打包在 Mac 上用 uv 跑。Kaggle token 也在 Mac 上。
 9. **方盒三条**（`results/t2/support_kinds_tier2_*.txt`、`agent-doc/experiments/2026-09-30-divergence.md`）：
    - ep1 vacuum（椅背 Cube×1）、ep7 iron（桌面 Cube×1）、ep28 squeegee（两块板 Cube×2）。三个支撑面文件两档 md5 相同（f2fb02c8…、c413ad52…、a93e92e5…）；
    - #185 几何下：ep7 冒烟 8 个种子 0 发散（v0.4.0 几何 5 / 8）；ep1、ep28 截到 6000 万步各一条，全部有限。这些对照都是在 ml40 的 p185 副本上跑的；
    - Tier 1 参考（按标注尺寸算，即 #185 的几何）：ep28 刮水器有 239、209 帧的顶点从两块 2 cm 板另一侧穿出；ep1 吸尘器 385 / 747 帧低于地面超过 5 mm。
      ep17、ep22 的穿地程度与 ep1 相近，两条都训完没事；
-   - Tier 2 参考（v5.4）：重定向对齐检查里 ep7 熨斗比桌面低 20.7 mm（ALIGN），桌面板厚 1 cm。按 #185 几何的逐帧穿透第 7 节第 3 步量。
+   - Tier 2 参考（v5.4）在 #185 几何下（`results/box/support_penetration_t2_mf4090.txt`，10/1 21:00 量）：ep1 吸尘器对椅背最深嵌入 10 mm，121 帧超过 5 mm，
+     52 帧有顶点穿到板另一侧；ep7 熨斗对 1 cm 桌板最深 5 mm，123 帧有顶点穿到板另一侧（最多 289 个）；ep28 刮水器两块板各有 244、211 帧穿过，
+     另有 160 帧低于地面超过 5 mm。
 10. **旧目录**：
     - mf4090：`t1-ep1-w2048-cap4m-mf4090` 有 DONE，最终 policy 含 NaN；`t1-ep28-…` 没有 DONE，留着两份含 NaN 的 state；另有两条冒烟目录；
     - ml40：`t1-ep7-w2048-cap10m-ml40` 是空目录，`smoke-t1-ep7-…` 有 DONE。
@@ -222,7 +225,7 @@ ml40 在 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge` 下：compat 等 `run
   - 另报 SP-SR、MPPE。Tier 2 的数对照 Tier 2 v5.4 参考，不和 Tier 1 比。
 - **事先登记的预期**（只描述，不作判据）：
   - t1-ep28 的参考穿过两块板，若不通过，先归到参考几何；
-  - t2-ep7 的参考比桌面低 20.7 mm，同样处理；
+  - t2-ep7 的参考有 123 帧穿过桌板、t2-ep28 两块板各 244、211 帧穿过、t2-ep1 对椅背 121 帧嵌入超过 5 mm，同样先归到参考几何；
   - t1-ep1 的穿地与 ep17、ep22 同级。
   发散方面，#185 几何下 8 + 2 条对照全部有限，满 3.5 亿步没跑过，靠看守兜底。
 
@@ -265,11 +268,13 @@ ml40 在 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge` 下：compat 等 `run
 | `stages/policy/make_fc_src_8c778f9.sh` | 新：失败时删整个目标 | 服务器上实跑 |
 | `stages/policy/fc_src_check.py` | 新：根下 wandb/、.hydra/ 不比 | `test_fc_src_check.py`：正常与噪声 2 种、出错 6 种 |
 | `stages/evaluate/fc_export.sh` | 新：dry-run、只看新增日志、摘要不影响退出码 | `test_fc_export.py` 8 项 |
-| `stages/evaluate/check_export.py` | 新：刚体数取自 motion parquet | `test_check_export.py`（uv 带 pyarrow）：复刻上游写入器，正例 4、反例 6 |
+| `stages/evaluate/check_export.py`、`check_export.sh` | 新：刚体数取自 motion parquet；宿主机缺库时进容器跑 | `test_check_export.py`：复刻上游写入器，正例 4、反例 6（Mac 用 uv，ml40 在容器里） |
 | `stages/evaluate/compat_8c778f9.sh`、`compat_expect.sh`、`compat/{mf4090,ml40}.tsv` | 新：门槛只看导出、拒绝旧日志、预检模式 | `test_compat_8c778f9.py` 7 组（连同真的 record 与 chain_after.sh） |
 | `stages/evaluate/frame_ref_check.py` | 新：P5′ | `test_frame_ref_check.py`（uv）：两档各正反例 |
 | `stages/policy/mount_check.py` | 新：挂载核对 | `test_mount_check.py`：正常 1、出错 4 |
 | `stages/retarget/box_ref_check.sh` | 新：Tier 2 方盒参考的穿透 | 服务器上实跑 |
+| `stages/policy/arm_box_chains.sh` | 新：起三个等待中的 tmux，起之前核旧日志、标记、会话、副本 | 服务器上实跑 |
+| `scripts/dev/push-new-files` | 新：链在跑时只加新文件、核 md5；只许覆盖我们自己先前放上去的版本 | 两台实跑 |
 | `stages/policy/make_batch_queue.py` | 加 `--box185`（只在 Mac 上用） | `test_make_batch_queue.py`：原 4 项不变，加 2 项 |
 | `stages/policy/queues/{mf4090,ml40}_box*` | 新：方盒队列 | 服务器上 `fc_config_check.sh` 与 `precheck_expect.sh` |
 

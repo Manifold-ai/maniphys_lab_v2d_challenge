@@ -1,0 +1,36 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_ALLOW_FC_SRC=1\ V2D_FC_SRC=\$HOME/v2d/fc_src/v040_p185\ stages/policy/fc_config_check.sh\ stages/policy/queues/mf4090_box_smoke.txt\ stages/policy/queues/mf4090_box.txt\ 2\>\&1\ \|\ grep\ -v\ \"in-flash-chord:\ /workspace\"\ \|\ tail\ -15\ \&\&\ V2D_ALLOW_FC_SRC=1\ V2D_FC_SRC=\$HOME/v2d/fc_src/v040_p185\ stages/policy/precheck_expect.sh\ stages/policy/queues/mf4090_box.expect.tsv\ stages/policy/queues/mf4090_box_smoke.txt\ stages/policy/queues/mf4090_box.txt\ 2\>\&1\ \|\ grep\ -v\ \"in-flash-chord:\ /workspace\" 
+# md5      : a03b41360852bd1c4fc544f2e03611ee  stages/policy/fc_config_check.sh
+# md5      : 6fc198f4a91ab735885d6c9d22fc79b1  stages/policy/queues/mf4090_box_smoke.txt
+# md5      : a638567c2c78d3f18465e94d909a3163  stages/policy/queues/mf4090_box.txt
+# md5      : 0b621b956475565a752bb5eb502d59c3  stages/policy/precheck_expect.sh
+# md5      : 2c487f6af1d4fa832a4dd8d4d644a84c  stages/policy/queues/mf4090_box.expect.tsv
+# md5      : 6fc198f4a91ab735885d6c9d22fc79b1  stages/policy/queues/mf4090_box_smoke.txt
+# md5      : a638567c2c78d3f18465e94d909a3163  stages/policy/queues/mf4090_box.txt
+# source   : 781accdcba56
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:53:52-0600
+# ---------------------------------------------------------------
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data…
+  官方配方沿用 runs/cfgcheck/smoke-t2-ep28-w2048-cap4m-p185-mf4090.recipe.yaml（同一 parquet）
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='t2-ep28-w2048-cap4m-p185-mf4090'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='t2-ep28-w2048-cap4m-p185-mf4090-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/t2-ep28-w2048-cap4m-p185-mf4090'
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='t2-ep28-w2048-cap4m-p185-mf4090'
+  允许  training.replay.capacity: 配方=10000000 → 本次=4000000
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='t2-ep28-w2048-cap4m-p185-mf4090-s1'
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  共 284 个键；与官方配方不同 11 个，其中意外 0 个
+== 配置核对通过
+/repo/runs/cfgcheck/smoke-t1-ep1-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep1-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep7-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep7-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep28-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep28-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep28-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t2-ep28-w2048-cap4m-p185-mf4090.yaml：11 条断言，全过
+PRECHECK_OK（4 条 run）
