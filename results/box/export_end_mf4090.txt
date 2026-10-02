@@ -1,0 +1,21 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ \"##\ export_mf4090.log:\ ep7\ rows\ and\ end\"\;\ grep\ -a\ -E\ \"ep7\ \|EXPORT_CHAIN\"\ runs/logs/export_mf4090.log\ \|\ cut\ -c1-240\;\ echo\ \"##\ exports\ tsv:\ rows\ not\ ok\"\;\ awk\ -F\"\\t\"\ \"\\\$5\!=\\\"ok\\\"\"\ runs/exports/export_mf4090.tsv\ \|\ cut\ -c1-200\;\ echo\ \"##\ status\ counts\"\;\ cut\ -f1\,5\ runs/exports/export_mf4090.tsv\ \|\ sort\ \|\ uniq\ -c\;\ echo\ \"##\ t1-ep7\ run\ dir\ \(non-policy\ files\)\"\;\ ls\ runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/\ \|\ grep\ -v\ policy_ 
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:26:41-0600
+# ---------------------------------------------------------------
+## export_mf4090.log: ep7 rows and end
+=== 2026-10-03 04:03:31 CST Tier 1 ep7 t1-ep7-w2048-cap4m-p185-mf4090：没有 DONE，不导出
+=== 2026-10-03 04:26:24 CST EXPORT_CHAIN_DONE（成功 29、失败 1）
+## exports tsv: rows not ok
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+1	7	t1-ep7-w2048-cap4m-p185-mf4090	349999104	no_done				
+## status counts
+      1 1	no_done
+     15 1	ok
+     14 2	ok
+      1 tier	status
+## t1-ep7 run dir (non-policy files)
+hydra
+run_record.jsonl
+state_150005760.safetensors
+wandb

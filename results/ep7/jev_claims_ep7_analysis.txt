@@ -1,0 +1,34 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-ep7-divergence-analysis.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b660808419c1a441449ab4c117dc76f6  agent-doc/experiments/2026-10-02-ep7-divergence-analysis.claims.json
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:28:12-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1_onset             P(supported)=0.98  verified               [hist]  t1-ep7 方盒 run 的 W&B 历史里最早的非有限值在第 2591 行，环境步数 132,710,400，当时 stage_index 是 3、voc_scale 是 0.25。
+t2_onset             P(supported)=0.98  verified               [hist]  t2-ep7 方盒 run 的 W&B 历史里最早的非有限值在第 2788 行，环境步数 142,796,800，当时 stage_index 是 4、voc_scale 是 0.1。
+t2_env_first         P(supported)=0.98  verified               [onset_t2]  t2-ep7 的第 2788 行里，骨盆位置误差、奖励归一化分母与 critic loss 是 nan，同一行的动作绝对值均值仍是有限值 5.93737，critic 跳过比例 0.08。
+t2_collapse          P(supported)=0.98  verified               [onset_t2]  t2-ep7 的第 2789 行动作绝对值均值变成 nan，骨盆终止比例约 0.919，回合长度约 94.65；第 2790 行回合长度约 2.16。
+t1_rows              P(supported)=0.98  verified               [onset_t1]  t1-ep7 的第 2591 行 critic 跳过比例 0.56、第 2592 行为 1；第 2591、2592 两行骨盆终止比例都是 0，第 2593 行约 0.88，第 2594 行回合长度约 2.18。
+t1_throughput        P(supported)=0.98  verified               [onset_t1]  t1-ep7 的第 2590 行吞吐约 50,474 步/秒，第 2592 行降到约 24,816 步/秒，而第 2592 行的回合长度仍有约 410。
+no_precursor         P(supported)=0.95  verified               [top]  两条 ep7 run 里，骨盆位置误差、物体位置误差、手掌位置误差与 critic loss 全程最大的 6 个有限值所在的环境步数都不超过 1000 万步。
+bystage_ep7          P(supported)=0.95  verified               [bystage]  按课程段汇总，两条 ep7 run 的第 0、1、2 段参考进度都在 0.90 以上、回合长度都在 430 以上；t1-ep1、t2-ep1、t1-ep28、t2-ep28 四条 run 都有第 0 到第 8 共 9 段，各段参考进度都不超过 0.62。
+reset_prob           P(supported)=0.82  verified               [bystage]  四条跑满的方盒 run 里，首帧重置概率各段都是 0，立即首帧概率在第 0 到第 6 段是 0、第 7 段 0.25、第 8 段 0.5。
+tensor_same          P(supported)=0.78  verified               [tensor_t1, tensor_t2, tensor_ep1]  t1-ep7 在 140,005,376 步、t2-ep7 在 150,005,760 步的 policy 各有 5892 个非有限参数，含非有限值的张量是 state.0021 到 state.0030，state.0029 的非有限下标与 9/30 的 t1-ep1 在 50,001,920 步那份相同。
+t2_watch             P(supported)=0.96  verified               [t2div]  t2-ep7 的看守日志里 140,005,376 步非有限 0，150,005,760 与 160,006,144 步各 5892 个 NaN，13:21:45 因连续 2 份非有限调用 fc_stop；这条 run 的冒烟是通过的。
+exports_end          P(supported)=0.94  verified               [t2div, exp_mf]  两台的导出链都以 EXPORT_CHAIN_DONE（成功 29、失败 1）结束；ml40 没导出的一行是 Tier 2 ep7，mf4090 没导出的一行是 Tier 1 ep7，状态都是 no_done。
+states_left          P(supported)=0.81  verified               [t2div, exp_mf]  t2-ep7 的 run 目录里只有 state_160006144.safetensors 一份 state，t1-ep7 的 run 目录里只有 state_150005760.safetensors 一份 state。
+code_normalizer      P(supported)=0.94  verified               [code_norm]  奖励归一化器更新时，每个世界的折扣回报由上一步的值乘以折扣与未结束标志再加上本步奖励得到，全局最大绝对回报用 jnp.max 取，滑动矩用 jnp.mean 与 jnp.var 算；这个文件里 jnp.isfinite、nan_to_num、jnp.where 一处都没有。
+code_collect         P(supported)=0.96  verified               [code_collect]  采集一步时，代码先调用 update_reward_normalizer 用本步奖励更新归一化器，然后才调用 _insert_replay 把这一步写进回放缓冲；learner.py 里没有 jnp.isfinite 或 nan_to_num。
+code_term            P(supported)=0.85  verified               [code_term]  ReconBody 的终止判定里，pelvis_failed 由骨盆位置误差、朝向误差各自与阈值做大于比较得到；termination.py 里的 isfinite 只出现在阈值的配置校验中。
+code_env             P(supported)=0.98  verified               [code_env]  envs/base.py、envs/recon_body.py、envs/observation.py、lifecycle/reset.py、objectives/recon_body.py 里匹配非有限检测的行数都是 0；evaluation/rollout.py 用 np.isfinite 找出记录了非有限位姿的世界并打印 excluded 的警告。
+code_cfg             P(supported)=0.98  verified               [code_cfg]  配置里 updates_per_collection 是 2.0、batch_size 是 2048、save_replay 是 false；G1 的实验配置把 n_step 设为 7。
+supports             P(supported)=0.98  verified               [supports]  iron_round_table_02 的支撑面是一个 Cube，scale = (0.84, 0.282, 0.01)；vacuum_left_lean_02 的 Cube scale 是 (0.02, 0.12, 0.27)；squeegee 的两个 Cube scale 都是 (0.1, 0.13, 0.02)。
+ctl_true             P(supported)=0.99  control(true) ok       [hist]  t1-ep7 这条 run 的 W&B history 有 3003 行，t2-ep7 的有 3168 行。
+ctl_true_b           P(supported)=0.98  control(true) ok       [t2div]  t2-ep7 的看守日志里 130,004,992 步那份 checkpoint 的非有限参数是 0。
+ctl_false_onset      P(supported)=0.01  control(false) ok      [hist]  t1-ep7 方盒 run 最早的非有限值出现在 voc_scale 为 1 的第 0 段。
+ctl_false_action     P(supported)=0.01  control(false) ok      [onset_t2]  t2-ep7 的第 2788 行里动作绝对值均值已经是 nan，而骨盆位置误差仍是有限值。
+ctl_false_norm       P(supported)=0.02  control(false) ok      [code_norm]  奖励归一化器在更新前用 jnp.where(jnp.isfinite(reward), reward, 0) 过滤了非有限的奖励。
+ctl_false_exports    P(supported)=0.01  control(false) ok      [t2div, exp_mf]  两台的导出链都成功导出了 30 行，没有失败的行。
+controls behaved as expected

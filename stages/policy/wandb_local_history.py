@@ -8,6 +8,9 @@ W&B 边训边把每一行 history 写进 run 目录的 run-<id>.wandb（protobuf
 用法：uv run --no-project --with wandb==0.22.2 python stages/policy/wandb_local_history.py [--keys] [--around KEY ...] <run-*.wandb>...
   --keys：只列出指标名与行数（先看有哪些键）
   --by-stage：按课程阶段汇总（每段最后 25% 行的均值）：voc、参考进度、回合长度、各终止原因、物体位置与朝向误差
+  --before N / --after N：--around 那几个指标在最早发散行之前 N 行、之后 N 行都打出来（默认 4、2）；全程有限的 run 没有这一段
+  --top KEY ...（配 --topk K，默认 5）：每个指标全程最大的 K 个有限值及所在行、环境步数，另报中位数；
+      用来看发散之前有没有“很大但还有限”的先兆，以及没发散的 run 里同一指标到过多大
 计划 agent-doc/plan-ep1-ep7-divergence-2026-09-30.md 的 C3。
 """
 import argparse
@@ -65,7 +68,8 @@ def fmt(v) -> str:
     return f"{v:.6g}"
 
 
-def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool) -> None:
+def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool, before: int = 4, after: int = 2,
+            top: list[str] | None = None, topk: int = 5) -> None:
     hist = rows(path)
     keys = sorted({k for r in hist for k in r})
     print(f"== {path.name}：history {len(hist)} 行，指标 {len(keys)} 个")
@@ -86,6 +90,15 @@ def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool
             if numeric(v):
                 return v
         return None
+
+    for k in top or []:
+        xs = sorted(((r[k], i) for i, r in enumerate(hist) if numeric(r.get(k)) and math.isfinite(r[k])), reverse=True)
+        if not xs:
+            print(f"  {k}：没有有限值")
+            continue
+        med = xs[len(xs) // 2][0]
+        big = "；".join(f"{fmt(v)}（第 {i} 行，{env_step(i):,.0f} 步）" if numeric(env_step(i)) else f"{fmt(v)}（第 {i} 行）" for v, i in xs[:topk])
+        print(f"  {k}：有限值 {len(xs)} 行，中位数 {fmt(med)}；最大的 {min(topk, len(xs))} 个：{big}")
 
     first_bad = {}
     for k in keys:
@@ -109,7 +122,7 @@ def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool
         prev = f"之前最后有限值 {fmt(last_ok[1])}（第 {last_ok[0]} 行）" if last_ok else "之前没有有限值"
         print(f"    第 {i} 行{f'（环境步数 {es:,.0f}）' if numeric(es) else ''}：{k} = {fmt(v)}；{prev}；之后{'有' if later_ok else '没有'}恢复")
     onset = min(i for i, *_ in first_bad.values())
-    lo, hi = max(0, onset - 4), min(len(hist), onset + 2)
+    lo, hi = max(0, onset - before), min(len(hist), onset + after)
     show = [k for k in around if k in keys]
     print(f"  最早发散在第 {onset} 行；第 {lo}–{hi - 1} 行的关键指标：")
     for i in range(lo, hi):
@@ -120,6 +133,8 @@ def analyse(path: Path, around: list[str], step_key: str | None, list_keys: bool
 
 STAGE_KEYS = (
     ("voc", "curriculum/voc_scale"),
+    ("首帧重置概率", "curriculum/reset_to_first_frame_probability"),
+    ("立即首帧概率", "curriculum/immediate_first_frame_probability"),
     ("进度", "episode/reference_progress_mean_per_completed_episode"),
     ("回合长", "episode/length_mean_per_completed_episode"),
     ("终止:物体", "termination/object_fraction_per_completed_episode"),
@@ -159,12 +174,16 @@ def main() -> None:
     ap.add_argument("--by-stage", action="store_true", help="按课程阶段汇总关键指标（每段最后 25% 的均值）")
     ap.add_argument("--around", nargs="*", default=list(DEFAULT_AROUND))
     ap.add_argument("--step-key", default=None)
+    ap.add_argument("--before", type=int, default=4, help="最早发散行之前打几行")
+    ap.add_argument("--after", type=int, default=2, help="从最早发散行起打几行")
+    ap.add_argument("--top", nargs="*", default=[], help="这些指标各报全程最大的几个有限值")
+    ap.add_argument("--topk", type=int, default=5)
     a = ap.parse_args()
     for f in a.files:
         if a.by_stage:
             by_stage(f)
         else:
-            analyse(f, a.around, a.step_key, a.keys)
+            analyse(f, a.around, a.step_key, a.keys, a.before, a.after, a.top, a.topk)
 
 
 if __name__ == "__main__":

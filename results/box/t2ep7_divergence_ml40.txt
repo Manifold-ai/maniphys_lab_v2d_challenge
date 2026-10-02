@@ -1,0 +1,51 @@
+# command  : ssh -o ConnectTimeout=20 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "## box_train_ml40.log (t2-ep7 lines)"; grep -a -E "smoke-t2-ep7|t2-ep7|DAY2_TRAIN" runs/logs/box_train_ml40.log | grep -a -E "^===|fc_run|SMOKE" | cut -c1-240; echo "## t2-ep7 nanwatch (step lines, first alarms, stop)"; grep -a -v "NaN �\255\227样" runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log | cut -c1-220; grep -a "NaN �\255\227样" runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log | sed -n "1p;/249 /p" | cut -c1-200; echo "## run dir"; ls runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/ | tr "\\n" " "; echo; ls runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/DONE 2>&1 | cut -c1-120; echo "## box_eval_ml40.log tail"; tail -n 3 runs/logs/box_eval_ml40.log | cut -c1-200; echo "## export_ml40.log: ep7 rows and end"; grep -a -E "ep7 |EXPORT_CHAIN" runs/logs/export_ml40.log | cut -c1-240; echo "## exports tsv: rows not ok"; awk -F"\\t" "\\$5!=\\"ok\\"" runs/exports/export_ml40.tsv | cut -c1-200' 
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:23:59-0600
+# ---------------------------------------------------------------
+## box_train_ml40.log (t2-ep7 lines)
+=== 2026-10-03 00:22:30 CST 冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40
+fc_run: smoke-t2-ep7-w2048-cap10m-p185-ml40 完成
+SMOKE_OK smoke-t2-ep7-w2048-cap10m-p185-ml40
+=== 2026-10-03 00:27:26 CST 冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40 通过：896 帧，不动基线见 results/day2/bar_smoke-t2-ep7-w2048-cap10m-p185-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-03 02:19:40 CST 正式 t2-ep7-w2048-cap10m-p185-ml40
+fc_run: t2-ep7-w2048-cap10m-p185-ml40 已按 STOP 停止；重跑同一条命令即从断点继续
+fc_run_watched: t2-ep7-w2048-cap10m-p185-ml40 被发散看守止损（fc_run 退出码 3），见 runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log
+=== 2026-10-03 03:22:48 CST t2-ep7-w2048-cap10m-p185-ml40 发散：看守止损（runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log），继续下一条
+=== 2026-10-03 03:22:48 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 1）
+## t2-ep7 nanwatch (step lines, first alarms, stop)
+=== 10-02 12:19:40 MDT 开始看守 t2-ep7-w2048-cap10m-p185-ml40：每 120 秒；连续 2 份非有限就 fc_stop；最长 43200 秒；脚本 md5 5a45f586937bd05b75c29f1b3d3ba1a9；src=90a73fa8e852
+10-02 12:25:41 MDT 10,000,384 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:29:41 MDT 20,000,768 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:31:41 MDT 30,001,152 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:35:41 MDT 40,001,536 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:39:42 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:41:42 MDT 60,002,304 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:45:42 MDT 70,002,688 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:49:43 MDT 80,003,072 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:53:43 MDT 90,003,456 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:55:43 MDT 100,003,840 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 12:59:43 MDT 110,004,224 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 13:03:44 MDT 120,004,608 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 13:05:44 MDT 130,004,992 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 13:09:44 MDT 140,005,376 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-02 13:15:44 MDT 150,005,760 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+10-02 13:21:45 MDT 160,006,144 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+=== 10-02 13:21:45 MDT 连续 2 份非有限（150,005,760, 160,006,144 步）：fc_stop t2-ep7-w2048-cap10m-p185-ml40
+已停止 fc-t2-ep7-w2048-cap10m-p185-ml40；fc_run 会记录 stopped 并退出（不重试）
+=== 10-02 13:22:46 MDT fc_stop 退出码 0；NAN_WATCH_STOPPED
+10-02 12:21:41 MDT 报警信号：.wandb 里 NaN 字样 0 处（只报不停）
+10-02 13:09:44 MDT 报警信号：.wandb 里 NaN 字样 249 处（只报不停）
+## run dir
+hydra policy_100003840.safetensors policy_10000384.safetensors policy_110004224.safetensors policy_120004608.safetensors policy_130004992.safetensors policy_140005376.safetensors policy_150005760.safetensors policy_160006144.safetensors policy_20000768.safetensors policy_30001152.safetensors policy_40001536.safetensors policy_50001920.safetensors policy_60002304.safetensors policy_70002688.safetensors policy_80003072.safetensors policy_90003456.safetensors run_record.jsonl state_160006144.safetensors wandb 
+ls: cannot access 'runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/DONE': No such file or directory
+## box_eval_ml40.log tail
+record: → results/day2/eval_t2-ep1-w2048-cap10m-p185-ml40_s349999104.txt（23 行）
+=== 2026-10-03 03:28:36 CST t2-ep7-w2048-cap10m-p185-ml40 没有 DONE：不评
+=== 2026-10-03 03:28:36 CST DAY2_EVAL_DONE（成功 1、失败 0）
+## export_ml40.log: ep7 rows and end
+=== 2026-10-03 03:45:39 CST Tier 2 ep7 t2-ep7-w2048-cap10m-p185-ml40：没有 DONE，不导出
+=== 2026-10-03 03:56:53 CST EXPORT_CHAIN_DONE（成功 29、失败 1）
+## exports tsv: rows not ok
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+2	7	t2-ep7-w2048-cap10m-p185-ml40	349999104	no_done				

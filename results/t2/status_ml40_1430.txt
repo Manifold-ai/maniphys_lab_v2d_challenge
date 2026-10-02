@@ -1,0 +1,68 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ ml40\ t2\ box 
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:28:56-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-03 04:28:57 CST；来历 90a73fa8e852
+## box train（runs/logs/box_train_ml40.log）
+=== 2026-10-03 00:17:42 CST chain_after：上一段完成 1 条（门槛 1），开 box_train_ml40
+=== 2026-10-03 00:17:42 CST start box_train_ml40, source 90a73fa8e852, 期望表 stages/policy/queues/ml40_box.expect.tsv
+=== 2026-10-03 00:17:44 CST 正向核对：2 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-03 00:17:44 CST 冒烟 smoke-t2-ep1-w2048-cap10m-p185-ml40
+SMOKE_OK smoke-t2-ep1-w2048-cap10m-p185-ml40
+=== 2026-10-03 00:22:30 CST 冒烟 smoke-t2-ep1-w2048-cap10m-p185-ml40 通过：747 帧，不动基线见 results/day2/bar_smoke-t2-ep1-w2048-cap10m-p185-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-03 00:22:30 CST 冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40
+SMOKE_OK smoke-t2-ep7-w2048-cap10m-p185-ml40
+=== 2026-10-03 00:27:26 CST 冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40 通过：896 帧，不动基线见 results/day2/bar_smoke-t2-ep7-w2048-cap10m-p185-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-03 00:27:26 CST 正式 t2-ep1-w2048-cap10m-p185-ml40
+fc_run_watched: t2-ep1-w2048-cap10m-p185-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-03 02:19:40 CST t2-ep1-w2048-cap10m-p185-ml40 完成（1 段）
+=== 2026-10-03 02:19:40 CST 正式 t2-ep7-w2048-cap10m-p185-ml40
+fc_run_watched: t2-ep7-w2048-cap10m-p185-ml40 被发散看守止损（fc_run 退出码 3），见 runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log
+=== 2026-10-03 03:22:48 CST t2-ep7-w2048-cap10m-p185-ml40 发散：看守止损（runs/logs/t2-ep7-w2048-cap10m-p185-ml40.nanwatch.log），继续下一条
+=== 2026-10-03 03:22:48 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 1）
+## box eval（runs/logs/box_eval_ml40.log）
+=== 2026-10-02 11:01:42 CST 等 runs/logs/box_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-03 03:23:45 CST 训练链已结束：=== 2026-10-03 03:22:48 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 1）
+=== 2026-10-03 03:23:45 CST start box_eval_ml40, source 90a73fa8e852, 期望表 stages/policy/queues/ml40_box.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-03 03:28:36 CST t2-ep7-w2048-cap10m-p185-ml40 没有 DONE：不评
+=== 2026-10-03 03:28:36 CST DAY2_EVAL_DONE（成功 1、失败 0）
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t2-ep0-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep10-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep12-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep14-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep16-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep18-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep1-w2048-cap10m-p185-ml40 非有限行 0 结局  扫描 34
+t2-ep20-w2048-cap10m-ml40 非有限行 0 结局  扫描 35
+t2-ep22-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep24-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep26-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep29-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep3-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep5-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep7-w2048-cap10m-p185-ml40 非有限行 2 结局 NAN_WATCH_STOPPED 扫描 16
+t2-ep8-w2048-cap10m-ml40 非有限行 0 结局  扫描 35
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t2-ep0-w2048-cap10m-ml40.s1.log：平均回合长度 589.85394，平均回报 130.81398，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep10-w2048-cap10m-ml40.s1.log：平均回合长度 504.1875，平均回报 89.1841，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep12-w2048-cap10m-ml40.s1.log：平均回合长度 487.33981，平均回报 99.14326，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep14-w2048-cap10m-ml40.s1.log：平均回合长度 524.375，平均回报 87.64743，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep16-w2048-cap10m-ml40.s1.log：平均回合长度 342.99301，平均回报 61.25921，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep18-w2048-cap10m-ml40.s1.log：平均回合长度 658.54547，平均回报 142.91203，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep1-w2048-cap10m-p185-ml40.s1.log：平均回合长度 191.71175，平均回报 17.71296，loss_scale 1048576.0；摘要里 nan 0 项
+t2-ep20-w2048-cap10m-ml40.s1.log：平均回合长度 413.60001，平均回报 87.7132，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep22-w2048-cap10m-ml40.s1.log：平均回合长度 544.52686，平均回报 107.56428，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep24-w2048-cap10m-ml40.s1.log：平均回合长度 576.13696，平均回报 143.74159，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep26-w2048-cap10m-ml40.s1.log：平均回合长度 499.8381，平均回报 93.53918，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep29-w2048-cap10m-ml40.s1.log：平均回合长度 378.85605，平均回报 70.34297，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep3-w2048-cap10m-ml40.s1.log：平均回合长度 484.02176，平均回报 105.58058，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep5-w2048-cap10m-ml40.s1.log：平均回合长度 441.38159，平均回报 77.69507，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep8-w2048-cap10m-ml40.s1.log：平均回合长度 542.26508，平均回报 115.8782，loss_scale 8388608.0；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t2-ep7-w2048-cap10m-p185-ml40：160006144 写于 2026-10-03 03:21:06 CST
+## 机器
+0 MiB, 0 %
+1884006 MB free
+（没有长链标记）

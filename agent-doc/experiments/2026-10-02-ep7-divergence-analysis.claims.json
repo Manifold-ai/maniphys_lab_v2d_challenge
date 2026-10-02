@@ -1,0 +1,257 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "hist": {
+   "file": "results/ep7/wandb_local_history_ep7.txt",
+   "grep": "^== |环境步数取自|最早发散在|stage_index="
+  },
+  "onset_t1": {
+   "file": "results/ep7/wandb_onset_ep7.txt",
+   "grep": "^== run-t1|第 259[0-4] 行（13"
+  },
+  "onset_t2": {
+   "file": "results/ep7/wandb_onset_ep7.txt",
+   "grep": "^== run-t2|第 278[6-9] 行（14|第 279[01] 行（14"
+  },
+  "top": {
+   "file": "results/ep7/wandb_onset_ep7.txt",
+   "grep": "^== |pelvis_position_m_mean_env_max_per_step：|object_position_m_mean_env_max_per_step：|palm_position_m_mean_env_max_per_step：|critic_loss_mean_per_update："
+  },
+  "bystage": {
+   "file": "results/ep7/wandb_by_stage_box.txt",
+   "grep": "^== |^  段|^  [0-9] \\|"
+  },
+  "tensor_t1": {
+   "file": "results/ep7/ckpt_nonfinite_by_tensor_t1ep7.txt",
+   "grep": "^== |步：|state\\.|第一份"
+  },
+  "tensor_t2": {
+   "file": "results/ep7/ckpt_nonfinite_by_tensor_t2ep7.txt",
+   "grep": "^== |步：|state\\.|第一份"
+  },
+  "tensor_ep1": {
+   "file": "results/diverge/ckpt_nonfinite_by_tensor_ep1.txt",
+   "grep": "^== |步：|state\\.|第一份"
+  },
+  "t2div": {
+   "file": "results/box/t2ep7_divergence_ml40.txt",
+   "grep": "步：非有限|连续 2 份|SMOKE_OK|通过：896|DONE|NAN_WATCH|EXPORT_CHAIN|no_done|state_|不导出"
+  },
+  "exp_mf": {
+   "file": "results/box/export_end_mf4090.txt",
+   "grep": "EXPORT_CHAIN|no_done|不导出| ok|state_"
+  },
+  "code_norm": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 1|reward_normalization.py:(63|64|10[0-6]):|reward_normalization.py：匹配"
+  },
+  "code_collect": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 2|learner.py:10(6[0-9]|7[0-9]|8[01]):|learner.py：匹配"
+  },
+  "code_term": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 3|termination.py:(60[1-5]|64[0-6]|65[12]|28|512):|termination.py：匹配"
+  },
+  "code_env": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 4|匹配 /non_finite|evaluation/rollout.py:"
+  },
+  "code_cfg": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 5|updates_per_collection|batch_size|n_step|save_replay"
+  },
+  "supports": {
+   "file": "results/diverge/support_shapes.txt",
+   "grep": "Cube|vacuum_left_lean|iron_round_table|squeegee"
+  }
+ },
+ "claims": [
+  {
+   "id": "t1_onset",
+   "evidence": [
+    "hist"
+   ],
+   "claim": "t1-ep7 方盒 run 的 W&B 历史里最早的非有限值在第 2591 行，环境步数 132,710,400，当时 stage_index 是 3、voc_scale 是 0.25。"
+  },
+  {
+   "id": "t2_onset",
+   "evidence": [
+    "hist"
+   ],
+   "claim": "t2-ep7 方盒 run 的 W&B 历史里最早的非有限值在第 2788 行，环境步数 142,796,800，当时 stage_index 是 4、voc_scale 是 0.1。"
+  },
+  {
+   "id": "t2_env_first",
+   "evidence": [
+    "onset_t2"
+   ],
+   "claim": "t2-ep7 的第 2788 行里，骨盆位置误差、奖励归一化分母与 critic loss 是 nan，同一行的动作绝对值均值仍是有限值 5.93737，critic 跳过比例 0.08。"
+  },
+  {
+   "id": "t2_collapse",
+   "evidence": [
+    "onset_t2"
+   ],
+   "claim": "t2-ep7 的第 2789 行动作绝对值均值变成 nan，骨盆终止比例约 0.919，回合长度约 94.65；第 2790 行回合长度约 2.16。"
+  },
+  {
+   "id": "t1_rows",
+   "evidence": [
+    "onset_t1"
+   ],
+   "claim": "t1-ep7 的第 2591 行 critic 跳过比例 0.56、第 2592 行为 1；第 2591、2592 两行骨盆终止比例都是 0，第 2593 行约 0.88，第 2594 行回合长度约 2.18。"
+  },
+  {
+   "id": "t1_throughput",
+   "evidence": [
+    "onset_t1"
+   ],
+   "claim": "t1-ep7 的第 2590 行吞吐约 50,474 步/秒，第 2592 行降到约 24,816 步/秒，而第 2592 行的回合长度仍有约 410。"
+  },
+  {
+   "id": "no_precursor",
+   "evidence": [
+    "top"
+   ],
+   "claim": "两条 ep7 run 里，骨盆位置误差、物体位置误差、手掌位置误差与 critic loss 全程最大的 6 个有限值所在的环境步数都不超过 1000 万步。"
+  },
+  {
+   "id": "bystage_ep7",
+   "evidence": [
+    "bystage"
+   ],
+   "claim": "按课程段汇总，两条 ep7 run 的第 0、1、2 段参考进度都在 0.90 以上、回合长度都在 430 以上；t1-ep1、t2-ep1、t1-ep28、t2-ep28 四条 run 都有第 0 到第 8 共 9 段，各段参考进度都不超过 0.62。"
+  },
+  {
+   "id": "reset_prob",
+   "evidence": [
+    "bystage"
+   ],
+   "claim": "四条跑满的方盒 run 里，首帧重置概率各段都是 0，立即首帧概率在第 0 到第 6 段是 0、第 7 段 0.25、第 8 段 0.5。"
+  },
+  {
+   "id": "tensor_same",
+   "evidence": [
+    "tensor_t1",
+    "tensor_t2",
+    "tensor_ep1"
+   ],
+   "claim": "t1-ep7 在 140,005,376 步、t2-ep7 在 150,005,760 步的 policy 各有 5892 个非有限参数，含非有限值的张量是 state.0021 到 state.0030，state.0029 的非有限下标与 9/30 的 t1-ep1 在 50,001,920 步那份相同。"
+  },
+  {
+   "id": "t2_watch",
+   "evidence": [
+    "t2div"
+   ],
+   "claim": "t2-ep7 的看守日志里 140,005,376 步非有限 0，150,005,760 与 160,006,144 步各 5892 个 NaN，13:21:45 因连续 2 份非有限调用 fc_stop；这条 run 的冒烟是通过的。"
+  },
+  {
+   "id": "exports_end",
+   "evidence": [
+    "t2div",
+    "exp_mf"
+   ],
+   "claim": "两台的导出链都以 EXPORT_CHAIN_DONE（成功 29、失败 1）结束；ml40 没导出的一行是 Tier 2 ep7，mf4090 没导出的一行是 Tier 1 ep7，状态都是 no_done。"
+  },
+  {
+   "id": "states_left",
+   "evidence": [
+    "t2div",
+    "exp_mf"
+   ],
+   "claim": "t2-ep7 的 run 目录里只有 state_160006144.safetensors 一份 state，t1-ep7 的 run 目录里只有 state_150005760.safetensors 一份 state。"
+  },
+  {
+   "id": "code_normalizer",
+   "evidence": [
+    "code_norm"
+   ],
+   "claim": "奖励归一化器更新时，每个世界的折扣回报由上一步的值乘以折扣与未结束标志再加上本步奖励得到，全局最大绝对回报用 jnp.max 取，滑动矩用 jnp.mean 与 jnp.var 算；这个文件里 jnp.isfinite、nan_to_num、jnp.where 一处都没有。"
+  },
+  {
+   "id": "code_collect",
+   "evidence": [
+    "code_collect"
+   ],
+   "claim": "采集一步时，代码先调用 update_reward_normalizer 用本步奖励更新归一化器，然后才调用 _insert_replay 把这一步写进回放缓冲；learner.py 里没有 jnp.isfinite 或 nan_to_num。"
+  },
+  {
+   "id": "code_term",
+   "evidence": [
+    "code_term"
+   ],
+   "claim": "ReconBody 的终止判定里，pelvis_failed 由骨盆位置误差、朝向误差各自与阈值做大于比较得到；termination.py 里的 isfinite 只出现在阈值的配置校验中。"
+  },
+  {
+   "id": "code_env",
+   "evidence": [
+    "code_env"
+   ],
+   "claim": "envs/base.py、envs/recon_body.py、envs/observation.py、lifecycle/reset.py、objectives/recon_body.py 里匹配非有限检测的行数都是 0；evaluation/rollout.py 用 np.isfinite 找出记录了非有限位姿的世界并打印 excluded 的警告。"
+  },
+  {
+   "id": "code_cfg",
+   "evidence": [
+    "code_cfg"
+   ],
+   "claim": "配置里 updates_per_collection 是 2.0、batch_size 是 2048、save_replay 是 false；G1 的实验配置把 n_step 设为 7。"
+  },
+  {
+   "id": "supports",
+   "evidence": [
+    "supports"
+   ],
+   "claim": "iron_round_table_02 的支撑面是一个 Cube，scale = (0.84, 0.282, 0.01)；vacuum_left_lean_02 的 Cube scale 是 (0.02, 0.12, 0.27)；squeegee 的两个 Cube scale 都是 (0.1, 0.13, 0.02)。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "hist"
+   ],
+   "claim": "t1-ep7 这条 run 的 W&B history 有 3003 行，t2-ep7 的有 3168 行。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_true_b",
+   "evidence": [
+    "t2div"
+   ],
+   "claim": "t2-ep7 的看守日志里 130,004,992 步那份 checkpoint 的非有限参数是 0。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_onset",
+   "evidence": [
+    "hist"
+   ],
+   "claim": "t1-ep7 方盒 run 最早的非有限值出现在 voc_scale 为 1 的第 0 段。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_action",
+   "evidence": [
+    "onset_t2"
+   ],
+   "claim": "t2-ep7 的第 2788 行里动作绝对值均值已经是 nan，而骨盆位置误差仍是有限值。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_norm",
+   "evidence": [
+    "code_norm"
+   ],
+   "claim": "奖励归一化器在更新前用 jnp.where(jnp.isfinite(reward), reward, 0) 过滤了非有限的奖励。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_exports",
+   "evidence": [
+    "t2div",
+    "exp_mf"
+   ],
+   "claim": "两台的导出链都成功导出了 30 行，没有失败的行。",
+   "control": "false"
+  }
+ ]
+}

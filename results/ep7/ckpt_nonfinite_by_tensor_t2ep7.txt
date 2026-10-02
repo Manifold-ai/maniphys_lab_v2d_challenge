@@ -1,0 +1,22 @@
+# command  : scripts/dev/pipe-py stages/policy/ckpt_nonfinite.py --by-tensor --steps 140005376\,150005760 t2-ep7-w2048-cap10m-p185-ml40 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:17:52-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+== t2-ep7-w2048-cap10m-p185-ml40（policy 16 份）
+  140,005,376 步：非有限 0 / 1207577（NaN 0，inf 0）
+  150,005,760 步：非有限 5892 / 1207577（NaN 5892，inf 0）
+      state.0021 [256]：非有限 256 个，下标 0-255
+      state.0022 [256]：非有限 256 个，下标 0-255
+      state.0023 [1024]：非有限 1024 个，下标 0-1023
+      state.0024 [1024]：非有限 1024 个，下标 0-1023
+      state.0025 [256]：非有限 256 个，下标 0-255
+      state.0026 [256]：非有限 256 个，下标 0-255
+      state.0027 [1024]：非有限 1024 个，下标 0-1023
+      state.0028 [1024]：非有限 1024 个，下标 0-1023
+      state.0029 [486]：非有限 386 个，下标 0-5,18-26,33-118,146-292,329-331,338-340,347-349,357-485
+      state.0030 [486]：非有限 386 个，下标 0-5,18-26,33-118,146-292,329-331,338-340,347-349,357-485
+  第一份含非有限参数：150,005,760 步

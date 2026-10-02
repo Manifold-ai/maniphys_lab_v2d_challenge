@@ -1,0 +1,184 @@
+# command  : stages/policy/ep7_code_facts.sh 
+# md5      : cd33882a0e652198c806a65ce0b03f85  stages/policy/ep7_code_facts.sh
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:23:36-0600
+# ---------------------------------------------------------------
+## 1. 奖励归一化器：每个世界的折扣回报、全局最大值与滑动矩，更新处有无非有限过滤
+== v0.4.0 training/flash_sac/reward_normalization.py（原文段落 50,75p;97,112p;114,127p）
+training/flash_sac/reward_normalization.py:50:def update_running_moments(
+training/flash_sac/reward_normalization.py:51:    state: RunningMomentsState,
+training/flash_sac/reward_normalization.py:52:    samples: jax.Array,
+training/flash_sac/reward_normalization.py:53:    epsilon: float = 1.0e-4,
+training/flash_sac/reward_normalization.py:54:) -> RunningMomentsState:
+training/flash_sac/reward_normalization.py:55:    """Merge one vector batch using upstream's biased variance and epsilon ordering."""
+training/flash_sac/reward_normalization.py:56:    if samples.ndim != 1 or samples.shape[0] == 0:
+training/flash_sac/reward_normalization.py:57:        raise ValueError(f"running-moment samples must be a non-empty vector, got {samples.shape}")
+training/flash_sac/reward_normalization.py:58:    if samples.dtype != jnp.dtype(jnp.float32):
+training/flash_sac/reward_normalization.py:59:        raise TypeError(f"running-moment samples must be float32, got {samples.dtype}")
+training/flash_sac/reward_normalization.py:60:    if not math.isfinite(epsilon) or epsilon <= 0.0:
+training/flash_sac/reward_normalization.py:61:        raise ValueError(f"epsilon must be finite and positive, got {epsilon}")
+training/flash_sac/reward_normalization.py:62:
+training/flash_sac/reward_normalization.py:63:    sample_mean = jnp.mean(samples)
+training/flash_sac/reward_normalization.py:64:    sample_variance = jnp.var(samples)
+training/flash_sac/reward_normalization.py:65:    sample_count = jnp.asarray(samples.shape[0], dtype=jnp.float32)
+training/flash_sac/reward_normalization.py:66:    delta = sample_mean - state.mean
+training/flash_sac/reward_normalization.py:67:    total_count = state.count + sample_count
+training/flash_sac/reward_normalization.py:68:    ratio = sample_count / total_count
+training/flash_sac/reward_normalization.py:69:    mean = state.mean + delta * ratio
+training/flash_sac/reward_normalization.py:70:    previous_moment = state.variance * (state.count + epsilon)
+training/flash_sac/reward_normalization.py:71:    sample_moment = sample_variance * sample_count
+training/flash_sac/reward_normalization.py:72:    combined_moment = previous_moment + sample_moment + jnp.square(delta) * state.count * ratio
+training/flash_sac/reward_normalization.py:73:    variance = combined_moment / total_count
+training/flash_sac/reward_normalization.py:74:    return RunningMomentsState(mean=mean, variance=variance, count=total_count)
+training/flash_sac/reward_normalization.py:75:
+training/flash_sac/reward_normalization.py:97:    if not math.isfinite(discount) or not 0.0 < discount <= 1.0:
+training/flash_sac/reward_normalization.py:98:        raise ValueError(f"discount must be finite and in (0, 1], got {discount}")
+training/flash_sac/reward_normalization.py:99:
+training/flash_sac/reward_normalization.py:100:    done = jnp.logical_or(terminated, truncated)
+training/flash_sac/reward_normalization.py:101:    discounted_return = discount * (~done).astype(jnp.float32) * state.discounted_return + reward
+training/flash_sac/reward_normalization.py:102:    maximum_absolute_return = jnp.maximum(
+training/flash_sac/reward_normalization.py:103:        state.maximum_absolute_return,
+training/flash_sac/reward_normalization.py:104:        jnp.max(jnp.abs(discounted_return)),
+training/flash_sac/reward_normalization.py:105:    )
+training/flash_sac/reward_normalization.py:106:    moments = update_running_moments(state.moments, discounted_return, moments_epsilon)
+training/flash_sac/reward_normalization.py:107:    return RewardNormalizerState(
+training/flash_sac/reward_normalization.py:108:        discounted_return=discounted_return,
+training/flash_sac/reward_normalization.py:109:        maximum_absolute_return=maximum_absolute_return,
+training/flash_sac/reward_normalization.py:110:        moments=moments,
+training/flash_sac/reward_normalization.py:111:    )
+training/flash_sac/reward_normalization.py:112:
+training/flash_sac/reward_normalization.py:114:def reward_scale_denominator(
+training/flash_sac/reward_normalization.py:115:    state: RewardNormalizerState,
+training/flash_sac/reward_normalization.py:116:    *,
+training/flash_sac/reward_normalization.py:117:    bound: float,
+training/flash_sac/reward_normalization.py:118:    epsilon: float = 1.0e-8,
+training/flash_sac/reward_normalization.py:119:) -> jax.Array:
+training/flash_sac/reward_normalization.py:120:    """Return the larger of variance scaling and the lifetime return bound."""
+training/flash_sac/reward_normalization.py:121:    if not math.isfinite(bound) or bound <= 0.0:
+training/flash_sac/reward_normalization.py:122:        raise ValueError(f"bound must be finite and positive, got {bound}")
+training/flash_sac/reward_normalization.py:123:    if not math.isfinite(epsilon) or epsilon <= 0.0:
+training/flash_sac/reward_normalization.py:124:        raise ValueError(f"epsilon must be finite and positive, got {epsilon}")
+training/flash_sac/reward_normalization.py:125:    variance_denominator = jnp.sqrt(state.moments.variance + epsilon)
+training/flash_sac/reward_normalization.py:126:    bound_denominator = state.maximum_absolute_return / bound
+training/flash_sac/reward_normalization.py:127:    return jnp.maximum(variance_denominator, bound_denominator)
+training/flash_sac/reward_normalization.py：匹配 /jnp.isfinite|nan_to_num|jnp.where/ 的行数 0
+## 2. 采集一步：先用这一步的奖励更新归一化器，再把这一步写进回放缓冲
+== v0.4.0 training/flash_sac/learner.py（原文段落 1060,1086p）
+training/flash_sac/learner.py:1060:        if config.reward_normalization.enabled:
+training/flash_sac/learner.py:1061:            reward_normalizer = update_reward_normalizer(
+training/flash_sac/learner.py:1062:                reward_normalizer,
+training/flash_sac/learner.py:1063:                one_step_reward,
+training/flash_sac/learner.py:1064:                terminated,
+training/flash_sac/learner.py:1065:                truncated,
+training/flash_sac/learner.py:1066:                discount=config.discount,
+training/flash_sac/learner.py:1067:                moments_epsilon=config.reward_normalization.running_moments_epsilon,
+training/flash_sac/learner.py:1068:            )
+training/flash_sac/learner.py:1069:        replay = _insert_replay(
+training/flash_sac/learner.py:1070:            replay,
+training/flash_sac/learner.py:1071:            ReplayInsert(
+training/flash_sac/learner.py:1072:                observation=learner.observation,
+training/flash_sac/learner.py:1073:                action=transition.action,
+training/flash_sac/learner.py:1074:                objective_terms=transition.objective_terms,
+training/flash_sac/learner.py:1075:                terminated=terminated,
+training/flash_sac/learner.py:1076:                truncated=truncated,
+training/flash_sac/learner.py:1077:                next_observation=transition.next_observation,
+training/flash_sac/learner.py:1078:                critic_context=learner.critic_context,
+training/flash_sac/learner.py:1079:                next_critic_context=transition.next_critic_context,
+training/flash_sac/learner.py:1080:            ),
+training/flash_sac/learner.py:1081:        )
+training/flash_sac/learner.py:1082:        learner = learner.replace(
+training/flash_sac/learner.py:1083:            replay=replay,
+training/flash_sac/learner.py:1084:            reward_normalizer=reward_normalizer,
+training/flash_sac/learner.py:1085:            environment_steps=learner.environment_steps + config.world_count,
+training/flash_sac/learner.py:1086:        )
+training/flash_sac/learner.py：匹配 /jnp.isfinite|nan_to_num/ 的行数 0
+== v0.4.0 training/flash_sac/update.py
+training/flash_sac/update.py:59:        finite = jnp.logical_and(finite, jnp.all(jnp.isfinite(gradient)))
+training/flash_sac/update.py:122:    if not math.isfinite(bootstrap_discount) or not 0.0 < bootstrap_discount <= 1.0:
+training/flash_sac/update.py:124:    if not math.isfinite(value_min) or not math.isfinite(value_max) or value_min >= value_max:
+training/flash_sac/update.py:176:    if not math.isfinite(behavior_cloning_coefficient) or behavior_cloning_coefficient < 0.0:
+training/flash_sac/update.py:197:    if not math.isfinite(target_entropy):
+training/flash_sac/update.py:234:    if not math.isfinite(tau) or not 0.0 < tau <= 1.0:
+## 3. ReconBody 终止判定：误差与阈值直接比较，状态本身不查是否有限
+== v0.4.0 lifecycle/termination.py（原文段落 601,605p;637,652p）
+lifecycle/termination.py:601:    pelvis_position_error = wp.length(pelvis_position - reference_pelvis_position)
+lifecycle/termination.py:602:    pelvis_orientation_error = quat_geodesic_angle(pelvis_orientation, reference_pelvis_orientation)
+lifecycle/termination.py:603:    pelvis_failed = int(
+lifecycle/termination.py:604:        pelvis_position_error > pelvis_position_threshold or pelvis_orientation_error > pelvis_orientation_threshold
+lifecycle/termination.py:605:    )
+lifecycle/termination.py:637:    palm_failed = int(0)  # noqa: UP018,RUF046 - Warp requires explicitly typed mutable locals.
+lifecycle/termination.py:638:    object_failed = int(0)  # noqa: UP018,RUF046
+lifecycle/termination.py:639:    if not freeze_masked:
+lifecycle/termination.py:640:        palm_failed = int(
+lifecycle/termination.py:641:            max_palm_position_error > palm_position_threshold or max_palm_orientation_error > palm_orientation_threshold
+lifecycle/termination.py:642:        )
+lifecycle/termination.py:643:        object_failed = int(
+lifecycle/termination.py:644:            max_object_position_error > object_position_threshold
+lifecycle/termination.py:645:            or max_object_orientation_error > object_orientation_threshold
+lifecycle/termination.py:646:        )
+lifecycle/termination.py:647:
+lifecycle/termination.py:648:    pelvis_done[world] = pelvis_failed
+lifecycle/termination.py:649:    palm_done[world] = palm_failed
+lifecycle/termination.py:650:    object_done[world] = object_failed
+lifecycle/termination.py:651:    terminated[world] = wp.max(pelvis_failed, wp.max(palm_failed, object_failed))
+lifecycle/termination.py:652:    truncated[world] = int(truncate_at_reference_end != 0 and timestep[world] >= num_frames - 1)
+lifecycle/termination.py：匹配 /isfinite\(|isnan\(/ 的行数 2
+== v0.4.0 lifecycle/termination.py
+lifecycle/termination.py:28:        if not math.isfinite(self.threshold) or self.threshold < 0.0:
+lifecycle/termination.py:512:        if not all(math.isfinite(value) and value >= 0.0 for value in thresholds):
+## 4. 训练端的环境代码里没有非有限世界的检测；评测端有
+envs/base.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
+envs/recon_body.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
+envs/observation.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
+lifecycle/reset.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
+objectives/recon_body.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
+== v0.4.0 evaluation/rollout.py
+evaluation/rollout.py:52:    non_finite_worlds: tuple[int, ...]
+evaluation/rollout.py:276:    finite = np.isfinite(achieved).all(axis=(0, 2, 3))
+evaluation/rollout.py:277:    non_finite = tuple(int(world) for world in np.flatnonzero(~finite))
+evaluation/rollout.py:278:    if non_finite:
+evaluation/rollout.py:280:        print(f"warning: {len(non_finite)} worlds recorded non-finite poses and are excluded", flush=True)
+evaluation/rollout.py:298:        non_finite_worlds=non_finite,
+## 5. 更新与回放的配置
+== v0.4.0 configs/training/reference_flash_sac.yaml
+configs/training/reference_flash_sac.yaml:6:updates_per_collection: 2.0
+configs/training/reference_flash_sac.yaml:61:  capacity: 1000000
+configs/training/reference_flash_sac.yaml:63:  batch_size: 2048
+configs/training/reference_flash_sac.yaml:64:  n_step: 3
+configs/training/reference_flash_sac.yaml:65:  sampling: uniform
+configs/training/reference_flash_sac.yaml:87:  save_replay: false
+== v0.4.0 configs/experiment/g1_recon_body_flash_sac.yaml
+configs/experiment/g1_recon_body_flash_sac.yaml:13:  - override /curriculum: recon_body_flash_sac
+configs/experiment/g1_recon_body_flash_sac.yaml:72:    capacity: 10000000
+configs/experiment/g1_recon_body_flash_sac.yaml:73:    minimum_size: 409600
+configs/experiment/g1_recon_body_flash_sac.yaml:74:    n_step: 7
+configs/experiment/g1_recon_body_flash_sac.yaml:76:    observation_storage_dtype: float16
+configs/experiment/g1_recon_body_flash_sac.yaml:82:    save_interval_environment_steps: 10000384
+configs/experiment/g1_recon_body_flash_sac.yaml:88:  log_interval: 25
+## 6. 课程：各段的起点与 VOC
+== v0.4.0 configs/curriculum/recon_body_flash_sac.yaml
+configs/curriculum/recon_body_flash_sac.yaml:4:# The stage fractions exactly match the stable 20,000-iteration PPO recipe:
+configs/curriculum/recon_body_flash_sac.yaml:5:# zero VOC begins at 60%, deployment-exact starts enter at 82.5%, and the
+configs/curriculum/recon_body_flash_sac.yaml:6:# terminal mixture remains 50% immediate / 50% uniform recovery starts.
+configs/curriculum/recon_body_flash_sac.yaml:11:    voc_scale: 1.0
+configs/curriculum/recon_body_flash_sac.yaml:26:    voc_scale: 0.75
+configs/curriculum/recon_body_flash_sac.yaml:29:    voc_scale: 0.5
+configs/curriculum/recon_body_flash_sac.yaml:32:    voc_scale: 0.25
+configs/curriculum/recon_body_flash_sac.yaml:35:    voc_scale: 0.1
+configs/curriculum/recon_body_flash_sac.yaml:38:    voc_scale: 0.05
+configs/curriculum/recon_body_flash_sac.yaml:41:    voc_scale: 0.0
+configs/curriculum/recon_body_flash_sac.yaml:44:    voc_scale: 0.0
+configs/curriculum/recon_body_flash_sac.yaml:46:    immediate_first_frame_probability: 0.25
+configs/curriculum/recon_body_flash_sac.yaml:48:    voc_scale: 0.0
+configs/curriculum/recon_body_flash_sac.yaml:50:    immediate_first_frame_probability: 0.50
+## 7. W&B 指标的定义
+== v0.4.0 training/flash_sac/runner.py
+training/flash_sac/runner.py:264:        "policy/action_abs_mean_per_env_action": (
+training/flash_sac/runner.py:268:        "sac/critic_skipped_fraction": "Fraction of critic attempts whose nonfinite gradients skipped Adam.",
+training/flash_sac/runner.py:271:        "reward_normalization/scale_denominator": (
+training/flash_sac/runner.py:296:            f"Fraction of logging-window completed episodes assigned exclusively to {name}."
+training/flash_sac/runner.py:300:            f"Mean across logging-window world-steps of the per-world maximum {name}."
+training/flash_sac/runner.py:341:        "policy/action_abs_mean_per_env_action": float(np.asarray(learner.action_abs_mean_per_env_action)),
+training/flash_sac/runner.py:343:        "sac/critic_skipped_fraction": float(np.asarray(learner.critic_skipped_fraction)),
+training/flash_sac/runner.py:346:        "reward_normalization/scale_denominator": float(np.asarray(learner.reward_scale_denominator)),

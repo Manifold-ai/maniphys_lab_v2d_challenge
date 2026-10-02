@@ -1,0 +1,74 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/MPTnuYLpVToiYI8f/bin/python stages/policy/wandb_local_history.py --by-stage runs/mf4090/wandb_local/t1-ep7-w2048-cap4m-p185-mf4090/run-t1-ep7-w2048-cap4m-p185-mf4090-s1.wandb runs/ml40/wandb_local/t2-ep7-w2048-cap10m-p185-ml40/run-t2-ep7-w2048-cap10m-p185-ml40-s1.wandb runs/mf4090/wandb_local/t1-ep1-w2048-cap4m-p185-mf4090/run-t1-ep1-w2048-cap4m-p185-mf4090-s1.wandb runs/ml40/wandb_local/t2-ep1-w2048-cap10m-p185-ml40/run-t2-ep1-w2048-cap10m-p185-ml40-s1.wandb runs/mf4090/wandb_local/t1-ep28-w2048-cap4m-p185-mf4090/run-t1-ep28-w2048-cap4m-p185-mf4090-s1.wandb runs/mf4090/wandb_local/t2-ep28-w2048-cap4m-p185-mf4090/run-t2-ep28-w2048-cap4m-p185-mf4090-s1.wandb 
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# md5      : 26a3efec8aa5fa2d715755749794d9d8  runs/mf4090/wandb_local/t1-ep7-w2048-cap4m-p185-mf4090/run-t1-ep7-w2048-cap4m-p185-mf4090-s1.wandb
+# md5      : 339a419d7ccfc2e0461b977181b746a1  runs/ml40/wandb_local/t2-ep7-w2048-cap10m-p185-ml40/run-t2-ep7-w2048-cap10m-p185-ml40-s1.wandb
+# md5      : 25fddd854e75d8276ee7644b6dfee052  runs/mf4090/wandb_local/t1-ep1-w2048-cap4m-p185-mf4090/run-t1-ep1-w2048-cap4m-p185-mf4090-s1.wandb
+# md5      : 639805bfe01daede6e1cdb24e6acbad5  runs/ml40/wandb_local/t2-ep1-w2048-cap10m-p185-ml40/run-t2-ep1-w2048-cap10m-p185-ml40-s1.wandb
+# md5      : 403d649cc284b218ea5a092c9433b5cf  runs/mf4090/wandb_local/t1-ep28-w2048-cap4m-p185-mf4090/run-t1-ep28-w2048-cap4m-p185-mf4090-s1.wandb
+# md5      : 059a21115e43fad7eada39dbe8d068e4  runs/mf4090/wandb_local/t2-ep28-w2048-cap4m-p185-mf4090/run-t2-ep28-w2048-cap4m-p185-mf4090-s1.wandb
+# source   : d5c8df9aecd3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:24:45-0600
+# ---------------------------------------------------------------
+/Users/rongxuanzhou/.cache/uv/archive-v0/MPTnuYLpVToiYI8f/lib/python3.13/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/Users/rongxuanzhou/.cache/uv/archive-v0/MPTnuYLpVToiYI8f/lib/python3.13/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t1-ep7-w2048-cap4m-p185-mf4090-s1.wandb：history 3003 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.906 | 431 | 0.0156 | 0.109 | 9.34e-05 | 0.875 | 0.0273 | 0.0663
+  1 | 35–70M | 0.75 | 0 | 0 | 0.907 | 434 | 0.0197 | 0.1 | 0.000105 | 0.88 | 0.0324 | 0.087
+  2 | 70–105M | 0.5 | 0 | 0 | 0.905 | 433 | 0.0194 | 0.106 | 5.3e-05 | 0.874 | 0.0335 | 0.126
+  3 | 105–140M | 0.25 | 0 | 0 | 0.162 | 79.1 | 0.00344 | 0.0194 | 0.823 | 0.154 | 0.0198 | 0.115
+  4 | 140–154M | 0.1 | 0 | 0 | 0.0011 | 2.18 | 0 | 2.03e-05 | 0.999 | 0.0011 | 0.0167 | 0.101
+== run-t2-ep7-w2048-cap10m-p185-ml40-s1.wandb：history 3168 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.917 | 444 | 0.0216 | 0.0982 | 0 | 0.88 | 0.0298 | 0.126
+  1 | 35–70M | 0.75 | 0 | 0 | 0.931 | 454 | 0.0188 | 0.0749 | 0 | 0.906 | 0.0351 | 0.149
+  2 | 70–105M | 0.5 | 0 | 0 | 0.923 | 450 | 0.0261 | 0.079 | 5.66e-05 | 0.895 | 0.0344 | 0.185
+  3 | 105–140M | 0.25 | 0 | 0 | 0.917 | 443 | 0.0281 | 0.0827 | 5.27e-05 | 0.889 | 0.0352 | 0.259
+  4 | 140–162M | 0.1 | 0 | 0 | 0.00108 | 2.16 | 0 | 2.03e-05 | 0.999 | 0.00108 | 0.0165 | 0.106
+== run-t1-ep1-w2048-cap4m-p185-mf4090-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.492 | 175 | 0.388 | 0.303 | 3.76e-05 | 0.309 | 0.0438 | 0.125
+  1 | 35–70M | 0.75 | 0 | 0 | 0.537 | 188 | 0.329 | 0.255 | 0.000105 | 0.415 | 0.0429 | 0.125
+  2 | 70–105M | 0.5 | 0 | 0 | 0.43 | 146 | 0.411 | 0.299 | 6.77e-05 | 0.289 | 0.0433 | 0.136
+  3 | 105–140M | 0.25 | 0 | 0 | 0.329 | 113 | 0.508 | 0.275 | 0.000153 | 0.217 | 0.0398 | 0.132
+  4 | 140–175M | 0.1 | 0 | 0 | 0.321 | 111 | 0.534 | 0.26 | 6.45e-05 | 0.207 | 0.0395 | 0.181
+  5 | 175–210M | 0.05 | 0 | 0 | 0.303 | 107 | 0.538 | 0.276 | 6.05e-05 | 0.186 | 0.0396 | 0.207
+  6 | 210–289M | 0 | 0 | 0 | 0.295 | 106 | 0.548 | 0.275 | 4.3e-05 | 0.177 | 0.0401 | 0.23
+  7 | 289–306M | 0 | 0 | 0.25 | 0.26 | 114 | 0.535 | 0.341 | 0.000106 | 0.123 | 0.0352 | 0.24
+  8 | 306–350M | 0 | 0 | 0.5 | 0.247 | 143 | 0.613 | 0.321 | 8.83e-05 | 0.0655 | 0.0358 | 0.308
+== run-t2-ep1-w2048-cap10m-p185-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.392 | 141 | 0.606 | 0.145 | 5.28e-05 | 0.25 | 0.0375 | 0.111
+  1 | 35–70M | 0.75 | 0 | 0 | 0.448 | 173 | 0.611 | 0.147 | 6.05e-05 | 0.242 | 0.0431 | 0.145
+  2 | 70–105M | 0.5 | 0 | 0 | 0.441 | 162 | 0.551 | 0.19 | 0.000169 | 0.259 | 0.0429 | 0.154
+  3 | 105–140M | 0.25 | 0 | 0 | 0.365 | 126 | 0.552 | 0.196 | 0.000144 | 0.252 | 0.0375 | 0.138
+  4 | 140–175M | 0.1 | 0 | 0 | 0.348 | 121 | 0.575 | 0.184 | 0.000265 | 0.24 | 0.0366 | 0.167
+  5 | 175–210M | 0.05 | 0 | 0 | 0.344 | 121 | 0.59 | 0.179 | 0.000192 | 0.231 | 0.0364 | 0.189
+  6 | 210–289M | 0 | 0 | 0 | 0.345 | 122 | 0.593 | 0.185 | 0.000148 | 0.221 | 0.0365 | 0.251
+  7 | 289–306M | 0 | 0 | 0.25 | 0.31 | 134 | 0.599 | 0.24 | 6.21e-05 | 0.161 | 0.0332 | 0.229
+  8 | 306–350M | 0 | 0 | 0.5 | 0.302 | 174 | 0.667 | 0.249 | 0.000241 | 0.0838 | 0.0357 | 0.233
+== run-t1-ep28-w2048-cap4m-p185-mf4090-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.614 | 322 | 0.33 | 0.238 | 0.000125 | 0.433 | 0.0519 | 0.147
+  1 | 35–70M | 0.75 | 0 | 0 | 0.6 | 310 | 0.348 | 0.179 | 6.42e-05 | 0.473 | 0.0506 | 0.156
+  2 | 70–105M | 0.5 | 0 | 0 | 0.513 | 256 | 0.431 | 0.225 | 0.000199 | 0.343 | 0.0513 | 0.173
+  3 | 105–140M | 0.25 | 0 | 0 | 0.404 | 195 | 0.531 | 0.271 | 0.000138 | 0.198 | 0.054 | 0.216
+  4 | 140–175M | 0.1 | 0 | 0 | 0.308 | 155 | 0.62 | 0.296 | 5.43e-05 | 0.0831 | 0.0549 | 0.279
+  5 | 175–210M | 0.05 | 0 | 0 | 0.282 | 147 | 0.633 | 0.299 | 0.000137 | 0.0682 | 0.0554 | 0.301
+  6 | 210–289M | 0 | 0 | 0 | 0.29 | 149 | 0.656 | 0.273 | 0.000997 | 0.0693 | 0.0555 | 0.334
+  7 | 289–306M | 0 | 0 | 0.25 | 0.239 | 151 | 0.664 | 0.288 | 0.000452 | 0.0472 | 0.0475 | 0.321
+  8 | 306–350M | 0 | 0 | 0.5 | 0.275 | 236 | 0.649 | 0.325 | 0.00244 | 0.0243 | 0.0474 | 0.311
+== run-t2-ep28-w2048-cap4m-p185-mf4090-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.411 | 226 | 0.668 | 0.172 | 4.96e-05 | 0.16 | 0.0492 | 0.13
+  1 | 35–70M | 0.75 | 0 | 0 | 0.411 | 226 | 0.609 | 0.249 | 0.000102 | 0.141 | 0.0528 | 0.155
+  2 | 70–105M | 0.5 | 0 | 0 | 0.317 | 172 | 0.671 | 0.243 | 0.000194 | 0.0864 | 0.0502 | 0.187
+  3 | 105–140M | 0.25 | 0 | 0 | 0.257 | 138 | 0.701 | 0.228 | 0.000125 | 0.0708 | 0.049 | 0.216
+  4 | 140–175M | 0.1 | 0 | 0 | 0.238 | 127 | 0.681 | 0.251 | 0.000175 | 0.0677 | 0.0488 | 0.26
+  5 | 175–210M | 0.05 | 0 | 0 | 0.246 | 132 | 0.644 | 0.294 | 0.000196 | 0.0622 | 0.0483 | 0.292
+  6 | 210–289M | 0 | 0 | 0 | 0.234 | 131 | 0.67 | 0.271 | 0.000223 | 0.0592 | 0.049 | 0.34
+  7 | 289–306M | 0 | 0 | 0.25 | 0.203 | 139 | 0.692 | 0.266 | 0.000354 | 0.0415 | 0.0438 | 0.349
+  8 | 306–350M | 0 | 0 | 0.5 | 0.201 | 168 | 0.766 | 0.208 | 0.000155 | 0.0254 | 0.0421 | 0.415
