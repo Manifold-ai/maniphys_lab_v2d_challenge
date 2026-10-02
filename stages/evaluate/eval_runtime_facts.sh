@@ -41,7 +41,7 @@ grep -n -E 'use_checkpoint_config|world_count|reset_mode' "$K/flash_chord/src/fl
 
 echo "== 4. kit 的导出与打包规矩"
 grep -n -E 'world-count", type=int, default|evaluation.reset_mode|evaluation.object_trajectories_output|logging.mode=disabled|cwd=workdir' "$K/examples/run_policy_evaluation.py" | sed 's/^/  examples\/run_policy_evaluation.py:/'
-grep -n -E '_TRACK2_POSITION_TOLERANCE_M =|_TRACK2_ANGLE_TOLERANCE_RAD =|first_evaluator = evaluator_reference\[0\]|do not differ by one rigid transform|scored episodes have no trajectory|environment_valid=false|One submission|--frame-references|locally computed|Local scores|evaluator metrics use the policy input|def crosscheck' "$K/tools/pack_submission.py" | sed 's/^/  tools\/pack_submission.py:/'
+grep -n -E '_TRACK2_POSITION_TOLERANCE_M =|_TRACK2_ANGLE_TOLERANCE_RAD =|first_evaluator = evaluator_reference\[0\]|do not differ by one rigid transform|scored episodes have no trajectory|environment_valid=false|One submission|--frame-references|locally computed|Local scores|evaluator metrics use the policy input|def crosscheck|do not line up with the reference' "$K/tools/pack_submission.py" | sed 's/^/  tools\/pack_submission.py:/'
 python3 - "$K/config/tracks.json" <<'PY'
 import json, sys
 t = json.load(open(sys.argv[1]))["tracks"]
