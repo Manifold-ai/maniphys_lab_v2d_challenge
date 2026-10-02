@@ -1,0 +1,14 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ grep\ -a\ -E\ \"\^===\"\ runs/logs/diag2_ml40.log\ \|\ cut\ -c1-260 
+# source   : 3ce4ea5378d1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:56:56-0600
+# ---------------------------------------------------------------
+=== 2026-10-02 23:05:30 CST start diag2_ml40：运行表 stages/evaluate/diag2/ml40.tsv（1 行），运行时为默认的上游 v0.4.0，GPU 最多等 7200 秒，来历 90a73fa8e852
+=== 2026-10-02 23:05:30 CST 等 runs/logs/export_ml40.log 结束（它的最后一行变成导出链的结束行）
+=== 2026-10-03 03:57:31 CST 上一段已结束：=== 2026-10-03 03:56:53 CST 导出链完成（成功 29、失败 1）
+=== 2026-10-03 03:57:31 CST t1-ep17-w2048-cap10m-ml40：试跑 16 个世界（--palms）
+=== 2026-10-03 03:58:39 CST t1-ep17-w2048-cap10m-ml40：试跑通过（robot_palm_pos (440, 16, 2, 3)，手 ['left', 'right']，参考手掌 ['left_hand_palm_link', 'right_hand_palm_link']，同步最大差 0 m，手掌坐标帧闸 4.84e-07 m（错一帧 +1 0.
+=== 2026-10-03 03:58:39 CST t1-ep17-w2048-cap10m-ml40：诊断 rollout（4096 世界，--palms）
+=== 2026-10-03 04:04:08 CST t1-ep17-w2048-cap10m-ml40：分析（diag_phase.py --role main）
+=== 2026-10-03 04:05:51 CST t1-ep17-w2048-cap10m-ml40：完成，主要失败环节（第 4 节的规则）：跟踪
+=== 2026-10-03 04:05:51 CST DIAG2_DONE（完成 1、闸不过 0、对照不过 0、出错 0）

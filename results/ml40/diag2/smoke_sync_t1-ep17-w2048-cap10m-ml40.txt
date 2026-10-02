@@ -1,0 +1,10 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag2_sync.py\ /repo/runs/diag2/t1-ep17-w2048-cap10m-ml40/smoke_w16.npz 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : ad54e8f2f9637d54dcb5ab95a7c718f1  stages/evaluate/diag2_sync.py
+# md5      : 9060b2d62958a7331bd49cb22c394b3f  runs/diag2/t1-ep17-w2048-cap10m-ml40/smoke_w16.npz
+# source   : 90a73fa8e852
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T03:58:38+0800
+# ---------------------------------------------------------------
+robot_palm_pos (440, 16, 2, 3)，手 ['left', 'right']，参考手掌 ['left_hand_palm_link', 'right_hand_palm_link']，同步最大差 0 m，手掌坐标帧闸 4.84e-07 m（错一帧 +1 0.0502、−1 0.0498）；第 0 帧世界 0 两只手掌 [[-0.08100000023841858, -0.22699999809265137, 0.7919999957084656], [-0.17800000309944153, 0.21699999272823334, 0.7649999856948853]]
+SYNC_OK

@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-diag-mpsr0.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a9b4db2b639c8e382b2a2debca4a5c9c  agent-doc/experiments/2026-10-02-diag-mpsr0.claims.json
+# source   : 3ce4ea5378d1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T14:57:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+chains_done          P(supported)=0.98  verified               [log_mf, log_ml]  mf4090 的诊断链以 DIAG2_DONE（完成 2、闸不过 0、对照不过 1、出错 0）结束，ml40 的以 DIAG2_DONE（完成 1、闸不过 0、对照不过 0、出错 0）结束；两台的 16 世界试跑都通过。
+control_fail         P(supported)=0.94  verified               [ctl]  对照 t1-ep8 的 V0、V1、V2 都 PASS，但 MP-SR 成功的 3997 个世界里带接近或抓取标记的有 3997 个，占 100%，超过 10% 的上限，结果是 CONTROL_FAIL。
+control_hand         P(supported)=0.64  UNVERIFIED             [ctl]  对照 t1-ep8 里，接触段内手贴着物体的帧比例（成功世界的中位）是左手 29%、右手 5%。
+rule                 P(supported)=0.96  verified               [plan]  诊断计划事先登记：对照 t1-ep8 不满足时，分类门限判定为不可信，只报数字、不下结论。
+ep21_numbers         P(supported)=0.84  verified               [ep21]  t1-ep21 三道闸都过；失败世界 4096 个里只有位置不过的 3531 个、两样都不过的 565 个；接触段对位置误差的贡献是 4.35 cm、占全程 80%；接触段内手贴着物体的帧比例是左手 24%、右手 26%。
+ep21_flip            P(supported)=0.98  verified               [ep21]  t1-ep21 的分类随门限变：A2 取 2.5 cm 时接近占 85.5%，A2 取 10 cm 时跟踪占 67.5%。
+ep16_numbers         P(supported)=0.80  verified               [ep16]  t1-ep16 三道闸都过；失败世界里两样都不过的 4092 个；接触段位置误差 45.68 cm、朝向 51.4°；A2 世界里到第 383 帧都没到位的有 3356 个；左手贴着物体的帧比例是 0%。
+ep17_numbers         P(supported)=0.82  verified               [ep17]  t1-ep17 三道闸都过；失败世界里两样都不过的 4087 个；接触段位置误差 3.34 cm、朝向 24.8°；左右手贴着物体的帧比例都是 100%；四组灵敏度门限下跟踪的占比在 62.9% 到 63.6% 之间。
+approach_small       P(supported)=0.98  verified               [ep21, ep16, ep17]  三条主诊断 run 接近段的位置误差分别是 0.20 cm、0.15 cm、0.19 cm。
+ctl_true             P(supported)=0.98  control(true) ok       [log_mf]  mf4090 的诊断链日志里，t1-ep8 的试跑是 16 个世界。
+ctl_false_ok         P(supported)=0.05  control(false) ok      [ctl]  对照 t1-ep8 的误报比例低于 10%，结果是 CONTROL_OK。
+ctl_false_ep17       P(supported)=0.36  CONTROL(false) FAILED  [ep17]  t1-ep17 的两只手在接触段内都没有贴着物体，比例是 0%。
+ctl_false_chain      P(supported)=0.01  control(false) ok      [log_mf, log_ml]  mf4090 的诊断链停在 DIAG2_FAILED，三行都没有跑。
+CONTROLS MISBEHAVED: do not rely on this batch

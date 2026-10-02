@@ -1,0 +1,132 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "log_mf": {
+   "file": "results/diag2/chain_log_mf4090.txt"
+  },
+  "log_ml": {
+   "file": "results/ml40/diag2/chain_log_ml40.txt"
+  },
+  "ctl": {
+   "file": "results/diag2/phase_t1-ep8-w2048-cap4m-mf4090.txt.failed",
+   "grep": "^policy|PASS|FAIL|VALIDITY|  S  |失败世界|对照|接触段里手贴着物体|：成功 "
+  },
+  "ep21": {
+   "file": "results/diag2/phase_t1-ep21-w2048-cap4m-mf4090.txt",
+   "grep": "^policy|PASS|FAIL|VALIDITY|失败世界|主要失败环节|各段对时间平均误差|接近（|接触（|之后（|接触段里手贴着物体|：成功 |A2 2.5|A2 10"
+  },
+  "ep16": {
+   "file": "results/diag2/phase_t1-ep16-w2048-cap4m-mf4090.txt",
+   "grep": "^policy|PASS|FAIL|VALIDITY|失败世界|主要失败环节|各段对时间平均误差|接近（|接触（|之后（|接触段里手贴着物体|：成功 |到位"
+  },
+  "ep17": {
+   "file": "results/ml40/diag2/phase_t1-ep17-w2048-cap10m-ml40.txt",
+   "grep": "^policy|PASS|FAIL|VALIDITY|失败世界|主要失败环节|各段对时间平均误差|接近（|接触（|之后（|接触段里手贴着物体|：成功 |A2 2.5|A2 10|G1 1.5|G1 6"
+  },
+  "plan": {
+   "file": "agent-doc/plan-diag-mpsr0-2026-10-02.md",
+   "grep": "^- \\*\\*有效\\*\\*|^- \\*\\*结论\\*\\*"
+  }
+ },
+ "claims": [
+  {
+   "id": "chains_done",
+   "evidence": [
+    "log_mf",
+    "log_ml"
+   ],
+   "claim": "mf4090 的诊断链以 DIAG2_DONE（完成 2、闸不过 0、对照不过 1、出错 0）结束，ml40 的以 DIAG2_DONE（完成 1、闸不过 0、对照不过 0、出错 0）结束；两台的 16 世界试跑都通过。"
+  },
+  {
+   "id": "control_fail",
+   "evidence": [
+    "ctl"
+   ],
+   "claim": "对照 t1-ep8 的 V0、V1、V2 都 PASS，但 MP-SR 成功的 3997 个世界里带接近或抓取标记的有 3997 个，占 100%，超过 10% 的上限，结果是 CONTROL_FAIL。"
+  },
+  {
+   "id": "control_hand",
+   "evidence": [
+    "ctl"
+   ],
+   "claim": "对照 t1-ep8 的“接触段里手贴着物体的帧比例”一栏里，left 一行是成功 29%、失败 0%，right 一行是成功 5%、失败 0%。"
+  },
+  {
+   "id": "rule",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "诊断计划事先登记：对照 t1-ep8 不满足时，分类门限判定为不可信，只报数字、不下结论。"
+  },
+  {
+   "id": "ep21_numbers",
+   "evidence": [
+    "ep21"
+   ],
+   "claim": "t1-ep21 三道闸都过；失败世界 4096 个里只有位置不过的 3531 个、两样都不过的 565 个；接触段对位置误差的贡献是 4.35 cm、占全程 80%；“接触段里手贴着物体的帧比例”一栏里失败世界的数是 left 24%、right 26%。"
+  },
+  {
+   "id": "ep21_flip",
+   "evidence": [
+    "ep21"
+   ],
+   "claim": "t1-ep21 的分类随门限变：A2 取 2.5 cm 时接近占 85.5%，A2 取 10 cm 时跟踪占 67.5%。"
+  },
+  {
+   "id": "ep16_numbers",
+   "evidence": [
+    "ep16"
+   ],
+   "claim": "t1-ep16 三道闸都过；失败世界里两样都不过的 4092 个；接触段位置误差 45.68 cm、朝向 51.4°；A2 世界里到第 383 帧都没到位的有 3356 个；“接触段里手贴着物体的帧比例”一栏里 left 的失败世界是 0%。"
+  },
+  {
+   "id": "ep17_numbers",
+   "evidence": [
+    "ep17"
+   ],
+   "claim": "t1-ep17 三道闸都过；失败世界里两样都不过的 4087 个；接触段位置误差 3.34 cm、朝向 24.8°；“接触段里手贴着物体的帧比例”一栏里 left 与 right 的失败世界都是 100%；四组灵敏度门限下跟踪的占比在 62.9% 到 63.6% 之间。"
+  },
+  {
+   "id": "approach_small",
+   "evidence": [
+    "ep21",
+    "ep16",
+    "ep17"
+   ],
+   "claim": "三条主诊断 run 接近段的位置误差分别是 0.20 cm、0.15 cm、0.19 cm。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "log_mf"
+   ],
+   "claim": "mf4090 的诊断链日志里，t1-ep8 的试跑是 16 个世界。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_ok",
+   "evidence": [
+    "ctl"
+   ],
+   "claim": "对照 t1-ep8 的误报比例低于 10%，结果是 CONTROL_OK。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_ep17",
+   "evidence": [
+    "ep17"
+   ],
+   "claim": "t1-ep17 的“接触段里手贴着物体的帧比例”一栏里，left 与 right 的失败世界都是 0%。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_chain",
+   "evidence": [
+    "log_mf",
+    "log_ml"
+   ],
+   "claim": "mf4090 的诊断链停在 DIAG2_FAILED，三行都没有跑。",
+   "control": "false"
+  }
+ ]
+}
