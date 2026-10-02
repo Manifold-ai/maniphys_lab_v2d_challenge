@@ -1,0 +1,15 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ stages/policy/arm_box_chains.sh\ ml40 
+# md5      : 859caf4c7e0904c84f9fab3d7b731ea1  stages/policy/arm_box_chains.sh
+# source   : 6808a53c4ff1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:58:18-0600
+# ---------------------------------------------------------------
+v2d-compat: 1 windows (created Fri Oct  2 10:58:18 2026)
+compat：=== 2026-10-02 10:58:18 CST 等 runs/logs/t2c_eval_ml40.log 的最后一行变成 DAY2_EVAL_DONE / DAY2_EVAL_FAILED
+box-eval：=== 2026-10-02 10:58:22 CST DAY2_EVAL_FAILED
+chain_after 进程：
+runs/.chain-active-compat_ml40
+runs/.chain-active-t2b_eval_ml40
+runs/.chain-active-t2b_train_ml40
+runs/.chain-active-t2c_eval_ml40
+ARMED

@@ -8,7 +8,8 @@ chain_after.sh 按计划第 4.4 节的用法接门槛文件，门槛 1。
   3. 导出都成功但一条核对不过、guard 不灵、negctl 的坏 policy 核对通过、negctl 时核对脚本崩溃：都记 COMPAT_FAIL，但门槛仍是“完成 1”，开链；
   4. 副本核不过、GPU 被占、没设 V2D_FC_SRC：DAY2_EVAL_FAILED，门槛“完成 0”，不开链；
   5. 旧日志或旧门槛文件已存在、清单里没有 export 行：退出码 2，不写日志；
-  6. 设了 V2D_WAIT_FOR_EVAL_LOG：等那份日志结束才开始；
+  6. 设了 V2D_WAIT_FOR_EVAL_LOG：等那份日志结束才开始；compat 等待期间 chain_after.sh 同时盯着 compat 的日志，不许提前开链
+     （10/1 起链时真出过：等待提示里带了结束标记的原文）；compat 日志里只有最后一行带结束标记；
   7. 预检：全对时 COMPAT_DRYRUN_OK、不写日志、门槛与标记；某行 fc_export 预检退出码不对、要等的日志不存在时 COMPAT_DRYRUN_FAIL。
 用法：python3 stages/evaluate/test_compat_8c778f9.py（审查 Fable 5.1 留下的原型改写而来）
 """
@@ -110,6 +111,7 @@ def test_all_pass() -> None:
         root = Path(t); setup(root)
         rc, log, gate, box = outcome(root, **GOOD)
         assert rc == 0 and "COMPAT_PASS（7 行全部符合）" in log and log.rstrip().endswith("DAY2_EVAL_DONE（成功 7、失败 0）"), log
+        assert sum("DAY2_EVAL_" in line for line in log.splitlines()) == 1, log
         assert "完成 1、失败 0" in gate and "FAKE_CHAIN_STARTED" in box, (gate, box)
         assert not (root / "runs/.chain-active-compat_mf").exists()
         assert (root / "results/submission/compat/mf_negctl_t1-ep1-w2048-cap4m-mf4090_w1.txt").exists()
@@ -166,6 +168,28 @@ def test_waits_for_previous_eval() -> None:
         t0 = time.time()
         rc, log, gate, _ = outcome(root, V2D_WAIT_FOR_EVAL_LOG="runs/logs/t2b_eval_x.log", **GOOD)
         assert rc == 0 and time.time() - t0 >= 3 and "上一段评测链已结束" in log and "完成 1" in gate, log
+
+
+def test_chain_after_waits_while_compat_waits() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        prev = root / "runs/logs/t2b_eval_x.log"
+        prev.write_text("=== x 等 runs/logs/t2b_train_x.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED\n")
+        c = subprocess.Popen(["bash", "stages/evaluate/compat_8c778f9.sh", "stages/evaluate/compat/mf.tsv", "compat_mf"], cwd=root,
+                             env=env(root, V2D_WAIT_FOR_EVAL_LOG="runs/logs/t2b_eval_x.log", **GOOD),
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(1.5)
+        a = subprocess.Popen(["bash", "stages/policy/chain_after.sh", "runs/logs/compat_mf.gate", "runs/logs/compat_mf.log", "1",
+                              "e.tsv", "s.txt", "f.txt", "24564", "box_train"], cwd=root, env=env(root),
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(3.5)
+        early = (root / "runs/logs/box_train.log").exists()
+        prev.write_text("=== x DAY2_EVAL_DONE（成功 8、失败 0）\n")
+        c.wait(timeout=90); a.wait(timeout=90)
+        assert not early, "compat 还在等，chain_after 就做了决定"
+        log = (root / "runs/logs/compat_mf.log").read_text()
+        assert sum("DAY2_EVAL_" in line for line in log.splitlines()) == 1, log
+        assert "FAKE_CHAIN_STARTED" in (root / "runs/logs/box_train.log").read_text()
 
 
 def test_dryrun() -> None:

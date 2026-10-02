@@ -1,0 +1,14 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ stages/policy/arm_box_chains.sh\ mf4090 
+# md5      : 859caf4c7e0904c84f9fab3d7b731ea1  stages/policy/arm_box_chains.sh
+# source   : 6808a53c4ff1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:58:10-0600
+# ---------------------------------------------------------------
+v2d-compat: 1 windows (created Fri Oct  2 10:58:11 2026)
+compat：=== 2026-10-02 10:58:11 CST 等 runs/logs/t2b_eval_mf4090.log 的最后一行变成 DAY2_EVAL_DONE / DAY2_EVAL_FAILED
+box-eval：=== 2026-10-02 10:58:15 CST DAY2_EVAL_FAILED
+chain_after 进程：
+runs/.chain-active-compat_mf4090
+runs/.chain-active-t2b_eval_mf4090
+runs/.chain-active-t2b_train_mf4090
+ARMED

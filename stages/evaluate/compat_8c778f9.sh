@@ -71,9 +71,11 @@ gate() {
 stop() { say "$*"; gate; say "COMPAT_FAIL（没做完）"; say "DAY2_EVAL_FAILED"; exit 1; }
 say "start ${NAME}：清单 ${LIST}（export 行 ${NEXP}），V2D_FC_SRC=${V2D_FC_SRC:-未设}，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 if [ -n "${V2D_WAIT_FOR_EVAL_LOG:-}" ]; then
-  say "等 $V2D_WAIT_FOR_EVAL_LOG 的最后一行变成 DAY2_EVAL_DONE / DAY2_EVAL_FAILED"
+  # 本日志里只有最后那一行可以出现评测链结束标记的原文：chain_after.sh 盯着本日志的最后一行认它（10/1 起链时，等待提示里带了
+  # 这两个词，chain_after 当场误判 compat 已结束，见 agent-doc/experiments/2026-10-02-box6-eval-runtime.md）。
+  say "等 $V2D_WAIT_FOR_EVAL_LOG 结束（它的最后一行变成评测链的结束行）"
   until grep -qE "DAY2_EVAL_(DONE|FAILED)" < <(tail -1 "$V2D_WAIT_FOR_EVAL_LOG" 2>/dev/null); do sleep "${V2D_POLL_S:-60}"; done
-  say "上一段评测链已结束：$(tail -1 "$V2D_WAIT_FOR_EVAL_LOG")"
+  say "上一段评测链已结束：$(tail -1 "$V2D_WAIT_FOR_EVAL_LOG" | sed -E 's/DAY2_EVAL_DONE/评测链完成/; s/DAY2_EVAL_FAILED/评测链失败/')"
 fi
 others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ')"
 [ -z "$others" ] || stop "GPU 上有别的进程（${others}），停下"
