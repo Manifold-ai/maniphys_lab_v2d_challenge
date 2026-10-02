@@ -1,0 +1,12 @@
+# command  : python3 stages/evaluate/test_make_frame_references.py 
+# md5      : 7e4e7ca81516852fadd23c73788e9d15  stages/evaluate/test_make_frame_references.py
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-02T14:47:49+0800
+# ---------------------------------------------------------------
+  （没有 pandas：跳过用 kit 函数读回的核对）
+ok  test_normal
+ok  test_failures
+ok  test_refuse_existing
+ok  test_tier1_source_blocked
+ALL_OK

@@ -1,0 +1,13 @@
+# command  : stages/evaluate/arm_export_chain.sh mf4090 
+# md5      : e0d0c7b3e8ba0bd2a4d9bcdf39db3816  stages/evaluate/arm_export_chain.sh
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-02T14:49:28+0800
+# ---------------------------------------------------------------
+record: → results/submission/exports/arm_dryrun_mf4090.txt（68 行）
+  --   Tier 2 ep28 t2-ep28-w2048-cap4m-p185-mf4090：还没有 DONE（还在训或排队），开跑时再看
+  --   还没训完、有 NONFINITE 或 policy 非有限的 7 行，开跑时按 no_done / nonfinite 记
+EXPORT_DRYRUN_OK
+v2d-export: 1 windows (created Fri Oct  2 14:49:33 2026)
+export：=== 2026-10-02 14:49:33 CST 等 runs/logs/box_eval_mf4090.log 结束（它的最后一行变成评测链的结束行）
+ARMED

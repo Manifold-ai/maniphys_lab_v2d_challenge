@@ -1,0 +1,16 @@
+# command  : scripts/dev/push-new-files stages/evaluate/make_frame_references.py stages/evaluate/test_make_frame_references.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : f2573f8e2124c7ec5fe8d913a411e385  stages/evaluate/make_frame_references.py
+# md5      : 51061983a68deb91596422461a26f79b  stages/evaluate/test_make_frame_references.py
+# source   : 6a26440c8afe
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:49:01-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+  覆盖 stages/evaluate/make_frame_references.py：远端是 06f41c3 的版本（a16f77e4073702f1da688b226095126f）
+  覆盖 stages/evaluate/test_make_frame_references.py：远端是 06f41c3 的版本（7e4e7ca81516852fadd23c73788e9d15）
+本地提交 6a26440c8afe；远端来历 90a73fa8e852
+  ok   f2573f8e2124c7ec5fe8d913a411e385  stages/evaluate/make_frame_references.py
+  ok   51061983a68deb91596422461a26f79b  stages/evaluate/test_make_frame_references.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（2 个文件）
