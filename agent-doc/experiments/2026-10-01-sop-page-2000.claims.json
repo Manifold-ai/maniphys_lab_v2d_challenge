@@ -1,0 +1,234 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "status_ml40": {
+   "file": "results/t2/status_ml40_2000.txt"
+  },
+  "status_mf4090": {
+   "file": "results/t2/status_mf4090_2000.txt"
+  },
+  "verdict_ml40": {
+   "file": "results/t2/batch_verdict_ml40_t2a.txt",
+   "grep": "^== |判定|合计|chord_sr|maniptrans_sr|add_auc|另报"
+  },
+  "verdict_mf4090": {
+   "file": "results/t2/batch_verdict_mf4090_t2a.txt",
+   "grep": "^== |判定|合计|chord_sr|maniptrans_sr|add_auc|另报"
+  },
+  "pace_ml40_b": {
+   "file": "results/t2/pace_ml40_t2b_2000.txt",
+   "grep": "^== |正式开始"
+  },
+  "pace_mf4090_b": {
+   "file": "results/t2/pace_mf4090_t2b_2000.txt",
+   "grep": "^== |正式开始"
+  },
+  "kaggle": {
+   "file": "results/submission/kaggle_join_status.txt"
+  },
+  "runtime": {
+   "file": "results/submission/runtime_pin_facts.txt",
+   "grep": "^kit |README.md:|#188|Pin the FlashCHORD|Cube support|scaling|之间改动的文件|^  (added|modified|removed) "
+  },
+  "evalrt": {
+   "file": "results/submission/eval_runtime_facts.txt",
+   "grep": "ahead|依赖与镜像|评测目录|src/flash_chord/scene/support.py$|training/flash_sac/evaluation.py|^  \\| |相同 |不同 |_TRACK2_|first_evaluator|rigid transform|have no trajectory|environment_valid|do not line up"
+  },
+  "hf": {
+   "file": "agent-doc/plan-hf-archive-2026-10-01.md",
+   "grep": "执行记录|39 个文件|释放|磁盘：开始时"
+  },
+  "email": {
+   "file": "agent-doc/organizer-email-draft-2026-10-01.md",
+   "grep": "第 2 版|先不急|Eligibility|^[0-9]\\. \\*\\*|10/7"
+  },
+  "decision": {
+   "file": "agent-doc/decision-organizer-q1-q3-2026-10-01.md",
+   "grep": "^## |^[0-9]\\. |决定"
+  },
+  "plan": {
+   "file": "agent-doc/plan-box6-and-eval-runtime-2026-10-01.md",
+   "grep": "^# 计划|第 1 版|^\\| mf4090（|^\\| ml40（|门槛文件|export 全过|门槛设成"
+  },
+  "machine_mf4090": {
+   "file": "results/t2/status_mf4090_2000.txt",
+   "grep": "^== |## 机器|MB free|MiB, "
+  },
+  "machine_ml40": {
+   "file": "results/t2/status_ml40_2000.txt",
+   "grep": "^== |## 机器|MB free|MiB, "
+  }
+ },
+ "claims": [
+  {
+   "id": "t2_mf4090",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "mf4090 上 Tier 2 第 1 批的冒烟全部通过（A 段 ep2、ep4、ep6、ep9、ep11，B 段 ep13 到 ep27 的 8 条）；正式训练完成的是 t2-ep2、ep4、ep6、ep9、ep11、ep13、ep15、ep17，t2-ep19 正在训，最新 policy 是 200007680 步。"
+  },
+  {
+   "id": "t2_ml40",
+   "evidence": [
+    "status_ml40"
+   ],
+   "claim": "ml40 上 Tier 2 第 1 批的冒烟里只有 smoke-t2-ep10 失败，t2-ep10 记 SKIPPED，其余（A 段 ep0、ep3、ep5、ep8，B 段 ep12 到 ep29 的 9 条）都通过；正式训练完成的是 t2-ep0、ep3、ep5、ep8、ep12、ep14、ep16、ep18，t2-ep20 刚开始训。"
+  },
+  {
+   "id": "disk",
+   "evidence": [
+    "machine_mf4090"
+   ],
+   "claim": "快照时 mf4090 的可用磁盘是 9431 MB。"
+  },
+  {
+   "id": "packer_rigid",
+   "evidence": [
+    "evalrt"
+   ],
+   "claim": "新打包器取评测器参考的第 0 帧求刚体变换，位置容差 1e-3 m、角度容差 1e-3 rad，不满足时报 the evaluator and released references do not differ by one rigid transform。"
+  },
+  {
+   "id": "packer_reject",
+   "evidence": [
+    "evalrt"
+   ],
+   "claim": "新打包器在计分 episode 缺轨迹时整份报错（scored episodes have no trajectory），世界被标 environment_valid=false 时也报错。"
+  },
+  {
+   "id": "t2_finite",
+   "evidence": [
+    "status_ml40",
+    "status_mf4090"
+   ],
+   "claim": "两台训完的 Tier 2 正式训练，fc_run_watched 报的最新 policy 都是非有限 0 / 1207577；各看守日志里含非有限的扫描行数都是 0；已完成 run 的 W&B 摘要里 nan 都是 0 项。"
+  },
+  {
+   "id": "t2a_verdict",
+   "evidence": [
+    "verdict_ml40",
+    "verdict_mf4090"
+   ],
+   "claim": "Tier 2 A 段按批量判据：mf4090 的 5 条里通过 1 条（t2-ep6，边缘，maniptrans_sr 只靠 1 个世界），不通过 4 条；ml40 的 4 条评过的全部不通过，t2-ep10 无效。"
+  },
+  {
+   "id": "t2a_ep0_ep8",
+   "evidence": [
+    "verdict_ml40"
+   ],
+   "claim": "ml40 的 t2-ep0 SP-SR 为 0.9424、t2-ep8 SP-SR 为 0.9998，这两条都因为 ADD-AUC 低于不动基线（0.3112 对 0.3682、0.5617 对 0.5966）而判为不通过。"
+  },
+  {
+   "id": "pace_b",
+   "evidence": [
+    "pace_ml40_b",
+    "pace_mf4090_b"
+   ],
+   "claim": "mf4090 B 段 t2-ep13、t2-ep15、t2-ep17 的正式训练用时是 113:30、132:15、121:04；ml40 B 段 t2-ep12、t2-ep14、t2-ep16、t2-ep18 是 148:28、141:18、116:04、134:26。"
+  },
+  {
+   "id": "hf",
+   "evidence": [
+    "hf"
+   ],
+   "claim": "HF 归档在 10/1 09:32–09:52 UTC-6 执行，删掉 39 个文件共 6.24 GB，mf4090 可用空间从 5297 MB 增加到 11054 MB。"
+  },
+  {
+   "id": "kaggle",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "v2d-challenge-track2-tier1 的 auc、mp-sr、mppe、sp-sr 四个比赛 userHasEntered 为 True；tier2 与 tier3 的八个比赛 userHasEntered 为 False。"
+  },
+  {
+   "id": "runtime_pin",
+   "evidence": [
+    "runtime"
+   ],
+   "claim": "新 kit（zip sha256 0f2f9f4b…）的 README 把 FlashCHORD 运行时钉在 8c778f905c…，上游 #188 的说明写明它包含 Cube 支撑面的缩放修复；aee95f2 到 8c778f9 之间 flash_chord 源码只改了 scene/support.py 和它的测试。"
+  },
+  {
+   "id": "train_path",
+   "evidence": [
+    "evalrt"
+   ],
+   "claim": "v0.4.0 到 8c778f9 之间依赖与镜像文件改动 0 个；flash_chord/src 下评测目录以外只改了 scene/support.py 与 training/flash_sac/evaluation.py，后者的改动是一行 import 写法加一个默认为 None 的 object_trajectories_output 字段。"
+  },
+  {
+   "id": "kit_identical",
+   "evidence": [
+    "evalrt"
+   ],
+   "claim": "新 kit 自带的 scripts/evaluate_policy.py 与 evaluate_policy.yaml、evaluation/flash_sac.yaml、logging/wandb.yaml 三份配置，都与 8c778f9 的同名文件逐字节相同。"
+  },
+  {
+   "id": "email",
+   "evidence": [
+    "email"
+   ],
+   "claim": "给组委会的邮件草稿第 2 版有 5 个问题，用户 10/1 说邮件先不急，10/7 的参赛说明会也可以当面问。"
+  },
+  {
+   "id": "award",
+   "evidence": [
+    "email"
+   ],
+   "claim": "官网的获奖资格原文是：Eligibility for all awards: a valid final submission, agreed code release (research license), and the short technical report."
+  },
+  {
+   "id": "decisions",
+   "evidence": [
+    "decision"
+   ],
+   "claim": "决定记录定下：三档的评测与导出都用 8c778f9；ep1、ep7、ep28 在 Tier 1 与 Tier 2 各训一条；含非有限参数的 policy 不拿去导出，报终止错误时退到同一条 run 里更早的有限 checkpoint；继续用 scene.support=false。"
+  },
+  {
+   "id": "plan_status",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "方盒计划是第 1 版、待 Fable 5.1 审查；mf4090 排 t1-ep1、t1-ep7、t1-ep28、t2-ep28，ml40 排 t2-ep1、t2-ep7；方盒训练链要等兼容性验证的 export 全部通过才开。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "kaggle_join_status 列出了 12 个 v2d-challenge-track2 比赛。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_verdict",
+   "evidence": [
+    "verdict_ml40",
+    "verdict_mf4090"
+   ],
+   "claim": "Tier 2 A 段评过的 9 条里有 5 条按批量判据通过。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_kaggle",
+   "evidence": [
+    "kaggle"
+   ],
+   "claim": "Tier 2 的四个 Kaggle 比赛都已经加入（userHasEntered 为 True）。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_pin",
+   "evidence": [
+    "runtime"
+   ],
+   "claim": "新 kit 的 README 仍把运行时钉在 aee95f25…，没有换。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_watch",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "mf4090 上的看守对 t2-ep9 调用了 fc_stop，这条 run 发散被停。",
+   "control": "false"
+  }
+ ]
+}

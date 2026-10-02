@@ -1,0 +1,114 @@
+# command  : stages/evaluate/eval_runtime_facts.sh 
+# md5      : cee843361f4a9aabe4ac3685ea78f3e9  stages/evaluate/eval_runtime_facts.sh
+# source   : f6b790823b6b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-01T20:34:10-0600
+# ---------------------------------------------------------------
+== 1. v0.4.0（33129dd）→ 8c778f9 的提交与改动
+  ahead 6，behind 0，改动文件 15 个
+  提交 a6b80eedfd 2026-09-28T23:18:21Z Clarify Track 2 leaderboard reference trajectory (#180)
+  提交 aee95f25ae 2026-09-28T23:18:46Z Publish FlashCHORD trajectory export for V2D leaderboard (#181)
+  提交 48e74358ff 2026-09-29T01:37:08Z Publish V2D submission kit and live Kaggle leaderboard links (#182)
+  提交 499e34c866 2026-09-29T01:44:47Z Include all metric scoring code in V2D submission kit (#183)
+  提交 11cdbd0a6a 2026-09-29T06:49:04Z Convert Track 2 evaluator poses in the submission kit (#184)
+  提交 8c778f905c 2026-09-29T18:11:15Z Honor authored scale for Cube support geometry (#185)
+flash_chord 下改动的文件（状态 +增 -删）：
+  modified +8 -0 robotic_grounding/flash_chord/scripts/evaluate_policy.py
+  modified +1 -0 robotic_grounding/flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml
+  modified +61 -4 robotic_grounding/flash_chord/src/flash_chord/evaluation/harness.py
+  modified +59 -0 robotic_grounding/flash_chord/src/flash_chord/evaluation/metrics.py
+  modified +153 -1 robotic_grounding/flash_chord/src/flash_chord/evaluation/rollout.py
+  modified +13 -10 robotic_grounding/flash_chord/src/flash_chord/scene/support.py
+  modified +2 -1 robotic_grounding/flash_chord/src/flash_chord/training/flash_sac/evaluation.py
+  modified +62 -1 robotic_grounding/flash_chord/tests/evaluation/test_evaluation_harness.py
+  modified +71 -0 robotic_grounding/flash_chord/tests/evaluation/test_evaluation_metrics.py
+  added +128 -0 robotic_grounding/flash_chord/tests/evaluation/test_object_trajectory_export.py
+  modified +24 -0 robotic_grounding/flash_chord/tests/scene/test_support.py
+flash_chord 以外改动的文件：
+  added docs/v2d_challenge/assets/v2d_submission_kit.zip
+  modified docs/v2d_challenge/index.html
+  modified docs/v2d_challenge/leaderboard.js
+  modified docs/v2d_challenge/leaderboard.json
+依赖与镜像文件（pyproject.toml、uv.lock、requirements*.txt、Dockerfile、environment.yml）改动数：0
+flash_chord/src 下、评测目录（evaluation/、configs/evaluation/）以外改动的文件：
+  robotic_grounding/flash_chord/src/flash_chord/scene/support.py
+  robotic_grounding/flash_chord/src/flash_chord/training/flash_sac/evaluation.py
+其中 training/flash_sac/evaluation.py 的全部改动（原文）：
+  | @@ -5,9 +5,9 @@
+  |  
+  |  from __future__ import annotations
+  |  
+  | +from collections.abc import Callable
+  |  from contextlib import nullcontext
+  |  from dataclasses import dataclass
+  | -from typing import Callable
+  |  
+  |  import jax
+  |  import jax.numpy as jnp
+  | @@ -36,6 +36,7 @@ class EvaluationConfig:
+  |      motion_start_frame: int | None = None
+  |      motion_end_frame: int | None = None
+  |      metrics_output: str | None = None
+  | +    object_trajectories_output: str | None = None
+  |      source_root: str | None = None
+  |  
+  |      def __post_init__(self) -> None:
+== 2. 新 kit（zip sha256 0f2f9f4bb01082a4…）自带的评测入口与配置，对比 8c778f9 的同名文件
+  相同 scripts/evaluate_policy.py（sha256 160d24f5fbeb70cc…）
+  相同 src/flash_chord/configs/evaluate_policy.yaml（sha256 472bec8f091593ff…）
+  相同 src/flash_chord/configs/evaluation/flash_sac.yaml（sha256 aaec3f1fb90e4988…）
+  相同 src/flash_chord/configs/logging/wandb.yaml（sha256 eb063c9b57fcd997…）
+kit 里 flash_chord 目录的全部文件：
+  flash_chord/scripts/evaluate_policy.py
+  flash_chord/src/flash_chord/configs/evaluate_policy.yaml
+  flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml
+  flash_chord/src/flash_chord/configs/logging/wandb.yaml
+8c778f9 评测代码的摘要（tools/make_fc_patch.sh 按 harness.evaluation_code_sha256 的算法算，存 third_party/patches/flash_chord-8c778f9.eval.json）：
+  {
+   "upstream": "8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef",
+   "eval_code_sha256": "b1b3ebe3ae4629d1687a83f420149e3f6fdfc154d70acad55c12fc8fa69811a1",
+   "eval_script_sha256": "160d24f5fbeb70ccd569ca4192056f1892b2a9f2999066db9d8279461648fdf1"
+  }
+== 3. 评测器从 checkpoint 重建实验（harness.py @ 8c778f9）
+  harness.py:43:from flash_chord.training.checkpoint import load_checkpoint_for_inference, read_checkpoint_metadata
+  harness.py:44:from flash_chord.training.checkpoint_metadata import checkpoint_config
+  harness.py:312:    learner, _ = load_checkpoint_for_inference(checkpoint, create_ppo_learner(jax_env, training))
+  harness.py:360:def evaluate_checkpoint(
+  harness.py:377:    metadata = read_checkpoint_metadata(checkpoint_path)
+  harness.py:378:    saved = checkpoint_config(metadata)
+  kit configs/evaluation/flash_sac.yaml:4:use_checkpoint_config: true
+  kit configs/evaluation/flash_sac.yaml:6:world_count: 4096
+  kit configs/evaluation/flash_sac.yaml:8:reset_mode: explicit
+== 4. kit 的导出与打包规矩
+  examples/run_policy_evaluation.py:42:    parser.add_argument("--world-count", type=int, default=1)
+  examples/run_policy_evaluation.py:75:            "evaluation.reset_mode=explicit",
+  examples/run_policy_evaluation.py:77:            f"evaluation.object_trajectories_output={results / (stem + '.parquet')}",
+  examples/run_policy_evaluation.py:79:            "logging.mode=disabled",
+  examples/run_policy_evaluation.py:84:        subprocess.run(command, cwd=workdir, check=True)
+  tools/pack_submission.py:78:_TRACK2_POSITION_TOLERANCE_M = 1e-3
+  tools/pack_submission.py:79:_TRACK2_ANGLE_TOLERANCE_RAD = 1e-3
+  tools/pack_submission.py:99:    first_evaluator = evaluator_reference[0]
+  tools/pack_submission.py:118:            "the evaluator and released references do not differ by one rigid transform "
+  tools/pack_submission.py:202:    parser.add_argument("--frame-references", type=Path,
+  tools/pack_submission.py:233:        parser.error("--frame-references applies to Track 2")
+  tools/pack_submission.py:262:                                 "Download the selected tier's input or pass --frame-references.")
+  tools/pack_submission.py:274:            f"error: {len(missing)} of {len(required)} scored episodes have no trajectory: {missing}"
+  tools/pack_submission.py:314:                f"{name}: world(s) {bad[:5]} are flagged environment_valid=false, meaning the "
+  tools/pack_submission.py:399:        raise SystemExit("error: the trajectories do not line up with the reference:\n  - "
+  tools/pack_submission.py:422:                f"error: the trajectories disagree on '{key}' ({sorted(values)}). One submission "
+  tools/pack_submission.py:506:        print(f"locally computed: {summary}")
+  tools/pack_submission.py:511:def crosscheck(args, spec, config, submission, reference, required, reports, track_number) -> dict:
+  tools/pack_submission.py:567:        print("note: evaluator metrics use the policy input; local leaderboard scores use "
+  config/tracks.json track_2_tier1: tier tier1，data_root track_2/baseline，scored_episodes all，worlds_per_episode 1，private_fraction 0
+  config/tracks.json track_2_tier2: tier tier2，data_root track_2/baseline，scored_episodes all，worlds_per_episode 1，private_fraction 0
+  config/tracks.json track_2_tier3: tier tier3，data_root track_2/baseline，scored_episodes all，worlds_per_episode 1，private_fraction 0
+  data/track_2_sample_submission.csv：22989 行，episode 30 条，世界编号 [0]
+  tracks/track_2/README.md:22:   reference. It converts evaluator poses using one rigid transform between the evaluator's
+  tracks/track_2/README.md:24:   Local scores use the clean reference. For these single-object episodes, the evaluator may
+  tracks/track_2/README.md:55:For a custom reconstructed input, add `--frame-references /path/to/input_reference` to the
+  tracks/track_2/README.md:59:`released_track2_world`, `frame_index [T]`, and `pose_xyzw [T,1,7]`. Poses contain position
+  requirements.txt:1:# The submission kit. Python 3.11+.
+  requirements.txt:2:numpy>=1.24
+  requirements.txt:3:pandas>=2.0
+  requirements.txt:4:pyarrow>=14.0      # reading the evaluator's trajectory parquet
+  requirements.txt:7:trimesh>=4.0       # pack_reconstruction.py reads meshes; the local AUC cross-check uses it too
