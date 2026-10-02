@@ -1,0 +1,17 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/ml40_t2c.expect.tsv results/ml40/day2 --steps 349999104 
+# md5      : 4fed3d6466ee0885a4d964699eff3e23  stages/evaluate/batch_verdict.py
+# md5      : b0e082d4c7d83e5f44c85e2ef34feb05  stages/policy/queues/ml40_t2c.expect.tsv
+# source   : f04520a78ca3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T13:00:45-0600
+# ---------------------------------------------------------------
+
+== t2-ep10-w2048-cap10m-ml40（2026-05-01_11-36-40_white_desk_lower_to_ground_10，frame，794 帧）：不动基线 0.3406；gap 走势 -0.008
+  chord_sr       0.8684 > 0（3557 / 4096 个世界）：过
+  maniptrans_sr  0.2705 > 0（1108 / 4096 个世界）：过
+  add_auc        0.3327 > 0.3406：不过
+  另报：SP-SR 0.9324（3819 / 4096），MPPE 5.01 cm
+  判定：不通过（边缘：ADD-AUC 与基线差 -0.0079）
+  summary_json {"run": "t2-ep10-w2048-cap10m-ml40", "sequence_id": "2026-05-01_11-36-40_white_desk_lower_to_ground_10", "playback": "frame", "frames": 794, "bar": 0.3406013853904282, "add_auc": 0.3326672570831529, "gap": -0.007934128307275301, "chord_sr": 0.868408203125, "maniptrans_sr": 0.2705078125, "spider_sr_uncentered": 0.932373046875, "mppe_cm": 5.010860735754951, "verdict": "FAIL", "marginal": ["ADD-AUC 与基线差 -0.0079"]}
+
+合计：通过 0、不通过 1、无效 0

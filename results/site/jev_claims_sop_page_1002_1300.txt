@@ -1,0 +1,35 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-sop-page-1300.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : ec07cb53b2520d9f69143bef85e993a2  agent-doc/experiments/2026-10-02-sop-page-1300.claims.json
+# source   : f04520a78ca3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T13:23:44-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2b_ml40_eval        P(supported)=0.86  verified               [status_ml40]  ml40 上 Tier 2 第 1 批 B 段的评测链以 DAY2_EVAL_DONE（成功 9、失败 0）结束。
+t2c_chain            P(supported)=0.98  verified               [status_ml40]  ml40 上 C 段的 t2-ep10 冒烟通过，正式训练完成；C 段训练链以 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）结束，评测链以 DAY2_EVAL_DONE（成功 1、失败 0）结束。
+t2c_pace             P(supported)=0.97  verified               [pace_c]  t2-ep10 的正式训练 10-02 07:50:11 MDT 开始，10:04:06 MDT 完成，用时 133:55。
+verdict_b_pass       P(supported)=0.98  verified               [verdict_b_ml40]  ml40 的 B 段 9 条按批量判据通过 5 条、不通过 4 条；通过的是 ep12、ep18、ep22、ep26、ep29，其中 ep12 是边缘通过，maniptrans_sr 只靠 3 个世界。
+verdict_b_fail       P(supported)=0.98  verified               [verdict_b_ml40]  ml40 的 B 段不通过的 ep14、ep16、ep20、ep24 四条，maniptrans_sr 都是 0；ep14 的 chord_sr 也是 0；ep20 的 add_auc 0.4155 低于不动基线 0.4257。
+verdict_c            P(supported)=0.95  verified               [verdict_c_ml40]  C 段的 t2-ep10 按批量判据不通过，属边缘：add_auc 0.3327 低于不动基线 0.3406，maniptrans_sr 0.2705、chord_sr 0.8684 都大于 0。
+compat_ml40_p4       P(supported)=0.98  verified               [compare_t1ep12]  ml40 的兼容性验证里，t1-ep12 同一 checkpoint 在两个评测器下 4096 世界的 ADD-AUC 为 0.697202 与 0.696804，差 +0.000398，chord_sr 的 |z| 为 0.47，结论 CONSISTENT。
+compat_ml40_exports  P(supported)=0.98  verified               [check_t1ep12, check_t2ep0]  ml40 上用 8c778f9 导出的 t1-ep12 与 t2-ep0 两份 1 世界导出都 EXPORT_OK，eval_code_sha256 与 eval_script_sha256 都等于 8c778f9 的值。
+compat_both          P(supported)=0.86  verified               [box6_record]  ml40 的兼容性验证以 COMPAT_PASS（3 行全部符合）结束；两台的结论是 v0.4.0 训出的 checkpoint 能在 8c778f9 里加载、导出，已有的 v0.4.0 下 4096 世界评测与判定可以沿用。
+t1ep7_div            P(supported)=0.97  verified               [t1ep7]  t1-ep7 方盒正式训练在 130,004,992 步时非有限参数为 0，140,005,376 步与 150,005,760 步各有 5892 个 NaN，看守在 09:52:37 因连续 2 份非有限调用 fc_stop。
+t1ep7_smoke          P(supported)=0.98  verified               [t1ep7]  t1-ep7 方盒的冒烟通过：896 帧，256 世界 rollout 里非有限世界 0 个。
+box_mf4090           P(supported)=0.94  verified               [status_mf4090]  mf4090 上 t1-ep1 与 t1-ep28 两条方盒正式训练完成，最新 policy 349,999,104 步非有限 0；t2-ep28 正式训练还没有 DONE，最新完整 policy 是 200007680 步。
+box_ml40             P(supported)=0.93  verified               [status_ml40]  ml40 上 t2-ep1 方盒正式训练完成，最新 policy 349,999,104 步非有限 0；t2-ep7 正式训练还没有 DONE，最新完整 policy 是 110004224 步，它的看守日志里含非有限的扫描行是 0。
+disk_mf4090          P(supported)=0.84  verified               [status_mf4090]  13:00 的快照里 mf4090 可用磁盘 5755 MB。
+watch_ml40           P(supported)=0.93  verified               [status_ml40]  ml40 的快照里，看守日志列出的 t2-ep0、t2-ep10、t2-ep12、t2-ep14、t2-ep16 等每条 run 含非有限的扫描行都是 0，已完成 run 的 W&B 摘要每条都是 nan 0 项。
+watch_mf4090         P(supported)=0.92  verified               [status_mf4090]  mf4090 的快照里，看守日志列出的 t2-ep2、t2-ep4、t2-ep6、t2-ep9、t2-ep11 到 t2-ep27 以及 t2-ep28-…-p185 每条 run 含非有限的扫描行都是 0，W&B 摘要每条都是 nan 0 项。
+pack_residuals       P(supported)=0.96  verified               [pack_t1, pack_t2]  rehearsal2 的 Tier 1 打包换算残差最大 1.02e-07 m、1.71e-07 rad，换算了 3 条；Tier 2 最大 8.78e-08 m、1.40e-07 rad，换算了 2 条。
+pack_negctl          P(supported)=0.95  verified               [pack_neg]  rehearsal2 的 Tier 2 反向对照里，episode 0 与 episode 2 都被报为评测器参考与发布参考之间不是一个刚体变换（最大残差 0.03407 m 与 0.02475 m）。
+pack_r1_auc          P(supported)=0.94  verified               [sub_record]  提交流程的执行记录写明判据 R1 两台都通过；交叉核对里 ep6 的 ADD-AUC 评测器 0.632669、打包器 0.629922，ep12 评测器 0.649375、打包器 0.671161。
+kaggle_1300          P(supported)=0.99  verified               [kaggle]  13:00 的 Kaggle 状态里，tier1 的 auc、mp-sr、mppe、sp-sr 四个比赛 userHasEntered 都是 True，tier2-auc 是 False，tier2 其余三个是 True，tier3 四个都是 False。
+diag_armed           P(supported)=0.97  verified               [diag_record]  诊断的执行记录写明 09:05 两台诊断链都 ARMED，在等各自导出链日志的结束行；11:47 才覆盖 ml40 上的 diag_rollout.py。
+ctl_true             P(supported)=0.99  control(true) ok       [kaggle]  这份 Kaggle 状态列出了 12 个 v2d-challenge-track2 比赛。
+ctl_false_c          P(supported)=0.02  control(false) ok      [verdict_c_ml40]  t2-ep10 按批量判据通过。
+ctl_false_p4         P(supported)=0.01  control(false) ok      [compare_t1ep12]  t1-ep12 两个评测器的 ADD-AUC 差超过 0.005，结论 INCONSISTENT。
+ctl_false_b          P(supported)=0.02  control(false) ok      [verdict_b_ml40]  ml40 的 B 段 9 条里只有 1 条按批量判据通过。
+ctl_false_t1ep7      P(supported)=0.01  control(false) ok      [t1ep7]  t1-ep7 方盒正式训练跑满 349,999,104 步，每份 checkpoint 非有限参数都是 0。
+controls behaved as expected
