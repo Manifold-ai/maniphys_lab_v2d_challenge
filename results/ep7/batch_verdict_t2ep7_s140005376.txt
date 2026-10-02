@@ -1,0 +1,17 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/ml40_ep7ckpt.expect.tsv results/ml40/ep7 --steps 140005376 --bar-root results/ml40/day2 
+# md5      : 5bb792dd3c8193d6410dc8a3b09a689b  stages/evaluate/batch_verdict.py
+# md5      : bb5ee31c44947180c045a48ff879be62  stages/policy/queues/ml40_ep7ckpt.expect.tsv
+# source   : bc0d5f7e3e23
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:22:56-0600
+# ---------------------------------------------------------------
+
+== t2-ep7-w2048-cap10m-p185-ml40（2026-05-29_15-20-43_iron_round_table_02，frame，896 帧）：不动基线 0.2256；gap 走势 -0.014
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.2112 > 0.2256：不过
+  另报：SP-SR 0（0 / 4096），MPPE 34.04 cm
+  判定：不通过
+  summary_json {"run": "t2-ep7-w2048-cap10m-p185-ml40", "sequence_id": "2026-05-29_15-20-43_iron_round_table_02", "playback": "frame", "frames": 896, "bar": 0.2255859375, "add_auc": 0.21121210711342947, "gap": -0.01437383038657053, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 34.03747698977303, "verdict": "FAIL", "marginal": []}
+
+合计：通过 0、不通过 1、无效 0

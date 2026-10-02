@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ /repo/stages/evaluate/blowup_rollout.py\ /repo/runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors\ /repo/runs/ep7/t2-ep7-w2048-cap10m-p185-ml40/blowup_s140005376_w4096\ --worlds\ 4096 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 04e89f0faeb9e0834520c902badf2138  stages/evaluate/blowup_rollout.py
+# md5      : 2cc952377e9de975efb98bb0071ccdef  runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors
+# source   : 90a73fa8e852
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T05:22:40+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch）
+[2026-10-02 21:22:48,043][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)

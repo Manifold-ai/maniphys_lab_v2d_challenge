@@ -1,0 +1,12 @@
+# command  : python3 - runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/eval_140005376_w4096.json runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors 896 
+# md5      : 244d721fd66bcc4b4c32808d87bde790  runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/eval_140005376_w4096.json
+# md5      : 2cc952377e9de975efb98bb0071ccdef  runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors
+# source   : 90a73fa8e852
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T05:22:40+0800
+# ---------------------------------------------------------------
+  满足  world_count 为 4096：4096
+  满足  non_finite_worlds 是空列表：0 个
+  满足  step_count 等于期望帧数 896：896
+  满足  checkpoint_sha256 等于 policy 文件：3e29421d9253274f… 对 3e29421d9253274f…
+A2_OK

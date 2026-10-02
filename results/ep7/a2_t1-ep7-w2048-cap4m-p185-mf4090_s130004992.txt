@@ -1,0 +1,12 @@
+# command  : python3 - runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/eval_130004992_w4096.json runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/policy_130004992.safetensors 896 
+# md5      : da23b1eb7865be19911f459b6989ec4e  runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/eval_130004992_w4096.json
+# md5      : 8fa2449b3db64aa8c24af95cc4567958  runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/policy_130004992.safetensors
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-03T05:20:11+0800
+# ---------------------------------------------------------------
+  满足  world_count 为 4096：4096
+  满足  non_finite_worlds 是空列表：0 个
+  满足  step_count 等于期望帧数 896：896
+  满足  checkpoint_sha256 等于 policy 文件：64c0f1277d695e61… 对 64c0f1277d695e61…
+A2_OK

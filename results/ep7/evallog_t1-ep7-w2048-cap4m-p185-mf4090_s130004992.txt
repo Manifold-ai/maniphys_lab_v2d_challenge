@@ -1,0 +1,9 @@
+# command  : grep -a -n -E in-flash-chord:\ /workspace\|===\ .\*\ fc_eval\ \|evaluation\ step\ 896/896\$\|worlds\ recorded\ non-finite\|Error\ executing\ job\|\^\[A-Za-z\]+Error:\  runs/logs/t1-ep7-w2048-cap4m-p185-mf4090.eval_130004992_w4096.log 
+# md5      : 46b2e6521f43b40bd3ea58cb254a7b70  runs/logs/t1-ep7-w2048-cap4m-p185-mf4090.eval_130004992_w4096.log
+# source   : 90a73fa8e852
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-03T05:20:11+0800
+# ---------------------------------------------------------------
+1:=== 2026-10-03 05:15:13 CST fc_eval t1-ep7-w2048-cap4m-p185-mf4090 policy_130004992 world_count=4096 ===
+2:in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+94:evaluation step 896/896
