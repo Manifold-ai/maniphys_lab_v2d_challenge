@@ -6,8 +6,11 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 两个函数必须各恰好被调用 1 次，物体刚体必须只有 1 个，数值必须全部有限，否则报错退出。
 另存（都用评测器自己的函数与顶点）：逐帧逐世界 ADD、“物体保持第 0 帧参考位姿”的逐帧 ADD、参考手（palm 坐标帧）位置与它到
 参考物体网格顶点的最近距离、参考里各手的接触标记、上游四个文件的 md5。ADD 存 float64，其余浮点数组存 float32。
+--palms（计划 agent-doc/plan-diag-mpsr0-2026-10-02.md 第 3.1 节）：另经 stages/evaluate/diag_palms.py 在每一步之后抄下机器人两只手掌的世界坐标
+（robot_palm_pos，(T,W,H,3)，H 按 robot_palm_sides），同时抄下物体位置与评测器记的 achieved_pose_w 逐位比（palm_object_sync_max_abs_m，
+不含非有限的世界）；参考位姿改存 float64，供 diag_phase.py 逐位重算评测器的成功判据。不加 --palms 时与原来完全相同。
 
-用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096   （容器内路径）
+用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms]   （容器内路径）
 输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
 import argparse
@@ -38,6 +41,7 @@ def main() -> int:
     ap.add_argument("policy")
     ap.add_argument("out_prefix")
     ap.add_argument("--worlds", type=int, default=4096)
+    ap.add_argument("--palms", action="store_true", help="另抄机器人两只手掌的逐帧位置，见文件头")
     a = ap.parse_args()
     out = a.out_prefix
     for suffix in (".npz", ".json"):
@@ -53,6 +57,15 @@ def main() -> int:
 
     def record_wrapper(*args, **kwargs):
         calls["record"] += 1
+        if a.palms:   # 换掉传进来的 jax_env：它的 step 返回前抄一次手掌与物体位置
+            import diag_palms
+            args = list(args)
+            env = args[0] if args else kwargs["env"]
+            cap["palms"] = diag_palms.PalmRecorder(env, kwargs["step_count"])
+            if len(args) > 1:
+                args[1] = cap["palms"].wrap(args[1])
+            else:
+                kwargs["jax_env"] = cap["palms"].wrap(kwargs["jax_env"])
         cap["rollout"] = record(*args, **kwargs)
         cap["reference"] = kwargs.get("reference")
         return cap["rollout"]
@@ -119,6 +132,14 @@ def main() -> int:
 
     arrays = {"achieved_pose_w": ach, "reference_pose_w": refp, "tracking_error": np.asarray(r.tracking_error, np.float64),
               "add": add, "add_static": add_static, "ref_palm_pos": fpos[:, palm_idx], "ref_palm_mesh_dist": palm_dist}
+    extra, keep64 = {}, {"add", "add_static"}
+    if a.palms:
+        palms, objects = cap["palms"].arrays()
+        ok = np.ones(W, bool); ok[list(r.non_finite_worlds)] = False
+        sync = float(np.abs(objects[:, ok].astype(np.float64) - ach[:, ok, :, :3]).max()) if ok.any() else float("nan")
+        arrays["robot_palm_pos"] = palms.astype(np.float64)
+        extra = {"robot_palm_sides": np.array(cap["palms"].sides), "palm_object_sync_max_abs_m": np.float64(sync)}
+        keep64.add("reference_pose_w")   # 评测器用 float64 的参考位姿算成功判据；逐位重算要同一精度
     bad = [k for k, v in arrays.items() if not np.isfinite(v).all()]
     if bad:
         print(f"非有限值：{bad}", file=sys.stderr)
@@ -126,7 +147,8 @@ def main() -> int:
     criteria = dataclasses.asdict(c) if dataclasses.is_dataclass(c) else dict(vars(c))
     np.savez_compressed(
         out + ".npz",
-        **{k: (v if k in ("add", "add_static") else v.astype(np.float32)) for k, v in arrays.items()},  # ADD 留 float64：重算全程 ADD-AUC 要与评测 JSON 对到 1e-6
+        **{k: (v if k in keep64 else v.astype(np.float32)) for k, v in arrays.items()},  # ADD 留 float64：重算全程 ADD-AUC 要与评测 JSON 对到 1e-6
+        **extra,
         object_vertices_o=verts.astype(np.float32),
         tracking_error_names=np.array(r.tracking_error_names),
         ref_palm_names=np.array([names[i] for i in palm_idx]),
@@ -144,7 +166,8 @@ def main() -> int:
         trimesh_matches_evaluator=np.bool_(trimesh_matches),
         palm_dist_vertex_source=np.array("trimesh_all_vertices" if trimesh_matches else "evaluator_object_vertices_o"),
     )
-    print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}；trimesh 顶点与评测器一致 {trimesh_matches}）  report: {out}.json")
+    sync_note = f"；手掌 {extra['robot_palm_sides'].tolist()}，物体位置同步最大差 {float(extra['palm_object_sync_max_abs_m']):.3g} m" if a.palms else ""
+    print(f"rollout: {out}.npz（T={T} W={W}，包装调用 {calls}；trimesh 顶点与评测器一致 {trimesh_matches}{sync_note}）  report: {out}.json")
     return 0
 
 
