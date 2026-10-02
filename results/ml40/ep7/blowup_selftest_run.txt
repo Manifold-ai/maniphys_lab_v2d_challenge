@@ -1,0 +1,23 @@
+# command  : ssh -o ConnectTimeout=20 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && mkdir -p runs/ep7/selftest results/ep7 && V2D_GPU=1 V2D_RECORD_TRACEBACK_OK=1 V2D_CONTAINER_NAME=ep7-selftest scripts/dev/record ep7/blowup_selftest_ml40 scripts/dev/in-flash-chord "cd /workspace && python /repo/stages/evaluate/blowup_rollout.py /repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40/policy_4096000.safetensors /repo/runs/ep7/selftest/blowup_smoke_t1ep7_w256 --worlds 256"; echo "record rc=$?"; grep -a -E "rollout:|崩�\216\211�\232\204�\226�\225\214|第�\200次�\207��\227��\230|�\226�\225\214�\217�|BLOWUP_ROLLOUT|worlds recorded|Error executing|ValueError" results/ep7/blowup_selftest_ml40.txt* | cut -c1-260; ls -la runs/ep7/selftest/ | tail -4' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 04e89f0faeb9e0834520c902badf2138  stages/evaluate/blowup_rollout.py
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:15:30-0600
+# ---------------------------------------------------------------
+record: → results/ep7/blowup_selftest_ml40.txt（315 行）
+record rc=0
+warning: 161 worlds recorded non-finite poses and are excluded
+Error executing job with overrides: ['evaluation.checkpoint=/repo/runs/flash_chord/smoke-t1-ep7-w2048-cap10m-ml40/policy_4096000.safetensors', 'evaluation.world_count=256', 'evaluation.metrics_output=/repo/runs/ep7/selftest/blowup_smoke_t1ep7_w256.json']
+    raise ValueError("evaluation must disable task failure termination before scoring the full reference")
+ValueError: evaluation must disable task failure termination before scoring the full reference
+rollout: /repo/runs/ep7/selftest/blowup_smoke_t1ep7_w256.npz（T=896 W=256，包装调用 {'record': 1, 'score': 1}）
+  崩掉的世界（物体或手掌非有限、或超过 100 m）161 个；评测器记的非有限世界 161 个；被判终止的世界 31 个；评分报错：evaluation must disable task failure termination before scoring the full reference
+  第一次出问题的帧：最早 34，中位 60，最晚 276；最集中的：第 58 帧 7 个、第 70 帧 7 个、第 43 帧 6 个、第 50 帧 5 个、第 53 帧 5 个、第 56 帧 5 个、第 73 帧 5 个、第 42 帧 5 个
+  世界号（前 20 个）：[0, 3, 4, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28]
+BLOWUP_ROLLOUT_OK bad_worlds=161 evaluator_non_finite=161 terminated=31
+drwxrwxr-x 3 rxzhou rxzhou    4096 Oct  3 05:17 .
+drwxrwxr-x 3 rxzhou rxzhou    4096 Oct  3 05:15 ..
+drwxr-xr-x 3 rxzhou rxzhou    4096 Oct  3 05:15 blowup_smoke_t1ep7_w256_hydra
+-rw-r--r-- 1 rxzhou rxzhou 4657130 Oct  3 05:17 blowup_smoke_t1ep7_w256.npz

@@ -1,0 +1,10 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/policy/mount_check.py\ --train\ /lab_data/rxzhou/v2d/fc_src/v040_p185\ --eval\ /lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ --steps\ 349999104\ t2-ep1-w2048-cap10m-p185-ml40 
+# md5      : 1b86de252a7338f9ec2d19e81fcb0ad0  stages/policy/mount_check.py
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:17:52-0600
+# ---------------------------------------------------------------
+  ok   t2-ep1-w2048-cap10m-p185-ml40 冒烟训练：runs/logs/smoke-t2-ep1-w2048-cap10m-p185-ml40.log 里挂载 1 次，全部指向 /lab_data/rxzhou/v2d/fc_src/v040_p185
+  ok   t2-ep1-w2048-cap10m-p185-ml40 正式训练：runs/logs/t2-ep1-w2048-cap10m-p185-ml40.log 里挂载 1 次，全部指向 /lab_data/rxzhou/v2d/fc_src/v040_p185
+  ok   t2-ep1-w2048-cap10m-p185-ml40 评测：runs/logs/t2-ep1-w2048-cap10m-p185-ml40.eval_349999104_w4096.log 里挂载 1 次，全部指向 /lab_data/rxzhou/v2d/fc_src/fc_8c778f9
+MOUNT_OK

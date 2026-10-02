@@ -114,3 +114,11 @@ P4 两台都过（t1-ep6 差 0.0014、t1-ep12 差 0.0004），已有的 v0.4.0 �
   （`results/box/export_end_mf4090.txt`）。两档都只缺 ep7，都打不出 CSV。
 - 两条 ep7 都坏在 1.33–1.43 亿步，不是偶然。事实分析（先坏的是环境侧的量、奖励归一化器与 BatchNorm 统计量不设防、只有 ep7 的桌面是 1 cm 薄板）与选项见
   `agent-doc/experiments/2026-10-02-ep7-divergence-analysis.md`，jev 19 条全部核实。怎么补等用户定。
+
+## 方盒 4 条跑完的 run 的判定与挂载核对（10/2 15:17）
+
+- 按批量判据（最终 checkpoint、8c778f9 副本、4096 世界）4 条都不通过：t1-ep1、t1-ep28、t2-ep28（mf4090）与 t2-ep1（ml40）的 chord_sr、MP-SR、SP-SR 都是 0，
+  MPPE 45.6–60.4 cm；t1-ep28、t2-ep1 的 ADD-AUC 高于不动基线（0.1311 对 0.1163、0.204 对 0.170），t1-ep1、t2-ep28 低于基线。两条 ep7 没有最终 checkpoint，记无效
+  （`results/box/batch_verdict_{mf4090,ml40}_box.txt`）。Tier 2 的分数对照 Tier 2 v5.4 参考，不和 Tier 1 比。
+- 挂载核对两台都是 `MOUNT_OK`：4 条 run 的训练日志指向 #185 补丁副本，评测日志指向 8c778f9 副本（`results/box/mount_check_mf4090.txt`、`results/ml40/box/mount_check_ml40.txt`）。
+- 两条 ep7 发散前最后一份有限 checkpoint 的评测 15:15、15:17 在两台起链，见 `agent-doc/plan-ep7-eval-and-guards-2026-10-02.md` 的 A 部分与 `agent-doc/handoff-ep7-2026-10-02.md`。

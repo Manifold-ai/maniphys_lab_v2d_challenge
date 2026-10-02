@@ -1,0 +1,20 @@
+# command  : scripts/dev/push-new-files stages/evaluate/ep7_ckpt_eval.sh stages/evaluate/arm_ep7_eval.sh stages/evaluate/blowup_rollout.py stages/evaluate/test_ep7_ckpt_eval.py stages/evaluate/test_blowup_rollout.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 4e19b58e169bc580aab93926fa1b8701  stages/evaluate/ep7_ckpt_eval.sh
+# md5      : d2cc9b263e2896256637870b147af3cd  stages/evaluate/arm_ep7_eval.sh
+# md5      : 04e89f0faeb9e0834520c902badf2138  stages/evaluate/blowup_rollout.py
+# md5      : d164c205110a86f9dfe4d435c1eb191f  stages/evaluate/test_ep7_ckpt_eval.py
+# md5      : 5f685f88941cfaec25e503c76a2cc9b1  stages/evaluate/test_blowup_rollout.py
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:14:43-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 54923545e54c；远端来历 90a73fa8e852
+  ok   4e19b58e169bc580aab93926fa1b8701  stages/evaluate/ep7_ckpt_eval.sh
+  ok   d2cc9b263e2896256637870b147af3cd  stages/evaluate/arm_ep7_eval.sh
+  ok   04e89f0faeb9e0834520c902badf2138  stages/evaluate/blowup_rollout.py
+  ok   d164c205110a86f9dfe4d435c1eb191f  stages/evaluate/test_ep7_ckpt_eval.py
+  ok   5f685f88941cfaec25e503c76a2cc9b1  stages/evaluate/test_blowup_rollout.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（5 个文件）

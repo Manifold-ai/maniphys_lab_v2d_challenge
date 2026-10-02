@@ -1,0 +1,16 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/policy/mount_check.py\ --train\ \$HOME/v2d/fc_src/v040_p185\ --eval\ \$HOME/v2d/fc_src/fc_8c778f9\ --steps\ 349999104\ t1-ep1-w2048-cap4m-p185-mf4090\ t1-ep28-w2048-cap4m-p185-mf4090\ t2-ep28-w2048-cap4m-p185-mf4090 
+# md5      : 1b86de252a7338f9ec2d19e81fcb0ad0  stages/policy/mount_check.py
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:17:52-0600
+# ---------------------------------------------------------------
+  ok   t1-ep1-w2048-cap4m-p185-mf4090 冒烟训练：runs/logs/smoke-t1-ep1-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t1-ep1-w2048-cap4m-p185-mf4090 正式训练：runs/logs/t1-ep1-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t1-ep1-w2048-cap4m-p185-mf4090 评测：runs/logs/t1-ep1-w2048-cap4m-p185-mf4090.eval_349999104_w4096.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/fc_8c778f9
+  ok   t1-ep28-w2048-cap4m-p185-mf4090 冒烟训练：runs/logs/smoke-t1-ep28-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t1-ep28-w2048-cap4m-p185-mf4090 正式训练：runs/logs/t1-ep28-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t1-ep28-w2048-cap4m-p185-mf4090 评测：runs/logs/t1-ep28-w2048-cap4m-p185-mf4090.eval_349999104_w4096.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/fc_8c778f9
+  ok   t2-ep28-w2048-cap4m-p185-mf4090 冒烟训练：runs/logs/smoke-t2-ep28-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t2-ep28-w2048-cap4m-p185-mf4090 正式训练：runs/logs/t2-ep28-w2048-cap4m-p185-mf4090.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/v040_p185
+  ok   t2-ep28-w2048-cap4m-p185-mf4090 评测：runs/logs/t2-ep28-w2048-cap4m-p185-mf4090.eval_349999104_w4096.log 里挂载 1 次，全部指向 /home/rxzhou/v2d/fc_src/fc_8c778f9
+MOUNT_OK

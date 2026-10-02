@@ -1,0 +1,19 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/ml40_box.expect.tsv results/ml40/day2 --steps 349999104 
+# md5      : 5bb792dd3c8193d6410dc8a3b09a689b  stages/evaluate/batch_verdict.py
+# md5      : 808558d509972cefd5adba1aac9bf3f4  stages/policy/queues/ml40_box.expect.tsv
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:17:41-0600
+# ---------------------------------------------------------------
+
+== t2-ep1-w2048-cap10m-p185-ml40（2026-05-18_17-06-21_vacuum_left_lean_02，frame，747 帧）：不动基线 0.1700；gap 走势 +0.034
+  chord_sr       0 > 0（0 / 4096 个世界）：不过
+  maniptrans_sr  0 > 0（0 / 4096 个世界）：不过
+  add_auc        0.204 > 0.17：过
+  另报：SP-SR 0（0 / 4096），MPPE 46.70 cm
+  判定：不通过
+  summary_json {"run": "t2-ep1-w2048-cap10m-p185-ml40", "sequence_id": "2026-05-18_17-06-21_vacuum_left_lean_02", "playback": "frame", "frames": 747, "bar": 0.17001338688085676, "add_auc": 0.20402882281077434, "gap": 0.03401543592991757, "chord_sr": 0.0, "maniptrans_sr": 0.0, "spider_sr_uncentered": 0.0, "mppe_cm": 46.6952226619541, "verdict": "FAIL", "marginal": []}
+
+== t2-ep7-w2048-cap10m-p185-ml40（2026-05-29_15-20-43_iron_round_table_02，frame）：无效，缺 results/ml40/day2/eval_t2-ep7-w2048-cap10m-p185-ml40_s349999104.txt
+
+合计：通过 0、不通过 1、无效 1

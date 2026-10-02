@@ -1,0 +1,14 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ rm\ -rf\ runs/ep7/selftest/blowup_smoke_t1ep7_w256_hydra\ \&\&\ stages/evaluate/arm_ep7_eval.sh\ ml40 
+# md5      : d2cc9b263e2896256637870b147af3cd  stages/evaluate/arm_ep7_eval.sh
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:17:10-0600
+# ---------------------------------------------------------------
+DRYRUN ep7_eval_ml40：policy runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors 有限；期望帧数 896；评测运行时 flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch）；取证运行时 flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch
+DRYRUN GPU 最多等 7200 秒
+DRYRUN 评测：V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 scripts/dev/record ep7/eval_t2-ep7-w2048-cap10m-p185-ml40_s140005376 stages/policy/fc_eval.sh t2-ep7-w2048-cap10m-p185-ml40 140005376  → runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/eval_140005376_w4096.json
+DRYRUN 取证（评测之后总是跑）：V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185 in-flash-chord "cd /workspace && python /repo/stages/evaluate/blowup_rollout.py /repo/runs/flash_chord/t2-ep7-w2048-cap10m-p185-ml40/policy_140005376.safetensors /repo/runs/ep7/t2-ep7-w2048-cap10m-p185-ml40/blowup_s140005376_w4096 --worlds 4096"
+EP7_EVAL_DRYRUN_OK
+v2d-ep7eval: 1 windows (created Sat Oct  3 05:17:12 2026)
+ep7eval：=== 2026-10-03 05:17:12 CST 评测 t2-ep7-w2048-cap10m-p185-ml40 policy_140005376（4096 世界）
+ARMED

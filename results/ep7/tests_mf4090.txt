@@ -1,0 +1,22 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/test_ep7_ckpt_eval.py\ \&\&\ python3\ stages/evaluate/test_blowup_rollout.py 
+# md5      : d164c205110a86f9dfe4d435c1eb191f  stages/evaluate/test_ep7_ckpt_eval.py
+# md5      : 5f685f88941cfaec25e503c76a2cc9b1  stages/evaluate/test_blowup_rollout.py
+# source   : 54923545e54c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T15:14:57-0600
+# ---------------------------------------------------------------
+ok test_clean
+ok test_a2_fail
+ok test_termination_error
+ok test_other_failures
+ok test_busy_then_retry
+ok test_refuse
+ok test_gpu_busy
+ok test_dryrun
+ALL_OK
+ok test_clean
+ok test_termination_error_still_saves
+ok test_other_errors_do_not_save
+ok test_refuse_existing
+ok test_first_bad_frame
+ALL_OK
