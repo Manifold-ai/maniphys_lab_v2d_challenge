@@ -42,10 +42,12 @@ def one(ep: int, meta: dict, out: Path) -> tuple:
     src = ROOT / meta["object_pose_source"]["path"]
     with np.load(src, allow_pickle=False) as z:
         pose = np.asarray(z["object_pose"], dtype=np.float64)
-    t = pq.read_table(RELEASED / f"episode_{ep:06d}.parquet", columns=["frame_index", "episode_index", "observation.object.pose"])
+    t = pq.read_table(RELEASED / f"episode_{ep:06d}.parquet",
+                      columns=["frame_index", "episode_index", "observation.object.pose", "observation.object.visible"])
     fi = np.asarray(t.column("frame_index").to_numpy(), dtype=np.int64)
     epi = np.asarray(t.column("episode_index").to_numpy(), dtype=np.int64)
     noisy = np.asarray(t.column("observation.object.pose").combine_chunks().flatten().to_numpy(), dtype=np.float64).reshape(-1, 7)
+    vis = np.asarray(t.column("observation.object.visible").to_numpy(zero_copy_only=False), dtype=bool).reshape(-1)
     if pose.ndim != 2 or pose.shape[1] != 7 or len(pose) != len(fi):
         raise ValueError(f"v5.4 形状 {pose.shape}，发布数据 {len(fi)} 帧")
     if not (np.all(epi == ep) and np.all(np.diff(fi) > 0)):
@@ -54,17 +56,22 @@ def one(ep: int, meta: dict, out: Path) -> tuple:
         raise ValueError("v5.4 有非有限值或零四元数")
     xyzw = np.concatenate([pose[:, :3], pose[:, 4:7], pose[:, 3:4]], axis=1)
     noisy_xyzw = np.concatenate([noisy[:, :3], noisy[:, 4:7], noisy[:, 3:4]], axis=1)
+    # 粗核只比发布输入可见、四元数非零的帧（ep11 有一帧不可见，发布输入那一帧的四元数是零）；v5.4 本身每帧都已核过有限、非零
+    use = vis & (np.linalg.norm(noisy[:, 3:], axis=1) > 1e-8)
+    if not use[0]:
+        raise ValueError("发布的 Tier 2 输入第 0 帧不可见或四元数为零，核不了第 0 帧")
     dpos = np.linalg.norm(xyzw[:, :3] - noisy_xyzw[:, :3], axis=1)
-    dang = angle_deg(xyzw[:, 3:], noisy_xyzw[:, 3:])
-    if not (dpos[0] <= F0_TOL and np.median(dang) < ANG_MED_TOL):
+    dang = np.full(len(fi), np.nan); dang[use] = angle_deg(xyzw[use, 3:], noisy_xyzw[use, 3:])
+    if not (dpos[0] <= F0_TOL and np.median(dang[use]) < ANG_MED_TOL):
         raise ValueError(f"v5.4 与发布的 Tier 2 输入第 0 帧位置差 {dpos[0] * 1000:.1f} mm（要 ≤ {F0_TOL * 1000:.0f} mm）、"
-                         f"角度差中位数 {np.median(dang):.1f}°（要 < {ANG_MED_TOL:.0f}°），像是世界系或四元数布局不对")
+                         f"角度差中位数 {np.median(dang[use]):.1f}°（要 < {ANG_MED_TOL:.0f}°），像是世界系或四元数布局不对")
     path = out / f"episode_{ep:06d}.npz"
     np.savez(path, episode_index=np.int64(ep), coordinate_frame=np.array(FRAME), frame_index=fi, pose_xyzw=xyzw[:, None, :])
     with np.load(path, allow_pickle=False) as z:   # 照 kit 的 input_frame_reference 读回来核一遍
         assert str(z["coordinate_frame"].item()) == FRAME and int(z["episode_index"].item()) == ep
         assert z["pose_xyzw"].shape == (len(fi), 1, 7) and np.array_equal(z["frame_index"], fi)
-    return len(fi), sha256(src), sha256(path), float(np.median(dpos) * 1000), float(np.median(dang)), float(dpos[0] * 1000), float(dang[0])
+    return (len(fi), sha256(src), sha256(path), float(np.median(dpos[use]) * 1000), float(np.median(dang[use])), float(dpos[0] * 1000), float(dang[0]),
+            int((~use).sum()))
 
 
 def main() -> int:
@@ -90,11 +97,12 @@ def main() -> int:
         if len(ms) != 1 or ms[0].get("object_pose_source", {}).get("meta", {}).get("denoiser") != "v5.4":
             print(f"  FAIL ep{ep}：v2d_meta 有 {len(ms)} 份，或来源不是 v5.4"); bad += 1; continue
         try:
-            n, src_sha, out_sha, mp, ma, p0, a0 = one(ep, ms[0], a.out)
+            n, src_sha, out_sha, mp, ma, p0, a0, skip = one(ep, ms[0], a.out)
         except Exception as e:   # noqa: BLE001  逐条报
             print(f"  FAIL ep{ep} {ms[0]['sequence_id']}：{type(e).__name__}: {e}"); bad += 1; continue
         rows.append(f"{ep}\t{ms[0]['sequence_id']}\t{n}\t{ms[0]['object_pose_source']['path']}\t{src_sha}\tepisode_{ep:06d}.npz\t{out_sha}\n")
-        print(f"  ok   ep{ep:<2} {ms[0]['sequence_id']}：{n} 帧；与发布的带噪输入相比位置差中位 {mp:.1f} mm、角度差中位 {ma:.1f}°，第 0 帧 {p0:.1f} mm、{a0:.1f}°")
+        print(f"  ok   ep{ep:<2} {ms[0]['sequence_id']}：{n} 帧；与发布的带噪输入相比位置差中位 {mp:.1f} mm、角度差中位 {ma:.1f}°，第 0 帧 {p0:.1f} mm、{a0:.1f}°"
+              + (f"（粗核排除 {skip} 帧：发布输入不可见或四元数为零）" if skip else ""))
     (a.out / "manifest.tsv").write_text("episode\tsequence\tframes\tsource\tsource_sha256\tfile\tsha256\n" + "".join(rows), encoding="utf-8")
     print(f"FRAME_REFS_OK {len(rows)}" if bad == 0 else f"FRAME_REFS_FAIL {bad}")
     return 0 if bad == 0 else 1

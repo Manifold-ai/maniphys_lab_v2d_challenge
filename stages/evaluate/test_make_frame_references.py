@@ -2,6 +2,7 @@
 
 临时目录里搭最小仓库：真的 make_frame_references.py 与 libs/v2d_infra/tier_guard.py，假的 v2d_meta.json、v5.4 npz、发布的 Tier 2 parquet。
   1. 正常：输出的 npz 键、类型、形状与 kit 的 tracks/track_2/README.md 一致，xyzw 换对，manifest 的 sha256 对；
+     发布输入有一帧不可见、四元数为零（同真实的 ep11）也照样通过，并打出排除的帧数；
      有 pandas 时：kit 的 input_frame_reference 读得进来，convert_track2_frame 拿“刚体变换后的 v5.4”当评测器参考能对上（残差 < 1e-9）；
   2. v5.4 与发布输入的世界系差一个 diag(1,-1,-1)：FAIL；v5.4 的四元数按 xyzw 存（布局错）：FAIL；帧数不一致：FAIL；来源不是 v5.4：FAIL；
   3. 输出目录已存在：拒绝；
@@ -38,6 +39,9 @@ def setup(root: Path, eps=(0, 1), src_dir="runs/recovery/tier2_v54", denoiser="v
         pos = rng.normal(scale=0.5, size=(T, 3)); wxyz = quat_wxyz(T, rng)
         v54 = np.concatenate([pos, wxyz], axis=1)
         noisy = v54.copy(); noisy[:, :3] += 0.01
+        vis = np.ones(T, bool)
+        if ep == 1:   # 同真实的 ep11：一帧不可见，发布输入那一帧全零
+            noisy[5] = 0.0; vis[5] = False
         if ep in flip:   # 世界系错了：位置 y、z 取反
             v54 = v54.copy(); v54[:, 1:3] *= -1; v54[:, 1:3] += 3.0
         if ep in swapq:   # 四元数布局错了：按 xyzw 存
@@ -50,7 +54,8 @@ def setup(root: Path, eps=(0, 1), src_dir="runs/recovery/tier2_v54", denoiser="v
                                  "object_pose_source": {"kind": "recovery", "path": f"{src_dir}/episode_{ep:06d}.npz", "meta": {"denoiser": denoiser}}}))
         d = root / "data/challenge/track_2/tier_2_synthetic_noise/data/chunk-000"; d.mkdir(parents=True, exist_ok=True)
         pq.write_table(pa.table({"frame_index": pa.array(np.arange(T), pa.int64()), "episode_index": pa.array(np.full(T, ep), pa.int64()),
-                                 "observation.object.pose": pa.array(list(noisy), pa.list_(pa.float64(), 7))}), d / f"episode_{ep:06d}.parquet")
+                                 "observation.object.pose": pa.array(list(noisy), pa.list_(pa.float64(), 7)),
+                                 "observation.object.visible": pa.array(vis)}), d / f"episode_{ep:06d}.parquet")
         truth[ep] = v54
     return truth
 
@@ -63,7 +68,8 @@ def test_normal() -> None:
     with tempfile.TemporaryDirectory() as t:
         root = Path(t); truth = setup(root)
         r = run(root, "--episodes", "0", "1")
-        assert r.returncode == 0 and r.stdout.rstrip().endswith("FRAME_REFS_OK 2"), r.stdout + r.stderr
+        assert r.returncode == 0 and r.stdout.rstrip().endswith("FRAME_REFS_OK 2") and "粗核排除 1 帧" in r.stdout, r.stdout + r.stderr
+        assert "RuntimeWarning" not in r.stderr, r.stderr
         out = root / "runs/submission/frame_refs_t2"
         man = (out / "manifest.tsv").read_text().splitlines()
         assert len(man) == 3 and man[0].startswith("episode\tsequence\tframes"), man

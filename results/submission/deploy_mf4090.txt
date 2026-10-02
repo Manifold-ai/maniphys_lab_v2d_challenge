@@ -1,0 +1,26 @@
+# command  : scripts/dev/push-new-files stages/evaluate/export_chain.sh stages/evaluate/arm_export_chain.sh stages/evaluate/exports/mf4090.tsv stages/evaluate/exports/ml40.tsv stages/evaluate/make_frame_references.py stages/evaluate/test_export_chain.py stages/evaluate/test_make_frame_references.py agent-doc/plan-submission-exports-2026-10-02.md 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 8ea50badb0b556d1503af4b795f8d4aa  stages/evaluate/export_chain.sh
+# md5      : e0d0c7b3e8ba0bd2a4d9bcdf39db3816  stages/evaluate/arm_export_chain.sh
+# md5      : 38de7a5b3680ecca3f2973e03e7956f4  stages/evaluate/exports/mf4090.tsv
+# md5      : 7f712cc5f2f1e6866e158976b210942d  stages/evaluate/exports/ml40.tsv
+# md5      : a16f77e4073702f1da688b226095126f  stages/evaluate/make_frame_references.py
+# md5      : df078a73ec0b50f04f87621887420b64  stages/evaluate/test_export_chain.py
+# md5      : 7e4e7ca81516852fadd23c73788e9d15  stages/evaluate/test_make_frame_references.py
+# md5      : 3c2f28c4a4d9f6c4613f0386ba0bb971  agent-doc/plan-submission-exports-2026-10-02.md
+# source   : 06f41c3bb683
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:46:58-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 06f41c3bb683；远端来历 90a73fa8e852
+  ok   8ea50badb0b556d1503af4b795f8d4aa  stages/evaluate/export_chain.sh
+  ok   e0d0c7b3e8ba0bd2a4d9bcdf39db3816  stages/evaluate/arm_export_chain.sh
+  ok   38de7a5b3680ecca3f2973e03e7956f4  stages/evaluate/exports/mf4090.tsv
+  ok   7f712cc5f2f1e6866e158976b210942d  stages/evaluate/exports/ml40.tsv
+  ok   a16f77e4073702f1da688b226095126f  stages/evaluate/make_frame_references.py
+  ok   df078a73ec0b50f04f87621887420b64  stages/evaluate/test_export_chain.py
+  ok   7e4e7ca81516852fadd23c73788e9d15  stages/evaluate/test_make_frame_references.py
+  ok   3c2f28c4a4d9f6c4613f0386ba0bb971  agent-doc/plan-submission-exports-2026-10-02.md
+远端来历（放完）90a73fa8e852
+PUSH_OK（8 个文件）

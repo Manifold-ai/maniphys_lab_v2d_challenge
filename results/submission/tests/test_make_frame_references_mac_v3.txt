@@ -1,0 +1,12 @@
+# command  : uv run --quiet --no-project --python 3.12 --with numpy --with pyarrow --with pandas python stages/evaluate/test_make_frame_references.py 
+# md5      : 51061983a68deb91596422461a26f79b  stages/evaluate/test_make_frame_references.py
+# source   : 06f41c3bb683-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T00:48:58-0600
+# ---------------------------------------------------------------
+  kit 的 input_frame_reference、convert_track2_frame 读回核对通过
+ok  test_normal
+ok  test_failures
+ok  test_refuse_existing
+ok  test_tier1_source_blocked
+ALL_OK
