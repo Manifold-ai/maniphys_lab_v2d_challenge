@@ -1,0 +1,8 @@
+# command  : stages/evaluate/pull_submission.sh compat mf4090 
+# md5      : ed1d2673b7ceb55f19ed4f790459b4e0  stages/evaluate/pull_submission.sh
+# source   : 6a62bf05515f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:17:48-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+PULL_OK 6

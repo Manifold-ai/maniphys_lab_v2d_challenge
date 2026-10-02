@@ -1,0 +1,12 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/compat/t2 runs/submission/csv/track2_tier2_rehearsal_neg.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/6a62bf05515f7bee4b7174fc7315b0cf3395fee8 runs/submission/csv/tracks_tier2_rehearsal_neg.json 1 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# md5      : 2d76ee3caa0ddf7c77ad7fee736409f9  runs/submission/csv/tracks_tier2_rehearsal_neg.json
+# source   : 6a62bf05515f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:18:37-0600
+# ---------------------------------------------------------------
+# python 3.12.14 numpy=2.5.3 pandas=2.3.3 pyarrow=25.0.1 trimesh=5.1.0 kaggle=2.2.4
+frame conversion reference: data/challenge/track_2/tier_2_synthetic_noise
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+error: the trajectories do not line up with the reference:
+  - episode_000002.parquet: the evaluator and released references do not differ by one rigid transform (maximum residual 0.02475 m, 0.4122 rad). Check frame indices and reference versions.

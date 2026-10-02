@@ -1,0 +1,26 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 1 runs/submission/compat/t1 runs/submission/csv/track2_tier1_rehearsal.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/6a62bf05515f7bee4b7174fc7315b0cf3395fee8 runs/submission/csv/tracks_tier1_rehearsal.json 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# md5      : 8681fba11673cee64633d1ae046a5fbd  runs/submission/csv/tracks_tier1_rehearsal.json
+# source   : 6a62bf05515f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:17:56-0600
+# ---------------------------------------------------------------
+# python 3.12.14 numpy=2.5.3 pandas=2.3.3 pyarrow=25.0.1 trimesh=5.1.0 kaggle=2.2.4
+frame conversion reference: data/challenge/track_2/tier_1_multiview_caption
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+note: 2 distinct checkpoints across the episodes, which is expected for per-sequence policies
+input reference check: one rigid frame transform per episode; maximum residual 1.02e-07 m, 1.71e-07 rad
+converted 2 Track 2 episode(s) into the released frame
+
+WARNING: the trajectory and the evaluator's metrics JSON disagree.
+This usually means they came from different runs, or that the trajectory was
+written with a different world count than the metrics were computed over.
+  - episode 6 add_auc: evaluator reported 0.632669, recomputing from the trajectory gives 0.629922
+The leaderboard scores the TRAJECTORY, so the numbers above on the right are what
+you would get. Re-run the evaluator if that is not what you expect.
+
+
+wrote runs/submission/csv/track2_tier1_rehearsal.csv (1,254 rows, 662,521 B)
+locally computed: AUC=0.6660  SP-SR=1.0000  MP-SR=0.5000  MPPE=2.9988
+upload with: python submit/v2d_submit.py runs/submission/csv/track2_tier1_rehearsal.csv --track track_2_tier1 -m '<message>'
+CSV runs/submission/csv/track2_tier1_rehearsal.csv：1254 行，sha256 15cf8f0e156dda35813d314bc3718c8bc7fad40740a4f8ef83e8d0ec6aee54aa

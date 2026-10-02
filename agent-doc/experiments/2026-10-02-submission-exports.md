@@ -26,3 +26,25 @@
 | 10/2 15:30 前后 | mf4090 | 方盒评测结束 → 导出链开始，约 1 小时 |
 | 10/2 16:00–16:30 | ml40 | 方盒评测结束 → 导出链开始，约 1 小时 |
 | 导出跑完后 | Mac | 拉回两台结果，两档打包，上传器只跑 `--dry-run`；先打包再写记录、提交（计划第 6 节第 7 步） |
+
+## 打包预演 E6、E7（10/2 07:17–07:25，Mac，用 mf4090 兼容性验证的 3 条导出；判据 R1）
+
+mf4090 的 compat 06:42:50 结束（`DAY2_EVAL_DONE（成功 7、失败 0）`，门槛 `完成 1`）。`pull_submission.sh compat mf4090`：`PULL_OK 6`
+（t1-ep6、t1-ep8、t2-ep2 的 JSON 与 parquet，sha256 与远端一致；`results/submission/pull_compat_mf4090.txt`）。打包时工作树干净，代码链接指向 6a62bf0（已在 origin）。
+
+| 项 | 命令 | 结果 | 落盘 |
+|---|---|---|---|
+| E6 Tier 1 | `pack_tier.sh 1 runs/submission/compat/t1 rehearsal 6 8` | 退出码 0，`PACK_OK（预演）`；1254 行。换算参考是发布的 Tier 1 数据，残差最大 1.02e-7 m、1.71e-7 rad；“converted 2 Track 2 episode(s) into the released frame” | `results/submission/pack/t1_rehearsal.txt` |
+| E7 Tier 2 | `pack_tier.sh 2 runs/submission/compat/t2 rehearsal 2` | 退出码 0，`PACK_OK（预演）`；980 行。换算参考是 `runs/submission/frame_refs_t2`（v5.4），残差最大 8.78e-8 m、1.12e-7 rad | `results/submission/pack/t2_rehearsal.txt` |
+| E7 反向对照 | `V2D_PACK_NEGCTL=1 pack_tier.sh 2 runs/submission/compat/t2 rehearsal_neg 2` | `NEGCTL_OK`：不给帧参考时打包器用发布的 Tier 2 带噪输入换算，报 “do not differ by one rigid transform（maximum residual 0.02475 m, 0.4122 rad）”，没有写出 CSV | `results/submission/pack/t2_rehearsal_neg.txt.failed`（预期中的失败） |
+| 本地分数过滤 | Tier 2 两次的屏幕输出与落盘 | “locally computed” 都是 0 处（屏幕输出先存进 scratchpad 的文件，grep 计数为 0 后才显示） | 同上 |
+
+判据 R1（mf4090 部分）：帧参考 `FRAME_REFS_OK 30`，E6、E7 退出码 0，反向对照 `NEGCTL_OK`，全部通过。ml40 的 t1-ep12、t2-ep0 等 ml40 的 compat 跑完再补。
+
+只报：
+- E6 的交叉核对：ep8 的四项与评测器的 JSON 一致；ep6 的 ADD-AUC 不一致，评测器报 0.632669，打包器按轨迹重算 0.629922（差 −0.0027，超过打包器的 1e-4 容差，所以打了 WARNING），
+  ep6 的其余三项一致。原因没查（可能是打包器取网格顶点的文件或方式与评测器不同，属推测）。排行榜按轨迹计分，以打包器的数为准；本地 Tier 1 的 4096 世界 ADD-AUC 与排行榜的口径因此可能差几个千分点。
+- E6 打出的 “locally computed: AUC=0.6660 SP-SR=1.0000 MP-SR=0.5000 MPPE=2.9988” 是 Tier 1 两条（ep6 单世界 MP-SR 0、ep8 为 1）的本地分数，只是预演。
+- 打包器的换算残差在 1e-7 量级，说明 `check_export.py` 报的“评测器参考 vs motion parquet 朝向最大差 0.040–0.043°”是它没先归一化 motion 那一侧四元数造成的（box6 执行记录的推测由此得到证实）。
+  这一项只报、不作判据；`check_export.py` 今天还要被导出链调用，先不改，链跑完后再修。
+- 预演的 CSV 在 `runs/submission/csv/`（不进 git），只用于预演，不上传。

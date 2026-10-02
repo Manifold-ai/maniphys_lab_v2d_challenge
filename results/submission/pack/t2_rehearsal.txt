@@ -1,0 +1,17 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/compat/t2 runs/submission/csv/track2_tier2_rehearsal.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/6a62bf05515f7bee4b7174fc7315b0cf3395fee8 runs/submission/csv/tracks_tier2_rehearsal.json 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# md5      : 2d76ee3caa0ddf7c77ad7fee736409f9  runs/submission/csv/tracks_tier2_rehearsal.json
+# source   : 6a62bf05515f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T07:18:24-0600
+# ---------------------------------------------------------------
+# python 3.12.14 numpy=2.5.3 pandas=2.3.3 pyarrow=25.0.1 trimesh=5.1.0 kaggle=2.2.4
+frame conversion reference: runs/submission/frame_refs_t2
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+input reference check: one rigid frame transform per episode; maximum residual 8.78e-08 m, 1.12e-07 rad
+converted 1 Track 2 episode(s) into the released frame
+note: evaluator metrics use the policy input; local leaderboard scores use the clean reference
+
+wrote runs/submission/csv/track2_tier2_rehearsal.csv (980 rows, 517,330 B)
+upload with: python submit/v2d_submit.py runs/submission/csv/track2_tier2_rehearsal.csv --track track_2_tier2 -m '<message>'
+CSV runs/submission/csv/track2_tier2_rehearsal.csv：980 行，sha256 9af0eec39664b9e0e806eb7719e8025ce17a40193ce1976c697c0b5e138fab3e
