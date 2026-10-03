@@ -1,0 +1,19 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "tables": {"file": "results/submission/export_tables_final.txt"},
+  "pull_mf": {"file": "results/submission/pull_exports_mf4090.txt", "grep": "结果表|PULL_"},
+  "pull_ml": {"file": "results/submission/pull_exports_ml40.txt", "grep": "结果表|PULL_"},
+  "end_mf": {"file": "results/box/export_end_mf4090.txt", "grep": "EXPORT_CHAIN|no_done|不导出"},
+  "end_ml": {"file": "results/box/t2ep7_divergence_ml40.txt", "grep": "EXPORT_CHAIN|no_done|不导出"}
+ },
+ "claims": [
+  {"id": "x1_rows", "evidence": ["tables"], "claim": "两张结果表各 30 行：Tier 1 与 Tier 2 合计各 29 行状态是 ok，每张表各有 1 行 no_done，no_done 的都是 episode 7；ok 的行用的步数都是 349999104。"},
+  {"id": "x2_end", "evidence": ["end_mf", "end_ml"], "claim": "两台导出链的结束行都是 EXPORT_CHAIN_DONE（成功 29、失败 1），没导出的那一行是 ep7，原因是没有 DONE。"},
+  {"id": "x3_pull", "evidence": ["pull_mf", "pull_ml"], "claim": "两台的拉回都以 PULL_OK 59 结束，结果表里 no_done 1 行、ok 29 行。"},
+  {"id": "pack_dirs", "evidence": ["tables"], "claim": "打包目录里 t1 与 t2 各有 29 条 episode，都缺 episode 7。"},
+  {"id": "ctl_true", "evidence": ["tables"], "claim": "mf4090 的结果表里 Tier 1 的 episode 28 用的 run 是 t1-ep28-w2048-cap4m-p185-mf4090。", "control": "true"},
+  {"id": "ctl_false_full", "evidence": ["tables"], "claim": "打包目录里两档都已凑齐 30 条 episode。", "control": "false"},
+  {"id": "ctl_false_fallback", "evidence": ["tables"], "claim": "结果表里有若干行的状态是 fallback，用的是更早的 checkpoint。", "control": "false"}
+ ]
+}

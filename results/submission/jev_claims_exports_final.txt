@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-submission-exports-final.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4309075429c9cb538a6d6076195a5d67  agent-doc/experiments/2026-10-02-submission-exports-final.claims.json
+# source   : 331aecd7bec3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:05:12-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+x1_rows              P(supported)=0.88  verified               [tables]  两张结果表各 30 行：Tier 1 与 Tier 2 合计各 29 行状态是 ok，每张表各有 1 行 no_done，no_done 的都是 episode 7；ok 的行用的步数都是 349999104。
+x2_end               P(supported)=0.93  verified               [end_mf, end_ml]  两台导出链的结束行都是 EXPORT_CHAIN_DONE（成功 29、失败 1），没导出的那一行是 ep7，原因是没有 DONE。
+x3_pull              P(supported)=0.98  verified               [pull_mf, pull_ml]  两台的拉回都以 PULL_OK 59 结束，结果表里 no_done 1 行、ok 29 行。
+pack_dirs            P(supported)=0.97  verified               [tables]  打包目录里 t1 与 t2 各有 29 条 episode，都缺 episode 7。
+ctl_true             P(supported)=0.99  control(true) ok       [tables]  mf4090 的结果表里 Tier 1 的 episode 28 用的 run 是 t1-ep28-w2048-cap4m-p185-mf4090。
+ctl_false_full       P(supported)=0.02  control(false) ok      [tables]  打包目录里两档都已凑齐 30 条 episode。
+ctl_false_fallback   P(supported)=0.02  control(false) ok      [tables]  结果表里有若干行的状态是 fallback，用的是更早的 checkpoint。
+controls behaved as expected

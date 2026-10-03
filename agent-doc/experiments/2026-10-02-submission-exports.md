@@ -66,3 +66,19 @@ ml40 的 compat 10:17:21 结束（`COMPAT_PASS（3 行全部符合）`，门槛 
 只报：Tier 1 交叉核对里 ep8 一致；ep6 的 ADD-AUC 评测器 0.632669、打包器按轨迹重算 0.629922（−0.0027），ep12 评测器 0.649375、打包器 0.671161（+0.0218）。
 同一条轨迹两边算出的 ADD-AUC 不同，差在 ADD 本身（取哪些网格顶点），不在轨迹；排行榜用的是 kit 的算法（与打包器同一套 `v2dlb` 代码）。
 所以本地 4096 世界评测的 ADD-AUC 与排行榜口径每条可能差到约 0.02，方向不定；原因是推测（评测器从仿真里的网格取顶点，kit 从数据集的 glb 取），没核实。
+
+## 导出链的结果与拉回（10/2 13:56、14:26 跑完；20:03 拉回 Mac）
+
+用户 15:14 要求 15:30 前停掉要靠 Mac 的任务，原定 16:47 的收尾（拉回、打包、预检）取消，晚上补做拉回与核对；打包与预检这次不做（见下）。
+
+| 判据 | 结果 | 落盘 |
+|---|---|---|
+| X1 | 两台各 30 行：29 行 `ok`（都是最终 checkpoint 349,999,104 步，没有一行走退回），1 行 `no_done`（mf4090 的 Tier 1 ep7、ml40 的 Tier 2 ep7，两条方盒 ep7 都在训练中发散、没有 DONE） | `results/submission/export_tables_final.txt` |
+| X2 | 两台最后一行都是 `EXPORT_CHAIN_DONE（成功 29、失败 1）`，ml40 13:56:53、mf4090 14:26:24 | `results/box/t2ep7_divergence_ml40.txt`、`results/box/export_end_mf4090.txt` |
+| X3 | 两台都 `PULL_OK 59`（29 行各一个 JSON 与 parquet，加结果表本身），sha256 都与结果表一致 | `results/submission/pull_exports_{mf4090,ml40}.txt` |
+| X4、X5 | 没做：两档的打包目录各 29 条、都缺 episode 7，打包器要求 30 条齐全 | 同上 |
+
+按第 4 节的决策表，`no_done` 交用户定。两档 ep7 的处理另见 `agent-doc/plan-ep7-eval-and-guards-2026-10-02.md`：
+发散前最后一份有限的 checkpoint 已评（候选条件满足，但 ADD-AUC 低于物体不动的基线，`agent-doc/experiments/2026-10-02-ep7-ckpt-eval.md`），
+带非有限防护的重训在计划 B 部分，审查中。用哪一份补 ep7，等用户定；补齐之前两档都不打包。
+jev（规格 `agent-doc/experiments/2026-10-02-submission-exports-final.claims.json`，结果 `results/submission/jev_claims_exports_final.txt`）：4 条全部核实（0.88–0.98），3 道对照题方向都正确。

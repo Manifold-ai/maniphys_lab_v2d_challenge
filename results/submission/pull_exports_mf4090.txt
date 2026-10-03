@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh exports mf4090 export_mf4090 
+# md5      : ed1d2673b7ceb55f19ed4f790459b4e0  stages/evaluate/pull_submission.sh
+# source   : 331aecd7bec3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:03:12-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 export_mf4090：no_done 1  ok 29  
+PULL_OK 59
