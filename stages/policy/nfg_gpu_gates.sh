@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 非有限防护的 GPU 闸（计划 agent-doc/plan-ep7-eval-and-guards-2026-10-02.md 第 5 版的 B.4）。训练机上、仓库根执行，耗时约 40 分钟，放 tmux 或 setsid 里跑。
-# 依次：T4 基准（上游测试，挂未打防护的 v040_p185）与 T4（挂打了防护的 v040_p185_nfg）、t1、t1b（未打防护）、t2a、t2b、t2c、t2d、t2n（打了防护）、
-# T6（打了防护，端到端注入）。每一步经 scripts/dev/record 记到 results/ep7/nfg_<步>_<机器>.txt；一步不过照样往下跑（判据各自记），
+# 依次：t1、t1b（未打防护的 v040_p185）、t2a、t2b、t2c、t2d、t2n（打了防护的 v040_p185_nfg）、T6（打了防护，端到端注入）、
+# T4 基准（上游测试，未打防护）与 T4（打了防护）。探针在前，出错能早发现；各闸互不依赖。每一步经 scripts/dev/record 记到 results/ep7/nfg_<步>_<机器>.txt；一步不过照样往下跑（判据各自记），
 # 最后打印每一步的结果与 T4 两份的对照。每一步之前核 GPU 上没有别的进程，有就停整条链。日志 runs/logs/nfg_gates_<机器>.log，最后一行 NFG_GATES_DONE。
 # 用法：stages/policy/nfg_gpu_gates.sh <机器名> <fc_src 目录>（例：ml40 /lab_data/rxzhou/v2d/fc_src）
 set -uo pipefail
@@ -28,13 +28,13 @@ step() {  # step <名字> <副本> <容器里的命令> [tb]：给 tb 时输出�
   say "$name 退出码 ${RC[$name]}：$(tail -1 "results/ep7/nfg_${name}_$M.txt" 2>/dev/null || tail -1 "results/ep7/nfg_${name}_$M.txt.failed" 2>/dev/null)"
 }
 T4="cd /workspace && python -m pytest -q -rfEs -p no:cacheprovider tests/training/flash_sac tests/lifecycle/test_termination.py tests/envs/test_rl.py tests/envs/test_base.py"
-step t4base "$PLAIN" "$T4" tb
-step t4 "$NFG" "$T4" tb
 for g in t1 t1b; do step "probe_$g" "$PLAIN" "python /repo/stages/policy/nfg_env_probe.py $g"; done
 for g in t2a t2b t2c t2d t2n; do step "probe_$g" "$NFG" "python /repo/stages/policy/nfg_env_probe.py $g"; done
 step t6 "$NFG" "python /repo/stages/policy/nfg_train_inject.py /repo/runs/nfg_t6/t6-$M"
+step t4base "$PLAIN" "$T4" tb
+step t4 "$NFG" "$T4" tb
 say "== 汇总"
-for k in t4base t4 probe_t1 probe_t1b probe_t2a probe_t2b probe_t2c probe_t2d probe_t2n t6; do say "$k：退出码 ${RC[$k]}"; done
+for k in probe_t1 probe_t1b probe_t2a probe_t2b probe_t2c probe_t2d probe_t2n t6 t4base t4; do say "$k：退出码 ${RC[$k]}"; done
 for k in t4base t4; do
   f="results/ep7/nfg_${k}_$M.txt"; [ -f "$f" ] || f="$f.failed"
   say "$k 的 pytest 结果：$(grep -E '^(FAILED|ERROR) ' "$f" | sort | tr '\n' ';')$(grep -E '[0-9]+ (passed|failed|skipped|error)' "$f" | tail -1)"
