@@ -1,0 +1,33 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "t5": {
+   "file": "results/ml40/ep7/nfg_t5_check_ml40.txt",
+   "grep": "DONE|NONFINITE_GUARD|history|所有指标|稳态行|新 / 对照|T5_THROUGHPUT"
+  }
+ },
+ "claims": [
+  {
+   "id": "t5_done_clean",
+   "evidence": ["t5"],
+   "claim": "T5 冒烟 smoke-t2-ep7-w2048-cap10m-p185g-ml40 有 DONE；两份日志里 NONFINITE_GUARD 开头的行是 0 行；它的 W&B 记录 80 行、54 个指标全程有限。"
+  },
+  {
+   "id": "t5_throughput",
+   "evidence": ["t5"],
+   "claim": "T5 冒烟稳态行 61 行的吞吐中位数是 51,189，对照冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40 是 51,006，比值 1.0036，不低于 0.95，判为 PASS。"
+  },
+  {
+   "id": "ctl_true_t5",
+   "evidence": ["t5"],
+   "claim": "对照冒烟的稳态行也是 61 行。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_t5",
+   "evidence": ["t5"],
+   "claim": "T5 冒烟的吞吐只有对照的 80%，判为 FAIL。",
+   "control": "false"
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+# command  : bash -c R=smoke-t2-ep7-w2048-cap10m-p185g-ml40\;\ B=smoke-t2-ep7-w2048-cap10m-p185-ml40\;\ ls\ runs/flash_chord/\$R/DONE\ \&\&\ echo\ \"DONE\ 在\"\;\ grep\ -m1\ \"in-flash-chord:\ /workspace\"\ runs/logs/\$R.s1.log\;\ n=\$\(cat\ runs/logs/\$R.log\ runs/logs/\$R.s1.log\ \|\ grep\ -c\ NONFINITE_GUARD\)\;\ echo\ \"两份日志里\ NONFINITE_GUARD\ 开头的行：\$n\ 行\"\;\ cat\ runs/logs/\$R.log\ runs/logs/\$R.s1.log\ \|\ grep\ NONFINITE_GUARD\ \|\ head\ -5\;\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/wandb_local_history.py\ /repo/runs/flash_chord/\$R/wandb/run-\*/run-\*.wandb\;\ python\ /repo/stages/policy/t5_throughput.py\ /repo/runs/flash_chord/\$R/wandb/run-\*/run-\*.wandb\ /repo/runs/flash_chord/\$B/wandb/run-\*/run-\*.wandb\" 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# md5      : 19b273e3fe7670f3a331b35e91ca5212  stages/policy/t5_throughput.py
+# source   : 80c81c555ecc
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T11:11:45+0800
+# ---------------------------------------------------------------
+runs/flash_chord/smoke-t2-ep7-w2048-cap10m-p185g-ml40/DONE
+DONE 在
+两份日志里 NONFINITE_GUARD 开头的行：0 行
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-smoke-t2-ep7-w2048-cap10m-p185g-ml40-s1.wandb：history 80 行，指标 54 个
+  环境步数取自：_step
+  所有指标全程有限
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+新 run-smoke-t2-ep7-w2048-cap10m-p185g-ml40-s1.wandb：稳态行 61 行，throughput/env_steps_per_second 中位数 51,189，最小 50,542，最大 51,655
+对照 run-smoke-t2-ep7-w2048-cap10m-p185-ml40-s1.wandb：稳态行 61 行，throughput/env_steps_per_second 中位数 51,006，最小 50,403，最大 51,611
+新 / 对照 = 1.0036（判据 ≥ 0.95）
+T5_THROUGHPUT PASS 1.0036
