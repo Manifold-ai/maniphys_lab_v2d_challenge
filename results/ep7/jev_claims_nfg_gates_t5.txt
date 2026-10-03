@@ -1,0 +1,13 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-nfg-gates-t5.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 65d3c417c78ec05f0954e273ccd86459  agent-doc/experiments/2026-10-02-nfg-gates-t5.claims.json
+# source   : 6e3e543425f6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T21:13:18-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t5_done_clean        P(supported)=0.98  verified               [t5]  T5 冒烟 smoke-t2-ep7-w2048-cap10m-p185g-ml40 有 DONE；两份日志里 NONFINITE_GUARD 开头的行是 0 行；它的 W&B 记录 80 行、54 个指标全程有限。
+t5_throughput        P(supported)=0.98  verified               [t5]  T5 冒烟稳态行 61 行的吞吐中位数是 51,189，对照冒烟 smoke-t2-ep7-w2048-cap10m-p185-ml40 是 51,006，比值 1.0036，不低于 0.95，判为 PASS。
+ctl_true_t5          P(supported)=0.99  control(true) ok       [t5]  对照冒烟的稳态行也是 61 行。
+ctl_false_t5         P(supported)=0.01  control(false) ok      [t5]  T5 冒烟的吞吐只有对照的 80%，判为 FAIL。
+controls behaved as expected
