@@ -9,7 +9,7 @@ RLEnv → reset → capture_step → reset，之后只走录好的图（训练�
 episode_step、timestep，存到 /repo/runs/nfg_probe/<闸>.npz。注入都经 wp.launch 写（与仿真同一个流），位姿类注入写 joint_q，不写 body_q
 （下一个子步只从 joint_q、joint_qd 推 MuJoCo 的 qpos、qvel）。
 
-  t1   未打防护：世界 7 的关节速度全写 NaN。判据：世界 7 第一次被重置之后的下一步仍然非有限（说明重置救不回来）。
+  t1   未打防护：世界 7 的关节速度全写 NaN。判据：世界 7 第一次被重置之后的下一步，仿真之后仍然非有限（看那一步的终止观测；说明重置救不回来）。
   t1b  未打防护：只把世界 9 的 qacc_warmstart 整行写 NaN，不动位置、速度。判据：下一步它的刚体位姿全部非有限。
   t2a  打了防护：同 t1 的注入；另做 K1：注入之前的 100 步，每步把 body_q、timestep、episode_step 与物体参考位姿拷一份，
        上游 v0.4.0 与打了防护的两版终止 kernel 各算一次，12 个输出逐位相同。
@@ -18,7 +18,7 @@ episode_step、timestep，存到 /repo/runs/nfg_probe/<闸>.npz。注入都经 w
   t2d  打了防护：同一步坏 3 个世界（关节速度 NaN）：世界 3 在第 90 步后显式重置到第 0 帧（注入时在冻结期），世界 5 在第 96 步后显式重置到
        倒数第 5 帧（注入后的第一步正好是截断步），世界 7 照常。
   t2n  打了防护、但在本进程里关掉重置时清 warmstart（只在这个探针进程里替换 envs.base._solver_rows_to_clear，不是训练的开关）：同 t1 的注入。
-       判据：世界 7 被判终止、重置后仍然非有限（与 t1 一起说明清 warmstart 是必要的）。
+       判据：世界 7 被判终止、重置后的下一步仿真之后仍然非有限（同 t1，看终止观测：防护会在同一步把它重置，步末状态总是有限的；与 t1 一起说明清 warmstart 是必要的）。
   t2a–t2d 的判据：每个被注入的世界在注入后的第一步 done 为 1，9 列诊断恰好是（骨盆 1、手掌 0、物体 0、骨盆位置误差 -1、其余 0），
   这一步之后它的 qacc_warmstart（与 act）有限；注入后 120 步里它的刚体位姿、关节量、观测、上下文全程有限（第一步之后的终止观测也有限）；
   其余世界 220 步全程有限。
@@ -283,20 +283,29 @@ def print_world(a, w, start, stop):
 
 
 def verdict_t1(a, w, first):
-    """第一次被重置（done 或 trunc）之后的下一步是否仍非有限。"""
-    completed = [t for t in range(first, a["done"].shape[0]) if a["done"][t, w] or a["trunc"][t, w]]
+    """第一次被重置（done 或 trunc）之后的下一步，这个世界在那一步的仿真里是否又变成非有限。
+
+    看那一步的终止观测（仿真之后、自动重置之前算的）。打了防护的副本会在同一步把坏世界判终止、重置，步末状态因此总是
+    重置后的有限状态，只看步末状态会漏掉（t2n 第一次跑就这样误判成“恢复了”）；未打防护的副本冻结期内不判终止，
+    步末状态与终止观测都是非有限。步末状态非有限的步数另报。
+    """
+    T = a["done"].shape[0]
+    completed = [t for t in range(first, T) if a["done"][t, w] or a["trunc"][t, w]]
     if not completed:
         print(f"世界 {w} 在注入后 {POST_STEPS} 步里没有被重置过")
         return False, completed
     t_reset = completed[0]
-    if t_reset + 1 >= a["done"].shape[0]:
+    if t_reset + 1 >= T:
         print("第一次重置发生在最后一步，看不到重置之后")
         return False, completed
-    after = not healthy(a, t_reset + 1, w)
-    bad_after = sum(not healthy(a, t, w) for t in range(t_reset + 1, a["done"].shape[0]))
+    after = not a["term_obs"][t_reset + 1, w]
+    term_bad = sum(not a["term_obs"][t, w] for t in range(t_reset + 1, T))
+    end_bad = sum(not healthy(a, t, w) for t in range(t_reset + 1, T))
+    warm_bad = sum(not a["warm"][t, w] for t in range(t_reset + 1, T))
     print(f"世界 {w}：注入后第一次被重置在第 {t_reset + 1} 步（原因列 {fmt_diag(a['diag'][t_reset, w][:3])}）；"
-          f"重置后的下一步{'仍然非有限' if after else '是有限的'}；重置之后共 {a['done'].shape[0] - t_reset - 1} 步里非有限 {bad_after} 步；"
-          f"注入后被重置的步：{[t + 1 for t in completed]}")
+          f"重置后的下一步（第 {t_reset + 2} 步）仿真之后{'仍然非有限' if after else '是有限的'}；"
+          f"重置之后共 {T - t_reset - 1} 步里，终止观测非有限 {term_bad} 步、步末状态或观测非有限 {end_bad} 步、warmstart 非有限 {warm_bad} 步；"
+          f"注入后被重置的步：{[t + 1 for t in completed][:12]}{'…' if len(completed) > 12 else ''}（共 {len(completed)} 次）")
     return after, completed
 
 
@@ -389,7 +398,7 @@ def main() -> int:
             row = a["diag"][first, injected[0]].tolist()
             print(f"t2n：注入后第一步诊断 {fmt_diag(row)}（{'按骨盆判坏、哨兵 -1' if row == SENTINEL_ROW else '不是哨兵行'}）")
         ok = stays and not other_bad
-        print(f"{gate.upper()} 判据（重置之后仍然非有限，其余世界有限）：{'过' if ok else '不过'}")
+        print(f"{gate.upper()} 判据（重置后的下一步仿真之后仍然非有限，其余世界有限）：{'过' if ok else '不过'}")
     elif gate == "t1b":
         w = injected[0]
         bq_bad_all = not a["body"][first, w]
