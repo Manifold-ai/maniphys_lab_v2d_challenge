@@ -1,8 +1,8 @@
 # command  : stages/policy/ep7_code_facts.sh 
-# md5      : a0cc1e0fa13c312b2921265240c7fc0f  stages/policy/ep7_code_facts.sh
-# source   : 561bf1d9d1cf-dirty
+# md5      : cfd42b63a85ee57a806c661e6695a082  stages/policy/ep7_code_facts.sh
+# source   : 69344756acbd-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-02T19:32:52-0600
+# run_at   : 2026-10-02T19:35:00-0600
 # ---------------------------------------------------------------
 ## 1. 奖励归一化器：每个世界的折扣回报、全局最大值与滑动矩，更新处有无非有限过滤
 == v0.4.0 training/flash_sac/reward_normalization.py（原文段落 50,75p;97,112p;114,127p）
@@ -127,6 +127,32 @@ lifecycle/termination.py：匹配 /isfinite\(|isnan\(/ 的行数 2
 == v0.4.0 lifecycle/termination.py
 lifecycle/termination.py:28:        if not math.isfinite(self.threshold) or self.threshold < 0.0:
 lifecycle/termination.py:512:        if not all(math.isfinite(value) and value >= 0.0 for value in thresholds):
+## 3b. 训练用的终止阈值（G1 配方选 termination: recon_body）与评测时改成的阈值
+== v0.4.0 configs/experiment/g1_recon_body_flash_sac.yaml
+configs/experiment/g1_recon_body_flash_sac.yaml:11:  - override /termination: recon_body
+== v0.4.0 configs/termination/recon_body.yaml
+configs/termination/recon_body.yaml:2:pelvis_position_threshold: 0.70
+configs/termination/recon_body.yaml:3:pelvis_orientation_threshold: 1.50
+configs/termination/recon_body.yaml:4:palm_position_threshold: 0.15
+configs/termination/recon_body.yaml:5:palm_orientation_threshold: 1.50
+configs/termination/recon_body.yaml:6:object_position_threshold: 0.10
+configs/termination/recon_body.yaml:7:object_orientation_threshold: 1.50
+configs/termination/recon_body.yaml:8:reset_freeze_steps: 50
+configs/termination/recon_body.yaml:9:truncate_at_reference_end: true
+== v0.4.0 evaluation/harness.py
+evaluation/harness.py:52:    "pelvis_position_threshold",
+evaluation/harness.py:53:    "pelvis_orientation_threshold",
+evaluation/harness.py:54:    "palm_position_threshold",
+evaluation/harness.py:55:    "palm_orientation_threshold",
+evaluation/harness.py:56:    "object_position_threshold",
+evaluation/harness.py:57:    "object_orientation_threshold",
+evaluation/harness.py:59:_DISABLED_THRESHOLD = 1.0e6
+evaluation/harness.py:104:    object_position_threshold_m: float | None
+evaluation/harness.py:105:    object_orientation_threshold_rad: float | None
+evaluation/harness.py:125:def evaluation_thresholds(config: Mapping[str, Any]) -> TrackingThresholds:
+evaluation/harness.py:343:    thresholds = evaluation_thresholds(config)
+evaluation/harness.py:464:        object_position_threshold_m=thresholds.object_position_m,
+evaluation/harness.py:465:        object_orientation_threshold_rad=thresholds.object_orientation_rad,
 ## 4. 训练端的环境代码里没有非有限世界的检测；评测端有
 envs/base.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0
 envs/recon_body.py：匹配 /non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num/ 的行数 0

@@ -1,0 +1,11 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ grep\ -a\ -E\ \"\^===\"\ runs/logs/ep7_eval_ml40.log\ \|\ cut\ -c1-260 
+# source   : 69344756acbd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T19:57:27-0600
+# ---------------------------------------------------------------
+=== 2026-10-03 05:17:12 CST start ep7_eval_ml40：t2-ep7-w2048-cap10m-p185-ml40 policy_140005376，期望 896 帧；评测运行时 flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch）；来历 90a73fa8e852
+=== 2026-10-03 05:17:12 CST 脚本 md5：ep7_ckpt_eval.sh 4e19b58e169b，blowup_rollout.py 04e89f0faeb9，diag_palms.py 88c07ed924fc
+=== 2026-10-03 05:17:12 CST 评测 t2-ep7-w2048-cap10m-p185-ml40 policy_140005376（4096 世界）
+=== 2026-10-03 05:22:40 CST 评测成功；评测器记的非有限世界 0；A-2 满足
+=== 2026-10-03 05:22:40 CST 取证 rollout（4096 世界，物体与手掌位置原样存）
+=== 2026-10-03 05:28:51 CST EP7_EVAL_DONE（评测 成功；评测器记的非有限世界 0；A-2 满足；取证 完成（崩掉的世界 1））

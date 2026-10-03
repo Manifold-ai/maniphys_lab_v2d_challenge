@@ -2,7 +2,7 @@
 # ep7 方盒正式训练（#185 几何）发散相关的上游代码摘录（Mac 上执行，只读，经 gh api 读训练所用的 v0.4.0）。每行带文件与行号，供 jev 核对。
 # 训练挂的是 v0.4.0 + #185 补丁副本；#185 只改 scene/support.py 与它的测试，这里摘的文件与 v0.4.0 相同。
 # divergence_code_facts.sh（9/30）查的是 BatchNorm 统计量、loss scale 与回放精度；这里补 10/2 分析要用的几处：
-#   奖励归一化器怎么更新、有没有非有限过滤；采集一步时奖励与回放缓冲的写入顺序；ReconBody 终止判定里的比较；
+#   奖励归一化器怎么更新、有没有非有限过滤；采集一步时奖励与回放缓冲的写入顺序；ReconBody 终止判定里的比较与训练、评测各用的阈值；
 #   训练端与评测端对非有限世界的处理；每步更新次数、批大小、n-step；课程各段的 VOC；几个 W&B 指标的定义。
 # 用法（仓库根）：scripts/dev/record ep7/code_facts stages/policy/ep7_code_facts.sh
 set -uo pipefail
@@ -34,6 +34,12 @@ echo "## 3. ReconBody 终止判定：误差与阈值直接比较，状态本身�
 ctx lifecycle/termination.py '601,605p;637,652p'
 count lifecycle/termination.py 'isfinite\(|isnan\('
 g lifecycle/termination.py 'isfinite\(|isnan\('
+
+echo "## 3b. 训练用的终止阈值（G1 配方选 termination: recon_body）与评测时改成的阈值"
+g configs/experiment/g1_recon_body_flash_sac.yaml 'override /termination'
+echo "== $REF configs/termination/recon_body.yaml"
+get configs/termination/recon_body.yaml | grep -nE 'threshold|reset_freeze_steps|truncate' | sed 's|^|configs/termination/recon_body.yaml:|'
+g evaluation/harness.py '1\.0e6|1e6|_threshold'
 
 echo "## 4. 训练端的环境代码里没有非有限世界的检测；评测端有"
 for f in envs/base.py envs/recon_body.py envs/observation.py lifecycle/reset.py objectives/recon_body.py; do count "$f" 'non_finite|isnan\(|jnp.isfinite|wp.isfinite|np.isfinite\(.*body_q|nan_to_num'; done

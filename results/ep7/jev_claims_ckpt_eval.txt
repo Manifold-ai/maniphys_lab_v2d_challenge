@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-02-ep7-ckpt-eval.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 8488aad9eebd62814ba2b708fe9d0f3f  agent-doc/experiments/2026-10-02-ep7-ckpt-eval.claims.json
+# source   : 69344756acbd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T19:58:19-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+chains_done          P(supported)=0.98  verified               [log_mf, log_ml]  两台的评测链都以 EP7_EVAL_DONE 结束：mf4090 那条评测成功、评测器记的非有限世界 0、A-2 满足、取证完成且崩掉的世界 0；ml40 那条评测成功、非有限世界 0、A-2 满足、取证完成且崩掉的世界 1。
+a2_both              P(supported)=0.98  verified               [a2_t1, a2_t2]  两份 policy 的候选条件四项都满足：world_count 为 4096、non_finite_worlds 是空列表、step_count 等于 896、checkpoint_sha256 等于 policy 文件，两份都打出 A2_OK。
+t1_scores            P(supported)=0.98  verified               [eval_t1, bv_t1]  t1-ep7 在 130,004,992 步的 policy：maniptrans_sr 为 0，chord_sr 只有 4 / 4096 个世界，ADD-AUC 0.1916 低于不动基线 0.2284，MPPE 35.58 cm，批量判定不通过。
+t2_scores            P(supported)=0.98  verified               [eval_t2, bv_t2]  t2-ep7 在 140,005,376 步的 policy：chord_sr、maniptrans_sr 都是 0，ADD-AUC 0.2112 低于不动基线 0.2256，MPPE 34.04 cm，批量判定不通过。
+pelvis_fail          P(supported)=0.98  verified               [eval_t1, eval_t2]  两份评测里，按骨盆误差算失败的世界比例都在 0.96 以上（t1 约 0.975，t2 约 0.968）。
+blow_counts          P(supported)=0.98  verified               [blow_t1, blow_t2]  取证 rollout 里，t1-ep7 那份 4096 个世界没有崩掉的世界；t2-ep7 那份崩了 1 个，是世界 3680，第一次出问题在第 473 帧，评分没有报错。
+fallen_before        P(supported)=0.85  verified               [inspect]  世界 3680 在第 458 到 472 帧骨盆位置误差约 1.95 m、骨盆朝向误差约 2.6 rad，两只手掌的高度在 0.11 到 0.15 m 之间、离物体 1.2 m 以上，物体中心比桌面顶面高 0.048 m。
+nan_errors           P(supported)=0.99  verified               [inspect]  “第 473 帧”那一行里，物体与 left、right 的坐标都是 nan；同一行 pelvis_position_m 是 nan，palm_position_m 是 0，object_position_m 是 0，pelvis_orientation_rad 是 0.2568。
+thresholds           P(supported)=0.99  verified               [thresholds]  G1 配方选用的 termination 配置里骨盆位置阈值是 0.70、骨盆朝向阈值是 1.50；评测代码里有 _DISABLED_THRESHOLD = 1.0e6。
+ctl_true             P(supported)=0.98  control(true) ok       [a2_t1]  t1-ep7 那份的候选条件核对里 step_count 是 896。
+ctl_false_pass       P(supported)=0.01  control(false) ok      [bv_t2]  t2-ep7 在 140,005,376 步的 policy 按批量判据通过。
+ctl_false_blow       P(supported)=0.01  control(false) ok      [blow_t1]  t1-ep7 那份的取证 rollout 里有 3 个世界崩掉。
+ctl_false_hands      P(supported)=0.01  control(false) ok      [inspect]  世界 3680 崩之前两只手掌离物体都不到 5 cm。
+controls behaved as expected

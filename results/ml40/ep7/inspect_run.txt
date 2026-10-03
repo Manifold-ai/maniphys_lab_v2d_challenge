@@ -1,0 +1,10 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ scripts/dev/record\ ep7/blowup_inspect_t2-ep7_s140005376\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/evaluate/blowup_inspect.py\ /repo/runs/ep7/t2-ep7-w2048-cap10m-p185-ml40/blowup_s140005376_w4096.npz\ --before\ 15\ --after\ 3\ --table-top\ 0.7821\"\ \;\ echo\ rc=\$\? 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : a6941321668ba568fd1b896719a22b82  stages/evaluate/blowup_inspect.py
+# source   : 69344756acbd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T19:33:54-0600
+# ---------------------------------------------------------------
+record: → results/ep7/blowup_inspect_t2-ep7_s140005376.txt（31 行）
+rc=0

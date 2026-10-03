@@ -1,0 +1,154 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "log_mf": {
+   "file": "results/ep7/chain_log_mf4090.txt"
+  },
+  "log_ml": {
+   "file": "results/ml40/ep7/chain_log_ml40.txt"
+  },
+  "eval_t1": {
+   "file": "results/ep7/eval_t1-ep7-w2048-cap4m-p185-mf4090_s130004992.txt",
+   "grep": "^== |environment_steps|add_auc |chord_sr |maniptrans_sr |spider_sr|mppe_cm |failure_cause_fraction"
+  },
+  "eval_t2": {
+   "file": "results/ml40/ep7/eval_t2-ep7-w2048-cap10m-p185-ml40_s140005376.txt",
+   "grep": "^== |environment_steps|add_auc |chord_sr |maniptrans_sr |spider_sr|mppe_cm |failure_cause_fraction"
+  },
+  "a2_t1": {
+   "file": "results/ep7/a2_t1-ep7-w2048-cap4m-p185-mf4090_s130004992.txt",
+   "grep": "满足|A2_"
+  },
+  "a2_t2": {
+   "file": "results/ml40/ep7/a2_t2-ep7-w2048-cap10m-p185-ml40_s140005376.txt",
+   "grep": "满足|A2_"
+  },
+  "bv_t1": {
+   "file": "results/ep7/batch_verdict_t1ep7_s130004992.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|add_auc |另报|判定"
+  },
+  "bv_t2": {
+   "file": "results/ep7/batch_verdict_t2ep7_s140005376.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|add_auc |另报|判定"
+  },
+  "blow_t1": {
+   "file": "results/ep7/blowup_t1-ep7-w2048-cap4m-p185-mf4090_s130004992.txt",
+   "grep": "rollout:|崩掉的世界|BLOWUP_ROLLOUT"
+  },
+  "blow_t2": {
+   "file": "results/ml40/ep7/blowup_t2-ep7-w2048-cap10m-p185-ml40_s140005376.txt",
+   "grep": "rollout:|崩掉的世界|第一次出问题|世界号|BLOWUP_ROLLOUT"
+  },
+  "inspect": {
+   "file": "results/ml40/ep7/blowup_inspect_t2-ep7_s140005376.txt",
+   "grep": "^/repo|tracking_error 的列|^== 世界|第 (458|465|472|473|474) 帧"
+  },
+  "thresholds": {
+   "file": "results/ep7/code_facts.txt",
+   "grep": "^## 3b|termination/recon_body.yaml:[0-9]|_DISABLED_THRESHOLD|override /termination"
+  }
+ },
+ "claims": [
+  {
+   "id": "chains_done",
+   "evidence": [
+    "log_mf",
+    "log_ml"
+   ],
+   "claim": "两台的评测链都以 EP7_EVAL_DONE 结束：mf4090 那条评测成功、评测器记的非有限世界 0、A-2 满足、取证完成且崩掉的世界 0；ml40 那条评测成功、非有限世界 0、A-2 满足、取证完成且崩掉的世界 1。"
+  },
+  {
+   "id": "a2_both",
+   "evidence": [
+    "a2_t1",
+    "a2_t2"
+   ],
+   "claim": "两份 policy 的候选条件四项都满足：world_count 为 4096、non_finite_worlds 是空列表、step_count 等于 896、checkpoint_sha256 等于 policy 文件，两份都打出 A2_OK。"
+  },
+  {
+   "id": "t1_scores",
+   "evidence": [
+    "eval_t1",
+    "bv_t1"
+   ],
+   "claim": "t1-ep7 在 130,004,992 步的 policy：maniptrans_sr 为 0，chord_sr 只有 4 / 4096 个世界，ADD-AUC 0.1916 低于不动基线 0.2284，MPPE 35.58 cm，批量判定不通过。"
+  },
+  {
+   "id": "t2_scores",
+   "evidence": [
+    "eval_t2",
+    "bv_t2"
+   ],
+   "claim": "t2-ep7 在 140,005,376 步的 policy：chord_sr、maniptrans_sr 都是 0，ADD-AUC 0.2112 低于不动基线 0.2256，MPPE 34.04 cm，批量判定不通过。"
+  },
+  {
+   "id": "pelvis_fail",
+   "evidence": [
+    "eval_t1",
+    "eval_t2"
+   ],
+   "claim": "两份评测里，按骨盆误差算失败的世界比例都在 0.96 以上（t1 约 0.975，t2 约 0.968）。"
+  },
+  {
+   "id": "blow_counts",
+   "evidence": [
+    "blow_t1",
+    "blow_t2"
+   ],
+   "claim": "取证 rollout 里，t1-ep7 那份 4096 个世界没有崩掉的世界；t2-ep7 那份崩了 1 个，是世界 3680，第一次出问题在第 473 帧，评分没有报错。"
+  },
+  {
+   "id": "fallen_before",
+   "evidence": [
+    "inspect"
+   ],
+   "claim": "世界 3680 在第 458 到 472 帧骨盆位置误差约 1.95 m、骨盆朝向误差约 2.6 rad，两只手掌的高度在 0.11 到 0.15 m 之间、离物体 1.2 m 以上，物体中心比桌面顶面高 0.048 m。"
+  },
+  {
+   "id": "nan_errors",
+   "evidence": [
+    "inspect"
+   ],
+   "claim": "“第 473 帧”那一行里，物体与 left、right 的坐标都是 nan；同一行 pelvis_position_m 是 nan，palm_position_m 是 0，object_position_m 是 0，pelvis_orientation_rad 是 0.2568。"
+  },
+  {
+   "id": "thresholds",
+   "evidence": [
+    "thresholds"
+   ],
+   "claim": "G1 配方选用的 termination 配置里骨盆位置阈值是 0.70、骨盆朝向阈值是 1.50；评测代码里有 _DISABLED_THRESHOLD = 1.0e6。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "a2_t1"
+   ],
+   "claim": "t1-ep7 那份的候选条件核对里 step_count 是 896。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_pass",
+   "evidence": [
+    "bv_t2"
+   ],
+   "claim": "t2-ep7 在 140,005,376 步的 policy 按批量判据通过。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_blow",
+   "evidence": [
+    "blow_t1"
+   ],
+   "claim": "t1-ep7 那份的取证 rollout 里有 3 个世界崩掉。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_hands",
+   "evidence": [
+    "inspect"
+   ],
+   "claim": "世界 3680 崩之前两只手掌离物体都不到 5 cm。",
+   "control": "false"
+  }
+ ]
+}

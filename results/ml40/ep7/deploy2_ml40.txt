@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/evaluate/blowup_inspect.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : a6941321668ba568fd1b896719a22b82  stages/evaluate/blowup_inspect.py
+# source   : 69344756acbd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T19:33:47-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 69344756acbd；远端来历 90a73fa8e852
+  ok   a6941321668ba568fd1b896719a22b82  stages/evaluate/blowup_inspect.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（1 个文件）
