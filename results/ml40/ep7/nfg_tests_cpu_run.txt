@@ -1,0 +1,13 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg\ scripts/dev/record\ ep7/nfg_test_kernels_ml40\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/nfg_test_kernels.py\"\;\ echo\ \"kernels\ rc=\$\?\"\;\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg\ scripts/dev/record\ ep7/nfg_test_learner_ml40\ scripts/dev/in-flash-chord\ \"JAX_PLATFORMS=cpu\ python\ /repo/stages/policy/nfg_test_learner.py\"\;\ echo\ \"learner\ rc=\$\?\" 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# source   : 72d4aaff99ec
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:22:03-0600
+# ---------------------------------------------------------------
+record: → results/ep7/nfg_test_kernels_ml40.txt（22 行）
+kernels rc=0
+record: → results/ep7/nfg_test_learner_ml40.txt（14 行）
+learner rc=0

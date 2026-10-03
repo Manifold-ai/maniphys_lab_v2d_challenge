@@ -1,4 +1,4 @@
-"""非有限防护补丁的环境侧组件测试（K1 的 CPU 版与 K2；暂无契约 ID：运行规范待成文）。在 FlashCHORD 容器里、CPU 上跑，挂打了防护补丁的副本：
+"""非有限防护补丁的环境侧组件测试（K1 的 CPU 版与 K2；守 docs/contracts/policy.md 的 POLICY-I001、POLICY-I002、POLICY-I003）。在 FlashCHORD 容器里、CPU 上跑，挂打了防护补丁的副本：
   V2D_FC_SRC=<fc_src/v040_p185_nfg> scripts/dev/in-flash-chord "python /repo/stages/policy/nfg_test_kernels.py"
 计划 agent-doc/plan-ep7-eval-and-guards-2026-10-02.md 的 B.4。
 
@@ -12,6 +12,7 @@ K2：clear_nonfinite_solver_rows 只清“在重置掩码里、且这一行有�
 """
 import importlib.util
 import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -41,22 +42,22 @@ def make_inputs(rng, worlds, bodies, frames=30):
     ref = rng.normal(scale=0.5, size=(frames, 7)).astype(np.float32)
     ref[:, 3:7] = random_quats(rng, frames)
     hands = 2
-    return dict(
-        body_q=np.concatenate([body_pos, body_rot], axis=1),
-        timestep=rng.integers(0, frames + 3, size=worlds).astype(np.int32),
-        episode_step=rng.integers(0, 120, size=worlds).astype(np.int32),
-        reference_joint_q=ref,
-        reference_wrist_pos_w=rng.normal(scale=0.5, size=(frames * hands, 3)).astype(np.float32),
-        reference_wrist_quat_w=random_quats(rng, frames * hands),
-        wrist_body_ids=np.array([3, 5], dtype=np.int32),
-        wrist_local_pos=rng.normal(scale=0.05, size=(hands, 3)).astype(np.float32),
-        wrist_local_quat=random_quats(rng, hands),
-        object_body_ids_w=np.array([w * bodies + bodies - 1 for w in range(worlds)], dtype=np.int32),
-        object_ref_pos_w=rng.normal(scale=0.5, size=(worlds, 3)).astype(np.float32),
-        object_ref_quat_w=random_quats(rng, worlds),
-        frames=frames,
-        hands=hands,
-    )
+    return {
+        "body_q": np.concatenate([body_pos, body_rot], axis=1),
+        "timestep": rng.integers(0, frames + 3, size=worlds).astype(np.int32),
+        "episode_step": rng.integers(0, 120, size=worlds).astype(np.int32),
+        "reference_joint_q": ref,
+        "reference_wrist_pos_w": rng.normal(scale=0.5, size=(frames * hands, 3)).astype(np.float32),
+        "reference_wrist_quat_w": random_quats(rng, frames * hands),
+        "wrist_body_ids": np.array([3, 5], dtype=np.int32),
+        "wrist_local_pos": rng.normal(scale=0.05, size=(hands, 3)).astype(np.float32),
+        "wrist_local_quat": random_quats(rng, hands),
+        "object_body_ids_w": np.array([w * bodies + bodies - 1 for w in range(worlds)], dtype=np.int32),
+        "object_ref_pos_w": rng.normal(scale=0.5, size=(worlds, 3)).astype(np.float32),
+        "object_ref_quat_w": random_quats(rng, worlds),
+        "frames": frames,
+        "hands": hands,
+    }
 
 
 def run_kernel(kernel, d, worlds, bodies):
@@ -171,8 +172,8 @@ def main() -> int:
     from flash_chord.lifecycle import termination as patched
 
     upstream = load_upstream()
-    assert "nonfinite" not in open(UPSTREAM).read(), "对照用的上游 termination.py 不应带防护"
-    assert "nonfinite" in open(patched.__file__).read(), f"挂的不是打了防护补丁的副本：{patched.__file__}"
+    assert "nonfinite" not in Path(UPSTREAM).read_text(), "对照用的上游 termination.py 不应带防护"
+    assert "nonfinite" in Path(patched.__file__).read_text(), f"挂的不是打了防护补丁的副本：{patched.__file__}"
     test_k1(upstream, patched)
     test_k2(base)
     print("NFG_KERNELS_OK")

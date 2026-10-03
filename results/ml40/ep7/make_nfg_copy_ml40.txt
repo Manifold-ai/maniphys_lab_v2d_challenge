@@ -1,0 +1,17 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ stages/policy/make_patched_fc_src.sh\ /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg\ third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch\ third_party/patches/flash_chord-p185-nfg.sha256\ \&\&\ cat\ /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg/SOURCE_V2D.txt\ \&\&\ python3\ stages/policy/fc_src_check.py\ /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg\ third_party/patches/flash_chord-p185-nfg.sha256\ \|\ tail\ -3 
+# md5      : 7f2e4ada782db1e7f2758bd2d5b35f48  stages/policy/make_patched_fc_src.sh
+# md5      : 8210647b6520b186e39e3c374b484c1d  third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+# md5      : 43e6008b85a7a5205b01ba1225ebfb57  third_party/patches/flash_chord-p185-nfg.sha256
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 43e6008b85a7a5205b01ba1225ebfb57  third_party/patches/flash_chord-p185-nfg.sha256
+# source   : 72d4aaff99ec
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:21:52-0600
+# ---------------------------------------------------------------
+PATCHED_FC_SRC_OK /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+scene/support.py sha256 8d82f6008f2310667bef6862dfa3f453d3bdd188c79c7283a26e288a5a19e1c2，与上游 8c778f905c 相同
+生成于 2026-10-03 10:21:54 CST；仓库来历 90a73fa8e852
+  ok   src/flash_chord/training/flash_sac/nonfinite_guard.py sha256 3870702c4cfc773a…
+  ok   src/flash_chord/training/flash_sac/runner.py sha256 169192076b221604…
+FC_SRC_OK

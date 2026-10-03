@@ -99,8 +99,8 @@
 
 ## B. 训练的非有限防护与 ep7 两档重训
 
-第 4 版（10/2 20:10）：按 Opus 5.5 的独立审查修改（GO WITH FIXES，没有 BLOCKER，6 条 MAJOR，审查意见全文摘要见 `agent-doc/review-ep7-guards-plan-b-2026-10-02.md`），
-修改对照见 B.8。另送 Fable 5.1 审第 4 版；两份审查都处理完、B.4 的闸都过之前不重训。
+第 5 版（10/2 21:00）：第 4 版按 Opus 5.5 的独立审查修改（GO WITH FIXES，6 条 MAJOR，对照见 B.8）；第 5 版再按 Fable 5.1 对第 4 版的审查修改
+（GO WITH FIXES，没有 BLOCKER，2 条 MAJOR、16 条 MINOR，对照见 B.9）。两份审查的摘要都在 `agent-doc/review-ep7-guards-plan-b-2026-10-02.md`。两份审查都已处理；B.4 的闸都过之前不重训。
 
 ### B.1 事实（读仿真器与训练源码；A 的取证给了一处实测）
 
@@ -151,49 +151,61 @@
   或者两种观测转成回放的存储精度（读 `config.replay.observation_storage_dtype`）之后非有限。上下文与其余量按 fp32 判。
 - 对坏世界（全部用 `jnp.where`，条件全假时原样返回每一位）：
   - 奖励分项写成“终止项 1，其余 0”，`terminated` 置真；
-  - `next_observation`、`post_reset_observation` 换成这一步之前的观测，`next_critic_context`、`post_reset_critic_context` 换成这一步之前的上下文；
+  - 四个观测与上下文数组**各按自己的判据换**（第 5 版，Fable MAJOR A）：`next_observation`、`post_reset_observation` 自身非有限或存不进存储精度时换成这一步之前的观测，
+    `next_critic_context`、`post_reset_critic_context` 自身非有限时换成这一步之前的上下文。环境判坏的世界在 `_rl_step` 里已经重置，它的 `post_reset_*` 是新回合的第一帧观测（有限），
+    原样留下；只有学习器判坏、环境没重置的世界，换上的 `post_reset_*` 与仿真脱节一步，它的 `terminated` 也让学习器多记一个完成回合（环境的 `episode_step` 照旧）；
   - `action` 非有限时置 0；
-  - `termination_diagnostics` 的原因位里骨盆记 1、别的原因不动，误差列一律 `where(isfinite, x, 0)`（每个被判终止的世界至少带一个原因位，`runner.py:377–381` 的一致性检查才过）。
+  - `termination_diagnostics` 的原因位里骨盆记 1、别的原因不动，误差列一律 `where(isfinite, x, 0)`（每个被判终止的世界至少带一个原因位，`runner.py:377–381` 的一致性检查才过）；
+    环境判坏的世界，哨兵 −1 计数之后清成 0，不进 `tracking_error/pelvis_position_m_*`。
   - 另对所有世界的 `termination_diagnostics`、`episode_reference_progress` 做 `where(isfinite, x, 0)`。
+- 实现约束（第 5 版）：不在宿主端按“有没有坏世界”分支；一律 `jnp.where`，输出是新缓冲（不会把 `learner.observation` 的缓冲原样当 transition 的叶子交给会 donate learner 的 `consume_transition`）；
+  `terminated` 保持 int32（AOT 编译的执行体不重追踪，dtype 不符直接报错）；终止项按 `objective_term_names` 里的名字找，找不到就写全 0。
 - `consume_transition` 编译出来的东西与原来完全一样；没有事件时前置函数原样返回，训练逐位不变（K3 证明）。
 - 计数放在 `LearnerState` 之外（一个很小的设备数组，跟着前置函数走），日志窗口结束时读一次：
   - `guard/env_flagged_world_steps`：环境判坏的世界步数（原因位里骨盆为 1 且骨盆位置误差是哨兵值 −1）；
   - `guard/learner_only_world_steps`：只有学习器判出来的世界步数；
-  - `guard/event_phase_min`、`guard/event_phase_max`：这些世界当时的参考相位（从评论家上下文按名字取 `normalized_reference_phase`，没有这个名字记 −1；窗口里没事件时也记 −1，保证有限）；
-  - 每个窗口有事件时，宿主机往训练日志打一行：环境步数、两种计数、相位范围、第一个坏世界的编号。
-- **停止条件（事先登记）**：`learner_only_world_steps` 累计超过 100，或同一个世界连续 3 步被判坏（说明重置没救回来），runner 抛异常停训，链记失败；不自动重试。
+  - `guard/event_phase_min`、`guard/event_phase_max`：这些世界当时的参考相位（从终止时的评论家上下文 `next_critic_context` 按名字取 `normalized_reference_phase`，
+    它由整数的 timestep 算，NaN 世界也有限；万一非有限退回这一步之前的上下文；没有这个名字记 −1；窗口里没事件时也记 −1，保证有限）；
+  - 每个窗口有事件时，宿主机往训练日志打一行，以 `NONFINITE_GUARD_EVENT` 开头、后面是键值对：环境步数、两种计数、相位范围、第一个坏世界的编号、最长连续步数。
+  - 计数不进 checkpoint：续训后从 0 起（正式 run `V2D_MAX_RETRY=0`，不自动续）。
+- **停止条件（事先登记）**：`learner_only_world_steps` 累计超过 100，或同一个世界连续 3 步被判坏（说明重置没救回来），runner 先打一行 `NONFINITE_GUARD_STOP`（键值对加理由），
+  再抛异常停训，链记失败；不自动重试。链里与别的失败混在一起（`fc_run.sh` 记成重试用尽），所以结局一律按日志里有没有这一行判。
 
 ### B.4 重训之前要过的闸（事先登记）
 
 | 闸 | 在哪跑 | 做什么 | 通过的判据 |
 |---|---|---|---|
-| T1 复现 | ml40 GPU，未打防护的副本 | 照训练的做法建 ep7 的环境（64 个世界，不训练，动作给 0），跑 100 步后把世界 7 的关节速度写成 NaN（经 `wp.launch` 写 `state_0.joint_qd`，与仿真同一个流），再跑 120 步，逐步记下世界 7 与其余世界是否有限、是否被判终止、原因是什么 | 世界 7 在被重置之后仍然非有限。若它自己恢复了，说明 B.1 第 1 条读错了：去掉 warmstart 那一处改动，其余照做，并记下来 |
+| T1 复现 | ml40 GPU，未打防护的副本 | 照训练的做法建 ep7 的环境（Tier 2 参考，64 个世界，`capture_step` 之后只走录好的图，不训练，动作给 0），跑 100 步后把世界 7 的关节速度全写成 NaN（经 `wp.launch` 写 `state_0.joint_qd`，与仿真同一个流），再跑 120 步，逐步记下每个世界是否有限、是否被判终止、原因是什么。预期（第 5 版）：注入时已过冻结期的话，世界 7 当步就以 object 或 palm 原因终止，之后每 51 步一次 | 世界 7 第一次被重置之后的下一步仍然非有限。若它恢复了，说明 B.1 第 1 条读错了：去掉 warmstart 那一处改动，其余照做，并记下来 |
 | T1b 机理 | 同上 | 只把一个健康世界的 `qacc_warmstart` 写成 NaN（不动它的位置、速度） | 下一步它整个变成 NaN（证明 warmstart 一处就足以让世界变 NaN） |
-| T2 环境侧防护 | ml40 GPU，打了防护的副本 | 同 T1 的建法，四种注入各跑一次：(a) 一个世界的关节速度写 NaN；(b) 物体平移写 1e6（有限，但超出 fp16）；(c) 物体四元数写 NaN；(d) 同一步坏 3 个世界，其中一个在冻结期（重置后不到 50 步），一个正好在截断那一步 | 每个被注入的世界在注入后的第一步被判终止、原因记为骨盆、骨盆位置误差是 −1，重置后 120 步里它的状态与观测全程有限；其余世界全程有限；重置后它的 `qacc_warmstart`（与 `act`，若有）有限 |
-| T2c 对照 | 同上，打终止补丁但不清 warmstart | 注入 (a) | 这个世界被判终止后仍然非有限（与 T1 的结论一起，说明清 warmstart 是必要的） |
-| K1 终止 kernel 不变 | ml40 GPU | 从 T1 注入之前的 100 步录下的有限 `body_q` 上，新旧两版终止 kernel 各算一次 | 12 个输出数组逐位相同 |
+| T2 环境侧防护 | ml40 GPU，打了防护的副本 | 同 T1 的建法，四种注入各跑一次（第 5 版：位姿类注入写 `joint_q`，不写 `body_q`）：(a) 世界 7 的关节速度全写 NaN；(b) 世界 7 物体自由关节的平移写 1e6（有限，但超出 fp16）；(c) 世界 7 物体自由关节的四元数写 NaN；(d) 同一步坏 3 个世界（关节速度 NaN）：世界 3 在第 90 步后用 `RLEnv.reset(reset_frame=…, reset_mask=…)` 显式重置到第 0 帧（注入时在冻结期），世界 5 在第 96 步后显式重置到倒数第 5 帧（注入后的第一步正好是截断步），世界 7 照常 | 每个被注入的世界在注入后的第一步 done 为 1，9 列诊断恰好是（骨盆 1、手掌 0、物体 0、骨盆位置误差 −1、其余 0），这一步之后它的 `qacc_warmstart`（与 `act`，若有）有限；注入后 120 步里它的刚体位姿、关节量、观测、评论家上下文全程有限，第一步之后的终止观测也有限；其余世界 220 步全程有限；(d) 另要求世界 5 那一步 truncation 为 1、世界 3 注入时 episode_step 小于 50 |
+| T2n 对照（第 4 版叫 T2c） | 同上，但在探针进程里把 `envs.base._solver_rows_to_clear` 换成返回空（只在这个进程里，不是训练的开关） | 注入 (a) | 这个世界被判终止、重置之后的下一步仍然非有限（与 T1 的结论一起，说明清 warmstart 是必要的） |
+| K1 终止 kernel 不变 | ml40 GPU，在 T2 (a) 的进程里 | 注入之前的 100 步，每步把 `body_q`、`timestep`、`episode_step` 与物体参考位姿（`object_ref_pos_w / quat_w`）拷一份，上游 v0.4.0（按文件从 `/repo/third_party/video_to_data` 加载）与打了防护的两版终止 kernel 各算一次；另报评估次数、冻结期内的次数、判终止的次数 | 12 个输出数组逐位相同 |
 | K2 warmstart kernel 不变 | 容器 CPU | 随机的有限行与掺了 NaN、inf 的行 | 有限的行逐位不变，非有限的行变成 0，不在重置掩码里的世界不动 |
 | K3 学习器前置函数 | 容器 CPU（JAX） | 干净的 transition；一个世界的分项与观测是 NaN、inf、1e5（fp16 溢出）；环境没判终止、只有重置后观测含 1e5、上下文含 NaN | 干净输入原样返回（逐位）；坏的输入：输出全部有限，坏世界的分项是“终止 1、其余 0”，原因位与 terminated 一致；把输出连续喂给真的 `consume_transition` 8 步（多于 n-step），回放的 storage 与 pending、奖励归一化器、学习器的观测全部有限 |
-| T4 上游测试 | 先在 ml40 GPU 上跑未打防护的副本作基准，再跑打了防护的 | `tests/training/flash_sac`、`tests/lifecycle/test_termination.py`、`tests/envs/test_rl.py`、`tests/envs/test_base.py`（后三个带 gpu 标记，CPU 上会整批跳过，所以放 GPU 上） | 通过情况与基准相同 |
-| T5 冒烟 | ml40 GPU，打了防护的副本 | ep7 冒烟 400 万步、种子 42 | 跑完；W&B 各行全部有限；`env_flagged` 与 `learner_only` 都是 0；稳态行的吞吐不低于 9/30 同配置冒烟的 97%（没有同配置的就记数、不判） |
-| T6 端到端注入 | ml40 GPU，打了防护的副本 | 包一层运行未改动的训练入口：2048 个世界，回放够了之后（第 300 步）按 T2 的 (a) 注入一个世界，再跑 1000 步 | 训练跑完设定的步数；注入之后 W&B 各行全部有限；`env_flagged` 在注入那个窗口是 1 或 2（见 B.3 最后一条）；最后的 policy 没有非有限参数；停止条件没有触发 |
+| T4 上游测试 | 先在 ml40 GPU 上跑未打防护的副本作基准，再跑打了防护的 | `tests/training/flash_sac`、`tests/lifecycle/test_termination.py`、`tests/envs/test_rl.py`、`tests/envs/test_base.py`（后三个带 gpu 标记，CPU 上会整批跳过，所以放 GPU 上；带 `sequence_data` 标记的在容器里没有数据时两边同样跳过，T4 对环境侧的信息量因此有限，环境侧靠 T2、K1） | 通过、失败、跳过的测试与基准相同 |
+| T5 冒烟 | ml40 GPU，打了防护的副本 | ep7 冒烟 400 万步、种子 42，run 名取重训链的冒烟名（`smoke-t2-ep7-w2048-cap10m-p185g-ml40`），经 `fc_run.sh` 按冒烟队列行跑，链见 DONE 就跳过这一步 | 跑完；W&B 各行全部有限；日志里没有 `NONFINITE_GUARD_EVENT` 与 `NONFINITE_GUARD_STOP`；稳态行的吞吐不低于 9/30 同配置冒烟的 95%（第 5 版：单机两次冒烟常差 2–3%，97% 偏紧；没有同配置的就记数、不判） |
+| T6 端到端注入 | ml40 GPU，打了防护的副本 | `stages/policy/nfg_train_inject.py` 包一层运行未改动的训练入口（参数同 `fc_train.sh`，W&B offline）：2048 个世界、1300 次采集，第 300 次采集之后按 T2 的 (a) 注入世界 7，再跑 1000 次 | 训练跑完设定的步数；注入之后 W&B 各行全部有限；`NONFINITE_GUARD_EVENT` 行里注入那个窗口的 `env_flagged` 是 1 或 2（见 B.3 很大但有限的 warmstart 那一条），其余窗口没有事件行；最后的 policy 没有非有限参数；没有 `NONFINITE_GUARD_STOP` |
 
 任何一道不过就停，照实记录，不绕过。T1 若显示重置能救回来，按表里写的处理，其余各闸照跑。
+脚本（第 5 版）：T1、T1b、T2、T2n、K1 是 `stages/policy/nfg_env_probe.py`（一个闸一个进程，存 `runs/nfg_probe/<闸>.npz`），T6 是 `stages/policy/nfg_train_inject.py`，
+T4、探针各闸与 T6 由 `stages/policy/nfg_gpu_gates.sh` 在 ml40 上依次脱机跑，每一步记到 `results/ep7/nfg_<步>_ml40.txt`；K2、K3 是 `nfg_test_kernels.py`、`nfg_test_learner.py`（容器 CPU）。
 
 ### B.5 重训与判据
 
 两台并行，各约 2.2 小时：mf4090 训 `t1-ep7-w2048-cap4m-p185g-mf4090`，ml40 训 `t2-ep7-w2048-cap10m-p185g-ml40`。配置与发散的那两条相同（种子 42、buffer、课程都不变），
-只换训练源码副本。新写两份队列行，行首带 `V2D_KEEP_STATES=4` 与 `V2D_ALLOW_FC_SRC=1`（方盒队列行自带的是 1）；冒烟、看守照常。
+只换训练源码副本。第 5 版（Fable MAJOR B）：副本的挂法写在**链的启动命令**里（`V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<机器>/fc_src/v040_p185_nfg`，链自己读这两个变量），
+不写进队列行；每台新写一套期望表（含冒烟行）、冒烟队列、正式队列，队列行写 `V2D_WANDB_TAG=<新 tag> V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=4 <run> <parquet> 2048 <步数> [capacity]`；
+开链前先用 `fc_config_check.sh` 生成两条 run 与两条冒烟的 `runs/cfgcheck/<run>.yaml`，再用 `precheck_expect.sh` 预跑正向核对。冒烟、看守照常（ml40 的冒烟就是 T5，跑过了链会跳过）。
 
 - **R-1 跑完**：349,999,104 步、有 DONE、最终 policy 没有非有限参数、W&B 历史里没有 nan、停止条件没有触发。
 - **R-2 事件记录**：报每条 run 的 `env_flagged`、`learner_only` 累计数，各次事件的环境步数、世界号与参考相位（宿主机日志的事件行）。全程 0 次就照实写“没有再出现”，
   不据此说防护验证过了（那靠 T2、K3、T6）。
 - **R-3 质量只报数**：按批量判据，评测用 8c778f9 副本、4096 世界。不和发散前的 checkpoint 比高低来挑。
 - **结局**：
-  - 跑完 → 评测、导出、两档打包、上传器只跑 `--dry-run`。导出用哪条 run 由 `stages/evaluate/export_map.py` 按规则定：改规则（同一条 episode 有带防护的重训 run 时用它）与它的测试，
-    重新生成 `stages/evaluate/exports/*.tsv`，在提交流程的计划里写明原因。
+  - 跑完 → 评测、导出、两档打包、上传器只跑 `--dry-run`。导出用哪条 run 由 `stages/evaluate/export_map.py` 按规则定：改规则（同一条 episode 有名字带 `-p185g-` 的 run 时用它；
+    `tier1()` 的正则不认新名，靠期望表路径匹配）与 `test_export_map.py`；`exports/*.tsv` 已存在时它拒绝覆盖，先挪走再重新生成；在提交流程的计划里写明原因。
   - 跑完但评测里出现非有限世界（候选条件不满足）→ 按规矩二往前退（同一条 run 里步数从大到小），不按分数挑。
-  - 停止条件触发或再发散 → 停，不换种子重试，带着事件记录重新分析。
+  - 停止条件触发（日志里有 `NONFINITE_GUARD_STOP`）或再发散 → 停，不换种子重试，带着事件记录重新分析。
 - 改用打了补丁的训练副本是新的决定：在 `docs/adr/00003-stage-handoff-and-runtime.md` 的变更记录里补一行（#185 与这次的防护补丁），按 CLAUDE.md 的顺序在动手前完成。
 
 ### B.6 风险
@@ -209,9 +221,9 @@
 
 ### B.7 顺序
 
-1. Fable 5.1 审第 4 版，处理意见，登记。ADR-00003 补变更记录。
-2. 写补丁与测试：K2、K3、T3 部分在容器 CPU 上跑；改 `make_patched_fc_src.sh`，两台生成新副本并出 sha256 清单。
-3. ml40 GPU：T4 基准与 T4、T1、T1b、T2、T2c、K1、T5、T6，合计约 40 分钟。
+1. Fable 5.1 审第 4 版，处理意见，登记（第 5 版，B.9）。ADR-00003 改正文并补变更记录，`docs/contracts/policy.md` 加 POLICY-I001 到 I006。
+2. 写补丁与测试：K2、K3 在容器 CPU 上跑；改 `make_patched_fc_src.sh`，两台生成新副本并按 sha256 清单核对（第 5 版补丁改了 `nonfinite_guard.py` 与 `runner.py`，ml40 上第 4 版的副本挪开重生成）。
+3. ml40 GPU：`nfg_gpu_gates.sh` 跑 T4 基准与 T4、T1、T1b、T2 (a)–(d)、T2n、K1、T6，约 40 分钟；之后 T5（重训链的冒烟名）。
 4. 闸都过：两台起重训（tmux 脱机），约 2.2 小时；之后评测、导出、打包，上传器只跑 `--dry-run`。
 
 ### B.8 第 4 版对审查意见的处理
@@ -233,3 +245,27 @@
 | MINOR 10 导出表按规则生成；要补 ADR 变更记录 | B.5 |
 | MINOR 11 少了“评测里出现非有限世界”的结局 | B.5 |
 | MINOR 12 分析记录两处叙述 | 已改分析记录（6934475，“更正（10/2 19:30）”一节） |
+
+### B.9 第 5 版对 Fable 5.1 审查意见的处理
+
+| 意见 | 处理 |
+|---|---|
+| MAJOR A 重置后的观测与上下文被一起换掉 | B.3：四个数组各按自己的判据换；补丁里的实现本来就是逐数组判（第 4 版计划的文字与实现不一致，以实现为准改了文字）；K3 加“环境已重置、终止观测 NaN、重置后观测有限 → 原样返回” |
+| MAJOR B ALLOW 与 FC_SRC 不能写进队列行 | B.5：写进链的启动命令；补期望表、冒烟队列、cfgcheck、precheck 这几步 |
+| MINOR 1 ADR 正文与契约 | ADR-00003 的 toolkit 接入一段加训练副本的说法、补变更记录；policy.md 加 POLICY-I001 到 I006，测试 docstring 指回 |
+| MINOR 2 哨兵进 W&B | 清洗函数计数后把哨兵清成 0（补丁），K3 断言 |
+| MINOR 3 停训在链里分不出来 | 事件行、停训行用固定前缀 `NONFINITE_GUARD_EVENT` / `NONFINITE_GUARD_STOP`（补丁），结局按这一行判 |
+| MINOR 4 计数不进 checkpoint | B.3 写明续训从 0 起 |
+| MINOR 5 实现约束 | B.3 写明；补丁本来就满足（无宿主分支、全 `jnp.where`、int32、按名字找） |
+| MINOR 6 相位取终止上下文 | 补丁改成取 `next_critic_context`，非有限时退回；K3 断言 |
+| MINOR 7–8 注入写 joint_q / joint_qd；(d) 显式造；图里跑 | B.4 的 T2 行；`nfg_env_probe.py` |
+| MINOR 9 T1 的预期 | B.4 的 T1 行 |
+| MINOR 10 K1 的输入 | K1 拷 `body_q`、`timestep`、`episode_step` 与物体参考位姿 |
+| MINOR 11 对照不用环境变量 | T2n 只在探针进程里替换 `_solver_rows_to_clear` |
+| MINOR 12 na = 0 | 补丁的 `_solver_rows_to_clear` 跳过宽度 0（K2 已测） |
+| MINOR 13 T5 判据与名字 | 吞吐改成 95%，run 名取链的冒烟名 |
+| MINOR 14 export_map | B.5 写明规则、正则、先挪走再生成 |
+| MINOR 15 学习器判坏多记一个回合 | B.3 写明 |
+| MINOR 16 清单的注释行 | 清单不写注释行（现在就没有），`make_patched_fc_src.sh` 不改 |
+| 替代设计 | 不采用：一律清 warmstart 会失去“没有事件时逐位不变”；只改环境侧会失去学习器那张安全网与停止条件 |
+

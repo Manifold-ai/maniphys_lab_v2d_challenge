@@ -1,20 +1,22 @@
-"""非有限防护补丁的学习器侧组件测试（K3；暂无契约 ID：运行规范待成文）。在 FlashCHORD 容器里、CPU 上跑 JAX，挂打了防护补丁的副本：
+"""非有限防护补丁的学习器侧组件测试（K3；守 docs/contracts/policy.md 的 POLICY-I004、POLICY-I005、POLICY-I006）。在 FlashCHORD 容器里、CPU 上跑 JAX，挂打了防护补丁的副本：
   V2D_FC_SRC=<fc_src/v040_p185_nfg> scripts/dev/in-flash-chord "JAX_PLATFORMS=cpu python /repo/stages/policy/nfg_test_learner.py"
 计划 agent-doc/plan-ep7-eval-and-guards-2026-10-02.md 的 B.4。学习器按上游测试的小配置建（2 个世界、观测 3 维、动作 2 维、分项 2 个）。
 
   1. 干净的 transition：清洗函数的每个输出数组与输入逐位相同（含 -0.0），计数都是 0。
   2. 坏的输入：分项 NaN、下一步观测 inf、重置后观测 1e5（fp16 存不下）、重置后上下文 NaN、动作 NaN（这几种分开测）：
      输出全部有限；坏世界的分项是“终止 1、其余 0”、terminated 为 1、骨盆原因位为 1；被换掉的观测、上下文等于学习器当前的观测、上下文；另一个世界逐位不变。
-  3. 环境判坏（骨盆原因 1、骨盆位置误差 -1）：记在 env_flagged，不记 learner_only。
+     相位取终止时的上下文（next_critic_context）。
+  3. 环境判坏（骨盆原因 1、骨盆位置误差 -1）：记在 env_flagged，不记 learner_only；哨兵值计数后清成 0。
+     环境判坏且已重置的世界：下一步观测与上下文是 NaN 时换成学习器当前的，重置后的观测与上下文有限，逐位原样返回。
   4. 接到真的 consume_transition 上连喂 8 步（n-step 3、回放按 fp16 存），第 2、5 步注入坏世界：回放的 storage 与 pending、奖励归一化器、学习器的观测与指标全部有限。
      反向对照：同样的输入不经清洗直接喂，奖励归一化器变成 NaN（说明这个测试测得出问题）。
-  5. 窗口报告与停止条件：连续 3 步坏 → 停止理由；learner_only 累计超过 100 → 停止理由；reset_window 只清窗口量。
+  5. 窗口报告与停止条件：连续 3 步坏 → 停止理由；learner_only 累计超过 100 → 停止理由；reset_window 只清窗口量；
+     事件行以 NONFINITE_GUARD_EVENT 开头、停训行以 NONFINITE_GUARD_STOP 开头，键值对可按名字取。
 最后一行 NFG_LEARNER_OK 或报错退出。
 """
 import jax
 import jax.numpy as jnp
 import numpy as np
-
 from flash_chord.lifecycle.reset import RESET_CONTEXT_NAMES
 from flash_chord.training.flash_sac import nonfinite_guard as ng
 from flash_chord.training.flash_sac.config import (
@@ -125,7 +127,7 @@ def test_bad(sanitize) -> None:
         if label == "动作 NaN":
             assert float(out.action[0, 0]) == 0.0 and float(out.action[0, 1]) == float(t.action[0, 1])
         assert int(state.learner_only) == 1 and int(state.env_flagged) == 0, label
-        assert float(state.phase_min) == float(context[0, 3]) == float(state.phase_max), label
+        assert float(state.phase_min) == float(t.next_critic_context[0, 3]) == float(state.phase_max), label
         assert int(state.first_world) == 0, label
     print(f"2 坏输入：{len(cases)} 种情形都清洗成有限值，坏世界成了“终止 1、其余 0”的失败样本，另一个世界逐位不变")
 
@@ -140,8 +142,24 @@ def test_env_flag(sanitize) -> None:
     out, state = sanitize(t, observation, context, ng.create_guard_state(2))
     assert int(state.env_flagged) == 1 and int(state.learner_only) == 0
     assert np.asarray(out.objective_terms)[1].tolist() == [1.0, 0.0]
-    assert float(out.termination_diagnostics[1, 1]) == ng.ENV_FLAG_PELVIS_ERROR
-    print("3 环境判坏：记在 env_flagged，不记 learner_only；哨兵值 -1 原样保留")
+    assert float(out.termination_diagnostics[1, 0]) == 1.0 and float(out.termination_diagnostics[1, 1]) == 0.0
+    for name in FIELDS:
+        assert same_bits(np.asarray(getattr(out, name))[0], np.asarray(getattr(t, name))[0]), ("另一个世界变了", name)
+
+    # 环境已经重置了这个世界：终止时的观测与上下文是 NaN，重置后的是新回合的第一帧观测（有限），后者要原样留下
+    t2 = t.replace(
+        next_observation=t.next_observation.at[1].set(jnp.nan),
+        next_critic_context=t.next_critic_context.at[1].set(jnp.nan),
+    )
+    out2, state2 = sanitize(t2, observation, context, ng.create_guard_state(2))
+    assert int(state2.env_flagged) == 1 and int(state2.learner_only) == 0
+    assert same_bits(np.asarray(out2.next_observation)[1], np.asarray(observation)[1])
+    assert same_bits(np.asarray(out2.next_critic_context)[1], np.asarray(context)[1])
+    assert same_bits(out2.post_reset_observation, t2.post_reset_observation), "重置后的观测有限时应原样返回"
+    assert same_bits(out2.post_reset_critic_context, t2.post_reset_critic_context), "重置后的上下文有限时应原样返回"
+    assert float(state2.phase_min) == float(context[1, 3]), "终止上下文的相位是 NaN 时退回学习器当前上下文的相位"
+    print("3 环境判坏：记在 env_flagged，不记 learner_only；哨兵值 -1 计数后清成 0；终止观测 NaN 时只换它，"
+          "有限的重置后观测与上下文逐位原样返回")
 
 
 def consume_run(cfg, sanitize, *, use_guard: bool):
@@ -202,7 +220,16 @@ def test_report() -> None:
     assert reason and "learner-only" in reason
     cleared = ng.reset_window(state.replace(learner_only=jnp.asarray(5, dtype=jnp.int32), first_world=jnp.asarray(1, dtype=jnp.int32)))
     assert int(cleared.learner_only) == 0 and int(cleared.first_world) == -1 and int(cleared.learner_only_total) == 101
-    print("5 窗口报告：两种停止条件都报得出；reset_window 只清窗口量，累计量与连续计数保留")
+    metrics, reason = ng.window_report(state.replace(env_flagged=jnp.asarray(2, dtype=jnp.int32), first_world=jnp.asarray(7, dtype=jnp.int32)))
+    event = ng.event_line(614400, metrics)
+    fields = dict(kv.split("=", 1) for kv in event.split()[1:])
+    assert event.startswith("NONFINITE_GUARD_EVENT "), event
+    assert fields["environment_steps"] == "614400" and fields["env_flagged"] == "2" and fields["first_world"] == "7", event
+    assert fields["learner_only_total"] == "101" and fields["phase_min"] == "-1.0000", event
+    stop = ng.stop_line(614400, metrics, reason)
+    assert stop.startswith("NONFINITE_GUARD_STOP environment_steps=614400 learner_only_total=101 "), stop
+    assert "learner-only" in stop.split("reason=", 1)[1], stop
+    print("5 窗口报告：两种停止条件都报得出；reset_window 只清窗口量，累计量与连续计数保留；事件行、停训行的前缀与键值对可解析")
 
 
 def main() -> int:

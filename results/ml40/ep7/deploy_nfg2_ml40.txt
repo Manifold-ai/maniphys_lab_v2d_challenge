@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/policy/make_patched_fc_src.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 7f2e4ada782db1e7f2758bd2d5b35f48  stages/policy/make_patched_fc_src.sh
+# source   : 72d4aaff99ec
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:21:43-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/policy/make_patched_fc_src.sh：远端是 90a73fa 的版本（d133f50d22153eb0962c171cda035b85）
+本地提交 72d4aaff99ec；远端来历 90a73fa8e852
+  ok   7f2e4ada782db1e7f2758bd2d5b35f48  stages/policy/make_patched_fc_src.sh
+远端来历（放完）90a73fa8e852
+PUSH_OK（1 个文件）

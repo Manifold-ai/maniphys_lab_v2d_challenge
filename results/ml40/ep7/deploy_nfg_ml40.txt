@@ -1,0 +1,18 @@
+# command  : scripts/dev/push-new-files third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch third_party/patches/flash_chord-p185-nfg.sha256 stages/policy/nfg_test_kernels.py stages/policy/nfg_test_learner.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 8210647b6520b186e39e3c374b484c1d  third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+# md5      : 43e6008b85a7a5205b01ba1225ebfb57  third_party/patches/flash_chord-p185-nfg.sha256
+# md5      : a6ec4910abfe11a6c72ad22dccfb65a8  stages/policy/nfg_test_kernels.py
+# md5      : adadb0c58a94a650c65cda240168e476  stages/policy/nfg_test_learner.py
+# source   : 72d4aaff99ec
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:21:15-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 72d4aaff99ec；远端来历 90a73fa8e852
+  ok   8210647b6520b186e39e3c374b484c1d  third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+  ok   43e6008b85a7a5205b01ba1225ebfb57  third_party/patches/flash_chord-p185-nfg.sha256
+  ok   a6ec4910abfe11a6c72ad22dccfb65a8  stages/policy/nfg_test_kernels.py
+  ok   adadb0c58a94a650c65cda240168e476  stages/policy/nfg_test_learner.py
+远端来历（放完）90a73fa8e852
+PUSH_OK（4 个文件）

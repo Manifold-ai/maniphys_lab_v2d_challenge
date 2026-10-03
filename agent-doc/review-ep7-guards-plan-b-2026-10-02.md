@@ -2,7 +2,7 @@
 
 审的是 `agent-doc/plan-ep7-eval-and-guards-2026-10-02.md` 的 B.1–B.7（3ce4ea5 的文本）。主会话是 Fable 5.1。
 - **Opus 5.5 的审查 15:28 回来：GO WITH FIXES，没有 BLOCKER，6 条 MAJOR。** 下面是它的意见摘要（原文只在会话里，这里按条记全），都还没有处理。
-- **Fable 5.1 的那一份 15:29 被停掉**（用户要求 15:30 前停掉这边要靠 Mac 的任务），没有结果，下次要重起。
+- **Fable 5.1 的那一份 15:29 被停掉**（用户要求 15:30 前停掉这边要靠 Mac 的任务），没有结果；20:10 重起，审第 4 版，20:40 回来，摘要在文末“Fable 5.1 审第 4 版”一节。
 
 计划选的三件事（终止 kernel 判非有限、重置时清 warmstart、学习器入口清洗）审查认为仍是合理的最小改动；warmstart 的读法、重置能传进 mjw_data、
 清 warmstart 的位置与顺序、强制 `pelvis_failed` 能绕开冻结屏蔽、评测与导出不受影响，这几点它逐项核对后都成立。
@@ -49,3 +49,45 @@
 
 关掉 warmstart：一行改动，但每步都从 qacc_smooth 起算、没有事件时动力学也不再相同，另两侧照样要做，不如现方案。每步在 `_transition` 开头清所有世界的非有限 warmstart：与放在重置里等价，二选一。
 用 mujoco_warp 的 reset_data：会清更多状态、风险更大。只做学习器侧：坏世界永远在循环里、吞吐减半，不可取。
+
+## Fable 5.1 审第 4 版（10/2 20:40 回来）
+
+审的是第 4 版的 B.1–B.8（331aecd 的文本）与 72d4aaf 的补丁草稿。主会话是 Opus 5.5。**GO WITH FIXES，没有 BLOCKER，2 条 MAJOR。**
+它逐项核对后认为成立的点：transition 的叶子是 Warp 数组的零拷贝视图，`consume_transition` 只 donate learner、AOT 编译不重追踪，前置函数排在同一个 JAX 流上，读 `learner.observation` 安全；
+没有事件时 `jnp.where` 逐位保留（含 −0.0）；世界内刚体编号连续、各世界不平移（1e3 m 不会误伤）；`wp.isfinite(quat)` 有真实现、transform 没有重载；
+两条重置路都经 `BaseEnv.reset`，后者录在图里；`qacc_warmstart` 的形状是 `(nworld, nv)`、录图后不重新分配；坏世界重置后接触槽、SONIC 历史都不留 NaN。
+
+### MAJOR
+
+A. **M1 改过头。** 环境判坏的世界在 `_rl_step` 里已经重置，`post_reset_observation / post_reset_critic_context` 是新回合的第一帧观测，有限且正确；
+   计划写的“四个数组任一命中就一起换”会把它换成上一回合崩之前的观测，下一步的动作与回放样本都错一条（`learner.py:1072, 1078, 1130–1131`）。
+   改法：`next_*` 与 `post_reset_*` 各用自己的判据（自身非有限或存不进存储精度才换）；K3 加“环境已重置、`next_*` 是 NaN、`post_reset_*` 有限 → 原样返回”；
+   只有学习器判坏、环境没重置的世界仍换成旧观测，并写明这一步与仿真脱节一步。
+B. **`V2D_ALLOW_FC_SRC=1` 写进队列行会让链在开头就停。** 链读的是自己的环境（`day2_train_chain.sh:58–61`、`precheck_expect.sh:17`），队列行的前缀只经 `run_q` 传给 `fc_run*.sh`；
+   方盒链的 ALLOW 与 FC_SRC 写在 `arm_box_chains.sh:27` 的 tmux 命令里。改法：队列行只带 `V2D_KEEP_STATES=4` 等，链的启动命令带 `V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>`；
+   另要新的期望表（含冒烟行）、冒烟队列，以及先用 `fc_config_check.sh` 生成 `runs/cfgcheck/<run>.yaml`（`precheck_expect.sh:31` 缺它就不过）。
+
+### MINOR
+
+1. ADR-00003 正文写“源码不改”，与训练用补丁副本矛盾，要改正文；`docs/contracts/policy.md` 全空，K1–K3、T2 的 docstring 要能指回契约 ID。
+2. 哨兵 −1 经 `packed_diagnostics` 进 `tracking_error/pelvis_position_m_*`，把均值拉低；前置函数计数之后应把它清成 0 再交给学习器。
+3. 停训在链里会被记成普通失败（`fc_run.sh:224` 重试用尽、退出码 2）；停训前打一行固定前缀的标记，事件行也用固定前缀。
+4. 计数不进 checkpoint，续训从 0 起；写明或另存。
+5. 前置函数的实现约束：不许宿主端分支、一律 `jnp.where`、输出是新缓冲、`terminated` 保持 int32、终止项按名字找。
+6. 相位取 `next_critic_context`（由 timestep 算，NaN 世界也有限），不取重置后的。
+7. T2 的注入写 `joint_q / joint_qd`，不写 `body_q`（下一个子步只从 joint_q、joint_qd 推 qpos、qvel，body_q 随后被覆盖）；物体平移与四元数写物体自由关节的 `joint_q`。
+8. T2(d) 的冻结期与截断步要用 `RLEnv.reset(reset_frame=…, reset_mask=…)` 显式造；T2 全部在 `capture_step()` 之后跑。
+9. T1 的预期：注入时已过冻结期的 NaN 世界当步就以 object 或 palm 原因终止，之后每 51 步一次。
+10. K1 要同时录 `timestep`、`episode_step`。
+11. “不清 warmstart”的对照别用环境变量开关（会成为训练里看不见的旋钮），用配置字段或第三份副本。
+12. `act` 在 na = 0 时宽度为 0，跳过。
+13. T5 的吞吐 97% 偏紧（单机两次冒烟常差 2–3%）；T5 的 run 名取链的冒烟名，链见 DONE 就跳过。
+14. `export_map.py` 的 `tier1()` 正则不认新名、`exports/*.tsv` 已存在会拒绝覆盖，规则写成“同 episode 有 `-p185g-` 的 run 就用它”，测试同步改。
+15. 只有学习器判坏的世界 `terminated=1` 会让学习器多记一个完成回合，环境的 `episode_step` 照旧；写明即可。
+16. `make_patched_fc_src.sh` 的清单循环不跳 `#` 行（`fc_src_check.py` 跳），清单别写注释头。
+
+### 替代设计（审查的看法，未采用）
+
+重置的世界一律清零 warmstart（MuJoCo `mj_resetData` 的语义）：更稳，但正常重置后的第一次求解起点变了，“没有事件时逐位不变”不再成立。
+只改环境侧、不碰 JAX：没有 AOT、donate 的坑，但丢掉“只有学习器判坏”这张安全网与停止条件。`mjw.reset_data(reset=mask)`：清得太多，不建议。
+

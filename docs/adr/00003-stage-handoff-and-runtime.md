@@ -38,6 +38,11 @@ CLAUDE.md 要求环节之间只经文件交接，下游不 import 上游代码�
 `--save` 与 `--motion-root`，防止写进上游资产目录）。升级方式：Mac 上 `git bundle` 增量，训练机 fetch 后快进，
 再 `git lfs pull`。
 
+FlashCHORD 的训练源码是这个 checkout 的副本加 `third_party/patches/` 里的补丁，checkout 本身不改。副本由
+`stages/policy/make_patched_fc_src.sh` 生成，按补丁旁的 sha256 清单核对（`stages/policy/fc_src_check.py`），经 `V2D_FC_SRC`
+挂成容器里的 `/workspace`：`fc_src/v040_p185`（上游 #185 方盒支撑面）、`fc_src/v040_p185_nfg`（再加 V2D 非有限防护，
+`docs/contracts/policy.md` 的 POLICY-I001 到 I006）。评测与导出用与上游 8c778f9 逐字节相同的副本 `fc_src/fc_8c778f9`。
+
 **运行方式**：一律用一次性容器（`--rm`），整仓挂 `/repo`，以宿主 uid 运行（加 isaac-sim 组）：
 `scripts/dev/incontainer`（Isaac 镜像）、`scripts/dev/in-flash-chord`（FlashCHORD 镜像）。
 GPU 默认不占，显式 `V2D_GPU=1` 才加。
@@ -96,3 +101,4 @@ ml40 的 docker 用 containerd 镜像存储，镜像层在 `/var/lib/containerd`
 - 2026-09-25：初稿（Proposed）。
 - 2026-09-26：加多主机（`V2D_ENV`）与 ml40 就地重建镜像的决定。
 - 2026-09-28：ml40 改为存储迁移前先在系统盘构建镜像（系统盘回升到 45 GB、暂无 ml40 sudo 密码）；批量训练前仍须迁移。
+- 2026-10-02：训练改用打补丁的源码副本（#185 方盒支撑面自 9/30 起；非有限防护自 10/2 起），toolkit checkout 仍不改；补丁与 sha256 清单在 `third_party/patches/`。
