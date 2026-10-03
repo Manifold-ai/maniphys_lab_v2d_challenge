@@ -41,7 +41,7 @@ g evaluation/rollout.py 'isfinite|non_finite'
 
 echo "## 5. 更新与回放的配置"
 g configs/training/reference_flash_sac.yaml 'updates_per_collection|batch_size|n_step|capacity|save_replay|sampling:'
-g configs/experiment/g1_recon_body_flash_sac.yaml 'capacity|n_step|minimum_size|observation_storage_dtype|log_interval|save_interval_environment_steps|override /curriculum'
+g configs/experiment/g1_recon_body_flash_sac.yaml 'updates_per_collection|capacity|n_step|minimum_size|observation_storage_dtype|log_interval|save_interval_environment_steps|override /curriculum'
 
 echo "## 6. 课程：各段的起点与 VOC"
 echo "== $REF configs/curriculum/recon_body_flash_sac.yaml"

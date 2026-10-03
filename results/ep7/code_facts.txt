@@ -1,8 +1,8 @@
 # command  : stages/policy/ep7_code_facts.sh 
-# md5      : cd33882a0e652198c806a65ce0b03f85  stages/policy/ep7_code_facts.sh
-# source   : d5c8df9aecd3-dirty
+# md5      : a0cc1e0fa13c312b2921265240c7fc0f  stages/policy/ep7_code_facts.sh
+# source   : 561bf1d9d1cf-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-02T14:23:36-0600
+# run_at   : 2026-10-02T19:32:52-0600
 # ---------------------------------------------------------------
 ## 1. 奖励归一化器：每个世界的折扣回报、全局最大值与滑动矩，更新处有无非有限过滤
 == v0.4.0 training/flash_sac/reward_normalization.py（原文段落 50,75p;97,112p;114,127p）
@@ -150,6 +150,7 @@ configs/training/reference_flash_sac.yaml:65:  sampling: uniform
 configs/training/reference_flash_sac.yaml:87:  save_replay: false
 == v0.4.0 configs/experiment/g1_recon_body_flash_sac.yaml
 configs/experiment/g1_recon_body_flash_sac.yaml:13:  - override /curriculum: recon_body_flash_sac
+configs/experiment/g1_recon_body_flash_sac.yaml:53:  updates_per_collection: 4.0
 configs/experiment/g1_recon_body_flash_sac.yaml:72:    capacity: 10000000
 configs/experiment/g1_recon_body_flash_sac.yaml:73:    minimum_size: 409600
 configs/experiment/g1_recon_body_flash_sac.yaml:74:    n_step: 7
