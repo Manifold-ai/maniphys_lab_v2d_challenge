@@ -1,0 +1,129 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "t1": {
+   "file": "results/ml40/ep7/nfg_probe_t1_v2_ml40.txt",
+   "grep": "^注入|^其余|^世界|判据|^NFG|第 10[0-5] 步"
+  },
+  "t1b": {
+   "file": "results/ml40/ep7/nfg_probe_t1b_ml40.txt",
+   "grep": "^注入|^其余|^T1B|判据|^NFG|第 10[01] 步"
+  },
+  "t2a": {
+   "file": "results/ml40/ep7/nfg_probe_t2a_ml40.txt",
+   "grep": "^注入|^其余|^世界|^K1|判据|^NFG|第 10[0-2] 步"
+  },
+  "t2b": {
+   "file": "results/ml40/ep7/nfg_probe_t2b_ml40.txt",
+   "grep": "^注入|^其余|^世界|判据|^NFG|第 10[0-2] 步"
+  },
+  "t2c": {
+   "file": "results/ml40/ep7/nfg_probe_t2c_ml40.txt",
+   "grep": "^注入|^其余|^世界|判据|^NFG|第 10[0-2] 步"
+  },
+  "t2d": {
+   "file": "results/ml40/ep7/nfg_probe_t2d_ml40.txt",
+   "grep": "^注入|^其余|^世界|^t2d|判据|^NFG|第 10[0-2] 步"
+  },
+  "t2n": {
+   "file": "results/ml40/ep7/nfg_probe_t2n_v2_ml40.txt",
+   "grep": "^t2n|^注入|^其余|^世界|判据|^NFG|第 10[0-3] 步"
+  },
+  "t2n_first": {
+   "file": "results/ml40/ep7/nfg_probe_t2n_ml40.txt.failed",
+   "grep": "^t2n|^其余|^世界|判据|^NFG"
+  },
+  "t6": {
+   "file": "results/ml40/ep7/nfg_t6_ml40.txt",
+   "grep": "^T6|T6_|NONFINITE_GUARD|training progress: 2,662,400|最后的 policy|NFG_T6_DONE"
+  },
+  "t6_wandb": {
+   "file": "results/ml40/ep7/nfg_t6_wandb_ml40.txt",
+   "grep": "history|所有指标|guard/"
+  },
+  "t4base": {
+   "file": "results/ml40/ep7/nfg_t4base_ml40.txt",
+   "grep": "in-flash-chord|passed|SKIPPED|FAILED|ERROR"
+  },
+  "t4": {
+   "file": "results/ml40/ep7/nfg_t4_ml40.txt",
+   "grep": "in-flash-chord|passed|SKIPPED|FAILED|ERROR"
+  }
+ },
+ "claims": [
+  {
+   "id": "t1_reset_fails",
+   "evidence": ["t1"],
+   "claim": "未打防护时，世界 7 的关节速度写成 NaN 之后，它在第 104 步以 palm 与 object 原因被判终止并重置；重置之后的 116 步里终止观测与 warmstart 每一步都非有限；其余 63 个世界全程有限；T1 判据过。"
+  },
+  {
+   "id": "t1b_warmstart",
+   "evidence": ["t1b"],
+   "claim": "只把世界 9 的 qacc_warmstart 写成 NaN、不动位置与速度，下一步世界 9 的刚体位姿、关节量、观测都变成非有限，其余世界有限，T1B 判据过。"
+  },
+  {
+   "id": "t2_flag_recover",
+   "evidence": ["t2a", "t2b", "t2c", "t2d"],
+   "claim": "打了防护的四种注入里，每个被注入的世界在注入后第一步 done 为 1、诊断是 [1, 0, 0, -1, 0, 0, 0, 0, 0]，这一步之后 warmstart 有限，之后 120 步里状态、观测、终止观测都没有非有限的步；四项判据都过。"
+  },
+  {
+   "id": "t2d_cases",
+   "evidence": ["t2d"],
+   "claim": "T2d 同时注入世界 3、5、7：注入时它们的 episode_step 是 10、4、48；注入后第一步世界 5 的 trunc 是 1，世界 3 与世界 7 的 trunc 是 0。"
+  },
+  {
+   "id": "k1_bitwise",
+   "evidence": ["t2a"],
+   "claim": "K1 在注入之前的 100 步、6400 次世界评估上比较两版终止 kernel，12 个输出不逐位相同的列表是空的；其中冻结期内 6073 次，上游判终止 60 次。"
+  },
+  {
+   "id": "t2n_needs_clear",
+   "evidence": ["t2n"],
+   "claim": "关掉重置时清 warmstart 之后，世界 7 在第 101 步被按骨盆判坏、重置，重置后的下一步仿真之后仍然非有限；之后 119 步里终止观测与 warmstart 每一步都非有限，一共被重置 120 次；T2N 判据过。"
+  },
+  {
+   "id": "t2n_first_misjudged",
+   "evidence": ["t2n_first"],
+   "claim": "T2n 第一次运行判为不过：它报告重置之后 119 步里非有限 0 步，同时报告世界 7 从第 101 步起每一步都被重置。"
+  },
+  {
+   "id": "t6_end_to_end",
+   "evidence": ["t6"],
+   "claim": "端到端注入：在第 301 次 RLEnv.step 之前把世界 7 的关节速度写成 NaN，日志里只有一行 NONFINITE_GUARD_EVENT，其中 env_flagged=1、learner_only=0、first_world=7；训练跑满 2,662,400 步，最后的 policy 31 个张量里没有非有限的。"
+  },
+  {
+   "id": "t6_wandb_finite",
+   "evidence": ["t6_wandb"],
+   "claim": "T6 的离线 W&B 记录有 52 行、54 个指标，所有指标全程有限，其中包括 guard/env_flagged_world_steps 等 guard 指标。"
+  },
+  {
+   "id": "t4_same",
+   "evidence": ["t4base", "t4"],
+   "claim": "上游测试在未打防护的 v040_p185 与打了防护的 v040_p185_nfg 上都是 202 passed、5 skipped，跳过的都是 tests/envs 里因为没有参考序列而跳过的测试，没有失败。"
+  },
+  {
+   "id": "ctl_true_t2b",
+   "evidence": ["t2b"],
+   "claim": "T2b 注入时世界 7 的 episode_step 是 48。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_t6_stop",
+   "evidence": ["t6"],
+   "claim": "端到端注入的日志里出现了 NONFINITE_GUARD_STOP，训练在注入之后被停下。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_t4_fail",
+   "evidence": ["t4"],
+   "claim": "打了防护的副本上有 3 个上游测试失败。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_k1",
+   "evidence": ["t2a"],
+   "claim": "K1 发现两版终止 kernel 有 12 处输出不逐位相同。",
+   "control": "false"
+  }
+ ]
+}

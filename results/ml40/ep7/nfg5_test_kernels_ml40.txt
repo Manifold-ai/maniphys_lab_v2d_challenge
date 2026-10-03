@@ -1,0 +1,22 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/nfg_test_kernels.py 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 1837375c85a290f13f23c9ffff123a3b  stages/policy/nfg_test_kernels.py
+# source   : 8b9ec21cc89f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T10:46:26+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+Module v2d_termination_upstream dcef33f load on device 'cpu' took 1.49 ms  (cached)
+Module flash_chord.lifecycle.termination 44b613b load on device 'cpu' took 0.24 ms  (cached)
+K1 CPU：512 个世界全部有限，12 个输出逐位相同（其中 506 个世界被判终止）
+K1 CPU：注入的 4 个世界都被判骨盆失败、误差写成 -1 与 0；999 m 那个不算；其余世界与上游逐位相同（上游对世界 3 的 pelvis_done 是 0）
+Module flash_chord.envs.base 802f7de load on device 'cpu' took 0.23 ms  (cached)
+K2：只清在重置掩码里、含非有限值的行（整行清零）；很大的有限值与掩码外的世界不动；取行的函数三种情形都对
+NFG_KERNELS_OK

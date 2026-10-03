@@ -1,0 +1,14 @@
+# command  : scripts/dev/in-flash-chord JAX_PLATFORMS=cpu\ python\ /repo/stages/policy/nfg_test_learner.py 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 042caf06e44f879a09e350ab7bd313b2  stages/policy/nfg_test_learner.py
+# source   : 8b9ec21cc89f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T10:46:34+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+1 干净输入：10 个字段逐位相同（动作里的 -0.0 也保留），计数为 0
+2 坏输入：5 种情形都清洗成有限值，坏世界成了“终止 1、其余 0”的失败样本，另一个世界逐位不变
+3 环境判坏：记在 env_flagged，不记 learner_only；哨兵值 -1 计数后清成 0；终止观测 NaN 时只换它，有限的重置后观测与上下文逐位原样返回
+4 连喂 8 步（第 2、5 步有坏世界）：回放、归一化器、网络与指标全部有限；反向对照不清洗时归一化器变 NaN
+5 窗口报告：两种停止条件都报得出；reset_window 只清窗口量，累计量与连续计数保留；事件行、停训行的前缀与键值对可解析
+NFG_LEARNER_OK

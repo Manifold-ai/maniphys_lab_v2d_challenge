@@ -1,0 +1,140 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/nfg_env_probe.py\ t2d 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : b8489208ad1b4d8e0a21a2924ae835a0  stages/policy/nfg_env_probe.py
+# source   : d5b86daeccae
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T10:52:10+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 128 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+[0;93m2026-10-03 02:52:30.737783167 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+[0;93m2026-10-03 02:52:30.822331037 [W:onnxruntime:, inference_session.cc:2647 Initialize] This model has shape massaging nodes that will execute on CPU. Use the graph capture feature with caution. As long as the intermediate shapes produced in the model using the representative input used to capture the graph, will match the shapes produced in the model for other inputs of the same shape as the representative input (common case), it is safe to use the graph capture feature.[m
+[0;93m2026-10-03 02:52:30.967697989 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA L40S" (44 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 372.29 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.48 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.28 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 53.40 ms  (cached)
+Module newton._src.sim.graph_coloring 8071a9f load on device 'cpu' took 0.29 ms  (cached)
+Module newton._src.solvers.mujoco.kernels 618b13f load on device 'cuda:0' took 3288.80 ms  (cached)
+Module repeat_array_kernel_2767062b bae2300 load on device 'cuda:0' took 18.09 ms  (cached)
+Module repeat_array_kernel_2767062b 122cd4b load on device 'cuda:0' took 27.40 ms  (cached)
+Module repeat_array_kernel_2767062b 70fd208 load on device 'cuda:0' took 37.18 ms  (cached)
+Module repeat_array_kernel_2767062b ad5e920 load on device 'cuda:0' took 46.86 ms  (cached)
+Module repeat_array_kernel_2767062b 4770c98 load on device 'cuda:0' took 57.20 ms  (cached)
+Module repeat_array_kernel_2767062b 4d9e605 load on device 'cuda:0' took 68.22 ms  (cached)
+Module repeat_array_kernel_2767062b beb7dd7 load on device 'cuda:0' took 78.56 ms  (cached)
+Module mujoco_warp._src.io 2f253d2 load on device 'cuda:0' took 1331.16 ms  (cached)
+Module mujoco_warp._src.smooth cf7a289 load on device 'cuda:0' took 1589.48 ms  (cached)
+Module _solve_LD_sparse_fused__locals__kernel_2cb438e4 e0be12c load on device 'cuda:0' took 30.10 ms  (cached)
+Module flash_chord.lifecycle.reset cab254d load on device 'cuda:0' took 682.71 ms  (cached)
+Module newton._src.sim.articulation 24ff67e load on device 'cuda:0' took 3284.82 ms  (cached)
+Module flash_chord.envs.base 65a39f2 load on device 'cuda:0' took 110.17 ms  (cached)
+Module flash_chord.runtime.actions.sonic 9ac4ca7 load on device 'cuda:0' took 3817.36 ms  (cached)
+Module flash_chord.runtime.delay 49f6340 load on device 'cuda:0' took 135.66 ms  (cached)
+Module flash_chord.envs.rl 4c4513a load on device 'cuda:0' took 154.02 ms  (cached)
+Module flash_chord.envs.recon_body 6b7f5a5 load on device 'cuda:0' took 1700.08 ms  (cached)
+Module flash_chord.runtime.command 768bb56 load on device 'cuda:0' took 121.76 ms  (cached)
+Module flash_chord.runtime.object_control c5f9b6d load on device 'cuda:0' took 171.61 ms  (cached)
+Module mujoco_warp._src.collision_driver 621a3f9 load on device 'cuda:0' took 20.91 ms  (cached)
+Module _nxn_broadphase__locals__kernel_a929b6e4 a929b6e load on device 'cuda:0' took 36.90 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_f8e1da98 f8e1da9 load on device 'cuda:0' took 1892.05 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_702804f0 702804f load on device 'cuda:0' took 2002.12 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_77039847 7703984 load on device 'cuda:0' took 1378.07 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_6090cf8f 6090cf8 load on device 'cuda:0' took 1639.88 ms  (cached)
+Module _primitive_narrowphase__locals__primitive_narrowphase_8da6bb5a 8da6bb5 load on device 'cuda:0' took 1464.05 ms  (cached)
+Module mujoco_warp._src.constraint e56f243 load on device 'cuda:0' took 1111.12 ms  (cached)
+Module _efc_contact_init__locals__kernel_7561548c 7561548 load on device 'cuda:0' took 47.07 ms  (cached)
+Module _efc_contact_jac_sparse__locals__kernel_a4c07dfc a4c07df load on device 'cuda:0' took 47.89 ms  (cached)
+Module _efc_contact_update__locals__kernel_c8073923 c807392 load on device 'cuda:0' took 76.44 ms  (cached)
+Module mujoco_warp._src.forward f5bfed4 load on device 'cuda:0' took 579.65 ms  (cached)
+Module mujoco_warp._src.passive cc48b2a load on device 'cuda:0' took 372.84 ms  (cached)
+Module mujoco_warp._src.forward 46b3f78 load on device 'cuda:0' took 580.07 ms  (cached)
+Module mujoco_warp._src.support d1e71d9 load on device 'cuda:0' took 61.36 ms  (cached)
+Module mujoco_warp._src.solver d53b47b load on device 'cuda:0' took 650.25 ms  (cached)
+Module solve_init_jaref__locals__kernel_6242cfb6 6242cfb load on device 'cuda:0' took 49.63 ms  (cached)
+Module mul_m_sparse__locals___mul_m_sparse_57bd8101 57bd810 load on device 'cuda:0' took 74.73 ms  (cached)
+Module update_constraint_efc__locals__kernel_e7fd7693 e7fd769 load on device 'cuda:0' took 55.81 ms  (cached)
+Module update_constraint_gauss_cost__locals__kernel_27a5020c 27a5020 load on device 'cuda:0' took 39.21 ms  (cached)
+Module update_gradient_cholesky_blocked__locals__kernel_ff24a874 22c536e load on device 'cuda:0' took 1207.31 ms  (cached)
+Module linesearch_jv_fused__locals__kernel_f9422724 f942272 load on device 'cuda:0' took 52.79 ms  (cached)
+Module linesearch_iterative__locals__kernel_6637ae6e d82a261 load on device 'cuda:0' took 224.52 ms  (cached)
+Module update_constraint_efc__locals__kernel_565f38f0 565f38f load on device 'cuda:0' took 58.46 ms  (cached)
+Module update_gradient_cholesky_blocked_skip_unchanged__locals__kernel_e9533037 d389bb6 load on device 'cuda:0' took 1159.38 ms  (cached)
+Module mujoco_warp._src.sensor a993087 load on device 'cuda:0' took 1250.13 ms  (cached)
+Module mujoco_warp._src.derivative 212adeb load on device 'cuda:0' took 255.04 ms  (cached)
+Module flash_chord.runtime.joint_drive 1a1ab2a load on device 'cuda:0' took 208.05 ms  (cached)
+Module flash_chord.runtime.contact 6b5b079 load on device 'cuda:0' took 248.75 ms  (cached)
+Module flash_chord.lifecycle.termination c74493b load on device 'cuda:0' took 397.71 ms  (cached)
+Module flash_chord.objectives.wrench 8e5d34b load on device 'cuda:0' took 287.87 ms  (cached)
+Module flash_chord.objectives.recon_body 0a954a1 load on device 'cuda:0' took 451.63 ms  (cached)
+环境：/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet；64 个世界，参考 896 帧，设备 cuda:0；终止阈值 骨盆 0.7 m / 1.5 rad，冻结 50 步；VOC 1.0
+每个世界：刚体 56、joint_q 64、joint_qd 61、观测 486、上下文 10；qacc_warmstart (64, 61)，act 无（na = 0）
+注入之前 100 步：状态或观测非有限的（步，世界）[]；done 合计 63，trunc 合计 0
+注入：闸 t2d，世界 [3, 5, 7]；此刻 episode_step [10, 4, 48]，timestep [10, 895, 35]（参考最后一帧 895）
+Module __main__ 24d375f load on device 'cuda:0' took 40.72 ms  (cached)
+已存 /repo/runs/nfg_probe/t2d.npz
+== 世界 3，注入前 3 步到注入后 12 步：
+  第  98 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.02982, 0.1278, 0.04674, 0.2023, 0.001152, 0.001196] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 8 timestep 8
+  第  99 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.03155, 0.1399, 0.04839, 0.2044, 0.001304, 0.0006905] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 9 timestep 9
+  第 100 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.03042, 0.1422, 0.04969, 0.212, 0.00143, 0.0006905] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 10 timestep 10
+  第 101 步 世界 3：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 1 act 1 episode_step 0 timestep 762
+  第 102 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.00523, 0.09758, 0.04547, 0.2278, 0.003702, 0.04432] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 1 timestep 762
+  第 103 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.0116, 0.1809, 0.04851, 0.2906, 0.006042, 0.07377] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 2 timestep 762
+  第 104 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.01538, 0.1891, 0.05079, 0.3228, 0.007845, 0.07473] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 3 timestep 762
+  第 105 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.01864, 0.1762, 0.05045, 0.3388, 0.01008, 0.1002] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 4 timestep 762
+  第 106 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.0219, 0.1538, 0.04861, 0.3481, 0.01099, 0.1517] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 5 timestep 762
+  第 107 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.02556, 0.1361, 0.04742, 0.3628, 0.0122, 0.1879] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 6 timestep 762
+  第 108 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.02987, 0.1283, 0.0483, 0.3871, 0.01397, 0.2084] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 7 timestep 762
+  第 109 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.03446, 0.1237, 0.05156, 0.4211, 0.01634, 0.2228] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 8 timestep 762
+  第 110 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.03832, 0.113, 0.05622, 0.456, 0.01913, 0.2349] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 9 timestep 762
+  第 111 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.04065, 0.09714, 0.06112, 0.4826, 0.02136, 0.2495] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 10 timestep 762
+  第 112 步 世界 3：done 0 trunc 0 诊断 [0, 0, 0, 0.04201, 0.0882, 0.06569, 0.5032, 0.02254, 0.2679] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 11 timestep 762
+== 世界 5，注入前 3 步到注入后 12 步：
+  第  98 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.005399, 0.09047, 0.02457, 0.1642, 0.0007259, 0.001691] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 2 timestep 893
+  第  99 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.008371, 0.0879, 0.03407, 0.2185, 0.001022, 0.001827] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 3 timestep 894
+  第 100 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.01142, 0.07992, 0.03943, 0.2409, 0.001284, 0.00772] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 4 timestep 895
+  第 101 步 世界 5：done 1 trunc 1 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 1 act 1 episode_step 0 timestep 740
+  第 102 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.005581, 0.09849, 0.04476, 0.2341, 0.005637, 0.05731] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 1 timestep 740
+  第 103 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.01059, 0.1444, 0.04599, 0.2908, 0.008102, 0.07207] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 2 timestep 740
+  第 104 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.01336, 0.1273, 0.04743, 0.3281, 0.008867, 0.08206] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 3 timestep 740
+  第 105 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.0172, 0.1291, 0.04831, 0.3419, 0.01055, 0.1066] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 4 timestep 740
+  第 106 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.02067, 0.1243, 0.04865, 0.3449, 0.01224, 0.1296] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 5 timestep 740
+  第 107 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.02374, 0.1172, 0.04904, 0.3468, 0.01342, 0.1506] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 6 timestep 740
+  第 108 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.02681, 0.1142, 0.04993, 0.3509, 0.0142, 0.1704] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 7 timestep 740
+  第 109 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.02966, 0.1107, 0.05154, 0.361, 0.01484, 0.1837] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 8 timestep 740
+  第 110 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.032, 0.1048, 0.05409, 0.3744, 0.01562, 0.1859] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 9 timestep 740
+  第 111 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.03379, 0.1008, 0.05736, 0.3903, 0.01677, 0.183] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 10 timestep 740
+  第 112 步 世界 5：done 0 trunc 0 诊断 [0, 0, 0, 0.03514, 0.09961, 0.06085, 0.4069, 0.01844, 0.1813] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 11 timestep 740
+== 世界 7，注入前 3 步到注入后 12 步：
+  第  98 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1261, 0.3265, 0.1954, 0.37, 0.001945, 0.001544] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 46 timestep 35
+  第  99 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1286, 0.3411, 0.1998, 0.3709, 0.001941, 0.001544] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 47 timestep 35
+  第 100 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1312, 0.3548, 0.2038, 0.3819, 0.00194, 0.001544] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 48 timestep 35
+  第 101 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 1 act 1 episode_step 0 timestep 418
+  第 102 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.004201, 0.06683, 0.04549, 0.2402, 0.004582, 0.02148] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 1 timestep 418
+  第 103 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01129, 0.1527, 0.04862, 0.2935, 0.01575, 0.06179] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 2 timestep 418
+  第 104 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.016, 0.1949, 0.05398, 0.3532, 0.02082, 0.07825] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 3 timestep 418
+  第 105 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01538, 0.1541, 0.05288, 0.3632, 0.02067, 0.05012] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 4 timestep 418
+  第 106 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01479, 0.1091, 0.04798, 0.3637, 0.01972, 0.03165] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 5 timestep 418
+  第 107 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01544, 0.1053, 0.04415, 0.3646, 0.01844, 0.04612] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 6 timestep 418
+  第 108 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01759, 0.1238, 0.05014, 0.3639, 0.01696, 0.043] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 7 timestep 418
+  第 109 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01921, 0.1388, 0.05542, 0.3579, 0.0158, 0.04112] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 8 timestep 418
+  第 110 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01968, 0.1394, 0.05994, 0.3477, 0.01537, 0.05429] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 9 timestep 418
+  第 111 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01965, 0.1355, 0.06345, 0.3372, 0.01566, 0.06557] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 10 timestep 418
+  第 112 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.01933, 0.1326, 0.06589, 0.3346, 0.01639, 0.06503] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 11 timestep 418
+其余 61 个世界 220 步里状态、观测或终止观测非有限的（步，世界）：[]
+世界 3：注入后第一步 done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] → 按骨盆判坏、哨兵 -1；这一步之后 warmstart/act 有限；之后 120 步里状态或观测非有限的步 []，终止观测非有限的步（第一步之后）[]，warmstart/act 非有限的步 []
+世界 5：注入后第一步 done 1 trunc 1 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] → 按骨盆判坏、哨兵 -1；这一步之后 warmstart/act 有限；之后 120 步里状态或观测非有限的步 []，终止观测非有限的步（第一步之后）[]，warmstart/act 非有限的步 []
+世界 7：注入后第一步 done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] → 按骨盆判坏、哨兵 -1；这一步之后 warmstart/act 有限；之后 120 步里状态或观测非有限的步 []，终止观测非有限的步（第一步之后）[]，warmstart/act 非有限的步 []
+t2d：注入后第一步 trunc：世界 3 0、世界 5 1、世界 7 0；注入时 episode_step [10, 4, 48]
+T2D 判据：过
+NFG_PROBE_DONE t2d PASS

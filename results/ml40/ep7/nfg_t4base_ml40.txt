@@ -1,0 +1,17 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ -m\ pytest\ -q\ -rfEs\ -p\ no:cacheprovider\ tests/training/flash_sac\ tests/lifecycle/test_termination.py\ tests/envs/test_rl.py\ tests/envs/test_base.py 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# source   : d5b86daeccae
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T10:56:38+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch）
+........................................................................ [ 34%]
+........................................................................ [ 69%]
+.........................................................ssss.s          [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/envs/test_rl.py:117: optional local reference sequences are not installed
+SKIPPED [1] tests/envs/test_rl.py:193: optional local reference sequences are not installed
+SKIPPED [1] tests/envs/test_rl.py:261: optional local reference sequences are not installed
+SKIPPED [1] tests/envs/test_rl.py:392: optional local reference sequences are not installed
+SKIPPED [1] tests/envs/test_base.py:48: optional local reference sequences are not installed
+202 passed, 5 skipped in 219.64s (0:03:39)

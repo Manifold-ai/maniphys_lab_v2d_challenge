@@ -1,0 +1,49 @@
+# command  : ssh -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ cat\ .v2d-source-commit\ \&\&\ export\ V2D_ALLOW_FC_SRC=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg\ \&\&\ stages/policy/fc_config_check.sh\ stages/policy/queues/ml40_nfg_smoke.txt\ stages/policy/queues/ml40_nfg.txt\;\ echo\ \"cfgcheck\ rc=\$\?\"\;\ stages/policy/precheck_expect.sh\ stages/policy/queues/ml40_nfg.expect.tsv\ stages/policy/queues/ml40_nfg_smoke.txt\ stages/policy/queues/ml40_nfg.txt\;\ echo\ \"precheck\ rc=\$\?\" 
+# md5      : a03b41360852bd1c4fc544f2e03611ee  stages/policy/fc_config_check.sh
+# md5      : 85ea669278176516bff7edf98fc7586f  stages/policy/queues/ml40_nfg_smoke.txt
+# md5      : 0b621b956475565a752bb5eb502d59c3  stages/policy/precheck_expect.sh
+# md5      : 05d9b3899c9c11f0bfc7d6da660f0ef1  stages/policy/queues/ml40_nfg.expect.tsv
+# md5      : 85ea669278176516bff7edf98fc7586f  stages/policy/queues/ml40_nfg_smoke.txt
+# source   : 80c81c555ecc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T21:07:39-0600
+# ---------------------------------------------------------------
+80c81c555ecc
+=== 队列 stages/policy/queues/ml40_nfg_smoke.txt
+== smoke-t2-ep7-w2048-cap10m-p185g-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet 2048…
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t2-ep7-w2048-cap10m-p185g-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t2-ep7-w2048-cap10m-p185g-ml40-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 11 个，其中意外 0 个
+=== 队列 stages/policy/queues/ml40_nfg.txt
+== t2-ep7-w2048-cap10m-p185g-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet 2048…
+  官方配方沿用 runs/cfgcheck/smoke-t2-ep7-w2048-cap10m-p185g-ml40.recipe.yaml（同一 parquet）
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='t2-ep7-w2048-cap10m-p185g-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='t2-ep7-w2048-cap10m-p185g-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='t2-ep7-w2048-cap10m-p185g-ml40-s1'
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  共 284 个键；与官方配方不同 10 个，其中意外 0 个
+== 配置核对通过
+cfgcheck rc=0
+/repo/runs/cfgcheck/smoke-t2-ep7-w2048-cap10m-p185g-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t2-ep7-w2048-cap10m-p185g-ml40.yaml：11 条断言，全过
+PRECHECK_OK（1 条 run）
+precheck rc=0

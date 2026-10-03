@@ -1,0 +1,23 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ cat\ .v2d-source-commit\ \&\&\ S=\$HOME/v2d/fc_src\ \&\&\ stages/policy/make_patched_fc_src.sh\ \$S/v040_p185_nfg\ third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch\ third_party/patches/flash_chord-p185-nfg.sha256\ \&\&\ cat\ \$S/v040_p185_nfg/SOURCE_V2D.txt\ \&\&\ python3\ stages/policy/fc_src_check.py\ \$S/v040_p185_nfg\ third_party/patches/flash_chord-p185-nfg.sha256\ \|\ tail\ -7\ \&\&\ df\ -m\ ~\ \|\ tail\ -1 
+# md5      : 7f2e4ada782db1e7f2758bd2d5b35f48  stages/policy/make_patched_fc_src.sh
+# md5      : ffea72c807221ff2cbd5df36333e7ade  third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# source   : 6f2df4bbc7d9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-02T20:50:48-0600
+# ---------------------------------------------------------------
+6f2df4bbc7d9
+PATCHED_FC_SRC_OK /home/rxzhou/v2d/fc_src/v040_p185_nfg
+flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+scene/support.py sha256 8d82f6008f2310667bef6862dfa3f453d3bdd188c79c7283a26e288a5a19e1c2，与上游 8c778f905c 相同
+生成于 2026-10-03 10:50:49 CST；仓库来历 6f2df4bbc7d9
+  ok   不同的文件正好是清单里的 5 个
+  ok   src/flash_chord/envs/base.py sha256 8a097736b62a4d27…
+  ok   src/flash_chord/lifecycle/termination.py sha256 f15ccbfab1c5b96a…
+  ok   src/flash_chord/scene/support.py sha256 8d82f6008f231066…
+  ok   src/flash_chord/training/flash_sac/nonfinite_guard.py sha256 fbd0776661ef8906…
+  ok   src/flash_chord/training/flash_sac/runner.py sha256 c35b0732ab82fb5c…
+FC_SRC_OK
+/dev/vda2         151065 140194      4609  97% /

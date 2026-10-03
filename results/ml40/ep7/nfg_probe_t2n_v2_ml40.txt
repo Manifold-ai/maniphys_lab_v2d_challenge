@@ -1,0 +1,107 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/nfg_env_probe.py\ t2n\ --out\ /repo/runs/nfg_probe/t2n_v2.npz 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 2a1ef224eb59cde1a7801d35cfec798b  stages/policy/nfg_env_probe.py
+# source   : 140194a97570
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T11:06:12+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA L40S" (44 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+t2n：本进程里关掉了重置时清 warmstart（envs.base._solver_rows_to_clear 换成返回空）
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 128 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+[0;93m2026-10-03 03:06:32.123398223 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+[0;93m2026-10-03 03:06:32.207502189 [W:onnxruntime:, inference_session.cc:2647 Initialize] This model has shape massaging nodes that will execute on CPU. Use the graph capture feature with caution. As long as the intermediate shapes produced in the model using the representative input used to capture the graph, will match the shapes produced in the model for other inputs of the same shape as the representative input (common case), it is safe to use the graph capture feature.[m
+[0;93m2026-10-03 03:06:32.360593630 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 376.07 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.47 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.28 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 53.75 ms  (cached)
+Module newton._src.sim.graph_coloring 8071a9f load on device 'cpu' took 0.30 ms  (cached)
+Module newton._src.solvers.mujoco.kernels 618b13f load on device 'cuda:0' took 3308.01 ms  (cached)
+Module repeat_array_kernel_2767062b bae2300 load on device 'cuda:0' took 18.23 ms  (cached)
+Module repeat_array_kernel_2767062b 122cd4b load on device 'cuda:0' took 27.55 ms  (cached)
+Module repeat_array_kernel_2767062b 70fd208 load on device 'cuda:0' took 37.48 ms  (cached)
+Module repeat_array_kernel_2767062b ad5e920 load on device 'cuda:0' took 47.14 ms  (cached)
+Module repeat_array_kernel_2767062b 4770c98 load on device 'cuda:0' took 57.38 ms  (cached)
+Module repeat_array_kernel_2767062b 4d9e605 load on device 'cuda:0' took 68.30 ms  (cached)
+Module repeat_array_kernel_2767062b beb7dd7 load on device 'cuda:0' took 79.37 ms  (cached)
+Module mujoco_warp._src.io 2f253d2 load on device 'cuda:0' took 1332.90 ms  (cached)
+Module mujoco_warp._src.smooth cf7a289 load on device 'cuda:0' took 1599.44 ms  (cached)
+Module _solve_LD_sparse_fused__locals__kernel_2cb438e4 e0be12c load on device 'cuda:0' took 29.99 ms  (cached)
+Module flash_chord.lifecycle.reset cab254d load on device 'cuda:0' took 673.17 ms  (cached)
+Module newton._src.sim.articulation 24ff67e load on device 'cuda:0' took 3289.96 ms  (cached)
+Module flash_chord.runtime.actions.sonic 9ac4ca7 load on device 'cuda:0' took 3809.76 ms  (cached)
+Module flash_chord.runtime.delay 49f6340 load on device 'cuda:0' took 134.82 ms  (cached)
+Module flash_chord.envs.base 65a39f2 load on device 'cuda:0' took 105.04 ms  (cached)
+Module flash_chord.envs.rl 4c4513a load on device 'cuda:0' took 152.25 ms  (cached)
+Module flash_chord.envs.recon_body 6b7f5a5 load on device 'cuda:0' took 1707.12 ms  (cached)
+Module flash_chord.runtime.command 768bb56 load on device 'cuda:0' took 122.50 ms  (cached)
+Module flash_chord.runtime.object_control c5f9b6d load on device 'cuda:0' took 169.81 ms  (cached)
+Module mujoco_warp._src.collision_driver 621a3f9 load on device 'cuda:0' took 20.98 ms  (cached)
+Module _nxn_broadphase__locals__kernel_a929b6e4 a929b6e load on device 'cuda:0' took 37.46 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_f8e1da98 f8e1da9 load on device 'cuda:0' took 1903.82 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_702804f0 702804f load on device 'cuda:0' took 1979.86 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_77039847 7703984 load on device 'cuda:0' took 1386.39 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_6090cf8f 6090cf8 load on device 'cuda:0' took 1638.21 ms  (cached)
+Module _primitive_narrowphase__locals__primitive_narrowphase_8da6bb5a 8da6bb5 load on device 'cuda:0' took 1466.67 ms  (cached)
+Module mujoco_warp._src.constraint e56f243 load on device 'cuda:0' took 1116.97 ms  (cached)
+Module _efc_contact_init__locals__kernel_7561548c 7561548 load on device 'cuda:0' took 47.30 ms  (cached)
+Module _efc_contact_jac_sparse__locals__kernel_a4c07dfc a4c07df load on device 'cuda:0' took 48.17 ms  (cached)
+Module _efc_contact_update__locals__kernel_c8073923 c807392 load on device 'cuda:0' took 76.58 ms  (cached)
+Module mujoco_warp._src.forward f5bfed4 load on device 'cuda:0' took 590.93 ms  (cached)
+Module mujoco_warp._src.passive cc48b2a load on device 'cuda:0' took 373.46 ms  (cached)
+Module mujoco_warp._src.forward 46b3f78 load on device 'cuda:0' took 586.73 ms  (cached)
+Module mujoco_warp._src.support d1e71d9 load on device 'cuda:0' took 61.24 ms  (cached)
+Module mujoco_warp._src.solver d53b47b load on device 'cuda:0' took 653.73 ms  (cached)
+Module solve_init_jaref__locals__kernel_6242cfb6 6242cfb load on device 'cuda:0' took 52.20 ms  (cached)
+Module mul_m_sparse__locals___mul_m_sparse_57bd8101 57bd810 load on device 'cuda:0' took 75.50 ms  (cached)
+Module update_constraint_efc__locals__kernel_e7fd7693 e7fd769 load on device 'cuda:0' took 55.70 ms  (cached)
+Module update_constraint_gauss_cost__locals__kernel_27a5020c 27a5020 load on device 'cuda:0' took 39.33 ms  (cached)
+Module update_gradient_cholesky_blocked__locals__kernel_ff24a874 22c536e load on device 'cuda:0' took 1213.46 ms  (cached)
+Module linesearch_jv_fused__locals__kernel_f9422724 f942272 load on device 'cuda:0' took 53.80 ms  (cached)
+Module linesearch_iterative__locals__kernel_6637ae6e d82a261 load on device 'cuda:0' took 222.96 ms  (cached)
+Module update_constraint_efc__locals__kernel_565f38f0 565f38f load on device 'cuda:0' took 57.66 ms  (cached)
+Module update_gradient_cholesky_blocked_skip_unchanged__locals__kernel_e9533037 d389bb6 load on device 'cuda:0' took 1151.74 ms  (cached)
+Module mujoco_warp._src.sensor a993087 load on device 'cuda:0' took 1260.62 ms  (cached)
+Module mujoco_warp._src.derivative 212adeb load on device 'cuda:0' took 252.84 ms  (cached)
+Module flash_chord.runtime.joint_drive 1a1ab2a load on device 'cuda:0' took 209.67 ms  (cached)
+Module flash_chord.runtime.contact 6b5b079 load on device 'cuda:0' took 247.30 ms  (cached)
+Module flash_chord.lifecycle.termination c74493b load on device 'cuda:0' took 385.78 ms  (cached)
+Module flash_chord.objectives.wrench 8e5d34b load on device 'cuda:0' took 302.06 ms  (cached)
+Module flash_chord.objectives.recon_body 0a954a1 load on device 'cuda:0' took 452.28 ms  (cached)
+环境：/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet；64 个世界，参考 896 帧，设备 cuda:0；终止阈值 骨盆 0.7 m / 1.5 rad，冻结 50 步；VOC 1.0
+每个世界：刚体 56、joint_q 64、joint_qd 61、观测 486、上下文 10；qacc_warmstart (64, 61)，act 无（na = 0）
+注入之前 100 步：状态或观测非有限的（步，世界）[]；done 合计 64，trunc 合计 0
+注入：闸 t2n，世界 [7]；此刻 episode_step [48]，timestep [35]（参考最后一帧 895）
+Module __main__ 24d375f load on device 'cuda:0' took 40.26 ms  (cached)
+已存 /repo/runs/nfg_probe/t2n_v2.npz
+== 世界 7，注入前 3 步到注入后 12 步：
+  第  98 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1311, 0.3391, 0.2046, 0.3987, 0.001762, 0.001196] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 46 timestep 35
+  第  99 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1341, 0.3518, 0.2088, 0.4033, 0.001757, 0.001196] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 47 timestep 35
+  第 100 步 世界 7：done 0 trunc 0 诊断 [0, 0, 0, 0.1377, 0.3673, 0.2127, 0.4078, 0.00175, 0.0009766] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 1 warmstart 1 act 1 episode_step 48 timestep 35
+  第 101 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 418
+  第 102 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 133
+  第 103 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 108
+  第 104 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 80
+  第 105 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 653
+  第 106 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 874
+  第 107 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 14
+  第 108 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 869
+  第 109 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 334
+  第 110 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 289
+  第 111 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 819
+  第 112 步 世界 7：done 1 trunc 0 诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0] 刚体有限 1 超远 0 q 1 qd 1 观测 1 上下文 1 终止观测 0 warmstart 0 act 1 episode_step 0 timestep 267
+其余 63 个世界 220 步里状态、观测或终止观测非有限的（步，世界）：[]
+世界 7：注入后第一次被重置在第 101 步（原因列 [1, 0, 0]）；重置后的下一步（第 102 步）仿真之后仍然非有限；重置之后共 119 步里，终止观测非有限 119 步、步末状态或观测非有限 0 步、warmstart 非有限 119 步；注入后被重置的步：[101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112]…（共 120 次）
+t2n：注入后第一步诊断 [1, 0, 0, -1, 0, 0, 0, 0, 0]（按骨盆判坏、哨兵 -1）
+T2N 判据（重置后的下一步仿真之后仍然非有限，其余世界有限）：过
+NFG_PROBE_DONE t2n PASS

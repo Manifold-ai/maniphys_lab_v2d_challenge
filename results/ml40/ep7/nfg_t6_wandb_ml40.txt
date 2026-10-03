@@ -1,0 +1,74 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/wandb_local_history.py\ --keys\ /repo/runs/nfg_t6/t6-ml40/wandb/offline-run-\*/run-\*.wandb\;\ python\ /repo/stages/policy/wandb_local_history.py\ /repo/runs/nfg_t6/t6-ml40/wandb/offline-run-\*/run-\*.wandb 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# source   : d5b86daeccae
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T10:57:26+0800
+# ---------------------------------------------------------------
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-4q69e7sj.wandb：history 52 行，指标 54 个
+  _runtime  （52 行）
+  _step  （52 行）
+  _timestamp  （52 行）
+  curriculum/immediate_first_frame_probability  （52 行）
+  curriculum/reset_to_first_frame_probability  （52 行）
+  curriculum/stage_index  （52 行）
+  curriculum/voc_scale  （52 行）
+  episode/length_mean_per_completed_episode  （52 行）
+  episode/reference_progress_mean_per_completed_episode  （52 行）
+  episode/return_mean_per_completed_episode  （52 行）
+  guard/env_flagged_world_steps  （52 行）
+  guard/event_phase_max  （52 行）
+  guard/event_phase_min  （52 行）
+  guard/first_bad_world  （52 行）
+  guard/learner_only_world_steps  （52 行）
+  guard/learner_only_world_steps_total  （52 行）
+  guard/max_consecutive_bad_steps  （52 行）
+  mixed_precision/loss_scale  （52 行）
+  policy/action_abs_mean_per_env_action  （52 行）
+  policy/entropy_mean_per_actor_update  （52 行）
+  policy/temperature_mean_per_update  （52 行）
+  replay/fill_fraction  （52 行）
+  replay/size_transitions  （52 行）
+  reward/dense_mean_per_env_step  （52 行）
+  reward/total_mean_per_env_step  （52 行）
+  reward_components/action_l2_weighted_mean_per_env_step  （52 行）
+  reward_components/action_rate_l2_weighted_mean_per_env_step  （52 行）
+  reward_components/body_joint_position_weighted_mean_per_env_step  （52 行）
+  reward_components/force_closure_weighted_mean_per_env_step  （52 行）
+  reward_components/object_position_weighted_mean_per_env_step  （52 行）
+  reward_components/palm_orientation_weighted_mean_per_env_step  （52 行）
+  reward_components/palm_position_weighted_mean_per_env_step  （52 行）
+  reward_components/pelvis_orientation_weighted_mean_per_env_step  （52 行）
+  reward_components/pelvis_position_weighted_mean_per_env_step  （52 行）
+  reward_components/progress_weighted_mean_per_env_step  （52 行）
+  reward_components/soft_joint_limit_weighted_mean_per_env_step  （52 行）
+  reward_components/termination_weighted_mean_per_env_step  （52 行）
+  reward_normalization/scale_denominator  （52 行）
+  sac/actor_loss_mean_per_update  （52 行）
+  sac/actor_skipped_fraction  （52 行）
+  sac/critic_loss_mean_per_update  （52 行）
+  sac/critic_skipped_fraction  （52 行）
+  sac/temperature_loss_mean_per_update  （52 行）
+  termination/object_fraction_per_completed_episode  （52 行）
+  termination/palm_fraction_per_completed_episode  （52 行）
+  termination/pelvis_fraction_per_completed_episode  （52 行）
+  termination/reference_end_fraction_per_completed_episode  （52 行）
+  throughput/env_steps_per_second  （52 行）
+  tracking_error/object_orientation_rad_mean_env_max_per_step  （52 行）
+  tracking_error/object_position_m_mean_env_max_per_step  （52 行）
+  tracking_error/palm_orientation_rad_mean_env_max_per_step  （52 行）
+  tracking_error/palm_position_m_mean_env_max_per_step  （52 行）
+  tracking_error/pelvis_orientation_rad_mean_env_max_per_step  （52 行）
+  tracking_error/pelvis_position_m_mean_env_max_per_step  （52 行）
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-4q69e7sj.wandb：history 52 行，指标 54 个
+  环境步数取自：_step
+  所有指标全程有限
