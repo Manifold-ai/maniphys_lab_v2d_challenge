@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh exports ml40 export2_ml40 
+# md5      : ed1d2673b7ceb55f19ed4f790459b4e0  stages/evaluate/pull_submission.sh
+# source   : c9d401396ea9
+# host     : Mac
+# run_at   : 2026-10-03T20:10:05-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 export2_ml40：ok 30  
+PULL_OK 61

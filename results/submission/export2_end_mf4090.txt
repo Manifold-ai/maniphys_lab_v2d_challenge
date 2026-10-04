@@ -1,0 +1,8 @@
+# command  : bash -c grep\ -E\ \"ep7\ \|EXPORT_CHAIN\"\ runs/logs/export2_mf4090.log 
+# md5      : 73bffd022f48916d57751eabc69c171f  runs/logs/export2_mf4090.log
+# source   : 4f983e47f161
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-04T08:10:12+0800
+# ---------------------------------------------------------------
+=== 2026-10-04 08:06:58 CST Tier 1 ep7 t1-ep7-w2048-cap4m-p185g-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 896（导出 896），checkpoint 相同
+=== 2026-10-04 08:07:13 CST EXPORT_CHAIN_DONE（成功 30、失败 0）

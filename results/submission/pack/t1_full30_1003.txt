@@ -1,0 +1,36 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 1 runs/submission/final/t1 runs/submission/csv/track2_tier1_full30_1003.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c9d401396ea9a1cc9ee31f2325e48f6a63d60bc4 '' 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# source   : c9d401396ea9
+# host     : Mac
+# run_at   : 2026-10-03T20:08:35-0400
+# ---------------------------------------------------------------
+Installed 40 packages in 137ms
+# python 3.12.14 numpy=2.5.3 pandas=2.3.3 pyarrow=25.0.1 trimesh=5.1.1 kaggle=2.2.4
+frame conversion reference: data/challenge/track_2/tier_1_multiview_caption
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+note: 30 distinct checkpoints across the episodes, which is expected for per-sequence policies
+input reference check: one rigid frame transform per episode; maximum residual 1.68e-07 m, 1.71e-07 rad
+converted 30 Track 2 episode(s) into the released frame
+
+WARNING: the trajectory and the evaluator's metrics JSON disagree.
+This usually means they came from different runs, or that the trajectory was
+written with a different world count than the metrics were computed over.
+  - episode 1 add_auc: evaluator reported 0.171185, recomputing from the trajectory gives 0.171854
+  - episode 4 add_auc: evaluator reported 0.149517, recomputing from the trajectory gives 0.150763
+  - episode 5 add_auc: evaluator reported 0.440927, recomputing from the trajectory gives 0.451147
+  - episode 6 add_auc: evaluator reported 0.632669, recomputing from the trajectory gives 0.629922
+  - episode 7 add_auc: evaluator reported 0.668736, recomputing from the trajectory gives 0.666504
+  - episode 9 add_auc: evaluator reported 0.203376, recomputing from the trajectory gives 0.203592
+  - episode 10 add_auc: evaluator reported 0.229140, recomputing from the trajectory gives 0.234099
+  - episode 11 add_auc: evaluator reported 0.087264, recomputing from the trajectory gives 0.089097
+  - episode 12 add_auc: evaluator reported 0.649375, recomputing from the trajectory gives 0.671161
+  - episode 13 add_auc: evaluator reported 0.272844, recomputing from the trajectory gives 0.271489
+  ... and 15 more
+The leaderboard scores the TRAJECTORY, so the numbers above on the right are what
+you would get. Re-run the evaluator if that is not what you expect.
+
+
+wrote runs/submission/csv/track2_tier1_full30_1003.csv (22,989 rows, 12,139,671 B)
+locally computed: AUC=0.3780  SP-SR=0.5333  MP-SR=0.2667  MPPE=25.1706
+upload with: python submit/v2d_submit.py runs/submission/csv/track2_tier1_full30_1003.csv --track track_2_tier1 -m '<message>'
+CSV runs/submission/csv/track2_tier1_full30_1003.csv：22989 行，sha256 870674f46aeac02097364f8a7f56eb0dc04543a2e1e1d91937f3ac45c3b2e553

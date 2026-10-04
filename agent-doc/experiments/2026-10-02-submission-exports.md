@@ -82,3 +82,29 @@ ml40 的 compat 10:17:21 结束（`COMPAT_PASS（3 行全部符合）`，门槛 
 发散前最后一份有限的 checkpoint 已评（候选条件满足，但 ADD-AUC 低于物体不动的基线，`agent-doc/experiments/2026-10-02-ep7-ckpt-eval.md`），
 带非有限防护的重训在计划 B 部分，审查中。用哪一份补 ep7，等用户定；补齐之前两档都不打包。
 jev（规格 `agent-doc/experiments/2026-10-02-submission-exports-final.claims.json`，结果 `results/submission/jev_claims_exports_final.txt`）：4 条全部核实（0.88–0.98），3 道对照题方向都正确。
+
+## ep7 补齐之后：两档各 30 条的导出、打包与上传器预检（10/3 18:05–18:10，UTC-6）
+
+两档 ep7 用带非有限防护的重训补上（`agent-doc/experiments/2026-10-03-ep7-nfg-retrain.md`：两条都跑完、最终 policy 有限、评测没有非有限世界、按批量判据通过）。
+`export_map.py` 按 10/3 加的规则（同 episode 有 `-p185g-` 的 run 时只用它）重新生成清单，只有两档 ep7 两行变了（4f983e4）。两台用新日志名 `export2_<机器>`
+各起一次导出链（`V2D_FC_SRC=<fc_8c778f9 副本>`，预检都是 `EXPORT_DRYRUN_OK`）：已有完整结果的 29 行由 `fc_export.sh` 直接复用，只新导 ep7。
+打包时工作树干净，代码链接指向 c9d4013（已在 origin）。
+
+| 判据 | 结果 | 落盘 |
+|---|---|---|
+| X1 | 两台各 30 行全部 `ok`，都是最终 checkpoint 349,999,104 步、没有退回；ep7 两行导出与核对都过，候选条件满足（4096 世界评测 world_count 4096、非有限世界 0、step_count 896、checkpoint 相同） | `results/submission/export2_tables.txt`、`results/submission/exports/export2_mf4090_*`、`results/ml40/submission/exports/export2_ml40_*` |
+| X2 | 两台最后一行都是 `EXPORT_CHAIN_DONE（成功 30、失败 0）`（mf4090 18:07:13、ml40 18:07:33） | `results/submission/export2_end_mf4090.txt`、`results/ml40/submission/export2_end_ml40.txt` |
+| X3 | 两台都 `PULL_OK 61`（30 行各一个 JSON 与 parquet，加结果表），sha256 都与结果表一致；两档打包目录各 30 个 JSON、30 个 parquet | `results/submission/pull_exports2_{mf4090,ml40}.txt`、`results/submission/export2_tables.txt` |
+| X4 | Tier 1、Tier 2 打包退出码都是 0，各写出 22,989 行；换算残差最大 1.68e-7 m、1.71e-7 rad（Tier 1），1.52e-7 m、1.63e-7 rad（Tier 2）；Tier 2 的落盘与屏幕输出里 “locally computed” 0 处 | `results/submission/pack/t{1,2}_full30_1003.txt` |
+| X5 | Tier 1：上传器预检 “looks valid”、四个排行榜各 “5 left today”、“--dry-run: nothing submitted.”，过。Tier 2：CSV “looks valid”，但预检停在 “You have not accepted the rules for” tier2-auc，按判据记为**用户待办**，不算流程失败；没有提交任何东西 | `results/submission/pack/t1_full30_1003_dryrun.txt`、`results/submission/pack/t2_full30_1003_dryrun.txt.failed` |
+
+CSV 在 `runs/submission/csv/track2_tier1_full30_1003.csv`（sha256 870674f4…）与 `track2_tier2_full30_1003.csv`（sha256 3be33c68…），不进 git。
+
+只报、不作判据：
+- Tier 1 打包器按 1 个世界的轨迹算的本地分数：AUC 0.3780、SP-SR 0.5333、MP-SR 0.2667、MPPE 25.17（kit 的口径，每条 episode 1 个世界，与本地 4096 世界的评测不是同一个数）。
+  Tier 2 的本地分数按干净参考算，照第 5 节滤掉，没有看。
+- Tier 1 的交叉核对报“轨迹与评测器 JSON 不一致”，列出 10 条、另有 15 条，ADD-AUC 差 0.001–0.02。预演里已有同样的现象，ep6、ep12 两条的数与今天逐位相同
+  （评测器 0.632669 对 0.629922、0.649375 对 0.671161），所以与这次 uv 装上的 trimesh 5.1.1（预演是 5.1.0）无关；原因仍按上一节的推测（两边取的网格顶点不同），没核实。
+
+**第 1 步的现状**：两档各 30 条都导出、打好了 CSV；Tier 1 的 X1–X5 全过；Tier 2 的 X1–X4 过，X5 等用户在浏览器里接受 tier2-auc 的规则后重跑预检
+（`pack_tier.sh` 不重打包的话，可以直接跑 kit 的 `v2d_submit.py <csv> --track track_2_tier2 -m … --dry-run`）。什么时候真提交、提交哪一档，由用户定；没有用户同意不上传。

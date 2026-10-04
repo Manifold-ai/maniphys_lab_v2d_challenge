@@ -1,0 +1,8 @@
+# command  : bash -c grep\ -E\ \"ep7\ \|EXPORT_CHAIN\"\ runs/logs/export2_ml40.log 
+# md5      : ad714c6425a0fb2de90853bd09b4cf1e  runs/logs/export2_ml40.log
+# source   : 4f983e47f161
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-04T08:10:13+0800
+# ---------------------------------------------------------------
+=== 2026-10-04 08:07:23 CST Tier 2 ep7 t2-ep7-w2048-cap10m-p185g-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 896（导出 896），checkpoint 相同
+=== 2026-10-04 08:07:33 CST EXPORT_CHAIN_DONE（成功 30、失败 0）
