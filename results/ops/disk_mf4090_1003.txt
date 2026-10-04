@@ -1,0 +1,9 @@
+# command  : bash -c df\ -m\ .\ \&\&\ du\ -sm\ runs/flash_chord/t1-ep7-w2048-cap4m-p185g-mf4090\ /home/rxzhou/v2d/fc_src/v040_p185_nfg 
+# source   : 4f983e47f161
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-04T12:23:09+0800
+# ---------------------------------------------------------------
+Filesystem     1M-blocks   Used Available Use% Mounted on
+/dev/vda2         151065 141019      3784  98% /
+818	runs/flash_chord/t1-ep7-w2048-cap4m-p185g-mf4090
+416	/home/rxzhou/v2d/fc_src/v040_p185_nfg

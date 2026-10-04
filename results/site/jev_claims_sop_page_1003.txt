@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-03-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4706004e64f64cd7f7fb0ee747cce6ec  agent-doc/experiments/2026-10-03-sop-page.claims.json
+# source   : 75d52e8cb1ab-dirty
+# host     : Mac
+# run_at   : 2026-10-04T00:24:38-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+box_four_fail        P(supported)=0.96  verified               [box_mf, box_ml]  方盒重训里跑完的 t1-ep1、t1-ep28、t2-ep28（mf4090）与 t2-ep1（ml40）按批量判据都不通过，maniptrans_sr 都是 0；t1-ep7 那条记为无效，因为缺最终 checkpoint 的评测。
+t2ep7_diverged       P(supported)=0.94  verified               [t2ep7_div]  方盒 t2-ep7 的正式训练在 140,005,376 步时 policy 还全部有限，150,005,760 与 160,006,144 步各有 5892 个 NaN，看守调了 fc_stop。
+t1ep7_diverged       P(supported)=0.93  verified               [t1ep7_div]  方盒 t1-ep7 的正式训练在 130,004,992 步时 policy 还全部有限，140,005,376 步起含 5892 个 NaN，看守调了 fc_stop。
+kaggle_joined        P(supported)=0.96  verified               [join]  10/3 的 Kaggle 报名状态：Tier 1 与 Tier 2 的 8 个比赛（含 v2d-challenge-track2-tier2-auc）都是 userHasEntered True，Tier 3 的 4 个都是 False。
+t2_dryrun_pass       P(supported)=0.97  verified               [dryrun2]  Tier 2 的上传器预检重跑报 looks valid，四个排行榜各剩 5 次，最后是 --dry-run: nothing submitted.，没有提交任何东西。
+mf4090_disk          P(supported)=0.97  verified               [disk]  mf4090 的系统盘可用 3784 MB、已用 98%；t1-ep7-w2048-cap4m-p185g-mf4090 的 run 目录占 818 MB，v040_p185_nfg 副本占 416 MB。
+export_tables        P(supported)=0.95  verified               [tables]  两台的导出结果表各有 30 行 ok，Tier 1 与 Tier 2 的打包目录各有 30 个 json 与 30 个 parquet。
+ep7_pass             P(supported)=0.98  verified               [bv_t1, bv_t2]  两档带防护重训的 ep7 按批量判据都通过：Tier 1 的 maniptrans_sr 0.6526、ADD-AUC 0.6221，Tier 2 的 maniptrans_sr 0.06714、ADD-AUC 0.582。
+ctl_true_box         P(supported)=0.98  control(true) ok       [box_ml]  ml40 上方盒 t2-ep1 的批量判定是不通过。
+ctl_false_tier3      P(supported)=0.01  control(false) ok      [join]  Tier 3 的四个比赛都已加入。
+ctl_false_disk       P(supported)=0.02  control(false) ok      [disk]  mf4090 的系统盘还有 40 GB 以上的可用空间。
+controls behaved as expected

@@ -1,0 +1,105 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "box_mf": {
+   "file": "results/box/batch_verdict_mf4090_box.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|判定|合计"
+  },
+  "box_ml": {
+   "file": "results/box/batch_verdict_ml40_box.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|判定|合计"
+  },
+  "t2ep7_div": {
+   "file": "results/box/t2ep7_divergence_ml40.txt",
+   "grep": "步|NaN|fc_stop|止损|DONE"
+  },
+  "t1ep7_div": {
+   "file": "results/box/t1ep7_divergence_mf4090.txt",
+   "grep": "步|NaN|fc_stop|止损|DONE"
+  },
+  "join": {
+   "file": "results/submission/kaggle_join_status_1003.txt",
+   "grep": "比赛|userHasEntered"
+  },
+  "dryrun2": {
+   "file": "results/submission/pack/t2_full30_1003_dryrun2.txt",
+   "grep": "looks valid|left today|dry-run|leaderboard"
+  },
+  "disk": {
+   "file": "results/ops/disk_mf4090_1003.txt",
+   "grep": "Available|vda2|runs/flash_chord|fc_src"
+  },
+  "tables": {
+   "file": "results/submission/export2_tables.txt",
+   "grep": "^== |状态计数|打包目录"
+  },
+  "bv_t1": {
+   "file": "results/ep7/batch_verdict_nfg_t1ep7_s349999104.txt",
+   "grep": "^== |maniptrans_sr|add_auc |判定"
+  },
+  "bv_t2": {
+   "file": "results/ep7/batch_verdict_nfg_t2ep7_s349999104.txt",
+   "grep": "^== |maniptrans_sr|add_auc |判定"
+  }
+ },
+ "claims": [
+  {
+   "id": "box_four_fail",
+   "evidence": ["box_mf", "box_ml"],
+   "claim": "方盒重训里跑完的 t1-ep1、t1-ep28、t2-ep28（mf4090）与 t2-ep1（ml40）按批量判据都不通过，maniptrans_sr 都是 0；t1-ep7 那条记为无效，因为缺最终 checkpoint 的评测。"
+  },
+  {
+   "id": "t2ep7_diverged",
+   "evidence": ["t2ep7_div"],
+   "claim": "方盒 t2-ep7 的正式训练在 140,005,376 步时 policy 还全部有限，150,005,760 与 160,006,144 步各有 5892 个 NaN，看守调了 fc_stop。"
+  },
+  {
+   "id": "t1ep7_diverged",
+   "evidence": ["t1ep7_div"],
+   "claim": "方盒 t1-ep7 的正式训练在 130,004,992 步时 policy 还全部有限，140,005,376 步起含 5892 个 NaN，看守调了 fc_stop。"
+  },
+  {
+   "id": "kaggle_joined",
+   "evidence": ["join"],
+   "claim": "10/3 的 Kaggle 报名状态：Tier 1 与 Tier 2 的 8 个比赛（含 v2d-challenge-track2-tier2-auc）都是 userHasEntered True，Tier 3 的 4 个都是 False。"
+  },
+  {
+   "id": "t2_dryrun_pass",
+   "evidence": ["dryrun2"],
+   "claim": "Tier 2 的上传器预检重跑报 looks valid，四个排行榜各剩 5 次，最后是 --dry-run: nothing submitted.，没有提交任何东西。"
+  },
+  {
+   "id": "mf4090_disk",
+   "evidence": ["disk"],
+   "claim": "mf4090 的系统盘可用 3784 MB、已用 98%；t1-ep7-w2048-cap4m-p185g-mf4090 的 run 目录占 818 MB，v040_p185_nfg 副本占 416 MB。"
+  },
+  {
+   "id": "export_tables",
+   "evidence": ["tables"],
+   "claim": "两台的导出结果表各有 30 行 ok，Tier 1 与 Tier 2 的打包目录各有 30 个 json 与 30 个 parquet。"
+  },
+  {
+   "id": "ep7_pass",
+   "evidence": ["bv_t1", "bv_t2"],
+   "claim": "两档带防护重训的 ep7 按批量判据都通过：Tier 1 的 maniptrans_sr 0.6526、ADD-AUC 0.6221，Tier 2 的 maniptrans_sr 0.06714、ADD-AUC 0.582。"
+  },
+  {
+   "id": "ctl_true_box",
+   "evidence": ["box_ml"],
+   "claim": "ml40 上方盒 t2-ep1 的批量判定是不通过。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_tier3",
+   "evidence": ["join"],
+   "claim": "Tier 3 的四个比赛都已加入。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_disk",
+   "evidence": ["disk"],
+   "claim": "mf4090 的系统盘还有 40 GB 以上的可用空间。",
+   "control": "false"
+  }
+ ]
+}
