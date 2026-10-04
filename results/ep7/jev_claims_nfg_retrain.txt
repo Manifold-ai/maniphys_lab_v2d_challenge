@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-03-ep7-nfg-retrain.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : be7057e2922934418e0f34559bd69634  agent-doc/experiments/2026-10-03-ep7-nfg-retrain.claims.json
+# source   : faec9d4d6a75
+# host     : Mac
+# run_at   : 2026-10-03T20:11:22-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+chains_done          P(supported)=0.95  verified               [chain_mf, chain_ml]  两台的训练链最后都记 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0），评测链都记 DAY2_EVAL_DONE（成功 1、失败 0）；mf4090 的正式训练 11:16:49 开始、13:16:03 完成，ml40 的 11:14:04 开始、13:15:54 完成（北京时间）。
+r1_finite            P(supported)=0.97  verified               [r1_mf, r1_ml]  两条重训都有 DONE，全部 policy 有限，最终 349,999,104 步那份非有限 0 / 1207577；本地 W&B 记录 6836 行、54 个指标全程有限；停训行 0 行。
+r1_mounts            P(supported)=0.88  verified               [r1_mf, r1_ml]  两条重训的训练日志显示挂的是 v040_p185_nfg 副本（带 nonfinite-guard 补丁），评测日志显示挂的是 fc_8c778f9 副本。
+r2_events            P(supported)=0.98  verified               [r1_mf, r1_ml]  t1-ep7 重训有 2 行 NONFINITE_GUARD_EVENT（10752000 步的世界 1088、168192000 步的世界 578），t2-ep7 重训有 4 行（112128000、257536000、284211200、343398400 步）；每一行都是 env_flagged=1、learner_only=0、longest_streak=1。
+r3_t1                P(supported)=0.97  verified               [bv_t1]  t1-ep7 重训的最终 policy：chord_sr 0.8896、maniptrans_sr 0.6526、ADD-AUC 0.6221 高于不动基线 0.2284，MPPE 5.61 cm，批量判定通过。
+r3_t2                P(supported)=0.97  verified               [bv_t2]  t2-ep7 重训的最终 policy：chord_sr 0.9626、maniptrans_sr 0.06714（275 / 4096 个世界）、ADD-AUC 0.582 高于不动基线 0.2256，MPPE 4.04 cm，批量判定通过。
+ctl_true_speed       P(supported)=0.84  control(true) ok       [chain_mf]  mf4090 正式训练最后一行进度是 49,656 env steps/s，用时 01:57:28。
+ctl_false_t2_fail    P(supported)=0.01  control(false) ok      [bv_t2]  t2-ep7 重训的最终 policy 按批量判据不通过，ADD-AUC 低于不动基线。
+ctl_false_stop       P(supported)=0.02  control(false) ok      [r1_ml]  t2-ep7 重训触发了停止条件，日志里有 NONFINITE_GUARD_STOP。
+controls behaved as expected

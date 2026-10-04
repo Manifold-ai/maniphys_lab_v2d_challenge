@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-03-submission-full30.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 0b5f2f1072991aadebefbb2333dc89cd  agent-doc/experiments/2026-10-03-submission-full30.claims.json
+# source   : faec9d4d6a75
+# host     : Mac
+# run_at   : 2026-10-03T20:11:23-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+x1_x2                P(supported)=0.95  verified               [tables, end_mf, end_ml]  两台的导出结果表各有 30 行 ok；Tier 1 ep7 用 t1-ep7-w2048-cap4m-p185g-mf4090、Tier 2 ep7 用 t2-ep7-w2048-cap10m-p185g-ml40，都是 349999104 步，导出、核对都通过；两台导出链最后都是 EXPORT_CHAIN_DONE（成功 30、失败 0）。
+x3                   P(supported)=0.97  verified               [pull, pull_ml, tables]  两台的拉回都是 PULL_OK 61，两档的打包目录各有 30 个 json 与 30 个 parquet。
+x4                   P(supported)=0.98  verified               [pack1, pack2]  两档打包都写出了 22,989 行的 CSV，各换算了 30 条 episode；Tier 1 换算残差最大 1.68e-07 m，Tier 2 最大 1.52e-07 m；Tier 2 的打包输出里没有 locally computed 那一行。
+x5_t1                P(supported)=0.97  verified               [dry1]  Tier 1 的上传器预检报 looks valid，四个排行榜各剩 5 次，最后是 --dry-run: nothing submitted.
+x5_t2                P(supported)=0.97  verified               [dry2]  Tier 2 的 CSV 报 looks valid，但上传器预检失败，原因是还没有接受 v2d-challenge-track2-tier2-auc 的规则；没有提交任何东西。
+crosscheck_same      P(supported)=0.98  verified               [pack1]  Tier 1 打包的交叉核对里，episode 6 的 ADD-AUC 评测器报 0.632669、按轨迹重算 0.629922，episode 12 评测器报 0.649375、重算 0.671161。
+ctl_true_rows        P(supported)=0.99  control(true) ok       [pack2]  Tier 2 的 CSV 有 22,989 行。
+ctl_false_submitted  P(supported)=0.01  control(false) ok      [dry1]  Tier 1 的 CSV 已经提交到 Kaggle 的排行榜。
+ctl_false_t2_ok      P(supported)=0.01  control(false) ok      [dry2]  Tier 2 的上传器预检通过，规则都已接受。
+controls behaved as expected
