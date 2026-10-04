@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-03-submission-check.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : fdf994bffee83112c279d4430b80efaa  agent-doc/experiments/2026-10-03-submission-check.claims.json
+# source   : f6f87d5cdcf3
+# host     : Mac
+# run_at   : 2026-10-04T00:53:26-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+c1_c4_tier1          P(supported)=0.96  verified               [t1]  Tier 1 的 C1、C2、C3、C4 都是过，判据不过的 0 处；ep11 发布数据 901 帧、CSV 900 行，少的第 900 帧是发布 parquet 里物体不可见的帧；复算的位置最大差 8.5e-07 m。
+c1_c4_tier2          P(supported)=0.95  verified               [t2]  Tier 2 那次先调了 forbid_tier1()；C1、C2、C3、C4 都是过，判据不过的 0 处；复算的位置最大差 8.38e-07 m。
+cross_ok             P(supported)=0.76  verified               [cross]  两档的 checkpoint 各 30 个、交集 0 个，位姿 7 列逐行相同的行数是 0，两档的代码链接是同一个，提交 c9d4013 在 origin/track2/p1-training 上。
+c5_same              P(supported)=0.96  verified               [c5_1, c5_2]  两档按原参数重打出来的 CSV 与原 CSV 逐字节相同。
+c6_new_kit           P(supported)=0.98  verified               [fresh]  官方 kit 的远端 sha256 是 b1f8f703 开头，与我们用的 0f2f9f4b 不同，Last-Modified 是 Fri, 02 Oct 2026 06:12:40 GMT。
+data_same            P(supported)=0.80  verified               [fresh]  本地 track_2 下 101 个文件与 Hugging Face 数据集当前版本逐个相同，不同的 0 个；挑战页面上的提交截止仍是 Wednesday, November 4, 2026, at 5:00 p.m. EST。
+kit_change_scope     P(supported)=0.59  UNVERIFIED             [diff]  新旧两版 kit 都是 55 个文件，没有新增或删除；改动的 8 个文件里没有 tools/pack_submission.py、submit/v2d_submit.py、config/tracks.json 和样例 CSV；评测器仍钉在 8c778f905c。
+kit_private_repo     P(supported)=0.74  verified               [diff]  新 kit 的 README 写着：私有仓库要把 Nvidia-V2D-Challenge 邀请为协作者并给仓库访问权限。
+kit_hashes_same      P(supported)=0.87  verified               [hashes]  新 kit 里 pack_submission.py、v2d_submit.py、evaluate_policy.py 的 sha256 与 CSV 里记的打包器、上传器、评测脚本的 sha256 相同。
+r1_tier1             P(supported)=0.97  verified               [t1]  Tier 1 交上去的 1 个世界里 MP-SR 成功 8 / 30，4096 世界 MP-SR 的 30 条平均 0.265；被标出的是 ep6（4096 世界 MP-SR 0.562，这 1 个世界失败）。
+r5_private           P(supported)=0.93  verified               [rules]  仓库是 private=true、visibility=internal；kit 的打包器要求代码链接在与 V2D 账号共享的仓库里。
+selftest_ok          P(supported)=0.95  verified               [selftest]  检查脚本的自测在改坏 Tier 1 ep3 之后，C1、C3、C4 都判不过，打出 SELFTEST_OK。
+ctl_true_t2          P(supported)=0.98  control(true) ok       [t2]  Tier 2 交上去的 1 个世界里 MP-SR 成功 1 / 30。
+ctl_false_c5         P(supported)=0.01  control(false) ok      [c5_1]  Tier 1 重打出来的 CSV 与原 CSV 的 sha256 不同。
+ctl_false_public     P(supported)=0.01  control(false) ok      [rules]  仓库是公开的，任何人都能打开代码链接。
+controls behaved as expected

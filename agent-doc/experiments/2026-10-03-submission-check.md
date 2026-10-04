@@ -59,3 +59,9 @@ kit 写明 Kaggle 计分用从发布 glb 按种子 0 采的 500 个顶点，评�
 2. 什么时候交、交哪一档；每次上传会占用这一档 4 个比赛各一次的配额。
 3. Tier 2 的本地分数照现在的解读滤掉，以及 Tier 2 排行榜的反馈怎么用。
 4. 以后再打包时可以换成新 kit（Track 2 的结果不变）；`pack_tier.sh` 现在核的是 0f2f9f4b 的 zip，换的话要改这一处并重跑它的测试。
+
+## jev
+
+规格 `agent-doc/experiments/2026-10-03-submission-check.claims.json`，结果 `results/submission/jev_claims_check_1003.txt`（第 2 轮）：12 条全部核实（0.70–0.98），3 道对照题方向都正确。
+第 1 轮（`…_run1.txt`）有一条没过：“改动的文件里没有打包器、上传器……”这种否定式只得 0.59，证据里也漏了“两版各 55 个文件”那一行；改成用证据原话逐个列出改动的文件、补上那一行后整批重跑，0.98。
+“新 kit 要求邀请 Nvidia-V2D-Challenge”那条是 0.70，正好在线上：README 的原句跨了几行，证据只截到含账号名的那几行；原文见 `kit_diff_0f2f9f4b_b1f8f703.txt` 的 README.md 一节。
