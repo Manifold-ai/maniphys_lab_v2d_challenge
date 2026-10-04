@@ -1,0 +1,17 @@
+# command  : python3 stages/evaluate/batch_verdict.py stages/policy/queues/ml40_nfg.expect.tsv results/ml40/day2 --steps 349999104 --bar-root results/ml40/day2 
+# md5      : 5bb792dd3c8193d6410dc8a3b09a689b  stages/evaluate/batch_verdict.py
+# md5      : 05d9b3899c9c11f0bfc7d6da660f0ef1  stages/policy/queues/ml40_nfg.expect.tsv
+# source   : 38894a2a6653
+# host     : Mac
+# run_at   : 2026-10-03T20:03:39-0400
+# ---------------------------------------------------------------
+
+== t2-ep7-w2048-cap10m-p185g-ml40（2026-05-29_15-20-43_iron_round_table_02，frame，896 帧）：不动基线 0.2256；gap 走势 +0.356
+  chord_sr       0.9626 > 0（3943 / 4096 个世界）：过
+  maniptrans_sr  0.06714 > 0（275 / 4096 个世界）：过
+  add_auc        0.582 > 0.2256：过
+  另报：SP-SR 0.9775（4004 / 4096），MPPE 4.04 cm
+  判定：通过
+  summary_json {"run": "t2-ep7-w2048-cap10m-p185g-ml40", "sequence_id": "2026-05-29_15-20-43_iron_round_table_02", "playback": "frame", "frames": 896, "bar": 0.2255859375, "add_auc": 0.5820399352482388, "gap": 0.3564539977482388, "chord_sr": 0.962646484375, "maniptrans_sr": 0.067138671875, "spider_sr_uncentered": 0.9775390625, "mppe_cm": 4.040467002003483, "verdict": "PASS", "marginal": []}
+
+合计：通过 1、不通过 0、无效 0

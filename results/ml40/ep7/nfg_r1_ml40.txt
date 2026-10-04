@@ -1,0 +1,30 @@
+# command  : bash -c R=t2-ep7-w2048-cap10m-p185g-ml40\;\ echo\ \"==\ \$R\"\;\ ls\ runs/flash_chord/\$R/DONE\ \&\&\ echo\ \"DONE\ 在\"\;\ python3\ stages/policy/ckpt_nonfinite.py\ \$R\ \|\ tail\ -4\;\ grep\ -m1\ \"in-flash-chord:\ /workspace\"\ runs/logs/\$R.log\;\ grep\ -m1\ \"in-flash-chord:\ /workspace\"\ runs/logs/\$R.eval_349999104_w4096.log\;\ echo\ \"事件行（去重）：\"\;\ cat\ runs/logs/\$R.log\ runs/logs/\$R.s1.log\ \|\ grep\ NONFINITE_GUARD_EVENT\ \|\ sort\ -u\;\ echo\ \"停训行\ \$\(cat\ runs/logs/\$R.log\ runs/logs/\$R.s1.log\ \|\ grep\ -c\ NONFINITE_GUARD_STOP\)\ 行\"\;\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/wandb_local_history.py\ /repo/runs/flash_chord/\$R/wandb/run-\*/run-\*.wandb\" 
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# source   : 80c81c555ecc
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-04T08:03:12+0800
+# ---------------------------------------------------------------
+== t2-ep7-w2048-cap10m-p185g-ml40
+runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40/DONE
+DONE 在
+  330,012,672 步：非有限 0 / 1207577（NaN 0，inf 0）
+  340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+  全部有限
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+事件行（去重）：
+NONFINITE_GUARD_EVENT environment_steps=112128000 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9263 phase_max=0.9263 first_world=1262 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=257536000 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.7799 phase_max=0.7799 first_world=1537 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=284211200 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.8682 phase_max=0.8682 first_world=1866 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=343398400 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9899 phase_max=0.9899 first_world=971 longest_streak=1
+停训行 0 行
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep7-w2048-cap10m-p185g-ml40-s1.wandb：history 6836 行，指标 54 个
+  环境步数取自：_step
+  所有指标全程有限

@@ -2,7 +2,9 @@
   1. 仓库里已提交的 stages/evaluate/exports/{mf4090,ml40}.tsv 与按当前已提交的结果、队列重新生成的逐字节相同；
      两档各 30 条、每条恰好一行，机器与文件名一致，步数一律 349999104，Tier 1 的 ep20 用批量那条；
   2. 假仓库：同一条 episode 两条 run、少一条 episode：报错退出，不写文件；只认 playback=frame 的判定，-rt- 的 run 不算；
-  3. 输出已存在：拒绝覆盖。
+  3. 输出已存在：拒绝覆盖；
+  4. 带防护的重训（10/3）：已提交的清单里两档的 ep7 用 -p185g- 的 run；假仓库里同一条 episode 另有 -p185g- 的 run 时只用它，
+     同一条 episode 两条 -p185g- 的 run 报错。
 用法：python3 stages/evaluate/test_export_map.py
 """
 import json
@@ -40,9 +42,11 @@ def test_committed_matches_regenerated() -> None:
         assert sorted(seen[1]) == list(range(30)) and sorted(seen[2]) == list(range(30)), seen
         allrows = rows(REPO / "stages/evaluate/exports/mf4090.tsv") + rows(REPO / "stages/evaluate/exports/ml40.tsv")
         assert ["1", "20", "t1-ep20-w2048-cap4m-mf4090", "349999104"] in allrows
+        assert ["1", "7", "t1-ep7-w2048-cap4m-p185g-mf4090", "349999104"] in allrows
+        assert ["2", "7", "t2-ep7-w2048-cap10m-p185g-ml40", "349999104"] in allrows
 
 
-def fake(root: Path, dup: bool = False, drop: int = -1) -> None:
+def fake(root: Path, dup: bool = False, drop: int = -1, guarded: tuple = ()) -> None:
     (root / "results/day2").mkdir(parents=True); (root / "stages/policy/queues").mkdir(parents=True)
     lines = []
     for ep in range(30):
@@ -63,6 +67,8 @@ def fake(root: Path, dup: bool = False, drop: int = -1) -> None:
             cap = "cap4m" if m == "mf4090" else "cap10m"
             (root / f"stages/policy/queues/{m}_t2{s}.expect.tsv").write_text(hdr + "".join(f"t2-ep{ep}-w2048-{cap}-{m}\t1\n" for ep in eps))
     (root / "stages/policy/queues/ml40_t2c.expect.tsv").write_text(hdr)
+    for m in ("mf4090", "ml40"):
+        (root / f"stages/policy/queues/{m}_nfg.expect.tsv").write_text(hdr + "".join(f"{r}\t1\n" for r in guarded if r.endswith(m)))
 
 
 def test_fake_ok_and_failures() -> None:
@@ -78,6 +84,22 @@ def test_fake_ok_and_failures() -> None:
             root = Path(t) / "r"; fake(root, **kw); out = Path(t) / "o"
             r = run(root, out)
             assert r.returncode != 0 and word in r.stderr and not out.exists(), (kw, r.stderr)
+
+
+def test_guarded_retrain() -> None:
+    g1, g2 = "t1-ep7-w2048-cap4m-p185g-mf4090", "t2-ep4-w2048-cap10m-p185g-ml40"
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t) / "r"; fake(root, guarded=(g1, g2)); out = Path(t) / "o"
+        r = run(root, out)
+        assert r.returncode == 0, r.stderr
+        allrows = rows(out / "mf4090.tsv") + rows(out / "ml40.tsv")
+        assert ["1", "7", g1, "349999104"] in allrows and ["2", "4", g2, "349999104"] in allrows, allrows
+        assert not any(x[1] == "7" and x[0] == "1" and x[2] != g1 for x in allrows)
+        assert sum(x[0] == "1" for x in allrows) == 30 and sum(x[0] == "2" for x in allrows) == 30
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t) / "r"; fake(root, guarded=(g1, "t1-ep7-w2048-cap10m-p185g-ml40")); out = Path(t) / "o"
+        r = run(root, out)
+        assert r.returncode != 0 and "Tier 1 ep7" in r.stderr and not out.exists(), r.stderr
 
 
 if __name__ == "__main__":

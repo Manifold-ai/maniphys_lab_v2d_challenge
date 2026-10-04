@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t2-ep7-w2048-cap10m-p185g-ml40 349999104 
+# md5      : 8384c76fc0ca2afadb29ebc0a412118d  stages/policy/fc_eval.sh
+# source   : 80c81c555ecc
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-03T13:16:27+0800
+# ---------------------------------------------------------------
+fc_eval: t2-ep7-w2048-cap10m-p185g-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40/policy_349999104.safetensors  sha256 d667b845054c9530…
+  environment_steps 349999104  world_count 4096  step_count 896  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.5820399352482388
+  chord_sr                                       0.962646484375
+  maniptrans_sr                                  0.067138671875
+  spider_sr_uncentered                           0.9775390625
+  mppe_cm                                        4.040467002003483
+  mean_add_m                                     0.046471689621418615
+  object_position_error_m                        0.03749236276961315
+  object_orientation_error_deg                   20.281596986015078
+  termination_cause_fraction (legacy object-centric) {'object': 0.030029296875, 'wrist': 0.03466796875}
+  reference_tracking.success_rate (= chord_sr)   0.962646484375
+  reference_tracking.failure_cause_fraction      {'object': 0.030029296875, 'palm': 0.03466796875, 'pelvis': 0.02490234375}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.5820399352482388, "checkpoint": "/repo/runs/flash_chord/t2-ep7-w2048-cap10m-p185g-ml40/policy_349999104.safetensors", "checkpoint_sha256": "d667b845054c953050f2a7e09ec3606fd1afd626014a34ddf9ef6492abc87315", "chord_sr": 0.962646484375, "environment_steps": 349999104, "maniptrans_sr": 0.067138671875, "mean_add_m": 0.046471689621418615, "mppe_cm": 4.040467002003483, "object_orientation_error_deg": 20.281596986015078, "object_position_error_m": 0.03749236276961315, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.030029296875, "palm": 0.03466796875, "pelvis": 0.02490234375}, "reference_end_fraction": 1.0, "success_rate": 0.962646484375}, "spider_sr_uncentered": 0.9775390625, "step_count": 896, "world_count": 4096}

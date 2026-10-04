@@ -56,6 +56,12 @@
 生成结果已提交：`stages/evaluate/exports/mf4090.tsv`（Tier 1 16 条、Tier 2 14 条）、`ml40.tsv`（Tier 1 14 条、Tier 2 16 条）。
 ep20 按这条规则用批量那条（`t1-ep20-w2048-cap4m-mf4090`），与误差表、SOP 的批量表同一口径；用户要换成先导那条，改清单即可。
 
+**10/3 改规则（ep7）**：两档 ep7 的方盒 run 都发散（t1-ep7 约 1.33 亿步、t2-ep7 约 1.43 亿步，没有 DONE，导出记 `no_done`），按
+`agent-doc/plan-ep7-eval-and-guards-2026-10-02.md` 第 5 版 B.5 用带非有限防护的训练副本重训了两条：`t1-ep7-w2048-cap4m-p185g-mf4090`、
+`t2-ep7-w2048-cap10m-p185g-ml40`，都跑完、最终 policy 有限、评测没有非有限世界、按批量判据通过（`results/ep7/batch_verdict_nfg_t{1,2}ep7_s349999104.txt`）。
+规则加一条：来源再加 `stages/policy/queues/{mf4090,ml40}_nfg.expect.tsv`，同一条 episode 有名字带 `-p185g-` 的 run 时只用它。按新规则重新生成的清单只有两档 ep7 这两行变了，
+机器不变（Tier 1 在 mf4090、Tier 2 在 ml40）。这仍是按规则选，不按分数挑：发散的方盒 run 本来就没有可导出的最终 checkpoint。
+
 ## 3. 设计
 
 ### 3.1 顺序
