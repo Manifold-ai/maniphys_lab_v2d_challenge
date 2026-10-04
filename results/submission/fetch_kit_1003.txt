@@ -1,0 +1,12 @@
+# command  : stages/evaluate/fetch_kit.sh 
+# md5      : b86a8fab18a2a4e66360ffcf5ccec138  stages/evaluate/fetch_kit.sh
+# source   : d4af196503af-dirty
+# host     : Mac
+# run_at   : 2026-10-04T00:51:06-0400
+# ---------------------------------------------------------------
+下载 https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_submission_kit.zip：695124 字节，sha256 b1f8f703c2e772684a57d048cf28f40c7b9b54cf7a61aff6917b46d826915e1f
+  last-modified: Fri, 02 Oct 2026 06:12:40 GMT
+  etag: "6abf4b58-a9b54"
+  content-length: 695124
+解压到 third_party/v2d_submission_kit/update_b1f8f703：55 个文件
+FETCH_KIT_OK third_party/v2d_submission_kit/update_b1f8f703

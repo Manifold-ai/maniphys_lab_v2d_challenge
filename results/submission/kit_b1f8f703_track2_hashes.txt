@@ -1,0 +1,20 @@
+# command  : bash -c $'shasum -a 256 third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/tools/pack_submission.py third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/submit/v2d_submit.py third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/flash_chord/scripts/evaluate_policy.py third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/data/track_2_sample_submission.csv third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/config/tracks.json; echo \'CSV é\207\214è®°ç\232\204ï¼\232\'; sed -n 2p runs/submission/csv/track2_tier1_full30_1003.csv | cut -d, -f9,10,12,13 | tr \',\' \'\\n\'' 
+# md5      : 5abed39a0e6471d168171384273847e9  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/tools/pack_submission.py
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 53e9b79918bf39d1ba56ad6b0dedb026  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/flash_chord/scripts/evaluate_policy.py
+# md5      : 4f12a2231f234d357d855c3625bb64fa  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/data/track_2_sample_submission.csv
+# md5      : dc86c5f6f729a8647bdafec1c1ca1a3a  runs/submission/csv/track2_tier1_full30_1003.csv
+# source   : d4af196503af-dirty
+# host     : Mac
+# run_at   : 2026-10-04T00:51:53-0400
+# ---------------------------------------------------------------
+47a4589574ff8284ba4376ef31ac5548c8fe87ead753be2d3b43d6c87041e5be  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/tools/pack_submission.py
+fe5cb1dc86d12abd01eab9dd5dd98b51569b5d8513a2d00d4e79da42a5f11718  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/submit/v2d_submit.py
+160d24f5fbeb70ccd569ca4192056f1892b2a9f2999066db9d8279461648fdf1  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/flash_chord/scripts/evaluate_policy.py
+9b2116bea4a18d37191f83dfc913068713002d830e715fdee810104b3d8ef4de  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/data/track_2_sample_submission.csv
+5799f424a4cd5453f8a6cfceaeff76e7cc7f8a78ba7d22132108827b1c2a09c7  third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit/config/tracks.json
+CSV é‡Œè®°çš„ï¼š
+160d24f5fbeb70ccd569ca4192056f1892b2a9f2999066db9d8279461648fdf1
+b1b3ebe3ae4629d1687a83f420149e3f6fdfc154d70acad55c12fc8fa69811a1
+47a4589574ff8284ba4376ef31ac5548c8fe87ead753be2d3b43d6c87041e5be
+fe5cb1dc86d12abd01eab9dd5dd98b51569b5d8513a2d00d4e79da42a5f11718

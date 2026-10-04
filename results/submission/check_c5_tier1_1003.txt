@@ -1,0 +1,13 @@
+# command  : env UV_OFFLINE=1 uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python stages/evaluate/submission_check.py --compare runs/submission/csv/track2_tier1_full30_1003.csv runs/submission/csv/track2_tier1_recheck1003.csv 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 6d8fdf9f6c6160e7438f05e6c79e9166  stages/evaluate/submission_check.py
+# md5      : dc86c5f6f729a8647bdafec1c1ca1a3a  runs/submission/csv/track2_tier1_full30_1003.csv
+# md5      : dc86c5f6f729a8647bdafec1c1ca1a3a  runs/submission/csv/track2_tier1_recheck1003.csv
+# source   : d4af196503af
+# host     : Mac
+# run_at   : 2026-10-04T00:49:42-0400
+# ---------------------------------------------------------------
+track2_tier1_full30_1003.csv sha256 870674f46aeac02097364f8a7f56eb0dc04543a2e1e1d91937f3ac45c3b2e553
+track2_tier1_recheck1003.csv sha256 870674f46aeac02097364f8a7f56eb0dc04543a2e1e1d91937f3ac45c3b2e553
+逐字节相同
+SUBMISSION_CHECK PASS

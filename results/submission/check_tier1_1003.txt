@@ -1,0 +1,124 @@
+# command  : env UV_OFFLINE=1 uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python stages/evaluate/submission_check.py --tier 1 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 6d8fdf9f6c6160e7438f05e6c79e9166  stages/evaluate/submission_check.py
+# source   : d4af196503af
+# host     : Mac
+# run_at   : 2026-10-04T00:48:53-0400
+# ---------------------------------------------------------------
+Tier 1 CSV：22989 行，sha256 870674f46aeac02097364f8a7f56eb0dc04543a2e1e1d91937f3ac45c3b2e553；样例 22989 行（sha256 与 KIT_MANIFEST 相同）；导出清单 60 行；远端记录 60 行
+Tier 1 C1：过
+Tier 1 C2：过
+Tier 1 C3：过
+Tier 1 C4：过
+  C2 附注：Tier 1 ep11：发布数据 901 帧，CSV 900 行；少的帧 [900] 正是本档发布 parquet 里物体不可见的帧
+  C4 最大差：位置 8.5e-07 m（ep5），朝向 1.89e-06 rad（ep10）；评测器系到发布系的变换：平移 2.51–4.15 m，旋转 93.1–178.3°
+
+== R1 Tier 1 每条 episode：1 个世界的导出对 4096 世界评测（两边都按本档评测器参考算）
+  背景：config/tracks.json:13: "  resets to the same frame and runs a deterministic policy, so the cohort is expected to be",
+  背景：flash_chord/src/flash_chord/configs/evaluation/flash_sac.yaml:3: deterministic: true
+  ep0  t1-ep0-w2048-cap10m-ml40             1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.3449 MPPE 3.46 cm ｜ 4096 世界：chord 0.883 MP 0.438 SP 0.906 ADD-AUC 0.3453 MPPE 5.06 cm
+  ep1  t1-ep1-w2048-cap4m-p185-mf4090       1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.1712 MPPE 37.68 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.1678 MPPE 45.63 cm
+  ep2  t1-ep2-w2048-cap10m-ml40             1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.1136 MPPE 99.98 cm ｜ 4096 世界：chord 0.007 MP 0.000 SP 0.017 ADD-AUC 0.2790 MPPE 32.84 cm
+  ep3  t1-ep3-w2048-cap4m-mf4090            1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.1192 MPPE 94.52 cm ｜ 4096 世界：chord 0.187 MP 0.000 SP 0.000 ADD-AUC 0.2446 MPPE 44.98 cm
+  ep4  t1-ep4-w2048-cap10m-ml40             1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.1495 MPPE 90.23 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.1458 MPPE 109.91 cm
+  ep5  t1-ep5-w2048-cap10m-ml40             1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.4409 MPPE 3.84 cm ｜ 4096 世界：chord 0.796 MP 0.001 SP 0.886 ADD-AUC 0.4111 MPPE 6.22 cm
+  ep6  t1-ep6-w2048-cap4m-mf4090            1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.6327 MPPE 3.35 cm ｜ 4096 世界：chord 0.953 MP 0.562 SP 0.989 ADD-AUC 0.6321 MPPE 3.37 cm
+  ep7  t1-ep7-w2048-cap4m-p185g-mf4090      1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.6687 MPPE 3.05 cm ｜ 4096 世界：chord 0.890 MP 0.653 SP 0.938 ADD-AUC 0.6221 MPPE 5.61 cm
+  ep8  t1-ep8-w2048-cap4m-mf4090            1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.7021 MPPE 2.65 cm ｜ 4096 世界：chord 0.981 MP 0.979 SP 0.989 ADD-AUC 0.6846 MPPE 3.01 cm
+  ep9  t1-ep9-w2048-cap10m-ml40             1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.2034 MPPE 40.66 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.2013 MPPE 40.49 cm
+  ep10 t1-ep10-w2048-cap10m-ml40            1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.2291 MPPE 4.53 cm ｜ 4096 世界：chord 0.703 MP 0.000 SP 0.786 ADD-AUC 0.2419 MPPE 9.54 cm
+  ep11 t1-ep11-w2048-cap4m-mf4090           1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.0873 MPPE 59.06 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.1870 MPPE 29.47 cm
+  ep12 t1-ep12-w2048-cap10m-ml40            1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.6494 MPPE 2.03 cm ｜ 4096 世界：chord 0.991 MP 0.992 SP 0.994 ADD-AUC 0.6968 MPPE 2.10 cm
+  ep13 t1-ep13-w2048-cap10m-ml40            1 世界：chord 1 MP 0 SP 0 ADD-AUC 0.2728 MPPE 4.78 cm ｜ 4096 世界：chord 0.614 MP 0.000 SP 0.001 ADD-AUC 0.2893 MPPE 9.86 cm
+  ep14 t1-ep14-w2048-cap4m-mf4090           1 世界：chord 0 MP 0 SP 1 ADD-AUC 0.3318 MPPE 5.89 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.711 ADD-AUC 0.3398 MPPE 15.28 cm
+  ep15 t1-ep15-w2048-cap10m-ml40            1 世界：chord 1 MP 0 SP 0 ADD-AUC 0.2790 MPPE 4.20 cm ｜ 4096 世界：chord 0.982 MP 0.000 SP 0.007 ADD-AUC 0.2894 MPPE 5.01 cm
+  ep16 t1-ep16-w2048-cap4m-mf4090           1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.2572 MPPE 63.20 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.2553 MPPE 63.90 cm
+  ep17 t1-ep17-w2048-cap10m-ml40            1 世界：chord 1 MP 0 SP 0 ADD-AUC 0.3717 MPPE 4.98 cm ｜ 4096 世界：chord 0.831 MP 0.000 SP 0.000 ADD-AUC 0.3495 MPPE 9.75 cm
+  ep18 t1-ep18-w2048-cap4m-mf4090           1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.5964 MPPE 2.96 cm ｜ 4096 世界：chord 0.887 MP 0.152 SP 0.966 ADD-AUC 0.5609 MPPE 4.15 cm
+  ep19 t1-ep19-w2048-cap10m-ml40            1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.2311 MPPE 11.08 cm ｜ 4096 世界：chord 0.403 MP 0.000 SP 0.000 ADD-AUC 0.2407 MPPE 21.37 cm
+  ep20 t1-ep20-w2048-cap4m-mf4090           1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.3654 MPPE 5.41 cm ｜ 4096 世界：chord 0.693 MP 0.016 SP 0.007 ADD-AUC 0.4478 MPPE 4.44 cm
+  ep21 t1-ep21-w2048-cap4m-mf4090           1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.2607 MPPE 5.39 cm ｜ 4096 世界：chord 0.685 MP 0.000 SP 0.853 ADD-AUC 0.2583 MPPE 13.71 cm
+  ep22 t1-ep22-w2048-cap4m-mf4090           1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.5702 MPPE 2.63 cm ｜ 4096 世界：chord 0.910 MP 0.764 SP 0.983 ADD-AUC 0.4992 MPPE 3.83 cm
+  ep23 t1-ep23-w2048-cap10m-ml40            1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.7129 MPPE 2.79 cm ｜ 4096 世界：chord 0.958 MP 0.975 SP 1.000 ADD-AUC 0.7109 MPPE 2.85 cm
+  ep24 t1-ep24-w2048-cap4m-mf4090           1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.5830 MPPE 3.19 cm ｜ 4096 世界：chord 0.997 MP 0.962 SP 0.996 ADD-AUC 0.5802 MPPE 3.24 cm
+  ep25 t1-ep25-w2048-cap10m-ml40            1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.0741 MPPE 117.99 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.1263 MPPE 114.10 cm
+  ep26 t1-ep26-w2048-cap10m-ml40            1 世界：chord 1 MP 1 SP 1 ADD-AUC 0.4979 MPPE 2.59 cm ｜ 4096 世界：chord 0.956 MP 0.956 SP 0.946 ADD-AUC 0.4920 MPPE 2.73 cm
+  ep27 t1-ep27-w2048-cap4m-mf4090           1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.6261 MPPE 3.46 cm ｜ 4096 世界：chord 0.938 MP 0.321 SP 0.966 ADD-AUC 0.6487 MPPE 5.65 cm
+  ep28 t1-ep28-w2048-cap4m-p185-mf4090      1 世界：chord 0 MP 0 SP 0 ADD-AUC 0.1036 MPPE 66.24 cm ｜ 4096 世界：chord 0.000 MP 0.000 SP 0.000 ADD-AUC 0.1311 MPPE 46.59 cm
+  ep29 t1-ep29-w2048-cap4m-mf4090           1 世界：chord 1 MP 0 SP 1 ADD-AUC 0.6654 MPPE 3.32 cm ｜ 4096 世界：chord 0.982 MP 0.174 SP 0.989 ADD-AUC 0.6579 MPPE 3.52 cm
+  1 个世界的 MP-SR 成功 8 / 30；4096 世界 MP-SR 的 30 条平均 0.265
+  标出的 episode：['ep6（4096 世界 MP-SR 0.562，这 1 个世界失败）']
+
+== R2 Tier 1 按 kit 口径（干净参考、发布网格的顶点）逐条本地分数；排行榜以 Kaggle 为准
+  口径：v2dlb/vertices.py:10: The evaluator's own sampler (`flash_chord/evaluation/rollout.py::sample_object_vertices`) draws
+        v2dlb/vertices.py:14: that the evaluator loads this set rather than re-sampling. Until that lands, treat any small
+        v2dlb/vertices.py:21: `ADD_VERTEX_COUNT = 500`, `ADD_VERTEX_SEED = 0` in `flash_chord/evaluation/metrics.py`.
+        metric_code/track_2/AUC.py:246: column = "auc_vertex_samples_b64"
+  指标 ['add_auc', 'spider_sr', 'maniptrans_sr', 'mppe_cm']；align_initial_pose=False
+  ep0  add_auc 0.3449  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 3.4612
+  ep1  add_auc 0.1719  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 37.6832
+  ep2  add_auc 0.1136  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 99.9847
+  ep3  add_auc 0.1192  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 94.5250
+  ep4  add_auc 0.1508  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 90.2292
+  ep5  add_auc 0.4511  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 3.8350
+  ep6  add_auc 0.6299  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 3.3520
+  ep7  add_auc 0.6665  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 3.0479
+  ep8  add_auc 0.7021  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.6456
+  ep9  add_auc 0.2036  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 40.6597
+  ep10 add_auc 0.2341  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 4.5333
+  ep11 add_auc 0.0891  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 59.0170
+  ep12 add_auc 0.6712  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.0325
+  ep13 add_auc 0.2715  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 4.7849
+  ep14 add_auc 0.3297  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 5.8914
+  ep15 add_auc 0.2699  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 4.1976
+  ep16 add_auc 0.2572  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 63.2046
+  ep17 add_auc 0.3706  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 4.9791
+  ep18 add_auc 0.5943  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.9585
+  ep19 add_auc 0.2358  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 11.0768
+  ep20 add_auc 0.3667  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 5.4094
+  ep21 add_auc 0.2607  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 5.3932
+  ep22 add_auc 0.5680  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.6298
+  ep23 add_auc 0.7075  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.7865
+  ep24 add_auc 0.5881  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 3.1929
+  ep25 add_auc 0.0738  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 117.9944
+  ep26 add_auc 0.5008  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.5922
+  ep27 add_auc 0.6257  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 3.4600
+  ep28 add_auc 0.1040  spider_sr 0.0000  maniptrans_sr 0.0000  mppe_cm 66.2378
+  ep29 add_auc 0.6681  spider_sr 1.0000  maniptrans_sr 0.0000  mppe_cm 3.3231
+  汇总（30 条平均）：add_auc 0.3780  spider_sr 0.5333  maniptrans_sr 0.2667  mppe_cm 25.1706
+
+== R3 Tier 1 与本档发布输入的位置差（Tier 1 的发布输入是干净参考，Tier 2 是带噪输入）
+  ep0  与本档发布输入的位置差：中位 0.031 m，最大 0.085 m
+  ep1  与本档发布输入的位置差：中位 0.375 m，最大 0.969 m
+  ep2  与本档发布输入的位置差：中位 0.766 m，最大 2.145 m
+  ep3  与本档发布输入的位置差：中位 1.030 m，最大 1.426 m
+  ep4  与本档发布输入的位置差：中位 0.954 m，最大 2.037 m
+  ep5  与本档发布输入的位置差：中位 0.036 m，最大 0.088 m
+  ep6  与本档发布输入的位置差：中位 0.029 m，最大 0.096 m
+  ep7  与本档发布输入的位置差：中位 0.024 m，最大 0.082 m
+  ep8  与本档发布输入的位置差：中位 0.016 m，最大 0.082 m
+  ep9  与本档发布输入的位置差：中位 0.080 m，最大 1.158 m
+  ep10 与本档发布输入的位置差：中位 0.044 m，最大 0.090 m
+  ep11 与本档发布输入的位置差：中位 0.390 m，最大 1.437 m
+  ep12 与本档发布输入的位置差：中位 0.022 m，最大 0.061 m
+  ep13 与本档发布输入的位置差：中位 0.041 m，最大 0.081 m
+  ep14 与本档发布输入的位置差：中位 0.041 m，最大 0.697 m
+  ep15 与本档发布输入的位置差：中位 0.039 m，最大 0.086 m
+  ep16 与本档发布输入的位置差：中位 0.854 m，最大 1.111 m
+  ep17 与本档发布输入的位置差：中位 0.023 m，最大 0.092 m
+  ep18 与本档发布输入的位置差：中位 0.024 m，最大 0.086 m
+  ep19 与本档发布输入的位置差：中位 0.056 m，最大 0.772 m
+  ep20 与本档发布输入的位置差：中位 0.043 m，最大 0.092 m
+  ep21 与本档发布输入的位置差：中位 0.060 m，最大 0.094 m
+  ep22 与本档发布输入的位置差：中位 0.025 m，最大 0.073 m
+  ep23 与本档发布输入的位置差：中位 0.025 m，最大 0.077 m
+  ep24 与本档发布输入的位置差：中位 0.028 m，最大 0.071 m
+  ep25 与本档发布输入的位置差：中位 1.344 m，最大 1.623 m
+  ep26 与本档发布输入的位置差：中位 0.014 m，最大 0.078 m
+  ep27 与本档发布输入的位置差：中位 0.035 m，最大 0.091 m
+  ep28 与本档发布输入的位置差：中位 0.778 m，最大 1.417 m
+  ep29 与本档发布输入的位置差：中位 0.031 m，最大 0.058 m
+  最大值超过 1 m 的：['ep2（最大 2.14 m）', 'ep3（最大 1.43 m）', 'ep4（最大 2.04 m）', 'ep9（最大 1.16 m）', 'ep11（最大 1.44 m）', 'ep16（最大 1.11 m）', 'ep25（最大 1.62 m）', 'ep28（最大 1.42 m）']
+
+判据不过的：0 处
+SUBMISSION_CHECK PASS

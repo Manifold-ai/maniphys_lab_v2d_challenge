@@ -1,0 +1,12 @@
+# command  : env UV_OFFLINE=1 uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python stages/evaluate/submission_check.py --cross 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 6d8fdf9f6c6160e7438f05e6c79e9166  stages/evaluate/submission_check.py
+# source   : d4af196503af
+# host     : Mac
+# run_at   : 2026-10-04T00:49:14-0400
+# ---------------------------------------------------------------
+checkpoint：Tier 1 30 个、Tier 2 30 个，交集 0 个
+两档 row_id 逐行相同：True；位姿 7 列逐行相同的行数 0
+code_commit_url：['https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c9d401396ea9a1cc9ee31f2325e48f6a63d60bc4']
+提交 c9d401396ea9a1cc9ee31f2325e48f6a63d60bc4 所在的远端分支：['origin/track2/p1-training']
+SUBMISSION_CHECK PASS

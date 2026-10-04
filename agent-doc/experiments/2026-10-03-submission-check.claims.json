@@ -1,0 +1,32 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "t1": {"file": "results/submission/check_tier1_1003.txt", "grep": "^Tier 1|C2 附注|C4 最大差|成功 .* / 30|标出|汇总|超过 1 m|SUBMISSION_CHECK|判据不过"},
+  "t2": {"file": "results/submission/check_tier2_1003.txt", "grep": "^净室|^Tier 2|C2 附注|C4 最大差|成功 .* / 30|标出|超过 1 m|SUBMISSION_CHECK|判据不过"},
+  "cross": {"file": "results/submission/check_cross_1003.txt", "grep": "checkpoint|逐行|code_commit_url|远端分支|SUBMISSION_CHECK"},
+  "c5_1": {"file": "results/submission/check_c5_tier1_1003.txt", "grep": "sha256|逐字节|SUBMISSION_CHECK"},
+  "c5_2": {"file": "results/submission/check_c5_tier2_1003.txt", "grep": "sha256|逐字节|SUBMISSION_CHECK"},
+  "fresh": {"file": "results/submission/kit_freshness_1003.txt", "grep": "HEAD|现在|远端 kit|HF |本地 track_2|November 4|5:00 p.m.|KIT_FRESHNESS"},
+  "diff": {"file": "results/submission/kit_diff_0f2f9f4b_b1f8f703.txt", "grep": "^新增|^删除|^改动|evaluator|Nvidia-V2D-Challenge|collaborator"},
+  "hashes": {"file": "results/submission/kit_b1f8f703_track2_hashes.txt", "grep": "pack_submission|v2d_submit|evaluate_policy|sample_submission|CSV 里记的|^[0-9a-f]{64}$"},
+  "rules": {"file": "results/submission/rules_facts_1003.txt", "grep": "可见性|远端分支|repo shared|2.9.a|max_final|submission_limit|533|538"},
+  "selftest": {"file": "results/submission/check_selftest_1003.txt", "grep": "自测|SELFTEST"}
+ },
+ "claims": [
+  {"id": "c1_c4_tier1", "evidence": ["t1"], "claim": "Tier 1 的 C1、C2、C3、C4 都是过，判据不过的 0 处；ep11 发布数据 901 帧、CSV 900 行，少的第 900 帧是发布 parquet 里物体不可见的帧；复算的位置最大差 8.5e-07 m。"},
+  {"id": "c1_c4_tier2", "evidence": ["t2"], "claim": "Tier 2 那次先调了 forbid_tier1()；C1、C2、C3、C4 都是过，判据不过的 0 处；复算的位置最大差 8.38e-07 m。"},
+  {"id": "cross_ok", "evidence": ["cross"], "claim": "两档的 checkpoint 各 30 个、交集 0 个，位姿 7 列逐行相同的行数是 0，两档的代码链接是同一个，提交 c9d4013 在 origin/track2/p1-training 上。"},
+  {"id": "c5_same", "evidence": ["c5_1", "c5_2"], "claim": "两档按原参数重打出来的 CSV 与原 CSV 逐字节相同。"},
+  {"id": "c6_new_kit", "evidence": ["fresh"], "claim": "官方 kit 的远端 sha256 是 b1f8f703 开头，与我们用的 0f2f9f4b 不同，Last-Modified 是 Fri, 02 Oct 2026 06:12:40 GMT。"},
+  {"id": "data_same", "evidence": ["fresh"], "claim": "本地 track_2 下 101 个文件与 Hugging Face 数据集当前版本逐个相同，不同的 0 个；挑战页面上的提交截止仍是 Wednesday, November 4, 2026, at 5:00 p.m. EST。"},
+  {"id": "kit_change_scope", "evidence": ["diff"], "claim": "新旧两版 kit 都是 55 个文件，没有新增或删除；改动的 8 个文件里没有 tools/pack_submission.py、submit/v2d_submit.py、config/tracks.json 和样例 CSV；评测器仍钉在 8c778f905c。"},
+  {"id": "kit_private_repo", "evidence": ["diff"], "claim": "新 kit 的 README 写着：私有仓库要把 Nvidia-V2D-Challenge 邀请为协作者并给仓库访问权限。"},
+  {"id": "kit_hashes_same", "evidence": ["hashes"], "claim": "新 kit 里 pack_submission.py、v2d_submit.py、evaluate_policy.py 的 sha256 与 CSV 里记的打包器、上传器、评测脚本的 sha256 相同。"},
+  {"id": "r1_tier1", "evidence": ["t1"], "claim": "Tier 1 交上去的 1 个世界里 MP-SR 成功 8 / 30，4096 世界 MP-SR 的 30 条平均 0.265；被标出的是 ep6（4096 世界 MP-SR 0.562，这 1 个世界失败）。"},
+  {"id": "r5_private", "evidence": ["rules"], "claim": "仓库是 private=true、visibility=internal；kit 的打包器要求代码链接在与 V2D 账号共享的仓库里。"},
+  {"id": "selftest_ok", "evidence": ["selftest"], "claim": "检查脚本的自测在改坏 Tier 1 ep3 之后，C1、C3、C4 都判不过，打出 SELFTEST_OK。"},
+  {"id": "ctl_true_t2", "evidence": ["t2"], "claim": "Tier 2 交上去的 1 个世界里 MP-SR 成功 1 / 30。", "control": "true"},
+  {"id": "ctl_false_c5", "evidence": ["c5_1"], "claim": "Tier 1 重打出来的 CSV 与原 CSV 的 sha256 不同。", "control": "false"},
+  {"id": "ctl_false_public", "evidence": ["rules"], "claim": "仓库是公开的，任何人都能打开代码链接。", "control": "false"}
+ ]
+}

@@ -1,0 +1,115 @@
+# command  : stages/evaluate/kit_diff.sh third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit 
+# md5      : 0dffaa8b67c8d945102b6e9bef38ac6b  stages/evaluate/kit_diff.sh
+# source   : d4af196503af-dirty
+# host     : Mac
+# run_at   : 2026-10-04T00:51:12-0400
+# ---------------------------------------------------------------
+旧 third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit：55 个文件；新 third_party/v2d_submission_kit/update_b1f8f703/v2d_submission_kit：55 个文件
+新增 0：[]
+删除 0：[]
+改动 8：['KIT_MANIFEST.json', 'README.md', 'metric_code/track_1/PEN.py', 'skills/v2d-submit/SKILL.md', 'tracks/track_1/README.md', 'tracks/track_2/README.md', 'tracks/track_3/README.md', 'v2dlb/mhr_submission.py']
+KIT_MANIFEST evaluator：旧 {"repo": "nvidia-isaac/video_to_data", "branch": "main", "commit": "8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef", "source_path": "robotic_grounding/flash_chord/scripts/evaluate_policy.py", "kit_path": "flash_chord/scripts/evaluate_policy.py"}
+KIT_MANIFEST evaluator：新 {"repo": "nvidia-isaac/video_to_data", "branch": "main", "commit": "8c778f905cb35f76f8e6cd6e2ea486da4fb9e0ef", "source_path": "robotic_grounding/flash_chord/scripts/evaluate_policy.py", "kit_path": "flash_chord/scripts/evaluate_policy.py"}
+
+======== README.md
+--- 旧
++++ 新
+@@ -29,6 +29,10 @@
+ ```
+ 
+-Provide a GitHub commit URL for the code that produced each submission. Accept the rules for
+-all Kaggle metric competitions you enter. The uploader validates the packed file and sends it
++Provide a GitHub commit URL for the code that produced each submission. Push that commit to
++your repository so organizers can inspect it. For a private repository, invite
++[Nvidia-V2D-Challenge](https://github.com/Nvidia-V2D-Challenge) as a collaborator and grant
++repository access. Ensure this account can view the commit associated with your submission.
++
++Accept the rules for all Kaggle metric competitions you enter. The uploader validates the packed file and sends it
+ to every competition associated with the selected `--track` value.
+ 
+
+======== metric_code/track_1/PEN.py
+--- 旧
++++ 新
+@@ -801,13 +801,16 @@
+                 q0, q1, q2 = b0, b1, b2
+             elif vc <= 0.0 and d1 >= 0.0 and d3 <= 0.0:
+-                t = d1 / (d1 - d3)
++                denom = d1 - d3
++                t = d1 / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = a0 + t * ab0, a1 + t * ab1, a2 + t * ab2
+             elif d6 >= 0.0 and d5 <= d6:
+                 q0, q1, q2 = c0, c1, c2
+             elif vb <= 0.0 and d2 >= 0.0 and d6 <= 0.0:
+-                t = d2 / (d2 - d6)
++                denom = d2 - d6
++                t = d2 / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = a0 + t * ac0, a1 + t * ac1, a2 + t * ac2
+             elif va <= 0.0 and (d4 - d3) >= 0.0 and (d5 - d6) >= 0.0:
+-                t = (d4 - d3) / ((d4 - d3) + (d5 - d6))
++                denom = (d4 - d3) + (d5 - d6)
++                t = (d4 - d3) / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = b0 + t * (c0 - b0), b1 + t * (c1 - b1), b2 + t * (c2 - b2)
+             else:
+@@ -846,4 +849,10 @@
+         return depth
+     v0, v1, v2 = (np.ascontiguousarray(vertices[faces[:, k]], dtype=np.float64) for k in range(3))
++                                                            
++    area = np.linalg.norm(np.cross(v1 - v0, v2 - v0), axis=1)
++    surface = area > 0.0
++    if not surface.any():
++        return depth
++    v0, v1, v2 = (np.ascontiguousarray(v[surface]) for v in (v0, v1, v2))
+     if _PENETRATION_KERNELS is not None:
+         winding, distance = _PENETRATION_KERNELS
+
+======== tracks/track_2/README.md
+--- 旧
++++ 新
+@@ -28,4 +28,9 @@
+    episode plus its script and evaluation-code SHA-256. The packer adds its own SHA-256 and the
+    uploader's SHA-256. The scorer collects these values as provenance.
++
++For a private submission repository, invite
++[Nvidia-V2D-Challenge](https://github.com/Nvidia-V2D-Challenge) as a collaborator so organizers
++can inspect the commit identified by `COMMIT_URL`.
++
+ 
+ ```bash
+
+======== v2dlb/mhr_submission.py
+--- 旧
++++ 新
+@@ -359,13 +359,16 @@
+                 q0, q1, q2 = b0, b1, b2
+             elif vc <= 0.0 and d1 >= 0.0 and d3 <= 0.0:
+-                t = d1 / (d1 - d3)
++                denom = d1 - d3
++                t = d1 / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = a0 + t * ab0, a1 + t * ab1, a2 + t * ab2
+             elif d6 >= 0.0 and d5 <= d6:
+                 q0, q1, q2 = c0, c1, c2
+             elif vb <= 0.0 and d2 >= 0.0 and d6 <= 0.0:
+-                t = d2 / (d2 - d6)
++                denom = d2 - d6
++                t = d2 / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = a0 + t * ac0, a1 + t * ac1, a2 + t * ac2
+             elif va <= 0.0 and (d4 - d3) >= 0.0 and (d5 - d6) >= 0.0:
+-                t = (d4 - d3) / ((d4 - d3) + (d5 - d6))
++                denom = (d4 - d3) + (d5 - d6)
++                t = (d4 - d3) / denom if denom != 0.0 else 0.0
+                 q0, q1, q2 = b0 + t * (c0 - b0), b1 + t * (c1 - b1), b2 + t * (c2 - b2)
+             else:
+@@ -409,4 +412,10 @@
+         return depth
+     v0, v1, v2 = (np.ascontiguousarray(vertices[faces[:, k]], dtype=np.float64) for k in range(3))
++    # Zero-area faces do not contribute to the mesh surface.
++    area = np.linalg.norm(np.cross(v1 - v0, v2 - v0), axis=1)
++    surface = area > 0.0
++    if not surface.any():
++        return depth
++    v0, v1, v2 = (np.ascontiguousarray(v[surface]) for v in (v0, v1, v2))
+     if _PENETRATION_KERNELS is not None:
+         winding, distance = _PENETRATION_KERNELS
+
+KIT_DIFF_DONE

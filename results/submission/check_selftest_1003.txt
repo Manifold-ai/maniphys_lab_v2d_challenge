@@ -1,0 +1,9 @@
+# command  : env UV_OFFLINE=1 uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python stages/evaluate/submission_check.py --selftest 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 6d8fdf9f6c6160e7438f05e6c79e9166  stages/evaluate/submission_check.py
+# source   : d4af196503af
+# host     : Mac
+# run_at   : 2026-10-04T00:48:47-0400
+# ---------------------------------------------------------------
+自测：改坏 Tier 1 ep3 之后判不过的判据 ['C1', 'C3', 'C4']（应含 C1、C3、C4）；条数 3
+SELFTEST_OK

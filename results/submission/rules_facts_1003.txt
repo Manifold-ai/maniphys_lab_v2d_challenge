@@ -1,0 +1,38 @@
+# command  : stages/evaluate/submission_rules_facts.sh 
+# md5      : 0fb534c436d8508f17dbb09d67e9749c  stages/evaluate/submission_rules_facts.sh
+# source   : d4af196503af
+# host     : Mac
+# run_at   : 2026-10-04T00:50:06-0400
+# ---------------------------------------------------------------
+== R5 代码链接
+CSV 里的 code_commit_url：https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c9d401396ea9a1cc9ee31f2325e48f6a63d60bc4
+提交 c9d401396ea9a1cc9ee31f2325e48f6a63d60bc4 所在的远端分支：origin/track2/p1-training 
+仓库可见性（gh api repos/Manifold-ai/maniphys_lab_v2d_challenge，只读）：private=true visibility=internal
+tools/pack_submission.py:216:                             "repo shared with the V2D account. Must be a /commit/<sha> link: a "
+v2dlb/report_schema.py:108:    not optional for anyone: Section 2.9.a of the rules requires every Submission to name the
+config/tracks.json:335:    "winner_license_text": "Your winning Submission and the source code used to generate it must be publicly released under\nthe Apache License, Version 2.0, as required by Section 2.9.e. Apache-2.0 is approved by the Open\nSource Initia
+config/tracks.json:336:    "code_release_license": "the Apache License, Version 2.0",
+== R6 提交清单
+config/tracks.json:301:    "freeze": "November 4, 2026 at 5:00 p.m. EST",
+config/tracks.json:304:    "submission_limit": "five times per week, with unlimited submissions during the final three days",
+config/tracks.json:333:    "submission_policy": "five (5) Submissions per week, with unlimited Submissions during the final three (3) days of the Competition Period",
+config/tracks.json:325:    "max_daily_submissions": 5,
+config/tracks.json:326:    "max_final_submissions": 2,
+submit/v2d_submit.py:254:    for metric, slug in competitions.items():
+submit/v2d_submit.py:533:    for metric, slug in competitions.items():
+submit/v2d_submit.py:538:            result = submit_one(api, slug, args.submission, args.message, quiet=False)
+submit/v2d_submit.py:269:            entry["team_name"] = next(
+submit/v2d_submit.py:270:                (s.team_name for s in submissions if s is not None and s.team_name), None
+submit/v2d_submit.py:328:        (entry.get("user"), entry.get("team_name"))
+submit/v2d_submit.py:330:        if entry.get("user") or entry.get("team_name")
+submit/v2d_submit.py:338:            "identity, so a mismatch would list you twice. Rename your team so it matches\n"
+Kaggle 显示的截止（results/submission/kaggle_join_status_1003.txt）：
+    v2d-challenge-track2-tier1-auc           deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier1-mp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier1-mppe          deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier1-sp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier2-auc           deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier2-mp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier2-mppe          deadline 2026-11-04 22:00:00  userHasEntered True
+    v2d-challenge-track2-tier2-sp-sr         deadline 2026-11-04 22:00:00  userHasEntered True
+RULES_FACTS_DONE
