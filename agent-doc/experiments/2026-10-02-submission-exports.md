@@ -108,3 +108,12 @@ CSV 在 `runs/submission/csv/track2_tier1_full30_1003.csv`（sha256 870674f4…�
 
 **第 1 步的现状**：两档各 30 条都导出、打好了 CSV；Tier 1 的 X1–X5 全过；Tier 2 的 X1–X4 过，X5 等用户在浏览器里接受 tier2-auc 的规则后重跑预检
 （`pack_tier.sh` 不重打包的话，可以直接跑 kit 的 `v2d_submit.py <csv> --track track_2_tier2 -m … --dry-run`）。什么时候真提交、提交哪一档，由用户定；没有用户同意不上传。
+
+### 10/3 晚：Tier 2 预检重跑（过）
+
+用户在浏览器里接受了 tier2-auc 的规则，并把各比赛的队伍名改成 maniphys.ai。只重跑 Tier 2 的上传器预检（同 `pack_tier.sh` 里的调用，`--dry-run`，没重打包）：
+CSV “looks valid”，四个排行榜各 “5 left today”，“--dry-run: nothing submitted.”（`results/submission/pack/t2_full30_1003_dryrun2.txt`；第一次的失败记录留着）。
+**两档的 X5 现在都过了。** Kaggle 报名状态（只读，`results/submission/kaggle_join_status_1003.txt`）：Tier 1、Tier 2 的 8 个比赛都已加入，Tier 3 的 4 个没加入。
+
+队伍名没法在提交前用 API 核：kit 的上传器只从已有提交记录里读 `team_name`（`v2d_submit.py` 268–271 行），我们一次都没交过，所以预检过了也不说明队伍名；
+以用户在浏览器里改的为准。第一次真提交时，上传器会核同一档四个榜的身份是否一致（同文件 326–340 行），不一致就停、不提交。
