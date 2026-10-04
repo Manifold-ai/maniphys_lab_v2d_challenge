@@ -1,0 +1,8 @@
+# command  : stages/evaluate/fc_export.sh t1-ep7-w2048-cap4m-p185g-mf4090 349999104 
+# md5      : a16bfc5a779fb60b8003441d6ab9da90  stages/evaluate/fc_export.sh
+# source   : 4f983e47f161
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-04T08:06:00+0800
+# ---------------------------------------------------------------
+stages/evaluate/fc_export.sh: line 78: runs/logs/t1-ep7-w2048-cap4m-p185g-mf4090.export_8c778f9_s349999104_w1.log: No such file or directory
+=== 2026-10-04 08:06:00 CST fc_export t1-ep7-w2048-cap4m-p185g-mf4090 policy_349999104 episode 7 world_count=1 traj=1 ===

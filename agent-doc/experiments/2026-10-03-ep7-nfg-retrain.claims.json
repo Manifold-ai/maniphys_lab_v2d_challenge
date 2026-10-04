@@ -1,0 +1,79 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "chain_mf": {
+   "file": "results/ep7/nfg_chain_logs_mf4090.txt",
+   "grep": "^=== |training progress"
+  },
+  "chain_ml": {
+   "file": "results/ml40/ep7/nfg_chain_logs_ml40.txt",
+   "grep": "^=== |training progress"
+  },
+  "r1_mf": {
+   "file": "results/ep7/nfg_r1_mf4090.txt",
+   "grep": "^== |DONE|步：|全部有限|in-flash-chord|NONFINITE_GUARD|停训行|history|所有指标"
+  },
+  "r1_ml": {
+   "file": "results/ml40/ep7/nfg_r1_ml40.txt",
+   "grep": "^== |DONE|步：|全部有限|in-flash-chord|NONFINITE_GUARD|停训行|history|所有指标"
+  },
+  "bv_t1": {
+   "file": "results/ep7/batch_verdict_nfg_t1ep7_s349999104.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|add_auc |另报|判定"
+  },
+  "bv_t2": {
+   "file": "results/ep7/batch_verdict_nfg_t2ep7_s349999104.txt",
+   "grep": "^== |chord_sr|maniptrans_sr|add_auc |另报|判定"
+  }
+ },
+ "claims": [
+  {
+   "id": "chains_done",
+   "evidence": ["chain_mf", "chain_ml"],
+   "claim": "两台的训练链最后都记 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0），评测链都记 DAY2_EVAL_DONE（成功 1、失败 0）；mf4090 的正式训练 11:16:49 开始、13:16:03 完成，ml40 的 11:14:04 开始、13:15:54 完成（北京时间）。"
+  },
+  {
+   "id": "r1_finite",
+   "evidence": ["r1_mf", "r1_ml"],
+   "claim": "两条重训都有 DONE，全部 policy 有限，最终 349,999,104 步那份非有限 0 / 1207577；本地 W&B 记录 6836 行、54 个指标全程有限；停训行 0 行。"
+  },
+  {
+   "id": "r1_mounts",
+   "evidence": ["r1_mf", "r1_ml"],
+   "claim": "两条重训的训练日志显示挂的是 v040_p185_nfg 副本（带 nonfinite-guard 补丁），评测日志显示挂的是 fc_8c778f9 副本。"
+  },
+  {
+   "id": "r2_events",
+   "evidence": ["r1_mf", "r1_ml"],
+   "claim": "t1-ep7 重训有 2 行 NONFINITE_GUARD_EVENT（10752000 步的世界 1088、168192000 步的世界 578），t2-ep7 重训有 4 行（112128000、257536000、284211200、343398400 步）；每一行都是 env_flagged=1、learner_only=0、longest_streak=1。"
+  },
+  {
+   "id": "r3_t1",
+   "evidence": ["bv_t1"],
+   "claim": "t1-ep7 重训的最终 policy：chord_sr 0.8896、maniptrans_sr 0.6526、ADD-AUC 0.6221 高于不动基线 0.2284，MPPE 5.61 cm，批量判定通过。"
+  },
+  {
+   "id": "r3_t2",
+   "evidence": ["bv_t2"],
+   "claim": "t2-ep7 重训的最终 policy：chord_sr 0.9626、maniptrans_sr 0.06714（275 / 4096 个世界）、ADD-AUC 0.582 高于不动基线 0.2256，MPPE 4.04 cm，批量判定通过。"
+  },
+  {
+   "id": "ctl_true_speed",
+   "evidence": ["chain_mf"],
+   "claim": "mf4090 正式训练最后一行进度是 49,656 env steps/s，用时 01:57:28。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_t2_fail",
+   "evidence": ["bv_t2"],
+   "claim": "t2-ep7 重训的最终 policy 按批量判据不通过，ADD-AUC 低于不动基线。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_stop",
+   "evidence": ["r1_ml"],
+   "claim": "t2-ep7 重训触发了停止条件，日志里有 NONFINITE_GUARD_STOP。",
+   "control": "false"
+  }
+ ]
+}

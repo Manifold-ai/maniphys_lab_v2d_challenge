@@ -1,0 +1,23 @@
+# command  : stages/evaluate/fc_export.sh t2-ep23-w2048-cap4m-mf4090 349999104 
+# md5      : a16bfc5a779fb60b8003441d6ab9da90  stages/evaluate/fc_export.sh
+# source   : 4f983e47f161
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-04T08:07:11+0800
+# ---------------------------------------------------------------
+fc_export: 已有结果 runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/export_8c778f9/s349999104_w1/episode_000023.json
+== runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/export_8c778f9/s349999104_w1/episode_000023.json
+  checkpoint /repo/runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/policy_349999104.safetensors  sha256 5d6ffe3f17d4de42…
+  environment_steps 349999104  world_count 1  step_count 946  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.5019820295983086
+  chord_sr                                       1.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           1.0
+  mppe_cm                                        4.292786593650399
+  mean_add_m                                     0.0501928868302397
+  object_position_error_m                        0.04224381988335477
+  object_orientation_error_deg                   12.55706785629653
+  termination_cause_fraction (legacy object-centric) {'object': 0.0, 'wrist': 0.0}
+  reference_tracking.success_rate (= chord_sr)   1.0
+  reference_tracking.failure_cause_fraction      {'object': 0.0, 'palm': 0.0, 'pelvis': 0.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.5019820295983086, "checkpoint": "/repo/runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "5d6ffe3f17d4de4275a88ed300422faf75478fde064510f360650e33a527e7cb", "chord_sr": 1.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.0501928868302397, "mppe_cm": 4.292786593650399, "object_orientation_error_deg": 12.55706785629653, "object_position_error_m": 0.04224381988335477, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.0, "palm": 0.0, "pelvis": 0.0}, "reference_end_fraction": 1.0, "success_rate": 1.0}, "spider_sr_uncentered": 1.0, "step_count": 946, "world_count": 1}
