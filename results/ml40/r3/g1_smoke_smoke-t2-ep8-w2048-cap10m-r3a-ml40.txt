@@ -1,0 +1,9 @@
+# command  : stages/policy/run_queue_line.sh stages/policy/queues/ml40_r3t2a_smoke.txt smoke-t2-ep8-w2048-cap10m-r3a-ml40 
+# md5      : 03d2bd733fcec5dba9739debd8a9dd02  stages/policy/run_queue_line.sh
+# md5      : 75f5f40c72db1e76fab5faacbdf94840  stages/policy/queues/ml40_r3t2a_smoke.txt
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-06T01:26:20+0800
+# ---------------------------------------------------------------
+run_queue_line: smoke-t2-ep8-w2048-cap10m-r3a-ml40 ← stages/policy/queues/ml40_r3t2a_smoke.txt（行首环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0；V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg）
+fc_run: smoke-t2-ep8-w2048-cap10m-r3a-ml40 完成

@@ -1,0 +1,17 @@
+# command  : python3 stages/policy/eval_compare.py runs/flash_chord/t2-ep22-w2048-cap10m-ml40/eval_349999104_w4096.rep.json runs/flash_chord/t2-ep22-w2048-cap10m-ml40/export_8c778f9/s349999104_w4096/episode_000022.json --max-add-auc-diff 1 
+# md5      : ea4246eb61c8ca22c6f7d2aede7f2820  stages/policy/eval_compare.py
+# md5      : ba6352dce271ba291cdac2d2a9f0dedd  runs/flash_chord/t2-ep22-w2048-cap10m-ml40/eval_349999104_w4096.rep.json
+# md5      : 4b505ab7cc13d82d18b3c3609374a138  runs/flash_chord/t2-ep22-w2048-cap10m-ml40/export_8c778f9/s349999104_w4096/episode_000022.json
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-06T02:09:33+0800
+# ---------------------------------------------------------------
+new runs/flash_chord/t2-ep22-w2048-cap10m-ml40/eval_349999104_w4096.rep.json: 4096 worlds; ref runs/flash_chord/t2-ep22-w2048-cap10m-ml40/export_8c778f9/s349999104_w4096/episode_000022.json: 4096 worlds; same checkpoint sha256: True (4841c453ee2a1057…)
+  add_auc                        0.5167 vs 0.516855  diff -0.000155368
+  chord_sr                       0.975586 vs 0.974854  diff +0.000732422
+  maniptrans_sr                  0.733643 vs 0.735352  diff -0.00170898
+  spider_sr_uncentered           0.984863 vs 0.984131  diff +0.000732422
+  mppe_cm                        3.54522 vs 3.57884  diff -0.0336234
+  object_position_error_m        0.0337761 vs 0.0340998  diff -0.00032363
+  object_orientation_error_deg   14.9801 vs 14.9951  diff -0.0149596
+|ADD-AUC diff| 0.000155 < 1.0: True; RESULT CONSISTENT

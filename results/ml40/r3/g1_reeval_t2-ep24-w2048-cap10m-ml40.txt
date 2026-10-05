@@ -1,0 +1,26 @@
+# command  : stages/evaluate/fc_export.sh t2-ep24-w2048-cap10m-ml40 349999104 
+# md5      : a16bfc5a779fb60b8003441d6ab9da90  stages/evaluate/fc_export.sh
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-06T01:49:10+0800
+# ---------------------------------------------------------------
+stages/evaluate/fc_export.sh: line 78: runs/logs/t2-ep24-w2048-cap10m-ml40.export_8c778f9_s349999104_w4096.log: No such file or directory
+=== 2026-10-06 01:49:10 CST fc_export t2-ep24-w2048-cap10m-ml40 policy_349999104 episode 24 world_count=4096 traj=0 ===
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+fc_export: t2-ep24-w2048-cap10m-ml40 policy_349999104（episode 24，4096 世界）→ runs/flash_chord/t2-ep24-w2048-cap10m-ml40/export_8c778f9/s349999104_w4096/episode_000024.json
+== runs/flash_chord/t2-ep24-w2048-cap10m-ml40/export_8c778f9/s349999104_w4096/episode_000024.json
+  checkpoint /repo/runs/flash_chord/t2-ep24-w2048-cap10m-ml40/policy_349999104.safetensors  sha256 2b3524f4c1e2af35…
+  environment_steps 349999104  world_count 4096  step_count 748  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.46697814451819436
+  chord_sr                                       0.9931640625
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.102783203125
+  mppe_cm                                        4.148595443578467
+  mean_add_m                                     0.052358663458037934
+  object_position_error_m                        0.03646427918487187
+  object_orientation_error_deg                   30.803932488447494
+  termination_cause_fraction (legacy object-centric) {'object': 0.004150390625, 'wrist': 0.0068359375}
+  reference_tracking.success_rate (= chord_sr)   0.9931640625
+  reference_tracking.failure_cause_fraction      {'object': 0.004150390625, 'palm': 0.0068359375, 'pelvis': 0.001708984375}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.46697814451819436, "checkpoint": "/repo/runs/flash_chord/t2-ep24-w2048-cap10m-ml40/policy_349999104.safetensors", "checkpoint_sha256": "2b3524f4c1e2af350411874ee6e6836c94b9413ce72b56bfeee4357c9f74f47c", "chord_sr": 0.9931640625, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.052358663458037934, "mppe_cm": 4.148595443578467, "object_orientation_error_deg": 30.803932488447494, "object_position_error_m": 0.03646427918487187, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.004150390625, "palm": 0.0068359375, "pelvis": 0.001708984375}, "reference_end_fraction": 1.0, "success_rate": 0.9931640625}, "spider_sr_uncentered": 0.102783203125, "step_count": 748, "world_count": 4096}

@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/eval_check.py runs/flash_chord/smoke-t2-ep8-w2048-cap10m-r3a-ml40/eval_4096000_w4096.json 
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : 2b6af476082668e37d68e81dd9952895  runs/flash_chord/smoke-t2-ep8-w2048-cap10m-r3a-ml40/eval_4096000_w4096.json
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-06T01:34:26+0800
+# ---------------------------------------------------------------
+runs/flash_chord/smoke-t2-ep8-w2048-cap10m-r3a-ml40/eval_4096000_w4096.json：checkpoint_sha256 5e01e6bd2f644ff7…，world_count 4096，non_finite_worlds []
+  maniptrans_sr 0.0，spider_sr_uncentered 0.00048828125，add_auc 0.36833680147505077，mppe_cm 22.054983235171925
+EVAL_CHECK OK
