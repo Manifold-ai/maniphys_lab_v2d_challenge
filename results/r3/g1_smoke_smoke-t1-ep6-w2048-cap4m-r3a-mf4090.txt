@@ -1,0 +1,9 @@
+# command  : stages/policy/run_queue_line.sh stages/policy/queues/mf4090_r3t1a_smoke.txt smoke-t1-ep6-w2048-cap4m-r3a-mf4090 
+# md5      : 03d2bd733fcec5dba9739debd8a9dd02  stages/policy/run_queue_line.sh
+# md5      : 41aa9e82a178a98d5b624d3a7f1089ed  stages/policy/queues/mf4090_r3t1a_smoke.txt
+# source   : bbaa1513132c
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-06T02:56:44+0800
+# ---------------------------------------------------------------
+run_queue_line: smoke-t1-ep6-w2048-cap4m-r3a-mf4090 ← stages/policy/queues/mf4090_r3t1a_smoke.txt（行首环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0；V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg）
+fc_run: smoke-t1-ep6-w2048-cap4m-r3a-mf4090 完成

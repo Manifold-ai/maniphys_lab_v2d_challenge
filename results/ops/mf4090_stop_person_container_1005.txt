@@ -1,0 +1,6 @@
+# command  : docker stop maniphys-geyu-shared-dev-person-120 
+# source   : 47065cc22b18
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-06T02:51:50+0800
+# ---------------------------------------------------------------
+maniphys-geyu-shared-dev-person-120

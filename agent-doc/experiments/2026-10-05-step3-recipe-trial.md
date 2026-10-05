@@ -32,8 +32,26 @@
 | v2d-r3-bc-eval | `runs/logs/r3t2bc_eval_ml40.log` | BC 段（基线 seed 43 与变体 A seed 43）训完后评 |
 
 预计：A 段约 10/6 01:40 评完、做中途检查；判继续时 BC 段约 10/7 00:10 评完。G1 的冒烟被链认作 DONE，没有重训。
+A 段 6 条冒烟都过（256 世界 rollout 非有限世界 0），12:37 起正式训练。
 
 ## Tier 1（mf4090）
 
-没有开跑：mf4090 的 GPU 上有别人的进程（`maniphys_visual_worker`，容器 `maniphys-geyu-shared-dev-person-120`，10/4 早上起，占 2.7 GB 显存、利用率 0%），
-训练链与评测的 GPU 检查都会停。队列与试验清单已生成（`stages/policy/queues/mf4090_r3t1*`、`stages/evaluate/trials/r3_t1_mf4090.json`），等用户定。
+10/5 12:51 按用户的指示（“mf4090 上同事那个占着 GPU 的进程直接停掉 开始我们的任务”）停掉了 GPU 上的空闲容器 `maniphys-geyu-shared-dev-person-120`
+（`docker stop`，记录 `results/ops/mf4090_stop_person_container_1005.txt`；恢复用 `docker start maniphys-geyu-shared-dev-person-120`，重启策略
+`unless-stopped`，没人启动就一直停着）。停之前它占 2.7 GB 显存、GPU 利用率 0%、CPU 0.01%；停之后 GPU 上 0 个进程。同组的
+`maniphys-visual-dev-worker-120` 有 GPU 权限但没有占用，没动。
+
+### 闸 G1（10/5 12:52–13:29，`results/r3/g1_*`）
+
+| 步 | 结果 |
+|---|---|
+| 1 展开配置 | 32 份配置全过，意外差异 0 |
+| 2 变体冒烟 | `smoke-t1-ep6-w2048-cap4m-r3a-mf4090` 约 4 分钟训完 |
+| 3 评冒烟 | fc_8c778f9 按 4096 世界评测成功，`non_finite_worlds` 为空（`EVAL_CHECK OK`） |
+| 4 重评基线 | 6 条基线 seed 42 用 8c778f9 重评，与 v0.4.0 的数相比 MP-SR 差在 0.008 以内（ep6 0.570 对 0.562，与兼容性验证 P4 相同），checkpoint 相同 |
+| 5 重复噪声 | ep8 基线再评一次：MP-SR 0.9802 对 0.9768（差 +0.0034），ADD-AUC 差 +0.0006 |
+
+### 起链（10/5 13:30）
+
+`arm_trial_chains.sh mf4090`（`results/r3/arm_mf4090.txt`；预演 `arm_dryrun_mf4090.txt`）：来历 bbaa151，GPU 空闲，32 份配置的配方断言全过，6 条基线重评都在。
+四个会话同 ml40，日志 `runs/logs/r3t1{a,bc}_{train,eval}_mf4090.log`。预计 A 段 10/6 03:15 前后评完、做中途检查；判继续时 BC 段 10/7 01:45 前后评完。
