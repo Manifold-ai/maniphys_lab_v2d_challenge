@@ -1,6 +1,7 @@
 """Tier 2 降噪改进的测试（计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 2 版第 0、4、5 节；守档位隔离与 v5.4 不变；契约表未落，暂无契约 ID）。
   1. t2eval.py 只 import 允许的模块，字符串里没有 Tier 1 或 v5.2 / v5.3 产物的路径（只用标准库，Mac 上也能跑）
-  2. static_mask 的 cover（候选 A1）：静止段边界清楚时，覆盖把通过的窗口中心向两边各扩 st_win // 2 帧，不越过运动段
+  2. static_mask 的 cover（候选 A1）：静止段边界清楚时，覆盖把通过的窗口中心向两边各扩 st_win // 2 帧，不越过运动段；
+     guard（A1′）：纯静止时与 A1 相同；静止之后慢慢开始转动（0.5°/帧）时，A1 把转动的头 30 帧吞进静止，A1′ 在累计转角超出白噪声 P99 处停下
   3. correct 的 carry（候选 B1）：两个静止段之间没有未观测的增量时，沿用第一个段的整体修正，恰好还原第二个段的真漂移；
      carry 关闭时第二个段停在原始积分值
   4. enforce_tops（候选 C1）：静止时陷进桌面 2 cm 的方盒，约束后最低点不低于顶面 −1 cm；没有高于地面的顶时原样返回
@@ -46,6 +47,23 @@ def test_static_mask_cover():
     assert np.flatnonzero(st).tolist() == list(range(70)), np.flatnonzero(st)
     cov = static_mask(p, P, cover=True)
     assert np.flatnonzero(cov).tolist() == list(range(100)), np.flatnonzero(cov)
+
+
+def test_static_mask_guard():
+    import numpy as np
+    from scipy.spatial.transform import Rotation as Rot
+    from v51 import static_mask
+    T, sig = 200, (np.radians(0.649), 0.000846)
+    p = np.zeros((T, 7)); p[:, 3] = 1.0
+    p[100:, 0] = 1.0 + 0.05 * np.arange(T - 100)
+    assert np.array_equal(static_mask(p, P, cover=True), static_mask(p, P, cover=True, guard=sig))
+    q = np.zeros((T, 7)); q[:, 3] = 1.0
+    ang = np.radians(0.5) * np.clip(np.arange(T) - 99, 0, None)          # 第 100 帧起绕 z 轴 0.5°/帧
+    q[:, 3:7] = Rot.from_rotvec(np.stack([0 * ang, 0 * ang, ang], 1)).as_quat()[:, [3, 0, 1, 2]]
+    a1, a1p = static_mask(q, P, cover=True), static_mask(q, P, cover=True, guard=sig)
+    last_core = int(np.flatnonzero(~static_mask(q, P))[0]) - 1          # 第一段静止的最后一帧（序列末尾的截短窗口另会判出静止）
+    assert a1[last_core + 30] and not a1p[last_core + 30], (last_core, np.flatnonzero(a1).max(), np.flatnonzero(a1p).max())
+    assert (a1p <= a1).all() and a1p[:last_core + 1].all()
 
 
 def test_carry_restores_drift_without_motion_increments():
@@ -99,6 +117,6 @@ if __name__ == "__main__":
         import numpy  # noqa: F401
     except ImportError:
         print("跳过 2–4：这个解释器没有 numpy"); print("ALL_OK（部分）"); sys.exit(0)
-    for fn in (test_static_mask_cover, test_carry_restores_drift_without_motion_increments, test_enforce_tops):
+    for fn in (test_static_mask_cover, test_static_mask_guard, test_carry_restores_drift_without_motion_increments, test_enforce_tops):
         fn(); print(f"ok {fn.__name__}")
     print("ALL_OK")

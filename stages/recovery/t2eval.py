@@ -11,7 +11,9 @@ E5 新增静止的守门：候选判为静止、v5.4 没判的每段连续帧（
     同长度白噪声随机游走的 P99（三维各向同性高斯的模长 = 3.368·σ·√L）；纯噪声下两项合计约 2% 的段超出。
 伪标签、静置段的定义与 cleanroom_params.py 相同（全身离凸包 > 0.25 m 且 ≥ 30 帧；物体中心 ±30 帧位移 > 0.15 m；
 静置段最低点离某个面 ≤ 8 cm、高度残差 < 0.1 m）。E4 的“人远”沿用观测位姿算的距离（各方法位姿只差几厘米，对 0.25 m 的判断可忽略）。
-配置名：v54（基线）、a1（窗口覆盖）、b1（沿用修正）、c1（支撑面顶不穿透），用 + 组合，例如 a1+b1。
+配置名：v54（基线）、a1（窗口覆盖）、a1p（A1′：窗口覆盖加白噪声守门，A1 的 E5 不过时替 A1）、b1（沿用修正）、c1（支撑面顶不穿透），
+用 + 组合，例如 a1+b1。只报的 E4 附加项“静止段穿顶面”（v5.4 判据的静止段里，最低点中位数离某个顶面 ≤ 8 cm 时低于顶面 > 1 cm 的帧）
+是 10/5 小跑 3 条之后加的：登记的“静置段穿顶面”只看人远离物体的段，量不到 ep20 那种陷进桌面的帧。
 每个配置都是：v51 降噪 → [C1] → 地面不穿透（与 v5.4 的导出相同）。v54 配置对每条 episode 的输出与 runs/recovery/tier2_v54 逐位比较。
 用法（仓库根，服务器宿主）：
   python3 stages/recovery/t2eval.py --configs v54 a1 b1 c1 a1+b1 … [--workers 12] [--e3 10] [--e3-trunc 5] [--episodes 0 1 …]
@@ -54,7 +56,7 @@ PARAMS = {k: CR[k] for k in ("ref_tilt", "ref_h", "fb_tilt", "fb_h", "tilt_cap",
                              "margin", "eq_ang", "eq_h")}
 NOPEN_MAX_ROT = np.radians(CR["nopen_max_rot_deg"])
 META = {json.loads(l)["episode_index"]: json.loads(l) for l in open(TIER2 / "meta" / "episodes_metadata.jsonl")}
-CANDS = ("a1", "b1", "c1")
+CANDS = ("a1", "a1p", "b1", "c1")
 
 
 def fill_invisible(p, vis):
@@ -73,14 +75,14 @@ def pack(Rm, x):
 
 def parse_cfg(name):
     parts = set(name.split("+")) - {"v54"}
-    assert parts <= set(CANDS), name
+    assert parts <= set(CANDS) and not {"a1", "a1p"} <= parts, name
     return parts
 
 
 def run_config(parts, p, ep, holdout=None, drop=None):
     """返回 (终输出, 地面约束之前的输出)，都在 SOMA 世界系。"""
-    q = denoise_v51(p, ep["n"], ep["d"], ep["tops"], ep["ups"], PARAMS, cover="a1" in parts, carry="b1" in parts,
-                    holdout=holdout, drop=drop)
+    q = denoise_v51(p, ep["n"], ep["d"], ep["tops"], ep["ups"], PARAMS, cover=bool(parts & {"a1", "a1p"}), carry="b1" in parts,
+                    holdout=holdout, drop=drop, cover_guard=(SIG_R, SIG_X) if "a1p" in parts else None)
     if "c1" in parts:
         q = enforce_tops(q, p, ep["V"], ep["n"], ep["d"], ep["tops"], PARAMS, max_rot=NOPEN_MAX_ROT)
     return enforce(q, ep["V"], ep["n"], ep["d"], mode="rot_s", max_rot=NOPEN_MAX_ROT), q
@@ -152,7 +154,7 @@ def synth(T, ei, k, trunc):
 
 
 def e1(ep, parts):
-    st = static_mask(ep["p"], PARAMS, cover="a1" in parts)
+    st = static_mask(ep["p"], PARAMS, cover=bool(parts & {"a1", "a1p"}), guard=(SIG_R, SIG_X) if "a1p" in parts else None)
     out = dict(st_lab=int(ep["st_lab"].sum()), st_hit=int((st & ep["st_lab"]).sum()))
     for name, lo, hi in (("fp_0_10", 0, 10), ("fp_10_30", 10, 30), ("fp_core", CORE_GAP, 10**9 + 1)):
         mask = ep["mv"] & (ep["gap"] >= lo) & (ep["gap"] < hi)
@@ -175,8 +177,16 @@ def e4(ep, q, pre):
     w = Rot.from_matrix(np.einsum("tij,tkj->tik", R[1:], R[:-1])).as_rotvec()
     dw = np.degrees(np.linalg.norm(np.diff(w, axis=0), axis=1))
     mvf = ep["mv"][2:]
+    top_pen_static = 0                                   # 只报（10/5 小跑后加）：v5.4 判据的静止段里贴着顶面的帧
+    tops = [H for H in ep["tops"] if H > 0]
+    for s, e in segments(static_mask(ep["p"], PARAMS), 10):
+        hm = float(np.median(hq[s:e]))
+        if tops:
+            H = min(tops, key=lambda t: abs(hm - t))
+            if abs(hm - H) <= NEAR_SURF:
+                top_pen_static += int((hq[s:e] < H - PEN).sum())
     return dict(ground_pre=int((hp < -PEN).sum()), ground_pre_depth_mm=float(max(0.0, -1000 * hp.min())),
-                top_pen=int(top_pen), second_actor=int((moving & ep["far"]).sum()),
+                top_pen=int(top_pen), top_pen_static=int(top_pen_static), second_actor=int((moving & ep["far"]).sum()),
                 angacc_med=float(np.median(dw[mvf])) if mvf.any() else None)
 
 
@@ -218,7 +228,7 @@ def episode_worker(job):
         parts = parse_cfg(name)
         q, pre = run_config(parts, ep["p"], ep)
         r1, st = e1(ep, parts)
-        res = {"e1": r1, "e4": e4(ep, q, pre), "e5": e5(ep, st54, st) if "a1" in parts else [], "e2": [], "e3_main": [], "e3_trunc": []}
+        res = {"e1": r1, "e4": e4(ep, q, pre), "e5": e5(ep, st54, st) if parts & {"a1", "a1p"} else [], "e2": [], "e3_main": [], "e3_trunc": []}
         for r in ep["rest"]:
             if r["has0"]:
                 continue
@@ -253,8 +263,9 @@ def summarize(eps, cfgs):
         S[name] = dict(
             recall=st_hit / max(st_lab, 1), fp={k: v[0] / max(v[1], 1) for k, v in fp.items()}, fp_counts=fp,
             ground_pre=sum(x["ground_pre"] for x in e4s), ground_pre_depth_mm=max(x["ground_pre_depth_mm"] for x in e4s),
-            top_pen=sum(x["top_pen"] for x in e4s), second_actor=sum(x["second_actor"] for x in e4s),
-            angacc_med=statistics.median([x["angacc_med"] for x in e4s if x["angacc_med"] is not None]),
+            top_pen=sum(x["top_pen"] for x in e4s), top_pen_static=sum(x["top_pen_static"] for x in e4s),
+            second_actor=sum(x["second_actor"] for x in e4s),
+            angacc_med=(statistics.median(v) if (v := [x["angacc_med"] for x in e4s if x["angacc_med"] is not None]) else float("nan")),
             e2=e2, e5=e5, e5_flag_rate=(sum(r["flag"] for r in e5) / len(e5)) if e5 else 0.0,
             e3_main={e["ei"]: statistics.mean(e["cfg"][name]["e3_main"]) for e in eps if e["cfg"][name]["e3_main"]},
             e3_trunc={e["ei"]: statistics.mean(e["cfg"][name]["e3_trunc"]) for e in eps if e["cfg"][name]["e3_trunc"]})
@@ -283,9 +294,9 @@ def checks(S, name):
     dt = paired(S, name, "tilt_a")
     med = statistics.median(dt) if dt else 0.0
     frac = sum(v < 0 for v in dt) / len(dt) if dt else 0.0
-    if parts & {"a1", "b1"}:
+    if parts & {"a1", "a1p", "b1"}:
         out["G2"] = (frac >= 0.6 and med < 0, f"E2a 倾斜残差变低的段 {frac:.0%}（要 ≥ 60%），配对差中位 {med:+.2f}°（要 < 0），共 {len(dt)} 段")
-    if "a1" in parts:
+    if parts & {"a1", "a1p"}:
         out["E5"] = (x["e5_flag_rate"] <= 0.03, f"新增静止段超出白噪声 P99 的比例 {x['e5_flag_rate']:.1%}（{sum(r['flag'] for r in x['e5'])} / {len(x['e5'])}，要 ≤ 3%）")
     if "c1" in parts:
         out["C1"] = (x["top_pen"] <= 0.5 * b["top_pen"] and med <= 0.5,
@@ -294,9 +305,14 @@ def checks(S, name):
 
 
 def verdict(S):
-    singles = [c for c in CANDS if c in S]
+    lines = []
+    a = "a1"
+    if "a1" in S and not checks(S, "a1")["E5"][0]:
+        a = "a1p"
+        lines.append("A1 的 E5 不过，按第 4 节改用 A1′（a1p）替它" + ("" if "a1p" in S else "，但 a1p 没有评"))
+    singles = [c for c in (a, "b1", "c1") if c in S]
     passed = [c for c in singles if all(ok for ok, _ in checks(S, c).values())]
-    lines = [f"单独通过的候选：{passed if passed else '无'}"]
+    lines.append(f"单独通过的候选：{passed if passed else '无'}")
     if not passed:
         return "v54", lines
     combo = "+".join(passed)
@@ -320,12 +336,12 @@ def report(S, cfgs, eps):
     print(f"v5.4 复现（开关全关重算 vs runs/recovery/tier2_v54）：{sum(e['v54_reproduced'] for e in eps)} / {len(eps)} 逐位相同；"
           f"最大差 {max(e['v54_maxdiff'] for e in eps):.3g}")
     print(f"白噪声底：运动帧角加速度中位 {noise_floor_angacc():.3f}°/帧²（净室步长 0.649°/轴/帧）")
-    print(f"\n{'配置':<10}{'召回':>7}{'误判0-10':>9}{'误判10-30':>10}{'误判核心':>9}{'约束前穿地':>10}{'最深mm':>8}{'穿顶面':>7}{'第二施动者':>10}"
+    print(f"\n{'配置':<12}{'召回':>7}{'误判0-10':>9}{'误判10-30':>10}{'误判核心':>9}{'约束前穿地':>10}{'最深mm':>8}{'穿顶面':>7}{'静止穿顶(报)':>12}{'第二施动者':>10}"
           f"{'角加速度':>9}{'E3主集':>9}{'E3截断':>9}{'E5超出':>8}")
     for name in cfgs:
         x = S[name]
-        print(f"{name:<10}{x['recall']:>7.3f}{x['fp']['fp_0_10']:>9.3f}{x['fp']['fp_10_30']:>10.3f}{x['fp']['fp_core']:>9.4f}"
-              f"{x['ground_pre']:>10d}{x['ground_pre_depth_mm']:>8.1f}{x['top_pen']:>7d}{x['second_actor']:>10d}{x['angacc_med']:>9.3f}"
+        print(f"{name:<12}{x['recall']:>7.3f}{x['fp']['fp_0_10']:>9.3f}{x['fp']['fp_10_30']:>10.3f}{x['fp']['fp_core']:>9.4f}"
+              f"{x['ground_pre']:>10d}{x['ground_pre_depth_mm']:>8.1f}{x['top_pen']:>7d}{x['top_pen_static']:>12d}{x['second_actor']:>10d}{x['angacc_med']:>9.3f}"
               f"{x['e3_main_mean'] if x['e3_main_mean'] is not None else float('nan'):>9.4f}"
               f"{x['e3_trunc_mean'] if x['e3_trunc_mean'] is not None else float('nan'):>9.4f}"
               f"{x['e5_flag_rate']:>8.1%}")

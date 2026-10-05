@@ -60,31 +60,45 @@ def stable_ups(mesh_path: str) -> tuple:
     return tuple(out)
 
 
-def static_mask(p, P, cover=False):
+CHI3_P99 = 3.3682   # 三维各向同性高斯模长的 0.99 分位 / σ（sqrt(chi2_3 的 0.99 分位 11.345)）
+
+
+def static_mask(p, P, cover=False, guard=None):
     """静止判据：以当前帧为中心的 st_win 帧窗口里两两最大转角 < st_rot 且两两最大位移 < st_tr。
     cover=True（候选 A1，计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 2 版第 4 节）：只要有一个通过判据的窗口包含这一帧
-    就算静止，即把通过的窗口中心向两边各扩 st_win // 2 帧。"""
+    就算静止，即把通过的窗口中心向两边各扩 st_win // 2 帧。
+    guard=(σ_rot 弧度, σ_tr 米)（候选 A1′，同节；E5 不过时改试）：扩出去的帧 k 逐帧检查，从通过的窗口中心 i 起的累计观测转角与位移
+    都不超过 |k − i| 步白噪声随机游走的 P99（CHI3_P99·σ·√|k − i|）才算静止。"""
     st = (window_rot(p, P["st_win"]) < P["st_rot"]) & (window_tr(p, P["st_win"]) < P["st_tr"])
     if cover:
         h = P["st_win"] // 2
         idx = np.flatnonzero(st)
         out = np.zeros_like(st)
+        if guard is not None:
+            Rall = M(p[:, 3:7])
         for i in idx:
-            out[max(0, i - h):i + h + 1] = True
+            lo, hi = max(0, i - h), min(len(st), i + h + 1)
+            if guard is None:
+                out[lo:hi] = True
+                continue
+            L = np.sqrt(np.abs(np.arange(lo, hi) - i))
+            ang = np.arccos(np.clip((np.einsum("tii->t", np.einsum("tij,jk->tik", Rall[lo:hi], Rall[i].T)) - 1) / 2, -1, 1))
+            dx = np.linalg.norm(p[lo:hi, :3] - p[i, :3], axis=1)
+            out[lo:hi] |= (ang <= CHI3_P99 * guard[0] * L) & (dx <= CHI3_P99 * guard[1] * L)
         st = out
     return st
 
 
 def denoise_v51(p, n, d, tops, ups, P=DEFAULT, mode="tier", bridge=True, truth=None,
-                cover=False, carry=False, holdout=None, drop=None):
+                cover=False, carry=False, holdout=None, drop=None, cover_guard=None):
     """mode: "tier" = v5.1；"ref" = v5；"flat" = 所有假设平等竞争；"oracle" = 静止段用 truth 的 3 自由度。
-    以下开关默认关闭，关闭时输出与原来逐位相同（stages/recovery/test_v51_switches.py 与服务器上对 tier2_v54 的逐位核对）：
-      cover   候选 A1：静止判据按窗口覆盖（static_mask）
+    以下开关默认关闭，关闭时输出与原来逐位相同（stages/recovery/t2eval.py 对每条 episode 与 runs/recovery/tier2_v54 逐位核对）：
+      cover   候选 A1：静止判据按窗口覆盖（static_mask）；cover_guard=(σ_rot, σ_tr) 时是 A1′（扩出去的帧过白噪声守门）
       carry   候选 B1：锚点返回 None 的段沿用上一个锚定段的修正（t2core.correct）
       holdout 评价 E2a：(s, e) 帧区间；与它重叠的静止段锚点返回 None，其余照旧
       drop    评价 E2b：(s, e) 帧区间；与它重叠的静止段整个不参与锚定，桥跨过它"""
     P = {**DEFAULT, **P}
-    st = static_mask(p, P, cover)
+    st = static_mask(p, P, cover, cover_guard)
     segs = segments(st, 10)
     overlap = lambda s, e, r: r is not None and s < r[1] and r[0] < e
     if drop is not None:
