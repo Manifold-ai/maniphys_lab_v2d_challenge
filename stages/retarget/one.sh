@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 单条序列：转换 → 重定向（v0.4.0 + SOMAWithFlex，CPU 一次性容器）→ 对齐检查。训练机上执行。
 # 结果写 runs/logs/batch/t<N>_ep<EE>.tsv 一行：tier ep seq 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态
-# Tier 2 的物体位姿来自 recovery 落盘产物（只经文件交接），目录由 T2_POSES 指定，默认 tier2_v53。
+# Tier 2 的物体位姿来自 recovery 落盘产物（只经文件交接），目录由 T2_POSES 指定，默认 tier2_v54（净室参数；v5.3 的参数来自 Tier 1，不再作默认）。
 set -uo pipefail
 TIER=$1; EP=$2
 cd "$(dirname "$0")/../.."
@@ -12,7 +12,7 @@ import json,sys; sys.path.insert(0,'libs/v2d_infra'); from paths import tier
 print({json.loads(l)['episode_index']:json.loads(l) for l in open(tier($TIER)/'meta'/'episodes_metadata.jsonl')}[$EP]['sequence_id'])")
 fail() { printf "%s\t%s\t%s\t\t\t\t\t\t\t\tFAIL:%s\n" "$TIER" "$EP" "$SEQ" "$1" > "$RES"; exit 1; }
 
-OP=(); [ "$TIER" = 2 ] && OP=(--object-poses "runs/recovery/${T2_POSES:-tier2_v53}/episode_$(printf %06d "$EP").npz")
+OP=(); [ "$TIER" = 2 ] && OP=(--object-poses "runs/recovery/${T2_POSES:-tier2_v54}/episode_$(printf %06d "$EP").npz")
 python3 stages/retarget/challenge_to_soma.py --tier "$TIER" --episode "$EP" "${OP[@]}" >> "$LOG" 2>&1 || fail convert
 
 MR=runs/motion/tier$TIER

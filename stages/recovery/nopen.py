@@ -78,3 +78,54 @@ def enforce(p, V, n, d, mode="rot_s", eps=EPS, sigma=10.0, max_rot=MAX_ROT):
         omega = gaussian_filter1d(omega, sigma, axis=0, mode="nearest")
     Rm = np.einsum("tij,tjk->tik", Rot.from_rotvec(omega).as_matrix(), Rm)
     return _pack(Rm, _lift(Rm, x, V, n, d, eps))
+
+
+def enforce_tops(q, p_obs, V, n, d, tops, P, eps=EPS, sigma=10.0, max_rot=MAX_ROT, near=0.08):
+    """候选 C1（计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 2 版第 4 节）：支撑面顶不穿透，只用 Tier 2 的支撑面高度与网格。
+    静止段（判据同 v5.4，在观测 p_obs 上算；连续 ≥ 10 帧）里，q 的凸包最低点中位数离某个支撑面顶（v51.surface_tops，相对地面平面，
+    只取高于地面的顶）≤ near 时，这一段每帧的最低点不得低于顶面 −eps。修法同 enforce 的 rot_s：逐帧绕原点的最小旋转（≤ max_rot），
+    σ 帧高斯平滑，最后只对这些帧沿 n 抬高兜底。不看支撑面的 xy 范围（recovery 拿不到）。enforce 本身不动。"""
+    from t2core import segments
+    from v51 import static_mask
+    tops = [H for H in tops if H > 0.0]
+    if not tops:
+        return q.copy()
+    h_all = min_height(q, V, n, d)
+    floor = np.full(len(q), -np.inf)
+    for s, e in segments(static_mask(p_obs, P), 10):
+        hm = float(np.median(h_all[s:e]))
+        H = min(tops, key=lambda t: abs(hm - t))
+        if abs(hm - H) <= near:
+            floor[s:e] = H - eps
+    if not np.isfinite(floor).any():
+        return q.copy()
+    Rm = _R(q).copy(); x = q[:, :3].copy()
+    omega = np.zeros((len(q), 3))
+    for t in np.flatnonzero(np.isfinite(floor)):
+        r = Rm[t] @ V.T
+        base = x[t] @ n + d
+        h = r.T @ n + base
+        if h.min() >= floor[t]:
+            continue
+        rl = r[:, h.argmin()]
+        ax = np.cross(rl, n); s = np.linalg.norm(ax)
+        if s < 1e-9:
+            continue
+        ax /= s
+        lim = floor[t]
+        ok = lambda th: ((Rot.from_rotvec(ax * th).as_matrix() @ r).T @ n + base).min() >= lim
+        lo, hi = 0.0, max_rot
+        if ok(hi):
+            for _ in range(30):
+                mid = (lo + hi) / 2
+                lo, hi = (lo, mid) if ok(mid) else (mid, hi)
+            omega[t] = ax * hi
+        else:
+            ths = np.linspace(0, max_rot, 26)
+            mins = [((Rot.from_rotvec(ax * th).as_matrix() @ r).T @ n).min() for th in ths]
+            omega[t] = ax * ths[int(np.argmax(mins))]
+    omega = gaussian_filter1d(omega, sigma, axis=0, mode="nearest")
+    Rm = np.einsum("tij,tjk->tik", Rot.from_rotvec(omega).as_matrix(), Rm)
+    h = (np.einsum("tij,vj->tvi", Rm, V) + x[:, None]) @ n + d
+    need = np.where(np.isfinite(floor), np.maximum(0.0, floor - h.min(1)), 0.0)
+    return _pack(Rm, x + need[:, None] * n)

@@ -4,7 +4,8 @@
       v5.3 = v5.2 + 不穿地约束（nopen.py，rot_s：绕原点最小旋转 + 时间平滑，0.748，见 nopen_eval.py）。
       v5.4 = v5.3 的算法 + **净室参数**（runs/recovery/cleanroom_params.json，只由 Tier 2 推出，
              见 cleanroom_params.py）。v5.2/v5.3 的门限与静止判据来自 Tier 1，合规有疑问。
-用法：python stages/recovery/export_tier2.py [v5.2|v5.3]   默认 v5.3，输出到 runs/recovery/tier2_v52 或 tier2_v53
+用法：python stages/recovery/export_tier2.py v5.2|v5.3|v5.4   必须写明版本，没有默认值（v5.2 / v5.3 的门限与静止判据来自 Tier 1；
+      提交用 v5.4）；输出到 runs/recovery/tier2_v52、tier2_v53 或 tier2_v54
 
 只读 Tier 2 档位目录（paths.TIER2）：物体轨迹、ground_plane、support_surface、mesh。
 不读 Tier 1 的任何文件——档位隔离。降噪效果的核对在另一个分析脚本里做（check_tier2_export.py）。
@@ -19,6 +20,11 @@ import json
 import sys
 from pathlib import Path
 
+VERSIONS = {"v5.2": "tier2_v52", "v5.3": "tier2_v53", "v5.4": "tier2_v54"}
+if len(sys.argv) != 2 or sys.argv[1] not in VERSIONS:   # 先于一切 import 与读数据（计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 8 节）
+    sys.exit(f"用法：python stages/recovery/export_tier2.py {'|'.join(VERSIONS)}（必须写明版本，没有默认值；提交用 v5.4）")
+VERSION = sys.argv[1]
+
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "libs" / "v2d_infra")); sys.path.insert(0, str(HERE))
 from tier_guard import forbid_tier1
@@ -31,9 +37,7 @@ from t2core import to_soma                             # 纯函数；denoise_v4 
 from v51 import V52, denoise_v51, surface_tops, stable_ups
 from nopen import enforce, hull_vertices
 
-VERSION = sys.argv[1] if len(sys.argv) > 1 else "v5.3"
-assert VERSION in ("v5.2", "v5.3", "v5.4"), VERSION
-OUT = RUNS / "recovery" / {"v5.2": "tier2_v52", "v5.3": "tier2_v53", "v5.4": "tier2_v54"}[VERSION]
+OUT = RUNS / "recovery" / VERSIONS[VERSION]
 if VERSION == "v5.4":
     _CR = json.loads((RUNS / "recovery" / "cleanroom_params.json").read_text())["params"]
     PARAMS = {k: _CR[k] for k in ("ref_tilt", "ref_h", "fb_tilt", "fb_h", "tilt_cap", "h_cap", "st_win", "st_rot",

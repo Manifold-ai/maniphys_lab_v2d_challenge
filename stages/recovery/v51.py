@@ -60,11 +60,35 @@ def stable_ups(mesh_path: str) -> tuple:
     return tuple(out)
 
 
-def denoise_v51(p, n, d, tops, ups, P=DEFAULT, mode="tier", bridge=True, truth=None):
-    """mode: "tier" = v5.1；"ref" = v5；"flat" = 所有假设平等竞争；"oracle" = 静止段用 truth 的 3 自由度。"""
-    P = {**DEFAULT, **P}
+def static_mask(p, P, cover=False):
+    """静止判据：以当前帧为中心的 st_win 帧窗口里两两最大转角 < st_rot 且两两最大位移 < st_tr。
+    cover=True（候选 A1，计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 2 版第 4 节）：只要有一个通过判据的窗口包含这一帧
+    就算静止，即把通过的窗口中心向两边各扩 st_win // 2 帧。"""
     st = (window_rot(p, P["st_win"]) < P["st_rot"]) & (window_tr(p, P["st_win"]) < P["st_tr"])
+    if cover:
+        h = P["st_win"] // 2
+        idx = np.flatnonzero(st)
+        out = np.zeros_like(st)
+        for i in idx:
+            out[max(0, i - h):i + h + 1] = True
+        st = out
+    return st
+
+
+def denoise_v51(p, n, d, tops, ups, P=DEFAULT, mode="tier", bridge=True, truth=None,
+                cover=False, carry=False, holdout=None, drop=None):
+    """mode: "tier" = v5.1；"ref" = v5；"flat" = 所有假设平等竞争；"oracle" = 静止段用 truth 的 3 自由度。
+    以下开关默认关闭，关闭时输出与原来逐位相同（stages/recovery/test_v51_switches.py 与服务器上对 tier2_v54 的逐位核对）：
+      cover   候选 A1：静止判据按窗口覆盖（static_mask）
+      carry   候选 B1：锚点返回 None 的段沿用上一个锚定段的修正（t2core.correct）
+      holdout 评价 E2a：(s, e) 帧区间；与它重叠的静止段锚点返回 None，其余照旧
+      drop    评价 E2b：(s, e) 帧区间；与它重叠的静止段整个不参与锚定，桥跨过它"""
+    P = {**DEFAULT, **P}
+    st = static_mask(p, P, cover)
     segs = segments(st, 10)
+    overlap = lambda s, e, r: r is not None and s < r[1] and r[0] < e
+    if drop is not None:
+        segs = [(s, e) for s, e in segs if not overlap(s, e, drop)]
     DR, Dx = integrate(p, st)
     h = lambda x: x @ n + d
     ref = (M(p[:1, 3:7])[0].T @ n, float(h(p[0, :3])))
@@ -98,4 +122,7 @@ def denoise_v51(p, n, d, tops, ups, P=DEFAULT, mode="tier", bridge=True, truth=N
             return (None, None, None)
         return (best[2], best[3], None)
 
-    return apply(p, *correct(DR, Dx, segs, target, n, bridge))
+    if holdout is not None:
+        _target = target
+        target = lambda s, e: (None, None, None) if overlap(s, e, holdout) else _target(s, e)
+    return apply(p, *correct(DR, Dx, segs, target, n, bridge, carry=carry))

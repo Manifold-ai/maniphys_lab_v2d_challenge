@@ -99,19 +99,30 @@ def slerp_R(R0, R1, w):
     return Slerp([0, 1], Rot.from_matrix(np.stack([R0, R1])))(w).as_matrix()
 
 
-def correct(DR, Dx, segs, target, n, bridge):
+def correct(DR, Dx, segs, target, n, bridge, carry=False):
     """每个静止段求一个常数修正（旋转 C 左乘、平移 c 相加），运动段按 bridge 插值或保持。
-    target(s,e) -> (目标 D·n 方向 或 None, 目标 n·Dx 或 None, 目标整体 D 或 None)"""
+    target(s,e) -> (目标 D·n 方向 或 None, 目标 n·Dx 或 None, 目标整体 D 或 None)
+    carry=True（候选 B1，计划 agent-doc/plan-tier2-denoise-2026-10-04.md 第 2 版第 4 节）：target 全为 None 的段，不再停在原始积分值，
+    改为沿用上一个锚定段 a 的修正。锚点在 a 的中点 m_a 处求得 C_a，即 C_a·DR(m_a) 是那里的漂移估计；按随机游走模型，此后运动段的
+    漂移增量期望为 I，所以本段中点 m 的修正取 C = DR(m)·DR(m_a)ᵀ·C_a·DR(m_a)·DR(m)ᵀ（全部增量都观测到时恰好还原）；
+    平移修正是加性的，c = c_a。第一个锚定段之前的段照旧。carry=False 时与原实现逐位相同。"""
+    DR0 = DR if not carry else DR.copy()
     DR = DR.copy(); Dx = Dx.copy(); T = len(DR)
     fixed = []
+    last = None   # 上一个锚定段：(C_a, c_a, m_a)，m_a 是它的中点
     for s, e in segs:
         z_img, h_d, full = target(s, e)
         m = (s + e) // 2
         if full is not None:
             C = full[0] @ DR[m].T; c = full[1] - Dx[m]
+        elif carry and z_img is None and h_d is None and last is not None:
+            Ca, ca, ma = last
+            C = DR0[m] @ DR0[ma].T @ Ca @ DR0[ma] @ DR0[m].T; c = ca.copy()
         else:
             C = np.eye(3) if z_img is None else rot_between(DR[m] @ n, z_img)
             c = np.zeros(3) if h_d is None else (h_d - n @ Dx[m]) * n
+        if carry and (full is not None or z_img is not None or h_d is not None):
+            last = (C, c, m)
         DR[s:e] = np.einsum("ij,tjk->tik", C, DR[s:e]); Dx[s:e] += c
         fixed.append((s, e))
     # 运动段：两侧都有静止段时按 bridge 插值，否则保持邻近值
