@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-05-t2-denoise-eval.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1d8b102c1e8fad3a80c453a38e81dbc7  agent-doc/experiments/2026-10-05-t2-denoise-eval.claims.json
+# source   : 47065cc22b18-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-05T13:43:49-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+v54_reproduced       P(supported)=0.99  verified               [eval]  开关全关时重算的 v5.4，30 条 episode 与 runs/recovery/tier2_v54 逐位相同，最大差 0。
+a1_fails             P(supported)=0.99  verified               [eval]  A1 的 E5 不过：新增静止段超出白噪声 P99 的比例是 61.8%（76 / 123）；A1 的 G1 也不过，核心运动帧误判 0.0579。
+a1p_fails            P(supported)=0.98  verified               [eval]  A1′（a1p）的 E5 不过，超出比例 22.9%（30 / 131）；它的 G3 不过，逐条最差 -0.1308。
+b1_g2                P(supported)=0.99  verified               [eval]  B1 的 G2 不过：E2a 倾斜残差变低的段是 58%，要 ≥ 60%；B1 的 G3 过，E3 主集平均 0.6715，v5.4 是 0.6688。
+c1_fails             P(supported)=0.97  verified               [eval]  C1 的 C1 判据不过：静置段穿支撑面顶的帧是 9，v5.4 也是 9。
+pick_v54             P(supported)=0.95  verified               [eval]  组合规则先因为 A1 的 E5 不过改用 A1′，然后单独通过的候选为无，T2EVAL_PICK 是 v54。
+gap_ep20             P(supported)=0.95  verified               [gap]  v5.4 重定向之后，Tier 2 的 rice_cooker 序列 gap_mm 是 -22.1、状态 ALIGN；同一序列 Tier 1 的 gap_mm 是 -1.3、状态 OK。
+ctl_true_e3          P(supported)=0.99  control(true) ok       [eval]  c1 对 v5.4 的 G3 过。
+ctl_false_b1         P(supported)=0.01  control(false) ok      [eval]  B1 的 E3 主集平均是 0.7500，比 v5.4 高 0.08。
+ctl_false_pick       P(supported)=0.05  control(false) ok      [eval]  组合规则选中了 a1p+b1，T2EVAL_PICK 是 a1p+b1。
+controls behaved as expected
