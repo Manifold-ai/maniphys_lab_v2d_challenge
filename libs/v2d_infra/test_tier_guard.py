@@ -39,5 +39,34 @@ def test_guard():
     assert out.count("BLOCKED") == 5
 
 
+# 没装 pyarrow 的解释器（ml40 宿主的 python3）：forbid_tier1() 不报错，open 仍被拦。只用标准库，Mac 上也能跑。
+PROBE_NO_PYARROW = r'''
+import sys; sys.path.insert(0, %r)
+sys.modules["pyarrow"] = None; sys.modules["pyarrow.parquet"] = None   # 让 import pyarrow 抛 ImportError
+from paths import TIER1
+from tier_guard import forbid_tier1, Tier1AccessError
+forbid_tier1()
+print("GUARD_ON")
+try:
+    open(TIER1 / "meta" / "info.json"); print("LEAK open")
+except Tier1AccessError:
+    print("BLOCKED open")
+''' % str(HERE)
+
+
+def test_guard_without_pyarrow():
+    r = subprocess.run([sys.executable, "-c", PROBE_NO_PYARROW], capture_output=True, text=True)
+    print(r.stdout, r.stderr)
+    assert "GUARD_ON" in r.stdout, "没装 pyarrow 时 forbid_tier1() 报错了"
+    assert "BLOCKED open" in r.stdout and "LEAK" not in r.stdout, "没装 pyarrow 时 open 没拦住"
+
+
 if __name__ == "__main__":
-    test_guard(); print("通过")
+    test_guard_without_pyarrow()
+    try:
+        import numpy, pyarrow  # noqa: F401
+    except ImportError:
+        print("跳过 test_guard：这个解释器没有 numpy / pyarrow")
+    else:
+        test_guard()
+    print("通过")

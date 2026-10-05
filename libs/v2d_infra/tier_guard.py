@@ -33,7 +33,10 @@ def forbid_tier1():
         if event in ("open", "os.listdir", "os.scandir", "glob.glob", "glob.glob/2") and args:
             _check(args[0])
     sys.addaudithook(hook)
-    import pyarrow.parquet as pq
+    try:
+        import pyarrow.parquet as pq
+    except ImportError:   # 没装 pyarrow 的解释器（例如 ml40 宿主）读不了 parquet，只需 audit hook
+        return
     for name in ("read_table", "ParquetFile"):
         orig = getattr(pq, name)
         if getattr(orig, "_tier_guarded", False):

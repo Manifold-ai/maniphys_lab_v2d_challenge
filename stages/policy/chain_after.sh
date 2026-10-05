@@ -7,6 +7,8 @@
 # 2. 上一段训练日志最后一行是 DAY2_TRAIN_DONE，且其中“完成”的条数 ≥ 门槛，才 exec 训练链；
 # 3. 否则在 runs/logs/<日志名>.log 写原因与 DAY2_TRAIN_FAILED（下一段的评测链按这一行结束、什么也不评），退出码 1。
 #    “完成”不够有几种来路：发散、失败、显存不足（训练链遇到退出码 4 直接 break）、冒烟没过。几种情形都不该接着烧下一段的 GPU。
+# 4. 可选的 V2D_GATE_CMD：门槛过了之后在仓库根用 bash -c 跑它，输出与退出码记进下一段的日志；退出码 0 才开，非 0 照第 3 条处理。
+#    第 3 步配方试验（计划 agent-doc/plan-step3-recipe-trial-2026-10-04.md 第 3 节）用它跑 trial_verdict.py --midcheck。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 A_TRAIN=${1:?用法见文件头}; A_EVAL=${2:?}; MIN=${3:?}; shift 3
@@ -17,6 +19,15 @@ until grep -qE "DAY2_EVAL_(DONE|FAILED)" < <(tail -1 "$A_EVAL" 2>/dev/null); do 
 last="$(tail -1 "$A_TRAIN" 2>/dev/null)"
 done_n="$(sed -n 's/.*DAY2_TRAIN_DONE（完成 \([0-9][0-9]*\)、.*/\1/p' <<< "$last")"
 if [ -n "$done_n" ] && [ "$done_n" -ge "$MIN" ]; then
+  if [ -n "${V2D_GATE_CMD:-}" ]; then
+    gate_out="$(bash -c "$V2D_GATE_CMD" 2>&1)"; grc=$?
+    { echo "=== $(date '+%F %T %Z') chain_after：判定命令 ${V2D_GATE_CMD} 退出码 ${grc}"; sed 's/^/    /' <<< "$gate_out"; } >> "$B_LOG"
+    if [ "$grc" != 0 ]; then
+      { echo "=== $(date '+%F %T %Z') chain_after：判定不过，不开 ${NAME}（上一段完成 ${done_n} 条）"
+        echo "=== $(date '+%F %T %Z') DAY2_TRAIN_FAILED"; } >> "$B_LOG"
+      exit 1
+    fi
+  fi
   echo "=== $(date '+%F %T %Z') chain_after：上一段完成 ${done_n} 条（门槛 ${MIN}），开 $NAME" >> "$B_LOG"
   exec stages/policy/day2_train_chain.sh "$@"
 fi

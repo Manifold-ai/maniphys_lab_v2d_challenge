@@ -24,7 +24,8 @@ while IFS= read -r line || [ -n "$line" ]; do
   # training.{experiment_name,run_name,wandb_entity,wandb_project} 在配方里是 ${logging.*} 的引用，随 logging 覆盖一起变
   allowed="logging,output_dir,task.parquet,scene.world_count,training.total_environment_steps,training.experiment_name,training.run_name,training.wandb_entity,training.wandb_project"
   for o in "${args[@]:4}"; do k=${o%%=*}; k=${k#+}; k=${k#+}; allowed+=",$k"   # +键 / ++键 是 Hydra 的追加写法，按键名放行
-    case "$k" in reset.*) allowed+=",env.$k" ;; esac   # 展开的配置在 env 下面也放了一份 reset，随 reset.* 覆盖一起变
+    case "$k" in reset.*|objective.*|termination.*) allowed+=",env.$k" ;; esac   # 展开的配置在 env 下面也放了一份 reset、objective、termination
+    #   （configs/env/rl.yaml 里是对顶层的引用），随顶层覆盖一起变；第 3 步配方试验的变体改 objective / termination 的取值
   done
   scripts/dev/in-flash-chord "$cmd --cfg job --resolve" > "runs/cfgcheck/$run.yaml" 2> "runs/cfgcheck/$run.err" \
     || { echo "  展开本次配置失败，见 runs/cfgcheck/$run.err"; fail=1; continue; }
