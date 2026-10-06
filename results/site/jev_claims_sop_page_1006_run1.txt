@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-06-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4d6f07e07c4e53c51378ca26fc7b9b8c  agent-doc/experiments/2026-10-06-sop-page.claims.json
+# source   : c761fcd39e17-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-06T17:38:09-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_midcheck          P(supported)=0.54  UNVERIFIED             [trial]  Tier 2 的中途检查 10/6 02:36 判 CONTINUE，平均差 +0.988；5 条试验 episode 上变体 A seed 42 的 MP-SR 在 0.984 到 1.000 之间，基线在 0.000 到 0.022 之间。
+t1_midcheck          P(supported)=0.54  UNVERIFIED             [trial]  Tier 1 的中途检查 10/6 03:08 判 CONTINUE，平均差 +0.478；ep29 的 MP-SR 从 0.172 降到 0.151，ep18、ep27、ep29 的 MPPE 变大。
+g1                   P(supported)=0.96  verified               [trial]  闸 G1 里，6 条基线 seed 42 用 8c778f9 重评，与 v0.4.0 的数相比 MP-SR 差在 Tier 2 是 0.011 以内、Tier 1 是 0.008 以内；重复评一次的 MP-SR 差 Tier 2 是 −0.0017、Tier 1 是 +0.0034。
+container            P(supported)=0.97  verified               [trial]  mf4090 上一个空闲容器 10/5 12:51 按用户的指示被停掉，停之前占 2.7 GB 显存、GPU 利用率 0%，之后 Tier 1 在 13:30 起链。
+bc_ml40              P(supported)=0.89  verified               [status_ml40]  快照时 ml40 上 t2-ep20-w2048-cap10m-r3a-s43-ml40 已经完成，正在正式训练 t2-ep24-w2048-cap10m-s43-ml40，它在 07:05:50 CST 开始。
+bc_mf4090            P(supported)=0.96  verified               [status_mf4090]  快照时 mf4090 上 t1-ep20-w2048-cap4m-r3a-s43-mf4090 已经完成，正在正式训练 t1-ep27-w2048-cap4m-s43-mf4090，可用磁盘是 3592 MB。
+bc_smokes            P(supported)=0.98  verified               [bc_ml40, bc_mf4090]  两台 BC 段的冒烟各有 10 行 SMOKE_OK、10 行冒烟通过，BC run 日志里含 NONFINITE_GUARD 的文件数都是 0。
+ctl_true_gpu         P(supported)=0.24  CONTROL(true) FAILED   [status_ml40]  快照时 ml40 的 GPU 利用率是 100%。
+ctl_false_stop       P(supported)=0.02  control(false) ok      [trial]  Tier 2 的中途检查判 STOP，BC 段没有起。
+ctl_false_disk       P(supported)=0.11  control(false) ok      [status_mf4090]  快照时 mf4090 可用磁盘超过 50 GB。
+CONTROLS MISBEHAVED: do not rely on this batch

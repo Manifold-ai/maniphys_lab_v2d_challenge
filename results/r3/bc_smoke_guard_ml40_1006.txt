@@ -1,0 +1,6 @@
+# command  : ssh ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "SMOKE_OK è¡\214æ\225° $(grep -ac "^SMOKE_OK" runs/logs/r3t2bc_train_ml40.log)ï¼\233å\206\222ç\203\237é\200\232è¿\207è¡\214 $(grep -aE "^=== .*å\206\222ç\203\237 smoke.* é\200\232è¿\207" runs/logs/r3t2bc_train_ml40.log | wc -l)ï¼\233BC run æ\227¥å¿\227é\207\214å\220« NONFINITE_GUARD ç\232\204æ\226\207ä»¶æ\225° $(grep -ac NONFINITE_GUARD runs/logs/t2-ep*-s43-ml40*.log | grep -v ":0$" | wc -l)"' 
+# source   : c761fcd39e17
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-06T17:30:58-0600
+# ---------------------------------------------------------------
+SMOKE_OK è¡Œæ•° 10ï¼›å†’çƒŸé€šè¿‡è¡Œ 10ï¼›BC run æ—¥å¿—é‡Œå« NONFINITE_GUARD çš„æ–‡ä»¶æ•° 0

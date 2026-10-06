@@ -1,0 +1,101 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "trial": {
+   "file": "agent-doc/experiments/2026-10-05-step3-recipe-trial.md",
+   "grep": "^\\| [0-9]|^\\| 对照|^\\| [1-5] |平均差|起链|停掉|停之前|同一评测器"
+  },
+  "status_ml40": {
+   "file": "results/r3/status_ml40_1006.txt",
+   "grep": "run_at|^== |完成（1 段）|^=== .*正式|free|MiB"
+  },
+  "status_mf4090": {
+   "file": "results/r3/status_mf4090_1006.txt",
+   "grep": "run_at|^== |完成（1 段）|^=== .*正式|free|MiB"
+  },
+  "bc_ml40": {
+   "file": "results/r3/bc_smoke_guard_ml40_1006.txt",
+   "grep": "run_at|SMOKE_OK"
+  },
+  "bc_mf4090": {
+   "file": "results/r3/bc_smoke_guard_mf4090_1006.txt",
+   "grep": "run_at|SMOKE_OK"
+  }
+ },
+ "claims": [
+  {
+   "id": "t2_midcheck",
+   "evidence": [
+    "trial"
+   ],
+   "claim": "Tier 2 的 trial_verdict.py --midcheck 平均差 +0.988，判 CONTINUE，02:36 起 BC 段（seed 42 单种子，对照 v5.4 参考）。"
+  },
+  {
+   "id": "t1_midcheck",
+   "evidence": [
+    "trial"
+   ],
+   "claim": "Tier 1 的 trial_verdict.py --midcheck 平均差 +0.478，判 CONTINUE，03:08 起 BC 段；ep29 这一行的 MP-SR 是 0.172 → 0.151。"
+  },
+  {
+   "id": "g1",
+   "evidence": [
+    "trial"
+   ],
+   "claim": "闸 G1 里，6 条基线 seed 42 用 8c778f9 重评，与 v0.4.0 的数相比 MP-SR 差在 Tier 2 是 0.011 以内、Tier 1 是 0.008 以内；重复评一次的 MP-SR 差 Tier 2 是 −0.0017、Tier 1 是 +0.0034。"
+  },
+  {
+   "id": "container",
+   "evidence": [
+    "trial"
+   ],
+   "claim": "mf4090 上一个空闲容器 10/5 12:51 按用户的指示被停掉，停之前占 2.7 GB 显存、GPU 利用率 0%，之后 Tier 1 在 13:30 起链。"
+  },
+  {
+   "id": "bc_ml40",
+   "evidence": [
+    "status_ml40"
+   ],
+   "claim": "快照时 ml40 上 t2-ep20-w2048-cap10m-r3a-s43-ml40 已经完成，正在正式训练 t2-ep24-w2048-cap10m-s43-ml40，它在 07:05:50 CST 开始。"
+  },
+  {
+   "id": "bc_mf4090",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "快照时 mf4090 上 t1-ep20-w2048-cap4m-r3a-s43-mf4090 已经完成，正在正式训练 t1-ep27-w2048-cap4m-s43-mf4090，可用磁盘是 3592 MB。"
+  },
+  {
+   "id": "bc_smokes",
+   "evidence": [
+    "bc_ml40",
+    "bc_mf4090"
+   ],
+   "claim": "两台 BC 段的冒烟各有 10 行 SMOKE_OK、10 行冒烟通过，BC run 日志里含 NONFINITE_GUARD 的文件数都是 0。"
+  },
+  {
+   "id": "ctl_true_source",
+   "evidence": [
+    "status_ml40"
+   ],
+   "claim": "ml40 快照记录的来历 commit 是 c5755600b381。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_stop",
+   "evidence": [
+    "trial"
+   ],
+   "claim": "Tier 2 的中途检查判 STOP，BC 段没有起。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_disk",
+   "evidence": [
+    "status_mf4090"
+   ],
+   "claim": "快照时 mf4090 可用磁盘超过 50 GB。",
+   "control": "false"
+  }
+ ]
+}
