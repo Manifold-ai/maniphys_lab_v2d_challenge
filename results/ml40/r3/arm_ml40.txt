@@ -1,0 +1,53 @@
+# command  : stages/policy/arm_trial_chains.sh ml40 
+# md5      : 99cbc2e4dfba21ba317e938bc0e6bf81  stages/policy/arm_trial_chains.sh
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-06T02:10:29+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t2-ep8-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep8-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep12-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep12-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep20-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep20-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep24-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep24-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep26-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep26-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep22-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep22-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep8-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep8-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep8-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep8-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep12-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep12-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep12-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep12-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep20-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep20-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep20-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep20-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep24-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep24-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep24-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep24-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep26-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep26-w2048-cap10m-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep26-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep26-w2048-cap10m-r3a-s43-ml40.yaml：4 条断言，全过
+配方断言：32 份配置全过
+基线 seed 42 的重评：6 / 6 在
+净室：Tier 2 清单，已调 forbid_tier1()
+MIDCHECK ERROR t2-ep8-w2048-cap10m-r3a-ml40：没有评测结果 runs/flash_chord/t2-ep8-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+v2d-r3-a-eval: 1 windows (created Tue Oct  6 02:10:34 2026)
+v2d-r3-a-train: 1 windows (created Tue Oct  6 02:10:32 2026)
+v2d-r3-bc-eval: 1 windows (created Tue Oct  6 02:10:38 2026)
+v2d-r3-bc-gate: 1 windows (created Tue Oct  6 02:10:36 2026)
+r3t2a_train_ml40：in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+r3t2a_eval_ml40：=== 2026-10-06 02:10:34 CST 等 runs/logs/r3t2a_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+r3t2bc_eval_ml40：=== 2026-10-06 02:10:38 CST 等 runs/logs/r3t2bc_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/.chain-active-r3t2a_eval_ml40
+runs/.chain-active-r3t2a_train_ml40
+runs/.chain-active-r3t2bc_eval_ml40
+ARMED
