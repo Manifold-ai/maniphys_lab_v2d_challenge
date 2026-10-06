@@ -1,0 +1,47 @@
+# command  : stages/policy/arm_trial_chains.sh mf4090 
+# md5      : 99cbc2e4dfba21ba317e938bc0e6bf81  stages/policy/arm_trial_chains.sh
+# source   : bbaa1513132c
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-06T03:30:31+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t1-ep6-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep6-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep18-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep18-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep20-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep20-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep27-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep27-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep29-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep29-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep8-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep8-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep6-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep6-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep6-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep6-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep18-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep18-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep18-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep18-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep20-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep20-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep20-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep20-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep27-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep27-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep27-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep27-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep29-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep29-w2048-cap4m-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep29-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep29-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+配方断言：32 份配置全过
+基线 seed 42 的重评：6 / 6 在
+MIDCHECK ERROR t1-ep6-w2048-cap4m-r3a-mf4090：没有评测结果 runs/flash_chord/t1-ep6-w2048-cap4m-r3a-mf4090/eval_349999104_w4096.json
+预演，不起会话：
+  a-train: V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 stages/policy/day2_train_chain.sh stages/policy/queues/mf4090_r3t1a.expect.tsv stages/policy/queues/mf4090_r3t1a_smoke.txt stages/policy/queues/mf4090_r3t1a.txt 24564 r3t1a_train_mf4090
+  a-eval:  V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/r3t1a_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_r3t1a.expect.tsv - r3t1a_eval_mf4090
+  bc-gate: V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 V2D_GATE_CMD='python3 stages/evaluate/trial_verdict.py stages/evaluate/trials/r3_t1_mf4090.json --midcheck' stages/policy/chain_after.sh runs/logs/r3t1a_train_mf4090.log runs/logs/r3t1a_eval_mf4090.log 6 stages/policy/queues/mf4090_r3t1bc.expect.tsv stages/policy/queues/mf4090_r3t1bc_smoke.txt stages/policy/queues/mf4090_r3t1bc.txt 24564 r3t1bc_train_mf4090
+  bc-eval: V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/r3t1bc_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_r3t1bc.expect.tsv - r3t1bc_eval_mf4090
+DRYRUN_OK
