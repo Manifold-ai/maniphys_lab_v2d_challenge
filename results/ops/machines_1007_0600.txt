@@ -1,0 +1,15 @@
+# command  : bash -c $'for h in ml40 mf4090; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; L=r3t2bc_eval_ml40; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge && L=r3t1bc_eval_mf4090; ssh -o BatchMode=yes $h "cd $R && echo == $h; tail -1 runs/logs/$L.log; echo GPU �\233�\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); ls runs/.chain-active-* 2>/dev/null | wc -l | sed s/^/�\225��\223��\207记\\ /; df -m $R | tail -1"; done' 
+# source   : dbe4d4566438-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T05:59:39-0600
+# ---------------------------------------------------------------
+== ml40
+=== 2026-10-07 17:01:14 CST DAY2_EVAL_DONE（成功 10、失败 0）
+GPU 进程 0
+长链标记 0
+/dev/vdb         2063132 189666   1873450  10% /lab_data
+== mf4090
+=== 2026-10-07 16:00:48 CST DAY2_EVAL_DONE（成功 10、失败 0）
+GPU 进程 0
+长链标记 0
+/dev/vda2         201462 190570      2583  99% /

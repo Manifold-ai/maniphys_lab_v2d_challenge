@@ -1,0 +1,17 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "m": {"file": "results/ops/machines_1007_0600.txt", "grep": "run_at|^== |DAY2_EVAL_DONE|GPU 进程|长链标记|/dev/"},
+  "v1": {"file": "results/r3/verdict_t1.txt", "grep": "^  S[1-6]|TRIAL_VERDICT|^  ep"},
+  "v2": {"file": "results/ml40/r3/verdict_t2.txt", "grep": "^  S[1-6]|TRIAL_VERDICT|^  ep"}
+ },
+ "claims": [
+  {"id": "idle", "evidence": ["m"], "claim": "06:00 时 ml40 与 mf4090 的 BC 段评测链都以 DAY2_EVAL_DONE（成功 10、失败 0）结束，两台的 GPU 进程数与长链标记数都是 0。"},
+  {"id": "disk", "evidence": ["m"], "claim": "mf4090 根分区可用 2583 MB，已用 99%。"},
+  {"id": "t2_ep24", "evidence": ["v2"], "claim": "Tier 2 的 ep24 行，变体 MP-SR 0.9989，基线 0.0000。"},
+  {"id": "t1_ep18", "evidence": ["v1"], "claim": "Tier 1 的 ep18 行，MPPE 变体 8.66、基线 5.98。"},
+  {"id": "ctl_true", "evidence": ["v2"], "claim": "Tier 2 的判定输出写着 TRIAL_VERDICT PASS。", "control": "true"},
+  {"id": "ctl_false_idle", "evidence": ["m"], "claim": "06:00 时 mf4090 上还有 1 个长链标记。", "control": "false"},
+  {"id": "ctl_false_ep18", "evidence": ["v1"], "claim": "Tier 1 的 ep18 行，变体的 MPPE 比基线小。", "control": "false"}
+ ]
+}

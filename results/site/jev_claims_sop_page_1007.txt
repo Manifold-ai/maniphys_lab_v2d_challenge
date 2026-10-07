@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-07-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 3481506ed62e0f6ababe30ec59eca5ff  agent-doc/experiments/2026-10-07-sop-page.claims.json
+# source   : dbe4d4566438-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T06:00:00-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+idle                 P(supported)=0.91  verified               [m]  06:00 时 ml40 与 mf4090 的 BC 段评测链都以 DAY2_EVAL_DONE（成功 10、失败 0）结束，两台的 GPU 进程数与长链标记数都是 0。
+disk                 P(supported)=0.96  verified               [m]  mf4090 根分区可用 2583 MB，已用 99%。
+t2_ep24              P(supported)=0.97  verified               [v2]  Tier 2 的 ep24 行，变体 MP-SR 0.9989，基线 0.0000。
+t1_ep18              P(supported)=0.98  verified               [v1]  Tier 1 的 ep18 行，MPPE 变体 8.66、基线 5.98。
+ctl_true             P(supported)=0.99  control(true) ok       [v2]  Tier 2 的判定输出写着 TRIAL_VERDICT PASS。
+ctl_false_idle       P(supported)=0.02  control(false) ok      [m]  06:00 时 mf4090 上还有 1 个长链标记。
+ctl_false_ep18       P(supported)=0.10  control(false) ok      [v1]  Tier 1 的 ep18 行，变体的 MPPE 比基线小。
+controls behaved as expected
