@@ -1,0 +1,327 @@
+# command  : scripts/dev/in-flash-chord for\ r\ in\ \ t2-ep8-w2048-cap10m-ml40\ t2-ep8-w2048-cap10m-s43-ml40\ t2-ep8-w2048-cap10m-r3a-ml40\ t2-ep8-w2048-cap10m-r3a-s43-ml40\ t2-ep12-w2048-cap10m-ml40\ t2-ep12-w2048-cap10m-s43-ml40\ t2-ep12-w2048-cap10m-r3a-ml40\ t2-ep12-w2048-cap10m-r3a-s43-ml40\ t2-ep20-w2048-cap10m-ml40\ t2-ep20-w2048-cap10m-s43-ml40\ t2-ep20-w2048-cap10m-r3a-ml40\ t2-ep20-w2048-cap10m-r3a-s43-ml40\ t2-ep24-w2048-cap10m-ml40\ t2-ep24-w2048-cap10m-s43-ml40\ t2-ep24-w2048-cap10m-r3a-ml40\ t2-ep24-w2048-cap10m-r3a-s43-ml40\ t2-ep26-w2048-cap10m-ml40\ t2-ep26-w2048-cap10m-s43-ml40\ t2-ep26-w2048-cap10m-r3a-ml40\ t2-ep26-w2048-cap10m-r3a-s43-ml40\;\ do\ echo\ \"##\ \$r\"\;\ python\ /repo/stages/policy/wandb_local_history.py\ --by-stage\ /repo/runs/flash_chord/\$r/wandb/run-\*/run-\*.wandb\;\ done 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 342f1d043e3548973b28c031c2f827d3  stages/policy/wandb_local_history.py
+# source   : c5755600b381
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-07T17:01:58+0800
+# ---------------------------------------------------------------
+## t2-ep8-w2048-cap10m-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep8-w2048-cap10m-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.984 | 401 | 0.00905 | 0.0196 | 0 | 0.971 | 0.0177 | 0.082
+  1 | 35–70M | 0.75 | 0 | 0 | 0.985 | 402 | 0.00804 | 0.0181 | 0 | 0.974 | 0.026 | 0.105
+  2 | 70–105M | 0.5 | 0 | 0 | 0.977 | 400 | 0.0132 | 0.025 | 0 | 0.962 | 0.0294 | 0.135
+  3 | 105–140M | 0.25 | 0 | 0 | 0.972 | 394 | 0.0238 | 0.0297 | 0 | 0.947 | 0.033 | 0.147
+  4 | 140–175M | 0.1 | 0 | 0 | 0.964 | 392 | 0.025 | 0.0368 | 0 | 0.938 | 0.035 | 0.176
+  5 | 175–210M | 0.05 | 0 | 0 | 0.962 | 390 | 0.0289 | 0.0341 | 0 | 0.937 | 0.0341 | 0.174
+  6 | 210–289M | 0 | 0 | 0 | 0.968 | 393 | 0.0251 | 0.0278 | 0 | 0.947 | 0.0324 | 0.185
+  7 | 289–306M | 0 | 0 | 0.25 | 0.968 | 465 | 0.0273 | 0.0307 | 0 | 0.942 | 0.0312 | 0.167
+  8 | 306–350M | 0 | 0 | 0.5 | 0.969 | 546 | 0.0241 | 0.0306 | 0 | 0.945 | 0.0321 | 0.152
+## t2-ep8-w2048-cap10m-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep8-w2048-cap10m-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.982 | 398 | 0.0104 | 0.021 | 0 | 0.969 | 0.0174 | 0.0969
+  1 | 35–70M | 0.75 | 0 | 0 | 0.98 | 396 | 0.00807 | 0.0231 | 0 | 0.969 | 0.0244 | 0.114
+  2 | 70–105M | 0.5 | 0 | 0 | 0.974 | 397 | 0.0142 | 0.028 | 0 | 0.958 | 0.0305 | 0.133
+  3 | 105–140M | 0.25 | 0 | 0 | 0.969 | 395 | 0.0193 | 0.0303 | 0 | 0.95 | 0.0324 | 0.164
+  4 | 140–175M | 0.1 | 0 | 0 | 0.965 | 394 | 0.0223 | 0.0347 | 0 | 0.943 | 0.0321 | 0.197
+  5 | 175–210M | 0.05 | 0 | 0 | 0.963 | 393 | 0.0286 | 0.0351 | 0 | 0.936 | 0.0331 | 0.211
+  6 | 210–289M | 0 | 0 | 0 | 0.968 | 394 | 0.0225 | 0.0278 | 0 | 0.95 | 0.0314 | 0.205
+  7 | 289–306M | 0 | 0 | 0.25 | 0.971 | 470 | 0.0183 | 0.0283 | 0 | 0.953 | 0.0312 | 0.2
+  8 | 306–350M | 0 | 0 | 0.5 | 0.964 | 544 | 0.0214 | 0.0348 | 0 | 0.944 | 0.0321 | 0.178
+## t2-ep8-w2048-cap10m-r3a-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep8-w2048-cap10m-r3a-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.985 | 400 | 0.00219 | 0.0237 | 0 | 0.974 | 0.00895 | 0.0787
+  1 | 35–70M | 0.75 | 0 | 0 | 0.985 | 402 | 0.00267 | 0.0192 | 0 | 0.978 | 0.0132 | 0.102
+  2 | 70–105M | 0.5 | 0 | 0 | 0.981 | 399 | 0.00554 | 0.0239 | 0 | 0.971 | 0.016 | 0.116
+  3 | 105–140M | 0.25 | 0 | 0 | 0.977 | 396 | 0.00716 | 0.027 | 0 | 0.966 | 0.0182 | 0.154
+  4 | 140–175M | 0.1 | 0 | 0 | 0.977 | 396 | 0.0102 | 0.0274 | 0 | 0.962 | 0.0186 | 0.166
+  5 | 175–210M | 0.05 | 0 | 0 | 0.977 | 396 | 0.0122 | 0.024 | 0 | 0.964 | 0.0183 | 0.161
+  6 | 210–289M | 0 | 0 | 0 | 0.975 | 394 | 0.0149 | 0.023 | 1.94e-05 | 0.962 | 0.0179 | 0.165
+  7 | 289–306M | 0 | 0 | 0.25 | 0.966 | 468 | 0.0184 | 0.0349 | 0 | 0.947 | 0.0199 | 0.154
+  8 | 306–350M | 0 | 0 | 0.5 | 0.971 | 544 | 0.0169 | 0.0276 | 0 | 0.956 | 0.021 | 0.149
+## t2-ep8-w2048-cap10m-r3a-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep8-w2048-cap10m-r3a-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.986 | 398 | 0.00192 | 0.0189 | 0 | 0.979 | 0.0092 | 0.0713
+  1 | 35–70M | 0.75 | 0 | 0 | 0.987 | 401 | 0.0028 | 0.0164 | 0 | 0.981 | 0.0134 | 0.0912
+  2 | 70–105M | 0.5 | 0 | 0 | 0.979 | 398 | 0.00684 | 0.0254 | 0 | 0.968 | 0.0162 | 0.101
+  3 | 105–140M | 0.25 | 0 | 0 | 0.975 | 399 | 0.00852 | 0.0307 | 0 | 0.961 | 0.018 | 0.135
+  4 | 140–175M | 0.1 | 0 | 0 | 0.972 | 394 | 0.0128 | 0.0294 | 0 | 0.958 | 0.0186 | 0.15
+  5 | 175–210M | 0.05 | 0 | 0 | 0.968 | 394 | 0.0143 | 0.0319 | 0 | 0.954 | 0.0183 | 0.151
+  6 | 210–289M | 0 | 0 | 0 | 0.976 | 397 | 0.0109 | 0.0247 | 0 | 0.964 | 0.018 | 0.145
+  7 | 289–306M | 0 | 0 | 0.25 | 0.974 | 477 | 0.015 | 0.0243 | 0 | 0.961 | 0.0199 | 0.138
+  8 | 306–350M | 0 | 0 | 0.5 | 0.967 | 546 | 0.0195 | 0.0321 | 0 | 0.948 | 0.0211 | 0.137
+## t2-ep12-w2048-cap10m-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep12-w2048-cap10m-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.87 | 341 | 0.0525 | 0.123 | 3.92e-05 | 0.824 | 0.035 | 0.103
+  1 | 35–70M | 0.75 | 0 | 0 | 0.898 | 357 | 0.0482 | 0.0904 | 3.82e-05 | 0.861 | 0.0372 | 0.115
+  2 | 70–105M | 0.5 | 0 | 0 | 0.879 | 347 | 0.0632 | 0.101 | 0.000114 | 0.836 | 0.0387 | 0.138
+  3 | 105–140M | 0.25 | 0 | 0 | 0.853 | 338 | 0.0809 | 0.116 | 3.7e-05 | 0.803 | 0.0393 | 0.148
+  4 | 140–175M | 0.1 | 0 | 0 | 0.822 | 325 | 0.115 | 0.126 | 3.59e-05 | 0.759 | 0.0381 | 0.157
+  5 | 175–210M | 0.05 | 0 | 0 | 0.825 | 329 | 0.118 | 0.113 | 0.000231 | 0.769 | 0.0389 | 0.15
+  6 | 210–289M | 0 | 0 | 0 | 0.835 | 331 | 0.106 | 0.112 | 0.000117 | 0.782 | 0.0403 | 0.137
+  7 | 289–306M | 0 | 0 | 0.25 | 0.832 | 400 | 0.118 | 0.116 | 0 | 0.766 | 0.0379 | 0.132
+  8 | 306–350M | 0 | 0 | 0.5 | 0.831 | 475 | 0.125 | 0.119 | 0.000139 | 0.757 | 0.0358 | 0.126
+## t2-ep12-w2048-cap10m-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep12-w2048-cap10m-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.844 | 330 | 0.0631 | 0.137 | 4.2e-05 | 0.799 | 0.0318 | 0.0888
+  1 | 35–70M | 0.75 | 0 | 0 | 0.883 | 347 | 0.0477 | 0.105 | 4.75e-05 | 0.848 | 0.0315 | 0.0952
+  2 | 70–105M | 0.5 | 0 | 0 | 0.871 | 347 | 0.0635 | 0.11 | 7.97e-05 | 0.827 | 0.0341 | 0.102
+  3 | 105–140M | 0.25 | 0 | 0 | 0.852 | 341 | 0.0897 | 0.114 | 0 | 0.796 | 0.0369 | 0.119
+  4 | 140–175M | 0.1 | 0 | 0 | 0.827 | 330 | 0.115 | 0.129 | 0.000295 | 0.756 | 0.0353 | 0.124
+  5 | 175–210M | 0.05 | 0 | 0 | 0.848 | 341 | 0.0984 | 0.116 | 0.000206 | 0.785 | 0.0363 | 0.128
+  6 | 210–289M | 0 | 0 | 0 | 0.855 | 342 | 0.0933 | 0.11 | 8.38e-05 | 0.796 | 0.0355 | 0.119
+  7 | 289–306M | 0 | 0 | 0.25 | 0.858 | 417 | 0.0936 | 0.114 | 0 | 0.793 | 0.0318 | 0.113
+  8 | 306–350M | 0 | 0 | 0.5 | 0.845 | 485 | 0.103 | 0.126 | 0.000332 | 0.771 | 0.0302 | 0.102
+## t2-ep12-w2048-cap10m-r3a-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep12-w2048-cap10m-r3a-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.866 | 342 | 0.0458 | 0.126 | 0.000282 | 0.828 | 0.0222 | 0.084
+  1 | 35–70M | 0.75 | 0 | 0 | 0.892 | 356 | 0.0314 | 0.108 | 3.77e-05 | 0.86 | 0.0207 | 0.0932
+  2 | 70–105M | 0.5 | 0 | 0 | 0.88 | 346 | 0.0478 | 0.112 | 0.000304 | 0.84 | 0.0214 | 0.103
+  3 | 105–140M | 0.25 | 0 | 0 | 0.853 | 337 | 0.0734 | 0.118 | 4.27e-05 | 0.809 | 0.0217 | 0.103
+  4 | 140–175M | 0.1 | 0 | 0 | 0.833 | 335 | 0.0954 | 0.12 | 4.14e-05 | 0.785 | 0.0217 | 0.11
+  5 | 175–210M | 0.05 | 0 | 0 | 0.846 | 338 | 0.0843 | 0.118 | 7.93e-05 | 0.798 | 0.0209 | 0.114
+  6 | 210–289M | 0 | 0 | 0 | 0.85 | 341 | 0.0811 | 0.114 | 6.93e-05 | 0.805 | 0.0203 | 0.114
+  7 | 289–306M | 0 | 0 | 0.25 | 0.844 | 409 | 0.0805 | 0.125 | 0 | 0.794 | 0.0185 | 0.105
+  8 | 306–350M | 0 | 0 | 0.5 | 0.84 | 486 | 0.0957 | 0.122 | 3.88e-05 | 0.782 | 0.0168 | 0.0955
+## t2-ep12-w2048-cap10m-r3a-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep12-w2048-cap10m-r3a-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.873 | 341 | 0.0392 | 0.123 | 4.06e-05 | 0.837 | 0.0212 | 0.0865
+  1 | 35–70M | 0.75 | 0 | 0 | 0.898 | 354 | 0.0315 | 0.0992 | 0.000114 | 0.869 | 0.0199 | 0.0934
+  2 | 70–105M | 0.5 | 0 | 0 | 0.89 | 355 | 0.045 | 0.105 | 0 | 0.85 | 0.0215 | 0.109
+  3 | 105–140M | 0.25 | 0 | 0 | 0.869 | 347 | 0.0661 | 0.107 | 3.68e-05 | 0.827 | 0.0213 | 0.116
+  4 | 140–175M | 0.1 | 0 | 0 | 0.855 | 341 | 0.0853 | 0.109 | 4.14e-05 | 0.806 | 0.0213 | 0.121
+  5 | 175–210M | 0.05 | 0 | 0 | 0.848 | 337 | 0.0883 | 0.114 | 7.47e-05 | 0.797 | 0.0215 | 0.126
+  6 | 210–289M | 0 | 0 | 0 | 0.85 | 341 | 0.0906 | 0.109 | 0.000118 | 0.8 | 0.0217 | 0.128
+  7 | 289–306M | 0 | 0 | 0.25 | 0.854 | 415 | 0.0936 | 0.111 | 9.72e-05 | 0.795 | 0.0201 | 0.123
+  8 | 306–350M | 0 | 0 | 0.5 | 0.842 | 486 | 0.102 | 0.131 | 8.16e-05 | 0.767 | 0.0185 | 0.118
+## t2-ep20-w2048-cap10m-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep20-w2048-cap10m-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.887 | 300 | 0.0295 | 0.207 | 7.24e-05 | 0.764 | 0.0282 | 0.123
+  1 | 35–70M | 0.75 | 0 | 0 | 0.938 | 314 | 0.0182 | 0.108 | 0 | 0.873 | 0.0311 | 0.143
+  2 | 70–105M | 0.5 | 0 | 0 | 0.937 | 311 | 0.0221 | 0.101 | 3.87e-05 | 0.877 | 0.0339 | 0.178
+  3 | 105–140M | 0.25 | 0 | 0 | 0.923 | 308 | 0.0258 | 0.133 | 6.99e-05 | 0.841 | 0.0342 | 0.275
+  4 | 140–175M | 0.1 | 0 | 0 | 0.912 | 303 | 0.0446 | 0.134 | 0.000109 | 0.821 | 0.0335 | 0.411
+  5 | 175–210M | 0.05 | 0 | 0 | 0.895 | 297 | 0.0584 | 0.141 | 0.000209 | 0.801 | 0.0312 | 0.493
+  6 | 210–289M | 0 | 0 | 0 | 0.893 | 298 | 0.0683 | 0.144 | 0.000121 | 0.788 | 0.0317 | 0.625
+  7 | 289–306M | 0 | 0 | 0.25 | 0.892 | 352 | 0.07 | 0.154 | 0 | 0.776 | 0.0317 | 0.598
+  8 | 306–350M | 0 | 0 | 0.5 | 0.899 | 410 | 0.0635 | 0.156 | 0 | 0.78 | 0.0317 | 0.612
+## t2-ep20-w2048-cap10m-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep20-w2048-cap10m-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.896 | 302 | 0.023 | 0.216 | 6.77e-05 | 0.761 | 0.0318 | 0.114
+  1 | 35–70M | 0.75 | 0 | 0 | 0.938 | 313 | 0.0177 | 0.105 | 0 | 0.877 | 0.0321 | 0.138
+  2 | 70–105M | 0.5 | 0 | 0 | 0.923 | 309 | 0.0279 | 0.124 | 0.000108 | 0.848 | 0.0343 | 0.189
+  3 | 105–140M | 0.25 | 0 | 0 | 0.923 | 306 | 0.0323 | 0.121 | 0 | 0.847 | 0.0363 | 0.306
+  4 | 140–175M | 0.1 | 0 | 0 | 0.902 | 301 | 0.0534 | 0.151 | 3.27e-05 | 0.795 | 0.0361 | 0.432
+  5 | 175–210M | 0.05 | 0 | 0 | 0.895 | 298 | 0.0649 | 0.151 | 0.000139 | 0.784 | 0.0311 | 0.531
+  6 | 210–289M | 0 | 0 | 0 | 0.874 | 289 | 0.1 | 0.161 | 5.61e-05 | 0.739 | 0.0312 | 0.617
+  7 | 289–306M | 0 | 0 | 0.25 | 0.873 | 339 | 0.118 | 0.154 | 0.000167 | 0.728 | 0.0305 | 0.609
+  8 | 306–350M | 0 | 0 | 0.5 | 0.87 | 395 | 0.114 | 0.167 | 0.00018 | 0.718 | 0.0295 | 0.592
+## t2-ep20-w2048-cap10m-r3a-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep20-w2048-cap10m-r3a-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.883 | 298 | 0.0231 | 0.217 | 6.01e-05 | 0.76 | 0.0143 | 0.12
+  1 | 35–70M | 0.75 | 0 | 0 | 0.934 | 310 | 0.0115 | 0.114 | 4.01e-05 | 0.875 | 0.0155 | 0.131
+  2 | 70–105M | 0.5 | 0 | 0 | 0.937 | 309 | 0.0196 | 0.104 | 0.000121 | 0.876 | 0.0163 | 0.158
+  3 | 105–140M | 0.25 | 0 | 0 | 0.909 | 301 | 0.0434 | 0.127 | 3.3e-05 | 0.829 | 0.0174 | 0.193
+  4 | 140–175M | 0.1 | 0 | 0 | 0.875 | 289 | 0.087 | 0.148 | 0.000213 | 0.765 | 0.0184 | 0.234
+  5 | 175–210M | 0.05 | 0 | 0 | 0.863 | 285 | 0.112 | 0.151 | 0.000102 | 0.737 | 0.0197 | 0.248
+  6 | 210–289M | 0 | 0 | 0 | 0.861 | 284 | 0.131 | 0.14 | 8.72e-05 | 0.729 | 0.0203 | 0.239
+  7 | 289–306M | 0 | 0 | 0.25 | 0.853 | 334 | 0.142 | 0.163 | 0.000158 | 0.695 | 0.0202 | 0.226
+  8 | 306–350M | 0 | 0 | 0.5 | 0.856 | 393 | 0.152 | 0.168 | 7.14e-05 | 0.68 | 0.0199 | 0.215
+## t2-ep20-w2048-cap10m-r3a-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep20-w2048-cap10m-r3a-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.895 | 301 | 0.0213 | 0.205 | 0 | 0.774 | 0.0127 | 0.109
+  1 | 35–70M | 0.75 | 0 | 0 | 0.938 | 312 | 0.011 | 0.115 | 3.09e-05 | 0.874 | 0.0131 | 0.119
+  2 | 70–105M | 0.5 | 0 | 0 | 0.931 | 310 | 0.0152 | 0.115 | 0.000109 | 0.87 | 0.0145 | 0.155
+  3 | 105–140M | 0.25 | 0 | 0 | 0.91 | 304 | 0.0466 | 0.125 | 0.000158 | 0.829 | 0.0159 | 0.205
+  4 | 140–175M | 0.1 | 0 | 0 | 0.883 | 294 | 0.0945 | 0.136 | 9.82e-05 | 0.77 | 0.0179 | 0.237
+  5 | 175–210M | 0.05 | 0 | 0 | 0.859 | 286 | 0.129 | 0.143 | 6.06e-05 | 0.727 | 0.0185 | 0.246
+  6 | 210–289M | 0 | 0 | 0 | 0.866 | 286 | 0.131 | 0.159 | 0.000132 | 0.711 | 0.0207 | 0.275
+  7 | 289–306M | 0 | 0 | 0.25 | 0.866 | 337 | 0.139 | 0.148 | 0.00029 | 0.712 | 0.0176 | 0.262
+  8 | 306–350M | 0 | 0 | 0.5 | 0.864 | 395 | 0.145 | 0.161 | 9.92e-05 | 0.694 | 0.0161 | 0.252
+## t2-ep24-w2048-cap10m-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep24-w2048-cap10m-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.987 | 421 | 0.0138 | 0.0144 | 0 | 0.972 | 0.0377 | 0.0854
+  1 | 35–70M | 0.75 | 0 | 0 | 0.984 | 421 | 0.0152 | 0.0158 | 0 | 0.969 | 0.039 | 0.118
+  2 | 70–105M | 0.5 | 0 | 0 | 0.978 | 417 | 0.0226 | 0.0174 | 0 | 0.96 | 0.0401 | 0.152
+  3 | 105–140M | 0.25 | 0 | 0 | 0.975 | 416 | 0.0245 | 0.0217 | 5.13e-05 | 0.954 | 0.0403 | 0.247
+  4 | 140–175M | 0.1 | 0 | 0 | 0.977 | 414 | 0.0295 | 0.0211 | 0 | 0.949 | 0.0424 | 0.365
+  5 | 175–210M | 0.05 | 0 | 0 | 0.973 | 416 | 0.0333 | 0.0216 | 0 | 0.945 | 0.042 | 0.424
+  6 | 210–289M | 0 | 0 | 0 | 0.958 | 408 | 0.101 | 0.037 | 0 | 0.862 | 0.0422 | 0.5
+  7 | 289–306M | 0 | 0 | 0.25 | 0.957 | 486 | 0.086 | 0.0458 | 0 | 0.868 | 0.0408 | 0.496
+  8 | 306–350M | 0 | 0 | 0.5 | 0.955 | 566 | 0.0887 | 0.0416 | 0 | 0.87 | 0.0405 | 0.514
+## t2-ep24-w2048-cap10m-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep24-w2048-cap10m-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.982 | 418 | 0.0211 | 0.0164 | 4.23e-05 | 0.962 | 0.0359 | 0.0859
+  1 | 35–70M | 0.75 | 0 | 0 | 0.987 | 421 | 0.0146 | 0.0139 | 0 | 0.971 | 0.0362 | 0.103
+  2 | 70–105M | 0.5 | 0 | 0 | 0.981 | 419 | 0.016 | 0.0189 | 0 | 0.965 | 0.0362 | 0.153
+  3 | 105–140M | 0.25 | 0 | 0 | 0.976 | 415 | 0.0216 | 0.023 | 0 | 0.955 | 0.0372 | 0.24
+  4 | 140–175M | 0.1 | 0 | 0 | 0.981 | 417 | 0.0211 | 0.0188 | 0 | 0.96 | 0.0392 | 0.342
+  5 | 175–210M | 0.05 | 0 | 0 | 0.977 | 416 | 0.0296 | 0.016 | 0 | 0.954 | 0.0399 | 0.389
+  6 | 210–289M | 0 | 0 | 0 | 0.968 | 412 | 0.0605 | 0.0203 | 0 | 0.919 | 0.0409 | 0.463
+  7 | 289–306M | 0 | 0 | 0.25 | 0.967 | 490 | 0.0554 | 0.0251 | 0.000218 | 0.919 | 0.0408 | 0.478
+  8 | 306–350M | 0 | 0 | 0.5 | 0.963 | 575 | 0.0632 | 0.034 | 0 | 0.903 | 0.0405 | 0.504
+## t2-ep24-w2048-cap10m-r3a-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep24-w2048-cap10m-r3a-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.984 | 420 | 0.0228 | 0.0169 | 0 | 0.96 | 0.0154 | 0.0791
+  1 | 35–70M | 0.75 | 0 | 0 | 0.983 | 419 | 0.0203 | 0.0179 | 4.43e-05 | 0.962 | 0.0164 | 0.0975
+  2 | 70–105M | 0.5 | 0 | 0 | 0.968 | 412 | 0.0269 | 0.0223 | 0 | 0.951 | 0.0178 | 0.128
+  3 | 105–140M | 0.25 | 0 | 0 | 0.968 | 411 | 0.0304 | 0.0213 | 0 | 0.948 | 0.0178 | 0.196
+  4 | 140–175M | 0.1 | 0 | 0 | 0.962 | 409 | 0.0457 | 0.0222 | 0 | 0.932 | 0.0186 | 0.245
+  5 | 175–210M | 0.05 | 0 | 0 | 0.96 | 406 | 0.056 | 0.019 | 0 | 0.925 | 0.0181 | 0.273
+  6 | 210–289M | 0 | 0 | 0 | 0.947 | 400 | 0.0863 | 0.0211 | 2.43e-05 | 0.893 | 0.0183 | 0.3
+  7 | 289–306M | 0 | 0 | 0.25 | 0.943 | 477 | 0.0914 | 0.0246 | 0 | 0.884 | 0.0155 | 0.32
+  8 | 306–350M | 0 | 0 | 0.5 | 0.941 | 558 | 0.0942 | 0.0236 | 4.31e-05 | 0.882 | 0.0135 | 0.325
+## t2-ep24-w2048-cap10m-r3a-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep24-w2048-cap10m-r3a-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.989 | 420 | 0.00923 | 0.0144 | 0 | 0.976 | 0.016 | 0.0744
+  1 | 35–70M | 0.75 | 0 | 0 | 0.985 | 421 | 0.0121 | 0.0165 | 0 | 0.971 | 0.0161 | 0.0876
+  2 | 70–105M | 0.5 | 0 | 0 | 0.974 | 414 | 0.019 | 0.0214 | 0 | 0.96 | 0.016 | 0.118
+  3 | 105–140M | 0.25 | 0 | 0 | 0.973 | 415 | 0.0241 | 0.0201 | 0 | 0.956 | 0.0157 | 0.178
+  4 | 140–175M | 0.1 | 0 | 0 | 0.966 | 411 | 0.0375 | 0.017 | 0 | 0.945 | 0.0161 | 0.24
+  5 | 175–210M | 0.05 | 0 | 0 | 0.956 | 405 | 0.0526 | 0.0184 | 0 | 0.929 | 0.0173 | 0.271
+  6 | 210–289M | 0 | 0 | 0 | 0.946 | 401 | 0.0774 | 0.0204 | 0 | 0.902 | 0.0192 | 0.297
+  7 | 289–306M | 0 | 0 | 0.25 | 0.945 | 485 | 0.0804 | 0.0241 | 0 | 0.896 | 0.0163 | 0.314
+  8 | 306–350M | 0 | 0 | 0.5 | 0.937 | 559 | 0.0882 | 0.0253 | 0 | 0.887 | 0.0136 | 0.32
+## t2-ep26-w2048-cap10m-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep26-w2048-cap10m-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.893 | 356 | 0.0694 | 0.0858 | 0.000128 | 0.845 | 0.0248 | 0.317
+  1 | 35–70M | 0.75 | 0 | 0 | 0.927 | 369 | 0.0483 | 0.0579 | 0 | 0.894 | 0.0294 | 0.367
+  2 | 70–105M | 0.5 | 0 | 0 | 0.939 | 366 | 0.0418 | 0.0456 | 4.42e-05 | 0.913 | 0.0298 | 0.387
+  3 | 105–140M | 0.25 | 0 | 0 | 0.934 | 364 | 0.04 | 0.0557 | 0 | 0.904 | 0.0273 | 0.392
+  4 | 140–175M | 0.1 | 0 | 0 | 0.903 | 350 | 0.0849 | 0.0677 | 0 | 0.847 | 0.0314 | 0.545
+  5 | 175–210M | 0.05 | 0 | 0 | 0.909 | 356 | 0.0837 | 0.0577 | 0 | 0.859 | 0.0312 | 0.607
+  6 | 210–289M | 0 | 0 | 0 | 0.916 | 355 | 0.0795 | 0.0546 | 2.05e-05 | 0.866 | 0.0287 | 0.617
+  7 | 289–306M | 0 | 0 | 0.25 | 0.906 | 423 | 0.0938 | 0.0594 | 0 | 0.847 | 0.0295 | 0.587
+  8 | 306–350M | 0 | 0 | 0.5 | 0.898 | 491 | 0.104 | 0.0712 | 0 | 0.825 | 0.0264 | 0.579
+## t2-ep26-w2048-cap10m-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep26-w2048-cap10m-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.889 | 354 | 0.0695 | 0.0889 | 4.26e-05 | 0.842 | 0.0248 | 0.287
+  1 | 35–70M | 0.75 | 0 | 0 | 0.909 | 362 | 0.0516 | 0.0745 | 0 | 0.874 | 0.0266 | 0.343
+  2 | 70–105M | 0.5 | 0 | 0 | 0.907 | 363 | 0.0529 | 0.0756 | 4.82e-05 | 0.871 | 0.0262 | 0.344
+  3 | 105–140M | 0.25 | 0 | 0 | 0.907 | 358 | 0.0545 | 0.0755 | 8.65e-05 | 0.87 | 0.0254 | 0.369
+  4 | 140–175M | 0.1 | 0 | 0 | 0.882 | 351 | 0.0942 | 0.0754 | 3.63e-05 | 0.83 | 0.0288 | 0.593
+  5 | 175–210M | 0.05 | 0 | 0 | 0.884 | 349 | 0.0906 | 0.0767 | 0 | 0.833 | 0.0324 | 0.591
+  6 | 210–289M | 0 | 0 | 0 | 0.904 | 357 | 0.0734 | 0.0687 | 7.64e-05 | 0.858 | 0.0304 | 0.645
+  7 | 289–306M | 0 | 0 | 0.25 | 0.909 | 425 | 0.076 | 0.0654 | 0 | 0.859 | 0.0288 | 0.614
+  8 | 306–350M | 0 | 0 | 0.5 | 0.91 | 496 | 0.0775 | 0.066 | 0.000124 | 0.856 | 0.0246 | 0.614
+## t2-ep26-w2048-cap10m-r3a-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep26-w2048-cap10m-r3a-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.909 | 360 | 0.0552 | 0.0692 | 7.83e-05 | 0.876 | 0.0147 | 0.107
+  1 | 35–70M | 0.75 | 0 | 0 | 0.919 | 367 | 0.0464 | 0.0596 | 4.96e-05 | 0.894 | 0.0134 | 0.133
+  2 | 70–105M | 0.5 | 0 | 0 | 0.922 | 363 | 0.0521 | 0.0522 | 0 | 0.896 | 0.0135 | 0.15
+  3 | 105–140M | 0.25 | 0 | 0 | 0.932 | 365 | 0.0521 | 0.0386 | 0 | 0.909 | 0.0131 | 0.224
+  4 | 140–175M | 0.1 | 0 | 0 | 0.926 | 363 | 0.0597 | 0.0428 | 3.97e-05 | 0.897 | 0.0136 | 0.246
+  5 | 175–210M | 0.05 | 0 | 0 | 0.925 | 361 | 0.0668 | 0.0407 | 0 | 0.892 | 0.0136 | 0.243
+  6 | 210–289M | 0 | 0 | 0 | 0.93 | 362 | 0.0591 | 0.0383 | 0 | 0.903 | 0.0129 | 0.247
+  7 | 289–306M | 0 | 0 | 0.25 | 0.926 | 435 | 0.0689 | 0.0398 | 0 | 0.891 | 0.013 | 0.253
+  8 | 306–350M | 0 | 0 | 0.5 | 0.91 | 497 | 0.0814 | 0.0496 | 0 | 0.869 | 0.0127 | 0.255
+## t2-ep26-w2048-cap10m-r3a-s43-ml40
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+== run-t2-ep26-w2048-cap10m-r3a-s43-ml40-s1.wandb：history 6836 行
+  段 | 步数范围 | voc | 首帧重置概率 | 立即首帧概率 | 进度 | 回合长 | 终止:物体 | 终止:手掌 | 终止:骨盆 | 走完 | 物体位置误差 | 物体朝向误差
+  0 | 0–35M | 1 | 0 | 0 | 0.905 | 361 | 0.058 | 0.0656 | 0.000164 | 0.876 | 0.0151 | 0.0981
+  1 | 35–70M | 0.75 | 0 | 0 | 0.925 | 366 | 0.0466 | 0.0531 | 0 | 0.9 | 0.0135 | 0.138
+  2 | 70–105M | 0.5 | 0 | 0 | 0.93 | 367 | 0.0507 | 0.048 | 4.86e-05 | 0.901 | 0.0135 | 0.157
+  3 | 105–140M | 0.25 | 0 | 0 | 0.919 | 359 | 0.059 | 0.0532 | 0 | 0.888 | 0.0137 | 0.231
+  4 | 140–175M | 0.1 | 0 | 0 | 0.93 | 364 | 0.0574 | 0.041 | 3.77e-05 | 0.902 | 0.0131 | 0.246
+  5 | 175–210M | 0.05 | 0 | 0 | 0.935 | 366 | 0.058 | 0.0353 | 0 | 0.907 | 0.0134 | 0.246
+  6 | 210–289M | 0 | 0 | 0 | 0.938 | 367 | 0.0545 | 0.0345 | 3.81e-05 | 0.911 | 0.0123 | 0.254
+  7 | 289–306M | 0 | 0 | 0.25 | 0.932 | 433 | 0.0687 | 0.0347 | 0 | 0.897 | 0.0123 | 0.256
+  8 | 306–350M | 0 | 0 | 0.5 | 0.917 | 500 | 0.0869 | 0.0394 | 0 | 0.874 | 0.0123 | 0.258

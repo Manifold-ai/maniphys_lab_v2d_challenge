@@ -1,0 +1,26 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/trial_verdict.py\ stages/evaluate/trials/r3_t2_ml40.json 
+# md5      : 15b3d59ce67997de8d335b16624a7d37  stages/evaluate/trial_verdict.py
+# md5      : ed1406f48a701c3388ec964d2e6b117c  stages/evaluate/trials/r3_t2_ml40.json
+# source   : 8d044cf79de8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T03:01:50-0600
+# ---------------------------------------------------------------
+净室：Tier 2 清单，已调 forbid_tier1()
+第 3 步配方试验判定（档位 2，ml40，8c778f9 评测器、4096 世界）
+  ep       MP_A    MP_B       差   AUC_A   AUC_B   SP_A   SP_B  MPPE_A  MPPE_B
+  ep8    0.9991  0.0122 +0.9869  0.6287  0.5333  0.999  1.000    2.40    3.44
+  ep12   0.9867  0.2124 +0.7743  0.7552  0.5639  0.989  0.977    1.87    3.99
+  ep20   0.9591  0.0485 +0.9106  0.7364  0.4482  0.962  0.026    2.49    4.33
+  ep24   0.9989  0.0000 +0.9989  0.8053  0.4709  0.999  0.470    1.65    4.26
+  ep26   0.9996  0.0028 +0.9968  0.4588  0.3420  1.000  0.001    1.55    3.26
+  S1 过：平均 MP_A − 平均 MP_B = +0.9335（要 ≥ +0.15）
+  S2 过：MP_A ≥ MP_B + 0.05 的 episode 5 条（要 ≥ 3）
+  S3 过：没有大退步
+  S4 过：ADD-AUC 0.6769 对 0.4717；SP-SR 0.9898 对 0.4947；MPPE 1.99 对 3.86 cm
+  S5 过：变体 A 的 run 全部健康、评完
+  S6 过：对照 ep22 变体 0.9966，基线 0.7354（要 ≥ 基线 − 0.1）
+  只报 敏感性：变体两种子均值 − 基线 seed 43 的 MP-SR 平均 +0.8839（5 条）
+  只报 基线两个种子之差（seed 43 − seed 42）MP-SR：ep8 -0.020，ep12 +0.424，ep20 +0.095，ep24 +0.000，ep26 -0.003
+  只报 chord_sr（与终止阈值有关，变体与基线不可比）：t2-ep8-w2048-cap10m-ml40 0.998，t2-ep12-w2048-cap10m-ml40 0.973，t2-ep20-w2048-cap10m-ml40 0.921，t2-ep24-w2048-cap10m-ml40 0.993，t2-ep26-w2048-cap10m-ml40 0.982，t2-ep22-w2048-cap10m-ml40 0.975，t2-ep8-w2048-cap10m-r3a-ml40 0.999，t2-ep8-w2048-cap10m-r3a-s43-ml40 0.997，t2-ep8-w2048-cap10m-s43-ml40 0.999，t2-ep12-w2048-cap10m-r3a-ml40 0.983，t2-ep12-w2048-cap10m-r3a-s43-ml40 0.971，t2-ep12-w2048-cap10m-s43-ml40 0.954，t2-ep20-w2048-cap10m-r3a-ml40 0.923，t2-ep20-w2048-cap10m-r3a-s43-ml40 0.845，t2-ep20-w2048-cap10m-s43-ml40 0.947，t2-ep24-w2048-cap10m-r3a-ml40 0.999，t2-ep24-w2048-cap10m-r3a-s43-ml40 0.995，t2-ep24-w2048-cap10m-s43-ml40 1.000，t2-ep26-w2048-cap10m-r3a-ml40 0.964，t2-ep26-w2048-cap10m-r3a-s43-ml40 0.989，t2-ep26-w2048-cap10m-s43-ml40 0.992，t2-ep22-w2048-cap10m-r3a-ml40 0.995
+  只报 评测里的非有限世界：无
+TRIAL_VERDICT PASS

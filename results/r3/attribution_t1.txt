@@ -1,0 +1,17 @@
+# command  : python3 stages/evaluate/trial_attribution.py results/r3/wandb_by_stage_t1.txt stages/evaluate/trials/r3_t1_mf4090.json 
+# md5      : eef3a010bcce70a15af394ce95b3216d  stages/evaluate/trial_attribution.py
+# md5      : 6dbf82529bb779adc0a133f3d7d9be4b  results/r3/wandb_by_stage_t1.txt
+# md5      : 5dfe48c66743dddb098a9d814ea5cca9  stages/evaluate/trials/r3_t1_mf4090.json
+# source   : 8d044cf79de8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T02:03:13-0600
+# ---------------------------------------------------------------
+第 6–8 段（VOC = 0）的终止:物体与进度；变体与基线各取两种子平均
+  ep     终止:物体 A   B     比     进度 A   B     差
+  ep6       0.0765  0.0745   1.03     0.844  0.851  -0.007
+  ep18      0.1195  0.1273   0.94     0.824  0.820  +0.004
+  ep20      0.1720  0.1327   1.30     0.748  0.767  -0.019
+  ep27      0.1838  0.1478   1.24     0.690  0.710  -0.020
+  ep29      0.2355  0.1262   1.87     0.855  0.929  -0.075
+  平均      0.1575  0.1217   1.29     0.792  0.815  -0.023
+ATTRIBUTION 不满足“终止过严”的归因条件（终止:物体比 1.29，要 ≥ 2.0；进度差 -0.023，要 < −0.1）

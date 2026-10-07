@@ -1,0 +1,6 @@
+# command  : ssh ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "SMOKE_OK �\214�\225� $(grep -ac "^SMOKE_OK" runs/logs/r3t2bc_train_ml40.log)�\233BC run �\227��\227�\207\214�\220� NONFINITE_GUARD �\232\204�\226\207件�\225� $(grep -ac NONFINITE_GUARD runs/logs/t2-ep*-s43-ml40*.log | grep -v ":0$" | wc -l)�\233$(grep -a DAY2_TRAIN_DONE runs/logs/r3t2bc_train_ml40.log)�\233$(grep -a DAY2_EVAL_DONE runs/logs/r3t2bc_eval_ml40.log)"' 
+# source   : 8d044cf79de8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T03:02:53-0600
+# ---------------------------------------------------------------
+SMOKE_OK 行数 10；BC run 日志里含 NONFINITE_GUARD 的文件数 0；=== 2026-10-07 16:10:02 CST DAY2_TRAIN_DONE（完成 10、失败 0、跳过 0、发散 0）；=== 2026-10-07 17:01:14 CST DAY2_EVAL_DONE（成功 10、失败 0）

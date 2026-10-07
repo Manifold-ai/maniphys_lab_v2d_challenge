@@ -1,0 +1,25 @@
+# command  : ssh mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/trial_verdict.py\ stages/evaluate/trials/r3_t1_mf4090.json 
+# md5      : 15b3d59ce67997de8d335b16624a7d37  stages/evaluate/trial_verdict.py
+# md5      : 5dfe48c66743dddb098a9d814ea5cca9  stages/evaluate/trials/r3_t1_mf4090.json
+# source   : 8d044cf79de8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T02:01:35-0600
+# ---------------------------------------------------------------
+第 3 步配方试验判定（档位 1，mf4090，8c778f9 评测器、4096 世界）
+  ep       MP_A    MP_B       差   AUC_A   AUC_B   SP_A   SP_B  MPPE_A  MPPE_B
+  ep6    0.9484  0.2849 +0.6635  0.7348  0.6189  0.957  0.983    3.43    3.75
+  ep18   0.7736  0.4343 +0.3392  0.6843  0.5836  0.782  0.894    8.66    5.98
+  ep20   0.8557  0.0120 +0.8438  0.7860  0.4545  0.863  0.004    3.55    4.24
+  ep27   0.8890  0.1624 +0.7267  0.7615  0.6080  0.898  0.945    9.22    7.21
+  ep29   0.3250  0.1010 +0.2240  0.6408  0.6292  0.938  0.980    4.36    3.84
+  S1 过：平均 MP_A − 平均 MP_B = +0.5594（要 ≥ +0.15）
+  S2 过：MP_A ≥ MP_B + 0.05 的 episode 5 条（要 ≥ 3）
+  S3 过：没有大退步
+  S4 不过：ADD-AUC 0.7215 对 0.5788；SP-SR 0.8875 对 0.7614；MPPE 5.84 对 5.00 cm
+  S5 过：变体 A 的 run 全部健康、评完
+  S6 过：对照 ep8 变体 0.9546，基线 0.9768（要 ≥ 基线 − 0.1）
+  只报 敏感性：变体两种子均值 − 基线 seed 43 的 MP-SR 平均 +0.6094（5 条）
+  只报 基线两个种子之差（seed 43 − seed 42）MP-SR：ep6 -0.569，ep18 +0.559，ep20 -0.023，ep27 -0.323，ep29 -0.143
+  只报 chord_sr（与终止阈值有关，变体与基线不可比）：t1-ep6-w2048-cap4m-mf4090 0.958，t1-ep18-w2048-cap4m-mf4090 0.888，t1-ep20-w2048-cap4m-mf4090 0.705，t1-ep27-w2048-cap4m-mf4090 0.938，t1-ep29-w2048-cap4m-mf4090 0.981，t1-ep8-w2048-cap4m-mf4090 0.982，t1-ep6-w2048-cap4m-r3a-mf4090 0.905，t1-ep6-w2048-cap4m-r3a-s43-mf4090 0.892，t1-ep6-w2048-cap4m-s43-mf4090 0.929，t1-ep18-w2048-cap4m-r3a-mf4090 0.766，t1-ep18-w2048-cap4m-r3a-s43-mf4090 0.741，t1-ep18-w2048-cap4m-s43-mf4090 0.792，t1-ep20-w2048-cap4m-r3a-mf4090 0.645，t1-ep20-w2048-cap4m-r3a-s43-mf4090 0.867，t1-ep20-w2048-cap4m-s43-mf4090 0.830，t1-ep27-w2048-cap4m-r3a-mf4090 0.905，t1-ep27-w2048-cap4m-r3a-s43-mf4090 0.816，t1-ep27-w2048-cap4m-s43-mf4090 0.881，t1-ep29-w2048-cap4m-r3a-mf4090 0.841，t1-ep29-w2048-cap4m-r3a-s43-mf4090 0.944，t1-ep29-w2048-cap4m-s43-mf4090 0.921，t1-ep8-w2048-cap4m-r3a-mf4090 0.949
+  只报 评测里的非有限世界：无
+TRIAL_VERDICT FAIL（S4 不过）

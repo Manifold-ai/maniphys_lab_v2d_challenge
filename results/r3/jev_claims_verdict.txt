@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-07-step3-verdict.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : acc86f5418a18ed6cdb641d288b67952  agent-doc/experiments/2026-10-07-step3-verdict.claims.json
+# source   : 8d044cf79de8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T03:03:43-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1_fail              P(supported)=0.98  verified               [v1]  Tier 1 的判定是 FAIL（S4 不过），其余 S1、S2、S3、S5、S6 都过；S4 那一行的 MPPE 是 5.84 对 5.00 cm。
+t1_s1                P(supported)=0.97  verified               [v1]  Tier 1 的 S1 过，平均 MP_A − 平均 MP_B = +0.5594；S2 过，5 条 episode 都满足。
+t2_pass              P(supported)=0.98  verified               [v2]  Tier 2 的判定是 PASS，S1 到 S6 都过，S1 的平均差是 +0.9335。
+t2_clean             P(supported)=0.97  verified               [v2]  Tier 2 的判定脚本运行时调了 forbid_tier1()。
+seed_var             P(supported)=0.99  verified               [v1]  Tier 1 基线 seed 43 与 seed 42 的 MP-SR 之差，ep6 是 −0.569，ep18 是 +0.559。
+attr1                P(supported)=0.95  verified               [a1]  Tier 1 第 6–8 段的终止:物体，变体与基线之比是 1.29，不满足“终止过严”的归因条件。
+attr2                P(supported)=0.96  verified               [a2]  Tier 2 第 6–8 段的终止:物体，变体与基线之比是 1.06，不满足“终止过严”的归因条件。
+health               P(supported)=0.98  verified               [g, g2]  两台的 BC 段都是训练完成 10、失败 0、发散 0，评测成功 10、失败 0，BC run 日志里含 NONFINITE_GUARD 的文件数是 0。
+ctl_true             P(supported)=0.98  control(true) ok       [v2]  Tier 2 的 S6 过，对照 ep22 变体是 0.9966。
+ctl_false_t1         P(supported)=0.01  control(false) ok      [v1]  Tier 1 的判定是 PASS。
+ctl_false_t2         P(supported)=0.02  control(false) ok      [v2]  Tier 2 的 S4 不过，MPPE 变大。
+controls behaved as expected
