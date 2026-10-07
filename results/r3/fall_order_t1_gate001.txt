@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/fall_order.py\ stages/evaluate/trials/r3_t1_mf4090.json\ --episodes\ 18\ 27 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : b17f0955f5b16a21d9fda4d377b11a57  stages/evaluate/fall_order.py
+# md5      : 5dfe48c66743dddb098a9d814ea5cca9  stages/evaluate/trials/r3_t1_mf4090.json
+# source   : 6accdcafcc02-dirty
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-08T00:22:38+0800
+# ---------------------------------------------------------------
+门：
+  t1-ep18-w2048-cap4m-mf4090: MP-SR 0.1431（-0.0090）MPPE 4.28（+0.13，参考容差 0.30） OK；失败 3510，摔倒 206
+  t1-ep18-w2048-cap4m-s43-mf4090: MP-SR 0.7112（-0.0027）MPPE 8.04（+0.29，参考容差 0.56） OK；失败 1183，摔倒 745
+  t1-ep18-w2048-cap4m-r3a-mf4090: MP-SR 0.7827（+0.0066）MPPE 8.64（-0.25，参考容差 0.76） OK；失败 890，摔倒 888
+  t1-ep18-w2048-cap4m-r3a-s43-mf4090: MP-SR 0.7625（-0.0085）MPPE 8.36（-0.07，参考容差 0.68） OK；失败 973，摔倒 964
+  t1-ep27-w2048-cap4m-mf4090: MP-SR 0.3193（-0.0015）MPPE 5.59（-0.06，参考容差 0.65） OK；失败 2788，摔倒 157
+  t1-ep27-w2048-cap4m-s43-mf4090: MP-SR 0.0007（-0.0002）MPPE 9.00（+0.03，参考容差 0.94） OK；失败 4093，摔倒 305
+  t1-ep27-w2048-cap4m-r3a-mf4090: MP-SR 0.9336（-0.0010）MPPE 6.90（+0.27，参考容差 0.86） OK；失败 272，摔倒 264
+  t1-ep27-w2048-cap4m-r3a-s43-mf4090: MP-SR 0.8577（+0.0142）MPPE 10.82（-1.01，参考容差 1.23）；MP-SR 差 +0.0142 超过 0.01；失败 583，摔倒 539
+FALL_ORDER STOP：门不过，不分类

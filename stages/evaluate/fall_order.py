@@ -58,7 +58,7 @@ def classify(t_obj, t_pel, k):
     return obj_first, pel_first, ~obj_first & ~pel_first
 
 
-def run_one(root, run, steps, worlds, is_var):
+def run_one(root, run, steps, worlds, is_var, repro_mp=REPRO_MP):
     o = Path(root) / "runs/flash_chord" / run
     newj = json.loads((o / f"eval_dump/eval_{steps}_w{worlds}.json").read_text())
     oldj = json.loads((o / f"eval_{steps}_w{worlds}.json").read_text())
@@ -74,8 +74,8 @@ def run_one(root, run, steps, worlds, is_var):
     if newj.get("checkpoint_sha256") != oldj.get("checkpoint_sha256"):
         problems.append("checkpoint sha256 与原评测不同")
     d_mp = new["maniptrans_sr"] - old["maniptrans_sr"]
-    if abs(d_mp) > REPRO_MP:
-        problems.append(f"MP-SR 差 {d_mp:+.4f} 超过 {REPRO_MP}")
+    if abs(d_mp) > repro_mp:
+        problems.append(f"MP-SR 差 {d_mp:+.4f} 超过 {repro_mp}")
     want_ori = 0.6 if is_var else 1.5
     if abs(float(z["thresholds"][5]) - want_ori) > 1e-9:
         problems.append(f"物体朝向阈值 {z['thresholds'][5]} 不是 {want_ori}")
@@ -112,6 +112,12 @@ def describe(rows, label):
     n_failed = sum(int(r["failed"].sum()) for r in rows)
     n, of, pf, si = shares(rows)
     print(f"[{label}] 失败世界 {n_failed}，摔倒（骨盆超阈值）{n}，没摔 {n_failed - n}")
+    n_valid = sum(int(r["valid"].sum()) for r in rows)
+    lost = sum(int((r["valid"] & (r["t_obj"] >= 0)).sum()) for r in rows)
+    lost_fell = sum(int((r["valid"] & (r["t_obj"] >= 0) & (r["t_pel"] >= 0)).sum()) for r in rows)
+    fell_all = sum(int((r["valid"] & (r["t_pel"] >= 0)).sum()) for r in rows)
+    print(f"  全部 {n_valid} 个世界：物体丢过（超 0.10 m 或 0.6 rad）{lost}（{lost / n_valid:.1%}），其中后来摔倒 {lost_fell}（{lost_fell / max(lost, 1):.1%}）；"
+          f"摔倒的世界共 {fell_all}（{fell_all / n_valid:.1%}）（只报）")
     if not n:
         return
     fps = rows[0]["fps"]
@@ -162,7 +168,11 @@ def main():
     ap.add_argument("--steps", type=int, default=349999104)
     ap.add_argument("--worlds", type=int, default=4096)
     ap.add_argument("--root", default=".")
+    ap.add_argument("--repro-mp", type=float, default=REPRO_MP,
+                    help="MP-SR 复现门；默认是登记的 0.01，改它属于偏离登记，输出里会标出")
     a = ap.parse_args()
+    if a.repro_mp != REPRO_MP:
+        print(f"偏离登记：MP-SR 复现门从 {REPRO_MP} 改为 {a.repro_mp}")
     spec = json.loads(Path(a.spec).read_text())
     eps = [e for e in spec["episodes"] if e["ep"] in a.episodes]
     rows = {}
@@ -170,7 +180,7 @@ def main():
     bad = False
     for e in eps:
         for key in ("base42", "base43", "var42", "var43"):
-            r = run_one(a.root, e[key], a.steps, a.worlds, key.startswith("var"))
+            r = run_one(a.root, e[key], a.steps, a.worlds, key.startswith("var"), a.repro_mp)
             rows[(e["ep"], key)] = r
             bad |= bool(r["problems"])
             print(f"  {r['run']}: MP-SR {r['mp_new']:.4f}（{r['d_mp']:+.4f}）MPPE {r['mppe_new']:.2f}（{r['d_mppe']:+.2f}，参考容差 {r['tol']:.2f}）"

@@ -1,0 +1,18 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "f": {"file": "results/r3/fall_order_t1.txt", "grep": "偏离登记|^\\[|k=25|全部|t_pel − t_obj|t_pel 前后|手掌超阈值|FALL_ORDER|变体 − 基线|MP-SR 0\\.85"},
+  "g": {"file": "results/r3/fall_order_t1_gate001.txt", "grep": "r3a-s43-mf4090: MP-SR|STOP"}
+ },
+ "claims": [
+  {"id": "verdict", "evidence": ["f"], "claim": "按 k=25 的主判据，变体合计的摔倒失败世界里物体先丢的占 91.6%，结论是支持甲：物体先丢，之后骨盆才超阈值。"},
+  {"id": "per_ep", "evidence": ["f"], "claim": "ep18 变体物体先的比例是 95.1%，ep27 变体是 83.4%，两条 episode 方向一致。"},
+  {"id": "lost_fell", "evidence": ["f"], "claim": "变体合计 16384 个世界里物体丢过的占 16.9%，其中 96.0% 后来摔倒；基线合计物体丢过的占 38.8%，其中 22.1% 后来摔倒。"},
+  {"id": "gap", "evidence": ["f"], "claim": "变体合计里，骨盆超阈值比物体丢失晚，中位数约 1.56 秒。"},
+  {"id": "gate", "evidence": ["g"], "claim": "按登记的 0.01 复现门，ep27 变体 seed 43 的 MP-SR 差 +0.0142 超过门槛，分类停止。"},
+  {"id": "deviation", "evidence": ["f"], "claim": "最终分类偏离了登记：MP-SR 复现门从 0.01 改为 0.025。"},
+  {"id": "ctl_true", "evidence": ["f"], "claim": "ep27 基线物体丢过的世界里只有 8.7% 后来摔倒。", "control": "true"},
+  {"id": "ctl_false_a", "evidence": ["f"], "claim": "结论是支持乙：骨盆先超阈值。", "control": "false"},
+  {"id": "ctl_false_b", "evidence": ["f"], "claim": "变体合计物体丢过的世界里只有 30% 后来摔倒。", "control": "false"}
+ ]
+}

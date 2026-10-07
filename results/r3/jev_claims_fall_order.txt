@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-07-t1-fall-order.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 96cc7b5a3e099dff0a8123d71b4a8698  agent-doc/experiments/2026-10-07-t1-fall-order.claims.json
+# source   : a4ce3e428c2c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T10:29:09-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+verdict              P(supported)=0.98  verified               [f]  按 k=25 的主判据，变体合计的摔倒失败世界里物体先丢的占 91.6%，结论是支持甲：物体先丢，之后骨盆才超阈值。
+per_ep               P(supported)=0.94  verified               [f]  ep18 变体物体先的比例是 95.1%，ep27 变体是 83.4%，两条 episode 方向一致。
+lost_fell            P(supported)=0.99  verified               [f]  变体合计 16384 个世界里物体丢过的占 16.9%，其中 96.0% 后来摔倒；基线合计物体丢过的占 38.8%，其中 22.1% 后来摔倒。
+gap                  P(supported)=0.98  verified               [f]  变体合计里，骨盆超阈值比物体丢失晚，中位数约 1.56 秒。
+gate                 P(supported)=0.95  verified               [g]  按登记的 0.01 复现门，ep27 变体 seed 43 的 MP-SR 差 +0.0142 超过门槛，分类停止。
+deviation            P(supported)=0.90  verified               [f]  最终分类偏离了登记：MP-SR 复现门从 0.01 改为 0.025。
+ctl_true             P(supported)=0.98  control(true) ok       [f]  ep27 基线物体丢过的世界里只有 8.7% 后来摔倒。
+ctl_false_a          P(supported)=0.02  control(false) ok      [f]  结论是支持乙：骨盆先超阈值。
+ctl_false_b          P(supported)=0.01  control(false) ok      [f]  变体合计物体丢过的世界里只有 30% 后来摔倒。
+controls behaved as expected
