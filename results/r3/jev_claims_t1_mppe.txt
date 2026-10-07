@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-07-t1-mppe-analysis.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 28727c4cfa0b20e468dc8bb347ad2ae3  agent-doc/experiments/2026-10-07-t1-mppe-analysis.claims.json
+# source   : a0b6f4b36c7a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-07T09:06:38-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep18_var             P(supported)=0.99  verified               [s1]  t1-ep18-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.776，失败:骨盆 0.224，位置误差 8.80±16.19 cm。
+ep27_var43           P(supported)=0.99  verified               [s1]  t1-ep27-w2048-cap4m-r3a-s43-mf4090 的 MPPE 是 11.82 cm，位置误差 11.73±26.27 cm。
+ep18_base42          P(supported)=0.95  verified               [s1]  t1-ep18-w2048-cap4m-mf4090（基线 seed 42）的 MP-SR 是 0.152，SP-SR 0.966，失败:骨盆 0.050。
+t2_tight             P(supported)=0.99  verified               [s2]  t2-ep24-w2048-cap10m-r3a-ml40 的位置误差是 0.89±1.04 cm，t2-ep26-w2048-cap10m-r3a-ml40 是 1.07±0.11 cm。
+train_pelvis         P(supported)=0.96  verified               [w]  t1-ep18-w2048-cap4m-r3a-mf4090 训练第 6、7、8 段的终止:骨盆都接近 0（小于 0.001）。
+ctl_true             P(supported)=0.99  control(true) ok       [s1]  t1-ep29-w2048-cap4m-mf4090 的 MPPE 是 3.52 cm。
+ctl_false_a          P(supported)=0.01  control(false) ok      [s1]  t1-ep18-w2048-cap4m-r3a-mf4090 的失败:骨盆是 0.010。
+ctl_false_b          P(supported)=0.01  control(false) ok      [s2]  t2-ep26-w2048-cap10m-r3a-ml40 的位置误差是 12.4±30.0 cm。
+controls behaved as expected

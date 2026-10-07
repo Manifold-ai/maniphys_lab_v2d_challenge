@@ -1,0 +1,18 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "s1": {"file": "results/r3/eval_spread_t1.txt", "grep": "^run|^t1-"},
+  "s2": {"file": "results/ml40/r3/eval_spread_t2.txt", "grep": "^run|^t2-"},
+  "w": {"file": "results/r3/wandb_by_stage_t1.txt", "grep": "^## |^  段|^  [678] "}
+ },
+ "claims": [
+  {"id": "ep18_var", "evidence": ["s1"], "claim": "t1-ep18-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.776，失败:骨盆 0.224，位置误差 8.80±16.19 cm。"},
+  {"id": "ep27_var43", "evidence": ["s1"], "claim": "t1-ep27-w2048-cap4m-r3a-s43-mf4090 的 MPPE 是 11.82 cm，位置误差 11.73±26.27 cm。"},
+  {"id": "ep18_base42", "evidence": ["s1"], "claim": "t1-ep18-w2048-cap4m-mf4090（基线 seed 42）的 MP-SR 是 0.152，SP-SR 0.966，失败:骨盆 0.050。"},
+  {"id": "t2_tight", "evidence": ["s2"], "claim": "t2-ep24-w2048-cap10m-r3a-ml40 的位置误差是 0.89±1.04 cm，t2-ep26-w2048-cap10m-r3a-ml40 是 1.07±0.11 cm。"},
+  {"id": "train_pelvis", "evidence": ["w"], "claim": "t1-ep18-w2048-cap4m-r3a-mf4090 训练第 6、7、8 段的终止:骨盆都接近 0（小于 0.001）。"},
+  {"id": "ctl_true", "evidence": ["s1"], "claim": "t1-ep29-w2048-cap4m-mf4090 的 MPPE 是 3.52 cm。", "control": "true"},
+  {"id": "ctl_false_a", "evidence": ["s1"], "claim": "t1-ep18-w2048-cap4m-r3a-mf4090 的失败:骨盆是 0.010。", "control": "false"},
+  {"id": "ctl_false_b", "evidence": ["s2"], "claim": "t2-ep26-w2048-cap10m-r3a-ml40 的位置误差是 12.4±30.0 cm。", "control": "false"}
+ ]
+}
