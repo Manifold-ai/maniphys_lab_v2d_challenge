@@ -1,0 +1,69 @@
+# command  : scripts/dev/pipe-py tools/hf_archive_report.py runs/hf_archive_policy_manifest_mf4090.json runs/hf_archive_policy_mf4090 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : a021b25fdc602e39dce0fe185599bd35  tools/hf_archive_report.py
+# source   : 2d5cc34fb2f2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T10:15:24-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+## 清单 runs/hf_archive_policy_manifest_mf4090.json：1352 个文件，52 条 run，共 6570689816 字节
+## verified：1352 行，一致 1352，不一致 0；文件与清单逐项相同：是
+## reverified：没有这个文件
+## 抽查：随机种子 1791475899，52 个，一致 52，覆盖 52 条 run（每条最多 1 个），ok = True
+  ok  mf4090/runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090/policy_260009984.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep1-w2048-cap4m-mf4090/policy_50001920.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep1-w2048-cap4m-p185-mf4090/policy_170006528.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep11-w2048-cap4m-mf4090/policy_70002688.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep14-w2048-cap4m-mf4090/policy_190007296.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/policy_120004608.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-mf4090/policy_220008448.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-r3a-mf4090/policy_70002688.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-r3a-s43-mf4090/policy_50001920.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-s43-mf4090/policy_260009984.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-mf4090/policy_180006912.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090/policy_110004224.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-mf4090/policy_20000768.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-r3a-mf4090/policy_150005760.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-r3a-s43-mf4090/policy_110004224.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-mf4090/policy_260009984.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090/policy_40001536.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep20-w2048-cap4m-s43-mf4090/policy_20000768.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep21-w2048-cap4m-mf4090/policy_70002688.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep22-w2048-cap4m-mf4090/policy_240009216.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep24-w2048-cap4m-mf4090/policy_40001536.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-mf4090/policy_120004608.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-mf4090/policy_260009984.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_140005376.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep27-w2048-cap4m-s43-mf4090/policy_80003072.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep28-w2048-cap4m-p185-mf4090/policy_20000768.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-mf4090/policy_170006528.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-r3a-mf4090/policy_210008064.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-r3a-s43-mf4090/policy_100003840.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep29-w2048-cap4m-s43-mf4090/policy_250009600.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep3-w2048-cap4m-mf4090/policy_200007680.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-mf4090/policy_190007296.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-r3a-mf4090/policy_30001152.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-r3a-s43-mf4090/policy_70002688.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep6-w2048-cap4m-s43-mf4090/policy_250009600.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep7-w2048-cap4m-p185g-mf4090/policy_100003840.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep8-w2048-cap4m-mf4090/policy_170006528.safetensors
+  ok  mf4090/runs/flash_chord/t1-ep8-w2048-cap4m-r3a-mf4090/policy_30001152.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep11-w2048-cap4m-mf4090/policy_90003456.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep13-w2048-cap4m-mf4090/policy_40001536.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep15-w2048-cap4m-mf4090/policy_130004992.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep17-w2048-cap4m-mf4090/policy_260009984.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep19-w2048-cap4m-mf4090/policy_180006912.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep2-w2048-cap4m-mf4090/policy_240009216.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep21-w2048-cap4m-mf4090/policy_110004224.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/policy_250009600.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/policy_110004224.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep27-w2048-cap4m-mf4090/policy_250009600.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep28-w2048-cap4m-p185-mf4090/policy_40001536.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep4-w2048-cap4m-mf4090/policy_150005760.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep6-w2048-cap4m-mf4090/policy_50001920.safetensors
+  ok  mf4090/runs/flash_chord/t2-ep9-w2048-cap4m-mf4090/policy_10000384.safetensors
+## 本地：runs/flash_chord 下 policy 共 1903 份；清单里的文件还在本地的 1352 / 1352
+  清单里的 52 条 run：policy 份数最少 35、最多 35；最新一份的步数 {349999104: 52}
+## ARCHIVED.json：全机 38 条 run 有；清单里的 run 按记录条数分 {0: 33, 1: 19}；清单文件记进去的 0 / 1352
+## 暂存目录 runs/hf_stage：在，1352 个 safetensors
+## 磁盘：可用 1642 MB

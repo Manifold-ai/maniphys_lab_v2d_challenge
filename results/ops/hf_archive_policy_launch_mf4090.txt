@@ -1,0 +1,12 @@
+# command  : tools/hf_remote.sh V2D_HF_ARCHIVE_STEPS=verify\ V2D_HF_SPOTCHECK_PER_RUN=1\ setsid\ nohup\ bash\ -c\ \'bash\ runs/tools/hf_archive_run.sh\ runs/hf_archive_policy_manifest_mf4090.json\ Rongxuan-Zhou/v2d-track2-archive\ mf4090\ runs/hf_archive_policy_mf4090\ 2\>\&1\ \|\ grep\ --line-buffered\ -v\ -E\ \"@\|hf_\[A-Za-z0-9\]\{20\}\"\ \>\ runs/logs/hf_archive_policy_run.log\'\ \<\ /dev/null\ \>\ /dev/null\ 2\>\&1\ \&\ sleep\ 8\;\ echo\ started\ pid\ \$\!\;\ head\ -4\ runs/logs/hf_archive_policy_run.log\ \|\ cut\ -c1-240 
+# md5      : 00c7e7e6e6179b5132f6fd5a4a48fd46  tools/hf_remote.sh
+# source   : 2d5cc34fb2f2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:51:46-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+started pid 4017681
+=== 2026-10-08 23:51:47 CST 开始（步骤 verify，抽查 每条 run 1 个）；工具 md5 027ed7885644289e667b1bdd985e8d98；清单 runs/hf_archive_policy_manifest_mf4090.json（1352 个文件，md5 eb895d8479c43e7ebc6842441675922e）；
+2026-10-08 23:51:48 开始上传 1352 个文件到私有仓库 Rongxuan-Zhou/v2d-track2-archive（6.57 GB）
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py:269: FutureWarning: 
+================================================================================

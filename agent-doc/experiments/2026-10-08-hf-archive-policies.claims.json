@@ -1,0 +1,127 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "res": {
+   "file": "results/ops/hf_archive_policy_results_mf4090.txt",
+   "grep": "^## |^  清单里的"
+  },
+  "log": {
+   "file": "results/ops/hf_archive_policy_run_mf4090.txt",
+   "grep": "HF_|开始"
+  },
+  "plan": {
+   "file": "results/ops/hf_archive_policy_plan_mf4090.txt",
+   "grep": "^候选|t1-ep7-w2048-cap4m-p185g-mf4090：|t2-ep9-w2048-cap4m-mf4090："
+  },
+  "pre": {
+   "file": "results/ops/hf_archive_policy_precheck_mf4090.txt",
+   "grep": "md5|^[a-f0-9]{32}|长链|GPU|ARCHIVED|hf_stage|/dev/"
+  },
+  "tests": {
+   "file": "results/ops/hf_archive_policy_tests_mf4090.txt",
+   "grep": "runs/tools|^ok |ALL_OK"
+  },
+  "who": {
+   "file": "results/ops/hf_whoami_mf4090_1008.txt",
+   "grep": "账号|仓库|HF_WHOAMI"
+  },
+  "code": {
+   "file": "tools/hf_archive.py",
+   "grep": "逐个比大小与 LFS sha256|本地重算 sha256 与清单比|ok = size == r\\[\"size\"\\] and sha == r\\[\"sha256\"\\]|ok = got == r\\[\"sha256\"\\] and size == r\\[\"size\"\\]|每条 run 随机挑 1 个"
+  }
+ },
+ "claims": [
+  {
+   "id": "verify_ok",
+   "evidence": [
+    "res",
+    "log",
+    "code"
+   ],
+   "claim": "第一段核对：1352 个文件的大小与 sha256 全部一致，没有不一致的文件，核对的文件与清单逐项相同。"
+  },
+  {
+   "id": "spot_ok",
+   "evidence": [
+    "res",
+    "log",
+    "code"
+   ],
+   "claim": "抽查从 52 条 run 各下载 1 个文件，共 52 个，下载后 sha256 全部一致。"
+  },
+  {
+   "id": "nothing_deleted",
+   "evidence": [
+    "res"
+   ],
+   "claim": "第一段没有删除任何文件：清单里的 1352 个文件都还在本地，52 条 run 各有 35 份 policy，最新一份都是 349999104 步。"
+  },
+  {
+   "id": "md5_match",
+   "evidence": [
+    "log",
+    "pre"
+   ],
+   "claim": "流程脚本开始时打印的工具 md5 是 027ed7885644289e667b1bdd985e8d98、清单 md5 是 eb895d8479c43e7ebc6842441675922e，与开跑前在 mf4090 上记下的一致。"
+  },
+  {
+   "id": "keep9",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "按清单，每条 run 归档 26 份（步 10000384–260009984），留最新 9 份（步 270010368–349999104）；52 条 run 共 1352 个文件、6.57 GB。"
+  },
+  {
+   "id": "tests",
+   "evidence": [
+    "tests"
+   ],
+   "claim": "运行的那一版工具（hf_archive.py md5 027ed7885644289e667b1bdd985e8d98）在 mf4090 上的测试全部通过，输出以 ALL_OK 结束。"
+  },
+  {
+   "id": "token",
+   "evidence": [
+    "who"
+   ],
+   "claim": "token 属于 Rongxuan-Zhou、权限 write，归档仓库是私有的。"
+  },
+  {
+   "id": "stopped",
+   "evidence": [
+    "log"
+   ],
+   "claim": "第一段在删除前按约定停下，结束标记是 HF_ARCHIVE_VERIFIED。"
+  },
+  {
+   "id": "disk_now",
+   "evidence": [
+    "res"
+   ],
+   "claim": "第一段结束后 mf4090 可用 1642 MB，暂存目录 runs/hf_stage 里有 1352 个 safetensors。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "log"
+   ],
+   "claim": "抽查用的随机种子是 1791475899，上传用了 19.6 分钟。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_bad",
+   "evidence": [
+    "res"
+   ],
+   "claim": "核对时有 3 个文件不一致。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_del",
+   "evidence": [
+    "res"
+   ],
+   "claim": "清单里的文件已经从本地删掉，清单里的 run 每条只剩 9 份 policy。",
+   "control": "false"
+  }
+ ]
+}

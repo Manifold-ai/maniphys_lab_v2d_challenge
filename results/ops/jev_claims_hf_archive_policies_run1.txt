@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-hf-archive-policies.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a4b8cfc8bfa15a63792d1c0fd7d27e32  agent-doc/experiments/2026-10-08-hf-archive-policies.claims.json
+# source   : 2d5cc34fb2f2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T10:16:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+verify_ok            P(supported)=0.40  UNVERIFIED             [res, log]  第一段核对：1352 个文件的大小与 sha256 全部一致，没有不一致的文件，核对的文件与清单逐项相同。
+spot_ok              P(supported)=0.46  UNVERIFIED             [res, log]  抽查从 52 条 run 各下载 1 个文件，共 52 个，下载后 sha256 全部一致。
+nothing_deleted      P(supported)=0.93  verified               [res]  第一段没有删除任何文件：清单里的 1352 个文件都还在本地，52 条 run 各有 35 份 policy，最新一份都是 349999104 步。
+md5_match            P(supported)=0.96  verified               [log, pre]  流程脚本开始时打印的工具 md5 是 027ed7885644289e667b1bdd985e8d98、清单 md5 是 eb895d8479c43e7ebc6842441675922e，与开跑前在 mf4090 上记下的一致。
+keep9                P(supported)=0.94  verified               [plan]  按清单，每条 run 归档 26 份（步 10000384–260009984），留最新 9 份（步 270010368–349999104）；52 条 run 共 1352 个文件、6.57 GB。
+tests                P(supported)=0.97  verified               [tests]  运行的那一版工具（hf_archive.py md5 027ed7885644289e667b1bdd985e8d98）在 mf4090 上的测试全部通过，输出以 ALL_OK 结束。
+token                P(supported)=0.98  verified               [who]  token 属于 Rongxuan-Zhou、权限 write，归档仓库是私有的。
+stopped              P(supported)=0.96  verified               [log]  第一段在删除前按约定停下，结束标记是 HF_ARCHIVE_VERIFIED。
+disk_now             P(supported)=0.95  verified               [res]  第一段结束后 mf4090 可用 1642 MB，暂存目录 runs/hf_stage 里有 1352 个 safetensors。
+ctl_true             P(supported)=0.99  control(true) ok       [log]  抽查用的随机种子是 1791475899，上传用了 19.6 分钟。
+ctl_false_bad        P(supported)=0.01  control(false) ok      [res]  核对时有 3 个文件不一致。
+ctl_false_del        P(supported)=0.01  control(false) ok      [res]  清单里的文件已经从本地删掉，清单里的 run 每条只剩 9 份 policy。
+controls behaved as expected

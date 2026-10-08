@@ -103,3 +103,21 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认留最新 
 - 归档后，老 run 的 `run_pace.py`、`ckpt_nonfinite.py` 只能看到最后 9 份；需要时按 `ARCHIVED.json` 记的位置从 HF 下载。
 - 以后若要从更早的 checkpoint 导出（回退超过 8 份，或改用某个中间步数），要先从 HF 下载。
 - Mac 断开不影响：任务在服务器后台运行，日志也在服务器上。
+
+## 执行记录
+
+### 第一段（10/8 09:51–10:14 UTC-6）
+
+- 启动：`tools/hf_remote.sh` 在 mf4090 上 setsid 后台运行（`results/ops/hf_archive_policy_launch_mf4090.txt`）。日志第一行的工具 md5
+  `027ed788…`、清单 md5 `eb895d84…`、1352 个文件，与登记一致。
+- 上传：19.6 分钟，HF_UPLOAD_DONE。
+- 核对：1352 / 1352 一致（HF_VERIFY_OK）。抽查：52 条 run 各 1 个，52 / 52 一致（随机种子 1791475899，HF_SPOTCHECK_OK）。
+- 按约定停在删除前（HF_ARCHIVE_VERIFIED）。本地 policy 仍是 1903 份，52 条 run 各 35 份，最新一份都是 349999104 步；
+  `runs/hf_stage` 里有 1352 个硬链接。可用空间 1642 MB，开始时 1669 MB，少掉的 27 MB 主要是上传缓存
+  （`runs/hf_stage/.cache` 与 `~/.cache/huggingface/xet`）。
+- 汇总 `results/ops/hf_archive_policy_results_mf4090.txt`（`tools/hf_archive_report.py`）；日志 `results/ops/hf_archive_policy_run_mf4090.txt`
+  （去掉了含 `@` 与 token 样式的行、终端控制符和逐个文件的 ok 行）。
+- jev（`results/ops/jev_claims_hf_archive_policies.txt`，规格 `agent-doc/experiments/2026-10-08-hf-archive-policies.claims.json`）：
+  第 1 轮里“核对全部一致”0.40、“抽查全部一致”0.46，原因是证据里只有“一致 N 个”，没写比的是什么（`_run1` 留档）；
+  第 2 轮把工具里比对大小与 sha256 的代码行加进证据，9 条全部核实（0.92–0.98），3 道对照题正常。
+- 等用户确认后运行第二段。

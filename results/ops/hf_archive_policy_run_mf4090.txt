@@ -1,0 +1,16 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ grep\ -v\ -E\ \'@\|hf_\[A-Za-z0-9\]\{20\}\'\ runs/logs/hf_archive_policy_run.log\ \|\ tr\ -d\ \'\\033\\r\'\ \|\ sed\ -E\ \'s/\\\[\[KF\]//g\;\ s/\^\[\[:space:\]\]+//\'\ \|\ grep\ -v\ -E\ \'\^\(Files\|Workers\|-\{5\,\}\|=\{5\,\}\)\|\^\$\|\^ok\ \' 
+# source   : 2d5cc34fb2f2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T10:15:54-0600
+# ---------------------------------------------------------------
+=== 2026-10-08 23:51:47 CST 开始（步骤 verify，抽查 每条 run 1 个）；工具 md5 027ed7885644289e667b1bdd985e8d98；清单 runs/hf_archive_policy_manifest_mf4090.json（1352 个文件，md5 eb895d8479c43e7ebc6842441675922e）；可用 1669 MB
+2026-10-08 23:51:48 开始上传 1352 个文件到私有仓库 Rongxuan-Zhou/v2d-track2-archive（6.57 GB）
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py:269: FutureWarning: 
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+Use `upload_folder` instead:
+api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-archive", repo_type="model", folder_path="runs/hf_stage")
+api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
+2026-10-09 00:11:24 上传结束，用时 19.6 分钟；HF_UPLOAD_DONE
+1352 / 1352 个文件核对一致；HF_VERIFY_OK
+抽查 52 个，52 个一致（随机种子 1791475899）；HF_SPOTCHECK_OK
+=== 2026-10-09 00:14:21 CST 上传、核对、抽查都通过，按约定停在删除前，等用户确认；HF_ARCHIVE_VERIFIED
