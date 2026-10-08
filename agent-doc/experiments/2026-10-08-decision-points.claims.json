@@ -1,0 +1,30 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "v2": {"file": "results/ml40/r3/verdict_t2.txt", "grep": "^  S[1-6]|TRIAL_VERDICT"},
+  "rec": {"file": "agent-doc/experiments/2026-10-05-step3-recipe-trial.md", "grep": "66 小时|Tier 1：变体 A 不通过|变体的失败几乎全是摔|对照 ep22 变体"},
+  "sub": {"file": "agent-doc/experiments/2026-10-03-submission-check.md", "grep": "本地分数"},
+  "s": {"file": "results/ml40/select_t1/select_1008.txt", "grep": "CHOSEN ep(0|5|6|8|10|13|14|15|17|18|20|21|27|29):"},
+  "plan": {"file": "agent-doc/plan-step3-recipe-trial-2026-10-04.md", "grep": "一条正式训练|0.33 GB"},
+  "m": {"file": "results/ops/machines_1008_0730.txt", "grep": "run_at|^== |/dev/"},
+  "kit": {"file": "third_party/v2d_submission_kit/v2d_submission_kit/config/tracks.json", "grep": "No trajectory is supplied"},
+  "adr": {"file": "docs/adr/00002-tier-isolation.md", "grep": "clean trajectory captions|propose methods|Tier 2"},
+  "k": {"file": "results/submission/kaggle_join_status_1003.txt", "grep": "tier3"}
+ },
+ "claims": [
+  {"id": "t2_pass", "evidence": ["v2"], "claim": "Tier 2 判定为 TRIAL_VERDICT PASS，S1 的差是 +0.9335。"},
+  {"id": "t2_cost", "evidence": ["rec"], "claim": "Tier 2 可以按计划第 5 节铺开：其余 24 条用变体 A seed 42 在 v5.4 参考上训练，全在 ml40 上约 66 小时。"},
+  {"id": "t2_local", "evidence": ["sub"], "claim": "Tier 2 的本地分数按干净参考算，照现在的解读不看。"},
+  {"id": "t1_rule", "evidence": ["rec"], "claim": "Tier 1 变体 A 不通过（S4），按登记规则不铺开。"},
+  {"id": "t1_variant_ok", "evidence": ["s"], "claim": "ep6、ep8、ep18、ep20、ep27、ep29 选中的都是名字带 r3a 的 run，maniptrans_sr 都是 1.0。"},
+  {"id": "t1_small", "evidence": ["s"], "claim": "ep0、ep5、ep10、ep13、ep14、ep15、ep17、ep21 选中的 run 的 maniptrans_sr 都是 0.0，mppe_cm 依次约为 3.46、3.84、4.53、4.78、5.89、4.20、4.98、5.39。"},
+  {"id": "t1_ep0", "evidence": ["s"], "claim": "ep0 选中的 run 4096 世界 MP-SR 约 0.438，但这一条的 maniptrans_sr 是 0.0。"},
+  {"id": "fall", "evidence": ["rec"], "claim": "变体的失败几乎全是摔（失败 2718 个里没摔的 63 个），基线的失败大多是没摔的“差一点”（11574 个里 10161 个）。"},
+  {"id": "cost", "evidence": ["plan", "m"], "claim": "一条正式训练约 2 小时，一条 run 留 1 份 state 约 0.33 GB；10/8 07:30 mf4090 根分区可用 1632 MB。"},
+  {"id": "t3_rule", "evidence": ["kit", "adr"], "claim": "Tier 3 不提供轨迹，要从视频自己重建，计分对照干净的多视角轨迹；规则原文鼓励 Tier 2/3 用 Tier 1 干净轨迹以外的任何东西去估计更好的物体轨迹。"},
+  {"id": "t3_kaggle", "evidence": ["k"], "claim": "Tier 3 的 4 个 Kaggle 比赛 userHasEntered 都是 False。"},
+  {"id": "ctl_true", "evidence": ["rec"], "claim": "Tier 2 的对照 ep22 变体 0.9966、基线 0.7354。", "control": "true"},
+  {"id": "ctl_false_t1", "evidence": ["rec"], "claim": "Tier 1 变体 A 判定通过，按计划第 5 节铺开。", "control": "false"},
+  {"id": "ctl_false_ep0", "evidence": ["s"], "claim": "ep0 选中的是名字带 r3a 的 run。", "control": "false"}
+ ]
+}

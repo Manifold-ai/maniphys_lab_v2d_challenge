@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-decision-points.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : adb02fc423f11e7d30e0e27792136056  agent-doc/experiments/2026-10-08-decision-points.claims.json
+# source   : 6452d8b9d5a0-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T07:52:49-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_pass              P(supported)=0.98  verified               [v2]  Tier 2 判定为 TRIAL_VERDICT PASS，S1 的差是 +0.9335。
+t2_cost              P(supported)=0.95  verified               [rec]  Tier 2 可以按计划第 5 节铺开：其余 24 条用变体 A seed 42 在 v5.4 参考上训练，全在 ml40 上约 66 小时。
+t2_local             P(supported)=0.97  verified               [sub]  Tier 2 的本地分数按干净参考算，照现在的解读不看。
+t1_rule              P(supported)=0.98  verified               [rec]  Tier 1 变体 A 不通过（S4），按登记规则不铺开。
+t1_variant_ok        P(supported)=0.92  verified               [s]  ep6、ep8、ep18、ep20、ep27、ep29 选中的都是名字带 r3a 的 run，maniptrans_sr 都是 1.0。
+t1_small             P(supported)=0.97  verified               [s]  ep0、ep5、ep10、ep13、ep14、ep15、ep17、ep21 选中的 run 的 maniptrans_sr 都是 0.0，mppe_cm 依次约为 3.46、3.84、4.53、4.78、5.89、4.20、4.98、5.39。
+t1_ep0               P(supported)=0.98  verified               [s]  ep0 选中的 run 4096 世界 MP-SR 约 0.438，但这一条的 maniptrans_sr 是 0.0。
+fall                 P(supported)=0.99  verified               [rec]  变体的失败几乎全是摔（失败 2718 个里没摔的 63 个），基线的失败大多是没摔的“差一点”（11574 个里 10161 个）。
+cost                 P(supported)=0.87  verified               [plan, m]  一条正式训练约 2 小时，一条 run 留 1 份 state 约 0.33 GB；10/8 07:30 mf4090 根分区可用 1632 MB。
+t3_rule              P(supported)=0.83  verified               [kit, adr]  Tier 3 不提供轨迹，要从视频自己重建，计分对照干净的多视角轨迹；规则原文鼓励 Tier 2/3 用 Tier 1 干净轨迹以外的任何东西去估计更好的物体轨迹。
+t3_kaggle            P(supported)=0.98  verified               [k]  Tier 3 的 4 个 Kaggle 比赛 userHasEntered 都是 False。
+ctl_true             P(supported)=0.72  control(true) ok       [rec]  Tier 2 的对照 ep22 变体 0.9966、基线 0.7354。
+ctl_false_t1         P(supported)=0.02  control(false) ok      [rec]  Tier 1 变体 A 判定通过，按计划第 5 节铺开。
+ctl_false_ep0        P(supported)=0.01  control(false) ok      [s]  ep0 选中的是名字带 r3a 的 run。
+controls behaved as expected
