@@ -4,7 +4,8 @@
 #   - 这台是 mf4090（GPU 是 RTX 4090）；来历干净；三段日志、导出结果表、长链标记、同名 tmux 会话都不存在；GPU 上没有进程；
 #     仓库所在分区可用 ≥ 4000 MB（6 条约 2 GB，训练链不到 1200 MB 就停）
 #   - 副本 v040_p185_nfg 与 fc_8c778f9 都在，v040_p185_nfg 按 sha256 清单核对通过
-#   - 期望表 6 条 run 与冒烟都还没有目录（不续训、不覆盖）；导出清单的 6 行与期望表的 run 一一对应、顺序相同
+#   - 期望表 6 条 run 与冒烟都没有训练产物（目录不存在，或里面只有 fc_config_check.sh 经 fc_run.sh 打印模式建的空 .lock；不续训、不覆盖）；
+#     导出清单的 6 行与期望表的 run 一一对应、顺序相同
 #   - 12 份配置的 runs/cfgcheck/<run>.yaml 都在（fc_config_check.sh 先生成），precheck_expect.sh 全过；
 #     配方断言：objective.object_position_std 与 termination.object_orientation_threshold（顶层与 env 下各一份）都是变体 A 的 0.05、0.6
 # 起三个会话：
@@ -45,7 +46,8 @@ while IFS=$'\t' read -r run smoke _; do runs+=("$run"); cfgs+=("$run" "$smoke");
 mapfile -t listed < <(grep -vE '^(#|[[:space:]]*$)' "$LIST" | cut -f3)
 [ "${listed[*]}" = "${runs[*]}" ] || stop "导出清单的 run 与期望表不一致：${listed[*]}"
 for r in "${cfgs[@]}"; do
-  [ ! -e "runs/flash_chord/$r" ] || stop "runs/flash_chord/$r 已存在"
+  left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null)"
+  [ -z "$left" ] || stop "runs/flash_chord/$r 里已有训练产物（$left）"
   [ -f "runs/cfgcheck/$r.yaml" ] || stop "缺 runs/cfgcheck/$r.yaml（先跑 fc_config_check.sh）"
 done
 stages/policy/precheck_expect.sh "$Q.expect.tsv" "${Q}_smoke.txt" "$Q.txt" | tail -1 | grep -q '^PRECHECK_OK' || stop "precheck_expect.sh 不过"
