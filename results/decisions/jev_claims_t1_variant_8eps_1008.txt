@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-t1-variant-8eps.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 88243041ba9caf2d58b50f01c46f2d65  agent-doc/experiments/2026-10-08-t1-variant-8eps.claims.json
+# source   : 79c1b2f824f8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T13:56:17-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep0                  P(supported)=0.98  verified               [e0]  ep0 现在交的 run t1-ep0-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 约 0.438，object_position_error_m 约 0.047，朝向误差约 22.6 度。
+ep15                 P(supported)=0.98  verified               [e15]  ep15 现在交的 run t1-ep15-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 是 0.0，object_position_error_m 约 0.045，朝向误差约 30.4 度。
+ep5                  P(supported)=0.97  verified               [e5]  ep5 现在交的 run t1-ep5-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 约 0.001，object_position_error_m 约 0.061，朝向误差约 15.5 度。
+far_a                P(supported)=0.97  verified               [e10, e13, e17]  ep10、ep13、ep17 现在交的 run 在 4096 世界评测里 maniptrans_sr 都是 0.0，object_position_error_m 依次约 0.094、0.094、0.089。
+far_b                P(supported)=0.98  verified               [e14, e21]  ep14、ep21 现在交的 run 在 4096 世界评测里 maniptrans_sr 都是 0.0，object_position_error_m 依次约 0.152、0.136。
+fall_a               P(supported)=0.98  verified               [e10, e13]  ep10、ep13 的 4096 世界评测里，reference_tracking 失败原因 pelvis 的占比依次约 0.222、0.248。
+fall_b               P(supported)=0.98  verified               [e14, e21]  ep14、ep21 的 4096 世界评测里，reference_tracking 失败原因 pelvis 的占比依次约 0.576、0.150。
+trial                P(supported)=0.93  verified               [plan]  第 3 步 Tier 1 试验的 5 条 episode，基线在 4096 世界评测里的位置误差依次是 ep6 3.3、ep18 4.1、ep27 5.6、ep29 3.5、ep20 3.8 cm。
+fall_double          P(supported)=0.95  verified               [rec]  变体 A 让摔的比例翻倍：5 条两种子平均，失败:骨盆基线 0.064、变体 0.125。
+rule                 P(supported)=0.86  verified               [sel]  Tier 1 逐条选按 MP-SR、SP-SR、组合分的顺序比较，取最大者；规则平手时保留现在交的那条。
+time                 P(supported)=0.97  verified               [rec]  第 3 步 Tier 1 的 A 段 6 条正式训练在 mf4090 上每条用时 1:58 到 2:15。
+idle                 P(supported)=0.89  verified               [m]  10/8 13:55（UTC-6）检查时，mf4090 的 GPU 上没有计算进程，链标记为 0，根分区可用 7876 MB。
+ctl_true             P(supported)=0.98  control(true) ok       [e14]  ep14 现在交的 run t1-ep14-w2048-cap4m-mf4090 在 4096 世界评测里 maniptrans_sr 是 0.0。
+ctl_false_ep15       P(supported)=0.01  control(false) ok      [e15]  ep15 现在交的 run 在 4096 世界评测里 maniptrans_sr 超过 0.4。
+ctl_false_time       P(supported)=0.01  control(false) ok      [rec]  第 3 步 Tier 1 的 A 段正式训练在 mf4090 上每条要 5 小时以上。
+controls behaved as expected

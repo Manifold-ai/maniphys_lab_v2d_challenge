@@ -1,0 +1,15 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=20\ mf4090\ \"cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ ==\ mf4090\ \\\$\(date\ \\\"+%F\ %T\ %Z\\\"\)\;\ echo\ GPU_APPS\ \\\$\(nvidia-smi\ --query-compute-apps=pid\ --format=csv\,noheader\ \|\ wc\ -l\)\;\ nvidia-smi\ --query-gpu=name\,utilization.gpu\,memory.used\,memory.total\ --format=csv\,noheader\;\ echo\ CHAIN_MARKERS\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\)\;\ echo\ TMUX\;\ tmux\ ls\ 2\>\&1\ \|\ head\;\ echo\ DOCKER_RUNNING\;\ docker\ ps\ --format\ \\\"\{\{.Names\}\}\ \{\{.Status\}\}\\\"\ 2\>\&1\ \|\ head\;\ df\ -m\ .\ \|\ tail\ -1\;\ echo\ SOURCE\ \\\$\(cat\ .v2d-source-commit\)\" 
+# source   : 79c1b2f824f8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T13:55:14-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-09 03:55:17 CST
+GPU_APPS 0
+NVIDIA GeForce RTX 4090, 0 %, 0 MiB, 24564 MiB
+CHAIN_MARKERS 0
+TMUX
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+DOCKER_RUNNING
+maniphys-visual-dev-worker-120 Up 4 days
+/dev/vda2         201462 185276      7876  96% /
+SOURCE 9d5d207c5025

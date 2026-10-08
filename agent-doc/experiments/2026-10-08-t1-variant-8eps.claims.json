@@ -1,0 +1,34 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "e0": {"file": "results/ml40/day2/eval_t1-ep0-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e5": {"file": "results/ml40/day2/eval_t1-ep5-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e15": {"file": "results/ml40/day2/eval_t1-ep15-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e10": {"file": "results/ml40/day2/eval_t1-ep10-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e13": {"file": "results/ml40/day2/eval_t1-ep13-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e17": {"file": "results/ml40/day2/eval_t1-ep17-w2048-cap10m-ml40_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e14": {"file": "results/day2/eval_t1-ep14-w2048-cap4m-mf4090_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "e21": {"file": "results/day2/eval_t1-ep21-w2048-cap4m-mf4090_s349999104.txt", "grep": "^fc_eval:|^  maniptrans_sr|^  object_position_error_m|^  object_orientation_error_deg|^  reference_tracking.failure_cause_fraction"},
+  "plan": {"file": "agent-doc/plan-step3-recipe-trial-2026-10-04.md", "grep": "4096 世界评测（mf4090，400 万 buffer|ml40 上 ep15 4.5"},
+  "rec": {"file": "agent-doc/experiments/2026-10-05-step3-recipe-trial.md", "grep": "摔的比例翻倍|每条 1:58–2:15"},
+  "sel": {"file": "stages/evaluate/select_t1.py", "grep": "def sort_key|登记的选择规则|return \\(|def choose|规则平手时|best = max|top = \\[|current|return sorted\\(top"},
+  "m": {"file": "results/ops/mf4090_state_1008_1355.txt", "grep": "run_at|^== |GPU_APPS|CHAIN_MARKERS|/dev/vda2"}
+ },
+ "claims": [
+  {"id": "ep0", "evidence": ["e0"], "claim": "ep0 现在交的 run t1-ep0-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 约 0.438，object_position_error_m 约 0.047，朝向误差约 22.6 度。"},
+  {"id": "ep15", "evidence": ["e15"], "claim": "ep15 现在交的 run t1-ep15-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 是 0.0，object_position_error_m 约 0.045，朝向误差约 30.4 度。"},
+  {"id": "ep5", "evidence": ["e5"], "claim": "ep5 现在交的 run t1-ep5-w2048-cap10m-ml40 在 4096 世界评测里 maniptrans_sr 约 0.001，object_position_error_m 约 0.061，朝向误差约 15.5 度。"},
+  {"id": "far_a", "evidence": ["e10", "e13", "e17"], "claim": "ep10、ep13、ep17 现在交的 run 在 4096 世界评测里 maniptrans_sr 都是 0.0，object_position_error_m 依次约 0.094、0.094、0.089。"},
+  {"id": "far_b", "evidence": ["e14", "e21"], "claim": "ep14、ep21 现在交的 run 在 4096 世界评测里 maniptrans_sr 都是 0.0，object_position_error_m 依次约 0.152、0.136。"},
+  {"id": "fall_a", "evidence": ["e10", "e13"], "claim": "ep10、ep13 的 4096 世界评测里，reference_tracking 失败原因 pelvis 的占比依次约 0.222、0.248。"},
+  {"id": "fall_b", "evidence": ["e14", "e21"], "claim": "ep14、ep21 的 4096 世界评测里，reference_tracking 失败原因 pelvis 的占比依次约 0.576、0.150。"},
+  {"id": "trial", "evidence": ["plan"], "claim": "第 3 步 Tier 1 试验的 5 条 episode，基线在 4096 世界评测里的位置误差依次是 ep6 3.3、ep18 4.1、ep27 5.6、ep29 3.5、ep20 3.8 cm。"},
+  {"id": "fall_double", "evidence": ["rec"], "claim": "变体 A 让摔的比例翻倍：5 条两种子平均，失败:骨盆基线 0.064、变体 0.125。"},
+  {"id": "rule", "evidence": ["sel"], "claim": "Tier 1 逐条选按 MP-SR、SP-SR、组合分的顺序比较，取最大者；规则平手时保留现在交的那条。"},
+  {"id": "time", "evidence": ["rec"], "claim": "第 3 步 Tier 1 的 A 段 6 条正式训练在 mf4090 上每条用时 1:58 到 2:15。"},
+  {"id": "idle", "evidence": ["m"], "claim": "10/8 13:55（UTC-6）检查时，mf4090 的 GPU 上没有计算进程，链标记为 0，根分区可用 7876 MB。"},
+  {"id": "ctl_true", "evidence": ["e14"], "claim": "ep14 现在交的 run t1-ep14-w2048-cap4m-mf4090 在 4096 世界评测里 maniptrans_sr 是 0.0。", "control": "true"},
+  {"id": "ctl_false_ep15", "evidence": ["e15"], "claim": "ep15 现在交的 run 在 4096 世界评测里 maniptrans_sr 超过 0.4。", "control": "false"},
+  {"id": "ctl_false_time", "evidence": ["rec"], "claim": "第 3 步 Tier 1 的 A 段正式训练在 mf4090 上每条要 5 小时以上。", "control": "false"}
+ ]
+}
