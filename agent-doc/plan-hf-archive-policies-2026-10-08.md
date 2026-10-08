@@ -139,3 +139,20 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认留最新 
 - jev（`results/ops/jev_claims_hf_archive_policies_impact.txt`，规格 `agent-doc/experiments/2026-10-08-hf-archive-policies-impact.claims.json`）：
   本地完好、环境干净、留下的部分、回退份数、ep1 扫描 5 条核实（0.78–0.97），3 道对照题正常；“run 目录里只引用这三种文件名”三轮都没到 0.7
   （0.51、0.61、0.67），记为未核实，原始输出见上面的引用记录。
+
+### 第二段（10/8 11:27 UTC-6，用户确认“第 2 批删”之后）
+
+- 启动：`tools/hf_remote.sh` 在 mf4090 上 setsid 后台运行，`V2D_HF_ARCHIVE_STEPS=delete`（`results/ops/hf_archive_policy_delete_launch_mf4090.txt`）。
+  日志第一行的工具 md5 `a7f6ce88…`、清单 md5 `eb895d84…` 与登记一致（行里的“抽查 3 个”是默认参数的显示，删除步骤不抽查）。
+- 结果（`results/ops/hf_archive_policy_delete_run_mf4090.txt`，用时 23 秒）：删除前重新核对 1352 / 1352 一致（HF_VERIFY_OK）；释放 6.57 GB（HF_DELETE_DONE）；
+  `runs/flash_chord` 下删除前 4659 个文件、删除后 3340 个，消失 1352 个，正好是清单里的，清单外消失 0 个，清单里没删的 0 个；
+  可用空间 1629 MB → 7902 MB，增加 6273 MB（登记约 6265 MB，±100 MB 以内）；HF_ARCHIVE_DONE。
+- 删除后状态（`results/ops/hf_archive_policy_after_delete_mf4090.txt`）：清单里的文件本地剩 0 / 1352；52 条 run 各剩 9 份，最新一份都是 349999104 步，
+  468 份文件头完整，state 都有配对；`runs/flash_chord` 下 policy 共 551 份；`runs/hf_stage` 已不在。
+- `ARCHIVED.json`（`results/ops/hf_archive_policy_archived_check_mf4090.txt`）：带它的 run 从 38 条变为 71 条。19 条只有 10/1 的 state 记录（没动），
+  19 条在 10/1 的记录后面追加了一条 policy 记录，33 条新建、只有 policy 记录；清单文件全部记进去（1352 / 1352）。记录时间是北京时间 10/9 01:27。
+- README 的第 2 批状态改成“10/8 已删除”后重新上传，HF_README_OK，仓库仍为私有、1393 个文件（`results/ops/hf_readme_v2d_track2_archive.txt`）。
+- jev（`results/ops/jev_claims_hf_archive_policies_delete.txt`，规格 `agent-doc/experiments/2026-10-08-hf-archive-policies-delete.claims.json`）：
+  第 2 轮 10 条里 8 条核实（0.73–0.99），3 道对照题正常。“policy 共剩 551 份”0.52、“暂存目录已删”0.34，记为未核实：汇总文件是一张快照，
+  没写明是删除之后拍的。第 1 轮把三件事放在一条 claim 里，只有 0.19（`_run1` 留档）。
+- 判据全部满足。

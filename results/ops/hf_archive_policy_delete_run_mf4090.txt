@@ -1,0 +1,12 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -v -E \'@|hf_[A-Za-z0-9]{20}\' runs/logs/hf_archive_policy_delete.log | tr -d \'\\033\\r\' | sed -E \'s/\\[[KF]//g; s/^[[:space:]]+//\' | grep -v -E \'^(Files|Workers|-{5,}|={5,})|^$|^(ok|�\210�) \'; echo �\200\220个�\226\207件�\232\204 ok �\214 $(grep -c \'^  ok \' runs/logs/hf_archive_policy_delete.log) �\235��\200\201�\210� �\214 $(grep -c \'^�\210� \' runs/logs/hf_archive_policy_delete.log) �\235��\210�\212�\235��\234\201�\225��\211' 
+# source   : c335f8156a3a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:28:24-0600
+# ---------------------------------------------------------------
+=== 2026-10-09 01:27:28 CST 开始（步骤 delete，抽查 3 个）；工具 md5 a7f6ce8272e482a5b0f3449f0d55bb89；清单 runs/hf_archive_policy_manifest_mf4090.json（1352 个文件，md5 eb895d8479c43e7ebc6842441675922e）；可用 1629 MB
+1352 / 1352 个文件核对一致；HF_VERIFY_OK
+释放 6.57 GB；HF_DELETE_DONE
+=== 2026-10-09 01:27:51 CST runs/flash_chord：删除前 4659 个文件、删除后 3340 个；消失 1352 个（清单 1352 个，其中没删的 0 个）；清单外消失的文件：无
+=== 2026-10-09 01:27:51 CST 删除后可用 7902 MB
+=== 2026-10-09 01:27:51 CST HF_ARCHIVE_DONE
+逐个文件的 ok 行 1352 条、删 行 1352 条（上面省略）

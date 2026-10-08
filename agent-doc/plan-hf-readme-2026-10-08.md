@@ -56,4 +56,5 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查逐项核对了 
   （要 jev 自己数 52 行）；第 3 轮改由 `tools/hf_archive_report.py` 算出“清单按 run 分”的结果再核。前两轮留档为 `_run1`、`_run2`。
 - 上传（`results/ops/hf_readme_v2d_track2_archive.txt`）：README（md5 `7ed78bacd82ae8873db17fbee2aae9e8`）传到仓库根目录，
   下载回来 sha256 一致（HF_README_OK）；仓库仍为私有，1393 个文件，共 12.82 GB。判据全部满足。
-- 账号下其余 9 个没有 README 的仓库属于别的项目，范围要用户定，这次没动。
+- 账号下其余 9 个没有 README 的仓库属于别的项目。用户 10/8 决定不补（“其他不要补充”），这条要求只管本项目上传过的仓库。
+- 10/8 11:28：第 2 批本地删除后，README 的状态改成“10/8 已删除”，补了 `ARCHIVED.json` 记录时间的换算，重新上传，HF_README_OK。

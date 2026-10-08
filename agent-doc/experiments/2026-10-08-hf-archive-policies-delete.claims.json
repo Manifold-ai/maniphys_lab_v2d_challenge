@@ -1,0 +1,111 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "run2": {
+   "file": "results/ops/hf_archive_policy_delete_run_mf4090.txt",
+   "grep": "HF_|开始|删除前|可用|逐个"
+  },
+  "after": {
+   "file": "results/ops/hf_archive_policy_after_delete_mf4090.txt",
+   "grep": "^## |^  (清单|删除|这些)"
+  },
+  "arch": {
+   "file": "results/ops/hf_archive_policy_archived_check_mf4090.txt",
+   "grep": "条 run"
+  },
+  "readme": {
+   "file": "results/ops/hf_readme_v2d_track2_archive.txt",
+   "grep": "HF_|仓库|README.md 传到"
+  }
+ },
+ "claims": [
+  {
+   "id": "reverify",
+   "evidence": [
+    "run2",
+    "after"
+   ],
+   "claim": "删除前重新核对了仓库，1352 / 1352 个文件一致。"
+  },
+  {
+   "id": "gone_exact",
+   "evidence": [
+    "run2"
+   ],
+   "claim": "删除期间 runs/flash_chord 下消失了 1352 个文件，正好是清单里的 1352 个：清单外消失的文件为无，清单里没删的 0 个。"
+  },
+  {
+   "id": "disk",
+   "evidence": [
+    "run2"
+   ],
+   "claim": "删除开始时 mf4090 可用 1629 MB，删除后可用 7902 MB。"
+  },
+  {
+   "id": "kept",
+   "evidence": [
+    "after"
+   ],
+   "claim": "删除后清单里的 52 条 run 各剩 9 份 policy，最新一份都是 349999104 步；留下的 468 份文件头完整，state 都有同步数的 policy 配对。"
+  },
+  {
+   "id": "local_gone",
+   "evidence": [
+    "after"
+   ],
+   "claim": "删除后，清单里的文件还在本地的是 0 / 1352。"
+  },
+  {
+   "id": "policy_left",
+   "evidence": [
+    "after"
+   ],
+   "claim": "删除后 runs/flash_chord 下的 policy 共 551 份。"
+  },
+  {
+   "id": "stage_gone",
+   "evidence": [
+    "after"
+   ],
+   "claim": "删除后暂存目录 runs/hf_stage 不在了。"
+  },
+  {
+   "id": "archived",
+   "evidence": [
+    "arch"
+   ],
+   "claim": "71 条 run 有 ARCHIVED.json：19 条只有 2026-10-01 的 state 记录，19 条在 2026-10-01 的 state 记录后多了一条 2026-10-09 的 policy 记录，33 条只有 2026-10-09 的 policy 记录。"
+  },
+  {
+   "id": "readme",
+   "evidence": [
+    "readme"
+   ],
+   "claim": "README 更新后重新上传，下载回来的 sha256 与本地一致；仓库仍是私有的，共 1393 个文件。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "run2"
+   ],
+   "claim": "删除用的工具 md5 是 a7f6ce8272e482a5b0f3449f0d55bb89，结束标记是 HF_ARCHIVE_DONE。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_odd",
+   "evidence": [
+    "run2"
+   ],
+   "claim": "删除时有 5 个清单外的文件消失了。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_left",
+   "evidence": [
+    "after"
+   ],
+   "claim": "删除后清单里的每条 run 还剩 35 份 policy。",
+   "control": "false"
+  }
+ ]
+}

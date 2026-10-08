@@ -1,0 +1,9 @@
+# command  : tools/hf_remote.sh V2D_HF_ARCHIVE_STEPS=delete\ setsid\ nohup\ bash\ -c\ \'bash\ runs/tools/hf_archive_run.sh\ runs/hf_archive_policy_manifest_mf4090.json\ Rongxuan-Zhou/v2d-track2-archive\ mf4090\ runs/hf_archive_policy_mf4090\ 2\>\&1\ \|\ grep\ --line-buffered\ -v\ -E\ \"@\|hf_\[A-Za-z0-9\]\{20\}\"\ \>\ runs/logs/hf_archive_policy_delete.log\'\ \<\ /dev/null\ \>\ /dev/null\ 2\>\&1\ \&\ sleep\ 8\;\ echo\ started\ pid\ \$\!\;\ head\ -3\ runs/logs/hf_archive_policy_delete.log\ \|\ cut\ -c1-260 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : c335f8156a3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:27:27-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+started pid 4041920
+=== 2026-10-09 01:27:28 CST 开始（步骤 delete，抽查 3 个）；工具 md5 a7f6ce8272e482a5b0f3449f0d55bb89；清单 runs/hf_archive_policy_manifest_mf4090.json（1352 个文件，md5 eb895d8479c43e7ebc6842441675922e）；可用 1629 MB

@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-hf-archive-policies-delete.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : c38b3a97d2a982bbc986ad4339cebad9  agent-doc/experiments/2026-10-08-hf-archive-policies-delete.claims.json
+# source   : c335f8156a3a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:29:42-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+reverify             P(supported)=0.89  verified               [run2, after]  删除前重新核对了仓库，1352 / 1352 个文件一致。
+gone_exact           P(supported)=0.99  verified               [run2]  删除期间 runs/flash_chord 下消失了 1352 个文件，正好是清单里的 1352 个：清单外消失的文件为无，清单里没删的 0 个。
+disk                 P(supported)=0.98  verified               [run2]  删除开始时 mf4090 可用 1629 MB，删除后可用 7902 MB。
+kept                 P(supported)=0.98  verified               [after]  删除后清单里的 52 条 run 各剩 9 份 policy，最新一份都是 349999104 步；留下的 468 份文件头完整，state 都有同步数的 policy 配对。
+local_gone           P(supported)=0.99  verified               [after]  删除后，清单里的文件还在本地的是 0 / 1352。
+policy_left          P(supported)=0.52  UNVERIFIED             [after]  删除后 runs/flash_chord 下的 policy 共 551 份。
+stage_gone           P(supported)=0.34  UNVERIFIED             [after]  删除后暂存目录 runs/hf_stage 不在了。
+archived             P(supported)=0.73  verified               [arch]  71 条 run 有 ARCHIVED.json：19 条只有 2026-10-01 的 state 记录，19 条在 2026-10-01 的 state 记录后多了一条 2026-10-09 的 policy 记录，33 条只有 2026-10-09 的 policy 记录。
+readme               P(supported)=0.86  verified               [readme]  README 更新后重新上传，下载回来的 sha256 与本地一致；仓库仍是私有的，共 1393 个文件。
+ctl_true             P(supported)=0.98  control(true) ok       [run2]  删除用的工具 md5 是 a7f6ce8272e482a5b0f3449f0d55bb89，结束标记是 HF_ARCHIVE_DONE。
+ctl_false_odd        P(supported)=0.01  control(false) ok      [run2]  删除时有 5 个清单外的文件消失了。
+ctl_false_left       P(supported)=0.01  control(false) ok      [after]  删除后清单里的每条 run 还剩 35 份 policy。
+controls behaved as expected

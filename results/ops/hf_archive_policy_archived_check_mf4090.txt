@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && python3 -c \'\nimport json\nfrom collections import Counter\nfrom pathlib import Path\nc = Counter()\nfor p in sorted(Path("runs/flash_chord").glob("*/ARCHIVED.json")):\n    a = json.loads(p.read_text())\n    kinds = tuple((e["time"][:10], sorted({f["file"].split("_")[0] for f in e["files"]})[0], len(e["files"])) for e in a)\n    c[tuple((d, k) for d, k, n in kinds)] += 1\nfor k, v in sorted(c.items()):\n    print(v, "�\235� run �\232\204记�\225�\210�\217�\235��\232�\214\227京�\227��\227��\227��\234\237, �\226\207件�\215类�\211�\232", k)\n\'' 
+# source   : c335f8156a3a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:28:43-0600
+# ---------------------------------------------------------------
+19 条 run 的记录（每条：北京时间日期, 文件种类）： (('2026-10-01', 'state'),)
+19 条 run 的记录（每条：北京时间日期, 文件种类）： (('2026-10-01', 'state'), ('2026-10-09', 'policy'))
+33 条 run 的记录（每条：北京时间日期, 文件种类）： (('2026-10-09', 'policy'),)
