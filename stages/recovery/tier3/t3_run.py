@@ -34,7 +34,7 @@ class _Subprocess:
             leaked = [a for a in cmd if "=" in a and any(m in a.split("=", 1)[0].lower() for m in SECRET_MARKERS)]
             if leaked:
                 raise SystemExit("refusing: a proxy value would be on the docker command line")
-        return subprocess.run(cmd, *args, **kwargs)
+        return subprocess.run(cmd, *args, **kwargs)  # noqa: PLW1510 - the wrapper passes check=True itself
 
 
 container_mod.subprocess = _Subprocess()

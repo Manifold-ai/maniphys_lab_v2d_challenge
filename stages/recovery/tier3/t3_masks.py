@@ -15,10 +15,12 @@ iron mesh and still reported PASS. Nothing in the pipeline noticed. This version
      box covers more than 12% of the frame, and takes the best frame as the SAM2 prompt frame
      (SAM2 propagates both ways from any frame);
   3. after SAM2, checks the object mask is the manipulated object and not a support or a background
-     thing: it touches the person mask on some sampled frame, it is not the table/desk box the detector
-     found on the prompt frame, and it is not larger than the person for most of the clip. (Tier 3 change:
-     the Track 1 rule "the mask leaves its first-frame footprint" rejected in-place manipulation such as
-     rice_cooker_clockwise_04, so footprint and centroid travel are now reported only.) Failures leave a MASK_SUSPECT file
+     thing: it touches the person mask on some sampled frame; on the prompt frame its box agrees with the
+     detector's object box and is not a detected table/desk box; and it does not grow far past its
+     prompt-frame size (SAM2 leaking onto a support). Tier 3 changes: the Track 1 rule "the mask leaves its
+     first-frame footprint" rejected in-place manipulation (rice_cooker_clockwise_04) and "the mask is larger
+     than the person" rejected big objects near the camera (big_black_box), so footprint, travel and the
+     object/person ratio are reported only. Failures leave a MASK_SUSPECT file
      and still write overlays for diagnosis (they never feed back into a Tier 3 episode by hand);
   4. packs the H5 CARI4D reads.
 
@@ -38,6 +40,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "libs" / "v2d_infra"))
+from tier_guard import forbid_tier1
+
 PERSON = "person"
 SUPPORT_WORDS = ("table", "desk")
 BIG_BOX_FRACTION = 0.12
@@ -56,6 +61,10 @@ STATIC_IOU = 0.7
 TOUCH_PX = 15
 #: The object mask's box overlapping a detected table/desk box above this IoU is a support, not the object.
 SUPPORT_MASK_IOU = 0.5
+#: On the prompt frame SAM2 was given the detector's object box; its mask box must agree with it at least this much.
+PROMPT_BOX_IOU = 0.5
+#: A mask that exceeds this multiple of its prompt-frame area on most sampled frames has leaked onto something.
+MAX_GROWTH = 4.0
 
 
 def run(cmd: list[str]) -> None:
@@ -85,7 +94,7 @@ def iou(a: dict, b: dict) -> float:
     x0, y0 = max(a["x0"], b["x0"]), max(a["y0"], b["y0"])
     x1, y1 = min(a["x1"], b["x1"]), min(a["y1"], b["y1"])
     inter = max(0.0, x1 - x0) * max(0.0, y1 - y0)
-    area = lambda r: (r["x1"] - r["x0"]) * (r["y1"] - r["y0"])  # noqa: E731
+    area = lambda r: (r["x1"] - r["x0"]) * (r["y1"] - r["y0"])
     return inter / (area(a) + area(b) - inter + 1e-9)
 
 
@@ -97,7 +106,7 @@ def detections(path: Path) -> list[dict]:
 def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, weights: str, thr: float, samples: int,
                         object_name: str = "") -> dict:
     """Detect on `samples` frames, return the best (frame, object box, person box) with all candidates."""
-    frames = sorted({int(round(k * (total - 1) / (samples - 1))) for k in range(samples)})
+    frames = sorted({round(k * (total - 1) / (samples - 1)) for k in range(samples)})
     # The dataset's short object name is a phrase of its own: the descriptive prompt alone can pull the
     # detector elsewhere ("an metallic iron" boxed metal tripods in ep06, never the iron).
     name = object_name.replace("_", " ").strip()
@@ -152,10 +161,19 @@ def dilate(mask: np.ndarray, radius: int) -> np.ndarray:
     return cv2.dilate(mask.astype(np.uint8), np.ones((2 * radius + 1, 2 * radius + 1), np.uint8)) > 0
 
 
-def check_masks(masks: Path, total: int, width: int, prompt_frame: int, support_boxes: list[dict]) -> dict:
-    """The object must be touched by the person, must not be a detected support, and must stay smaller than the person."""
+def mask_box(mask: np.ndarray) -> dict:
+    ys, xs = np.nonzero(mask)
+    return {"x0": float(xs.min()), "y0": float(ys.min()), "x1": float(xs.max() + 1), "y1": float(ys.max() + 1)}
 
-    centroids, ratios, outside, touched = [], [], [], []
+
+def check_masks(masks: Path, total: int, width: int, prompt_frame: int, object_box: dict, support_boxes: list[dict]) -> dict:
+    """Touched by the person; on the prompt frame it is the detected object and not a support; no leak."""
+    pm = masks / "1" / f"{prompt_frame:06d}.png"
+    prompt_mask = np.asarray(Image.open(pm).convert("L")) > 0 if pm.exists() else np.zeros((1, 1), bool)
+    if not prompt_mask.any():
+        return {"ok": False, "why": f"object mask empty on the prompt frame {prompt_frame}"}
+    prompt_area = float(prompt_mask.sum())
+    centroids, ratios, outside, touched, growth = [], [], [], [], []
     footprint = None
     for idx in range(0, total, max(1, total // 40)):
         op, pp = masks / "1" / f"{idx:06d}.png", masks / "0" / f"{idx:06d}.png"
@@ -167,6 +185,7 @@ def check_masks(masks: Path, total: int, width: int, prompt_frame: int, support_
         if footprint is None:
             footprint = dilate(obj, FOOTPRINT_DILATE_PX // 2)
         outside.append(float((obj & ~footprint).sum()) / float(obj.sum()))
+        growth.append(float(obj.sum()) / prompt_area)
         ys, xs = np.nonzero(obj)
         centroids.append((float(xs.mean()), float(ys.mean())))
         if pp.exists():
@@ -179,26 +198,25 @@ def check_masks(masks: Path, total: int, width: int, prompt_frame: int, support_
     cx = [c[0] for c in centroids]
     cy = [c[1] for c in centroids]
     travel = max(max(cx) - min(cx), max(cy) - min(cy)) / width
-    bigger_than_person = float(np.mean([r > 1.0 for r in ratios])) if ratios else 0.0
     problems = []
     left_share = max(outside) if outside else 0.0
     touch_share = float(np.mean(touched)) if touched else 0.0
     if touch_share == 0.0:
         problems.append(f"object mask never comes within {TOUCH_PX}px of the person on {len(touched)} sampled frames")
-    support_iou = 0.0
-    pm = masks / "1" / f"{prompt_frame:06d}.png"
-    if pm.exists() and support_boxes:
-        obj = np.asarray(Image.open(pm).convert("L")) > 0
-        if obj.any():
-            ys, xs = np.nonzero(obj)
-            mbox = {"x0": float(xs.min()), "y0": float(ys.min()), "x1": float(xs.max() + 1), "y1": float(ys.max() + 1)}
-            support_iou = max(iou(mbox, b) for b in support_boxes)
+    mbox = mask_box(prompt_mask)
+    prompt_iou = iou(mbox, object_box)
+    if prompt_iou < PROMPT_BOX_IOU:
+        problems.append(f"object mask box disagrees with the detector box on the prompt frame (IoU {prompt_iou:.2f})")
+    support_iou = max((iou(mbox, b) for b in support_boxes), default=0.0)
     if support_iou > SUPPORT_MASK_IOU:
         problems.append(f"object mask box overlaps a detected table/desk box at IoU {support_iou:.2f} on the prompt frame")
-    if bigger_than_person > 0.5:
-        problems.append(f"object mask larger than the person mask on {bigger_than_person:.0%} of sampled frames")
-    return {"ok": not problems, "why": "; ".join(problems), "touch_share": round(touch_share, 3), "support_iou": round(support_iou, 3),
-            "travel_fraction": round(travel, 4), "max_outside_share": round(left_share, 3), "object_over_person_median": round(float(np.median(ratios)), 3) if ratios else None}
+    grown = float(np.mean([g > MAX_GROWTH for g in growth])) if growth else 0.0
+    if grown > 0.5:
+        problems.append(f"object mask exceeds {MAX_GROWTH:g}x its prompt-frame area on {grown:.0%} of sampled frames")
+    return {"ok": not problems, "why": "; ".join(problems), "touch_share": round(touch_share, 3), "prompt_box_iou": round(prompt_iou, 3),
+            "support_iou": round(support_iou, 3), "growth_median": round(float(np.median(growth)), 3) if growth else None,
+            "travel_fraction": round(travel, 4), "max_outside_share": round(left_share, 3),
+            "object_over_person_median": round(float(np.median(ratios)), 3) if ratios else None}
 
 
 def overlay(video: Path, masks: Path, idx: int, out: Path) -> None:
@@ -227,7 +245,9 @@ def main() -> None:
     ap.add_argument("--episodes", default="", help="comma list; default all")
     ap.add_argument("--box-threshold", type=float, default=0.3)
     ap.add_argument("--samples", type=int, default=13, help="frames to run the detector on")
+    ap.add_argument("--recheck", action="store_true", help="re-run the self-check on episodes already packed (reuses cached detections, masks and h5)")
     args = ap.parse_args()
+    forbid_tier1()
     inp, work = Path(args.input), Path(args.work)
     for p in (inp, work, Path(args.weights)):
         if "tier_1" in str(p.resolve()):
@@ -246,7 +266,7 @@ def main() -> None:
         total = n_frames(video)
         packed = d / "masks_k0.h5"
         report_path = d / "mask_report.json"
-        if packed.exists() and report_path.exists() and json.loads(report_path.read_text()).get("check", {}).get("ok"):
+        if not args.recheck and packed.exists() and report_path.exists() and json.loads(report_path.read_text()).get("check", {}).get("ok"):
             print(f"skip {name}: packed and checked")
             continue
         object_prompt = "a " + m["object"].replace("_", " ")
@@ -274,7 +294,7 @@ def main() -> None:
             run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
                  "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
         width = Image.open(d / "detect" / f"frame_{best['frame_index']:06d}.png").size[0]
-        check = check_masks(masks, total, width, best["frame_index"], best.get("support_boxes", []))
+        check = check_masks(masks, total, width, best["frame_index"], best["box"], best.get("support_boxes", []))
         for idx in (0, best["frame_index"], total - 1):
             overlay(video, masks, idx, d / f"overlay_{idx:06d}.png")
         report = {"episode": name, "prompt_frame": best["frame_index"], "object_box": best, "check": check, "candidates": pick["candidates"][:5]}

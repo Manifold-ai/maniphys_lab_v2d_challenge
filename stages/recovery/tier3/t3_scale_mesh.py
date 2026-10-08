@@ -8,18 +8,21 @@ both against inputs SAM3D already saw, so they catch a broken scale or a broken 
   - the posed mesh's median depth matches the MoGe depth inside the mask.
 
     python t3_scale_mesh.py --sam3d <dir with object.glb, transform.json> --frame-dir <dir with mask_*.png, pick.json>
-                            --moge <dir with points.npy, intrinsics.json> --out <dir>
+                            --moge <dir with points.npy, intrinsics.json> --out <dir> [--frame N]
 """
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
 import trimesh
 from PIL import Image
-
 from v2d.common.datatypes import Transform3d
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "libs" / "v2d_infra"))
+from tier_guard import forbid_tier1
 
 MIN_BOX_IOU = 0.5
 MAX_DEPTH_RATIO_ERR = 0.15
@@ -33,7 +36,7 @@ def box_iou(a, b) -> float:
     ix = max(0.0, min(a[2], b[2]) - max(a[0], b[0]))
     iy = max(0.0, min(a[3], b[3]) - max(a[1], b[1]))
     inter = ix * iy
-    area = lambda r: (r[2] - r[0]) * (r[3] - r[1])  # noqa: E731
+    area = lambda r: (r[2] - r[0]) * (r[3] - r[1])
     return inter / (area(a) + area(b) - inter + 1e-9)
 
 
@@ -43,7 +46,9 @@ def main() -> None:
     ap.add_argument("--frame-dir", required=True)
     ap.add_argument("--moge", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--frame", type=int, default=None, help="frame the SAM3D run used; default pick.json's frame_index")
     a = ap.parse_args()
+    forbid_tier1()
     sam3d, frame_dir, moge, out = map(Path, (a.sam3d, a.frame_dir, a.moge, a.out))
     out.mkdir(parents=True, exist_ok=True)
 
@@ -58,7 +63,7 @@ def main() -> None:
     u = intr["fx"] * posed[front, 0] / z[front] + intr["cx"]
     v = intr["fy"] * posed[front, 1] / z[front] + intr["cy"]
 
-    idx = json.loads((frame_dir / "pick.json").read_text())["frame_index"]
+    idx = a.frame if a.frame is not None else json.loads((frame_dir / "pick.json").read_text())["frame_index"]
     mask = np.asarray(Image.open(frame_dir / f"mask_{idx:06d}.png").convert("L")) > 0
     my, mx = np.nonzero(mask)
     points = np.load(moge / "points.npy")

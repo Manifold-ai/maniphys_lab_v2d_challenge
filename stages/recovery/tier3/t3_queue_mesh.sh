@@ -5,8 +5,10 @@
 #   setsid nohup t3_queue_mesh.sh [episodes...] > /dev/null 2>&1 &      (default: all 30)
 # Progress: logs/t3_queue.log. Stop: kill the process group (pkill -g <pgid>).
 set -u
-T=/lab_data/yqchen/v2d/tier3
-PY=/lab_data/yqchen/v2d/venv/bin/python
+S=$(cd "$(dirname "$0")" && pwd)
+T=${T3_ROOT:-/lab_data/yqchen/v2d/tier3}
+PY=${T3_PY:-/lab_data/yqchen/v2d/venv/bin/python}
+WEIGHTS=${T3_WEIGHTS:-/lab_data/yqchen/v2d/weights}
 MIN_FREE_MIB=${MIN_FREE_MIB:-20000}
 QLOG=$T/logs/t3_queue.log
 say() { echo "$(date +%m-%d_%T) $*" >> "$QLOG"; }
@@ -26,20 +28,20 @@ for l in open('input/meta/episodes_metadata.jsonl'):
     m=json.loads(l)
     if m['episode_index']==$ep: print('ep%02d_%s' % ($ep, m['object']))")
   W=runs/work/$name
-  if [ -f "$W/sam3d_out/scale_report.json" ] && python3 -c "import json,sys; sys.exit(0 if json.load(open('$W/sam3d_out/scale_report.json'))['ok'] else 1)"; then
+  if [ -f "$W/sam3d_out/scale_report.json" ] && python3 -c "import json,sys; r=json.load(open('$W/sam3d_out/scale_report.json')); sys.exit(0 if r['ok'] and 'candidates' in r else 1)"; then
     say "$name skip: mesh done"; continue
   fi
   wait_gpu
-  $PY scripts/t3_masks.py --input input --work runs/work --weights /lab_data/yqchen/v2d/weights --episodes "$ep" > "logs/masks_$name.log" 2>&1
+  $PY "$S/t3_masks.py" --input input --work runs/work --weights "$WEIGHTS" --episodes "$ep" --recheck > "logs/masks_$name.log" 2>&1
   rc=$?
   if [ -e "$W/NO_AUTO_PROMPT" ]; then say "$name masks rc=$rc NO_AUTO_PROMPT"; continue; fi
   if [ -e "$W/MASK_SUSPECT" ]; then say "$name masks rc=$rc MASK_SUSPECT: $(cat "$W/MASK_SUSPECT")"; continue; fi
   [ "$rc" = 0 ] || { say "$name masks rc=$rc"; continue; }
   say "$name masks ok"
   wait_gpu
-  scripts/t3_mesh_ep.sh "$name"
+  "$S/t3_mesh_ep.sh" "$name"
   rc=$?
-  rep=$(python3 -c "import json;r=json.load(open('$W/sam3d_out/scale_report.json'));print('ok=%s extents=%s iou=%s depth_ratio=%s %s' % (r['ok'], r['extents_m'], r['projected_box_iou'], r['depth_ratio'], r['why']))" 2>/dev/null)
+  rep=$(python3 -c "import json;r=json.load(open('$W/sam3d_out/scale_report.json'));print('ok=%s consistent=%s passing=%s/%s extents=%s spread=%s %s' % (r['ok'], r.get('consistent'), r.get('n_passing'), len(r['candidates']), r.get('extents_m'), r.get('spread'), r['why']))" 2>/dev/null)
   say "$name mesh rc=$rc $rep"
 done
 say "QUEUE DONE"

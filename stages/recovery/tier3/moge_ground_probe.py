@@ -87,7 +87,7 @@ def main() -> None:
     model = MoGeModel.from_pretrained(MOGE2_MODEL_ID, revision=MOGE2_REVISION, local_files_only=True).cuda().eval()
     rng = np.random.default_rng(0)
     rows = []
-    for line in open(inp / "meta" / "episodes_metadata.jsonl"):
+    for line in (inp / "meta" / "episodes_metadata.jsonl").read_text().splitlines():
         meta = json.loads(line)
         ep = int(meta["episode_index"])
         video = inp / "videos" / f"episode_{ep:06d}.mp4"
