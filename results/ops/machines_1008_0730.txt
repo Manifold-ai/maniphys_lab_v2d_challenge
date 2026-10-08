@@ -1,0 +1,33 @@
+# command  : bash -c $'for h in ml40 mf4090; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge; ssh -o BatchMode=yes $h "cd $R && echo == $h; for f in \\$(ls -t runs/logs/*.log | head -4); do echo -- \\$f; tail -1 \\$f; done; echo GPU �\233�\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader; echo �\225��\223��\207记 \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); cat .v2d-source-commit; df -m $R | tail -1"; done' 
+# source   : 7e9ed677a05e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T07:30:34-0600
+# ---------------------------------------------------------------
+== ml40
+-- runs/logs/select_t1_1008.log
+SELECT_WRAPPER_RC 0
+-- runs/logs/queue_1008b_ml40.log
+SITECASES_RENDER_DONE
+-- runs/logs/t2-ep24-w2048-cap10m-r3a-ml40.case_render.log
+{"out": "runs/site_cases/out/t2-ep24-w2048-cap10m-r3a-ml40_success.mp4", "poster_frame": 374, "frames": 748}
+-- runs/logs/t2-ep24-w2048-cap10m-ml40.case_render.log
+{"out": "runs/site_cases/out/t2-ep24-w2048-cap10m-ml40_nearmiss.mp4", "poster_frame": 374, "frames": 748}
+GPU 进程 0
+0 %, 0 MiB
+长链标记 0
+9d5d207c5025
+/dev/vdb         2063132 189964   1873153  10% /lab_data
+== mf4090
+-- runs/logs/cand_t1_1008b.log
+=== 2026-10-08 16:32:53 CST EXPORT_CHAIN_DONE（成功 17、失败 0）
+-- runs/logs/queue_1008b_mf4090.log
+EXPORT_CHAIN_RC 0
+-- runs/logs/t1-ep29-w2048-cap4m-r3a-s43-mf4090.export_8c778f9_s349999104_w1.log
+object trajectories: /repo/runs/flash_chord/t1-ep29-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000029.parquet
+-- runs/logs/t1-ep29-w2048-cap4m-r3a-mf4090.export_8c778f9_s349999104_w1.log
+object trajectories: /repo/runs/flash_chord/t1-ep29-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000029.parquet
+GPU 进程 0
+0 %, 0 MiB
+长链标记 0
+9d5d207c5025
+/dev/vda2         201462 191521      1632 100% /

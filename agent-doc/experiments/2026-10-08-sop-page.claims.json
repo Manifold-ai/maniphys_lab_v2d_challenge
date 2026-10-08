@@ -1,0 +1,20 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "m": {"file": "results/ops/machines_1008_0730.txt", "grep": "run_at|^== |^-- runs/logs|EXPORT_CHAIN|SELECT_WRAPPER|SITECASES|GPU 进程|长链标记|/dev/"},
+  "t": {"file": "results/ops/sop_1008_times.txt", "grep": "run_at|^== |case_record|cand_t1_1008|select_t1_1008|eval_dump|total"},
+  "c": {"file": "results/site/cases_manifest_mf4090.txt", "grep": "run_at|CASES_OK"},
+  "s": {"file": "results/ml40/select_t1/select_1008.txt", "grep": "换了的|CHOSEN ep(6|8|18|20|27|29):"}
+ },
+ "claims": [
+  {"id": "idle", "evidence": ["m"], "claim": "07:30 时 ml40 与 mf4090 的 GPU 进程数都是 0，长链标记数也都是 0。"},
+  {"id": "disk", "evidence": ["m"], "claim": "mf4090 根分区可用 1632 MB，已用 100%。"},
+  {"id": "cases_span", "evidence": ["t", "c"], "claim": "mf4090 上最早的案例录制日志 t1-ep18-w2048-cap4m-r3a-mf4090.case_record.log 创建于 2026-10-08 16:02:10 +0800；mf4090 案例清单的 run_at 是 2026-10-08T16:33:37+0800，结论是 CASES_OK。"},
+  {"id": "select_span", "evidence": ["t"], "claim": "ml40 的 cand_t1_1008.log 创建于 2026-10-08 16:05:01 +0800，select_t1_1008.log 最后修改于 2026-10-08 16:41:39 +0800。"},
+  {"id": "dumps", "evidence": ["t"], "claim": "mf4090 上有 8 个 eval_dump 目录，合计 222 MB。"},
+  {"id": "variant", "evidence": ["s"], "claim": "换了的 6 条 episode（6、8、18、20、27、29）选中的 run 名里都带 r3a。"},
+  {"id": "ctl_true", "evidence": ["m"], "claim": "mf4090 的 cand_t1_1008b 链以 EXPORT_CHAIN_DONE（成功 17、失败 0）结束。", "control": "true"},
+  {"id": "ctl_false_gpu", "evidence": ["m"], "claim": "07:30 时 ml40 上还有 1 个 GPU 进程。", "control": "false"},
+  {"id": "ctl_false_ep", "evidence": ["s"], "claim": "换了的 episode 里有 ep7。", "control": "false"}
+ ]
+}

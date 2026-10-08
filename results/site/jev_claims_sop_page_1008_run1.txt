@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 14166f87eea285152099c17b1bb4e521  agent-doc/experiments/2026-10-08-sop-page.claims.json
+# source   : 7e9ed677a05e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T07:34:07-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+idle                 P(supported)=0.97  verified               [m]  07:30 时 ml40 与 mf4090 的 GPU 进程数都是 0，长链标记数也都是 0。
+disk                 P(supported)=0.94  verified               [m]  mf4090 根分区可用 1632 MB，已用 100%。
+cases_span           P(supported)=0.94  verified               [t, c]  mf4090 上最早的案例录制日志 t1-ep18-w2048-cap4m-r3a-mf4090.case_record.log 创建于 2026-10-08 16:02:10 +0800；mf4090 案例清单的 run_at 是 2026-10-08T16:33:37+0800，结论是 CASES_OK。
+select_span          P(supported)=0.97  verified               [t]  ml40 的 cand_t1_1008.log 创建于 2026-10-08 16:05:01 +0800，select_t1_1008.log 最后修改于 2026-10-08 16:41:39 +0800。
+dumps                P(supported)=0.95  verified               [t]  mf4090 上有 8 个 eval_dump 目录，合计 222 MB。
+variant              P(supported)=0.98  verified               [s]  换了的 6 条 episode（6、8、18、20、27、29）选中的 run 名里都带 r3a。
+ctl_true             P(supported)=0.54  CONTROL(true) FAILED   [m]  mf4090 的 cand_t1_1008b 链以 EXPORT_CHAIN_DONE（成功 17、失败 0）结束。
+ctl_false_gpu        P(supported)=0.02  control(false) ok      [m]  07:30 时 ml40 上还有 1 个 GPU 进程。
+ctl_false_ep         P(supported)=0.01  control(false) ok      [s]  换了的 episode 里有 ep7。
+CONTROLS MISBEHAVED: do not rely on this batch

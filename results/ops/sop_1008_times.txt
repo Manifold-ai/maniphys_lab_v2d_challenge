@@ -1,0 +1,33 @@
+# command  : bash -c $'for h in mf4090 ml40; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge; ssh -o BatchMode=yes $h "cd $R && echo == $h; stat -c \\"%w  %y  %n\\" runs/logs/*case_record*.log runs/logs/*case_render*.log runs/logs/queue_1008*.log runs/logs/cand_t1_1008*.log runs/logs/select_t1_1008.log 2>/dev/null; echo eval_dump �\233��\225 \\$(ls -d runs/flash_chord/*/eval_dump 2>/dev/null | wc -l) 个; du -smc runs/flash_chord/*/eval_dump 2>/dev/null | tail -1; du -sm runs/site_cases; du -smc runs/flash_chord/*/export_8c778f9 2>/dev/null | tail -1"; done' 
+# source   : 7e9ed677a05e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T07:33:14-0600
+# ---------------------------------------------------------------
+== mf4090
+2026-10-08 16:02:10.917322026 +0800  2026-10-08 16:03:24.251606545 +0800  runs/logs/t1-ep18-w2048-cap4m-r3a-mf4090.case_record.log
+2026-10-08 16:04:47.245664867 +0800  2026-10-08 16:05:55.636064668 +0800  runs/logs/t1-ep20-w2048-cap4m-mf4090.case_record.log
+2026-10-08 16:07:12.534265211 +0800  2026-10-08 16:08:20.896665330 +0800  runs/logs/t1-ep20-w2048-cap4m-r3a-mf4090.case_record.log
+2026-10-08 16:03:26.763547781 +0800  2026-10-08 16:14:16.896331340 +0800  runs/logs/t1-ep18-w2048-cap4m-r3a-mf4090.case_render.log
+2026-10-08 16:05:58.248003550 +0800  2026-10-08 16:15:31.726579081 +0800  runs/logs/t1-ep20-w2048-cap4m-mf4090.case_render.log
+2026-10-08 16:08:23.500604388 +0800  2026-10-08 16:16:46.648824502 +0800  runs/logs/t1-ep20-w2048-cap4m-r3a-mf4090.case_render.log
+2026-10-08 16:12:51.750324950 +0800  2026-10-08 16:32:53.022162684 +0800  runs/logs/queue_1008b_mf4090.log
+2026-10-08 16:02:02.205525805 +0800  2026-10-08 16:09:37.926862414 +0800  runs/logs/queue_1008_mf4090.log
+2026-10-08 16:16:46.728822629 +0800  2026-10-08 16:32:53.022162684 +0800  runs/logs/cand_t1_1008b.log
+2026-10-08 16:02:02.213525618 +0800  2026-10-08 16:02:10.873323056 +0800  runs/logs/cand_t1_1008.log
+eval_dump 目录 8 个
+222	total
+11	runs/site_cases
+9	total
+== ml40
+2026-10-08 16:06:05.985229903 +0800  2026-10-08 16:07:24.309599086 +0800  runs/logs/t2-ep24-w2048-cap10m-ml40.case_record.log
+2026-10-08 16:08:54.578024326 +0800  2026-10-08 16:10:12.322390364 +0800  runs/logs/t2-ep24-w2048-cap10m-r3a-ml40.case_record.log
+2026-10-08 16:07:27.701615071 +0800  2026-10-08 16:14:19.203560585 +0800  runs/logs/t2-ep24-w2048-cap10m-ml40.case_render.log
+2026-10-08 16:10:15.714406331 +0800  2026-10-08 16:15:46.451977348 +0800  runs/logs/t2-ep24-w2048-cap10m-r3a-ml40.case_render.log
+2026-10-08 16:12:52.279145018 +0800  2026-10-08 16:15:46.547977807 +0800  runs/logs/queue_1008b_ml40.log
+2026-10-08 16:05:01.308924901 +0800  2026-10-08 16:11:42.490814666 +0800  runs/logs/queue_1008_ml40.log
+2026-10-08 16:05:01.320924959 +0800  2026-10-08 16:06:05.925229620 +0800  runs/logs/cand_t1_1008.log
+2026-10-08 16:40:56.503158166 +0800  2026-10-08 16:41:39.027359720 +0800  runs/logs/select_t1_1008.log
+eval_dump 目录 0 个
+0	total
+6	runs/site_cases
+7	total
