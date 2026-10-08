@@ -1,0 +1,43 @@
+# command  : bash -c $'ssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; date; echo -- df; df -m . | tail -1; echo -- runs ä¸\213æ\234\200å¤§ç\232\204 6 é¡¹ MB; du -sm runs/* 2>/dev/null | sort -n | tail -6; echo -- run ç\233®å½\225 \\$(ls -d runs/flash_chord/*/ | wc -l) ä¸ªï¼\214å¸¦ ARCHIVED.json ç\232\204 \\$(ls runs/flash_chord/*/ARCHIVED.json 2>/dev/null | wc -l) ä¸ª; echo -- state æ\226\207ä»¶ \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" | wc -l) ä¸ª; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" -print0 | du -cm --files0-from=- | tail -1; echo -- å\206\222ç\203\237 run ç\232\204 state \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -path \\"*/smoke*\\" -name \\"state_*.safetensors\\" | wc -l) ä¸ª; echo -- æ\234\211ä¸\215æ\255¢ä¸\200ä»½ state ç\232\204 run; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" -printf \\"%h\\\\n\\" | sort | uniq -c | sort -rn | head -3; echo -- policy æ\226\207ä»¶ \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" | wc -l) ä¸ª; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" -print0 | du -cm --files0-from=- | tail -1; echo -- ä¸\200æ\235¡ r3a run ç\232\204å\206\205å®¹; ls -la \\$(ls -d runs/flash_chord/*r3a* | head -1); echo -- docker; docker system df 2>&1 | head -5; df -m /var/lib/docker 2>&1 | tail -1"' 
+# source   : a7a84f8469a7
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:09:11-0600
+# ---------------------------------------------------------------
+Thu Oct  8 11:09:18 PM CST 2026
+-- df
+/dev/vda2         201462 191474      1678 100% /
+-- runs ä¸‹æœ€å¤§çš„ 6 é¡¹ MB
+188	runs/ep7
+494	runs/diag2
+1596	runs/diag
+1717	runs/motion
+2264	runs/motion_src
+20768	runs/flash_chord
+-- run ç›®å½• 112 ä¸ªï¼Œå¸¦ ARCHIVED.json çš„ 38 ä¸ª
+-- state æ–‡ä»¶ 62 ä¸ª
+9468	total
+-- å†’çƒŸ run çš„ state 3 ä¸ª
+-- æœ‰ä¸æ­¢ä¸€ä»½ state çš„ run
+      4 runs/flash_chord/t1-ep7-w2048-cap4m-p185g-mf4090
+      2 runs/flash_chord/t1-ep28-w2048-cap4m-mf4090
+      1 runs/flash_chord/t2-ep9-w2048-cap4m-mf4090
+-- policy æ–‡ä»¶ 1903 ä¸ª
+8822	total
+-- ä¸€æ¡ r3a run çš„å†…å®¹
+total 4784
+drwxrwxr-x   4 rxzhou rxzhou    4096 Oct  6 03:37 .
+drwxrwxr-x 114 rxzhou rxzhou   12288 Oct  6 02:56 ..
+-rw-rw-r--   1 rxzhou rxzhou      24 Oct  6 03:35 DONE
+drwxr-xr-x   3 rxzhou rxzhou    4096 Oct  6 03:32 hydra
+-rw-rw-r--   1 rxzhou rxzhou       0 Oct  6 03:32 .lock
+-rw-r--r--   1 rxzhou rxzhou 4860020 Oct  6 03:35 policy_4096000.safetensors
+-rw-rw-r--   1 rxzhou rxzhou    1082 Oct  6 03:35 run_record.jsonl
+-rw-rw-r--   1 rxzhou rxzhou       8 Oct  6 03:37 STATE_PRUNED
+drwxr-xr-x   3 rxzhou rxzhou    4096 Oct  6 03:33 wandb
+-- docker
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          8         2         105.5GB   62.6GB (59%)
+Containers      2         1         196.6kB   98.3kB (50%)
+Local Volumes   0         0         0B        0B
+Build Cache     71        0         40.17GB   6.457GB
+/dev/vda2         201462 191474      1678 100% /

@@ -1,0 +1,27 @@
+# command  : bash -c $'ssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; echo -- å®¹å\231¨; docker ps -a --format \\"{{.Names}} | {{.Image}} | {{.Status}}\\"; echo -- é\225\234å\203\217; docker images --format \\"{{.Repository}}:{{.Tag}} | {{.Size}} | {{.CreatedSince}}\\"; echo -- æ¯\217ä¸ª run ç\232\204 policy ä»½æ\225°ï¼\214æ\234\200å¤\232ä¸\216æ\234\200å°\221; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" -printf \\"%h\\\\n\\" | sort | uniq -c | sort -rn | sed -n \\"1,3p;\\\\\\$p\\"; echo -- å\217ªæ\234\211ä¸\200ä»½ policy ç\232\204 run \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" -printf \\"%h\\\\n\\" | sort | uniq -c | awk \\"\\\\\\$1 == 1\\" | wc -l) ä¸ª; echo -- runs/diag æ\234\200å¤§ç\232\204 3 é¡¹ MB; du -sm runs/diag/* 2>/dev/null | sort -n | tail -3"' 
+# source   : a7a84f8469a7
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:10:14-0600
+# ---------------------------------------------------------------
+-- å®¹å™¨
+maniphys-geyu-shared-dev-person-120 | maniphys-video-person-geyu:e16-4f6c1fdd4bef | Exited (143) 2 days ago
+maniphys-visual-dev-worker-120 | maniphys-visual-worker:dev-image2mesh-egl-20260928 | Up 4 days
+-- é•œåƒ
+maniphys-video-person-geyu:e16-4f6c1fdd4bef | 18.5GB | 7 days ago
+maniphys-visual-worker:dev-image2mesh-egl-20260928 | 18.6GB | 9 days ago
+flash_chord:latest | 22GB | 13 days ago
+robotic-grounding:latest | 29.8GB | 2 weeks ago
+ubuntu:22.04 | 119MB | 5 weeks ago
+nvcr.io/nvidia/isaac-lab:2.3.2 | 26.4GB | 8 months ago
+golang:1.22-alpine | 349MB | 20 months ago
+nvidia/cuda:12.4.1-base-ubuntu22.04 | 348MB | 2 years ago
+-- æ¯ä¸ª run çš„ policy ä»½æ•°ï¼Œæœ€å¤šä¸æœ€å°‘
+     35 runs/flash_chord/t2-ep9-w2048-cap4m-mf4090
+     35 runs/flash_chord/t2-ep6-w2048-cap4m-mf4090
+     35 runs/flash_chord/t2-ep4-w2048-cap4m-mf4090
+      1 runs/flash_chord/smoke-t1-ep11-w2048-cap4m-mf4090
+-- åªæœ‰ä¸€ä»½ policy çš„ run 54 ä¸ª
+-- runs/diag æœ€å¤§çš„ 3 é¡¹ MB
+166	runs/diag/ctrl-snackbox-w2048-cap1m-mf4090
+346	runs/diag/t1-ep20-w2048-cap1m-mf4090
+576	runs/diag/t1-ep20-w2048-cap1m-rt-mf4090

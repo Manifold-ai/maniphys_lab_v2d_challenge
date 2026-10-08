@@ -1,0 +1,13 @@
+# command  : scripts/dev/pipe-py tools/hf_archive.py plan --out runs/hf_archive_manifest_mf4090_1008.json 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 2d460944516af9cdc4e60f427b140160  tools/hf_archive.py
+# source   : a7a84f8469a7
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:10:08-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+候选 3 个文件，1 个 run，共 0.48 GB（冒烟 0.00 GB，正式 run 的旧 state 0.48 GB）
+  formal t1-ep7-w2048-cap4m-p185g-mf4090/state_320012288.safetensors  160121036  36a302d88d3dedf4…
+  formal t1-ep7-w2048-cap4m-p185g-mf4090/state_330012672.safetensors  160121036  9f22c46dadb2d08d…
+  formal t1-ep7-w2048-cap4m-p185g-mf4090/state_340013056.safetensors  160121036  792f0982fb1e0c00…
+清单写到 runs/hf_archive_manifest_mf4090_1008.json
