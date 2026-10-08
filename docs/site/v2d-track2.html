@@ -242,6 +242,12 @@ body.en .pb.l-en{display:grid}
 .vid{margin:0; display:grid; gap:4px; min-width:0}
 .vid video{width:100%; height:auto; max-width:100%; aspect-ratio:4/3; background:#000; display:block}
 .vid figcaption{font-size:12.5px; color:var(--muted); line-height:1.45}
+/* 成功与失败案例：左右两栏（8:3），叠字标出哪一栏是策略、哪一栏是参考 */
+.vid.wide video{aspect-ratio:8/3}
+.vwrap{position:relative}
+.vlab{position:absolute; top:6px; font-size:12px; line-height:1.4; padding:1px 7px; border-radius:3px; background:rgba(0,0,0,.6); color:#fff; pointer-events:none}
+.vlab.l{left:6px}
+.vlab.r{left:calc(50% + 6px)}
 </style>
 
 <header class="hdr">
@@ -264,7 +270,7 @@ body.en .pb.l-en{display:grid}
       <li><a href="#edge"><span class="l-zh">特殊情况</span><span class="l-en">Special cases</span></a></li>
       <li><a href="#next"><span class="l-zh">下一步与待办</span><span class="l-en">Next steps and to-dos</span></a></li>
     </ul></div>
-  <div class="grp" data-sec="exp"><a href="#exp"><span class="l-zh">训练实验</span><span class="l-en">Training experiments</span><span class="n">11</span></a>
+  <div class="grp" data-sec="exp"><a href="#exp"><span class="l-zh">训练实验</span><span class="l-en">Training experiments</span><span class="n">12</span></a>
     <ul>
       <li><a href="#tasks"><span class="l-zh">任务一览</span><span class="l-en">Task gallery</span></a></li>
       <li><a href="#day1b"><span class="l-zh">Day 1b 逐帧诊断</span><span class="l-en">Day 1b frame-by-frame diagnosis</span></a></li>
@@ -277,6 +283,7 @@ body.en .pb.l-en{display:grid}
       <li><a href="#t2batch"><span class="l-zh">Tier 2 第 1 批</span><span class="l-en">Tier 2 batch 1</span></a></li>
       <li><a href="#guard"><span class="l-zh">ep7 防护与重训</span><span class="l-en">ep7 guard and retrain</span></a></li>
       <li><a href="#trial"><span class="l-zh">第 3 步配方试验</span><span class="l-en">Step 3 recipe trial</span></a></li>
+      <li><a href="#cases"><span class="l-zh">成功与失败案例</span><span class="l-en">Success and failure cases</span></a></li>
     </ul></div>
   <div class="grp" data-sec="arch"><a href="#arch"><span class="l-zh">当前架构</span><span class="l-en">Current architecture</span><span class="n">4</span></a>
     <ul>
@@ -336,7 +343,7 @@ body.en .pb.l-en{display:grid}
   <h2>目录</h2>
   <div class="cards">
     <section class="card wide"><h3><a href="#exp">训练实验</a></h3><p>Day 1 之后的诊断与对照、官方评测口径、Day 2 与第 1 批的结果、ep1、ep7、ep28 的发散排查，Tier 2 第 1 批，以及 ep7 的非有限防护与重训；每页有登记的判据、结果和 jev 核验分数</p>
-      <ul><li><a href="#tasks">任务一览</a></li><li><a href="#day1b">Day 1b 逐帧诊断</a></li><li><a href="#snack">snack 满配对照</a></li><li><a href="#playback">回放速度对照</a></li><li><a href="#official">官方评测与提交</a></li><li><a href="#day2">Day 2</a></li><li><a href="#batch1">第 1 批批量</a></li><li><a href="#diverge">发散排查</a></li><li><a href="#t2batch">Tier 2 第 1 批</a></li><li><a href="#guard">ep7 防护与重训</a></li><li><a href="#trial">第 3 步配方试验</a></li></ul></section>
+      <ul><li><a href="#tasks">任务一览</a></li><li><a href="#day1b">Day 1b 逐帧诊断</a></li><li><a href="#snack">snack 满配对照</a></li><li><a href="#playback">回放速度对照</a></li><li><a href="#official">官方评测与提交</a></li><li><a href="#day2">Day 2</a></li><li><a href="#batch1">第 1 批批量</a></li><li><a href="#diverge">发散排查</a></li><li><a href="#t2batch">Tier 2 第 1 批</a></li><li><a href="#guard">ep7 防护与重训</a></li><li><a href="#trial">第 3 步配方试验</a></li><li><a href="#cases">成功与失败案例</a></li></ul></section>
     <section class="card"><h3><a href="#progress">进度</a></h3><p>各环节状态、降噪结果、特殊情况、下一步</p>
       <ul><li><a href="#status">现状</a></li><li><a href="#denoise">Tier 2 降噪</a></li><li><a href="#edge">特殊情况</a></li><li><a href="#next">下一步与待办</a></li></ul></section>
     <section class="card"><h3><a href="#arch">当前架构</a></h3><p>数据怎么流、代码长什么样、跑在哪里</p>
@@ -375,7 +382,7 @@ body.en .pb.l-en{display:grid}
   <h2>Contents</h2>
   <div class="cards">
     <section class="card wide"><h3><a href="#exp">Training experiments</a></h3><p>The diagnosis and controls after Day 1, the official evaluation settings, the Day 2 and batch 1 results, the divergence investigation of ep1, ep7 and ep28, and Tier 2 batch 1, now running; each page has the registered criteria, the results and the jev scores</p>
-      <ul><li><a href="#tasks">Task gallery</a></li><li><a href="#day1b">Day 1b frame-by-frame diagnosis</a></li><li><a href="#snack">Full-recipe snack control</a></li><li><a href="#playback">Playback speed comparison</a></li><li><a href="#official">Official evaluation and submission</a></li><li><a href="#day2">Day 2</a></li><li><a href="#batch1">Batch 1</a></li><li><a href="#diverge">Divergence investigation</a></li><li><a href="#t2batch">Tier 2 batch 1</a></li><li><a href="#guard">ep7 guard and retrain</a></li><li><a href="#trial">Step 3 recipe trial</a></li></ul></section>
+      <ul><li><a href="#tasks">Task gallery</a></li><li><a href="#day1b">Day 1b frame-by-frame diagnosis</a></li><li><a href="#snack">Full-recipe snack control</a></li><li><a href="#playback">Playback speed comparison</a></li><li><a href="#official">Official evaluation and submission</a></li><li><a href="#day2">Day 2</a></li><li><a href="#batch1">Batch 1</a></li><li><a href="#diverge">Divergence investigation</a></li><li><a href="#t2batch">Tier 2 batch 1</a></li><li><a href="#guard">ep7 guard and retrain</a></li><li><a href="#trial">Step 3 recipe trial</a></li><li><a href="#cases">Success and failure cases</a></li></ul></section>
     <section class="card"><h3><a href="#progress">Progress</a></h3><p>Stage status, denoising results, special cases, next steps</p>
       <ul><li><a href="#status">Status</a></li><li><a href="#denoise">Tier 2 denoising</a></li><li><a href="#edge">Special cases</a></li><li><a href="#next">Next steps and to-dos</a></li></ul></section>
     <section class="card"><h3><a href="#arch">Current architecture</a></h3><p>How data flows, what the code looks like, where it runs</p>
@@ -695,6 +702,7 @@ body.en .pb.l-en{display:grid}
     <li><a href="#t2batch"><span class="jt">Tier 2 第 1 批</span><span class="jd">27 条 Tier 2 逐帧满配（v5.4 净室参考），训练链加了发散检测；10/2 10:09 全部训完、评完，按批量判据通过 6 条</span><span class="jk">6/27 通过</span></a></li>
     <li><a href="#guard"><span class="jt">ep7 防护与重训</span><span class="jd">两档的方盒 ep7 在 1.33–1.43 亿步发散的机理、非有限防护、过的闸与两条重训</span><span class="jk">2/2 通过</span></a></li>
     <li><a href="#trial"><span class="jt">第 3 步配方试验</span><span class="jd">变体 A（位置奖励收紧、物体朝向终止收紧）在每档 5 条 episode 加 1 条对照上的试验：闸 G1、中途检查与两档的最终判定</span><span class="jk">T2 通过 · T1 不通过</span></a></li>
+    <li><a href="#cases"><span class="jt">成功与失败案例</span><span class="jd">6 段策略在物理仿真里的 rollout（左：策略，右：参考）：变体 A 的成功、它的摔法（物体先丢再摔）、基线差一点，以及 Tier 2</span><span class="jk">6 段视频</span></a></li>
   </ul>
   <h2>时间线（UTC-6）</h2>
   <div class="tbl"><table>
@@ -749,6 +757,7 @@ body.en .pb.l-en{display:grid}
     <li><a href="#t2batch"><span class="jt">Tier 2 batch 1</span><span class="jd">27 Tier 2 frame-playback full-recipe runs (v5.4 clean-room references), with divergence detection added to the training chain; all trained and evaluated by 10:09 on 10/2, 6 pass the batch criteria</span><span class="jk">6/27 pass</span></a></li>
     <li><a href="#guard"><span class="jt">ep7 guard and retrain</span><span class="jd">Why the box ep7 runs of both tiers diverged at 133M–143M steps, the non-finite guard, its gates and the two retrains</span><span class="jk">2/2 pass</span></a></li>
     <li><a href="#trial"><span class="jt">Step 3 recipe trial</span><span class="jd">Variant A (a tighter position reward and a tighter object orientation termination) on 5 episodes plus 1 control per tier: gate G1, the midchecks and the final verdicts of both tiers</span><span class="jk">T2 pass · T1 fail</span></a></li>
+    <li><a href="#cases"><span class="jt">Success and failure cases</span><span class="jd">6 rollouts of the policy in the physics simulator (left: policy, right: reference): variant A succeeding, how it falls (object lost first, then the fall), a baseline near miss, and Tier 2</span><span class="jk">6 videos</span></a></li>
   </ul>
   <h2>Timeline (UTC-6)</h2>
   <div class="tbl"><table>
@@ -2416,10 +2425,23 @@ body.en .pb.l-en{display:grid}
     <li>敏感性（变体两种子均值 − 基线 seed 43）：Tier 1 +0.609，Tier 2 +0.884。</li>
   </ul></div>
 
+  <h2>Tier 1 的 S4（MPPE）为什么不过 <span class="jv">jev 5 / 5、6 / 6</span></h2>
+  <p>只报，不改判定。超出的 MPPE 全部来自 ep18（+2.68 cm）与 ep27（+2.01 cm），其余三条平均反而低 0.16 cm。均值被少数极差的世界拉高：变体 ep18 位置误差 8.80±16.19 cm、ep27 seed 43 11.73±26.27 cm，标准差是均值的两倍以上（<code>results/r3/eval_spread_t1.txt</code>）。</p>
+  <p>为了看清失败的世界里是物体先丢还是骨盆先偏，另写计划（<code>agent-doc/plan-t1-fall-order-2026-10-07.md</code> 第 2 版，Fable 5.1 审过），把 ep18、ep27 的基线与变体各两种子重新评 4096 世界并存下逐步、逐世界的误差。按登记规则：变体摔倒的失败世界里<b>物体先丢的占 91.6%</b>（ep18 95.1%、ep27 83.4%，方向一致），支持“物体先丢、之后摔倒”。骨盆超阈值比物体丢失晚，中位 1.56 s；摔倒前 2 s、1 s、0.5 s 与那一刻，物体位置误差中位 4.9、12.9、31.3、54.7 cm。</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>物体丢过的世界</th><th>其中后来摔倒</th><th>摔倒的世界</th></tr></thead>
+    <tbody>
+      <tr><td>基线（两条、两种子合计）</td><td class="n">38.8%</td><td class="n">22.1%</td><td class="n">8.7%</td></tr>
+      <tr><td>变体 A（同上）</td><td class="n">16.9%</td><td class="n">96.0%</td><td class="n">16.3%</td></tr>
+    </tbody>
+  </table></div>
+  <p>基线摔倒时也是物体先丢（86.4%），差别在丢了之后：变体丢物体的世界更少，但一旦丢了几乎都在 1–2 s 内摔倒，基线丢了多半还站着。基线 ep27 的“丢过”大多只是朝向超 34°，两边的丢失不一样严重，这张表只描述，不作因果。“变体训练里很少经历物体偏远的状态、所以丢了收不回”与数据相容，没有直接检验。<b>偏离登记</b>：复现门原定新评与原评测 MP-SR 相差 ≤ 0.01，ep27 变体 seed 43 差 0.014，按规则先停；查明官方评测重复评同一 checkpoint 就差 0.020（评测器本身的波动），于是放宽到 0.025 后分类，其余判据不变（<code>agent-doc/experiments/2026-10-05-step3-recipe-trial.md</code> 末节）。画面见 <a href="#cases">成功与失败案例</a>。</p>
+
   <h2>要用户定的</h2>
   <ul class="bl">
     <li><b>Tier 2 铺不铺开</b>：其余 24 条（对照 ep22 已有变体 A）在 v5.4 参考上用变体 A seed 42 训练，全在 ml40 上约 66 小时；只用 Tier 2 的降噪评价没有候选通过，参考不换（见 <a href="#denoise">Tier 2 降噪</a>）。</li>
     <li><b>每条 episode 交哪一个</b>：甲，全部换成变体 A；乙，每条在已评完的 run 之间按 4096 世界 MP-SR 取高者。种子波动这么大，乙按分数挑的乐观偏差要另外估。</li>
+    <li>这些成功与失败在画面上长什么样（包括变体 A 物体先丢、约 1.7 s 后摔倒的典型世界），见 <a href="#cases">成功与失败案例</a>。</li>
     <li><b>Tier 1 下一步</b>：变体 A 不铺开。要不要另写计划（例如拆开两处改动做消融，或者在别的序列上验证），由用户定。</li>
   </ul>
 
@@ -2538,15 +2560,117 @@ body.en .pb.l-en{display:grid}
     <li>Sensitivity (variant two-seed mean − baseline seed 43): Tier 1 +0.609, Tier 2 +0.884.</li>
   </ul></div>
 
+  <h2>Why Tier 1 fails S4 (MPPE) <span class="jv">jev 5 / 5, 6 / 6</span></h2>
+  <p>Report only; the verdict does not change. All of the extra MPPE comes from ep18 (+2.68 cm) and ep27 (+2.01 cm); on the other three episodes the variant is 0.16 cm better on average. A few very bad worlds pull the mean up: the position error of variant ep18 is 8.80±16.19 cm and of ep27 seed 43 11.73±26.27 cm, with standard deviations more than twice the means (<code>results/r3/eval_spread_t1.txt</code>).</p>
+  <p>To see whether the failed worlds lose the object first or the pelvis first, a separate plan (<code>agent-doc/plan-t1-fall-order-2026-10-07.md</code>, version 2, reviewed by Fable 5.1) re-evaluated the baseline and variant of ep18 and ep27, two seeds each, with 4096 worlds and kept the per-step, per-world errors. By the registered rule, among the variant's failed worlds that fell, <b>91.6% lost the object first</b> (ep18 95.1%, ep27 83.4%, same direction), supporting "the object is lost first, then the robot falls". The pelvis exceeds its threshold a median 1.56 s after the object is lost; the median object position error 2 s, 1 s and 0.5 s before that moment and at it is 4.9, 12.9, 31.3 and 54.7 cm.</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Worlds that lost the object</th><th>Of those, fell later</th><th>Worlds that fell</th></tr></thead>
+    <tbody>
+      <tr><td>Baseline (both episodes and seeds)</td><td class="n">38.8%</td><td class="n">22.1%</td><td class="n">8.7%</td></tr>
+      <tr><td>Variant A (same)</td><td class="n">16.9%</td><td class="n">96.0%</td><td class="n">16.3%</td></tr>
+    </tbody>
+  </table></div>
+  <p>When the baseline falls, it also loses the object first (86.4%); the difference is what happens after the loss: the variant loses the object in fewer worlds, but once it does it almost always falls within 1–2 s, while the baseline mostly stays on its feet. Most of the baseline ep27 "losses" are only orientations beyond 34°, so the two losses are not equally severe; the table describes, it does not establish cause. "The variant rarely meets states with the object far away in training, so it cannot recover" fits the data but was not tested directly. <b>Deviation from registration</b>: the reproduction gate required new and original MP-SR to differ by at most 0.01; ep27 variant seed 43 differed by 0.014, so the analysis stopped as the rule required; repeating the official evaluation of the same checkpoint differed by 0.020 (the evaluator's own variation), so the gate was relaxed to 0.025 and the classification run, with every other criterion unchanged (<code>agent-doc/experiments/2026-10-05-step3-recipe-trial.md</code>, last section). Footage: <a href="#cases">Success and failure cases</a>.</p>
+
   <h2>For the user to decide</h2>
   <ul class="bl">
     <li><b>Whether to scale Tier 2 out</b>: the other 24 episodes (control ep22 already has variant A) trained with variant A seed 42 on the v5.4 references, about 66 hours on ml40; no candidate passed the Tier-2-only denoising evaluation, so the references stay (see <a href="#denoise">Tier 2 denoising</a>).</li>
     <li><b>Which run each episode submits</b>: A, all variant A; B, per episode the evaluated run with the highest 4096-world MP-SR. With seed noise this large, the optimism of picking by score in B has to be estimated separately.</li>
+    <li>What these successes and failures look like on screen (including a typical variant A world that loses the object and falls about 1.7 s later): see <a href="#cases">Success and failure cases</a>.</li>
     <li><b>Next for Tier 1</b>: variant A is not scaled out. Whether to write a new plan (for example an ablation of the two changes, or validation on other episodes) is the user's call.</li>
   </ul>
 
   <h2>Sources and jev</h2>
   <p class="muted">G1: <code>results/ml40/r3/g1_*</code>, <code>results/r3/g1_*</code>; arming: <code>results/ml40/r3/arm_ml40.txt</code>, <code>results/r3/arm_mf4090.txt</code>; the midcheck gate output is in <code>runs/logs/r3t{1,2}bc_train_&lt;machine&gt;.log</code> on each machine, with the evaluation records <code>results/ml40/day2/eval_t2-ep*-r3a-ml40_s349999104.txt</code> and <code>results/day2/eval_t1-ep*-r3a-mf4090_s349999104.txt</code>; segment BC progress: <code>results/r3/status_{ml40,mf4090}_1006.txt</code>, <code>results/r3/bc_smoke_guard_{ml40,mf4090}_{1006,1007}.txt</code>; final verdicts <code>results/r3/verdict_t1.txt</code> and <code>results/ml40/r3/verdict_t2.txt</code>, attribution <code>results/r3/attribution_t1.txt</code> and <code>results/ml40/r3/attribution_t2.txt</code> (<code>stages/evaluate/trial_attribution.py</code>), jev on the verdicts <code>results/r3/jev_claims_verdict.txt</code> (8 / 8, 0.95–0.99; in round 1 the "only MPPE" claim scored 0.08 because the verdict output does not say which part failed, which was computed by hand against the thresholds; reworded to the output's own terms it scored 0.98). Every number in the tables was checked against the evaluation records and is not given to jev; the load-bearing claims on this page are checked with the rest of this update (<code>results/site/jev_claims_sop_page_1006.txt</code>, spec <code>agent-doc/experiments/2026-10-06-sop-page.claims.json</code>): in round 3 all 7 claims are verified (0.90–0.98) and the 3 controls behave. Round 1 had a badly written true control (the evidence does not say that the 100% is GPU utilization), which was replaced before rerunning; in round 2 the two midcheck claims packed several numeric ranges into one sentence over two tables that share episode numbers and scored 0.54 and 0.49, and after rewording them to the execution record's own sentences they scored 0.90 and 0.98 in round 3 (<code>…_1006_run1.txt</code>, <code>…_run2.txt</code>).</p>
+</div>
+</section>
+
+<section class="pg" id="pg-cases" data-sec="exp" tabindex="-1">
+<div class="pb l-zh" lang="zh-CN">
+  <div class="kicker">2026-10-08（UTC-6）· 6 段策略 rollout，左右两栏</div>
+  <h1>成功与失败案例</h1>
+  <p class="lead">这一页的视频是策略在物理仿真里真正跑出来的 rollout，不是参考动画。每段左栏是策略，右栏是同一时刻的参考，两栏用同一条相机轨迹。视频一帧对应一个控制步，按 30 fps 播放，等于参考源帧的原速。</p>
+  <p>为什么同一个策略会有成功也有失败：评测时所有世界的初始状态完全相同（评测场景不随机化物体尺寸，显式重置在第 0 帧），世界之间的差别来自 GPU 计算的不确定性，一点点数值差别会被放大成不同的结局。所以这里在同一次 256 世界的 rollout 里录下全部世界的位姿，按登记的规则挑世界，再把录下的位姿渲染出来：成功取逐世界位置误差最接近成功世界中位数的那个；摔倒取“物体先丢、骨盆后超阈值”的世界里两者间隔最接近中位数的那个；差一点取失败但没摔的世界里位置误差最接近中位数的那个。不看画面挑。</p>
+  <div class="adm"><span class="t">怎么读数字</span><p>MP-SR 要逐世界按帧平均的物体位置误差 &lt; 3 cm 并且朝向误差 &lt; 30°。每张卡上写这个世界的这两个数、这次 256 世界 rollout 的 MP-SR，以及 4096 世界评测里两个种子各自的 MP-SR。Tier 2 的数字都对照 v5.4 参考（策略的输入），不是排行榜对照的干净真值，也不和 Tier 1 比。</p></div>
+
+  <div class="taskgrid">
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep18</span> blue_trash_can_drag_sideways_08 · 变体 A seed 42 · <span class="pill ok">成功</span></h3>
+      <p class="meta">世界 35：位置 1.42 cm、朝向 7.0°。这次 256 个世界里 197 个成功（MP-SR 0.77）；4096 世界 MP-SR：seed 42 0.776、seed 43 0.771。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_success.mp4" poster="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：推着垃圾桶侧移，物体一直贴着参考走</span><span class="l-en">Watch: the bin slides sideways and stays on the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep18</span> 同一次 rollout · <span class="pill b">摔倒（物体先丢）</span></h3>
+      <p class="meta">世界 0：物体在第 441 步超门槛（位置 &gt; 10 cm 或朝向 &gt; 0.6 rad），骨盆在第 527 步超阈值，相隔 86 步（仿真时间 1.72 s，正好是这一类的中位数；第 3 步那次两条 episode 合计的中位数是 1.56 s）。整段位置误差平均 22.8 cm、朝向 43.1°。这次 256 个世界里 55 个属于这一类。这就是第 3 步 Tier 1 的 S4（MPPE）不过的原因：变体 A 的失败几乎都是这样摔的。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_fall.mp4" poster="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_fall.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：约 14.7 s（视频时间）物体脱手，之后约 2.9 s 机器人摔倒；封面是骨盆超阈值那一刻</span><span class="l-en">Watch: the object slips at about 14.7 s (video time) and the robot falls about 2.9 s later; the poster is the moment the pelvis exceeds its threshold</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep20</span> rice_cooker_clockwise_04 · 基线 seed 42 · <span class="pill w">差一点（没摔）</span></h3>
+      <p class="meta">世界 144：位置 2.95 cm（过了 3 cm），朝向 37.3°（没过 30°）。这次 256 个世界 MP-SR 0.027；4096 世界 MP-SR：seed 42 0.016、seed 43 0.000。基线在这条 episode 上卡在朝向：电饭煲转不到位。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep20-w2048-cap4m-mf4090_nearmiss.mp4" poster="media/cases/t1-ep20-w2048-cap4m-mf4090_nearmiss.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：拿起、转动的过程，转角比参考小</span><span class="l-en">Watch: the pick-up and rotation; the rotation falls short of the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep20</span> rice_cooker_clockwise_04 · 变体 A seed 42 · <span class="pill ok">成功</span></h3>
+      <p class="meta">世界 26：位置 1.18 cm、朝向 11.3°。这次 256 个世界 MP-SR 0.78；4096 世界 MP-SR：seed 42 0.794、seed 43 0.918。与上一段同为 seed 42，只换了配方。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep20-w2048-cap4m-r3a-mf4090_success.mp4" poster="media/cases/t1-ep20-w2048-cap4m-r3a-mf4090_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：同一条 episode，转动跟上了参考</span><span class="l-en">Watch: same episode; the rotation now follows the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 2 · ep24</span> watering_can_pour_right_02 · 基线 seed 42 · <span class="pill w">差一点（没摔）</span></h3>
+      <p class="meta">世界 118：位置 3.62 cm、朝向 31.5°（对照 v5.4 参考，都没过门槛）。这次 256 个世界 MP-SR 0；4096 世界 MP-SR：seed 42 0.000、seed 43 0.000（对照 v5.4）。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t2-ep24-w2048-cap10m-ml40_nearmiss.mp4" poster="media/cases/t2-ep24-w2048-cap10m-ml40_nearmiss.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考 v5.4</span><span class="l-en">Reference v5.4</span></span></div><figcaption><span class="l-zh">看点：跪下、倾倒浇水壶，物体跟得近但始终差一点</span><span class="l-en">Watch: kneeling and tipping the watering can; the object stays close but never quite on the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 2 · ep24</span> watering_can_pour_right_02 · 变体 A seed 42 · <span class="pill ok">成功</span></h3>
+      <p class="meta">世界 205：位置 0.85 cm、朝向 20.5°（对照 v5.4 参考）。这次 256 个世界全部成功（MP-SR 1.00）；4096 世界 MP-SR：seed 42 0.999、seed 43 0.999（对照 v5.4）。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t2-ep24-w2048-cap10m-r3a-ml40_success.mp4" poster="media/cases/t2-ep24-w2048-cap10m-r3a-ml40_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考 v5.4</span><span class="l-en">Reference v5.4</span></span></div><figcaption><span class="l-zh">看点：同一条 episode，变体 A 把物体压在参考上</span><span class="l-en">Watch: same episode; variant A keeps the object on the reference</span></figcaption></figure>
+    </section>
+  </div>
+
+  <h2>怎么做的</h2>
+  <p>计划 <code>agent-doc/plan-site-cases-video-2026-10-08.md</code> 第 2 版（Fable 5.1 审第 1 版 GO WITH FIXES，9 条都已处理）。<code>stages/evaluate/case_clip.py</code> 原样跑官方评测脚本，只替换两个函数：录制时在每一步之后抄下 256 个世界的刚体位姿，打分时按上面的规则挑世界；渲染时建一个 1 世界的场景，把录下的位姿逐帧写回去渲染，右栏用重置到参考第 f 帧的姿态。每段都过三道门：从录下的位姿里取出的物体位置与评测器自己的记录逐步相同（差 0 m），1 世界场景的刚体数、刚体名与录制时相同、重置位姿相差 ≤ 1 mm，骨盆没有单步超过 0.3 m 的跳变。渲染、挑世界、转码都在服务器上（mf4090、ml40），Tier 2 的进程先调 <code>forbid_tier1()</code>。清单（来历、checkpoint sha256、逐世界误差、各门的数值、文件大小与 md5）在 <code>results/site/cases_manifest_{mf4090,ml40}.txt</code>。</p>
+</div>
+<div class="pb l-en" lang="en">
+  <div class="kicker">2026-10-08 (UTC-6) · 6 policy rollouts, two panes each</div>
+  <h1>Success and failure cases</h1>
+  <p class="lead">These videos are rollouts the policy actually produced in the physics simulator, not reference animations. In each clip the left pane is the policy and the right pane is the reference at the same moment, both with the same camera path. One video frame is one control step, played at 30 fps, which matches the speed of the reference source frames.</p>
+  <p>Why the same policy both succeeds and fails: every evaluation world starts from exactly the same state (the evaluation scene does not randomize object size, and the explicit reset is at frame 0); worlds differ only through GPU non-determinism, and small numerical differences grow into different outcomes. So the poses of all worlds were recorded in one 256-world rollout, worlds were picked by registered rules, and the recorded poses were rendered: success is the successful world whose per-world position error is closest to the median of successful worlds; fall is the world, among those where the object was lost before the pelvis exceeded its threshold, whose gap between the two is closest to the median; near miss is the failed-but-standing world whose position error is closest to the median. Nobody looked at the footage to pick.</p>
+  <div class="adm"><span class="t">How to read the numbers</span><p>MP-SR needs a world's frame-averaged object position error under 3 cm and orientation error under 30°. Each card gives those two numbers for the world shown, the MP-SR of this 256-world rollout, and each seed's 4096-world MP-SR. Tier 2 numbers are all against the v5.4 references (the policy's input), not the clean ground truth the leaderboard uses, and are not compared with Tier 1.</p></div>
+
+  <div class="taskgrid">
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep18</span> blue_trash_can_drag_sideways_08 · variant A seed 42 · <span class="pill ok">Success</span></h3>
+      <p class="meta">World 35: position 1.42 cm, orientation 7.0°. 197 of the 256 worlds in this rollout succeed (MP-SR 0.77); 4096-world MP-SR: seed 42 0.776, seed 43 0.771.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_success.mp4" poster="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：推着垃圾桶侧移，物体一直贴着参考走</span><span class="l-en">Watch: the bin slides sideways and stays on the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep18</span> same rollout · <span class="pill b">Fall (object lost first)</span></h3>
+      <p class="meta">World 0: the object crosses its limit (position &gt; 10 cm or orientation &gt; 0.6 rad) at step 441 and the pelvis exceeds its threshold at step 527, 86 steps later (1.72 s of simulated time, exactly the class median; the median pooled over both step 3 episodes was 1.56 s). Mean position error over the clip 22.8 cm, orientation 43.1°. 55 of the 256 worlds fall into this class. This is why step 3 failed S4 (MPPE) in Tier 1: variant A's failures are almost all falls like this one.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_fall.mp4" poster="media/cases/t1-ep18-w2048-cap4m-r3a-mf4090_fall.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：约 14.7 s（视频时间）物体脱手，之后约 2.9 s 机器人摔倒；封面是骨盆超阈值那一刻</span><span class="l-en">Watch: the object slips at about 14.7 s (video time) and the robot falls about 2.9 s later; the poster is the moment the pelvis exceeds its threshold</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep20</span> rice_cooker_clockwise_04 · baseline seed 42 · <span class="pill w">Near miss (standing)</span></h3>
+      <p class="meta">World 144: position 2.95 cm (passes 3 cm), orientation 37.3° (fails 30°). MP-SR of this 256-world rollout 0.027; 4096-world MP-SR: seed 42 0.016, seed 43 0.000. On this episode the baseline is stuck on orientation: the rice cooker is not turned far enough.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep20-w2048-cap4m-mf4090_nearmiss.mp4" poster="media/cases/t1-ep20-w2048-cap4m-mf4090_nearmiss.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：拿起、转动的过程，转角比参考小</span><span class="l-en">Watch: the pick-up and rotation; the rotation falls short of the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 1 · ep20</span> rice_cooker_clockwise_04 · variant A seed 42 · <span class="pill ok">Success</span></h3>
+      <p class="meta">World 26: position 1.18 cm, orientation 11.3°. MP-SR of this 256-world rollout 0.78; 4096-world MP-SR: seed 42 0.794, seed 43 0.918. Same seed as the previous clip; only the recipe differs.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t1-ep20-w2048-cap4m-r3a-mf4090_success.mp4" poster="media/cases/t1-ep20-w2048-cap4m-r3a-mf4090_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考</span><span class="l-en">Reference</span></span></div><figcaption><span class="l-zh">看点：同一条 episode，转动跟上了参考</span><span class="l-en">Watch: same episode; the rotation now follows the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 2 · ep24</span> watering_can_pour_right_02 · baseline seed 42 · <span class="pill w">Near miss (standing)</span></h3>
+      <p class="meta">World 118: position 3.62 cm, orientation 31.5° (against the v5.4 reference; both above the limits). MP-SR of this 256-world rollout 0; 4096-world MP-SR: seed 42 0.000, seed 43 0.000 (against v5.4).</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t2-ep24-w2048-cap10m-ml40_nearmiss.mp4" poster="media/cases/t2-ep24-w2048-cap10m-ml40_nearmiss.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考 v5.4</span><span class="l-en">Reference v5.4</span></span></div><figcaption><span class="l-zh">看点：跪下、倾倒浇水壶，物体跟得近但始终差一点</span><span class="l-en">Watch: kneeling and tipping the watering can; the object stays close but never quite on the reference</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 2 · ep24</span> watering_can_pour_right_02 · variant A seed 42 · <span class="pill ok">Success</span></h3>
+      <p class="meta">World 205: position 0.85 cm, orientation 20.5° (against the v5.4 reference). All 256 worlds of this rollout succeed (MP-SR 1.00); 4096-world MP-SR: seed 42 0.999, seed 43 0.999 (against v5.4).</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/cases/t2-ep24-w2048-cap10m-r3a-ml40_success.mp4" poster="media/cases/t2-ep24-w2048-cap10m-r3a-ml40_success.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">策略</span><span class="l-en">Policy</span></span><span class="vlab r"><span class="l-zh">参考 v5.4</span><span class="l-en">Reference v5.4</span></span></div><figcaption><span class="l-zh">看点：同一条 episode，变体 A 把物体压在参考上</span><span class="l-en">Watch: same episode; variant A keeps the object on the reference</span></figcaption></figure>
+    </section>
+  </div>
+
+  <h2>How it was made</h2>
+  <p>Plan <code>agent-doc/plan-site-cases-video-2026-10-08.md</code>, version 2 (Fable 5.1 reviewed version 1, GO WITH FIXES; all 9 findings handled). <code>stages/evaluate/case_clip.py</code> runs the official evaluation script unchanged and replaces two functions: while recording it copies the body poses of all 256 worlds after every step and picks worlds by the rules above at scoring time; while rendering it builds a 1-world scene, writes the recorded poses back frame by frame, and renders the right pane from the pose reset to reference frame f. Every clip passes three gates: the object position taken from the recorded poses matches the evaluator's own record at every step (difference 0 m); the 1-world scene has the same bodies and body names as the recording, with reset poses within 1 mm; and the pelvis never jumps more than 0.3 m in one step. Rendering, picking and encoding all ran on the servers (mf4090, ml40), and Tier 2 processes call <code>forbid_tier1()</code> first. The manifest (provenance, checkpoint sha256, per-world errors, gate values, file sizes and md5) is in <code>results/site/cases_manifest_{mf4090,ml40}.txt</code>.</p>
 </div>
 </section>
 
