@@ -7,7 +7,8 @@
           替换 harness.score_reference_tracking，拿逐世界误差按第 4 节的规则分类、挑世界，过三道门（物体位置与评测器记录逐步一致、无非有限、
           骨盆无单步跳变或在跳变前截断），只把选中世界的逐帧位姿与元数据存成 npz（V2D_CASE_OUT），然后照常打分。类别由 V2D_CASE_KINDS 给。
   render：world_count=1。替换 harness.record_object_pose_rollout：先核刚体数、刚体名与重置位姿，再渲右栏（参考，env.reset(frame_id=f)，每条 run 一次）
-          与每个类别的左栏（把录下的位姿写进 state_0.body_q），同一条相机轨迹；渲完抛 _Rendered 中止评测。V2D_CASE_IN、V2D_CASE_PICKS（逗号分隔）、
+          与每个类别的左栏（把录下的位姿写进 state_0.body_q），同一条相机轨迹，按顺序录进同一段 panels.mp4（一个进程只能用一个 MP4 viewer），
+          帧号范围写进 render.json；渲完直接结束进程（hydra 会接住异常）。V2D_CASE_IN、V2D_CASE_PICKS（逗号分隔）、
           V2D_CASE_DIR、V2D_CASE_PARQUET（容器内路径，算相机）。之后由 case_compose.py 拼成两栏成片。
 Tier 2 的 run（V2D_CASE_RUN 以 t2- 开头）在两种模式里都先调 forbid_tier1()。
 """
@@ -27,10 +28,6 @@ K_MAIN = 25
 SYNC_TOL_M = 1e-6
 RESET_TOL_M = 1e-3
 JUMP_M = 0.3
-
-
-class _Rendered(Exception):
-    pass
 
 
 def pick_worlds(success, t_obj, t_pel, pos_m, kinds, k=K_MAIN):
@@ -223,54 +220,50 @@ def render():
             report["gates"][kind] = {"bodies": int(len(idx)), "names_checked": bool(rec_names and names), "reset_gap_m": gap}
         T = max(int(src[f"{k}_frames"].shape[0]) for k in picks)
         track, _, _ = _camera_track(parquet, int(src["step_count"]))
+        # 一个进程只能用一个 MP4 viewer（官方 MP4Viewer 在底层 GL viewer 关掉后不再写帧）：各左栏与参考栏按顺序录进同一段视频，记下帧号范围
+        segs = [(kind, int(src[f"{kind}_frames"].shape[0])) for kind in picks] + [("right", T)]
+        total = sum(n for _, n in segs)
+        cfg = ViewerConfig(backend="mp4", output_path=str(outdir / "panels.mp4"), num_frames=total, headless=True,
+                           realtime=False, width=640, height=480, video_fps=30.0)
+        viewer = create_viewer(cfg)
+        viewer.set_model(model)
 
-        def panel(path, n, set_state):
-            cfg = ViewerConfig(backend="mp4", output_path=str(path), num_frames=n, headless=True,
-                               realtime=False, width=640, height=480, video_fps=30.0)
-            viewer = create_viewer(cfg)
-            viewer.set_model(model)
-            finite = 0
-            for f in range(n):
-                st = set_state(f)
-                finite += int(np.isfinite(st.body_q.numpy()).all())
-                _camera(viewer, *track[min(f, len(track) - 1)])
-                viewer.begin_frame(f / 30.0)
-                viewer.log_state(st)
-                viewer.end_frame()
-            viewer.close()
-            return finite
-
-        for kind in picks:
-            fr = src[f"{kind}_frames"]
-
-            def rollout_state(f, fr=fr):
-                q = q0.copy()
-                q[idx] = fr[f]
-                state.body_q.assign(q)
-                return state
-
-            (outdir / kind).mkdir(parents=True, exist_ok=True)
-            report[f"{kind}_frames"] = int(fr.shape[0])
-            report[f"{kind}_finite"] = panel(outdir / kind / "left.mp4", fr.shape[0], rollout_state)
+        def rollout_state(fr, f):
+            q = q0.copy()
+            q[idx] = fr[f]
+            state.body_q.assign(q)
+            return state
 
         def reference_state(f):
             env.reset(frame_id=f)
             return env.state_0
 
-        report["right_frames"] = T
-        report["right_finite"] = panel(outdir / "right.mp4", T, reference_state)
-        raise _Rendered
+        start = 0
+        for name, n in segs:
+            fr = src[f"{name}_frames"] if name != "right" else None
+            finite = 0
+            for f in range(n):
+                st = reference_state(f) if fr is None else rollout_state(fr, f)
+                finite += int(np.isfinite(st.body_q.numpy()).all())
+                _camera(viewer, *track[min(f, len(track) - 1)])
+                viewer.begin_frame((start + f) / 30.0)
+                viewer.log_state(st)
+                viewer.end_frame()
+            report.setdefault("segments", {})[name] = [start, start + n]
+            report[f"{name}_finite"] = finite
+            start += n
+        viewer.close()
+        report["written_frames"] = int(viewer.frame_count)
+        report["total_frames"] = total
+        (outdir / "render.json").write_text(json.dumps(report, ensure_ascii=False, indent=1))
+        print(f"case_clip: 渲染完成 {json.dumps(report, ensure_ascii=False)}", flush=True)
+        sys.stdout.flush()
+        os._exit(0 if viewer.frame_count == total else 3)  # hydra 会接住异常并以 1 退出，所以这里直接结束进程
 
     harness.record_object_pose_rollout = hook
     sys.argv = [str(SCRIPT), *sys.argv[1:]]
-    try:
-        runpy.run_path(str(SCRIPT), run_name="__main__")
-    except _Rendered:
-        pass
-    else:
-        raise SystemExit("case_clip: 评测没有走到 rollout，什么也没渲染")
-    (outdir / "render.json").write_text(json.dumps(report, ensure_ascii=False, indent=1))
-    print(f"case_clip: 渲染完成 {json.dumps(report, ensure_ascii=False)}", flush=True)
+    runpy.run_path(str(SCRIPT), run_name="__main__")
+    raise SystemExit("case_clip: 评测没有走到 rollout，什么也没渲染")
 
 
 if __name__ == "__main__":

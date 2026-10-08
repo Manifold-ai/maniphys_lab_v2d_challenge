@@ -2,7 +2,7 @@
 # SOP“成功与失败案例”视频：录一次 rollout、挑世界，再渲染成左右两栏的成片（训练机上、仓库根执行）。计划 agent-doc/plan-site-cases-video-2026-10-08.md 第 2 版。
 # 用法：V2D_FC_SRC=<8c778f9 副本> stages/evaluate/case_clip.sh record <run> <类别,类别…>   （256 世界，V2D_CASE_WORLDS 可改）
 #       V2D_FC_SRC=<8c778f9 副本> stages/evaluate/case_clip.sh render <run> <类别,类别…>   （同一条 run 的参考栏只渲一次）
-# 输出 runs/site_cases/<run>/：record.npz、record.json（评测指标）、right.mp4、<类别>/left.mp4、render.json；
+# 输出 runs/site_cases/<run>/：record.npz、record.json（评测指标）、panels.mp4（各左栏与参考栏顺序录在一段里）、render.json（帧号范围）；
 #   成片 runs/site_cases/out/<run>_<类别>.{mp4,jpg}（左：录下的 rollout；右：参考）。日志 runs/logs/<run>.case_<模式>.log。
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"; cd "$ROOT"
@@ -35,12 +35,11 @@ V2D_GPU=1 V2D_CONTAINER_NAME="fc-case-$RUN-render" scripts/dev/in-flash-chord \
   "cd /workspace && PYGLET_HEADLESS=1 V2D_CASE_RUN=$RUN V2D_CASE_IN=/repo/$D/record.npz V2D_CASE_PICKS=$KINDS V2D_CASE_DIR=/repo/$D V2D_CASE_PARQUET=$PARQ \
    python /repo/stages/evaluate/case_clip.py render $(printf '%q ' "evaluation.checkpoint=/repo/$P" "evaluation.world_count=1" \
    "evaluation.metrics_output=/repo/$D/render_unused.json" "hydra.run.dir=/repo/$O/hydra/case-render")" >> "$LOG" 2>&1
-rc=$?; [ "$rc" = 0 ] && [ -s "$D/right.mp4" ] && [ -s "$D/render.json" ] || die "渲染失败（退出码 $rc），见 $LOG" 3
+rc=$?; [ "$rc" = 0 ] && [ -s "$D/panels.mp4" ] && [ -s "$D/render.json" ] || die "渲染失败（退出码 $rc），见 $LOG" 3
 for K in ${KINDS//,/ }; do
   OUT="runs/site_cases/out/${RUN}_${K}"
-  [ -s "$D/$K/left.mp4" ] || die "没有 $D/$K/left.mp4" 3
   V2D_CONTAINER_NAME="fc-case-ff-$RUN-$K" scripts/dev/in-flash-chord \
-    "cd /repo && python stages/evaluate/case_compose.py $D/record.npz $K $D/$K/left.mp4 $D/right.mp4 $OUT" >> "$LOG" 2>&1 || die "ffmpeg 失败，见 $LOG" 3
+    "cd /repo && python stages/evaluate/case_compose.py $D/record.npz $K $D/panels.mp4 $D/render.json $OUT" >> "$LOG" 2>&1 || die "ffmpeg 失败，见 $LOG" 3
   [ -s "$OUT.mp4" ] && [ -s "$OUT.jpg" ] || die "没有成片或封面 $OUT" 3
   echo "case_clip: $RUN $K → $OUT.mp4（$(stat -c %s "$OUT.mp4") B）"
 done
