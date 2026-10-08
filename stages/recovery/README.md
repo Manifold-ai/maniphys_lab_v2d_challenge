@@ -1,6 +1,6 @@
 # stages/recovery
 
-Tier 2 的轨迹恢复：从带噪的物体轨迹估出更好的物体轨迹，落盘后交给 `retarget`。Tier 1 不经过这一段；Tier 3（从 exo 视频重建）尚未开始。
+Tier 2 的轨迹恢复：从带噪的物体轨迹估出更好的物体轨迹，落盘后交给 `retarget`。Tier 1 不经过这一段；Tier 3 从 exo 视频重建，在 [`tier3/`](tier3/)。
 
 **这一段不得读取 Tier 1 的任何数据**，包括作为监督信号、校准参考或验证集（`docs/adr/00002-tier-isolation.md`）。
 提交管线与 Tier 2 的评价脚本在入口调 `libs/v2d_infra/tier_guard.py` 的 `forbid_tier1()`。

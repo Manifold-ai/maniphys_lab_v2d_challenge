@@ -1,0 +1,302 @@
+"""Tier 3 (Track 2 exo videos) -> SAM2 masks for CARI4D. Copied from the Track 1 t1_masks2.py; changes:
+reads the Tier 3 input layout, builds the detector prompt from the object name (Track 2 metadata has no
+object_prompt), refuses Tier 1 paths, and never asks for a manual prompt: Kaggle Foundational Rule 4.b
+forbids hand labeling of test data, so an episode without an automatic prompt fails with NO_AUTO_PROMPT.
+
+Track 1 notes, second version: choose the prompt frame, do not trust frame 0.
+
+Why v2: in ep06 the frame-0 Grounding DINO box for "an metallic iron" covered the whole round table the
+iron was resting on (confidence 0.50), SAM2 segmented the table, and CARI4D then tracked a table with an
+iron mesh and still reported PASS. Nothing in the pipeline noticed. This version
+
+  1. runs Grounding DINO on a handful of frames spread over the clip with the prompt
+     "person . <object_prompt> . table . desk .";
+  2. scores every object box: confidence x (1 - IoU with the best table/desk box) x a penalty when the
+     box covers more than 12% of the frame, and takes the best frame as the SAM2 prompt frame
+     (SAM2 propagates both ways from any frame);
+  3. after SAM2, checks the object mask is the manipulated object and not a support or a background
+     thing: it touches the person mask on some sampled frame, it is not the table/desk box the detector
+     found on the prompt frame, and it is not larger than the person for most of the clip. (Tier 3 change:
+     the Track 1 rule "the mask leaves its first-frame footprint" rejected in-place manipulation such as
+     rice_cooker_clockwise_04, so footprint and centroid travel are now reported only.) Failures leave a MASK_SUSPECT file
+     and still write overlays for diagnosis (they never feed back into a Tier 3 episode by hand);
+  4. packs the H5 CARI4D reads.
+
+Runs on the L40S from the host venv (official docker wrappers). Idempotent per stage. Paths under --work.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+PERSON = "person"
+SUPPORT_WORDS = ("table", "desk")
+BIG_BOX_FRACTION = 0.12
+#: The manipulated object is at the person's hands: a candidate's score decays with its gap to the person
+#: box, in units of the person box height (ep06: a tripod leg 0.5 m right of the person outscored the iron).
+NEAR_PERSON_SCALE = 0.25
+#: Reported only (Tier 3): share of the object mask outside its dilated first-frame footprint. Track 1 failed
+#: masks below 0.5, which also rejects in-place rotation; the touch test replaces it. Known gap: a static
+#: thing the person walks in front of touches the person mask in 2D too (Track 1 ep06 tripod); the prompt
+#: scoring (static-box and near-person penalties) is what keeps those out.
+FOOTPRINT_DILATE_PX = 21
+#: Two boxes on different frames at IoU above this are "the same place".
+STATIC_IOU = 0.7
+#: The manipulated object is touched: on some sampled frame its mask comes within this many pixels of the
+#: person mask. A tripod or a background chair never does.
+TOUCH_PX = 15
+#: The object mask's box overlapping a detected table/desk box above this IoU is a support, not the object.
+SUPPORT_MASK_IOU = 0.5
+
+
+def run(cmd: list[str]) -> None:
+    print("+", " ".join(cmd), flush=True)
+    subprocess.run(cmd, check=True)
+
+
+def n_frames(video: Path) -> int:
+    out = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0", "-count_packets", "-show_entries", "stream=nb_read_packets", "-of", "csv=p=0", str(video)],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip()
+    return int(out)
+
+
+def extract(video: Path, idx: int, out: Path) -> None:
+    if not out.exists():
+        run(["ffmpeg", "-loglevel", "error", "-y", "-noautorotate", "-i", str(video), "-vf", f"select=eq(n\\,{idx})", "-frames:v", "1", str(out)])
+
+
+def label_matches(label: str, want: str) -> bool:
+    key = {w for w in want.lower().replace(".", " ").split() if len(w) > 2}
+    return bool(set(label.lower().split()) & key)
+
+
+def iou(a: dict, b: dict) -> float:
+    x0, y0 = max(a["x0"], b["x0"]), max(a["y0"], b["y0"])
+    x1, y1 = min(a["x1"], b["x1"]), min(a["y1"], b["y1"])
+    inter = max(0.0, x1 - x0) * max(0.0, y1 - y0)
+    area = lambda r: (r["x1"] - r["x0"]) * (r["y1"] - r["y0"])  # noqa: E731
+    return inter / (area(a) + area(b) - inter + 1e-9)
+
+
+def detections(path: Path) -> list[dict]:
+    dets = json.loads(path.read_text())
+    return dets if isinstance(dets, list) else dets.get("detections", dets.get("0", []))
+
+
+def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, weights: str, thr: float, samples: int,
+                        object_name: str = "") -> dict:
+    """Detect on `samples` frames, return the best (frame, object box, person box) with all candidates."""
+    frames = sorted({int(round(k * (total - 1) / (samples - 1))) for k in range(samples)})
+    # The dataset's short object name is a phrase of its own: the descriptive prompt alone can pull the
+    # detector elsewhere ("an metallic iron" boxed metal tripods in ep06, never the iron).
+    name = object_name.replace("_", " ").strip()
+    want = f"{object_prompt} {name}"
+    # When the object itself is a table or desk (white_desk), those words are the target, not a support to avoid.
+    support_words = tuple(w for w in SUPPORT_WORDS if w not in want.lower().split())
+    prompt = f"{PERSON} . {object_prompt.rstrip('.')} . " + (f"{name} . " if name else "") + " . ".join(support_words) + " ."
+    candidates = []
+    for idx in frames:
+        img = d / f"frame_{idx:06d}.png"
+        extract(video, idx, img)
+        boxes = d / f"boxes_{idx:06d}.json"
+        if not boxes.exists():
+            run([sys.executable, "-m", "v2d.grounding_dino.docker.run_image_to_object_bboxes",
+                 "--image_path", str(img), "--output_path", str(boxes), "--prompt", prompt,
+                 "--model_dir", f"{weights}/gdino", "--box_threshold", str(thr)])
+        dets = detections(boxes)
+        w, h = Image.open(img).size
+        persons = [x for x in dets if label_matches(x["label"], PERSON)]
+        supports = [x for x in dets if any(label_matches(x["label"], s) for s in support_words)]
+        objects = [x for x in dets if label_matches(x["label"], want) and x not in persons and x not in supports]
+        person = max(persons, key=lambda x: x["confidence"], default=None)
+        for o in objects:
+            b = o["box"]
+            frac = (b["x1"] - b["x0"]) * (b["y1"] - b["y0"]) / (w * h)
+            overlap = max((iou(b, s["box"]) for s in supports), default=0.0)
+            near = 1.0
+            if person is not None:
+                pb = person["box"]
+                gap_x = max(0.0, max(pb["x0"] - b["x1"], b["x0"] - pb["x1"]))
+                gap_y = max(0.0, max(pb["y0"] - b["y1"], b["y0"] - pb["y1"]))
+                near = 1.0 / (1.0 + ((gap_x**2 + gap_y**2) ** 0.5) / (NEAR_PERSON_SCALE * (pb["y1"] - pb["y0"])))
+            score = o["confidence"] * (1.0 - overlap) * (0.3 if frac > BIG_BOX_FRACTION else 1.0) * near
+            candidates.append({"frame_index": idx, "confidence": o["confidence"], "label": o["label"], "box": b,
+                               "box_fraction": round(frac, 4), "support_iou": round(overlap, 3), "near_person": round(near, 3), "score": round(score, 4),
+                               "person_box": person["box"] if person else None, "support_boxes": [s["box"] for s in supports]})
+    # A static thing is detected at the same place on nearly every sampled frame; the manipulated object
+    # is not (it gets picked up). Penalise each candidate by how many OTHER frames have a box at its place.
+    # ep06: three metal tripods scored 0.44-0.51 on all frames; the iron itself was boxed only while held.
+    for c in candidates:
+        same = {o["frame_index"] for o in candidates if o["frame_index"] != c["frame_index"] and iou(o["box"], c["box"]) > STATIC_IOU}
+        c["static_frames"] = len(same)
+        c["score"] = round(c["score"] / (1.0 + len(same)), 4)
+    candidates.sort(key=lambda c: c["score"], reverse=True)
+    return {"candidates": candidates, "frames": frames}
+
+
+def dilate(mask: np.ndarray, radius: int) -> np.ndarray:
+    """Square dilation (same footprint as PIL's MaxFilter(2r+1), which took seconds per 1536x1152 frame)."""
+    import cv2
+
+    return cv2.dilate(mask.astype(np.uint8), np.ones((2 * radius + 1, 2 * radius + 1), np.uint8)) > 0
+
+
+def check_masks(masks: Path, total: int, width: int, prompt_frame: int, support_boxes: list[dict]) -> dict:
+    """The object must be touched by the person, must not be a detected support, and must stay smaller than the person."""
+
+    centroids, ratios, outside, touched = [], [], [], []
+    footprint = None
+    for idx in range(0, total, max(1, total // 40)):
+        op, pp = masks / "1" / f"{idx:06d}.png", masks / "0" / f"{idx:06d}.png"
+        if not op.exists():
+            continue
+        obj = np.asarray(Image.open(op).convert("L")) > 0
+        if obj.sum() == 0:
+            continue
+        if footprint is None:
+            footprint = dilate(obj, FOOTPRINT_DILATE_PX // 2)
+        outside.append(float((obj & ~footprint).sum()) / float(obj.sum()))
+        ys, xs = np.nonzero(obj)
+        centroids.append((float(xs.mean()), float(ys.mean())))
+        if pp.exists():
+            person = np.asarray(Image.open(pp).convert("L")) > 0
+            ratios.append(float(obj.sum()) / max(1.0, float(person.sum())))
+            near = dilate(person, TOUCH_PX)
+            touched.append(bool((near & obj).any()))
+    if not centroids:
+        return {"ok": False, "why": "object mask empty on every sampled frame"}
+    cx = [c[0] for c in centroids]
+    cy = [c[1] for c in centroids]
+    travel = max(max(cx) - min(cx), max(cy) - min(cy)) / width
+    bigger_than_person = float(np.mean([r > 1.0 for r in ratios])) if ratios else 0.0
+    problems = []
+    left_share = max(outside) if outside else 0.0
+    touch_share = float(np.mean(touched)) if touched else 0.0
+    if touch_share == 0.0:
+        problems.append(f"object mask never comes within {TOUCH_PX}px of the person on {len(touched)} sampled frames")
+    support_iou = 0.0
+    pm = masks / "1" / f"{prompt_frame:06d}.png"
+    if pm.exists() and support_boxes:
+        obj = np.asarray(Image.open(pm).convert("L")) > 0
+        if obj.any():
+            ys, xs = np.nonzero(obj)
+            mbox = {"x0": float(xs.min()), "y0": float(ys.min()), "x1": float(xs.max() + 1), "y1": float(ys.max() + 1)}
+            support_iou = max(iou(mbox, b) for b in support_boxes)
+    if support_iou > SUPPORT_MASK_IOU:
+        problems.append(f"object mask box overlaps a detected table/desk box at IoU {support_iou:.2f} on the prompt frame")
+    if bigger_than_person > 0.5:
+        problems.append(f"object mask larger than the person mask on {bigger_than_person:.0%} of sampled frames")
+    return {"ok": not problems, "why": "; ".join(problems), "touch_share": round(touch_share, 3), "support_iou": round(support_iou, 3),
+            "travel_fraction": round(travel, 4), "max_outside_share": round(left_share, 3), "object_over_person_median": round(float(np.median(ratios)), 3) if ratios else None}
+
+
+def overlay(video: Path, masks: Path, idx: int, out: Path) -> None:
+    tmp = out.with_suffix(".frame.png")
+    extract(video, idx, tmp)
+    f = Image.open(tmp).convert("RGB")
+    a = np.asarray(f).copy()
+    m = np.asarray(Image.open(masks / "1" / f"{idx:06d}.png").convert("L")) > 0
+    pm = np.asarray(Image.open(masks / "0" / f"{idx:06d}.png").convert("L")) > 0
+    a[m] = (a[m] * 0.4 + np.array([255, 0, 0]) * 0.6).astype("uint8")
+    a[pm & ~m] = (a[pm & ~m] * 0.6 + np.array([0, 0, 255]) * 0.4).astype("uint8")
+    ys, xs = np.nonzero(m | pm)
+    if len(xs):
+        box = (max(0, xs.min() - 60), max(0, ys.min() - 60), min(f.width, xs.max() + 60), min(f.height, ys.max() + 60))
+        Image.fromarray(a).crop(box).save(out)
+    else:
+        Image.fromarray(a).save(out)
+    tmp.unlink(missing_ok=True)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--input", required=True, help="Tier 3 input dir: videos/, meta/")
+    ap.add_argument("--work", required=True)
+    ap.add_argument("--weights", required=True, help="dir holding gdino/ and sam2/ weights")
+    ap.add_argument("--episodes", default="", help="comma list; default all")
+    ap.add_argument("--box-threshold", type=float, default=0.3)
+    ap.add_argument("--samples", type=int, default=13, help="frames to run the detector on")
+    args = ap.parse_args()
+    inp, work = Path(args.input), Path(args.work)
+    for p in (inp, work, Path(args.weights)):
+        if "tier_1" in str(p.resolve()):
+            raise SystemExit(f"refusing a Tier 1 path: {p}")
+    meta = [json.loads(l) for l in (inp / "meta/episodes_metadata.jsonl").read_text().splitlines()]
+    wanted = {int(e) for e in args.episodes.split(",") if e} or {m["episode_index"] for m in meta}
+    summary = []
+    for m in meta:
+        ep = m["episode_index"]
+        if ep not in wanted:
+            continue
+        name = f"ep{ep:02d}_{m['object']}"
+        d = work / name
+        (d / "detect").mkdir(parents=True, exist_ok=True)
+        video = inp / "videos" / f"episode_{ep:06d}.mp4"
+        total = n_frames(video)
+        packed = d / "masks_k0.h5"
+        report_path = d / "mask_report.json"
+        if packed.exists() and report_path.exists() and json.loads(report_path.read_text()).get("check", {}).get("ok"):
+            print(f"skip {name}: packed and checked")
+            continue
+        object_prompt = "a " + m["object"].replace("_", " ")
+        pick = choose_prompt_frame(d / "detect", video, total, object_prompt, args.weights, args.box_threshold, args.samples,
+                                   object_name=m["object"])
+        if not pick["candidates"]:
+            print(f"!! {name}: no object box on any of {pick['frames']}")
+            (d / "NO_AUTO_PROMPT").write_text(json.dumps(pick, indent=1))
+            summary.append({"episode": name, "ok": False, "why": "no object box"})
+            continue
+        best = pick["candidates"][0]
+        person_box = best["person_box"] or next((c["person_box"] for c in pick["candidates"] if c["person_box"]), None)
+        if person_box is None:
+            print(f"!! {name}: no person box")
+            (d / "NO_AUTO_PROMPT").write_text(json.dumps(pick, indent=1))
+            summary.append({"episode": name, "ok": False, "why": "no person box"})
+            continue
+        prompts = d / "prompts.json"
+        prompts.write_text(json.dumps({"prompts": [
+            {"frame_index": best["frame_index"], "object_id": 0, "box": person_box},
+            {"frame_index": best["frame_index"], "object_id": 1, "box": best["box"]},
+        ]}, indent=1))
+        masks = d / "sam2_masks"
+        if not (masks / "1").exists():
+            run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
+                 "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
+        width = Image.open(d / "detect" / f"frame_{best['frame_index']:06d}.png").size[0]
+        check = check_masks(masks, total, width, best["frame_index"], best.get("support_boxes", []))
+        for idx in (0, best["frame_index"], total - 1):
+            overlay(video, masks, idx, d / f"overlay_{idx:06d}.png")
+        report = {"episode": name, "prompt_frame": best["frame_index"], "object_box": best, "check": check, "candidates": pick["candidates"][:5]}
+        report_path.write_text(json.dumps(report, indent=1))
+        if not check["ok"]:
+            (d / "MASK_SUSPECT").write_text(check["why"])
+            print(f"!! {name}: {check['why']}")
+        else:
+            (d / "MASK_SUSPECT").unlink(missing_ok=True)
+        cari_video = d / f"episode_{ep:06d}.0.color.mp4"
+        if not cari_video.exists():
+            try:
+                os.link(video, cari_video)
+            except OSError:
+                shutil.copy2(video, cari_video)
+        if not packed.exists():
+            run([sys.executable, "-m", "v2d.cari4d.docker.run_pack_masks", "--video_path", str(cari_video),
+                 "--human_masks_path", str(masks / "0"), "--object_masks_path", str(masks / "1"), "--output_path", str(packed)])
+        summary.append({"episode": name, "ok": check["ok"], "prompt_frame": best["frame_index"], "why": check["why"]})
+        print(f"{'ok' if check['ok'] else 'SUSPECT'} {name} prompt_frame={best['frame_index']}")
+    (work / "masks_summary.json").write_text(json.dumps(summary, indent=1))
+
+
+if __name__ == "__main__":
+    main()
