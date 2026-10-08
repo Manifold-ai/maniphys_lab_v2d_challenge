@@ -8,7 +8,7 @@
   C5 打包打印的合计（PACKED，6 位小数）等于 30 条选中者分数的平均（差 ≤ 1e-6）
 只报：清单涉及的 episode 上，上一次选中者与各新候选的四项分数、4096 世界 MP-SR、选中谁；新旧两份 CSV 的合计。
 用法：python3 stages/evaluate/select_t1_compare.py --old-scores <json> --old-tsv <tsv> --new-scores <json> --new-tsv <tsv> \\
-        --new-list <导出清单.tsv> [--select-log <select 的 record 文件>]
+        --new-list <导出清单.tsv> --select-log <select 的 record 文件>
 测试：stages/evaluate/test_select_t1_compare.py。
 """
 import argparse
@@ -40,7 +40,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     for k in ("--old-scores", "--old-tsv", "--new-scores", "--new-tsv", "--new-list"):
         ap.add_argument(k, required=True)
-    ap.add_argument("--select-log")
+    ap.add_argument("--select-log", required=True, help="select_t1.sh 的 record 文件；C5 读其中的 PACKED 行（审查 M3：可选会让 C5 静默跳过）")
     a = ap.parse_args(argv)
     old, new = json.loads(Path(a.old_scores).read_text()), json.loads(Path(a.new_scores).read_text())
     old_sel, new_sel = read_tsv(a.old_tsv), read_tsv(a.new_tsv)
@@ -88,16 +88,15 @@ def main(argv=None) -> int:
             return 1
         before, after = mean_of(old, old_sel), mean_of(new, new_sel)
         print("合计（只报）：" + "；".join(f"{m} {before[m]:.4f} → {after[m]:.4f}" for m in METRICS))
-        if a.select_log:
-            m = re.findall(r"^PACKED (.*)$", Path(a.select_log).read_text(errors="replace"), re.M)
-            if not m:
-                print("C5 select 记录里没有 PACKED 行")
-                bad.append("C5")
-            else:
-                packed = {k: float(v) for k, v in (x.split("=") for x in m[-1].split())}
-                d = max(abs(packed[k] - after[k]) for k in METRICS)
-                print(f"C5 打包合计与选中者平均的最大差 {d:.2e}")
-                bad += ["C5"] if d > 1e-6 else []
+        m = re.findall(r"^PACKED (.*)$", Path(a.select_log).read_text(errors="replace"), re.M)
+        if not m:
+            print("C5 select 记录里没有 PACKED 行")
+            bad.append("C5")
+        else:
+            packed = {k: float(v) for k, v in (x.split("=") for x in m[-1].split())}
+            d = max(abs(packed[k] - after[k]) for k in METRICS)
+            print(f"C5 打包合计与选中者平均的最大差 {d:.2e}")
+            bad += ["C5"] if d > 1e-6 else []
     print("COMPARE_OK" if not bad else f"COMPARE_FAIL {bad}")
     return 0 if not bad else 1
 

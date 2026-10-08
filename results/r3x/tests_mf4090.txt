@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ python3\ stages/policy/test_make_r3x_queue.py\ \&\&\ python3\ stages/policy/test_make_trial_queue.py\ \&\&\ python3\ stages/evaluate/test_select_t1_compare.py\ \&\&\ python3\ -c\ \'import\ sys\;\ sys.path.insert\(0\,\ \"stages/evaluate\"\)\;\ import\ test_select_t1\ as\ t\;\ \[print\(\"ok\"\,\ n\)\ or\ f\(\)\ for\ n\,\ f\ in\ vars\(t\).items\(\)\ if\ n.startswith\(\"test_\"\)\]\;\ print\(\"ALL_OK\"\)\'\ \&\&\ bash\ -n\ stages/policy/arm_r3x_chain.sh\ \&\&\ bash\ -n\ stages/evaluate/select_t1.sh\ \&\&\ bash\ -n\ stages/evaluate/relay_t1x.sh\ \&\&\ echo\ SYNTAX_OK 
+# md5      : 33d4a26b29e11781d28741534d17b9cc  stages/policy/test_make_r3x_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : 91eca8c09f9c022ee1ffcc9ae68a2d92  stages/evaluate/test_select_t1_compare.py
+# md5      : 3f0a1cb7dfdbe91df5ef60697d614f44  stages/policy/arm_r3x_chain.sh
+# md5      : 697190a0a9fd9612eca9965b76d86de4  stages/evaluate/select_t1.sh
+# md5      : b9129c0e726301137058fadc2ea3d50e  stages/evaluate/relay_t1x.sh
+# source   : 328e14ce8a90
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T14:18:53-0600
+# ---------------------------------------------------------------
+source 328e14ce8a90
+ok test_generates_runs
+ok test_missing_baseline_refuses
+ok test_capacity_override_refuses
+ALL_OK
+ok test_generates_segments
+ok test_missing_baseline_refuses
+ok test_inconsistent_smoke_refuses
+ALL_OK
+ok test_ok
+ok test_old_score_drift_fails
+ok test_unknown_candidate_fails
+ok test_other_episode_moved_fails
+ok test_worse_choice_fails
+ok test_packed_mismatch_fails
+ALL_OK
+ok test_mp_first
+ok test_then_sp_then_combined
+ok test_tie_keeps_current
+ALL_OK
+SYNTAX_OK
