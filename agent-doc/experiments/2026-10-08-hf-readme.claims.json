@@ -1,0 +1,115 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "repos": {
+   "file": "results/ops/hf_repos_1008.txt",
+   "grep": "v2d-track2-archive"
+  },
+  "p1": {
+   "file": "agent-doc/plan-hf-archive-2026-10-01.md",
+   "grep": "^## 执行记录|^- (清单|上传|核对|删除|磁盘)"
+  },
+  "log1": {
+   "file": "results/ops/hf_archive_run_mf4090.txt",
+   "grep": "HF_VERIFY_OK|HF_SPOTCHECK_OK|释放"
+  },
+  "res2": {
+   "file": "results/ops/hf_archive_policy_results_mf4090.txt",
+   "grep": "^## |^  清单"
+  },
+  "plan2": {
+   "file": "results/ops/hf_archive_policy_plan_mf4090.txt",
+   "grep": "^候选|挑 26 份"
+  },
+  "restore": {
+   "file": "results/ops/hf_restore_test_mf4090.txt",
+   "grep": "^# command|hf download|^[0-9a-f]{24}|清单|测试副本"
+  },
+  "ex": {
+   "file": "results/ops/hf_archived_example_t1_ep16.txt"
+  }
+ },
+ "claims": [
+  {
+   "id": "b1_repo",
+   "evidence": [
+    "repos"
+   ],
+   "claim": "v2d-track2-archive 仓库的 mf4090 目录下有 39 个 state 文件，共 6244721044 字节。"
+  },
+  {
+   "id": "b1_runs",
+   "evidence": [
+    "p1"
+   ],
+   "claim": "第 1 批在 10/1 归档：清单 39 个文件、6.24 GB，删除后释放 6.24 GB，38 个 run 目录写了 ARCHIVED.json。"
+  },
+  {
+   "id": "b2_repo",
+   "evidence": [
+    "repos"
+   ],
+   "claim": "v2d-track2-archive 仓库的 mf4090 目录下有 1352 个 policy 文件，共 6570689816 字节。"
+  },
+  {
+   "id": "b2_runs",
+   "evidence": [
+    "res2"
+   ],
+   "claim": "第 2 批的清单来自 52 条 run，每条 run 26 个文件，步数从 10000384 到 260009984，共 1352 个文件。"
+  },
+  {
+   "id": "b2_local",
+   "evidence": [
+    "res2"
+   ],
+   "claim": "第 2 批清单里的 1352 个文件此时都还在训练机本地。"
+  },
+  {
+   "id": "checks",
+   "evidence": [
+    "log1",
+    "res2"
+   ],
+   "claim": "第 1 批核对 39 / 39 一致、抽查 3 个一致；第 2 批核对 1352 / 1352 一致、抽查 52 个一致且覆盖 52 条 run。"
+  },
+  {
+   "id": "restore",
+   "evidence": [
+    "restore"
+   ],
+   "claim": "在 mf4090 上经 tools/hf_remote.sh 用 hf download 下载了 1 个归档文件，下载的文件、本地原文件与清单的 sha256 开头一致，测试副本随后删除。"
+  },
+  {
+   "id": "example",
+   "evidence": [
+    "ex"
+   ],
+   "claim": "t1-ep16-w2048-cap4m-mf4090 的 ARCHIVED.json 记了 state_340013056.safetensors，大小 160121036，sha256 以 9da3ff26f01bad05 开头，时间是 2026-10-01T23:52:35+0800。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "repos"
+   ],
+   "claim": "v2d-track2-archive 仓库是私有的，共 1392 个文件。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_n",
+   "evidence": [
+    "repos"
+   ],
+   "claim": "v2d-track2-archive 仓库里一共只有 39 个 policy 文件。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_ex",
+   "evidence": [
+    "ex"
+   ],
+   "claim": "t1-ep16-w2048-cap4m-mf4090 的 ARCHIVED.json 记的是 policy_10000384.safetensors。",
+   "control": "false"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+# command  : ssh -o BatchMode=yes mf4090 cat\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/ARCHIVED.json 
+# source   : 10465fd28035-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:07:44-0600
+# ---------------------------------------------------------------
+[
+ {
+  "time": "2026-10-01T23:52:35+0800",
+  "files": [
+   {
+    "file": "state_340013056.safetensors",
+    "step": 340013056,
+    "size": 160121036,
+    "sha256": "9da3ff26f01bad0590c0fc4621bcbf087453ba34bcfcef7966b33acf828a800e",
+    "repo": "Rongxuan-Zhou/v2d-track2-archive",
+    "path_in_repo": "mf4090/runs/flash_chord/t1-ep16-w2048-cap4m-mf4090/state_340013056.safetensors"
+   }
+  ]
+ }
+]

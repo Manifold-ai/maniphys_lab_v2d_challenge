@@ -19,6 +19,9 @@ policy 中间份（plan --kind policy，K=9），另造一套 runs/flash_chord �
 删除：有训练链在跑一个都不删；按删除时的文件重算保护（计划之后新导出的步数跳过）；ARCHIVED.json 追加不覆盖；
 最新一份 policy 在删除前坏了，整个 run 跳过；导出输入清单 stages/evaluate/exports/*.tsv 里的步数也受保护；
 抽查 --per-run 每条 run 挑 1 个。
+readme 子命令与 upload 的闸：PYTHONPATH 前面放一个假的 huggingface_hub（状态存在 JSON 里）。仓库没有 README.md 时 upload 停、
+不留暂存目录；readme 建私有仓库、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
+仓库是公开的 upload 停。
 hf_archive_run.sh（只在 Linux 上测，用 GNU find）：runs/tools/ 下放桩工具（upload、verify、spotcheck 是假的，其余转给真工具），
 PATH 前面放假 nvidia-smi。verify 步骤停在删除前、什么都不删；delete 步骤缺核对结果、有训练链、GPU 上有进程都停，
 正常时先重新核对再删；删除时多删一个清单外的文件，全量比对要报 HF_ARCHIVE_FILES_CHECK_FAILED。
@@ -45,8 +48,8 @@ def ckpt(p: Path, n: int = 4, broken: bool = False) -> None:
     p.write_bytes(blob[:-3] if broken else blob)
 
 
-def run(root: Path, *args: str, rc: int = 0) -> str:
-    r = subprocess.run([sys.executable, str(TOOL), *args], cwd=root, capture_output=True, text=True, timeout=60)
+def run(root: Path, *args: str, rc: int = 0, env: dict | None = None) -> str:
+    r = subprocess.run([sys.executable, str(TOOL), *args], cwd=root, capture_output=True, text=True, timeout=60, env=env)
     assert r.returncode == rc, (args, r.returncode, r.stdout, r.stderr)
     return r.stdout + r.stderr
 
@@ -250,6 +253,104 @@ def test_spot_pick() -> None:
     per_run = m.spot_pick(rows, 5, True, 7)
     assert sorted(r["run"] for r in per_run) == ["r0", "r1", "r2"], per_run
     assert len(m.spot_pick(rows, 5, False, 7)) == 5 and len(m.spot_pick(rows, 99, False, 7)) == 30
+
+
+FAKE_HUB = """import json, os
+from pathlib import Path
+S = Path(os.environ["FAKE_HF_STATE"])
+
+
+def _load():
+    return json.loads(S.read_text())
+
+
+def _save(d):
+    S.write_text(json.dumps(d))
+
+
+class _Info:
+    def __init__(self, private):
+        self.private = private
+        self.siblings = []
+
+
+class HfApi:
+    def repo_exists(self, repo_id, repo_type=None):
+        return _load()["exists"]
+
+    def file_exists(self, repo_id, filename, repo_type=None):
+        return filename in _load()["files"]
+
+    def repo_info(self, repo_id, repo_type=None, files_metadata=False):
+        return _Info(_load()["private"])
+
+    def create_repo(self, repo_id, repo_type=None, private=False, exist_ok=False):
+        d = _load()
+        if not d["exists"]:
+            d["exists"], d["private"] = True, private
+        _save(d)
+
+    def upload_file(self, path_or_fileobj, path_in_repo, repo_id, repo_type=None, commit_message=None):
+        d = _load()
+        d["files"][path_in_repo] = Path(path_or_fileobj).read_text()
+        _save(d)
+
+    def upload_large_folder(self, **kw):
+        d = _load()
+        d["large_folder_calls"] = d.get("large_folder_calls", 0) + 1
+        _save(d)
+
+
+def hf_hub_download(repo_id, filename, repo_type=None, local_dir=None, force_download=False):
+    d = _load()
+    p = Path(local_dir) / filename
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(d["files"][filename] + d.get("corrupt", ""))
+    return str(p)
+"""
+
+
+def fake_hub(root: Path) -> dict:
+    hub = root / "fakehub/huggingface_hub"
+    hub.mkdir(parents=True)
+    (hub / "__init__.py").write_text(FAKE_HUB)
+    (root / "hub_state.json").write_text(json.dumps({"exists": False, "private": True, "files": {}}))
+    env = {k: v for k, v in os.environ.items() if k != "HF_ENDPOINT"}
+    return {**env, "PYTHONPATH": str(root / "fakehub"), "FAKE_HF_STATE": str(root / "hub_state.json"),
+            "HF_TOKEN": "x", "https_proxy": "http://proxy.invalid:1"}
+
+
+def hub_state(root: Path, **change) -> dict:
+    st = json.loads((root / "hub_state.json").read_text())
+    if change:
+        st.update(change)
+        (root / "hub_state.json").write_text(json.dumps(st))
+    return st
+
+
+def test_readme_and_upload_guard() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        build(root)
+        run(root, "plan", "--out", "m.json")
+        env = fake_hub(root)
+        up = ("upload", "--manifest", "m.json", "--repo", "u/r", "--prefix", "m")
+        out = run(root, *up, rc=1, env=env)
+        assert "没有 README.md" in out and not (root / "runs/hf_stage").exists(), out
+        (root / "README.md").write_text("# r\n")
+        out = run(root, "readme", "--repo", "u/r", "--file", "README.md", env=env)
+        st = hub_state(root)
+        assert "HF_README_OK" in out and st["exists"] and st["private"] and st["files"]["README.md"] == "# r\n", (out, st)
+        assert not (root / "runs/hf_readme_check").exists()
+        hub_state(root, corrupt="x")
+        assert "HF_README_FAIL" in run(root, "readme", "--repo", "u/r", "--file", "README.md", rc=1, env=env)
+        hub_state(root, corrupt="")
+        out = run(root, *up, env=env)
+        assert "HF_UPLOAD_DONE" in out and hub_state(root).get("large_folder_calls") == 1 and (root / "runs/hf_stage/m").exists(), out
+        shutil.rmtree(root / "runs/hf_stage")
+        hub_state(root, private=False)
+        out = run(root, *up, rc=1, env=env)
+        assert "不是私有仓库" in out and not (root / "runs/hf_stage").exists(), out
 
 
 STUB = """import os, shutil, subprocess, sys

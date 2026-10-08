@@ -2,12 +2,15 @@
 计划 agent-doc/plan-hf-archive-2026-10-01.md（state，第 2 版，按 Fable 5.1 审查修改）与
 agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）。
 
-六个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
+七个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
   whoami    --repo <用户/仓库>   查 token 属于谁、权限、仓库是不是私有、仓库里已有多少文件（只读）。
+  readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>]
+                                  把 README 传成仓库根的 README.md（仓库不存在就建成私有的），再下载回来比 sha256。
+                                  用户 10/8 的要求：每个上传过的 HF 仓库都要有 README，所以 upload 遇到没有 README.md 的仓库就停。
   plan      --out <清单.json> [--kind state|policy] [--keep 9]
                                   按规则挑文件，记下每个文件的大小与 sha256（只读）。--kind 默认 state。
   upload    --manifest <清单> --repo <用户/仓库> --prefix <机器名>
-                                  建私有仓库（已有就复用，必须是私有），把清单里的文件硬链接进暂存目录 runs/hf_stage/<机器名>/，
+                                  仓库必须已经存在、是私有的、根目录有 README.md（先跑 readme），把清单里的文件硬链接进暂存目录 runs/hf_stage/<机器名>/，
                                   再用 upload_large_folder 上传（可断点续传，2 个并发）。
   verify    --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <核对.json>
                                   列出仓库里的文件，逐个比大小与 LFS sha256；全部对上才退出码 0。这个 sha256 是上传时客户端算的，
@@ -249,10 +252,33 @@ def cmd_whoami(a) -> int:
     return 0 if ok else 1
 
 
+def cmd_readme(a) -> int:
+    need_env()
+    from huggingface_hub import HfApi, hf_hub_download
+    api = HfApi()
+    api.create_repo(a.repo, repo_type="model", private=True, exist_ok=True)
+    if not api.repo_info(a.repo, repo_type="model").private:
+        sys.exit(f"{a.repo} 不是私有仓库，停下")
+    want = sha256(Path(a.file))
+    api.upload_file(path_or_fileobj=a.file, path_in_repo="README.md", repo_id=a.repo, repo_type="model", commit_message=a.message)
+    tmp = Path("runs/hf_readme_check")
+    tmp.mkdir(parents=True, exist_ok=True)
+    got = sha256(Path(hf_hub_download(a.repo, "README.md", repo_type="model", local_dir=str(tmp), force_download=True)))
+    rmtree(tmp)
+    ok = got == want
+    print(f"README.md 传到 {a.repo}；下载回来 sha256 {got[:16]}…，本地 {want[:16]}…；" + ("HF_README_OK" if ok else "HF_README_FAIL"))
+    return 0 if ok else 1
+
+
 def cmd_upload(a) -> int:
     need_env()
     from huggingface_hub import HfApi
     rows = json.loads(Path(a.manifest).read_text())
+    api = HfApi()  # 先查仓库，再建暂存目录：查不过就停，不留硬链接
+    if not api.repo_exists(a.repo, repo_type="model") or not api.file_exists(a.repo, "README.md", repo_type="model"):
+        sys.exit(f"{a.repo} 不存在或根目录没有 README.md：每个上传过的 HF 仓库都要有 README（用户 10/8 的要求），先跑 readme 子命令")
+    if not api.repo_info(a.repo, repo_type="model").private:
+        sys.exit(f"{a.repo} 不是私有仓库，停下")
     stage = STAGE / a.prefix
     for r in rows:
         src = RUNS / r["run"] / r["file"]
@@ -260,10 +286,6 @@ def cmd_upload(a) -> int:
         dst.parent.mkdir(parents=True, exist_ok=True)
         if not dst.exists():
             os.link(src, dst)  # 硬链接，不多占盘
-    api = HfApi()
-    api.create_repo(a.repo, repo_type="model", private=True, exist_ok=True)
-    if not api.repo_info(a.repo, repo_type="model").private:
-        sys.exit(f"{a.repo} 不是私有仓库，停下")
     t0 = time.time()
     print(f"{time.strftime('%F %T')} 开始上传 {len(rows)} 个文件到私有仓库 {a.repo}（{sum(r['size'] for r in rows) / 1e9:.2f} GB）", flush=True)
     api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
@@ -414,6 +436,10 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     w = sub.add_parser("whoami")
     w.add_argument("--repo", required=True)
+    rd = sub.add_parser("readme")
+    rd.add_argument("--repo", required=True)
+    rd.add_argument("--file", required=True)
+    rd.add_argument("--message", default="Update README")
     p = sub.add_parser("plan")
     p.add_argument("--out", required=True)
     p.add_argument("--kind", choices=("state", "policy"), default="state")
@@ -437,7 +463,7 @@ def main() -> int:
     a = ap.parse_args()
     if a.cmd == "plan" and a.keep < 1:
         ap.error("--keep 至少是 1")
-    return {"whoami": cmd_whoami, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
+    return {"whoami": cmd_whoami, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
 
 
 if __name__ == "__main__":

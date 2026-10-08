@@ -7,12 +7,32 @@
 import json
 import os
 import re
+import struct
 import sys
 from collections import Counter
 from pathlib import Path
 
 RUNS = Path("runs/flash_chord")
 POLICY = re.compile(r"policy_(\d+)\.safetensors")
+STATE = re.compile(r"state_(\d+)\.safetensors")
+
+
+def complete(p: Path) -> bool:
+    """safetensors 头能解析、文件大小等于头里声明的数据末尾（同 tools/hf_archive.py 与 stages/policy/ckpt_latest.py）。"""
+    try:
+        size = p.stat().st_size
+        with p.open("rb") as f:
+            raw = f.read(8)
+            if len(raw) != 8:
+                return False
+            (n,) = struct.unpack("<Q", raw)
+            if n <= 0 or 8 + n > size:
+                return False
+            header = json.loads(f.read(n))
+        end = max((v["data_offsets"][1] for k, v in header.items() if k != "__metadata__"), default=0)
+        return size == 8 + n + end
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 def load(p):
@@ -26,6 +46,11 @@ def main() -> int:
     runs = sorted({r["run"] for r in rows})
     names = {(r["run"], r["file"]) for r in rows}
     print(f"## 清单 {manifest}：{len(rows)} 个文件，{len(runs)} 条 run，共 {sum(r['size'] for r in rows)} 字节")
+    steps_by_run = {}
+    for r in rows:
+        steps_by_run.setdefault(r["run"], []).append(r["step"])
+    shape = Counter((len(v), min(v), max(v)) for v in steps_by_run.values())
+    print(f"  清单按 run 分（每条 run 的文件数, 最小步, 最大步）：{dict(shape)}")
     for tag in ("verified", "reverified"):
         v = load(f"{prefix}.{tag}.json")
         if v is None:
@@ -54,6 +79,18 @@ def main() -> int:
         counts.append(len(steps))
         newest[steps[-1] if steps else None] += 1
     print(f"  清单里的 {len(runs)} 条 run：policy 份数最少 {min(counts)}、最多 {max(counts)}；最新一份的步数 {dict(newest)}")
+    kept_shape, kept_total, kept_ok, unpaired = Counter(), 0, 0, []
+    for run in runs:
+        d = RUNS / run
+        pols = {int(m.group(1)): p for p in d.glob("policy_*.safetensors") if (m := POLICY.fullmatch(p.name))}
+        kept = sorted(st for st, p in pols.items() if (run, p.name) not in names)
+        kept_total += len(kept)
+        kept_ok += sum(complete(pols[st]) for st in kept)
+        kept_shape[(len(kept), kept[0] if kept else None, kept[-1] if kept else None)] += 1
+        unpaired += [f"{run}/{p.name}" for p in d.glob("state_*.safetensors")
+                     if (m := STATE.fullmatch(p.name)) and int(m.group(1)) not in kept]
+    print(f"  删除清单里的文件后每条 run 留下的 policy（份数, 最小步, 最大步）：{dict(kept_shape)}；共 {kept_total} 份，头部完整 {kept_ok} 份")
+    print(f"  这些 run 的 state 都有留下的同步数 policy 配对：" + ("是" if not unpaired else f"否（{len(unpaired)} 个）：{', '.join(unpaired[:5])}"))
     entries, recorded = Counter(), 0
     for run in runs:
         a = load(RUNS / run / "ARCHIVED.json")

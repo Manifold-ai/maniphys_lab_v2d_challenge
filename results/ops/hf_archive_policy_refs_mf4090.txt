@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && for r in $(python3 -c \'import json; print(" ".join(sorted({x["run"] for x in json.load(open("runs/hf_archive_policy_manifest_mf4090.json"))})))\'); do grep -rhoE \'policy_[0-9]+\\.safetensors\' runs/flash_chord/$r --include=\'*.json\' --include=\'*.jsonl\' --include=\'*.yaml\' --include=\'*.txt\' --include=\'*.log\' --exclude=ARCHIVED.json 2>/dev/null; done | sort | uniq -c | sort -rn | head -20; echo ä»¥ä¸\212æ\230¯ 52 æ\235¡ run ç\233®å½\225é\207\214é\205\215ç½®ä¸\216è®°å½\225æ\226\207ä»¶å¼\225ç\224¨ç\232\204 policy æ\226\207ä»¶å\220\215å\217\212æ¬¡æ\225°ï¼\210ä¸\215å\220« ARCHIVED.jsonï¼\211' 
+# source   : 10465fd28035-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:04:21-0600
+# ---------------------------------------------------------------
+    615 policy_349999104.safetensors
+     89 policy_340013056.safetensors
+     89 policy_330012672.safetensors
+ä»¥ä¸Šæ˜¯ 52 æ¡ run ç›®å½•é‡Œé…ç½®ä¸è®°å½•æ–‡ä»¶å¼•ç”¨çš„ policy æ–‡ä»¶ååŠæ¬¡æ•°ï¼ˆä¸å« ARCHIVED.jsonï¼‰

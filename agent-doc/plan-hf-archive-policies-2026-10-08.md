@@ -72,7 +72,8 @@
   `027ed7885644289e667b1bdd985e8d98`，清单 md5 是 `eb895d8479c43e7ebc6842441675922e`、1352 个文件。
 - 第一段：1352 个文件的大小与 sha256 全部一致（verify），52 条 run 各抽 1 个下载后 sha256 一致（spotcheck）。
   有一个不一致就一个都不删，停下来排查。
-- 第二段只在用户确认后运行。
+- 第二段只在用户确认后运行。第二段用的工具版本是 `a7f6ce8272e482a5b0f3449f0d55bb89`（10/8 加了 `readme` 子命令、上传前先查仓库有没有 README，
+  删除与重新核对的代码与第一段相同；12 项测试在 mf4090 上全过，`results/ops/hf_archive_tests_readme_mf4090.txt`），流程脚本仍是 `9663a9f6…`。
 - 删除后：
   - 删除前重新核对 1352 / 1352 一致；
   - `runs/flash_chord` 下消失的文件正好是清单里的 1352 个：清单外消失 0 个，清单里没删的 0 个（流程脚本的全量比对）；
@@ -121,3 +122,20 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认留最新 
   第 1 轮里“核对全部一致”0.40、“抽查全部一致”0.46，原因是证据里只有“一致 N 个”，没写比的是什么（`_run1` 留档）；
   第 2 轮把工具里比对大小与 sha256 的代码行加进证据，9 条全部核实（0.92–0.98），3 道对照题正常。
 - 等用户确认后运行第二段。
+
+### 删除前复核（10/8 11:02–11:05 UTC-6，用户要求“核对一遍第 2 批 policy 的本地，再看看删除是否影响”）
+
+- 本地：删除演习（`delete` 不带 `--yes`，`results/ops/hf_archive_policy_delete_dryrun_mf4090.txt`）对 1352 个文件逐个重做了删除前的检查，
+  将删 1352 个，跳过 0 个；没有训练链、GPU 进程，也没有导出、评测、训练相关的进程；可用 1635 MB。
+- 删除后留下的部分（`results/ops/hf_archive_policy_results_mf4090.txt`）：52 条 run 各留 9 份（步 270010368–349999104），468 份文件头全部完整；
+  每份 state 都有留下的同步数 policy 配对。
+- 引用：52 条 run 目录下的 .json、.jsonl、.yaml、.txt、.log 文件（不含 ARCHIVED.json）里出现的 policy 文件名只有
+  policy_349999104、policy_340013056、policy_330012672 三种，都在留下的 9 份里（`results/ops/hf_archive_policy_refs_mf4090.txt`）。
+- 代码：`V2D_FALLBACK_MAX` 只在测试里改过（设成 2），正式流程用默认 8；仓库代码里出现被归档步数的地方都与这 52 条 run 无关
+  （ep7 发散的 run 没有 DONE，ml40 的诊断 run 在另一台机器上，其余是测试里的假数据）。
+- 影响：导出、导出回退、续训、提交核对都不受影响。受影响的只有对这 52 条 run 按中间步数做的诊断：以前对 `t1-ep1-w2048-cap4m-mf4090` 的
+  40001536、50001920 两步做过非有限扫描（结论已在 `results/diverge/ckpt_nonfinite_by_tensor_ep1.txt`），以后重跑这类诊断、
+  或者想按训练步数画评测曲线，要先从 HF 下回来（每条 run 26 份，约 126 MB）。`run_pace.py` 对这些 run 只能看到最后 9 份的落盘时间。
+- jev（`results/ops/jev_claims_hf_archive_policies_impact.txt`，规格 `agent-doc/experiments/2026-10-08-hf-archive-policies-impact.claims.json`）：
+  本地完好、环境干净、留下的部分、回退份数、ep1 扫描 5 条核实（0.78–0.97），3 道对照题正常；“run 目录里只引用这三种文件名”三轮都没到 0.7
+  （0.51、0.61、0.67），记为未核实，原始输出见上面的引用记录。

@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && md5sum runs/tools/hf_archive.py && F=runs/hf_archive_policy_mf4090.delete_dryrun.txt && python3 runs/tools/hf_archive.py delete --verified runs/hf_archive_policy_mf4090.verified.json --spotcheck runs/hf_archive_policy_mf4090.spotcheck.json > $F 2>&1; echo æ¼\224ä¹ é\200\200å\207ºç \201 $?; echo å°\206å\210  $(grep -c \'^å°\206å\210 \' $F) ä¸ª; echo è·³è¿\207 $(grep -c \'^è·³è¿\207\' $F) æ\235¡; grep \'^è·³è¿\207\' $F | head -20; tail -1 $F; echo é\225¿é\223¾æ \207è®° $(ls runs/.chain-active-* 2>/dev/null | wc -l); echo GPU è¿\233ç¨\213 $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); pgrep -af \'[f]c_export|[f]c_eval|[f]c_run|[e]xport_chain|[c]ase_clip\' || echo æ²¡æ\234\211å¯¼å\207ºè¯\204æµ\213è®\255ç»\203ç\233¸å\205³è¿\233ç¨\213; df -m . | tail -1' 
+# source   : 10465fd28035-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:02:47-0600
+# ---------------------------------------------------------------
+137758086ca26260d2f70030225e921a  runs/tools/hf_archive.py
+æ¼”ä¹ é€€å‡ºç  0
+å°†åˆ  1352 ä¸ª
+è·³è¿‡ 0 æ¡
+é¢„è®¡é‡Šæ”¾çº¦ 6.57 GBï¼ˆæ¼”ä¹ ï¼Œæ²¡åˆ ï¼‰
+é•¿é“¾æ ‡è®° 0
+GPU è¿›ç¨‹ 0
+æ²¡æœ‰å¯¼å‡ºè¯„æµ‹è®­ç»ƒç›¸å…³è¿›ç¨‹
+/dev/vda2         201462 191518      1635 100% /

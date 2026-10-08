@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-hf-archive-policies-impact.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 6e090193a5334d29e35bea746b7516e8  agent-doc/experiments/2026-10-08-hf-archive-policies-impact.claims.json
+# source   : 10465fd28035-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:04:50-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+local_intact         P(supported)=0.81  verified               [dry]  删除演习（不带 --yes）对清单里的 1352 个文件逐个重做了删除前的检查：将删 1352 个，跳过 0 个，演习没有删除任何东西。
+env_clear            P(supported)=0.97  verified               [dry]  演习时 mf4090 上没有训练链标记、没有 GPU 进程，也没有导出、评测或训练相关的进程。
+kept                 P(supported)=0.97  verified               [res]  删除清单里的文件后，52 条 run 各留 9 份 policy（步 270010368 到 349999104），468 份文件头全部完整，每份 state 都有留下的同步数 policy 配对。
+refs                 P(supported)=0.51  UNVERIFIED             [refs]  52 条 run 目录里的配置与记录文件（不含 ARCHIVED.json）引用的 policy 文件只有 policy_349999104、policy_340013056、policy_330012672 三个。
+fallback             P(supported)=0.86  verified               [fmax]  导出链在评测器报终止错误时，按步数从大到小往前试更早的 policy，最多试 V2D_FALLBACK_MAX 份，默认 8 份。
+diag                 P(supported)=0.77  verified               [diverge]  以前对 t1-ep1-w2048-cap4m-mf4090 做过一次按张量的非有限扫描，扫的是 40001536 与 50001920 两步。
+ctl_true             P(supported)=0.99  control(true) ok       [dry]  删除演习预计释放约 6.57 GB。
+ctl_false_skip       P(supported)=0.01  control(false) ok      [dry]  删除演习跳过了 12 个文件。
+ctl_false_kept       P(supported)=0.01  control(false) ok      [res]  删除清单里的文件后，每条 run 只剩 3 份 policy。
+controls behaved as expected

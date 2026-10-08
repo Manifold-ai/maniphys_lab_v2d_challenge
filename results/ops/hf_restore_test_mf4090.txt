@@ -1,0 +1,13 @@
+# command  : tools/hf_remote.sh $'command -v hf; F=mf4090/runs/flash_chord/t1-ep18-w2048-cap4m-r3a-mf4090/policy_10000384.safetensors; hf download Rongxuan-Zhou/v2d-track2-archive --include "$F" --local-dir runs/restore_test > /dev/null 2>&1; echo hf download é\200\200å\207ºç \201 $?; sha256sum runs/restore_test/$F runs/flash_chord/t1-ep18-w2048-cap4m-r3a-mf4090/policy_10000384.safetensors | cut -c1-24; python3 -c "import json; print(\\"æ¸\205å\215\225\\", [r[\\"sha256\\"][:16] for r in json.load(open(\\"runs/hf_archive_policy_manifest_mf4090.json\\")) if r[\\"run\\"] == \\"t1-ep18-w2048-cap4m-r3a-mf4090\\" and r[\\"step\\"] == 10000384])"; rm -rf runs/restore_test && echo æµ\213è¯\225å\211¯æ\234¬å·²å\210 ' 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 10465fd28035-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T11:05:59-0600
+# ---------------------------------------------------------------
+â†’ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+/home/rxzhou/.local/bin/hf
+hf download é€€å‡ºç  0
+914f9759c01316f71bb5003b
+914f9759c01316f71bb5003b
+æ¸…å• ['914f9759c01316f7']
+æµ‹è¯•å‰¯æœ¬å·²åˆ 

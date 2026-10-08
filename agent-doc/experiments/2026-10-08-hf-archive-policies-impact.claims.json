@@ -1,0 +1,93 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "dry": {
+   "file": "results/ops/hf_archive_policy_delete_dryrun_mf4090.txt",
+   "grep": "^# command|演习退出码|将删|跳过|预计|长链|GPU|没有导出|/dev/"
+  },
+  "res": {
+   "file": "results/ops/hf_archive_policy_results_mf4090.txt",
+   "grep": "^## |^  清单里的|^  删除清单|^  这些 run"
+  },
+  "refs": {
+   "file": "results/ops/hf_archive_policy_refs_mf4090.txt",
+   "grep": "^# command|policy_|以上"
+  },
+  "fmax": {
+   "file": "stages/evaluate/export_chain.sh",
+   "grep": "FMAX=|规矩二：按步数从大到小试|已试 \\$\\{FMAX\\} 份"
+  },
+  "diverge": {
+   "file": "results/diverge/ckpt_nonfinite_by_tensor_ep1.txt",
+   "grep": "^# command"
+  }
+ },
+ "claims": [
+  {
+   "id": "local_intact",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "删除演习（不带 --yes）对清单里的 1352 个文件逐个重做了删除前的检查：将删 1352 个，跳过 0 个，演习没有删除任何东西。"
+  },
+  {
+   "id": "env_clear",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "演习时 mf4090 上没有训练链标记、没有 GPU 进程，也没有导出、评测或训练相关的进程。"
+  },
+  {
+   "id": "kept",
+   "evidence": [
+    "res"
+   ],
+   "claim": "删除清单里的文件后，52 条 run 各留 9 份 policy（步 270010368 到 349999104），468 份文件头全部完整，每份 state 都有留下的同步数 policy 配对。"
+  },
+  {
+   "id": "refs",
+   "evidence": [
+    "refs"
+   ],
+   "claim": "在 52 条 run 目录下的 .json、.jsonl、.yaml、.txt、.log 文件里（不含 ARCHIVED.json），出现过的 policy 文件名只有三种：policy_349999104、policy_340013056、policy_330012672。"
+  },
+  {
+   "id": "fallback",
+   "evidence": [
+    "fmax"
+   ],
+   "claim": "导出链在评测器报终止错误时，按步数从大到小往前试更早的 policy，最多试 V2D_FALLBACK_MAX 份，默认 8 份。"
+  },
+  {
+   "id": "diag",
+   "evidence": [
+    "diverge"
+   ],
+   "claim": "以前对 t1-ep1-w2048-cap4m-mf4090 做过一次按张量的非有限扫描，扫的是 40001536 与 50001920 两步。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "删除演习预计释放约 6.57 GB。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_skip",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "删除演习跳过了 12 个文件。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_kept",
+   "evidence": [
+    "res"
+   ],
+   "claim": "删除清单里的文件后，每条 run 只剩 3 份 policy。",
+   "control": "false"
+  }
+ ]
+}

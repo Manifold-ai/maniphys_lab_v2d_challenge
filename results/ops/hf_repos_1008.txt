@@ -1,0 +1,27 @@
+# command  : tools/hf_remote.sh $'python3 -c \'from collections import Counter\nfrom huggingface_hub import HfApi\napi = HfApi()\nme = api.whoami()["name"]\nfor kind, lister in (("model", api.list_models), ("dataset", api.list_datasets), ("space", api.list_spaces)):\n    for r in lister(author=me):\n        files = api.list_repo_files(r.id, repo_type=kind)\n        print(kind, r.id, "private" if r.private else "public", len(files), "个�\226\207件", "�\234\211 README.md" if "README.md" in files else "没�\234\211 README.md")\nc, b = Counter(), Counter()\nfor f in api.list_repo_tree("Rongxuan-Zhou/v2d-track2-archive", recursive=True):\n    size = getattr(f, "size", None)\n    if size is None:\n        continue\n    k = f.path.rsplit("/", 1)[-1].split("_")[0] if "/" in f.path else f.path\n    top = f.path.split("/")[0]\n    c[(top, k)] += 1\n    b[(top, k)] += size\nfor key in sorted(c):\n    print("v2d-track2-archive", key, c[key], "个", b[key], "�\255\227�\212\202")\n\'' 
+# md5      : 00c7e7e6e6179b5132f6fd5a4a48fd46  tools/hf_remote.sh
+# md5      : eeb42587a2379dbf09e0d76a29a1aa3d  README.md
+# md5      : eeb42587a2379dbf09e0d76a29a1aa3d  README.md
+# source   : 10465fd28035
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T10:52:21-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+model Rongxuan-Zhou/lewm-scene private 3 个文件 有 README.md
+model Rongxuan-Zhou/lewm-cube-double private 2 个文件 没有 README.md
+model Rongxuan-Zhou/lewm-archive public 203 个文件 没有 README.md
+model Rongxuan-Zhou/lewm-cube-triple private 2 个文件 没有 README.md
+model Rongxuan-Zhou/lewm-cube-retrains private 4 个文件 没有 README.md
+model Rongxuan-Zhou/v2d-track2-archive private 1392 个文件 没有 README.md
+dataset Rongxuan-Zhou/forge-peg-insert-force-lewm private 9 个文件 有 README.md
+dataset Rongxuan-Zhou/pusht-franka-lewm public 3 个文件 有 README.md
+dataset Rongxuan-Zhou/forge-gear-mesh-force-lewm private 8 个文件 没有 README.md
+dataset Rongxuan-Zhou/pusht_lewm_fr3 public 3 个文件 有 README.md
+dataset Rongxuan-Zhou/ogbench-scene-expert private 3 个文件 有 README.md
+dataset Rongxuan-Zhou/ogb-cd-3k public 2 个文件 没有 README.md
+dataset Rongxuan-Zhou/ogb-ct-3k public 2 个文件 没有 README.md
+dataset Rongxuan-Zhou/force-lewm-artifacts private 2562 个文件 没有 README.md
+dataset Rongxuan-Zhou/force-lewm-datasets public 15 个文件 没有 README.md
+v2d-track2-archive ('.gitattributes', '.gitattributes') 1 个 1519 字节
+v2d-track2-archive ('mf4090', 'policy') 1352 个 6570689816 字节
+v2d-track2-archive ('mf4090', 'state') 39 个 6244721044 字节
