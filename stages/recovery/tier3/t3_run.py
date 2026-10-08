@@ -7,6 +7,10 @@ the repo cached; without the proxy the request is reset (Track 1: 8 meshes faile
 The wrapper renders env as `-e KEY=VALUE`, which put the proxy password on the docker command line, in
 `ps` and in the logs (Track 1 run_cari4d.py). Here the proxy variables are added as bare `-e KEY`, so docker
 reads the values from this process's environment and they never appear in argv.
+
+Non-secret extras: T3_FORWARD_ENV="NAME,NAME" forwards host variables by name (e.g. PYTORCH_CUDA_ALLOC_CONF);
+T3_CONTAINER_ENV="KEY=VALUE,..." sets container-side values the wrapper does not (CARI4D needs TORCH_HOME inside
+the mounted weights so torch.hub's DINOv2 checkout survives across containers). A proxy key in either is refused.
 """
 
 from __future__ import annotations
@@ -29,7 +33,12 @@ class _Subprocess:
     @staticmethod
     def run(cmd, *args, **kwargs):
         if cmd[:3] == ["docker", "run", "--rm"]:
-            forwarded = [a for k in PROXY_KEYS if os.environ.get(k) for a in ("-e", k)]
+            names = list(PROXY_KEYS) + [n for n in os.environ.get("T3_FORWARD_ENV", "").split(",") if n]
+            forwarded = [a for k in names if os.environ.get(k) for a in ("-e", k)]
+            extras = [kv for kv in os.environ.get("T3_CONTAINER_ENV", "").split(",") if kv]
+            if any("proxy" in kv.split("=", 1)[0].lower() for kv in extras):
+                raise SystemExit("refusing: T3_CONTAINER_ENV must not carry a proxy setting")
+            forwarded += [a for kv in extras for a in ("-e", kv)]
             cmd = cmd[:3] + forwarded + cmd[3:]
             leaked = [a for a in cmd if "=" in a and any(m in a.split("=", 1)[0].lower() for m in SECRET_MARKERS)]
             if leaked:
