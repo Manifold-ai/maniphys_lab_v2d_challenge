@@ -1,0 +1,70 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "s": {
+   "file": "results/ml40/select_t1/select_1008.txt",
+   "grep": "^GATE|剔除|^CHOSEN ep(6|8|18|20|27|29):|换了|帕累托|PACKED|SELECT_T1|版本"
+  }
+ },
+ "claims": [
+  {
+   "id": "gates",
+   "evidence": [
+    "s"
+   ],
+   "claim": "GATE 的四行（add_auc、spider_sr、maniptrans_sr、mppe_cm）都写着“A OK”和“B OK”。"
+  },
+  {
+   "id": "changed",
+   "evidence": [
+    "s"
+   ],
+   "claim": "换了的 episode 是 6、8、18、20、27、29。"
+  },
+  {
+   "id": "packed",
+   "evidence": [
+    "s"
+   ],
+   "claim": "新打包的 CSV：add_auc 0.419834、spider_sr 0.566667、maniptrans_sr 0.400000、mppe_cm 24.838306。"
+  },
+  {
+   "id": "ep29_luck",
+   "evidence": [
+    "s"
+   ],
+   "claim": "ep29 选中的是 t1-ep29-w2048-cap4m-r3a-mf4090，它的 4096 世界 MP-SR 约 0.15。"
+  },
+  {
+   "id": "conflict",
+   "evidence": [
+    "s"
+   ],
+   "claim": "只报的帕累托冲突是 ep29：选中者在 mppe_cm 上不如 t1-ep29-w2048-cap4m-r3a-s43-mf4090。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "s"
+   ],
+   "claim": "ep20 选中的是 t1-ep20-w2048-cap4m-r3a-mf4090。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_a",
+   "evidence": [
+    "s"
+   ],
+   "claim": "换了的 episode 只有 6 和 8 两条。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_b",
+   "evidence": [
+    "s"
+   ],
+   "claim": "新打包的 CSV maniptrans_sr 是 0.266667，与原来相同。",
+   "control": "false"
+  }
+ ]
+}

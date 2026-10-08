@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-t1-select.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 59fec5347e787ef17da90feb1e5c813b  agent-doc/experiments/2026-10-08-t1-select.claims.json
+# source   : 9d5d207c5025-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T02:43:01-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+gates                P(supported)=0.48  UNVERIFIED             [s]  四项指标的 A 门与 B 门都是 OK：整份打包现在交的 30 条与 30 条逐条平均相同，也与 10/3 的值相同。
+changed              P(supported)=0.99  verified               [s]  换了的 episode 是 6、8、18、20、27、29。
+packed               P(supported)=0.97  verified               [s]  新打包的 CSV：add_auc 0.419834、spider_sr 0.566667、maniptrans_sr 0.400000、mppe_cm 24.838306。
+ep29_luck            P(supported)=0.99  verified               [s]  ep29 选中的是 t1-ep29-w2048-cap4m-r3a-mf4090，它的 4096 世界 MP-SR 约 0.15。
+conflict             P(supported)=0.97  verified               [s]  只报的帕累托冲突是 ep29：选中者在 mppe_cm 上不如 t1-ep29-w2048-cap4m-r3a-s43-mf4090。
+ctl_true             P(supported)=0.99  control(true) ok       [s]  ep20 选中的是 t1-ep20-w2048-cap4m-r3a-mf4090。
+ctl_false_a          P(supported)=0.93  CONTROL(false) FAILED  [s]  ep6 保留了现在交的 t1-ep6-w2048-cap4m-mf4090。
+ctl_false_b          P(supported)=0.02  control(false) ok      [s]  新打包的 CSV maniptrans_sr 是 0.266667，与原来相同。
+CONTROLS MISBEHAVED: do not rely on this batch

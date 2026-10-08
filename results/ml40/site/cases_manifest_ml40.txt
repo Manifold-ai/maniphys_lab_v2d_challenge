@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/case_manifest.py\ t2-ep24-w2048-cap10m-ml40:nearmiss\ t2-ep24-w2048-cap10m-r3a-ml40:success 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : e9a88ee11ee9156de92f587a6d59192d  stages/evaluate/case_manifest.py
+# source   : 73bb359acf5d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-08T16:17:22+0800
+# ---------------------------------------------------------------
+code md5 a75146a24a4944b3de03648179a8167d  stages/evaluate/case_clip.py
+code md5 6aa60f308de93e615c4292a466985495  stages/evaluate/case_compose.py
+code md5 f6ee1b1973c5f52e75a253a245e4c99c  stages/evaluate/case_clip.sh
+code md5 8161a75ab6529432af0293277a12335e  stages/evaluate/fall_order.py
+== t2-ep24-w2048-cap10m-ml40：checkpoint sha256 2b3524f4c1e2af350411874ee6e6836c94b9413ce72b56bfeee4357c9f74f47c，步数 349999104，parquet /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet，本次 256 世界 rollout MP-SR 0.0000
+   渲染：写入 1496 / 1496 帧，参考栏有限帧 748 / 748
+   nearmiss：世界 118；规则 255 个 nearmiss 世界里取最接近中位数 0.03623 的；这一类中位数 0.03623；MP 位置 3.62 cm、朝向 31.5°（门槛 3 cm / 30°）、成功 False；t_obj 203、t_pel -1；同步差 0 m；骨盆最大单步位移 0.023 m；帧 748；刚体 55、刚体名已核 False、重置差 0 m；有限帧 748/748；t2-ep24-w2048-cap10m-ml40_nearmiss.mp4 496897 B md5 e62bdce8c0af8a107a4b6f575eadc11d；t2-ep24-w2048-cap10m-ml40_nearmiss.jpg 19894 B
+== t2-ep24-w2048-cap10m-r3a-ml40：checkpoint sha256 95144c96b2940871f3c9e5a2cdbe0e29338e278daa217589bcb60ef0ef172b98，步数 349999104，parquet /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet，本次 256 世界 rollout MP-SR 1.0000
+   渲染：写入 1496 / 1496 帧，参考栏有限帧 748 / 748
+   success：世界 205；规则 256 个 success 世界里取最接近中位数 0.008515 的；这一类中位数 0.008515；MP 位置 0.85 cm、朝向 20.5°（门槛 3 cm / 30°）、成功 True；t_obj -1、t_pel -1；同步差 0 m；骨盆最大单步位移 0.021 m；帧 748；刚体 55、刚体名已核 False、重置差 0 m；有限帧 748/748；t2-ep24-w2048-cap10m-r3a-ml40_success.mp4 491011 B md5 3f5663c48ca78939afff8e3ec80c18ed；t2-ep24-w2048-cap10m-r3a-ml40_success.jpg 19935 B
+CASES_OK

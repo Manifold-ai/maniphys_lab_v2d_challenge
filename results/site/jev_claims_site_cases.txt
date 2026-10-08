@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-site-cases.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e17fbd8eb9dace76f8fa9573a2803dd1  agent-doc/experiments/2026-10-08-site-cases.claims.json
+# source   : 9d5d207c5025-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T02:41:26-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep18_success         P(supported)=0.99  verified               [m1]  t1-ep18-w2048-cap4m-r3a-mf4090 的 success 选的是世界 35，MP 位置 1.42 cm、朝向 7.0°、成功 True。
+ep18_fall            P(supported)=0.98  verified               [m1]  同一条 run 的 fall 选的是世界 0：t_obj 441、t_pel 527，这一类有 55 个世界、中位数 86，MP 位置 22.77 cm、朝向 43.1°。
+ep20_base            P(supported)=0.98  verified               [m1]  t1-ep20-w2048-cap4m-mf4090 的 nearmiss 选的是世界 144，MP 位置 2.95 cm、朝向 37.3°、成功 False、t_pel -1。
+ep20_var             P(supported)=0.99  verified               [m1]  t1-ep20-w2048-cap4m-r3a-mf4090 的 success 选的是世界 26，MP 位置 1.18 cm、朝向 11.3°。
+t2                   P(supported)=0.98  verified               [m2]  t2-ep24-w2048-cap10m-ml40 的 nearmiss 选的是世界 118（MP 位置 3.62 cm、朝向 31.5°），这次 256 世界 rollout MP-SR 0.0000；t2-ep24-w2048-cap10m-r3a-ml40 的 success 选的是世界 205（0.85 cm、20.5°），rollout MP-SR 1.0000。
+gates                P(supported)=0.98  verified               [m1, m2]  两份清单都是 CASES_OK，各段的同步差都是 0 m，刚体名都没有核（刚体名已核 False）。
+ctl_true             P(supported)=0.99  control(true) ok       [m1]  t1-ep18-w2048-cap4m-r3a-mf4090 这次 256 世界 rollout 的 MP-SR 是 0.7695。
+ctl_false_a          P(supported)=0.01  control(false) ok      [m1]  fall 那一段选的是世界 35。
+ctl_false_b          P(supported)=0.01  control(false) ok      [m2]  t2-ep24-w2048-cap10m-ml40 这次 rollout 的 MP-SR 是 1.0000。
+controls behaved as expected

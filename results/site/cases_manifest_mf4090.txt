@@ -1,0 +1,22 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/case_manifest.py\ t1-ep18-w2048-cap4m-r3a-mf4090:success\,fall\ t1-ep20-w2048-cap4m-mf4090:nearmiss\ t1-ep20-w2048-cap4m-r3a-mf4090:success 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : e9a88ee11ee9156de92f587a6d59192d  stages/evaluate/case_manifest.py
+# source   : 9d5d207c5025
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-08T16:33:37+0800
+# ---------------------------------------------------------------
+code md5 a75146a24a4944b3de03648179a8167d  stages/evaluate/case_clip.py
+code md5 6aa60f308de93e615c4292a466985495  stages/evaluate/case_compose.py
+code md5 f6ee1b1973c5f52e75a253a245e4c99c  stages/evaluate/case_clip.sh
+code md5 8161a75ab6529432af0293277a12335e  stages/evaluate/fall_order.py
+== t1-ep18-w2048-cap4m-r3a-mf4090：checkpoint sha256 de98e49e7a7002dcc96bec834a4a253028e6a2b8883982017235c88f6184b74e，步数 349999104，parquet /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet，本次 256 世界 rollout MP-SR 0.7695
+   渲染：写入 2574 / 2574 帧，参考栏有限帧 858 / 858
+   success：世界 35；规则 197 个 success 世界里取最接近中位数 0.01417 的；这一类中位数 0.01417；MP 位置 1.42 cm、朝向 7.0°（门槛 3 cm / 30°）、成功 True；t_obj -1、t_pel -1；同步差 0 m；骨盆最大单步位移 0.021 m；帧 858；刚体 55、刚体名已核 False、重置差 0 m；有限帧 858/858；t1-ep18-w2048-cap4m-r3a-mf4090_success.mp4 803515 B md5 bc2fd3366b9c9b0540e41b9f3512c34e；t1-ep18-w2048-cap4m-r3a-mf4090_success.jpg 17697 B
+   fall：世界 0；规则 55 个 fall 世界里取最接近中位数 86 的；这一类中位数 86；MP 位置 22.77 cm、朝向 43.1°（门槛 3 cm / 30°）、成功 False；t_obj 441、t_pel 527；同步差 0 m；骨盆最大单步位移 0.068 m；帧 858；刚体 55、刚体名已核 False、重置差 0 m；有限帧 858/858；t1-ep18-w2048-cap4m-r3a-mf4090_fall.mp4 765002 B md5 bfb2fe09d0939dedc86e9f38a57012cd；t1-ep18-w2048-cap4m-r3a-mf4090_fall.jpg 17006 B
+== t1-ep20-w2048-cap4m-mf4090：checkpoint sha256 113e83f5db7fa496f86777d0a1917ead7ccb660d0c5e408a393a1010b328bd8a，步数 349999104，parquet /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet，本次 256 世界 rollout MP-SR 0.0273
+   渲染：写入 1106 / 1106 帧，参考栏有限帧 553 / 553
+   nearmiss：世界 144；规则 220 个 nearmiss 世界里取最接近中位数 0.02945 的；这一类中位数 0.02945；MP 位置 2.95 cm、朝向 37.3°（门槛 3 cm / 30°）、成功 False；t_obj 258、t_pel -1；同步差 0 m；骨盆最大单步位移 0.036 m；帧 553；刚体 56、刚体名已核 False、重置差 0 m；有限帧 553/553；t1-ep20-w2048-cap4m-mf4090_nearmiss.mp4 425827 B md5 c774f62fd92f84c8e6e4c29a5f84e9a6；t1-ep20-w2048-cap4m-mf4090_nearmiss.jpg 19694 B
+== t1-ep20-w2048-cap4m-r3a-mf4090：checkpoint sha256 cd71e8af55338c62d5da7c36d64fdb68bd502ca08b39d80ce2b34ef471fc9cf7，步数 349999104，parquet /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet，本次 256 世界 rollout MP-SR 0.7773
+   渲染：写入 1106 / 1106 帧，参考栏有限帧 553 / 553
+   success：世界 26；规则 199 个 success 世界里取最接近中位数 0.01184 的；这一类中位数 0.01184；MP 位置 1.18 cm、朝向 11.3°（门槛 3 cm / 30°）、成功 True；t_obj -1、t_pel -1；同步差 0 m；骨盆最大单步位移 0.036 m；帧 553；刚体 56、刚体名已核 False、重置差 0 m；有限帧 553/553；t1-ep20-w2048-cap4m-r3a-mf4090_success.mp4 420894 B md5 aaebd460c0810bca4421fa78fcdc578a；t1-ep20-w2048-cap4m-r3a-mf4090_success.jpg 19635 B
+CASES_OK

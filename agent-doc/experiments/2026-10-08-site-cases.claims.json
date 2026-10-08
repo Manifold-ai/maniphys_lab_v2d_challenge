@@ -1,0 +1,18 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "m1": {"file": "results/site/cases_manifest_mf4090.txt", "grep": "^== |   [a-z]+：|CASES_|渲染："},
+  "m2": {"file": "results/ml40/site/cases_manifest_ml40.txt", "grep": "^== |   [a-z]+：|CASES_|渲染：|Tier 2"}
+ },
+ "claims": [
+  {"id": "ep18_success", "evidence": ["m1"], "claim": "t1-ep18-w2048-cap4m-r3a-mf4090 的 success 选的是世界 35，MP 位置 1.42 cm、朝向 7.0°、成功 True。"},
+  {"id": "ep18_fall", "evidence": ["m1"], "claim": "同一条 run 的 fall 选的是世界 0：t_obj 441、t_pel 527，这一类有 55 个世界、中位数 86，MP 位置 22.77 cm、朝向 43.1°。"},
+  {"id": "ep20_base", "evidence": ["m1"], "claim": "t1-ep20-w2048-cap4m-mf4090 的 nearmiss 选的是世界 144，MP 位置 2.95 cm、朝向 37.3°、成功 False、t_pel -1。"},
+  {"id": "ep20_var", "evidence": ["m1"], "claim": "t1-ep20-w2048-cap4m-r3a-mf4090 的 success 选的是世界 26，MP 位置 1.18 cm、朝向 11.3°。"},
+  {"id": "t2", "evidence": ["m2"], "claim": "t2-ep24-w2048-cap10m-ml40 的 nearmiss 选的是世界 118（MP 位置 3.62 cm、朝向 31.5°），这次 256 世界 rollout MP-SR 0.0000；t2-ep24-w2048-cap10m-r3a-ml40 的 success 选的是世界 205（0.85 cm、20.5°），rollout MP-SR 1.0000。"},
+  {"id": "gates", "evidence": ["m1", "m2"], "claim": "两份清单都是 CASES_OK，各段的同步差都是 0 m，刚体名都没有核（刚体名已核 False）。"},
+  {"id": "ctl_true", "evidence": ["m1"], "claim": "t1-ep18-w2048-cap4m-r3a-mf4090 这次 256 世界 rollout 的 MP-SR 是 0.7695。", "control": "true"},
+  {"id": "ctl_false_a", "evidence": ["m1"], "claim": "fall 那一段选的是世界 35。", "control": "false"},
+  {"id": "ctl_false_b", "evidence": ["m2"], "claim": "t2-ep24-w2048-cap10m-ml40 这次 rollout 的 MP-SR 是 1.0000。", "control": "false"}
+ ]
+}
