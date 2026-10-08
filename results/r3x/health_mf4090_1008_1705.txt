@@ -1,0 +1,38 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && date \'+%F %T %Z\' && echo LAST_TRAIN_LINE && tail -1 runs/logs/r3x_train_mf4090.log | LC_ALL=C cut -c1-160 && echo DIVERGE_IN_CHAIN $(grep -ac \'�\217\221�\225�\' runs/logs/r3x_train_mf4090.log) && echo GUARD_STOP $(cat runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090*.log 2>/dev/null | grep -ac NONFINITE_GUARD_STOP) && ls runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090* && echo NONFINITE_FILE $(ls runs/flash_chord/t1-ep0-w2048-cap4m-r3a-mf4090/NONFINITE 2>/dev/null | wc -l) && echo NANWATCH && tail -2 runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090.nanwatch.log 2>/dev/null && echo DIR_MB $(du -sm runs/flash_chord/t1-ep0-w2048-cap4m-r3a-mf4090 | cut -f1) && ls runs/flash_chord/t1-ep0-w2048-cap4m-r3a-mf4090 | sed -E \'s/_[0-9]+\\.(safetensors|pkl|npz|msgpack)$/_N.\\1/\' | sort | uniq -c && echo EVAL_LAST && tail -1 runs/logs/r3x_eval_mf4090.log && echo GATE_LAST && tail -1 runs/logs/cand_t1_r3x_mf4090_gate.log && ls runs/.chain-active-* && nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader && nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader && df -m . | tail -1 && tmux ls' 
+# source   : a98c19a5f04e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T17:02:26-0600
+# ---------------------------------------------------------------
+2026-10-09 07:02:26 CST
+LAST_TRAIN_LINE
+=== 2026-10-09 05:10:32 CST 正式 t1-ep0-w2048-cap4m-r3a-mf4090
+DIVERGE_IN_CHAIN 0
+GUARD_STOP 0
+runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090.apps
+runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090.gpu
+runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090.log
+runs/logs/t1-ep0-w2048-cap4m-r3a-mf4090.nanwatch.log
+NONFINITE_FILE 0
+NANWATCH
+10-08 16:54:40 MDT 270,010,368 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-08 16:58:40 MDT 280,010,752 步：非有限 0 / 1207577（NaN 0，inf 0）
+DIR_MB 325
+      1 hydra
+     29 policy_N.safetensors
+      1 run_record.jsonl
+      1 state_N.safetensors
+      1 wandb
+EVAL_LAST
+=== 2026-10-09 04:41:37 CST 等 runs/logs/r3x_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+GATE_LAST
+=== 2026-10-09 04:41:39 CST 等 runs/logs/r3x_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/.chain-active-cand_t1_r3x_mf4090-gate
+runs/.chain-active-r3x_eval_mf4090
+runs/.chain-active-r3x_train_mf4090
+4130674, python, 23930 MiB
+23939 MiB, 100 %
+/dev/vda2         201462 185794      7358  97% /
+v2d-r3x-eval: 1 windows (created Fri Oct  9 04:41:37 2026)
+v2d-r3x-export: 1 windows (created Fri Oct  9 04:41:39 2026)
+v2d-r3x-train: 1 windows (created Fri Oct  9 04:41:35 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
