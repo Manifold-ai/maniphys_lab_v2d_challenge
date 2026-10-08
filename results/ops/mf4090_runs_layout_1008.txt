@@ -1,0 +1,46 @@
+# command  : bash -c $'ssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; echo -- runs é¡¶å±\202; ls runs; echo -- é\225¿é\223¾æ \207è®° \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); echo -- hf_stage; ls -d runs/hf_stage 2>&1; echo -- å¯¼å\207ºç\233®å½\225æ ·ä¾\213; ls -d runs/export_* runs/submission* 2>/dev/null | head; for d in \\$(ls -d runs/export_* 2>/dev/null | head -1); do find \\$d -maxdepth 3 | head -12; done; echo -- æ²¡æ\234\211 DONE ç\232\204 run å\217\212å\205¶ policy ä»½æ\225°; for d in runs/flash_chord/*/; do [ -e \\$d/DONE ] || echo \\$(ls \\$d | grep -c ^policy_) \\$d; done | sort -rn | head -12"' 
+# source   : 735ae4ec4caf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:29:31-0600
+# ---------------------------------------------------------------
+-- runs é¡¶å±‚
+baseline_results
+cache
+cfgcheck
+diag
+diag2
+ep7
+exports
+flash_chord
+hf_archive_manifest_mf4090_1008.json
+hf_archive_manifest_mf4090.json
+hf_archive_manifest_mf4090.v1.json
+hf_archive_manifest_test.json
+hf_archive_mf4090.spotcheck.json
+hf_archive_mf4090.t2_after.txt
+hf_archive_mf4090.t2_before.txt
+hf_archive_mf4090.verified.json
+logs
+motion
+motion_src
+recovery
+select_t1_stage
+site_cases
+site_media
+submission
+t2denoise
+tools
+train
+-- é•¿é“¾æ ‡è®° 0
+-- hf_stage
+ls: cannot access 'runs/hf_stage': No such file or directory
+-- å¯¼å‡ºç›®å½•æ ·ä¾‹
+runs/submission
+-- æ²¡æœ‰ DONE çš„ run åŠå…¶ policy ä»½æ•°
+15 runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090/
+6 runs/flash_chord/t1-ep28-w2048-cap4m-mf4090/
+2 runs/flash_chord/t1-ep20-w2048-cap10m-ml40/
+2 runs/flash_chord/smoke_t1_ep20_w256/
+1 runs/flash_chord/smoke_t1_ep20_w2048/
+1 runs/flash_chord/smoke_t1_ep20_w1024/
+0 runs/flash_chord/stoptest-mf4090/

@@ -1,0 +1,11 @@
+# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive.py\ \&\&\ python3\ runs/tools/hf_archive.py\ whoami\ --repo\ Rongxuan-Zhou/v2d-track2-archive 
+# md5      : 00c7e7e6e6179b5132f6fd5a4a48fd46  tools/hf_remote.sh
+# source   : 735ae4ec4caf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:35:49-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+9140ffae2b8a2b8c621ada68443e1da5  runs/tools/hf_archive.py
+账号 Rongxuan-Zhou，token 权限 write
+仓库 Rongxuan-Zhou/v2d-track2-archive：私有，40 个文件，共 6.24 GB
+HF_WHOAMI_OK

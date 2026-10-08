@@ -1,0 +1,13 @@
+# command  : bash -c $'ssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; md5sum runs/hf_archive_policy_manifest_mf4090.json runs/tools/hf_archive.py runs/tools/hf_archive_run.sh; echo é\225¿é\223¾æ \207è®° \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); echo GPU è¿\233ç¨\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); echo å¸¦ ARCHIVED.json ç\232\204 run \\$(ls runs/flash_chord/*/ARCHIVED.json | wc -l); echo hf_stage \\$(ls -d runs/hf_stage 2>/dev/null | wc -l); df -m . | tail -1"' 
+# source   : 735ae4ec4caf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T09:50:30-0600
+# ---------------------------------------------------------------
+eb895d8479c43e7ebc6842441675922e  runs/hf_archive_policy_manifest_mf4090.json
+027ed7885644289e667b1bdd985e8d98  runs/tools/hf_archive.py
+9663a9f6156cd98203a14320d8d5e6a1  runs/tools/hf_archive_run.sh
+é•¿é“¾æ ‡è®° 0
+GPU è¿›ç¨‹ 0
+å¸¦ ARCHIVED.json çš„ run 38
+hf_stage 0
+/dev/vda2         201462 191482      1670 100% /

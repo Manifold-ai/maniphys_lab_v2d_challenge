@@ -1,30 +1,44 @@
-"""把训练机上已经用不上的 state 文件归档到 Hugging Face 私有仓库，核对无误后再删本地（训练机上、仓库根执行）。
-计划 agent-doc/plan-hf-archive-2026-10-01.md（第 2 版，按 Fable 5.1 审查修改）。
+"""把训练机上已经用不上的 state 与 policy 文件归档到 Hugging Face 私有仓库，核对无误后再删本地（训练机上、仓库根执行）。
+计划 agent-doc/plan-hf-archive-2026-10-01.md（state，第 2 版，按 Fable 5.1 审查修改）与
+agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）。
 
-五个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
-  plan      --out <清单.json>     按规则挑文件，记下每个文件的大小与 sha256（只读）。
+六个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
+  whoami    --repo <用户/仓库>   查 token 属于谁、权限、仓库是不是私有、仓库里已有多少文件（只读）。
+  plan      --out <清单.json> [--kind state|policy] [--keep 9]
+                                  按规则挑文件，记下每个文件的大小与 sha256（只读）。--kind 默认 state。
   upload    --manifest <清单> --repo <用户/仓库> --prefix <机器名>
                                   建私有仓库（已有就复用，必须是私有），把清单里的文件硬链接进暂存目录 runs/hf_stage/<机器名>/，
                                   再用 upload_large_folder 上传（可断点续传，2 个并发）。
   verify    --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <核对.json>
                                   列出仓库里的文件，逐个比大小与 LFS sha256；全部对上才退出码 0。这个 sha256 是上传时客户端算的，
                                   只能证明“仓库里有个标着这个哈希的对象”，所以删除前还要 spotcheck。
-  spotcheck --verified <核对.json> --n 3 --out <抽查.json>
-                                  随机挑 n 个文件从仓库下载回来，本地重算 sha256 与清单比，比完删掉下载的副本；全部一致才退出码 0。
+  spotcheck --verified <核对.json> (--n 3 | --per-run) --out <抽查.json>
+                                  随机挑 n 个文件（--per-run：每条 run 随机挑 1 个）从仓库下载回来，本地重算 sha256 与清单比，
+                                  比完删掉下载的副本；全部一致才退出码 0。
   delete    --verified <核对.json> --spotcheck <抽查.json> [--yes]
                                   核对与抽查都通过才删；删之前逐个重新核对：run 目录还有 DONE、本地大小与 sha256 没变、
-                                  不是正式 run 步数最大的那份完整 state。每个 run 先写 ARCHIVED.json（归档了什么、在仓库哪里）再删；
-                                  冒烟目录的 state 空了就写 STATE_PRUNED（同训练链的约定），不依赖这一轮有没有删到东西，中途断了重跑能补上。
+                                  不是正式 run 步数最大的那份完整 state，也不是受保护的 policy（规则同 plan，删除时按当时的文件重算）。
+                                  每个 run 先写 ARCHIVED.json（归档了什么、在仓库哪里；追加，不覆盖以前的记录）再删；
+                                  清单里有 state 时，冒烟目录的 state 空了就写 STATE_PRUNED（同训练链的约定），不依赖这一轮有没有删到东西，
+                                  中途断了重跑能补上。清单里有 policy 时，有训练链在跑就一个都不删。
                                   最后清掉暂存目录的硬链接，空间才真正释放。不加 --yes 只打印将删什么。
 
 挑文件的规则（plan）：只看 runs/flash_chord 下有 DONE 的 run，跳过名字里有 t2- 的（Tier 2 第 1 批正在用）。
   - 冒烟（smoke- 或 smoke_ 开头）：全部 state_*.safetensors；
   - 其他：除“步数最大、state 与同步数 policy 都完整”的那份以外的 state_*.safetensors；找不到完整的一份，整个 run 不动。
   policy_*.safetensors、日志、评测结果一律不动。
+挑 policy 中间份的规则（plan --kind policy --keep K）：有训练链在跑（runs/.chain-active-* 存在）就不做。只看有 DONE 的 run
+（名字里有 t2- 的也算，Tier 2 第 1 批早已跑完）。每条 run 留下这些 policy，其余的挑出来：
+  - 步数最大的 K 份（K 默认 9：最后一份，加上 stages/evaluate/export_chain.sh 报终止错误时最多往前退的 8 份）；
+  - 还有 state 文件的步数（state 与同步数的 policy 成对才能续训，见 stages/policy/ckpt_latest.py）；
+  - runs/exports/*.tsv 里导出过的步数（任何状态的行都算），以及导出输入清单 stages/evaluate/exports/*.tsv 里的步数；
+  - STATE_PRUNED 里记的步数。
+  步数最大的那份 policy 不完整，整个 run 不动。state、日志、评测结果、导出产物一律不动。
 凭据只经环境变量传进来（HF_TOKEN、https_proxy），不落命令行、不写日志；HF_ENDPOINT 必须没设或等于 https://huggingface.co
 （服务器 .env 把它指向下载镜像，带 token 的请求不能经第三方转发）。只用标准库加 huggingface_hub。
 """
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -37,6 +51,8 @@ from pathlib import Path
 
 RUNS = Path("runs/flash_chord")
 STAGE = Path("runs/hf_stage")
+EXPORTS = Path("runs/exports")
+EXPORT_LISTS = Path("stages/evaluate/exports")
 STATE = re.compile(r"state_(\d+)\.safetensors")
 POLICY = re.compile(r"policy_(\d+)\.safetensors")
 
@@ -76,6 +92,56 @@ def states(d: Path) -> list:
     return sorted(out)
 
 
+def policies(d: Path) -> list:
+    out = []
+    for p in d.glob("policy_*.safetensors"):
+        m = POLICY.fullmatch(p.name)
+        if m:
+            out.append((int(m.group(1)), p))
+    return sorted(out)
+
+
+def chain_active() -> bool:
+    return any(Path("runs").glob(".chain-active-*"))
+
+
+def exported_steps() -> dict:
+    """导出用到过或排着要用的 (run, 步数)：runs/exports/*.tsv（导出链的结果表，有表头，不管那一行的状态）
+    与 stages/evaluate/exports/*.tsv（导出输入清单，# 开头是注释，列是 档位 episode run 步数 [主机]）。"""
+    out = {}
+    for t in sorted(EXPORTS.glob("*.tsv")):
+        with t.open(encoding="utf-8") as f:
+            rows = list(csv.DictReader(f, delimiter="\t"))
+        for r in rows:
+            step = (r.get("step") or "").strip()
+            if step.isdigit():
+                out.setdefault((r.get("run") or "").strip(), set()).add(int(step))
+    for t in sorted(EXPORT_LISTS.glob("*.tsv")):
+        for line in t.read_text(encoding="utf-8").splitlines():
+            cols = line.split("\t")
+            if line.startswith("#") or len(cols) < 4 or not cols[3].strip().isdigit():
+                continue
+            out.setdefault(cols[2].strip(), set()).add(int(cols[3].strip()))
+    return out
+
+
+def protected_policies(d: Path, run: str, keep: int, exported: dict):
+    """这条 run 留下的 policy 步数（规则见文件头）。步数最大的那份 policy 不完整、或 STATE_PRUNED 读不懂，返回 None：整个 run 不动。"""
+    pol = policies(d)
+    if not pol:
+        return set()
+    if not complete(pol[-1][1]):
+        return None
+    keep_steps = {s for s, _ in pol[-keep:]} | {s for s, _ in states(d)} | exported.get(run, set())
+    sp = d / "STATE_PRUNED"
+    if sp.exists():
+        text = sp.read_text().strip()
+        if not text.isdigit():
+            return None
+        keep_steps.add(int(text))
+    return keep_steps
+
+
 def is_smoke(run: str) -> bool:
     return run.startswith("smoke-") or run.startswith("smoke_")
 
@@ -111,11 +177,41 @@ def candidates() -> list:
     return rows
 
 
+def candidates_policy(keep: int) -> list:
+    if chain_active():
+        sys.exit("有训练链在跑（runs/.chain-active-*），policy 归档不做")
+    exported = exported_steps()
+    rows = []
+    for d in sorted(p for p in RUNS.iterdir() if p.is_dir()):
+        run = d.name
+        if not (d / "DONE").exists():
+            continue
+        pol = policies(d)
+        if len(pol) <= keep:
+            continue
+        prot = protected_policies(d, run, keep, exported)
+        if prot is None:
+            print(f"跳过 {run}：步数最大的 policy 不完整或 STATE_PRUNED 读不懂，整个 run 不动")
+            continue
+        picked = [(s, p) for s, p in pol if s not in prot]
+        extra = sorted(s for s in prot if s < pol[-keep][0] and any(s == q for q, _ in pol))
+        print(f"  {run}：{len(pol)} 份，挑 {len(picked)} 份（步 {picked[0][0] if picked else '-'}–{picked[-1][0] if picked else '-'}），"
+              f"留最新 {keep} 份（步 {pol[-keep][0]}–{pol[-1][0]}）" + (f"，另外保护 {extra}" if extra else ""))
+        for step, p in picked:
+            rows.append({"run": run, "kind": "policy", "file": p.name, "step": step, "keep": keep,
+                         "size": p.stat().st_size, "sha256": sha256(p)})
+    return rows
+
+
 def cmd_plan(a) -> int:
-    rows = candidates()
+    rows = candidates_policy(a.keep) if a.kind == "policy" else candidates()
     Path(a.out).write_text(json.dumps(rows, indent=1) + "\n")
     total = sum(r["size"] for r in rows)
     runs = sorted({r["run"] for r in rows})
+    if a.kind == "policy":
+        print(f"候选 {len(rows)} 个文件，{len(runs)} 个 run，共 {total / 1e9:.2f} GB（policy 中间份，每条 run 留最新 {a.keep} 份与受保护的步数）")
+        print(f"清单写到 {a.out}")
+        return 0
     print(f"候选 {len(rows)} 个文件，{len(runs)} 个 run，共 {total / 1e9:.2f} GB（冒烟 "
           f"{sum(r['size'] for r in rows if r['kind'] == 'smoke') / 1e9:.2f} GB，正式 run 的旧 state "
           f"{sum(r['size'] for r in rows if r['kind'] == 'formal') / 1e9:.2f} GB）")
@@ -136,6 +232,21 @@ def need_env() -> None:
     ep = os.environ.get("HF_ENDPOINT", "")
     if ep and ep.rstrip("/") != "https://huggingface.co":
         sys.exit("HF_ENDPOINT 不是 https://huggingface.co（服务器 .env 把它指向下载镜像），带 token 的请求不能经它转发，停下")
+
+
+def cmd_whoami(a) -> int:
+    need_env()
+    from huggingface_hub import HfApi
+    api = HfApi()
+    me = api.whoami()
+    role = ((me.get("auth") or {}).get("accessToken") or {}).get("role")
+    print(f"账号 {me.get('name')}，token 权限 {role}")
+    info = api.repo_info(a.repo, repo_type="model", files_metadata=True)
+    files = list(info.siblings or [])
+    print(f"仓库 {a.repo}：{'私有' if info.private else '公开'}，{len(files)} 个文件，共 {sum(f.size or 0 for f in files) / 1e9:.2f} GB")
+    ok = bool(info.private) and role in ("write", "fineGrained")
+    print("HF_WHOAMI_OK" if ok else "HF_WHOAMI_FAIL")
+    return 0 if ok else 1
 
 
 def cmd_upload(a) -> int:
@@ -192,6 +303,17 @@ def rmtree(root: Path) -> None:
     root.rmdir()
 
 
+def spot_pick(rows: list, n: int, per_run: bool, seed: int) -> list:
+    """抽查挑哪些文件：per_run 时每条 run 随机挑 1 个，否则从全部里随机挑 n 个。"""
+    rng = random.Random(seed)
+    if not per_run:
+        return rng.sample(rows, min(n, len(rows)))
+    by_run = {}
+    for r in rows:
+        by_run.setdefault(r["run"], []).append(r)
+    return [rng.choice(rs) for _, rs in sorted(by_run.items())]
+
+
 def cmd_spotcheck(a) -> int:
     need_env()
     from huggingface_hub import hf_hub_download
@@ -199,7 +321,7 @@ def cmd_spotcheck(a) -> int:
     if not all(r["match"] for r in rows):
         sys.exit("核对结果里有没对上的文件，不抽查")
     seed = int(time.time())
-    pick = random.Random(seed).sample(rows, min(a.n, len(rows)))
+    pick = spot_pick(rows, a.n, a.per_run, seed)
     tmp = Path("runs/hf_spotcheck")
     tmp.mkdir(parents=True, exist_ok=True)
     out, bad = [], 0
@@ -226,6 +348,10 @@ def cmd_delete(a) -> int:
     verified_paths = {r["path_in_repo"] for r in rows}
     if not spot.get("ok") or not spot.get("checked") or not all(c["path_in_repo"] in verified_paths for c in spot["checked"]):
         sys.exit("抽查没通过（或抽查的文件不在核对清单里），一个都不删")
+    has_policy = any(r["kind"] == "policy" for r in rows)
+    if has_policy and chain_active():
+        sys.exit("有训练链在跑（runs/.chain-active-*），policy 一个都不删")
+    exported = exported_steps() if has_policy else {}
     by_run = {}
     for r in rows:
         by_run.setdefault(r["run"], []).append(r)
@@ -235,14 +361,23 @@ def cmd_delete(a) -> int:
         if not (d / "DONE").exists():
             print(f"跳过 {run}：没有 DONE")
             continue
-        keep = keep_state(d, run)
+        st_rows = [r for r in rs if r["kind"] != "policy"]
+        pol_rows = [r for r in rs if r["kind"] == "policy"]
+        keep = keep_state(d, run) if st_rows else None
         if keep == "__none__":
             print(f"跳过 {run}：找不到完整的最终 state，整个 run 不动")
+            continue
+        prot = protected_policies(d, run, min(r["keep"] for r in pol_rows), exported) if pol_rows else set()
+        if prot is None:
+            print(f"跳过 {run}：步数最大的 policy 不完整或 STATE_PRUNED 读不懂，整个 run 不动")
             continue
         todo = []
         for r in rs:
             p = d / r["file"]
-            if r["file"] == keep:
+            if r["kind"] == "policy" and r["step"] in prot:
+                print(f"跳过 {run}/{r['file']}：按现在的文件重算，这份 policy 受保护")
+                continue
+            if r["kind"] != "policy" and r["file"] == keep:
                 print(f"跳过 {run}/{r['file']}：是这个正式 run 步数最大的完整 state")
                 continue
             if not p.exists():
@@ -262,7 +397,7 @@ def cmd_delete(a) -> int:
             if a.yes:
                 (d / r["file"]).unlink()
                 freed += r["size"]
-        if a.yes and is_smoke(run) and not states(d) and not (d / "STATE_PRUNED").exists():
+        if a.yes and st_rows and is_smoke(run) and not states(d) and not (d / "STATE_PRUNED").exists():
             pol = sorted(int(m.group(1)) for p in d.glob("policy_*.safetensors") if (m := POLICY.fullmatch(p.name)))
             if pol:
                 (d / "STATE_PRUNED").write_text(f"{pol[-1]}\n")
@@ -277,8 +412,12 @@ def cmd_delete(a) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
+    w = sub.add_parser("whoami")
+    w.add_argument("--repo", required=True)
     p = sub.add_parser("plan")
     p.add_argument("--out", required=True)
+    p.add_argument("--kind", choices=("state", "policy"), default="state")
+    p.add_argument("--keep", type=int, default=9, help="policy：每条 run 至少留步数最大的几份")
     for name in ("upload", "verify"):
         q = sub.add_parser(name)
         q.add_argument("--manifest", required=True)
@@ -289,13 +428,16 @@ def main() -> int:
     c = sub.add_parser("spotcheck")
     c.add_argument("--verified", required=True)
     c.add_argument("--n", type=int, default=3)
+    c.add_argument("--per-run", action="store_true", help="每条 run 随机挑 1 个（忽略 --n）")
     c.add_argument("--out", required=True)
     d = sub.add_parser("delete")
     d.add_argument("--verified", required=True)
     d.add_argument("--spotcheck", required=True)
     d.add_argument("--yes", action="store_true")
     a = ap.parse_args()
-    return {"plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
+    if a.cmd == "plan" and a.keep < 1:
+        ap.error("--keep 至少是 1")
+    return {"whoami": cmd_whoami, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
 
 
 if __name__ == "__main__":
