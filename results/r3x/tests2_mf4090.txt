@@ -1,0 +1,52 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ python3\ stages/policy/test_make_r3x_queue.py\ \&\&\ python3\ stages/policy/test_make_trial_queue.py\ \&\&\ python3\ stages/evaluate/test_select_t1_compare.py\ \&\&\ python3\ stages/evaluate/test_export_after_eval.py\ \&\&\ python3\ stages/policy/test_chain_after.py\ \&\&\ python3\ -c\ \'import\ sys\;\ sys.path.insert\(0\,\ \"stages/evaluate\"\)\;\ import\ test_select_t1\ as\ t\;\ \[print\(\"ok\"\,\ n\)\ or\ f\(\)\ for\ n\,\ f\ in\ vars\(t\).items\(\)\ if\ n.startswith\(\"test_\"\)\]\;\ print\(\"ALL_OK\"\)\'\ \&\&\ for\ f\ in\ stages/policy/arm_r3x_chain.sh\ stages/evaluate/select_t1.sh\ stages/evaluate/relay_t1x.sh\ stages/evaluate/export_after_eval.sh\;\ do\ bash\ -n\ \$f\ \&\&\ echo\ \"syntax\ ok\ \$f\ \$\(md5sum\ \$f\ \|\ cut\ -c1-12\)\"\;\ done\ \&\&\ echo\ TESTS_DONE 
+# md5      : 33d4a26b29e11781d28741534d17b9cc  stages/policy/test_make_r3x_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : 91eca8c09f9c022ee1ffcc9ae68a2d92  stages/evaluate/test_select_t1_compare.py
+# md5      : 65f6731bfc0667807afb957c8053cee1  stages/evaluate/test_export_after_eval.py
+# md5      : 5af02a41fbf55343b6cabec3245b8744  stages/policy/test_chain_after.py
+# md5      : 812458033c0bfdf6a218f74279982c73  stages/policy/arm_r3x_chain.sh
+# md5      : 697190a0a9fd9612eca9965b76d86de4  stages/evaluate/select_t1.sh
+# md5      : 9628797cefa0843e77d4e033a74aa990  stages/evaluate/relay_t1x.sh
+# source   : d8b309e9d52c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T14:41:09-0600
+# ---------------------------------------------------------------
+source d8b309e9d52c
+ok test_generates_runs
+ok test_missing_baseline_refuses
+ok test_capacity_override_refuses
+ALL_OK
+ok test_generates_segments
+ok test_missing_baseline_refuses
+ok test_inconsistent_smoke_refuses
+ALL_OK
+ok test_ok
+ok test_old_score_drift_fails
+ok test_unknown_candidate_fails
+ok test_other_episode_moved_fails
+ok test_worse_choice_fails
+ok test_packed_mismatch_fails
+ALL_OK
+ok test_exports_after_clean_eval
+ok test_partial_eval_failure_stops
+ok test_failed_eval_chain_stops
+ok test_waits_for_eval_end
+ok test_no_raw_end_marker_in_gate_log
+ALL_OK
+ok test_opens_next_segment
+ok test_too_few_done
+ok test_previous_chain_failed
+ok test_waits_for_eval
+ok test_gate_continue
+ok test_gate_stop
+ok test_gate_not_reached_when_too_few_done
+ALL_OK
+ok test_mp_first
+ok test_then_sp_then_combined
+ok test_tie_keeps_current
+ALL_OK
+syntax ok stages/policy/arm_r3x_chain.sh 812458033c0b
+syntax ok stages/evaluate/select_t1.sh 697190a0a9fd
+syntax ok stages/evaluate/relay_t1x.sh 9628797cefa0
+syntax ok stages/evaluate/export_after_eval.sh 4d3fad75152c
+TESTS_DONE
