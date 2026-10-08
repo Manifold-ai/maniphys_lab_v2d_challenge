@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && date \'+%F %T %Z\' && grep -aE \'^=== .*(start |�\255��\220\221核对|�\206\222�\203\237 smoke-.* �\200\232�\207|SKIPPED|没�\207|没�\227�\207��\235�|�\201\234�\213|FAILED| �\255��\217 )\' runs/logs/r3x_train_mf4090.log | sed -E \'s/�\232[0-9]+ 帧�\214�\215�\212��\237�线.*rollout �\207\214�\235\236�\234\211�\231\220�\226�\225\214 ([0-9]+) 个.*/�\210�\235\236�\234\211�\231\220�\226�\225\214 \\1 个�\211/\' && echo SMOKE_OK_N $(grep -ac \'^SMOKE_OK\' runs/logs/r3x_train_mf4090.log) && tail -1 runs/logs/r3x_eval_mf4090.log && tail -1 runs/logs/cand_t1_r3x_mf4090_gate.log && ls runs/.chain-active-* && nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader && df -m . | tail -1' 
+# source   : 8093f78d0b3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T15:11:04-0600
+# ---------------------------------------------------------------
+2026-10-09 05:11:04 CST
+=== 2026-10-09 04:41:35 CST start r3x_train_mf4090, source d8b309e9d52c, 期望表 stages/policy/queues/mf4090_r3x.expect.tsv
+=== 2026-10-09 04:41:38 CST 正向核对：6 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-09 04:46:19 CST 冒烟 smoke-t1-ep0-w2048-cap4m-r3a-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 04:51:01 CST 冒烟 smoke-t1-ep15-w2048-cap4m-r3a-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 04:56:05 CST 冒烟 smoke-t1-ep5-w2048-cap4m-r3a-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 05:00:46 CST 冒烟 smoke-t1-ep0-w2048-cap4m-r3a-s43-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 05:05:29 CST 冒烟 smoke-t1-ep15-w2048-cap4m-r3a-s43-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 05:10:32 CST 冒烟 smoke-t1-ep5-w2048-cap4m-r3a-s43-mf4090 通过（非有限世界 0 个）
+=== 2026-10-09 05:10:32 CST 正式 t1-ep0-w2048-cap4m-r3a-mf4090
+SMOKE_OK_N 6
+=== 2026-10-09 04:41:37 CST 等 runs/logs/r3x_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-09 04:41:39 CST 等 runs/logs/r3x_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/.chain-active-cand_t1_r3x_mf4090-gate
+runs/.chain-active-r3x_eval_mf4090
+runs/.chain-active-r3x_train_mf4090
+4130674, 612 MiB
+/dev/vda2         201462 185366      7787  96% /
