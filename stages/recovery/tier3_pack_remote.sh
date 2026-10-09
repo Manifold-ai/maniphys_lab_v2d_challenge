@@ -1,0 +1,22 @@
+# 在 ml40 上（经 stdin 执行）把同组成员 Tier 3 重建产物里指定几集的 parquet、元数据与部署版本打成 tar，写到 stdout。
+# 计划 agent-doc/plan-t3-pilot-2026-10-09.md 第 3 节。由 stages/recovery/tier3_stage.sh 调用，经 Mac 管道转给 mf4090。
+# 目录自己找：/lab_data/<目录>/v2d/tier3 里不属于本用户的，必须恰好一个。命令行、报错与 tar 里都不出现别人的名字（tar 里只有相对路径）。
+# 只读。任何一个文件缺或读不了就退出码 1，不写 tar（stdout 为空，对端解包会失败）。
+# 用法（Mac，仓库根）：ssh ml40 'bash -s -- <集>...' < stages/recovery/tier3_pack_remote.sh | ...
+set -uo pipefail
+[ $# -ge 1 ] || { echo "tier3_pack_remote: 要至少一集" >&2; exit 2; }
+me="$(id -un)"
+mapfile -t roots < <(ls -d /lab_data/*/v2d/tier3 2>/dev/null | grep -v "^/lab_data/$me/")
+[ ${#roots[@]} = 1 ] || { echo "tier3_pack_remote: 别的用户的 tier3 目录有 ${#roots[@]} 个，应当恰好一个" >&2; exit 1; }
+T="${roots[0]}"; D="$T/runs/tier3_cari4d"
+files=()
+for ep in "$@"; do
+  [[ $ep =~ ^[0-9]+$ ]] || { echo "tier3_pack_remote: 集号非法：$ep" >&2; exit 2; }
+  e="$(printf %06d "$ep")"
+  for f in "data/chunk-000/episode_$e.parquet" "meta/episode_$e.metadata.json"; do
+    [ -r "$D/$f" ] || { echo "tier3_pack_remote: 读不了 runs/tier3_cari4d/$f" >&2; exit 1; }
+    files+=("$f")
+  done
+done
+[ -r "$T/code/DEPLOYED" ] || { echo "tier3_pack_remote: 读不了 code/DEPLOYED" >&2; exit 1; }
+tar -cf - -C "$T/code" DEPLOYED -C "$D" "${files[@]}"

@@ -15,6 +15,9 @@ TIER1 = TRACK2 / "tier_1_multiview_caption"
 TIER2 = TRACK2 / "tier_2_synthetic_noise"
 RESULTS = REPO / "results"
 RUNS = REPO / "runs"          # 训练与缓存产物，gitignored，rsync 受 P 规则保护
+# Tier 3 只发 exo 视频，没有官方的轨迹目录。这里不是官方数据：是从视频重建后拼成的档目录（与 Tier 2 同 schema），
+# 由 stages/recovery/tier3_root.py 写（计划 agent-doc/plan-t3-pilot-2026-10-09.md）。
+TIER3 = RUNS / "tier3" / "root"
 UPSTREAM = REPO / "third_party" / "video_to_data"
 SOMA_ASSETS = (UPSTREAM / "robotic_grounding/source/robotic_grounding"
                / "robotic_grounding/assets/body_models/soma")
@@ -22,4 +25,4 @@ SOMA_ASSETS = (UPSTREAM / "robotic_grounding/source/robotic_grounding"
 def tier(n: int) -> Path:
     """按档位号取数据根。不要跨档合并——三档的 episode 与帧号刻意对齐，
     用途是逐帧比较，不是互相补数据。"""
-    return {1: TIER1, 2: TIER2}[n]
+    return {1: TIER1, 2: TIER2, 3: TIER3}[n]

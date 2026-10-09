@@ -1,0 +1,153 @@
+"""make_var_queue.py 的测试（守计划 agent-doc/plan-t2-scaleout-2026-10-09.md 第 2、3 节与 agent-doc/plan-t3-pilot-2026-10-09.md 第 2、3 节的
+run 设计；运行规范未成文，暂无契约 ID）。只用标准库。
+临时目录里放假的 Tier 2 基线（30 条 episode：偶数在 ml40、1000 万 buffer，奇数在 mf4090、带 training.replay.capacity=4000000；
+ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）与两份导出清单，跑生成脚本后核：
+  1. t2x：24 条 run 的名字与计划顺序；每行没有 buffer 覆盖、有变体 A 两项、基线有的 scene.support=false 照留；冒烟与正式行除步数、前缀外一致；
+     期望表的 buffer 列 10000000、种子 42，其余列照抄基线；导出清单 24 行与 run 一一对应、档位 2
+  2. t3p：2 条 run；parquet 换到 /runs/motion/tier3/、序列名不变；覆盖以 400 万 buffer 开头；期望表 buffer 列 4000000；导出清单档位 3
+  3. 基线覆盖里有计划没说的键、或一条 episode 在导出清单里出现两次：报错退出，不写文件
+用法：python3 stages/policy/test_make_var_queue.py
+"""
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ENV = "V2D_WANDB_TAG=batch V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
+SENV = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
+HEADER = "run\tsmoke\tsequence_id\tplayback\tsrc_frames\tsupport\tpos_tol\tori_tol\tcapacity\tseed\txeval"
+VAR = ["objective.object_position_std=0.05", "termination.object_orientation_threshold=0.6"]
+T2X = [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17, 9, 1, 13, 19, 2, 4, 14, 25, 28]
+
+
+def seq(ep):
+    return f"2026-01-{ep:02d}_obj_{ep}"
+
+
+def frames(ep):
+    return str(500 + ep)
+
+
+def support(ep):
+    return "true" if ep % 3 == 0 else "false"
+
+
+def base_run(ep):
+    if ep == 1:
+        return "t2-ep1-w2048-cap10m-p185-ml40"
+    return f"t2-ep{ep}-w2048-cap10m-ml40" if ep % 2 == 0 else f"t2-ep{ep}-w2048-cap4m-mf4090"
+
+
+def pq(ep, tier=2):
+    return f"/repo/runs/motion/tier{tier}/whole_body/soma/sequence_id={seq(ep)}/robot_name=g1/data.parquet"
+
+
+def setup(root: Path, bad_key_ep=None, dup_ep=None):
+    q = root / "stages" / "policy" / "queues"
+    ex = root / "stages" / "evaluate" / "exports"
+    q.mkdir(parents=True)
+    ex.mkdir(parents=True)
+    rows = {"ml40": [], "mf4090": []}
+    for ep in range(30):
+        run = base_run(ep)
+        m = run.rsplit("-", 1)[1]
+        cap = "10000000" if m == "ml40" else "4000000"
+        over = ([] if support(ep) == "true" else ["scene.support=false"]) + (["training.replay.capacity=4000000"] if m == "mf4090" else [])
+        if ep == bad_key_ep:
+            over.append("training.batch_size=512")
+        rows[m].append((ep, run, cap, over))
+    for m, items in rows.items():
+        exp, fl, sl = [HEADER], ["# 基线"], ["# 基线冒烟"]
+        for ep, run, cap, over in items:
+            exp.append("\t".join([run, f"smoke-{run}", seq(ep), "frame", frames(ep), support(ep), "0.015", "0.086", cap, "42", "no"]))
+            o = (" " + " ".join(over)) if over else ""
+            fl.append(f"{ENV} {run} {pq(ep)} 2048 349999104{o}")
+            sl.append(f"{SENV} smoke-{run} {pq(ep)} 2048 4096000{o}")
+        (q / f"{m}_t2a.expect.tsv").write_text("\n".join(exp) + "\n")
+        (q / f"{m}_t2a.txt").write_text("\n".join(fl) + "\n")
+        (q / f"{m}_t2a_smoke.txt").write_text("\n".join(sl) + "\n")
+        lines = ["# 导出清单"] + [f"2\t{ep}\t{run}\t349999104" for ep, run, _, _ in items]
+        if m == "ml40" and dup_ep is not None:
+            lines.append(f"2\t{dup_ep}\tt2-ep{dup_ep}-w2048-cap10m-other-ml40\t349999104")
+        (ex / f"{m}.tsv").write_text("\n".join(lines) + "\n")
+    # t3p 的基线是 ml40 上 cap10m 的 ep8、ep24：两者都是偶数号，上面已经放在 ml40
+
+
+def gen(root: Path, name: str):
+    return subprocess.run([sys.executable, str(HERE / "make_var_queue.py"), name, "--root", str(root)], capture_output=True, text=True)
+
+
+def lines(p: Path):
+    return [x for x in p.read_text().splitlines() if x and not x.startswith("#")]
+
+
+def check_set(root, name, eps, run_fmt, tier, cap_col, cap_over, env_tag, machine):
+    q = root / "stages" / "policy" / "queues"
+    want = [run_fmt.format(ep=e) for e in eps]
+    f, s = lines(q / f"{machine}_{name}.txt"), lines(q / f"{machine}_{name}_smoke.txt")
+    assert [x.split()[5] for x in f] == want, f
+    for fx, sx, ep in zip(f, s, eps):
+        ft, st = fx.split(), sx.split()
+        over = ft[9:]
+        assert ft[:5] == f"V2D_WANDB_TAG={env_tag} V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1".split(), fx
+        assert st[:5] == SENV.split(), sx
+        assert ft[6] == pq(ep, tier) and ft[7] == "2048" and ft[8] == "349999104", fx
+        caps = [o for o in over if o.startswith("training.replay.capacity=")]
+        assert caps == ([cap_over] if cap_over else []) and (not cap_over or over[0] == cap_over), fx
+        assert ("scene.support=false" in over) == (support(ep) == "false") and over[-2:] == VAR, fx
+        assert st[5] == "smoke-" + ft[5] and st[8] == "4096000" and st[6:8] == ft[6:8] and st[9:] == over, (fx, sx)
+    exp = lines(q / f"{machine}_{name}.expect.tsv")
+    assert exp[0] == HEADER
+    for row, run, ep in zip(exp[1:], want, eps):
+        c = row.split("\t")
+        assert c[:2] == [run, "smoke-" + run] and c[2:8] == [seq(ep), "frame", frames(ep), support(ep), "0.015", "0.086"], row
+        assert c[8:] == [cap_col, "42", "no"], row
+    assert len(exp) == len(eps) + 1
+    cand = lines(root / "stages" / "evaluate" / "exports" / f"cand_t{tier}_{name}_{machine}.tsv")
+    assert cand == [f"{tier}\t{ep}\t{run}\t349999104" for ep, run in zip(eps, want)], cand
+
+
+def test_t2x():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        r = gen(root, "t2x")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t2x", T2X, "t2-ep{ep}-w2048-cap10m-r3a-ml40", 2, "10000000", None, "t2x", "ml40")
+
+
+def test_t3p():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        r = gen(root, "t3p")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t3p", [8, 24], "t3-ep{ep}-w2048-cap4m-r3a-mf4090", 3, "4000000", "training.replay.capacity=4000000", "t3p", "mf4090")
+
+
+def test_unknown_override_refuses():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root, bad_key_ep=6)
+        r = gen(root, "t2x")
+        out = r.stdout + r.stderr
+        assert r.returncode != 0 and "计划没说怎么处理的键" in out, out
+        assert not (root / "stages" / "policy" / "queues" / "ml40_t2x.txt").exists()
+
+
+def test_duplicate_export_row_refuses():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root, dup_ep=10)
+        r = gen(root, "t2x")
+        assert r.returncode != 0 and "不止一行" in r.stdout + r.stderr, r.stdout + r.stderr
+        assert not (root / "stages" / "evaluate" / "exports" / "cand_t2_t2x_ml40.tsv").exists()
+
+
+if __name__ == "__main__":
+    for name, fn in list(globals().items()):
+        if name.startswith("test_"):
+            fn()
+            print(f"ok {name}")
+    print("ALL_OK")
