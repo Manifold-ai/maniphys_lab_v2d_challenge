@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-t2x-t3p-plan.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 6b5073cb532b3f68b2929c322f2e9860  agent-doc/experiments/2026-10-09-t2x-t3p-plan.claims.json
+# source   : 30e46a9e6db0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:30:44-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+trial_range          P(supported)=0.92  verified               [bt]  t2-ep8、t2-ep12、t2-ep20、t2-ep24、t2-ep26、t2-ep22 这 6 条 -w2048-cap10m-ml40 基线的 失败_骨盆 在 0.001–0.051 之间；名字带 r3a 的 11 条 run 的 MP-SR 在 0.934–1.000 之间。
+split                P(supported)=0.71  verified               [bt]  不带 r3a、且不是 ep8、ep12、ep20、ep22、ep24、ep26 的 24 条基线里，失败_骨盆 低于 0.5 的有 14 条；ep17 那条是 0.607；ep9 那条是 0.994；ep1、ep2、ep4、ep13、ep14、ep19、ep25、ep28 那几条都是 1.000。
+mp_zero              P(supported)=0.75  verified               [bt]  不带 r3a、且不是 ep8、ep12、ep20、ep22、ep24、ep26 的 24 条基线里，MP-SR 不是 0.000 的只有 ep0 0.362、ep10 0.271、ep29 0.140、ep7 0.067、ep18 0.040 这 5 条，其余 19 条都是 0.000。
+inputs               P(supported)=0.95  verified               [im, if]  两份输入记录的最后一行都是“MOTION_INPUTS 序列 24 条，有问题 0 条”；序列 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06 在两份记录里的 parquet_sha256 相同。
+t3_files             P(supported)=0.99  verified               [e]  episode 8 与 episode 24 的 parquet 和元数据文件都标“可读”；ep8 的 parquet sha256 以 0e0bd2e7 开头，ep24 的以 efda4dc7 开头。
+t3_md5               P(supported)=0.79  verified               [e, f]  重建时用的网格与地面文件的 md5（“输入 mesh”“输入 ground_plane”那几行）与 mf4090 记录里官方 Tier 2 目录同名文件的 md5 相同，例如 skinny_wood_chair.glb 都是 666b6366a803130fc20050249ad67fa2，watering_can.glb 都是 27d97417dc0915ecc61c08884ba5449f。
+t3_support_disk      P(supported)=0.90  verified               [f]  两集（skinny_wood_chair_push_10、watering_can_pour_right_02）的支撑面形状都是 empty；mf4090 根分区可用 5594 MB。
+t3_checks            P(supported)=0.96  verified               [q]  第一版检查（runs/checks）里 ep08_skinny_wood_chair 是 ok=True、iou_p50=0.8037、depth_factor_p50=0.96；ep24_watering_can 是 ok=True、iou_p50=0.7719、depth_factor_p50=0.9408；episode_000008.parquet 与 episode_000024.parquet 都在 runs/tier3_cari4d 里。
+ctl_true             P(supported)=0.99  control(true) ok       [bt]  t2-ep22-w2048-cap10m-ml40 的 MP-SR 是 0.724。
+ctl_false_split      P(supported)=0.01  control(false) ok      [bt]  t2-ep23-w2048-cap4m-mf4090 的 失败_骨盆 是 1.000。
+ctl_false_support    P(supported)=0.10  control(false) ok      [f]  两集的支撑面里都有 Cube。
+controls behaved as expected

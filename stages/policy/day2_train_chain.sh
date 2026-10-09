@@ -19,6 +19,12 @@
 # 期望表（TSV，第一行是表头）：run smoke sequence_id playback(frame|real) src_frames support(true|false) pos_tol ori_tol capacity seed xeval(yes|no)
 #   期望帧数：逐帧 = src_frames；真实时长 = int(round((src_frames − 1) / 30 × 50)) + 1（同上游 resample_times）。pos_tol / ori_tol 两种回放的行都填，
 #   逐帧一臂训练时不用（断言它没有容差键），评测链的交叉评测按它放宽。xeval 只给评测链用。
+# 让卡（计划 agent-doc/plan-t2-scaleout-2026-10-09.md 第 5 节，Fable 5.1 审查 M1）：
+#   - V2D_GPU_WAIT_S（默认 0，即不等）：每条冒烟与正式开跑前见到 GPU 上有别的进程，每 V2D_POLL_S（默认 60）秒看一次，最多等这么久；
+#     空了接着跑，等不到就停整条链。同 export_chain.sh 的 wait_gpu
+#   - 停链标记 runs/.chain-stop-<日志名>：每条冒烟与正式开跑前见到它，剩下的都不开（正在训的那条不受影响），照常写结束行，
+#     评测链与导出门接着处理已完成的 run。fc_run.sh 的 STOP 只管已经起了容器的 run，没起的会被当成残留清掉
+# 测试：stages/policy/test_day2_chain_waits.py。
 # 用法（仓库根）：stages/policy/day2_train_chain.sh <期望表> <冒烟队列> <正式队列> <冒烟显存上限 MiB> <日志名>
 # 日志 runs/logs/<日志名>.log，最后一行 DAY2_TRAIN_DONE（完成 x、失败 y、跳过 z、发散 v）或 DAY2_TRAIN_FAILED（链本身出错）。
 set -uo pipefail
@@ -35,7 +41,26 @@ MARK="runs/.chain-active-$NAME"   # scripts/dev/remote 见到 runs/.chain-active
 echo "$NAME $SRC0 $(date '+%F %T %Z')" > "$MARK"; trap 'rm -f "$MARK"' EXIT
 case "$SRC0" in *-dirty*|*-syncing*|unknown) die "来历 $SRC0 不干净，先提交再同步" ;; esac
 check_src() { [ "$(cat .v2d-source-commit 2>/dev/null || echo unknown)" = "$SRC0" ] || die "来历变了（开头 $SRC0，现在 $(cat .v2d-source-commit 2>/dev/null)），停下"; }
-gpu_check() { local o; o="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ')"; [ -z "$o" ] || die "GPU 上有别的进程（$o），停下"; }
+GPU_WAIT_S="${V2D_GPU_WAIT_S:-0}"
+[[ $GPU_WAIT_S =~ ^[0-9]+$ ]] || die "V2D_GPU_WAIT_S 只能是秒数：$GPU_WAIT_S"
+gpu_pids() { nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ' | paste -sd, -; }
+gpu_check() {  # GPU 上有别的进程：最多等 GPU_WAIT_S 秒（0 就不等），空了接着跑，等不到就停整条链
+  local o t0=$SECONDS
+  o="$(gpu_pids)"; [ -n "$o" ] || return 0
+  [ "$GPU_WAIT_S" -gt 0 ] || die "GPU 上有别的进程（$o），停下"
+  say "GPU 上有别的进程（${o}），每 ${V2D_POLL_S:-60} 秒看一次，最多等 ${GPU_WAIT_S} 秒"
+  while [ -n "$(gpu_pids)" ]; do
+    [ $((SECONDS - t0)) -lt "$GPU_WAIT_S" ] || die "GPU 被别的进程占了 ${GPU_WAIT_S} 秒，停下"
+    sleep "${V2D_POLL_S:-60}"
+  done
+  say "GPU 空了，接着跑"
+}
+STOP_MARK="runs/.chain-stop-$NAME"
+stopped() {  # 见到停链标记：记一次，返回 0（调用处 break）
+  [ -e "$STOP_MARK" ] || return 1
+  [ -n "${STOPPED:-}" ] || say "见到 ${STOP_MARK}：剩下的冒烟与正式训练都不开；已完成的照常交给评测链"
+  STOPPED=1
+}
 qline() { grep -v '^[[:space:]]*#' "$1" | awk -v r="$2" '{for (i = 1; i <= NF; i++) if ($i == r) {print; exit}}'; }
 run_q() {  # run_q <脚本> <队列行>：带行首的环境变量调 fc_run.sh（冒烟）或 fc_run_watched.sh（正式），返回它的退出码
   local tok envs=() i=0
@@ -68,6 +93,7 @@ say "正向核对：${#ROWS[@]} 条 run 的冒烟与正式配置都与期望表�
 declare -A OK
 nd=0; nf=0; ns=0; nv=0
 for row in "${ROWS[@]}"; do
+  stopped && break
   IFS=$'\t' read -r run smoke seq pb src support pos ori cap seed xev <<< "$row"; frames="$(exp_frames "$pb" "$src")"
   check_src; gpu_check; disk_check
   S=runs/flash_chord/$smoke
@@ -100,6 +126,7 @@ done
 for row in "${ROWS[@]}"; do
   IFS=$'\t' read -r run smoke seq pb src support pos ori cap seed xev <<< "$row"; frames="$(exp_frames "$pb" "$src")"
   [ -n "${OK[$run]:-}" ] || continue
+  stopped && break
   check_src; gpu_check; disk_check
   if [ -f "runs/flash_chord/$run/DONE" ]; then say "$run 已 DONE"; nd=$((nd + 1)); continue; fi
   if leftover "$run"; then say "$run 有残留 state 没有 DONE：SKIPPED（续训不恢复 replay，要从 0 重来就先移走该目录）"; ns=$((ns + 1)); continue; fi
@@ -118,4 +145,5 @@ for row in "${ROWS[@]}"; do
     say "$run 失败（退出码 ${rc}），继续下一条"; nf=$((nf + 1))
   fi
 done
+[ -z "${STOPPED:-}" ] || say "停链：见到 ${STOP_MARK} 之后的 run 都没开（续跑另起一段，见计划）"
 say "DAY2_TRAIN_DONE（完成 ${nd}、失败 ${nf}、跳过 ${ns}、发散 ${nv}）"

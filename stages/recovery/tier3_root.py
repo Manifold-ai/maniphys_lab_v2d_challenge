@@ -2,19 +2,23 @@
 
 输入 <incoming>：stages/recovery/tier3_pack_remote.sh 打的 tar 解开后的目录，有 data/chunk-000/episode_<N>.parquet、
 meta/episode_<N>.metadata.json（同组成员的转换脚本每集写一份，字段与 Tier 2 的 episodes_metadata.jsonl 一行相同）与 DEPLOYED。
+--expect <表>：stages/recovery/tier3_expect.py 从两份只读核对记录生成的哈希表（相对路径、算法、哈希）。转来的每个 parquet 与元数据（sha256）、
+元数据里 mesh、ground_plane、support_surface 指向的官方 Tier 2 文件（md5）都要与表里相同，表里每一行也都要用上；
+任何一处不符就退出码 1，什么也不写（Fable 5.1 审查 M1：同组成员的产物还在变，换了新版本不能悄悄进来）。
 输出 <root>（默认 libs/v2d_infra/paths.py 的 TIER3，即 runs/tier3/root）：
-  data/chunk-000/episode_<N>.parquet、meta/episodes_metadata.jsonl（每集一行，按 episode_index 排），
-  以及每行 mesh、ground_plane、support_surface 指向的文件：从官方 Tier 2 目录（--tier2）按同一相对路径复制。
+  data/chunk-000/episode_<N>.parquet、meta/episodes_metadata.jsonl（每集一行，按 episode_index 排）、
+  元数据里三个相对路径指向的文件（从官方 Tier 2 目录 --tier2 复制），以及 meta/provenance.json（每集的来源：部署版本、哈希、哈希表的路径；
+  stages/retarget/challenge_to_soma.py 转 Tier 3 时把这一集的那份写进 v2d_meta.json，审查 m5）。
   规则解读未确认：Tier 3 用 Tier 2 目录里的官方网格、地面平面与支撑面（同组成员的重建也用了前两者），正式做 Tier 3 前要问组委会。
-每个写入的文件打一行 sha256（网格、地面与支撑面另打 md5，便于和 results/ops/t3p_mf4090_inputs_1009.txt 比）。
-同一集已在 root 里：parquet 与元数据都相同就跳过；任何一项不同就拒绝（退出码 1，先核完再写，不同时什么也不写）。
-相对路径必须留在各自目录里（不许绝对路径与 ..）。开头调 tier_guard.forbid_tier1()：本进程读不到 Tier 1 的任何文件。
-用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> [--root <输出>] [--tier2 <官方 Tier 2 目录>]
+同一集已在 root 里：parquet 与元数据都相同就跳过，不同就拒绝。相对路径必须留在各自目录里（不许绝对路径与 ..）。
+开头调 tier_guard.forbid_tier1()：本进程读不到 Tier 1 的任何文件。
+用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> --expect <表> [--root <输出>] [--tier2 <官方 Tier 2 目录>]
 测试：stages/recovery/test_tier3_root.py。
 """
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import sys
 from pathlib import Path, PurePosixPath
@@ -41,11 +45,45 @@ def safe_rel(rel: str) -> PurePosixPath:
     return p
 
 
-def plan(incoming: Path, root: Path, tier2: Path) -> tuple:
-    """核对并列出要写的文件（源 → 目标）与 metadata 行；不写任何东西。"""
+def load_expect(path: Path) -> dict:
+    out = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        rel, algo, h = line.split("\t")
+        if algo not in ("sha256", "md5") or rel in out:
+            raise SystemExit(f"tier3_root: 哈希表 {path} 的这一行不对：{line}")
+        out[rel] = (algo, h)
+    if not out:
+        raise SystemExit(f"tier3_root: 哈希表 {path} 是空的")
+    return out
+
+
+def deployed(incoming: Path) -> dict:
+    text = (incoming / "DEPLOYED").read_text() if (incoming / "DEPLOYED").is_file() else ""
+    m = re.search(r"\b[0-9a-f]{40}\b", text)
+    if not m:
+        raise SystemExit(f"tier3_root: {incoming}/DEPLOYED 里没有 40 位的 commit")
+    return {"commit": m.group(0), "clean": "dirty=0" in text}
+
+
+def plan(incoming: Path, root: Path, tier2: Path, expect: dict) -> tuple:
+    """核对并列出要写的文件（源 → 目标）、metadata 行与来源；不写任何东西。"""
     metas = sorted((incoming / "meta").glob("episode_*.metadata.json"))
     if not metas:
         raise SystemExit(f"tier3_root: {incoming}/meta 下没有 episode_*.metadata.json")
+    used = set()
+
+    def check(rel: str, f: Path) -> str:
+        if rel not in expect:
+            raise SystemExit(f"tier3_root: {rel} 不在哈希表里")
+        algo, want = expect[rel]
+        got = digest(f, algo)
+        if got != want:
+            raise SystemExit(f"tier3_root: {rel} 的 {algo} 是 {got}，哈希表里是 {want}")
+        used.add(rel)
+        return got
+
     old_rows = {}
     jl = root / "meta" / "episodes_metadata.jsonl"
     if jl.exists():
@@ -53,7 +91,8 @@ def plan(incoming: Path, root: Path, tier2: Path) -> tuple:
             if line.strip():
                 r = json.loads(line)
                 old_rows[int(r["episode_index"])] = r
-    copies, rows = [], dict(old_rows)
+    dep = deployed(incoming)
+    copies, rows, prov = [], dict(old_rows), {}
     for m in metas:
         row = json.loads(m.read_text())
         ep = int(row["episode_index"])
@@ -62,44 +101,60 @@ def plan(incoming: Path, root: Path, tier2: Path) -> tuple:
         src_pq = incoming / "data" / "chunk-000" / f"episode_{ep:06d}.parquet"
         if not src_pq.is_file():
             raise SystemExit(f"tier3_root: 缺 {src_pq}")
+        info = {"deployed_commit": dep["commit"], "deployed_clean": dep["clean"], "incoming": str(incoming),
+                "parquet_sha256": check(f"data/chunk-000/{src_pq.name}", src_pq),
+                "metadata_sha256": check(f"meta/{m.name}", m), "tier2_md5": {}}
         dst_pq = root / "data" / "chunk-000" / src_pq.name
-        if ep in old_rows:
-            if old_rows[ep] != row or not dst_pq.is_file() or digest(dst_pq, "sha256") != digest(src_pq, "sha256"):
-                raise SystemExit(f"tier3_root: ep{ep} 已在 {root} 里，且元数据或 parquet 与这次的不同；不覆盖")
-            continue
-        copies.append((src_pq, dst_pq))
+        if ep in old_rows and (old_rows[ep] != row or not dst_pq.is_file()
+                               or digest(dst_pq, "sha256") != info["parquet_sha256"]):
+            raise SystemExit(f"tier3_root: ep{ep} 已在 {root} 里，且元数据或 parquet 与这次的不同；不覆盖")
+        if ep not in old_rows:
+            copies.append((src_pq, dst_pq))
         for k in LINKED:
             rel = safe_rel(row[k])
             src = tier2 / rel
             if not src.is_file():
                 raise SystemExit(f"tier3_root: ep{ep} 的 {k} 在官方 Tier 2 目录里没有：{src}")
+            info["tier2_md5"][k] = check(str(rel), src)
             dst = root / rel
             if dst.exists() and digest(dst, "sha256") != digest(src, "sha256"):
                 raise SystemExit(f"tier3_root: {dst} 已存在且与官方文件不同")
-            copies.append((src, dst))
+            if not dst.exists():
+                copies.append((src, dst))
         rows[ep] = row
-    return copies, rows
+        prov[str(ep)] = info
+    unused = sorted(set(expect) - used)
+    if unused:
+        raise SystemExit(f"tier3_root: 哈希表里有这次没用上的行：{unused}")
+    return copies, rows, prov
 
 
 def main(argv=None) -> int:
     forbid_tier1()
     ap = argparse.ArgumentParser()
     ap.add_argument("incoming", type=Path)
+    ap.add_argument("--expect", type=Path, required=True)
     ap.add_argument("--root", type=Path, default=TIER3)
     ap.add_argument("--tier2", type=Path, default=TIER2)
     a = ap.parse_args(argv)
-    copies, rows = plan(a.incoming, a.root, a.tier2)
+    copies, rows, prov = plan(a.incoming, a.root, a.tier2, load_expect(a.expect))
     for src, dst in copies:
         dst.parent.mkdir(parents=True, exist_ok=True)
-        if not dst.exists():
-            shutil.copyfile(src, dst)
+        shutil.copyfile(src, dst)
         rel = dst.relative_to(a.root)
         md5 = f" md5 {digest(dst, 'md5')}" if rel.parts[0] in LINKED else ""
         print(f"写 {rel} sha256 {digest(dst, 'sha256')}{md5}")
-    jl = a.root / "meta" / "episodes_metadata.jsonl"
-    jl.parent.mkdir(parents=True, exist_ok=True)
-    jl.write_text("".join(json.dumps(rows[ep], ensure_ascii=False) + "\n" for ep in sorted(rows)))
-    print(f"写 meta/episodes_metadata.jsonl（{len(rows)} 行：{', '.join(f'ep{e}' for e in sorted(rows))}）")
+    meta = a.root / "meta"
+    meta.mkdir(parents=True, exist_ok=True)
+    (meta / "episodes_metadata.jsonl").write_text("".join(json.dumps(rows[ep], ensure_ascii=False) + "\n" for ep in sorted(rows)))
+    pj = meta / "provenance.json"
+    old = json.loads(pj.read_text()) if pj.exists() else {}
+    episodes = {**old.get("episodes", {}), **{ep: dict(info, expect=str(a.expect)) for ep, info in prov.items()}}
+    pj.write_text(json.dumps({"note": "Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面、支撑面取自官方 Tier 2 目录（规则解读未确认）",
+                              "episodes": episodes}, ensure_ascii=False, indent=1) + "\n")
+    print(f"写 meta/episodes_metadata.jsonl（{len(rows)} 行：{', '.join(f'ep{e}' for e in sorted(rows))}）与 meta/provenance.json")
+    for ep in sorted(prov, key=int):
+        print(f"ep{ep} 来源：部署版本 {prov[ep]['deployed_commit']}（干净 {prov[ep]['deployed_clean']}），parquet sha256 {prov[ep]['parquet_sha256']}")
     print("TIER3_ROOT_OK")
     return 0
 

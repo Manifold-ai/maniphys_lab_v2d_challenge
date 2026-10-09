@@ -76,8 +76,21 @@ def fill_invisible(p7: np.ndarray, visible: np.ndarray) -> tuple[np.ndarray, int
     return out, int((~visible).sum())
 
 
+def tier3_provenance(root: Path, episode: int) -> dict:
+    """Tier 3 的档目录是我们拼的（stages/recovery/tier3_root.py）：这一集的来源（重建的部署版本、各文件哈希）在 meta/provenance.json，
+    转换时原样写进 v2d_meta.json，让每条 run 都能指回重建版本（计划 agent-doc/plan-t3-pilot-2026-10-09.md，审查 m5）。"""
+    p = root / "meta" / "provenance.json"
+    if not p.is_file():
+        raise SystemExit(f"challenge_to_soma: Tier 3 的档目录缺 {p}（由 stages/recovery/tier3_root.py 写）")
+    eps = json.loads(p.read_text())["episodes"]
+    if str(episode) not in eps:
+        raise SystemExit(f"challenge_to_soma: {p} 里没有 episode {episode}")
+    return eps[str(episode)]
+
+
 def convert(tier_n: int, episode: int, runs_root: Path = RUNS, object_poses: Path | None = None) -> dict:
     root = tier(tier_n)
+    prov = tier3_provenance(root, episode) if tier_n == 3 else None
     meta = {json.loads(l)["episode_index"]: json.loads(l)
             for l in open(root / "meta" / "episodes_metadata.jsonl")}[episode]
     t = pq.read_table(root / "data" / "chunk-000" / f"episode_{episode:06d}.parquet")
@@ -108,6 +121,8 @@ def convert(tier_n: int, episode: int, runs_root: Path = RUNS, object_poses: Pat
     if object_poses is None:
         p7, n_filled = fill_invisible(col(t, "observation.object.pose"), vis)
         pose_src = {"kind": "parquet", "column": "observation.object.pose"}
+        if prov is not None:
+            pose_src = {"kind": "tier3_reconstruction", "column": "observation.object.pose", "provenance": prov}
     else:
         z = np.load(object_poses)
         p7 = np.asarray(z["object_pose"], dtype=np.float64); n_filled = int((~z["visible"]).sum())

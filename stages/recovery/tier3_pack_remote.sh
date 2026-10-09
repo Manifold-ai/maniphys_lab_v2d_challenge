@@ -2,6 +2,7 @@
 # 计划 agent-doc/plan-t3-pilot-2026-10-09.md 第 3 节。由 stages/recovery/tier3_stage.sh 调用，经 Mac 管道转给 mf4090。
 # 目录自己找：/lab_data/<目录>/v2d/tier3 里不属于本用户的，必须恰好一个。命令行、报错与 tar 里都不出现别人的名字（tar 里只有相对路径）。
 # 只读。任何一个文件缺或读不了就退出码 1，不写 tar（stdout 为空，对端解包会失败）。
+# 报错只用相对路径；tar 自己的 stderr 丢掉、只报退出码（它的报错会带绝对路径，也就带出别人的目录名；审查 M2）。
 # 用法（Mac，仓库根）：ssh ml40 'bash -s -- <集>...' < stages/recovery/tier3_pack_remote.sh | ...
 set -uo pipefail
 [ $# -ge 1 ] || { echo "tier3_pack_remote: 要至少一集" >&2; exit 2; }
@@ -19,4 +20,4 @@ for ep in "$@"; do
   done
 done
 [ -r "$T/code/DEPLOYED" ] || { echo "tier3_pack_remote: 读不了 code/DEPLOYED" >&2; exit 1; }
-tar -cf - -C "$T/code" DEPLOYED -C "$D" "${files[@]}"
+tar -cf - -C "$T/code" DEPLOYED -C "$D" "${files[@]}" 2>/dev/null || { echo "tier3_pack_remote: tar 失败（退出码 $?）" >&2; exit 1; }

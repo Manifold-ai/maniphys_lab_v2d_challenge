@@ -2,10 +2,12 @@
 run 设计；运行规范未成文，暂无契约 ID）。只用标准库。
 临时目录里放假的 Tier 2 基线（30 条 episode：偶数在 ml40、1000 万 buffer，奇数在 mf4090、带 training.replay.capacity=4000000；
 ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）与两份导出清单，跑生成脚本后核：
-  1. t2x：24 条 run 的名字与计划顺序；每行没有 buffer 覆盖、有变体 A 两项、基线有的 scene.support=false 照留；冒烟与正式行除步数、前缀外一致；
-     期望表的 buffer 列 10000000、种子 42，其余列照抄基线；导出清单 24 行与 run 一一对应、档位 2
+  1. t2xa、t2xb 两段：15 条与 9 条 run 的名字与计划顺序；每行没有 buffer 覆盖、有变体 A 两项、基线有的 scene.support=false 照留；
+     冒烟与正式行除步数、前缀外一致；W&B 标签 t2x；期望表的 buffer 列 10000000、种子 42，其余列照抄基线；导出清单与 run 一一对应、档位 2
   2. t3p：2 条 run；parquet 换到 /runs/motion/tier3/、序列名不变；覆盖以 400 万 buffer 开头；期望表 buffer 列 4000000；导出清单档位 3
   3. 基线覆盖里有计划没说的键、或一条 episode 在导出清单里出现两次：报错退出，不写文件
+  4. 续跑段 t2xa2 --episodes 16,7：只有这两条，顺序照清单（ep7 在前），文件名带段名
+  5. 段名不对：预设段又给 --episodes、非预设段不给 --episodes、--episodes 里有清单外的 episode、段名不以清单名开头，都报错不写文件
 用法：python3 stages/policy/test_make_var_queue.py
 """
 import subprocess
@@ -18,7 +20,8 @@ ENV = "V2D_WANDB_TAG=batch V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=
 SENV = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
 HEADER = "run\tsmoke\tsequence_id\tplayback\tsrc_frames\tsupport\tpos_tol\tori_tol\tcapacity\tseed\txeval"
 VAR = ["objective.object_position_std=0.05", "termination.object_orientation_threshold=0.6"]
-T2X = [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17, 9, 1, 13, 19, 2, 4, 14, 25, 28]
+T2XA = [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17]
+T2XB = [9, 1, 13, 19, 2, 4, 14, 25, 28]
 
 
 def seq(ep):
@@ -74,8 +77,8 @@ def setup(root: Path, bad_key_ep=None, dup_ep=None):
     # t3p 的基线是 ml40 上 cap10m 的 ep8、ep24：两者都是偶数号，上面已经放在 ml40
 
 
-def gen(root: Path, name: str):
-    return subprocess.run([sys.executable, str(HERE / "make_var_queue.py"), name, "--root", str(root)], capture_output=True, text=True)
+def gen(root: Path, name: str, *extra):
+    return subprocess.run([sys.executable, str(HERE / "make_var_queue.py"), name, "--root", str(root), *extra], capture_output=True, text=True)
 
 
 def lines(p: Path):
@@ -108,13 +111,33 @@ def check_set(root, name, eps, run_fmt, tier, cap_col, cap_over, env_tag, machin
     assert cand == [f"{tier}\t{ep}\t{run}\t349999104" for ep, run in zip(eps, want)], cand
 
 
-def test_t2x():
+def test_t2x_parts():
     with tempfile.TemporaryDirectory() as t:
         root = Path(t)
         setup(root)
-        r = gen(root, "t2x")
+        for part, eps in (("t2xa", T2XA), ("t2xb", T2XB)):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            check_set(root, part, eps, "t2-ep{ep}-w2048-cap10m-r3a-ml40", 2, "10000000", None, "t2x", "ml40")
+
+
+def test_resume_part():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        r = gen(root, "t2xa2", "--episodes", "16,7")
         assert r.returncode == 0, r.stdout + r.stderr
-        check_set(root, "t2x", T2X, "t2-ep{ep}-w2048-cap10m-r3a-ml40", 2, "10000000", None, "t2x", "ml40")
+        check_set(root, "t2xa2", [7, 16], "t2-ep{ep}-w2048-cap10m-r3a-ml40", 2, "10000000", None, "t2x", "ml40")
+
+
+def test_bad_parts_refuse():
+    for args in (["t2xa", "--episodes", "7"], ["t2xz"], ["t2xr", "--episodes", "8"], ["t2xr", "--episodes", "7,7"], ["foo"]):
+        with tempfile.TemporaryDirectory() as t:
+            root = Path(t)
+            setup(root)
+            r = gen(root, *args)
+            assert r.returncode != 0, (args, r.stdout + r.stderr)
+            assert not list((root / "stages" / "policy" / "queues").glob("ml40_t2x*")), args
 
 
 def test_t3p():
@@ -130,19 +153,19 @@ def test_unknown_override_refuses():
     with tempfile.TemporaryDirectory() as t:
         root = Path(t)
         setup(root, bad_key_ep=6)
-        r = gen(root, "t2x")
+        r = gen(root, "t2xa")
         out = r.stdout + r.stderr
         assert r.returncode != 0 and "计划没说怎么处理的键" in out, out
-        assert not (root / "stages" / "policy" / "queues" / "ml40_t2x.txt").exists()
+        assert not (root / "stages" / "policy" / "queues" / "ml40_t2xa.txt").exists()
 
 
 def test_duplicate_export_row_refuses():
     with tempfile.TemporaryDirectory() as t:
         root = Path(t)
         setup(root, dup_ep=10)
-        r = gen(root, "t2x")
+        r = gen(root, "t2xa")
         assert r.returncode != 0 and "不止一行" in r.stdout + r.stderr, r.stdout + r.stderr
-        assert not (root / "stages" / "evaluate" / "exports" / "cand_t2_t2x_ml40.tsv").exists()
+        assert not (root / "stages" / "evaluate" / "exports" / "cand_t2_t2xa_ml40.tsv").exists()
 
 
 if __name__ == "__main__":

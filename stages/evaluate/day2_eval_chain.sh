@@ -15,6 +15,9 @@
 # 用法（仓库根）：V2D_WAIT_FOR_LOG=runs/logs/<训练链>.log stages/evaluate/day2_eval_chain.sh <期望表|-> <附加表|-> <日志名>
 #   期望表给 - 时只做附加表（开跑前的预检：恒等覆盖核对、ep20 的交叉评测、B 的对照）
 # 日志 runs/logs/<日志名>.log，最后一行 DAY2_EVAL_DONE（成功 x、失败 y）或 DAY2_EVAL_FAILED（链本身出错）。
+# V2D_GPU_WAIT_S（默认 0，即不等）：开始时与每份评测前见到 GPU 上有别的进程，每 V2D_POLL_S（默认 60）秒看一次，最多等这么久，
+#   空了接着评，等不到就停（DAY2_EVAL_FAILED）。同 export_chain.sh 的 wait_gpu（计划 agent-doc/plan-t2-scaleout-2026-10-09.md，审查 M3）。
+#   测试：stages/policy/test_day2_chain_waits.py。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 EXPECT=${1:?期望表}; EXTRA=${2:?附加表或 -}; NAME=${3:?日志名}
@@ -38,12 +41,26 @@ SRC0="$(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 say "start $NAME, source $SRC0, 期望表 $EXPECT, 附加表 $EXTRA, 评测步数 $EVAL_STEPS"
 case "$SRC0" in *-dirty*|*-syncing*|unknown) die "来历 $SRC0 不干净，先提交再同步" ;; esac
 check_src() { [ "$(cat .v2d-source-commit 2>/dev/null || echo unknown)" = "$SRC0" ] || die "来历变了（开头 $SRC0，现在 $(cat .v2d-source-commit 2>/dev/null)），停下"; }
-o="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ')"; [ -z "$o" ] || die "GPU 上有别的进程（$o），停下"
+GPU_WAIT_S="${V2D_GPU_WAIT_S:-0}"
+[[ $GPU_WAIT_S =~ ^[0-9]+$ ]] || die "V2D_GPU_WAIT_S 只能是秒数：$GPU_WAIT_S"
+gpu_pids() { nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ' | paste -sd, -; }
+gpu_check() {  # 同 day2_train_chain.sh：最多等 GPU_WAIT_S 秒（0 就不等），等不到就停
+  local o t0=$SECONDS
+  o="$(gpu_pids)"; [ -n "$o" ] || return 0
+  [ "$GPU_WAIT_S" -gt 0 ] || die "GPU 上有别的进程（$o），停下"
+  say "GPU 上有别的进程（${o}），每 ${V2D_POLL_S:-60} 秒看一次，最多等 ${GPU_WAIT_S} 秒"
+  while [ -n "$(gpu_pids)" ]; do
+    [ $((SECONDS - t0)) -lt "$GPU_WAIT_S" ] || die "GPU 被别的进程占了 ${GPU_WAIT_S} 秒，停下"
+    sleep "${V2D_POLL_S:-60}"
+  done
+  say "GPU 空了，接着评"
+}
+gpu_check
 ok=0; bad=0
 
 matched() {  # matched <run> <step> <playback> <src_frames>
   local run=$1 step=$2 pb=$3 src=$4 want got
-  check_src
+  check_src; gpu_check
   want="$(exp_frames "$pb" "$src")"
   if scripts/dev/record "day2/eval_${run}_s${step}" stages/policy/fc_eval.sh "$run" "$step"; then
     got="$(jget "runs/flash_chord/$run/eval_${step}_w4096.json" step_count)"
@@ -54,7 +71,7 @@ matched() {  # matched <run> <step> <playback> <src_frames>
 }
 cross() {  # cross <run> <step> <另一种回放> <src_frames> <pos_tol> <ori_tol>
   local run=$1 step=$2 pb=$3 src=$4 pos=$5 ori=$6 want side
-  check_src
+  check_src; gpu_check
   [ "${XOK:-0}" = 1 ] || { say "恒等覆盖核对没过或没做：跳过 $run 的交叉评测"; bad=$((bad + 1)); return; }
   want="$(exp_frames "$pb" "$src")"
   side="runs/flash_chord/$run/xeval_${step}_w4096_${pb}.json.override.json"

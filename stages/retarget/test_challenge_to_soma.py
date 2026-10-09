@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numpy as np
 import pyarrow.parquet as pq
 import add_metrics as A
-from challenge_to_soma import convert, fill_invisible, pose7_to_mat
+from challenge_to_soma import convert, fill_invisible, pose7_to_mat, tier3_provenance
 from paths import tier
 from soma_fk import col, joint_names
 
@@ -29,6 +29,23 @@ def test_fill_invisible():
     assert n == 3
     assert np.array_equal(out[0], p[1]) and np.array_equal(out[2], p[1]) and np.array_equal(out[4], p[3])
     print("  不可见帧：开头回填、中间和结尾沿用上一有效 ✓")
+
+
+def test_tier3_provenance():
+    """Tier 3：meta/provenance.json 里这一集的来源原样取出；缺文件或缺这一集就停（计划 agent-doc/plan-t3-pilot-2026-10-09.md，审查 m5）。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        (root / "meta").mkdir()
+        for missing in (True, False):
+            try:
+                tier3_provenance(root, 8)
+                raise AssertionError("应当拒绝")
+            except SystemExit as e:
+                assert ("缺" if missing else "没有 episode 8") in str(e), e
+            (root / "meta" / "provenance.json").write_text(json.dumps({"episodes": {"24": {"deployed_commit": "x"}}}))
+        (root / "meta" / "provenance.json").write_text(json.dumps({"episodes": {"8": {"deployed_commit": "c" * 40, "parquet_sha256": "a" * 64}}}))
+        assert tier3_provenance(root, 8) == {"deployed_commit": "c" * 40, "parquet_sha256": "a" * 64}
+    print("  Tier 3 来源：取得到、缺文件或缺集都拒绝 ✓")
 
 
 def test_pose_matrix_matches_independent_impl():
