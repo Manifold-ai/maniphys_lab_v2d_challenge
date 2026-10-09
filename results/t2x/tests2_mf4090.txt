@@ -1,0 +1,101 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ bash\ --version\ \|\ head\ -1\ \&\&\ python3\ stages/policy/test_make_var_queue.py\ \&\&\ python3\ stages/policy/test_day2_chain_waits.py\ \&\&\ python3\ stages/recovery/test_tier3_expect.py\ \&\&\ python3\ stages/recovery/test_tier3_root.py\ \&\&\ python3\ stages/policy/test_make_r3x_queue.py\ \&\&\ python3\ stages/policy/test_make_trial_queue.py\ \&\&\ python3\ stages/policy/test_train_after.py\ \&\&\ python3\ stages/policy/test_chain_after.py\ \&\&\ python3\ stages/evaluate/test_export_after_eval.py\ \&\&\ bash\ -n\ stages/policy/arm_var_chain.sh\ \&\&\ bash\ -n\ stages/recovery/tier3_stage.sh\ \&\&\ python3\ stages/retarget/test_challenge_to_soma.py\ \&\&\ echo\ TESTS_OK 
+# md5      : 22a4ee0505bf97f5834c766de0d8392b  stages/policy/test_make_var_queue.py
+# md5      : 6e48c0bb2fe2fe5ec8ad569a6ad6448e  stages/policy/test_day2_chain_waits.py
+# md5      : 2fa3089cba235057b9607533abdf0b0b  stages/recovery/test_tier3_expect.py
+# md5      : 5c86b95f73a0bac889146c73f1f5aab7  stages/recovery/test_tier3_root.py
+# md5      : 33d4a26b29e11781d28741534d17b9cc  stages/policy/test_make_r3x_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+# md5      : 5af02a41fbf55343b6cabec3245b8744  stages/policy/test_chain_after.py
+# md5      : 65f6731bfc0667807afb957c8053cee1  stages/evaluate/test_export_after_eval.py
+# md5      : 6ab4f5ef83ec7374cde14920696acf3d  stages/policy/arm_var_chain.sh
+# md5      : f4b6146a9046de992508dd5d4a3d1e6a  stages/recovery/tier3_stage.sh
+# md5      : e594ac3032d6f06993cc180a49c45bcd  stages/retarget/test_challenge_to_soma.py
+# source   : 1d98bd33980d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:47:21-0600
+# ---------------------------------------------------------------
+source 1d98bd33980d
+GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+ok test_t2x_parts
+ok test_resume_part
+ok test_bad_parts_refuse
+ok test_t3p
+ok test_unknown_override_refuses
+ok test_duplicate_export_row_refuses
+ALL_OK
+ok test_stop_mark_before_start
+ok test_stop_mark_during_formal
+ok test_gpu_busy_without_wait_dies
+ok test_gpu_wait_then_continue
+ok test_gpu_wait_timeout_dies
+ok test_eval_waits_for_gpu
+ok test_eval_without_wait_stops
+ALL_OK
+ok test_collects_both
+ok test_conflict_refuses
+ok test_empty_record_refuses
+ALL_OK
+ok test_build_and_rerun
+ok test_expect_mismatch_or_unused_refuses
+ok test_changed_parquet_refuses
+ok test_unsafe_relative_path_refuses
+ok test_tier1_read_blocked
+ALL_OK
+ok test_generates_runs
+ok test_missing_baseline_refuses
+ok test_capacity_override_refuses
+ALL_OK
+ok test_generates_segments
+ok test_missing_baseline_refuses
+ok test_inconsistent_smoke_refuses
+ALL_OK
+ok test_starts_chain_after_done
+ok test_failed_prev_chain_stops
+ok test_waits_for_prev_end
+ok test_existing_log_refuses
+ok test_wrong_arg_count_refuses
+ALL_OK
+ok test_opens_next_segment
+ok test_too_few_done
+ok test_previous_chain_failed
+ok test_waits_for_eval
+ok test_gate_continue
+ok test_gate_stop
+ok test_gate_not_reached_when_too_few_done
+ALL_OK
+ok test_exports_after_clean_eval
+ok test_partial_eval_failure_stops
+ok test_failed_eval_chain_stops
+ok test_waits_for_eval_end
+ok test_no_raw_end_marker_in_gate_log
+ALL_OK
+/home/rxzhou/.local/lib/python3.10/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:848.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/home/rxzhou/.local/lib/python3.10/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/home/rxzhou/.local/lib/python3.10/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/home/rxzhou/.local/lib/python3.10/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+[test_fill_invisible]
+  不可见帧：开头回填、中间和结尾沿用上一有效 ✓
+[test_tier3_provenance]
+  Tier 3 来源：取得到、缺文件或缺集都拒绝 ✓
+[test_pose_matrix_matches_independent_impl]
+  位姿矩阵与独立实现最大差 4.0e-12 ✓
+[test_convert_episode_20]
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool supported)
+   Kernel cache:
+     /home/rxzhou/.cache/warp/1.17.0
+  ep20 2026-06-08_16-57-34_rice_cooker_clockwise_04: 553 帧，键/形状/关节名/flex/网格/support 全部正确 ✓
+  不可见帧填补 0 帧；support 坐标系声明 g1_retarget_world
+
+4 个测试全部通过
+TESTS_OK
