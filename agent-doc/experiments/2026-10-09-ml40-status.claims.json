@@ -1,0 +1,67 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "q": {
+   "file": "results/ops/t3_queue_ml40_1009_1335.txt",
+   "grep": "^== |^NVIDIA|QUEUE DONE|assembled into|^## |^ep[0-9]+_[a-z0-9_]+ ok=|^episode_"
+  },
+  "m": {
+   "file": "results/ops/machines_1009_1325.txt",
+   "grep": "^== |^GPU 进程|^NVIDIA|长链标记|no server running|^v2d-train|^/dev/"
+  }
+ },
+ "claims": [
+  {
+   "id": "idle",
+   "evidence": [
+    "m"
+   ],
+   "claim": "快照里 ml40 的 GPU 进程数是 0，L40S 利用率 0 %、显存已用 0 MiB；ml40 上 tmux 没有在运行的会话，长链标记数是 0。"
+  },
+  {
+   "id": "done",
+   "evidence": [
+    "q"
+   ],
+   "claim": "CARI4D 队列日志里，ep29_rolling_luggage 在 10-10_01:51:02 assembled into tier3_cari4d，同一时刻记了 QUEUE DONE。"
+  },
+  {
+   "id": "split",
+   "evidence": [
+    "q"
+   ],
+   "claim": "runs/tier3_cari4d 里有 18 个 parquet：episode 0、3、5、7、8、9、12、15、16、17、18、20、21、22、23、24、25、29；runs/tier3_cari4d_suspect 里有 11 个：1、2、4、10、11、13、14、19、26、27、28；两处都没有 episode_000006。"
+  },
+  {
+   "id": "depth",
+   "evidence": [
+    "q"
+   ],
+   "claim": "第一版检查（runs/checks）里 ep23_toy_stroller 的 depth_factor_p50 是 0.8356、ep12_black_platform 是 0.8833；第一版里 ep26_skateboard 是 ok=False，第二版检查（runs/checks_v2）里 ep26_skateboard 是 ok=True、depth_factor_p50 0.9669。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "q"
+   ],
+   "claim": "第一版检查里 ep20_rice_cooker 是 ok=True，depth_factor_p50 是 1.0028。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_split",
+   "evidence": [
+    "q"
+   ],
+   "claim": "episode_000027.parquet 在 runs/tier3_cari4d 里，没有进 suspect。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_idle",
+   "evidence": [
+    "m"
+   ],
+   "claim": "快照里 ml40 的 GPU 进程数是 1。",
+   "control": "false"
+  }
+ ]
+}
