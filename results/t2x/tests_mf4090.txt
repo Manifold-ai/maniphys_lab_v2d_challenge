@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ python3\ --version\ \&\&\ python3\ stages/policy/test_make_var_queue.py\ \&\&\ python3\ stages/recovery/test_tier3_root.py\ \&\&\ python3\ stages/policy/test_make_r3x_queue.py\ \&\&\ python3\ stages/policy/test_make_trial_queue.py\ \&\&\ bash\ -n\ stages/policy/arm_var_chain.sh\ \&\&\ bash\ -n\ stages/recovery/tier3_stage.sh\ \&\&\ echo\ TESTS_OK 
+# md5      : 033097f9d197d72e2733c642eb33cae4  stages/policy/test_make_var_queue.py
+# md5      : 5d1fa80d03d1ff728b4ccf7e70fa8c9c  stages/recovery/test_tier3_root.py
+# md5      : 33d4a26b29e11781d28741534d17b9cc  stages/policy/test_make_r3x_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : 913f64083cb029d2feac3d639043d3c1  stages/policy/arm_var_chain.sh
+# md5      : 75315e9c8e94ab86f83491eedcc73754  stages/recovery/tier3_stage.sh
+# source   : 52c6b1714294
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:29:55-0600
+# ---------------------------------------------------------------
+source 52c6b1714294
+Python 3.10.12
+ok test_t2x
+ok test_t3p
+ok test_unknown_override_refuses
+ok test_duplicate_export_row_refuses
+ALL_OK
+ok test_build_and_rerun
+ok test_changed_parquet_refuses
+ok test_unsafe_relative_path_refuses
+ok test_tier1_read_blocked
+ALL_OK
+ok test_generates_runs
+ok test_missing_baseline_refuses
+ok test_capacity_override_refuses
+ALL_OK
+ok test_generates_segments
+ok test_missing_baseline_refuses
+ok test_inconsistent_smoke_refuses
+ALL_OK
+TESTS_OK
