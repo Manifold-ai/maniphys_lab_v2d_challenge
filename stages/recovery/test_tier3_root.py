@@ -76,7 +76,8 @@ def test_build_and_rerun():
                 assert (root / x[k]).read_text() == (t2 / x[k]).read_text(), (ep, k)
         assert r.stdout.count(" md5 ") == 6, r.stdout   # 两集各一份网格、地面、支撑面
         prov = json.loads((root / "meta" / "provenance.json").read_text())["episodes"]
-        assert sorted(prov) == ["24", "8"] and prov["8"]["deployed_commit"] == COMMIT and prov["8"]["deployed_clean"] is True, prov
+        assert sorted(prov) == ["24", "8"] and prov["8"]["deployed_at_staging"] == COMMIT and prov["8"]["deployed_at_staging_clean"] is True, prov
+        assert prov["8"]["source_parquet_mtime_utc"].endswith("+00:00"), prov
         assert prov["24"]["parquet_sha256"] == hashlib.sha256(b"pq24").hexdigest() and set(prov["8"]["tier2_md5"]) == {"mesh", "ground_plane", "support_surface"}
         r2 = run(inc, root, t2, exp)
         assert r2.returncode == 0 and "写 data" not in r2.stdout, r2.stdout + r2.stderr

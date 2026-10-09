@@ -7,7 +7,8 @@ meta/episode_<N>.metadata.json（同组成员的转换脚本每集写一份，�
 任何一处不符就退出码 1，什么也不写（Fable 5.1 审查 M1：同组成员的产物还在变，换了新版本不能悄悄进来）。
 输出 <root>（默认 libs/v2d_infra/paths.py 的 TIER3，即 runs/tier3/root）：
   data/chunk-000/episode_<N>.parquet、meta/episodes_metadata.jsonl（每集一行，按 episode_index 排）、
-  元数据里三个相对路径指向的文件（从官方 Tier 2 目录 --tier2 复制），以及 meta/provenance.json（每集的来源：部署版本、哈希、哈希表的路径；
+  元数据里三个相对路径指向的文件（从官方 Tier 2 目录 --tier2 复制），以及 meta/provenance.json（每集的来源：parquet 在同组成员那边的修改时间、
+  各文件哈希、哈希表的路径，以及转发时对方的部署版本——那是转发那一刻的代码版本，不一定是写出这份 parquet 的版本，文件是不是那一份以哈希为准；
   stages/retarget/challenge_to_soma.py 转 Tier 3 时把这一集的那份写进 v2d_meta.json，审查 m5）。
   规则解读未确认：Tier 3 用 Tier 2 目录里的官方网格、地面平面与支撑面（同组成员的重建也用了前两者），正式做 Tier 3 前要问组委会。
 同一集已在 root 里：parquet 与元数据都相同就跳过，不同就拒绝。相对路径必须留在各自目录里（不许绝对路径与 ..）。
@@ -16,6 +17,7 @@ meta/episode_<N>.metadata.json（同组成员的转换脚本每集写一份，�
 测试：stages/recovery/test_tier3_root.py。
 """
 import argparse
+import datetime
 import hashlib
 import json
 import re
@@ -101,7 +103,9 @@ def plan(incoming: Path, root: Path, tier2: Path, expect: dict) -> tuple:
         src_pq = incoming / "data" / "chunk-000" / f"episode_{ep:06d}.parquet"
         if not src_pq.is_file():
             raise SystemExit(f"tier3_root: 缺 {src_pq}")
-        info = {"deployed_commit": dep["commit"], "deployed_clean": dep["clean"], "incoming": str(incoming),
+        mtime = datetime.datetime.fromtimestamp(src_pq.stat().st_mtime, datetime.timezone.utc).isoformat(timespec="seconds")
+        info = {"deployed_at_staging": dep["commit"], "deployed_at_staging_clean": dep["clean"], "incoming": str(incoming),
+                "source_parquet_mtime_utc": mtime,
                 "parquet_sha256": check(f"data/chunk-000/{src_pq.name}", src_pq),
                 "metadata_sha256": check(f"meta/{m.name}", m), "tier2_md5": {}}
         dst_pq = root / "data" / "chunk-000" / src_pq.name
@@ -154,7 +158,8 @@ def main(argv=None) -> int:
                               "episodes": episodes}, ensure_ascii=False, indent=1) + "\n")
     print(f"写 meta/episodes_metadata.jsonl（{len(rows)} 行：{', '.join(f'ep{e}' for e in sorted(rows))}）与 meta/provenance.json")
     for ep in sorted(prov, key=int):
-        print(f"ep{ep} 来源：部署版本 {prov[ep]['deployed_commit']}（干净 {prov[ep]['deployed_clean']}），parquet sha256 {prov[ep]['parquet_sha256']}")
+        print(f"ep{ep} 来源：parquet 在对方的修改时间 {prov[ep]['source_parquet_mtime_utc']}，转发时对方的部署版本 {prov[ep]['deployed_at_staging']}"
+              f"（干净 {prov[ep]['deployed_at_staging_clean']}），parquet sha256 {prov[ep]['parquet_sha256']}")
     print("TIER3_ROOT_OK")
     return 0
 
