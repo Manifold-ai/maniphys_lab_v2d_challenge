@@ -1,0 +1,41 @@
+# command  : bash -c $'for h in mf4090 ml40; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge; ssh -o BatchMode=yes $h "cd $R && echo == $h \\$(date \\"+%F %T %Z\\"); echo -- tmux; tmux ls 2>&1; for f in \\$(ls -t runs/logs/*.log | head -3); do echo -- \\$f \\$(stat -c %y \\$f | cut -c1-19) �\214�\225� \\$(wc -l < \\$f); tail -2 \\$f | cut -c1-300; done; echo GPU �\233�\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); nvidia-smi --query-gpu=name,utilization.gpu,memory.used,memory.total --format=csv,noheader; echo �\225��\223��\207记 \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); echo �\220 \\$(cat .v2d-source-commit); df -m $R | tail -1; free -g | sed -n 2p"; done' 
+# source   : 67601ce3a5f1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T13:21:04-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-10 03:21:07 CST
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/cand_t1_r3x_mf4090_gate.log 2026-10-09 19:26:44 行数 5
+=== 2026-10-09 19:21:02 CST 评测链成功 6 条、失败 0，开导出链 cand_t1_r3x_mf4090
+=== 2026-10-09 19:26:44 CST 导出链结束，退出码 0
+-- runs/logs/cand_t1_r3x_mf4090.log 2026-10-09 19:26:44 行数 21
+=== 2026-10-09 19:26:44 CST Tier 1 ep5 t1-ep5-w2048-cap4m-r3a-s43-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 1003（导出 1003），checkpoint 相同
+=== 2026-10-09 19:26:44 CST EXPORT_CHAIN_DONE（成功 6、失败 0）
+-- runs/logs/t1-ep5-w2048-cap4m-r3a-s43-mf4090.export_8c778f9_s349999104_w1.log 2026-10-09 19:26:41 行数 111
+report: /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000005.json
+object trajectories: /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000005.parquet
+GPU 进程 0
+NVIDIA GeForce RTX 4090, 0 %, 0 MiB, 24564 MiB
+长链标记 0
+源 d8b309e9d52c
+/dev/vda2         201462 187548      5605  98% /
+Mem:             111           1          12           0          98         109
+== ml40 2026-10-10 03:21:08 CST
+-- tmux
+no server running on /tmp/tmux-1003/default
+-- runs/logs/select_t1_r3x.log 2026-10-09 21:36:38 行数 2
+record: → results/select_t1/select_r3x.txt（122 行）
+SELECT_WRAPPER_RC 0
+-- runs/logs/select_t1_1008.log 2026-10-08 16:41:39 行数 2
+record: → results/select_t1/select_1008.txt（116 行）
+SELECT_WRAPPER_RC 0
+-- runs/logs/queue_1008b_ml40.log 2026-10-08 16:15:46 行数 5
+case_clip: 渲染完成 {"picks": ["success"], "gates": {"success": {"bodies": 55, "names_checked": false, "reset_gap_m": 0.0}}, "segments": {"success": [0, 748], "right": [748, 1496]}, "success_finite": 748, "right_finite": 748, "written_frames": 1496, "total_frames": 1496}
+SITECASES_RENDER_DONE
+GPU 进程 0
+NVIDIA L40S, 0 %, 0 MiB, 46068 MiB
+长链标记 0
+源 d8b309e9d52c
+/dev/vdb         2063132 439364   1623753  22% /lab_data
+Mem:             111           3           3           0         104         107

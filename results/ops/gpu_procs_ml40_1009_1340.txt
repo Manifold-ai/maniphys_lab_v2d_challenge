@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes ml40 bash\ -s 
+# source   : f64c55a04121
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T13:24:20-0600
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-10 03:24:21 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /unruffled_volhard
+image v2d_cari4d:latest
+created 2026-10-09T19:23:38.377687325Z  started 2026-10-09T19:23:38.422410707Z
+entrypoint null
+cmd ["python","/s/t3_object_check.py","/w/cari4d/episode_000028","/w","/m/squeegee/squeegee.glb","/o","3"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/input/mesh -> /m; /lab_data/<其他用户>/v2d/tier3/runs/checks_v2/ep28_squeegee -> /o; /lab_data/<其他用户>/v2d/tier3/scripts/check_v2 -> /s; /lab_data/<其他用户>/v2d/tier3/runs/work/ep28_squeegee -> /w; 
+## 运行中的容器（列表）
+21af719eed01 v2d_cari4d:latest 43 seconds ago Up 42 seconds unruffled_volhard
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
