@@ -9,8 +9,14 @@ trajectory applies to it unchanged:
     closest to the official mesh (chamfer) is kept;
   - placement: footprint centre on the official one, bottom on the official bottom (so resting contact is kept).
 Then, on the frames where the reconstructed human touches the official mesh (nearest distance below CONTACT_M), it
-measures how far the same human is from the candidate. A candidate keeps contact if the human is within KEEP_M of it
-on most of those frames.
+measures two things against the candidate:
+  - contact: is the same human within KEEP_M of the candidate surface?
+  - penetration: how many human vertices lie inside the candidate's volume (filled voxels at PITCH_M). The official
+    mesh gets the same count as a baseline, because reconstruction error alone pushes a few vertices inside. Nearest
+    distance alone cannot see this: an oversized box swallows the hands and still reports them "close to the surface".
+A candidate passes if it keeps contact on at least KEEP_SHARE of the contact frames and adds more than PEN_VERTS
+penetrating vertices over the baseline on at most PEN_SHARE of them. Voxel filling needs a closed surface; an open
+candidate under-reports penetration, so the report also says whether the candidate is watertight.
 
 Inputs are Tier 3 products only: our CARI4D reconstruction (decode outputs) and the Tier 3 input directory.
 Runs in the v2d_cari4d image (torch, trimesh, scipy), CPU.
@@ -29,6 +35,10 @@ from scipy.spatial import cKDTree
 
 CONTACT_M = 0.015
 KEEP_M = 0.02
+PITCH_M = 0.01
+PEN_VERTS = 50
+KEEP_SHARE = 0.9
+PEN_SHARE = 0.1
 SURFACE_SAMPLES = 20000
 FRAME_STRIDE = 3
 
@@ -57,6 +67,18 @@ def frame_from_up(up: np.ndarray, points: np.ndarray) -> np.ndarray:
 def extents_in(frame: np.ndarray, points: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     local = points @ frame.T
     return local.min(0), local.max(0)
+
+
+def inside_counts(mesh_local: trimesh.Trimesh, human: np.ndarray, obj: np.ndarray, frames: list[int]) -> np.ndarray:
+    """Per contact frame: human vertices inside the mesh volume (mesh in object-local coordinates)."""
+    grid = mesh_local.voxelized(PITCH_M).fill()
+    counts = []
+    for i in frames:
+        local = (human[i] - obj[i, :3, 3]) @ obj[i, :3, :3]  # camera -> object-local
+        lo, hi = mesh_local.bounds
+        near = local[np.all((local > lo - PITCH_M) & (local < hi + PITCH_M), axis=1)]
+        counts.append(int(grid.is_filled(near).sum()) if len(near) else 0)
+    return np.asarray(counts)
 
 
 def chamfer(a: np.ndarray, b: np.ndarray) -> float:
@@ -115,6 +137,18 @@ def main() -> None:
         if d < CONTACT_M:
             contact.append(i)
 
+    base_inside = inside_counts(official, human, obj, contact) if contact else np.array([])
+    # contact-frame human vertices in object-local coordinates, for collision-hull penetration (hull_check.py)
+    lo, hi = official.bounds
+    pts, idx = [], []
+    for i in contact:
+        local = (human[i] - obj[i, :3, 3]) @ obj[i, :3, :3]
+        near = local[np.all((local > lo - 0.3) & (local < hi + 0.3), axis=1)]
+        pts.append(near.astype(np.float32))
+        idx.append(np.full(len(near), i, np.int32))
+    np.savez_compressed(out / "contact_human_local.npz", points=np.concatenate(pts) if pts else np.zeros((0, 3), np.float32),
+                        frame=np.concatenate(idx) if idx else np.zeros(0, np.int32))
+    official.export(out / "official_local.glb")
     manifest = json.loads((cand_dir / "manifest.json").read_text())[group]
     rows = []
     for item in manifest:
@@ -126,19 +160,27 @@ def main() -> None:
             placed = trimesh.Trimesh(verts, cand.faces, process=False)
             s = placed.sample(SURFACE_SAMPLES)
             dists = np.array([cKDTree(posed(s, i)).query(human[i])[0].min() for i in contact]) if contact else np.array([])
+            extra = inside_counts(placed, human, obj, contact) - base_inside if contact else np.array([])
+            keep = float((dists < KEEP_M).mean()) if len(dists) else 0.0
+            pen = float((extra > PEN_VERTS).mean()) if len(extra) else 0.0
             row = {"uid": item["uid"], "name": item["name"], "licence": item["licence"], "author": item["author"],
-                   "variant": "bbox" if aniso else "height", **info, "contact_frames": len(contact),
-                   "kept_contact_share": round(float((dists < KEEP_M).mean()), 3) if len(dists) else None,
-                   "human_to_candidate_cm_p50": round(float(np.median(dists)) * 100, 2) if len(dists) else None}
+                   "variant": "bbox" if aniso else "height", **info, "watertight": bool(placed.is_watertight),
+                   "contact_frames": len(contact), "kept_contact_share": round(keep, 3),
+                   "human_to_candidate_cm_p50": round(float(np.median(dists)) * 100, 2) if len(dists) else None,
+                   "penetrating_share": round(pen, 3), "extra_inside_vertices_p50": int(np.median(extra)) if len(extra) else None,
+                   "pass": keep >= KEEP_SHARE and pen <= PEN_SHARE}
             rows.append(row)
             placed.export(out / f"{group}_{item['uid']}_{row['variant']}.glb")
-    rows.sort(key=lambda r: (-(r["kept_contact_share"] or 0), r["chamfer_to_official_cm"]))
+    rows.sort(key=lambda r: (not r["pass"], r["penetrating_share"], -r["kept_contact_share"], r["chamfer_to_official_cm"]))
     report = {"episode_convert_dir": str(conv), "official_extents_m": [round(float(x), 3) for x in off_hi - off_lo],
+              "official_watertight": bool(official.is_watertight),
+              "baseline_inside_vertices_p50": int(np.median(base_inside)) if len(base_inside) else None,
               "frames_checked": len(frames), "contact_frames": len(contact), "candidates": rows}
     (out / "swap_report.json").write_text(json.dumps(report, indent=1))
     print(json.dumps({k: v for k, v in report.items() if k != "candidates"}))
     for r in rows:
-        print(f"{r['variant']:6s} keep={r['kept_contact_share']} d50={r['human_to_candidate_cm_p50']}cm chamfer={r['chamfer_to_official_cm']}cm "
+        print(f"{'PASS' if r['pass'] else 'fail'} {r['variant']:6s} keep={r['kept_contact_share']} pen={r['penetrating_share']} "
+              f"extra_in={r['extra_inside_vertices_p50']} wt={r['watertight']} chamfer={r['chamfer_to_official_cm']}cm "
               f"foot={r['footprint_ratio']} {r['licence']} {r['name']!r}")
 
 

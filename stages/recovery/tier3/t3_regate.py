@@ -1,5 +1,7 @@
-"""Apply the silhouette quality gate to episodes already assembled: any episode whose object_check.json says ok=false
-(or has no verdict yet) is moved from runs/tier3_cari4d/ to runs/tier3_cari4d_suspect/, parquet and metadata together.
+"""Apply the silhouette quality gate to episodes already assembled: an episode whose object_check.json says ok=false is
+moved from runs/tier3_cari4d/ to runs/tier3_cari4d_suspect/, parquet and metadata together. An episode with no verdict
+(no report, or a report from before the gate) is left where it is and reported: "not judged" is not "failed"
+(the first run moved ep00 and ep20 for exactly that reason).
 Used once for episodes assembled before the gate existed; the queue routes new episodes itself.
 
     python t3_regate.py <tier3 root>
@@ -22,6 +24,9 @@ def main() -> None:
         verdict = json.loads(check.read_text()).get("ok") if check.exists() else None
         if verdict is True:
             print(f"{name}: keep (gate ok)")
+            continue
+        if verdict is None:
+            print(f"{name}: no gate verdict yet; left in place, recheck it")
             continue
         for src, sub in ((pq, "data/chunk-000"), (meta_path, "meta")):
             dst = suspect / sub / src.name
