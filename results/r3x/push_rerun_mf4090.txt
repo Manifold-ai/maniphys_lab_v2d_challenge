@@ -1,0 +1,16 @@
+# command  : scripts/dev/push-new-files stages/policy/train_after.sh stages/policy/test_train_after.py stages/policy/arm_r3x_rerun.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+# md5      : f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+# md5      : c0760656ee041d133506f5807bd75be6  stages/policy/arm_r3x_rerun.sh
+# source   : 6a919c7feee9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T20:57:01-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 6a919c7feee9；远端来历 d8b309e9d52c
+  ok   410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+  ok   f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+  ok   c0760656ee041d133506f5807bd75be6  stages/policy/arm_r3x_rerun.sh
+远端来历（放完）d8b309e9d52c
+PUSH_OK（3 个文件）

@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ stages/policy/train_after.sh\ stages/policy/test_train_after.py\ \&\&\ python3\ stages/policy/test_train_after.py\ \&\&\ python3\ stages/evaluate/test_export_after_eval.py 
+# md5      : 410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+# md5      : f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+# md5      : f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+# md5      : 65f6731bfc0667807afb957c8053cee1  stages/evaluate/test_export_after_eval.py
+# source   : 6a919c7feee9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T20:57:22-0600
+# ---------------------------------------------------------------
+410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+f2bc259751d49c6e42db3b274ffee83b  stages/policy/test_train_after.py
+ok test_starts_chain_after_done
+ok test_failed_prev_chain_stops
+ok test_waits_for_prev_end
+ok test_existing_log_refuses
+ok test_wrong_arg_count_refuses
+ALL_OK
+ok test_exports_after_clean_eval
+ok test_partial_eval_failure_stops
+ok test_failed_eval_chain_stops
+ok test_waits_for_eval_end
+ok test_no_raw_end_marker_in_gate_log
+ALL_OK
