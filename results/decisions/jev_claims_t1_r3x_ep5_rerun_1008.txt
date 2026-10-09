@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-08-t1-r3x-ep5-rerun.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 30a80324eebda45b19f5ca381e693de8  agent-doc/experiments/2026-10-08-t1-r3x-ep5-rerun.claims.json
+# source   : 867362e09a98-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T20:59:20-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+cause                P(supported)=0.83  verified               [fail]  t1-ep5-w2048-cap4m-r3a-mf4090 的正式训练在启动阶段失败：wandb.init 连 W&B 时报 CommError（net/http 请求超时），fc_run 重试 0 次，训练链记失败（退出码 2）后接着开下一条。
+nothing_trained      P(supported)=0.71  verified               [fail, health]  失败后这条 run 的目录里只有 hydra、wandb、run_record.jsonl 与 .lock，没有 policy 和 state；同一次检查里 ep0 与 ep15 的 seed 42 都有 DONE、没有 NONFINITE、各 35 份 policy。
+rule                 P(supported)=0.78  verified               [plan]  计划第 4 节允许：原因在基础设施（包括 W&B 网络）时，可以用同一配置原样重跑一次，并记下。
+downstream           P(supported)=0.92  verified               [eval, export]  原评测链对没有 DONE 的 run 只记“不评”，不计入失败；导出链对没有 DONE 的 run 记 no_done。
+same_config          P(supported)=0.97  verified               [dry, queue]  补跑取出的正式队列行与登记的 mf4090_r3x.txt 里 t1-ep5-w2048-cap4m-r3a-mf4090 那一行逐字相同，含 V2D_MAX_RETRY=0、training.replay.capacity=4000000、objective.object_position_std=0.05 与 termination.object_orientation_threshold=0.6。
+ctl_true             P(supported)=0.69  UNVERIFIED             [health]  20:46 的检查里 t1-ep0-w2048-cap4m-r3a-mf4090 有 DONE。
+ctl_false_oom        P(supported)=0.02  UNVERIFIED             [fail]  ep5 seed 42 的失败原因是显存不足（RESOURCE_EXHAUSTED）。
+ctl_false_rule       P(supported)=0.03  UNVERIFIED             [plan]  计划规定：即使原因在 W&B 网络，失败的 run 也不得重跑。
+controls behaved as expected

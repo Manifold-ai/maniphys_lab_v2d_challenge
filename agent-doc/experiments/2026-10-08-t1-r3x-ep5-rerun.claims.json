@@ -1,0 +1,22 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "fail": {"file": "results/r3x/ep5_s42_fail_logs_mf4090.txt.failed", "grep": "^=== |^fc_run:|wandb.init\\(|CommError|Error executing job|resume_from| (hydra|wandb|run_record.jsonl|\\.lock)$"},
+    "health": {"file": "results/r3x/health_mf4090_1008_2046.txt", "grep": "^t1-ep|^DIVERGE|^=== "},
+    "plan": {"file": "agent-doc/plan-t1-r3x-2026-10-08.md", "grep": "R1–R3 不过的 run 不进候选"},
+    "eval": {"file": "stages/evaluate/day2_eval_chain.sh", "grep": "没有 DONE：不评|DAY2_EVAL_DONE（成功 \\$ok"},
+    "export": {"file": "stages/evaluate/export_chain.sh", "grep": "no_done|成功 = ok"},
+    "dry": {"file": "results/r3x/arm_rerun_dryrun_mf4090.txt", "grep": "^取出 queue|^    V2D_WANDB_TAG=r3x|DRYRUN_OK"},
+    "queue": {"file": "stages/policy/queues/mf4090_r3x.txt", "grep": "^V2D_WANDB_TAG=r3x .* t1-ep5-w2048-cap4m-r3a-mf4090 "}
+  },
+  "claims": [
+    {"id": "cause", "evidence": ["fail"], "claim": "t1-ep5-w2048-cap4m-r3a-mf4090 的正式训练在启动阶段失败：wandb.init 连 W&B 时报 CommError（net/http 请求超时），fc_run 重试 0 次，训练链记失败（退出码 2）后接着开下一条。"},
+    {"id": "nothing_trained", "evidence": ["fail", "health"], "claim": "失败后这条 run 的目录里只有 hydra、wandb、run_record.jsonl 与 .lock，没有 policy 和 state；同一次检查里 ep0 与 ep15 的 seed 42 都有 DONE、没有 NONFINITE、各 35 份 policy。"},
+    {"id": "rule", "evidence": ["plan"], "claim": "计划第 4 节允许：原因在基础设施（包括 W&B 网络）时，可以用同一配置原样重跑一次，并记下。"},
+    {"id": "downstream", "evidence": ["eval", "export"], "claim": "原评测链对没有 DONE 的 run 只记“不评”，不计入失败；导出链对没有 DONE 的 run 记 no_done。"},
+    {"id": "same_config", "evidence": ["dry", "queue"], "claim": "补跑取出的正式队列行与登记的 mf4090_r3x.txt 里 t1-ep5-w2048-cap4m-r3a-mf4090 那一行逐字相同，含 V2D_MAX_RETRY=0、training.replay.capacity=4000000、objective.object_position_std=0.05 与 termination.object_orientation_threshold=0.6。"},
+    {"id": "ctl_true", "evidence": ["health"], "claim": "20:46 的检查里 t1-ep0-w2048-cap4m-r3a-mf4090 有 DONE。"},
+    {"id": "ctl_false_oom", "evidence": ["fail"], "claim": "ep5 seed 42 的失败原因是显存不足（RESOURCE_EXHAUSTED）。"},
+    {"id": "ctl_false_rule", "evidence": ["plan"], "claim": "计划规定：即使原因在 W&B 网络，失败的 run 也不得重跑。"}
+  ]
+}
