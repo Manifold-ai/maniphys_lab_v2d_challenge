@@ -20,6 +20,16 @@ LOG=$T/logs/cari4d_$name.log
   video=$(ls "$W"/episode_*.0.color.mp4)
   frames=$(ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 "$video")
   echo "frames=$frames mesh=$mesh"
+  # third_party/patches/cari4d-fp-no-observation-nan.patch, laid over the image's copy of one file
+  up=/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py
+  pdir=$T/patched; mkdir -p "$pdir"
+  if [ "$(md5sum < "$pdir/run_foundationpose_mhr_export.py" 2>/dev/null | cut -c1-32)" != 556a32239f14f8b87a137f1edec26514 ]; then
+    docker run --rm --entrypoint "" --network none v2d_cari4d:latest cat "$up" > "$pdir/upstream.py"
+    [ "$(md5sum < "$pdir/upstream.py" | cut -c1-32)" = c93056318b5320eb028a170d4ae482b6 ] || { echo "image's $up is not the patched-against upstream"; exit 2; }
+    patch -s -o "$pdir/run_foundationpose_mhr_export.py" "$pdir/upstream.py" < "$S/../../../third_party/patches/cari4d-fp-no-observation-nan.patch" || exit 2
+    [ "$(md5sum < "$pdir/run_foundationpose_mhr_export.py" | cut -c1-32)" = 556a32239f14f8b87a137f1edec26514 ] || { echo "patched file md5 mismatch"; exit 2; }
+  fi
+  export T3_EXTRA_MOUNTS="$pdir/run_foundationpose_mhr_export.py:$up:ro"
   source ~/proxy.sh >/dev/null
   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
   export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF

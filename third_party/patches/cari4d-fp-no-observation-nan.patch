@@ -1,0 +1,32 @@
+CARI4D FoundationPose export: record "no observed object pixels" as NaN, not inf; mark such tracked frames unreliable.
+Upstream: nvidia-isaac/video_to_data reconstruction/modules/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py
+  (main 12c36fb = runtime pin 8c778f9 for this module), md5 c93056318b5320eb028a170d4ae482b6; patched md5 556a32239f14f8b87a137f1edec26514.
+Why: in --register-first-then-track every frame after registration is tracked and measured; a frame whose object
+mask minus human mask is empty keeps centroid_distance = inf, and validate_foundationpose_selection_arrays rejects
+the whole episode after all frames are tracked (ep01-ep04 of Tier 3). Downstream reads only frames/obj_pose_world.
+Applied by stages/recovery/tier3/t3_cari4d_ep.sh (bind-mounted over the image's copy); upstream source unchanged.
+
+--- a/run_foundationpose_mhr_export.py	2026-10-09 09:43:40.702694448 +0800
++++ b/run_foundationpose_mhr_export.py	2026-10-09 09:43:40.724694259 +0800
+@@ -560,7 +560,11 @@
+         selection_diagnostics["fp_full_image_iou"].append(float(metric_values["iou"]))
+         selection_diagnostics["fp_tolerant_precision"].append(float(metric_values["precision"]))
+         selection_diagnostics["fp_tolerant_recall"].append(float(metric_values["recall"]))
+-        selection_diagnostics["fp_centroid_distance"].append(float(metric_values["centroid_distance"]))
++        # maniphys tier3 patch: a frame with no observed object pixels has no centroid distance. The selector keeps
++        # inf internally (it drives rejection and sorting); the recorded diagnostic uses NaN, the convention this file
++        # already uses for "no measurement", which validate_foundationpose_selection_arrays accepts.
++        centroid_distance = float(metric_values["centroid_distance"])
++        selection_diagnostics["fp_centroid_distance"].append(centroid_distance if np.isfinite(centroid_distance) else float("nan"))
+         selection_diagnostics["fp_confirmation_count"].append(int(confirmation_count))
+         selection_diagnostics["fp_rejection_mask"].append(int(rejection_mask))
+         selection_diagnostics["fp_reliable"].append(bool(reliable_frame))
+@@ -632,7 +636,7 @@
+                 visibility_last = selected_visibility
+                 if selected_visibility > visibility_threshold:
+                     last_visible_index = idx
+-            append_frame_record(pose_cam=tracked_pose_cam, pose_world=tracked_pose_world, fallback_reason="", candidate_count=1, selected_candidate_index=-1, selected_iou=float(metric_values["iou"]), selected_visibility=selected_visibility, retry_count=0, reliable_frame=True, translation_threshold_m=float("nan"), translation_distance_m=float(np.linalg.norm(tracked_pose_centered[:3, 3] - previous_pose_centered[:3, 3])), metric_values=metric_values, state=selection_state, pending_source=PoseSource.NONE, emitted_source=PoseSource.FOUNDATIONPOSE_TRACK, gap_length=1, confirmation_count=1, rejection_mask=int(RejectionReason.NONE), reacquisition_latency=1)
++            append_frame_record(pose_cam=tracked_pose_cam, pose_world=tracked_pose_world, fallback_reason="", candidate_count=1, selected_candidate_index=-1, selected_iou=float(metric_values["iou"]), selected_visibility=selected_visibility, retry_count=0, reliable_frame=bool(int(metric_values["observed_visible_pixels"]) >= support_pixels), translation_threshold_m=float("nan"), translation_distance_m=float(np.linalg.norm(tracked_pose_centered[:3, 3] - previous_pose_centered[:3, 3])), metric_values=metric_values, state=selection_state, pending_source=PoseSource.NONE, emitted_source=PoseSource.FOUNDATIONPOSE_TRACK, gap_length=1, confirmation_count=1, rejection_mask=int(RejectionReason.NONE), reacquisition_latency=1)
+             append_visualization(idx, rgb, mask_o, K_frame, tracked_pose_cam)
+             continue
+ 

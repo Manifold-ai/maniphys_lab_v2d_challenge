@@ -22,7 +22,12 @@ iron mesh and still reported PASS. Nothing in the pipeline noticed. This version
      than the person" rejected big objects near the camera (big_black_box), so footprint, travel and the
      object/person ratio are reported only. Failures leave a MASK_SUSPECT file
      and still write overlays for diagnosis (they never feed back into a Tier 3 episode by hand);
-  4. packs the H5 CARI4D reads.
+  4. re-prompts SAM2 where it lost the object: a run of at least GAP_MIN_FRAMES empty object masks is probed
+     with the detector, and a detection near where the object was before/after the run is added as another
+     object prompt (ep01: SAM2 dropped a clearly visible vacuum for frames 582-642). A run with no such
+     detection is left empty: it is treated as real occlusion;
+  5. packs the H5 CARI4D reads, with the human mask minus the object mask: a held object is not an occluder
+     (ep03: 96% of the mug's pixels sat inside the human mask, so FoundationPose saw no object).
 
 Runs on the L40S from the host venv (official docker wrappers). Idempotent per stage. Paths under --work.
 """
@@ -59,6 +64,13 @@ STATIC_IOU = 0.7
 #: The manipulated object is touched: on some sampled frame its mask comes within this many pixels of the
 #: person mask. A tripod or a background chair never does.
 TOUCH_PX = 15
+#: A run of at least this many consecutive empty object masks is probed for a lost object.
+GAP_MIN_FRAMES = 15
+GAP_PROBES = 5
+#: A gap detection must lie within this many object-box diagonals of the object's last/next mask centroid.
+GAP_NEAR_DIAGONALS = 2.0
+#: Bump when the packed H5 changes meaning: 2 = human mask minus object mask.
+PACK_VERSION = 2
 #: The object mask's box overlapping a detected table/desk box above this IoU is a support, not the object.
 SUPPORT_MASK_IOU = 0.5
 #: On the prompt frame SAM2 was given the detector's object box; its mask box must agree with it at least this much.
@@ -104,9 +116,10 @@ def detections(path: Path) -> list[dict]:
 
 
 def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, weights: str, thr: float, samples: int,
-                        object_name: str = "") -> dict:
-    """Detect on `samples` frames, return the best (frame, object box, person box) with all candidates."""
-    frames = sorted({round(k * (total - 1) / (samples - 1)) for k in range(samples)})
+                        object_name: str = "", frames: list[int] | None = None) -> dict:
+    """Detect on `samples` frames (or the given ones), return the best (frame, object box, person box) with all candidates."""
+    if frames is None:
+        frames = sorted({round(k * (total - 1) / (samples - 1)) for k in range(samples)})
     # The dataset's short object name is a phrase of its own: the descriptive prompt alone can pull the
     # detector elsewhere ("an metallic iron" boxed metal tripods in ep06, never the iron).
     name = object_name.replace("_", " ").strip()
@@ -164,6 +177,63 @@ def dilate(mask: np.ndarray, radius: int) -> np.ndarray:
 def mask_box(mask: np.ndarray) -> dict:
     ys, xs = np.nonzero(mask)
     return {"x0": float(xs.min()), "y0": float(ys.min()), "x1": float(xs.max() + 1), "y1": float(ys.max() + 1)}
+
+
+def load_mask(path: Path) -> np.ndarray:
+    return np.asarray(Image.open(path).convert("L")) > 0
+
+
+def object_gaps(masks: Path, total: int) -> list[tuple[int, int]]:
+    """Runs [start, end] of at least GAP_MIN_FRAMES frames whose object mask is empty."""
+    empty = [not load_mask(masks / "1" / f"{i:06d}.png").any() for i in range(total)]
+    runs, start = [], None
+    for i, e in enumerate([*empty, False]):
+        if e and start is None:
+            start = i
+        elif not e and start is not None:
+            if i - start >= GAP_MIN_FRAMES:
+                runs.append((start, i - 1))
+            start = None
+    return runs
+
+
+def gap_prompts(d: Path, video: Path, masks: Path, total: int, gaps: list[tuple[int, int]], object_prompt: str,
+                object_name: str, weights: str, thr: float) -> list[dict]:
+    """One extra object prompt per gap where the detector finds the object near its last/next known place."""
+    found = []
+    for a, b in gaps:
+        anchors = []
+        for j in (a - 1, b + 1):
+            if 0 <= j < total:
+                m = load_mask(masks / "1" / f"{j:06d}.png")
+                if m.any():
+                    box = mask_box(m)
+                    anchors.append((np.array([(box["x0"] + box["x1"]) / 2, (box["y0"] + box["y1"]) / 2]),
+                                    float(np.hypot(box["x1"] - box["x0"], box["y1"] - box["y0"]))))
+        if not anchors:
+            continue
+        probes = sorted({round(a + k * (b - a) / (GAP_PROBES - 1)) for k in range(GAP_PROBES)})
+        pick = choose_prompt_frame(d / "detect", video, total, object_prompt, weights, thr, GAP_PROBES,
+                                   object_name=object_name, frames=probes)
+        for c in pick["candidates"]:
+            centre = np.array([(c["box"]["x0"] + c["box"]["x1"]) / 2, (c["box"]["y0"] + c["box"]["y1"]) / 2])
+            if any(np.linalg.norm(centre - p) <= GAP_NEAR_DIAGONALS * diag for p, diag in anchors):
+                found.append({"gap": [a, b], "frame_index": c["frame_index"], "box": c["box"], "confidence": c["confidence"]})
+                break
+    return found
+
+
+def pack_human_minus_object(masks: Path) -> Path:
+    """Human mask minus object mask, so a held object is not counted as occluded by the hand holding it."""
+    out = masks.parent / "sam2_masks_human_minus_object"
+    out.mkdir(exist_ok=True)
+    for hp in sorted((masks / "0").glob("*.png")):
+        op = masks / "1" / hp.name
+        human = load_mask(hp)
+        if op.exists():
+            human &= ~load_mask(op)
+        Image.fromarray(human.astype(np.uint8) * 255).save(out / hp.name)
+    return out
 
 
 def check_masks(masks: Path, total: int, width: int, prompt_frame: int, object_box: dict, support_boxes: list[dict]) -> dict:
@@ -293,11 +363,30 @@ def main() -> None:
         if not (masks / "1").exists():
             run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
                  "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
+        gaps_before = object_gaps(masks, total)
+        extra = []
+        if gaps_before and not (d / "sam2_masks_v1").exists():
+            extra = gap_prompts(d, video, masks, total, gaps_before, object_prompt, m["object"], args.weights, args.box_threshold)
+            if extra:
+                prompts.write_text(json.dumps({"prompts": [
+                    {"frame_index": best["frame_index"], "object_id": 0, "box": person_box},
+                    {"frame_index": best["frame_index"], "object_id": 1, "box": best["box"]},
+                    *({"frame_index": e["frame_index"], "object_id": 1, "box": e["box"]} for e in extra),
+                ]}, indent=1))
+                masks.rename(d / "sam2_masks_v1")
+                run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
+                     "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
+                packed.unlink(missing_ok=True)
+        gaps_after = object_gaps(masks, total)
         width = Image.open(d / "detect" / f"frame_{best['frame_index']:06d}.png").size[0]
         check = check_masks(masks, total, width, best["frame_index"], best["box"], best.get("support_boxes", []))
         for idx in (0, best["frame_index"], total - 1):
             overlay(video, masks, idx, d / f"overlay_{idx:06d}.png")
-        report = {"episode": name, "prompt_frame": best["frame_index"], "object_box": best, "check": check, "candidates": pick["candidates"][:5]}
+        report = {"episode": name, "prompt_frame": best["frame_index"], "object_box": best, "check": check, "candidates": pick["candidates"][:5],
+                  "gaps_before": gaps_before, "gap_prompts": extra, "gaps_after": gaps_after, "pack_version": PACK_VERSION}
+        previous = json.loads(report_path.read_text()) if report_path.exists() else {}
+        if previous.get("pack_version") != PACK_VERSION:
+            packed.unlink(missing_ok=True)
         report_path.write_text(json.dumps(report, indent=1))
         if not check["ok"]:
             (d / "MASK_SUSPECT").write_text(check["why"])
@@ -311,8 +400,9 @@ def main() -> None:
             except OSError:
                 shutil.copy2(video, cari_video)
         if not packed.exists():
+            human = pack_human_minus_object(masks)
             run([sys.executable, "-m", "v2d.cari4d.docker.run_pack_masks", "--video_path", str(cari_video),
-                 "--human_masks_path", str(masks / "0"), "--object_masks_path", str(masks / "1"), "--output_path", str(packed)])
+                 "--human_masks_path", str(human), "--object_masks_path", str(masks / "1"), "--output_path", str(packed)])
         summary.append({"episode": name, "ok": check["ok"], "prompt_frame": best["frame_index"], "why": check["why"]})
         print(f"{'ok' if check['ok'] else 'SUSPECT'} {name} prompt_frame={best['frame_index']}")
     (work / "masks_summary.json").write_text(json.dumps(summary, indent=1))
