@@ -62,6 +62,10 @@ flowchart LR
   掩码层面的缺口。
 - 第二版掩码规则重判 30 集（复用缓存的检测与 SAM2 结果，没有新 GPU 调用）：30/30 通过，没有 `MASK_SUSPECT` 或
   `NO_AUTO_PROMPT`。物体网格改用官方网格（Tier 2 目录，29 个物体全覆盖）。
+- ep20 端到端：CARI4D 8 阶段 PASS（约 26 分钟）；剪影检查可见 IoU 中位 0.88、深度因子 1.003；转换 decode → SOMA 反解
+  （官方 `body_models/soma` 资产，74 秒）→ assemble 出 553 帧 parquet；rxzhou 的 `challenge_to_soma.py` 原样读入通过
+  （`probe_rx_format.py`：77 关节、逐帧 flex (553,6)、poses.npy (553,4,4)），只缺 support_surface（Tier 3 未定）。
+  ep00 剪影检查深度因子 0.90–0.95，系统性偏远约 6–7%；ep01 在 FoundationPose 阶段报 `fp_centroid_distance contains infinity`。
 - **计分对物体局部坐标系敏感**：kit 的 Track 2 计分（`metric_code/track_2/*.py`，`_ALIGN_INITIAL_POSE = False`）直接比
   每帧物体位姿的平移与四元数，ADD 用官方网格顶点；打包器只做世界系的左乘对齐（`pack_submission.py`
   `convert_track2_frame`）。rollout 里的物体位姿是我们这份网格的局部系，它和官方网格的局部系差多少，位姿误差就差多少。
