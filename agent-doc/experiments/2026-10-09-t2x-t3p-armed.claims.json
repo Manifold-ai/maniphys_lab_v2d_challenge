@@ -1,0 +1,35 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "r": {
+   "file": "results/t3p/retarget_mf4090.txt",
+   "grep": "^# source|^来历|退出码|^3\\t|EPS_DONE|RESULT|contact_active"
+  },
+  "b": {
+   "file": "results/batch_summary_v040_t2v54.tsv",
+   "grep": "^tier\\t|^2\\t(8|24)\\t"
+  },
+  "a2": {
+   "file": "results/t2x/arm_t2xa_ml40.txt",
+   "grep": "^source|核对：|^v2d-t2xa|^t2xa_train|ARMED"
+  },
+  "a3": {
+   "file": "results/t3p/arm_t3p_mf4090.txt",
+   "grep": "^source|核对：|^v2d-t3p|^t3p_train|ARMED"
+  },
+  "s": {
+   "file": "results/t3p/stage_mf4090.txt",
+   "grep": "^ep(8|24) |TIER3_ROOT_OK"
+  }
+ },
+ "claims": [
+  {"id": "t3_gap", "evidence": ["r"], "claim": "Tier 3 的 ep8 重定向后间隙是 +114.9 mm、ep24 是 +146.2 mm，状态都是 ALIGN；ep8 帧数 708、左右手接触 229 / 250，ep24 帧数 748、左右手接触 0 / 481；IK 中位 ep8 1.235、ep24 0.712。"},
+  {"id": "t2_gap", "evidence": ["b"], "claim": "Tier 2 的 ep8 间隙 −3.4 mm、IK 中位 0.671，ep24 间隙 −2.2 mm、IK 中位 0.49，两条状态都是 OK。"},
+  {"id": "armed_t2xa", "evidence": ["a2"], "claim": "t2xa 在 ml40 上起链：15 条 run，来历 1d98bd33980d，30 份配置的 precheck 与配方断言全过，三个会话都在，最后一行是 ARMED。"},
+  {"id": "armed_t3p", "evidence": ["a3"], "claim": "t3p 在 mf4090 上起链：会话 v2d-t3p-train、v2d-t3p-eval、v2d-t3p-export 都在，训练链开始的是 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 的冒烟，最后一行是 ARMED。"},
+  {"id": "staged", "evidence": ["s"], "claim": "拼档目录以 TIER3_ROOT_OK 结束；ep8 与 ep24 转发时对方的部署版本都是 f421235f200dc20955216dd7161e2567d8218a4c。"},
+  {"id": "ctl_true", "evidence": ["r"], "claim": "ep24 那一行的左手接触是 0。", "control": "true"},
+  {"id": "ctl_false_gap", "evidence": ["r"], "claim": "Tier 3 两集的间隙都是负的（物体穿进地面）。", "control": "false"},
+  {"id": "ctl_false_arm", "evidence": ["a2"], "claim": "t2xa 起链时有 24 条 run。", "control": "false"}
+ ]
+}

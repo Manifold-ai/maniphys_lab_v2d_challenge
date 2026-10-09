@@ -114,3 +114,17 @@ Tier 2 铺开另见 `agent-doc/plan-t2-scaleout-2026-10-09.md`，两者分在两
 - 14:49 删掉 mf4090 上的 `runs/tier3/root` 与 `runs/tier3/incoming/t3p_1009`，用 7aa1905 重拼（`results/t3p/stage_mf4090.txt`）：`TIER3_ROOT_OK`，
   ep8 parquet 修改时间 2026-10-09T06:36:25Z、ep24 15:08:36Z，转发时对方部署版本 f421235（干净）。记录里没有别人的名字。
 - 14:50 mf4090 的 tmux `v2d-t3p-retarget` 里经 record 跑 `stages/retarget/eps.sh 3 8 24`（来历 9c31ba8）。
+- 14:50–14:57 转换与重定向（`results/t3p/retarget_mf4090.txt`，`eps.sh` 的记录，来历 9c31ba8）：
+
+  | 集 | 帧数 | 左手 / 右手接触帧 | IK 残差中位 | 间隙 | 状态 |
+  |---|---|---|---|---|---|
+  | ep8 | 708 | 229 / 250 | 1.235 | +114.9 mm（悬空） | ALIGN |
+  | ep24 | 748 | 0 / 481 | 0.712 | +146.2 mm（悬空） | ALIGN |
+
+  同两集的 Tier 2（v5.4）重定向（`results/batch_summary_v040_t2v54.tsv`）：间隙 −3.4、−2.2 mm，IK 残差中位 0.671、0.490，接触 249 / 243、0 / 511。
+  按第 4 节 P2 都过（不是 `FAIL:*`、帧数对、至少一侧有接触、没有穿地超过 50 mm）。但物体静置时比地面高 11–15 cm，Tier 2 同集只差几毫米：
+  这是“相机系当世界系、尺度与倾角没校正”在重定向后的直接表现。登记的判据只拦穿地，悬空只报，所以照计划起链；训练开头物体可能从悬空的位置掉下，
+  R1–R3 与跟踪指标会显示影响有多大。日志里的 “There was an error running python” 是对齐检查在 `ok=0` 时以退出码 1 结束（`check_support_alignment.py` 最后一行），不是别的错误。
+  转换后的 `v2d_meta.json` 带上了来源（`object_pose_source.kind` 为 `tier3_reconstruction`，parquet sha256 `0e0bd2e7…`）。
+- 14:58 配置展开（`results/t3p/cfgcheck_mf4090.txt`）：4 份，意外差异 0。预演 `DRYRUN_OK`（`results/t3p/arm_dryrun_t3p_mf4090.txt`）：2 条 run，来历 9c31ba8，可用 5486 MB。
+- 14:59 起链 `ARMED`（`results/t3p/arm_t3p_mf4090.txt`）：会话 `v2d-t3p-train`、`v2d-t3p-eval`、`v2d-t3p-export`，开始第一条冒烟（ep8）。按 r3x 的速度估，约 20:30 前后导出门结束。
