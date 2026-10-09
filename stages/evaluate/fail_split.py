@@ -34,7 +34,7 @@ def main() -> int:
     pels = {g: [] for g in GROUPS}
     fail_mp4096 = []
     r3a = []
-    print("\t".join(["ep", "run", "1世界_MP", "1世界_SP", "4096_MP", "4096_SP", "失败_骨盆", "组"]))
+    print("\t".join(["ep", "run", "1世界_MP-SR", "1世界_SP-SR", "4096世界_MP-SR", "4096世界_SP-SR", "4096世界_失败_骨盆", "组"]))
     for line in a.select_tsv.read_text(encoding="utf-8").splitlines():
         _tier, ep, run, step, host = line.split("\t")
         s = scores[run]
@@ -53,7 +53,7 @@ def main() -> int:
         pels[g].append(pel)
         if "-r3a" in run:
             r3a.append((f"ep{ep}", s["maniptrans_sr"]))
-        print("\t".join([ep, run, f"{s['maniptrans_sr']:.0f}", f"{s['spider_sr']:.0f}", f"{j['maniptrans_sr']:.3f}",
+        print("\t".join([f"ep{ep}", run, f"{s['maniptrans_sr']:.0f}", f"{s['spider_sr']:.0f}", f"{j['maniptrans_sr']:.3f}",
                          f"{j['spider_sr_uncentered']:.3f}", f"{pel:.3f}", g]))
     print(f"1 世界 MP-SR 过 {len(groups['1世界过'])} 条：{'、'.join(groups['1世界过'])}")
     n_fail = len(fail_mp4096)

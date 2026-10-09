@@ -3,7 +3,7 @@
  "evidence": {
   "f": {
    "file": "results/r3x/fail_split_r3x.txt",
-   "grep": "^ep\\t|^[0-9]+\\t|世界 MP-SR|骨盆>=0.9：|骨盆<=0.4：|其余：|最大|r3a（|FAIL_SPLIT_DONE"
+   "grep": "^ep[0-9]*\\t|世界 MP-SR|骨盆>=0.9：|骨盆<=0.4：|其余：|最大|r3a（|FAIL_SPLIT_DONE"
   },
   "o": {
    "file": "results/r3/fall_order_t1.txt",
@@ -23,7 +23,7 @@
    "evidence": [
     "f"
    ],
-   "claim": "1 世界 MP-SR 没过的有 15 条；这 15 条选中 run 的 4096 世界 MP-SR 最大是 0.000。"
+   "claim": "1 世界 MP-SR 没过的 15 条，选中 run 的 4096 世界 MP-SR 最大是 0.000。"
   },
   {
    "id": "split",
@@ -37,7 +37,7 @@
    "evidence": [
     "f"
    ],
-   "claim": "ep5 选中 run 的 4096 世界 MP-SR 是 0.308，ep29 的是 0.151；这两条的 1 世界 MP-SR 都是 1。"
+   "claim": "ep5 那一行的 4096世界_MP-SR 是 0.308，ep29 那一行是 0.151；这两行的 1世界_MP-SR 都是 1。"
   },
   {
    "id": "fall_order",
@@ -51,7 +51,7 @@
    "evidence": [
     "f"
    ],
-   "claim": "ep12 选中的是 t1-ep12-w2048-cap10m-ml40，4096 世界 MP-SR 0.992。",
+   "claim": "ep12 那一行的 run 是 t1-ep12-w2048-cap10m-ml40，4096世界_MP-SR 是 0.992。",
    "control": "true"
   },
   {
