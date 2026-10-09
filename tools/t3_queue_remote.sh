@@ -33,11 +33,18 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
       echo "## $f（最后 40 行）"
       tail -n 40 "$f" 2>/dev/null | cut -c1-300
     done
-    echo "## 各集剪影检查结论（runs/checks/*/object_check.json 的 ok 与问题）"
-    for c in "$T"/runs/checks/*/object_check.json; do
-      [ -f "$c" ] || continue
-      echo "$(basename "$(dirname "$c")") $(python3 -c 'import json,sys; j=json.load(open(sys.argv[1])); print(j.get("ok"), "; ".join(j.get("problems", [])))' "$c")"
+    for k in checks checks_v2; do
+      echo "## 各集剪影检查（runs/$k/*/object_check.json：ok、可见 IoU / 深度因子 / 质心偏移的中位、原因）"
+      for c in "$T"/runs/$k/*/object_check.json; do
+        [ -f "$c" ] || continue
+        echo "$(basename "$(dirname "$c")") $(python3 -c 'import json,sys
+j = json.load(open(sys.argv[1])); r = j.get("all_p10_p50_p90") or {}
+g = lambda k: (r.get(k) or [None] * 3)[1]
+print("ok=%s iou_p50=%s depth_factor_p50=%s centroid_p50=%s %s" % (j.get("ok"), g("iou_visible"), g("depth_factor"), g("centroid_px"), j.get("why") or ""))' "$c")"
+      done
     done
+    c="$(ls "$T"/runs/checks_v2/*/object_check.json 2>/dev/null | head -1)"
+    [ -n "$c" ] && echo "## checks_v2 报告的顶层键：$(python3 -c 'import json,sys; print(sorted(json.load(open(sys.argv[1]))))' "$c")"
     echo "## 各集 pipeline_report 结论"
     for p in "$T"/runs/work/*/cari4d/episode_*/pipeline_report.json; do
       [ -f "$p" ] || continue

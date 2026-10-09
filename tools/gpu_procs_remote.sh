@@ -18,6 +18,14 @@ for pid in "${gpids[@]}"; do
   done
 done
 for u in "${users[@]}"; do h="$(getent passwd "$u" | cut -d: -f6)"; h="${h##*/}"; [ -n "$h" ] && [ "$h" != "$u" ] && users+=("$h"); done
+# GPU 空着时上面收不到名字，但容器的挂载路径里仍有别人的目录名：/lab_data 与 /home 下属主不是本用户、也不是 root 的目录，
+# 目录名和属主一并换掉（2026-10-09 卡空时的快照漏过一次，没提交）。长的名字先换，免得短名字是长名字的一部分时只换掉一半。
+for d in /lab_data/* /home/*; do
+  [ -d "$d" ] || continue
+  o="$(stat -c %U "$d" 2>/dev/null)"
+  [ -n "$o" ] && [ "$o" != "$me" ] && [ "$o" != root ] && users+=("${d##*/}" "$o")
+done
+mapfile -t users < <(printf '%s\n' "${users[@]}" | awk 'NF' | sort -u | awk '{ print length, $0 }' | sort -rn | cut -d' ' -f2-)
 red() {  # 换掉别人的用户名、home 目录名，以及像凭据的参数值
   local s; s="$(cat)"
   for u in "${users[@]}"; do [ -n "$u" ] && s="${s//$u/<其他用户>}"; done
