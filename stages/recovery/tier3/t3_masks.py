@@ -26,7 +26,9 @@ iron mesh and still reported PASS. Nothing in the pipeline noticed. This version
      with the detector, and a detection near where the object was before/after the run is added as another
      object prompt (ep01: SAM2 dropped a clearly visible vacuum for frames 582-642). A run with no such
      detection is left empty: it is treated as real occlusion;
-  5. packs the H5 CARI4D reads, with the human mask minus the object mask: a held object is not an occluder
+  5. re-prompts SAM2 where it kept only part of the object: a confident detector box that holds the mask but is
+     more than twice its size is added as another object prompt (ep14: the mask held the round table's top only);
+  6. packs the H5 CARI4D reads, with the human mask minus the object mask: a held object is not an occluder
      (ep03: 96% of the mug's pixels sat inside the human mask, so FoundationPose saw no object).
 
 Runs on the L40S from the host venv (official docker wrappers). Idempotent per stage. Paths under --work.
@@ -77,6 +79,12 @@ SUPPORT_MASK_IOU = 0.5
 PROMPT_BOX_IOU = 0.5
 #: A mask that exceeds this multiple of its prompt-frame area on most sampled frames has leaked onto something.
 MAX_GROWTH = 4.0
+#: Incomplete mask: on a detector frame, a confident object box that holds the mask's box (at least
+#: COMPLETE_INSIDE of it) while the mask's box covers less than COMPLETE_RATIO of the object box. SAM2 kept a part
+#: (ep14: the round table's top, without its post and base, so the silhouette gate failed a correct pose).
+COMPLETE_CONF = 0.4
+COMPLETE_INSIDE = 0.9
+COMPLETE_RATIO = 0.5
 
 
 def run(cmd: list[str]) -> None:
@@ -220,6 +228,25 @@ def gap_prompts(d: Path, video: Path, masks: Path, total: int, gaps: list[tuple[
             if any(np.linalg.norm(centre - p) <= GAP_NEAR_DIAGONALS * diag for p, diag in anchors):
                 found.append({"gap": [a, b], "frame_index": c["frame_index"], "box": c["box"], "confidence": c["confidence"]})
                 break
+    return found
+
+
+def completion_prompts(masks: Path, candidates: list[dict]) -> list[dict]:
+    """Detector boxes that hold an incomplete object mask on their frame (see COMPLETE_RATIO), as extra object prompts."""
+    found = []
+    for c in candidates:
+        if c["confidence"] < COMPLETE_CONF:
+            continue
+        m = load_mask(masks / "1" / f"{c['frame_index']:06d}.png")
+        if not m.any():
+            continue
+        mb, b = mask_box(m), c["box"]
+        inter = max(0.0, min(mb["x1"], b["x1"]) - max(mb["x0"], b["x0"])) * max(0.0, min(mb["y1"], b["y1"]) - max(mb["y0"], b["y0"]))
+        area_m = (mb["x1"] - mb["x0"]) * (mb["y1"] - mb["y0"])
+        area_b = (b["x1"] - b["x0"]) * (b["y1"] - b["y0"])
+        if area_m > 0 and inter / area_m >= COMPLETE_INSIDE and area_m / area_b < COMPLETE_RATIO:
+            found.append({"frame_index": c["frame_index"], "box": b, "confidence": c["confidence"],
+                          "mask_over_box": round(area_m / area_b, 3)})
     return found
 
 
@@ -377,13 +404,26 @@ def main() -> None:
                 run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
                      "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
                 packed.unlink(missing_ok=True)
+        complete = []
+        if not (d / "sam2_masks_incomplete").exists():
+            complete = completion_prompts(masks, pick["candidates"])
+            if complete:
+                current = json.loads(prompts.read_text())["prompts"]
+                prompts.write_text(json.dumps({"prompts": [
+                    *current, *({"frame_index": e["frame_index"], "object_id": 1, "box": e["box"]} for e in complete),
+                ]}, indent=1))
+                masks.rename(d / "sam2_masks_incomplete")
+                run([sys.executable, "-m", "v2d.sam2.docker.run_video_to_masks", "--video_path", str(video),
+                     "--prompts_path", str(prompts), "--masks_dir", str(masks), "--weights_dir", f"{args.weights}/sam2"])
+                packed.unlink(missing_ok=True)
         gaps_after = object_gaps(masks, total)
         width = Image.open(d / "detect" / f"frame_{best['frame_index']:06d}.png").size[0]
         check = check_masks(masks, total, width, best["frame_index"], best["box"], best.get("support_boxes", []))
         for idx in (0, best["frame_index"], total - 1):
             overlay(video, masks, idx, d / f"overlay_{idx:06d}.png")
         report = {"episode": name, "prompt_frame": best["frame_index"], "object_box": best, "check": check, "candidates": pick["candidates"][:5],
-                  "gaps_before": gaps_before, "gap_prompts": extra, "gaps_after": gaps_after, "pack_version": PACK_VERSION}
+                  "gaps_before": gaps_before, "gap_prompts": extra, "completion_prompts": complete, "gaps_after": gaps_after,
+                  "pack_version": PACK_VERSION}
         previous = json.loads(report_path.read_text()) if report_path.exists() else {}
         if previous.get("pack_version") != PACK_VERSION:
             packed.unlink(missing_ok=True)
