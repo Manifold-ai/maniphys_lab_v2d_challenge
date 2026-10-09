@@ -34,7 +34,12 @@ LOG=$T/logs/cari4d_$name.log
   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
   export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF
   export T3_CONTAINER_ENV="TORCH_HOME=/data/weights_path/cari4d/torch_home"
-  $PY "$S/t3_run.py" v2d.cari4d.docker.run_inference \
+  # CARI4D reuses finished stages only when their inputs are unchanged and refuses otherwise. When the packed
+  # masks are newer than the last export (t3_masks.py repacked them), every stage from the export on is stale.
+  overwrite=""
+  marker=$(ls "$W"/cari4d/*/.stages/02_export.json 2>/dev/null | head -1)
+  if [ -n "$marker" ] && [ "$W/masks_k0.h5" -nt "$marker" ]; then overwrite="--overwrite"; echo "masks newer than the last export: $overwrite"; fi
+  $PY "$S/t3_run.py" v2d.cari4d.docker.run_inference $overwrite \
     --video_path "$video" --mask_h5_path "$W/masks_k0.h5" --object_mesh_path "$mesh" \
     --weights_path "$WEIGHTS/cari4d" --output_dir "$W/cari4d" \
     --skip_weight_download --expected_frames "$frames" --postopt_batch_size 128
