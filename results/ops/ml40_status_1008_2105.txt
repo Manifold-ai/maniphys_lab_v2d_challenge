@@ -1,0 +1,25 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; date "+%F %T %Z"; echo "## GPU"; nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu,temperature.gpu --format=csv,noheader; echo "## GPU ä¸\212ç\232\204è¿\233ç¨\213ï¼\232pidã\200\201æ\230¾å\255\230ã\200\201å·²è¿\220è¡\214æ\227¶é\225¿ã\200\201è¿\233ç¨\213å\220\215ã\200\201å½\222å±\236"; me=$(id -un); nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | while IFS=, read -r pid mem; do pid=$(echo $pid); o=$(ps -o user= -p "$pid" 2>/dev/null | tr -d " "); echo "$pid,$mem, $(ps -o etime= -p "$pid" 2>/dev/null | tr -d " "), $(ps -o comm= -p "$pid" 2>/dev/null), $([ "$o" = "$me" ] && echo æ\210\221ä»¬ç\232\204 || echo ä¸\215æ\230¯æ\210\221ä»¬ç\232\204)"; done; echo "## è´\237è½½ã\200\201å\206\205å\255\230"; uptime; echo "CPU $(nproc) æ ¸"; free -m; echo "## ç£\201ç\233\230"; df -m /lab_data /; echo "## æ\210\221ä»¬ç\232\204é\225¿é\223¾æ \207è®°ã\200\201tmuxã\200\201å®¹å\231¨"; ls runs/.chain-active-* 2>/dev/null || echo "ï¼\210æ²¡æ\234\211é\225¿é\223¾æ \207è®°ï¼\211"; tmux ls 2>/dev/null || echo "ï¼\210æ²¡æ\234\211 tmux ä¼\232è¯\235ï¼\211"; docker ps --filter "label=v2d.owner=$me" --format "{{.Names}} {{.Status}}" 2>&1; echo "å\205¨é\203¨è¿\220è¡\214ä¸\255ç\232\204å®¹å\231¨ $(docker ps -q 2>/dev/null | wc -l) ä¸ª"; echo "æ\235¥å\216\206 $(cat .v2d-source-commit)"' 
+# source   : e51b8b498d0e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T20:50:35-0600
+# ---------------------------------------------------------------
+2026-10-09 10:50:39 CST
+## GPU
+NVIDIA L40S, 3377 MiB, 46068 MiB, 100 %, 75
+## GPU ä¸Šçš„è¿›ç¨‹ï¼špidã€æ˜¾å­˜ã€å·²è¿è¡Œæ—¶é•¿ã€è¿›ç¨‹åã€å½’å±
+4000113, 3368 MiB, 04:36, python, ä¸æ˜¯æˆ‘ä»¬çš„
+## è´Ÿè½½ã€å†…å­˜
+ 10:50:39 up 14 days, 53 min,  0 users,  load average: 1.49, 3.13, 6.01
+CPU 28 æ ¸
+               total        used        free      shared  buff/cache   available
+Mem:          114371       10371        4559          21       99440      102857
+Swap:              0           0           0
+## ç£ç›˜
+Filesystem     1M-blocks   Used Available Use% Mounted on
+/dev/vdb         2063132 242986   1820131  12% /lab_data
+/dev/vda2         151065  35514    109290  25% /
+## æˆ‘ä»¬çš„é•¿é“¾æ ‡è®°ã€tmuxã€å®¹å™¨
+ï¼ˆæ²¡æœ‰é•¿é“¾æ ‡è®°ï¼‰
+ï¼ˆæ²¡æœ‰ tmux ä¼šè¯ï¼‰
+å…¨éƒ¨è¿è¡Œä¸­çš„å®¹å™¨ 1 ä¸ª
+æ¥å† d8b309e9d52c

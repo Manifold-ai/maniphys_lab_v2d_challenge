@@ -1,0 +1,41 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z" && echo "## �\255�\203�\223��\210�\215�\220��\206\222�\203\237�\214�\211" && grep -a "^=== " runs/logs/r3x_train_mf4090.log | grep -av "�\206\222�\203\237" | tail -n 8 && echo "DIVERGE_IN_CHAIN $(grep -ac �\217\221�\225� runs/logs/r3x_train_mf4090.log)" && echo "## �\220\204 run" && for r in t1-ep0-w2048-cap4m-r3a-mf4090 t1-ep15-w2048-cap4m-r3a-mf4090 t1-ep5-w2048-cap4m-r3a-mf4090 t1-ep0-w2048-cap4m-r3a-s43-mf4090 t1-ep15-w2048-cap4m-r3a-s43-mf4090 t1-ep5-w2048-cap4m-r3a-s43-mf4090; do d=runs/flash_chord/$r; [ -d $d ] || { echo "$r�\210�\230没�\234\211�\233��\225�\211"; continue; }; echo "$r DONE=$([ -f $d/DONE ] && echo 1 || echo 0) NONFINITE=$([ -f $d/NONFINITE ] && echo 1 || echo 0) GUARD_STOP=$(cat runs/logs/$r.log runs/logs/$r.s*.log 2>/dev/null | grep -ac NONFINITE_GUARD_STOP) MB=$(du -sm $d | cut -f1) policy=$(ls $d/policy_*.safetensors 2>/dev/null | wc -l) state=$(ls $d/state_*.safetensors 2>/dev/null | wc -l)"; [ -f runs/logs/$r.nanwatch.log ] && echo "  nanwatch �\235\236�\234\211�\231\220�\214 $(grep -acE "�\235\236�\234\211�\231\220 [1-9]" runs/logs/$r.nanwatch.log)�\233�\234\200�\220\216�\232$(tail -1 runs/logs/$r.nanwatch.log)"; done; echo "## �\204�\213�\223� / 导�\207��\227��\234\200�\220\216�\200�\214" && tail -1 runs/logs/r3x_eval_mf4090.log && tail -1 runs/logs/cand_t1_r3x_mf4090_gate.log && ls runs/.chain-active-* && echo "## GPU / �\201�\233\230" && nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader && nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader && df -m . | tail -1 && tmux ls' 
+# source   : e51b8b498d0e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T20:45:44-0600
+# ---------------------------------------------------------------
+2026-10-09 10:45:47 CST
+## 训练链（不含冒烟行）
+=== 2026-10-09 04:41:35 CST start r3x_train_mf4090, source d8b309e9d52c, 期望表 stages/policy/queues/mf4090_r3x.expect.tsv
+=== 2026-10-09 05:10:32 CST 正式 t1-ep0-w2048-cap4m-r3a-mf4090
+=== 2026-10-09 07:23:41 CST t1-ep0-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-09 07:23:41 CST 正式 t1-ep15-w2048-cap4m-r3a-mf4090
+=== 2026-10-09 09:36:55 CST t1-ep15-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-09 09:36:55 CST 正式 t1-ep5-w2048-cap4m-r3a-mf4090
+=== 2026-10-09 09:39:01 CST t1-ep5-w2048-cap4m-r3a-mf4090 失败（退出码 2），继续下一条
+=== 2026-10-09 09:39:01 CST 正式 t1-ep0-w2048-cap4m-r3a-s43-mf4090
+DIVERGE_IN_CHAIN 0
+## 各 run
+t1-ep0-w2048-cap4m-r3a-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 MB=360 policy=35 state=1
+  nanwatch 非有限行 0；最后：10-08 17:20:42 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t1-ep15-w2048-cap4m-r3a-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 MB=360 policy=35 state=1
+  nanwatch 非有限行 0；最后：10-08 19:33:51 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t1-ep5-w2048-cap4m-r3a-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 MB=1 policy=0 state=0
+  nanwatch 非有限行 0；最后：10-08 19:38:55 MDT 报警信号：.wandb 里 NaN 字样 0 处（只报不停）
+t1-ep0-w2048-cap4m-r3a-s43-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 MB=254 policy=17 state=1
+  nanwatch 非有限行 0；最后：10-08 20:45:05 MDT 170,006,528 步：非有限 0 / 1207577（NaN 0，inf 0）
+t1-ep15-w2048-cap4m-r3a-s43-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 MB=1 policy=0 state=0
+t1-ep5-w2048-cap4m-r3a-s43-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 MB=1 policy=0 state=0
+## 评测链 / 导出门最后一行
+=== 2026-10-09 04:41:37 CST 等 runs/logs/r3x_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-09 04:41:39 CST 等 runs/logs/r3x_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/.chain-active-cand_t1_r3x_mf4090-gate
+runs/.chain-active-r3x_eval_mf4090
+runs/.chain-active-r3x_train_mf4090
+## GPU / 磁盘
+57166, python, 23802 MiB
+23811 MiB, 100 %
+/dev/vda2         201462 186354      6798  97% /
+v2d-r3x-eval: 1 windows (created Fri Oct  9 04:41:37 2026)
+v2d-r3x-export: 1 windows (created Fri Oct  9 04:41:39 2026)
+v2d-r3x-train: 1 windows (created Fri Oct  9 04:41:35 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
