@@ -1,0 +1,128 @@
+# command  : ssh -o BatchMode=yes ml40 $'u=$(ps -o user= -p 3981674 | tr -d " "); T=/lab_data/$u/v2d/tier3; r() { sed "s/$u/<�\205��\226�\224��\210�>/g"; }; { date "+%F %T %Z"; echo "## �\230\237�\210\227�\227��\227�\210�\234\200�\220\216 40 �\214�\211"; tail -n 40 $T/logs/t3_cari4d_queue.log; echo "## �\220\204�\233\206 CARI4D �\227��\227�\232�\226尾�\227��\227��\200\201�\214�\225��\200\201�\234\200�\220\216�\207��\214"; for f in $(ls -tr $T/logs/cari4d_ep*.log); do echo "### $(basename $f)�\210修�\224��\216 $(date -r $f "+%F %T")�\214$(wc -l < $f) �\214�\211"; head -1 $f | cut -c1-200; grep -aE "Stage|stage|PASS|FAIL|rc=|Error|error" $f | tail -n 12 | cut -c1-220; done; echo "## �\220\204�\233\206 pipeline_report �\223论"; for p in $T/runs/work/*/cari4d/episode_*/pipeline_report.json; do echo "$p $(python3 -c "import json,sys; j=json.load(open(sys.argv[1])); print(j.get(\\"verdict\\"), j.get(\\"elapsed_s\\", j.get(\\"total_seconds\\", \\"\\")))" $p)"; done; echo "## runs/work �\213�\232\204�\233\206"; ls $T/runs/work | tr "\\n" " "; echo; echo "## runs/tier3_cari4d"; find $T/runs/tier3_cari4d $T/runs/tier3_cari4d_suspect -name "*.parquet" 2>/dev/null; echo "## 代�\201�\216�\230\237�\210\227�\226\207件�\232\204修�\224��\227��\227�"; ls -l --time-style=+%F_%T $T/code/stages/recovery/tier3/t3_queue_cari4d.sh $T/code/stages/recovery/tier3/t3_cari4d_ep.sh $T/code/stages/recovery/tier3/t3_object_check.py $T/code/stages/recovery/tier3/t3_convert_ep.py $T/code/DEPLOYED; } 2>&1 | r' 
+# source   : a3c845c39a28-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T21:34:14-0600
+# ---------------------------------------------------------------
+2026-10-09 11:34:14 CST
+## 队列日志（最后 40 行）
+10-09_08:47:53 ep01_vacuum cari4d rc=1
+10-09_08:47:53 paused (/lab_data/<其他用户>/v2d/tier3/PAUSE)
+10-09_08:48:53 paused (/lab_data/<其他用户>/v2d/tier3/PAUSE)
+10-09_08:49:53 ep02_blue_easter_basket cari4d start
+10-09_09:03:53 ep02_blue_easter_basket cari4d rc=1
+10-09_09:03:53 ep03_contigo_coffee_mug cari4d start
+10-09_09:14:56 ep03_contigo_coffee_mug cari4d rc=1
+10-09_09:14:56 ep04_baseball_bat cari4d start
+10-09_09:26:21 ep04_baseball_bat cari4d rc=1
+10-09_09:26:21 paused (/lab_data/<其他用户>/v2d/tier3/PAUSE)
+10-09_09:26:31 ep00_tall_bar_stool skip: CARI4D done
+10-09_09:28:18 ep00_tall_bar_stool soma fit: Mean vertex error: 0.3421 cm Max vertex error: 6.9255 cm 
+10-09_09:29:02 ep00_tall_bar_stool residual chamfer_cm mean=0.451 p95_frame=0.547 max_frame=0.554 within_frame_p95_median=1.157
+10-09_09:29:03 ep00_tall_bar_stool assembled
+10-09_09:29:03 ep01_vacuum cari4d start
+10-09_09:30:37 ep01_vacuum cari4d rc=1
+10-09_09:30:37 ep02_blue_easter_basket cari4d start
+10-09_09:32:31 ep02_blue_easter_basket cari4d rc=1
+10-09_09:32:31 ep03_contigo_coffee_mug cari4d start
+10-09_09:34:07 ep03_contigo_coffee_mug cari4d rc=1
+10-09_09:34:07 ep04_baseball_bat cari4d start
+10-09_09:35:43 ep04_baseball_bat cari4d rc=1
+10-09_09:35:43 ep05_big_black_box cari4d start
+10-09_10:14:41 ep05_big_black_box cari4d rc=0
+10-09_10:15:07 ep05_big_black_box check iou_p50=0.8089 depth_factor_p10/50/90=[0.8505, 0.9243, 0.9457] centroid_p50=5.3
+10-09_10:15:28 paused (/lab_data/<其他用户>/v2d/tier3/PAUSE)
+10-09_10:24:07 ep01_vacuum cari4d start
+10-09_10:24:10 ep01_vacuum cari4d rc=1
+10-09_10:24:10 ep02_blue_easter_basket cari4d start
+10-09_10:24:14 ep02_blue_easter_basket cari4d rc=1
+10-09_10:24:14 ep03_contigo_coffee_mug cari4d start
+10-09_10:24:17 ep03_contigo_coffee_mug cari4d rc=1
+10-09_10:24:17 QUEUE DONE
+10-09_10:25:22 ep01_vacuum cari4d start
+10-09_10:56:09 ep01_vacuum cari4d rc=0
+10-09_10:56:21 ep01_vacuum check iou_p50=0.0769 depth_factor_p10/50/90=[0.3689, 0.7692, 1.1668] centroid_p50=47.0
+10-09_10:58:06 ep01_vacuum soma fit: Mean vertex error: 0.3524 cm Max vertex error: 5.1030 cm 
+10-09_10:58:50 ep01_vacuum residual chamfer_cm mean=0.464 p95_frame=0.512 max_frame=0.53 within_frame_p95_median=1.27
+10-09_10:58:50 ep01_vacuum assembled
+10-09_10:58:50 ep02_blue_easter_basket cari4d start
+## 各集 CARI4D 日志：首尾时间、行数、最后几行
+### cari4d_ep20_rice_cooker.attempt1.log（修改于 2026-10-09 07:32:51，137 行）
+frames=553 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/rice_cooker/rice_cooker.glb
+{"backend": "moge2", "batchSize": 8, "cameraPolicy": "first_frame_export_per_frame_depth", "depthM": {"max": 9.363523483276367, "min": 1.5704952478408813}, "deviceCount": 1, "devices": ["cuda"], "elapsedSeconds": 57.3297
+PermissionError: [Errno 13] Permission denied: '/data/weights_path/cari4d/foundationpose/nvlabs_pytorch/2024-01-11-20-02-45/config.yml'
+    stages.append(_stage_run("05_object_pose", foundationpose_command, [export_marker, aligned_depth, weights["foundationpose_score"], weights["foundationpose_refine"]], [foundationpose_init], marker_root, env, overwrite
+  File "/workspace/v2d_cari4d/lib/run_inference.py", line 66, in _stage_run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py', '/data/video_path/cari4d/episode_000020/export/episode_000020', '--depth-root', 
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 56, in <module>
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 46, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['docker', 'run', '--rm', '-e', 'http_proxy', '-e', 'https_proxy', '-e', 'HTTP_PROXY', '-e', 'HTTPS_PROXY', '-e', 'no_proxy', '-e', 'NO_PROXY', '-e', 'PYTORCH_CUDA_ALLOC_CONF', '-e
+07:32:51 cari4d rc=1
+### cari4d_ep20_rice_cooker.log（修改于 2026-10-09 07:54:19，1804 行）
+frames=553 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/rice_cooker/rice_cooker.glb
+  "stages": [
+  "verdict": "PASS"
+07:54:19 cari4d rc=0
+### cari4d_ep00_tall_bar_stool.log（修改于 2026-10-09 08:35:51，2146 行）
+frames=778 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/tall_bar_stool/tall_bar_stool.glb
+{"backend": "moge2", "batchSize": 8, "cameraPolicy": "first_frame_export_per_frame_depth", "depthM": {"max": 9.485392570495605, "min": 1.5014516115188599}, "deviceCount": 1, "devices": ["cuda"], "elapsedSeconds": 78.7451
+  "stages": [
+  "verdict": "PASS"
+08:35:51 cari4d rc=0
+### cari4d_ep04_baseball_bat.log（修改于 2026-10-09 09:35:43，99 行）
+frames=803 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/baseball_bat/baseball_bat.glb
+    raise ValueError(f"{label}/{key} contains infinity")
+ValueError: generated FoundationPose output/fp_centroid_distance contains infinity
+    stages.append(_stage_run("05_object_pose", foundationpose_command, [export_marker, aligned_depth, weights["foundationpose_score"], weights["foundationpose_refine"]], [foundationpose_init], marker_root, env, overwrite
+  File "/workspace/v2d_cari4d/lib/run_inference.py", line 66, in _stage_run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/conda/bin/python', '/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py', '/data/video_path/cari4d/episode_000004/export/episode_000004', '--depth-root', 
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 56, in <module>
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 46, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['docker', 'run', '--rm', '-e', 'http_proxy', '-e', 'https_proxy', '-e', 'HTTP_PROXY', '-e', 'HTTPS_PROXY', '-e', 'no_proxy', '-e', 'NO_PROXY', '-e', 'PYTORCH_CUDA_ALLOC_CONF', '-e
+09:35:43 cari4d rc=1
+### cari4d_ep05_big_black_box.log（修改于 2026-10-09 10:14:41，2435 行）
+frames=1003 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/big_black_box/big_black_box.glb
+{"backend": "moge2", "batchSize": 8, "cameraPolicy": "first_frame_export_per_frame_depth", "depthM": {"max": 9.571829795837402, "min": 1.5600483417510986}, "deviceCount": 1, "devices": ["cuda"], "elapsedSeconds": 99.4100
+  "stages": [
+  "verdict": "PASS"
+10:14:41 cari4d rc=0
+### cari4d_ep03_contigo_coffee_mug.log（修改于 2026-10-09 10:24:17，52 行）
+frames=781 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+    stages.append(_stage_run("02_export", export_command, [video_path, mask_h5_path, object_mesh_path, depth_intrinsics], [export_marker, aligned_object_mesh], marker_root, env, overwrite))
+  File "/workspace/v2d_cari4d/lib/run_inference.py", line 63, in _stage_run
+    raise ValueError(f"CARI4D stage {name} outputs do not match their current inputs; rerun with --overwrite")
+ValueError: CARI4D stage 02_export outputs do not match their current inputs; rerun with --overwrite
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 58, in <module>
+  File "/lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_run.py", line 48, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['docker', 'run', '--rm', '-e', 'http_proxy', '-e', 'https_proxy', '-e', 'HTTP_PROXY', '-e', 'HTTPS_PROXY', '-e', 'no_proxy', '-e', 'NO_PROXY', '-e', 'PYTORCH_CUDA_ALLOC_CONF', '-e
+10:24:17 cari4d rc=1
+### cari4d_ep01_vacuum.log（修改于 2026-10-09 10:56:09，2106 行）
+frames=747 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/vacuum/vacuum.glb
+{"backend": "moge2", "batchSize": 8, "cameraPolicy": "first_frame_export_per_frame_depth", "depthM": {"max": 9.428834915161133, "min": 1.3018497228622437}, "deviceCount": 1, "devices": ["cuda"], "elapsedSeconds": 79.4012
+  "stages": [
+  "verdict": "PASS"
+10:56:09 cari4d rc=0
+### cari4d_ep02_blue_easter_basket.log（修改于 2026-10-09 11:34:12，2192 行）
+frames=980 mesh=/lab_data/<其他用户>/v2d/tier3/input/mesh/blue_easter_basket/blue_easter_basket.glb
+{"backend": "moge2", "batchSize": 8, "cameraPolicy": "first_frame_export_per_frame_depth", "depthM": {"max": 9.370339393615723, "min": 1.5647869110107422}, "deviceCount": 1, "devices": ["cuda"], "elapsedSeconds": 98.0175
+## 各集 pipeline_report 结论
+/lab_data/<其他用户>/v2d/tier3/runs/work/ep00_tall_bar_stool/cari4d/episode_000000/pipeline_report.json PASS 
+/lab_data/<其他用户>/v2d/tier3/runs/work/ep01_vacuum/cari4d/episode_000001/pipeline_report.json PASS 
+/lab_data/<其他用户>/v2d/tier3/runs/work/ep05_big_black_box/cari4d/episode_000005/pipeline_report.json PASS 
+/lab_data/<其他用户>/v2d/tier3/runs/work/ep20_rice_cooker/cari4d/episode_000020/pipeline_report.json PASS 
+## runs/work 下的集
+ep00_tall_bar_stool ep01_vacuum ep02_blue_easter_basket ep03_contigo_coffee_mug ep04_baseball_bat ep05_big_black_box ep06_monitor ep07_iron ep08_skinny_wood_chair ep09_big_red_bowl ep10_white_desk ep11_light_blue_book ep12_black_platform ep13_snack_box ep14_round_table ep15_wet_floor_sign ep16_spray_bottle ep17_traffic_cone ep18_blue_trash_can ep19_cane ep20_rice_cooker ep21_tall_bar_stool ep22_step_ladder ep23_toy_stroller ep24_watering_can ep25_cyan_water_bottle ep26_skateboard ep27_woven_basket ep28_squeegee ep29_rolling_luggage masks_summary.json 
+## runs/tier3_cari4d
+/lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d/data/chunk-000/episode_000020.parquet
+/lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d/data/chunk-000/episode_000001.parquet
+/lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d/data/chunk-000/episode_000000.parquet
+## 代码与队列文件的修改时间
+-rw-rw-r-- 1 <其他用户> mfshared    49 2026-10-09_11:21:02 /lab_data/<其他用户>/v2d/tier3/code/DEPLOYED
+-rwxrwxr-x 1 <其他用户> <其他用户>    3213 2026-10-09_10:25:18 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_cari4d_ep.sh
+-rw-rw-r-- 1 <其他用户> <其他用户>   13939 2026-10-09_09:18:07 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_convert_ep.py
+-rw-rw-r-- 1 <其他用户> <其他用户>    6914 2026-10-09_11:20:46 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_object_check.py
+-rwxrwxr-x 1 <其他用户> <其他用户>    5097 2026-10-09_11:20:46 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_queue_cari4d.sh

@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes ml40 bash\ -s 
+# source   : a3c845c39a28-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T21:30:49-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-09 11:30:52 CST
+NVIDIA L40S, 3237 MiB, 46068 MiB, 95 %
+4028686, 3228 MiB
+## GPU 进程 4028686：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  4028686 其他用户 07:58 [Fri Oct  9 11:22:53 2026] /opt/conda/bin/python /workspace/v2d_cari4d/lib/cari4d/tools/render_mhr_wild_inference.py /data/video_path/cari4d/episode_000002/export/episode_000002 --source-video /data/video_path/episode_000002.0.color.mp4 --object-mesh /data/video_path/cari4d/episode_000002/export/episode_000002/object_mesh/output_aligned.glb --before-bundle /data/video_path/cari4d/episode_000002/inference/coconet.pth --after-bundle /data/video_path/cari4d/episode_000002/inference/refined.pth --output /data/video_path/cari4d/episode_000002/inference/episode_000002_step200000_reconstruction.mp4 --comparison-output /data/video_path/cari4d/episode_000002/inference/episode_000002_step200000_before_after.mp4 --device cuda --batch-size 4 --overwrite
+  4004948 其他用户 32:01 [Fri Oct  9 10:58:50 2026] python -m v2d.cari4d.lib.run_inference --video_path /data/video_path/episode_000002.0.color.mp4 --mask_h5_path /data/video_path/masks_k0.h5 --object_mesh_path /data/object_mesh_path/blue_easter_basket.glb --weights_path /data/weights_path/cari4d --output_dir /data/video_path/cari4d --skip_weight_download --expected_frames 980 --device cuda --moge_batch_size 8 --sam3d_chunk_size 16 --sam3d_alignment_workers 1 --sam3d_refit_batch_size 512 --depth_alignment_render_batch_size 4 --depth_alignment_encoding_workers 16 --depth_alignment_write_batch_size 64 --foundationpose_iteration 5 --foundationpose_max_attempts 5 --coconet_stride 96 --coconet_render_batch_size 32 --coconet_crop_workers 8 --coconet_crop_buffer_count 2 --postopt_num_steps 300 --postopt_batch_size 128 --postopt_temporal_weight 100.0 --postopt_human_pose_prior_weight 200.0 --postopt_contact_activation_distance_m 0.05 --postopt_report_every 10 --postopt_diagnostics_every 500 --render_batch_size 4 --overwrite
+  4004917 root 32:02 [Fri Oct  9 10:58:50 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 9a4e3877111b44e0c7a6d9e6bd2c722db2a7354b93d44d41743643cd68c92261 -address /run/containerd/containerd.sock
+## 容器（只取镜像、命令、时间、工作目录与挂载）
+name /objective_cannon
+image v2d_cari4d:latest
+created 2026-10-09T02:58:50.9039515Z  started 2026-10-09T02:58:50.96100376Z
+entrypoint ["/opt/nvidia/nvidia_entrypoint.sh"]
+cmd ["python","-m","v2d.cari4d.lib.run_inference","--video_path","/data/video_path/episode_000002.0.color.mp4","--mask_h5_path","/data/video_path/masks_k0.h5","--object_mesh_path","/data/object_mesh_path/blue_easter_basket.glb","--weights_path","/data/weights_path/cari4d","--output_dir","/data/video_path/cari4d","--skip_weight_download","--expected_frames","980","--device","cuda","--moge_batch_size","8","--sam3d_chunk_size","16","--sam3d_alignment_workers","1","--sam3d_refit_batch_size","512","--depth_alignment_render_batch_size","4","--depth_alignment_encoding_workers","16","--depth_alignment_write_batch_size","64","--foundationpose_iteration","5","--foundationpose_max_attempts","5","--coconet_stride","96","--coconet_render_batch_size","32","--coconet_crop_workers","8","--coconet_crop_buffer_count","2","--postopt_num_steps","300","--postopt_batch_size","128","--postopt_temporal_weight","100.0","--postopt_human_pose_prior_weight","200.0","--postopt_contact_activation_distance_m","0.05","--postopt_report_every","10","--postopt_diagnostics_every","500","--render_batch_size","4","--overwrite"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/input/mesh/blue_easter_basket -> /data/object_mesh_path; /lab_data/<其他用户>/v2d/tier3/runs/work/ep02_blue_easter_basket -> /data/video_path; /lab_data/<其他用户>/v2d/weights -> /data/weights_path; /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export.py -> /workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py; 
+## 运行中的容器
+f501d449cb0b v2d_cari4d:latest 8 minutes ago Up 8 minutes distracted_galileo
+9a4e3877111b v2d_cari4d:latest 32 minutes ago Up 32 minutes objective_cannon
