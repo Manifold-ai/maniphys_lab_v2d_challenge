@@ -32,6 +32,11 @@ from PIL import Image
 
 TARGET_FACES = 20000
 MIN_VISIBLE_PX = 400
+#: Quality gate on the medians over checked frames. ep20/ep00/ep05 sit at IoU 0.88/0.76/0.81, depth factor
+#: 1.00/0.93/0.92, centroid 3-5 px; ep01's lost track sits at IoU 0.08, centroid 47 px.
+GATE_IOU = 0.5
+GATE_DEPTH = (0.8, 1.25)
+GATE_CENTROID_PX = 25.0
 
 
 def load_mesh(path: Path) -> tuple[np.ndarray, np.ndarray]:
@@ -96,7 +101,19 @@ def main() -> None:
         keys = ("iou_visible", "area_ratio", "depth_factor", "centroid_px")
         return {k_: [round(float(np.percentile([r[k_] for r in sel], p)), 4) for p in (10, 50, 90)] for k_ in keys} | {"n": len(sel)}
     clear = [r for r in rows if r["person_overlap"] < 0.05]
-    report = {"episode": seq, "stride": stride, "pose_scale": pose_scale, "frames_checked": len(rows), "fx": float(k[0, 0]),
+    problems = []
+    if rows:
+        med = {k_: float(np.median([r[k_] for r in rows])) for k_ in ("iou_visible", "depth_factor", "centroid_px")}
+        if med["iou_visible"] < GATE_IOU:
+            problems.append(f"median visible IoU {med['iou_visible']:.2f} < {GATE_IOU}")
+        if not GATE_DEPTH[0] <= med["depth_factor"] <= GATE_DEPTH[1]:
+            problems.append(f"median depth factor {med['depth_factor']:.2f} outside {GATE_DEPTH}")
+        if med["centroid_px"] > GATE_CENTROID_PX:
+            problems.append(f"median centroid offset {med['centroid_px']:.1f} px > {GATE_CENTROID_PX}")
+    else:
+        problems.append("no frame with enough visible object pixels")
+    report = {"episode": seq, "ok": not problems, "why": "; ".join(problems),
+              "stride": stride, "pose_scale": pose_scale, "frames_checked": len(rows), "fx": float(k[0, 0]),
               "all_p10_p50_p90": summary(rows), "unoccluded_p10_p50_p90": summary(clear), "rows": rows}
     (out / "object_check.json").write_text(json.dumps(report, indent=1))
     worst.sort(key=lambda x: x[0])

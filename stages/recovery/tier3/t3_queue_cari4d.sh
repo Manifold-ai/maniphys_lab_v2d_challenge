@@ -55,8 +55,15 @@ for l in open('input/meta/episodes_metadata.jsonl'):
     docker run --rm --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp \
       -v "$S":/s:ro -v "$T/$W":/w:ro -v "$T/input/mesh":/m:ro -v "$T/$out":/o \
       v2d_cari4d:latest python /s/t3_object_check.py "/w/cari4d/episode_$(printf %06d "$ep")" /w "/m/$obj/$obj.glb" /o 3 > "logs/check_$name.log" 2>&1
-    summ=$(python3 -c "import json;r=json.load(open('$out/object_check.json'))['all_p10_p50_p90'];print('iou_p50=%s depth_factor_p10/50/90=%s centroid_p50=%s' % (r['iou_visible'][1], r['depth_factor'], r['centroid_px'][1]))" 2>/dev/null)
+    summ=$(python3 -c "import json;j=json.load(open('$out/object_check.json'));r=j['all_p10_p50_p90'];print('ok=%s iou_p50=%s depth_factor_p10/50/90=%s centroid_p50=%s %s' % (j.get('ok'), r['iou_visible'][1], r['depth_factor'], r['centroid_px'][1], j.get('why','')))" 2>/dev/null)
     say "$name check $summ"
+  fi
+  # episodes failing the silhouette gate are still converted (the data is kept for diagnosis and refinement) but go to
+  # a separate directory, so nothing that fails the gate reaches training by default
+  if python3 -c "import json,sys; sys.exit(0 if json.load(open('$out/object_check.json')).get('ok', True) else 1)"; then
+    TIER_DST=$TIER_OUT
+  else
+    TIER_DST=$T/runs/tier3_cari4d_suspect
   fi
   conv=$T/runs/convert/$name
   mkdir -p "$conv"
@@ -79,9 +86,9 @@ for l in open('input/meta/episodes_metadata.jsonl'):
     res=$(python3 -c "import json;r=json.load(open('$conv/residual_report.json'));c=r['chamfer_cm'];print('chamfer_cm mean=%s p95_frame=%s max_frame=%s within_frame_p95_median=%s' % (c['mean'], c['p95_frame'], c['max_frame'], r['within_frame_p95_cm_median']))")
     say "$name residual $res"
   fi
-  if [ ! -f "$TIER_OUT/data/chunk-000/episode_$(printf %06d "$ep").parquet" ]; then
-    "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$TIER_OUT" > "logs/assemble_$name.log" 2>&1 \
-      && say "$name assembled" || say "$name assemble failed"
+  if [ ! -f "$TIER_DST/data/chunk-000/episode_$(printf %06d "$ep").parquet" ]; then
+    "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$TIER_DST" > "logs/assemble_$name.log" 2>&1 \
+      && say "$name assembled into $(basename "$TIER_DST")" || say "$name assemble failed"
   fi
 done
 say "QUEUE DONE"
