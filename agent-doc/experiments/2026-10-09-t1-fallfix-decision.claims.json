@@ -1,0 +1,74 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "f": {
+   "file": "results/r3x/fail_split_r3x.txt",
+   "grep": "^ep\\t|^[0-9]+\\t|世界 MP-SR|骨盆>=0.9：|骨盆<=0.4：|其余：|最大|r3a（|FAIL_SPLIT_DONE"
+  },
+  "o": {
+   "file": "results/r3/fall_order_t1.txt",
+   "grep": "^# command|^\\[|k=25 |t_pel 前后|^FALL_ORDER"
+  }
+ },
+ "claims": [
+  {
+   "id": "r3a_pass",
+   "evidence": [
+    "f"
+   ],
+   "claim": "选中 run 名含 r3a（变体 A）的 9 条 episode（ep0、ep5、ep6、ep8、ep15、ep18、ep20、ep27、ep29），1 世界 MP-SR 全都过了。"
+  },
+  {
+   "id": "fail_zero",
+   "evidence": [
+    "f"
+   ],
+   "claim": "1 世界 MP-SR 没过的有 15 条；这 15 条选中 run 的 4096 世界 MP-SR 最大是 0.000。"
+  },
+  {
+   "id": "split",
+   "evidence": [
+    "f"
+   ],
+   "claim": "没过的 15 条里：失败_骨盆 >= 0.9 的 8 条（0.969–1.000）是 ep1、ep2、ep4、ep9、ep11、ep16、ep25、ep28；<= 0.4 的 5 条（0.076–0.350）是 ep10、ep13、ep17、ep19、ep21；其余 2 条是 ep3、ep14。"
+  },
+  {
+   "id": "lucky",
+   "evidence": [
+    "f"
+   ],
+   "claim": "ep5 选中 run 的 4096 世界 MP-SR 是 0.308，ep29 的是 0.151；这两条的 1 世界 MP-SR 都是 1。"
+  },
+  {
+   "id": "fall_order",
+   "evidence": [
+    "o"
+   ],
+   "claim": "这份摔倒顺序分析只覆盖 episode 18 和 27；变体合计（判定）在 k=25 时物体先 91.6%、骨盆先 1.8%；变体合计里 t_pel 前 1.0 s 的物体位置误差中位是 12.9 cm。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "f"
+   ],
+   "claim": "ep12 选中的是 t1-ep12-w2048-cap10m-ml40，4096 世界 MP-SR 0.992。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_group",
+   "evidence": [
+    "f"
+   ],
+   "claim": "ep17 被分在骨盆>=0.9 那一组。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_order",
+   "evidence": [
+    "o"
+   ],
+   "claim": "变体合计（判定）里，摔倒的失败世界多数是骨盆先超阈值。",
+   "control": "false"
+  }
+ ]
+}
