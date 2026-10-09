@@ -1,0 +1,25 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") æ\235¥å\216\206 $(cat .v2d-source-commit)"; D=data/challenge/track_2/tier_2_synthetic_noise; for f in mesh/skinny_wood_chair/skinny_wood_chair.glb ground_plane/2026-06-05_15-08-08_skinny_wood_chair_push_10.json support_surface/2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda mesh/watering_can/watering_can.glb ground_plane/2026-05-29_15-43-20_watering_can_pour_right_02.json support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda; do echo "$(md5sum $D/$f | cut -d" " -f1) $f"; done; echo "## æ\224¯æ\222\221é\235¢å½¢ç\212¶"; python3 stages/policy/support_kinds.py $D/support_surface 2>&1 | grep -E "skinny_wood_chair_push_10|watering_can_pour_right_02"; echo "## é\225\234å\203\217"; docker images --format "{{.Repository}}:{{.Tag}} {{.ID}} {{.CreatedSince}}" | grep -E "robotic-grounding|flash_chord"; echo "## å\211¯æ\234¬"; ls -d ~/v2d/fc_src/v040_p185_nfg ~/v2d/fc_src/fc_8c778f9; ls runs/motion/tier3 runs/motion_src/tier3 2>&1 | head -3; df -m . | tail -1' 
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : 10cca3619f40-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:20:24-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-10 04:20:25 CST æ¥å† d8b309e9d52c
+666b6366a803130fc20050249ad67fa2 mesh/skinny_wood_chair/skinny_wood_chair.glb
+9626590db5bd1dc3a8188ee4d0d03f11 ground_plane/2026-06-05_15-08-08_skinny_wood_chair_push_10.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda
+27d97417dc0915ecc61c08884ba5449f mesh/watering_can/watering_can.glb
+450419566d821e713e965192d5e73137 ground_plane/2026-05-29_15-43-20_watering_can_pour_right_02.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda
+## æ”¯æ’‘é¢å½¢çŠ¶
+2026-05-29_15-43-20_watering_can_pour_right_02	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+2026-06-05_15-08-08_skinny_wood_chair_push_10	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+## é•œåƒ
+flash_chord:latest 6f423d57793e 2 weeks ago
+robotic-grounding:latest 322c8ec9609c 2 weeks ago
+## å‰¯æœ¬
+/home/rxzhou/v2d/fc_src/fc_8c778f9
+/home/rxzhou/v2d/fc_src/v040_p185_nfg
+ls: cannot access 'runs/motion/tier3': No such file or directory
+ls: cannot access 'runs/motion_src/tier3': No such file or directory
+/dev/vda2         201462 187558      5594  98% /
