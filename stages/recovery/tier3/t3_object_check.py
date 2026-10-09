@@ -30,7 +30,6 @@ import torch
 import trimesh
 from PIL import Image
 
-TARGET_FACES = 20000
 MIN_VISIBLE_PX = 400
 #: Quality gate on the medians over checked frames. ep20/ep00/ep05 sit at IoU 0.88/0.76/0.81, depth factor
 #: 1.00/0.93/0.92, centroid 3-5 px; ep01's lost track sits at IoU 0.08, centroid 47 px.
@@ -40,9 +39,10 @@ GATE_CENTROID_PX = 25.0
 
 
 def load_mesh(path: Path) -> tuple[np.ndarray, np.ndarray]:
+    # Full resolution on purpose. Quadric decimation to 20k faces ate thin parts: on the same pose the skateboard
+    # covered 0.62 of its mask decimated and 0.90 at full resolution, the round table 0.71 vs 0.93, and both episodes
+    # failed the gate on the renderer, not on the pose.
     mesh = trimesh.load(path, force="mesh", process=False)
-    if len(mesh.faces) > TARGET_FACES:
-        mesh = mesh.simplify_quadric_decimation(face_count=TARGET_FACES)
     return np.asarray(mesh.vertices, np.float64), np.asarray(mesh.faces, np.int64)
 
 

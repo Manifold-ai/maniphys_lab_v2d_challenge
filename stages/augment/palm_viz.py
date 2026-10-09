@@ -8,7 +8,7 @@ Per candidate, every frame of the episode video gets:
     right hand (left/right of the person, not of the image).
 The arm is not refit at this step, so a moved hand sits off the forearm by the offset; that gap is expected.
 
-Then a 2x2 grid of all candidates (half size, labelled) and stills of the grid at each segment's middle frame.
+Then a grid of up to six candidates (2x2 or 3x2, half size, labelled) and stills of the grid at each segment's middle frame.
 CPU and ffmpeg only, no extra Python packages:
 
     python palm_viz.py <convert dir> <pilot dir> <palm dir> <video> <out dir>
@@ -83,6 +83,8 @@ def render(video: Path, out: Path, k: np.ndarray, size: tuple[int, int], n: int,
 
 
 def label(name: str, row: dict | None) -> str:
+    stem, _, variant = name.removeprefix("stool_").rpartition("_")
+    name = f"{stem[:8]}_{variant}" if stem else name
     if row is None:
         return name
     verdict = "PASS" if row.get("pass") else "FAIL"
@@ -124,19 +126,20 @@ def main(conv: Path, pilot: Path, palm: Path, video: Path, out: Path) -> None:
         clips.append((clip, label(name, rows.get(name))))
         print(f"wrote {clip}", flush=True)
 
-    # 2x2 grid, half size per tile, labelled; the first four candidates in the order above
-    tiles = clips[:4]
+    # 2x2 (up to four clips) or 3x2 grid, half size per tile, labelled; the first six clips in the order above
+    tiles = clips[:6]
+    cols = 2 if len(tiles) <= 4 else 3
     inputs, filters = [], []
     for j, (clip, text) in enumerate(tiles):
         inputs += ["-i", str(clip)]
         safe = text.replace(":", r"\:").replace("'", "")
         filters.append(f"[{j}:v]scale={w // 2}:{h // 2},drawtext=fontfile={FONT}:text='{safe}':x=8:y={BAR_PX + 6}:"
                        f"fontsize=18:fontcolor=white:box=1:boxcolor=black@0.6[t{j}]")
-    while len(filters) < 4:
+    while len(filters) < 2 * cols:
         j = len(filters)
         filters.append(f"color=black:s={w // 2}x{h // 2}:r=30:d={n / 30}[t{j}]")
-    layout = "0_0|w0_0|0_h0|w0_h0"
-    graph = ";".join(filters) + f";[t0][t1][t2][t3]xstack=inputs=4:layout={layout}[g]"
+    layout = "|".join(f"{c * (w // 2)}_{r * (h // 2)}" for r in range(2) for c in range(cols))
+    graph = ";".join(filters) + ";" + "".join(f"[t{j}]" for j in range(2 * cols)) + f"xstack=inputs={2 * cols}:layout={layout}[g]"
     grid = out / "grid.mp4"
     subprocess.run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", graph, "-map", "[g]", "-threads", "4",
                     "-c:v", "libx264", "-crf", "20", "-pix_fmt", "yuv420p", str(grid)], check=True)
