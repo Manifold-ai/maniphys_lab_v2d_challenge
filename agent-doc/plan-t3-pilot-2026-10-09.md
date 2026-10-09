@@ -104,3 +104,13 @@ Tier 2 铺开另见 `agent-doc/plan-t2-scaleout-2026-10-09.md`，两者分在两
 | n7 | NIT | `case_clip.sh`、`ep7_ckpt_eval.sh` 只认 t1、t2 | 第 5 节记下，这条链不用 |
 | n8 | NIT | 磁盘要说明不放别的；`one.sh` 别在前台 ssh 里跑 | 第 3 节写明：导出门结束前根分区不放别的；`one.sh` 在 mf4090 的 tmux 里经 record 跑 |
 | n9 | NIT | 档位隔离可以接受 | 不改 |
+
+## 执行记录
+
+- 10/9 14:48 第一次拼档目录（`results/t3p/stage_mf4090_run1.txt`）：`TIER3_ROOT_OK`，两集 parquet 与元数据的 sha256、六个 Tier 2 文件的 md5 都与
+  哈希表 `stages/recovery/expect/t3p_1009.tsv` 相同（P1 过）。这时对方的 `DEPLOYED` 已是 f421235，不是 13:35 快照里的 6820f70：
+  这两集的 parquet 是队列早先写的（北京时间 10/9 14:36、23:08），文件本身没变（哈希相同），变的只是对方之后部署的代码。
+  `provenance.json` 原来把这个字段叫 `deployed_commit`，容易读成“写出这份 parquet 的版本”，改名为 `deployed_at_staging`，另记 parquet 在对方的修改时间。
+- 14:49 删掉 mf4090 上的 `runs/tier3/root` 与 `runs/tier3/incoming/t3p_1009`，用 7aa1905 重拼（`results/t3p/stage_mf4090.txt`）：`TIER3_ROOT_OK`，
+  ep8 parquet 修改时间 2026-10-09T06:36:25Z、ep24 15:08:36Z，转发时对方部署版本 f421235（干净）。记录里没有别人的名字。
+- 14:50 mf4090 的 tmux `v2d-t3p-retarget` 里经 record 跑 `stages/retarget/eps.sh 3 8 24`（来历 9c31ba8）。
