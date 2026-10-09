@@ -1,0 +1,38 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z" && echo "## �\233�\213�\210[x] �\230��\207��\214��\205\215�\211" && echo "�\227��\204�\213�\223� $(pgrep -fc "[d]ay2_eval_chain.sh .*r3x_eval_mf4090$")�\200\201�\226��\204�\213�\223� $(pgrep -fc "[d]ay2_eval_chain.sh .*r3x_eval2_mf4090$")�\200\201�\227�导�\207��\227� $(pgrep -fc "[e]xport_after_eval.sh runs/logs/r3x_eval_mf4090.log ")�\200\201�\226�导�\207��\227� $(pgrep -fc "[e]xport_after_eval.sh runs/logs/r3x_eval2_mf4090.log ")�\200\201train_after $(pgrep -fc "[t]rain_after.sh runs/logs/r3x_train_mf4090.log")�\200\201�\216\237�\255�\203�\223� $(pgrep -fc "[d]ay2_train_chain.sh .* r3x_train_mf4090$")" && echo "## �\227��\204�\213�\223��\227��\227" && cat runs/logs/r3x_eval_mf4090.log && echo "## 导�\207��\227��\227��\227" && cat runs/logs/cand_t1_r3x_mf4090_gate.log && echo "## �\226��\204�\213�\223��\227��\227" && cat runs/logs/r3x_eval2_mf4090.log && echo "## �\207记" && ls runs/.chain-active-* && echo "## �\232�\235" && tmux ls && echo "## runs/r3x_rerun" && ls -la runs/r3x_rerun && ls runs/logs/r3x2_train_mf4090.log 2>&1 | tail -1' 
+# source   : 8366726336a2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T21:18:30-0600
+# ---------------------------------------------------------------
+2026-10-09 11:18:30 CST
+## 进程（[x] 防自匹配）
+旧评测链 0、新评测链 1、旧导出门 0、新导出门 1、train_after 1、原训练链 1
+## 旧评测链日志
+=== 2026-10-09 04:41:37 CST 等 runs/logs/r3x_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-09 11:17:56 CST arm_r3x_rerun：本评测链在等待中停掉，改由 r3x_eval2_mf4090 评（等 r3x2_train_mf4090；计划第 7 节）
+## 导出门日志
+=== 2026-10-09 04:41:39 CST 等 runs/logs/r3x_eval_mf4090.log 的最后一行变成评测链的结束行
+=== 2026-10-09 11:17:56 CST arm_r3x_rerun：上面的导出门在等待中停掉；下面是新起的导出门，等 runs/logs/r3x_eval2_mf4090.log（计划第 7 节）
+=== 2026-10-09 11:18:01 CST 等 runs/logs/r3x_eval2_mf4090.log 的最后一行变成评测链的结束行
+## 新评测链日志
+=== 2026-10-09 11:17:59 CST 等 runs/logs/r3x2_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 标记
+runs/.chain-active-cand_t1_r3x_mf4090-gate
+runs/.chain-active-r3x2_train_mf4090-wait
+runs/.chain-active-r3x_eval2_mf4090
+runs/.chain-active-r3x_train_mf4090
+## 会话
+v2d-r3x-eval2: 1 windows (created Fri Oct  9 11:17:59 2026)
+v2d-r3x-export2: 1 windows (created Fri Oct  9 11:18:01 2026)
+v2d-r3x-train: 1 windows (created Fri Oct  9 04:41:35 2026)
+v2d-r3x-train2: 1 windows (created Fri Oct  9 11:17:56 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+## runs/r3x_rerun
+total 28
+drwxrwxr-x  2 rxzhou rxzhou 4096 Oct  9 11:17 .
+drwxrwxr-x 23 rxzhou rxzhou 4096 Oct  9 11:18 ..
+-rw-rw-r--  1 rxzhou rxzhou 1445 Oct  9 04:56 bar_smoke-t1-ep5-w2048-cap4m-r3a-mf4090_first.txt
+-rw-rw-r--  1 rxzhou rxzhou  232 Oct  9 11:17 expect.tsv
+-rw-rw-r--  1 rxzhou rxzhou  385 Oct  9 11:17 queue.txt
+-rw-r--r--  1 rxzhou rxzhou 2066 Oct  9 04:55 rollout_w256_smoke-t1-ep5-w2048-cap4m-r3a-mf4090_first.json
+-rw-rw-r--  1 rxzhou rxzhou  404 Oct  9 11:17 smoke.txt
+ls: cannot access 'runs/logs/r3x2_train_mf4090.log': No such file or directory

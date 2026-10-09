@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/policy/arm_r3x_rerun.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 9056f8590645a1215206e848fb36c54b  stages/policy/arm_r3x_rerun.sh
+# source   : 8366726336a2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T21:17:33-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+  覆盖 stages/policy/arm_r3x_rerun.sh：远端是 6a919c7 的版本（c0760656ee041d133506f5807bd75be6）
+本地提交 8366726336a2；远端来历 d8b309e9d52c
+  ok   9056f8590645a1215206e848fb36c54b  stages/policy/arm_r3x_rerun.sh
+远端来历（放完）d8b309e9d52c
+PUSH_OK（1 个文件）

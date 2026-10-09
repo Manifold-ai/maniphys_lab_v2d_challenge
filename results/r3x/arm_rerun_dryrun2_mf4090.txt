@@ -1,0 +1,26 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ stages/policy/arm_r3x_rerun.sh\ stages/policy/train_after.sh\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_r3x_rerun.sh 
+# md5      : 9056f8590645a1215206e848fb36c54b  stages/policy/arm_r3x_rerun.sh
+# md5      : 410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+# md5      : 9056f8590645a1215206e848fb36c54b  stages/policy/arm_r3x_rerun.sh
+# source   : 8366726336a2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-08T21:17:40-0600
+# ---------------------------------------------------------------
+9056f8590645a1215206e848fb36c54b  stages/policy/arm_r3x_rerun.sh
+410167483242fff75b1bcf3bd406814a  stages/policy/train_after.sh
+取出 expect.tsv（md5 3782751595aad9fe2b77b3b0bb38ad73）：
+    run	smoke	sequence_id	playback	src_frames	support	pos_tol	ori_tol	capacity	seed	xeval
+    t1-ep5-w2048-cap4m-r3a-mf4090	smoke-t1-ep5-w2048-cap4m-r3a-mf4090	2026-03-18_19-36-56_g1_box_rotate_01	frame	1003	false	0.015	0.086	4000000	42	no
+取出 smoke.txt（md5 74e5db1f55a35653738c495a5f6d8242）：
+    V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 smoke-t1-ep5-w2048-cap4m-r3a-mf4090 /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet 2048 4096000 training.replay.capacity=4000000 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6
+取出 queue.txt（md5 f58b7fb6576b104a32f460badfd94e14）：
+    V2D_WANDB_TAG=r3x V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1 t1-ep5-w2048-cap4m-r3a-mf4090 /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet 2048 349999104 training.replay.capacity=4000000 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6
+/repo/runs/cfgcheck/t1-ep5-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep5-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+核对：来历 d8b309e9d52c，可用 6744 MB，原链状态、失败原因、新名字、取出的三份文件、precheck 与配方断言全过
+预演，不复制、不停、不起：
+  停：v2d-r3x-eval、v2d-r3x-export
+  train2: V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 stages/policy/train_after.sh runs/logs/r3x_train_mf4090.log runs/r3x_rerun/expect.tsv runs/r3x_rerun/smoke.txt runs/r3x_rerun/queue.txt 24564 r3x2_train_mf4090
+  eval2:  V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/r3x2_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_r3x.expect.tsv - r3x_eval2_mf4090
+  export2: V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/r3x_eval2_mf4090.log stages/evaluate/exports/cand_t1_r3x_mf4090.tsv cand_t1_r3x_mf4090
+DRYRUN_OK
