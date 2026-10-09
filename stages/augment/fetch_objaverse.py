@@ -4,12 +4,15 @@ Only CC0 and CC BY objects are kept (Kaggle rule 2.7.a: external data must be pu
 share-alike licences are excluded on purpose). Name, author, licence and viewer URL are recorded per object, because
 CC BY requires attribution.
 
-    python fetch_objaverse.py <out dir> <group=lvis_cat[,lvis_cat...]>... [--per-group N] [--max-faces F]
+    python fetch_objaverse.py <out dir> <group=lvis_cat[,lvis_cat...][@name regex]>... [--per-group N] [--max-faces F]
     e.g. python fetch_objaverse.py objaverse_pilot stool=stool box=box,crate cooker=cooker
+         python fetch_objaverse.py objaverse_stool stool=stool,music_stool 'barchair=chair@(?i)bar|stool|counter'
+The optional regex keeps only objects whose Objaverse name matches it (LVIS categories such as chair are broad).
 """
 
 import argparse
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -30,14 +33,17 @@ def main() -> None:
     lvis = objaverse.load_lvis_annotations()
     picked = {}
     for spec in a.groups:
-        group, cats = spec.split("=")
-        uids = [u for c in cats.split(",") for u in lvis[c]]
+        group, cats = spec.split("=", 1)
+        cats, _, pattern = cats.partition("@")
+        uids = list(dict.fromkeys(u for c in cats.split(",") for u in lvis[c]))
         ann = objaverse.load_annotations(uids)
         good = []
         for u in uids:
             meta = ann.get(u) or {}
             licence = (meta.get("license") or "").lower()
             faces = meta.get("faceCount") or 0
+            if pattern and not re.search(pattern, meta.get("name") or ""):
+                continue
             if licence in LICENCES and 0 < faces < a.max_faces:
                 good.append({"uid": u, "licence": licence, "name": meta.get("name"),
                              "author": (meta.get("user") or {}).get("username"), "url": meta.get("viewerUrl"), "faces": faces,

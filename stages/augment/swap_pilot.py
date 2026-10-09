@@ -2,8 +2,11 @@
 
 For one episode, every candidate asset is placed in the official mesh's local frame so that the episode's object
 trajectory applies to it unchanged:
-  - up: the object's up axis comes from its frame-0 pose and the released ground plane (world up in the camera frame);
-    glTF candidates are +Y up;
+  - up: the official mesh's upright axis is looked up in official_up.json (one entry per object, checked by eye). It
+    cannot come from the episode's first frame: tip-up, flip and rotate tasks start with the object on its side
+    (ep00 starts with the stool face down, which put its 0.89 m height sideways). Nor is there one axis convention
+    across the official meshes (the bar stool is -z up, the step ladder +z, the skateboard -y). A candidate is +Y up
+    (glTF) unless its manifest entry carries an "up" axis;
   - scale: uniform, matching the official mesh's height (and, as a second variant, its full bounding box);
   - yaw: candidate footprint axes mapped onto the official footprint axes (PCA); of the proper rotations left, the one
     closest to the official mesh (chamfer) is kept;
@@ -21,7 +24,7 @@ candidate under-reports penetration, so the report also says whether the candida
 Inputs are Tier 3 products only: our CARI4D reconstruction (decode outputs) and the Tier 3 input directory.
 Runs in the v2d_cari4d image (torch, trimesh, scipy), CPU.
 
-    python swap_pilot.py <convert dir of the episode> <official mesh .glb> <ground_plane .json> <candidates dir> <group> <out dir>
+    python swap_pilot.py <convert dir of the episode> <official mesh .glb> <candidates dir> <group> <out dir>
 """
 
 import json
@@ -41,6 +44,8 @@ KEEP_SHARE = 0.9
 PEN_SHARE = 0.1
 SURFACE_SAMPLES = 20000
 FRAME_STRIDE = 3
+OFFICIAL_UP = Path(__file__).with_name("official_up.json")
+AXES = {"+x": (1, 0, 0), "-x": (-1, 0, 0), "+y": (0, 1, 0), "-y": (0, -1, 0), "+z": (0, 0, 1), "-z": (0, 0, -1)}
 
 
 def load_mesh(path: Path) -> trimesh.Trimesh:
@@ -85,11 +90,11 @@ def chamfer(a: np.ndarray, b: np.ndarray) -> float:
     return float((cKDTree(b).query(a)[0].mean() + cKDTree(a).query(b)[0].mean()) / 2)
 
 
-def place(cand: trimesh.Trimesh, off_frame: np.ndarray, off_lo: np.ndarray, off_hi: np.ndarray, anisotropic: bool,
-          off_samples: np.ndarray) -> tuple[np.ndarray, dict]:
+def place(cand: trimesh.Trimesh, c_up: np.ndarray, off_frame: np.ndarray, off_lo: np.ndarray, off_hi: np.ndarray,
+          anisotropic: bool, off_samples: np.ndarray) -> tuple[np.ndarray, dict]:
     """Candidate vertices expressed in the official mesh's local frame."""
     cv = np.asarray(cand.vertices)
-    c_frame = frame_from_up(np.array([0.0, 1.0, 0.0]), cv)
+    c_frame = frame_from_up(c_up, cv)
     c_lo, c_hi = extents_in(c_frame, cv)
     c_ext, o_ext = c_hi - c_lo, off_hi - off_lo
     scale = o_ext / np.maximum(c_ext, 1e-9) if anisotropic else np.full(3, o_ext[2] / max(c_ext[2], 1e-9))
@@ -112,19 +117,18 @@ def place(cand: trimesh.Trimesh, off_frame: np.ndarray, off_lo: np.ndarray, off_
 
 
 def main() -> None:
-    conv, off_path, gp_path, cand_dir, group, out = (Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3]),
-                                                       Path(sys.argv[4]), sys.argv[5], Path(sys.argv[6]))
+    conv, off_path, cand_dir, group, out = (Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3]), sys.argv[4],
+                                            Path(sys.argv[5]))
+    up_table = json.loads(OFFICIAL_UP.read_text())
+    if off_path.stem not in up_table:
+        sys.exit(f"{off_path.stem}: no upright axis in {OFFICIAL_UP.name}; check the mesh by eye and add one first")
     out.mkdir(parents=True, exist_ok=True)
     obj = np.load(conv / "object_cam.npz")["T_cam_glb"]
     human = torch.load(conv / "mhr_mesh.pt", map_location="cpu", weights_only=True)["pred_vertices"].numpy()
-    plane = np.asarray(json.loads(gp_path.read_text())["plane"], np.float64)
-    n = plane[:3] / np.linalg.norm(plane[:3])
-    up_cam = n if plane[3] > 0 else -n  # camera sits above the floor, so the normal toward the camera is world up
 
     official = load_mesh(off_path)
     off_v = np.asarray(official.vertices)
-    up_local = obj[0, :3, :3].T @ up_cam
-    off_frame = frame_from_up(up_local, off_v)
+    off_frame = frame_from_up(np.array(AXES[up_table[off_path.stem]["up"]], np.float64), off_v)
     off_lo, off_hi = extents_in(off_frame, off_v)
     off_samples = official.sample(SURFACE_SAMPLES)
 
@@ -155,8 +159,9 @@ def main() -> None:
         if "file" not in item:
             continue
         cand = load_mesh(cand_dir / item["file"])
+        c_up = np.array(AXES[item.get("up", "+y")], np.float64)
         for aniso in (False, True):
-            verts, info = place(cand, off_frame, off_lo, off_hi, aniso, off_samples)
+            verts, info = place(cand, c_up, off_frame, off_lo, off_hi, aniso, off_samples)
             placed = trimesh.Trimesh(verts, cand.faces, process=False)
             s = placed.sample(SURFACE_SAMPLES)
             dists = np.array([cKDTree(posed(s, i)).query(human[i])[0].min() for i in contact]) if contact else np.array([])

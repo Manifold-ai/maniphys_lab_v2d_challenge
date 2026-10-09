@@ -1,0 +1,6 @@
+{
+ "tall_bar_stool": {
+  "up": "-z",
+  "evidence": "ep21_tall_bar_stool (pull, stool stays upright): world up maps to -z on every frame; ep00 (tip up from face down) ends at -z; the official overlay at ep00 frame 777 stands upright on the floor"
+ }
+}
