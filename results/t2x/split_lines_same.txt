@@ -1,0 +1,11 @@
+# command  : bash -c $'diff <(git show 52c6b17:stages/policy/queues/ml40_t2x.txt | grep -v "^#" | sort) <(cat stages/policy/queues/ml40_t2xa.txt stages/policy/queues/ml40_t2xb.txt | grep -v "^#" | sort) && diff <(git show 52c6b17:stages/policy/queues/ml40_t2x_smoke.txt | grep -v "^#" | sort) <(cat stages/policy/queues/ml40_t2xa_smoke.txt stages/policy/queues/ml40_t2xb_smoke.txt | grep -v "^#" | sort) && echo "æ\255£å¼\217 $(git show 52c6b17:stages/policy/queues/ml40_t2x.txt | grep -vc "^#") è¡\214ã\200\201å\206\222ç\203\237 $(git show 52c6b17:stages/policy/queues/ml40_t2x_smoke.txt | grep -vc "^#") è¡\214ï¼\214æ\213\206æ®µå\211\215å\220\216é\200\220è¡\214ç\233¸å\220\214" && echo SPLIT_LINES_SAME' 
+# md5      : 9338253158a416e6c158dc5800806582  stages/policy/queues/ml40_t2xa.txt
+# md5      : c104790fb49fb1001ade6bfac7471c64  stages/policy/queues/ml40_t2xb.txt
+# md5      : 08c4bc1f7dd5fbf59349ec1d6118f9ee  stages/policy/queues/ml40_t2xa_smoke.txt
+# md5      : 5a228c810967fe6f520dc9e25883b011  stages/policy/queues/ml40_t2xb_smoke.txt
+# source   : 9c31ba866143
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:50:45-0600
+# ---------------------------------------------------------------
+æ­£å¼ 24 è¡Œã€å†’çƒŸ 24 è¡Œï¼Œæ‹†æ®µå‰åŽé€è¡Œç›¸åŒ
+SPLIT_LINES_SAME

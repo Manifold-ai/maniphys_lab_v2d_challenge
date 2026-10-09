@@ -117,3 +117,16 @@ t2xa 现在起。t2xb 在 t2xa 的导出门结束后由我起，照登记默认�
 | m5 | MINOR | 9 条外推要花约 22 小时 | 分成 t2xa（15 条）与 t2xb（9 条）两段，t2xb 起之前先报 t2xa 的结果 |
 | n6 | NIT | 第 1 节的来历过时 | 删去，执行记录写实际值 |
 | n7 | NIT | 没写冒烟全部先跑、t2x 的磁盘停止阈值 | 第 1、3 节写明（默认 2048 MB） |
+
+## 执行记录
+
+- 10/9 13:20–14:20 事实与输入核对：`results/ops/t2x_inputs_{ml40,mf4090}_1009.txt`（24 条，有问题 0 条）、`results/t2x/baseline_table_1009.txt`；
+  计划事实的 jev 第 2 轮 8 / 8 核实（0.71–0.99），3 道对照题正常（`results/decisions/jev_claims_t2x_t3p_plan_1009.txt`；第 1 轮一条说法依赖上一条、
+  得 0.06，改写后重跑，第 1 轮留作 `_run1.txt.failed`）。
+- 配置展开：48 份配置意外差异 0（`results/t2x/cfgcheck_ml40.txt`，用的是拆段前的 `ml40_t2x*`，52c6b17）；拆段前后正式与冒烟各 24 行逐行相同
+  （`results/t2x/split_lines_same.txt`）。
+- 第 2 版的代码与测试：两台都在 1d98bd3 上全过（`results/t2x/tests2_{mf4090,ml40}.txt`），含停链与等卡的 8 项（bash 5.1）。
+- 14:49 预演 `DRYRUN_OK`（`results/t2x/arm_dryrun_t2xa_ml40.txt`）：15 条 run，来历 1d98bd3，可用 1623613 MB，30 份配置的 precheck 与配方断言全过。
+- 14:50 起链 `ARMED`（`results/t2x/arm_t2xa_ml40.txt`）：会话 `v2d-t2xa-train`、`v2d-t2xa-eval`、`v2d-t2xa-export`，来历 1d98bd3
+  （当时 HEAD 是 7aa1905，多出的只有 Tier 3 的文件、计划与记录，ml40 用不到）。训练链 14:50 正向核对 15 条通过，开始第一条冒烟（ep29）。
+  按冒烟每条几分钟、正式每条 2:10–2:29 估，训练约 10/11 凌晨到早上结束，评测与导出随后。

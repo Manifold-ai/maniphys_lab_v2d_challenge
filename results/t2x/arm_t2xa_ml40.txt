@@ -1,0 +1,48 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ stages/policy/arm_var_chain.sh\ t2xa 
+# md5      : 6ab4f5ef83ec7374cde14920696acf3d  stages/policy/arm_var_chain.sh
+# source   : 7aa1905d9007
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T14:49:49-0600
+# ---------------------------------------------------------------
+source 1d98bd33980d
+/repo/runs/cfgcheck/t2-ep29-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep29-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep23-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep23-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep6-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep6-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep18-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep18-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep7-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep7-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep16-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep16-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep0-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep0-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep21-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep21-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep15-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep15-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep10-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep10-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep27-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep27-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep3-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep3-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep5-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep5-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep11-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep11-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep17-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep17-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+核对：t2xa 在 ml40，15 条 run，来历 1d98bd33980d，可用 1623613 MB，30 份配置的 precheck 与配方断言全过
+v2d-t2xa-eval: 1 windows (created Sat Oct 10 04:50:05 2026)
+v2d-t2xa-export: 1 windows (created Sat Oct 10 04:50:07 2026)
+v2d-t2xa-train: 1 windows (created Sat Oct 10 04:50:03 2026)
+t2xa_train_ml40：/repo/runs/cfgcheck/smoke-t2-ep27-w2048-cap10m-r3a-ml40.yaml：11 条断言，全过
+t2xa_eval_ml40：=== 2026-10-10 04:50:05 CST 等 runs/logs/t2xa_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t2_t2xa_ml40：
+runs/.chain-active-cand_t2_t2xa_ml40-gate
+runs/.chain-active-t2xa_eval_ml40
+runs/.chain-active-t2xa_train_ml40
+ARMED
