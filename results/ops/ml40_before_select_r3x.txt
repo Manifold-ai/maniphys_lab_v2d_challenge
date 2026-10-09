@@ -1,0 +1,19 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z"; df -m /lab_data | tail -1; nvidia-smi --query-gpu=name,utilization.gpu,memory.used,memory.total --format=csv,noheader; nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader; uptime; free -g | head -2; nproc; echo Ê∫\220 $(cat .v2d-source-commit); ls runs/.chain-active-* 2>&1; tmux ls 2>&1; ls results/select_t1/' 
+# source   : c4f356a1fb14
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:35:17-0600
+# ---------------------------------------------------------------
+2026-10-09 21:35:17 CST
+/dev/vdb         2063132 378772   1684345  19% /lab_data
+NVIDIA L40S, 0 %, 4563 MiB, 46068 MiB
+261737, 4554 MiB
+ 21:35:18 up 14 days, 11:38,  0 users,  load average: 14.21, 10.57, 7.87
+               total        used        free      shared  buff/cache   available
+Mem:             111          11           2           0          97          99
+28
+Ê∫ê d8b309e9d52c
+ls: cannot access 'runs/.chain-active-*': No such file or directory
+no server running on /tmp/tmux-1003/default
+scores_1008.json
+select_1008.txt
+t1_select_1008.tsv

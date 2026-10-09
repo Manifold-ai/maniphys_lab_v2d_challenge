@@ -1,0 +1,10 @@
+# command  : git diff --stat d8b309e9d52c c4f356a -- . :\!results :\!agent-doc 
+# source   : b2f80656f99e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:38:30-0600
+# ---------------------------------------------------------------
+ stages/policy/arm_r3x_rerun.sh    | 135 ++++++++++++++++++++++++++++++++++++++
+ stages/policy/test_train_after.py |  95 +++++++++++++++++++++++++++
+ stages/policy/train_after.sh      |  32 +++++++++
+ tools/gpu_procs_remote.sh         |  53 +++++++++++++++
+ 4 files changed, 315 insertions(+)

@@ -1,0 +1,25 @@
+# command  : python3 stages/evaluate/eval_table.py results/ml40/day2/eval_t1-ep0-w2048-cap10m-ml40_s349999104.txt results/day2/eval_t1-ep0-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep0-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/ml40/day2/eval_t1-ep15-w2048-cap10m-ml40_s349999104.txt results/day2/eval_t1-ep15-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep15-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/ml40/day2/eval_t1-ep5-w2048-cap10m-ml40_s349999104.txt results/day2/eval_t1-ep5-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : 94773f7bb4b0df01db394bf5e9a09246  results/ml40/day2/eval_t1-ep0-w2048-cap10m-ml40_s349999104.txt
+# md5      : afe17ee97c81ce47356bf9afa4d5a14c  results/day2/eval_t1-ep0-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : e6925dfe672bb154f69ee67b50492216  results/day2/eval_t1-ep0-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 4a2adb7099cb765e6b8accbf07459407  results/ml40/day2/eval_t1-ep15-w2048-cap10m-ml40_s349999104.txt
+# md5      : 17e1818d7b297093f40057b163d7d210  results/day2/eval_t1-ep15-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 08abd7129f6e5f035b7af154580fda31  results/day2/eval_t1-ep15-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 0df45029b11d8b12f627da09789adcbd  results/ml40/day2/eval_t1-ep5-w2048-cap10m-ml40_s349999104.txt
+# md5      : 8b530e49367ee8232becd58cd5fb4827  results/day2/eval_t1-ep5-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : d7c0743529d3b3344562d7afea90688a  results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# source   : b2f80656f99e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:37:29-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t1-ep0-w2048-cap10m-ml40	349999104	4096	778	0.438	0.906	0.345	5.06	4.70	22.6	0.883	0.105	0.113	0.114	4329bf04bb4d
+t1-ep0-w2048-cap4m-r3a-mf4090	349999104	4096	778	0.983	0.989	0.750	1.64	1.55	7.2	0.957	0.017	0.022	0.042	e035b33794c7
+t1-ep0-w2048-cap4m-r3a-s43-mf4090	349999104	4096	778	0.912	0.917	0.806	3.98	3.92	9.2	0.900	0.087	0.092	0.098	8bc3eea165ec
+t1-ep15-w2048-cap10m-ml40	349999104	4096	715	0.000	0.007	0.289	5.01	4.46	30.4	0.982	0.013	0.018	0.015	50c5d4993631
+t1-ep15-w2048-cap4m-r3a-mf4090	349999104	4096	715	0.957	0.959	0.726	4.22	4.04	13.0	0.937	0.042	0.055	0.051	74362186eea1
+t1-ep15-w2048-cap4m-r3a-s43-mf4090	349999104	4096	715	0.980	0.982	0.589	2.86	2.56	16.3	0.972	0.019	0.025	0.024	ae1c854f2fb6
+t1-ep5-w2048-cap10m-ml40	349999104	4096	1003	0.001	0.886	0.411	6.22	6.05	15.5	0.796	0.127	0.147	0.193	e9b1edf60072
+t1-ep5-w2048-cap4m-r3a-mf4090	349999104	4096	1003	0.308	0.393	0.479	17.92	17.83	27.5	0.255	0.630	0.705	0.733	4153b5e837bc
+t1-ep5-w2048-cap4m-r3a-s43-mf4090	349999104	4096	1003	0.251	0.653	0.537	13.33	13.26	21.3	0.067	0.540	0.889	0.916	20a3d31fa7b9

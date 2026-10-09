@@ -1,0 +1,7 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && grep -a -n �\217\221�\225� runs/logs/r3x_train_mf4090.log runs/logs/r3x2_train_mf4090.log' 
+# source   : c4f356a1fb14
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:33:29-0600
+# ---------------------------------------------------------------
+runs/logs/r3x_train_mf4090.log:755:=== 2026-10-09 16:25:55 CST DAY2_TRAIN_DONE（完成 5、失败 1、跳过 0、发散 0）
+runs/logs/r3x2_train_mf4090.log:131:=== 2026-10-09 18:49:28 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）

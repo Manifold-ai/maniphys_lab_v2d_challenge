@@ -1,0 +1,114 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "h": {
+   "file": "results/r3x/health_mf4090.txt",
+   "grep": "^t1-ep[0-9]+-w2048|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|smoke-t1-ep5-w2048-cap4m-r3a-mf4090 通过"
+  },
+  "d": {
+   "file": "results/r3x/diverge_lines_mf4090.txt",
+   "grep": "发散"
+  },
+  "s": {
+   "file": "results/ml40/select_t1/select_r3x.txt",
+   "grep": "^GATE|PACKED|SELECT_T1_DONE"
+  },
+  "c": {
+   "file": "results/ml40/select_t1/compare_r3x.txt",
+   "grep": "^C[1-5]|合计|COMPARE_"
+  },
+  "e": {
+   "file": "results/r3x/eval_table_r3x.txt",
+   "grep": "^run\t|^t1-ep"
+  }
+ },
+ "claims": [
+  {
+   "id": "health",
+   "evidence": [
+    "h"
+   ],
+   "claim": "t1-ep0-w2048-cap4m-r3a-mf4090、t1-ep15-w2048-cap4m-r3a-mf4090、t1-ep5-w2048-cap4m-r3a-mf4090、t1-ep0-w2048-cap4m-r3a-s43-mf4090、t1-ep15-w2048-cap4m-r3a-s43-mf4090、t1-ep5-w2048-cap4m-r3a-s43-mf4090 这六行都写着 DONE=1、NONFINITE=0、GUARD_STOP=0、policy=35。"
+  },
+  {
+   "id": "diverge",
+   "evidence": [
+    "d"
+   ],
+   "claim": "两条训练链日志里含“发散”的只有各自的结束行，两行都写“发散 0”；原训练链 r3x_train_mf4090 的结束行是“完成 5、失败 1”，补跑链 r3x2_train_mf4090 是“完成 1、失败 0”。"
+  },
+  {
+   "id": "eval_export",
+   "evidence": [
+    "h"
+   ],
+   "claim": "评测链以 DAY2_EVAL_DONE（成功 6、失败 0）结束，导出链以 EXPORT_CHAIN_DONE（成功 6、失败 0）结束。"
+  },
+  {
+   "id": "gates",
+   "evidence": [
+    "s"
+   ],
+   "claim": "GATE 的四行（add_auc、spider_sr、maniptrans_sr、mppe_cm）都写着“A OK”和“B OK”。"
+  },
+  {
+   "id": "compare",
+   "evidence": [
+    "c"
+   ],
+   "claim": "对比以 COMPARE_OK 结束；C1 上一次的 48 个候选缺或分数不同的是 0 个；C3 清单以外 27 条 episode 里选中的 run 变了的是空列表。"
+  },
+  {
+   "id": "switched",
+   "evidence": [
+    "c"
+   ],
+   "claim": "ep0 换成 t1-ep0-w2048-cap4m-r3a-s43-mf4090，ep5 换成 t1-ep5-w2048-cap4m-r3a-mf4090，ep15 换成 t1-ep15-w2048-cap4m-r3a-mf4090。"
+  },
+  {
+   "id": "totals",
+   "evidence": [
+    "c"
+   ],
+   "claim": "新旧两份 CSV 的合计：add_auc 0.4198 → 0.4597，spider_sr 0.5667 → 0.6000，maniptrans_sr 0.4000 → 0.5000，mppe_cm 24.8383 → 24.6231。"
+  },
+  {
+   "id": "ep5_fall",
+   "evidence": [
+    "e"
+   ],
+   "claim": "4096 世界评测里，t1-ep5-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.308、失败_骨盆 是 0.630；基线 t1-ep5-w2048-cap10m-ml40 分别是 0.001 和 0.127。"
+  },
+  {
+   "id": "ep0_ep15",
+   "evidence": [
+    "e"
+   ],
+   "claim": "4096 世界 MP-SR：ep0 的基线 0.438、seed 42 0.983、seed 43 0.912；ep15 的基线 0.000、seed 42 0.957、seed 43 0.980。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "e"
+   ],
+   "claim": "t1-ep5-w2048-cap4m-r3a-s43-mf4090 的 4096 世界 MP-SR 是 0.251。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_c3",
+   "evidence": [
+    "c"
+   ],
+   "claim": "清单以外的 27 条 episode 里，有 2 条选中的 run 变了。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_nan",
+   "evidence": [
+    "h"
+   ],
+   "claim": "t1-ep15-w2048-cap4m-r3a-s43-mf4090 留下了 NONFINITE 文件。",
+   "control": "false"
+  }
+ ]
+}

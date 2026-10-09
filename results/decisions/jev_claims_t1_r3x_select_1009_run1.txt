@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-t1-r3x-select.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 986aea2296b8a367c50be887ae271cf7  agent-doc/experiments/2026-10-09-t1-r3x-select.claims.json
+# source   : b2f80656f99e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:38:43-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+health               P(supported)=0.33  UNVERIFIED             [h]  6 条 run（ep0、ep15、ep5 各 seed 42 与 seed 43）都是 DONE=1、NONFINITE=0、GUARD_STOP=0，各有 35 份 policy。
+diverge              P(supported)=0.79  verified               [d]  两条训练链日志里含“发散”的只有各自的结束行，两行都写“发散 0”；原训练链 r3x_train_mf4090 的结束行是“完成 5、失败 1”，补跑链 r3x2_train_mf4090 是“完成 1、失败 0”。
+eval_export          P(supported)=0.95  verified               [h]  评测链以 DAY2_EVAL_DONE（成功 6、失败 0）结束，导出链以 EXPORT_CHAIN_DONE（成功 6、失败 0）结束。
+gates                P(supported)=0.98  verified               [s]  GATE 的四行（add_auc、spider_sr、maniptrans_sr、mppe_cm）都写着“A OK”和“B OK”。
+compare              P(supported)=0.98  verified               [c]  对比以 COMPARE_OK 结束；C1 上一次的 48 个候选缺或分数不同的是 0 个；C3 清单以外 27 条 episode 里选中的 run 变了的是空列表。
+switched             P(supported)=0.98  verified               [c]  ep0 换成 t1-ep0-w2048-cap4m-r3a-s43-mf4090，ep5 换成 t1-ep5-w2048-cap4m-r3a-mf4090，ep15 换成 t1-ep15-w2048-cap4m-r3a-mf4090。
+totals               P(supported)=0.99  verified               [c]  新旧两份 CSV 的合计：add_auc 0.4198 → 0.4597，spider_sr 0.5667 → 0.6000，maniptrans_sr 0.4000 → 0.5000，mppe_cm 24.8383 → 24.6231。
+ep5_fall             P(supported)=0.99  verified               [e]  4096 世界评测里，t1-ep5-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.308、失败_骨盆 是 0.630；基线 t1-ep5-w2048-cap10m-ml40 分别是 0.001 和 0.127。
+ep0_ep15             P(supported)=0.83  verified               [e]  4096 世界 MP-SR：ep0 的基线 0.438、seed 42 0.983、seed 43 0.912；ep15 的基线 0.000、seed 42 0.957、seed 43 0.980。
+ctl_true             P(supported)=0.99  control(true) ok       [e]  t1-ep5-w2048-cap4m-r3a-s43-mf4090 的 4096 世界 MP-SR 是 0.251。
+ctl_false_c3         P(supported)=0.02  control(false) ok      [c]  清单以外的 27 条 episode 里，有 2 条选中的 run 变了。
+ctl_false_nan        P(supported)=0.03  control(false) ok      [h]  t1-ep15-w2048-cap4m-r3a-s43-mf4090 留下了 NONFINITE 文件。
+controls behaved as expected

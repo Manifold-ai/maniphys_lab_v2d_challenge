@@ -1,0 +1,122 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ PYTHONPATH=/repo/runs/kitdeps\ python\ stages/evaluate/select_t1.py\ \ \ --cand\ runs/select_t1_r3x/cand\ --kit\ runs/kit/update_0f2f9f4b/v2d_submission_kit\ --dataset-root\ data/challenge\ --commit-url\ https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/d8b309e9d52c7ca05f6cbe6323078744f32ad184\ \ \ --current\ stages/evaluate/exports/mf4090.tsv\ stages/evaluate/exports/ml40.tsv\ --sha-tables\ runs/select_t1_r3x/tables/\*.tsv\ \ \ --out-json\ results/select_t1/scores_r3x.json\ --out-tsv\ results/select_t1/t1_select_r3x.tsv\ --pack\ /repo/runs/submission/csv/track2_tier1_select_r3x.csv 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 3f90a133659f03094cac29992e288dec  stages/evaluate/select_t1.py
+# md5      : da902d1a929a4784da1434d9e4ae7f31  stages/evaluate/exports/mf4090.tsv
+# md5      : 87893276ee5596d5a0a49b5727bffe08  stages/evaluate/exports/ml40.tsv
+# source   : d8b309e9d52c
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-09T21:35:32+0800
+# ---------------------------------------------------------------
+版本：numpy 2.4.6 pandas 2.3.3 pyarrow 25.0.1 trimesh 5.1.1
+  ep0   t1-ep0-w2048-cap10m-ml40: add_auc=0.344875 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.461187 | 4096 世界 MP-SR 0.4384765625
+  ep0   t1-ep0-w2048-cap4m-r3a-mf4090: add_auc=0.743011 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.418497 | 4096 世界 MP-SR 0.982666015625
+  ep0   t1-ep0-w2048-cap4m-r3a-s43-mf4090: add_auc=0.848249 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.017445 | 4096 世界 MP-SR 0.911865234375
+  ep1   t1-ep1-w2048-cap4m-p185-mf4090: add_auc=0.171854 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=37.683206 | 4096 世界 MP-SR 0.0
+  ep10  t1-ep10-w2048-cap10m-ml40: add_auc=0.234099 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=4.533250 | 4096 世界 MP-SR 0.0
+  ep11  t1-ep11-w2048-cap4m-mf4090: add_auc=0.089097 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=59.017026 | 4096 世界 MP-SR 0.0
+  ep12  t1-ep12-w2048-cap10m-ml40: add_auc=0.671161 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.032499 | 4096 世界 MP-SR 0.991943359375
+  ep13  t1-ep13-w2048-cap10m-ml40: add_auc=0.271489 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=4.784906 | 4096 世界 MP-SR 0.0
+  ep14  t1-ep14-w2048-cap4m-mf4090: add_auc=0.329746 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=5.891362 | 4096 世界 MP-SR 0.0
+  ep15  t1-ep15-w2048-cap10m-ml40: add_auc=0.269930 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=4.197603 | 4096 世界 MP-SR 0.0
+  ep15  t1-ep15-w2048-cap4m-r3a-mf4090: add_auc=0.732255 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.826837 | 4096 世界 MP-SR 0.957275390625
+  ep15  t1-ep15-w2048-cap4m-r3a-s43-mf4090: add_auc=0.603234 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.965822 | 4096 世界 MP-SR 0.980224609375
+  ep16  t1-ep16-w2048-cap4m-mf4090: add_auc=0.257206 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=63.204600 | 4096 世界 MP-SR 0.0
+  ep17  t1-ep17-w2048-cap10m-ml40: add_auc=0.370597 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=4.979121 | 4096 世界 MP-SR 0.0
+  ep18  t1-ep18-w2048-cap4m-mf4090: add_auc=0.594260 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.958512 | 4096 世界 MP-SR 0.152099609375
+  ep18  t1-ep18-w2048-cap4m-r3a-mf4090: add_auc=0.819420 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.532826 | 4096 世界 MP-SR 0.776123046875
+  ep18  t1-ep18-w2048-cap4m-r3a-s43-mf4090: add_auc=0.734193 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.582604 | 4096 世界 MP-SR 0.77099609375
+  ep18  t1-ep18-w2048-cap4m-s43-mf4090: add_auc=0.345353 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=38.567642 | 4096 世界 MP-SR 0.7138671875
+  ep19  t1-ep19-w2048-cap10m-ml40: add_auc=0.235751 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=11.076841 | 4096 世界 MP-SR 0.0
+  ep2   t1-ep2-w2048-cap10m-ml40: add_auc=0.113648 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=99.984717 | 4096 世界 MP-SR 0.0
+  ep20  t1-ep20-w2048-cap10m-ml40: add_auc=0.447672 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=2.778529 | 4096 世界 MP-SR 0.00048828125
+  ep20  t1-ep20-w2048-cap1m-mf4090: add_auc=0.405741 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=13.407782 | 4096 世界 MP-SR 0.003173828125
+  ep20  t1-ep20-w2048-cap4m-mf4090: add_auc=0.366750 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=5.409430 | 4096 世界 MP-SR 0.015625
+  ep20  t1-ep20-w2048-cap4m-r3a-mf4090: add_auc=0.825497 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.496915 | 4096 世界 MP-SR 0.793701171875
+  ep20  t1-ep20-w2048-cap4m-r3a-s43-mf4090: add_auc=0.628956 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=14.537629 | 4096 世界 MP-SR 0.917724609375
+  ep20  t1-ep20-w2048-cap4m-s43-mf4090: add_auc=0.471745 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=2.681622 | 4096 世界 MP-SR 0.000244140625
+  ep21  t1-ep21-w2048-cap4m-mf4090: add_auc=0.260693 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=5.393209 | 4096 世界 MP-SR 0.0
+  ep22  t1-ep22-w2048-cap4m-mf4090: add_auc=0.567976 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.629846 | 4096 世界 MP-SR 0.763916015625
+  ep23  t1-ep23-w2048-cap10m-ml40: add_auc=0.707452 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.786478 | 4096 世界 MP-SR 0.97509765625
+  ep24  t1-ep24-w2048-cap4m-mf4090: add_auc=0.588068 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=3.192876 | 4096 世界 MP-SR 0.962158203125
+  ep25  t1-ep25-w2048-cap10m-ml40: add_auc=0.073778 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=117.994370 | 4096 世界 MP-SR 0.0
+  ep26  t1-ep26-w2048-cap10m-ml40: add_auc=0.500841 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.592230 | 4096 世界 MP-SR 0.9560546875
+  ep27  t1-ep27-w2048-cap4m-mf4090: add_auc=0.625664 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.460014 | 4096 世界 MP-SR 0.32080078125
+  ep27  t1-ep27-w2048-cap4m-r3a-mf4090: add_auc=0.781748 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.098535 | 4096 世界 MP-SR 0.9345703125
+  ep27  t1-ep27-w2048-cap4m-r3a-s43-mf4090: add_auc=0.848673 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.668800 | 4096 世界 MP-SR 0.843505859375
+  ep27  t1-ep27-w2048-cap4m-s43-mf4090: add_auc=0.604314 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.503139 | 4096 世界 MP-SR 0.0009765625
+  ep28  t1-ep28-w2048-cap4m-p185-mf4090: add_auc=0.103998 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=66.237849 | 4096 世界 MP-SR 0.0
+  ep29  t1-ep29-w2048-cap4m-mf4090: add_auc=0.668094 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.323103 | 4096 世界 MP-SR 0.173583984375
+  ep29  t1-ep29-w2048-cap4m-r3a-mf4090: add_auc=0.721895 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.975941 | 4096 世界 MP-SR 0.150634765625
+  ep29  t1-ep29-w2048-cap4m-r3a-s43-mf4090: add_auc=0.713597 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.968686 | 4096 世界 MP-SR 0.499267578125
+  ep29  t1-ep29-w2048-cap4m-s43-mf4090: add_auc=0.635171 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.207206 | 4096 世界 MP-SR 0.029541015625
+  ep3   t1-ep3-w2048-cap4m-mf4090: add_auc=0.119238 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=94.524984 | 4096 世界 MP-SR 0.0
+  ep4   t1-ep4-w2048-cap10m-ml40: add_auc=0.150763 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=90.229252 | 4096 世界 MP-SR 0.0
+  ep5   t1-ep5-w2048-cap10m-ml40: add_auc=0.451147 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.835022 | 4096 世界 MP-SR 0.001220703125
+  ep5   t1-ep5-w2048-cap4m-r3a-mf4090: add_auc=0.679960 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.194151 | 4096 世界 MP-SR 0.3076171875
+  ep5   t1-ep5-w2048-cap4m-r3a-s43-mf4090: add_auc=0.458500 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=8.998318 | 4096 世界 MP-SR 0.251220703125
+  ep6   t1-ep6-w2048-cap4m-mf4090: add_auc=0.629922 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.352019 | 4096 世界 MP-SR 0.562255859375
+  ep6   t1-ep6-w2048-cap4m-r3a-mf4090: add_auc=0.719666 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.379670 | 4096 世界 MP-SR 0.979248046875
+  ep6   t1-ep6-w2048-cap4m-r3a-s43-mf4090: add_auc=0.748741 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.086524 | 4096 世界 MP-SR 0.91748046875
+  ep6   t1-ep6-w2048-cap4m-s43-mf4090: add_auc=0.605197 spider_sr=1.000000 maniptrans_sr=0.000000 mppe_cm=3.925488 | 4096 世界 MP-SR 0.000244140625
+  ep7   t1-ep7-w2048-cap4m-p185g-mf4090: add_auc=0.666504 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=3.047912 | 4096 世界 MP-SR 0.652587890625
+  ep8   t1-ep8-w2048-cap4m-mf4090: add_auc=0.702066 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=2.645551 | 4096 世界 MP-SR 0.9794921875
+  ep8   t1-ep8-w2048-cap4m-r3a-mf4090: add_auc=0.877295 spider_sr=1.000000 maniptrans_sr=1.000000 mppe_cm=1.418105 | 4096 世界 MP-SR 0.95458984375
+  ep9   t1-ep9-w2048-cap10m-ml40: add_auc=0.203592 spider_sr=0.000000 maniptrans_sr=0.000000 mppe_cm=40.659719 | 4096 世界 MP-SR 0.0
+GATE add_auc：整份 0.378008580，逐条平均 0.378008580（A OK），10/3 0.3780（B OK）
+GATE spider_sr：整份 0.533333333，逐条平均 0.533333333（A OK），10/3 0.5333（B OK）
+GATE maniptrans_sr：整份 0.266666667，逐条平均 0.266666667（A OK），10/3 0.2667（B OK）
+GATE mppe_cm：整份 25.170623163，逐条平均 25.170623163（A OK），10/3 25.1706（B OK）
+CHOSEN ep0: t1-ep0-w2048-cap4m-r3a-s43-mf4090（现在 t1-ep0-w2048-cap10m-ml40）add_auc=0.8482487146529563 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.0174454125734418 4096 世界 MP-SR 0.911865234375
+CHOSEN ep1: t1-ep1-w2048-cap4m-p185-mf4090（现在 t1-ep1-w2048-cap4m-p185-mf4090）add_auc=0.1718540829986613 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=37.68320593776477 4096 世界 MP-SR 0.0
+CHOSEN ep2: t1-ep2-w2048-cap10m-ml40（现在 t1-ep2-w2048-cap10m-ml40）add_auc=0.11364795918367347 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=99.98471706810578 4096 世界 MP-SR 0.0
+CHOSEN ep3: t1-ep3-w2048-cap4m-mf4090（现在 t1-ep3-w2048-cap4m-mf4090）add_auc=0.11923815620998718 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=94.52498360410192 4096 世界 MP-SR 0.0
+CHOSEN ep4: t1-ep4-w2048-cap10m-ml40（现在 t1-ep4-w2048-cap10m-ml40）add_auc=0.15076276463262764 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=90.22925234128536 4096 世界 MP-SR 0.0
+CHOSEN ep5: t1-ep5-w2048-cap4m-r3a-mf4090（现在 t1-ep5-w2048-cap10m-ml40）add_auc=0.6799601196410767 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.194150756247241 4096 世界 MP-SR 0.3076171875
+CHOSEN ep6: t1-ep6-w2048-cap4m-r3a-s43-mf4090（现在 t1-ep6-w2048-cap4m-mf4090）add_auc=0.7487408424908425 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.0865236052988063 4096 世界 MP-SR 0.91748046875
+CHOSEN ep7: t1-ep7-w2048-cap4m-p185g-mf4090（现在 t1-ep7-w2048-cap4m-p185g-mf4090）add_auc=0.66650390625 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=3.0479117767889976 4096 世界 MP-SR 0.652587890625
+CHOSEN ep8: t1-ep8-w2048-cap4m-r3a-mf4090（现在 t1-ep8-w2048-cap4m-mf4090）add_auc=0.877295197740113 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.41810525603504 4096 世界 MP-SR 0.95458984375
+CHOSEN ep9: t1-ep9-w2048-cap10m-ml40（现在 t1-ep9-w2048-cap10m-ml40）add_auc=0.20359195402298852 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=40.659718798064 4096 世界 MP-SR 0.0
+CHOSEN ep10: t1-ep10-w2048-cap10m-ml40（现在 t1-ep10-w2048-cap10m-ml40）add_auc=0.23409949622166246 spider_sr=1.0 maniptrans_sr=0.0 mppe_cm=4.533250040204083 4096 世界 MP-SR 0.0
+CHOSEN ep11: t1-ep11-w2048-cap4m-mf4090（现在 t1-ep11-w2048-cap4m-mf4090）add_auc=0.08909722222222223 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=59.01702593036777 4096 世界 MP-SR 0.0
+CHOSEN ep12: t1-ep12-w2048-cap10m-ml40（现在 t1-ep12-w2048-cap10m-ml40）add_auc=0.6711607142857143 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.032498956242503 4096 世界 MP-SR 0.991943359375
+CHOSEN ep13: t1-ep13-w2048-cap10m-ml40（现在 t1-ep13-w2048-cap10m-ml40）add_auc=0.27148861171366595 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=4.784905742215958 4096 世界 MP-SR 0.0
+CHOSEN ep14: t1-ep14-w2048-cap4m-mf4090（现在 t1-ep14-w2048-cap4m-mf4090）add_auc=0.32974572004028196 spider_sr=1.0 maniptrans_sr=0.0 mppe_cm=5.891362034408814 4096 世界 MP-SR 0.0
+CHOSEN ep15: t1-ep15-w2048-cap4m-r3a-mf4090（现在 t1-ep15-w2048-cap10m-ml40）add_auc=0.7322552447552447 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.8268371840171926 4096 世界 MP-SR 0.957275390625
+CHOSEN ep16: t1-ep16-w2048-cap4m-mf4090（现在 t1-ep16-w2048-cap4m-mf4090）add_auc=0.25720649895178194 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=63.20460027332292 4096 世界 MP-SR 0.0
+CHOSEN ep17: t1-ep17-w2048-cap10m-ml40（现在 t1-ep17-w2048-cap10m-ml40）add_auc=0.3705965909090909 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=4.9791209202716695 4096 世界 MP-SR 0.0
+CHOSEN ep18: t1-ep18-w2048-cap4m-r3a-mf4090（现在 t1-ep18-w2048-cap4m-mf4090）add_auc=0.8194201631701632 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.5328263195110892 4096 世界 MP-SR 0.776123046875
+CHOSEN ep19: t1-ep19-w2048-cap10m-ml40（现在 t1-ep19-w2048-cap10m-ml40）add_auc=0.2357505643340858 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=11.076841387614174 4096 世界 MP-SR 0.0
+CHOSEN ep20: t1-ep20-w2048-cap4m-r3a-mf4090（现在 t1-ep20-w2048-cap4m-mf4090）add_auc=0.825497287522604 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.496914725111775 4096 世界 MP-SR 0.793701171875
+CHOSEN ep21: t1-ep21-w2048-cap4m-mf4090（现在 t1-ep21-w2048-cap4m-mf4090）add_auc=0.26069321533923306 spider_sr=1.0 maniptrans_sr=0.0 mppe_cm=5.39320857446075 4096 世界 MP-SR 0.0
+CHOSEN ep22: t1-ep22-w2048-cap4m-mf4090（现在 t1-ep22-w2048-cap4m-mf4090）add_auc=0.5679763560500696 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.629846032937194 4096 世界 MP-SR 0.763916015625
+CHOSEN ep23: t1-ep23-w2048-cap10m-ml40（现在 t1-ep23-w2048-cap10m-ml40）add_auc=0.7074524312896406 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.786477939501086 4096 世界 MP-SR 0.97509765625
+CHOSEN ep24: t1-ep24-w2048-cap4m-mf4090（现在 t1-ep24-w2048-cap4m-mf4090）add_auc=0.5880681818181818 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=3.19287576209323 4096 世界 MP-SR 0.962158203125
+CHOSEN ep25: t1-ep25-w2048-cap10m-ml40（现在 t1-ep25-w2048-cap10m-ml40）add_auc=0.07377764842840512 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=117.99437038960046 4096 世界 MP-SR 0.0
+CHOSEN ep26: t1-ep26-w2048-cap10m-ml40（现在 t1-ep26-w2048-cap10m-ml40）add_auc=0.5008408071748879 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.592229727678722 4096 世界 MP-SR 0.9560546875
+CHOSEN ep27: t1-ep27-w2048-cap4m-r3a-s43-mf4090（现在 t1-ep27-w2048-cap4m-mf4090）add_auc=0.8486725663716814 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=1.668799539931547 4096 世界 MP-SR 0.843505859375
+CHOSEN ep28: t1-ep28-w2048-cap4m-p185-mf4090（现在 t1-ep28-w2048-cap4m-p185-mf4090）add_auc=0.10399797570850203 spider_sr=0.0 maniptrans_sr=0.0 mppe_cm=66.23784922334049 4096 世界 MP-SR 0.0
+CHOSEN ep29: t1-ep29-w2048-cap4m-r3a-mf4090（现在 t1-ep29-w2048-cap4m-mf4090）add_auc=0.7218950749464668 spider_sr=1.0 maniptrans_sr=1.0 mppe_cm=2.9759410449599373 4096 世界 MP-SR 0.150634765625
+换了的 episode：[0, 5, 6, 8, 15, 18, 20, 27, 29]
+  帕累托冲突（只报）：ep29 选 t1-ep29-w2048-cap4m-r3a-mf4090，在 mppe_cm 上不如 t1-ep29-w2048-cap4m-r3a-s43-mf4090
+d count than the metrics were computed over.
+  - episode 1 add_auc: evaluator reported 0.171185, recomputing from the trajectory gives 0.171854
+  - episode 4 add_auc: evaluator reported 0.149517, recomputing from the trajectory gives 0.150763
+  - episode 5 add_auc: evaluator reported 0.678091, recomputing from the trajectory gives 0.679960
+  - episode 6 add_auc: evaluator reported 0.753320, recomputing from the trajectory gives 0.748741
+  - episode 7 add_auc: evaluator reported 0.668736, recomputing from the trajectory gives 0.666504
+  - episode 9 add_auc: evaluator reported 0.203376, recomputing from the trajectory gives 0.203592
+  - episode 10 add_auc: evaluator reported 0.229140, recomputing from the trajectory gives 0.234099
+  - episode 11 add_auc: evaluator reported 0.087264, recomputing from the trajectory gives 0.089097
+  - episode 12 add_auc: evaluator reported 0.649375, recomputing from the trajectory gives 0.671161
+  - episode 13 add_auc: evaluator reported 0.272844, recomputing from the trajectory gives 0.271489
+  ... and 15 more
+The leaderboard scores the TRAJECTORY, so the numbers above on the right are what
+you would get. Re-run the evaluator if that is not what you expect.
+
+
+wrote /repo/runs/submission/csv/track2_tier1_select_r3x.csv (22,989 rows, 12,139,895 B)
+locally computed: AUC=0.4597  SP-SR=0.6000  MP-SR=0.5000  MPPE=24.6231
+upload with: python submit/v2d_submit.py /repo/runs/submission/csv/track2_tier1_select_r3x.csv --track track_2_tier1 -m '<message>'
+
+PACKED add_auc=0.459651 spider_sr=0.600000 maniptrans_sr=0.500000 mppe_cm=24.623127
+SELECT_T1_DONE
