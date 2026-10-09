@@ -9,7 +9,12 @@ Three steps, each where its dependencies live:
             Object: T_cam<-glb = pose_abs @ S2A (S2A from wild_export.json): pose of the official mesh's own
             local frame, which is the frame the scorer compares.
   soma      v2d_cari4d image, GPU, minutes. export_soma Path A (vertices -> SOMA-X by PoseInversion) with the
-            parameters of the official multi-view workflow and an offline SOMA asset directory.
+            parameters of the official multi-view workflow and an offline SOMA asset directory. Its own fit error
+            (mean/median/max vertex error) goes to the log.
+  residual  v2d_cari4d image, CPU. Independent of the optimiser: rebuilds the SOMA mesh from the saved
+            soma_params.npz the way the downstream reads it (frame-0 identity, per-frame bone flexibles, no
+            correctives) and measures it against the MHR target mesh. The two meshes have different topologies
+            (SOMA 18056 vs MHR 18439 vertices), so the distance is a symmetric nearest-vertex (chamfer) distance.
   assemble  host venv (pyarrow). One parquet with the Tier 2 columns and one episodes_metadata row.
 
 World frame: the released Track 2 world is taken as the exo camera's OpenCV frame (W = I). The MoGe ground probe
@@ -17,6 +22,7 @@ supports this to within a few degrees; a ground-plane correction is a separate, 
 
     python t3_convert_ep.py decode   <cari4d episode dir> <weights/cari4d dir> <out dir>
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
+    python t3_convert_ep.py residual <out dir> <soma assets dir>
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
 
@@ -92,6 +98,9 @@ def decode(ep_dir: Path, weights: Path, out: Path) -> None:
 
 
 def soma(out: Path, assets: Path) -> None:
+    import logging
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
     sys.path.insert(0, "/workspace/v2d_sam3d_body/lib")
     import export_soma as es
     from soma import SOMALayer
@@ -104,6 +113,43 @@ def soma(out: Path, assets: Path) -> None:
     es.create_soma_layer = offline_layer
     es.export_soma(params_path=out / "mhr_params.pt", output_path=out / "soma_params.npz", mesh_path=out / "mhr_mesh.pt",
                    weights_dir=None, device="cuda", output_unit="meters", **SOMA_ARGS)
+
+
+def residual(out: Path, assets: Path) -> None:
+    import torch
+    from scipy.spatial import cKDTree
+    from soma import SOMALayer
+    from soma.units import Unit
+
+    sp = np.load(out / "soma_params.npz", allow_pickle=True)
+    target = torch.load(out / "mhr_mesh.pt", map_location="cpu", weights_only=True)["pred_vertices"].numpy()
+    target = target @ F_CV_TO_SOMA  # OpenCV camera frame -> SOMA frame, metres
+    n = len(sp["poses"])
+    layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                      enable_procedural_transforms=False)
+    ident = torch.tensor(np.repeat(sp["identity_coeffs"].reshape(-1, 45)[:1], n, 0), dtype=torch.float32)
+    scale = torch.tensor(np.repeat(sp["scale_params"].reshape(-1, 68)[:1], n, 0), dtype=torch.float32)
+    per_frame = np.empty(n)
+    per_frame_p95 = np.empty(n)
+    for s in range(0, n, CHUNK):
+        sl = slice(s, min(n, s + CHUNK))
+        with torch.no_grad():
+            got = layer(torch.tensor(sp["poses"][sl], dtype=torch.float32), ident[sl], scale_params=scale[sl],
+                        transl=torch.tensor(sp["transl"][sl], dtype=torch.float32), apply_correctives=False,
+                        kwargs={"bone_length_flexibles": torch.tensor(sp["bone_length_flexibles"][sl], dtype=torch.float32)}).vertices.numpy()
+        for i, (a, b) in enumerate(zip(got, target[sl], strict=True)):
+            d_ab = cKDTree(b).query(a)[0]
+            d_ba = cKDTree(a).query(b)[0]
+            d = np.concatenate([d_ab, d_ba]) * 100.0
+            per_frame[s + i] = d.mean()
+            per_frame_p95[s + i] = np.percentile(d, 95)
+    worst = np.argsort(per_frame)[-5:][::-1]
+    report = {"frames": n, "chamfer_cm": {"mean": round(float(per_frame.mean()), 3), "p50": round(float(np.median(per_frame)), 3),
+                                          "p95_frame": round(float(np.percentile(per_frame, 95)), 3), "max_frame": round(float(per_frame.max()), 3)},
+              "within_frame_p95_cm_median": round(float(np.median(per_frame_p95)), 3),
+              "worst_frames": [{"frame": int(i), "chamfer_cm": round(float(per_frame[i]), 3)} for i in worst]}
+    (out / "residual_report.json").write_text(json.dumps(report, indent=1))
+    print(json.dumps(report))
 
 
 def _quat_wxyz(rot: np.ndarray) -> np.ndarray:
@@ -183,6 +229,8 @@ if __name__ == "__main__":
         decode(*args)
     elif cmd == "soma":
         soma(*args)
+    elif cmd == "residual":
+        residual(*args)
     elif cmd == "assemble":
         assemble(args[0], args[1], int(sys.argv[4]), args[3])
     else:
