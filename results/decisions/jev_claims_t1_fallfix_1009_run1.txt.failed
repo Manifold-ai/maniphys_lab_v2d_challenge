@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-t1-fallfix-decision.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : d3f1389d1dbc3d7d9c1bc1a13797e998  agent-doc/experiments/2026-10-09-t1-fallfix-decision.claims.json
+# source   : 7c9b0a9db4ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T10:50:19-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+r3a_pass             P(supported)=0.95  verified               [f]  选中 run 名含 r3a（变体 A）的 9 条 episode（ep0、ep5、ep6、ep8、ep15、ep18、ep20、ep27、ep29），1 世界 MP-SR 全都过了。
+fail_zero            P(supported)=0.68  UNVERIFIED             [f]  1 世界 MP-SR 没过的有 15 条；这 15 条选中 run 的 4096 世界 MP-SR 最大是 0.000。
+split                P(supported)=0.99  verified               [f]  没过的 15 条里：失败_骨盆 >= 0.9 的 8 条（0.969–1.000）是 ep1、ep2、ep4、ep9、ep11、ep16、ep25、ep28；<= 0.4 的 5 条（0.076–0.350）是 ep10、ep13、ep17、ep19、ep21；其余 2 条是 ep3、ep14。
+lucky                P(supported)=0.98  verified               [f]  ep5 选中 run 的 4096 世界 MP-SR 是 0.308，ep29 的是 0.151；这两条的 1 世界 MP-SR 都是 1。
+fall_order           P(supported)=0.97  verified               [o]  这份摔倒顺序分析只覆盖 episode 18 和 27；变体合计（判定）在 k=25 时物体先 91.6%、骨盆先 1.8%；变体合计里 t_pel 前 1.0 s 的物体位置误差中位是 12.9 cm。
+ctl_true             P(supported)=0.50  CONTROL(true) FAILED   [f]  ep12 选中的是 t1-ep12-w2048-cap10m-ml40，4096 世界 MP-SR 0.992。
+ctl_false_group      P(supported)=0.01  control(false) ok      [f]  ep17 被分在骨盆>=0.9 那一组。
+ctl_false_order      P(supported)=0.02  control(false) ok      [o]  变体合计（判定）里，摔倒的失败世界多数是骨盆先超阈值。
+CONTROLS MISBEHAVED: do not rely on this batch

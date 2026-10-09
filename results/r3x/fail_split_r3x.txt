@@ -1,0 +1,47 @@
+# command  : python3 stages/evaluate/fail_split.py results/ml40/select_t1/t1_select_r3x.tsv results/ml40/select_t1/scores_r3x.json --eval-dir mf4090=results/day2 --eval-dir ml40=results/ml40/day2 
+# md5      : 3b50d4f5f902d42b4ccd72337a1399d6  stages/evaluate/fail_split.py
+# md5      : d030d4274ec364e35bbead8e3f28716f  results/ml40/select_t1/t1_select_r3x.tsv
+# md5      : 507ee0bb07506217865334fd47beb35d  results/ml40/select_t1/scores_r3x.json
+# source   : d8cbfff4f0dc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T10:51:12-0600
+# ---------------------------------------------------------------
+ep	run	1世界_MP-SR	1世界_SP-SR	4096世界_MP-SR	4096世界_SP-SR	4096世界_失败_骨盆	组
+ep0	t1-ep0-w2048-cap4m-r3a-s43-mf4090	1	1	0.912	0.917	0.087	1世界过
+ep1	t1-ep1-w2048-cap4m-p185-mf4090	0	0	0.000	0.000	1.000	骨盆>=0.9
+ep2	t1-ep2-w2048-cap10m-ml40	0	0	0.000	0.017	0.969	骨盆>=0.9
+ep3	t1-ep3-w2048-cap4m-mf4090	0	0	0.000	0.000	0.491	其余
+ep4	t1-ep4-w2048-cap10m-ml40	0	0	0.000	0.000	1.000	骨盆>=0.9
+ep5	t1-ep5-w2048-cap4m-r3a-mf4090	1	1	0.308	0.393	0.630	1世界过
+ep6	t1-ep6-w2048-cap4m-r3a-s43-mf4090	1	1	0.917	0.931	0.075	1世界过
+ep7	t1-ep7-w2048-cap4m-p185g-mf4090	1	1	0.653	0.938	0.065	1世界过
+ep8	t1-ep8-w2048-cap4m-r3a-mf4090	1	1	0.955	0.958	0.044	1世界过
+ep9	t1-ep9-w2048-cap10m-ml40	0	0	0.000	0.000	1.000	骨盆>=0.9
+ep10	t1-ep10-w2048-cap10m-ml40	0	1	0.000	0.786	0.222	骨盆<=0.4
+ep11	t1-ep11-w2048-cap4m-mf4090	0	0	0.000	0.000	0.988	骨盆>=0.9
+ep12	t1-ep12-w2048-cap10m-ml40	1	1	0.992	0.994	0.008	1世界过
+ep13	t1-ep13-w2048-cap10m-ml40	0	0	0.000	0.001	0.248	骨盆<=0.4
+ep14	t1-ep14-w2048-cap4m-mf4090	0	1	0.000	0.711	0.576	其余
+ep15	t1-ep15-w2048-cap4m-r3a-mf4090	1	1	0.957	0.959	0.042	1世界过
+ep16	t1-ep16-w2048-cap4m-mf4090	0	0	0.000	0.000	0.998	骨盆>=0.9
+ep17	t1-ep17-w2048-cap10m-ml40	0	0	0.000	0.000	0.076	骨盆<=0.4
+ep18	t1-ep18-w2048-cap4m-r3a-mf4090	1	1	0.776	0.782	0.224	1世界过
+ep19	t1-ep19-w2048-cap10m-ml40	0	0	0.000	0.000	0.350	骨盆<=0.4
+ep20	t1-ep20-w2048-cap4m-r3a-mf4090	1	1	0.794	0.804	0.254	1世界过
+ep21	t1-ep21-w2048-cap4m-mf4090	0	1	0.000	0.853	0.150	骨盆<=0.4
+ep22	t1-ep22-w2048-cap4m-mf4090	1	1	0.764	0.983	0.065	1世界过
+ep23	t1-ep23-w2048-cap10m-ml40	1	1	0.975	1.000	0.001	1世界过
+ep24	t1-ep24-w2048-cap4m-mf4090	1	1	0.962	0.996	0.003	1世界过
+ep25	t1-ep25-w2048-cap10m-ml40	0	0	0.000	0.000	1.000	骨盆>=0.9
+ep26	t1-ep26-w2048-cap10m-ml40	1	1	0.956	0.946	0.037	1世界过
+ep27	t1-ep27-w2048-cap4m-r3a-s43-mf4090	1	1	0.844	0.857	0.144	1世界过
+ep28	t1-ep28-w2048-cap4m-p185-mf4090	0	0	0.000	0.000	1.000	骨盆>=0.9
+ep29	t1-ep29-w2048-cap4m-r3a-mf4090	1	1	0.151	0.897	0.119	1世界过
+1 世界 MP-SR 过 15 条：ep0、ep5、ep6、ep7、ep8、ep12、ep15、ep18、ep20、ep22、ep23、ep24、ep26、ep27、ep29
+1 世界 MP-SR 没过 15 条，按 4096 世界失败原因里骨盆的比例分：
+  骨盆>=0.9：8 条，失败_骨盆 0.969–1.000：ep1、ep2、ep4、ep9、ep11、ep16、ep25、ep28
+  骨盆<=0.4：5 条，失败_骨盆 0.076–0.350：ep10、ep13、ep17、ep19、ep21
+  其余：2 条，失败_骨盆 0.491–0.576：ep3、ep14
+没过的 15 条，选中 run 的 4096 世界 MP-SR 最大 0.000
+选中 run 名含 r3a（变体 A）的 9 条：1 世界 MP-SR 过 9 条（ep0、ep5、ep6、ep8、ep15、ep18、ep20、ep27、ep29）
+FAIL_SPLIT_DONE
