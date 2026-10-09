@@ -25,6 +25,13 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
       if [ -r "$f" ]; then echo "可读 $(stat -c '%s 字节 %y' "$f" | cut -c1-40) sha256 $(sha256sum "$f" | cut -d' ' -f1) ${f#$D/}"
       else echo "读不了或不存在 ${f#$D/}"; fi
     done
-    [ -r "$D/meta/episode_$e.metadata.json" ] && cat "$D/meta/episode_$e.metadata.json" && echo
+    [ -r "$D/meta/episode_$e.metadata.json" ] || continue
+    cat "$D/meta/episode_$e.metadata.json"; echo
+    # 重建时用的输入网格与地面（元数据里的相对路径，相对 tier3/input）的 md5，用来与官方 Tier 2 目录里的同名文件比对
+    for k in mesh ground_plane; do
+      rel="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))[sys.argv[2]])' "$D/meta/episode_$e.metadata.json" "$k")"
+      f="${roots[0]}/input/$rel"
+      echo "输入 $k $( [ -r "$f" ] && md5sum "$f" | cut -d' ' -f1 || echo 读不了或不存在) $rel"
+    done
   done
 } 2>&1 | red
