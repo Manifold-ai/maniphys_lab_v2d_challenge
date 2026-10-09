@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-sop-page.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 72b8caba233ae792266ea6c0fa9db67f  agent-doc/experiments/2026-10-09-sop-page.claims.json
+# source   : 66ec620c9574-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:50:38-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+idle_mf              P(supported)=0.97  verified               [m]  mf4090 的 GPU 进程数是 0，长链标记数是 0，根分区可用 5561 MB；tmux 里只有 v2d-train 一个会话。
+ml40_gpu             P(supported)=0.97  verified               [m]  ml40 的 GPU 进程数是 1，tmux 没有在运行的会话。
+teammate             P(supported)=0.96  verified               [g]  ml40 的 GPU 计算进程只有 261737 一个，它的归属是“其他用户”；“其他用户在宿主机上的脚本类进程”里有 t3_cari4d_ep.sh ep22_step_ladder；运行中的容器镜像是 v2d_cari4d:latest。
+hf_upload            P(supported)=0.99  verified               [hu]  上传 1352 个文件用时 19.6 分钟；1352 / 1352 个文件核对一致；抽查 52 个，52 个一致。
+hf_delete            P(supported)=0.97  verified               [hd]  删除开始时可用 1629 MB；删除前重新核对 1352 / 1352 一致；删除后可用 7902 MB；清单外消失的文件：无。
+arm_time             P(supported)=0.98  verified               [a]  r3x 起链记录的 run_at 是 2026-10-08T14:41:30-0600，结果是 ARMED。
+rerun_time           P(supported)=0.94  verified               [t]  t1-ep5-w2048-cap4m-r3a-mf4090 的正式训练 2026-10-09 16:27:33 CST 开始，18:49:28 CST 完成（2 段）；导出链 2026-10-09 19:26:44 CST 以 EXPORT_CHAIN_DONE（成功 6、失败 0）结束。
+select_time          P(supported)=0.98  verified               [s, c]  逐条选打分记录的 run_at 是 2026-10-09T21:35:32+0800，以 SELECT_T1_DONE 结束；对比记录的 run_at 是 2026-10-09T21:36:52+0800，以 COMPARE_OK 结束。
+ctl_true             P(supported)=0.98  control(true) ok       [m]  快照里 mf4090 的 GPU 是 NVIDIA GeForce RTX 4090，利用率 0 %，显存已用 0 MiB。
+ctl_false_gpu        P(supported)=0.03  control(false) ok      [m]  快照里 mf4090 的 GPU 进程数是 1。
+ctl_false_owner      P(supported)=0.22  control(false) ok      [g]  ml40 上的 GPU 计算进程属于本用户。
+controls behaved as expected

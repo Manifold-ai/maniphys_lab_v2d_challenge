@@ -1,0 +1,57 @@
+# command  : bash -c $'for h in mf4090 ml40; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge; ssh -o BatchMode=yes $h "cd $R && echo == $h \\$(date \\"+%F %T %Z\\"); echo -- tmux; tmux ls 2>&1; for f in \\$( (ls runs/logs/*r3x*.log 2>/dev/null; ls -t runs/logs/*.log | head -4) | sort -u); do echo -- \\$f \\$(stat -c %y \\$f | cut -c1-19) �\214�\225� \\$(wc -l < \\$f); tail -2 \\$f | cut -c1-300; done; echo GPU �\233�\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); nvidia-smi --query-gpu=name,utilization.gpu,memory.used,memory.total --format=csv,noheader; echo �\225��\223��\207记 \\$(ls runs/.chain-active-* 2>/dev/null | wc -l) \\$(ls runs/.chain-active-* 2>/dev/null); echo �\220 \\$(cat .v2d-source-commit); df -m $R | tail -1"; done' 
+# source   : c4f356a1fb14
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T07:31:26-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-09 21:31:31 CST
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/cand_t1_r3x_mf4090_gate.log 2026-10-09 19:26:44 行数 5
+=== 2026-10-09 19:21:02 CST 评测链成功 6 条、失败 0，开导出链 cand_t1_r3x_mf4090
+=== 2026-10-09 19:26:44 CST 导出链结束，退出码 0
+-- runs/logs/cand_t1_r3x_mf4090.log 2026-10-09 19:26:44 行数 21
+=== 2026-10-09 19:26:44 CST Tier 1 ep5 t1-ep5-w2048-cap4m-r3a-s43-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 1003（导出 1003），checkpoint 相同
+=== 2026-10-09 19:26:44 CST EXPORT_CHAIN_DONE（成功 6、失败 0）
+-- runs/logs/r3x2_train_mf4090.log 2026-10-09 18:49:28 行数 131
+=== 2026-10-09 18:49:28 CST t1-ep5-w2048-cap4m-r3a-mf4090 完成（2 段）
+=== 2026-10-09 18:49:28 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+-- runs/logs/r3x_eval2_mf4090.log 2026-10-09 19:20:14 行数 10
+record: → results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt（23 行）
+=== 2026-10-09 19:20:14 CST DAY2_EVAL_DONE（成功 6、失败 0）
+-- runs/logs/r3x_eval_mf4090.log 2026-10-09 11:17:56 行数 2
+=== 2026-10-09 04:41:37 CST 等 runs/logs/r3x_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-09 11:17:56 CST arm_r3x_rerun：本评测链在等待中停掉，改由 r3x_eval2_mf4090 评（等 r3x2_train_mf4090；计划第 7 节）
+-- runs/logs/r3x_train_mf4090.log 2026-10-09 16:25:55 行数 755
+=== 2026-10-09 16:25:55 CST t1-ep5-w2048-cap4m-r3a-s43-mf4090 完成（1 段）
+=== 2026-10-09 16:25:55 CST DAY2_TRAIN_DONE（完成 5、失败 1、跳过 0、发散 0）
+-- runs/logs/t1-ep15-w2048-cap4m-r3a-s43-mf4090.export_8c778f9_s349999104_w1.log 2026-10-09 19:25:43 行数 105
+report: /repo/runs/flash_chord/t1-ep15-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000015.json
+object trajectories: /repo/runs/flash_chord/t1-ep15-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000015.parquet
+-- runs/logs/t1-ep5-w2048-cap4m-r3a-s43-mf4090.export_8c778f9_s349999104_w1.log 2026-10-09 19:26:41 行数 111
+report: /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000005.json
+object trajectories: /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090/export_8c778f9/s349999104_w1/episode_000005.parquet
+GPU 进程 0
+NVIDIA GeForce RTX 4090, 0 %, 0 MiB, 24564 MiB
+长链标记 0
+源 d8b309e9d52c
+/dev/vda2         201462 187592      5561  98% /
+== ml40 2026-10-09 21:31:35 CST
+-- tmux
+no server running on /tmp/tmux-1003/default
+-- runs/logs/queue_1008b_ml40.log 2026-10-08 16:15:46 行数 5
+case_clip: 渲染完成 {"picks": ["success"], "gates": {"success": {"bodies": 55, "names_checked": false, "reset_gap_m": 0.0}}, "segments": {"success": [0, 748], "right": [748, 1496]}, "success_finite": 748, "right_finite": 748, "written_frames": 1496, "total_frames": 1496}
+SITECASES_RENDER_DONE
+-- runs/logs/select_t1_1008.log 2026-10-08 16:41:39 行数 2
+record: → results/select_t1/select_1008.txt（116 行）
+SELECT_WRAPPER_RC 0
+-- runs/logs/t2-ep24-w2048-cap10m-ml40.case_render.log 2026-10-08 16:14:19 行数 165
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+{"out": "runs/site_cases/out/t2-ep24-w2048-cap10m-ml40_nearmiss.mp4", "poster_frame": 374, "frames": 748}
+-- runs/logs/t2-ep24-w2048-cap10m-r3a-ml40.case_render.log 2026-10-08 16:15:46 行数 165
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+{"out": "runs/site_cases/out/t2-ep24-w2048-cap10m-r3a-ml40_success.mp4", "poster_frame": 374, "frames": 748}
+GPU 进程 1
+NVIDIA L40S, 0 %, 1849 MiB, 46068 MiB
+长链标记 0
+源 d8b309e9d52c
+/dev/vdb         2063132 378588   1684529  19% /lab_data

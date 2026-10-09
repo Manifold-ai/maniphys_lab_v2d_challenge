@@ -1,0 +1,120 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "m": {
+   "file": "results/ops/machines_1009_0730.txt",
+   "grep": "^== |^-- tmux|^v2d-train|no server running|GPU 进程|长链标记|/dev/|^NVIDIA"
+  },
+  "g": {
+   "file": "results/ops/gpu_procs_ml40_1009_0735.txt",
+   "grep": "^## |^[0-9]+, [0-9]+ MiB|^  [0-9]+ |^image|t3_cari4d_ep.sh"
+  },
+  "hu": {
+   "file": "results/ops/hf_archive_policy_run_mf4090.txt",
+   "grep": "开始上传|上传结束|HF_VERIFY_OK|HF_SPOTCHECK_OK"
+  },
+  "hd": {
+   "file": "results/ops/hf_archive_policy_delete_run_mf4090.txt",
+   "grep": "可用|HF_VERIFY_OK|HF_DELETE_DONE|HF_ARCHIVE_DONE|消失"
+  },
+  "a": {
+   "file": "results/r3x/arm_mf4090.txt",
+   "grep": "run_at|ARMED"
+  },
+  "t": {
+   "file": "results/r3x/health_mf4090.txt",
+   "grep": "正式 t1-ep5-w2048-cap4m-r3a-mf4090|t1-ep5-w2048-cap4m-r3a-mf4090 完成|EXPORT_CHAIN_DONE"
+  },
+  "s": {
+   "file": "results/ml40/select_t1/select_r3x.txt",
+   "grep": "run_at|SELECT_T1_DONE"
+  },
+  "c": {
+   "file": "results/ml40/select_t1/compare_r3x.txt",
+   "grep": "run_at|COMPARE_"
+  }
+ },
+ "claims": [
+  {
+   "id": "idle_mf",
+   "evidence": [
+    "m"
+   ],
+   "claim": "mf4090 的 GPU 进程数是 0，长链标记数是 0，根分区可用 5561 MB；tmux 里只有 v2d-train 一个会话。"
+  },
+  {
+   "id": "ml40_gpu",
+   "evidence": [
+    "m"
+   ],
+   "claim": "ml40 的 GPU 进程数是 1，tmux 没有在运行的会话。"
+  },
+  {
+   "id": "teammate",
+   "evidence": [
+    "g"
+   ],
+   "claim": "ml40 的 GPU 计算进程只有 261737 一个，它的归属是“其他用户”；“其他用户在宿主机上的脚本类进程”里有 t3_cari4d_ep.sh ep22_step_ladder；运行中的容器镜像是 v2d_cari4d:latest。"
+  },
+  {
+   "id": "hf_upload",
+   "evidence": [
+    "hu"
+   ],
+   "claim": "上传 1352 个文件用时 19.6 分钟；1352 / 1352 个文件核对一致；抽查 52 个，52 个一致。"
+  },
+  {
+   "id": "hf_delete",
+   "evidence": [
+    "hd"
+   ],
+   "claim": "删除开始时可用 1629 MB；删除前重新核对 1352 / 1352 一致；删除后可用 7902 MB；清单外消失的文件：无。"
+  },
+  {
+   "id": "arm_time",
+   "evidence": [
+    "a"
+   ],
+   "claim": "r3x 起链记录的 run_at 是 2026-10-08T14:41:30-0600，结果是 ARMED。"
+  },
+  {
+   "id": "rerun_time",
+   "evidence": [
+    "t"
+   ],
+   "claim": "t1-ep5-w2048-cap4m-r3a-mf4090 的正式训练 2026-10-09 16:27:33 CST 开始，18:49:28 CST 完成（2 段）；导出链 2026-10-09 19:26:44 CST 以 EXPORT_CHAIN_DONE（成功 6、失败 0）结束。"
+  },
+  {
+   "id": "select_time",
+   "evidence": [
+    "s",
+    "c"
+   ],
+   "claim": "逐条选打分记录的 run_at 是 2026-10-09T21:35:32+0800，以 SELECT_T1_DONE 结束；对比记录的 run_at 是 2026-10-09T21:36:52+0800，以 COMPARE_OK 结束。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "m"
+   ],
+   "claim": "快照里 mf4090 的 GPU 是 NVIDIA GeForce RTX 4090，利用率 0 %，显存已用 0 MiB。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_gpu",
+   "evidence": [
+    "m"
+   ],
+   "claim": "快照里 mf4090 的 GPU 进程数是 1。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_owner",
+   "evidence": [
+    "g"
+   ],
+   "claim": "ml40 上的 GPU 计算进程属于本用户。",
+   "control": "false"
+  }
+ ]
+}
