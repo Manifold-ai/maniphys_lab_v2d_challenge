@@ -22,11 +22,11 @@ SUB=${V2D_T3_SUBDIR:-tier3_cari4d}; SET=${V2D_T3_SET:-}
 [[ $SUB =~ ^tier3_cari4d[a-z0-9_]*$ ]] || { echo "tier3_stage: V2D_T3_SUBDIR 非法：$SUB" >&2; exit 2; }
 [[ $SET =~ ^[a-z0-9]*$ ]] || { echo "tier3_stage: V2D_T3_SET 只许小写字母与数字：$SET" >&2; exit 2; }
 R='~/v2d/maniphys_lab_v2d_challenge'; IN="runs/tier3/incoming/$TAG"; EXP="stages/recovery/expect/$TAG.tsv"
-[ -f "$EXP" ] || { echo "tier3_stage: 缺哈希表 $EXP（先用 stages/recovery/tier3_expect.py 生成、提交并同步）" >&2; exit 1; }
+[ -f "$EXP" ] || { echo "tier3_stage: 缺哈希表 ${EXP}（先用 stages/recovery/tier3_expect.py 生成、提交并同步）" >&2; exit 1; }
 ssh -o BatchMode=yes mf4090 "cd $R && [ -f $EXP ] && [ ! -e $IN ] && [ ! -e $IN.partial ] && mkdir -p $IN.partial" \
-  || { echo "tier3_stage: mf4090 上缺 $EXP（没同步？），或 $IN 已存在，或建不了目录" >&2; exit 1; }
+  || { echo "tier3_stage: mf4090 上缺 ${EXP}（没同步？），或 $IN 已存在，或建不了目录" >&2; exit 1; }
 if ! ssh -o BatchMode=yes ml40 "V2D_T3_SUBDIR=$SUB bash -s -- $*" < stages/recovery/tier3_pack_remote.sh | ssh -o BatchMode=yes mf4090 "cd $R && tar -xf - -C $IN.partial"; then
   ssh -o BatchMode=yes mf4090 "cd $R && rm -rf $IN.partial"
   echo "tier3_stage: 转发失败，已删 mf4090 上的 $IN.partial" >&2; exit 1
 fi
-ssh -o BatchMode=yes mf4090 "cd $R && mv $IN.partial $IN && echo \"== \$(hostname) \$(date '+%F %T %Z') 来历 \$(cat .v2d-source-commit)\" && (cd $IN && find . -type f | sort | xargs sha256sum) && echo \"部署版本 \$(grep -oE '^[0-9a-f]{40}' $IN/DEPLOYED)；同组成员那边的目录 runs/$SUB；V2D_T3_SET=${SET:-（不设）}\" && V2D_T3_SET=$SET python3 stages/recovery/tier3_root.py $IN --expect $EXP"
+ssh -o BatchMode=yes mf4090 "cd $R && mv $IN.partial $IN && echo \"== \$(hostname) \$(date '+%F %T %Z') 来历 \$(cat .v2d-source-commit)\" && (cd $IN && find . -type f | sort | xargs sha256sum) && echo \"部署版本 \$(grep -oE '^[0-9a-f]{40}' $IN/DEPLOYED)；同组成员那边的目录 runs/${SUB}；V2D_T3_SET=${SET:-（不设）}\" && V2D_T3_SET=$SET python3 stages/recovery/tier3_root.py $IN --expect $EXP"

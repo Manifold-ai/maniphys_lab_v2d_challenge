@@ -28,9 +28,9 @@ for row in "${ROWS[@]}"; do
   for r in "$smoke" "$run"; do
     q="$( [ "$r" = "$smoke" ] && echo "$SQ" || echo "$FQ")"
     line="$(qline "$q" "$r")"
-    [ -n "$line" ] || { echo "FAIL $r：队列 $q 里没有这一行"; bad=$((bad + 1)); continue; }
+    [ -n "$line" ] || { echo "FAIL ${r}：队列 $q 里没有这一行"; bad=$((bad + 1)); continue; }
     y=runs/cfgcheck/$r.yaml
-    [ -f "$y" ] || { echo "FAIL $r：缺 $y（先跑 fc_config_check.sh）"; bad=$((bad + 1)); continue; }
+    [ -f "$y" ] || { echo "FAIL ${r}：缺 ${y}（先跑 fc_config_check.sh）"; bad=$((bad + 1)); continue; }
     read -r -a qt <<< "$line"; j=0
     while [[ ${qt[$j]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do j=$((j + 1)); done
     steps=${qt[$((j + 3))]}
@@ -38,18 +38,18 @@ for row in "${ROWS[@]}"; do
     if [[ $pq =~ ^/repo/runs/motion/(tier[123](_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet$ ]]; then
       dir=${BASH_REMATCH[1]}; tag=${BASH_REMATCH[2]}; qseq=${BASH_REMATCH[3]}
     else
-      echo "FAIL $r：队列行的 parquet 不在 /repo/runs/motion/<档位目录>/ 下：$pq"; bad=$((bad + 1)); continue
+      echo "FAIL ${r}：队列行的 parquet 不在 /repo/runs/motion/<档位目录>/ 下：$pq"; bad=$((bad + 1)); continue
     fi
     if [ "${dir:4:1}" != "$T" ] || [ "$qseq" != "$seq" ] || { [ -n "$tag" ] && { [ "$T" != 3 ] || [[ $run != *"-${tag#_}-"* ]]; }; }; then
-      echo "FAIL $r：队列行 parquet 的目录 $dir、序列 $qseq 与 run 名的 t$T、期望表的序列 $seq 不符（带后缀的目录只许 Tier 3，且 run 名要含 -${tag#_}-）"
+      echo "FAIL ${r}：队列行 parquet 的目录 ${dir}、序列 $qseq 与 run 名的 t${T}、期望表的序列 $seq 不符（带后缀的目录只许 Tier 3，且 run 名要含 -${tag#_}-）"
       bad=$((bad + 1)); continue
     fi
-    if [ "$r" = "$run" ] && [ "$steps" != 349999104 ]; then echo "FAIL $r：正式步数 $steps"; bad=$((bad + 1)); continue; fi
+    if [ "$r" = "$run" ] && [ "$steps" != 349999104 ]; then echo "FAIL ${r}：正式步数 $steps"; bad=$((bad + 1)); continue; fi
     if [ "$pb" = real ]; then play=(task.source_frame_playback=false "embodiment.config.frame_position_tolerance=$pos" "embodiment.config.frame_orientation_tolerance=$ori")
     else play=(task.source_frame_playback=true '!embodiment.config.frame_position_tolerance' '!embodiment.config.frame_orientation_tolerance'); fi
     out="$(scripts/dev/in-flash-chord "python /repo/stages/policy/assert_cfg.py /repo/$y 'task.parquet~=/repo/runs/motion/$dir/whole_body/soma/sequence_id=$seq/robot_name=g1/data.parquet' ${play[*]} scene.support=$support training.replay.capacity=$cap training.total_environment_steps=$steps scene.world_count=2048 reset.seed=$seed training.seed=$seed task.motion_speed=1.0" 2>&1)"; rc=$?
     echo "$out" | tail -1
-    [ "$rc" = 0 ] || { echo "FAIL $r：断言不过"; bad=$((bad + 1)); }
+    [ "$rc" = 0 ] || { echo "FAIL ${r}：断言不过"; bad=$((bad + 1)); }
   done
 done
 if [ "$bad" = 0 ]; then echo "PRECHECK_OK（${#ROWS[@]} 条 run）"; else echo "PRECHECK_FAIL（$bad 处不过）"; exit 1; fi

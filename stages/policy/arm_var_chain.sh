@@ -37,7 +37,7 @@ LT=${N}_train_$M; LE=${N}_eval_$M; LX=cand_t${T}_${N}_$M
 SESS=("v2d-$N-train" "v2d-$N-eval" "v2d-$N-export")
 stop() { echo "arm_var_chain: $*，停" >&2; exit 1; }
 
-[ "$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" = "$GPU" ] || stop "这台不是 $M（GPU 不是 $GPU）"
+[ "$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" = "$GPU" ] || stop "这台不是 ${M}（GPU 不是 ${GPU}）"
 src0="$(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 case "$src0" in *-dirty*|*-syncing*|unknown) stop "来历 $src0 不干净" ;; esac
 for f in "$Q.expect.tsv" "${Q}_smoke.txt" "$Q.txt" "$LIST"; do [ -f "$f" ] || stop "缺 $f"; done
@@ -72,15 +72,15 @@ for i in "${!runs[@]}"; do
   [[ $pq =~ ^/repo/runs/motion/(tier[123](_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet$ ]] \
     && [ "${BASH_REMATCH[3]}" = "${seqs[$i]}" ] || stop "正式队列里 ${runs[$i]} 的 parquet 读不出，或序列与期望表不符：${pq:-无}"
   m="runs/motion_src/${BASH_REMATCH[1]}/${seqs[$i]}/v2d_meta.json"
-  [ -f "$m" ] || stop "缺 $m（导出要用）"
+  [ -f "$m" ] || stop "缺 ${m}（导出要用）"
   python3 -c 'import json, sys; j = json.load(open(sys.argv[1])); sys.exit(0 if (str(j["tier"]), str(j["episode"])) == (sys.argv[2], sys.argv[3]) else 1)' \
     "$m" "$T" "${leps[$i]}" || stop "$m 的档位或 episode 与导出清单（Tier $T ep${leps[$i]}）不一致"
 done
 for r in "${cfgs[@]}"; do
   left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null)"
   if [ -n "$left" ]; then
-    case "$r" in smoke-*) [ -f "runs/flash_chord/$r/DONE" ] || stop "runs/flash_chord/$r 里有产物但没有 DONE（$left）" ;;
-                 *) stop "runs/flash_chord/$r 里已有训练产物（$left）" ;; esac
+    case "$r" in smoke-*) [ -f "runs/flash_chord/$r/DONE" ] || stop "runs/flash_chord/$r 里有产物但没有 DONE（${left}）" ;;
+                 *) stop "runs/flash_chord/$r 里已有训练产物（${left}）" ;; esac
   fi
   [ -f "runs/cfgcheck/$r.yaml" ] || stop "缺 runs/cfgcheck/$r.yaml（先跑 fc_config_check.sh）"
 done
@@ -89,7 +89,7 @@ VAR="objective.object_position_std=0.05 env.objective.object_position_std=0.05 t
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"
-echo "核对：$N 在 $M，${#runs[@]} 条 run，来历 $src0，可用 ${free_mb} MB，${#cfgs[@]} 份配置的 precheck 与配方断言全过"
+echo "核对：$N 在 ${M}，${#runs[@]} 条 run，来历 ${src0}，可用 ${free_mb} MB，${#cfgs[@]} 份配置的 precheck 与配方断言全过"
 
 CMD_T="V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=$SRC/v040_p185_nfg $WAIT ${EXTRA:+$EXTRA }stages/policy/day2_train_chain.sh $Q.expect.tsv ${Q}_smoke.txt $Q.txt $PEAK $LT"
 CMD_E="V2D_FC_SRC=$SRC/fc_8c778f9 $WAIT V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/$LT.log stages/evaluate/day2_eval_chain.sh $Q.expect.tsv - $LE"
@@ -104,7 +104,7 @@ tmux new-session -d -s "${SESS[2]}" -c "$PWD" "$CMD_X"; sleep 3
 # 以下几行只供人看：起来了就以会话与标记为准
 set +e
 tmux ls | grep -E "^v2d-$N-(train|eval|export):"
-for L in "$LT" "$LE" "$LX"; do echo "$L：$(tail -1 "runs/logs/$L.log" 2>/dev/null)"; done
+for L in "$LT" "$LE" "$LX"; do echo "${L}：$(tail -1 "runs/logs/$L.log" 2>/dev/null)"; done
 ls runs/.chain-active-* 2>/dev/null
 n=0; for s in "${SESS[@]}"; do tmux has-session -t "$s" 2>/dev/null && n=$((n + 1)); done
 if [ "$n" = 3 ] && [ -e "runs/.chain-active-$LT" ]; then echo ARMED; else echo "没起全：会话 $n / 3" >&2; exit 1; fi

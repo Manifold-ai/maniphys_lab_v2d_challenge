@@ -10,11 +10,11 @@ T=${1:?用法：eps.sh <档位> <ep>...}; shift
 [ $# -ge 1 ] || { echo "eps: 要至少一条序列" >&2; exit 2; }
 DN=$(python3 -c "import sys; sys.path.insert(0, 'libs/v2d_infra'); from paths import tier_dirname; print(tier_dirname($T))") || exit 2
 P=t${T}${DN#tier$T}
-echo "来历 $(cat .v2d-source-commit 2>/dev/null)，$(date '+%F %T %Z')；目录 runs/motion_src/$DN、runs/motion/$DN"
+echo "来历 $(cat .v2d-source-commit 2>/dev/null)，$(date '+%F %T %Z')；目录 runs/motion_src/${DN}、runs/motion/$DN"
 for e in "$@"; do
   stages/retarget/one.sh "$T" "$e"; echo "one.sh $T $e 退出码 $?（$(date '+%T')）"
 done
 echo "## 结果行（档位 ep 序列 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态）"
 for e in "$@"; do cat "runs/logs/batch/${P}_ep$(printf %02d "$e").tsv"; done
-for e in "$@"; do f="runs/logs/batch/${P}_ep$(printf %02d "$e").log"; echo "## $f（最后 15 行）"; tail -n 15 "$f" | cut -c1-300; done
+for e in "$@"; do f="runs/logs/batch/${P}_ep$(printf %02d "$e").log"; echo "## ${f}（最后 15 行）"; tail -n 15 "$f" | cut -c1-300; done
 echo EPS_DONE
