@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-10-t3p2-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 9c13bef902cc916dfd57d320300860df  agent-doc/experiments/2026-10-10-t3p2-result.claims.json
+# source   : eebb393a96a0-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T16:50:14-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+r1                   P(supported)=0.96  verified               [h]  训练链 t3p2b_train_mf4090 的最后一行是 DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）；t3-ep24-w2048-cap4m-r3a-v2-mf4090 是 DONE=1、NONFINITE=0、GUARD_STOP=0，看守日志里含非有限的扫描行 0 条；冒烟通过，256 世界 rollout 里非有限世界 0 个。
+r2_r3                P(supported)=0.98  verified               [h]  评测链 t3p2b_eval_mf4090 记了 DAY2_EVAL_DONE（成功 1、失败 0）；导出链 cand_t3_t3p2b_mf4090 记了 EXPORT_CHAIN_DONE（成功 1、失败 0），导出结果表里 ep24 一行的状态是 ok；4096 世界评测 world_count 4096、non_finite_worlds 0 个、step_count 748，与导出的 748 相同。
+v2_metrics           P(supported)=0.99  verified               [t]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.933，SP-SR 0.995，ADD-AUC 0.696，MPPE 3.02 cm，CHORD SR 0.861；失败原因里骨盆、物体、手掌的比例分别是 0.104、0.113、0.136。
+side_by_side         P(supported)=0.98  verified               [t]  第一轮的 t3-ep24-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000、ADD-AUC 0.004；Tier 2 的 t2-ep24-w2048-cap10m-r3a-ml40 与 t2-ep24-w2048-cap10m-r3a-s43-ml40 的 MP-SR 都是 0.999。
+ref_dir              P(supported)=0.98  verified               [e24]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 的 4096 世界评测用的参考 parquet 在 /repo/runs/motion/tier3_v2/ 目录下，checkpoint 的 sha256 以 039dd1c721b0 开头。
+retarget_ep24        P(supported)=0.98  verified               [rt2, rt1]  ep24 的 v2 重定向：左手接触 0/748 帧、右手 494/748 帧，IK 残差中位 0.457，间隙 -16.6 mm，状态 OK，机器人脚底高度范围 +0.0004 至 +0.1760 m；第一轮的 ep24：左手 0 帧、右手 481 帧，IK 残差中位 0.712，间隙 +146.2 mm，状态 ALIGN，脚底高度范围 +0.0073 至 +0.1892 m。
+ctl_true_frames      P(supported)=0.99  control(true) ok       [t]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 与 t3-ep24-w2048-cap4m-r3a-mf4090 的评测帧数都是 748。
+ctl_false_mpsr       P(supported)=0.01  control(false) ok      [t]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.000。
+ctl_false_train      P(supported)=0.01  control(false) ok      [h]  训练链 t3p2b_train_mf4090 里有 1 条 run 失败。
+ctl_false_ref        P(supported)=0.01  control(false) ok      [e24]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 的 4096 世界评测用的参考 parquet 在 Tier 2 的目录 /repo/runs/motion/tier2/ 下。
+controls behaved as expected
