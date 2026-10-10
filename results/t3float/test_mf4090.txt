@@ -1,0 +1,14 @@
+# command  : scripts/dev/remote scripts/dev/incontainer stages/recovery/test_t3_float_facts.py 
+# md5      : 0d7aa6e725f328f5bdaa7895c41e9f18  scripts/dev/remote
+# md5      : afba4a3b963828f3d854d6562dbf897f  scripts/dev/incontainer
+# md5      : b54bc3be055f257fb4400a4e267e8efd  stages/recovery/test_t3_float_facts.py
+# source   : 602cbb07adaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T21:31:40-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+test_clean ok
+test_scale ok
+test_pitch ok
+test_end_to_end ok
+ALL_OK

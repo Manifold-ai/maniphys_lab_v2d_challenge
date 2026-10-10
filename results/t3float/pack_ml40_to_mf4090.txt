@@ -1,0 +1,43 @@
+# command  : bash -c $'set -o pipefail; D=v2d/maniphys_lab_v2d_challenge/runs/tier3/incoming/float_1009; ssh -o BatchMode=yes ml40 "bash -s -- 0 3 5 7 8 9 12 14 15 16 17 18 20 21 22 23 24 25 26 29" < stages/recovery/tier3_pack_remote.sh | ssh -o BatchMode=yes mf4090 "mkdir -p ~/$D/ok && tar -xf - -C ~/$D/ok" && ssh -o BatchMode=yes ml40 "V2D_T3_SUBDIR=tier3_cari4d_suspect bash -s -- 1 2 4 10 11 13 19 27 28" < stages/recovery/tier3_pack_remote.sh | ssh -o BatchMode=yes mf4090 "mkdir -p ~/$D/suspect && tar -xf - -C ~/$D/suspect" && ssh -o BatchMode=yes mf4090 "cd ~/$D && mkdir -p all/data/chunk-000 all/meta && cp -p ok/data/chunk-000/* suspect/data/chunk-000/* all/data/chunk-000/ && cp -p ok/meta/* suspect/meta/* all/meta/ && for s in ok suspect all; do echo \\"## \\$sï¼\232parquet \\$(ls \\$s/data/chunk-000 | wc -l) ä¸ªï¼\214å\205\203æ\225°æ\215® \\$(ls \\$s/meta | wc -l) ä¸ª\\"; done && echo \\"## é\203¨ç½²ç\211\210æ\234¬ï¼\210ok / suspectï¼\211\\" && cat ok/DEPLOYED suspect/DEPLOYED && echo \\"## parquet ä¿®æ\224¹æ\227¶é\227´ï¼\210UTCï¼\211\\" && TZ=UTC find all/data -name \\"*.parquet\\" -printf \\"%f %TF_%TT\\n\\" | cut -c1-42 | sort"' 
+# md5      : f8f5ca0474965783c342415522c4a8b5  stages/recovery/tier3_pack_remote.sh
+# md5      : f8f5ca0474965783c342415522c4a8b5  stages/recovery/tier3_pack_remote.sh
+# source   : 602cbb07adaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T21:32:11-0600
+# ---------------------------------------------------------------
+## okï¼šparquet 20 ä¸ªï¼Œå…ƒæ•°æ® 20 ä¸ª
+## suspectï¼šparquet 9 ä¸ªï¼Œå…ƒæ•°æ® 9 ä¸ª
+## allï¼šparquet 29 ä¸ªï¼Œå…ƒæ•°æ® 29 ä¸ª
+## éƒ¨ç½²ç‰ˆæœ¬ï¼ˆok / suspectï¼‰
+19bbb328e719cee484fef25e8a30ae961df04732 dirty=0 (full deploy: stages/recovery/tier3 third_party/patches libs)
+19bbb328e719cee484fef25e8a30ae961df04732 dirty=0 (full deploy: stages/recovery/tier3 third_party/patches libs)
+## parquet ä¿®æ”¹æ—¶é—´ï¼ˆUTCï¼‰
+episode_000000.parquet 2026-10-09_01:29:03
+episode_000001.parquet 2026-10-09_02:58:50
+episode_000002.parquet 2026-10-09_03:38:57
+episode_000003.parquet 2026-10-09_04:14:35
+episode_000004.parquet 2026-10-09_05:18:00
+episode_000005.parquet 2026-10-09_05:20:54
+episode_000007.parquet 2026-10-09_06:02:47
+episode_000008.parquet 2026-10-09_06:36:25
+episode_000009.parquet 2026-10-09_07:14:32
+episode_000010.parquet 2026-10-09_07:49:50
+episode_000011.parquet 2026-10-09_08:27:16
+episode_000012.parquet 2026-10-09_08:59:51
+episode_000013.parquet 2026-10-09_09:39:35
+episode_000014.parquet 2026-10-09_10:18:24
+episode_000015.parquet 2026-10-09_10:47:19
+episode_000016.parquet 2026-10-09_11:13:25
+episode_000017.parquet 2026-10-09_11:37:24
+episode_000018.parquet 2026-10-09_12:13:02
+episode_000019.parquet 2026-10-09_12:51:47
+episode_000020.parquet 2026-10-09_00:49:54
+episode_000021.parquet 2026-10-09_13:23:02
+episode_000022.parquet 2026-10-09_13:51:52
+episode_000023.parquet 2026-10-09_14:33:13
+episode_000024.parquet 2026-10-09_15:08:36
+episode_000025.parquet 2026-10-09_15:45:04
+episode_000026.parquet 2026-10-09_16:15:19
+episode_000027.parquet 2026-10-09_16:43:50
+episode_000028.parquet 2026-10-09_17:25:28
+episode_000029.parquet 2026-10-09_17:51:02

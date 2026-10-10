@@ -9,7 +9,9 @@ L = −c·n 是相机比物体原点高多少（全部静置集，至少 6 集�
 只缩竖直分量（焦距错、深度对）时也与 L 成正比，所以 k = 1/(1 + s)。凸包与最低点用 nopen.py 的 hull_vertices、min_height；位姿 [x, y, z, qw, qx, qy, qz]，相机（OpenCV）系。
 输入两种布局：<目录>/meta/episodes_metadata.jsonl（官方档目录），或 <目录>/meta/episode_<N>.metadata.json（tier3_pack_remote.sh 的包）；
 parquet 在 <目录>/data/chunk-000/。网格、地面、支撑面按元数据里的相对路径到 --tier2 目录找（默认 libs/v2d_infra/paths.py 的 TIER2）。
---control：对照用，按登记的对照判据打 CONTROL_OK / CONTROL_FAIL；否则按登记的 Tier 3 判读打一行“判读”。开头调 tier_guard.forbid_tier1()。
+--control：对照用，按登记的对照判据打 CONTROL_OK / CONTROL_FAIL；否则按登记的 Tier 3 判读打一行“判读”。
+--all-rest：事后加的（10/9 21:40，看过第一轮结果之后，未登记）：不按位移筛静置，全部集都进拟合；输出里标明，不打判读。
+  加它的原因：CARI4D 开头 5 帧的抖动有 9–51 mm，位移判据把 20 集筛到 6 集。开头调 tier_guard.forbid_tier1()。
 用法（训练机，仓库根）：scripts/dev/incontainer stages/recovery/t3_float_facts.py <目录> [--tier2 <目录>] [--frames 5] [--episodes 0,3,...] [--control]
 测试：stages/recovery/test_t3_float_facts.py。
 """
@@ -88,8 +90,8 @@ def ols(y, cols):
     return beta, np.sqrt(np.clip(np.diag(s2 * np.linalg.pinv(A.T @ A)), 0, None)), float(res @ res)
 
 
-def fit(rows):
-    st = [r for r in rows if r["disp_mm"] <= STATIC_MM]
+def fit(rows, static_mm=STATIC_MM):
+    st = [r for r in rows if r["disp_mm"] <= static_mm]
     fl = [r for r in st if r["on_floor"]]
     out = {"n_static": len(st), "n_floor": len(fl), "n_support": len(st) - len(fl)}
     if len(fl) >= 4:
@@ -166,6 +168,7 @@ def main(argv=None) -> int:
     ap.add_argument("--frames", type=int, default=5)
     ap.add_argument("--episodes", default="")
     ap.add_argument("--control", action="store_true")
+    ap.add_argument("--all-rest", action="store_true")
     a = ap.parse_args(argv)
     meta = load_meta(a.root)
     eps = sorted(meta) if not a.episodes else [int(x) for x in a.episodes.split(",")]
@@ -191,7 +194,9 @@ def main(argv=None) -> int:
         k = r["L"] / (r["L"] + r["gap"])
         print(f"{ep}\t{m.get('object', '?')}\t{r['n_frames']}\t{r['disp_mm']:.1f}\t{r['H']:.3f}\t{r['h'] * 1000:+.1f}\t{r['top']:.3f}\t"
               f"{r['gap'] * 1000:+.1f}\t{r['gap_wide'] * 1000:+.1f}\t{r['Z']:.2f}\t{r['X']:+.2f}\t{r['D']:.2f}\t{r['L']:.3f}\t{k:.3f}\t{sha}")
-    out = fit(rows)
+    out = fit(rows, float("inf") if a.all_rest else STATIC_MM)
+    if a.all_rest:
+        print("事后（未登记）：不按位移筛静置，全部集都进拟合；不打判读")
     print(f"静置 {out['n_static']} 集：在地面上 {out['n_floor']}，在支撑面上 {out['n_support']}")
     if "tilt" in out:
         (o0,), (se0,), ss0 = out["const"]
@@ -206,7 +211,9 @@ def main(argv=None) -> int:
         (s, o), (ss_, so), _ = out["scale"]
         print(f"尺度模型（全部静置集）：s = {s:+.4f} ± {ss_:.4f}（k = 1/(1 + s) = {1 / (1 + s):.4f}，|s|·L 中位 = {abs(s) * out['L_median'] * 1000:.1f} mm），"
               f"o = {o * 1000:+.1f} ± {so * 1000:.1f} mm")
-    if a.control:
+    if a.all_rest:
+        pass
+    elif a.control:
         print("CONTROL_OK" if control_ok(out) else "CONTROL_FAIL")
     else:
         main_, sub = reading(out)
