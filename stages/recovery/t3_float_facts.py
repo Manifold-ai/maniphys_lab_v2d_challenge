@@ -155,7 +155,7 @@ def offset_gate(out, gate_mm):
     if out["n_floor"] < 8 or "const" not in out:
         return None
     (o0,), _, _ = out["const"]
-    return abs(o0) * 1000 <= gate_mm
+    return bool(abs(o0) * 1000 <= gate_mm)   # numpy 的比较结果是 np.bool_，`is True` 判不出
 
 
 def safe(root: Path, rel: str) -> Path:
