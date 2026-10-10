@@ -22,7 +22,8 @@ Three steps, each where its dependencies live:
   world     v2d_cari4d image, CPU, on the focal step's files. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
             origin that puts our floor normal on the released one, then a scale of positions by released / our
             floor offset), applied to the object (position rotated and scaled, orientation rotated, mesh untouched)
-            and the human (root orientation rotated, pelvis position rotated and scaled, body untouched). Writes
+            and the human as a similarity: root orientation rotated, pelvis position rotated and scaled, and the body
+            itself scaled by the same factor (identity refitted, see _scale_body), so the feet stay on the floor. Writes
             object_world.npz, soma_params_world.npz and world_calib.json.
   assemble  host venv (pyarrow). One parquet with the Tier 2 columns and one episodes_metadata row, from the world step's
             files only.
@@ -55,6 +56,9 @@ SOMA_ARGS = {  # reconstruction/workflows/mv_hoi/osmo/mv_hoi_reconstruction.yaml
 FPS = 30
 F_CV_TO_SOMA = np.diag([1.0, -1.0, -1.0])
 WORLD_BODY_TOL_M = 1e-3
+SCALE_FIT_FRAMES = 8
+SCALE_FIT_STEPS = 400
+SCALE_CHECK_STRIDE = 10
 
 
 def decode(ep_dir: Path, weights: Path, out: Path) -> None:
@@ -293,6 +297,60 @@ def _pelvis_cv(sp: dict, assets: Path) -> np.ndarray:
     return np.concatenate(got).astype(np.float64) @ F_CV_TO_SOMA
 
 
+def _scale_body(sp: dict, s: float, assets: Path, name: str, tol_m: float) -> tuple[dict, dict]:
+    """The same person s times smaller, poses unchanged: a uniform scale keeps every local joint rotation, so only the
+    identity changes. SOMA's MHR identity has no global scale (none of the 68 body-part scales moves the whole body
+    alone), so the frame-0 identity coefficients and scales the downstream reads are fitted to s x (body - pelvis) on
+    FIT_FRAMES poses spread over the episode, bone-length flexibles kept per frame. Checked on every SCALE_CHECK_STRIDE-th
+    frame: the largest joint error against s x (joint - pelvis) must stay under tol_m, the episode's own MHR -> SOMA
+    conversion residual (residual_report.json chamfer mean): the scale may not cost more than the conversion already does."""
+    import torch
+    from soma import SOMALayer
+    from soma.units import Unit
+
+    n = len(sp["poses"])
+    layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                      enable_procedural_transforms=False)
+    torch.manual_seed(0)
+    ident0 = torch.tensor(np.asarray(sp["identity_coeffs"]).reshape(-1, 45)[:1], dtype=torch.float32)
+    scale0 = torch.tensor(np.asarray(sp["scale_params"]).reshape(-1, 68)[:1], dtype=torch.float32)
+
+    def body(idx: np.ndarray, ident, scale):
+        b = len(idx)
+        got = layer(torch.tensor(np.asarray(sp["poses"])[idx].reshape(-1, 77, 3), dtype=torch.float32), ident.expand(b, -1),
+                    scale_params=scale.expand(b, -1), transl=torch.zeros(b, 3), apply_correctives=False,
+                    kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"])[idx], dtype=torch.float32)})
+        return got["joints"] - got["joints"][:, :1], got["vertices"] - got["joints"][:, :1]
+
+    fit_idx = np.linspace(0, n - 1, SCALE_FIT_FRAMES).round().astype(int)
+    with torch.no_grad():
+        _, target = body(fit_idx, ident0, scale0)
+        target = s * target
+    ident, scale = ident0.clone().requires_grad_(True), scale0.clone().requires_grad_(True)
+    opt = torch.optim.Adam([ident, scale], lr=0.02)
+    for _ in range(SCALE_FIT_STEPS):
+        opt.zero_grad()
+        loss = (body(fit_idx, ident, scale)[1] - target).norm(dim=-1).mean()
+        loss.backward()
+        opt.step()
+    chk = np.arange(0, n, SCALE_CHECK_STRIDE)
+    with torch.no_grad():
+        ja, va = body(chk, ident0, scale0)
+        jb, vb = body(chk, ident, scale)
+        joint_err = (jb - s * ja).norm(dim=-1).numpy()
+        vert_err = (vb - s * va).norm(dim=-1).numpy()
+    fit = {"scale": s, "fit_frames": len(fit_idx), "check_frames": len(chk), "tol_mm": round(tol_m * 1000, 2),
+           "joint_err_mm_max": round(float(joint_err.max()) * 1000, 2), "joint_err_mm_mean": round(float(joint_err.mean()) * 1000, 2),
+           "vertex_err_mm_mean": round(float(vert_err.mean()) * 1000, 2), "vertex_err_mm_p99": round(float(np.percentile(vert_err, 99)) * 1000, 2)}
+    if joint_err.max() > tol_m:
+        raise SystemExit(f"{name}: body scaled by {s} is off by {joint_err.max() * 1000:.1f} mm at a joint, over the "
+                         f"episode's conversion residual {tol_m * 1000:.1f} mm")
+    new = dict(sp)
+    new["identity_coeffs"] = np.repeat(ident.detach().numpy(), n, 0).astype(np.asarray(sp["identity_coeffs"]).dtype).reshape(np.shape(sp["identity_coeffs"]))
+    new["scale_params"] = np.repeat(scale.detach().numpy(), n, 0).astype(np.asarray(sp["scale_params"]).dtype).reshape(np.shape(sp["scale_params"]))
+    return new, fit
+
+
 def world(out: Path, floor_fit: Path, assets: Path) -> None:
     import hashlib
 
@@ -316,12 +374,18 @@ def world(out: Path, floor_fit: Path, assets: Path) -> None:
     np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
 
     sp = dict(np.load(out / "soma_params_focal.npz", allow_pickle=True))
-    new, err = _move_body(sp, rot, lambda p: s * p @ rot.T, assets, name, "world")
+    # The whole scene, the person included, is scaled by s about the camera: heights above the floor scale with the
+    # positions, so legs must too (moving only the pelvis left the feet (1 - s) x pelvis height under the floor:
+    # 1.4 cm on the main camera, 6.5 cm on the second; t3_feet_diag.py). The person gets s times smaller.
+    tol = json.loads((out / "residual_report.json").read_text())["chamfer_cm"]["mean"] / 100.0
+    scaled, fit = _scale_body(sp, s, assets, name, tol)
+    new, err = _move_body(scaled, rot, lambda p: s * p @ rot.T, assets, name, "world")
     np.savez(out / "soma_params_world.npz", **new)
     focal_calib = json.loads((out / "focal_calib.json").read_text())
     calib = {"episode": name, "floor_fit": floor_fit.name, "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
              "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
              "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4),
+             "body_scale_fit": fit,
              "focal": {k: focal_calib[k] for k in ("fx_used_by_cari4d", "fx_new", "depth_ratio", "focal_spec_sha256")}}
     (out / "world_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))
