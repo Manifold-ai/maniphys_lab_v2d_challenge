@@ -1,22 +1,100 @@
 {
  "model": "jev-1.13.0",
  "evidence": {
-  "m": {"file": "results/ops/machines_1009_1833.txt", "grep": "^== |^-- tmux|training progress|完成|正式 t|GPU 进程|^NVIDIA|长链标记|^/dev/"},
-  "e23": {"file": "results/t2x/smoke_ep23_ml40.txt", "grep": "^== |SMOKE_FAIL|SKIPPED|冒烟 smoke"},
-  "q": {"file": "results/ops/t3_queue_ml40_1009_1833.txt", "grep": "^## |^episode_"},
-  "fs": {"file": "results/r3x/fail_split_r3x.txt", "grep": "最大|^1 世界 MP-SR|r3a（"},
-  "r": {"file": "results/t3p/retarget_mf4090.txt", "grep": "^3\\t|^来历|EPS_DONE"}
+  "m": {
+   "file": "results/ops/machines_1009_1833.txt",
+   "grep": "^== |^-- tmux|^-- runs/logs|training progress|完成|正式 t|GPU 进程|^NVIDIA|长链标记|^/dev/"
+  },
+  "e23": {
+   "file": "results/t2x/smoke_ep23_ml40.txt",
+   "grep": "^== |SMOKE_FAIL|SKIPPED|冒烟 smoke"
+  },
+  "q": {
+   "file": "results/ops/t3_queue_ml40_1009_1833.txt",
+   "grep": "^## |^episode_"
+  },
+  "fs": {
+   "file": "results/r3x/fail_split_r3x.txt",
+   "grep": "最大|^1 世界 MP-SR|r3a（"
+  },
+  "r": {
+   "file": "results/t3p/retarget_mf4090.txt",
+   "grep": "^3\\t|^来历|EPS_DONE"
+  }
  },
  "claims": [
-  {"id": "t2_progress", "evidence": ["m"], "claim": "18:33 的快照里，ml40 训练链日志的最后两行是 t2-ep29-w2048-cap10m-r3a-ml40 完成（1 段）与开始正式训练 t2-ep6-w2048-cap10m-r3a-ml40；t2-ep6 的训练进度最近一行是 19.0%。"},
-  {"id": "ep23", "evidence": ["e23"], "claim": "smoke-t2-ep23-w2048-cap10m-r3a-ml40 记了 SMOKE_FAIL，整卡显存峰值 44562 MiB 超过 44000，随后 t2-ep23-w2048-cap10m-r3a-ml40 记 SKIPPED。"},
-  {"id": "t3_progress", "evidence": ["m"], "claim": "mf4090 训练链日志的最后两行是 t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段）与开始正式训练 t3-ep24-w2048-cap4m-r3a-mf4090；t3-ep24 的训练进度最近一行是 51.0%。"},
-  {"id": "machines", "evidence": ["m"], "claim": "mf4090 的根分区可用 4570 MB；两台的 GPU 进程数都是 1，长链标记数都是 3。"},
-  {"id": "t3_split", "evidence": ["q"], "claim": "runs/tier3_cari4d 里有 20 个 parquet，runs/tier3_cari4d_suspect 里有 9 个。"},
-  {"id": "t1", "evidence": ["fs"], "claim": "1 世界 MP-SR 没过的 15 条，选中 run 的 4096 世界 MP-SR 最大是 0.000；选中 run 名含 r3a 的 9 条，1 世界 MP-SR 都过了。"},
-  {"id": "float", "evidence": ["r"], "claim": "Tier 3 的 ep8 间隙是 114.9 mm、ep24 是 146.2 mm，两条的状态都是 ALIGN。"},
-  {"id": "ctl_true", "evidence": ["m"], "claim": "ml40 的 GPU 是 NVIDIA L40S，mf4090 的是 NVIDIA GeForce RTX 4090。", "control": "true"},
-  {"id": "ctl_false_ep23", "evidence": ["e23"], "claim": "smoke-t2-ep23-w2048-cap10m-r3a-ml40 的冒烟通过了。", "control": "false"},
-  {"id": "ctl_false_split", "evidence": ["q"], "claim": "runs/tier3_cari4d_suspect 里有 20 个 parquet。", "control": "false"}
+  {
+   "id": "t2_progress",
+   "evidence": [
+    "m"
+   ],
+   "claim": "ml40 的 runs/logs/t2xa_train_ml40.log 里记了 t2-ep29-w2048-cap10m-r3a-ml40 完成（1 段），随后开始正式训练 t2-ep6-w2048-cap10m-r3a-ml40；runs/logs/t2-ep6-w2048-cap10m-r3a-ml40.log 最近一行的训练进度是 19.0%。"
+  },
+  {
+   "id": "ep23",
+   "evidence": [
+    "e23"
+   ],
+   "claim": "smoke-t2-ep23-w2048-cap10m-r3a-ml40 记了 SMOKE_FAIL，整卡显存峰值 44562 MiB 超过 44000，随后 t2-ep23-w2048-cap10m-r3a-ml40 记 SKIPPED。"
+  },
+  {
+   "id": "t3_progress",
+   "evidence": [
+    "m"
+   ],
+   "claim": "mf4090 的 runs/logs/t3p_train_mf4090.log 里记了 t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段），随后开始正式训练 t3-ep24-w2048-cap4m-r3a-mf4090；runs/logs/t3-ep24-w2048-cap4m-r3a-mf4090.log 最近一行的训练进度是 51.0%。"
+  },
+  {
+   "id": "machines",
+   "evidence": [
+    "m"
+   ],
+   "claim": "mf4090 的根分区可用 4570 MB；两台的 GPU 进程数都是 1，长链标记数都是 3。"
+  },
+  {
+   "id": "t3_split",
+   "evidence": [
+    "q"
+   ],
+   "claim": "runs/tier3_cari4d 里有 20 个 parquet，runs/tier3_cari4d_suspect 里有 9 个。"
+  },
+  {
+   "id": "t1",
+   "evidence": [
+    "fs"
+   ],
+   "claim": "1 世界 MP-SR 没过的 15 条，选中 run 的 4096 世界 MP-SR 最大是 0.000；选中 run 名含 r3a 的 9 条，1 世界 MP-SR 都过了。"
+  },
+  {
+   "id": "float",
+   "evidence": [
+    "r"
+   ],
+   "claim": "Tier 3 的 ep8 间隙是 114.9 mm、ep24 是 146.2 mm，两条的状态都是 ALIGN。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "m"
+   ],
+   "claim": "ml40 的 GPU 是 NVIDIA L40S，mf4090 的是 NVIDIA GeForce RTX 4090。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_ep23",
+   "evidence": [
+    "e23"
+   ],
+   "claim": "smoke-t2-ep23-w2048-cap10m-r3a-ml40 的冒烟通过了。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_split",
+   "evidence": [
+    "q"
+   ],
+   "claim": "runs/tier3_cari4d_suspect 里有 20 个 parquet。",
+   "control": "false"
+  }
  ]
 }
