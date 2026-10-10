@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") æ\235¥å\216\206 $(cat .v2d-source-commit)" && for r in runs/tier3/root runs/tier3/root_v2; do f=$r/meta/episodes_metadata.jsonl; echo "$(stat -c "%y" $f) $(wc -l < $f) è¡\214 $f"; done && sha256sum runs/tier3/root_v2/data/chunk-000/episode_000008.parquet runs/tier3/root_v2/data/chunk-000/episode_000024.parquet && ls runs/tier3/root_v2/data/chunk-000 | wc -l && du -sm runs/tier3/root_v2 && df -m --output=avail . | tail -1' 
+# source   : 5966a00e110c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T17:48:37-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-11 07:48:37 CST æ¥åŽ† 5966a00e110c
+2026-10-10 04:49:27.465007558 +0800 2 è¡Œ runs/tier3/root/meta/episodes_metadata.jsonl
+2026-10-11 07:48:26.866836259 +0800 20 è¡Œ runs/tier3/root_v2/meta/episodes_metadata.jsonl
+e5f645fb858758cc6830427ff07324a7593a53596de89c55fffe751713be2434  runs/tier3/root_v2/data/chunk-000/episode_000008.parquet
+31a5a65c3bb5eda3e3042c74c8d29fc6e8528ca6c9adba0acca6fc7ddb77c49c  runs/tier3/root_v2/data/chunk-000/episode_000024.parquet
+20
+252	runs/tier3/root_v2
+ 3860

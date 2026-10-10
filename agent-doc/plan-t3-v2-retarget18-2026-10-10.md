@@ -111,4 +111,19 @@
 
 ## 执行记录
 
-（待执行）
+服务器日志记的是 CST，这里已换成 UTC−6。
+
+- 17:31 审查期间先跑了一次 B.1 与 sha 核对（只读，18/18 相同）；按审查第 7 条，提交后重跑的记录覆盖了这两份。
+- 17:45 代码 c13b610 同步到 mf4090，测试全过（`results/t3p2/tests18_mf4090.txt`；`t3_sha_match.py` 加 `--inputs` 之后在 Mac 上另跑，
+  `results/t3p2/tests18_sha_match_mac.txt`）。
+- 17:45 B.1 重跑（`results/ops/t3_episodes_ml40_1010_v2_18.txt`）：18 集的 parquet 与元数据都可读。官方 Tier 2 输入（`results/ops/t2_inputs_mf4090_1010_18.txt`）：
+  18 集 53 个文件（ep0、ep21 共用 tall_bar_stool 的网格）。哈希表 `stages/recovery/expect/t3p2_18_1010.tsv` 89 行（5966a00）。
+- 17:47 sha 核对（`results/t3p2/sha_match_18.txt`，5966a00）：`SHA_MATCH 18/18`；重建用的网格与地面与官方 Tier 2 相同，`INPUTS_SAME 36/36`。
+- 17:48 拼目录（`results/t3p2/stage18_mf4090.txt`）：`V2D_T3_SET=v2`，`TIER3_ROOT_OK`，写入 18 个 parquet 与网格、地面、支撑面文件；
+  转发时对方的部署版本是 ae06e75（第二轮是 85154fe），文件以 sha256 为准，与 A 段相同。核对（`results/t3p2/stage18_check_mf4090.txt`）：
+  `root_v2` 的 `meta/episodes_metadata.jsonl` 20 行、修改时间 10/10 17:48；第一轮 `root` 仍是 2 行、修改时间仍是 10/9 14:49；
+  `root_v2` 里 ep8、ep24 的 parquet 的 sha256 与 `t3p2_1010.tsv` 相同。拼目录的判据全过。
+- **磁盘估计偏低**：`root_v2` 从 14 MB 涨到 252 MB，主要是网格（18 集的网格每集 8–25 MB，第二轮两集是 3 MB 与 9 MB）。
+  第二轮两集的重定向产物（`motion_src` 加 `motion`）是网格的 6.8–8.7 倍，按此估这一步约用 1.7–2.1 GB，计划第 5 节写的 0.9–1.0 GB 偏低一倍。
+  起之前可用 3859 MB，满足登记的“≥ 2500 MB”，照计划起；跑完预计剩 1.8–2.2 GB，低于起训练链要求的 2500 MB（估计）。
+- 17:49 起重定向：tmux `v2d-t3p2-retarget18`，GPU 进程 0，负载 0。
