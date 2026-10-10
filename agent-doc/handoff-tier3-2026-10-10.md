@@ -75,3 +75,19 @@
   主机位 s=0.9856 → 约 −1.4 cm，第二机位 s=0.935 → 约 −6.5 cm。同一机制也让手相对物体偏 (1−s)×（手到骨盆的距离），第二机位约 3 cm（推断，未量）。
   (2) world 步之前 CARI4D 自身：脚相对我们按物体接触拟合的地面，主机位中位 −0.9 cm，范围 −5.0 ~ +2.8 cm（ep03/12/22/04/13/23 在 −4 ~ −5 cm）。
   修法待用户定：整体相似变换（身体也乘 s，人变矮 s 倍，手-物关系与脚-地关系都保留）vs 保持身体尺寸、只把骨盆抬回原离地高度（与图像不再严格对齐）。
+
+## 10-11：相似变换版、第二机位配准、兜底（commit dfac8b2、fab949f、ae06e75）
+
+- **当前最好的版本 `runs/tier3_cari4d_f830_simreg{,_suspect}`**：world 步把人体随场景整体缩放（`_scale_body`，容差为每集自己的
+  MHR→SOMA 残差，29 集全过）；第二机位 5 集按 `runs/floor/camera_register.json`（偏航 181.35°，t = (−0.374, 5.826) m，ep00 地面
+  基准）配准到主机位。`tier3_cari4d_f830_sim` 是只做缩放、未配准的版本；交付版 `tier3_cari4d_f830_floor` 未动，它依赖的
+  world 文件备份在 `runs/convert_world_rigid_backup/`。注意 `runs/convert/*/` 里的 world 文件现在对应 simreg。
+- 物理检查（`runs/physics/<版本>/`）：脚底中位 −2.20 → −0.85 cm，脚穿地帧 8895 → 5256；物体类检查不变。主机位剩余的
+  −3.7 ~ −4.9 cm 下沉是 CARI4D 自身的，不是深度误差（跨集相关 +0.06），修法待用户定。ep25 / ep28 的脚离地 8–9 cm。
+- 配准方法：去人背景图上 Grounding DINO（CPU）互相检测对方三脚架，方位定偏航，脚点距离按三脚架张开修正定距离
+  （`t3_walls.py plates` → `t3_gdino_cpu.py` → `t3_mutual_multi.py ... camera_register.json`）。地面胶条、墙面、天花板三条路都
+  试过，因场地对称或共同视野不足没定下来，代码不在仓里（`~/v2d/tier3/scripts/`）。**ep21 所在机位还没配准。**
+- 兜底：焦距配置或地面校正里没有某集时显式降级（保留 CARI4D 焦距 / 退回相机系），打 FALLBACK 并写元数据。
+- GPU 队列：试点（4 集）与 8 集重新选物仍在等 rxzhou 的链结束（10-11 05:33 仍忙）。8 集重跑走 `t3_reselect.sh`，它的 world
+  步还是旧调用（不带配准），这 8 集都是主机位，结果不受影响。
+- 问题链的因果梳理在用户本地 `~/v2d/tier3/tier3-problem-chain-2026-10-11.md`（不进仓）。
