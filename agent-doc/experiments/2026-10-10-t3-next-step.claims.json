@@ -1,0 +1,78 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "t": {
+   "file": "results/t3p/eval_table_t3p.txt",
+   "grep": "^run|^t3-|^t2-"
+  },
+  "r": {
+   "file": "results/t3p/retarget_mf4090.txt",
+   "grep": "^## 结果行|^3\\s"
+  },
+  "b": {
+   "file": "results/batch_summary_v040_t2v54.tsv",
+   "grep": "^tier|^2\\s(8|24)\\s"
+  },
+  "c3": {
+   "file": "results/t3p/cfgcheck_mf4090.txt",
+   "grep": "^== |replay\\.capacity|object_position_std|orientation_threshold|scene\\.support|意外"
+  },
+  "c1": {
+   "file": "results/r3/g1_cfgcheck_mf4090.txt",
+   "grep": "^== |replay\\.capacity|object_position_std|orientation_threshold|scene\\.support|意外"
+  },
+  "e": {
+   "file": "results/day2/eval_t1-ep8-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval|environment_steps|maniptrans_sr|failure_cause"
+  },
+  "m": {
+   "file": "results/ops/machines_1010_1330.txt",
+   "grep": "^== |GPU 进程|^NVIDIA|长链标记|^/dev/"
+  }
+ },
+ "claims": [
+  {
+   "id": "t3_zero",
+   "evidence": ["t"],
+   "claim": "4096 世界评测里，t3-ep8-w2048-cap4m-r3a-mf4090 与 t3-ep24-w2048-cap4m-r3a-mf4090 的 MP-SR 都是 0.000，失败_骨盆、失败_物体、失败_手掌都是 1.000；同两集的 t2-ep8、t2-ep24（w2048-cap10m-r3a-ml40，以及各自的 s43）MP-SR 都是 0.999。"
+  },
+  {
+   "id": "t3_float",
+   "evidence": ["r", "b"],
+   "claim": "Tier 3（档位 3）重定向后，ep8 的物体静置间隙是 +114.9 mm，ep24 是 +146.2 mm，支撑面都是 floor、状态都是 ALIGN；Tier 2（档位 2）同两集的间隙是 −3.4 mm、−2.2 mm，状态都是 OK。"
+  },
+  {
+   "id": "same_cfg",
+   "evidence": ["c3", "c1"],
+   "claim": "t3-ep8-w2048-cap4m-r3a-mf4090 与 t1-ep8-w2048-cap4m-r3a-mf4090 的配置检查里，相对官方配方的改动都包括 training.replay.capacity 10000000 → 4000000、object_position_std 0.2 → 0.05、object_orientation_threshold 1.5 → 0.6、scene.support True → False，意外差异都是 0 个。"
+  },
+  {
+   "id": "t1_ep8",
+   "evidence": ["e"],
+   "claim": "t1-ep8-w2048-cap4m-r3a-mf4090 在第 349999104 步的 4096 世界评测里，maniptrans_sr 约为 0.955，object、palm、pelvis 三项失败比例都在 0.04 到 0.05 之间。"
+  },
+  {
+   "id": "mf_idle",
+   "evidence": ["m"],
+   "claim": "mf4090 在 2026-10-11 03:28:56 CST 时 GPU 进程数为 0、长链标记数为 0，根分区可用 4682 MB。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": ["m"],
+   "claim": "mf4090 的 GPU 是 NVIDIA GeForce RTX 4090。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_t3",
+   "evidence": ["t"],
+   "claim": "t3-ep24-w2048-cap4m-r3a-mf4090 的 4096 世界 MP-SR 是 0.999。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_gap",
+   "evidence": ["b"],
+   "claim": "Tier 2（档位 2）的 ep24 重定向后物体静置间隙是 +146.2 mm。",
+   "control": "false"
+  }
+ ]
+}
