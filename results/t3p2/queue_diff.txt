@@ -1,0 +1,10 @@
+# command  : bash -c export\ LC_ALL=C\;\ for\ s\ in\ .txt\ _smoke.txt\ .expect.tsv\;\ do\ diff\ \<\(grep\ -v\ \"\^#\"\ stages/policy/queues/mf4090_t3p\$s\)\ \<\(grep\ -v\ \"\^#\"\ stages/policy/queues/mf4090_t3p2\$s\ \|\ sed\ -e\ \"s/-r3a-v2-mf4090/-r3a-mf4090/g\"\ -e\ \"s#/runs/motion/tier3_v2/#/runs/motion/tier3/#g\"\ -e\ \"s/V2D_WANDB_TAG=t3p2\ /V2D_WANDB_TAG=t3p\ /\"\)\ \&\&\ echo\ \"SAME\ mf4090_t3p2\$s\"\;\ done\;\ diff\ \<\(grep\ -v\ \"\^#\"\ stages/evaluate/exports/cand_t3_t3p_mf4090.tsv\)\ \<\(grep\ -v\ \"\^#\"\ stages/evaluate/exports/cand_t3_t3p2_mf4090.tsv\ \|\ sed\ \"s/-r3a-v2-mf4090/-r3a-mf4090/\"\)\ \&\&\ echo\ \"SAME\ cand_t3_t3p2_mf4090.tsv\" 
+# md5      : 32fc2dc1dfce4ba457c0b6470eaa6c5e  stages/evaluate/exports/cand_t3_t3p2_mf4090.tsv
+# source   : d6a8e11c41f6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T14:04:34-0600
+# ---------------------------------------------------------------
+SAME mf4090_t3p2.txt
+SAME mf4090_t3p2_smoke.txt
+SAME mf4090_t3p2.expect.tsv
+SAME cand_t3_t3p2_mf4090.tsv

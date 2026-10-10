@@ -1,0 +1,25 @@
+# command  : stages/recovery/tier3_stage.sh t3p2_1010 8 24 
+# md5      : eafc8b987fce39df250f830f62331b99  stages/recovery/tier3_stage.sh
+# source   : d6a8e11c41f6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T14:03:48-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-11 04:03:52 CST 来历 d6a8e11c41f6
+e5f645fb858758cc6830427ff07324a7593a53596de89c55fffe751713be2434  ./data/chunk-000/episode_000008.parquet
+31a5a65c3bb5eda3e3042c74c8d29fc6e8528ca6c9adba0acca6fc7ddb77c49c  ./data/chunk-000/episode_000024.parquet
+e2e51b9d21d5d80c6d32bdba0c4bc32cdf89c9d5f090924151c522149168b63f  ./DEPLOYED
+d416f026fe7d1b8210e0051c5e2862db8d8cfe5ac3923113fe56e4856ce18c30  ./meta/episode_000008.metadata.json
+e55665b5ca219c15407ca8b3afd46b71ed5e899e185d04cba3e26cf6d5c0a0f9  ./meta/episode_000024.metadata.json
+部署版本 85154fe28162b8c0fecdcb9427fa2ab37fd88e3e；同组成员那边的目录 runs/tier3_cari4d_f830_floor；V2D_T3_SET=v2
+写 data/chunk-000/episode_000008.parquet sha256 e5f645fb858758cc6830427ff07324a7593a53596de89c55fffe751713be2434
+写 mesh/skinny_wood_chair/skinny_wood_chair.glb sha256 7982ef074fe2e8b2bbab813ccb4cc848c05571e7c3adef42458b73449481d35a md5 666b6366a803130fc20050249ad67fa2
+写 ground_plane/2026-06-05_15-08-08_skinny_wood_chair_push_10.json sha256 33e86866ebc96590fcaa3dd2346af1885a2c1c61e9683ffe491e5b105bb72a9e md5 9626590db5bd1dc3a8188ee4d0d03f11
+写 support_surface/2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda sha256 4d1d1a74fcede154531e8eda6212c213c4dba83c6e3270deffd2fcf60418768b md5 e7b1026ef52ee91c15c1fcd6d216c653
+写 data/chunk-000/episode_000024.parquet sha256 31a5a65c3bb5eda3e3042c74c8d29fc6e8528ca6c9adba0acca6fc7ddb77c49c
+写 mesh/watering_can/watering_can.glb sha256 6289b834daf9ac457729cccb550b83eb5da1bc165a78bb970a9e651ab9ce94c2 md5 27d97417dc0915ecc61c08884ba5449f
+写 ground_plane/2026-05-29_15-43-20_watering_can_pour_right_02.json sha256 b4652f8e497c76163ad89c1b620dc2bed757c203e3df58196a96f06c5993b2ad md5 450419566d821e713e965192d5e73137
+写 support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda sha256 4d1d1a74fcede154531e8eda6212c213c4dba83c6e3270deffd2fcf60418768b md5 e7b1026ef52ee91c15c1fcd6d216c653
+写 meta/episodes_metadata.jsonl（2 行：ep8, ep24）与 meta/provenance.json
+ep8 来源：parquet 在对方的修改时间 2026-10-10T04:05:36+00:00，转发时对方的部署版本 85154fe28162b8c0fecdcb9427fa2ab37fd88e3e（干净 True），parquet sha256 e5f645fb858758cc6830427ff07324a7593a53596de89c55fffe751713be2434
+ep24 来源：parquet 在对方的修改时间 2026-10-10T04:18:06+00:00，转发时对方的部署版本 85154fe28162b8c0fecdcb9427fa2ab37fd88e3e（干净 True），parquet sha256 31a5a65c3bb5eda3e3042c74c8d29fc6e8528ca6c9adba0acca6fc7ddb77c49c
+TIER3_ROOT_OK

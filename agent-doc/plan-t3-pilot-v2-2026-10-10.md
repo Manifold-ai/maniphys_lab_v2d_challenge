@@ -148,4 +148,41 @@ MP-SR 的 0.5、0.05 在看到新数据前定下。
 
 ## 执行记录
 
-（待填）
+服务器日志记的是 CST，这里已换成 UTC−6。
+
+- 13:5x 代码 66f6afa、计划第 2 版 656d54c，同步到 mf4090（mf4090 没有长链；ml40 不同步）。mf4090 上 10 组测试全过（`results/t3p2/tests_mf4090.txt`，来历 44ba8a6）。
+  第一次跑时新加的测试发现 `offset_gate` 返回 numpy 的布尔值（`is True` 判不出），改成 Python 布尔后重跑。
+- 14:00 A 段转发（`results/t3float/pack_1010_floor.txt`、`results/t3float/pack_1010_f830.txt`）：两版各 20 个 parquet、20 份元数据，转发时对方的部署版本 85154fe；
+  parquet 修改时间与 07:35 的快照相同。
+- 14:01 脚本回归：输出正文与 10/9 的记录逐行相同（`results/t3float/regress_diff_1010.txt`，`REGRESS_SAME`）。
+- 14:01–14:02 两版都过门槛（`results/t3float/gate_floor_ok20_mf4090.txt`、`results/t3float/gate_f830_ok20_mf4090.txt`，地面上各 14 集）：
+
+  | 版 | o | 每集标准差 | ep8 间隙 | ep24 间隙 | 尺度模型 s（只报） |
+  |---|---|---|---|---|---|
+  | 第一轮 `tier3_cari4d`（10/9 事后跑法） | +135.5 ± 10.6 mm | 约 40 mm | +123.1 mm | +180.0 mm | −0.011 ± 0.031 |
+  | `tier3_cari4d_floor` | −7.4 ± 3.9 mm | 14.4 mm | −24.0 mm | +20.0 mm | +0.021 ± 0.011 |
+  | `tier3_cari4d_f830_floor` | −5.1 ± 4.0 mm | 15.0 mm | −16.9 mm | +23.5 mm | +0.015 ± 0.011 |
+
+- 14:02 选版 `PICK f830`（`results/t3float/pick_1010.txt`）：|o| 之差 2.3 mm 不超过 2·√(SE²+SE²) = 11.2 mm，改比 ep8、ep24 间隙绝对值的较大者，
+  f830 是 23.5 mm，floor 是 24.0 mm，只差 0.5 mm，两版在这一条上实际打平。jev 5 条全部核实（0.76–0.97），3 道对照题正常
+  （`results/t3float/jev_claims_float_recheck.txt`，规格 `agent-doc/experiments/2026-10-10-t3-float-recheck.claims.json`）。
+- 14:02 B.1 只读核对（`results/ops/t3_episodes_ml40_1010_v2.txt`）：f830 版 ep8、ep24 的 sha256 与 A 段记录的前 12 位相同，帧数 708、748；
+  网格与地面文件的 md5 与 `results/ops/t3p_mf4090_inputs_1009.txt` 相同。哈希表 `stages/recovery/expect/t3p2_1010.tsv`。
+- 14:03 第一次拼档目录在 Mac 上停在 `tier3_stage.sh` 最后一步：macOS 自带的 bash 3.2 把 `$SUB；` 里全角分号的首字节读进变量名，`set -u` 报未定义。
+  转发已完成、改名之前停下，mf4090 上的 `runs/tier3/incoming/t3p2_1010.partial` 只有转来的 5 个文件，已删。改过的脚本里变量后紧跟全角字符的都加了大括号
+  （d6a8e11），重跑 `TIER3_ROOT_OK`（`results/t3p2/stage_mf4090.txt`）。`runs/tier3/root` 没动（meta 的修改时间仍是 10/9 14:49）。
+- 14:04–14:08 重定向（`results/t3p2/retarget_mf4090.txt`，tmux `v2d-t3p2-retarget`）：
+
+  | 集 | 帧数 | 左手 / 右手接触帧 | IK 残差中位 | 间隙 | 状态 | 脚底高度范围 |
+  |---|---|---|---|---|---|---|
+  | ep8 第一轮 | 708 | 229 / 250 | 1.235 | +114.9 mm | ALIGN | +0.006 至 +0.115 m |
+  | ep8 v2 | 708 | 216 / 251 | 0.531 | **−33.9 mm** | ALIGN | +0.001 至 +0.111 m |
+  | ep24 第一轮 | 748 | 0 / 481 | 0.712 | +146.2 mm | ALIGN | +0.007 至 +0.189 m |
+  | ep24 v2 | 748 | 0 / 494 | 0.457 | −16.6 mm | OK | +0.000 至 +0.176 m |
+
+  **P2′ 不过**：ep8 的 |间隙| 33.9 mm 超过 30 mm（穿地）。按第 4 节，两集都不训，查原因、回报。ep24 过。
+  原因（只读日志，未另做验证）：对齐检查取物体最低的 5% 帧的中位（`stages/retarget/check_support_alignment.py:57`），A 段取第 0–4 帧。
+  重定向器在第 0 帧量到网格最低点 −3.8 mm、补抬 4.3 mm（上限 10 mm），所以 ep8 开头不穿地，穿地 3.4 cm 出在序列中物体最低的那些帧。
+  重定向器的地面是从人体脚步重建的（第一轮 ep8：法向偏 2.275°、偏移 1.003 m；v2：2.432°、0.873 m），v2 的人体轨迹也变了。
+- 队列已按 B.4 生成（`stages/policy/queues/mf4090_t3p2*`、`stages/evaluate/exports/cand_t3_t3p2_mf4090.tsv`），与 t3p 相比只有 run 名、W&B 标签与参考目录不同
+  （`results/t3p2/queue_diff.txt`）。没有做配置展开，没有起链。
