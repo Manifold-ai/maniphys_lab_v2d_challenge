@@ -16,5 +16,9 @@ for e in "$@"; do
 done
 echo "## 结果行（档位 ep 序列 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态）"
 for e in "$@"; do cat "runs/logs/batch/${P}_ep$(printf %02d "$e").tsv"; done
-for e in "$@"; do f="runs/logs/batch/${P}_ep$(printf %02d "$e").log"; echo "## ${f}（最后 15 行）"; tail -n 15 "$f" | cut -c1-300; done
+# 脚底高度那一行单独先打：支撑面的几何体多时它会被挤出最后 15 行（计划 agent-doc/plan-t3-v2-retarget18-2026-10-10.md，审查 6）
+for e in "$@"; do
+  f="runs/logs/batch/${P}_ep$(printf %02d "$e").log"; echo "## ${f}（脚底高度与最后 15 行）"
+  grep -a "Saved robot sole Z range" "$f" | tail -n 1 | cut -c1-300; tail -n 15 "$f" | cut -c1-300
+done
 echo EPS_DONE
