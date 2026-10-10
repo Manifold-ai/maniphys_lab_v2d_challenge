@@ -195,3 +195,5 @@ MP-SR 的 0.5、0.05 在看到新数据前定下。
   预演 `DRYRUN_OK`（`results/t3p2/arm_dryrun_t3p2b_mf4090.txt`）：precheck 按 `tier3_v2` 目录断言、配方断言全过，来历 e7c6a69，可用 4533 MB。
 - 14:17 起链 `ARMED`（`results/t3p2/arm_t3p2b_mf4090.txt`）：会话 `v2d-t3p2b-train`、`v2d-t3p2b-eval`、`v2d-t3p2b-export`，开始冒烟 smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090。
   按第一轮每条约 2 小时 20 分钟估，16:50 前后导出门结束（估计）。
+- 14:22 冒烟通过：748 帧，256 世界 rollout 里非有限世界 0 个，冒烟的 state 已删（`runs/logs/t3p2b_train_mf4090.log`）；14:22:11 开始正式训练。
+  15:38 时 55%（已用 1:13:46，预计还要 1:00），GPU 上只有本链的进程，可用 4155 MB。Mac 这边一次长时间 ssh 等待在中途断开（退出码 255），链在 mf4090 的 tmux 里不受影响。
