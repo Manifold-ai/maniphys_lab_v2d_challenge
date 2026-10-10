@@ -3,17 +3,21 @@
 # (read from the Tier 2 directory's copy in $T3_ROOT/input/mesh; byte-identical to Tier 1's, and the mesh whose
 # local frame the released poses and the scorer use). One GPU job: refinement peaks near 44 GB of the 46 GB.
 #   t3_cari4d_ep.sh <episode_dir_name>      e.g. ep20_rice_cooker
-# Log: $T3_ROOT/logs/cari4d_<name>.log; the last line carries rc.
+# T3_WORK (default runs/work) picks the work root under $T3_ROOT; T3_FP_MODE=register-every-frame lays
+# third_party/patches/cari4d-fp-sequence-mode.patch over the inference entry and runs FoundationPose registering every
+# frame (re-acquires a lost object) instead of registering once and tracking.
+# Log: $T3_ROOT/logs/cari4d_<name><T3_LOG_TAG>.log; the last line carries rc.
 set -u
 name=$1
 S=$(cd "$(dirname "$0")" && pwd)
 T=${T3_ROOT:-/lab_data/yqchen/v2d/tier3}
 PY=${T3_PY:-/lab_data/yqchen/v2d/venv/bin/python}
 WEIGHTS=${T3_WEIGHTS:-/lab_data/yqchen/v2d/weights}
-W=$T/runs/work/$name
+W=$T/${T3_WORK:-runs/work}/$name
+FP_MODE=${T3_FP_MODE:-register-first-then-track}
 obj=${name#ep[0-9][0-9]_}
 mesh=$T/input/mesh/$obj/$obj.glb
-LOG=$T/logs/cari4d_$name.log
+LOG=$T/logs/cari4d_$name${T3_LOG_TAG:-}.log
 {
   if [ -e "$W/MASK_SUSPECT" ] || [ ! -f "$W/masks_k0.h5" ]; then echo "masks missing or flagged MASK_SUSPECT"; exit 2; fi
   [ -f "$mesh" ] || { echo "no official mesh at $mesh"; exit 2; }
@@ -30,9 +34,21 @@ LOG=$T/logs/cari4d_$name.log
     [ "$(md5sum < "$pdir/run_foundationpose_mhr_export.py" | cut -c1-32)" = 556a32239f14f8b87a137f1edec26514 ] || { echo "patched file md5 mismatch"; exit 2; }
   fi
   export T3_EXTRA_MOUNTS="$pdir/run_foundationpose_mhr_export.py:$up:ro"
+  if [ "$FP_MODE" != register-first-then-track ]; then
+    ri=/workspace/v2d_cari4d/lib/run_inference.py
+    if [ "$(md5sum < "$pdir/run_inference.py" 2>/dev/null | cut -c1-32)" != 45d83632944176002d5bba81bfdc87ae ]; then
+      docker run --rm --entrypoint "" --network none v2d_cari4d:latest cat "$ri" > "$pdir/upstream_run_inference.py"
+      [ "$(md5sum < "$pdir/upstream_run_inference.py" | cut -c1-32)" = ea62dbdb9c60b00d0b0e4a488c806d97 ] || { echo "image's $ri is not the patched-against upstream"; exit 2; }
+      patch -s -o "$pdir/run_inference.py" "$pdir/upstream_run_inference.py" < "$S/../../../third_party/patches/cari4d-fp-sequence-mode.patch" || exit 2
+      [ "$(md5sum < "$pdir/run_inference.py" | cut -c1-32)" = 45d83632944176002d5bba81bfdc87ae ] || { echo "patched run_inference.py md5 mismatch"; exit 2; }
+    fi
+    T3_EXTRA_MOUNTS="$T3_EXTRA_MOUNTS;$pdir/run_inference.py:$ri:ro"
+    export V2D_FP_SEQUENCE_MODE=$FP_MODE
+  fi
+  echo "foundationpose mode: $FP_MODE"
   source ~/proxy.sh >/dev/null
   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-  export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF
+  export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF${V2D_FP_SEQUENCE_MODE:+,V2D_FP_SEQUENCE_MODE}
   export T3_CONTAINER_ENV="TORCH_HOME=/data/weights_path/cari4d/torch_home"
   # CARI4D reuses finished stages only when their inputs are unchanged and refuses otherwise. When the packed
   # masks are newer than the last export (t3_masks.py repacked them), every stage from the export on is stale.

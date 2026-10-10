@@ -15,14 +15,23 @@ Three steps, each where its dependencies live:
             soma_params.npz the way the downstream reads it (frame-0 identity, per-frame bone flexibles, no
             correctives) and measures it against the MHR target mesh. The two meshes have different topologies
             (SOMA 18056 vs MHR 18439 vertices), so the distance is a symmetric nearest-vertex (chamfer) distance.
-  assemble  host venv (pyarrow). One parquet with the Tier 2 columns and one episodes_metadata row.
+  world     v2d_cari4d image, CPU. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
+            origin that puts our floor normal on the released one, then a scale of positions by released / our
+            floor offset), applied to the object (position rotated and scaled, orientation rotated, mesh untouched)
+            and the human (root orientation rotated, pelvis position rotated and scaled, body untouched). Writes
+            object_world.npz, soma_params_world.npz and world_calib.json.
+  assemble  host venv (pyarrow). One parquet with the Tier 2 columns and one episodes_metadata row, from the world step's
+            files only.
 
-World frame: the released Track 2 world is taken as the exo camera's OpenCV frame (W = I). The MoGe ground probe
-supports this to within a few degrees; a ground-plane correction is a separate, later step.
+World frame: the exo camera's OpenCV frame with the floor correction. Without it, floor-resting objects sit 0.11-0.22 m
+above the released ground plane, more the farther they are (rxzhou's Tier 3 pilot, 10/9: 114.9 / 146.2 mm after
+retargeting). Yaw and horizontal position are not observable from a floor and are left as reconstructed. Only Tier 3
+inputs enter (no Tier 2 trajectory; user decision 10/10).
 
     python t3_convert_ep.py decode   <cari4d episode dir> <weights/cari4d dir> <out dir>
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
     python t3_convert_ep.py residual <out dir> <soma assets dir>
+    python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir>
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
 
@@ -40,6 +49,7 @@ SOMA_ARGS = {  # reconstruction/workflows/mv_hoi/osmo/mv_hoi_reconstruction.yaml
 }
 FPS = 30
 F_CV_TO_SOMA = np.diag([1.0, -1.0, -1.0])
+WORLD_BODY_TOL_M = 1e-3
 
 
 def decode(ep_dir: Path, weights: Path, out: Path) -> None:
@@ -152,6 +162,79 @@ def residual(out: Path, assets: Path) -> None:
     print(json.dumps(report))
 
 
+def world(out: Path, floor_fit: Path, assets: Path) -> None:
+    import hashlib
+
+    import torch
+    from scipy.spatial.transform import Rotation
+    from soma import SOMALayer
+    from soma.units import Unit
+
+    name = out.name
+    fit_bytes = floor_fit.read_bytes()
+    entry = json.loads(fit_bytes)["episodes"].get(name)
+    if entry is None:
+        raise SystemExit(f"{floor_fit}: no floor correction for {name}")
+    rot, s = np.asarray(entry["rotation"], np.float64), float(entry["scale"])
+    if abs(np.linalg.det(rot) - 1) > 1e-6 or np.abs(rot @ rot.T - np.eye(3)).max() > 1e-6 or not 0.8 < s < 1.25:
+        raise SystemExit(f"floor correction for {name} is not a rotation with a plausible scale (scale {s})")
+
+    oc = dict(np.load(out / "object_cam.npz"))
+    t_cam = oc["T_cam_glb"].astype(np.float64)
+    t_w = t_cam.copy()
+    t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot, t_cam[:, :3, :3])
+    t_w[:, :3, 3] = s * t_cam[:, :3, 3] @ rot.T
+    np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
+
+    # human, in the SOMA frame (OpenCV @ F): rotate the root, move the pelvis to s * R * pelvis, keep the body
+    sp = dict(np.load(out / "soma_params.npz", allow_pickle=True))
+    rot_s = F_CV_TO_SOMA @ rot @ F_CV_TO_SOMA
+    n = len(sp["poses"])
+    layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                      enable_procedural_transforms=False)
+
+    def joints(params: dict) -> np.ndarray:
+        ident = torch.tensor(np.repeat(np.asarray(params["identity_coeffs"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+        scale = torch.tensor(np.repeat(np.asarray(params["scale_params"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+        got = []
+        for a in range(0, n, CHUNK):
+            sl = slice(a, min(n, a + CHUNK))
+            with torch.no_grad():
+                got.append(layer(torch.tensor(np.asarray(params["poses"][sl]).reshape(-1, 77, 3), dtype=torch.float32), ident[sl],
+                                 scale_params=scale[sl], transl=torch.tensor(np.asarray(params["transl"][sl]), dtype=torch.float32),
+                                 apply_correctives=False,
+                                 kwargs={"bone_length_flexibles": torch.tensor(np.asarray(params["bone_length_flexibles"][sl]), dtype=torch.float32)})["joints"].numpy())
+        return np.concatenate(got).astype(np.float64)
+
+    j0 = joints(sp)
+    pelvis = j0[:, 0]
+    poses = np.asarray(sp["poses"]).copy()
+    shape = poses.shape
+    pv = poses.reshape(n, 77, 3)
+    pv[:, 0] = (Rotation.from_matrix(rot_s) * Rotation.from_rotvec(pv[:, 0].astype(np.float64))).as_rotvec()
+    rotated = {**sp, "poses": pv.reshape(shape).astype(poses.dtype)}
+    j1 = joints(rotated)
+    target_pelvis = s * pelvis @ rot_s.T
+    transl = np.asarray(sp["transl"]).astype(np.float64) + (target_pelvis - j1[:, 0])
+    new = {**rotated, "transl": transl.astype(np.asarray(sp["transl"]).dtype)}
+    j2 = joints(new)
+    want = np.einsum("ij,nkj->nki", rot_s, j0 - pelvis[:, None]) + target_pelvis[:, None]
+    err = float(np.abs(j2 - want).max())
+    if err > WORLD_BODY_TOL_M:
+        raise SystemExit(f"{name}: corrected body is off the rigid target by {err * 1000:.2f} mm")
+    for key in sp:
+        if key not in ("poses", "transl") and not np.array_equal(np.asarray(sp[key]), np.asarray(new[key])):
+            raise SystemExit(f"{name}: {key} changed in the world step")
+    if not np.array_equal(np.asarray(sp["poses"]).reshape(n, 77, 3)[:, 1:], np.asarray(new["poses"]).reshape(n, 77, 3)[:, 1:]):
+        raise SystemExit(f"{name}: a non-root joint changed in the world step")
+    np.savez(out / "soma_params_world.npz", **new)
+    calib = {"episode": name, "floor_fit": str(floor_fit), "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
+             "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
+             "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4)}
+    (out / "world_calib.json").write_text(json.dumps(calib, indent=1))
+    print(json.dumps(calib))
+
+
 def _quat_wxyz(rot: np.ndarray) -> np.ndarray:
     from scipy.spatial.transform import Rotation
 
@@ -169,7 +252,11 @@ def assemble(out: Path, inp: Path, ep: int, tier_dir: Path) -> None:
     tasks = {json.loads(line)["task"]: json.loads(line)["task_index"] for line in (inp / "meta" / "tasks.jsonl").read_text().splitlines()}
     n = int(meta["frames"])
 
-    sp = np.load(out / "soma_params.npz", allow_pickle=True)
+    for f in ("soma_params_world.npz", "object_world.npz", "world_calib.json"):
+        if not (out / f).exists():
+            raise SystemExit(f"{out / f} missing: run the world step first (the camera frame is not the released world)")
+    calib = json.loads((out / "world_calib.json").read_text())
+    sp = np.load(out / "soma_params_world.npz", allow_pickle=True)
     joint_names = [str(j) for j in sp["joint_names"]]
     want = info["features"]["observation.human.pose"]["names"]  # "Hips.rx", "Hips.ry", ...
     want_joints = list(dict.fromkeys(name.rsplit(".", 1)[0] for name in want))
@@ -183,7 +270,7 @@ def assemble(out: Path, inp: Path, ep: int, tier_dir: Path) -> None:
     # retargeting reads frame 0 only (read_soma.py); Tier 2 stores the identity as a per-frame constant
     ident = np.repeat(ident.reshape(-1, 45)[:1], n, 0)
     scale = np.repeat(scale.reshape(-1, 68)[:1], n, 0)
-    obj = np.load(out / "object_cam.npz")["T_cam_glb"]  # W = I: camera frame is the released world frame
+    obj = np.load(out / "object_world.npz")["T_world_glb"]
     obj_pose = np.concatenate([obj[:, :3, 3], _quat_wxyz(obj[:, :3, :3])], axis=1).astype(np.float32)
     for name, arr, width in (("pose", poses, 231), ("translation", transl, 3), ("identity", ident, 45), ("scale", scale, 68),
                              ("flex", flex, 6), ("object", obj_pose, 7)):
@@ -210,8 +297,12 @@ def assemble(out: Path, inp: Path, ep: int, tier_dir: Path) -> None:
     })
     table = table.replace_schema_metadata({
         "objects": json.dumps([meta["object"]]), "pose_convention": "world_T_object",
-        "trajectory_variant": "tier3_cari4d_official_mesh_w_eq_cam",
-        "source": json.dumps({"reconstruction": "CARI4D", "object_mesh": meta["mesh"], "world_frame": "exo camera OpenCV frame (W=I)"}),
+        "trajectory_variant": "tier3_cari4d_official_mesh_floor_calib",
+        "source": json.dumps({"reconstruction": "CARI4D", "object_mesh": meta["mesh"],
+                              "world_frame": "exo camera OpenCV frame, rotated and scaled about the camera origin so the "
+                                             "reconstructed floor lies on the released ground plane; yaw and horizontal "
+                                             "position as reconstructed",
+                              "floor_correction": {k: calib[k] for k in ("camera_group", "how", "tilt_deg", "scale", "floor_fit_sha256")}}),
     })
     dst = tier_dir / "data" / "chunk-000" / f"episode_{ep:06d}.parquet"
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -231,6 +322,8 @@ if __name__ == "__main__":
         soma(*args)
     elif cmd == "residual":
         residual(*args)
+    elif cmd == "world":
+        world(*args)
     elif cmd == "assemble":
         assemble(args[0], args[1], int(sys.argv[4]), args[3])
     else:
