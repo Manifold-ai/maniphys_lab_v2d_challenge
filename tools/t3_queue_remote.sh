@@ -50,9 +50,12 @@ print("ok=%s iou_p50=%s depth_factor_p50=%s centroid_p50=%s %s" % (j.get("ok"), 
       [ -f "$p" ] || continue
       echo "$(basename "$(dirname "$(dirname "$(dirname "$p")")")") $(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("verdict"))' "$p")"
     done
-    for d in tier3_cari4d tier3_cari4d_suspect; do
-      echo "## runs/$d 里的 parquet（文件名、修改时间）"
-      find "$T/runs/$d" -name '*.parquet' -printf '%f %TF_%TT\n' 2>/dev/null | cut -c1-42 | sort
+    # 不只列 tier3_cari4d 与 tier3_cari4d_suspect：地面、焦距校正后的版本也在 runs/tier3_cari4d* 下
+    for p in "$T"/runs/tier3_cari4d*/; do
+      [ -d "$p" ] || continue
+      d="$(basename "$p")"
+      echo "## runs/$d 里的 parquet（$(find "$p" -name '*.parquet' 2>/dev/null | wc -l) 个；文件名、修改时间）"
+      find "$p" -name '*.parquet' -printf '%f %TF_%TT\n' 2>/dev/null | cut -c1-42 | sort
     done
     echo "## 部署版本与队列脚本修改时间"
     cat "$T/code/DEPLOYED" 2>/dev/null
