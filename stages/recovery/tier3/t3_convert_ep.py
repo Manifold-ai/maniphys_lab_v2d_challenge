@@ -243,12 +243,14 @@ def focal(out: Path, focal_json: Path, assets: Path) -> None:
     spec_bytes = focal_json.read_bytes()
     spec = json.loads(spec_bytes)
     group = next((int(g) for g, members in spec["camera_groups"].items() if name in members), None)
-    if group is None:
-        raise SystemExit(f"{focal_json}: {name} is in no camera group")
+    fallback = None
+    if group is None:  # a camera the spec has not seen (new data): keep CARI4D's own focal, say so
+        fallback = f"{name} is in no camera group of {focal_json.name}; CARI4D's focal kept"
+        print(f"FALLBACK focal: {fallback}", file=sys.stderr)
     oc = dict(np.load(out / "object_cam.npz"))
     k_used = np.asarray(oc["intrinsics"], np.float64)
     fx_used = float(k_used[0, 0])
-    fx_new = spec["focal_px"].get(str(group))  # None: keep CARI4D's focal for this camera
+    fx_new = None if group is None else spec["focal_px"].get(str(group))  # None: keep CARI4D's focal for this camera
     k = 1.0 if fx_new is None else float(fx_new) / fx_used
     if not 0.8 < k < 1.25:
         raise SystemExit(f"{name}: focal ratio {k:.3f} is implausible")
@@ -271,7 +273,7 @@ def focal(out: Path, focal_json: Path, assets: Path) -> None:
     np.savez(out / "soma_params_focal.npz", **new)
     calib = {"episode": name, "focal_spec": focal_json.name, "focal_spec_sha256": hashlib.sha256(spec_bytes).hexdigest(),
              "camera_group": group, "fx_used_by_cari4d": fx_used, "fx_new": fx_used * k, "depth_ratio": k,
-             "source": spec.get("source", {}).get(str(group)), "body_rigid_max_err_mm": round(err * 1000, 4)}
+             "source": spec.get("source", {}).get(str(group)), "body_rigid_max_err_mm": round(err * 1000, 4), "fallback": fallback}
     (out / "focal_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))
 
@@ -381,8 +383,11 @@ def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None
     name = out.name
     fit_bytes = floor_fit.read_bytes()
     entry = json.loads(fit_bytes)["episodes"].get(name)
-    if entry is None:
-        raise SystemExit(f"{floor_fit}: no floor correction for {name}")
+    fallback = None
+    if entry is None:  # no floor correction for this camera (new data, or a camera without floor events): camera frame
+        fallback = f"{floor_fit.name} has no floor correction for {name}; camera frame kept (no tilt, height or scale correction)"
+        print(f"FALLBACK world: {fallback}", file=sys.stderr)
+        entry = {"group": None, "how": "none", "own_events": False, "tilt_deg": None, "rotation": np.eye(3).tolist(), "scale": 1.0}
     rot, s = np.asarray(entry["rotation"], np.float64), float(entry["scale"])
     if abs(np.linalg.det(rot) - 1) > 1e-6 or np.abs(rot @ rot.T - np.eye(3)).max() > 1e-6 or not 0.8 < s < 1.25:
         raise SystemExit(f"floor correction for {name} is not a rotation with a plausible scale (scale {s})")
@@ -393,7 +398,7 @@ def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None
     # cameras other than the main one: a registered floor-plane motion onto the main camera's world, after the floor
     # correction (camera_register.json); none for the main camera or an unregistered one
     reg_bytes = register.read_bytes() if register is not None else None
-    reg = _camera_register(json.loads(reg_bytes), entry["group"]) if reg_bytes is not None else None
+    reg = _camera_register(json.loads(reg_bytes), entry["group"]) if reg_bytes is not None and fallback is None else None
     r_reg, move = reg if reg is not None else (np.eye(3), lambda x: x)
     rot_all = r_reg @ rot
 
@@ -409,14 +414,14 @@ def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None
     # positions, so legs must too (moving only the pelvis left the feet (1 - s) x pelvis height under the floor:
     # 1.4 cm on the main camera, 6.5 cm on the second; t3_feet_diag.py). The person gets s times smaller.
     tol = json.loads((out / "residual_report.json").read_text())["chamfer_cm"]["mean"] / 100.0
-    scaled, fit = _scale_body(sp, s, assets, name, tol)
+    scaled, fit = _scale_body(sp, s, assets, name, tol) if s != 1.0 else (sp, {"scale": 1.0, "skipped": "no scale"})
     new, err = _move_body(scaled, rot_all, lambda p: move(s * p @ rot.T), assets, name, "world")
     np.savez(out / "soma_params_world.npz", **new)
     focal_calib = json.loads((out / "focal_calib.json").read_text())
     calib = {"episode": name, "floor_fit": floor_fit.name, "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
              "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
              "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4),
-             "body_scale_fit": fit,
+             "body_scale_fit": fit, "fallback": fallback,
              "camera_register": None if reg is None else {"file": register.name, "sha256": hashlib.sha256(reg_bytes).hexdigest(),
                                                            **json.loads(reg_bytes)["groups"][str(entry["group"])]},
              "focal": {k: focal_calib[k] for k in ("fx_used_by_cari4d", "fx_new", "depth_ratio", "focal_spec_sha256")}}
@@ -488,10 +493,12 @@ def assemble(out: Path, inp: Path, ep: int, tier_dir: Path) -> None:
         "objects": json.dumps([meta["object"]]), "pose_convention": "world_T_object",
         "trajectory_variant": "tier3_cari4d_official_mesh_floor_calib",
         "source": json.dumps({"reconstruction": "CARI4D", "object_mesh": meta["mesh"],
-                              "world_frame": "exo camera OpenCV frame, rotated and scaled about the camera origin so the "
-                                             "reconstructed floor lies on the released ground plane; "
-                                             + ("then moved along the floor onto the main exo camera's world (camera_register)"
-                                                if calib.get("camera_register") else "yaw and horizontal position as reconstructed"),
+                              "world_frame": ("exo camera OpenCV frame without floor correction (fallback: " + calib["fallback"] + ")"
+                                              if calib.get("fallback") else
+                                              "exo camera OpenCV frame, rotated and scaled about the camera origin so the "
+                                              "reconstructed floor lies on the released ground plane; "
+                                              + ("then moved along the floor onto the main exo camera's world (camera_register)"
+                                                 if calib.get("camera_register") else "yaw and horizontal position as reconstructed")),
                               "floor_correction": {k: calib[k] for k in ("camera_group", "how", "tilt_deg", "scale", "floor_fit_sha256")},
                               "camera_register": (calib.get("camera_register") or {}).get("sha256")}),
     })

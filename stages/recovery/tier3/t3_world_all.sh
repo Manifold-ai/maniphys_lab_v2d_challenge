@@ -55,7 +55,7 @@ for name in "${eps[@]}"; do
     python /s/t3_convert_ep.py world /o/"$name" /f/"$FIT" /a ${REGISTER:+/f/$REGISTER} > "$T/logs/world_$name.log" 2>&1 \
     || { echo "$name: world failed (logs/world_$name.log)"; continue; }
   "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$dst" > "$T/logs/assemble_${OUT}_$name.log" 2>&1 \
-    && echo "$name: -> $(basename "$dst") $(grep -o '"body_rigid_max_err_mm": [0-9.e-]*\|"joint_err_mm_max": [0-9.e-]*\|"tol_mm": [0-9.e-]*' "$T/logs/world_$name.log" | tr '\n' ' ')" \
+    && echo "$name: -> $(basename "$dst") $(grep -h "^FALLBACK" "$T/logs/world_$name.log" "$T/logs/focal_$name.log" 2>/dev/null | tr "\n" " ")$(grep -o '"body_rigid_max_err_mm": [0-9.e-]*\|"joint_err_mm_max": [0-9.e-]*\|"tol_mm": [0-9.e-]*' "$T/logs/world_$name.log" | tr '\n' ' ')" \
     || echo "$name: assemble failed"
 done
 echo ALLDONE
