@@ -1,0 +1,69 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && bash --version | head -1 && for t in libs/v2d_infra/test_paths.py stages/policy/test_make_var_queue.py stages/policy/test_precheck_expect.py stages/policy/test_day2_chain_waits.py stages/evaluate/test_fc_export.py stages/recovery/test_tier3_root.py stages/recovery/test_tier3_expect.py stages/recovery/test_t3_pick_version.py stages/retarget/test_challenge_to_soma.py; do echo "## $t"; python3 $t 2>&1 | tail -4 || exit 1; done && echo "## stages/recovery/test_t3_float_facts.py�\210容�\231��\211" && scripts/dev/incontainer stages/recovery/test_t3_float_facts.py 2>&1 | tail -8' 
+# md5      : 6fc5cda1942d7c7e424de5c4345e1391  libs/v2d_infra/test_paths.py
+# md5      : 163ea974e32d50c65eb4827c3010134a  stages/policy/test_make_var_queue.py
+# md5      : 1c44fefe077de16326f5fb46c247ae6f  stages/policy/test_precheck_expect.py
+# md5      : 6e48c0bb2fe2fe5ec8ad569a6ad6448e  stages/policy/test_day2_chain_waits.py
+# md5      : 48aad728d1283895355aa8ad69836b9d  stages/evaluate/test_fc_export.py
+# md5      : 75308808d11f78b71f13a5f812c700d9  stages/recovery/test_tier3_root.py
+# md5      : 2fa3089cba235057b9607533abdf0b0b  stages/recovery/test_tier3_expect.py
+# md5      : 7e785062dcfeac67acb4888e223ca4ed  stages/recovery/test_t3_pick_version.py
+# md5      : afba4a3b963828f3d854d6562dbf897f  scripts/dev/incontainer
+# md5      : 48cb06f3f1b160755aa36c864a825727  stages/recovery/test_t3_float_facts.py
+# source   : 44ba8a606ea6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T13:59:03-0600
+# ---------------------------------------------------------------
+source 44ba8a606ea6
+GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+## libs/v2d_infra/test_paths.py
+ok test_set
+ok test_bad_values_refuse
+ok test_no_tier4
+ALL_OK
+## stages/policy/test_make_var_queue.py
+ok test_t3p2
+ok test_unknown_override_refuses
+ok test_duplicate_export_row_refuses
+ALL_OK
+## stages/policy/test_precheck_expect.py
+ok test_first_round_dir
+ok test_v2_dir
+ok test_mismatch_refuses
+ALL_OK
+## stages/policy/test_day2_chain_waits.py
+ok test_gpu_wait_timeout_dies
+ok test_eval_waits_for_gpu
+ok test_eval_without_wait_stops
+ALL_OK
+## stages/evaluate/test_fc_export.py
+ok test_dryrun
+ok test_summary_failure_keeps_exit_code
+ok test_t3_set_dir
+ALL_OK
+## stages/recovery/test_tier3_root.py
+ok test_changed_parquet_refuses
+ok test_unsafe_relative_path_refuses
+ok test_tier1_read_blocked
+ALL_OK
+## stages/recovery/test_tier3_expect.py
+ok test_collects_both
+ok test_conflict_refuses
+ok test_empty_record_refuses
+ALL_OK
+## stages/recovery/test_t3_pick_version.py
+ok test_both_pass
+ok test_blocked
+ok test_bad_records_refuse
+ALL_OK
+## stages/retarget/test_challenge_to_soma.py
+  ep20 2026-06-08_16-57-34_rice_cooker_clockwise_04: 553 帧，键/形状/关节名/flex/网格/support 全部正确 ✓
+  不可见帧填补 0 帧；support 坐标系声明 g1_retarget_world
+
+4 个测试全部通过
+## stages/recovery/test_t3_float_facts.py（容器）
+test_clean ok
+test_scale ok
+test_pitch ok
+test_end_to_end ok
+test_offset_gate ok
+ALL_OK

@@ -1,0 +1,21 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "rg": {"file": "results/t3float/regress_diff_1010.txt", "grep": "REGRESS_SAME|^# command"},
+  "c": {"file": "results/t3float/regress_control_tier2_mf4090.txt", "grep": "^静置|^地面上|^常数模型|^T3_FLOAT"},
+  "fl": {"file": "results/t3float/gate_floor_ok20_mf4090.txt", "grep": "^目录|^静置|^地面上|^常数模型|^OFFSET_GATE|^T3_FLOAT"},
+  "f8": {"file": "results/t3float/gate_f830_ok20_mf4090.txt", "grep": "^目录|^静置|^地面上|^常数模型|^OFFSET_GATE|^T3_FLOAT"},
+  "pk": {"file": "results/t3float/pick_1010.txt", "grep": "^floor|^f830|^两版|^PICK"},
+  "ep": {"file": "results/ops/t3_episodes_ml40_1010_v2.txt", "grep": "^## 目录|^## episode|^可读"}
+ },
+ "claims": [
+  {"id": "regress", "evidence": ["rg", "c"], "claim": "用改过的脚本以 --all-rest 重跑官方 Tier 2 目录，输出正文与 10/9 的记录相同（REGRESS_SAME）；这次的结果是地面上 20 集，常数模型 o = -4.5 ± 3.1 mm。"},
+  {"id": "floor_gate", "evidence": ["fl"], "claim": "tier3_cari4d_floor 这一版的 20 集里地面上 14 集，常数模型 o = -7.4 ± 3.9 mm，每集标准差 14.4 mm，打了 OFFSET_GATE_PASS（门槛 |o| ≤ 30 mm）。"},
+  {"id": "f830_gate", "evidence": ["f8"], "claim": "tier3_cari4d_f830_floor 这一版的 20 集里地面上 14 集，常数模型 o = -5.1 ± 4.0 mm，每集标准差 15.0 mm，打了 OFFSET_GATE_PASS（门槛 |o| ≤ 30 mm）。"},
+  {"id": "pick", "evidence": ["pk"], "claim": "选版结果是 PICK f830：两版 |o| 之差 2.3 mm 不超过 11.2 mm，于是比 ep8、ep24 间隙绝对值的较大者（floor 24.0 mm，f830 23.5 mm）；f830 的 ep8、ep24 间隙是 -16.9、+23.5 mm，都不超过 50 mm。"},
+  {"id": "same_files", "evidence": ["pk", "ep"], "claim": "ml40 上 runs/tier3_cari4d_f830_floor 的 episode_000008.parquet 的 sha256 以 e5f645fb8587 开头、episode_000024.parquet 的以 31a5a65c3bb5 开头，与选版记录里 f830 的 ep8、ep24 一致。"},
+  {"id": "ctl_true", "evidence": ["f8"], "claim": "f830 这一版的记录里静置 20 集，其中地面上 14 集、支撑面上 6 集。", "control": "true"},
+  {"id": "ctl_false_o", "evidence": ["fl"], "claim": "tier3_cari4d_floor 这一版的常数模型 o = +135.5 ± 10.6 mm。", "control": "false"},
+  {"id": "ctl_false_pick", "evidence": ["pk"], "claim": "选版结果是 PICK floor。", "control": "false"}
+ ]
+}

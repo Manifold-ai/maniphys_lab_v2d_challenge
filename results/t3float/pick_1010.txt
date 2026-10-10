@@ -1,0 +1,10 @@
+# command  : python3 stages/recovery/t3_pick_version.py floor=results/t3float/gate_floor_ok20_mf4090.txt f830=results/t3float/gate_f830_ok20_mf4090.txt 
+# md5      : 19e73ce7791158dd3a38b29d99a69612  stages/recovery/t3_pick_version.py
+# source   : 44ba8a606ea6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T14:01:45-0600
+# ---------------------------------------------------------------
+floor：OFFSET_GATE_PASS，地面上 14 集，o = -7.4 ± 3.9 mm，每集标准差 14.4 mm；ep8 间隙 -24.0 mm（e0410b267fe7），ep24 间隙 +20.0 mm（03af7172b991）
+f830：OFFSET_GATE_PASS，地面上 14 集，o = -5.1 ± 4.0 mm，每集标准差 15.0 mm；ep8 间隙 -16.9 mm（e5f645fb8587），ep24 间隙 +23.5 mm（31a5a65c3bb5）
+两版都过，|o| 之差 2.3 mm ≤ 11.2 mm，看 ep8、ep24 间隙绝对值的较大者（floor 24.0 mm，f830 23.5 mm），取小的；ep8、ep24 的间隙绝对值 16.9、23.5 mm 都 ≤ 50 mm
+PICK f830

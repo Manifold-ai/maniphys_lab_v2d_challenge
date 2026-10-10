@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-10-t3-float-recheck.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 02aa0a1aac2f53366c0ff78cb095ec96  agent-doc/experiments/2026-10-10-t3-float-recheck.claims.json
+# source   : 44ba8a606ea6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T14:02:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+regress              P(supported)=0.76  verified               [rg, c]  用改过的脚本以 --all-rest 重跑官方 Tier 2 目录，输出正文与 10/9 的记录相同（REGRESS_SAME）；这次的结果是地面上 20 集，常数模型 o = -4.5 ± 3.1 mm。
+floor_gate           P(supported)=0.95  verified               [fl]  tier3_cari4d_floor 这一版的 20 集里地面上 14 集，常数模型 o = -7.4 ± 3.9 mm，每集标准差 14.4 mm，打了 OFFSET_GATE_PASS（门槛 |o| ≤ 30 mm）。
+f830_gate            P(supported)=0.97  verified               [f8]  tier3_cari4d_f830_floor 这一版的 20 集里地面上 14 集，常数模型 o = -5.1 ± 4.0 mm，每集标准差 15.0 mm，打了 OFFSET_GATE_PASS（门槛 |o| ≤ 30 mm）。
+pick                 P(supported)=0.96  verified               [pk]  选版结果是 PICK f830：两版 |o| 之差 2.3 mm 不超过 11.2 mm，于是比 ep8、ep24 间隙绝对值的较大者（floor 24.0 mm，f830 23.5 mm）；f830 的 ep8、ep24 间隙是 -16.9、+23.5 mm，都不超过 50 mm。
+same_files           P(supported)=0.97  verified               [pk, ep]  ml40 上 runs/tier3_cari4d_f830_floor 的 episode_000008.parquet 的 sha256 以 e5f645fb8587 开头、episode_000024.parquet 的以 31a5a65c3bb5 开头，与选版记录里 f830 的 ep8、ep24 一致。
+ctl_true             P(supported)=0.99  control(true) ok       [f8]  f830 这一版的记录里静置 20 集，其中地面上 14 集、支撑面上 6 集。
+ctl_false_o          P(supported)=0.01  control(false) ok      [fl]  tier3_cari4d_floor 这一版的常数模型 o = +135.5 ± 10.6 mm。
+ctl_false_pick       P(supported)=0.01  control(false) ok      [pk]  选版结果是 PICK floor。
+controls behaved as expected

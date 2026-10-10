@@ -1,0 +1,6 @@
+# command  : bash -c export\ LC_ALL=C\;\ diff\ \<\(sed\ \"1\,/\^#\ ---/d\"\ results/t3float/posthoc_control_tier2_mf4090.txt\)\ \<\(sed\ \"1\,/\^#\ ---/d\"\ results/t3float/regress_control_tier2_mf4090.txt\)\ \&\&\ echo\ REGRESS_SAME 
+# source   : 44ba8a606ea6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T14:02:00-0600
+# ---------------------------------------------------------------
+REGRESS_SAME
