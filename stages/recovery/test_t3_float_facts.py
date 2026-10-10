@@ -4,7 +4,10 @@
   1. 不加误差：间隙都在 ±1 mm 内，对照判据通过（CONTROL_OK）
   2. 物体原点沿视线缩到 k = 0.92（网格不变）：地面上的间隙都是 0.08 ×（1.39 − 0.15）m，判读“常数型”，尺度模型给 1/(1 + s) ≈ 0.92、判“尺度”
   3. 整个场景绕相机 x 轴转 2°：判读“倾角型”，俯仰约 2°
-  4. 端到端：parquet、元数据（tier3_pack_remote.sh 的布局）、网格、地面与支撑面写进临时目录，跑 main()，输出里有每集一行、判读与结束标记
+  4. 端到端：parquet、元数据（tier3_pack_remote.sh 的布局）、网格、地面与支撑面写进临时目录，跑 main()，输出里有每集一行、判读与结束标记；
+     再加 --all-rest --offset-gate 30 跑一次：地面上 8 集的间隙约 +99 mm，打 OFFSET_GATE_FAIL，不再标“事后（未登记）”
+  5. --offset-gate 的判据（agent-doc/plan-t3-pilot-v2-2026-10-10.md 第 4 节）：地面上 14 集、偏移 +20 mm 时门槛 30 过、15 不过；
+     偏移 −40 mm 时 30 不过；地面上只有 7 集时不判读
 用法：scripts/dev/incontainer stages/recovery/test_t3_float_facts.py
 """
 import contextlib
@@ -116,6 +119,26 @@ def test_end_to_end():
         text = buf.getvalue()
         assert text.count("\tbox\t") == len(SPOTS), text
         assert "判读：常数型；尺度模型：尺度" in text and text.rstrip().endswith("T3_FLOAT_FACTS_DONE"), text
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            assert F.main([str(root), "--tier2", str(t2), "--all-rest", "--offset-gate", "30"]) == 0
+        text = buf.getvalue()
+        assert "OFFSET_GATE_FAIL（地面上 8 集" in text and "每集标准差" in text and "事后（未登记）" not in text and "10/10 登记" in text, text
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            assert F.main([str(root), "--tier2", str(t2), "--all-rest"]) == 0
+        text = buf.getvalue()
+        assert "事后（未登记）" in text and "OFFSET_GATE" not in text, text
+
+
+def test_offset_gate():
+    def rows(n, gap):
+        return [{"gap": gap + 0.001 * (i % 3 - 1), "disp_mm": 50.0, "on_floor": True, "Z": 1.5 + 0.3 * i, "X": 0.1 * i - 0.6,
+                 "L": 1.0 + 0.05 * i} for i in range(n)]
+    out = F.fit(rows(14, 0.020), float("inf"))
+    assert out["n_floor"] == 14 and F.offset_gate(out, 30) is True and F.offset_gate(out, 15) is False
+    assert F.offset_gate(F.fit(rows(14, -0.040), float("inf")), 30) is False
+    assert F.offset_gate(F.fit(rows(7, 0.0), float("inf")), 30) is None
 
 
 if __name__ == "__main__":

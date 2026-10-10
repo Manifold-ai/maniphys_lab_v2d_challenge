@@ -4,7 +4,9 @@ run 设计；运行规范未成文，暂无契约 ID）。只用标准库。
 ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）与两份导出清单，跑生成脚本后核：
   1. t2xa、t2xb 两段：15 条与 9 条 run 的名字与计划顺序；每行没有 buffer 覆盖、有变体 A 两项、基线有的 scene.support=false 照留；
      冒烟与正式行除步数、前缀外一致；W&B 标签 t2x；期望表的 buffer 列 10000000、种子 42，其余列照抄基线；导出清单与 run 一一对应、档位 2
-  2. t3p：2 条 run；parquet 换到 /runs/motion/tier3/、序列名不变；覆盖以 400 万 buffer 开头；期望表 buffer 列 4000000；导出清单档位 3
+  2. t3p：2 条 run；parquet 换到 /runs/motion/tier3/、序列名不变；覆盖以 400 万 buffer 开头；期望表 buffer 列 4000000；导出清单档位 3；
+     t3p2（agent-doc/plan-t3-pilot-v2-2026-10-10.md）：段名也以 t3p 开头，要落到 t3p2 这份清单（取最长的）；run 名带 -v2，
+     parquet 在 /runs/motion/tier3_v2/ 下，W&B 标签 t3p2，其余同 t3p
   3. 基线覆盖里有计划没说的键、或一条 episode 在导出清单里出现两次：报错退出，不写文件
   4. 续跑段 t2xa2 --episodes 16,7：只有这两条，顺序照清单（ep7 在前），文件名带段名
   5. 段名不对：预设段又给 --episodes、非预设段不给 --episodes、--episodes 里有清单外的 episode、段名不以清单名开头，都报错不写文件
@@ -42,8 +44,8 @@ def base_run(ep):
     return f"t2-ep{ep}-w2048-cap10m-ml40" if ep % 2 == 0 else f"t2-ep{ep}-w2048-cap4m-mf4090"
 
 
-def pq(ep, tier=2):
-    return f"/repo/runs/motion/tier{tier}/whole_body/soma/sequence_id={seq(ep)}/robot_name=g1/data.parquet"
+def pq(ep, tier=2, motion=None):
+    return f"/repo/runs/motion/{motion or f'tier{tier}'}/whole_body/soma/sequence_id={seq(ep)}/robot_name=g1/data.parquet"
 
 
 def setup(root: Path, bad_key_ep=None, dup_ep=None):
@@ -85,7 +87,7 @@ def lines(p: Path):
     return [x for x in p.read_text().splitlines() if x and not x.startswith("#")]
 
 
-def check_set(root, name, eps, run_fmt, tier, cap_col, cap_over, env_tag, machine):
+def check_set(root, name, eps, run_fmt, tier, cap_col, cap_over, env_tag, machine, motion=None):
     q = root / "stages" / "policy" / "queues"
     want = [run_fmt.format(ep=e) for e in eps]
     f, s = lines(q / f"{machine}_{name}.txt"), lines(q / f"{machine}_{name}_smoke.txt")
@@ -95,7 +97,7 @@ def check_set(root, name, eps, run_fmt, tier, cap_col, cap_over, env_tag, machin
         over = ft[9:]
         assert ft[:5] == f"V2D_WANDB_TAG={env_tag} V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1".split(), fx
         assert st[:5] == SENV.split(), sx
-        assert ft[6] == pq(ep, tier) and ft[7] == "2048" and ft[8] == "349999104", fx
+        assert ft[6] == pq(ep, tier, motion) and ft[7] == "2048" and ft[8] == "349999104", fx
         caps = [o for o in over if o.startswith("training.replay.capacity=")]
         assert caps == ([cap_over] if cap_over else []) and (not cap_over or over[0] == cap_over), fx
         assert ("scene.support=false" in over) == (support(ep) == "false") and over[-2:] == VAR, fx
@@ -147,6 +149,17 @@ def test_t3p():
         r = gen(root, "t3p")
         assert r.returncode == 0, r.stdout + r.stderr
         check_set(root, "t3p", [8, 24], "t3-ep{ep}-w2048-cap4m-r3a-mf4090", 3, "4000000", "training.replay.capacity=4000000", "t3p", "mf4090")
+
+
+def test_t3p2():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        r = gen(root, "t3p2")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t3p2", [8, 24], "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090", 3, "4000000", "training.replay.capacity=4000000", "t3p2",
+                  "mf4090", motion="tier3_v2")
+        assert not (root / "stages" / "policy" / "queues" / "mf4090_t3p.txt").exists()
 
 
 def test_unknown_override_refuses():

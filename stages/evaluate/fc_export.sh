@@ -15,7 +15,8 @@
 #   本脚本只负责把这种失败认出来：评测器退出码非零且这一次追加的日志里有这句话，退出码 13；其他失败退出码 3。回退由调用方按步数往前重试。
 # 运行时：V2D_FC_SRC 必须是 make_fc_src_8c778f9.sh 生成的副本（SOURCE_V2D.txt 第一行含 8c778f905c），否则退出码 2。
 # 输出 runs/flash_chord/<run>/export_8c778f9/s<步数>_w<世界数>/episode_<6 位序号>.{json,parquet}；日志 runs/logs/<run>.export_8c778f9_s<步数>_w<世界数>.log。
-#   episode 序号取自 runs/motion_src/tier<档位>/<序列>/v2d_meta.json：序列取自 run_record.jsonl 第一条 start 记录的 parquet 路径，
+#   episode 序号取自 runs/motion_src/<目录>/<序列>/v2d_meta.json：目录与序列取自 run_record.jsonl 第一条 start 记录的 parquet 路径
+#   runs/motion/<目录>/…（目录是 tier1、tier2、tier3，或 Tier 3 校正版的 tier3_<名>，见 libs/v2d_infra/paths.py 的 tier_dirname），
 #   档位取自 run 名前缀，parquet 路径里的档位必须与它一致。已有完整结果（JSON 与要求的 parquet 都在）就直接打印，不重复导出。
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"; cd "$ROOT"
@@ -37,18 +38,19 @@ if [ "${V2D_EXPORT_UNGUARDED:-0}" != 1 ]; then
     || die "$RUN 第 ${STEP} 步的 policy 含非有限参数、读不了或还没写完：不导出（$(grep -F ' 步：' <<< "$nf" | head -1 | sed 's/^ *//')）" 12
 fi
 
-read -r PT SEQ <<< "$(python3 - "$O/run_record.jsonl" <<'PY'
+read -r PT DN SEQ <<< "$(python3 - "$O/run_record.jsonl" <<'PY'
 import json, re, sys
 for line in open(sys.argv[1]):
     r = json.loads(line)
     if r.get("event") == "start":
-        m = re.fullmatch(r"/repo/runs/motion/tier([123])/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet", r.get("parquet", ""))
-        print(f"{m.group(1)} {m.group(2)}" if m else "? ?")
+        m = re.fullmatch(r"/repo/runs/motion/(tier[12]|tier3(?:_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet",
+                         r.get("parquet", ""))
+        print(f"{m.group(1)[4]} {m.group(1)} {m.group(2)}" if m else "? ? ?")
         break
 PY
 )"
 [ "${PT:-?}" = "$T" ] || die "$RUN 的 run 记录里 parquet 的档位是 ${PT:-?}，与 run 名的 t$T 不一致（或读不出）"
-META="runs/motion_src/tier$T/$SEQ/v2d_meta.json"
+META="runs/motion_src/$DN/$SEQ/v2d_meta.json"
 EP="$(python3 - "$META" "$T" "$SEQ" <<'PY'
 import json, sys
 m = json.load(open(sys.argv[1]))

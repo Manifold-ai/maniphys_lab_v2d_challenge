@@ -8,7 +8,7 @@
 #      → 用评测器顶点算不动基线（经 record 落成 day2/bar_<冒烟 run>）→ 帧数核对。任何一步不过，这条的正式训练记 SKIPPED，继续下一条
 #   3. 正式：冒烟通过的 run 逐条 fc_run（DONE 跳过；残留 state 没 DONE 记 SKIPPED；失败记 FAILED，继续下一条）
 # Tier 2 批量起（计划 agent-doc/plan-t2-batch-2026-10-01.md）另加：
-#   - 档位：从 run 名的 t<档位>- 前缀取档位，正向核对断言 parquet 在 runs/motion/tier<档位>/ 下（只核对 sequence_id 时，
+#   - 档位：从 run 名的 t<档位>- 前缀取档位，正向核对断言 parquet 在 runs/motion/tier<档位>/（Tier 3 校正版是 tier3_<名>/）下（只核对 sequence_id 时，
 #     t2 的 run 指到 tier1 的同名序列也会过）；名字没有档位前缀就停整条链（在 precheck_expect.sh 里）
 #   - 正式训练经 fc_run_watched.sh：带发散看守，看守止损记“发散”（退出码 9），训完但最新 policy 非有限也记“发散”（退出码 10）
 #   - 磁盘：每条冒烟与正式开跑前，仓库所在分区的可用空间不到 V2D_MIN_FREE_MB（默认 2048）就停整条链

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # 起变体 A 链一段的三个 tmux（训练机上、仓库根执行）。arm_r3x_chain.sh 的参数化版本，核对项相同。段名以清单名开头：
 #   t2x*  Tier 2 铺开，ml40（计划 agent-doc/plan-t2-scaleout-2026-10-09.md；t2xa 15 条、t2xb 9 条，续跑与补跑另起一段）
-#   t3p*  Tier 3 试跑，mf4090（计划 agent-doc/plan-t3-pilot-2026-10-09.md）
+#   t3p*  Tier 3 试跑，mf4090（计划 agent-doc/plan-t3-pilot-2026-10-09.md；t3p2 是第二轮，计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）
 # 队列与导出清单由 stages/policy/make_var_queue.py 按段生成。起之前确认（任何一条不过就停，什么也不起）：
 #   - GPU 型号对得上这份清单的机器；来历干净；三段日志、导出结果表、导出门的日志与标记、长链标记、停链标记、同名 tmux 会话都不存在；
 #     GPU 上没有进程；
 #     仓库所在分区的可用空间不低于这份清单的要求
 #   - 副本 v040_p185_nfg 与 fc_8c778f9 都在，v040_p185_nfg 按 sha256 清单核对通过
 #   - 期望表至少一条 run；导出清单的行与期望表的 run 一一对应、顺序相同、档位相同
-#   - 导出要读的 runs/motion_src/tier<档>/<序列>/v2d_meta.json 都在，里面的档位与 episode 和导出清单一致（fc_export.sh 从这里取 episode 号）
+#   - 导出要读的 runs/motion_src/<目录>/<序列>/v2d_meta.json 都在，里面的档位与 episode 和导出清单一致（fc_export.sh 从这里取 episode 号）；
+#     目录取自正式队列行的 parquet（runs/motion/<目录>/…），是 tier<档>，或 Tier 3 校正版的 tier3_<名>（与 fc_export.sh 相同）
 #   - 正式 run 的目录里没有训练产物（目录不存在，或只有 fc_config_check.sh 经 fc_run.sh 打印模式建的空 .lock；不续训、不覆盖）；
 #     冒烟的目录要么也没有产物，要么已有 DONE（续跑、补跑时冒烟已经过了，训练链会重判），有产物没 DONE 的就停
 #   - 全部配置的 runs/cfgcheck/<run>.yaml 都在（fc_config_check.sh 先生成），precheck_expect.sh 全过；
@@ -67,7 +68,10 @@ mapfile -t listed < <(grep -vE '^(#|[[:space:]]*$)' "$LIST" | cut -f3)
 [ "${listed[*]}" = "${runs[*]}" ] || stop "导出清单的 run 与期望表不一致：${listed[*]}"
 for i in "${!runs[@]}"; do
   [ "${ltier[$i]}" = "$T" ] || stop "导出清单第 $((i + 1)) 行的档位是 ${ltier[$i]}，不是 $T"
-  m="runs/motion_src/tier$T/${seqs[$i]}/v2d_meta.json"
+  pq="$(grep -v '^[[:space:]]*#' "$Q.txt" | awk -v r="${runs[$i]}" '{for (k = 1; k < NF; k++) if ($k == r) {print $(k + 1); exit}}' || true)"
+  [[ $pq =~ ^/repo/runs/motion/(tier[123](_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet$ ]] \
+    && [ "${BASH_REMATCH[3]}" = "${seqs[$i]}" ] || stop "正式队列里 ${runs[$i]} 的 parquet 读不出，或序列与期望表不符：${pq:-无}"
+  m="runs/motion_src/${BASH_REMATCH[1]}/${seqs[$i]}/v2d_meta.json"
   [ -f "$m" ] || stop "缺 $m（导出要用）"
   python3 -c 'import json, sys; j = json.load(open(sys.argv[1])); sys.exit(0 if (str(j["tier"]), str(j["episode"])) == (sys.argv[2], sys.argv[3]) else 1)' \
     "$m" "$T" "${leps[$i]}" || stop "$m 的档位或 episode 与导出清单（Tier $T ep${leps[$i]}）不一致"

@@ -5,6 +5,9 @@
 # 再在容器里用 assert_cfg.py 断言 parquet 的档位目录与 sequence_id、回放（逐帧一臂不得有容差键）、scene.support、buffer、步数、世界数、种子、motion_speed。
 # 档位取自 run 名的 t<档位>- 前缀（冒烟与正式必须一致），parquet 必须在 /repo/runs/motion/tier<档位>/ 下：只核 sequence_id 时，
 # t2 的 run 指到 tier1 的同名序列也会过（计划 agent-doc/plan-t2-batch-2026-10-01.md）。队列行里有 V2D_FC_SRC= 也算不过（除非 V2D_ALLOW_FC_SRC=1）。
+# 档位目录取自队列行的 parquet：tier1、tier2、tier3，或 Tier 3 校正版的 tier3_<名>（libs/v2d_infra/paths.py 的 tier_dirname；
+# 计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）。目录里的档位数字必须与 run 名一致、序列必须与期望表一致；带 _<名> 的只许 Tier 3，
+# 且 run 名里要有 -<名>-（例如 t3-ep8-w2048-cap4m-r3a-v2-mf4090 对 tier3_v2），免得两版参考对错 run。断言用的就是这个目录。
 # 训练链 day2_train_chain.sh 的第 1 步就是调用本脚本，两处断言只在这里维护一份。
 # 用法：stages/policy/precheck_expect.sh <期望表> <冒烟队列> <正式队列>；全过退出码 0，最后一行 PRECHECK_OK（n 条 run）。
 set -uo pipefail
@@ -31,10 +34,20 @@ for row in "${ROWS[@]}"; do
     read -r -a qt <<< "$line"; j=0
     while [[ ${qt[$j]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do j=$((j + 1)); done
     steps=${qt[$((j + 3))]}
+    pq=${qt[$((j + 1))]}
+    if [[ $pq =~ ^/repo/runs/motion/(tier[123](_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet$ ]]; then
+      dir=${BASH_REMATCH[1]}; tag=${BASH_REMATCH[2]}; qseq=${BASH_REMATCH[3]}
+    else
+      echo "FAIL $r：队列行的 parquet 不在 /repo/runs/motion/<档位目录>/ 下：$pq"; bad=$((bad + 1)); continue
+    fi
+    if [ "${dir:4:1}" != "$T" ] || [ "$qseq" != "$seq" ] || { [ -n "$tag" ] && { [ "$T" != 3 ] || [[ $run != *"-${tag#_}-"* ]]; }; }; then
+      echo "FAIL $r：队列行 parquet 的目录 $dir、序列 $qseq 与 run 名的 t$T、期望表的序列 $seq 不符（带后缀的目录只许 Tier 3，且 run 名要含 -${tag#_}-）"
+      bad=$((bad + 1)); continue
+    fi
     if [ "$r" = "$run" ] && [ "$steps" != 349999104 ]; then echo "FAIL $r：正式步数 $steps"; bad=$((bad + 1)); continue; fi
     if [ "$pb" = real ]; then play=(task.source_frame_playback=false "embodiment.config.frame_position_tolerance=$pos" "embodiment.config.frame_orientation_tolerance=$ori")
     else play=(task.source_frame_playback=true '!embodiment.config.frame_position_tolerance' '!embodiment.config.frame_orientation_tolerance'); fi
-    out="$(scripts/dev/in-flash-chord "python /repo/stages/policy/assert_cfg.py /repo/$y 'task.parquet~=/repo/runs/motion/tier$T/whole_body/soma/sequence_id=$seq/robot_name=g1/data.parquet' ${play[*]} scene.support=$support training.replay.capacity=$cap training.total_environment_steps=$steps scene.world_count=2048 reset.seed=$seed training.seed=$seed task.motion_speed=1.0" 2>&1)"; rc=$?
+    out="$(scripts/dev/in-flash-chord "python /repo/stages/policy/assert_cfg.py /repo/$y 'task.parquet~=/repo/runs/motion/$dir/whole_body/soma/sequence_id=$seq/robot_name=g1/data.parquet' ${play[*]} scene.support=$support training.replay.capacity=$cap training.total_environment_steps=$steps scene.world_count=2048 reset.seed=$seed training.seed=$seed task.motion_speed=1.0" 2>&1)"; rc=$?
     echo "$out" | tail -1
     [ "$rc" = 0 ] || { echo "FAIL $r：断言不过"; bad=$((bad + 1)); }
   done

@@ -10,7 +10,9 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
   5. 已有完整结果不重复导出；V2D_EXPORT_TRAJ=0 时命令里没有 object_trajectories_output，只要 JSON；
   6. 同一个日志先有一次终止报错、再有一次别的失败：第二次判 3，不判 13（报错分类只看这一次追加的日志）；
   7. V2D_EXPORT_DRYRUN=1：守卫照常（含 NaN 的仍是 12），通过时只打印命令、退出码 0，不起容器、不写文件；
-  8. 摘要脚本出错不改变导出的退出码。
+  8. 摘要脚本出错不改变导出的退出码；
+  9. Tier 3 校正版（agent-doc/plan-t3-pilot-v2-2026-10-10.md）：parquet 在 runs/motion/tier3_v2/ 下时，v2d_meta.json 到 runs/motion_src/tier3_v2/
+     找（tier3/ 下第一轮那份不读）；目录名大写、空后缀或 Tier 1、2 带后缀都拒绝，退出码 2。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -170,6 +172,27 @@ def test_summary_failure_keeps_exit_code() -> None:
         root = Path(t); setup(root)
         rc, text, _ = run(root, FAKE_SUMMARY_RC="1")
         assert rc == 0 and "摘要打印失败" in text, (rc, text)
+
+
+
+def test_t3_set_dir() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        r3 = "t3-ep24-w2048-cap4m-r3a-v2-mf4090"
+        d = root / "runs/flash_chord" / r3
+        shutil.copytree(root / f"runs/flash_chord/{RUN}", d)
+        pq3 = f"/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id={SEQ}/robot_name=g1/data.parquet"
+        (d / "run_record.jsonl").write_text(json.dumps({"event": "start", "parquet": pq3}) + "\n")
+        for sub, ep in (("tier3_v2", 24), ("tier3", 99)):
+            (root / f"runs/motion_src/{sub}/{SEQ}").mkdir(parents=True)
+            (root / f"runs/motion_src/{sub}/{SEQ}/v2d_meta.json").write_text(json.dumps({"tier": 3, "episode": ep, "sequence_id": SEQ}))
+        rc, text, calls = run(root, run_name=r3)
+        assert rc == 0 and (d / f"export_8c778f9/s{STEP}_w1/episode_000024.json").is_file(), (rc, text)
+        assert not (d / f"export_8c778f9/s{STEP}_w1/episode_000099.json").exists(), text
+        for bad in ("tier3_V2", "tier3_", "tier2_v2"):
+            (d / "run_record.jsonl").write_text(json.dumps({"event": "start", "parquet": pq3.replace("tier3_v2", bad)}) + "\n")
+            rc, text, calls = run(root, run_name=r3)
+            assert rc == 2 and not calls, (bad, rc, text)
 
 
 if __name__ == "__main__":

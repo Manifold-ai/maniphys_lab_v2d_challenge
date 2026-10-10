@@ -12,7 +12,12 @@ parquet 在 <目录>/data/chunk-000/。网格、地面、支撑面按元数据�
 --control：对照用，按登记的对照判据打 CONTROL_OK / CONTROL_FAIL；否则按登记的 Tier 3 判读打一行“判读”。
 --all-rest：事后加的（10/9 21:40，看过第一轮结果之后，未登记）：不按位移筛静置，全部集都进拟合；输出里标明，不打判读。
   加它的原因：CARI4D 开头 5 帧的抖动有 9–51 mm，位移判据把 20 集筛到 6 集。开头调 tier_guard.forbid_tier1()。
+--offset-gate <mm>：10/10 执行前登记的判据（计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md 第 4 节，复查同组成员的校正版）：
+  地面上的集至少 8 集、常数模型 |o| ≤ 门槛打 OFFSET_GATE_PASS，否则 OFFSET_GATE_FAIL；不到 8 集打 OFFSET_GATE_NONE（不判读）。
+  这一行同时给 o 的标准误与地面上各集间隙的标准差，两版之间怎么选见 stages/recovery/t3_pick_version.py。
+  与 --all-rest 同用时，输出不再标“事后（未登记）”。
 用法（训练机，仓库根）：scripts/dev/incontainer stages/recovery/t3_float_facts.py <目录> [--tier2 <目录>] [--frames 5] [--episodes 0,3,...] [--control]
+                       [--all-rest] [--offset-gate <mm>]
 测试：stages/recovery/test_t3_float_facts.py。
 """
 import argparse
@@ -100,6 +105,7 @@ def fit(rows, static_mm=STATIC_MM):
         out["const"] = ols(g, [one])
         out["tilt"] = ols(g, [one, np.array([r["Z"] for r in fl]), np.array([r["X"] for r in fl])])
         out["floor_abs_median"] = float(np.median(np.abs(g)))
+        out["floor_sd"] = float(np.std(g, ddof=1))
     L = np.array([r["L"] for r in st])
     if len(st) >= 6 and L.max() - L.min() >= 0.3:
         g = np.array([r["gap"] for r in st])
@@ -144,6 +150,14 @@ def control_ok(out):
     return out["floor_abs_median"] <= 0.015 and abs(pitch) <= 0.5 and abs(roll) <= 0.5 and abs(o) <= 0.015
 
 
+def offset_gate(out, gate_mm):
+    """10/10 登记的判据：地面上的集至少 8 集，常数模型 |o| ≤ gate_mm。返回 None（不判读）、True（过）或 False（不过）。"""
+    if out["n_floor"] < 8 or "const" not in out:
+        return None
+    (o0,), _, _ = out["const"]
+    return abs(o0) * 1000 <= gate_mm
+
+
 def safe(root: Path, rel: str) -> Path:
     p = PurePosixPath(rel)
     if p.is_absolute() or ".." in p.parts or not p.parts:
@@ -169,6 +183,7 @@ def main(argv=None) -> int:
     ap.add_argument("--episodes", default="")
     ap.add_argument("--control", action="store_true")
     ap.add_argument("--all-rest", action="store_true")
+    ap.add_argument("--offset-gate", type=float, default=None, metavar="MM")
     a = ap.parse_args(argv)
     meta = load_meta(a.root)
     eps = sorted(meta) if not a.episodes else [int(x) for x in a.episodes.split(",")]
@@ -196,7 +211,8 @@ def main(argv=None) -> int:
               f"{r['gap'] * 1000:+.1f}\t{r['gap_wide'] * 1000:+.1f}\t{r['Z']:.2f}\t{r['X']:+.2f}\t{r['D']:.2f}\t{r['L']:.3f}\t{k:.3f}\t{sha}")
     out = fit(rows, float("inf") if a.all_rest else STATIC_MM)
     if a.all_rest:
-        print("事后（未登记）：不按位移筛静置，全部集都进拟合；不打判读")
+        print("不按位移筛静置，全部集都进拟合；只按 10/10 登记的 --offset-gate 判读" if a.offset_gate is not None
+              else "事后（未登记）：不按位移筛静置，全部集都进拟合；不打判读")
     print(f"静置 {out['n_static']} 集：在地面上 {out['n_floor']}，在支撑面上 {out['n_support']}")
     if "tilt" in out:
         (o0,), (se0,), ss0 = out["const"]
@@ -211,6 +227,14 @@ def main(argv=None) -> int:
         (s, o), (ss_, so), _ = out["scale"]
         print(f"尺度模型（全部静置集）：s = {s:+.4f} ± {ss_:.4f}（k = 1/(1 + s) = {1 / (1 + s):.4f}，|s|·L 中位 = {abs(s) * out['L_median'] * 1000:.1f} mm），"
               f"o = {o * 1000:+.1f} ± {so * 1000:.1f} mm")
+    if a.offset_gate is not None:
+        v = offset_gate(out, a.offset_gate)
+        if v is None:
+            print(f"OFFSET_GATE_NONE（地面上 {out['n_floor']} 集，不到 8 集，不判读）")
+        else:
+            (o0,), (se0,), _ = out["const"]
+            print(f"{'OFFSET_GATE_PASS' if v else 'OFFSET_GATE_FAIL'}（地面上 {out['n_floor']} 集，常数模型 o = {o0 * 1000:+.1f} ± {se0 * 1000:.1f} mm，"
+                  f"每集标准差 {out['floor_sd'] * 1000:.1f} mm，门槛 |o| ≤ {a.offset_gate:g} mm）")
     if a.all_rest:
         pass
     elif a.control:

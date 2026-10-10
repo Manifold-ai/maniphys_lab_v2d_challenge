@@ -18,6 +18,8 @@
 （全数据集只有 1 帧不可见，官方 soma_to_g1 完全不处理 visible。）
 
 档位隔离：只经 paths.tier(N) 读一个档位的根目录，不读其他档位的任何文件。
+Tier 3 设了 V2D_T3_SET=<名> 时，读 runs/tier3/root_<名>，上面两处的 tier3 换成 tier3_<名>（paths.tier_dirname；
+计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md），不覆盖旧版的文件。
 
 物体位姿来源：默认取该档位 parquet 的 observation.object.pose；传 --object-poses 时改用
 recovery 阶段落盘的 npz（object_pose (T,7)，OpenCV 系，已补齐不可见帧）。环节间只经文件交接，
@@ -38,7 +40,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "libs" / "v2d_infra"))
 import numpy as np
 import pyarrow.parquet as pq
-from paths import RUNS, tier
+from paths import RUNS, tier, tier_dirname
 from soma_fk import col, joint_names
 
 FLEX = "observation.human.bone_length_flexibles"
@@ -100,7 +102,7 @@ def convert(tier_n: int, episode: int, runs_root: Path = RUNS, object_poses: Pat
     ts = np.asarray(col(t, "timestamp"), dtype=np.float64).ravel()
     source_fps = float(round(1.0 / np.median(np.diff(ts)), 3))
 
-    src = runs_root / "motion_src" / f"tier{tier_n}" / seq
+    src = runs_root / "motion_src" / tier_dirname(tier_n) / seq
     (src / "reconstructed_mesh").mkdir(parents=True, exist_ok=True)
 
     np.savez(
@@ -138,7 +140,7 @@ def convert(tier_n: int, episode: int, runs_root: Path = RUNS, object_poses: Pat
          "object_pose_source": pose_src},
         ensure_ascii=False, indent=2))
 
-    motion_root = runs_root / "motion" / f"tier{tier_n}"
+    motion_root = runs_root / "motion" / tier_dirname(tier_n)
     stage = motion_root / "whole_body" / "reconstructed_stage"
     stage.mkdir(parents=True, exist_ok=True)
     support = stage / f"{seq}_support.usda"
