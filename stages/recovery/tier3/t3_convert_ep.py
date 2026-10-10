@@ -15,7 +15,11 @@ Three steps, each where its dependencies live:
             soma_params.npz the way the downstream reads it (frame-0 identity, per-frame bone flexibles, no
             correctives) and measures it against the MHR target mesh. The two meshes have different topologies
             (SOMA 18056 vs MHR 18439 vertices), so the distance is a symmetric nearest-vertex (chamfer) distance.
-  world     v2d_cari4d image, CPU. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
+  focal     v2d_cari4d image, CPU. Re-expresses the reconstruction for a chosen focal length (runs/floor/focal.json, per
+            exo camera; null keeps CARI4D's): the image stays, so depth scales by f_new / f_used, lateral position is
+            kept and orientations turn with the viewing ray. Object and human (root and pelvis only, as in world).
+            Writes object_cam_focal.npz, soma_params_focal.npz, focal_calib.json.
+  world     v2d_cari4d image, CPU, on the focal step's files. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
             origin that puts our floor normal on the released one, then a scale of positions by released / our
             floor offset), applied to the object (position rotated and scaled, orientation rotated, mesh untouched)
             and the human (root orientation rotated, pelvis position rotated and scaled, body untouched). Writes
@@ -31,6 +35,7 @@ inputs enter (no Tier 2 trajectory; user decision 10/10).
     python t3_convert_ep.py decode   <cari4d episode dir> <weights/cari4d dir> <out dir>
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
     python t3_convert_ep.py residual <out dir> <soma assets dir>
+    python t3_convert_ep.py focal    <out dir> <focal.json> <soma assets dir>
     python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir>
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
@@ -162,34 +167,19 @@ def residual(out: Path, assets: Path) -> None:
     print(json.dumps(report))
 
 
-def world(out: Path, floor_fit: Path, assets: Path) -> None:
-    import hashlib
-
+def _move_body(sp: dict, rot_cv, target_pelvis, assets: Path, name: str, step: str) -> tuple[dict, float]:
+    """Rotate the SOMA root by rot_cv (OpenCV frame; (3,3) or per frame (n,3,3)) and put the pelvis at
+    target_pelvis(pelvis_cv) (OpenCV frame, (n,3)); the rest of the body moves rigidly with it. Checked by a
+    second forward pass: every joint must sit at R (joint - pelvis) + target within WORLD_BODY_TOL_M, and nothing but
+    the root rotation and the translation may change."""
     import torch
     from scipy.spatial.transform import Rotation
     from soma import SOMALayer
     from soma.units import Unit
 
-    name = out.name
-    fit_bytes = floor_fit.read_bytes()
-    entry = json.loads(fit_bytes)["episodes"].get(name)
-    if entry is None:
-        raise SystemExit(f"{floor_fit}: no floor correction for {name}")
-    rot, s = np.asarray(entry["rotation"], np.float64), float(entry["scale"])
-    if abs(np.linalg.det(rot) - 1) > 1e-6 or np.abs(rot @ rot.T - np.eye(3)).max() > 1e-6 or not 0.8 < s < 1.25:
-        raise SystemExit(f"floor correction for {name} is not a rotation with a plausible scale (scale {s})")
-
-    oc = dict(np.load(out / "object_cam.npz"))
-    t_cam = oc["T_cam_glb"].astype(np.float64)
-    t_w = t_cam.copy()
-    t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot, t_cam[:, :3, :3])
-    t_w[:, :3, 3] = s * t_cam[:, :3, 3] @ rot.T
-    np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
-
-    # human, in the SOMA frame (OpenCV @ F): rotate the root, move the pelvis to s * R * pelvis, keep the body
-    sp = dict(np.load(out / "soma_params.npz", allow_pickle=True))
-    rot_s = F_CV_TO_SOMA @ rot @ F_CV_TO_SOMA
     n = len(sp["poses"])
+    rot_cv = np.broadcast_to(np.asarray(rot_cv, np.float64), (n, 3, 3))
+    rot_s = F_CV_TO_SOMA @ rot_cv @ F_CV_TO_SOMA  # SOMA frame = OpenCV @ F
     layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
                       enable_procedural_transforms=False)
 
@@ -214,23 +204,125 @@ def world(out: Path, floor_fit: Path, assets: Path) -> None:
     pv[:, 0] = (Rotation.from_matrix(rot_s) * Rotation.from_rotvec(pv[:, 0].astype(np.float64))).as_rotvec()
     rotated = {**sp, "poses": pv.reshape(shape).astype(poses.dtype)}
     j1 = joints(rotated)
-    target_pelvis = s * pelvis @ rot_s.T
-    transl = np.asarray(sp["transl"]).astype(np.float64) + (target_pelvis - j1[:, 0])
+    target = np.asarray(target_pelvis(pelvis @ F_CV_TO_SOMA), np.float64) @ F_CV_TO_SOMA  # OpenCV in, SOMA back
+    transl = np.asarray(sp["transl"]).astype(np.float64) + (target - j1[:, 0])
     new = {**rotated, "transl": transl.astype(np.asarray(sp["transl"]).dtype)}
     j2 = joints(new)
-    want = np.einsum("ij,nkj->nki", rot_s, j0 - pelvis[:, None]) + target_pelvis[:, None]
+    want = np.einsum("nij,nkj->nki", rot_s, j0 - pelvis[:, None]) + target[:, None]
     err = float(np.abs(j2 - want).max())
     if err > WORLD_BODY_TOL_M:
-        raise SystemExit(f"{name}: corrected body is off the rigid target by {err * 1000:.2f} mm")
+        raise SystemExit(f"{name}: body after the {step} step is off the rigid target by {err * 1000:.2f} mm")
     for key in sp:
         if key not in ("poses", "transl") and not np.array_equal(np.asarray(sp[key]), np.asarray(new[key])):
-            raise SystemExit(f"{name}: {key} changed in the world step")
+            raise SystemExit(f"{name}: {key} changed in the {step} step")
     if not np.array_equal(np.asarray(sp["poses"]).reshape(n, 77, 3)[:, 1:], np.asarray(new["poses"]).reshape(n, 77, 3)[:, 1:]):
-        raise SystemExit(f"{name}: a non-root joint changed in the world step")
+        raise SystemExit(f"{name}: a non-root joint changed in the {step} step")
+    return new, err
+
+
+def _ray_turn(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Per row, the smallest rotation taking direction a to direction b."""
+    from scipy.spatial.transform import Rotation
+
+    a = a / np.linalg.norm(a, axis=1, keepdims=True)
+    b = b / np.linalg.norm(b, axis=1, keepdims=True)
+    axis = np.cross(a, b)
+    sin = np.linalg.norm(axis, axis=1, keepdims=True)
+    ang = np.arctan2(sin, (a * b).sum(1, keepdims=True))
+    return Rotation.from_rotvec(np.where(sin > 1e-12, axis / np.maximum(sin, 1e-12), 0.0) * ang).as_matrix()
+
+
+def focal(out: Path, focal_json: Path, assets: Path) -> None:
+    import hashlib
+
+    name = out.name
+    spec_bytes = focal_json.read_bytes()
+    spec = json.loads(spec_bytes)
+    group = next((int(g) for g, members in spec["camera_groups"].items() if name in members), None)
+    if group is None:
+        raise SystemExit(f"{focal_json}: {name} is in no camera group")
+    oc = dict(np.load(out / "object_cam.npz"))
+    k_used = np.asarray(oc["intrinsics"], np.float64)
+    fx_used = float(k_used[0, 0])
+    fx_new = spec["focal_px"].get(str(group))  # None: keep CARI4D's focal for this camera
+    k = 1.0 if fx_new is None else float(fx_new) / fx_used
+    if not 0.8 < k < 1.25:
+        raise SystemExit(f"{name}: focal ratio {k:.3f} is implausible")
+    depth = np.diag([1.0, 1.0, k])  # same image, focal times k: lateral position kept, depth times k
+
+    t = oc["T_cam_glb"].astype(np.float64)
+    tf = t.copy()
+    tf[:, :3, 3] = t[:, :3, 3] @ depth
+    tf[:, :3, :3] = np.einsum("nij,njk->nik", _ray_turn(t[:, :3, 3], tf[:, :3, 3]), t[:, :3, :3])  # same view of the object
+    k_new = k_used.copy()
+    k_new[0, 0] *= k
+    k_new[1, 1] *= k
+    np.savez(out / "object_cam_focal.npz", T_cam_glb=tf, intrinsics=k_new)
+
+    sp = dict(np.load(out / "soma_params.npz", allow_pickle=True))
+    # the root turns with the pelvis's viewing ray, so the pelvis has to be known before the body pass
+    pelvis0 = _pelvis_cv(sp, assets)
+    rot = _ray_turn(pelvis0, pelvis0 @ depth)
+    new, err = _move_body(sp, rot, lambda p: p @ depth, assets, name, "focal")
+    np.savez(out / "soma_params_focal.npz", **new)
+    calib = {"episode": name, "focal_spec": focal_json.name, "focal_spec_sha256": hashlib.sha256(spec_bytes).hexdigest(),
+             "camera_group": group, "fx_used_by_cari4d": fx_used, "fx_new": fx_used * k, "depth_ratio": k,
+             "source": spec.get("source", {}).get(str(group)), "body_rigid_max_err_mm": round(err * 1000, 4)}
+    (out / "focal_calib.json").write_text(json.dumps(calib, indent=1))
+    print(json.dumps(calib))
+
+
+def _pelvis_cv(sp: dict, assets: Path) -> np.ndarray:
+    import torch
+    from soma import SOMALayer
+    from soma.units import Unit
+
+    n = len(sp["poses"])
+    layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                      enable_procedural_transforms=False)
+    ident = torch.tensor(np.repeat(np.asarray(sp["identity_coeffs"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    scale = torch.tensor(np.repeat(np.asarray(sp["scale_params"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    got = []
+    for a in range(0, n, CHUNK):
+        sl = slice(a, min(n, a + CHUNK))
+        with torch.no_grad():
+            got.append(layer(torch.tensor(np.asarray(sp["poses"][sl]).reshape(-1, 77, 3), dtype=torch.float32), ident[sl],
+                             scale_params=scale[sl], transl=torch.tensor(np.asarray(sp["transl"][sl]), dtype=torch.float32),
+                             apply_correctives=False,
+                             kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"][sl]), dtype=torch.float32)})["joints"].numpy()[:, 0])
+    return np.concatenate(got).astype(np.float64) @ F_CV_TO_SOMA
+
+
+def world(out: Path, floor_fit: Path, assets: Path) -> None:
+    import hashlib
+
+    name = out.name
+    fit_bytes = floor_fit.read_bytes()
+    entry = json.loads(fit_bytes)["episodes"].get(name)
+    if entry is None:
+        raise SystemExit(f"{floor_fit}: no floor correction for {name}")
+    rot, s = np.asarray(entry["rotation"], np.float64), float(entry["scale"])
+    if abs(np.linalg.det(rot) - 1) > 1e-6 or np.abs(rot @ rot.T - np.eye(3)).max() > 1e-6 or not 0.8 < s < 1.25:
+        raise SystemExit(f"floor correction for {name} is not a rotation with a plausible scale (scale {s})")
+    for f in ("object_cam_focal.npz", "soma_params_focal.npz", "focal_calib.json"):
+        if not (out / f).exists():
+            raise SystemExit(f"{out / f} missing: run the focal step first")
+
+    oc = dict(np.load(out / "object_cam_focal.npz"))
+    t_cam = oc["T_cam_glb"].astype(np.float64)
+    t_w = t_cam.copy()
+    t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot, t_cam[:, :3, :3])
+    t_w[:, :3, 3] = s * t_cam[:, :3, 3] @ rot.T
+    np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
+
+    sp = dict(np.load(out / "soma_params_focal.npz", allow_pickle=True))
+    new, err = _move_body(sp, rot, lambda p: s * p @ rot.T, assets, name, "world")
     np.savez(out / "soma_params_world.npz", **new)
-    calib = {"episode": name, "floor_fit": str(floor_fit), "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
+    focal_calib = json.loads((out / "focal_calib.json").read_text())
+    calib = {"episode": name, "floor_fit": floor_fit.name, "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
              "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
-             "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4)}
+             "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4),
+             "focal": {k: focal_calib[k] for k in ("fx_used_by_cari4d", "fx_new", "depth_ratio", "focal_spec_sha256")}}
     (out / "world_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))
 
@@ -322,6 +414,8 @@ if __name__ == "__main__":
         soma(*args)
     elif cmd == "residual":
         residual(*args)
+    elif cmd == "focal":
+        focal(*args)
     elif cmd == "world":
         world(*args)
     elif cmd == "assemble":

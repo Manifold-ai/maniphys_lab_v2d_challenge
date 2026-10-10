@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Tier 3 CARI4D queue. Per episode, each stage skipped when its output already exists:
 #   CARI4D on the official mesh (t3_cari4d_ep.sh, GPU) -> silhouette check (t3_object_check.py, CPU)
-#   -> conversion (t3_convert_ep.py): decode (CPU) -> soma (GPU, ~1-2 min) -> residual (CPU) -> world (CPU, floor
-#   correction from runs/floor/floor_fit.json, see t3_floor_fit.py) -> assemble (host) into runs/tier3_cari4d_floor/.
+#   -> conversion (t3_convert_ep.py): decode (CPU) -> soma (GPU, ~1-2 min) -> residual (CPU) -> focal (CPU,
+#   runs/floor/focal.json) -> world (CPU, floor correction runs/floor/floor_fit_f830.json, see t3_floor_fit.py)
+#   -> assemble (host) into runs/tier3_cari4d_f830_floor/.
 #   Serial. Before each GPU stage:
 #   - waits while $T3_ROOT/PAUSE exists (lets a short GPU job run between episodes);
 #   - waits until the L40S has at least MIN_FREE_MIB free (CARI4D refinement peaks near 44 GB of 46 GB, so this
@@ -16,8 +17,9 @@ T=${T3_ROOT:-/lab_data/yqchen/v2d/tier3}
 PY=${T3_PY:-/lab_data/yqchen/v2d/venv/bin/python}
 WEIGHTS=${T3_WEIGHTS:-/lab_data/yqchen/v2d/weights}
 SOMA_ASSETS=${T3_SOMA_ASSETS:-/lab_data/yqchen/v2d/soma_assets}
-TIER_OUT=$T/runs/tier3_cari4d_floor
-FLOOR_FIT=$T/runs/floor/floor_fit.json
+TIER_OUT=$T/runs/tier3_cari4d_f830_floor
+FOCAL_SPEC=$T/runs/floor/focal.json
+FLOOR_FIT=$T/runs/floor/floor_fit_f830.json
 MIN_FREE_MIB=${MIN_FREE_MIB:-44000}
 QLOG=$T/logs/t3_cari4d_queue.log
 say() { echo "$(date +%m-%d_%T) $*" >> "$QLOG"; }
@@ -65,7 +67,7 @@ for l in open('input/meta/episodes_metadata.jsonl'):
   if python3 -c "import json,sys; sys.exit(0 if json.load(open('$out/object_check.json')).get('ok', True) else 1)"; then
     TIER_DST=$TIER_OUT
   else
-    TIER_DST=$T/runs/tier3_cari4d_floor_suspect
+    TIER_DST=$T/runs/tier3_cari4d_f830_floor_suspect
   fi
   conv=$T/runs/convert/$name
   mkdir -p "$conv"
@@ -90,8 +92,9 @@ for l in open('input/meta/episodes_metadata.jsonl'):
     say "$name residual $res"
   fi
   if [ ! -f "$conv/world_calib.json" ]; then
-    [ -f "$FLOOR_FIT" ] || { say "$name: no $FLOOR_FIT, not assembled (camera frame is not the released world)"; continue; }
-    run_c world "" world /o/"$name" /f/floor_fit.json /a || { say "$name world failed"; continue; }
+    [ -f "$FLOOR_FIT" ] && [ -f "$FOCAL_SPEC" ] || { say "$name: no $FLOOR_FIT or $FOCAL_SPEC, not assembled (camera frame is not the released world)"; continue; }
+    run_c focal "" focal /o/"$name" /f/"$(basename "$FOCAL_SPEC")" /a || { say "$name focal failed"; continue; }
+    run_c world "" world /o/"$name" /f/"$(basename "$FLOOR_FIT")" /a || { say "$name world failed"; continue; }
   fi
   if [ ! -f "$TIER_DST/data/chunk-000/episode_$(printf %06d "$ep").parquet" ]; then
     "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$TIER_DST" > "logs/assemble_$name.log" 2>&1 \

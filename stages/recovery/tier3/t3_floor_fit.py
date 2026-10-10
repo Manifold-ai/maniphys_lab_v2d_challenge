@@ -8,7 +8,8 @@ our offset. Sizes (meshes, bodies) are not scaled. Yaw and horizontal position a
 as they are.
 
 Inputs are Tier 3 only: floor-resting events from t3_camera_height.py (object still in its mask, clear of the person,
-render agrees with the mask, near the floor), CARI4D's object poses, the official meshes, the released ground plane.
+render agrees with the mask, near the floor), CARI4D's object poses after the focal step of t3_convert_ep.py
+(object_cam_focal.npz), the official meshes, the released ground plane.
 Per camera group (t3_camera_groups.py), one contact point per event: the mesh vertex lowest along the current floor
 normal (iterated from the released normal). Plane by iteratively reweighted (Huber) least squares, each episode weighted
 equally. A group whose contact points span less than MIN_SPAN_M in either floor direction cannot fix a tilt; it keeps
@@ -83,7 +84,7 @@ def main() -> None:
             name = e["episode"]
             if name not in cache:
                 m = metas[name]
-                cache[name] = (np.load(root / "runs/convert" / name / "object_cam.npz")["T_cam_glb"],
+                cache[name] = (np.load(root / "runs/convert" / name / "object_cam_focal.npz")["T_cam_glb"],
                                np.asarray(trimesh.load(root / "input" / m["mesh"], force="mesh").convex_hull.vertices, np.float64))
             poses, hull = cache[name]
             t = poses[e["frame"]]

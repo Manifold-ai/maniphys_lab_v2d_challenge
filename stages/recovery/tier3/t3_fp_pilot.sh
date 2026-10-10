@@ -9,7 +9,7 @@
 # Per episode: runs/work/<ep> is copied to runs/work_fp/<ep> (the baseline is not touched), FoundationPose and later
 # stage outputs and markers are removed from the copy so stages 01-04 are reused and 05-08 rerun; outputs:
 # runs/checks_fp/<ep>/object_check.json, runs/track_check_fp/<ep>.json, runs/convert_fp/<ep>/,
-# runs/tier3_cari4d_fp_pilot/. Log: logs/t3_fp_pilot.log.
+# runs/tier3_cari4d_fp_pilot_f830/. Log: logs/t3_fp_pilot.log.
 set -u
 S=$(cd "$(dirname "$0")" && pwd)
 T=${T3_ROOT:-/lab_data/yqchen/v2d/tier3}
@@ -49,8 +49,9 @@ for name in "$@"; do
   run_c "" decode /e /w /o/"$name" > "$T/logs/decode_fp_$name.log" 2>&1 || { say "$name: decode failed"; continue; }
   run_c "--gpus all" soma /o/"$name" /a > "$T/logs/soma_fp_$name.log" 2>&1 || { say "$name: soma failed"; continue; }
   run_c "" residual /o/"$name" /a > "$T/logs/residual_fp_$name.log" 2>&1 || say "$name: residual failed"
-  run_c "" world /o/"$name" /f/floor_fit.json /a > "$T/logs/world_fp_$name.log" 2>&1 || { say "$name: world failed"; continue; }
-  "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$T/runs/tier3_cari4d_fp_pilot" > "$T/logs/assemble_fp_$name.log" 2>&1 \
+  run_c "" focal /o/"$name" /f/focal.json /a > "$T/logs/focal_fp_$name.log" 2>&1 || { say "$name: focal failed"; continue; }
+  run_c "" world /o/"$name" /f/floor_fit_f830.json /a > "$T/logs/world_fp_$name.log" 2>&1 || { say "$name: world failed"; continue; }
+  "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$T/runs/tier3_cari4d_fp_pilot_f830" > "$T/logs/assemble_fp_$name.log" 2>&1 \
     || say "$name: assemble failed"
   "${D[@]}" -v "$S":/s:ro -v "$T":/t -v "$SOMA_ASSETS":/a:ro v2d_cari4d:latest python /s/t3_track_check.py "/t/runs/convert_fp/$name" \
     "/t/runs/work_fp/$name" "/t/input/mesh/$obj/$obj.glb" /a "/t/runs/track_check_fp/$name.json" > "$T/logs/track_fp_$name.log" 2>&1 \
