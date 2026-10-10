@@ -1,0 +1,140 @@
+# command  : ssh -o BatchMode=yes ml40 V2D_T3_SUBDIR=tier3_cari4d_f830_floor\ bash\ -s\ --\ 0\ 3\ 5\ 7\ 9\ 12\ 14\ 15\ 16\ 17\ 18\ 20\ 21\ 22\ 23\ 25\ 26\ 29 
+# source   : c13b6105d43b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T17:45:43-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-11 07:45:45 CST
+## 目录 runs/tier3_cari4d_f830_floor
+## /lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d_f830_floor 的前两层
+drwxrwsr-x 2026-10-10_11:59:36.1939556240 4096 
+drwxrwsr-x 2026-10-10_11:59:36.1739555170 4096 data
+drwxrwsr-x 2026-10-10_12:21:47.8131256770 4096 data/chunk-000
+drwxrwsr-x 2026-10-10_12:21:47.8291257630 4096 meta
+-rw-rw-r-- 2026-10-10_11:59:36.1939556240 649 meta/episode_000000.metadata.json
+-rw-rw-r-- 2026-10-10_12:02:11.4947929370 766 meta/episode_000003.metadata.json
+-rw-rw-r-- 2026-10-10_12:03:56.0593557580 562 meta/episode_000005.metadata.json
+-rw-rw-r-- 2026-10-10_12:04:47.9316357560 646 meta/episode_000007.metadata.json
+-rw-rw-r-- 2026-10-10_12:05:36.0758963010 629 meta/episode_000008.metadata.json
+-rw-rw-r-- 2026-10-10_12:06:26.4641688090 834 meta/episode_000009.metadata.json
+-rw-rw-r-- 2026-10-10_12:08:52.6049582790 619 meta/episode_000012.metadata.json
+-rw-rw-r-- 2026-10-10_12:10:35.8615156880 721 meta/episode_000014.metadata.json
+-rw-rw-r-- 2026-10-10_12:11:21.1577599720 721 meta/episode_000015.metadata.json
+-rw-rw-r-- 2026-10-10_12:11:58.0459588080 671 meta/episode_000016.metadata.json
+-rw-rw-r-- 2026-10-10_12:12:33.5021498360 649 meta/episode_000017.metadata.json
+-rw-rw-r-- 2026-10-10_12:13:24.3584236860 628 meta/episode_000018.metadata.json
+-rw-rw-r-- 2026-10-10_12:14:55.9869166520 667 meta/episode_000020.metadata.json
+-rw-rw-r-- 2026-10-10_12:15:41.1391593710 600 meta/episode_000021.metadata.json
+-rw-rw-r-- 2026-10-10_12:16:26.3274021500 625 meta/episode_000022.metadata.json
+-rw-rw-r-- 2026-10-10_12:17:16.6436723270 683 meta/episode_000023.metadata.json
+-rw-rw-r-- 2026-10-10_12:18:06.4479395950 660 meta/episode_000024.metadata.json
+-rw-rw-r-- 2026-10-10_12:18:54.5801977450 791 meta/episode_000025.metadata.json
+-rw-rw-r-- 2026-10-10_12:19:36.1284204680 647 meta/episode_000026.metadata.json
+-rw-rw-r-- 2026-10-10_12:21:47.8291257630 728 meta/episode_000029.metadata.json
+## episode 0
+可读 1057713 字节 2026-10-10 11:59:36.19395 sha256 d317b35476395f3afb3f9e60da31b61f0263864fc9cdad93b06c8374bd6703fa data/chunk-000/episode_000000.parquet
+可读 649 字节 2026-10-10 11:59:36.193955624 sha256 ab333734baa3dc20c7825a8c11b16778ee1bec3f27f7696d5865d90514c0ab13 meta/episode_000000.metadata.json
+{"calibration_sequence": "2026-06-04_13-13-29_calibration", "episode_index": 0, "frames": 778, "ground_plane": "ground_plane/2026-06-04_14-16-23_tall_bar_stool_tip_up_04.json", "mesh": "mesh/tall_bar_stool/tall_bar_stool.glb", "notes": "2026-06-04_14-16-23_tall_bar_stool_tip_up_04", "object": "tall_bar_stool", "sequence_id": "2026-06-04_14-16-23_tall_bar_stool_tip_up_04", "support_surface": "support_surface/2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the tall bar stool and using both hands, tip the stool from a face down lying down position back to upright."}
+输入 mesh f3e1457400d93c8fb690ffd9d355bd0e mesh/tall_bar_stool/tall_bar_stool.glb
+输入 ground_plane 6431249d30e5d110cb21cfe1b3aa9e8d ground_plane/2026-06-04_14-16-23_tall_bar_stool_tip_up_04.json
+## episode 3
+可读 1062024 字节 2026-10-10 12:02:11.49479 sha256 2bf3cc9857702c052892442d5dcb6f47f0d5e5b99fc50a45bfbbcee692447dbb data/chunk-000/episode_000003.parquet
+可读 766 字节 2026-10-10 12:02:11.494792937 sha256 25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3 meta/episode_000003.metadata.json
+{"calibration_sequence": "2026-04-27_09-37-33_calibration", "episode_index": 3, "frames": 781, "ground_plane": "ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json", "mesh": "mesh/contigo_coffee_mug/contigo_coffee_mug.glb", "notes": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "object": "contigo_coffee_mug", "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "support_surface": "support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the coffee mug on the round table, lift it by the handle with your right hand and set it down, then repeat with your left, alternating a few times before leaving it on the table."}
+输入 mesh 5d1c0769b2e731f2de49d107ec8fa9eb mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+输入 ground_plane ac17f82e8b8b9399b16ae1f1e458c470 ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+## episode 5
+可读 1361490 字节 2026-10-10 12:03:56.05935 sha256 5c508937b13962ddfc89f4a9759a2bcb782c0473dffd2d4b375e13501a1a1c65 data/chunk-000/episode_000005.parquet
+可读 562 字节 2026-10-10 12:03:56.059355758 sha256 2266deac9709baf3d61eb50a47af3c954dcb58d42418d5c3a05e931b35b3ed2b meta/episode_000005.metadata.json
+{"calibration_sequence": "2026-03-18_17-41-31_calibration", "episode_index": 5, "frames": 1003, "ground_plane": "ground_plane/2026-03-18_19-36-56_g1_box_rotate_01.json", "mesh": "mesh/big_black_box/big_black_box.glb", "notes": "2026-03-18_19-36-56_g1_box_rotate_01", "object": "big_black_box", "sequence_id": "2026-03-18_19-36-56_g1_box_rotate_01", "support_surface": "support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the G1 Box and rotate the box around the bounding area."}
+输入 mesh 5b836735b51043283f03f1be07ee384a mesh/big_black_box/big_black_box.glb
+输入 ground_plane 72cdb5619f450fd2eb2658693d4f766d ground_plane/2026-03-18_19-36-56_g1_box_rotate_01.json
+## episode 7
+可读 1216402 字节 2026-10-10 12:04:47.93163 sha256 1a34fd1d9f84388ddad2504642f6b4d99ad49ad62ab0bf72827ea4262053d60b data/chunk-000/episode_000007.parquet
+可读 646 字节 2026-10-10 12:04:47.931635756 sha256 8dbc80e274ab33dbae1a9e823751bfbf07325243abfe15fc01c47eea18fc89ea meta/episode_000007.metadata.json
+{"calibration_sequence": "2026-05-29_12-58-33_calibration", "episode_index": 7, "frames": 896, "ground_plane": "ground_plane/2026-05-29_15-20-43_iron_round_table_02.json", "mesh": "mesh/iron/iron.glb", "notes": "2026-05-29_15-20-43_iron_round_table_02", "object": "iron", "sequence_id": "2026-05-29_15-20-43_iron_round_table_02", "support_surface": "support_surface/2026-05-29_15-20-43_iron_round_table_02_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the iron on the round table and using your right hand in the handle slide it back and forth horizontally on the desk. Stand it up vertically when finished."}
+输入 mesh 348809ec44b61a61245e0b8d65ec4607 mesh/iron/iron.glb
+输入 ground_plane e4010291c7d51f1a76563ed7b50b1056 ground_plane/2026-05-29_15-20-43_iron_round_table_02.json
+## episode 9
+可读 1182343 字节 2026-10-10 12:06:26.46416 sha256 9b198a6f686032662cb996461cf371e098b8ae194c2fa4ee470e71d2a4d1c2b1 data/chunk-000/episode_000009.parquet
+可读 834 字节 2026-10-10 12:06:26.464168809 sha256 c2d27a5266eafc26add387901111848823b27650279e64885d7f20737fa47b63 meta/episode_000009.metadata.json
+{"calibration_sequence": "2026-06-04_13-13-29_calibration", "episode_index": 9, "frames": 870, "ground_plane": "ground_plane/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03.json", "mesh": "mesh/big_red_bowl/big_red_bowl.glb", "notes": "2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03", "object": "big_red_bowl", "sequence_id": "2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03", "support_surface": "support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the big red bowl on the skinny wood chair and pick up the big red bowl using both hands and proceed to place the big red bowl on the ground in front of the skinny wood chair and then slide the big red bowl underneath the skinny wood chair."}
+输入 mesh f293d9eafcbc4b0654953ad2ef47de1b mesh/big_red_bowl/big_red_bowl.glb
+输入 ground_plane 191c7e647fa581314b2c60423da983db ground_plane/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03.json
+## episode 12
+可读 952609 字节 2026-10-10 12:08:52.604958 sha256 27d0a110f6d0394ab5f0903bb25c4e8cc78447739aa252c021bb0178e98be9f9 data/chunk-000/episode_000012.parquet
+可读 619 字节 2026-10-10 12:08:52.604958279 sha256 8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00 meta/episode_000012.metadata.json
+{"calibration_sequence": "2026-04-25_14-36-15_calibration", "episode_index": 12, "frames": 700, "ground_plane": "ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json", "mesh": "mesh/black_platform/black_platform.glb", "notes": "2026-04-25_17-20-04_black_platform_turn_05", "object": "black_platform", "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05", "support_surface": "support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the platform on the ground and turn the platform over. Place on the ground when done."}
+输入 mesh 6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+输入 ground_plane dcf25842d8a4dce616f5da968ad7a5ea ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+## episode 14
+可读 1347135 字节 2026-10-10 12:10:35.86151 sha256 9285f5ea1fc8ee290633cc71c92bb6d38817157629f67e890236ca4935ba2d7e data/chunk-000/episode_000014.parquet
+可读 721 字节 2026-10-10 12:10:35.861515688 sha256 5738dc3961bc02c2f3eba1b4266e8ebc97bb3f9eb670eb5ee9ceb82e829a3457 meta/episode_000014.metadata.json
+{"calibration_sequence": "2026-05-28_13-44-11_calibration", "episode_index": 14, "frames": 993, "ground_plane": "ground_plane/2026-05-28_14-44-09_round_table_flip_08.json", "mesh": "mesh/round_table/round_table.glb", "notes": "2026-05-28_14-44-09_round_table_flip_08", "object": "round_table", "sequence_id": "2026-05-28_14-44-09_round_table_flip_08", "support_surface": "support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "\"Walk to the round table and use both hands to lower it onto its side. Flip the table so the wheels are facing upward, then rotate it again onto its side, and continue rotating it until it returns to an upright position."}
+输入 mesh 6cde48a5002185c6b99c1c61733f2ff4 mesh/round_table/round_table.glb
+输入 ground_plane 6073a44eef120e783ce549fb2076d249 ground_plane/2026-05-28_14-44-09_round_table_flip_08.json
+## episode 15
+可读 973556 字节 2026-10-10 12:11:21.157759 sha256 563c8034c3a342f4eae854caea07648a1eedd25a470e93bbb2deacec0a40c4ad data/chunk-000/episode_000015.parquet
+可读 721 字节 2026-10-10 12:11:21.157759972 sha256 4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7 meta/episode_000015.metadata.json
+{"calibration_sequence": "2026-05-06_09-28-56_calibration", "episode_index": 15, "frames": 715, "ground_plane": "ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json", "mesh": "mesh/wet_floor_sign/wet_floor_sign.glb", "notes": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "object": "wet_floor_sign", "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "support_surface": "support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the wet floor sign, pick it up with one hand and hold onto it while walking around for at least 10 seconds, then place it back on the floor."}
+输入 mesh 090f16c81ce7a69f7f75fd3a19f84717 mesh/wet_floor_sign/wet_floor_sign.glb
+输入 ground_plane 4f778f37e24522e162de1392a4e3d9a0 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+## episode 16
+可读 642182 字节 2026-10-10 12:11:58.045958 sha256 c1978473f85498556ecbaaf146a4bfcd86095af8cff4eafe3f21bce1a3fc0bd7 data/chunk-000/episode_000016.parquet
+可读 671 字节 2026-10-10 12:11:58.045958808 sha256 ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344 meta/episode_000016.metadata.json
+{"calibration_sequence": "2026-03-12_13-41-31_calibration", "episode_index": 16, "frames": 477, "ground_plane": "ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json", "mesh": "mesh/spray_bottle/spray_bottle.glb", "notes": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "object": "spray_bottle", "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "support_surface": "support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the spray bottle on the white desk, pick up the spray bottle with your left hand and place it on the ground."}
+输入 mesh d424da632926a017fccf9aa51fcd4ce8 mesh/spray_bottle/spray_bottle.glb
+输入 ground_plane 8eddd909e08e40f8bcf27c6d814e9f27 ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+## episode 17
+可读 592824 字节 2026-10-10 12:12:33.502149 sha256 1b2352f1ea27c22c9a203b414d73675fb4dbc247ee741f0a617c26414f89cbd6 data/chunk-000/episode_000017.parquet
+可读 649 字节 2026-10-10 12:12:33.502149836 sha256 e291bd9dd921f56f4c41d88269bfab900ae749180a58cfcd92565e39ae4d6b58 meta/episode_000017.metadata.json
+{"calibration_sequence": "2026-05-01_13-38-21_calibration", "episode_index": 17, "frames": 440, "ground_plane": "ground_plane/2026-05-01_17-04-55_traffic_cone_ground_table_02.json", "mesh": "mesh/traffic_cone/traffic_cone.glb", "notes": "2026-05-01_17-04-55_traffic_cone_ground_table_02", "object": "traffic_cone", "sequence_id": "2026-05-01_17-04-55_traffic_cone_ground_table_02", "support_surface": "support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the traffic cone on the ground, pick up the cone with both hands and place it on the round table."}
+输入 mesh d62471ba31f677cc2dbd0d3ca8401094 mesh/traffic_cone/traffic_cone.glb
+输入 ground_plane ae6e062ad9041bedfd3ce8edda8c467c ground_plane/2026-05-01_17-04-55_traffic_cone_ground_table_02.json
+## episode 18
+可读 1165548 字节 2026-10-10 12:13:24.35842 sha256 57fe80b25d9a27a3e4d487bcf7aee74ef1e38572475611ad0f236e361d344e1a data/chunk-000/episode_000018.parquet
+可读 628 字节 2026-10-10 12:13:24.358423686 sha256 d7394ac6ac5624ad77faa113e1a967e16e937fb1a9bcc7357556f288319292e1 meta/episode_000018.metadata.json
+{"calibration_sequence": "2026-05-06_09-28-56_calibration", "episode_index": 18, "frames": 858, "ground_plane": "ground_plane/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08.json", "mesh": "mesh/blue_trash_can/blue_trash_can.glb", "notes": "2026-05-06_10-00-19_blue_trash_can_drag_sideways_08", "object": "blue_trash_can", "sequence_id": "2026-05-06_10-00-19_blue_trash_can_drag_sideways_08", "support_surface": "support_surface/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the blue trash can and slide the blue trash can side ways."}
+输入 mesh 76337cd9ccd87e34d5a66847a574cc62 mesh/blue_trash_can/blue_trash_can.glb
+输入 ground_plane 4ea6e81e574a6ae768488fd0dbd922ba ground_plane/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08.json
+## episode 20
+可读 743255 字节 2026-10-10 12:14:55.986916 sha256 c4fa07bb0fac1bbf03db1970478c25cfdf616d0f4b2ed95d9ae31102e7325a4f data/chunk-000/episode_000020.parquet
+可读 667 字节 2026-10-10 12:14:55.986916652 sha256 ff988a9b609592db8a6a2efc1b8a637dfd927528530b3e53ac50924bd95992d2 meta/episode_000020.metadata.json
+{"calibration_sequence": "2026-06-08_13-01-08_calibration", "episode_index": 20, "frames": 553, "ground_plane": "ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json", "mesh": "mesh/rice_cooker/rice_cooker.glb", "notes": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "object": "rice_cooker", "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "support_surface": "support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk toward the rice cooker on the round table and pick up the rice cooker and rotate it clockwise using right hand. Place back on the round table."}
+输入 mesh 07813ad4566097b0aa22aed66a9f7b48 mesh/rice_cooker/rice_cooker.glb
+输入 ground_plane e9526edcd097d15180c4dc2e25aa7d38 ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json
+## episode 21
+可读 909705 字节 2026-10-10 12:15:41.135159 sha256 c37358ee87a508056f1cdda32f606042286d4cbef6dad8b10636f0000faeb9ce data/chunk-000/episode_000021.parquet
+可读 600 字节 2026-10-10 12:15:41.139159371 sha256 35c858dd87bedf5906d7639945e464aa3077de65eb8725412c8f871bfab5d5f0 meta/episode_000021.metadata.json
+{"calibration_sequence": "2026-04-29_09-10-26_calibration", "episode_index": 21, "frames": 678, "ground_plane": "ground_plane/2026-04-29_11-53-57_tall_bar_stool_pull_08.json", "mesh": "mesh/tall_bar_stool/tall_bar_stool.glb", "notes": "2026-04-29_11-53-57_tall_bar_stool_pull_08", "object": "tall_bar_stool", "sequence_id": "2026-04-29_11-53-57_tall_bar_stool_pull_08", "support_surface": "support_surface/2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the tall bar stool and pull the tall bar stool away from the desk."}
+输入 mesh f3e1457400d93c8fb690ffd9d355bd0e mesh/tall_bar_stool/tall_bar_stool.glb
+输入 ground_plane 7dfeccd7b464b5f7447a428eb2dedf98 ground_plane/2026-04-29_11-53-57_tall_bar_stool_pull_08.json
+## episode 22
+可读 978870 字节 2026-10-10 12:16:26.327402 sha256 22d46e2d460db3b70ed8f05fe7eff506b51c4b6e8d6fa7334415135de9779291 data/chunk-000/episode_000022.parquet
+可读 625 字节 2026-10-10 12:16:26.327402150 sha256 77d3c36ad91e2b03e632f8b61ecc491ffeb819709d8089abf8874ea2f22f9657 meta/episode_000022.metadata.json
+{"calibration_sequence": "2026-05-22_13-27-28_calibration", "episode_index": 22, "frames": 719, "ground_plane": "ground_plane/2026-05-22_16-52-36_step_ladder_drag_03.json", "mesh": "mesh/step_ladder/step_ladder.glb", "notes": "2026-05-22_16-52-36_step_ladder_drag_03", "object": "step_ladder", "sequence_id": "2026-05-22_16-52-36_step_ladder_drag_03", "support_surface": "support_surface/2026-05-22_16-52-36_step_ladder_drag_03_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the step ladder. Using right hand, drag the step ladder on the floor in the bounding area until end of sequence."}
+输入 mesh c59fbc68b8b87d02ee197f6d842dc14b mesh/step_ladder/step_ladder.glb
+输入 ground_plane 583faa80583a83667bcc0006b58e960c ground_plane/2026-05-22_16-52-36_step_ladder_drag_03.json
+## episode 23
+可读 1284419 字节 2026-10-10 12:17:16.64367 sha256 a9068a443e8e3dbc0d26df5ca78e33b9457eb755f79966ca8ef64abdec08ac33 data/chunk-000/episode_000023.parquet
+可读 683 字节 2026-10-10 12:17:16.643672327 sha256 98feecf2c7416bf8af2c093bd0bd4b0e38e6abd341b2398292c2d5f9e7ba3a43 meta/episode_000023.metadata.json
+{"calibration_sequence": "2026-06-03_13-51-21_calibration", "episode_index": 23, "frames": 946, "ground_plane": "ground_plane/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04.json", "mesh": "mesh/toy_stroller/toy_stroller.glb", "notes": "2026-06-03_15-08-03_toy_stroller_back_forth_ground_04", "object": "toy_stroller", "sequence_id": "2026-06-03_15-08-03_toy_stroller_back_forth_ground_04", "support_surface": "support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the toy stroller on the ground and use both hands to move the stroller back and forth within the bounding area."}
+输入 mesh 6a9bf1918458a12aa251e8fb80b13b94 mesh/toy_stroller/toy_stroller.glb
+输入 ground_plane dd8c0594fbe936ad21c98664193e73d8 ground_plane/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04.json
+## episode 25
+可读 1166989 字节 2026-10-10 12:18:54.58019 sha256 c15cbce4e1d1f3c627aac3151388ec1780fd2a1de7ff77e578a2429751a21e79 data/chunk-000/episode_000025.parquet
+可读 791 字节 2026-10-10 12:18:54.580197745 sha256 3f58e4d7c774310e4dfc8d80fc0700073747b7eecbc9870a5c1fbf7108a7c3bc meta/episode_000025.metadata.json
+{"calibration_sequence": "2026-03-20_11-13-12_calibration", "episode_index": 25, "frames": 859, "ground_plane": "ground_plane/2026-03-20_11-59-57_cyan_water_bottle_rotate_01.json", "mesh": "mesh/cyan_water_bottle/cyan_water_bottle.glb", "notes": "2026-03-20_11-59-57_cyan_water_bottle_rotate_01", "object": "cyan_water_bottle", "sequence_id": "2026-03-20_11-59-57_cyan_water_bottle_rotate_01", "support_surface": "support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the cyan water bottle on the round table. Pick up the bottle with your right hand, rotate and hand it over to your left hand. And keep alternating hands while rortating the bottle. Once done, place the bottle back on the round table."}
+输入 mesh 1a620f1c665c58dec020814dba3241ac mesh/cyan_water_bottle/cyan_water_bottle.glb
+输入 ground_plane 6e5e81f07d347ea92ca3ee750b306242 ground_plane/2026-03-20_11-59-57_cyan_water_bottle_rotate_01.json
+## episode 26
+可读 897839 字节 2026-10-10 12:19:36.128420 sha256 101bb1d5c21f7751eb60b7bf3aa9de6e7c899647a85eb23db79b59dc7e12066e data/chunk-000/episode_000026.parquet
+可读 647 字节 2026-10-10 12:19:36.128420468 sha256 d4d754d8472067289e90ed40f4c51ee0afee94fd1865eaca25784cb0edef8e39 meta/episode_000026.metadata.json
+{"calibration_sequence": "2026-06-05_13-28-06_calibration_", "episode_index": 26, "frames": 669, "ground_plane": "ground_plane/2026-06-05_16-05-08_skateboard_rotate_ground_10.json", "mesh": "mesh/skateboard/skateboard.glb", "notes": "2026-06-05_16-05-08_skateboard_rotate_ground_10", "object": "skateboard", "sequence_id": "2026-06-05_16-05-08_skateboard_rotate_ground_10", "support_surface": "support_surface/2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the skateboard on the ground. Use your hands to rotate the skateboard on the ground within the bounding area."}
+输入 mesh b8ff5c032f60b37ba48b756d54402186 mesh/skateboard/skateboard.glb
+输入 ground_plane 237b672d4e3a1b16aac36e61b4a6d586 ground_plane/2026-06-05_16-05-08_skateboard_rotate_ground_10.json
+## episode 29
+可读 630353 字节 2026-10-10 12:21:47.825125 sha256 d6314f1ddf3c6d2ae61d9f02a260feb9945d88da88982775e78a02cb72b9d6bd data/chunk-000/episode_000029.parquet
+可读 728 字节 2026-10-10 12:21:47.829125763 sha256 f08921ed97dfcdd146526875e7fdb291699170004b0f00ecdbb6b25a88861051 meta/episode_000029.metadata.json
+{"calibration_sequence": "2026-06-05_13-28-06_calibration_", "episode_index": 29, "frames": 467, "ground_plane": "ground_plane/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06.json", "mesh": "mesh/rolling_luggage/rolling_luggage.glb", "notes": "2026-06-05_18-27-40_rolling_luggage_left_foot_push_06", "object": "rolling_luggage", "sequence_id": "2026-06-05_18-27-40_rolling_luggage_left_foot_push_06", "support_surface": "support_surface/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the rolling luggage within the bounding area and using your left foot push the rolling luggage. within the bounding area. Step away when complete."}
+输入 mesh ab758b004e85f86cc877d0fe5a75e618 mesh/rolling_luggage/rolling_luggage.glb
+输入 ground_plane f858e6b5146f54d9d2c9f7172bfa129e ground_plane/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06.json

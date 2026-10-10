@@ -1,7 +1,8 @@
 """t3_sha_match.py 的测试（守计划 agent-doc/plan-t3-v2-retarget18-2026-10-10.md 第 4 节的 SHA 判据；暂无契约 ID）。只用标准库。
   1. B.1 的两集都与 A 段前 12 位相同：SHA_MATCH 2/2，退出码 0；元数据行、“输入”行与 A 段的其他集不影响
   2. 一集不同、一集不在 A 段记录里：SHA_MISMATCH，退出码 1
-  3. A 段记录没有结束标记、B.1 记录一行也取不到：报错
+  3. --inputs：“输入”行的 md5 与 Tier 2 记录相同打 INPUTS_SAME，不同打 INPUTS_DIFF，都不影响退出码与最后一行
+  4. A 段记录没有结束标记、B.1 记录一行也取不到：报错
 用法：python3 stages/recovery/test_t3_sha_match.py
 """
 import subprocess
@@ -51,6 +52,21 @@ def test_mismatch():
     p = run(b1((0, "f" * 64), (3, S3), (7, S0)), a_phase())
     assert p.returncode == 1, p.stdout + p.stderr
     assert p.stdout.splitlines()[-1].startswith("SHA_MISMATCH 1/3：ep[0, 7]"), p.stdout
+
+
+def test_inputs_report_only():
+    t2 = "== VM 来历 abc\n666b6366a803130fc20050249ad67fa2 mesh/x/x.glb\nTIER2_INPUTS_DONE（1 集，1 个文件）\n"
+    with tempfile.TemporaryDirectory() as t:
+        b, a, s = Path(t) / "b1.txt", Path(t) / "a.txt", Path(t) / "t2.txt"
+        b.write_text(b1((0, S0), (3, S3)), encoding="utf-8")
+        a.write_text(a_phase(), encoding="utf-8")
+        s.write_text(t2, encoding="utf-8")
+        p = subprocess.run([sys.executable, str(HERE / "t3_sha_match.py"), str(b), str(a), "--inputs", str(s)], capture_output=True, text=True)
+        assert p.returncode == 0 and "INPUTS_SAME 2/2" in p.stdout and p.stdout.splitlines()[-1] == "SHA_MATCH 2/2", p.stdout + p.stderr
+        s.write_text(t2.replace("666b6366a803130fc20050249ad67fa2", "0" * 32), encoding="utf-8")
+        p = subprocess.run([sys.executable, str(HERE / "t3_sha_match.py"), str(b), str(a), "--inputs", str(s)], capture_output=True, text=True)
+        assert p.returncode == 0, p.stdout + p.stderr          # 只报，不影响退出码
+        assert "INPUTS_DIFF 0/2：ep0 mesh，ep3 mesh" in p.stdout and p.stdout.splitlines()[-1] == "SHA_MATCH 2/2", p.stdout
 
 
 def test_bad_inputs_refuse():

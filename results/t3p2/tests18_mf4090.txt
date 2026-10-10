@@ -1,0 +1,49 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ set\ -o\ pipefail\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ for\ t\ in\ stages/recovery/test_tier2_inputs_md5.py\ stages/recovery/test_t3_sha_match.py\ stages/retarget/test_p2_table.py\ stages/recovery/test_tier3_root.py\ stages/recovery/test_tier3_expect.py\ libs/v2d_infra/test_paths.py\;\ do\ echo\ \"##\ \$t\"\;\ python3\ \$t\ 2\>\&1\ \|\ tail\ -7\ \|\|\ exit\ 1\;\ done\;\ bash\ -n\ stages/retarget/eps.sh\ \&\&\ echo\ EPS_SYNTAX_OK 
+# md5      : 0e473bc981e8445182796d769da92f88  stages/recovery/test_tier2_inputs_md5.py
+# md5      : 5d9a8623713ac9b12e59a14fcfea2a8a  stages/recovery/test_t3_sha_match.py
+# md5      : 2a814b688da924d228857a7d2e4517c3  stages/retarget/test_p2_table.py
+# md5      : 75308808d11f78b71f13a5f812c700d9  stages/recovery/test_tier3_root.py
+# md5      : 2fa3089cba235057b9607533abdf0b0b  stages/recovery/test_tier3_expect.py
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : c13b6105d43b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T17:45:31-0600
+# ---------------------------------------------------------------
+source c13b6105d43b
+## stages/recovery/test_tier2_inputs_md5.py
+ok test_lists_md5_once
+ok test_missing_episode_refuses
+ok test_missing_file_refuses
+ok test_unsafe_path_refuses
+ALL_OK
+## stages/recovery/test_t3_sha_match.py
+ok test_match
+ok test_mismatch
+ok test_bad_inputs_refuse
+ALL_OK
+## stages/retarget/test_p2_table.py
+ok test_verdicts
+ok test_no_contact
+ok test_new_log_head
+ok test_real_round2_record
+ok test_bad_records_refuse
+ALL_OK
+## stages/recovery/test_tier3_root.py
+ok test_build_and_rerun
+ok test_expect_mismatch_or_unused_refuses
+ok test_changed_parquet_refuses
+ok test_unsafe_relative_path_refuses
+ok test_tier1_read_blocked
+ALL_OK
+## stages/recovery/test_tier3_expect.py
+ok test_collects_both
+ok test_conflict_refuses
+ok test_empty_record_refuses
+ALL_OK
+## libs/v2d_infra/test_paths.py
+ok test_unset_and_empty
+ok test_set
+ok test_bad_values_refuse
+ok test_no_tier4
+ALL_OK
+EPS_SYNTAX_OK

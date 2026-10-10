@@ -26,16 +26,16 @@
   `runs/motion_src/tier3_v2`、`runs/motion/tier3_v2` 共占 14、46、40 MB，约每集 50 MB。ml40 上 t2xa 在训，不同步。
   第二轮重定向 ep8 用了 80 秒、ep24 用了 151 秒（`results/t3p2/retarget_mf4090.txt`）。
 - **文件可能被重写**：10/10 07:35 同组成员的等卡脚本（参数含 ep3）还挂在 ml40 上（`results/ops/t3_queue_ml40_1010_0735.txt`）。
-  审查期间（17:31）的只读核对显示 18 集的 sha256 都与 A 段相同（第 2 步提交后重跑）。
+  审查期间（17:31）的只读核对显示 18 集的 sha256 都与 A 段相同（提交后重跑，见执行记录）。
 
 ## 2. 做法
 
 1. 代码（第 3 节）提交后同步到 mf4090，在那边跑测试（`results/t3p2/tests18_mf4090.txt`）。
 2. B.1 只读核对：`V2D_T3_SUBDIR=tier3_cari4d_f830_floor` 经 stdin 在 ml40 上跑 `tools/t3_episode_remote.sh`，18 集
    （`results/ops/t3_episodes_ml40_1010_v2_18.txt`；审查期间跑过一次，提交后重跑，让记录指向干净的提交）。
-3. `stages/recovery/t3_sha_match.py` 比对 B.1 与 A 段记录（`results/t3p2/sha_match_18.txt`）。
-4. mf4090 上跑 `stages/recovery/tier2_inputs_md5.py`，取这些集的官方 Tier 2 网格、地面平面、支撑面的 md5（`results/ops/t2_inputs_mf4090_1010_18.txt`）。
-5. `stages/recovery/tier3_expect.py` 从第 2、4 步的记录生成 `stages/recovery/expect/t3p2_18_1010.tsv`，提交并同步到 mf4090。
+3. mf4090 上跑 `stages/recovery/tier2_inputs_md5.py`，取这些集的官方 Tier 2 网格、地面平面、支撑面的 md5（`results/ops/t2_inputs_mf4090_1010_18.txt`）。
+4. `stages/recovery/t3_sha_match.py <B.1 记录> <A 段记录> --inputs <第 3 步的记录>` 比对 B.1 与 A 段（`results/t3p2/sha_match_18.txt`）。
+5. `stages/recovery/tier3_expect.py` 从第 2、3 步的记录生成 `stages/recovery/expect/t3p2_18_1010.tsv`，提交并同步到 mf4090。
 6. `V2D_T3_SUBDIR=tier3_cari4d_f830_floor V2D_T3_SET=v2 stages/recovery/tier3_stage.sh t3p2_18_1010 <集>`，拼进 `runs/tier3/root_v2`
    （`results/t3p2/stage18_mf4090.txt`）。随后只读核对两个档目录（`results/t3p2/stage18_check_mf4090.txt`）：`root_v2` 与 `root` 的
    `meta/episodes_metadata.jsonl` 的修改时间与行数。
@@ -51,6 +51,8 @@
 - `stages/recovery/tier2_inputs_md5.py`（新）：按 Tier 2 的 `meta/episodes_metadata.jsonl` 列出给定几集的网格、地面平面、支撑面的 md5，
   格式与 10/9 那份记录的 md5 行相同，取代当时的临时命令。开头调 `tier_guard.forbid_tier1()`。
 - `stages/recovery/t3_sha_match.py`（新）：把第二轮手工做的 sha256 前 12 位核对写成脚本。对第二轮的两份记录跑出 `SHA_MATCH 2/2`，与当时的手工核对相同。
+  审查之后另加 `--inputs`（只报，不影响退出码）：B.1 里同组成员重建用的网格、地面与官方 Tier 2 同名文件的 md5 是否相同，第二轮对 ep8、ep24 是手工比的；
+  对第二轮的记录跑出 `INPUTS_SAME 4/4`。
 - `stages/retarget/p2_table.py`（新）：按 P2′ 逐集判一份 `eps.sh` 记录。集的清单取自记录头，没有结果行的集记“失败”；
   `--no-contact` 登记接触一条不适用的集；`--a-phase` 加 A 段面高、间隙与差，A 段在支撑面上而重定向后最近的是地面的集在原因里注明。
   对第二轮的记录跑出 ep8 不过、ep24 过，与 10/10 的人工判读相同。
@@ -69,7 +71,7 @@
 - **P2′**（同第二轮第 4 节，10/10 偏离后按集判）：重定向后 |间隙| ≤ 30 mm（正负都算，状态是 ALIGN 也照算）且至少一只手有接触，记“过”；
   否则记“不过”；结果行是 `FAIL:*` 或没有结果行，记“失败”，这一步不重试。阈值不因结果调整。
 - **ep29**：任务用脚推、不用手（第 1 节），接触一条不适用，只按间隙判，结论单独打一行（`CONTACT_NA`）。这一条在看到 18 集的重定向结果之前登记。
-- **只报**：过 P2′ 的集数与集号；每集的帧数、左右手接触帧数、IK 残差中位、间隙、支撑面、状态、机器人脚底高度范围、A 段面高与间隙、两者之差；
+- **只报**：重建用的网格、地面与官方 Tier 2 是否相同（`INPUTS_SAME` / `INPUTS_DIFF`）；过 P2′ 的集数与集号；每集的帧数、左右手接触帧数、IK 残差中位、间隙、支撑面、状态、机器人脚底高度范围、A 段面高与间隙、两者之差；
   A 段在支撑面上而重定向后最近的是地面的集（`SURFACE_TO_FLOOR`），这类集要么是任务把物体放到了地上，要么是物体不在支撑面的范围内（后者是几百 mm 的悬空），
   不改 P2′ 的结论。
 - 这一步不训练。过 P2′ 的集要不要训、训哪些，由用户定。
@@ -99,7 +101,7 @@
 | 4 | MINOR | 日志尾里出现 Traceback 会让整份 18 集的记录变成 `.failed` | 第 7 步设 `V2D_RECORD_TRACEBACK_OK=1`，`FAIL:*` 行是数据 |
 | 5 | MINOR | `p2_table.py` 发现不了没有结果行的集，分母会悄悄变小 | 集的清单改从记录头取，没有结果行的集记“失败”；有记录头没要求的集就报错 |
 | 6 | MINOR | 支撑面几何体多时，脚底高度那一行会被挤出最后 15 行 | `eps.sh` 每集先单独打出那一行，再打最后 15 行 |
-| 7 | NIT | 第 2、3 步在审查与提交之前跑过，记录的来历带 dirty | 提交后重跑第 2、3 步 |
+| 7 | NIT | B.1 与 sha 核对在审查与提交之前跑过，记录的来历带 dirty | 提交后重跑这两步（现在的第 2、4 步） |
 | 8 | NIT | `tier3_root.py` 拒绝之后，同一标签不能重试 | 第 5 节写明：换新标签与新哈希表，或先删掉那个 incoming 目录 |
 
 审查另核了：没有一步读 Tier 1；所有写入都按序列分目录，日志名不会是 ep08、ep24；设了 `V2D_T3_SET=v2` 时第一轮的目录不动；

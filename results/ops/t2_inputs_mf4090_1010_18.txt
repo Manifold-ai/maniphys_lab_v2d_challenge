@@ -1,0 +1,61 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/tier2_inputs_md5.py\ 0\ 3\ 5\ 7\ 9\ 12\ 14\ 15\ 16\ 17\ 18\ 20\ 21\ 22\ 23\ 25\ 26\ 29 
+# md5      : 41e973c3bcb287eb603e0b00cebb0ce4  stages/recovery/tier2_inputs_md5.py
+# source   : c13b6105d43b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T17:45:47-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-11 07:45:48 CST 来历 c13b6105d43b；Tier 2 目录 /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise
+f3e1457400d93c8fb690ffd9d355bd0e mesh/tall_bar_stool/tall_bar_stool.glb
+6431249d30e5d110cb21cfe1b3aa9e8d ground_plane/2026-06-04_14-16-23_tall_bar_stool_tip_up_04.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda
+5d1c0769b2e731f2de49d107ec8fa9eb mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+ac17f82e8b8b9399b16ae1f1e458c470 ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+915839ac3f4fef01c799a904bff7a036 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+5b836735b51043283f03f1be07ee384a mesh/big_black_box/big_black_box.glb
+72cdb5619f450fd2eb2658693d4f766d ground_plane/2026-03-18_19-36-56_g1_box_rotate_01.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+348809ec44b61a61245e0b8d65ec4607 mesh/iron/iron.glb
+e4010291c7d51f1a76563ed7b50b1056 ground_plane/2026-05-29_15-20-43_iron_round_table_02.json
+c413ad523c07fa71dd9ac53d8057dc7b support_surface/2026-05-29_15-20-43_iron_round_table_02_support.usda
+f293d9eafcbc4b0654953ad2ef47de1b mesh/big_red_bowl/big_red_bowl.glb
+191c7e647fa581314b2c60423da983db ground_plane/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03.json
+749adc4a9634f9d1407eac15d04a90a9 support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+dcf25842d8a4dce616f5da968ad7a5ea ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+6cde48a5002185c6b99c1c61733f2ff4 mesh/round_table/round_table.glb
+6073a44eef120e783ce549fb2076d249 ground_plane/2026-05-28_14-44-09_round_table_flip_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda
+090f16c81ce7a69f7f75fd3a19f84717 mesh/wet_floor_sign/wet_floor_sign.glb
+4f778f37e24522e162de1392a4e3d9a0 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+d424da632926a017fccf9aa51fcd4ce8 mesh/spray_bottle/spray_bottle.glb
+8eddd909e08e40f8bcf27c6d814e9f27 ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+05cb55214db197e3cbffb06cc66e1497 support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+d62471ba31f677cc2dbd0d3ca8401094 mesh/traffic_cone/traffic_cone.glb
+ae6e062ad9041bedfd3ce8edda8c467c ground_plane/2026-05-01_17-04-55_traffic_cone_ground_table_02.json
+c9d8c94bfe1303b7d25b1d0014159b17 support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+76337cd9ccd87e34d5a66847a574cc62 mesh/blue_trash_can/blue_trash_can.glb
+4ea6e81e574a6ae768488fd0dbd922ba ground_plane/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda
+07813ad4566097b0aa22aed66a9f7b48 mesh/rice_cooker/rice_cooker.glb
+e9526edcd097d15180c4dc2e25aa7d38 ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json
+dcbd8dfbe968f29926f30cc61b15beb8 support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+7dfeccd7b464b5f7447a428eb2dedf98 ground_plane/2026-04-29_11-53-57_tall_bar_stool_pull_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda
+c59fbc68b8b87d02ee197f6d842dc14b mesh/step_ladder/step_ladder.glb
+583faa80583a83667bcc0006b58e960c ground_plane/2026-05-22_16-52-36_step_ladder_drag_03.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-22_16-52-36_step_ladder_drag_03_support.usda
+6a9bf1918458a12aa251e8fb80b13b94 mesh/toy_stroller/toy_stroller.glb
+dd8c0594fbe936ad21c98664193e73d8 ground_plane/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+1a620f1c665c58dec020814dba3241ac mesh/cyan_water_bottle/cyan_water_bottle.glb
+6e5e81f07d347ea92ca3ee750b306242 ground_plane/2026-03-20_11-59-57_cyan_water_bottle_rotate_01.json
+55ce75bf14e682de9fc61e20964f8701 support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+b8ff5c032f60b37ba48b756d54402186 mesh/skateboard/skateboard.glb
+237b672d4e3a1b16aac36e61b4a6d586 ground_plane/2026-06-05_16-05-08_skateboard_rotate_ground_10.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda
+ab758b004e85f86cc877d0fe5a75e618 mesh/rolling_luggage/rolling_luggage.glb
+f858e6b5146f54d9d2c9f7172bfa129e ground_plane/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda
+TIER2_INPUTS_DONE（18 集，53 个文件）

@@ -1,0 +1,11 @@
+# command  : python3 stages/recovery/test_t3_sha_match.py 
+# md5      : 164fe2e364d6134aa09a1d39ef140355  stages/recovery/test_t3_sha_match.py
+# source   : c13b6105d43b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T17:47:40-0600
+# ---------------------------------------------------------------
+ok test_match
+ok test_mismatch
+ok test_inputs_report_only
+ok test_bad_inputs_refuse
+ALL_OK
