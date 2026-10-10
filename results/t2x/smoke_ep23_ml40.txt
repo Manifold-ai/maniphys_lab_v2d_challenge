@@ -1,0 +1,12 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z")" && grep -a "smoke-t2-ep23\\|t2-ep23-w2048-cap10m-r3a-ml40 SKIPPED" runs/logs/t2xa_train_ml40.log && echo "## �\206\222�\203\237�\227��\227�\207\214�\230��\255\230�\233��\205��\232\204�\214" && grep -ai "SMOKE_\\|�\230��\255\230" runs/logs/smoke-t2-ep23-w2048-cap10m-r3a-ml40.log | tail -5' 
+# source   : 2b7626c78271
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T18:36:42-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-10 08:36:42 CST
+/repo/runs/cfgcheck/smoke-t2-ep23-w2048-cap10m-r3a-ml40.yaml：11 条断言，全过
+=== 2026-10-10 04:55:08 CST 冒烟 smoke-t2-ep23-w2048-cap10m-r3a-ml40
+fc_run: smoke-t2-ep23-w2048-cap10m-r3a-ml40 完成
+SMOKE_FAIL smoke-t2-ep23-w2048-cap10m-r3a-ml40：整卡显存峰值 44562 MiB 超过 44000
+=== 2026-10-10 04:59:44 CST 冒烟判据没过：t2-ep23-w2048-cap10m-r3a-ml40 SKIPPED
+## 冒烟日志里显存相关的行

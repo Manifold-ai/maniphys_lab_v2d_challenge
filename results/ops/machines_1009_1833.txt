@@ -1,0 +1,46 @@
+# command  : bash -c $'for h in mf4090 ml40; do R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; [ $h = mf4090 ] && R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge; ssh -o BatchMode=yes $h "cd $R && echo == $h \\$(date \\"+%F %T %Z\\"); echo -- tmux; tmux ls 2>&1; for f in \\$(ls -t runs/logs/*.log | head -3); do echo -- \\$f \\$(stat -c %y \\$f | cut -c1-19) �\214�\225� \\$(wc -l < \\$f); tail -2 \\$f | cut -c1-300; done; echo GPU �\233�\213 \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); nvidia-smi --query-gpu=name,utilization.gpu,memory.used,memory.total --format=csv,noheader; echo �\225��\223��\207记 \\$(ls runs/.chain-active-* 2>/dev/null | wc -l) \\$(ls runs/.chain-active-* 2>/dev/null); echo �\220 \\$(cat .v2d-source-commit); df -m $R | tail -1; free -g | sed -n 2p"; done' 
+# source   : 2b7626c78271
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T18:33:09-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-10 08:33:12 CST
+-- tmux
+v2d-t3p-eval: 1 windows (created Sat Oct 10 04:59:17 2026)
+v2d-t3p-export: 1 windows (created Sat Oct 10 04:59:19 2026)
+v2d-t3p-train: 1 windows (created Sat Oct 10 04:59:15 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/t3-ep24-w2048-cap4m-r3a-mf4090.log 2026-10-10 08:32:23 行数 145
+training progress: 174,999,552/349,999,104 environment steps (50.0%); 42,579 env steps/s; elapsed 01:08:30; ETA 01:08:30
+training progress: 178,499,584/349,999,104 environment steps (51.0%); 42,566 env steps/s; elapsed 01:09:53; ETA 01:07:09
+-- runs/logs/t3-ep24-w2048-cap4m-r3a-mf4090.nanwatch.log 2026-10-10 08:30:56 行数 19
+10-09 18:26:56 MDT 160,006,144 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-09 18:30:56 MDT 170,006,528 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t3p_train_mf4090.log 2026-10-10 07:20:52 行数 246
+=== 2026-10-10 07:20:52 CST t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-10 07:20:52 CST 正式 t3-ep24-w2048-cap4m-r3a-mf4090
+GPU 进程 1
+NVIDIA GeForce RTX 4090, 97 %, 23911 MiB, 24564 MiB
+长链标记 3 runs/.chain-active-cand_t3_t3p_mf4090-gate runs/.chain-active-t3p_eval_mf4090 runs/.chain-active-t3p_train_mf4090
+源 9c31ba866143
+/dev/vda2         201462 188582      4570  98% /
+Mem:             111           8           4           0          99         102
+== ml40 2026-10-10 08:33:15 CST
+-- tmux
+v2d-t2xa-eval: 1 windows (created Sat Oct 10 04:50:05 2026)
+v2d-t2xa-export: 1 windows (created Sat Oct 10 04:50:07 2026)
+v2d-t2xa-train: 1 windows (created Sat Oct 10 04:50:03 2026)
+-- runs/logs/t2-ep6-w2048-cap10m-r3a-ml40.log 2026-10-10 08:32:22 行数 109
+training progress: 63,000,576/349,999,104 environment steps (18.0%); 44,660 env steps/s; elapsed 00:23:31; ETA 01:47:06
+training progress: 66,500,608/349,999,104 environment steps (19.0%); 44,699 env steps/s; elapsed 00:24:48; ETA 01:45:42
+-- runs/logs/t2-ep6-w2048-cap10m-r3a-ml40.nanwatch.log 2026-10-10 08:31:42 行数 8
+10-09 18:27:42 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-09 18:31:42 MDT 60,002,304 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t2xa_train_ml40.log 2026-10-10 08:05:40 行数 1673
+=== 2026-10-10 08:05:40 CST t2-ep29-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 08:05:40 CST 正式 t2-ep6-w2048-cap10m-r3a-ml40
+GPU 进程 1
+NVIDIA L40S, 100 %, 40305 MiB, 46068 MiB
+长链标记 3 runs/.chain-active-cand_t2_t2xa_ml40-gate runs/.chain-active-t2xa_eval_ml40 runs/.chain-active-t2xa_train_ml40
+源 1d98bd33980d
+/dev/vdb         2063132 442868   1620249  22% /lab_data
+Mem:             111           8           7           0          94         101

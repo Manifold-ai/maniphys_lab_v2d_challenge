@@ -1,0 +1,36 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ mf4090\ t3\ t3p 
+# source   : 2b7626c78271
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T18:33:17-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-10 08:33:18 CST；来历 9c31ba866143
+## t3p train（runs/logs/t3p_train_mf4090.log）
+=== 2026-10-10 04:59:15 CST start t3p_train_mf4090, source 9c31ba866143, 期望表 stages/policy/queues/mf4090_t3p.expect.tsv
+=== 2026-10-10 04:59:16 CST 正向核对：2 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-10 04:59:16 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+SMOKE_OK smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 通过：708 帧，不动基线见 results/day2/bar_smoke-t3-ep8-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+SMOKE_OK smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 05:08:42 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090 通过：748 帧，不动基线见 results/day2/bar_smoke-t3-ep24-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-10 05:08:42 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-10 05:08:42 CST 正式 t3-ep8-w2048-cap4m-r3a-mf4090
+fc_run_watched: t3-ep8-w2048-cap4m-r3a-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 07:20:52 CST t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-10 07:20:52 CST 正式 t3-ep24-w2048-cap4m-r3a-mf4090
+## t3p eval（runs/logs/t3p_eval_mf4090.log）
+=== 2026-10-10 04:59:17 CST 等 runs/logs/t3p_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t3-ep24-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 17
+t3-ep8-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t3-ep8-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 95.85416，平均回报 10.47079，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t3-ep24-w2048-cap4m-r3a-mf4090：180006912 写于 2026-10-10 08:32:59 CST
+## 机器
+23911 MiB, 97 %
+4569 MB free
+runs/.chain-active-cand_t3_t3p_mf4090-gate
+runs/.chain-active-t3p_eval_mf4090
+runs/.chain-active-t3p_train_mf4090

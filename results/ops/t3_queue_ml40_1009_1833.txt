@@ -1,0 +1,209 @@
+# command  : ssh -o BatchMode=yes ml40 bash\ -s 
+# source   : 2b7626c78271
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T18:33:19-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-10 08:33:20 CST
+NVIDIA L40S, 40305 MiB, 46068 MiB, 99 %
+## GPU 计算进程（pid、显存）
+675503, 40296 MiB
+## 队列目录 /lab_data/<其他用户>/v2d/tier3
+## 脚本类进程（pid、已运行、开始时间、命令行）
+## PAUSE 文件：无
+## logs 下最近修改的 10 个文件
+-rw-rw-r-- 1 <其他用户> mfshared  45744 2026-10-10_04:59:19 masks_ep14_round_table.completion.log
+-rw-rw-r-- 1 <其他用户> mfshared  16557 2026-10-10_01:51:02 t3_cari4d_queue.log
+-rw-rw-r-- 1 <其他用户> mfshared    136 2026-10-10_01:51:02 assemble_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared   1576 2026-10-10_01:51:01 residual_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared   2087 2026-10-10_01:50:29 soma_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared    487 2026-10-10_01:49:23 decode_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared    508 2026-10-10_01:49:10 check_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared 118935 2026-10-10_01:48:56 cari4d_ep29_rolling_luggage.log
+-rw-rw-r-- 1 <其他用户> mfshared    144 2026-10-10_01:25:28 assemble_ep28_squeegee.log
+-rw-rw-r-- 1 <其他用户> mfshared   1577 2026-10-10_01:25:27 residual_ep28_squeegee.log
+## /lab_data/<其他用户>/v2d/tier3/logs/after_validation.log（最后 40 行）
+10-09_12:15:12 validation queue finished
+ep00_tall_bar_stool: moved to suspect (gate None)
+ep01_vacuum: moved to suspect (gate False)
+ep02_blue_easter_basket: moved to suspect (gate False)
+ep03_contigo_coffee_mug: keep (gate ok)
+ep20_rice_cooker: moved to suspect (gate None)
+10-09_12:15:24 regate done
+10-09_12:39:14 masks v2 rc=0 23 ok, 2 not ok
+10-09_12:39:14 full queue started
+## /lab_data/<其他用户>/v2d/tier3/logs/t3_cari4d_queue.log（最后 40 行）
+10-09_22:32:19 ep23_toy_stroller soma fit: Mean vertex error: 0.5485 cm Max vertex error: 7.8385 cm 
+10-09_22:33:13 ep23_toy_stroller residual chamfer_cm mean=0.539 p95_frame=0.566 max_frame=0.577 within_frame_p95_median=1.73
+10-09_22:33:13 ep23_toy_stroller assembled into tier3_cari4d
+10-09_22:33:13 ep24_watering_can cari4d start
+10-09_23:05:35 ep24_watering_can cari4d rc=0
+10-09_23:05:57 ep24_watering_can check ok=True iou_p50=0.7719 depth_factor_p10/50/90=[0.9205, 0.9408, 0.9634] centroid_p50=2.6 
+10-09_23:07:50 ep24_watering_can soma fit: Mean vertex error: 0.4383 cm Max vertex error: 10.4157 cm 
+10-09_23:08:36 ep24_watering_can residual chamfer_cm mean=0.465 p95_frame=0.479 max_frame=0.504 within_frame_p95_median=1.368
+10-09_23:08:36 ep24_watering_can assembled into tier3_cari4d
+10-09_23:08:36 ep25_cyan_water_bottle cari4d start
+10-09_23:41:59 ep25_cyan_water_bottle cari4d rc=0
+10-09_23:42:16 ep25_cyan_water_bottle check ok=True iou_p50=0.638 depth_factor_p10/50/90=[0.5988, 0.923, 1.0207] centroid_p50=5.9 
+10-09_23:44:15 ep25_cyan_water_bottle soma fit: Mean vertex error: 0.2722 cm Max vertex error: 5.0731 cm 
+10-09_23:45:04 ep25_cyan_water_bottle residual chamfer_cm mean=0.452 p95_frame=0.477 max_frame=0.488 within_frame_p95_median=1.101
+10-09_23:45:04 ep25_cyan_water_bottle assembled into tier3_cari4d
+10-09_23:45:04 ep26_skateboard cari4d start
+10-10_00:12:47 ep26_skateboard cari4d rc=0
+10-10_00:13:00 ep26_skateboard check ok=False iou_p50=0.5571 depth_factor_p10/50/90=[0.7651, 0.7853, 0.8162] centroid_p50=3.5 median depth factor 0.79 outside (0.8, 1.25)
+10-10_00:14:38 ep26_skateboard soma fit: Mean vertex error: 0.5981 cm Max vertex error: 13.4869 cm 
+10-10_00:15:19 ep26_skateboard residual chamfer_cm mean=0.535 p95_frame=0.618 max_frame=0.628 within_frame_p95_median=1.964
+10-10_00:15:20 ep26_skateboard assembled into tier3_cari4d_suspect
+10-10_00:15:20 ep27_woven_basket cari4d start
+10-10_00:41:32 ep27_woven_basket cari4d rc=0
+10-10_00:41:47 ep27_woven_basket check ok=False iou_p50=0.0 depth_factor_p10/50/90=[0.6961, 0.9685, 1.3347] centroid_p50=55.75 median visible IoU 0.00 < 0.5; median centroid offset 55.8 px > 25.0
+10-10_00:43:14 ep27_woven_basket soma fit: Mean vertex error: 0.3112 cm Max vertex error: 10.6501 cm 
+10-10_00:43:50 ep27_woven_basket residual chamfer_cm mean=0.451 p95_frame=0.569 max_frame=0.581 within_frame_p95_median=1.119
+10-10_00:43:50 ep27_woven_basket assembled into tier3_cari4d_suspect
+10-10_00:43:51 ep28_squeegee cari4d start
+10-10_01:22:03 ep28_squeegee cari4d rc=0
+10-10_01:22:21 ep28_squeegee check ok=False iou_p50=0.0618 depth_factor_p10/50/90=[0.557, 0.7442, 1.034] centroid_p50=54.0 median visible IoU 0.06 < 0.5; median depth factor 0.74 outside (0.8, 1.25); median centroid offset 54.0 px > 25.0
+10-10_01:24:33 ep28_squeegee soma fit: Mean vertex error: 0.3959 cm Max vertex error: 6.0089 cm 
+10-10_01:25:28 ep28_squeegee residual chamfer_cm mean=0.475 p95_frame=0.533 max_frame=0.547 within_frame_p95_median=1.295
+10-10_01:25:28 ep28_squeegee assembled into tier3_cari4d_suspect
+10-10_01:25:28 ep29_rolling_luggage cari4d start
+10-10_01:48:56 ep29_rolling_luggage cari4d rc=0
+10-10_01:49:10 ep29_rolling_luggage check ok=True iou_p50=0.791 depth_factor_p10/50/90=[0.9165, 0.9347, 0.9714] centroid_p50=7.5 
+10-10_01:50:30 ep29_rolling_luggage soma fit: Mean vertex error: 0.2989 cm Max vertex error: 2.8829 cm 
+10-10_01:51:02 ep29_rolling_luggage residual chamfer_cm mean=0.444 p95_frame=0.455 max_frame=0.464 within_frame_p95_median=1.218
+10-10_01:51:02 ep29_rolling_luggage assembled into tier3_cari4d
+10-10_01:51:02 QUEUE DONE
+## 各集剪影检查（runs/checks/*/object_check.json：ok、可见 IoU / 深度因子 / 质心偏移的中位、原因）
+ep00_tall_bar_stool ok=True iou_p50=0.7893 depth_factor_p50=0.9509 centroid_p50=5.6 
+ep00_tall_bar_stool_pregate ok=None iou_p50=0.7638 depth_factor_p50=0.9346 centroid_p50=5.3 
+ep01_vacuum ok=False iou_p50=0.0952 depth_factor_p50=0.7993 centroid_p50=46.8 median visible IoU 0.10 < 0.5; median depth factor 0.80 outside (0.8, 1.25); median centroid offset 46.8 px > 25.0
+ep01_vacuum_pregate ok=None iou_p50=0.0769 depth_factor_p50=0.7692 centroid_p50=47.0 
+ep02_blue_easter_basket ok=False iou_p50=0.3245 depth_factor_p50=1.0532 centroid_p50=21.35 median visible IoU 0.32 < 0.5
+ep03_contigo_coffee_mug ok=True iou_p50=0.6865 depth_factor_p50=0.9789 centroid_p50=3.8 
+ep04_baseball_bat ok=False iou_p50=0.1425 depth_factor_p50=0.9448 centroid_p50=21.75 median visible IoU 0.14 < 0.5
+ep05_big_black_box ok=True iou_p50=0.9161 depth_factor_p50=0.9828 centroid_p50=4.9 
+ep07_iron ok=True iou_p50=0.703 depth_factor_p50=0.9664 centroid_p50=5.5 
+ep08_skinny_wood_chair ok=True iou_p50=0.8172 depth_factor_p50=0.9685 centroid_p50=5.7 
+ep09_big_red_bowl ok=True iou_p50=0.7981 depth_factor_p50=1.0024 centroid_p50=4.0 
+ep10_white_desk ok=False iou_p50=0.1652 depth_factor_p50=1.0816 centroid_p50=77.3 median visible IoU 0.17 < 0.5; median centroid offset 77.3 px > 25.0
+ep11_light_blue_book ok=False iou_p50=0.3948 depth_factor_p50=0.8503 centroid_p50=12.8 median visible IoU 0.39 < 0.5
+ep12_black_platform ok=True iou_p50=0.8901 depth_factor_p50=0.9646 centroid_p50=2.2 
+ep13_snack_box ok=False iou_p50=0.0 depth_factor_p50=1.0538 centroid_p50=115.9 median visible IoU 0.00 < 0.5; median centroid offset 115.9 px > 25.0
+ep14_round_table ok=True iou_p50=0.7344 depth_factor_p50=0.9564 centroid_p50=8.9 
+ep15_wet_floor_sign ok=True iou_p50=0.8137 depth_factor_p50=1.0053 centroid_p50=4.1 
+ep16_spray_bottle ok=True iou_p50=0.817 depth_factor_p50=0.9681 centroid_p50=3.1 
+ep17_traffic_cone ok=True iou_p50=0.7747 depth_factor_p50=0.9943 centroid_p50=7.9 
+ep18_blue_trash_can ok=True iou_p50=0.9068 depth_factor_p50=0.9862 centroid_p50=5.25 
+ep19_cane ok=False iou_p50=0.2011 depth_factor_p50=0.8861 centroid_p50=19.5 median visible IoU 0.20 < 0.5
+ep20_mut090 ok=None iou_p50=0.8007 depth_factor_p50=1.1058 centroid_p50=3.1 
+ep20 ok=None iou_p50=0.8818 depth_factor_p50=1.0028 centroid_p50=2.9 
+ep20_rice_cooker ok=True iou_p50=0.8865 depth_factor_p50=1.0051 centroid_p50=2.9 
+ep21_tall_bar_stool ok=True iou_p50=0.8156 depth_factor_p50=0.9922 centroid_p50=4.75 
+ep22_step_ladder ok=True iou_p50=0.6841 depth_factor_p50=0.9375 centroid_p50=4.1 
+ep23_toy_stroller ok=True iou_p50=0.6732 depth_factor_p50=0.8703 centroid_p50=6.2 
+ep24_watering_can ok=True iou_p50=0.7857 depth_factor_p50=0.9506 centroid_p50=2.6 
+ep25_cyan_water_bottle ok=True iou_p50=0.6445 depth_factor_p50=0.9282 centroid_p50=5.9 
+ep26_skateboard ok=True iou_p50=0.8654 depth_factor_p50=0.9669 centroid_p50=3.1 
+ep27_woven_basket ok=False iou_p50=0.0 depth_factor_p50=0.9781 centroid_p50=55.8 median visible IoU 0.00 < 0.5; median centroid offset 55.8 px > 25.0
+ep28_squeegee ok=False iou_p50=0.0755 depth_factor_p50=0.8861 centroid_p50=52.3 median visible IoU 0.08 < 0.5; median centroid offset 52.3 px > 25.0
+ep29_rolling_luggage ok=True iou_p50=0.8438 depth_factor_p50=0.9966 centroid_p50=9.2 
+## 各集剪影检查（runs/checks_v2/*/object_check.json：ok、可见 IoU / 深度因子 / 质心偏移的中位、原因）
+ep00_tall_bar_stool ok=True iou_p50=0.7893 depth_factor_p50=0.9509 centroid_p50=5.6 
+ep01_vacuum ok=False iou_p50=0.0952 depth_factor_p50=0.7993 centroid_p50=46.8 median visible IoU 0.10 < 0.5; median depth factor 0.80 outside (0.8, 1.25); median centroid offset 46.8 px > 25.0
+ep02_blue_easter_basket ok=False iou_p50=0.3245 depth_factor_p50=1.0532 centroid_p50=21.35 median visible IoU 0.32 < 0.5
+ep03_contigo_coffee_mug ok=True iou_p50=0.6865 depth_factor_p50=0.9789 centroid_p50=3.8 
+ep04_baseball_bat ok=False iou_p50=0.1425 depth_factor_p50=0.9448 centroid_p50=21.75 median visible IoU 0.14 < 0.5
+ep05_big_black_box ok=True iou_p50=0.9161 depth_factor_p50=0.9828 centroid_p50=4.9 
+ep07_iron ok=True iou_p50=0.703 depth_factor_p50=0.9664 centroid_p50=5.5 
+ep08_skinny_wood_chair ok=True iou_p50=0.8172 depth_factor_p50=0.9685 centroid_p50=5.7 
+ep09_big_red_bowl ok=True iou_p50=0.7981 depth_factor_p50=1.0024 centroid_p50=4.0 
+ep10_white_desk ok=False iou_p50=0.1652 depth_factor_p50=1.0816 centroid_p50=77.3 median visible IoU 0.17 < 0.5; median centroid offset 77.3 px > 25.0
+ep11_light_blue_book ok=False iou_p50=0.3948 depth_factor_p50=0.8503 centroid_p50=12.8 median visible IoU 0.39 < 0.5
+ep12_black_platform ok=True iou_p50=0.8901 depth_factor_p50=0.9646 centroid_p50=2.2 
+ep13_snack_box ok=False iou_p50=0.0 depth_factor_p50=1.0538 centroid_p50=115.9 median visible IoU 0.00 < 0.5; median centroid offset 115.9 px > 25.0
+ep14_round_table ok=False iou_p50=0.5659 depth_factor_p50=1.18 centroid_p50=52.5 median centroid offset 52.5 px > 25.0
+ep15_wet_floor_sign ok=True iou_p50=0.8137 depth_factor_p50=1.0053 centroid_p50=4.1 
+ep16_spray_bottle ok=True iou_p50=0.817 depth_factor_p50=0.9681 centroid_p50=3.1 
+ep17_traffic_cone ok=True iou_p50=0.7747 depth_factor_p50=0.9943 centroid_p50=7.9 
+ep18_blue_trash_can ok=True iou_p50=0.9068 depth_factor_p50=0.9862 centroid_p50=5.25 
+ep19_cane ok=False iou_p50=0.2011 depth_factor_p50=0.8861 centroid_p50=19.5 median visible IoU 0.20 < 0.5
+ep20_rice_cooker ok=True iou_p50=0.8865 depth_factor_p50=1.0051 centroid_p50=2.9 
+ep21_tall_bar_stool ok=True iou_p50=0.8156 depth_factor_p50=0.9922 centroid_p50=4.75 
+ep22_step_ladder ok=True iou_p50=0.6841 depth_factor_p50=0.9375 centroid_p50=4.1 
+ep23_toy_stroller ok=True iou_p50=0.6732 depth_factor_p50=0.8703 centroid_p50=6.2 
+ep24_watering_can ok=True iou_p50=0.7857 depth_factor_p50=0.9506 centroid_p50=2.6 
+ep25_cyan_water_bottle ok=True iou_p50=0.6445 depth_factor_p50=0.9282 centroid_p50=5.9 
+ep26_skateboard ok=True iou_p50=0.8654 depth_factor_p50=0.9669 centroid_p50=3.1 
+ep27_woven_basket ok=False iou_p50=0.0 depth_factor_p50=0.9781 centroid_p50=55.8 median visible IoU 0.00 < 0.5; median centroid offset 55.8 px > 25.0
+ep28_squeegee ok=False iou_p50=0.0755 depth_factor_p50=0.8861 centroid_p50=52.3 median visible IoU 0.08 < 0.5; median centroid offset 52.3 px > 25.0
+ep29_rolling_luggage ok=True iou_p50=0.8438 depth_factor_p50=0.9966 centroid_p50=9.2 
+## checks_v2 报告的顶层键：['all_p10_p50_p90', 'episode', 'frames_checked', 'fx', 'ok', 'pose_scale', 'rows', 'stride', 'unoccluded_p10_p50_p90', 'why']
+## 各集 pipeline_report 结论
+ep00_tall_bar_stool PASS
+ep01_vacuum PASS
+ep02_blue_easter_basket PASS
+ep03_contigo_coffee_mug PASS
+ep04_baseball_bat PASS
+ep05_big_black_box PASS
+ep07_iron PASS
+ep08_skinny_wood_chair PASS
+ep09_big_red_bowl PASS
+ep10_white_desk PASS
+ep11_light_blue_book PASS
+ep12_black_platform PASS
+ep13_snack_box PASS
+ep14_round_table PASS
+ep15_wet_floor_sign PASS
+ep16_spray_bottle PASS
+ep17_traffic_cone PASS
+ep18_blue_trash_can PASS
+ep19_cane PASS
+ep20_rice_cooker PASS
+ep21_tall_bar_stool PASS
+ep22_step_ladder PASS
+ep23_toy_stroller PASS
+ep24_watering_can PASS
+ep25_cyan_water_bottle PASS
+ep26_skateboard PASS
+ep27_woven_basket PASS
+ep28_squeegee PASS
+ep29_rolling_luggage PASS
+## runs/tier3_cari4d 里的 parquet（文件名、修改时间）
+episode_000000.parquet 2026-10-09_09:29:03
+episode_000003.parquet 2026-10-09_12:14:35
+episode_000005.parquet 2026-10-09_13:20:54
+episode_000007.parquet 2026-10-09_14:02:47
+episode_000008.parquet 2026-10-09_14:36:25
+episode_000009.parquet 2026-10-09_15:14:32
+episode_000012.parquet 2026-10-09_16:59:51
+episode_000014.parquet 2026-10-09_18:18:24
+episode_000015.parquet 2026-10-09_18:47:19
+episode_000016.parquet 2026-10-09_19:13:25
+episode_000017.parquet 2026-10-09_19:37:24
+episode_000018.parquet 2026-10-09_20:13:02
+episode_000020.parquet 2026-10-09_08:49:54
+episode_000021.parquet 2026-10-09_21:23:02
+episode_000022.parquet 2026-10-09_21:51:52
+episode_000023.parquet 2026-10-09_22:33:13
+episode_000024.parquet 2026-10-09_23:08:36
+episode_000025.parquet 2026-10-09_23:45:04
+episode_000026.parquet 2026-10-10_00:15:19
+episode_000029.parquet 2026-10-10_01:51:02
+## runs/tier3_cari4d_suspect 里的 parquet（文件名、修改时间）
+episode_000001.parquet 2026-10-09_10:58:50
+episode_000002.parquet 2026-10-09_11:38:57
+episode_000004.parquet 2026-10-09_13:18:00
+episode_000010.parquet 2026-10-09_15:49:50
+episode_000011.parquet 2026-10-09_16:27:16
+episode_000013.parquet 2026-10-09_17:39:35
+episode_000019.parquet 2026-10-09_20:51:47
+episode_000027.parquet 2026-10-10_00:43:50
+episode_000028.parquet 2026-10-10_01:25:28
+## 部署版本与队列脚本修改时间
+f421235f200dc20955216dd7161e2567d8218a4c dirty=0 (partial deploy: t3_object_check.py t3_regate.py)
+-rwxrwxr-x 1 <其他用户> <其他用户> 1936 2026-10-09_12:01:00 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_after_validation.sh
+-rwxrwxr-x 1 <其他用户> <其他用户> 3213 2026-10-09_10:25:18 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_cari4d_ep.sh
+-rwxrwxr-x 1 <其他用户> <其他用户> 2757 2026-10-09_06:16:49 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_mesh_ep.sh
+-rwxrwxr-x 1 <其他用户> <其他用户> 5097 2026-10-09_11:20:46 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_queue_cari4d.sh
+-rwxrwxr-x 1 <其他用户> <其他用户> 2344 2026-10-09_06:16:49 /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_queue_mesh.sh
+## /lab_data
+/dev/vdb        2.0T  433G  1.6T  22% /lab_data
