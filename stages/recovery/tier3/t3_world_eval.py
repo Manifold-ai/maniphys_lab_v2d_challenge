@@ -148,6 +148,9 @@ def main() -> None:
             row["static_segments"].append({"start": int(a), "frames": int(b - a), "offset_cm": cm(np.linalg.norm(o)),
                                            "offset_vertical_cm": cm(o @ n_w),
                                            "jitter_cm_rms": cm(np.sqrt((np.linalg.norm(e[a:b] - o, axis=1) ** 2).mean()))})
+        frames_dir = out.parent / f"{out.stem}_frames"
+        frames_dir.mkdir(exist_ok=True)
+        np.savez_compressed(frames_dir / f"{name}.npz", err_m=np.where(vis, np.linalg.norm(e, axis=1), np.nan), visible=vis, static=static)
         rows.append(row)
         print(json.dumps({k: v for k, v in row.items() if k != "static_segments"}), flush=True)
     out.write_text(json.dumps(rows, indent=1))
