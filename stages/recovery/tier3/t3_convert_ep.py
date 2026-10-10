@@ -37,7 +37,7 @@ inputs enter (no Tier 2 trajectory; user decision 10/10).
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
     python t3_convert_ep.py residual <out dir> <soma assets dir>
     python t3_convert_ep.py focal    <out dir> <focal.json> <soma assets dir>
-    python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir>
+    python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir> [camera_register.json]
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
 
@@ -351,7 +351,31 @@ def _scale_body(sp: dict, s: float, assets: Path, name: str, tol_m: float) -> tu
     return new, fit
 
 
-def world(out: Path, floor_fit: Path, assets: Path) -> None:
+def _camera_register(spec: dict, group: int):
+    """Rigid floor-plane motion that puts one exo camera's world onto the main camera's (camera_register.json, from
+    t3_mutual_multi.py): yaw about the floor normal and a translation along the floor, in the plane basis the spec names
+    (origin -d n, u = x minus its normal part, v = n x u). Heights above the floor do not change. Returns (R (3,3),
+    point map on (n, 3) arrays) or None when the group has no entry (the main camera, or a camera not registered yet)."""
+    entry = spec["groups"].get(str(group))
+    if entry is None:
+        return None
+    n = np.asarray(entry["plane"]["n"], np.float64)
+    d = float(entry["plane"]["d"])
+    n, d = n / np.linalg.norm(n), d / np.linalg.norm(n)
+    if d < 0:
+        n, d = -n, -d
+    u = np.array([1.0, 0.0, 0.0]) - n[0] * n
+    u /= np.linalg.norm(u)
+    v = np.cross(n, u)
+    o = -d * n
+    a = np.radians(float(entry["yaw_deg"]))
+    k = np.array([[0, -n[2], n[1]], [n[2], 0, -n[0]], [-n[1], n[0], 0]])
+    r = np.eye(3) + np.sin(a) * k + (1 - np.cos(a)) * (k @ k)  # about n, u -> v positive
+    t = float(entry["t_m"][0]) * u + float(entry["t_m"][1]) * v
+    return r, (lambda x: (x - o) @ r.T + o + t)
+
+
+def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None) -> None:
     import hashlib
 
     name = out.name
@@ -366,11 +390,18 @@ def world(out: Path, floor_fit: Path, assets: Path) -> None:
         if not (out / f).exists():
             raise SystemExit(f"{out / f} missing: run the focal step first")
 
+    # cameras other than the main one: a registered floor-plane motion onto the main camera's world, after the floor
+    # correction (camera_register.json); none for the main camera or an unregistered one
+    reg_bytes = register.read_bytes() if register is not None else None
+    reg = _camera_register(json.loads(reg_bytes), entry["group"]) if reg_bytes is not None else None
+    r_reg, move = reg if reg is not None else (np.eye(3), lambda x: x)
+    rot_all = r_reg @ rot
+
     oc = dict(np.load(out / "object_cam_focal.npz"))
     t_cam = oc["T_cam_glb"].astype(np.float64)
     t_w = t_cam.copy()
-    t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot, t_cam[:, :3, :3])
-    t_w[:, :3, 3] = s * t_cam[:, :3, 3] @ rot.T
+    t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot_all, t_cam[:, :3, :3])
+    t_w[:, :3, 3] = move(s * t_cam[:, :3, 3] @ rot.T)
     np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
 
     sp = dict(np.load(out / "soma_params_focal.npz", allow_pickle=True))
@@ -379,13 +410,15 @@ def world(out: Path, floor_fit: Path, assets: Path) -> None:
     # 1.4 cm on the main camera, 6.5 cm on the second; t3_feet_diag.py). The person gets s times smaller.
     tol = json.loads((out / "residual_report.json").read_text())["chamfer_cm"]["mean"] / 100.0
     scaled, fit = _scale_body(sp, s, assets, name, tol)
-    new, err = _move_body(scaled, rot, lambda p: s * p @ rot.T, assets, name, "world")
+    new, err = _move_body(scaled, rot_all, lambda p: move(s * p @ rot.T), assets, name, "world")
     np.savez(out / "soma_params_world.npz", **new)
     focal_calib = json.loads((out / "focal_calib.json").read_text())
     calib = {"episode": name, "floor_fit": floor_fit.name, "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
              "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
              "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4),
              "body_scale_fit": fit,
+             "camera_register": None if reg is None else {"file": register.name, "sha256": hashlib.sha256(reg_bytes).hexdigest(),
+                                                           **json.loads(reg_bytes)["groups"][str(entry["group"])]},
              "focal": {k: focal_calib[k] for k in ("fx_used_by_cari4d", "fx_new", "depth_ratio", "focal_spec_sha256")}}
     (out / "world_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))
@@ -456,9 +489,11 @@ def assemble(out: Path, inp: Path, ep: int, tier_dir: Path) -> None:
         "trajectory_variant": "tier3_cari4d_official_mesh_floor_calib",
         "source": json.dumps({"reconstruction": "CARI4D", "object_mesh": meta["mesh"],
                               "world_frame": "exo camera OpenCV frame, rotated and scaled about the camera origin so the "
-                                             "reconstructed floor lies on the released ground plane; yaw and horizontal "
-                                             "position as reconstructed",
-                              "floor_correction": {k: calib[k] for k in ("camera_group", "how", "tilt_deg", "scale", "floor_fit_sha256")}}),
+                                             "reconstructed floor lies on the released ground plane; "
+                                             + ("then moved along the floor onto the main exo camera's world (camera_register)"
+                                                if calib.get("camera_register") else "yaw and horizontal position as reconstructed"),
+                              "floor_correction": {k: calib[k] for k in ("camera_group", "how", "tilt_deg", "scale", "floor_fit_sha256")},
+                              "camera_register": (calib.get("camera_register") or {}).get("sha256")}),
     })
     dst = tier_dir / "data" / "chunk-000" / f"episode_{ep:06d}.parquet"
     dst.parent.mkdir(parents=True, exist_ok=True)

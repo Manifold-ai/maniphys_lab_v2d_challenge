@@ -17,6 +17,10 @@ OUT=${OUT:-tier3_cari4d_f830_floor}
 # REUSE_FIT=1: the focal step and runs/floor/$FIT are already there (the floor fit reads object contacts only), redo
 # world + assemble, e.g. after a change to the world step: REUSE_FIT=1 OUT=tier3_cari4d_f830_sim t3_world_all.sh
 REUSE_FIT=${REUSE_FIT:-0}
+# REGISTER=camera_register.json: floor-plane motions of the other exo cameras onto the main camera's world (world step);
+# EPS="ep12_black_platform ...": only these episodes (default every converted episode)
+REGISTER=${REGISTER:-}
+EPS=${EPS:-}
 [ -f "$T/runs/floor/$FOCAL_SPEC" ] || { echo "no runs/floor/$FOCAL_SPEC"; exit 2; }
 if [ "$REUSE_FIT" = 1 ]; then
   [ -f "$T/runs/floor/$FIT" ] || { echo "REUSE_FIT=1 but no runs/floor/$FIT"; exit 2; }
@@ -25,7 +29,12 @@ else
 fi
 D=(docker run --rm --cpus 4 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
 eps=()
-for conv in "$T"/runs/convert/ep*; do [ -f "$conv/soma_params.npz" ] && eps+=("$(basename "$conv")"); done
+for conv in "$T"/runs/convert/ep*; do
+  [ -f "$conv/soma_params.npz" ] || continue
+  [ -z "$EPS" ] || [[ " $EPS " == *" $(basename "$conv") "* ]] || continue
+  eps+=("$(basename "$conv")")
+done
+[ -z "$REGISTER" ] || [ -f "$T/runs/floor/$REGISTER" ] || { echo "no runs/floor/$REGISTER"; exit 2; }
 [ "$REUSE_FIT" = 1 ] || for name in "${eps[@]}"; do
   conv=$T/runs/convert/$name
   "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$SOMA_ASSETS":/a:ro -v "$conv":/o/"$name" v2d_cari4d:latest \
@@ -43,7 +52,7 @@ for name in "${eps[@]}"; do
   elif [ -f "$T/runs/tier3_cari4d_suspect/data/chunk-000/$f" ]; then dst=$T/runs/${OUT}_suspect
   else echo "$name: in neither gate directory, skipped"; continue; fi
   "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$SOMA_ASSETS":/a:ro -v "$conv":/o/"$name" v2d_cari4d:latest \
-    python /s/t3_convert_ep.py world /o/"$name" /f/"$FIT" /a > "$T/logs/world_$name.log" 2>&1 \
+    python /s/t3_convert_ep.py world /o/"$name" /f/"$FIT" /a ${REGISTER:+/f/$REGISTER} > "$T/logs/world_$name.log" 2>&1 \
     || { echo "$name: world failed (logs/world_$name.log)"; continue; }
   "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$dst" > "$T/logs/assemble_${OUT}_$name.log" 2>&1 \
     && echo "$name: -> $(basename "$dst") $(grep -o '"body_rigid_max_err_mm": [0-9.e-]*\|"joint_err_mm_max": [0-9.e-]*\|"tol_mm": [0-9.e-]*' "$T/logs/world_$name.log" | tr '\n' ' ')" \
