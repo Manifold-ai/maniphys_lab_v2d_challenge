@@ -37,7 +37,7 @@ Tier 3 试跑中，ep8、ep24 重定向后物体静置时比发布地面高 114.
 
 ## 结果
 
-10/9 21:32–21:50 在 mf4090 上经 `scripts/dev/incontainer` 执行。合成测试 4 条全部通过（`results/t3float/test_mf4090.txt`）。29 集从 ml40 转到 mf4090（`results/t3float/pack_ml40_to_mf4090.txt`）：parquet 的修改时间最晚为 10/9 11:51，都是同组成员地面校正之前的版本；转发时对方的部署版本为 19bbb32。
+10/9 21:31–21:37 在 mf4090 上经 `scripts/dev/incontainer` 执行（各记录头部的 run_at）。合成测试 4 条全部通过（`results/t3float/test_mf4090.txt`）。29 集从 ml40 转到 mf4090（`results/t3float/pack_ml40_to_mf4090.txt`）：parquet 的修改时间最晚为 10/9 11:51，都是同组成员地面校正之前的版本；转发时对方的部署版本为 19bbb32。
 
 **对照未通过，Tier 3 不作登记的判读。** 对照记录为 `results/t3float/control_tier2_mf4090.txt`。地面上 20 集的 |g| 中位为 6.3 mm，常数模型 o = −4.5 ± 3.1 mm，几何计算本身没有问题。未通过的是倾角模型：俯仰 +0.72°，横滚 +0.52°，o = −40.2 ± 21.6 mm，三项都在约两倍标准误以内。地面上的集前向距离只分布在 1.95–3.60 m，倾角模型的精度达不到登记的 0.5° 与 15 mm。这是门槛定得过严，不据此回调门槛。
 

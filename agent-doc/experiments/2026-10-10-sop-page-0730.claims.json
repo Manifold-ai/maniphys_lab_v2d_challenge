@@ -1,0 +1,76 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "s": {
+   "file": "results/t2x/status_ml40_1010_0730.txt",
+   "grep": "^== |^=== .*(正式|完成)|^fc_run_watched"
+  },
+  "p": {
+   "file": "results/t2x/pace_ml40_t2xa_1010.txt",
+   "grep": "^== |正式开始"
+  },
+  "m": {
+   "file": "results/ops/machines_1010_0730.txt",
+   "grep": "^== |^-- runs/logs|training progress|完成|正式 t|GPU 进程|^NVIDIA|长链标记|^/dev/|EXPORT_CHAIN_DONE"
+  },
+  "q": {
+   "file": "results/ops/t3_queue_ml40_1010_0735.txt",
+   "grep": "^== |^## runs/|^episode_|t3_gpu_watch\\.sh ep"
+  }
+ },
+ "claims": [
+  {
+   "id": "t2_done",
+   "evidence": ["s"],
+   "claim": "t2xa 训练链日志里，t2-ep29、t2-ep6、t2-ep18、t2-ep7、t2-ep16、t2-ep0、t2-ep21（全名都带 -w2048-cap10m-r3a-ml40）依次记了“完成（1 段）”，每条的 fc_run_watched 行都写最新 policy 在 349,999,104 步非有限 0；最后一行是开始正式训练 t2-ep15-w2048-cap10m-r3a-ml40。"
+  },
+  {
+   "id": "t2_pace",
+   "evidence": ["p"],
+   "claim": "已完成的 7 条正式训练里，用时最短的是 t2-ep16（118:15），最长的是 t2-ep21（133:19）；t2-ep15 从 10-10 06:54:53 MDT 开始，还在跑。"
+  },
+  {
+   "id": "t2_progress",
+   "evidence": ["m"],
+   "claim": "ml40 上 t2-ep15-w2048-cap10m-r3a-ml40 的日志最近一行训练进度是 27.0%；ml40 有 1 个 GPU 进程、3 个长链标记。"
+  },
+  {
+   "id": "mf4090",
+   "evidence": ["m"],
+   "claim": "mf4090 的 GPU 进程数是 0，长链标记数是 0，根分区可用 4675 MB；它的导出链日志 cand_t3_t3p_mf4090.log 记了 EXPORT_CHAIN_DONE（成功 2、失败 0）。"
+  },
+  {
+   "id": "t3_dirs",
+   "evidence": ["q"],
+   "claim": "runs/tier3_cari4d_floor 和 runs/tier3_cari4d_f830_floor 里各有 20 个 parquet，runs/tier3_cari4d_floor_suspect 和 runs/tier3_cari4d_f830_floor_suspect 里各有 9 个。"
+  },
+  {
+   "id": "t3_times",
+   "evidence": ["q"],
+   "claim": "runs/tier3_cari4d_floor 里 episode_000000.parquet 的修改时间是 2026-10-10_10:31:34，episode_000029.parquet 是 2026-10-10_10:54:15；runs/tier3_cari4d_f830_floor 里 episode_000000.parquet 是 2026-10-10_11:59:36，episode_000029.parquet 是 2026-10-10_12:21:47。"
+  },
+  {
+   "id": "watch",
+   "evidence": ["q"],
+   "claim": "ml40 上有一个在跑的 t3_gpu_watch.sh 进程，参数是 ep28_squeegee ep27_woven_basket ep19_cane ep03_contigo_coffee_mug，开始时间是 Sat Oct 10 10:43:10 2026。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": ["m"],
+   "claim": "ml40 的 GPU 是 NVIDIA L40S，mf4090 的是 NVIDIA GeForce RTX 4090。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_t2",
+   "evidence": ["s"],
+   "claim": "t2xa 训练链日志里记了 t2-ep10-w2048-cap10m-r3a-ml40 完成（1 段）。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_dirs",
+   "evidence": ["q"],
+   "claim": "runs/tier3_cari4d_floor 里有 9 个 parquet。",
+   "control": "false"
+  }
+ ]
+}

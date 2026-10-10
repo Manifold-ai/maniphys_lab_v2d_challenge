@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-10-sop-page-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 12704034e8a792a84ea1c6cc6c279cda  agent-doc/experiments/2026-10-10-sop-page-0730.claims.json
+# source   : 29649fd11a6b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T07:45:54-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_done              P(supported)=0.96  verified               [s]  t2xa 训练链日志里，t2-ep29、t2-ep6、t2-ep18、t2-ep7、t2-ep16、t2-ep0、t2-ep21（全名都带 -w2048-cap10m-r3a-ml40）依次记了“完成（1 段）”，每条的 fc_run_watched 行都写最新 policy 在 349,999,104 步非有限 0；最后一行是开始正式训练 t2-ep15-w2048-cap10m-r3a-ml40。
+t2_pace              P(supported)=0.97  verified               [p]  已完成的 7 条正式训练里，用时最短的是 t2-ep16（118:15），最长的是 t2-ep21（133:19）；t2-ep15 从 10-10 06:54:53 MDT 开始，还在跑。
+t2_progress          P(supported)=0.97  verified               [m]  ml40 上 t2-ep15-w2048-cap10m-r3a-ml40 的日志最近一行训练进度是 27.0%；ml40 有 1 个 GPU 进程、3 个长链标记。
+mf4090               P(supported)=0.94  verified               [m]  mf4090 的 GPU 进程数是 0，长链标记数是 0，根分区可用 4675 MB；它的导出链日志 cand_t3_t3p_mf4090.log 记了 EXPORT_CHAIN_DONE（成功 2、失败 0）。
+t3_dirs              P(supported)=0.98  verified               [q]  runs/tier3_cari4d_floor 和 runs/tier3_cari4d_f830_floor 里各有 20 个 parquet，runs/tier3_cari4d_floor_suspect 和 runs/tier3_cari4d_f830_floor_suspect 里各有 9 个。
+t3_times             P(supported)=0.99  verified               [q]  runs/tier3_cari4d_floor 里 episode_000000.parquet 的修改时间是 2026-10-10_10:31:34，episode_000029.parquet 是 2026-10-10_10:54:15；runs/tier3_cari4d_f830_floor 里 episode_000000.parquet 是 2026-10-10_11:59:36，episode_000029.parquet 是 2026-10-10_12:21:47。
+watch                P(supported)=0.96  verified               [q]  ml40 上有一个在跑的 t3_gpu_watch.sh 进程，参数是 ep28_squeegee ep27_woven_basket ep19_cane ep03_contigo_coffee_mug，开始时间是 Sat Oct 10 10:43:10 2026。
+ctl_true             P(supported)=0.99  control(true) ok       [m]  ml40 的 GPU 是 NVIDIA L40S，mf4090 的是 NVIDIA GeForce RTX 4090。
+ctl_false_t2         P(supported)=0.02  control(false) ok      [s]  t2xa 训练链日志里记了 t2-ep10-w2048-cap10m-r3a-ml40 完成（1 段）。
+ctl_false_dirs       P(supported)=0.01  control(false) ok      [q]  runs/tier3_cari4d_floor 里有 9 个 parquet。
+controls behaved as expected
