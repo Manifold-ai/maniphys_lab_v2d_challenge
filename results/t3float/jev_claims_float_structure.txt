@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-t3-float-structure.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : be939fdb26d9e6e2d49b32043318d7fd  agent-doc/experiments/2026-10-09-t3-float-structure.claims.json
+# source   : 6ea204282193-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T21:38:09-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+control_fail         P(supported)=0.96  verified               [c]  官方 Tier 2 目录的对照里，地面上的集 |间隙| 中位是 6.3 mm，常数模型 o = -4.5 ± 3.1 mm；倾角模型的俯仰约 +0.72°、横滚约 +0.52°、o = -40.2 ± 21.6 mm；最后一行判定是 CONTROL_FAIL。
+t3_rows              P(supported)=0.97  verified               [r]  Tier 3 通过检查的 20 集里，ep12 black_platform 的间隙是 +61.6 mm，ep15 wet_floor_sign 是 +213.1 mm，ep8 skinny_wood_chair 是 +123.1 mm，ep20 rice_cooker 落在 0.797 m 的面上、间隙 +186.7 mm；ep23 的位移是 9.4 mm，ep9 的位移是 51.2 mm。
+t3_static            P(supported)=0.91  verified               [r]  按登记的位移判据，20 集里静置的只有 6 集（地面上 5 集、支撑面上 1 集），这一轮的判读行写的是“倾角型；尺度模型：分不开”。
+posthoc_fits         P(supported)=0.92  verified               [p]  事后（未登记）不按位移筛静置时，地面上的 14 集常数模型 o = +135.5 ± 10.6 mm；倾角模型 b = -8.2 ± 24.2 mm/m（俯仰约 -0.47°）、e = -70.5 ± 51.9 mm/m（横滚约 -4.03°），残差平方和只比常数模型少 15%；尺度模型 s = -0.0107 ± 0.0305，o = +147.2 ± 25.2 mm。
+ctl_true_basket      P(supported)=0.73  control(true) ok       [c]  对照里 ep2 blue_easter_basket 落在 0.779 m 的面上，间隙是 +0.2 mm。
+ctl_false_ep8        P(supported)=0.01  control(false) ok      [r]  Tier 3 的 ep8 skinny_wood_chair 间隙是 -12.3 mm，物体穿进了地面。
+ctl_false_scale      P(supported)=0.01  control(false) ok      [p]  事后跑法里，20 集的尺度模型给出 s = -0.1105，o = +243.7 mm。
+controls behaved as expected
