@@ -82,13 +82,27 @@ def feet_plane(verts: np.ndarray, sole: dict, up: np.ndarray) -> tuple[np.ndarra
     return n, d, best_in
 
 
-def umeyama(a: np.ndarray, b: np.ndarray) -> tuple[float, np.ndarray, np.ndarray]:
+def umeyama(a: np.ndarray, b: np.ndarray, with_scale: bool = True) -> tuple[float, np.ndarray, np.ndarray]:
     ca, cb = a.mean(0), b.mean(0)
     u, dd, vt = np.linalg.svd((a - ca).T @ (b - cb) / len(a))
     sgn = np.diag([1.0, 1.0, np.sign(np.linalg.det(vt.T @ u.T))])
     r = vt.T @ sgn @ u.T
-    s = float(np.trace(np.diag(dd) @ sgn) / ((a - ca) ** 2).sum(1).mean())
+    s = float(np.trace(np.diag(dd) @ sgn) / ((a - ca) ** 2).sum(1).mean()) if with_scale else 1.0
     return s, r, cb - s * r @ ca
+
+
+def yaw_fit(a: np.ndarray, b: np.ndarray, up: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Rotation about up and translation (rigid, a already tilted) best mapping a onto b."""
+    e1 = np.cross(up, [1.0, 0.0, 0.0] if abs(up[0]) < 0.9 else [0.0, 1.0, 0.0])
+    e1 /= np.linalg.norm(e1)
+    e2 = np.cross(up, e1)
+    basis = np.stack([e1, e2])
+    ah, bh = a @ basis.T, b @ basis.T
+    ca, cb = ah.mean(0), bh.mean(0)
+    m = (ah - ca).T @ (bh - cb)
+    th = np.arctan2(m[0, 1] - m[1, 0], m[0, 0] + m[1, 1])
+    r = Rotation.from_rotvec(th * up).as_matrix()
+    return r, b.mean(0) - a.mean(0) @ r.T
 
 
 def rot_deg(ra: np.ndarray, rb: np.ndarray) -> np.ndarray:
@@ -128,6 +142,9 @@ def main() -> None:
         n = min(len(ours["poses"]), len(t2["poses"]), len(cam), len(ref["object_pose"]))
         ja, va = soma_cv({k: ours[k][:n] for k in HUMAN_KEYS}, layer)
         jb, _ = soma_cv({k: t2[k][:n] for k in HUMAN_KEYS}, layer)
+        # our pose on Tier 2's body (identity / scale / bone lengths are not perturbed in Tier 2)
+        jc, _ = soma_cv({**{k: ours[k][:n] for k in ("poses", "transl")},
+                         **{k: t2[k][:n] for k in ("identity_coeffs", "scale_params", "bone_length_flexibles")}}, layer)
         vis = ref["visible"][:n].astype(bool)
         ot, orr = cam[:n, :3, 3][vis], cam[:n, :3, :3][vis]
         q = ref["object_pose"][:n][vis]
@@ -135,14 +152,15 @@ def main() -> None:
         gp = json.loads((root / "input" / m["ground_plane"]).read_text())["plane"]
         n_w, d_w = plane_up(np.asarray(gp[:3], np.float64), float(gp[3]))
 
-        def score(rot: np.ndarray, s: float, t: np.ndarray | None = None) -> dict:
+        def score(rot: np.ndarray, s: float, t: np.ndarray | None = None, joints: np.ndarray | None = None) -> dict:
             """Rotate about the camera origin, scale positions; t only for the similarity reference."""
             t = np.zeros(3) if t is None else t
             o = s * ot @ rot.T + t
-            pelvis = ja[:, 0]
-            jt = np.einsum("ij,nkj->nki", rot, ja - pelvis[:, None]) + (s * pelvis @ rot.T + t)[:, None]
+            jj = ja if joints is None else joints
+            pelvis = jj[:, 0]
+            jt = np.einsum("ij,nkj->nki", rot, jj - pelvis[:, None]) + (s * pelvis @ rot.T + t)[:, None]
             if t.any():  # similarity reference: scale the whole body, as fitted
-                jt = s * ja @ rot.T + t
+                jt = s * jj @ rot.T + t
             e = np.linalg.norm(o - rt, axis=1)
             return {"obj_cm_p50": round(float(np.median(e)) * 100, 1), "obj_cm_p90": round(float(np.percentile(e, 90)) * 100, 1),
                     "obj_rot_deg_p50": round(float(np.median(rot_deg(np.einsum("ij,njk->nik", rot, orr), rr))), 1),
@@ -164,6 +182,33 @@ def main() -> None:
         s, r, t = umeyama(ja.reshape(-1, 3), jb.reshape(-1, 3))
         row["human_fit_reference"] = {"scale": round(s, 4), "rotation_deg": round(float(np.degrees(np.linalg.norm(Rotation.from_matrix(r).as_rotvec()))), 2),
                                       "translation_m": [round(float(x), 3) for x in t], **score(r, s, t)}
+
+        def fit_row(r: np.ndarray, s: float, t: np.ndarray, joints: np.ndarray, **extra) -> dict:
+            out = {"scale": round(s, 4), **extra, **score(r, s, t, joints)}
+            if "moge" in floors:  # independent check: our MoGe floor mapped into the world vs the released plane
+                nc, dc = floors["moge"]
+                nm = r @ nc
+                out["floor_tilt_deg"] = round(angle(nm, n_w), 2)
+                out["floor_height_cm"] = round(float(d_w - (s * dc - nm @ t)) * 100, 1)  # + : our mapped floor sits above the released one
+            return out
+
+        for tag, jj in (("ours", ja), ("t2id", jc)):
+            a, b = jj.reshape(-1, 3), jb.reshape(-1, 3)
+            s7, r7, t7 = umeyama(a, b)
+            row[f"{tag}_sim7"] = fit_row(r7, s7, t7, jj)
+            _, r6, t6 = umeyama(a, b, with_scale=False)
+            row[f"{tag}_rigid6"] = fit_row(r6, 1.0, t6, jj)
+        k = min(30, n)
+        _, re, te = umeyama(jc[:k].reshape(-1, 3), jb[:k].reshape(-1, 3), with_scale=False)
+        row["t2id_rigid6_early30"] = fit_row(re, 1.0, te, jc)
+        if "moge" in floors:
+            nc, dc = floors["moge"]
+            r0 = Rotation.align_vectors([n_w], [nc])[0].as_matrix()
+            a, b = jc.reshape(-1, 3) @ r0.T, jb.reshape(-1, 3)
+            ry, ty = yaw_fit(a, b, n_w)
+            row["floor_tilt_human"] = fit_row(ry @ r0, 1.0, ty, jc)  # yaw + full translation from the human
+            th = ty - n_w * (n_w @ ty) + n_w * (dc - d_w)  # height from the two floors instead
+            row["floor_full_human"] = fit_row(ry @ r0, 1.0, th, jc)
         rows.append(row)
         print(json.dumps(row), flush=True)
     out.write_text(json.dumps(rows, indent=1))
