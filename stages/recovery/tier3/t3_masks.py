@@ -63,6 +63,10 @@ NEAR_PERSON_SCALE = 0.25
 FOOTPRINT_DILATE_PX = 21
 #: Two boxes on different frames at IoU above this are "the same place".
 STATIC_IOU = 0.7
+#: Two candidate boxes on different frames at IoU above this belong to one track (the same thing, maybe moved).
+TRACK_IOU = 0.4
+#: A track that translates by at least this share of its box diagonal between two sampled frames was moved.
+MOVED_DIAGONALS = 0.15
 #: The manipulated object is touched: on some sampled frame its mask comes within this many pixels of the
 #: person mask. A tripod or a background chair never does.
 TOUCH_PX = 15
@@ -118,6 +122,52 @@ def iou(a: dict, b: dict) -> float:
     return inter / (area(a) + area(b) - inter + 1e-9)
 
 
+def is_support(label: str, support_words: tuple[str, ...], want: str, own_support: bool) -> bool:
+    """The detector merges phrases on one box ("a white white desk table"). When the object is itself a table or
+    desk, a box that names the object is a candidate, not a support (ep10: the white desk being lowered was labelled
+    "... table" and dropped, so a background desk was the only candidate left)."""
+    return any(label_matches(label, s) for s in support_words) and not (own_support and label_matches(label, want))
+
+
+def candidate_tracks(candidates: list[dict]) -> list[list[dict]]:
+    """Group candidates into tracks: boxes on different frames overlapping above TRACK_IOU are the same thing."""
+    parent = list(range(len(candidates)))
+
+    def root(i: int) -> int:
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    for i, a in enumerate(candidates):
+        for j in range(i + 1, len(candidates)):
+            b = candidates[j]
+            if a["frame_index"] != b["frame_index"] and iou(a["box"], b["box"]) > TRACK_IOU:
+                parent[root(i)] = root(j)
+    tracks: dict[int, list[dict]] = {}
+    for i, c in enumerate(candidates):
+        tracks.setdefault(root(i), []).append(c)
+    return list(tracks.values())
+
+
+def track_translation(members: list[dict]) -> float:
+    """Largest translation between two boxes of a track, in units of the track's median box diagonal.
+
+    Per axis the shift counts only when both edges move the same way, and then by the smaller of the two:
+    an object occluded from one side keeps its other edge, a moved object moves both."""
+    def axis(a0: float, a1: float, b0: float, b1: float) -> float:
+        d0, d1 = b0 - a0, b1 - a1
+        return min(abs(d0), abs(d1)) if d0 * d1 > 0 else 0.0
+
+    boxes = [c["box"] for c in members]
+    diag = float(np.median([np.hypot(b["x1"] - b["x0"], b["y1"] - b["y0"]) for b in boxes]))
+    best = 0.0
+    for i, a in enumerate(boxes):
+        for b in boxes[i + 1:]:
+            best = max(best, float(np.hypot(axis(a["x0"], a["x1"], b["x0"], b["x1"]), axis(a["y0"], a["y1"], b["y0"], b["y1"]))))
+    return best / diag if diag > 0 else 0.0
+
+
 def detections(path: Path) -> list[dict]:
     dets = json.loads(path.read_text())
     return dets if isinstance(dets, list) else dets.get("detections", dets.get("0", []))
@@ -134,7 +184,8 @@ def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, we
     want = f"{object_prompt} {name}"
     # When the object itself is a table or desk (white_desk), those words are the target, not a support to avoid.
     support_words = tuple(w for w in SUPPORT_WORDS if w not in want.lower().split())
-    prompt = f"{PERSON} . {object_prompt.rstrip('.')} . " + (f"{name} . " if name else "") + " . ".join(support_words) + " ."
+    own_support = len(support_words) < len(SUPPORT_WORDS)
+    prompt =f"{PERSON} . {object_prompt.rstrip('.')} . " + (f"{name} . " if name else "") + " . ".join(support_words) + " ."
     candidates = []
     for idx in frames:
         img = d / f"frame_{idx:06d}.png"
@@ -147,7 +198,7 @@ def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, we
         dets = detections(boxes)
         w, h = Image.open(img).size
         persons = [x for x in dets if label_matches(x["label"], PERSON)]
-        supports = [x for x in dets if any(label_matches(x["label"], s) for s in support_words)]
+        supports = [x for x in dets if is_support(x["label"], support_words, want, own_support)]
         objects = [x for x in dets if label_matches(x["label"], want) and x not in persons and x not in supports]
         person = max(persons, key=lambda x: x["confidence"], default=None)
         for o in objects:
@@ -171,6 +222,20 @@ def choose_prompt_frame(d: Path, video: Path, total: int, object_prompt: str, we
         same = {o["frame_index"] for o in candidates if o["frame_index"] != c["frame_index"] and iou(o["box"], c["box"]) > STATIC_IOU}
         c["static_frames"] = len(same)
         c["score"] = round(c["score"] / (1.0 + len(same)), 4)
+    # The object the person interacts with is the one that gets moved. A same-class thing in the background
+    # (a tripod boxed as "vacuum" once in ep01, a far monitor in ep06) is either seen on one frame only, or seen
+    # at a fixed place. Link candidates on different frames into tracks; a track whose box translates (both
+    # edges of an axis shift the same way, so a person occluding one side does not count) has been moved.
+    # When any track moved, only its candidates compete, under the same score as before.
+    for t, members in enumerate(candidate_tracks(candidates)):
+        moved = track_translation(members)
+        for c in members:
+            c["track"], c["track_frames"], c["track_moved"] = t, len({m["frame_index"] for m in members}), round(moved, 3)
+    if any(c["track_frames"] >= 2 and c["track_moved"] >= MOVED_DIAGONALS for c in candidates):
+        for c in candidates:
+            c["moved"] = c["track_frames"] >= 2 and c["track_moved"] >= MOVED_DIAGONALS
+        candidates.sort(key=lambda c: (c["moved"], c["score"]), reverse=True)
+        return {"candidates": candidates, "frames": frames}
     candidates.sort(key=lambda c: c["score"], reverse=True)
     return {"candidates": candidates, "frames": frames}
 
