@@ -2,7 +2,9 @@
 # Re-acquisition pilot: CARI4D with FoundationPose registering every frame (t3_cari4d_ep.sh, T3_FP_MODE=
 # register-every-frame) on copies of finished episodes, then the same checks and conversion as the baseline.
 # GPU: one CARI4D job (refinement peaks near 44 GB) plus the SOMA fit. Start it only in a GPU slot agreed with rxzhou
-# (ml40 rule); it refuses to start while less than MIN_FREE_MIB is free and never waits for the card.
+# (ml40 rule) or from t3_gpu_watch.sh; before every episode it yields (stops, between episodes) when rxzhou's chains
+# are back (a runs/.chain-active-* marker in his repository or a flash_chord container) or less than MIN_FREE_MIB is
+# free, and it never waits for the card.
 #   setsid nohup t3_fp_pilot.sh ep03_contigo_coffee_mug ep02_blue_easter_basket > /dev/null 2>&1 < /dev/null &
 # Per episode: runs/work/<ep> is copied to runs/work_fp/<ep> (the baseline is not touched), FoundationPose and later
 # stage outputs and markers are removed from the copy so stages 01-04 are reused and 05-08 rerun; outputs:
@@ -18,9 +20,12 @@ MIN_FREE_MIB=${MIN_FREE_MIB:-44000}
 LOG=$T/logs/t3_fp_pilot.log
 say() { echo "$(date +%m-%d_%T) $*" >> "$LOG"; }
 gpu_free() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
+RX_RUNS=${RX_RUNS:-/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs}
+rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
 D=(docker run --rm --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
 for name in "$@"; do
   ep=$((10#${name:2:2})); obj=${name#ep[0-9][0-9]_}; seq=$(printf episode_%06d "$ep")
+  if rx_busy; then say "$name: rxzhou's chain is active again, yielding before this episode"; exit 4; fi
   free=$(gpu_free)
   [ "$free" -ge "$MIN_FREE_MIB" ] || { say "$name: only ${free} MiB free on the GPU, not started (agree a slot first)"; exit 3; }
   src=$T/runs/work/$name; dst=$T/runs/work_fp/$name
