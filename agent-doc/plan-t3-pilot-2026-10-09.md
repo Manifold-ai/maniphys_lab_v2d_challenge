@@ -128,3 +128,26 @@ Tier 2 铺开另见 `agent-doc/plan-t2-scaleout-2026-10-09.md`，两者分在两
   转换后的 `v2d_meta.json` 带上了来源（`object_pose_source.kind` 为 `tier3_reconstruction`，parquet sha256 `0e0bd2e7…`）。
 - 14:58 配置展开（`results/t3p/cfgcheck_mf4090.txt`）：4 份，意外差异 0。预演 `DRYRUN_OK`（`results/t3p/arm_dryrun_t3p_mf4090.txt`）：2 条 run，来历 9c31ba8，可用 5486 MB。
 - 14:59 起链 `ARMED`（`results/t3p/arm_t3p_mf4090.txt`）：会话 `v2d-t3p-train`、`v2d-t3p-eval`、`v2d-t3p-export`，开始第一条冒烟（ep8）。按 r3x 的速度估，约 20:30 前后导出门结束。
+- 19:40:54 训练链 `DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）`；19:50:50 评测链 `DAY2_EVAL_DONE（成功 2、失败 0）`；19:53:09 导出链
+  `EXPORT_CHAIN_DONE（成功 2、失败 0）`（服务器日志记的是 CST，这里已换成 UTC−6）。
+- 20:56 健康记录 `results/t3p/health_mf4090.txt`，由新加的只读脚本 `stages/policy/chain_health_remote.sh` 列出，列法同 `results/r3x/health_mf4090.txt`：
+  - **R1 过**：两条冒烟都通过（708、748 帧，256 世界 rollout 里非有限世界 0 个）；两条都有 `DONE`、没有 `NONFINITE`，`NONFINITE_GUARD_STOP` 0 次，
+    防护事件 0 行，看守日志里含非有限的扫描行 0；训练链最后一行“发散 0”。
+  - **R2 过**：两条 4096 世界评测都是 `world_count` 4096、`non_finite_worlds` 为空，`step_count` 708、748 与导出相同，checkpoint 相同；评测链“失败 0”。
+  - **R3 过**：导出结果表两行都是 `ok`（第 349999104 步，最终 checkpoint）。
+  - **试跑结论：通过。** 两条 run 都走到导出 `ok`，链路通了。
+- 21:00 只报（`results/t3p/eval_table_t3p.txt`，4096 世界）。评测对照的是训练用的那份 Tier 3 参考，不是干净真值：
+
+  | run | MP-SR | SP-SR | ADD-AUC | MPPE cm | 位置 cm | 朝向 ° | 失败（骨盆 / 物体 / 手掌） |
+  |---|---|---|---|---|---|---|---|
+  | t3-ep8（mf4090，buffer 400 万，seed 42） | 0.000 | 0.000 | 0.006 | 36.80 | 36.78 | 23.1 | 1.000 / 1.000 / 1.000 |
+  | t2-ep8 变体 A（ml40，buffer 1000 万，seed 42 / 43） | 0.999 / 0.999 | 1.000 / 0.999 | 0.611 / 0.646 | 2.40 / 2.39 | 2.28 / 2.30 | 8.3 / 7.5 | 都 ≤ 0.003 |
+  | t3-ep24（mf4090，buffer 400 万，seed 42） | 0.000 | 0.000 | 0.004 | 38.70 | 38.41 | 90.8 | 1.000 / 1.000 / 1.000 |
+  | t2-ep24 变体 A（ml40，buffer 1000 万，seed 42 / 43） | 0.999 / 0.999 | 0.999 / 0.999 | 0.814 / 0.797 | 1.66 / 1.65 | 0.89 / 0.89 | 19.6 / 20.0 | 都 ≤ 0.004 |
+
+  Tier 3 两条在 4096 个世界里全部失败，骨盆、物体、手掌三项都超限；同两集换成 Tier 2 参考，MP-SR 是 0.999。两边还差 buffer、机器和种子数，
+  差距的原因没有查。推断（未核实）：参考本身在物理上跟不了，物体静置时悬空 11–15 cm（见 14:50 一条），人体运动也在没校正倾角与尺度的相机系里。
+  骨盆一项也是 1.000，说明机器人身体同样没跟上参考；三项里哪一项先坏，这份汇总看不出来。
+- 核对：`results/t3p/jev_claims_t3p_result.txt`（规格 `agent-doc/experiments/2026-10-09-t3p-result.claims.json`），5 条全部核实（0.97–0.99），3 道对照题正常。
+- 下一步待定：甲，请同组成员先做地面与尺度校正，校正后的参考重新转换、重定向，再按本计划同样的做法跑这两集；乙，先在一集上用 viewer 看回放，
+  确认三项里哪一项先坏（不出新 run）；丙，Tier 3 暂停，算力留给 Tier 2 铺开。Tier 3 的 Kaggle 比赛仍没有加入。

@@ -1,0 +1,46 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t3p_train_mf4090\ t3p_eval_mf4090\ cand_t3_t3p_mf4090_gate\ cand_t3_t3p_mf4090\ t3-ep8-w2048-cap4m-r3a-mf4090\ t3-ep24-w2048-cap4m-r3a-mf4090 
+# source   : 8465ab031b69-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T20:56:18-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-10 10:56:18 CST；来历 9c31ba866143
+## 训练链 t3p_train_mf4090（不含冒烟行）
+=== 2026-10-10 04:59:15 CST start t3p_train_mf4090, source 9c31ba866143, 期望表 stages/policy/queues/mf4090_t3p.expect.tsv
+=== 2026-10-10 05:08:42 CST 正式 t3-ep8-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 07:20:52 CST t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-10 07:20:52 CST 正式 t3-ep24-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 09:40:54 CST t3-ep24-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-10 09:40:54 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+## t3p_train_mf4090 的冒烟行
+=== 2026-10-10 04:59:16 CST 正向核对：2 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-10 04:59:16 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 通过：708 帧，不动基线见 results/day2/bar_smoke-t3-ep8-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-10 05:03:45 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+=== 2026-10-10 05:08:42 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090 通过：748 帧，不动基线见 results/day2/bar_smoke-t3-ep24-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-10 05:08:42 CST 冒烟 smoke-t3-ep24-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+DIVERGE_IN_CHAIN t3p_train_mf4090 1
+## 各 run
+t3-ep8-w2048-cap4m-r3a-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-09 17:18:51 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t3-ep24-w2048-cap4m-r3a-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-09 19:37:01 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+## t3p_eval_mf4090
+=== 2026-10-10 04:59:17 CST 等 runs/logs/t3p_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-10 09:41:18 CST 训练链已结束：=== 2026-10-10 09:40:54 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+=== 2026-10-10 09:41:18 CST start t3p_eval_mf4090, source 9c31ba866143, 期望表 stages/policy/queues/mf4090_t3p.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-10 09:50:50 CST DAY2_EVAL_DONE（成功 2、失败 0）
+## cand_t3_t3p_mf4090_gate
+=== 2026-10-10 04:59:19 CST 等 runs/logs/t3p_eval_mf4090.log 的最后一行变成评测链的结束行
+=== 2026-10-10 09:51:20 CST 评测链成功 2 条、失败 0，开导出链 cand_t3_t3p_mf4090
+=== 2026-10-10 09:53:09 CST 导出链结束，退出码 0
+## cand_t3_t3p_mf4090
+=== 2026-10-10 09:51:20 CST start cand_t3_t3p_mf4090：清单 stages/evaluate/exports/cand_t3_t3p_mf4090.tsv（2 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 9c31ba866143
+=== 2026-10-10 09:52:15 CST Tier 3 ep8 t3-ep8-w2048-cap4m-r3a-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 708（导出 708），checkpoint 相同
+=== 2026-10-10 09:53:09 CST Tier 3 ep24 t3-ep24-w2048-cap4m-r3a-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 748（导出 748），checkpoint 相同
+=== 2026-10-10 09:53:09 CST EXPORT_CHAIN_DONE（成功 2、失败 0）
+## 导出结果表 runs/exports/cand_t3_t3p_mf4090.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+3	8	t3-ep8-w2048-cap4m-r3a-mf4090	349999104	ok	runs/flash_chord/t3-ep8-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000008.json	runs/flash_chord/t3-ep8-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000008.parquet	e5f68776038c6b71a2ae61bb9eebfaeb0d7246deedb6d97c0cf41f5114467cbc	352af0c328a84f6c612f3907e980030fa768ec7f0bb5340a36454b8a485e2381
+3	24	t3-ep24-w2048-cap4m-r3a-mf4090	349999104	ok	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000024.json	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000024.parquet	2bcc5d19df621cd9e0eedaa4343591fde03cd4679d2ab850202b617297593499	367bf56207c7ac5e071e88b56297d8635bcf8af1aab149b4a05cb7d60e0fa70c
+CHAIN_HEALTH_DONE

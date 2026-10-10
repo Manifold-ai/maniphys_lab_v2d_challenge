@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-t3p-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 0e1faa26532193971eb4c86cdc1610ce  agent-doc/experiments/2026-10-09-t3p-result.claims.json
+# source   : 8465ab031b69-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T20:57:45-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+r1                   P(supported)=0.97  verified               [h]  runs/logs/t3p_train_mf4090.log 的最后一行是 DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）；t3-ep8-w2048-cap4m-r3a-mf4090 和 t3-ep24-w2048-cap4m-r3a-mf4090 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，两条 run 的冒烟都通过。
+r2_r3                P(supported)=0.98  verified               [h]  评测链 t3p_eval_mf4090 记了 DAY2_EVAL_DONE（成功 2、失败 0）；导出链 cand_t3_t3p_mf4090 记了 EXPORT_CHAIN_DONE（成功 2、失败 0），导出结果表里 ep8 与 ep24 两行的状态都是 ok，两条评测都是 world_count 4096、non_finite_worlds 0 个。
+t3_metrics           P(supported)=0.98  verified               [t]  t3-ep8-w2048-cap4m-r3a-mf4090 与 t3-ep24-w2048-cap4m-r3a-mf4090 的 MP-SR 都是 0.000，ADD-AUC 分别是 0.006 和 0.004，MPPE 分别是 36.80 cm 和 38.70 cm；两条的骨盆、物体、手掌失败比例都是 1.000。
+t2_same_eps          P(supported)=0.99  verified               [t]  t2-ep8-w2048-cap10m-r3a-ml40、t2-ep8-w2048-cap10m-r3a-s43-ml40、t2-ep24-w2048-cap10m-r3a-ml40、t2-ep24-w2048-cap10m-r3a-s43-ml40 这四条 run 的 MP-SR 都是 0.999。
+ep8_causes           P(supported)=0.99  verified               [e8]  t3-ep8-w2048-cap4m-r3a-mf4090 的 4096 世界评测里，reference_end_fraction 是 1.0，reference_tracking.failure_cause_fraction 里 object、palm、pelvis 都是 1.0。
+ctl_true_frames      P(supported)=0.99  control(true) ok       [t]  t3-ep8-w2048-cap4m-r3a-mf4090 的评测帧数是 708，t3-ep24-w2048-cap4m-r3a-mf4090 的是 748。
+ctl_false_mpsr       P(supported)=0.01  control(false) ok      [t]  t3-ep8-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.999。
+ctl_false_train      P(supported)=0.01  control(false) ok      [h]  训练链 t3p_train_mf4090 里有 1 条 run 失败。
+controls behaved as expected

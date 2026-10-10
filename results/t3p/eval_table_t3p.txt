@@ -1,0 +1,19 @@
+# command  : python3 stages/evaluate/eval_table.py results/day2/eval_t3-ep8-w2048-cap4m-r3a-mf4090_s349999104.txt results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-s43-ml40_s349999104.txt results/day2/eval_t3-ep24-w2048-cap4m-r3a-mf4090_s349999104.txt results/ml40/day2/eval_t2-ep24-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t2-ep24-w2048-cap10m-r3a-s43-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : ea8b7a0aef6f23e3f2e683e033bc4477  results/day2/eval_t3-ep8-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : a554a055027f7ecc675c5118db5b24a8  results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 2ccfebb8fc63d351043407cf1e61c73a  results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-s43-ml40_s349999104.txt
+# md5      : 63d1ff66d8fda484882e8af6a329e215  results/day2/eval_t3-ep24-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 53aa7e03d0a6fb7778c0c76759d9b6ac  results/ml40/day2/eval_t2-ep24-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 5560c49f03a3cd68482d5b34b710046a  results/ml40/day2/eval_t2-ep24-w2048-cap10m-r3a-s43-ml40_s349999104.txt
+# source   : 8465ab031b69-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T20:56:36-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep8-w2048-cap4m-r3a-mf4090	349999104	4096	708	0.000	0.000	0.006	36.80	36.78	23.1	0.000	1.000	1.000	1.000	f5b8c34ba24f
+t2-ep8-w2048-cap10m-r3a-ml40	349999104	4096	708	0.999	1.000	0.611	2.40	2.28	8.3	0.999	0.001	0.001	0.001	f8efa07dbd16
+t2-ep8-w2048-cap10m-r3a-s43-ml40	349999104	4096	708	0.999	0.999	0.646	2.39	2.30	7.5	0.997	0.001	0.001	0.003	7af7b281fb49
+t3-ep24-w2048-cap4m-r3a-mf4090	349999104	4096	748	0.000	0.000	0.004	38.70	38.41	90.8	0.000	1.000	1.000	1.000	601a5117053a
+t2-ep24-w2048-cap10m-r3a-ml40	349999104	4096	748	0.999	0.999	0.814	1.66	0.89	19.6	0.999	0.001	0.001	0.001	95144c96b294
+t2-ep24-w2048-cap10m-r3a-s43-ml40	349999104	4096	748	0.999	0.999	0.797	1.65	0.89	20.0	0.995	0.001	0.002	0.004	416c690ae897

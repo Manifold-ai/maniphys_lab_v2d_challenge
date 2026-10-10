@@ -1,0 +1,62 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "h": {
+   "file": "results/t3p/health_mf4090.txt",
+   "grep": "^== |^## |^=== |DIVERGE_IN_CHAIN|DONE=|^3\\t|CHAIN_HEALTH_DONE"
+  },
+  "t": {
+   "file": "results/t3p/eval_table_t3p.txt",
+   "grep": "^run|^t3-|^t2-"
+  },
+  "e8": {
+   "file": "results/day2/eval_t3-ep8-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval|^== |world_count|maniptrans_sr|failure_cause_fraction|reference_end_fraction"
+  }
+ },
+ "claims": [
+  {
+   "id": "r1",
+   "evidence": ["h"],
+   "claim": "runs/logs/t3p_train_mf4090.log 的最后一行是 DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）；t3-ep8-w2048-cap4m-r3a-mf4090 和 t3-ep24-w2048-cap4m-r3a-mf4090 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，两条 run 的冒烟都通过。"
+  },
+  {
+   "id": "r2_r3",
+   "evidence": ["h"],
+   "claim": "评测链 t3p_eval_mf4090 记了 DAY2_EVAL_DONE（成功 2、失败 0）；导出链 cand_t3_t3p_mf4090 记了 EXPORT_CHAIN_DONE（成功 2、失败 0），导出结果表里 ep8 与 ep24 两行的状态都是 ok，两条评测都是 world_count 4096、non_finite_worlds 0 个。"
+  },
+  {
+   "id": "t3_metrics",
+   "evidence": ["t"],
+   "claim": "t3-ep8-w2048-cap4m-r3a-mf4090 与 t3-ep24-w2048-cap4m-r3a-mf4090 的 MP-SR 都是 0.000，ADD-AUC 分别是 0.006 和 0.004，MPPE 分别是 36.80 cm 和 38.70 cm；两条的骨盆、物体、手掌失败比例都是 1.000。"
+  },
+  {
+   "id": "t2_same_eps",
+   "evidence": ["t"],
+   "claim": "t2-ep8-w2048-cap10m-r3a-ml40、t2-ep8-w2048-cap10m-r3a-s43-ml40、t2-ep24-w2048-cap10m-r3a-ml40、t2-ep24-w2048-cap10m-r3a-s43-ml40 这四条 run 的 MP-SR 都是 0.999。"
+  },
+  {
+   "id": "ep8_causes",
+   "evidence": ["e8"],
+   "claim": "t3-ep8-w2048-cap4m-r3a-mf4090 的 4096 世界评测里，reference_end_fraction 是 1.0，reference_tracking.failure_cause_fraction 里 object、palm、pelvis 都是 1.0。"
+  },
+  {
+   "id": "ctl_true_frames",
+   "evidence": ["t"],
+   "claim": "t3-ep8-w2048-cap4m-r3a-mf4090 的评测帧数是 708，t3-ep24-w2048-cap4m-r3a-mf4090 的是 748。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_mpsr",
+   "evidence": ["t"],
+   "claim": "t3-ep8-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.999。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_train",
+   "evidence": ["h"],
+   "claim": "训练链 t3p_train_mf4090 里有 1 条 run 失败。",
+   "control": "false"
+  }
+ ]
+}
