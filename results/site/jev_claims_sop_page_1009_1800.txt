@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-09-sop-page-1800.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b6b3a16f282ac0275f4c31e6abae658a  agent-doc/experiments/2026-10-09-sop-page-1800.claims.json
+# source   : 741dd95fece8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-09T18:40:35-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_progress          P(supported)=0.98  verified               [m]  ml40 的 runs/logs/t2xa_train_ml40.log 里记了 t2-ep29-w2048-cap10m-r3a-ml40 完成（1 段），随后开始正式训练 t2-ep6-w2048-cap10m-r3a-ml40；runs/logs/t2-ep6-w2048-cap10m-r3a-ml40.log 最近一行的训练进度是 19.0%。
+ep23                 P(supported)=0.98  verified               [e23]  smoke-t2-ep23-w2048-cap10m-r3a-ml40 记了 SMOKE_FAIL，整卡显存峰值 44562 MiB 超过 44000，随后 t2-ep23-w2048-cap10m-r3a-ml40 记 SKIPPED。
+t3_progress          P(supported)=0.97  verified               [m]  mf4090 的 runs/logs/t3p_train_mf4090.log 里记了 t3-ep8-w2048-cap4m-r3a-mf4090 完成（1 段），随后开始正式训练 t3-ep24-w2048-cap4m-r3a-mf4090；runs/logs/t3-ep24-w2048-cap4m-r3a-mf4090.log 最近一行的训练进度是 51.0%。
+machines             P(supported)=0.97  verified               [m]  mf4090 的根分区可用 4570 MB；两台的 GPU 进程数都是 1，长链标记数都是 3。
+t3_split             P(supported)=0.98  verified               [q]  runs/tier3_cari4d 里有 20 个 parquet，runs/tier3_cari4d_suspect 里有 9 个。
+t1                   P(supported)=0.90  verified               [fs]  1 世界 MP-SR 没过的 15 条，选中 run 的 4096 世界 MP-SR 最大是 0.000；选中 run 名含 r3a 的 9 条，1 世界 MP-SR 都过了。
+float                P(supported)=0.95  verified               [r]  Tier 3 的 ep8 间隙是 114.9 mm、ep24 是 146.2 mm，两条的状态都是 ALIGN。
+ctl_true             P(supported)=0.99  control(true) ok       [m]  ml40 的 GPU 是 NVIDIA L40S，mf4090 的是 NVIDIA GeForce RTX 4090。
+ctl_false_ep23       P(supported)=0.01  control(false) ok      [e23]  smoke-t2-ep23-w2048-cap10m-r3a-ml40 的冒烟通过了。
+ctl_false_split      P(supported)=0.01  control(false) ok      [q]  runs/tier3_cari4d_suspect 里有 20 个 parquet。
+controls behaved as expected
