@@ -191,3 +191,7 @@ MP-SR 的 0.5、0.05 在看到新数据前定下。
   MP-SR ≥ 0.5 记“校正版在 ep24 上跟得上”，≤ 0.05 记“仍跟不上”，其余“说不清”；一集的结论不外推到 ep8。
   队列另起一段 `t3p2b`（`make_var_queue.py t3p2b --episodes 24`），run 名、参考与 t3p2 的 ep24 行逐字相同；起链用 `arm_var_chain.sh t3p2b`。
   配置展开与预演都过就直接起链（用户同一句话）。
+- 14:16 配置展开（`results/t3p2/cfgcheck_mf4090.txt`）：冒烟、正式各 284 个键，与官方配方不同 17、16 个，意外 0 个（与第一轮相同）。
+  预演 `DRYRUN_OK`（`results/t3p2/arm_dryrun_t3p2b_mf4090.txt`）：precheck 按 `tier3_v2` 目录断言、配方断言全过，来历 e7c6a69，可用 4533 MB。
+- 14:17 起链 `ARMED`（`results/t3p2/arm_t3p2b_mf4090.txt`）：会话 `v2d-t3p2b-train`、`v2d-t3p2b-eval`、`v2d-t3p2b-export`，开始冒烟 smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090。
+  按第一轮每条约 2 小时 20 分钟估，16:50 前后导出门结束（估计）。
