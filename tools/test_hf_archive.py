@@ -27,8 +27,8 @@ policy 中间份（plan --kind policy，K=9），另造一套 runs/flash_chord �
 同步数的 policy 留着；ARCHIVED.json 记下；正式 run 不写 STATE_PRUNED。
 抽查（第 3 批审查 m2、m4）：--per-run 时有最终 state 的 run 固定挑它、再从其余文件里随机补 1 个；下载前可用空间不够、
 下载后 xet 缓存涨过上限，都停在抽查，不写抽查结果（假 hub 的下载可以往 HF_HOME/xet 里写字节，模拟缓存增长）。
-hubsubset（第 3 批撞上私有存储额度后加）：只挑仓库里已有、大小与 sha256 都一致的行；仓库里有同路径但不一致的文件就退出码 1。
-流程脚本的 check 步骤：不调 upload，核对、抽查之后停在删除前。
+hubsubset（第 3 批撞上私有存储额度后加）：只挑仓库里已有、大小与 sha256 都一致的行；仓库里有同路径但不一致的文件就退出码 1；
+--rest-out 写出仓库里还没有的行。流程脚本的 check 步骤：不调 upload，核对、抽查之后停在删除前；流程脚本退出时删掉 runs/hf_spotcheck。
 readme 子命令与 upload 的闸：PYTHONPATH 前面放一个假的 huggingface_hub（状态存在 JSON 里）。仓库没有 README.md 时 upload 停、
 不留暂存目录；readme 建私有仓库、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
 仓库是公开的 upload 停。
@@ -491,9 +491,11 @@ def test_hubsubset() -> None:
         env = fake_hub(root)
         tree = {f"m/runs/flash_chord/{r['run']}/{r['file']}": [r["size"], r["sha256"]] for r in rows[:3]}
         hub_state(root, tree=tree)
-        out = run(root, "hubsubset", "--manifest", "sf.json", "--repo", "u/r", "--prefix", "m", "--out", "sub.json", env=env)
+        out = run(root, "hubsubset", "--manifest", "sf.json", "--repo", "u/r", "--prefix", "m", "--out", "sub.json",
+                  "--rest-out", "rest.json", env=env)
         sub = json.loads((root / "sub.json").read_text())
         assert sub == rows[:3] and "HF_SUBSET_OK" in out and f"仓库里没有的 {len(rows) - 3} 个" in out, out
+        assert json.loads((root / "rest.json").read_text()) == rows[3:], out
         bad = dict(tree)
         k = next(iter(bad))
         bad[k] = [bad[k][0], "0" * 64]
@@ -581,8 +583,11 @@ def test_runner_delete_step() -> None:
         root = Path(t)
         env = runner_setup(root)
         before = n_policies(root)
+        (root / "runs/hf_spotcheck/m").mkdir(parents=True)  # 假装上一次抽查被打断，留下了下载到一半的文件
+        (root / "runs/hf_spotcheck/m/half.safetensors").write_text("x")
         r = run_runner(root, env, "delete")
         assert r.returncode == 1 and "HF_ARCHIVE_STOPPED delete（缺核对或抽查结果）" in r.stdout, r.stdout + r.stderr
+        assert not (root / "runs/hf_spotcheck").exists(), "流程脚本退出时没删 runs/hf_spotcheck"
         shutil.copy(root / "runs/stub_verified.json", root / "runs/x.verified.json")
         shutil.copy(root / "runs/stub_spot.json", root / "runs/x.spotcheck.json")
         (root / "runs/.chain-active-x").write_text("")

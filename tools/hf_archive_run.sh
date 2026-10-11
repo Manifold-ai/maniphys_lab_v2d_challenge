@@ -26,6 +26,7 @@ GMIN="${V2D_HF_SPOT_MIN_FREE_MB:-0}"; GCACHE="${V2D_HF_SPOT_MAX_CACHE_MB:-0}"
 [[ $GMIN =~ ^[0-9]+$ && $GCACHE =~ ^[0-9]+$ ]] || { echo "V2D_HF_SPOT_MIN_FREE_MB、V2D_HF_SPOT_MAX_CACHE_MB 必须是非负整数" >&2; exit 2; }
 SPOT+=(--min-free-mb "$GMIN" --max-cache-growth-mb "$GCACHE")
 T=runs/tools/hf_archive.py
+trap 'rm -rf runs/hf_spotcheck' EXIT   # 抽查被 timeout 或别的信号打断时，下载到一半的文件不留在盘上（第 3 批审查 m3）
 ts() { date '+%F %T %Z'; }
 stop() { echo "=== $(ts) HF_ARCHIVE_STOPPED $1"; exit 1; }
 free_mb() { df -Pk . | awk 'NR == 2 {print int($4 / 1024)}'; }

@@ -1,40 +1,16 @@
-# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive.py\ runs/hf_archive_batch3_manifest_mf4090.json\ \&\&\ python3\ runs/tools/hf_archive.py\ hubsubset\ --manifest\ runs/hf_archive_batch3_manifest_mf4090.json\ --repo\ Rongxuan-Zhou/v2d-track2-archive\ --prefix\ mf4090\ --out\ runs/hf_archive_batch3a_manifest_mf4090.json\ \&\&\ md5sum\ runs/hf_archive_batch3a_manifest_mf4090.json\ \&\&\ python3\ -c\ \"import\ json\,collections\;\ r=json.load\(open\(\\\"runs/hf_archive_batch3a_manifest_mf4090.json\\\"\)\)\;\ c=collections.defaultdict\(collections.Counter\)\;\ \[c\[x\[\\\"run\\\"\]\].update\(\[x\[\\\"kind\\\"\]\]\)\ for\ x\ in\ r\]\;\ \[print\(k\,\ dict\(v\)\)\ for\ k\,\ v\ in\ sorted\(c.items\(\)\)\]\" 
+# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive.py\ \&\&\ python3\ runs/tools/hf_archive.py\ hubsubset\ --manifest\ runs/hf_archive_batch3_manifest_mf4090.json\ --repo\ Rongxuan-Zhou/v2d-track2-archive\ --prefix\ mf4090\ --out\ runs/hf_archive_batch3a_manifest_mf4090.json\ --rest-out\ runs/hf_archive_batch3b_manifest_mf4090.json\ \&\&\ md5sum\ runs/hf_archive_batch3a_manifest_mf4090.json\ runs/hf_archive_batch3b_manifest_mf4090.json\ \&\&\ python3\ runs/tools/hf_archive.py\ whoami\ --repo\ Rongxuan-Zhou/v2d-track2-archive 
 # md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
-# source   : 457fc784f8b8-dirty
+# source   : 32680ef85fea-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-11T00:36:36-0600
+# run_at   : 2026-10-11T00:48:43-0600
 # ---------------------------------------------------------------
 → mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
-28e1ef97d9fdecdbda2e025ea17b89fb  runs/tools/hf_archive.py
-98f48b166bf8d17aa2ebbff5f9ac72a0  runs/hf_archive_batch3_manifest_mf4090.json
+fa0a41174cbee96851e1d27c982ab3b4  runs/tools/hf_archive.py
+仓库里还没有的 174 行写到 runs/hf_archive_batch3b_manifest_mf4090.json（6124514088 字节）
 已在仓库且一致：final 28 / 62；formal 3 / 3；policy 94 / 234；共 125 / 299 个、5420591292 字节、28 条 run；仓库里没有的 174 个
 子清单写到 runs/hf_archive_batch3a_manifest_mf4090.json；HF_SUBSET_OK
 24a3e13278af54fef24d8e43f0dc9948  runs/hf_archive_batch3a_manifest_mf4090.json
-ctrl-snackbox-w2048-cap1m-mf4090 {'final': 1}
-resumetest-t1-ep20-cap1m-mf4090 {'final': 1}
-t1-ep0-w2048-cap4m-r3a-mf4090 {'policy': 16, 'final': 1}
-t1-ep14-w2048-cap4m-mf4090 {'final': 1}
-t1-ep15-w2048-cap4m-r3a-s43-mf4090 {'policy': 26, 'final': 1}
-t1-ep16-w2048-cap4m-mf4090 {'final': 1}
-t1-ep18-w2048-cap4m-r3a-mf4090 {'final': 1}
-t1-ep18-w2048-cap4m-r3a-s43-mf4090 {'final': 1}
-t1-ep20-w2048-cap1m-mf4090 {'final': 1}
-t1-ep20-w2048-cap4m-mf4090 {'final': 1}
-t1-ep20-w2048-cap4m-r3a-mf4090 {'final': 1}
-t1-ep20-w2048-cap4m-rt-mf4090 {'final': 1}
-t1-ep20-w2048-cap4m-rt-s43-mf4090 {'final': 1}
-t1-ep20-w2048-cap4m-s43-mf4090 {'final': 1}
-t1-ep24-w2048-cap4m-mf4090 {'final': 1}
-t1-ep27-w2048-cap4m-mf4090 {'final': 1}
-t1-ep27-w2048-cap4m-s43-mf4090 {'final': 1}
-t1-ep29-w2048-cap4m-r3a-s43-mf4090 {'final': 1}
-t1-ep5-w2048-cap4m-r3a-mf4090 {'policy': 26, 'final': 1}
-t1-ep6-w2048-cap4m-r3a-mf4090 {'final': 1}
-t1-ep6-w2048-cap4m-s43-mf4090 {'final': 1}
-t1-ep7-w2048-cap4m-p185g-mf4090 {'formal': 3, 'final': 1}
-t2-ep11-w2048-cap4m-mf4090 {'final': 1}
-t2-ep17-w2048-cap4m-mf4090 {'final': 1}
-t2-ep25-w2048-cap4m-mf4090 {'final': 1}
-t2-ep27-w2048-cap4m-mf4090 {'final': 1}
-t2-ep9-w2048-cap4m-mf4090 {'final': 1}
-t3-ep24-w2048-cap4m-r3a-mf4090 {'policy': 26, 'final': 1}
+28e156b9e2a135f932a8ff8de3d93a4b  runs/hf_archive_batch3b_manifest_mf4090.json
+账号 Rongxuan-Zhou，token 权限 write
+仓库 Rongxuan-Zhou/v2d-track2-archive：私有，1518 个文件，共 18.24 GB
+HF_WHOAMI_OK

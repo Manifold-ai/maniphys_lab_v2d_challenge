@@ -144,12 +144,17 @@ m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
 4. README：改成“第 3 批计划 299 个，10/11 提交到 125 个（5.42 GB）时账号私有存储额度用完，本地副本尚未删除”，重新上传。
    README 的提交也可能因为额度被拒；被拒就记下，等额度问题解决后再传。
 5. 用户确认删除后，等 t3p3a 整条链结束，用子清单与同一前缀以 `V2D_HF_ARCHIVE_STEPS=delete` 运行。没提交的 174 个本地文件不动。
-   以后额度有了，原来的 299 个清单可以接着上传：已提交的会被跳过。
+   以后额度有了，用 `hubsubset --rest-out` 写出的第 3b 批清单 `runs/hf_archive_batch3b_manifest_mf4090.json`（174 行，6124514088 字节，
+   md5 `28e156b9…`）上传。删过第 3a 批之后原来的 299 个清单不能再用来上传（`upload` 要给每一行建硬链接，删掉的文件建不了）。
+6. 后备（审查 M1，现在登记）：check 若被“下载前可用不足”的闸停下，等 t3p3a 整条链结束（没有链要保护）后，用同一子清单、同一前缀、
+   `V2D_HF_SPOT_MIN_FREE_MB=300` 再跑一次 check。1700 MB 的来由是比链的 1200 MB 闸高 500 MB，没有链在跑时这个理由不成立。
+   这一条不算事后改闸；被缓存闸或 `timeout` 停下仍按原判据处理。
 
 ### 判据（第 3 版，执行前登记）
 
-- check：125 / 125 一致（HF_VERIFY_OK）；抽查 33 个全部一致（HF_SPOTCHECK_OK）；没有被两道闸或 `timeout` 停下；
-  xet 缓存在日志第一行与 HF_ARCHIVE_VERIFIED 那一行相差不超过 50 MB。
+- check 之前与 README 重传之后各跑一次 `whoami`：HF_WHOAMI_OK，仓库仍为私有。
+- check：125 / 125 一致（HF_VERIFY_OK）；抽查 33 个全部一致（HF_SPOTCHECK_OK）；没有被缓存闸或 `timeout` 停下（被下载前可用的闸停下按第 6 步重跑）；
+  xet 缓存在日志第一行与 HF_ARCHIVE_VERIFIED 那一行相差不超过 50 MB；流程脚本结束后 `runs/hf_spotcheck` 不在。
 - 删除只在用户确认、且 t3p3a 整条链结束后运行。删除后：删除前重新核对 125 / 125；`runs/flash_chord` 下消失的正好是子清单的 125 个
   （清单外 0 个、没删的 0 个）；可用空间增加约 5420591292 字节（±150 MB）；28 条 run 都有 ARCHIVED.json，125 个文件都记进去；
   28 条 run 各剩 0 份 state；4 条 policy run 最新一份 policy 仍是 349999104 步，`t1-ep0-w2048-cap4m-r3a-mf4090` 剩 19 份、其余 3 条各 9 份；
@@ -157,7 +162,19 @@ m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
 
 ### 审查与处理（第 3 版）
 
-（待审查）
+Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清单只含 main 上已提交、大小与 sha256 一致的文件；check 一定跳过上传，
+核对或抽查失败就停；t1-ep0 只删 16 份 policy 时，受保护的最新 9 份与 state 配对的 policy 都留着；125、28、33 与剩余份数的数字对；
+删除步骤最后删掉整个暂存目录，5.42 GB 能真正释放。
+
+| 编号 | 级别 | 问题 | 处理 |
+|---|---|---|---|
+| M1 | MAJOR | 训练在持续占盘，check 的“下载前可用 ≥ 1700 MB 加文件”约在 ep29 写第一份 state 后就再也满足不了；被闸停下后又不许改闸，t3p3b 会卡住 | 00:49 立即开跑；登记第 6 步后备：链结束后用 300 MB 重跑 |
+| m2 | MINOR | “以后用原 299 个清单接着上传”在删过第 3a 批后不成立 | `hubsubset --rest-out` 写出第 3b 批清单（174 行）；改第 5 步说法；加测试 |
+| m3 | MINOR | `timeout` 杀在抽查中途会留下下载到一半的文件 | 流程脚本加 `trap 'rm -rf runs/hf_spotcheck' EXIT`；加测试 |
+| m4 | MINOR | 第 3 版判据少了“仓库仍为私有” | check 前（00:48，HF_WHOAMI_OK，私有）与 README 重传后各跑一次 whoami，写进判据 |
+
+改后的工具（`hf_archive.py` md5 `fa0a4117…`、`hf_archive_run.sh` `281ab98b…`）在 mf4090 上 16 项测试全过
+（`results/ops/hf_archive_batch3a_tests_mf4090.txt`；改前一版留作 `_v1`）。子清单用改后的工具重新生成，与改前逐字节相同（md5 `24a3e132…`）。
 
 ## 执行记录
 
@@ -174,3 +191,10 @@ m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
 - 23:58 第一段开跑（`results/ops/hf_archive_batch3_launch_mf4090.txt`）：日志第一行的工具 md5 `15ce9fd4…` 与测试记录相同，清单 md5 `98f48b16…`、
   299 个文件；可用 2594 MB，xet 缓存 39 MB。
 - 00:31 停在上传：账号私有存储额度用完（见第 3 版）。本仓库多了 125 个文件、5.42 GB；本地什么都没删。xet 缓存 00:35 是 64 MB（比开始多 25 MB）。
+
+### 第 3a 批第一段（check，10/11 00:48 起）
+
+- 00:48 子清单与第 3b 批清单（`results/ops/hf_archive_batch3a_subset_mf4090.txt`）：125 个一致、174 个仓库里没有、不一致 0 个；`whoami` HF_WHOAMI_OK，
+  私有，1518 个文件、18.24 GB。
+- 00:49 check 开跑（`results/ops/hf_archive_batch3a_launch_mf4090.txt`）：日志第一行的工具 md5 `fa0a4117…` 与测试记录相同，子清单 md5 `24a3e132…`、
+  125 个文件；可用 2257 MB，xet 缓存 64 MB。

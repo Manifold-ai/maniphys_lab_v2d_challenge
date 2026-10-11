@@ -1,12 +1,12 @@
-# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ runs/tools/hf_archive.py\ runs/tools/hf_archive_run.sh\ runs/tools/hf_archive_report.py\ runs/tools/test_hf_archive.py\ \&\&\ python3\ runs/tools/test_hf_archive.py 
-# source   : 457fc784f8b8-dirty
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ runs/tools/hf_archive.py\ runs/tools/hf_archive_run.sh\ runs/tools/hf_archive_report.py\ runs/tools/test_hf_archive.py\ \&\&\ python3\ runs/tools/test_hf_archive.py\ \&\&\ df\ -Pm\ .\ \|\ tail\ -1 
+# source   : 32680ef85fea-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-11T00:36:20-0600
+# run_at   : 2026-10-11T00:48:31-0600
 # ---------------------------------------------------------------
-28e1ef97d9fdecdbda2e025ea17b89fb  runs/tools/hf_archive.py
-4f979d73f57cbfc67835ac7a12eb4ec6  runs/tools/hf_archive_run.sh
+fa0a41174cbee96851e1d27c982ab3b4  runs/tools/hf_archive.py
+281ab98b83f2469944fae16cd4a5eee1  runs/tools/hf_archive_run.sh
 11e193abf408ae31b40afc60ef601859  runs/tools/hf_archive_report.py
-40d7a129c55bf9b160b2d1b14cd9647e  runs/tools/test_hf_archive.py
+1e9ccc4f9dab19cb191e389beeea7f23  runs/tools/test_hf_archive.py
 ok test_plan_rules
 ok test_delete_gates_and_effects
 ok test_rerun_after_interrupted_delete_writes_state_pruned
@@ -24,3 +24,4 @@ ok test_runner_verify_step
 ok test_runner_delete_step
 ok test_runner_files_check_catches_extra_deletion
 ALL_OK
+/dev/vda2              201462 190894      2258      99% /

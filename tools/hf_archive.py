@@ -6,8 +6,9 @@ agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-
   whoami    --repo <用户/仓库>   查 token 属于谁、权限、仓库是不是私有、仓库里已有多少文件（只读）。
   storage                         列出 token 所属账号下每个模型、数据集、Space 仓库是否私有与已用存储，再给私有与公开的合计（只读）。
                                   第 3 批上传遇到“Private storage limit reached”后加的，看额度被谁占着。
-  hubsubset --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <子清单.json>
-                                  从清单里挑出已经提交到仓库、大小与 sha256 都对得上的行，另写一份清单（只读，不改仓库）。
+  hubsubset --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <子清单.json> [--rest-out <其余.json>]
+                                  从清单里挑出已经提交到仓库、大小与 sha256 都对得上的行，另写一份清单（只读，不改仓库）；
+                                  --rest-out 把仓库里还没有的行另写一份，以后接着上传用它（子清单删过之后，原清单不能再用来上传）。
                                   仓库里有同路径但大小或 sha256 不同的文件就退出码 1。第 3 批上传到一半撞上私有存储额度，
                                   只对已提交的那部分走核对、抽查、删除（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md 第 3 版）。
   readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>]
@@ -408,6 +409,10 @@ def cmd_hubsubset(a) -> int:
         else:
             odd.append(f"{r['run']}/{r['file']}（仓库 {size} / {(sha or '无')[:12]}…，清单 {r['size']} / {r['sha256'][:12]}…）")
     Path(a.out).write_text(json.dumps(keep, indent=1) + "\n")
+    if a.rest_out:
+        rest = [r for r in rows if repo_path(a.prefix, r) not in hub]
+        Path(a.rest_out).write_text(json.dumps(rest, indent=1) + "\n")
+        print(f"仓库里还没有的 {len(rest)} 行写到 {a.rest_out}（{sum(r['size'] for r in rest)} 字节）")
     kinds = sorted({r["kind"] for r in rows})
     print("已在仓库且一致：" + "；".join(f"{k} {sum(r['kind'] == k for r in keep)} / {sum(r['kind'] == k for r in rows)}" for k in kinds)
           + f"；共 {len(keep)} / {len(rows)} 个、{sum(r['size'] for r in keep)} 字节、{len({r['run'] for r in keep})} 条 run；仓库里没有的 {missing} 个")
@@ -618,6 +623,8 @@ def main() -> int:
         q.add_argument("--prefix", required=True)
         if name != "upload":
             q.add_argument("--out", required=True)
+        if name == "hubsubset":
+            q.add_argument("--rest-out", default=None)
     c = sub.add_parser("spotcheck")
     c.add_argument("--verified", required=True)
     c.add_argument("--n", type=int, default=3)
