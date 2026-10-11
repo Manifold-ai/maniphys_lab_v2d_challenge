@@ -4,7 +4,9 @@
 # queues behind the first: it starts watching only after every other t3_gpu_watch.sh and every running job script
 # (t3_fp_pilot.sh, t3_reselect.sh) has exited. "Over" = for QUIET_MIN minutes in a row, checked every CHECK_S seconds:
 # no runs/.chain-active-* marker in his repository (his chains hold one for their whole run, pauses included), no
-# flash_chord container, and at least MIN_FREE_MIB free on the GPU. Then it launches the job once and exits.
+# flash_chord container, and at least MIN_FREE_MIB free on the GPU. Then it launches the job and exits when it ends;
+# a job that yielded the card (rc 3 or 4, the job scripts' "not enough free" / "rxzhou is back") is waited for and
+# launched again with the same list (the job scripts skip the episodes they finished).
 #   setsid nohup t3_gpu_watch.sh ep28_squeegee ep27_woven_basket ... > /dev/null 2>&1 < /dev/null &
 #   JOB=t3_reselect.sh setsid nohup t3_gpu_watch.sh ep01_vacuum ... > /dev/null 2>&1 < /dev/null &
 # Cancel: touch $T3_ROOT/WATCH_STOP. Log: logs/t3_gpu_watch.log.
@@ -45,7 +47,12 @@ while true; do
     if [ $(( now - quiet_since )) -ge $(( QUIET_MIN * 60 )) ]; then
       say "quiet for ${QUIET_MIN} min, starting $JOB"
       "$S/$JOB" "$@"
-      say "$JOB exited rc=$?; watcher done"
+      rc=$?
+      if [ "$rc" -eq 3 ] || [ "$rc" -eq 4 ]; then
+        say "$JOB yielded the card rc=$rc; watching again"
+        quiet_since=""; last=""; sleep "$CHECK_S"; continue
+      fi
+      say "$JOB exited rc=$rc; watcher done"
       exit 0
     fi
   else
