@@ -67,3 +67,18 @@
   17 个 parquet，237 MB；可用 5479 MB。拼目录的判据满足。
 - 12:40 重定向起跑（`results/t3simreg/retarget17_launch_mf4090.txt`）：tmux `v2d-t3simreg-retarget17`，GPU 上只有 t3p3c 的进程，可用 5553 MB。
   `scripts/dev/incontainer` 默认不加 `--gpus`，重定向不占 GPU。
+- 13:25 重定向结束（`results/t3simreg/retarget17_mf4090.txt`，用时 45 分钟）：以 EPS_DONE 结束，17 集都有退出码行，退出码的分布与 f830 那次相同
+  （`check_support_alignment` 自己的判据，不是 P2′）；第一行正文的目录是 `runs/motion_src/tier3_simreg、runs/motion/tier3_simreg`，判据过。
+- P2′（`results/t3simreg/p2_17.txt`）：过 9 集（ep0、15、17、18、20、22、23、26、29），不过 8 集（ep3、5、7、9、12、14、16、25），失败 0 集；
+  SURFACE_TO_FLOOR 仍是 ep3、7、16、25。
+- 与 f830 逐集并列（`results/t3simreg/p2_compare_f830_simreg.txt`，新脚本 `stages/retarget/p2_compare.py`，测试在 Mac 上全过）：
+  17 集的 P2′ 结论全部相同（SAME_VERDICT 17/17），间隙之差最大 0.9 mm（ep12：−63.5 → −64.4 mm；ep14：−79.3 → −78.8 mm），没有一集超过 1 mm。
+  变的是手的接触帧数与 IK 残差中位（例如 ep14 左手 471 → 544 帧，ep25 左手 59 → 113 帧）。
+- 两版 parquet 逐列比较（`results/t3simreg/version_diff_f830_simreg_mf4090.txt`，新脚本 `stages/recovery/t3_version_diff.py`，自检
+  `results/t3simreg/version_diff_selftest_mf4090.txt`）：17 集的 `identity_coeffs` 与 `scale_params` 都有差（人体缩放）；
+  `human.pose`、`human.translation`、`object.pose` 只有 ep12、14、16、25 四集有差（物体位置各分量最大差 0.79–1.42 m，人体平移最大 2.80 m），
+  与提供方说的“第二机位配准到主机位”一致；其余 13 集的物体轨迹与人体平移逐帧相同；`bone_length_flexibles`、`object.visible` 17 集都相同。
+  推断（未单独验证）：这四集的人体与物体是一起被移动的，重定向按脚底重新定地面，所以物体相对地面的间隙几乎不变；ep12、14 的穿地不来自机位配准。
+- jev 与归档第 4 版一起做（`results/t3simreg/jev_claims_hf_public_simreg.txt`）：simreg 的 6 条（拼目录、P2′、并列、四集、各列、ep0）全部核实。
+- 读法：simreg 没有让任何一集过 P2′ 的结论改变，没有新增可训的集。已过 P2′ 的 9 集在 simreg 上只换了人体缩放，换不换参考重训由用户定（待定）。
+  `runs/motion_src/tier3_simreg`、`runs/motion/tier3_simreg`（约 1.2 GB）先留着。

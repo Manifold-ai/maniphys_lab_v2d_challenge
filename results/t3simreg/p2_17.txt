@@ -1,0 +1,32 @@
+# command  : python3 stages/retarget/p2_table.py results/t3simreg/retarget17_mf4090.txt --no-contact 29 --a-phase results/t3float/gate_simreg_ok20_mf4090.txt 
+# md5      : c2b2a4ddc09822a0ceb49ce7c654c907  stages/retarget/p2_table.py
+# md5      : 2bbc3458ca36a39d229c1e7cd43b9c9d  results/t3simreg/retarget17_mf4090.txt
+# md5      : 459d80cd0ca36d61dbada2b85661b92c  results/t3float/gate_simreg_ok20_mf4090.txt
+# source   : 92ddee2b9ac3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T13:47:52-0600
+# ---------------------------------------------------------------
+记录 results/t3simreg/retarget17_mf4090.txt；A 段 results/t3float/gate_simreg_ok20_mf4090.txt；P2′：|间隙| ≤ 30 mm 且至少一只手有接触（接触一条不适用：[29]）
+ep	序列	帧	左手接触	右手接触	IK中位	间隙mm	支撑面	状态	脚底Z_m	A段面高_m	A段间隙mm	差mm	P2′	原因
+0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	284	458	0.651	-23.4	floor	ALIGN	+0.0008～+0.1062	0.000	-9.3	-14.1	过	-
+3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	0	244	0.456	90.0	floor	ALIGN	+0.0007～+0.1085	0.777	+0.4	+89.6	不过	|间隙| 90.0 mm > 30 mm（悬空）；A 段静置在面高 0.777 m 的支撑面上，重定向后最近的是地面
+5	2026-03-18_19-36-56_g1_box_rotate_01	1003	483	617	0.962	-34.9	floor	ALIGN	+0.0000～+0.1081	0.000	+4.2	-39.1	不过	|间隙| 34.9 mm > 30 mm（穿地）
+7	2026-05-29_15-20-43_iron_round_table_02	896	0	553	0.704	710.9	floor	ALIGN	+0.0018～+0.0772	0.782	-33.2	+744.1	不过	|间隙| 710.9 mm > 30 mm（悬空）；A 段静置在面高 0.782 m 的支撑面上，重定向后最近的是地面
+9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	870	378	417	0.761	-31.6	support	ALIGN	+0.0022～+0.0873	0.469	+2.3	-33.9	不过	|间隙| 31.6 mm > 30 mm（穿地）
+12	2026-04-25_17-20-04_black_platform_turn_05	700	377	414	0.582	-64.4	floor	ALIGN	+0.0000～+0.1573	0.000	-4.1	-60.3	不过	|间隙| 64.4 mm > 30 mm（穿地）
+14	2026-05-28_14-44-09_round_table_flip_08	993	544	624	0.602	-78.8	floor	ALIGN	+0.0000～+0.0828	0.000	-31.2	-47.6	不过	|间隙| 78.8 mm > 30 mm（穿地）
+15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	0	397	0.87	1.4	floor	OK	+0.0024～+0.1438	0.000	+6.5	-5.1	过	-
+16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	166	0	0.556	238.6	floor	ALIGN	+0.0007～+0.1213	0.878	-18.9	+257.5	不过	|间隙| 238.6 mm > 30 mm（悬空）；A 段静置在面高 0.878 m 的支撑面上，重定向后最近的是地面
+17	2026-05-01_17-04-55_traffic_cone_ground_table_02	440	149	172	0.915	-0.5	floor	OK	+0.0028～+0.1383	0.000	+7.3	-7.8	过	-
+18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	297	421	0.885	-9.3	floor	OK	+0.0025～+0.1348	0.000	+2.1	-11.4	过	-
+20	2026-06-08_16-57-34_rice_cooker_clockwise_04	553	0	327	0.897	-21.8	support	ALIGN	+0.0035～+0.1322	0.797	-5.8	-16.0	过	-
+22	2026-05-22_16-52-36_step_ladder_drag_03	719	0	390	0.526	-21.3	floor	ALIGN	+0.0005～+0.1421	0.000	+3.7	-25.0	过	-
+23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	297	230	0.913	-23.0	floor	ALIGN	+0.0020～+0.0956	0.000	-16.9	-6.1	过	-
+25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	113	141	1.115	728.4	floor	ALIGN	+0.0064～+0.1083	0.783	+0.5	+727.9	不过	|间隙| 728.4 mm > 30 mm（悬空）；A 段静置在面高 0.783 m 的支撑面上，重定向后最近的是地面
+26	2026-06-05_16-05-08_skateboard_rotate_ground_10	669	260	224	0.753	-28.1	floor	ALIGN	+0.0007～+0.0580	0.000	-9.1	-19.0	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.545	-28.2	floor	ALIGN+NOCONTACT	+0.0006～+0.1197	0.000	-26.2	-2.0	过	接触一条不适用，只按间隙判
+P2_PASS 9/17：ep0 ep15 ep17 ep18 ep20 ep22 ep23 ep26 ep29
+P2_FAIL 8/17：ep3 ep5 ep7 ep9 ep12 ep14 ep16 ep25
+RETARGET_FAIL 0/17：无
+CONTACT_NA ep29=过
+SURFACE_TO_FLOOR 4：ep3 ep7 ep16 ep25（A 段在支撑面上、重定向后最近的是地面；只报）

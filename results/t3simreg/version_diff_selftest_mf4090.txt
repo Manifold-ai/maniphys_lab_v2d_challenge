@@ -1,0 +1,18 @@
+# command  : scripts/dev/pipe-py stages/recovery/t3_version_diff.py --selftest 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 6275a11fa4863dca318e6cd126b15579  stages/recovery/t3_version_diff.py
+# source   : 98220eb47c92
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T13:49:43-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+## ep7：a 3 行，b 3 行
+  observation.human.translation：最大绝对差 0.5，有差的帧 1/3，NaN 不一致 0，各分量 [0, 0, 0.5]
+  observation.object.pose：最大绝对差 0，有差的帧 0/3，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  task：不同（非数值或形状不同）
+## 汇总（列、有差的集数、各集最大绝对差的最大值）
+observation.human.translation	1/1	0.5
+observation.object.pose	0/1	0
+task	1/1	inf
+T3_VERSION_DIFF_DONE
+SELFTEST_OK

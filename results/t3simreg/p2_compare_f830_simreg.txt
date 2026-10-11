@@ -1,0 +1,30 @@
+# command  : python3 stages/retarget/p2_compare.py f830=results/t3p2/p2_18.txt simreg=results/t3simreg/p2_17.txt 
+# md5      : ea71b6a6f692f567db84b8a067bfcd0c  stages/retarget/p2_compare.py
+# source   : 92ddee2b9ac3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T13:48:54-0600
+# ---------------------------------------------------------------
+A = f830：results/t3p2/p2_18.txt；B = simreg：results/t3simreg/p2_17.txt
+ep	序列	间隙mm_f830	间隙mm_simreg	差mm	左手_f830	左手_simreg	右手_f830	右手_simreg	IK_f830	IK_simreg	P2′_f830	P2′_simreg	结论
+0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	-23.4	-23.4	+0.0	280	284	455	458	0.648	0.651	过	过	不变
+3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	90.0	90.0	+0.0	0	0	244	244	0.455	0.456	不过	不过	不变
+5	2026-03-18_19-36-56_g1_box_rotate_01	-34.9	-34.9	+0.0	488	483	614	617	0.956	0.962	不过	不过	不变
+7	2026-05-29_15-20-43_iron_round_table_02	710.9	710.9	+0.0	0	0	562	553	0.702	0.704	不过	不过	不变
+9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	-31.6	-31.6	+0.0	382	378	417	417	0.76	0.761	不过	不过	不变
+12	2026-04-25_17-20-04_black_platform_turn_05	-63.5	-64.4	-0.9	320	377	423	414	0.612	0.582	不过	不过	不变
+14	2026-05-28_14-44-09_round_table_flip_08	-79.3	-78.8	+0.5	471	544	646	624	0.596	0.602	不过	不过	不变
+15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	1.4	1.4	+0.0	0	0	420	397	0.864	0.87	过	过	不变
+16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	238.3	238.6	+0.3	183	166	0	0	0.551	0.556	不过	不过	不变
+17	2026-05-01_17-04-55_traffic_cone_ground_table_02	-0.5	-0.5	+0.0	145	149	175	172	0.909	0.915	过	过	不变
+18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	-9.3	-9.3	+0.0	298	297	422	421	0.881	0.885	过	过	不变
+20	2026-06-08_16-57-34_rice_cooker_clockwise_04	-21.8	-21.8	+0.0	0	0	325	327	0.895	0.897	过	过	不变
+22	2026-05-22_16-52-36_step_ladder_drag_03	-21.3	-21.3	+0.0	0	0	390	390	0.526	0.526	过	过	不变
+23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	-23.0	-23.0	+0.0	324	297	293	230	0.908	0.913	过	过	不变
+25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	728.6	728.4	-0.2	59	113	137	141	1.089	1.115	不过	不过	不变
+26	2026-06-05_16-05-08_skateboard_rotate_ground_10	-28.1	-28.1	+0.0	259	260	237	224	0.766	0.753	过	过	不变
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	-28.2	-28.2	+0.0	0	0	0	0	0.544	0.545	过	过	不变
+SAME_VERDICT 17/17
+MAX_ABS_GAP_DIFF 0.9 mm（ep12）
+GAP_DIFF_GT_1MM 无
+ONLY_f830 ep21
+ONLY_simreg 无

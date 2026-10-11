@@ -322,3 +322,15 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER、MAJOR。审查确认�
   私有合计 81.73 GB（预期约 81.72），公开合计 453.11 GB（434.87 + 18.24）（`results/ops/hf_visibility_public_1011.txt`）。第 1–4 步的判据都满足。
 - 12:38 第 3b 批起跑（`results/ops/hf_archive_batch3b_launch_mf4090.txt`）：日志第一行的工具 md5 `3ef5989f…`、清单 174 个文件、md5 `28e156b9…`，
   可见性 public，可用 5820 MB，xet 缓存 65 MB；开始上传 174 个文件到公开仓库（6.12 GB）。
+- 12:39 上传结束，用时 0.4 分钟（HF_UPLOAD_DONE）。这么快的原因没有核实；推测是 10/11 00:31 第一段撞上额度之前，这些文件的数据块已经传上去，
+  只是提交被拒。核对 174 / 174 一致（HF_VERIFY_OK）；抽查 40 个，40 个一致（HF_SPOTCHECK_OK，随机种子 1791743981，覆盖 35 条 run）；
+  12:58 写 HF_ARCHIVE_VERIFIED，停在删除前，可用 4797 MB（`results/ops/hf_archive_batch3b_run_mf4090.txt`）。xet 缓存 65 → 77 MB（只报，m2）；
+  抽查的缓存闸从抽查开始时的 75 MB 算，没有触发。`runs/hf_spotcheck` 不在。
+- 核对后的本地状态（`results/ops/hf_archive_batch3b_verified_mf4090.txt`）：清单里的 174 个文件还在本地 174 / 174；记进 ARCHIVED.json 0 / 174；
+  暂存目录 `runs/hf_stage` 里是这 174 个文件的硬链接（删除步骤最后清掉）；可用 3857 MB。t3p3c 的训练日志里没有“磁盘只剩”的停链行。
+- 13:5x README 的 3b 一行改为已提交，“校验”一节补第 3b 批的数字（md5 `c956c8c1…`），经 `runs/hf_readme/` 上传（有长链标记，不能同步）：
+  HF_README_OK；whoami 公开、1692 个文件、24.36 GB、HF_WHOAMI_OK（`results/ops/hf_readme_v2d_track2_archive_public2.txt`）。第 4 版的判据全部满足。
+- jev（`results/t3simreg/jev_claims_hf_public_simreg.txt`，规格 `agent-doc/experiments/2026-10-11-hf-public-simreg.claims.json`）：13 条全部核实（0.86–0.99），
+  4 道对照题正常。第一轮（`_run1.txt.failed`）真对照题 0.42：证据截取只留了 ep0、ep12 两个集标题，其余各集的行混在 ep12 下面；
+  截取改为保留所有集标题后重跑，主张与对照题都没改。
+- 第 3b 批本地副本的删除等用户确认，且要等 mf4090 上的训练链都结束。

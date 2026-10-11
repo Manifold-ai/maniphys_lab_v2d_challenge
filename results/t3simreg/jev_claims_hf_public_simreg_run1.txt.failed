@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-hf-public-simreg.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7d2df75f016bbc8a4ab24f73770611cd  agent-doc/experiments/2026-10-11-hf-public-simreg.claims.json
+# source   : 98220eb47c92-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T13:51:13-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+readme_pre           P(supported)=0.93  verified               [rp]  公开版 README 上传时仓库仍是私有：README 传完 HF_README_OK，whoami 显示 Rongxuan-Zhou/v2d-track2-archive 私有、1518 个文件、18.24 GB，HF_WHOAMI_OK。
+flip                 P(supported)=0.98  verified               [vp]  改可见性之后重新读到公开（HF_VISIBILITY_OK）；whoami 显示仓库公开、1518 个文件、18.24 GB，HF_WHOAMI_OK。
+storage              P(supported)=0.98  verified               [vp]  改可见性之后 storage 把 Rongxuan-Zhou/v2d-track2-archive 计入公开（18.24 GB），私有合计 81.73 GB，公开合计 453.11 GB。
+b3_run               P(supported)=0.98  verified               [br]  第 3b 批向公开仓库上传 174 个文件（6.12 GB），HF_UPLOAD_DONE；核对 174 / 174 一致（HF_VERIFY_OK）；抽查 40 个，40 个一致（HF_SPOTCHECK_OK）；最后一行 HF_ARCHIVE_VERIFIED，停在删除前。
+b3_local             P(supported)=0.98  verified               [bv]  第 3b 批核对之后，清单里的 174 个文件还在本地 174 / 174，清单文件记进 ARCHIVED.json 的 0 / 174。
+ep18                 P(supported)=0.98  verified               [e]  t3-ep18-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.862、SP-SR 0.938、MPPE 4.25 cm；同一集 Tier 2 r3a 的 MP-SR 是 0.995。
+t3p3c                P(supported)=0.91  verified               [ad, ar]  t3p3c 预演 DRYRUN_OK：4 条 run，来历 e87da9386f50，可用 5813 MB；起链 ARMED，有 3 个长链标记。
+stage                P(supported)=0.97  verified               [st]  拼目录之后 runs/tier3/root_simreg 的元数据有 17 行，runs/tier3/root_v2 有 20 行，runs/tier3/root 有 2 行。
+simreg_p2            P(supported)=0.96  verified               [p2]  simreg 的 17 集里 P2′ 过 9 集（ep0、15、17、18、20、22、23、26、29），不过 8 集（ep3、5、7、9、12、14、16、25），重定向失败 0 集。
+simreg_same          P(supported)=0.96  verified               [pc]  simreg 与 f830 两版都有的 17 集，P2′ 结论全部相同（SAME_VERDICT 17/17），间隙之差最大 0.9 mm（ep12），没有一集超过 1 mm；ep21 只在 f830 里。
+simreg_12_14         P(supported)=0.96  verified               [pc]  ep12 的间隙 f830 是 −63.5 mm、simreg 是 −64.4 mm；ep14 的间隙 f830 是 −79.3 mm、simreg 是 −78.8 mm，两版都不过 P2′。
+simreg_cols          P(supported)=0.94  verified               [vd]  simreg 与 f830 相比，17 集的 identity_coeffs 与 scale_params 都有差；human.pose、human.translation、object.pose 只有 4 集有差；bone_length_flexibles 与 object.visible 17 集都相同。
+simreg_ep0           P(supported)=0.98  verified               [vd]  ep0 两版的 observation.object.pose 与 observation.human.translation 最大绝对差都是 0。
+ctl_true_ep12        P(supported)=0.42  CONTROL(true) FAILED   [vd]  ep12 两版的 observation.object.pose 最大绝对差是 1.27383，700 帧都有差。
+ctl_false_p2         P(supported)=0.05  control(false) ok      [p2]  simreg 的 17 集里 P2′ 过 12 集。
+ctl_false_spot       P(supported)=0.01  control(false) ok      [br]  第 3b 批抽查 40 个里有 2 个不一致。
+ctl_false_flip       P(supported)=0.02  control(false) ok      [vp]  改可见性之后 whoami 显示仓库仍是私有。
+CONTROLS MISBEHAVED: do not rely on this batch
