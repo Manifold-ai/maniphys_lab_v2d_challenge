@@ -4,6 +4,7 @@
 # 凭据只经环境变量进来：启动方经 stdin 读入后 export HF_TOKEN、https_proxy、HTTPS_PROXY、HF_ENDPOINT=https://huggingface.co，
 # 本脚本不读 .env、不打印它们。
 # V2D_HF_ARCHIVE_STEPS：all（默认，一口气做完）、verify（上传、核对、抽查后停在删除前，等用户点头）、
+#   check（同 verify 但不上传：清单里的文件已经在仓库里，如第 3 批撞上私有存储额度后用 hubsubset 挑出的已提交部分）、
 #   delete（删除前先重新核对一遍仓库，落到 <输出前缀>.reverified.json，再按它与前一次的 .spotcheck.json 删）。
 # V2D_HF_SPOTCHECK_N：抽查下载几个文件，默认 3；V2D_HF_SPOTCHECK_PER_RUN=1 时改成每条 run 随机挑 1 个（有最终 state 的 run 固定挑它，再随机补 1 个）。
 # V2D_HF_SPOT_MIN_FREE_MB、V2D_HF_SPOT_MAX_CACHE_MB：抽查的两道闸（默认 0，不查），与训练链同时运行时用（第 3 批，
@@ -17,7 +18,7 @@
 set -uo pipefail
 M=${1:?清单}; REPO=${2:?仓库}; PREFIX=${3:?机器名}; OUT=${4:?输出前缀}
 STEPS="${V2D_HF_ARCHIVE_STEPS:-all}"; N="${V2D_HF_SPOTCHECK_N:-3}"; PER_RUN="${V2D_HF_SPOTCHECK_PER_RUN:-0}"
-case "$STEPS" in all|verify|delete) ;; *) echo "V2D_HF_ARCHIVE_STEPS 只能是 all、verify、delete" >&2; exit 2 ;; esac
+case "$STEPS" in all|verify|check|delete) ;; *) echo "V2D_HF_ARCHIVE_STEPS 只能是 all、verify、check、delete" >&2; exit 2 ;; esac
 [[ $N =~ ^[1-9][0-9]*$ ]] || { echo "V2D_HF_SPOTCHECK_N 必须是正整数" >&2; exit 2; }
 case "$PER_RUN" in 0) SPOT=(--n "$N"); SPOT_DESC="${N} 个" ;; 1) SPOT=(--per-run); SPOT_DESC="每条 run 1 个" ;;
   *) echo "V2D_HF_SPOTCHECK_PER_RUN 只能是 0 或 1" >&2; exit 2 ;; esac
@@ -32,12 +33,12 @@ xet_mb() { du -sm "${HF_XET_CACHE:-${HF_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/hu
 all_files() { find runs/flash_chord -type f -printf '%p\n' | sort; }
 echo "=== $(ts) 开始（步骤 ${STEPS}，抽查 ${SPOT_DESC}）；工具 md5 $(md5sum "$T" | cut -d' ' -f1)；清单 $M（$(python3 -c 'import json, sys; print(len(json.load(open(sys.argv[1]))))' "$M") 个文件，md5 $(md5sum "$M" | cut -d' ' -f1)）；可用 $(free_mb) MB；xet 缓存 $(xet_mb) MB"
 if [ "$STEPS" != delete ]; then
-  python3 "$T" upload --manifest "$M" --repo "$REPO" --prefix "$PREFIX" || stop upload
+  [ "$STEPS" = check ] || python3 "$T" upload --manifest "$M" --repo "$REPO" --prefix "$PREFIX" || stop upload
   python3 "$T" verify --manifest "$M" --repo "$REPO" --prefix "$PREFIX" --out "$OUT.verified.json" || stop verify
   python3 "$T" spotcheck --verified "$OUT.verified.json" "${SPOT[@]}" --out "$OUT.spotcheck.json" || stop spotcheck
 fi
-if [ "$STEPS" = verify ]; then
-  echo "=== $(ts) 上传、核对、抽查都通过，按约定停在删除前，等用户确认；可用 $(free_mb) MB；xet 缓存 $(xet_mb) MB；HF_ARCHIVE_VERIFIED"
+if [ "$STEPS" = verify ] || [ "$STEPS" = check ]; then
+  echo "=== $(ts) $([ "$STEPS" = check ] && echo 核对、抽查都通过（没有上传） || echo 上传、核对、抽查都通过)，按约定停在删除前，等用户确认；可用 $(free_mb) MB；xet 缓存 $(xet_mb) MB；HF_ARCHIVE_VERIFIED"
   exit 0
 fi
 [ -s "$OUT.verified.json" ] && [ -s "$OUT.spotcheck.json" ] || stop "delete（缺核对或抽查结果）"

@@ -4,6 +4,12 @@ agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-
 
 七个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
   whoami    --repo <用户/仓库>   查 token 属于谁、权限、仓库是不是私有、仓库里已有多少文件（只读）。
+  storage                         列出 token 所属账号下每个模型、数据集、Space 仓库是否私有与已用存储，再给私有与公开的合计（只读）。
+                                  第 3 批上传遇到“Private storage limit reached”后加的，看额度被谁占着。
+  hubsubset --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <子清单.json>
+                                  从清单里挑出已经提交到仓库、大小与 sha256 都对得上的行，另写一份清单（只读，不改仓库）。
+                                  仓库里有同路径但大小或 sha256 不同的文件就退出码 1。第 3 批上传到一半撞上私有存储额度，
+                                  只对已提交的那部分走核对、抽查、删除（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md 第 3 版）。
   readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>]
                                   把 README 传成仓库根的 README.md（仓库不存在就建成私有的），再下载回来比 sha256。
                                   用户 10/8 的要求：每个上传过的 HF 仓库都要有 README，所以 upload 遇到没有 README.md 的仓库就停。
@@ -305,6 +311,36 @@ def cmd_whoami(a) -> int:
     return 0 if ok else 1
 
 
+def cmd_storage(a) -> int:
+    need_env()
+    from huggingface_hub import HfApi
+    api = HfApi()
+    me = api.whoami()
+    name = me.get("name")
+    print(f"账号 {name}，isPro={me.get('isPro')}")
+    total = {True: 0, False: 0}
+    for kind, lister in (("model", api.list_models), ("dataset", api.list_datasets), ("space", api.list_spaces)):
+        try:
+            repos = list(lister(author=name))
+        except Exception as e:  # 某一类查不了时照样报其余几类
+            print(f"  {kind}：列不出来（{type(e).__name__}: {str(e)[:200]}）")
+            continue
+        for r in repos:
+            try:  # 列表接口不认 usedStorage（10/11 实测报 400），逐个仓库查；查不到就退回当前版本文件大小之和
+                info = api.repo_info(r.id, repo_type=kind, expand=["usedStorage", "private"])
+                used, src = getattr(info, "used_storage", None), "usedStorage"
+            except Exception:
+                info, used = None, None
+            if used is None:
+                info = api.repo_info(r.id, repo_type=kind, files_metadata=True)
+                used, src = sum(f.size or 0 for f in (info.siblings or [])), "当前文件合计"
+            priv = bool(getattr(info, "private", False))
+            total[priv] += used
+            print(f"  {kind:<7} {'私有' if priv else '公开'} {used / 1e9:8.2f} GB（{src}）  {r.id}")
+    print(f"私有合计 {total[True] / 1e9:.2f} GB，公开合计 {total[False] / 1e9:.2f} GB；HF_STORAGE_DONE")
+    return 0
+
+
 def cmd_readme(a) -> int:
     need_env()
     from huggingface_hub import HfApi, hf_hub_download
@@ -347,15 +383,44 @@ def cmd_upload(a) -> int:
     return 0
 
 
-def cmd_verify(a) -> int:
-    need_env()
+def hub_files(repo: str, prefix: str) -> dict:
+    """仓库里 <机器名>/ 下每个 LFS 文件的 (大小, sha256)。"""
     from huggingface_hub import HfApi
-    rows = json.loads(Path(a.manifest).read_text())
     hub = {}
-    for f in HfApi().list_repo_tree(a.repo, repo_type="model", path_in_repo=a.prefix, recursive=True, expand=True):
+    for f in HfApi().list_repo_tree(repo, repo_type="model", path_in_repo=prefix, recursive=True, expand=True):
         lfs = getattr(f, "lfs", None)
         if lfs is not None:
             hub[f.path] = (f.size, getattr(lfs, "sha256", None))
+    return hub
+
+
+def cmd_hubsubset(a) -> int:
+    need_env()
+    rows = json.loads(Path(a.manifest).read_text())
+    hub = hub_files(a.repo, a.prefix)
+    keep, missing, odd = [], 0, []
+    for r in rows:
+        size, sha = hub.get(repo_path(a.prefix, r), (None, None))
+        if size is None:
+            missing += 1
+        elif size == r["size"] and sha == r["sha256"]:
+            keep.append(r)
+        else:
+            odd.append(f"{r['run']}/{r['file']}（仓库 {size} / {(sha or '无')[:12]}…，清单 {r['size']} / {r['sha256'][:12]}…）")
+    Path(a.out).write_text(json.dumps(keep, indent=1) + "\n")
+    kinds = sorted({r["kind"] for r in rows})
+    print("已在仓库且一致：" + "；".join(f"{k} {sum(r['kind'] == k for r in keep)} / {sum(r['kind'] == k for r in rows)}" for k in kinds)
+          + f"；共 {len(keep)} / {len(rows)} 个、{sum(r['size'] for r in keep)} 字节、{len({r['run'] for r in keep})} 条 run；仓库里没有的 {missing} 个")
+    for o in odd:
+        print(f"  不一致 {o}")
+    print(f"子清单写到 {a.out}；" + ("HF_SUBSET_OK" if not odd else f"HF_SUBSET_MISMATCH {len(odd)}"))
+    return 0 if not odd else 1
+
+
+def cmd_verify(a) -> int:
+    need_env()
+    rows = json.loads(Path(a.manifest).read_text())
+    hub = hub_files(a.repo, a.prefix)
     out, bad = [], 0
     for r in rows:
         path = repo_path(a.prefix, r)
@@ -537,6 +602,7 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     w = sub.add_parser("whoami")
     w.add_argument("--repo", required=True)
+    sub.add_parser("storage")
     rd = sub.add_parser("readme")
     rd.add_argument("--repo", required=True)
     rd.add_argument("--file", required=True)
@@ -545,12 +611,12 @@ def main() -> int:
     p.add_argument("--out", required=True)
     p.add_argument("--kind", type=kinds_arg, default=["state"], help="state、policy、final，可用逗号连几种")
     p.add_argument("--keep", type=int, default=9, help="policy：每条 run 至少留步数最大的几份")
-    for name in ("upload", "verify"):
+    for name in ("upload", "verify", "hubsubset"):
         q = sub.add_parser(name)
         q.add_argument("--manifest", required=True)
         q.add_argument("--repo", required=True)
         q.add_argument("--prefix", required=True)
-        if name == "verify":
+        if name != "upload":
             q.add_argument("--out", required=True)
     c = sub.add_parser("spotcheck")
     c.add_argument("--verified", required=True)
@@ -566,7 +632,7 @@ def main() -> int:
     a = ap.parse_args()
     if a.cmd == "plan" and a.keep < 1:
         ap.error("--keep 至少是 1")
-    return {"whoami": cmd_whoami, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
+    return {"whoami": cmd_whoami, "storage": cmd_storage, "hubsubset": cmd_hubsubset, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
 
 
 if __name__ == "__main__":

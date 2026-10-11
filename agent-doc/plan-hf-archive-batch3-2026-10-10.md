@@ -1,4 +1,4 @@
-# 计划：mf4090 第 3 批归档到 Hugging Face（policy 中间份、旧 state、最终 state），核对后删除（2026-10-10，第 2 版：按 Fable 5.1 审查修改）
+# 计划：mf4090 第 3 批归档到 Hugging Face（policy 中间份、旧 state、最终 state），核对后删除（2026-10-10，第 3 版：第一段撞上 HF 私有存储额度，只对已提交的部分核对与删除）
 
 用户 10/10 23:2x 的回复：“容量不够的话 还是按照之前的流程上传到HF”。这句回答的是“Tier 3 过门槛的 10 集在 mf4090 上训、
 磁盘不够”（训练计划 `agent-doc/plan-t3-v2-train10-2026-10-10.md`）。按之前的流程（10/8 第 2 批）分两段：上传、核对、抽查之后停下，
@@ -113,6 +113,52 @@ Fable 5.1 独立审查（两份计划一起审）：GO WITH FIXES，没有 BLOCK
 
 m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
 
+## 第 3 版：撞上私有存储额度之后（10/11 00:50 起草）
+
+### 事实
+
+- 00:31 第一段停在上传（HF_ARCHIVE_STOPPED upload，`results/ops/hf_archive_batch3_run_mf4090.txt`）：HF 的提交接口返回
+  “Private storage limit reached for user Rongxuan-Zhou, please upgrade your plan to increase your private storage limit”，
+  `upload_large_folder` 连续 8 次失败后退出。没有核对、抽查，什么都没删；t3p3a 照常在跑。
+- 账号是免费账号（`isPro=False`）。私有仓库合计 99.96 GB，公开仓库合计 434.87 GB（`results/ops/hf_storage_1011_0040.txt`，
+  `hf_archive.py storage` 逐个仓库查 usedStorage；第一次用列表接口查被 400 拒绝，`_run1` 留档）。本仓库 18.24 GB；
+  另外两个大的私有仓库（61.66 GB、19.38 GB）不属于本项目，不动。
+- 本仓库从 1393 个文件、12.82 GB 变成 1518 个、18.24 GB：撞上额度之前已经提交了一部分。`hubsubset`
+  （`results/ops/hf_archive_batch3a_subset_mf4090.txt`）：清单 299 个里 125 个已在仓库且大小与 sha256 一致，最终 state 28 个、旧 state 3 个、
+  policy 94 个（`t1-ep0-w2048-cap4m-r3a-mf4090` 16 个，`t1-ep5-w2048-cap4m-r3a-mf4090`、`t1-ep15-w2048-cap4m-r3a-s43-mf4090`、
+  `t3-ep24-w2048-cap4m-r3a-mf4090` 各 26 个），共 5420591292 字节、28 条 run；不一致 0 个；仓库里没有的 174 个。
+  子清单 `runs/hf_archive_batch3a_manifest_mf4090.json`，md5 `24a3e13278af54fef24d8e43f0dc9948`。
+- 磁盘：t3p3a 4 集跑完时可用约 1.1 GB（起链 2617 MB 减 4 × 375 MB）。删掉这 125 个再腾出约 5.4 GB，第二段 6 集起链时要求可用 ≥ 3090 MB，够。
+
+### 做法
+
+1. 工具：`hf_archive.py` 加 `storage`（只读，逐个仓库查已用存储）与 `hubsubset`（只读，挑出清单里已在仓库且一致的行，仓库里有同路径但不一致的就退出码 1）；
+   `hf_archive_run.sh` 加 `check` 步骤（核对与抽查，不上传，停在删除前）。测试 16 项在 mf4090 上全过（`results/ops/hf_archive_batch3a_tests_mf4090.txt`）。
+   第一次在 mf4090 上跑时，删除步骤的测试被机器上真在跑的训练进程挡下（`_run1.txt.failed` 留档）：那道闸生效了，是测试不封闭。
+   测试里加了假 pgrep，并补一条“有训练相关进程就停”的断言。
+2. 第 3a 批第一段（只对已提交的 125 个）：`tools/hf_remote.sh` 在 mf4090 上 setsid 后台运行 `timeout 7200 bash runs/tools/hf_archive_run.sh`，
+   `V2D_HF_ARCHIVE_STEPS=check`、`V2D_HF_SPOTCHECK_PER_RUN=1`、`V2D_HF_SPOT_MIN_FREE_MB=1700`、`V2D_HF_SPOT_MAX_CACHE_MB=50`、
+   `HF_XET_CHUNK_CACHE_SIZE_BYTES=0`，清单用子清单，输出前缀 `runs/hf_archive_batch3a_mf4090`，日志 `runs/logs/hf_archive_batch3a_run.log`。
+   抽查 28 份最终 state，另外 5 条有其他文件的 run（4 条 policy run 与 p185g）各随机 1 个，共 33 个、约 4.5 GB。
+3. 报给用户，请用户定两件事：删不删这 125 个（第 3a 批）；其余 174 个怎么办（升级 HF、用户自己腾出私有空间、或者先不归档）。
+4. README：改成“第 3 批计划 299 个，10/11 提交到 125 个（5.42 GB）时账号私有存储额度用完，本地副本尚未删除”，重新上传。
+   README 的提交也可能因为额度被拒；被拒就记下，等额度问题解决后再传。
+5. 用户确认删除后，等 t3p3a 整条链结束，用子清单与同一前缀以 `V2D_HF_ARCHIVE_STEPS=delete` 运行。没提交的 174 个本地文件不动。
+   以后额度有了，原来的 299 个清单可以接着上传：已提交的会被跳过。
+
+### 判据（第 3 版，执行前登记）
+
+- check：125 / 125 一致（HF_VERIFY_OK）；抽查 33 个全部一致（HF_SPOTCHECK_OK）；没有被两道闸或 `timeout` 停下；
+  xet 缓存在日志第一行与 HF_ARCHIVE_VERIFIED 那一行相差不超过 50 MB。
+- 删除只在用户确认、且 t3p3a 整条链结束后运行。删除后：删除前重新核对 125 / 125；`runs/flash_chord` 下消失的正好是子清单的 125 个
+  （清单外 0 个、没删的 0 个）；可用空间增加约 5420591292 字节（±150 MB）；28 条 run 都有 ARCHIVED.json，125 个文件都记进去；
+  28 条 run 各剩 0 份 state；4 条 policy run 最新一份 policy 仍是 349999104 步，`t1-ep0-w2048-cap4m-r3a-mf4090` 剩 19 份、其余 3 条各 9 份；
+  `runs/hf_stage` 已删除；没提交的 174 个文件仍在本地。
+
+### 审查与处理（第 3 版）
+
+（待审查）
+
 ## 执行记录
 
 ### 第一段（10/10 23:54 起，UTC-6）
@@ -127,3 +173,4 @@ m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
   （`results/ops/hf_readme_v2d_track2_archive_batch3.txt`）。
 - 23:58 第一段开跑（`results/ops/hf_archive_batch3_launch_mf4090.txt`）：日志第一行的工具 md5 `15ce9fd4…` 与测试记录相同，清单 md5 `98f48b16…`、
   299 个文件；可用 2594 MB，xet 缓存 39 MB。
+- 00:31 停在上传：账号私有存储额度用完（见第 3 版）。本仓库多了 125 个文件、5.42 GB；本地什么都没删。xet 缓存 00:35 是 64 MB（比开始多 25 MB）。

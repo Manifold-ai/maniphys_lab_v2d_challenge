@@ -1,0 +1,25 @@
+# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive.py\ \&\&\ python3\ runs/tools/hf_archive.py\ storage 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 457fc784f8b8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T00:33:41-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+f0cb70aef503fd9e826d3d9d049079a9  runs/tools/hf_archive.py
+账号 Rongxuan-Zhou，isPro=False
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-scene
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-double
+  model   公开    14.91 GB（usedStorage）  Rongxuan-Zhou/lewm-archive
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-triple
+  model   私有     0.22 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-retrains
+  model   私有    18.24 GB（usedStorage）  Rongxuan-Zhou/v2d-track2-archive
+  dataset 私有     0.12 GB（usedStorage）  Rongxuan-Zhou/forge-peg-insert-force-lewm
+  dataset 公开     2.03 GB（usedStorage）  Rongxuan-Zhou/pusht-franka-lewm
+  dataset 私有     0.14 GB（usedStorage）  Rongxuan-Zhou/forge-gear-mesh-force-lewm
+  dataset 公开    44.70 GB（usedStorage）  Rongxuan-Zhou/pusht_lewm_fr3
+  dataset 私有    61.66 GB（usedStorage）  Rongxuan-Zhou/ogbench-scene-expert
+  dataset 公开    30.32 GB（usedStorage）  Rongxuan-Zhou/ogb-cd-3k
+  dataset 公开    30.78 GB（usedStorage）  Rongxuan-Zhou/ogb-ct-3k
+  dataset 私有    19.38 GB（usedStorage）  Rongxuan-Zhou/force-lewm-artifacts
+  dataset 公开   312.12 GB（usedStorage）  Rongxuan-Zhou/force-lewm-datasets
+私有合计 99.96 GB，公开合计 434.87 GB；HF_STORAGE_DONE

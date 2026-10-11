@@ -1,0 +1,31 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ runs/tools/hf_archive.py\ runs/tools/hf_archive_run.sh\ runs/tools/hf_archive_report.py\ runs/tools/test_hf_archive.py\ \&\&\ python3\ runs/tools/test_hf_archive.py 
+# source   : 457fc784f8b8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T00:35:49-0600
+# ---------------------------------------------------------------
+28e1ef97d9fdecdbda2e025ea17b89fb  runs/tools/hf_archive.py
+4f979d73f57cbfc67835ac7a12eb4ec6  runs/tools/hf_archive_run.sh
+11e193abf408ae31b40afc60ef601859  runs/tools/hf_archive_report.py
+0161d129592ca7de02b86d79f0b641e1  runs/tools/test_hf_archive.py
+ok test_plan_rules
+ok test_delete_gates_and_effects
+ok test_rerun_after_interrupted_delete_writes_state_pruned
+ok test_policy_plan_rules
+ok test_policy_delete
+ok test_policy_delete_skips_run_whose_newest_policy_broke
+ok test_export_input_lists_protect
+ok test_spot_pick
+ok test_final_plan_rules
+ok test_final_delete
+ok test_readme_and_upload_guard
+ok test_spotcheck_guards
+ok test_hubsubset
+ok test_runner_verify_step
+Traceback (most recent call last):
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/test_hf_archive.py", line 615, in <module>
+    fn()
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/test_hf_archive.py", line 593, in test_runner_delete_step
+    assert r.returncode == 0 and r.stdout.rstrip().endswith("HF_ARCHIVE_DONE"), r.stdout + r.stderr
+AssertionError: === 2026-10-11 14:35:51 CST 开始（步骤 delete，抽查 3 个）；工具 md5 9faaea1b715ea2f28b492cb3830ba625；清单 runs/pm.json（10 个文件，md5 47afc2e9f6d2dfa7fcf139e1822d6732）；可用 2125 MB；xet 缓存 64 MB
+=== 2026-10-11 14:35:51 CST HF_ARCHIVE_STOPPED delete（有导出、评测或训练相关的进程：1092293 bash stages/policy/fc_run_watched.sh t3-ep20-w2048-cap4m-r3a-v2-mf4090 /repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet 2048 349999104 training.replay.capacity=4000000 objective.object_position_std=0.05 termination）
+

@@ -1,0 +1,100 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ sed\ \'s/\\x1b\\\[\[0-9\;\]\*\[A-Za-z\]//g\'\ runs/logs/hf_archive_batch3_run.log\ \|\ grep\ -a\ -v\ -E\ \'\^\\s\*\$\|\^=+\$\|\^\ \ ok\ \|@\|hf_\[A-Za-z0-9\]\{20\}\'\ \|\ awk\ \'\!seen\[\$0\]++\'\ \|\ cut\ -c1-400 
+# source   : 457fc784f8b8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T00:37:25-0600
+# ---------------------------------------------------------------
+=== 2026-10-11 13:58:24 CST 开始（步骤 verify，抽查 每条 run 1 个）；工具 md5 15ce9fd47264d9849988afd736f3377a；清单 runs/hf_archive_batch3_manifest_mf4090.json（299 个文件，md5 98f48b166bf8d17aa2ebbff5f9ac72a0）；可用 2594 MB；xet 缓存 39 MB
+2026-10-11 13:58:25 开始上传 299 个文件到私有仓库 Rongxuan-Zhou/v2d-track2-archive（11.55 GB）
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py:344: FutureWarning: 
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+Use `upload_folder` instead:
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-archive", repo_type="model", folder_path="runs/hf_stage")
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
+---------- 2026-10-11 13:58:26 (0:00:00) ----------
+Files:   hashed 0/299 (0.0/11.5G) | pre-uploaded: 0/0 (0.0/11.5G) (+299 unsure) | committed: 0/299 (0.0/11.5G) | ignored: 0
+Workers: hashing: 2 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+---------- 2026-10-11 13:59:26 (0:01:00) ----------
+Files:   hashed 299/299 (11.5G/11.5G) | pre-uploaded: 0/299 (0.0/11.5G) | committed: 0/299 (0.0/11.5G) | ignored: 0
+Workers: hashing: 0 | get upload mode: 0 | pre-uploading: 2 | committing: 0 | waiting: 0
+---------- 2026-10-11 14:00:26 (0:02:00) ----------
+---------- 2026-10-11 14:01:27 (0:03:00) ----------
+---------- 2026-10-11 14:02:27 (0:04:00) ----------
+---------- 2026-10-11 14:03:27 (0:05:00) ----------
+---------- 2026-10-11 14:04:27 (0:06:00) ----------
+---------- 2026-10-11 14:05:27 (0:07:00) ----------
+---------- 2026-10-11 14:06:27 (0:08:00) ----------
+---------- 2026-10-11 14:07:27 (0:09:00) ----------
+---------- 2026-10-11 14:08:27 (0:10:00) ----------
+---------- 2026-10-11 14:09:27 (0:11:00) ----------
+---------- 2026-10-11 14:10:27 (0:12:00) ----------
+---------- 2026-10-11 14:11:27 (0:13:00) ----------
+---------- 2026-10-11 14:12:27 (0:14:00) ----------
+---------- 2026-10-11 14:13:27 (0:15:00) ----------
+---------- 2026-10-11 14:14:27 (0:16:00) ----------
+---------- 2026-10-11 14:15:27 (0:17:01) ----------
+---------- 2026-10-11 14:16:27 (0:18:01) ----------
+---------- 2026-10-11 14:17:27 (0:19:01) ----------
+---------- 2026-10-11 14:18:28 (0:20:01) ----------
+---------- 2026-10-11 14:19:28 (0:21:01) ----------
+---------- 2026-10-11 14:20:28 (0:22:01) ----------
+---------- 2026-10-11 14:21:28 (0:23:01) ----------
+---------- 2026-10-11 14:22:28 (0:24:01) ----------
+---------- 2026-10-11 14:23:28 (0:25:01) ----------
+---------- 2026-10-11 14:24:28 (0:26:01) ----------
+---------- 2026-10-11 14:25:28 (0:27:01) ----------
+---------- 2026-10-11 14:26:28 (0:28:01) ----------
+---------- 2026-10-11 14:27:28 (0:29:01) ----------
+---------- 2026-10-11 14:28:28 (0:30:01) ----------
+---------- 2026-10-11 14:29:28 (0:31:01) ----------
+---------- 2026-10-11 14:30:28 (0:32:01) ----------
+                             Failed to commit: (Request ID: Root=1-6acb2d20-1b30fb4c26227c6607cef3db;f31c8b2e-56b7-4ecf-8872-726a29161f34)
+Bad request for commit endpoint:
+Private storage limit reached for user Rongxuan-Zhou, please upgrade your plan to increase your private storage limit
+Failed to commit 100 files at once. Will retry with less files in next batch.
+Failed to commit: (Request ID: Root=1-6acb2d22-4d6c2a3b71229b7032b05b08;520a49c1-05d9-4f10-adbc-ba3364c91a88)
+Failed to commit 75 files at once. Will retry with less files in next batch.
+Failed to commit: (Request ID: Root=1-6acb2d23-2b4cc8e50bb02b425b98fc26;d198529b-8a96-4873-88b9-248f1bb502e0)
+Failed to commit 50 files at once. Will retry with less files in next batch.
+Failed to commit: (Request ID: Root=1-6acb2d24-3b75e3bc7bdd45a9182b1c06;32b00956-3990-46d7-b1ac-4ffc2fe992e1)
+Failed to commit 20 files at once. Will retry with less files in next batch.
+Failed to commit: (Request ID: Root=1-6acb2d24-4664f326032e32e37b60ac07;46826913-9eba-445a-97be-0daf6fa4778c)
+Failed to commit: (Request ID: Root=1-6acb2d25-10a353a5706994bc67d2eaa1;f87a6841-0105-47b8-af30-ce5a1ab622e4)
+Failed to commit: (Request ID: Root=1-6acb2d26-556262df12cba8eb62bd45b4;ac3020c5-65c9-4c2e-8528-4b1826ce57a0)
+Failed to commit: (Request ID: Root=1-6acb2d26-72d8d38c229df1b77f37cf90;92753246-cb19-451e-b259-120792bad7f3)
+Too many consecutive errors (8): exiting main loop
+Traceback (most recent call last):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 836, in hf_raise_for_status
+    response.raise_for_status()
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'https://huggingface.co/api/models/Rongxuan-Zhou/v2d-track2-archive/commit/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+The above exception was the direct cause of the following exception:
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/_upload_large_folder.py", line 547, in _worker_job
+    _commit(items, api=api, repo_id=repo_id, repo_type=repo_type, revision=revision)
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/_upload_large_folder.py", line 730, in _commit
+    api.create_commit(
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 91, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py", line 2137, in _inner
+    return fn(self, *args, **kwargs)
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py", line 5346, in create_commit
+    commit_info = _send_commit(
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/_commit_api.py", line 1068, in _send_commit
+    hf_raise_for_status(response, endpoint_name="commit")
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 929, in hf_raise_for_status
+    raise _format(BadRequestError, message, response) from e
+huggingface_hub.errors.BadRequestError: (Request ID: Root=1-6acb2d26-72d8d38c229df1b77f37cf90;92753246-cb19-451e-b259-120792bad7f3)
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py", line 573, in <module>
+    sys.exit(main())
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py", line 569, in main
+    return {"whoami": cmd_whoami, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py", line 344, in cmd_upload
+    api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py", line 6471, in upload_large_folder
+    return upload_large_folder_internal(
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/_upload_large_folder.py", line 287, in upload_large_folder_internal
+    raise RuntimeError(
+RuntimeError: Upload aborted after 8 consecutive errors. Progress is saved locally: re-run the same command to resume.
+=== 2026-10-11 14:31:07 CST HF_ARCHIVE_STOPPED upload

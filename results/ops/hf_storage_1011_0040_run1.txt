@@ -1,0 +1,25 @@
+# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive.py\ \&\&\ python3\ runs/tools/hf_archive.py\ storage\ \&\&\ python3\ runs/tools/hf_archive.py\ whoami\ --repo\ Rongxuan-Zhou/v2d-track2-archive 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 457fc784f8b8-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T00:33:14-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+746f1da9fb96dde0977b44ee8eb63d23  runs/tools/hf_archive.py
+账号 Rongxuan-Zhou，isPro=False
+  model：查不了（BadRequestError: (Request ID: Root=1-6acb2dac-400c4d2c2163a93c625249c1;d73ce147-6fcf-420a-8be0-be5ceab3f842)
+
+Bad request:
+* Invalid option: expected one of "author"|"baseModels"|"cardData"|"config"|"createdAt"|"disab）
+  dataset：查不了（BadRequestError: (Request ID: Root=1-6acb2dac-36ac311c7a37c61024e29c83;c1021f59-6f2a-49ee-80bc-143d103d727e)
+
+Bad request:
+* Invalid option: expected one of "author"|"cardData"|"citation"|"createdAt"|"disabled"|"descr）
+  space：查不了（BadRequestError: (Request ID: Root=1-6acb2dad-31dda1ff56fc754e14429208;80f39f46-1b42-4285-b9c5-dc3d399be26b)
+
+Bad request:
+* Invalid option: expected one of "author"|"cardData"|"datasets"|"disabled"|"lastModified"|"cr）
+私有合计 0.00 GB，公开合计 0.00 GB；HF_STORAGE_DONE
+账号 Rongxuan-Zhou，token 权限 write
+仓库 Rongxuan-Zhou/v2d-track2-archive：私有，1518 个文件，共 18.24 GB
+HF_WHOAMI_OK
