@@ -1,25 +1,31 @@
 """Support surfaces from Tier 3 signals, and object penetration of the floor and of those supports (Tier 3 inputs only).
 
 Tier 3 may not read the released support_surface files (they sit where the clean object rests: a clean trajectory in
-disguise, see the handoff), so the supports are measured here. A static segment (every STATIC_WINDOW-frame window
-in it keeps the object's positions within STATIC_RADIUS_M of the window's median; hands are not looked at, since a
-hand usually stays by the object just before a pick and after a place; not a speed threshold, because CARI4D's pose
-jitters ~5 mm per frame at rest, 15 cm/s, while staying within a few cm) whose lowest hull point is more than FLOOR_TOL_M above the
-floor is the object standing on something: that height is the support's, the hull's footprint at the segment's median
-pose is a patch of it. The share of its frames with a hand within the physics check's HOLD_M is reported (a held object
-kept still in the air also reads as static). Segments of one episode at heights within MERGE_DH_M and footprints within MERGE_XY_M are one support; its patch
-is the convex hull of their footprints, grown by PATCH_MARGIN_M.
+disguise, see the handoff), so the supports are measured here.
+
+Static segments: every STATIC_WINDOW-frame window in the segment keeps the object's positions within STATIC_RADIUS_M of
+the window's median. Only the object's motion is looked at: a hand usually stays by the object just before a pick and
+after a place, and a speed threshold misses rest because CARI4D's pose jitters ~5 mm per frame (15 cm/s) while staying
+within a few cm. A static segment whose lowest hull point is more than FLOOR_TOL_M above the floor is a candidate:
+its median lowest point is the height, the hull's footprint at its median pose a patch.
+
+Static and held look alike from the object's motion alone (a held object kept still in the air also reads as static),
+so MoGe-2 on the people-free plate (t3_walls.py moge), turned onto the released floor as t3_walls.py does and moved by
+camera_register.json for registered cameras, decides whether a surface is there: its horizontal points (normal within
+MOGE_NORMAL_DEG of up) over the candidate's patch, below the object's bottom + MOGE_BAND_M, give the surface height
+seen in the image. `support` when that surface is at most MOGE_ABOVE_M below the object's bottom; `above_surface` when
+lower (held still above a table); `no_surface` when there is none (held still above the floor); the last two are
+reported as rejected. MoGe also says which placements share a surface: `support` candidates whose MoGe surface heights
+are within MERGE_DH_M and whose footprints are within MERGE_XY_M are one support (a mug picked up at A and set down at
+B on one table). Its height is the object's (frame-weighted median of the placements' lowest points), not MoGe's:
+one round table in six episodes reads 0.748-0.789 m from the objects, 0.775-0.845 m from MoGe. Each placement keeps
+its own height and its offset from the support's (the error a post-process anchors away); the patch is the convex
+hull of the footprints grown by PATCH_MARGIN_M.
 
 Penetration, per frame, from the physics check's lowest hull point:
   floor     lowest point more than FLOOR_TOL_M below the floor (as object_floor_penetration);
-  support   object centre over a support's patch and lowest point more than FLOOR_TOL_M below the support.
-Cross-check (independent of the object): MoGe-2 on the people-free plate (t3_walls.py moge), turned onto the released
-floor as t3_walls.py does and moved by camera_register.json for registered cameras; its horizontal points (normal within
-MOGE_NORMAL_DEG of up) over the patch give the table height seen from the image: `confirmed` within MOGE_AGREE_M of the
-support; `below_surface` when the object's bottom is more than that below it (sunk into the table, or MoGe off);
-`above_surface` when it is more than that above the surface under it (held still above a table); `no_surface` when the
-image shows no horizontal surface there (held still above the floor). Static and held look alike from the object's
-motion alone, so only `confirmed` and `below_surface` are supports; support penetration is counted against those.
+  support   object centre over a `support` patch and lowest point between FLOOR_TOL_M and SUP_PEN_BAND_M below it;
+            deeper is the object beside or under the table (lowered past the edge, pushed under a desk), not through it.
 
     python t3_support.py <tier3 root> <version dir name> <physics dir> <walls dir> <out dir>
 """
@@ -38,7 +44,8 @@ import t3_inputs  # noqa: E402
 FLOOR_TOL_M = 0.03
 STATIC_WINDOW = 15
 STATIC_RADIUS_M = 0.05
-MOGE_AGREE_M = 0.03
+MOGE_ABOVE_M = 0.03
+SUP_PEN_BAND_M = 0.15
 MERGE_DH_M = 0.03
 MERGE_XY_M = 0.6
 PATCH_MARGIN_M = 0.05
@@ -166,48 +173,58 @@ def main() -> None:
             wv = hull @ rot[k].T + pos[k]
             foot = np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m]
             segs.append({"start": a, "end": b, "height_m": lo, "footprint": hull2(foot), "centre": xy[k]})
-        sups = []
-        for sg in sorted(segs, key=lambda s: -(s["end"] - s["start"])):
-            for sp in sups:
-                if abs(sp["height_m"] - sg["height_m"]) < MERGE_DH_M and np.linalg.norm(sp["centre"] - sg["centre"]) < MERGE_XY_M:
-                    sp["segs"].append(sg); break
-            else:
-                sups.append({"height_m": sg["height_m"], "centre": sg["centre"], "segs": [sg]})
         group = fit[name]["group"] if name in fit else 0
         mg = moge_world(wdir, name, gp, regs.get(str(group)))
+        for sg in segs:  # MoGe decides only whether the object stands on a surface, and which surface
+            cm = None
+            if mg is not None:
+                pts, hg = mg
+                sel = inside(sg["footprint"], pts, PATCH_MARGIN_M + 0.10) & (hg > MOGE_MIN_H_M) & (hg < sg["height_m"] + MOGE_BAND_M)
+                if sel.sum() >= MOGE_MIN_POINTS:
+                    hist, edges = np.histogram(hg[sel], bins=np.arange(MOGE_MIN_H_M, sg["height_m"] + MOGE_BAND_M + 0.01, 0.01))
+                    peak = float(edges[np.argmax(np.convolve(hist, np.ones(3) / 3, "same"))] + 0.005)
+                    cm = {"points": int(sel.sum()), "surface_height_m": round(peak, 3), "minus_object_m": round(peak - sg["height_m"], 3)}
+            sg["moge"] = cm
+            sg["status"] = "no_surface" if cm is None else ("support" if cm["minus_object_m"] >= -MOGE_ABOVE_M else "above_surface")
+        groups = []  # one per physical surface: MoGe surface heights within MERGE_DH_M, footprints within MERGE_XY_M
+        for sg in sorted((g for g in segs if g["status"] == "support"), key=lambda g: -(g["end"] - g["start"])):
+            for gr in groups:
+                if any(abs(sg["moge"]["surface_height_m"] - o["moge"]["surface_height_m"]) <= MERGE_DH_M
+                       and np.linalg.norm(sg["centre"] - o["centre"]) <= MERGE_XY_M for o in gr):
+                    gr.append(sg); break
+            else:
+                groups.append([sg])
         sup_out = []
         floor_pen = obj_low < -FLOOR_TOL_M
         sup_pen_any = np.zeros(len(obj_low), bool); sup_depth = np.zeros(len(obj_low))
-        for i, sp in enumerate(sups):
-            frames = np.concatenate([np.arange(s["start"], s["end"]) for s in sp["segs"]])
-            h = float(np.median(obj_low[frames]))
-            poly = hull2(np.concatenate([s["footprint"] for s in sp["segs"]]))
-            cm = None
-            if mg is not None:
-                p, hg = mg
-                sel = inside(poly, p, PATCH_MARGIN_M + 0.10) & (hg > MOGE_MIN_H_M) & (hg < h + MOGE_BAND_M)
-                if sel.sum() >= MOGE_MIN_POINTS:
-                    hist, edges = np.histogram(hg[sel], bins=np.arange(MOGE_MIN_H_M, h + MOGE_BAND_M + 0.01, 0.01))
-                    peak = float(edges[np.argmax(np.convolve(hist, np.ones(3) / 3, "same"))] + 0.005)
-                    cm = {"points": int(sel.sum()), "mode_height_m": round(peak, 3), "minus_support_m": round(peak - h, 3)}
-            status = ("no_surface" if cm is None else "confirmed" if abs(cm["minus_support_m"]) <= MOGE_AGREE_M
-                      else "below_surface" if cm["minus_support_m"] > 0 else "above_surface")
+        for i, gr in enumerate(groups):
+            gr.sort(key=lambda g: g["start"])
+            frames = np.concatenate([np.arange(g["start"], g["end"]) for g in gr])
+            h = float(np.median(obj_low[frames]))  # the support's height is the object's
+            poly = hull2(np.concatenate([g["footprint"] for g in gr]))
             over = inside(poly, xy, PATCH_MARGIN_M)
-            pen = over & (obj_low < h - FLOOR_TOL_M) & (status in ("confirmed", "below_surface"))
+            pen = over & (obj_low < h - FLOOR_TOL_M) & (obj_low > h - SUP_PEN_BAND_M)
             sup_pen_any |= pen; sup_depth = np.maximum(sup_depth, np.where(pen, h - obj_low, 0))
-            sup_out.append({"support": i, "height_m": round(h, 3), "frames_at_rest": int(len(frames)), "held_share": round(float(held[frames].mean()), 2), "status": status,
-                            "segments": [[s["start"], s["end"]] for s in sp["segs"]],
+            sup_out.append({"support": i, "height_m": round(h, 3), "frames_at_rest": int(len(frames)),
+                            "moge_surface_heights_m": [g["moge"]["surface_height_m"] for g in gr],
+                            "placements": [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3),
+                                            "offset_m": round(g["height_m"] - h, 3), "centre_xy_m": np.round(g["centre"], 3).tolist(),
+                                            "held_share": round(float(held[g["start"]:g["end"]].mean()), 2)} for g in gr],
                             "patch_area_m2": round(float(0.5 * abs(np.dot(poly[:, 0], np.roll(poly[:, 1], 1)) - np.dot(poly[:, 1], np.roll(poly[:, 0], 1)))), 3) if len(poly) >= 3 else 0.0,
                             "patch_xy_m": poly.round(3).tolist(), "penetration_frames": int(pen.sum()),
-                            "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0, "moge": cm})
+                            "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0})
+        rejected = [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3), "status": g["status"],
+                     "centre_xy_m": np.round(g["centre"], 3).tolist(), "held_share": round(float(held[g["start"]:g["end"]].mean()), 2),
+                     "moge": g["moge"]} for g in sorted(segs, key=lambda g: g["start"]) if g["status"] != "support"]
         row = {"episode": name, "tier": rep["tier"], "frames": len(obj_low), "group": group, "rest_frames": rest_on,
                "floor_penetration_frames": int(floor_pen.sum()), "floor_penetration_max_m": round(float(-obj_low[floor_pen].min()), 3) if floor_pen.any() else 0.0,
                "support_penetration_frames": int(sup_pen_any.sum()), "support_penetration_max_m": round(float(sup_depth.max()), 3),
-               "supports": sup_out}
+               "supports": sup_out, "rejected": rejected}
         (out / f"{name}.json").write_text(json.dumps(row, indent=1))
         rows.append(row)
-        print(json.dumps({k: v for k, v in row.items() if k != "supports"} | {"supports": [
-            {k: s[k] for k in ("height_m", "frames_at_rest", "held_share", "status", "penetration_frames", "penetration_max_m", "moge")} for s in sup_out]}), flush=True)
+        print(json.dumps({k: v for k, v in row.items() if k not in ("supports", "rejected")} | {"supports": [
+            {k: sp[k] for k in ("height_m", "frames_at_rest", "penetration_frames", "penetration_max_m")} | {"placements": len(sp["placements"])}
+            for sp in sup_out], "rejected": len(rejected)}), flush=True)
     (out / "summary.json").write_text(json.dumps(rows, indent=1))
 
 
