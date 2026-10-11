@@ -244,3 +244,54 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清�
   （`results/ops/hf_readme_v2d_track2_archive_batch3a_deleted.txt`）。
 - 09:26 t3p3b 起链（训练计划执行记录）。jev 与训练结果一起做（`results/t3p3/jev_claims_t3p3a_result.txt`），删除、README 与起链的 6 条都核实。
 - 仓库可见性没有改动；第 3b 批（174 个、6.12 GB）的去向仍等用户回复。
+
+## 第 4 版：用户同意公开之后（10/11 12:30 起草，UTC-6）
+
+### 事实
+
+- 用户 10/11 中午回复“可以公开”。此前（03:20 前后）已报告：Kaggle 附加规则 6.b 的原文、比赛规则 2.7、最终 state 含有同步数 policy 的全部张量
+  （第 3a 批 28 / 28、第 3b 批 34 / 34）、文件头 metadata 含 W&B 的 entity 与 project，并建议保持私有、封榜后再议。用户看过这些之后决定公开。
+- 仓库现状（09:23 `whoami`）：私有，1518 个文件，18.24 GB。账号是免费账号；00:40 私有合计 99.96 GB，其中本仓库 18.24 GB；
+  公开合计 434.87 GB（`results/ops/hf_storage_1011_0040.txt`）。另外两个大的私有仓库不属于本项目，不动。
+- 第 3b 批清单 `runs/hf_archive_batch3b_manifest_mf4090.json`：174 个文件、35 条 run、6124514088 字节，md5 `28e156b9…`；
+  最终 state 34 个（5444115248 字节），policy 140 个（680398840 字节）；09:22 时 174 / 174 都在本地（`results/ops/hf_archive_batch3b_local_mf4090.txt`）。
+  按 run 分：29 条只有最终 state，5 条有最终 state 与 26 份 policy，1 条只有 10 份 policy。
+- mf4090 上的 huggingface_hub 是 1.32.0，`HfApi.update_repo_settings(repo_id, private=…, repo_type=…)` 可用。
+- 工具（bb24477）：`whoami`、`readme`、`upload` 加 `--visibility private|public`（默认 private，仓库实际可见性不同就停或报 FAIL）；
+  新增 `visibility` 子命令：只改本工具建的归档仓库（根目录有 README.md，且至少有一个 `<机器名>/runs/flash_chord/<run>/(state|policy)_<步数>.safetensors`），
+  `--confirm` 必须与 `--repo` 相同，不加 `--yes` 只演习，已是目标可见性不重复改，改完重新读，对上才报 HF_VISIBILITY_OK。
+  流程脚本把 `V2D_HF_VISIBILITY` 原样传给 `upload`。拷到 mf4090 的 `runs/tools/` 后 18 项测试全过，md5 与提交的一致
+  （`results/ops/hf_archive_v4_tests_mf4090.txt`）。
+- README（`docs/hf/v2d-track2-archive/README.md`）改成公开版：删掉“仓库为私有，不要改为公开”，写明 10/11 起公开；按比赛规则写明训练数据
+  是比赛数据（公开发布的比赛数据按 CC BY 4.0 使用与分享）；第 3 批拆成 3a、3b 两行，3b 标明上传与核对完成后再更新；下载一节改为不需要 token；
+  删掉私有代码仓库的网址，只保留仓库内的路径。
+- 磁盘：12:2x 可用 5760 MB。t3p3c 4 集约用 1.5 GB，结束时约 4.2 GB。上传用硬链接，不多占盘；抽查一次下载一个文件，最大约 160 MB，比完就删。
+
+### 做法
+
+1. 改可见性之前先传公开版 README（`readme --visibility private`，此时仓库仍私有），让仓库公开的那一刻 README 已是公开版。
+2. `whoami --visibility private`：HF_WHOAMI_OK。
+3. `visibility --repo Rongxuan-Zhou/v2d-track2-archive --to public --confirm Rongxuan-Zhou/v2d-track2-archive` 先演习（HF_VISIBILITY_DRYRUN），
+   再加 `--yes`（HF_VISIBILITY_OK）。
+4. `whoami --visibility public`：HF_WHOAMI_OK，文件数与大小不变。`storage`：本仓库计入公开；私有合计约 99.96 − 18.24 = 81.72 GB。
+5. 第 3b 批：`tools/hf_remote.sh` 在 mf4090 上 setsid 后台运行 `timeout 7200 bash runs/tools/hf_archive_run.sh`，清单用第 3b 批清单，
+   仓库同上，机器名 mf4090，输出前缀 `runs/hf_archive_batch3b_mf4090`，日志 `runs/logs/hf_archive_batch3b_run.log`。环境：
+   `V2D_HF_ARCHIVE_STEPS=verify`（上传、核对、抽查，停在删除前）、`V2D_HF_VISIBILITY=public`、`V2D_HF_SPOTCHECK_PER_RUN=1`、
+   `V2D_HF_SPOT_MIN_FREE_MB=1700`、`V2D_HF_SPOT_MAX_CACHE_MB=50`、`HF_XET_CHUNK_CACHE_SIZE_BYTES=0`（与第 3a 批 check 相同的两道闸）。
+   抽查 40 个：29 条只有最终 state 的 run 各 1 个，5 条有最终 state 与 policy 的 run 各 2 个（最终 state 加随机 1 份 policy），只有 policy 的 1 条 run 1 个。
+   与 t3p3c 同时运行，同第 3a 批。
+6. 第 3b 批核对、抽查通过后，README 的 3b 一行改为已提交，“校验”一节补第 3b 批的核对与抽查数字，`readme --visibility public` 重传，
+   再跑一次 `whoami --visibility public`。
+7. 报告用户。第 3b 批的本地副本这一版不删：删除要用户另行同意，且要等训练链都结束（删除步骤见到长链标记就停）。
+8. 后备：抽查被“下载前可用不足”的闸停下时，等 t3p3c 整条链结束后，用同一清单、同一前缀、`V2D_HF_SPOT_MIN_FREE_MB=300`、
+   `V2D_HF_ARCHIVE_STEPS=check` 重跑（同第 3 版第 6 步）。被缓存闸或 `timeout` 停下，或上传被拒（例如公开存储也有额度），就停下报告，不改闸、不重试。
+   改公开之后若要改回私有，用同一子命令 `--to private`；已被下载或缓存的副本收不回来。
+
+### 判据（第 4 版，执行前登记）
+
+- 第 1–4 步：README 传完 HF_README_OK（下载回来 sha256 一致）；改之前 whoami 为私有；`visibility` 的演习不改动仓库，`--yes` 报 HF_VISIBILITY_OK；
+  改后 whoami 为公开、HF_WHOAMI_OK，仍是 1518 个文件、18.24 GB；`storage` 里本仓库计入公开。任何一条不过就停，不传第 3b 批。
+- 第 5 步：HF_UPLOAD_DONE；核对 174 / 174（HF_VERIFY_OK）；抽查 40 / 40（HF_SPOTCHECK_OK）；最后一行 HF_ARCHIVE_VERIFIED；
+  xet 缓存在日志第一行与 HF_ARCHIVE_VERIFIED 那一行相差不超过 50 MB；流程脚本结束后 `runs/hf_spotcheck` 不在；
+  本地 `runs/flash_chord` 下第 3b 批的 174 个文件都还在。
+- 第 6 步：HF_README_OK；whoami 公开、HF_WHOAMI_OK，1692 个文件，约 24.36 GB（18.24 + 6.12）。
