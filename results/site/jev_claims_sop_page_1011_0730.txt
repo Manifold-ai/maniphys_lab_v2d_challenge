@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-sop-page-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 696ea57066cde4a76a5f5f2305d9ef62  agent-doc/experiments/2026-10-11-sop-page-0730.claims.json
+# source   : c7d0bc25124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T07:51:04-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3_smoke_train       P(supported)=0.97  verified               [s]  t3p3a 训练链日志里，ep20、ep29、ep0、ep15 四条冒烟（全名 smoke-t3-ep<N>-w2048-cap4m-r3a-v2-mf4090）都记了“通过”，256 世界 rollout 里非有限世界都是 0 个；t3-ep20、t3-ep29、t3-ep0 依次记了“完成（1 段）”，每条的 fc_run_watched 行都写最新 policy 在 349,999,104 步非有限 0；最后一行是开始正式训练 t3-ep15-w2048-cap4m-r3a-v2-mf4090。
+t3_pace              P(supported)=0.94  verified               [p]  t3-ep20 的正式训练用时 125:23，t3-ep29 119:56，t3-ep0 132:53；t3-ep15 从 10-11 06:34:51 MDT 开始，还在跑，已记录的每 1000 万步间隔中位 3:54。
+machines             P(supported)=0.98  verified               [m]  mf4090 上 t3-ep15-w2048-cap4m-r3a-v2-mf4090 的日志最近一行训练进度是 40.0%，mf4090 有 1 个 GPU 进程、3 个长链标记，根分区可用 1194 MB；ml40 没有长链标记，t2xa 导出链日志的最后一行是 EXPORT_CHAIN_DONE（成功 14、失败 1）。
+gpu_ml40             P(supported)=0.94  verified               [g]  ml40 的 GPU 上只有一个计算进程，属于其他用户，命令是 CARI4D 的 run_mhr_wild_inference.py，处理 episode_000001；它的上级进程 python -m v2d.cari4d.lib.run_inference 于 Sun Oct 11 21:20:45 2026 启动，物体网格是 vacuum.glb。
+yq_fp                P(supported)=0.97  verified               [q]  runs/tier3_cari4d_fp_pilot_f830 里有 4 个 parquet（episode_000003、000019、000027、000028），修改时间从 2026-10-11_15:52:13 到 2026-10-11_20:45:44；另有一个 t3_reselect.sh 进程，参数是 ep01_vacuum、ep06_monitor、ep10_white_desk、ep22_step_ladder、ep03_contigo_coffee_mug、ep07_iron、ep13_snack_box、ep19_cane，开始于 Sun Oct 11 21:18:13 2026。
+t2_health            P(supported)=0.92  verified               [h]  t2xa 的训练链结束行是 DAY2_TRAIN_DONE（完成 14、失败 0、跳过 1、发散 0）；14 条正式 run 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，各有 35 份 policy 与 1 份 state；t2-ep23 是 DONE=0、policy=0。
+t2_detail            P(supported)=0.97  verified               [d]  ep23 的冒烟因整卡显存峰值 44562 MiB 超过 44000 判为 SMOKE_FAIL 并记 SKIPPED；ep7 日志里的 NONFINITE_GUARD_EVENT 只出现在 environment_steps 111769600、127897600、158924800 这三个步数，每次 env_flagged=1、learner_only=0。
+t2_eval              P(supported)=0.91  verified               [e]  t2xa 的 14 条 r3a run 里，12 条的 MP-SR 在 0.806–0.995 之间（最低 t2-ep3 0.806，最高 t2-ep18 0.995）；t2-ep11 与 t2-ep17 的 MP-SR、SP-SR、CHORD SR 都是 0.000，骨盆、物体、手掌失败比例都是 1.000，MPPE 61.10 与 136.28 cm。
+t2_base              P(supported)=0.94  verified               [e]  MP-SR 在 0.806–0.995 的那 12 条，各自的基线 run（同一 episode、名字不带 r3a 的行）MP-SR 在 0.000–0.362 之间，最高的是 t2-ep0-w2048-cap10m-ml40 的 0.362。
+hf3a                 P(supported)=0.99  verified               [hf]  第 3a 批清单有 125 个文件、28 条 run、5420591292 字节；verified 125 行，一致 125、不一致 0；抽查 33 个，一致 33，覆盖 28 条 run；清单里的文件还在本地的 125 / 125。
+ctl_true_gpu         P(supported)=0.99  control(true) ok       [m]  mf4090 的显卡是 NVIDIA GeForce RTX 4090，利用率 100 %。
+ctl_false_ep15       P(supported)=0.04  control(false) ok      [s]  t3-ep15-w2048-cap4m-r3a-v2-mf4090 已经记了“完成（1 段）”，训练链写了 DAY2_TRAIN_DONE。
+ctl_false_gpu_mine   P(supported)=0.01  control(false) ok      [g]  ml40 的 GPU 上的计算进程属于本用户，命令是 train_flash_sac.py。
+ctl_false_fp20       P(supported)=0.01  control(false) ok      [q]  runs/tier3_cari4d_fp_pilot_f830 里有 20 个 parquet。
+controls behaved as expected
