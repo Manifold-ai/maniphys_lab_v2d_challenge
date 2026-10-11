@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-hf-public-check.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : cb02975593586a312aa14f53507430be  agent-doc/experiments/2026-10-11-hf-public-check.claims.json
+# source   : ec2070ada986
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T03:22:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+public_sharing       P(supported)=0.98  verified               [fr]  Kaggle 附加的不可编辑规则（foundational-rules）的 Public Code Sharing 条款写明：可以公开分享 Competition Code，但选择分享时，必须分享在 Kaggle.com 上与这个比赛对应的讨论区或 notebook 里。
+code_def             P(supported)=0.97  verified               [fr]  同一节的 Private Code Sharing 条款把 Competition Code 定义为与比赛数据有关或基于比赛数据开发的源代码或可执行代码，以及与比赛相关的其他源代码或可执行代码；条款原文没有提到模型权重或 checkpoint。
+external             P(supported)=0.88  verified               [cr]  比赛方的规则第 2.7 节写明：外部数据须公开、所有参赛者都能同等免费使用（或满足合理性标准）；预训练模型按外部数据对待，适用同样的可获得性要求。
+same_rules           P(supported)=0.99  verified               [hd]  Track 2 Tier 3 MP-SR 与 Tier 1 AUC 两个比赛的 foundational-rules 页面 sha256 相同（3106b398…），都是 23654 字符。
+final_contains       P(supported)=0.57  UNVERIFIED             [ex]  已经传到仓库的第 3a 批 28 份最终 state，每一份都含有同步数 policy 的全部张量；还没上传的第 3b 批 34 份最终 state 也是每份都含有。
+metadata             P(supported)=0.98  verified               [ex]  第 3a、3b 两批文件头的 metadata 里，token、api key、secret、password、hf_ 开头的 token 的匹配都是 0 次，没有邮箱、/home 路径和网址；有 W&B 的 entity zhou-rongx-northeastern-university。
+ctl_true_3b          P(supported)=0.99  control(true) ok       [ex]  第 3b 批清单有 174 个文件、35 条 run。
+ctl_false_weights    P(supported)=0.02  control(false) ok      [fr]  foundational-rules 明确写着模型权重不算 Competition Code，可以在任何网站公开。
+ctl_false_missing    P(supported)=0.02  control(false) ok      [ex]  第 3a 批有 5 份最终 state 不含同步数 policy 的张量。
+controls behaved as expected

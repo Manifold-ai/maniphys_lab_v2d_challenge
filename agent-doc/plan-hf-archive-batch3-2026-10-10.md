@@ -209,3 +209,21 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清�
 - 01:10 README 改为“第 3 批提交到 125 个时额度用完，本地副本尚未删除”后重新上传，HF_README_OK；`whoami` HF_WHOAMI_OK，私有，1518 个文件、18.24 GB
   （`results/ops/hf_readme_v2d_track2_archive_batch3a.txt`）。
 - 等用户定：第 3a 批（125 个、5.42 GB）删不删；第 3b 批（174 个、6.12 GB）怎么办。
+
+### 用户 10/11 的回复与公开前的核对（10/11 03:20 前后）
+
+- 用户回复：“可以删除 HF不需要private”。前半句回答第 3a 批（125 个文件、5.42 GB）的本地副本删不删：按第 3 版做法第 6 步，
+  等 t3p3a 整条链（训练、评测、导出门）结束、GPU 空闲后，以 `V2D_HF_ARCHIVE_STEPS=delete`、子清单 `runs/hf_archive_batch3a_manifest_mf4090.json`、
+  输出前缀 `runs/hf_archive_batch3a_mf4090` 运行；删完把 README 第 3 批的本地副本一栏改成已删除并重新上传，然后起 t3p3b。
+- 后半句回答第 3b 批（174 个文件、6.12 GB）怎么办，即把归档仓库改为公开（公开仓库不占私有存储额度）。改之前核对了规则与文件内容：
+  - 规则原文（`results/ops/kaggle_rules_sharing_1011.txt`，Track 2 Tier 3 MP-SR 与 Tier 1 AUC 两个比赛，Kaggle 附加规则的页面 sha256 相同）：
+    Kaggle 附加规则“6. SUBMISSION CODE REQUIREMENTS”的 b 款（Public Code Sharing）允许公开分享 Competition Code，但要求分享在这个比赛的
+    Kaggle 讨论区或 notebook 里；a 款把 Competition Code 定义为源代码或可执行代码，原文没有提到模型权重或 checkpoint。
+    checkpoint 算不算 Competition Code，是我们的解读，组委会没有说过。
+  - 比赛规则 2.7：外部数据须公开、所有参赛者免费可得，预训练模型按外部数据对待。解读：仓库公开后，其他队伍可以按这一条使用其中的权重。
+  - 文件内容（`results/ops/ckpt_exposure_batch3_mf4090.txt`）：最终 state 含有同步数 policy 的全部张量（第 3a 批 28 / 28，第 3b 批 34 / 34），
+    即仓库里已经有 28 条 run 的最终策略；文件头 metadata 没有凭据、邮箱、`/home` 路径与网址，有 W&B 的 entity 与 project。
+  - jev（`results/ops/jev_claims_hf_public_check.txt`，规格 `agent-doc/experiments/2026-10-11-hf-public-check.claims.json`）：6 条全部核实（0.88–0.99），
+    3 道对照题正常。第一轮（`_run1`）“最终 state 含有 policy”一条写进了记录里没有的上传状态，0.57，按记录改写后重跑。
+- 仓库可见性暂不改动，先把以上情况报给用户确认。建议：仓库保持私有，第 3b 批暂时留在 mf4090（t3p3b 不依赖这部分空间），封榜（11/04）后再议公开。
+  第 3b 批的上传、核对与删除，等用户回复后另行计划。

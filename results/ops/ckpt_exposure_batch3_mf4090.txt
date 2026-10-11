@@ -1,0 +1,83 @@
+# command  : scripts/dev/pipe-py tools/ckpt_exposure.py runs/hf_archive_batch3a_manifest_mf4090.json runs/hf_archive_batch3b_manifest_mf4090.json 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 97accad652c21ef98f67006f999650e5  tools/ckpt_exposure.py
+# source   : 5dfe1b4a448c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T03:21:44-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+## runs/hf_archive_batch3a_manifest_mf4090.json：125 个文件，28 条 run
+  final ctrl-snackbox-w2048-cap1m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final resumetest-t1-ep20-cap1m-mf4090/state_20000768.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep0-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep14-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep15-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep16-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep18-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep18-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap1m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-rt-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-rt-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep24-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep27-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep27-w2048-cap4m-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep29-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep5-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep6-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep6-w2048-cap4m-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep7-w2048-cap4m-p185g-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep11-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep17-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep25-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep27-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep9-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t3-ep24-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+不在本地的文件 0 个
+最终 state 28 份，其中 28 份含有同步数 policy 的全部张量
+文件头 metadata 里像凭据的匹配次数（只报个数）：token 0，api key 0，secret 0，password 0，hf_ token 0
+文件头 metadata 里的个人信息：邮箱 0 种；/home 路径 0 种；网址 0 种
+W&B：['entity=zhou-rongx-northeastern-university', 'project=v2d-selftest', 'project=v2d-track2']
+## runs/hf_archive_batch3b_manifest_mf4090.json：174 个文件，35 条 run
+  final t1-ep0-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep1-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 25 个张量，25 个在 state 里
+  final t1-ep1-w2048-cap4m-p185-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep11-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep15-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep18-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep18-w2048-cap4m-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap1m-rt-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep20-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep21-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep22-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep27-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep27-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep28-w2048-cap4m-p185-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep29-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep29-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep29-w2048-cap4m-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep3-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep5-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep6-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep6-w2048-cap4m-r3a-s43-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep8-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t1-ep8-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep13-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep15-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep19-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep2-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep21-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep23-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep28-w2048-cap4m-p185-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep4-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t2-ep6-w2048-cap4m-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t3-ep24-w2048-cap4m-r3a-v2-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+  final t3-ep8-w2048-cap4m-r3a-mf4090/state_349999104.safetensors：同步数 policy 31 个张量，31 个在 state 里
+不在本地的文件 0 个
+最终 state 34 份，其中 34 份含有同步数 policy 的全部张量
+文件头 metadata 里像凭据的匹配次数（只报个数）：token 0，api key 0，secret 0，password 0，hf_ token 0
+文件头 metadata 里的个人信息：邮箱 0 种；/home 路径 0 种；网址 0 种
+W&B：['entity=zhou-rongx-northeastern-university', 'project=v2d-track2']
+CKPT_EXPOSURE_DONE
