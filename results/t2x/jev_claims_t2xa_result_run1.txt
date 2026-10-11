@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-t2xa-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 5c17387f87e1cbf01abb365f99b3d070  agent-doc/experiments/2026-10-11-t2xa-result.claims.json
+# source   : bf4f63928170-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:38:48-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+train                P(supported)=0.52  UNVERIFIED             [h]  t2xa 训练链的最后一行是 DAY2_TRAIN_DONE（完成 14、失败 0、跳过 1、发散 0）；完成的 14 条 run 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，各有 35 份 policy 与 1 份 state，看守日志里含非有限的扫描行都是 0 条。
+ep23                 P(supported)=0.94  verified               [d, h]  t2-ep23-w2048-cap10m-r3a-ml40 没有训练：它的冒烟判据没过，原因是整卡显存峰值 44562 MiB 超过上限 44000，所以这条 run 记为 SKIPPED，目录里没有 DONE、没有 policy。
+ep7_guard            P(supported)=0.93  verified               [d, h]  t2-ep7-w2048-cap10m-r3a-ml40 的日志里有 3 次不同的 NONFINITE_GUARD_EVENT（环境步 111769600、127897600、158924800），每次 env_flagged=1、learner_only=0；这条 run 的 GUARD_STOP 是 0，并且有 DONE。
+eval_export          P(supported)=0.95  verified               [h, x]  t2xa 的评测链记了 DAY2_EVAL_DONE（成功 14、失败 0）；导出链记了 EXPORT_CHAIN_DONE（成功 14、失败 1），导出结果表里 14 行的状态是 ok，ep23 一行是 no_done；14 条导出核对行都写 world_count 4096、non_finite_worlds 0 个、checkpoint 相同。
+good12               P(supported)=0.86  verified               [t]  变体 A 的 14 条 run 里，12 条的 MP-SR 在 0.806 到 0.995 之间：ep29 0.898、ep6 0.991、ep18 0.995、ep7 0.982、ep16 0.938、ep0 0.986、ep21 0.965、ep15 0.987、ep10 0.963、ep27 0.987、ep3 0.806、ep5 0.956；表里同一 episode 的基线 run 的 MP-SR 都在 0.000 到 0.362 之间。
+bad2                 P(supported)=0.97  verified               [t]  t2-ep11-w2048-cap10m-r3a-ml40 与 t2-ep17-w2048-cap10m-r3a-ml40 的 MP-SR、SP-SR、CHORD SR 都是 0.000，失败原因里骨盆、物体、手掌的比例都是 1.000，MPPE 分别是 61.10 cm 与 136.28 cm。
+ctl_true_ep18        P(supported)=0.99  control(true) ok       [t]  t2-ep18-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.995。
+ctl_false_all15      P(supported)=0.03  control(false) ok      [h]  t2xa 的 15 条 run 全部训练完成，每条都有 DONE。
+ctl_false_ep11       P(supported)=0.01  control(false) ok      [t]  t2-ep11-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.956。
+controls behaved as expected

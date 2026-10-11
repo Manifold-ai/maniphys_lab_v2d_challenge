@@ -1,0 +1,17 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=20 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo \'## è®\255ç»\203é\223¾æ\227¥å¿\227é\207\214 ep23 å\206\222ç\203\237å\211\215å\220\216\'; awk \'/å\206\222ç\203\237 smoke-t2-ep23/{f=1} /å\206\222ç\203\237 smoke-t2-ep6/{f=0} f\' runs/logs/t2xa_train_ml40.log | grep -av \'^\\s*$\' | cut -c1-300 | tail -n 25; echo \'## ep7 æ\227¥å¿\227é\207\214å\220« NONFINITE_GUARD ç\232\204è¡\214\'; grep -ah \'NONFINITE_GUARD\' runs/logs/t2-ep7-w2048-cap10m-r3a-ml40.log runs/logs/t2-ep7-w2048-cap10m-r3a-ml40.s*.log 2>/dev/null | cut -c1-300 | head -n 8' 
+# source   : bf4f63928170-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:37:53-0600
+# ---------------------------------------------------------------
+## è®­ç»ƒé“¾æ—¥å¿—é‡Œ ep23 å†’çƒŸå‰å
+=== 2026-10-10 04:55:08 CST å†’çƒŸ smoke-t2-ep23-w2048-cap10m-r3a-ml40
+fc_run: smoke-t2-ep23-w2048-cap10m-r3a-ml40 å®Œæˆ
+SMOKE_FAIL smoke-t2-ep23-w2048-cap10m-r3a-ml40ï¼šæ•´å¡æ˜¾å­˜å³°å€¼ 44562 MiB è¶…è¿‡ 44000
+=== 2026-10-10 04:59:44 CST å†’çƒŸåˆ¤æ®æ²¡è¿‡ï¼št2-ep23-w2048-cap10m-r3a-ml40 SKIPPED
+## ep7 æ—¥å¿—é‡Œå« NONFINITE_GUARD çš„è¡Œ
+NONFINITE_GUARD_EVENT environment_steps=111769600 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9363 phase_max=0.9363 first_world=303 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=127897600 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9497 phase_max=0.9497 first_world=1173 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=158924800 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9251 phase_max=0.9251 first_world=213 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=111769600 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9363 phase_max=0.9363 first_world=303 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=127897600 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9497 phase_max=0.9497 first_world=1173 longest_streak=1
+NONFINITE_GUARD_EVENT environment_steps=158924800 env_flagged=1 learner_only=0 learner_only_total=0 phase_min=0.9251 phase_max=0.9251 first_world=213 longest_streak=1

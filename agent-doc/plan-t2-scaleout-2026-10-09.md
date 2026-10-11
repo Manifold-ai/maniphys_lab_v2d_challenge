@@ -135,3 +135,19 @@ t2xa 现在起。t2xb 在 t2xa 的导出门结束后由我起，照登记默认�
   `fc_run_watched` 记的最新 policy 都是非有限 0，看守日志里含非有限的扫描行 0。ep15 06:54 开始，07:31 时 27%；后面还有 ep10、ep27、ep3、ep5、
   ep11、ep17。按这个速度训练约 10/10 22:00 前后结束，评测与导出再要约 1.5 小时（估计）。停链标记没有建。同组成员 10/9 20:43 起在 ml40 上
   挂了等卡脚本，参数是 ep28、ep27、ep19、ep3 四集（`results/ops/t3_queue_ml40_1010_0735.txt`）。
+- 10/10 23:29 t2xa 整条链结束（服务器日志的 CST 已换成 UTC−6；健康记录 `results/t2x/health_t2xa_ml40.txt`，评测与导出文本已拉回 `results/ml40/`）：
+  - 训练链 22:03 写 DAY2_TRAIN_DONE（完成 14、失败 0、跳过 1、发散 0）。ep23 的冒烟判据没过：整卡显存峰值 44562 MiB，超过上限 44000，
+    SKIPPED，没有训练（`results/t2x/t2xa_ep23_ep7_detail_ml40.txt`）。评测链 23:13 写 DAY2_EVAL_DONE（成功 14、失败 0）；导出门 23:14 开导出链，
+    23:29 写 EXPORT_CHAIN_DONE（成功 14、失败 1），失败的一行是没有 DONE 的 ep23（no_done）。
+  - R1：14 条都有 DONE，NONFINITE 0、NONFINITE_GUARD_STOP 0，各 35 份 policy、1 份 state，看守日志里含非有限的扫描行 0。ep7 的日志里有
+    3 次 NONFINITE_GUARD_EVENT（环境步 111769600、127897600、158924800，各一个世界，env_flagged=1、learner_only=0），没有停训。
+    健康记录里 `DIVERGE_IN_CHAIN 1` 数到的是链结束行自己（“发散 0”）。R2：14 条 4096 世界评测 world_count 4096、non_finite_worlds 0、
+    step_count 与导出相同、checkpoint 相同。R3：14 条导出 ok。ep23 不进候选。
+  - 只报（`results/t2x/eval_table_t2xa.txt`，每条与它的基线并列）：12 条的 MP-SR 在 0.806–0.995 之间（ep29 0.898、ep6 0.991、ep18 0.995、
+    ep7 0.982、ep16 0.938、ep0 0.986、ep21 0.965、ep15 0.987、ep10 0.963、ep27 0.987、ep3 0.806、ep5 0.956），同一 episode 的基线是 0.000–0.362。
+    ep11、ep17 每个世界都失败：MP-SR、SP-SR、CHORD SR 都是 0.000，骨盆、物体、手掌的失败比例都是 1.000，MPPE 61.10 cm 与 136.28 cm；
+    它们的基线 MP-SR 也是 0.000，CHORD SR 0.345 与 0.216。原因没有查。
+  - jev（`results/t2x/jev_claims_t2xa_result.txt`，规格 `agent-doc/experiments/2026-10-11-t2xa-result.claims.json`）：第 3 轮 10 条全部核实
+    （0.79–0.98），3 道对照题正常。第 1、2 轮把训练链结束行与 14 条 run 的健康状况各写成一条，只有 0.51–0.65（`_run1`、`_run2` 留档），
+    拆成按 5 条一组后过。
+  - t2xb 没有起：ml40 的 GPU 由另一位用户的重建任务排队使用（两个等卡脚本），t2xb 与它们谁先用卡待定。
