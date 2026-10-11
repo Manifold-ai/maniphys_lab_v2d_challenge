@@ -198,3 +198,14 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清�
   私有，1518 个文件、18.24 GB。
 - 00:49 check 开跑（`results/ops/hf_archive_batch3a_launch_mf4090.txt`）：日志第一行的工具 md5 `fa0a4117…` 与测试记录相同，子清单 md5 `24a3e132…`、
   125 个文件；可用 2257 MB，xet 缓存 64 MB。
+- 01:06 check 结束，HF_ARCHIVE_VERIFIED（`results/ops/hf_archive_batch3a_run_mf4090.txt`、汇总 `results/ops/hf_archive_batch3a_results_mf4090.txt`）：
+  125 / 125 一致（HF_VERIFY_OK）；抽查 33 个全部一致（随机种子 1791701360，HF_SPOTCHECK_OK），即 28 条 run 各自的最后一份 state，
+  另 4 份 policy 与 1 份旧 state；没有被闸或 `timeout` 停下。xet 缓存日志首行 64 MB、末行 65 MB；可用 2257 → 2224 MB；`runs/hf_spotcheck` 已不在。
+  第 3 版 check 的判据全部满足。
+- 本地：125 / 125 仍在，ARCHIVED.json 里记进去 0 / 125，`runs/hf_stage` 还在（299 个硬链接）。删除后每条 run 留下的 policy：26 条各 9 份、
+  `resumetest-t1-ep20-cap1m-mf4090` 2 份（它的最后一份是 20000768 步）、`t1-ep0-w2048-cap4m-r3a-mf4090` 19 份，共 255 份，头部都完整；28 条 run 的 state 都会是 0 份。
+- jev（`results/ops/jev_claims_hf_archive_batch3a.txt`，规格 `agent-doc/experiments/2026-10-11-hf-archive-batch3a.claims.json`）：7 条全部核实（0.84–0.98），
+  3 道对照题正常。
+- 01:10 README 改为“第 3 批提交到 125 个时额度用完，本地副本尚未删除”后重新上传，HF_README_OK；`whoami` HF_WHOAMI_OK，私有，1518 个文件、18.24 GB
+  （`results/ops/hf_readme_v2d_track2_archive_batch3a.txt`）。
+- 等用户定：第 3a 批（125 个、5.42 GB）删不删；第 3b 批（174 个、6.12 GB）怎么办。

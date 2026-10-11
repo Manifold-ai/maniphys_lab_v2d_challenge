@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-hf-archive-batch3a.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b683363e32932df10f7d260b2be8052e  agent-doc/experiments/2026-10-11-hf-archive-batch3a.claims.json
+# source   : 1595a10bad1f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T01:07:34-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+quota                P(supported)=0.94  verified               [up]  第 3 批第一段在上传这一步停下（HF_ARCHIVE_STOPPED upload）：仓库的提交接口返回 Private storage limit reached for user Rongxuan-Zhou，上传在连续 8 次错误后退出。
+storage              P(supported)=0.98  verified               [st]  账号 Rongxuan-Zhou 的 isPro 是 False；它名下私有仓库合计 99.96 GB；仓库 Rongxuan-Zhou/v2d-track2-archive 是私有的，占 18.24 GB。
+subset               P(supported)=0.94  verified               [sub]  清单 299 个文件里，有 125 个已在仓库且大小与 sha256 一致（final 28 个、formal 3 个、policy 94 个），共 5420591292 字节、28 条 run；仓库里没有的 174 个另写成一份清单；没有不一致的行（HF_SUBSET_OK）。
+verify               P(supported)=0.89  verified               [log, code]  check 步骤核对了子清单的全部 125 个文件，结果是 125 / 125 一致（HF_VERIFY_OK）；核对比的是仓库里每个文件的大小与 LFS sha256，和清单里记的大小与 sha256。
+spot                 P(supported)=0.84  verified               [log, code, rep]  抽查从仓库下载了 33 个文件，覆盖全部 28 条 run，每个文件下载后在本地重算的 sha256 都与清单一致（33 个一致，HF_SPOTCHECK_OK）；下载的 33 个里有 29 个 state 文件、4 个 policy 文件。
+kept                 P(supported)=0.98  verified               [rep]  check 结束后，子清单里的 125 个文件都还在本地（125 / 125），ARCHIVED.json 里记进去的清单文件是 0 / 125，暂存目录 runs/hf_stage 还在。
+cache                P(supported)=0.95  verified               [log]  抽查开始时 xet 缓存 63 MB，抽查后 64 MB；check 的最后一行是 HF_ARCHIVE_VERIFIED，写明没有上传、停在删除前，可用 2224 MB。
+ctl_true_n           P(supported)=0.82  control(true) ok       [log]  check 用的子清单有 125 个文件。
+ctl_false_bad        P(supported)=0.01  control(false) ok      [log, rep]  抽查里有一个文件下载后的 sha256 与清单不一致。
+ctl_false_pro        P(supported)=0.02  control(false) ok      [st]  账号 Rongxuan-Zhou 是 PRO 账号，私有存储还剩一半以上。
+controls behaved as expected

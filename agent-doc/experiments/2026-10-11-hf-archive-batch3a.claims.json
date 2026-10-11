@@ -1,0 +1,33 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "up": {"file": "results/ops/hf_archive_batch3_run_mf4090.txt", "grep": "^=== |开始上传|Private storage limit|Too many consecutive|Upload aborted"},
+    "st": {"file": "results/ops/hf_storage_1011_0040.txt", "grep": "^账号|v2d-track2-archive|^私有合计"},
+    "sub": {"file": "results/ops/hf_archive_batch3a_subset_mf4090.txt", "grep": "^已在仓库|^子清单|仓库里还没有|^[0-9a-f]{32}  runs/hf_archive_batch3"},
+    "log": {"file": "results/ops/hf_archive_batch3a_run_mf4090.txt", "grep": "^=== |核对一致|^抽查|^xet 缓存"},
+    "code": {"file": "tools/hf_archive.py", "grep": "hub\\[f.path\\] = |ok = size == r\\[|ok = got == r\\[|个文件核对一致；|个一致（随机种子|def cmd_verify|def cmd_spotcheck|got = sha256\\(local\\)|hf_hub_download\\(r\\[\"repo\"\\]"},
+    "rep": {"file": "results/ops/hf_archive_batch3a_results_mf4090.txt", "grep": "^## |^  ok |^  BAD|^  清单|^  这些|^  删除清单|^  按类别"}
+  },
+  "claims": [
+    {"id": "quota", "evidence": ["up"],
+     "claim": "第 3 批第一段在上传这一步停下（HF_ARCHIVE_STOPPED upload）：仓库的提交接口返回 Private storage limit reached for user Rongxuan-Zhou，上传在连续 8 次错误后退出。"},
+    {"id": "storage", "evidence": ["st"],
+     "claim": "账号 Rongxuan-Zhou 的 isPro 是 False；它名下私有仓库合计 99.96 GB；仓库 Rongxuan-Zhou/v2d-track2-archive 是私有的，占 18.24 GB。"},
+    {"id": "subset", "evidence": ["sub"],
+     "claim": "清单 299 个文件里，有 125 个已在仓库且大小与 sha256 一致（final 28 个、formal 3 个、policy 94 个），共 5420591292 字节、28 条 run；仓库里没有的 174 个另写成一份清单；没有不一致的行（HF_SUBSET_OK）。"},
+    {"id": "verify", "evidence": ["log", "code"],
+     "claim": "check 步骤核对了子清单的全部 125 个文件，结果是 125 / 125 一致（HF_VERIFY_OK）；核对比的是仓库里每个文件的大小与 LFS sha256，和清单里记的大小与 sha256。"},
+    {"id": "spot", "evidence": ["log", "code", "rep"],
+     "claim": "抽查从仓库下载了 33 个文件，覆盖全部 28 条 run，每个文件下载后在本地重算的 sha256 都与清单一致（33 个一致，HF_SPOTCHECK_OK）；下载的 33 个里有 29 个 state 文件、4 个 policy 文件。"},
+    {"id": "kept", "evidence": ["rep"],
+     "claim": "check 结束后，子清单里的 125 个文件都还在本地（125 / 125），ARCHIVED.json 里记进去的清单文件是 0 / 125，暂存目录 runs/hf_stage 还在。"},
+    {"id": "cache", "evidence": ["log"],
+     "claim": "抽查开始时 xet 缓存 63 MB，抽查后 64 MB；check 的最后一行是 HF_ARCHIVE_VERIFIED，写明没有上传、停在删除前，可用 2224 MB。"},
+    {"id": "ctl_true_n", "evidence": ["log"], "control": "true",
+     "claim": "check 用的子清单有 125 个文件。"},
+    {"id": "ctl_false_bad", "evidence": ["log", "rep"], "control": "false",
+     "claim": "抽查里有一个文件下载后的 sha256 与清单不一致。"},
+    {"id": "ctl_false_pro", "evidence": ["st"], "control": "false",
+     "claim": "账号 Rongxuan-Zhou 是 PRO 账号，私有存储还剩一半以上。"}
+  ]
+}
