@@ -1,0 +1,11 @@
+# command  : tools/hf_remote.sh md5sum\ runs/tools/hf_archive_run.sh\ runs/tools/hf_archive.py\;\ V2D_HF_ARCHIVE_STEPS=delete\ setsid\ nohup\ bash\ -c\ \'bash\ runs/tools/hf_archive_run.sh\ runs/hf_archive_batch3a_manifest_mf4090.json\ Rongxuan-Zhou/v2d-track2-archive\ mf4090\ runs/hf_archive_batch3a_mf4090\ 2\>\&1\ \|\ grep\ --line-buffered\ -v\ -E\ \"@\|hf_\[A-Za-z0-9\]\{20\}\"\ \>\ runs/logs/hf_archive_batch3a_delete.log\'\ \<\ /dev/null\ \>\ /dev/null\ 2\>\&1\ \&\ sleep\ 10\;\ echo\ started\ pid\ \$\!\;\ grep\ -a\ -E\ \"\^\(===\|\[0-9\]+\ /\ \[0-9\]+\)\"\ runs/logs/hf_archive_batch3a_delete.log\ \|\ cut\ -c1-320 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : e9aee5ceef16
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T09:21:05-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+281ab98b83f2469944fae16cd4a5eee1  runs/tools/hf_archive_run.sh
+fa0a41174cbee96851e1d27c982ab3b4  runs/tools/hf_archive.py
+started pid 1340559
+=== 2026-10-11 23:21:06 CST 开始（步骤 delete，抽查 3 个）；工具 md5 fa0a41174cbee96851e1d27c982ab3b4；清单 runs/hf_archive_batch3a_manifest_mf4090.json（125 个文件，md5 24a3e13278af54fef24d8e43f0dc9948）；可用 1126 MB；xet 缓存 65 MB

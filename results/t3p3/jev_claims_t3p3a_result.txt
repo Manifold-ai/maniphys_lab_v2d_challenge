@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-t3p3a-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e74defe66222255d2d1977b40f3d504b  agent-doc/experiments/2026-10-11-t3p3a-result.claims.json
+# source   : e9aee5ceef16-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T09:28:11-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3_train             P(supported)=0.98  verified               [h]  t3p3a 训练链的结束行是 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0）；ep20、ep29、ep0、ep15 四条冒烟都记了通过，256 世界 rollout 里非有限世界都是 0 个。
+t3_runs              P(supported)=0.98  verified               [h]  t3-ep20、t3-ep29、t3-ep0、t3-ep15 四条 v2 run 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，各有 35 份 policy 与 1 份 state；看守日志里含非有限的扫描行都是 0。
+t3_eval_export       P(supported)=0.98  verified               [h]  t3p3a 评测链写了 DAY2_EVAL_DONE（成功 4、失败 0），导出链写了 EXPORT_CHAIN_DONE（成功 4、失败 0）；4 条都在第 349999104 步导出、核对通过，4096 世界评测的 non_finite_worlds 都是 0 个，step_count 与导出相同。
+t3_mpsr              P(supported)=0.98  verified               [e]  4 条 Tier 3 v2 run 的 MP-SR：t3-ep0-w2048-cap4m-r3a-v2-mf4090 是 0.965，t3-ep20、t3-ep29、t3-ep15 三条都是 0.000。
+t3_ep15              P(supported)=0.99  verified               [e]  t3-ep15-w2048-cap4m-r3a-v2-mf4090 的 SP-SR 与 CHORD SR 都是 0.000，MPPE 36.19 cm，失败比例骨盆 0.999、物体 1.000、手掌 1.000。
+t3_ep20_29           P(supported)=0.99  verified               [e]  t3-ep20-w2048-cap4m-r3a-v2-mf4090 的 SP-SR 是 0.895、MPPE 6.37 cm；t3-ep29-w2048-cap4m-r3a-v2-mf4090 的 SP-SR 是 0.713、MPPE 8.00 cm。
+t2_ref               P(supported)=0.98  verified               [e]  同一集的 Tier 2 r3a run 的 MP-SR：t2-ep20 0.984、t2-ep29 0.898、t2-ep0 0.986、t2-ep15 0.987。
+hf_delete            P(supported)=0.98  verified               [dr]  第 3a 批删除时先重新核对，125 / 125 一致（HF_VERIFY_OK）；runs/flash_chord 下消失 125 个文件，清单外消失的文件：无；删除后可用 6297 MB；最后一行是 HF_ARCHIVE_DONE。
+hf_after             P(supported)=0.97  verified               [da]  删除后第 3a 批清单里的文件还在本地的 0 / 125；清单里的 28 条 run 各剩 0 份 state；ARCHIVED.json 记进去 125 / 125；暂存目录 runs/hf_stage 不在。
+hf_3b                P(supported)=0.98  verified               [b]  第 3b 批清单有 174 个文件、35 条 run，这 174 个文件都还在本地（174 / 174）。
+readme               P(supported)=0.93  verified               [r]  README 上传结果是 HF_README_OK；whoami 显示仓库 Rongxuan-Zhou/v2d-track2-archive 为私有，1518 个文件，共 18.24 GB，最后是 HF_WHOAMI_OK。
+cfg                  P(supported)=0.80  verified               [c]  t3p3b 的配置展开有 6 份冒烟、6 份正式配置，每份 284 个键、意外 0 个，最后一行是“配置核对通过”。
+arm                  P(supported)=0.94  verified               [a, ar]  t3p3b 预演 DRYRUN_OK：6 条 run，来历 17d63971c28d，可用 6295 MB；起链 ARMED，训练链开始冒烟 smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090，有 3 个长链标记。
+ctl_true_chord       P(supported)=0.99  control(true) ok       [e]  t3-ep0-w2048-cap4m-r3a-v2-mf4090 的 CHORD SR 是 0.940。
+ctl_false_ep15       P(supported)=0.01  control(false) ok      [e]  t3-ep15-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.965。
+ctl_false_left       P(supported)=0.01  control(false) ok      [da]  删除后第 3a 批清单里的文件还在本地的 125 / 125。
+ctl_false_free       P(supported)=0.01  control(false) ok      [a]  t3p3b 预演时可用空间只有 1127 MB。
+controls behaved as expected

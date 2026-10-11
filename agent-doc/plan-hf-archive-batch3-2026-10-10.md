@@ -227,3 +227,20 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清�
     3 道对照题正常。第一轮（`_run1`）“最终 state 含有 policy”一条写进了记录里没有的上传状态，0.57，按记录改写后重跑。
 - 仓库可见性暂不改动，先把以上情况报给用户确认。建议：仓库保持私有，第 3b 批暂时留在 mf4090（t3p3b 不依赖这部分空间），封榜（11/04）后再议公开。
   第 3b 批的上传、核对与删除，等用户回复后另行计划。
+
+### 第 3a 批删除（10/11 09:21 起，UTC-6）
+
+- 09:15 t3p3a 整条链结束（训练计划执行记录）。
+- 09:21 删除，流程脚本删除前的三道闸（长链标记、GPU 上的进程、导出评测训练相关的进程）都没有拦下（`results/ops/hf_archive_batch3a_delete_launch_mf4090.txt`、`results/ops/hf_archive_batch3a_delete_run_mf4090.txt`）：流程脚本与工具的 md5
+  （`281ab98b…`、`fa0a4117…`）与第 3 版测试过的相同，子清单 md5 `24a3e132…`、125 个文件。删除前重新核对 125 / 125 一致（HF_VERIFY_OK）；
+  `runs/flash_chord` 删除前 4402 个文件、删除后 4281 个，消失 125 个，清单外 0 个、没删的 0 个（多出的 4 个应是第一次写入的 ARCHIVED.json：
+  28 条 run 中正好 4 条只有 1 条记录）；可用 1126 → 6297 MB，增加 5171 MB（清单 5420591292 字节，即 5169 MB）；HF_ARCHIVE_DONE。
+- 删除后的本地状态（`results/ops/hf_archive_batch3a_after_delete_mf4090.txt`）：清单里的文件还在本地的 0 / 125；28 条 run 各剩 0 份 state；
+  ARCHIVED.json 记进去 125 / 125（28 条 run 按记录条数：1 条的 4 条、2 条的 15 条、3 条的 9 条）；留下的 policy 是 26 条各 9 份（最新 349999104 步）、
+  `resumetest-t1-ep20-cap1m-mf4090` 2 份、`t1-ep0-w2048-cap4m-r3a-mf4090` 19 份，共 255 份，头部都完整；`runs/hf_stage` 不在。
+  第 3b 批的 174 个文件仍在本地（`results/ops/hf_archive_batch3b_local_mf4090.txt`，174 / 174）。第 3 版的删除判据全部满足。
+- 09:23 README 第 3 批的本地副本一栏改为“10/11 已删除（已提交的 125 个；没有上传的 174 个仍在训练机上）”，补第 3 批 ARCHIVED.json 的记录时间与
+  删除前的重新核对，重新上传：HF_README_OK；`whoami` HF_WHOAMI_OK，私有，1518 个文件、18.24 GB
+  （`results/ops/hf_readme_v2d_track2_archive_batch3a_deleted.txt`）。
+- 09:26 t3p3b 起链（训练计划执行记录）。jev 与训练结果一起做（`results/t3p3/jev_claims_t3p3a_result.txt`），删除、README 与起链的 6 条都核实。
+- 仓库可见性没有改动；第 3b 批（174 个、6.12 GB）的去向仍等用户回复。

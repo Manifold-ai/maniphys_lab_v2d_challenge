@@ -1,0 +1,22 @@
+# command  : scripts/dev/pipe-py tools/hf_archive_report.py runs/hf_archive_batch3b_manifest_mf4090.json runs/hf_archive_batch3b_mf4090 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 11e193abf408ae31b40afc60ef601859  tools/hf_archive_report.py
+# source   : e9aee5ceef16
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T09:22:16-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+## 清单 runs/hf_archive_batch3b_manifest_mf4090.json：174 个文件，35 条 run，共 6124514088 字节
+  清单按 run 分（每条 run 的文件数, 最小步, 最大步）：{(10, 30001152, 240009216): 1, (27, 10000384, 349999104): 5, (1, 349999104, 349999104): 29}
+  按类别：final 34 个、5444115248 字节；policy 140 个、680398840 字节
+## verified：没有这个文件
+## reverified：没有这个文件
+## 抽查：没有这个文件
+## 本地：runs/flash_chord 下 policy 共 925 份；清单里的文件还在本地的 174 / 174
+  清单里的 35 条 run：policy 份数最少 9、最多 35；最新一份的步数 {349999104: 35}
+  删除清单里的文件后每条 run 留下的 policy（份数, 最小步, 最大步）：{(9, 270010368, 349999104): 35}；共 315 份，头部完整 315 份
+  这些 run 的 state 都有留下的同步数 policy 配对：是
+  清单里的 35 条 run 现在各剩几份 state（份数: run 数）：{0: 1, 1: 34}
+## ARCHIVED.json：全机 75 条 run 有；清单里的 run 按记录条数分 {0: 5, 1: 20, 2: 10}；清单文件记进去的 0 / 174
+## 暂存目录 runs/hf_stage：不在
+## 磁盘：可用 6296 MB
