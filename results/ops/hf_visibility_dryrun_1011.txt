@@ -1,0 +1,9 @@
+# command  : tools/hf_remote.sh python3\ runs/tools/hf_archive.py\ visibility\ --repo\ Rongxuan-Zhou/v2d-track2-archive\ --to\ public\ --confirm\ Rongxuan-Zhou/v2d-track2-archive 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : e87da9386f50
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:38:04-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+仓库 Rongxuan-Zhou/v2d-track2-archive：现在私有，1518 个文件，其中归档文件 1516 个；目标公开
+将把 Rongxuan-Zhou/v2d-track2-archive 从私有改为公开（演习，没改；加 --yes 才改）；HF_VISIBILITY_DRYRUN

@@ -1,0 +1,11 @@
+# command  : python3 stages/evaluate/eval_table.py results/day2/eval_t3-ep18-w2048-cap4m-r3a-v2-mf4090_s349999104.txt results/ml40/day2/eval_t2-ep18-w2048-cap10m-r3a-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : fc8a6c84e084a000b1b12280c20c67a3  results/day2/eval_t3-ep18-w2048-cap4m-r3a-v2-mf4090_s349999104.txt
+# md5      : 46defffb907d8f1d906a74cdbd67c32e  results/ml40/day2/eval_t2-ep18-w2048-cap10m-r3a-ml40_s349999104.txt
+# source   : e87da9386f50
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:41:11-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep18-w2048-cap4m-r3a-v2-mf4090	349999104	4096	858	0.862	0.938	0.537	4.25	4.12	11.6	0.900	0.082	0.073	0.100	417e575e698a
+t2-ep18-w2048-cap10m-r3a-ml40	349999104	4096	858	0.995	0.996	0.521	1.85	1.54	13.4	0.992	0.005	0.006	0.008	be2755c54ba2

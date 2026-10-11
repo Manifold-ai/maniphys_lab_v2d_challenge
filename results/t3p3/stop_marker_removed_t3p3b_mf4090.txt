@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ date\ \"+%F\ %T\ %Z\"\ \&\&\ ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\ \&\&\ cat\ runs/.chain-stop-t3p3b_train_mf4090\ \&\&\ rm\ runs/.chain-stop-t3p3b_train_mf4090\ \&\&\ ls\ -la\ runs/.chain-\*\ 2\>/dev/null\ \|\ wc\ -l\ \&\&\ echo\ STOP_MARKER_REMOVED 
+# source   : e87da9386f50
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:35:45-0600
+# ---------------------------------------------------------------
+2026-10-12 02:35:45 CST
+0
+停链原因：ep21 只有单机位、未配准到世界系（数据提供方 10/11 告知，建议先跳过）；ep18 之后的正式训练不开，ep22/23/26/17 另起续跑段
+0
+STOP_MARKER_REMOVED

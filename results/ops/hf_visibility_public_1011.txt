@@ -1,0 +1,29 @@
+# command  : tools/hf_remote.sh python3\ runs/tools/hf_archive.py\ visibility\ --repo\ Rongxuan-Zhou/v2d-track2-archive\ --to\ public\ --confirm\ Rongxuan-Zhou/v2d-track2-archive\ --yes\ \&\&\ python3\ runs/tools/hf_archive.py\ whoami\ --repo\ Rongxuan-Zhou/v2d-track2-archive\ --visibility\ public\ \&\&\ python3\ runs/tools/hf_archive.py\ storage 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : e87da9386f50
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:38:10-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+仓库 Rongxuan-Zhou/v2d-track2-archive：现在私有，1518 个文件，其中归档文件 1516 个；目标公开
+2026-10-12 02:38:14 已提交修改，重新读到公开；HF_VISIBILITY_OK
+账号 Rongxuan-Zhou，token 权限 write
+仓库 Rongxuan-Zhou/v2d-track2-archive：公开，1518 个文件，共 18.24 GB（期望公开）
+HF_WHOAMI_OK
+账号 Rongxuan-Zhou，isPro=False
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-scene
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-double
+  model   公开    14.91 GB（usedStorage）  Rongxuan-Zhou/lewm-archive
+  model   私有     0.07 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-triple
+  model   私有     0.22 GB（usedStorage）  Rongxuan-Zhou/lewm-cube-retrains
+  model   公开    18.24 GB（usedStorage）  Rongxuan-Zhou/v2d-track2-archive
+  dataset 私有     0.12 GB（usedStorage）  Rongxuan-Zhou/forge-peg-insert-force-lewm
+  dataset 公开     2.03 GB（usedStorage）  Rongxuan-Zhou/pusht-franka-lewm
+  dataset 私有     0.14 GB（usedStorage）  Rongxuan-Zhou/forge-gear-mesh-force-lewm
+  dataset 公开    44.70 GB（usedStorage）  Rongxuan-Zhou/pusht_lewm_fr3
+  dataset 私有    61.66 GB（usedStorage）  Rongxuan-Zhou/ogbench-scene-expert
+  dataset 公开    30.32 GB（usedStorage）  Rongxuan-Zhou/ogb-cd-3k
+  dataset 公开    30.78 GB（usedStorage）  Rongxuan-Zhou/ogb-ct-3k
+  dataset 私有    19.38 GB（usedStorage）  Rongxuan-Zhou/force-lewm-artifacts
+  dataset 公开   312.12 GB（usedStorage）  Rongxuan-Zhou/force-lewm-datasets
+私有合计 81.73 GB，公开合计 453.11 GB；HF_STORAGE_DONE

@@ -310,3 +310,15 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER、MAJOR。审查确认�
 | m2 | MINOR | “xet 缓存首尾相差 ≤ 50 MB”这次含上传，第一段上传 5.42 GB 时就涨了 25 MB，余量不到一倍 | 改为只报；抽查期间的缓存闸照旧 50 MB |
 | m3 | MINOR | `readme --visibility public` 遇到不存在的仓库会新建公开仓库，仓库名写错就多出一个公开仓库；没有测试 | `readme` 遇到这种情况就停，不新建公开仓库；加测试 |
 | m4 | MINOR | 公开版 README 没有 `license`，HF 页面会显示没有许可；正文只写了比赛数据按 CC BY 4.0 | 许可条款由用户定（待定），这一版不加 |
+
+### 第 4 版执行（10/11 12:35 起，UTC-6）
+
+- 改后的工具（`hf_archive.py` md5 `3ef5989f…`，`hf_archive_run.sh` `acb54bf5…`，测试 `f8c19898…`）拷到 mf4090 的 `runs/tools/`，18 项测试全过
+  （`results/ops/hf_archive_v4_tests_mf4090.txt`）。同步后仓库里的 `tools/hf_archive.py` 与 `runs/tools/` 的 md5 相同。
+- 12:37 公开版 README（md5 `9f7c9f90…`）在仓库仍私有时上传：HF_README_OK；whoami 私有、1518 个文件、18.24 GB、HF_WHOAMI_OK
+  （`results/ops/hf_readme_v2d_track2_archive_public1.txt`）。
+- 12:38 `visibility` 演习：现在私有，1518 个文件，其中归档文件 1516 个，HF_VISIBILITY_DRYRUN（`results/ops/hf_visibility_dryrun_1011.txt`）。
+- 12:38 加 `--yes`：重新读到公开，HF_VISIBILITY_OK；whoami 公开、1518 个文件、18.24 GB、HF_WHOAMI_OK；`storage`：本仓库计入公开，
+  私有合计 81.73 GB（预期约 81.72），公开合计 453.11 GB（434.87 + 18.24）（`results/ops/hf_visibility_public_1011.txt`）。第 1–4 步的判据都满足。
+- 12:38 第 3b 批起跑（`results/ops/hf_archive_batch3b_launch_mf4090.txt`）：日志第一行的工具 md5 `3ef5989f…`、清单 174 个文件、md5 `28e156b9…`，
+  可见性 public，可用 5820 MB，xet 缓存 65 MB；开始上传 174 个文件到公开仓库（6.12 GB）。

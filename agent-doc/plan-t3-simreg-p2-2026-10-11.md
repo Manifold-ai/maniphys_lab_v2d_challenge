@@ -58,3 +58,12 @@
 拼目录要从 ml40 经 Mac 再转一次（A 段 20 集约 15 分钟）；重定向 17 集约 25–45 分钟；汇总、jev 与记录约 15 分钟。约 14:30 结束。
 
 ## 执行记录
+
+- 12:19–12:34 A 段与 B.1（见第 1 节；记录 `results/t3float/pack_1011_simreg.txt`、`results/t3float/gate_simreg_ok20_mf4090.txt`、
+  `results/ops/t3_episodes_ml40_1011_simreg_17.txt`、`results/ops/t2_inputs_mf4090_1011_17.txt`、`results/t3simreg/sha_match_17.txt`）。
+- 12:35 哈希表随 e87da93 同步到 mf4090。
+- 12:39 拼目录（`results/t3simreg/stage17_mf4090.txt`）：`V2D_T3_SET=simreg`、TIER3_ROOT_OK，17 集的来源都是对方部署版本 ae06e75（干净）。
+  核对（`results/t3simreg/stage17_check_mf4090.txt`）：`root_simreg` 17 行、修改时间 12:39；`root_v2` 20 行、`root` 2 行，修改时间都没变（10/10 17:48、10/9 14:49）；
+  17 个 parquet，237 MB；可用 5479 MB。拼目录的判据满足。
+- 12:40 重定向起跑（`results/t3simreg/retarget17_launch_mf4090.txt`）：tmux `v2d-t3simreg-retarget17`，GPU 上只有 t3p3c 的进程，可用 5553 MB。
+  `scripts/dev/incontainer` 默认不加 `--gpus`，重定向不占 GPU。
