@@ -14,6 +14,8 @@
 # An episode that already has runs/track_check_fp/<ep>.json is skipped, so after yielding (exit 4) the same list can be
 # run again. SKIP_BELOW=0.2 also skips an episode whose best lost fraction so far (baseline or re-picked) is below it,
 # read when the episode is about to start.
+# The world step registers the other exo cameras onto the main camera's world with runs/floor/$REGISTER (default
+# camera_register.json, as in tier3_cari4d_f830_simreg; REGISTER= turns it off); the main camera is not moved.
 set -u
 S=$(cd "$(dirname "$0")" && pwd)
 T=${T3_ROOT:-/lab_data/yqchen/v2d/tier3}
@@ -22,6 +24,8 @@ WEIGHTS=${T3_WEIGHTS:-/lab_data/yqchen/v2d/weights}
 SOMA_ASSETS=${T3_SOMA_ASSETS:-/lab_data/yqchen/v2d/soma_assets}
 MIN_FREE_MIB=${MIN_FREE_MIB:-44000}
 SKIP_BELOW=${SKIP_BELOW:-}
+REGISTER=${REGISTER-camera_register.json}
+[ -z "$REGISTER" ] || [ -f "$T/runs/floor/$REGISTER" ] || { echo "no runs/floor/$REGISTER"; exit 2; }
 LOG=$T/logs/t3_fp_pilot.log
 say() { echo "$(date +%m-%d_%T) $*" >> "$LOG"; }
 gpu_free() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
@@ -65,7 +69,7 @@ for name in "$@"; do
   run_c "--gpus all" soma /o/"$name" /a > "$T/logs/soma_fp_$name.log" 2>&1 || { say "$name: soma failed"; continue; }
   run_c "" residual /o/"$name" /a > "$T/logs/residual_fp_$name.log" 2>&1 || say "$name: residual failed"
   run_c "" focal /o/"$name" /f/focal.json /a > "$T/logs/focal_fp_$name.log" 2>&1 || { say "$name: focal failed"; continue; }
-  run_c "" world /o/"$name" /f/floor_fit_f830.json /a > "$T/logs/world_fp_$name.log" 2>&1 || { say "$name: world failed"; continue; }
+  run_c "" world /o/"$name" /f/floor_fit_f830.json /a ${REGISTER:+/f/$REGISTER} > "$T/logs/world_fp_$name.log" 2>&1 || { say "$name: world failed"; continue; }
   "$PY" "$S/t3_convert_ep.py" assemble "$conv" "$T/input" "$ep" "$T/runs/tier3_cari4d_fp_pilot_f830" > "$T/logs/assemble_fp_$name.log" 2>&1 \
     || say "$name: assemble failed"
   "${D[@]}" -v "$S":/s:ro -v "$T":/t -v "$SOMA_ASSETS":/a:ro v2d_cari4d:latest python /s/t3_track_check.py "/t/runs/convert_fp/$name" \
