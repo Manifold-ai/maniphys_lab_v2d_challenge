@@ -17,7 +17,7 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
   echo "== $(hostname) $(date '+%F %T %Z')"
   [ ${#roots[@]} = 1 ] || { echo "别的用户的 tier3 目录不是恰好一个：${roots[*]:-无}"; exit 1; }
   SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect) ;;
+  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect) ;;
     *) echo "V2D_T3_SUBDIR 不在白名单里：$SUB"; exit 2 ;;
   esac
   D="${roots[0]}/runs/$SUB"
