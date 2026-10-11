@@ -1,5 +1,7 @@
 """汇总一次 HF 归档的核对、抽查与本地状态（训练机上、仓库根执行，只读，只用标准库）。
 计划 agent-doc/plan-hf-archive-policies-2026-10-08.md：第一段跑完后看核对与抽查，第二段删完后核对删除判据。
+第 3 批（agent-doc/plan-hf-archive-batch3-2026-10-10.md）的清单混有 policy、旧 state 与最终 state，另报按类别的文件数与字节、
+清单里的 run 还剩几份 state。
 经 scripts/dev/pipe-py 在训练机上跑、scripts/dev/record 落盘：
   scripts/dev/record ops/<名字> scripts/dev/pipe-py tools/hf_archive_report.py <清单.json> <输出前缀>
 输出前缀同 tools/hf_archive_run.sh 的第 4 个参数（如 runs/hf_archive_policy_mf4090），读得到哪些落盘文件就报哪些。
@@ -51,6 +53,9 @@ def main() -> int:
         steps_by_run.setdefault(r["run"], []).append(r["step"])
     shape = Counter((len(v), min(v), max(v)) for v in steps_by_run.values())
     print(f"  清单按 run 分（每条 run 的文件数, 最小步, 最大步）：{dict(shape)}")
+    kinds = sorted({r["kind"] for r in rows})
+    print("  按类别：" + "；".join(f"{k} {sum(r['kind'] == k for r in rows)} 个、{sum(r['size'] for r in rows if r['kind'] == k)} 字节"
+                                   for k in kinds))
     for tag in ("verified", "reverified"):
         v = load(f"{prefix}.{tag}.json")
         if v is None:
@@ -91,6 +96,8 @@ def main() -> int:
                      if (m := STATE.fullmatch(p.name)) and int(m.group(1)) not in kept]
     print(f"  删除清单里的文件后每条 run 留下的 policy（份数, 最小步, 最大步）：{dict(kept_shape)}；共 {kept_total} 份，头部完整 {kept_ok} 份")
     print(f"  这些 run 的 state 都有留下的同步数 policy 配对：" + ("是" if not unpaired else f"否（{len(unpaired)} 个）：{', '.join(unpaired[:5])}"))
+    left_states = Counter(sum(1 for _ in (RUNS / run).glob("state_*.safetensors")) for run in runs)
+    print(f"  清单里的 {len(runs)} 条 run 现在各剩几份 state（份数: run 数）：{dict(sorted(left_states.items()))}")
     entries, recorded = Counter(), 0
     for run in runs:
         a = load(RUNS / run / "ARCHIVED.json")

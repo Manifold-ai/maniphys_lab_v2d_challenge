@@ -19,6 +19,14 @@ policy 中间份（plan --kind policy，K=9），另造一套 runs/flash_chord �
 删除：有训练链在跑一个都不删；按删除时的文件重算保护（计划之后新导出的步数跳过）；ARCHIVED.json 追加不覆盖；
 最新一份 policy 在删除前坏了，整个 run 跳过；导出输入清单 stages/evaluate/exports/*.tsv 里的步数也受保护；
 抽查 --per-run 每条 run 挑 1 个。
+最终 state（plan --kind final，第 3 批，agent-doc/plan-hf-archive-batch3-2026-10-10.md），另造一套 runs/flash_chord：
+  - t1-f：DONE，state 10、20 → final 挑 state_20（state 规则另挑 state_10）；t2-ep3-f：DONE、state 30 → 名字带 t2- 也挑
+  - t1-m：DONE，state 10 → 挑；smoke-f：冒烟不看；t1-g：没有 DONE；t1-h：policy_20 写坏 → 整个 run 不动；t1-k：只有 policy
+  - --kind 连用（state,final）是并集；重复、不认识、空的 --kind 报错；有训练链在跑不挑
+删除：有训练链在跑一个都不删；计划之后多了更新的 state、或同步数的 policy 坏了，这份就不是最终的，跳过；
+同步数的 policy 留着；ARCHIVED.json 记下；正式 run 不写 STATE_PRUNED。
+抽查（第 3 批审查 m2、m4）：--per-run 时有最终 state 的 run 固定挑它、再从其余文件里随机补 1 个；下载前可用空间不够、
+下载后 xet 缓存涨过上限，都停在抽查，不写抽查结果（假 hub 的下载可以往 HF_HOME/xet 里写字节，模拟缓存增长）。
 readme 子命令与 upload 的闸：PYTHONPATH 前面放一个假的 huggingface_hub（状态存在 JSON 里）。仓库没有 README.md 时 upload 停、
 不留暂存目录；readme 建私有仓库、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
 仓库是公开的 upload 停。
@@ -253,6 +261,81 @@ def test_spot_pick() -> None:
     per_run = m.spot_pick(rows, 5, True, 7)
     assert sorted(r["run"] for r in per_run) == ["r0", "r1", "r2"], per_run
     assert len(m.spot_pick(rows, 5, False, 7)) == 5 and len(m.spot_pick(rows, 99, False, 7)) == 30
+    rows = ([{"run": "a", "kind": "policy", "file": f"p{i}"} for i in range(10)] + [{"run": "a", "kind": "final", "file": "s"}]
+            + [{"run": "b", "kind": "policy", "file": f"q{i}"} for i in range(10)] + [{"run": "c", "kind": "final", "file": "t"}])
+    for seed in range(20):
+        got = m.spot_pick(rows, 5, True, seed)
+        kinds = sorted((r["run"], r["kind"]) for r in got)
+        assert kinds == [("a", "final"), ("a", "policy"), ("b", "policy"), ("c", "final")], (seed, got)
+
+
+def build_final(root: Path) -> None:
+    R = root / "runs/flash_chord"
+    for name, done, st, pol, broken_pol in (("t1-f", True, (10, 20), (10, 20), None), ("t2-ep3-f", True, (30,), (30,), None),
+                                             ("t1-m", True, (10,), (10,), None), ("smoke-f", True, (10,), (10,), None),
+                                             ("t1-g", False, (10,), (10,), None), ("t1-h", True, (10, 20), (10, 20), 20),
+                                             ("t1-k", True, (), (10, 20), None)):
+        d = R / name
+        d.mkdir(parents=True)
+        if done:
+            (d / "DONE").write_text("x\n")
+        for s in st:
+            ckpt(d / f"state_{s}.safetensors", n=8 + s)
+        for s in pol:
+            ckpt(d / f"policy_{s}.safetensors", n=2 + s, broken=s == broken_pol)
+
+
+def test_final_plan_rules() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        build_final(root)
+        out = run(root, "plan", "--kind", "final", "--out", "fm.json")
+        rows = json.loads((root / "fm.json").read_text())
+        assert sorted((r["run"], r["file"], r["kind"], r["step"]) for r in rows) == [
+            ("t1-f", "state_20.safetensors", "final", 20), ("t1-m", "state_10.safetensors", "final", 10),
+            ("t2-ep3-f", "state_30.safetensors", "final", 30)], (rows, out)
+        assert "跳过 t1-h" in out, out
+        out = run(root, "plan", "--kind", "state,final", "--out", "sf.json")
+        got = sorted((r["run"], r["file"], r["kind"]) for r in json.loads((root / "sf.json").read_text()))
+        assert got == [("smoke-f", "state_10.safetensors", "smoke"), ("t1-f", "state_10.safetensors", "formal"),
+                       ("t1-f", "state_20.safetensors", "final"), ("t1-h", "state_20.safetensors", "formal"),
+                       ("t1-m", "state_10.safetensors", "final"), ("t2-ep3-f", "state_30.safetensors", "final")], (got, out)
+        assert "合计 6 个文件" in out, out
+        for bad in ("final,final", "final,bogus", ""):
+            run(root, "plan", "--kind", bad, "--out", "x.json", rc=2)
+        assert not (root / "x.json").exists()
+        (root / "runs/.chain-active-x").write_text("")
+        assert "训练链" in run(root, "plan", "--kind", "final", "--out", "fm2.json", rc=1)
+        assert not (root / "fm2.json").exists()
+
+
+def test_final_delete() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        build_final(root)
+        R = root / "runs/flash_chord"
+        run(root, "plan", "--kind", "state,final", "--out", "sf.json")
+        v = verified_from_plan(root, "sf.json", "v.json")
+        spot_ok(root, v)
+        (root / "runs/.chain-active-x").write_text("")
+        assert "最终 state 一个都不删" in run(root, "delete", "--verified", "v.json", "--spotcheck", "spot.json", "--yes", rc=1)
+        assert (R / "t1-f/state_20.safetensors").exists() and (R / "t1-f/state_10.safetensors").exists()
+        (root / "runs/.chain-active-x").unlink()
+        ckpt(R / "t2-ep3-f/state_40.safetensors", n=48)  # 计划之后多了更新的一对：state_30 不再是最终的
+        ckpt(R / "t2-ep3-f/policy_40.safetensors", n=42)
+        ckpt(R / "t1-m/policy_10.safetensors", n=12, broken=True)  # 计划之后同步数的 policy 坏了
+        out = run(root, "delete", "--verified", "v.json", "--spotcheck", "spot.json", "--yes")
+        assert not list((R / "t1-f").glob("state_*")), out
+        assert (R / "t1-f/policy_10.safetensors").exists() and (R / "t1-f/policy_20.safetensors").exists(), out
+        assert (R / "t2-ep3-f/state_30.safetensors").exists() and (R / "t1-m/state_10.safetensors").exists(), out
+        assert out.count("已不是步数最大") == 2, out
+        arch = json.loads((R / "t1-f/ARCHIVED.json").read_text())
+        assert len(arch) == 1 and {f["file"] for f in arch[0]["files"]} == {"state_10.safetensors", "state_20.safetensors"}, arch
+        for name in ("t2-ep3-f", "t1-m", "t1-g", "t1-k"):
+            assert not (R / name / "ARCHIVED.json").exists(), name
+        assert not (R / "t1-f/STATE_PRUNED").exists(), out
+        assert not (R / "smoke-f/state_10.safetensors").exists() and (R / "smoke-f/STATE_PRUNED").read_text().strip() == "10", out
+        assert (R / "t1-g/state_10.safetensors").exists() and (R / "t1-h/state_10.safetensors").exists(), out
 
 
 FAKE_HUB = """import json, os
@@ -306,6 +389,11 @@ def hf_hub_download(repo_id, filename, repo_type=None, local_dir=None, force_dow
     p = Path(local_dir) / filename
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(d["files"][filename] + d.get("corrupt", ""))
+    if d.get("cache_growth"):
+        c = Path(os.environ["HF_HOME"]) / "xet"
+        c.mkdir(parents=True, exist_ok=True)
+        with (c / "chunk.bin").open("ab") as f:
+            f.write(b"0" * d["cache_growth"])
     return str(p)
 """
 
@@ -351,6 +439,34 @@ def test_readme_and_upload_guard() -> None:
         hub_state(root, private=False)
         out = run(root, *up, rc=1, env=env)
         assert "不是私有仓库" in out and not (root / "runs/hf_stage").exists(), out
+
+
+def test_spotcheck_guards() -> None:
+    import hashlib
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        env = {**fake_hub(root), "HF_HOME": str(root / "hfhome")}
+        files, rows = {}, []
+        for run_, kind, name in (("a", "final", "state_9.safetensors"), ("a", "policy", "policy_1.safetensors"),
+                                 ("a", "policy", "policy_2.safetensors"), ("b", "final", "state_7.safetensors")):
+            text = f"{run_}/{name}"
+            path = f"m/runs/flash_chord/{run_}/{name}"
+            files[path] = text
+            rows.append({"run": run_, "kind": kind, "file": name, "size": len(text), "sha256": hashlib.sha256(text.encode()).hexdigest(),
+                         "repo": "u/r", "path_in_repo": path, "match": True})
+        (root / "v.json").write_text(json.dumps(rows))
+        hub_state(root, files=files)
+        base = ("spotcheck", "--verified", "v.json", "--per-run")
+        out = run(root, *base, "--min-free-mb", "1", "--max-cache-growth-mb", "100", "--out", "s.json", env=env)
+        spot = json.loads((root / "s.json").read_text())
+        got = sorted(c["path_in_repo"].rsplit("/", 2)[1] + "/" + c["path_in_repo"].rsplit("/", 1)[1] for c in spot["checked"])
+        assert spot["ok"] and "HF_SPOTCHECK_OK" in out and len(got) == 3, (out, got)
+        assert "a/state_9.safetensors" in got and "b/state_7.safetensors" in got, got
+        out = run(root, *base, "--min-free-mb", str(10 ** 9), "--out", "s2.json", rc=1, env=env)
+        assert "停在抽查" in out and not (root / "s2.json").exists() and not (root / "runs/hf_spotcheck").exists(), out
+        hub_state(root, cache_growth=3 * 1048576)
+        out = run(root, *base, "--max-cache-growth-mb", "1", "--out", "s3.json", rc=1, env=env)
+        assert "xet 缓存比开始时多了" in out and not (root / "s3.json").exists() and not (root / "runs/hf_spotcheck").exists(), out
 
 
 STUB = """import os, shutil, subprocess, sys

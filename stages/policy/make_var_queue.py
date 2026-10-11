@@ -5,6 +5,10 @@
        （计划 agent-doc/plan-t3-pilot-2026-10-09.md）；一段 t3p
   t3p2 Tier 3 试跑第二轮：同两集，参考换成 runs/motion/tier3_v2 下同组成员校正版重建的那份，run 名带 -v2；其余同 t3p
        （计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）；一段 t3p2
+  t3p3 Tier 3 校正版其余 10 集（P2′ 过门槛的 ep0、15、17、18、20、21、22、23、26、29）：参考同 t3p2，run 名同 t3p2 的写法；
+       基线取 Tier 2 导出清单里这条 episode 现在交的 run（同 t2x；ep15、17、21、23 的基线在 mf4090 上）。
+       分两段（计划 agent-doc/plan-t3-v2-train10-2026-10-10.md）：t3p3a 是现有磁盘放得下的 4 集（有支撑面的 ep20 与没有手接触的 ep29 在前），
+       t3p3b 是归档腾出空间后的 6 集（ep17 放最后：Tier 2 变体 A 在 ep17 上每个世界都失败）
 段名以清单名开头，有几个清单名都匹配时取最长的（t3p2 不落到 t3p）。续跑或补跑另起一段（审查 M2）：段名不在上面、用 --episodes 指定这一段的 episode（必须属于这份清单，顺序照清单），
 例如 t2xa2；run 名不变，文件名带段名，所以日志、导出结果都是新的，每个 checkpoint 仍只导出一次。
 
@@ -13,12 +17,12 @@
 training.replay.capacity=4000000：出现别的键就报错，因为不知道它在新 run 里该不该留。
   t2x 的基线是 stages/evaluate/exports/{ml40,mf4090}.tsv 里这条 episode 现在交的 run，机器取 run 名的最后一段（如 -p185-ml40 → ml40）。
       buffer 用 ml40 默认的 1000 万：基线的 training.replay.capacity=4000000 去掉，期望表的 buffer 列写 10000000。
-  t3p、t3p2 的基线是 ml40 上的 t2-ep<N>-w2048-cap10m-ml40：parquet 的 /runs/motion/tier2/ 换成清单 motion 键给的目录
-      （t3p 是 /runs/motion/tier3/，t3p2 是 /runs/motion/tier3_v2/；序列名相同），加 400 万 buffer。
-命名：t2x → t2-ep<N>-w2048-cap10m-r3a-ml40；t3p → t3-ep<N>-w2048-cap4m-r3a-mf4090；t3p2 → t3-ep<N>-w2048-cap4m-r3a-v2-mf4090。顺序照计划（t2x 按基线 4096 世界失败:骨盆从低到高）。
+  t3p、t3p2 的基线是 ml40 上的 t2-ep<N>-w2048-cap10m-ml40；t3p3 的基线同 t2x。Tier 3 都把 parquet 的 /runs/motion/tier2/ 换成清单 motion 键给的目录
+      （t3p 是 /runs/motion/tier3/，t3p2、t3p3 是 /runs/motion/tier3_v2/；序列名相同），加 400 万 buffer。
+命名：t2x → t2-ep<N>-w2048-cap10m-r3a-ml40；t3p → t3-ep<N>-w2048-cap4m-r3a-mf4090；t3p2、t3p3 → t3-ep<N>-w2048-cap4m-r3a-v2-mf4090。顺序照计划（t2x 按基线 4096 世界失败:骨盆从低到高）。
 输出：stages/policy/queues/<机器>_<段名>{.expect.tsv,_smoke.txt,.txt} 与 stages/evaluate/exports/cand_t<档>_<段名>_<机器>.tsv（export_chain.sh 的清单）。
-W&B 标签用清单名（t2x、t3p、t3p2）。任何一条核对不过就退出，什么文件都不写。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2 [--root <仓库根>]
+W&B 标签用清单名（t2x、t3p、t3p2、t3p3）。任何一条核对不过就退出，什么文件都不写。
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
 测试：stages/policy/test_make_var_queue.py。
 """
@@ -44,6 +48,11 @@ SETS = {
              "episodes": [8, 24], "parts": {"t3p2": [8, 24]}, "base": "t2-ep{ep}-w2048-cap10m-ml40", "motion": "tier3_v2",
              "run": "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090",
              "desc": "Tier 3 试跑第二轮：ep8、ep24 的变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_v2 下同组成员校正版重建的那份）"},
+    "t3p3": {"plan": "agent-doc/plan-t3-v2-train10-2026-10-10.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+             "episodes": [20, 29, 0, 15, 18, 21, 22, 23, 26, 17],
+             "parts": {"t3p3a": [20, 29, 0, 15], "t3p3b": [18, 21, 22, 23, 26, 17]}, "base": None, "motion": "tier3_v2",
+             "run": "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090",
+             "desc": "Tier 3 校正版其余 10 集：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_v2 下校正版重建的那份，基线取 Tier 2 导出清单）"},
 }
 ENV_SMOKE = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
 
@@ -88,7 +97,7 @@ def make(part: str, root: Path, episodes=None) -> dict:
     name, eps = resolve(part, episodes)
     s = SETS[name]
     qdir = root / "stages" / "policy" / "queues"
-    if s["tier"] == 2:
+    if s["tier"] == 2 or s["base"] is None:   # t2x 与 t3p3：基线取导出清单里这条 episode 现在交的 run
         cur = current_baselines(root)
         missing = [ep for ep in eps if ep not in cur]
         if missing:

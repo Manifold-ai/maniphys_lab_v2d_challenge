@@ -1,0 +1,122 @@
+# command  : bash -c $'ssh -o BatchMode=yes -o ConnectTimeout=20 mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; date; echo -- df; df -m . | tail -1; echo -- runs ‰∏\213Ê\234\200Â§ßÁ\232\204 10 È°π MB; du -sm runs/* 2>/dev/null | sort -n | tail -10; echo -- chain-markers \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); echo -- GPU procs \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); echo -- run Á\233ÆÂΩ\225 \\$(ls -d runs/flash_chord/*/ | wc -l) ‰∏™Ôº\214Â∏¶ ARCHIVED.json Á\232\204 \\$(ls runs/flash_chord/*/ARCHIVED.json 2>/dev/null | wc -l) ‰∏™Ôº\214Â∏¶ DONE Á\232\204 \\$(ls runs/flash_chord/*/DONE 2>/dev/null | wc -l) ‰∏™; echo -- state Ê\226\207‰ª∂ \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" | wc -l) ‰∏™; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" -print0 | du -cm --files0-from=- | tail -1; echo -- policy Ê\226\207‰ª∂ \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" | wc -l) ‰∏™; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" -print0 | du -cm --files0-from=- | tail -1; echo -- policy Â§\232‰∫\216 9 ‰ªΩÁ\232\204 runÔº\210‰ªΩÊ\225∞ runÔº\211; find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"policy_*.safetensors\\" -printf \\"%h\\\\n\\" | sort | uniq -c | awk \\"\\\\\\$1 > 9\\" | sort -k2; echo -- Â\220\204 run Á\232\204 state ‰ªΩÊ\225∞‰∏\216 MB; for d in \\$(find runs/flash_chord -mindepth 2 -maxdepth 2 -name \\"state_*.safetensors\\" -printf \\"%h\\\\n\\" | sort -u); do echo \\$d \\$(ls \\$d/state_*.safetensors | wc -l) \\$(du -cm \\$d/state_*.safetensors | tail -1 | cut -f1) DONE=\\$(test -f \\$d/DONE && echo y || echo n); done; echo -- runs/flash_chord ‰ª•Â§\226Á\232\204Â§ßÁ\233ÆÂΩ\225; du -sm runs/diag runs/diag2 runs/ep7 runs/motion runs/motion_src runs/tier3 runs/exports runs/eval runs/rollouts runs/hf_stage 2>/dev/null; echo -- home ‰∏\213Â\205∂‰ª\226Â§ßÁ\233ÆÂΩ\225; du -sm ~/v2d/* ~/.cache/* 2>/dev/null | sort -n | tail -8"' 
+# source   : bf4f63928170
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:22:50-0600
+# ---------------------------------------------------------------
+Sun Oct 11 01:22:53 PM CST 2026
+-- df
+/dev/vda2         201462 190528      2625  99% /
+-- runs ‰∏ãÊúÄÂ§ßÁöÑ 10 È°π MB
+42	runs/logs
+56	runs/train
+109	runs/cache
+188	runs/ep7
+383	runs/tier3
+494	runs/diag2
+1656	runs/diag
+2320	runs/motion
+3063	runs/motion_src
+17782	runs/flash_chord
+-- chain-markers 0
+-- GPU procs 0
+-- run ÁõÆÂΩï 130 ‰∏™ÔºåÂ∏¶ ARCHIVED.json ÁöÑ 71 ‰∏™ÔºåÂ∏¶ DONE ÁöÑ 123 ‰∏™
+-- state Êñá‰ª∂ 71 ‰∏™
+10842	total
+-- policy Êñá‰ª∂ 875 ‰∏™
+4055	total
+-- policy Â§ö‰∫é 9 ‰ªΩÁöÑ runÔºà‰ªΩÊï∞ runÔºâ
+     35 runs/flash_chord/t1-ep0-w2048-cap4m-r3a-mf4090
+     35 runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090
+     35 runs/flash_chord/t1-ep15-w2048-cap4m-r3a-mf4090
+     35 runs/flash_chord/t1-ep15-w2048-cap4m-r3a-s43-mf4090
+     35 runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090
+     35 runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090
+     15 runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090
+     35 runs/flash_chord/t3-ep24-w2048-cap4m-r3a-mf4090
+     35 runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090
+     35 runs/flash_chord/t3-ep8-w2048-cap4m-r3a-mf4090
+-- ÂêÑ run ÁöÑ state ‰ªΩÊï∞‰∏é MB
+runs/flash_chord/ctrl-snackbox-w2048-cap1m-mf4090 1 153 DONE=y
+runs/flash_chord/resumetest-t1-ep20-cap1m-mf4090 1 153 DONE=y
+runs/flash_chord/smoke_t1_ep20_w1024 1 153 DONE=n
+runs/flash_chord/smoke_t1_ep20_w2048 1 153 DONE=n
+runs/flash_chord/smoke_t1_ep20_w256 1 153 DONE=n
+runs/flash_chord/t1-ep0-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep11-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep14-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep15-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep15-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep16-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep18-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep18-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep18-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep18-w2048-cap4m-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep1-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep1-w2048-cap4m-p185-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap1m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap1m-rt-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-rt-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-rt-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep20-w2048-cap4m-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep21-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep22-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep24-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep27-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep27-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep27-w2048-cap4m-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep28-w2048-cap4m-mf4090 2 306 DONE=n
+runs/flash_chord/t1-ep28-w2048-cap4m-p185-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep29-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep29-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep29-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep29-w2048-cap4m-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep3-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep5-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep6-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep6-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep6-w2048-cap4m-r3a-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep6-w2048-cap4m-s43-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep7-w2048-cap4m-p185g-mf4090 4 611 DONE=y
+runs/flash_chord/t1-ep7-w2048-cap4m-p185-mf4090 1 153 DONE=n
+runs/flash_chord/t1-ep8-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t1-ep8-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep11-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep13-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep15-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep17-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep19-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep21-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep23-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep25-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep27-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep28-w2048-cap4m-p185-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep2-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep4-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep6-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t2-ep9-w2048-cap4m-mf4090 1 153 DONE=y
+runs/flash_chord/t3-ep24-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090 1 153 DONE=y
+runs/flash_chord/t3-ep8-w2048-cap4m-r3a-mf4090 1 153 DONE=y
+-- runs/flash_chord ‰ª•Â§ñÁöÑÂ§ßÁõÆÂΩï
+1656	runs/diag
+494	runs/diag2
+188	runs/ep7
+2320	runs/motion
+3063	runs/motion_src
+383	runs/tier3
+1	runs/exports
+-- home ‰∏ãÂÖ∂‰ªñÂ§ßÁõÆÂΩï
+1	/home/rxzhou/v2d/sweep.sh
+1	/home/rxzhou/v2d/work
+50	/home/rxzhou/.cache/robotic-grounding
+92	/home/rxzhou/.cache/flash_chord
+307	/home/rxzhou/.cache/huggingface
+1246	/home/rxzhou/v2d/fc_src
+3552	/home/rxzhou/.cache/pip
+34405	/home/rxzhou/v2d/maniphys_lab_v2d_challenge

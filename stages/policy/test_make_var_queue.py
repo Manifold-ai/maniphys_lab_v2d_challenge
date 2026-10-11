@@ -6,7 +6,9 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      冒烟与正式行除步数、前缀外一致；W&B 标签 t2x；期望表的 buffer 列 10000000、种子 42，其余列照抄基线；导出清单与 run 一一对应、档位 2
   2. t3p：2 条 run；parquet 换到 /runs/motion/tier3/、序列名不变；覆盖以 400 万 buffer 开头；期望表 buffer 列 4000000；导出清单档位 3；
      t3p2（agent-doc/plan-t3-pilot-v2-2026-10-10.md）：段名也以 t3p 开头，要落到 t3p2 这份清单（取最长的）；run 名带 -v2，
-     parquet 在 /runs/motion/tier3_v2/ 下，W&B 标签 t3p2，其余同 t3p
+     parquet 在 /runs/motion/tier3_v2/ 下，W&B 标签 t3p2，其余同 t3p；
+     t3p3a、t3p3b（agent-doc/plan-t3-v2-train10-2026-10-10.md）：4 条与 6 条，顺序照计划；基线取导出清单（奇数号在 mf4090、
+     带 400 万 buffer 覆盖，去掉后照样以 400 万开头）；run 名、parquet 目录同 t3p2，W&B 标签 t3p3
   3. 基线覆盖里有计划没说的键、或一条 episode 在导出清单里出现两次：报错退出，不写文件
   4. 续跑段 t2xa2 --episodes 16,7：只有这两条，顺序照清单（ep7 在前），文件名带段名
   5. 段名不对：预设段又给 --episodes、非预设段不给 --episodes、--episodes 里有清单外的 episode、段名不以清单名开头，都报错不写文件
@@ -160,6 +162,19 @@ def test_t3p2():
         check_set(root, "t3p2", [8, 24], "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090", 3, "4000000", "training.replay.capacity=4000000", "t3p2",
                   "mf4090", motion="tier3_v2")
         assert not (root / "stages" / "policy" / "queues" / "mf4090_t3p.txt").exists()
+
+
+def test_t3p3_parts():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        for part, eps in (("t3p3a", [20, 29, 0, 15]), ("t3p3b", [18, 21, 22, 23, 26, 17])):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            check_set(root, part, eps, "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090", 3, "4000000", "training.replay.capacity=4000000", "t3p3",
+                      "mf4090", motion="tier3_v2")
+        r = gen(root, "t3p3a", "--episodes", "20")
+        assert r.returncode != 0, r.stdout + r.stderr
 
 
 def test_unknown_override_refuses():

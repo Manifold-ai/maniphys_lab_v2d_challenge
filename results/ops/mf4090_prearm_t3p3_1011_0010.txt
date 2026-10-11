@@ -1,0 +1,56 @@
+# command  : bash -c $'ssh -o BatchMode=yes -o ConnectTimeout=20 mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; date; echo -- nproc \\$(nproc); free -g | sed -n 2p; echo -- support æ\226\207ä»¶; for s in 2026-06-08_16-57-34_rice_cooker_clockwise_04 2026-05-01_17-04-55_traffic_cone_ground_table_02; do ls -la runs/motion/tier3_v2/whole_body/reconstructed_stage/ 2>/dev/null | grep \\$s; ls -la runs/motion/tier2/whole_body/reconstructed_stage/ 2>/dev/null | grep \\$s; done; echo -- motion_src v2d_meta; for s in 2026-06-08_16-57-34_rice_cooker_clockwise_04 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06 2026-06-04_14-16-23_tall_bar_stool_tip_up_04 2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08 2026-05-01_17-04-55_traffic_cone_ground_table_02 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08 2026-04-29_11-53-57_tall_bar_stool_pull_08 2026-05-22_16-52-36_step_ladder_drag_03 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04 2026-06-05_16-05-08_skateboard_rotate_ground_10; do f=runs/motion_src/tier3_v2/\\$s/v2d_meta.json; p=runs/motion/tier3_v2/whole_body/soma/sequence_id=\\$s/robot_name=g1/data.parquet; echo \\$s meta=\\$(test -f \\$f && echo y || echo n) parquet=\\$(test -f \\$p && echo y || echo n); done; echo -- hf ç¼\223å\255\230; du -sm ~/.cache/huggingface/* 2>/dev/null; du -sm ~/.cache/huggingface/xet/* 2>/dev/null | head; python3 -c \\"import huggingface_hub, importlib.metadata as m; print(\'huggingface_hub\', huggingface_hub.__version__, \'hf_xet\', m.version(\'hf_xet\'))\\" 2>&1 | tail -1; echo -- runs/tools; md5sum runs/tools/hf_archive* runs/tools/test_hf_archive.py 2>/dev/null; ls runs/hf_* -d 2>/dev/null; echo -- chain-markers \\$(ls runs/.chain-active-* 2>/dev/null | wc -l); echo -- GPU \\$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l); df -m . | tail -1; echo source \\$(cat .v2d-source-commit)"' 
+# source   : bf4f63928170-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:34:14-0600
+# ---------------------------------------------------------------
+Sun Oct 11 01:34:14 PM CST 2026
+-- nproc 22
+Mem:             111           1          14           0          96         109
+-- support æ–‡ä»¶
+-rw-rw-r-- 1 rxzhou rxzhou  571 Oct 11 08:17 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+-rw-rw-r-- 1 rxzhou rxzhou  571 Sep 25 07:26 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+-rw-rw-r-- 1 rxzhou rxzhou  571 Oct 11 08:12 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+-rw-rw-r-- 1 rxzhou rxzhou  571 Sep 25 07:23 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+-- motion_src v2d_meta
+2026-06-08_16-57-34_rice_cooker_clockwise_04 meta=y parquet=y
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06 meta=y parquet=y
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04 meta=y parquet=y
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08 meta=y parquet=y
+2026-05-01_17-04-55_traffic_cone_ground_table_02 meta=y parquet=y
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08 meta=y parquet=y
+2026-04-29_11-53-57_tall_bar_stool_pull_08 meta=y parquet=y
+2026-05-22_16-52-36_step_ladder_drag_03 meta=y parquet=y
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04 meta=y parquet=y
+2026-06-05_16-05-08_skateboard_rotate_ground_10 meta=y parquet=y
+-- hf ç¼“å­˜
+269	/home/rxzhou/.cache/huggingface/hub
+39	/home/rxzhou/.cache/huggingface/xet
+31	/home/rxzhou/.cache/huggingface/xet/https___cas_serv-tGqkUaZf_CBPHQ6h
+9	/home/rxzhou/.cache/huggingface/xet/logs
+huggingface_hub 1.32.0 hf_xet 1.6.0
+-- runs/tools
+a7f6ce8272e482a5b0f3449f0d55bb89  runs/tools/hf_archive.py
+9663a9f6156cd98203a14320d8d5e6a1  runs/tools/hf_archive_run.sh
+751c5dd3989be99281354e57ad1762b4  runs/tools/test_hf_archive.py
+runs/hf_archive_manifest_mf4090_1008.json
+runs/hf_archive_manifest_mf4090.json
+runs/hf_archive_manifest_mf4090.v1.json
+runs/hf_archive_manifest_test.json
+runs/hf_archive_mf4090.spotcheck.json
+runs/hf_archive_mf4090.t2_after.txt
+runs/hf_archive_mf4090.t2_before.txt
+runs/hf_archive_mf4090.verified.json
+runs/hf_archive_policy_manifest_mf4090.json
+runs/hf_archive_policy_mf4090.allowed.txt
+runs/hf_archive_policy_mf4090.delete_dryrun.txt
+runs/hf_archive_policy_mf4090.files_after.txt
+runs/hf_archive_policy_mf4090.files_before.txt
+runs/hf_archive_policy_mf4090.gone.txt
+runs/hf_archive_policy_mf4090.reverified.json
+runs/hf_archive_policy_mf4090.spotcheck.json
+runs/hf_archive_policy_mf4090.verified.json
+runs/hf_readme
+-- chain-markers 0
+-- GPU 0
+/dev/vda2         201462 190530      2623  99% /
+source 5966a00e110c

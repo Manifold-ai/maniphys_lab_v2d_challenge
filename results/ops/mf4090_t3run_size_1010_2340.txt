@@ -1,0 +1,54 @@
+# command  : bash -c $'ssh -o BatchMode=yes -o ConnectTimeout=20 mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge; date; for r in t3-ep24-w2048-cap4m-r3a-v2-mf4090 t3-ep24-w2048-cap4m-r3a-mf4090 t3-ep8-w2048-cap4m-r3a-mf4090; do for d in runs/flash_chord/\\$r runs/flash_chord/smoke-\\$r runs/diag/smoke-\\$r runs/diag/\\$r runs/eval/\\$r; do [ -e \\$d ] && echo \\$(du -sm \\$d | cut -f1) MB \\$d; done; done; echo -- t3-ep24 v2 Á\233ÆÂΩ\225Â\206\205ÂÆπ; du -sm runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/* runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/.[a-z]* 2>/dev/null | sort -n | tail -6; echo -- Â\206\222Á\203\237Á\233ÆÂΩ\225Â\206\205ÂÆπ; ls -la runs/flash_chord/smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090 | head -20; echo -- runs/diag ‰∏\213 10/10 Ê\224πËø\207Á\232\204; find runs/diag -mindepth 1 -maxdepth 1 -newermt \\"2026-10-10 00:00\\" -exec du -sm {} + | sort -n | tail -8; echo -- runs ‰∏\213 10/10 14:00 CST ‰ª•Â\220\216Ê\224πËø\207Á\232\204Â§ßÊ\226\207‰ª∂; find runs -type f -newermt \\"2026-10-11 04:00\\" -size +5M -printf \\"%s %p\\\\n\\" 2>/dev/null | sort -n | tail -15 | awk \\"{printf \\\\\\"%.0f MB %s\\\\n\\\\\\", \\\\\\$1/1048576, \\\\\\$2}\\"; echo -- t3p2b Ê\234\237È\227¥Á\232\204Ê\227•Âø\227; grep -a -h -E \\"Â\217ØÁ\224®|Á£\201Á\233\230\\" runs/logs/t3p2b_train_mf4090.log | head -5"' 
+# source   : bf4f63928170
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:25:48-0600
+# ---------------------------------------------------------------
+Sun Oct 11 01:25:48 PM CST 2026
+360 MB runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090
+6 MB runs/flash_chord/smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090
+9 MB runs/diag/smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090
+360 MB runs/flash_chord/t3-ep24-w2048-cap4m-r3a-mf4090
+6 MB runs/flash_chord/smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+6 MB runs/diag/smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+360 MB runs/flash_chord/t3-ep8-w2048-cap4m-r3a-mf4090
+6 MB runs/flash_chord/smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+7 MB runs/diag/smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+-- t3-ep24 v2 ÁõÆÂΩïÂÜÖÂÆπ
+5	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/policy_60002304.safetensors
+5	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/policy_70002688.safetensors
+5	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/policy_80003072.safetensors
+5	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/policy_90003456.safetensors
+45	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/wandb
+153	runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/state_349999104.safetensors
+-- ÂÜíÁÉüÁõÆÂΩïÂÜÖÂÆπ
+total 4784
+drwxrwxr-x   4 rxzhou rxzhou    4096 Oct 11 04:22 .
+drwxrwxr-x 132 rxzhou rxzhou   12288 Oct 11 04:16 ..
+-rw-rw-r--   1 rxzhou rxzhou      24 Oct 11 04:20 DONE
+drwxr-xr-x   3 rxzhou rxzhou    4096 Oct 11 04:17 hydra
+-rw-rw-r--   1 rxzhou rxzhou       0 Oct 11 04:17 .lock
+-rw-r--r--   1 rxzhou rxzhou 4860036 Oct 11 04:20 policy_4096000.safetensors
+-rw-rw-r--   1 rxzhou rxzhou    1086 Oct 11 04:20 run_record.jsonl
+-rw-rw-r--   1 rxzhou rxzhou       8 Oct 11 04:22 STATE_PRUNED
+drwxr-xr-x   3 rxzhou rxzhou    4096 Oct 11 04:18 wandb
+-- runs/diag ‰∏ã 10/10 ÊîπËøáÁöÑ
+6	runs/diag/smoke-t3-ep24-w2048-cap4m-r3a-mf4090
+7	runs/diag/smoke-t3-ep8-w2048-cap4m-r3a-mf4090
+9	runs/diag/smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090
+-- runs ‰∏ã 10/10 14:00 CST ‰ª•ÂêéÊîπËøáÁöÑÂ§ßÊñá‰ª∂
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/object/textured_mesh.obj
+21 MB runs/motion_src/tier3_v2/2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.obj
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.obj
+21 MB runs/motion_src/tier3_v2/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.obj
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.obj
+21 MB runs/motion_src/tier3_v2/2026-05-29_15-43-20_watering_can_pour_right_02/object/textured_mesh.obj
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/object/textured_mesh.obj
+21 MB runs/motion_src/tier3_v2/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.obj
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.obj
+21 MB runs/motion_src/tier3_v2/2026-05-29_15-20-43_iron_round_table_02/object/textured_mesh.obj
+21 MB runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/object/textured_mesh.obj
+24 MB runs/motion_src/tier3_v2/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/reconstructed_mesh/output_aligned.glb
+24 MB runs/tier3/root_v2/mesh/rolling_luggage/rolling_luggage.glb
+44 MB runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/wandb/run-20261010_132335-t3-ep24-w2048-cap4m-r3a-v2-mf4090-s1/run-t3-ep24-w2048-cap4m-r3a-v2-mf4090-s1.wandb
+153 MB runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/state_349999104.safetensors
+-- t3p2b ÊúüÈó¥ÁöÑÊó•Âøó
