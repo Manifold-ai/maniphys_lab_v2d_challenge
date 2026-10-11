@@ -16,6 +16,7 @@ room each camera sees. Steps:
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -92,7 +93,7 @@ def walls(root: Path, out: Path, names: list[str]) -> None:
     import cv2
 
     meta = meta_of(root)
-    gp = np.asarray(json.loads((root / "input" / meta[names[0]]["ground_plane"]).read_text())["plane"], np.float64)
+    gp = np.asarray(t3_inputs.ground_plane(root, meta[names[0]]), np.float64)
     n_r, d_r, o, u, v = plane_basis(gp[:3], gp[3])
     rng = np.random.default_rng(0)
     for name in names:

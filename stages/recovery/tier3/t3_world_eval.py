@@ -15,6 +15,7 @@ height of the object's lowest point above the released ground plane is compared,
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -70,7 +71,7 @@ def main() -> None:
         ja, _ = soma_cv({k: ours[k][:n] for k in HUMAN_KEYS}, layer)
         jb, _ = soma_cv({k: t2[k][:n] for k in HUMAN_KEYS}, layer)
         s, r, t = umeyama(ja.reshape(-1, 3), jb.reshape(-1, 3))
-        gp = json.loads((root / "input" / m["ground_plane"]).read_text())["plane"]
+        gp = t3_inputs.ground_plane(root, m)
         n_w, d_w = plane_up(np.asarray(gp[:3], np.float64), float(gp[3]))
 
         vis = ref["visible"][:n].astype(bool)

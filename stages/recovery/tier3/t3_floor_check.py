@@ -7,6 +7,7 @@ same thing after retargeting (10/9: 114.9 / 146.2 mm on ep8 / ep24 before the co
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -36,7 +37,7 @@ def main() -> None:
                 continue
             pose = np.stack(table.column("observation.object.pose").to_numpy(zero_copy_only=False))[frames].astype(np.float64)
             rot = Rotation.from_quat(np.c_[pose[:, 4:7], pose[:, 3:4]]).as_matrix()
-            gp = np.asarray(json.loads((root / "input" / m["ground_plane"]).read_text())["plane"], np.float64)
+            gp = np.asarray(t3_inputs.ground_plane(root, m), np.float64)
             n, d = gp[:3] / np.linalg.norm(gp[:3]), gp[3] / np.linalg.norm(gp[:3])
             if d < 0:
                 n, d = -n, -d

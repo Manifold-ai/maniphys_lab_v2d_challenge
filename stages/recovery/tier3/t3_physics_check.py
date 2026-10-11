@@ -39,6 +39,7 @@ Two steps, because the parquet reader and SOMA live in different environments:
 from __future__ import annotations
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -112,7 +113,7 @@ def check(root: Path, npz_dir: Path, assets: str, out: Path) -> None:
         ep = int(z["episode_index"])
         m = metas[ep]
         name = f"ep{ep:02d}_{m['object']}"
-        gp = np.asarray(json.loads((root / "input" / m["ground_plane"]).read_text())["plane"], np.float64)
+        gp = np.asarray(t3_inputs.ground_plane(root, m), np.float64)
         up, d = gp[:3] / np.linalg.norm(gp[:3]), gp[3] / np.linalg.norm(gp[:3])
         if d < 0:  # the camera (origin) is above the floor: n points up
             up, d = -up, -d

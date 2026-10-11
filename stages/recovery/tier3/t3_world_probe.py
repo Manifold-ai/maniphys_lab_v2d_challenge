@@ -18,6 +18,7 @@ reference: the released Tier 2 human (perturbed; no denoised human exists).
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -149,7 +150,7 @@ def main() -> None:
         ot, orr = cam[:n, :3, 3][vis], cam[:n, :3, :3][vis]
         q = ref["object_pose"][:n][vis]
         rt, rr = q[:, :3], Rotation.from_quat(np.c_[q[:, 4:7], q[:, 3:4]]).as_matrix()
-        gp = json.loads((root / "input" / m["ground_plane"]).read_text())["plane"]
+        gp = t3_inputs.ground_plane(root, m)
         n_w, d_w = plane_up(np.asarray(gp[:3], np.float64), float(gp[3]))
 
         def score(rot: np.ndarray, s: float, t: np.ndarray | None = None, joints: np.ndarray | None = None) -> dict:

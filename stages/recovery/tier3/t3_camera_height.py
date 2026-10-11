@@ -19,6 +19,7 @@ table; the depth scale is off by a few percent, a table is 0.7 m up).
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -61,7 +62,7 @@ def main() -> None:
         oc = np.load(conv / "object_cam.npz")
         poses, k = oc["T_cam_glb"].astype(np.float64), np.asarray(oc["intrinsics"], np.float64)
         fm = k[1, 1]
-        gp = np.asarray(json.loads((root / "input" / m["ground_plane"]).read_text())["plane"], np.float64)
+        gp = np.asarray(t3_inputs.ground_plane(root, m), np.float64)
         n_w, d_w = gp[:3] / np.linalg.norm(gp[:3]), gp[3] / np.linalg.norm(gp[:3])
         if d_w < 0:
             n_w, d_w = -n_w, -d_w

@@ -11,6 +11,7 @@ Writes the camera_register.json entry for group b onto group a when an output pa
     python t3_mutual_multi.py <tier3 root> <floor_fit.json> <det dir> <group a> <group b> [camera_register.json]
 """
 import json, sys
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 from pathlib import Path
 import numpy as np
 
@@ -19,7 +20,7 @@ fit = json.loads(fit_path.read_text())
 meta = {f"ep{m['episode_index']:02d}_{m['object']}": m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
 
 def basis(ep):
-    gp = np.asarray(json.loads((root / "input" / meta[ep]["ground_plane"]).read_text())["plane"], float)
+    gp = np.asarray(t3_inputs.ground_plane(root, meta[ep]), float)
     n, d = gp[:3] / np.linalg.norm(gp[:3]), gp[3] / np.linalg.norm(gp[:3])
     if d < 0: n, d = -n, -d
     u = np.array([1.0, 0, 0]) - n[0] * n; u /= np.linalg.norm(u)
@@ -78,7 +79,7 @@ res = {"fixed_group": ga, "moving_group": gb, "yaw_deg": round(yaw, 2), "t_m": t
 print(json.dumps(res))
 if len(sys.argv) > 6:
     first = sorted(e for e, v in fit["episodes"].items() if v["group"] == ga)[0]
-    gp = json.loads((root / "input" / meta[first]["ground_plane"]).read_text())["plane"]
+    gp = t3_inputs.ground_plane(root, meta[first])
     path = Path(sys.argv[6])
     spec = json.loads(path.read_text()) if path.exists() else {"note": "Floor-plane motions onto the main exo camera's world, "
            "applied by t3_convert_ep.py world after the floor correction (Tier 3 inputs only).", "groups": {}}

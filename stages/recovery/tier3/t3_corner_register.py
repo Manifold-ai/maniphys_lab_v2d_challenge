@@ -17,6 +17,7 @@ Convention as t3_convert_ep.py _camera_register: p_main = Rot(yaw) p + t in the 
         --left=A|C [camera_register.json]
 """
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -43,7 +44,7 @@ def main() -> None:
     second = reg_all["groups"]["1"]
     A, C = np.zeros(2), np.asarray(second["t_m"], float)
 
-    gp = np.asarray(json.loads((root / "input" / meta[ep]["ground_plane"]).read_text())["plane"], float)
+    gp = np.asarray(t3_inputs.ground_plane(root, meta[ep]), float)
     n, d = gp[:3] / np.linalg.norm(gp[:3]), gp[3] / np.linalg.norm(gp[:3])
     if d < 0:
         n, d = -n, -d

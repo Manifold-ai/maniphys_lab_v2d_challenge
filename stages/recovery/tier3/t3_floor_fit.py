@@ -22,6 +22,7 @@ applied to its own contact points; their height above the released plane should 
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -74,7 +75,7 @@ def main() -> None:
         ev = [e for e in events if e["episode"] in members]
         planes = {}
         for name in members:
-            gp = json.loads((root / "input" / metas[name]["ground_plane"]).read_text())["plane"]
+            gp = t3_inputs.ground_plane(root, metas[name])
             planes[name] = plane_up(np.asarray(gp[:3], np.float64), float(gp[3]))
         n_rel = plane_up(np.mean([p[0] for p in planes.values()], 0), float(np.mean([p[1] for p in planes.values()])))[0]
         d_rel = float(np.median([p[1] for p in planes.values()]))

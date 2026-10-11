@@ -13,6 +13,7 @@ over frames:
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -53,7 +54,7 @@ def main() -> None:
             continue
         g = groups[entry["group"]]
         n_o, d_o = plane(g["n_ours"], g["d_ours_m"])
-        gp = np.asarray(json.loads((root / "input" / metas[name]["ground_plane"]).read_text())["plane"], np.float64)
+        gp = np.asarray(t3_inputs.ground_plane(root, metas[name]), np.float64)
         n_r, d_r = plane(gp[:3], gp[3])
         out_row = {"episode": name, "group": entry["group"], "scale": entry["scale"]}
         for stage, f, (n, d) in (("focal", "soma_params_focal.npz", (n_o, d_o)), ("world", "soma_params_world.npz", (n_r, d_r))):

@@ -10,6 +10,7 @@ trajectory parquet is read; any path naming tier_1 is refused.
 from __future__ import annotations
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
 
@@ -91,7 +92,7 @@ def main() -> None:
         meta = json.loads(line)
         ep = int(meta["episode_index"])
         video = inp / "videos" / f"episode_{ep:06d}.mp4"
-        released = json.loads((inp / "ground_plane" / Path(meta["ground_plane"]).name).read_text())["plane"]
+        released = t3_inputs.read_plane(inp / "ground_plane" / Path(meta["ground_plane"]).name)
         frames, indices = read_frames(video, per_ep)
         images = torch.from_numpy(np.stack(frames)).cuda().permute(0, 3, 1, 2).float().div_(255.0)
         with torch.inference_mode():

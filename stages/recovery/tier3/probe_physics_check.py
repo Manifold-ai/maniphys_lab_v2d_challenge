@@ -11,6 +11,7 @@ frames it touched (relative to the unmodified episode, which may already carry f
 """
 
 import json
+import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import shutil
 import sys
 from pathlib import Path
@@ -39,7 +40,7 @@ def main() -> None:
     root, src, assets, scratch = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], Path(sys.argv[4])
     base = dict(np.load(src))
     m = {json.loads(l)["episode_index"]: json.loads(l) for l in (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines() if l}
-    gp = np.asarray(json.loads((root / "input" / m[int(base["episode_index"])]["ground_plane"]).read_text())["plane"], np.float64)
+    gp = np.asarray(t3_inputs.ground_plane(root, m[int(base["episode_index"])]), np.float64)
     up = gp[:3] / np.linalg.norm(gp[:3]) * (1 if gp[3] > 0 else -1)
     side = np.cross(up, [1.0, 0.0, 0.0])
     side /= np.linalg.norm(side)
