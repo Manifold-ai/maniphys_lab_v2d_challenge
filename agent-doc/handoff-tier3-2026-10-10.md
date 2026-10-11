@@ -86,7 +86,7 @@
   −3.7 ~ −4.9 cm 下沉是 CARI4D 自身的，不是深度误差（跨集相关 +0.06），修法待用户定。ep25 / ep28 的脚离地 8–9 cm。
 - 配准方法：去人背景图上 Grounding DINO（CPU）互相检测对方三脚架，方位定偏航，脚点距离按三脚架张开修正定距离
   （`t3_walls.py plates` → `t3_gdino_cpu.py` → `t3_mutual_multi.py ... camera_register.json`）。地面胶条、墙面、天花板三条路都
-  试过，因场地对称或共同视野不足没定下来，代码不在仓里（`~/v2d/tier3/scripts/`）。**ep21 所在机位还没配准。**
+  试过，因场地对称或共同视野不足没定下来，代码不在仓里（`~/v2d/tier3/scripts/`）。**ep21 所在机位还没配准。**（10-12 已配准，见 10-12 节。）
 - 兜底：焦距配置或地面校正里没有某集时显式降级（保留 CARI4D 焦距 / 退回相机系），打 FALLBACK 并写元数据。
 - GPU 队列：试点（4 集）与 8 集重新选物仍在等 rxzhou 的链结束（10-11 05:33 仍忙）。8 集重跑走 `t3_reselect.sh`，它的 world
   步还是旧调用（不带配准），这 8 集都是主机位，结果不受影响。
@@ -114,4 +114,14 @@
   ep28 已补跑 world + assemble（`logs/world_fp_ep28_squeegee_reg.log`）：`camera_register` 生效，物体位置中位与 simreg 版同集相差
   约 0.2 m；跟丢检查重跑各项计数不变（0.8097）。未配准的旧输出与旧 track check 在 `runs/convert_fp_world_unreg_backup/ep28_squeegee/`。
 - **口径待统一**：上面「干净 13 集」含 ep29，它的跟丢比例 0.283；本次排队门槛是 0.2，ep29 在队列里。
+- **ep21 配准（`t3_corner_register.py`）**：现场是四角四台三脚架相机（主 A、第二 C 对角，两台侧面）；ep21 是侧面那台，从上往下
+  逆时针依次是主、ep21、第二机位、没用上的那台（用户看图判断，与第四个三脚架落在 C 旁灯架、墙面 NCC 0.382 对 0.351 一致）。
+  ep21 画面左右边缘的两个三脚架间距 5.88 m（A–C 5.84 m），两点拟合偏航 90.55°、t = (3.012, 2.895) m，残差 2 cm，写进
+  `camera_register.json` 的 `"2"` 组；镜像解（270.55°）记在同一条目的 `mirrored` 里。ep21 已重跑 world + assemble 进 simreg：
+  物体高度与倾角变化 0，动作中心离主机位中位 0.54 m（第二机位 5 集 0.29–0.56 m）。精度约平移 0.3 m、偏航 1°（推断）。
+  检测输入：`dev/walls/det_plate_ep21_*.json` 与 `dev/ep21/crops_det/`（500 px 左右边缘裁图上的 Grounding DINO，提示词 `tripod .`）。
+  备份 `runs/ep21_register_backup_1012/`。
+- 尺度核对：`runs/camera_groups/camera_height_C.json` 的高度 0.81 m、地平线第 669 行是错的（按它 A–C 间距 6.88 m、正前方那台
+  43.8 m；我们的世界系给 5.89 m、6.05 m）。这个文件的 `event_rows` 是 ep21 地面拟合的输入（`t3_floor_fit.py`、`t3_floor_check.py`
+  都读），怎么清理待用户定。
 - 下一步：重选和每帧配准都跑完后，逐集选版本（基线 / 重选 / 每帧配准），从同一条链组装交付版。
