@@ -4,7 +4,7 @@ For sampled frames, the official mesh is placed at CARI4D's pose (T_cam<-glb = p
 prepare_mhr_wild_export.py) and rasterised with CARI4D's own intrinsics. Person pixels are removed from both the
 render and the object mask, so a hand in front of the object does not count against the pose. Per frame:
 
-  - iou_visible: IoU of render and object mask outside the person mask;
+  - iou_visible: IoU of render and object mask outside the person mask, both dilated by DILATE_PX first (visible_iou);
   - area_ratio: visible render area / visible mask area. A pose that sits too close to the camera renders too
     big (ratio > 1); with a correct mesh scale, distance scales as sqrt(ratio), so depth_factor = sqrt(ratio)
     estimates how much farther the object should be;
@@ -36,6 +36,13 @@ MIN_VISIBLE_PX = 400
 GATE_IOU = 0.5
 GATE_DEPTH = (0.8, 1.25)
 GATE_CENTROID_PX = 25.0
+#: Both silhouettes are dilated by this many pixels before the IoU. Plain IoU punishes thin objects for offsets that
+#: do not matter: a cane ~20 px wide shifted by 3 px loses a third of its overlap, a box 170 px wide does not notice.
+#: At 5 px (10-12, every 6th frame) the references keep their places: good ep20/ep00/ep05 0.89/0.79/0.92 ->
+#: 0.90/0.84/0.93, lost ep01/ep10 0.03/0.16 -> 0.07/0.19; thin ep19 (every-frame registration) 0.31 -> 0.55 while
+#: its centroid offset stays 15 px, ep28 0.21 -> 0.43 (centroid 35 px: partly off for real), ep04 0.08 -> 0.18 (lost).
+#: At 8 px the lost references start to rise (ep01's share of frames under 0.3: 0.99 -> 0.93).
+DILATE_PX = 5
 
 
 def load_mesh(path: Path) -> tuple[np.ndarray, np.ndarray]:
@@ -54,6 +61,14 @@ def rasterise(verts_cam: np.ndarray, faces: np.ndarray, k: np.ndarray, h: int, w
     out = np.zeros((h, w), np.uint8)
     cv2.fillPoly(out, list(np.round(uv[faces] * 4).astype(np.int32)), 1, lineType=cv2.LINE_8, shift=2)
     return out.astype(bool)
+
+
+def visible_iou(rv: np.ndarray, mv: np.ndarray, k: int = DILATE_PX) -> float:
+    """IoU of two silhouettes after dilating both by k px (see DILATE_PX)."""
+    if k:
+        ker = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k + 1, 2 * k + 1))
+        rv, mv = cv2.dilate(rv.astype(np.uint8), ker) > 0, cv2.dilate(mv.astype(np.uint8), ker) > 0
+    return float((rv & mv).sum()) / max(1.0, float((rv | mv).sum()))
 
 
 def centroid(m: np.ndarray) -> np.ndarray:
@@ -88,9 +103,8 @@ def main() -> None:
         rv, mv = rend & ~person, obj & ~person
         if rv.sum() < MIN_VISIBLE_PX or mv.sum() < MIN_VISIBLE_PX:
             continue
-        inter, union = float((rv & mv).sum()), float((rv | mv).sum())
         ratio = float(rv.sum()) / float(mv.sum())
-        row = {"frame": i, "iou_visible": round(inter / union, 4), "area_ratio": round(ratio, 4), "depth_factor": round(ratio**0.5, 4),
+        row = {"frame": i, "iou_visible": round(visible_iou(rv, mv), 4), "area_ratio": round(ratio, 4), "depth_factor": round(ratio**0.5, 4),
                "centroid_px": round(float(np.linalg.norm(centroid(rv) - centroid(mv))), 1), "z_m": round(float(t[2, 3]), 4),
                "person_overlap": round(float((obj & person).sum()) / float(obj.sum() + 1), 3)}
         rows.append(row)

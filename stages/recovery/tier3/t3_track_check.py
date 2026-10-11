@@ -4,7 +4,7 @@ The episode-level gate (t3_object_check.py) judges medians, so an episode can pa
 (ep03: median 12 cm, RMS 107 cm against the dev reference). This marks the stretches. Per frame, in the camera frame:
 
   - silhouette: the official mesh at CARI4D's pose vs the SAM2 object mask, person pixels removed from both
-    (as t3_object_check.py). Bad when the mask shows enough object and IoU < SIL_IOU or the centroids are more than
+    (as t3_object_check.py, IoU of the silhouettes dilated by its DILATE_PX). Bad when the mask shows enough object and IoU < SIL_IOU or the centroids are more than
     SIL_CENTROID_PX apart. No visible mask: no evidence either way.
   - jump: the pose moves more than JUMP_M from the previous frame. Rotation is not used: on symmetric objects the
     angle about the symmetry axis is unobservable and flips frame to frame (ep03's mug: median 13 deg per frame).
@@ -26,7 +26,7 @@ from PIL import Image
 from scipy.ndimage import binary_closing, uniform_filter1d
 from scipy.spatial import cKDTree
 
-from t3_object_check import centroid, load_mesh, rasterise
+from t3_object_check import DILATE_PX, centroid, load_mesh, rasterise, visible_iou
 from t3_world_probe import HUMAN_KEYS, soma_cv
 
 FPS = 30.0
@@ -75,7 +75,7 @@ def main() -> None:
         h, w = obj.shape
         t = poses[i]
         rv = rasterise(verts @ t[:3, :3].T + t[:3, 3], faces, k, h, w) & ~person
-        iou[i] = float((rv & mv).sum()) / float((rv | mv).sum())
+        iou[i] = visible_iou(rv, mv)
         cpx[i] = float(np.linalg.norm(centroid(rv) - centroid(mv))) if rv.any() else np.inf
         sil[i] = float(iou[i] < SIL_IOU or cpx[i] > SIL_CENTROID_PX)
     for i in range(n):
@@ -109,7 +109,7 @@ def main() -> None:
         lost[a:b] = True
     seen = ~np.isnan(sil)
     report = {"episode": conv.name, "frames": n, "stride": stride,
-              "thresholds": {"min_mask_px": MIN_MASK_PX, "sil_iou": SIL_IOU, "sil_centroid_px": SIL_CENTROID_PX, "jump_m": JUMP_M, "moving_mps": MOVING_MPS, "hand_m": HAND_M, "close_gap": CLOSE_GAP, "min_segment": MIN_SEGMENT},
+              "thresholds": {"min_mask_px": MIN_MASK_PX, "sil_iou": SIL_IOU, "iou_dilate_px": DILATE_PX, "sil_centroid_px": SIL_CENTROID_PX, "jump_m": JUMP_M, "moving_mps": MOVING_MPS, "hand_m": HAND_M, "close_gap": CLOSE_GAP, "min_segment": MIN_SEGMENT},
               "silhouette_frames": int(seen.sum()), "silhouette_bad": int((sil == 1).sum()), "jump_frames": int(jump.sum()),
               "unheld_frames": int(unheld.sum()), "lost_frames": int(lost.sum()), "lost_fraction": round(float(lost.mean()), 4),
               "segments": [{"start": a, "end": b, "frames": b - a, "silhouette_bad": int((sil[a:b] == 1).sum()),
