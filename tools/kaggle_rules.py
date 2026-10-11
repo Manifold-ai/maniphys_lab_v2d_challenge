@@ -4,7 +4,7 @@
 XSRF-TOKEN cookie，再 POST competitions.CompetitionService/GetCompetition 取比赛 id，
 POST competitions.PageService/ListPages 取各页内容。只打印 rules（比赛方可编辑的部分）与 foundational-rules
 （Kaggle 附加、不可编辑的部分）两页：每页的长度与 sha256（以后核对规则有没有改），以及提到分享、
-Competition Code、公开、开源的段落原文。不需要登录，不用 Kaggle token。
+Competition Code、公开、开源、外部数据与预训练模型的段落原文（按空行分段，段内换行并成空格）。不需要登录，不用 Kaggle token。
 用户 10/11 回复 HF 归档“不需要private”，改公开之前先核规则（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md）。
 
 用法：python3 tools/kaggle_rules.py <比赛 slug> [<比赛 slug> ...]
@@ -16,7 +16,7 @@ import re
 import sys
 import urllib.request
 
-PAT = re.compile(r"[Ss]har(?:e|ed|ing)|Competition Code|[Pp]ublicly|[Pp]rivately|[Oo]pen [Ss]ource")
+PAT = re.compile(r"[Ss]har(?:e|ed|ing)|Competition Code|[Pp]ublicly|[Pp]rivately|[Oo]pen [Ss]ource|External Data|[Pp]re-trained models")
 
 
 def fetch(slug: str) -> list:
@@ -49,10 +49,10 @@ def main() -> int:
                 print(f"### {name}：没有这一页")
                 continue
             print(f"### {name}：{len(text)} 字符，sha256 {hashlib.sha256(text.encode()).hexdigest()}")
-            for line in text.splitlines():
-                line = re.sub(r"<[^>]+>", "", line).strip()
-                if line and PAT.search(line):
-                    print(f"- {line}")
+            for para in re.split(r"\n\s*\n", text):
+                para = " ".join(re.sub(r"<[^>]+>", "", para).split())
+                if para and PAT.search(para):
+                    print(f"- {para}")
     print("KAGGLE_RULES_DONE")
     return 0
 
