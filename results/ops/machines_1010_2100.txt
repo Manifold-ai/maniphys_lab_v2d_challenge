@@ -1,0 +1,43 @@
+# command  : bash -c for\ h\ in\ mf4090\ ml40\;\ do\ R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ \[\ \$h\ =\ mf4090\ \]\ \&\&\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=15\ \$h\ \"cd\ \$R\ \&\&\ echo\ ==\ \$h\ \\\$\(date\ \\\"+%F\ %T\ %Z\\\"\)\;\ echo\ --\ tmux\;\ tmux\ ls\ 2\>\&1\;\ for\ f\ in\ \\\$\(ls\ -t\ runs/logs/\*.log\ \|\ head\ -3\)\;\ do\ echo\ --\ \\\$f\ \\\$\(stat\ -c\ %y\ \\\$f\ \|\ cut\ -c1-19\)\ lines\ \\\$\(wc\ -l\ \<\ \\\$f\)\;\ tail\ -2\ \\\$f\ \|\ cut\ -c1-300\;\ done\;\ echo\ GPU\ procs\ \\\$\(nvidia-smi\ --query-compute-apps=pid\ --format=csv\,noheader\ \|\ wc\ -l\)\;\ nvidia-smi\ --query-gpu=name\,utilization.gpu\,memory.used\,memory.total\ --format=csv\,noheader\;\ echo\ chain-markers\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\)\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\)\;\ echo\ source\ \\\$\(cat\ .v2d-source-commit\)\;\ df\ -m\ \$R\ \|\ tail\ -1\;\ free\ -g\ \|\ sed\ -n\ 2p\"\;\ done 
+# source   : c900fe96d60a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T20:59:37-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-11 10:59:38 CST
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/cand_t3_t3p2b_mf4090_gate.log 2026-10-11 06:47:18 lines 3
+=== 2026-10-11 06:46:22 CST 评测链成功 1 条、失败 0，开导出链 cand_t3_t3p2b_mf4090
+=== 2026-10-11 06:47:18 CST 导出链结束，退出码 0
+-- runs/logs/cand_t3_t3p2b_mf4090.log 2026-10-11 06:47:18 lines 6
+=== 2026-10-11 06:47:18 CST Tier 3 ep24 t3-ep24-w2048-cap4m-r3a-v2-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 748（导出 748），checkpoint 相同
+=== 2026-10-11 06:47:18 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+-- runs/logs/t3-ep24-w2048-cap4m-r3a-v2-mf4090.export_8c778f9_s349999104_w1.log 2026-10-11 06:47:16 lines 105
+report: /repo/runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w1/episode_000024.json
+object trajectories: /repo/runs/flash_chord/t3-ep24-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w1/episode_000024.parquet
+GPU procs 0
+NVIDIA GeForce RTX 4090, 0 %, 0 MiB, 24564 MiB
+chain-markers 0
+source 5966a00e110c
+/dev/vda2         201462 190495      2657  99% /
+Mem:             111           1          14           0          96         109
+== ml40 2026-10-11 10:59:38 CST
+-- tmux
+v2d-t2xa-eval: 1 windows (created Sat Oct 10 04:50:05 2026)
+v2d-t2xa-export: 1 windows (created Sat Oct 10 04:50:07 2026)
+v2d-t2xa-train: 1 windows (created Sat Oct 10 04:50:03 2026)
+-- runs/logs/t2-ep17-w2048-cap10m-r3a-ml40.log 2026-10-11 10:59:37 lines 141
+training progress: 161,001,472/349,999,104 environment steps (46.0%); 49,368 env steps/s; elapsed 00:54:21; ETA 01:03:48
+training progress: 164,501,504/349,999,104 environment steps (47.0%); 49,361 env steps/s; elapsed 00:55:33; ETA 01:02:38
+-- runs/logs/t2-ep17-w2048-cap10m-r3a-ml40.nanwatch.log 2026-10-11 10:58:33 lines 18
+10-10 20:56:32 MDT 150,005,760 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-10 20:58:33 MDT 160,006,144 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t2xa_train_ml40.log 2026-10-11 10:02:29 lines 1721
+=== 2026-10-11 10:02:28 CST t2-ep11-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 10:02:29 CST 正式 t2-ep17-w2048-cap10m-r3a-ml40
+GPU procs 1
+NVIDIA L40S, 100 %, 40237 MiB, 46068 MiB
+chain-markers 3 runs/.chain-active-cand_t2_t2xa_ml40-gate runs/.chain-active-t2xa_eval_ml40 runs/.chain-active-t2xa_train_ml40
+source 1d98bd33980d
+/dev/vdb         2063132 450381   1612736  22% /lab_data
+Mem:             111           7           5           0          98         102

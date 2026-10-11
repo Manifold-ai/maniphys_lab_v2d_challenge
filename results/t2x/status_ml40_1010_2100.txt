@@ -1,0 +1,162 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ ml40\ t2\ t2xa 
+# source   : c900fe96d60a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T21:03:53-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-11 11:03:53 CST；来历 1d98bd33980d
+## t2xa train（runs/logs/t2xa_train_ml40.log）
+=== 2026-10-10 06:05:34 CST 正式 t2-ep29-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep29-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 08:05:40 CST t2-ep29-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 08:05:40 CST 正式 t2-ep6-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep6-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 10:17:39 CST t2-ep6-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 10:17:39 CST 正式 t2-ep18-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep18-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 12:30:44 CST t2-ep18-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 12:30:44 CST 正式 t2-ep7-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep7-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 14:30:54 CST t2-ep7-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 14:30:54 CST 正式 t2-ep16-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep16-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 16:29:09 CST t2-ep16-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 16:29:09 CST 正式 t2-ep0-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep0-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 18:41:34 CST t2-ep0-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 18:41:34 CST 正式 t2-ep21-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep21-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 20:54:53 CST t2-ep21-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 20:54:53 CST 正式 t2-ep15-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep15-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-10 23:05:53 CST t2-ep15-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-10 23:05:53 CST 正式 t2-ep10-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep10-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-11 01:19:16 CST t2-ep10-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 01:19:16 CST 正式 t2-ep27-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep27-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-11 03:29:59 CST t2-ep27-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 03:29:59 CST 正式 t2-ep3-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep3-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-11 05:32:31 CST t2-ep3-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 05:32:31 CST 正式 t2-ep5-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep5-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-11 07:54:06 CST t2-ep5-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 07:54:06 CST 正式 t2-ep11-w2048-cap10m-r3a-ml40
+fc_run_watched: t2-ep11-w2048-cap10m-r3a-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-11 10:02:28 CST t2-ep11-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-11 10:02:29 CST 正式 t2-ep17-w2048-cap10m-r3a-ml40
+## t2xa eval（runs/logs/t2xa_eval_ml40.log）
+=== 2026-10-10 04:50:05 CST 等 runs/logs/t2xa_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t2-ep0-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep0-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep10-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep10-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep11-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 35
+t2-ep12-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep12-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep12-w2048-cap10m-r3a-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep12-w2048-cap10m-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep14-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep15-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep16-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep16-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 35
+t2-ep17-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 17
+t2-ep18-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep18-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep1-w2048-cap10m-p185-ml40 非有限行 0 结局  扫描 34
+t2-ep20-w2048-cap10m-ml40 非有限行 0 结局  扫描 35
+t2-ep20-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep20-w2048-cap10m-r3a-s43-ml40 非有限行 0 结局  扫描 35
+t2-ep20-w2048-cap10m-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep21-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep22-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep22-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep24-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep24-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep24-w2048-cap10m-r3a-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep24-w2048-cap10m-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep26-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep26-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 35
+t2-ep26-w2048-cap10m-r3a-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep26-w2048-cap10m-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep27-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep29-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep29-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep3-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep3-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep5-w2048-cap10m-ml40 非有限行 0 结局  扫描 34
+t2-ep5-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep6-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep7-w2048-cap10m-p185g-ml40 非有限行 0 结局  扫描 34
+t2-ep7-w2048-cap10m-p185-ml40 非有限行 2 结局 NAN_WATCH_STOPPED 扫描 16
+t2-ep7-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep8-w2048-cap10m-ml40 非有限行 0 结局  扫描 35
+t2-ep8-w2048-cap10m-r3a-ml40 非有限行 0 结局  扫描 34
+t2-ep8-w2048-cap10m-r3a-s43-ml40 非有限行 0 结局  扫描 34
+t2-ep8-w2048-cap10m-s43-ml40 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t2-ep0-w2048-cap10m-ml40.s1.log：平均回合长度 589.85394，平均回报 130.81398，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep0-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 575.5，平均回报 125.04003，loss_scale —；摘要里 nan 0 项
+t2-ep10-w2048-cap10m-ml40.s1.log：平均回合长度 504.1875，平均回报 89.1841，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep10-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 518.96155，平均回报 89.84854，loss_scale —；摘要里 nan 0 项
+t2-ep11-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 185.04214，平均回报 30.53076，loss_scale —；摘要里 nan 0 项
+t2-ep12-w2048-cap10m-ml40.s1.log：平均回合长度 487.33981，平均回报 99.14326，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep12-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 487.20953，平均回报 98.16718，loss_scale —；摘要里 nan 0 项
+t2-ep12-w2048-cap10m-r3a-s43-ml40.s1.log：平均回合长度 489.97849，平均回报 99.51071，loss_scale —；摘要里 nan 0 项
+t2-ep12-w2048-cap10m-s43-ml40.s1.log：平均回合长度 503.46158，平均回报 105.33559，loss_scale —；摘要里 nan 0 项
+t2-ep14-w2048-cap10m-ml40.s1.log：平均回合长度 524.375，平均回报 87.64743，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep15-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 436.87912，平均回报 89.17886，loss_scale —；摘要里 nan 0 项
+t2-ep16-w2048-cap10m-ml40.s1.log：平均回合长度 342.99301，平均回报 61.25921，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep16-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 299.75949，平均回报 48.9271，loss_scale —；摘要里 nan 0 项
+t2-ep18-w2048-cap10m-ml40.s1.log：平均回合长度 658.54547，平均回报 142.91203，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep18-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 650.1228，平均回报 140.58911，loss_scale —；摘要里 nan 0 项
+t2-ep1-w2048-cap10m-p185-ml40.s1.log：平均回合长度 191.71175，平均回报 17.71296，loss_scale 1048576.0；摘要里 nan 0 项
+t2-ep20-w2048-cap10m-ml40.s1.log：平均回合长度 413.60001，平均回报 87.7132，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep20-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 423.72726，平均回报 85.99355，loss_scale —；摘要里 nan 0 项
+t2-ep20-w2048-cap10m-r3a-s43-ml40.s1.log：平均回合长度 425.86725，平均回报 86.82787，loss_scale —；摘要里 nan 0 项
+t2-ep20-w2048-cap10m-s43-ml40.s1.log：平均回合长度 393.97623，平均回报 80.88421，loss_scale —；摘要里 nan 0 项
+t2-ep21-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 475.79123，平均回报 101.11317，loss_scale —；摘要里 nan 0 项
+t2-ep22-w2048-cap10m-ml40.s1.log：平均回合长度 544.52686，平均回报 107.56428，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep22-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 556.20209，平均回报 109.02804，loss_scale —；摘要里 nan 0 项
+t2-ep24-w2048-cap10m-ml40.s1.log：平均回合长度 576.13696，平均回报 143.74159，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep24-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 526.40387，平均回报 129.78072，loss_scale —；摘要里 nan 0 项
+t2-ep24-w2048-cap10m-r3a-s43-ml40.s1.log：平均回合长度 518.05554，平均回报 127.76064，loss_scale —；摘要里 nan 0 项
+t2-ep24-w2048-cap10m-s43-ml40.s1.log：平均回合长度 585.24695，平均回报 147.67252，loss_scale —；摘要里 nan 0 项
+t2-ep26-w2048-cap10m-ml40.s1.log：平均回合长度 499.8381，平均回报 93.53918，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep26-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 532.57959，平均回报 103.25842，loss_scale —；摘要里 nan 0 项
+t2-ep26-w2048-cap10m-r3a-s43-ml40.s1.log：平均回合长度 498.38354，平均回报 96.78533，loss_scale —；摘要里 nan 0 项
+t2-ep26-w2048-cap10m-s43-ml40.s1.log：平均回合长度 512.70331，平均回报 100.81015，loss_scale —；摘要里 nan 0 项
+t2-ep27-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 351.74606，平均回报 76.5944，loss_scale —；摘要里 nan 0 项
+t2-ep29-w2048-cap10m-ml40.s1.log：平均回合长度 378.85605，平均回报 70.34297，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep29-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 336.83585，平均回报 60.15826，loss_scale —；摘要里 nan 0 项
+t2-ep3-w2048-cap10m-ml40.s1.log：平均回合长度 484.02176，平均回报 105.58058，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep3-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 504.06122，平均回报 110.59582，loss_scale —；摘要里 nan 0 项
+t2-ep5-w2048-cap10m-ml40.s1.log：平均回合长度 441.38159，平均回报 77.69507，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep5-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 530.95001，平均回报 91.68885，loss_scale —；摘要里 nan 0 项
+t2-ep6-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 389.77551，平均回报 84.33865，loss_scale —；摘要里 nan 0 项
+t2-ep7-w2048-cap10m-p185g-ml40.s1.log：平均回合长度 681.07141，平均回报 173.14937，loss_scale —；摘要里 nan 0 项
+t2-ep7-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 628.13159，平均回报 156.70984，loss_scale —；摘要里 nan 0 项
+t2-ep8-w2048-cap10m-ml40.s1.log：平均回合长度 542.26508，平均回报 115.8782，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep8-w2048-cap10m-r3a-ml40.s1.log：平均回合长度 580.84338，平均回报 122.19669，loss_scale —；摘要里 nan 0 项
+t2-ep8-w2048-cap10m-r3a-s43-ml40.s1.log：平均回合长度 546.80725，平均回报 115.50744，loss_scale —；摘要里 nan 0 项
+t2-ep8-w2048-cap10m-s43-ml40.s1.log：平均回合长度 569.15051，平均回报 122.81649，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t2-ep13-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep14-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep17-w2048-cap10m-r3a-ml40：170006528 写于 2026-10-11 11:01:29 CST
+t2-ep19-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep1-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep23-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep25-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep28-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep2-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep4-w2048-cap10m-r3a-ml40：（还没有 policy）
+t2-ep7-w2048-cap10m-p185-ml40：160006144 写于 2026-10-03 03:21:06 CST
+t2-ep9-w2048-cap10m-r3a-ml40：（还没有 policy）
+## 机器
+40237 MiB, 99 %
+1612729 MB free
+runs/.chain-active-cand_t2_t2xa_ml40-gate
+runs/.chain-active-t2xa_eval_ml40
+runs/.chain-active-t2xa_train_ml40

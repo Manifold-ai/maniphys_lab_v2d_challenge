@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-10-sop-page-2100.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 36ecc4327ceaca7bba4c6ed18d0ffc48  agent-doc/experiments/2026-10-10-sop-page-2100.claims.json
+# source   : c900fe96d60a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T21:16:06-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_done              P(supported)=0.96  verified               [s]  t2xa 训练链日志里，t2-ep29、t2-ep6、t2-ep18、t2-ep7、t2-ep16、t2-ep0、t2-ep21、t2-ep15、t2-ep10、t2-ep27、t2-ep3、t2-ep5、t2-ep11（全名都带 -w2048-cap10m-r3a-ml40）依次记了“完成（1 段）”，每条的 fc_run_watched 行都写最新 policy 在 349,999,104 步非有限 0；最后一行是开始正式训练 t2-ep17-w2048-cap10m-r3a-ml40。
+t2_pace              P(supported)=0.98  verified               [p]  已完成的 13 条正式训练里，用时最短的是 t2-ep16（118:15），最长的是 t2-ep5（141:35）；t2-ep17 从 10-10 20:02:29 MDT 开始，还在跑。
+machines             P(supported)=0.98  verified               [m]  ml40 上 t2-ep17-w2048-cap10m-r3a-ml40 的日志最近一行训练进度是 47.0%，ml40 有 1 个 GPU 进程、3 个长链标记；mf4090 的 GPU 进程 0 个、长链标记 0 个，根分区可用 2657 MB。
+gpu_ml40             P(supported)=0.88  verified               [g]  ml40 的 GPU 上只有一个计算进程，它属于本用户，命令是 train_flash_sac.py，用的是 tier2 目录下 traffic_cone_ground_table_02 那条序列的 parquet。
+yq_versions          P(supported)=0.95  verified               [q]  ml40 上 runs/tier3_cari4d_f830_sim 与 runs/tier3_cari4d_f830_simreg 各有 20 个 parquet，对应的 _suspect 目录各有 9 个；这些 parquet 的修改时间最早 2026-10-11_05:29:35，最晚 2026-10-11_07:46:59。另有两个 t3_gpu_watch.sh 进程，参数分别是 ep28、ep27、ep19、ep03 与 ep01、ep06、ep10、ep22、ep03、ep07、ep13、ep19。
+pick                 P(supported)=0.98  verified               [pick]  选版记录里 floor 版的常数偏移是 -7.4 ± 3.9 mm，f830 版是 -5.1 ± 4.0 mm，结论是 PICK f830。
+t3_ep24              P(supported)=0.96  verified               [t]  t3-ep24-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.933、ADD-AUC 0.696、MPPE 3.02 cm；第一轮的 t3-ep24-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000；两条 Tier 2 变体 A 的 ep24 都是 0.999。
+retarget             P(supported)=0.98  verified               [p2]  18 集里过 P2′ 的 10 集是 ep0、ep15、ep17、ep18、ep20、ep21、ep22、ep23、ep26、ep29；不过的 8 集里 4 集间隙为负（ep5、ep9、ep12、ep14），4 集间隙为正（ep3、ep7、ep16、ep25）。
+ctl_true_gpu         P(supported)=0.98  control(true) ok       [m]  mf4090 的显卡是 NVIDIA GeForce RTX 4090，显存占用 0 MiB。
+ctl_false_all14      P(supported)=0.14  control(false) ok      [s]  t2xa 的 14 条正式训练全部完成，训练链已写 DAY2_TRAIN_DONE。
+ctl_false_gpu2       P(supported)=0.11  control(false) ok      [g]  ml40 的 GPU 上有两个计算进程，其中一个属于别的用户。
+ctl_false_simreg     P(supported)=0.01  control(false) ok      [q]  runs/tier3_cari4d_f830_simreg 里有 30 个 parquet。
+controls behaved as expected
