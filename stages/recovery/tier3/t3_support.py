@@ -20,7 +20,10 @@ are within MERGE_DH_M and whose footprints are within MERGE_XY_M are one support
 B on one table). Its height is the object's (frame-weighted median of the placements' lowest points), not MoGe's:
 one round table in six episodes reads 0.748-0.789 m from the objects, 0.775-0.845 m from MoGe. Each placement keeps
 its own height and its offset from the support's (the error a post-process anchors away); the patch is the convex
-hull of the footprints grown by PATCH_MARGIN_M.
+hull of the footprints grown by PATCH_MARGIN_M. Consecutive placements on one support between which the object's lowest point stays within LIFT_M of
+the support (median-filtered over LIFT_FILTER frames, so one jittery frame does not count) are one placement: the object
+never left the surface, its reconstruction drifted (ep25's final placement drifts 25 cm on the table under a resting
+hand and read as two). Leaving downwards counts too (ep13's box goes from the desk to the floor and back).
 
 Penetration, per frame, from the physics check's lowest hull point:
   floor     lowest point more than FLOOR_TOL_M below the floor (as object_floor_penetration);
@@ -46,6 +49,8 @@ STATIC_WINDOW = 15
 STATIC_RADIUS_M = 0.05
 MOGE_ABOVE_M = 0.03
 SUP_PEN_BAND_M = 0.15
+LIFT_M = 0.05
+LIFT_FILTER = 9
 MERGE_DH_M = 0.03
 MERGE_XY_M = 0.6
 PATCH_MARGIN_M = 0.05
@@ -132,6 +137,7 @@ def moge_world(wdir, name, gp, reg):
 
 def main() -> None:
     import trimesh
+    from scipy.ndimage import median_filter
     from scipy.spatial.transform import Rotation
 
     root, version, phys, wdir, out = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), Path(sys.argv[4]), Path(sys.argv[5])
@@ -201,15 +207,30 @@ def main() -> None:
             gr.sort(key=lambda g: g["start"])
             frames = np.concatenate([np.arange(g["start"], g["end"]) for g in gr])
             h = float(np.median(obj_low[frames]))  # the support's height is the object's
+            low_f = median_filter(obj_low, LIFT_FILTER, mode="nearest")
+            merged = [dict(gr[0], parts=[gr[0]])]
+            for g in gr[1:]:
+                prev = merged[-1]
+                if np.all(np.abs(low_f[prev["end"]:g["start"]] - h) <= LIFT_M):  # never left the surface in between
+                    prev["parts"].append(g); prev["end"] = g["end"]
+                else:
+                    merged.append(dict(g, parts=[g]))
+            for mp in merged:
+                fr = np.concatenate([np.arange(q["start"], q["end"]) for q in mp["parts"]])
+                mp["height_m"] = float(np.median(obj_low[fr]))
+                mp["centre"] = np.median(np.stack([q["centre"] for q in mp["parts"]]), 0)
+                mp["drift_m"] = float(max(np.linalg.norm(q["centre"] - r["centre"]) for q in mp["parts"] for r in mp["parts"]))
+                mp["static_frames"] = int(len(fr))
             poly = hull2(np.concatenate([g["footprint"] for g in gr]))
             over = inside(poly, xy, PATCH_MARGIN_M)
             pen = over & (obj_low < h - FLOOR_TOL_M) & (obj_low > h - SUP_PEN_BAND_M)
             sup_pen_any |= pen; sup_depth = np.maximum(sup_depth, np.where(pen, h - obj_low, 0))
             sup_out.append({"support": i, "height_m": round(h, 3), "frames_at_rest": int(len(frames)),
                             "moge_surface_heights_m": [g["moge"]["surface_height_m"] for g in gr],
-                            "placements": [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3),
-                                            "offset_m": round(g["height_m"] - h, 3), "centre_xy_m": np.round(g["centre"], 3).tolist(),
-                                            "held_share": round(float(held[g["start"]:g["end"]].mean()), 2)} for g in gr],
+                            "placements": [{"start": g["start"], "end": g["end"], "static_frames": g["static_frames"],
+                                            "height_m": round(g["height_m"], 3), "offset_m": round(g["height_m"] - h, 3),
+                                            "centre_xy_m": np.round(g["centre"], 3).tolist(), "drift_m": round(g["drift_m"], 3),
+                                            "held_share": round(float(held[g["start"]:g["end"]].mean()), 2)} for g in merged],
                             "patch_area_m2": round(float(0.5 * abs(np.dot(poly[:, 0], np.roll(poly[:, 1], 1)) - np.dot(poly[:, 1], np.roll(poly[:, 0], 1)))), 3) if len(poly) >= 3 else 0.0,
                             "patch_xy_m": poly.round(3).tolist(), "penetration_frames": int(pen.sum()),
                             "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0})
