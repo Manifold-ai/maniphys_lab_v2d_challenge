@@ -1,0 +1,12 @@
+# command  : tools/hf_remote.sh V2D_HF_ARCHIVE_STEPS=verify\ V2D_HF_SPOTCHECK_PER_RUN=1\ V2D_HF_SPOT_MIN_FREE_MB=1700\ V2D_HF_SPOT_MAX_CACHE_MB=50\ HF_XET_CHUNK_CACHE_SIZE_BYTES=0\ setsid\ nohup\ bash\ -c\ \'timeout\ 7200\ bash\ runs/tools/hf_archive_run.sh\ runs/hf_archive_batch3_manifest_mf4090.json\ Rongxuan-Zhou/v2d-track2-archive\ mf4090\ runs/hf_archive_batch3_mf4090\ 2\>\&1\ \|\ grep\ --line-buffered\ -v\ -E\ \"@\|hf_\[A-Za-z0-9\]\{20\}\"\ \>\ runs/logs/hf_archive_batch3_run.log\'\ \<\ /dev/null\ \>\ /dev/null\ 2\>\&1\ \&\ sleep\ 8\;\ echo\ started\ pid\ \$\!\;\ head\ -4\ runs/logs/hf_archive_batch3_run.log\ \|\ cut\ -c1-300 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 17d63971c28d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T23:58:22-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+started pid 1072494
+=== 2026-10-11 13:58:24 CST 开始（步骤 verify，抽查 每条 run 1 个）；工具 md5 15ce9fd47264d9849988afd736f3377a；清单 runs/hf_archive_batch3_manifest_mf4090.json（299 个文件，md5 98f48b166bf8d17aa2ebbff5f9ac72a0）；可用 2594 MB；xet 缓存 39 MB
+2026-10-11 13:58:25 开始上传 299 个文件到私有仓库 Rongxuan-Zhou/v2d-track2-archive（11.55 GB）
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_archive.py:344: FutureWarning: 
+================================================================================

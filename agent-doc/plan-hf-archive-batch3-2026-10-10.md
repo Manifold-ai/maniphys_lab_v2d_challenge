@@ -115,4 +115,15 @@ m3 属于训练计划，见 `agent-doc/plan-t3-v2-train10-2026-10-10.md`。
 
 ## 执行记录
 
-（待执行）
+### 第一段（10/10 23:54 起，UTC-6）
+
+- 23:54 代码已同步到 mf4090（来历 17d6397），`runs/tools/` 下 4 个文件与仓库相同（`hf_archive.py` md5 `15ce9fd4…`、`hf_archive_run.sh` `164610ff…`）。
+  测试在 mf4090 上全过：`test_hf_archive.py` 15 项（含 3 项流程脚本测试），`test_make_var_queue.py` 8 项（`results/ops/hf_archive_batch3_tests_mf4090.txt`）。
+- 23:54 生成清单（`results/ops/hf_archive_batch3_plan_mf4090.txt`），当时没有训练链：policy 234 个（9 条 run 各 26 份，步 10000384–260009984）、
+  旧 state 3 个（`t1-ep7-w2048-cap4m-p185g-mf4090` 的 320012288、330012672、340013056 步）、最终 state 62 个；共 299 个文件、62 条 run、
+  11545105380 字节（11.55 GB）。清单 `runs/hf_archive_batch3_manifest_mf4090.json` 的 md5 是 `98f48b166bf8d17aa2ebbff5f9ac72a0`。与登记的数字一致。
+- 23:57 t3p3a 起链（训练计划执行记录）。
+- 23:57 README 加第 3 批（状态“尚未删除”）后上传，HF_README_OK；`whoami`：账号 Rongxuan-Zhou，token 权限 write，仓库私有，1393 个文件、12.82 GB
+  （`results/ops/hf_readme_v2d_track2_archive_batch3.txt`）。
+- 23:58 第一段开跑（`results/ops/hf_archive_batch3_launch_mf4090.txt`）：日志第一行的工具 md5 `15ce9fd4…` 与测试记录相同，清单 md5 `98f48b16…`、
+  299 个文件；可用 2594 MB，xet 缓存 39 MB。
