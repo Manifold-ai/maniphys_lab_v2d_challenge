@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-10-t3v2-retarget18.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e063517b1fc8c3a9ac5550ec212e0d01  agent-doc/experiments/2026-10-10-t3v2-retarget18.claims.json
+# source   : d41bde416901-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-10T20:58:42-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+dir_done             P(supported)=0.88  verified               [rt]  重定向记录要求了 18 集（0 3 5 7 9 12 14 15 16 17 18 20 21 22 23 25 26 29），目录行是 runs/motion_src/tier3_v2、runs/motion/tier3_v2，18 集都有 one.sh 的退出码行，记录以 EPS_DONE 结束。
+p2_counts            P(supported)=0.98  verified               [p2]  按 P2′ 判，18 集里过 10 集（ep0 ep15 ep17 ep18 ep20 ep21 ep22 ep23 ep26 ep29），不过 8 集（ep3 ep5 ep7 ep9 ep12 ep14 ep16 ep25），重定向失败 0 集。
+fail_kinds           P(supported)=0.84  verified               [p2]  不过的 8 集里，ep5、ep9、ep12、ep14 是穿地（间隙 -34.9、-31.6、-63.5、-79.3 mm）；ep3、ep7、ep16、ep25 是悬空（间隙 +90.0、+710.9、+238.3、+728.6 mm），这 4 集在 A 段都静置在支撑面上，重定向后最近的是地面。
+ep29                 P(supported)=0.96  verified               [p2]  ep29 左右手接触都是 0 帧，接触一条按登记不适用，间隙 -28.2 mm，P2′ 记为过。
+floor_shift          P(supported)=0.91  verified               [p2]  A 段面高为 0.000 的 12 集（ep0 5 12 14 15 17 18 21 22 23 26 29），重定向后的间隙减 A 段间隙全部为负，在 -2.0 到 -58.1 mm 之间。
+sha_inputs           P(supported)=0.81  verified               [sha]  18 集 parquet 的 sha256 与 A 段记录相同（SHA_MATCH 18/18），重建用的网格与地面与官方 Tier 2 文件相同（INPUTS_SAME 36/36）。
+stage                P(supported)=0.94  verified               [st, chk, exp]  拼目录记录里有 V2D_T3_SET=v2 与 TIER3_ROOT_OK；runs/tier3/root_v2 的元数据有 20 行，runs/tier3/root 的元数据仍是 2 行、修改时间 2026-10-10 04:49 CST；root_v2 里 ep8、ep24 的 parquet 的 sha256 与哈希表 t3p2_1010 里的相同。
+ctl_true_ep15        P(supported)=0.99  control(true) ok       [p2]  ep15 的间隙是 1.4 mm，状态是 OK。
+ctl_false_all        P(supported)=0.01  control(false) ok      [p2]  18 集全部过 P2′。
+ctl_false_ep7        P(supported)=0.01  control(false) ok      [p2]  ep7 过 P2′，间隙在 30 mm 以内。
+ctl_false_root       P(supported)=0.02  control(false) ok      [chk]  第一轮的 runs/tier3/root 的元数据现在有 20 行。
+controls behaved as expected

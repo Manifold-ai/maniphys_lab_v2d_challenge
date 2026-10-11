@@ -1,0 +1,351 @@
+# command  : stages/retarget/eps.sh 3 0 3 5 7 9 12 14 15 16 17 18 20 21 22 23 25 26 29 
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : 5966a00e110c
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-11T07:49:37+0800
+# ---------------------------------------------------------------
+来历 5966a00e110c，2026-10-11 07:49:37 CST；目录 runs/motion_src/tier3_v2、runs/motion/tier3_v2
+one.sh 3 0 退出码 1（07:51:16）
+one.sh 3 3 退出码 1（07:53:24）
+one.sh 3 5 退出码 1（07:57:25）
+one.sh 3 7 退出码 1（08:00:19）
+one.sh 3 9 退出码 1（08:03:17）
+one.sh 3 12 退出码 1（08:05:31）
+one.sh 3 14 退出码 1（08:08:10）
+one.sh 3 15 退出码 0（08:10:48）
+one.sh 3 16 退出码 1（08:12:26）
+one.sh 3 17 退出码 0（08:14:18）
+one.sh 3 18 退出码 0（08:17:29）
+one.sh 3 20 退出码 1（08:19:46）
+one.sh 3 21 退出码 1（08:21:48）
+one.sh 3 22 退出码 1（08:23:34）
+one.sh 3 23 退出码 1（08:27:01）
+one.sh 3 25 退出码 1（08:31:03）
+one.sh 3 26 退出码 1（08:33:20）
+one.sh 3 29 退出码 1（08:34:56）
+## 结果行（档位 ep 序列 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态）
+3	0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	30.0	280	455	0.648	-23.4	floor	ALIGN
+3	3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	30.0	0	244	0.455	90.0	floor	ALIGN
+3	5	2026-03-18_19-36-56_g1_box_rotate_01	1003	30.0	488	614	0.956	-34.9	floor	ALIGN
+3	7	2026-05-29_15-20-43_iron_round_table_02	896	30.0	0	562	0.702	710.9	floor	ALIGN
+3	9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	870	30.0	382	417	0.76	-31.6	support	ALIGN
+3	12	2026-04-25_17-20-04_black_platform_turn_05	700	30.0	320	423	0.612	-63.5	floor	ALIGN
+3	14	2026-05-28_14-44-09_round_table_flip_08	993	30.0	471	646	0.596	-79.3	floor	ALIGN
+3	15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	30.0	0	420	0.864	1.4	floor	OK
+3	16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	30.0	183	0	0.551	238.3	floor	ALIGN
+3	17	2026-05-01_17-04-55_traffic_cone_ground_table_02	440	30.0	145	175	0.909	-0.5	floor	OK
+3	18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	30.0	298	422	0.881	-9.3	floor	OK
+3	20	2026-06-08_16-57-34_rice_cooker_clockwise_04	553	30.0	0	325	0.895	-21.8	support	ALIGN
+3	21	2026-04-29_11-53-57_tall_bar_stool_pull_08	678	30.0	449	462	0.858	-26.1	floor	ALIGN
+3	22	2026-05-22_16-52-36_step_ladder_drag_03	719	30.0	0	390	0.526	-21.3	floor	ALIGN
+3	23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	30.0	324	293	0.908	-23.0	floor	ALIGN
+3	25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	30.0	59	137	1.089	728.6	floor	ALIGN
+3	26	2026-06-05_16-05-08_skateboard_rotate_ground_10	669	30.0	259	237	0.766	-28.1	floor	ALIGN
+3	29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	30.0	0	0	0.544	-28.2	floor	ALIGN+NOCONTACT
+## runs/logs/batch/t3_v2_ep00.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0006, +0.1075] m
+[INFO] Saved robot sole Z range: [+0.0006, +0.1075] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 280/778 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 455/778 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 778 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet)
+support: 2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0234 m，中心 xy = (-0.426, -0.613)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -23.4 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-23.4 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep03.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0005, +0.1096] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/781 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 244/781 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 781 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet)
+support: 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda，1 个几何体
+  /support_surfaces/object_0               x[-1.323,-1.154] y[-0.258,-0.089] z[+0.737,+0.777]
+
+物体静置时：网格最低点 z = +0.0900 m，中心 xy = (+2.314, -1.734)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +90.0 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=90.0 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep05.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0000, +0.1091] m
+[INFO] Saved robot sole Z range: [+0.0000, +0.1091] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 488/1003 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 614/1003 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 1003 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet)
+support: 2026-03-18_19-36-56_g1_box_rotate_01_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0349 m，中心 xy = (-0.182, -0.525)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -34.9 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-34.9 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep07.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0015, +0.0779] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/896 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 562/896 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 896 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet)
+support: 2026-05-29_15-20-43_iron_round_table_02_support.usda，1 个几何体
+  /support_surfaces/tabletop               x[-1.196,-0.356] y[+0.029,+0.311] z[+0.772,+0.782]
+
+物体静置时：网格最低点 z = +0.7109 m，中心 xy = (-0.901, -0.003)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +710.9 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=710.9 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep09.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0019, +0.0882] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 382/870 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 417/870 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 870 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet)
+support: 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda，1 个几何体
+  /support_surfaces/object_0               x[-1.051,-0.739] y[-0.264,+0.048] z[+0.429,+0.469]
+
+物体静置时：网格最低点 z = +0.4372 m，中心 xy = (-0.954, -0.170)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/object_0@+0.469
+最近支撑面 /support_surfaces/object_0 顶面 z = +0.4688 m  →  间隙 = -31.6 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-31.6 surface=support ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep12.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0000, +0.1665] m
+[INFO] Saved robot sole Z range: [+0.0000, +0.1665] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 320/700 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 423/700 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 700 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet)
+support: 2026-04-25_17-20-04_black_platform_turn_05_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0635 m，中心 xy = (-0.592, +0.545)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -63.5 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-63.5 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep14.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0000, +0.0882] m
+[INFO] Saved robot sole Z range: [+0.0000, +0.0882] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 471/993 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 646/993 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 993 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet)
+support: 2026-05-28_14-44-09_round_table_flip_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0793 m，中心 xy = (-0.804, -0.509)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -79.3 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-79.3 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep15.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0022, +0.1453] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/715 frames
+[INFO] Saved robot sole Z range: [+0.0022, +0.1453] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/715 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 420/715 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 715 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet)
+support: 2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = +0.0014 m，中心 xy = (-0.923, +0.047)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +1.4 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=1.4 surface=floor ok=1
+## runs/logs/batch/t3_v2_ep16.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0000, +0.1283] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 183/477 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 0/477 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 477 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet)
+support: 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda，1 个几何体
+  /support_surfaces/object_0               x[-0.717,-0.624] y[+0.712,+0.805] z[+0.838,+0.878]
+
+物体静置时：网格最低点 z = +0.2383 m，中心 xy = (-0.028, +0.619)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +238.3 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=238.3 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep17.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0025, +0.1397] m
+[INFO] Saved robot sole Z range: [+0.0025, +0.1397] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 145/440 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 175/440 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 440 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet)
+support: 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda，1 个几何体
+  /support_surfaces/object_0               x[-0.418,-0.168] y[+0.518,+0.768] z[+0.731,+0.771]
+
+物体静置时：网格最低点 z = -0.0005 m，中心 xy = (-1.117, +0.869)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.5 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.5 surface=floor ok=1
+## runs/logs/batch/t3_v2_ep18.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0021, +0.1363] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/858 frames
+[INFO] Saved robot sole Z range: [+0.0021, +0.1363] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 298/858 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 422/858 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 858 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet)
+support: 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0093 m，中心 xy = (-0.074, -1.155)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -9.3 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-9.3 surface=floor ok=1
+## runs/logs/batch/t3_v2_ep20.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0032, +0.1337] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/553 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 325/553 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 553 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet)
+support: 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda，1 个几何体
+  /support_surfaces/object_0               x[-0.480,-0.209] y[+0.652,+0.922] z[+0.757,+0.797]
+
+物体静置时：网格最低点 z = +0.7756 m，中心 xy = (-0.293, +0.784)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/object_0@+0.797
+最近支撑面 /support_surfaces/object_0 顶面 z = +0.7974 m  →  间隙 = -21.8 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-21.8 surface=support ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep21.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0028, +0.0990] m
+[INFO] Saved robot sole Z range: [+0.0028, +0.0990] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 449/678 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 462/678 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 678 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet)
+support: 2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0261 m，中心 xy = (-1.191, +0.001)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -26.1 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-26.1 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep22.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0003, +0.1438] m
+[INFO] Saved robot sole Z range: [+0.0003, +0.1438] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/719 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 390/719 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 719 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet)
+support: 2026-05-22_16-52-36_step_ladder_drag_03_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0213 m，中心 xy = (-0.309, +1.237)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -21.3 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-21.3 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep23.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0017, +0.0965] m
+[INFO] Saved robot sole Z range: [+0.0017, +0.0965] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 324/946 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 293/946 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 946 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet)
+support: 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0230 m，中心 xy = (-0.939, -0.267)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -23.0 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-23.0 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep25.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0051, +0.1134] m
+[INFO] left_hand_contact_active: 59/859 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 137/859 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 859 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet)
+support: 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda，2 个几何体
+  /support_surfaces/object_0               x[-1.261,-1.154] y[+0.619,+0.726] z[+0.743,+0.783]
+  /support_surfaces/object_1               x[-1.371,-1.265] y[+0.710,+0.815] z[+0.747,+0.787]
+
+物体静置时：网格最低点 z = +0.7286 m，中心 xy = (-0.835, +0.423)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +728.6 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=728.6 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep26.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0004, +0.0585] m
+[INFO] Saved robot sole Z range: [+0.0004, +0.0585] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 259/669 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 237/669 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 669 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet)
+support: 2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0281 m，中心 xy = (-0.307, +0.665)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -28.1 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-28.1 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_v2_ep29.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0003, +0.1211] m
+[INFO] Saved robot sole Z range: [+0.0003, +0.1211] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/467 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 0/467 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_v2/whole_body/soma
+Retargeting complete. Processed 467 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet)
+support: 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0282 m，中心 xy = (-0.390, -0.998)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -28.2 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-28.2 surface=floor ok=0
+There was an error running python
+EPS_DONE

@@ -1,0 +1,35 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rt": {"file": "results/t3p2/retarget18_mf4090.txt", "grep": "^# command|^来历|^one.sh|^EPS_DONE"},
+    "p2": {"file": "results/t3p2/p2_18.txt", "grep": "^记录|^ep\\t|^[0-9]+\\t|^P2_|^RETARGET_FAIL|^CONTACT_NA|^SURFACE_TO_FLOOR"},
+    "sha": {"file": "results/t3p2/sha_match_18.txt", "grep": "^SHA_|^INPUTS_"},
+    "st": {"file": "results/t3p2/stage18_mf4090.txt", "grep": "^== |V2D_T3_SET|TIER3_ROOT_OK|^写 meta"},
+    "chk": {"file": "results/t3p2/stage18_check_mf4090.txt", "grep": "^== |行 runs|episode_0000"},
+    "exp": {"file": "stages/recovery/expect/t3p2_1010.tsv", "grep": "parquet"}
+  },
+  "claims": [
+    {"id": "dir_done", "evidence": ["rt"],
+     "claim": "重定向记录要求了 18 集（0 3 5 7 9 12 14 15 16 17 18 20 21 22 23 25 26 29），目录行是 runs/motion_src/tier3_v2、runs/motion/tier3_v2，18 集都有 one.sh 的退出码行，记录以 EPS_DONE 结束。"},
+    {"id": "p2_counts", "evidence": ["p2"],
+     "claim": "按 P2′ 判，18 集里过 10 集（ep0 ep15 ep17 ep18 ep20 ep21 ep22 ep23 ep26 ep29），不过 8 集（ep3 ep5 ep7 ep9 ep12 ep14 ep16 ep25），重定向失败 0 集。"},
+    {"id": "fail_kinds", "evidence": ["p2"],
+     "claim": "不过的 8 集里，ep5、ep9、ep12、ep14 是穿地（间隙 -34.9、-31.6、-63.5、-79.3 mm）；ep3、ep7、ep16、ep25 是悬空（间隙 +90.0、+710.9、+238.3、+728.6 mm），这 4 集在 A 段都静置在支撑面上，重定向后最近的是地面。"},
+    {"id": "ep29", "evidence": ["p2"],
+     "claim": "ep29 左右手接触都是 0 帧，接触一条按登记不适用，间隙 -28.2 mm，P2′ 记为过。"},
+    {"id": "floor_shift", "evidence": ["p2"],
+     "claim": "A 段面高为 0.000 的 12 集（ep0 5 12 14 15 17 18 21 22 23 26 29），重定向后的间隙减 A 段间隙全部为负，在 -2.0 到 -58.1 mm 之间。"},
+    {"id": "sha_inputs", "evidence": ["sha"],
+     "claim": "18 集 parquet 的 sha256 与 A 段记录相同（SHA_MATCH 18/18），重建用的网格与地面与官方 Tier 2 文件相同（INPUTS_SAME 36/36）。"},
+    {"id": "stage", "evidence": ["st", "chk", "exp"],
+     "claim": "拼目录记录里有 V2D_T3_SET=v2 与 TIER3_ROOT_OK；runs/tier3/root_v2 的元数据有 20 行，runs/tier3/root 的元数据仍是 2 行、修改时间 2026-10-10 04:49 CST；root_v2 里 ep8、ep24 的 parquet 的 sha256 与哈希表 t3p2_1010 里的相同。"},
+    {"id": "ctl_true_ep15", "evidence": ["p2"], "control": "true",
+     "claim": "ep15 的间隙是 1.4 mm，状态是 OK。"},
+    {"id": "ctl_false_all", "evidence": ["p2"], "control": "false",
+     "claim": "18 集全部过 P2′。"},
+    {"id": "ctl_false_ep7", "evidence": ["p2"], "control": "false",
+     "claim": "ep7 过 P2′，间隙在 30 mm 以内。"},
+    {"id": "ctl_false_root", "evidence": ["chk"], "control": "false",
+     "claim": "第一轮的 runs/tier3/root 的元数据现在有 20 行。"}
+  ]
+}
