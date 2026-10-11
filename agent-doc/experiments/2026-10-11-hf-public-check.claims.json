@@ -1,0 +1,29 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "fr": {"file": "results/ops/kaggle_rules_sharing_1011.txt", "grep": "^## |^### foundational|SUBMISSION CODE REQUIREMENTS"},
+    "cr": {"file": "results/ops/kaggle_rules_sharing_1011.txt", "grep": "^## |^### rules|External Data|Pre-trained models"},
+    "hd": {"file": "results/ops/kaggle_rules_sharing_1011.txt", "grep": "^## |^### "},
+    "ex": {"file": "results/ops/ckpt_exposure_batch3_mf4090.txt", "grep": "^## |^不在本地|^最终 state|^文件头|^W&B"}
+  },
+  "claims": [
+    {"id": "public_sharing", "evidence": ["fr"],
+     "claim": "Kaggle 附加的不可编辑规则（foundational-rules）的 Public Code Sharing 条款写明：可以公开分享 Competition Code，但选择分享时，必须分享在 Kaggle.com 上与这个比赛对应的讨论区或 notebook 里。"},
+    {"id": "code_def", "evidence": ["fr"],
+     "claim": "同一节的 Private Code Sharing 条款把 Competition Code 定义为与比赛数据有关或基于比赛数据开发的源代码或可执行代码，以及与比赛相关的其他源代码或可执行代码；条款原文没有提到模型权重或 checkpoint。"},
+    {"id": "external", "evidence": ["cr"],
+     "claim": "比赛方的规则第 2.7 节写明：外部数据须公开、所有参赛者都能同等免费使用（或满足合理性标准）；预训练模型按外部数据对待，适用同样的可获得性要求。"},
+    {"id": "same_rules", "evidence": ["hd"],
+     "claim": "Track 2 Tier 3 MP-SR 与 Tier 1 AUC 两个比赛的 foundational-rules 页面 sha256 相同（3106b398…），都是 23654 字符。"},
+    {"id": "final_contains", "evidence": ["ex"],
+     "claim": "已经传到仓库的第 3a 批 28 份最终 state，每一份都含有同步数 policy 的全部张量；还没上传的第 3b 批 34 份最终 state 也是每份都含有。"},
+    {"id": "metadata", "evidence": ["ex"],
+     "claim": "第 3a、3b 两批文件头的 metadata 里，token、api key、secret、password、hf_ 开头的 token 的匹配都是 0 次，没有邮箱、/home 路径和网址；有 W&B 的 entity zhou-rongx-northeastern-university。"},
+    {"id": "ctl_true_3b", "evidence": ["ex"], "control": "true",
+     "claim": "第 3b 批清单有 174 个文件、35 条 run。"},
+    {"id": "ctl_false_weights", "evidence": ["fr"], "control": "false",
+     "claim": "foundational-rules 明确写着模型权重不算 Competition Code，可以在任何网站公开。"},
+    {"id": "ctl_false_missing", "evidence": ["ex"], "control": "false",
+     "claim": "第 3a 批有 5 份最终 state 不含同步数 policy 的张量。"}
+  ]
+}
