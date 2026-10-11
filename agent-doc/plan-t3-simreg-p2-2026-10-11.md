@@ -83,8 +83,8 @@
   `align_foot_task_targets_to_ground`（第 321–353 行）每帧只给机器人两只脚的 IK 目标加同一个竖直平移，让较低的脚底落地，物体与其他目标不动。
   间隙几乎不变，是因为这四集的配准没有改变物体相对官方地面的高度。P2′ 的间隙取全集物体最低 5% 帧的中位数
   （`check_support_alignment.py` 第 56–65 行），A 段取第 0–4 帧；ep12、14 第 0 帧物体最低点离官方地面 −5.6、−30.4 mm，
-  全集最低 5% 帧是 −64.4、−78.8 mm（`results/t3simreg/ground_lines_simreg_mf4090.txt`、`results/t3simreg/p2_17.txt`），穿地发生在集的中段，
-  与机位配准无关。
+  全集最低 5% 帧是 −64.4、−78.8 mm（`results/t3simreg/ground_lines_simreg_mf4090.txt`、`results/t3simreg/p2_17.txt`），穿得最深的帧不在开头
+  （具体在哪些帧没有查），与机位配准无关。
 - jev 与归档第 4 版一起做（`results/t3simreg/jev_claims_hf_public_simreg.txt`）：simreg 的 6 条（拼目录、P2′、并列、四集、各列、ep0）全部核实。
 - 读法：simreg 没有让任何一集过 P2′ 的结论改变，没有新增可训的集。已过 P2′ 的 9 集在 simreg 上只换了人体缩放，换不换参考重训由用户定（待定）。
   `runs/motion_src/tier3_simreg`、`runs/motion/tier3_simreg`（约 1.2 GB）先留着。
