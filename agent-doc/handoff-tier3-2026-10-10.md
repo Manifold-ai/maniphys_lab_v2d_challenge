@@ -109,7 +109,9 @@
   - `t3_gpu_watch.sh`：JOB 以 rc 3 / 4 让卡退出后回到等待，空闲后用同一份列表重启（不再「试点剩下的集不会自动续」）。
   - 验证：本地桩测试覆盖来源选择、两种跳过、rc 4 后重启；旧版在同一组数据上一集都不跳过。L40S 副本与仓里 md5 一致，
     替换方式是写 `.new` 再 `mv`，正在运行的重选监视进程不受影响。
-- **缺口**：`t3_fp_pilot.sh` 的 world 步不传 `camera_register.json`。队列里的 ep16、ep25 和试点做过的 ep28 是第二机位，
-  每帧配准版没有配准到主机位（人体缩放照常做）。并进交付版之前要带配准文件重跑 world + assemble。
+- **第二机位配准（`eb8fef5`）**：`t3_fp_pilot.sh` 的 world 步原来不传 `camera_register.json`，第二机位的集（队列里 ep16、ep25，
+  试点做过的 ep28）会停在自己的相机系。现在默认带上 `runs/floor/camera_register.json`（`REGISTER=` 关闭，文件缺失时开跑前退出）。
+  ep28 已补跑 world + assemble（`logs/world_fp_ep28_squeegee_reg.log`）：`camera_register` 生效，物体位置中位与 simreg 版同集相差
+  约 0.2 m；跟丢检查重跑各项计数不变（0.8097）。未配准的旧输出与旧 track check 在 `runs/convert_fp_world_unreg_backup/ep28_squeegee/`。
 - **口径待统一**：上面「干净 13 集」含 ep29，它的跟丢比例 0.283；本次排队门槛是 0.2，ep29 在队列里。
-- 下一步：重选和每帧配准都跑完后，逐集选版本（基线 / 重选 / 每帧配准），补第二机位配准，从同一条链组装交付版。
+- 下一步：重选和每帧配准都跑完后，逐集选版本（基线 / 重选 / 每帧配准），从同一条链组装交付版。
