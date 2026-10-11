@@ -32,6 +32,10 @@ hubsubset（第 3 批撞上私有存储额度后加）：只挑仓库里已有�
 readme 子命令与 upload 的闸：PYTHONPATH 前面放一个假的 huggingface_hub（状态存在 JSON 里）。仓库没有 README.md 时 upload 停、
 不留暂存目录；readme 建私有仓库、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
 仓库是公开的 upload 停。
+可见性（第 3 批第 4 版，用户同意公开归档仓库后加）：whoami、readme、upload 的 --visibility 与仓库实际可见性对不上就停或报 FAIL；
+visibility 子命令只碰本工具建的归档仓库（根目录有 README.md、至少一个 <机器名>/runs/flash_chord/<run>/(state|policy)_<步数>.safetensors），
+--confirm 与 --repo 不同就停，不加 --yes 不改，已是目标可见性不重复改，改完读回来对不上报 HF_VISIBILITY_FAIL，旧版 huggingface_hub 用 update_repo_visibility；
+流程脚本把 V2D_HF_VISIBILITY 原样传给 upload，值不对退出码 2。
 hf_archive_run.sh（只在 Linux 上测，用 GNU find）：runs/tools/ 下放桩工具（upload、verify、spotcheck 是假的，其余转给真工具），
 PATH 前面放假 nvidia-smi 与假 pgrep（训练机上有真训练链在跑时，真 pgrep 会让删除步骤停下；10/11 第 3 批测试实际遇到过）。verify 步骤停在删除前、什么都不删；delete 步骤缺核对结果、有训练链、GPU 上有进程都停，
 正常时先重新核对再删；删除时多删一个清单外的文件，全量比对要报 HF_ARCHIVE_FILES_CHECK_FAILED。
@@ -360,6 +364,9 @@ class _Info:
 
 
 class HfApi:
+    def whoami(self):
+        return {"name": "u", "auth": {"accessToken": {"role": "write"}}}
+
     def repo_exists(self, repo_id, repo_type=None):
         return _load()["exists"]
 
@@ -368,6 +375,23 @@ class HfApi:
 
     def repo_info(self, repo_id, repo_type=None, files_metadata=False):
         return _Info(_load()["private"])
+
+    def list_repo_files(self, repo_id, repo_type=None):
+        d = _load()
+        return list(d["files"]) + list(d.get("tree", {}))
+
+    def _set_private(self, private, key):
+        d = _load()
+        d[key] = d.get(key, 0) + 1
+        if not d.get("ignore_update"):
+            d["private"] = private
+        _save(d)
+
+    def update_repo_settings(self, repo_id, private=None, repo_type=None):
+        self._set_private(private, "settings_calls")
+
+    def update_repo_visibility(self, repo_id, private=False, repo_type=None):
+        self._set_private(private, "visibility_calls")
 
     def create_repo(self, repo_id, repo_type=None, private=False, exist_ok=False):
         d = _load()
@@ -408,6 +432,10 @@ def hf_hub_download(repo_id, filename, repo_type=None, local_dir=None, force_dow
         with (c / "chunk.bin").open("ab") as f:
             f.write(b"0" * d["cache_growth"])
     return str(p)
+
+
+if _load().get("old_api"):  # 模拟没有 update_repo_settings 的旧版 huggingface_hub
+    del HfApi.update_repo_settings
 """
 
 
@@ -452,6 +480,62 @@ def test_readme_and_upload_guard() -> None:
         hub_state(root, private=False)
         out = run(root, *up, rc=1, env=env)
         assert "不是私有仓库" in out and not (root / "runs/hf_stage").exists(), out
+        # 第 4 版：公开仓库要明确写 --visibility public；写了就能传，私有仓库配 --visibility public 反过来停
+        out = run(root, *up, "--visibility", "public", env=env)
+        assert "HF_UPLOAD_DONE" in out and "公开仓库" in out and hub_state(root)["large_folder_calls"] == 2, out
+        shutil.rmtree(root / "runs/hf_stage")
+        assert "HF_README_OK" in run(root, "readme", "--repo", "u/r", "--file", "README.md", "--visibility", "public", env=env)
+        assert "不是私有仓库" in run(root, "readme", "--repo", "u/r", "--file", "README.md", rc=1, env=env)
+        hub_state(root, private=True)
+        out = run(root, *up, "--visibility", "public", rc=1, env=env)
+        assert "不是公开仓库" in out and not (root / "runs/hf_stage").exists() and hub_state(root)["large_folder_calls"] == 2, out
+        assert "不是公开仓库" in run(root, "readme", "--repo", "u/r", "--file", "README.md", "--visibility", "public", rc=1, env=env)
+
+
+def test_whoami_visibility() -> None:
+    """whoami 的可见性与 --visibility 对上才报 HF_WHOAMI_OK（第 3 批第 4 版）。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        env = fake_hub(root)
+        hub_state(root, exists=True, private=True)
+        assert "HF_WHOAMI_OK" in run(root, "whoami", "--repo", "u/r", env=env)
+        assert "HF_WHOAMI_FAIL" in run(root, "whoami", "--repo", "u/r", "--visibility", "public", rc=1, env=env)
+        hub_state(root, private=False)
+        assert "HF_WHOAMI_FAIL" in run(root, "whoami", "--repo", "u/r", rc=1, env=env)
+        assert "HF_WHOAMI_OK" in run(root, "whoami", "--repo", "u/r", "--visibility", "public", env=env)
+
+
+def test_visibility_command() -> None:
+    """visibility 子命令（第 3 批第 4 版）：只碰本工具建的归档仓库，--confirm 要与 --repo 相同，不加 --yes 不改，
+    已是目标可见性不重复改，改完重新读对不上报 HF_VISIBILITY_FAIL，旧版 huggingface_hub 退回 update_repo_visibility。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        env = fake_hub(root)
+        hub_state(root, exists=True, private=True, files={"README.md": "# r\n"},
+                  tree={"runs/flash_chord/t1-a/policy_1.safetensors": [4, "x"], "m/runs/flash_chord/t1-a/b/policy_1.safetensors": [4, "x"]})
+        go = ("visibility", "--repo", "u/r", "--to", "public", "--confirm", "u/r", "--yes")
+        out = run(root, *go, rc=1, env=env)
+        assert "不是本工具建的归档仓库" in out and hub_state(root)["private"] and not hub_state(root).get("settings_calls"), out
+        hub_state(root, files={}, tree={"m/runs/flash_chord/t1-a/policy_1.safetensors": [4, "x"]})
+        assert "不是本工具建的归档仓库" in run(root, *go, rc=1, env=env) and hub_state(root)["private"]
+        hub_state(root, files={"README.md": "# r\n"})
+        out = run(root, "visibility", "--repo", "u/r", "--to", "public", "--confirm", "u/x", "--yes", rc=1, env=env)
+        assert "不同" in out and hub_state(root)["private"] and not hub_state(root).get("settings_calls"), out
+        out = run(root, *go[:-1], env=env)
+        assert "HF_VISIBILITY_DRYRUN" in out and hub_state(root)["private"] and not hub_state(root).get("settings_calls"), out
+        out = run(root, *go, env=env)
+        assert "HF_VISIBILITY_OK" in out and not hub_state(root)["private"] and hub_state(root)["settings_calls"] == 1, out
+        out = run(root, *go, env=env)
+        assert "不改" in out and "HF_VISIBILITY_OK" in out and hub_state(root)["settings_calls"] == 1, out
+        hub_state(root, private=True, ignore_update=True)
+        assert "HF_VISIBILITY_FAIL" in run(root, *go, rc=1, env=env) and hub_state(root)["private"]
+        hub_state(root, ignore_update=False, old_api=True)
+        out = run(root, *go, env=env)
+        st = hub_state(root)
+        assert "HF_VISIBILITY_OK" in out and not st["private"] and st["visibility_calls"] == 1 and st["settings_calls"] == 2, (out, st)
+        hub_state(root, old_api=False)
+        out = run(root, "visibility", "--repo", "u/r", "--to", "private", "--confirm", "u/r", "--yes", env=env)
+        assert "HF_VISIBILITY_OK" in out and hub_state(root)["private"], out
 
 
 def test_spotcheck_guards() -> None:
@@ -508,7 +592,7 @@ STUB = """import os, shutil, subprocess, sys
 REAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hf_archive_real.py")
 cmd = sys.argv[1]
 if cmd == "upload":
-    open("runs/upload_called", "w").close()
+    open("runs/upload_called", "w").write(" ".join(sys.argv[1:]))
     sys.exit(0)
 if cmd in ("verify", "spotcheck"):
     shutil.copy(os.environ["STUB_VERIFIED" if cmd == "verify" else "STUB_SPOT"], sys.argv[sys.argv.index("--out") + 1])
@@ -569,7 +653,12 @@ def test_runner_verify_step() -> None:
         assert (root / "runs/x.verified.json").exists() and (root / "runs/x.spotcheck.json").exists()
         assert run_runner(root, env, "nope").returncode == 2
         assert run_runner(root, env, "verify", V2D_HF_SPOTCHECK_PER_RUN="2").returncode == 2
-        assert (root / "runs/upload_called").exists()
+        assert (root / "runs/upload_called").read_text().endswith("--visibility private")
+        (root / "runs/upload_called").unlink()
+        assert run_runner(root, env, "verify", V2D_HF_VISIBILITY="nope").returncode == 2
+        r = run_runner(root, env, "verify", V2D_HF_VISIBILITY="public")
+        assert r.returncode == 0 and "可见性 public" in r.stdout, r.stdout + r.stderr
+        assert (root / "runs/upload_called").read_text().endswith("--visibility public")
         (root / "runs/upload_called").unlink()
         r = run_runner(root, env, "check", V2D_HF_SPOTCHECK_PER_RUN="1")
         assert r.returncode == 0 and r.stdout.rstrip().endswith("HF_ARCHIVE_VERIFIED") and "没有上传" in r.stdout, r.stdout + r.stderr

@@ -1,9 +1,18 @@
-"""把训练机上已经用不上的 state 与 policy 文件归档到 Hugging Face 私有仓库，核对无误后再删本地（训练机上、仓库根执行）。
+"""把训练机上已经用不上的 state 与 policy 文件归档到 Hugging Face 仓库，核对无误后再删本地（训练机上、仓库根执行）。
 计划 agent-doc/plan-hf-archive-2026-10-01.md（state，第 2 版，按 Fable 5.1 审查修改）与
-agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-doc/plan-hf-archive-batch3-2026-10-10.md（第 3 批，加最终 state）。
+agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-doc/plan-hf-archive-batch3-2026-10-10.md（第 3 批，加最终 state；
+第 4 版：用户 10/11 同意把归档仓库改为公开）。
 
-七个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
-  whoami    --repo <用户/仓库>   查 token 属于谁、权限、仓库是不是私有、仓库里已有多少文件（只读）。
+可见性：whoami、readme、upload 都带 --visibility private|public（默认 private），仓库的实际可见性与它不同就停（whoami 报 HF_WHOAMI_FAIL）。
+默认值保持第 1–3 批“只往私有仓库传”的行为；公开仓库要明确写 --visibility public。
+
+八个子命令，各自独立、各自落盘，任何一步没过就停在那一步：
+  whoami    --repo <用户/仓库> [--visibility V]   查 token 属于谁、权限、仓库的可见性、仓库里已有多少文件（只读）。
+  visibility --repo <用户/仓库> --to public|private --confirm <用户/仓库> [--yes]
+                                  改仓库的可见性。--confirm 必须与 --repo 相同；仓库根目录要有 README.md，且至少有一个
+                                  <机器名>/runs/flash_chord/<run>/(state|policy)_<步数>.safetensors，即本工具建的归档仓库，别的仓库一律不碰。
+                                  已经是目标可见性就不改；不加 --yes 只打印将做什么（HF_VISIBILITY_DRYRUN）；改完重新读一次，
+                                  对上才报 HF_VISIBILITY_OK。
   storage                         列出 token 所属账号下每个模型、数据集、Space 仓库是否私有与已用存储，再给私有与公开的合计（只读）。
                                   第 3 批上传遇到“Private storage limit reached”后加的，看额度被谁占着。
   hubsubset --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <子清单.json> [--rest-out <其余.json>]
@@ -11,14 +20,14 @@ agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-
                                   --rest-out 把仓库里还没有的行另写一份，以后接着上传用它（子清单删过之后，原清单不能再用来上传）。
                                   仓库里有同路径但大小或 sha256 不同的文件就退出码 1。第 3 批上传到一半撞上私有存储额度，
                                   只对已提交的那部分走核对、抽查、删除（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md 第 3 版）。
-  readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>]
-                                  把 README 传成仓库根的 README.md（仓库不存在就建成私有的），再下载回来比 sha256。
+  readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>] [--visibility V]
+                                  把 README 传成仓库根的 README.md（仓库不存在就按 --visibility 建），再下载回来比 sha256。
                                   用户 10/8 的要求：每个上传过的 HF 仓库都要有 README，所以 upload 遇到没有 README.md 的仓库就停。
   plan      --out <清单.json> [--kind state|policy|final，可用逗号连几种] [--keep 9]
                                   按规则挑文件，记下每个文件的大小与 sha256（只读）。--kind 默认 state；几种连用时清单是各种的并集，
                                   同一个文件出现两次就报错。
-  upload    --manifest <清单> --repo <用户/仓库> --prefix <机器名>
-                                  仓库必须已经存在、是私有的、根目录有 README.md（先跑 readme），把清单里的文件硬链接进暂存目录 runs/hf_stage/<机器名>/，
+  upload    --manifest <清单> --repo <用户/仓库> --prefix <机器名> [--visibility V]
+                                  仓库必须已经存在、可见性与 --visibility 相同、根目录有 README.md（先跑 readme），把清单里的文件硬链接进暂存目录 runs/hf_stage/<机器名>/，
                                   再用 upload_large_folder 上传（可断点续传，2 个并发）。
   verify    --manifest <清单> --repo <用户/仓库> --prefix <机器名> --out <核对.json>
                                   列出仓库里的文件，逐个比大小与 LFS sha256；全部对上才退出码 0。这个 sha256 是上传时客户端算的，
@@ -74,6 +83,8 @@ EXPORTS = Path("runs/exports")
 EXPORT_LISTS = Path("stages/evaluate/exports")
 STATE = re.compile(r"state_(\d+)\.safetensors")
 POLICY = re.compile(r"policy_(\d+)\.safetensors")
+VIS = ("private", "public")
+ARCHIVE_PATH = re.compile(r"[A-Za-z0-9_.-]+/runs/flash_chord/[^/]+/(state|policy)_\d+\.safetensors")
 
 
 def sha256(p: Path) -> str:
@@ -297,6 +308,17 @@ def need_env() -> None:
         sys.exit("HF_ENDPOINT 不是 https://huggingface.co（服务器 .env 把它指向下载镜像），带 token 的请求不能经它转发，停下")
 
 
+def vis_name(private: bool) -> str:
+    return "私有" if private else "公开"
+
+
+def check_visibility(api, repo: str, vis: str) -> None:
+    """仓库的实际可见性与 --visibility 不同就停。"""
+    priv = bool(api.repo_info(repo, repo_type="model").private)
+    if priv != (vis == "private"):
+        sys.exit(f"{repo} 不是{vis_name(vis == 'private')}仓库（现在是{vis_name(priv)}，--visibility {vis}），停下")
+
+
 def cmd_whoami(a) -> int:
     need_env()
     from huggingface_hub import HfApi
@@ -306,9 +328,40 @@ def cmd_whoami(a) -> int:
     print(f"账号 {me.get('name')}，token 权限 {role}")
     info = api.repo_info(a.repo, repo_type="model", files_metadata=True)
     files = list(info.siblings or [])
-    print(f"仓库 {a.repo}：{'私有' if info.private else '公开'}，{len(files)} 个文件，共 {sum(f.size or 0 for f in files) / 1e9:.2f} GB")
-    ok = bool(info.private) and role in ("write", "fineGrained")
+    print(f"仓库 {a.repo}：{vis_name(bool(info.private))}，{len(files)} 个文件，共 {sum(f.size or 0 for f in files) / 1e9:.2f} GB"
+          f"（期望{vis_name(a.visibility == 'private')}）")
+    ok = bool(info.private) == (a.visibility == "private") and role in ("write", "fineGrained")
     print("HF_WHOAMI_OK" if ok else "HF_WHOAMI_FAIL")
+    return 0 if ok else 1
+
+
+def cmd_visibility(a) -> int:
+    need_env()
+    if a.confirm != a.repo:
+        sys.exit(f"--confirm {a.confirm} 与 --repo {a.repo} 不同，停下")
+    from huggingface_hub import HfApi
+    api = HfApi()
+    files = list(api.list_repo_files(a.repo, repo_type="model"))
+    n_arch = sum(1 for f in files if ARCHIVE_PATH.fullmatch(f))
+    if "README.md" not in files or n_arch == 0:
+        sys.exit(f"{a.repo} 根目录没有 README.md，或没有 <机器名>/runs/flash_chord/<run>/(state|policy)_<步数>.safetensors"
+                 f"（{n_arch} 个）：不是本工具建的归档仓库，不碰")
+    want = a.to == "private"
+    now = bool(api.repo_info(a.repo, repo_type="model").private)
+    print(f"仓库 {a.repo}：现在{vis_name(now)}，{len(files)} 个文件，其中归档文件 {n_arch} 个；目标{vis_name(want)}")
+    if now == want:
+        print(f"已经是{vis_name(want)}，不改；HF_VISIBILITY_OK")
+        return 0
+    if not a.yes:
+        print(f"将把 {a.repo} 从{vis_name(now)}改为{vis_name(want)}（演习，没改；加 --yes 才改）；HF_VISIBILITY_DRYRUN")
+        return 0
+    if hasattr(api, "update_repo_settings"):
+        api.update_repo_settings(a.repo, private=want, repo_type="model")
+    else:  # 没有 update_repo_settings 的旧版 huggingface_hub
+        api.update_repo_visibility(a.repo, private=want, repo_type="model")
+    got = bool(api.repo_info(a.repo, repo_type="model").private)
+    ok = got == want
+    print(f"{time.strftime('%F %T')} 已提交修改，重新读到{vis_name(got)}；" + ("HF_VISIBILITY_OK" if ok else "HF_VISIBILITY_FAIL"))
     return 0 if ok else 1
 
 
@@ -346,9 +399,8 @@ def cmd_readme(a) -> int:
     need_env()
     from huggingface_hub import HfApi, hf_hub_download
     api = HfApi()
-    api.create_repo(a.repo, repo_type="model", private=True, exist_ok=True)
-    if not api.repo_info(a.repo, repo_type="model").private:
-        sys.exit(f"{a.repo} 不是私有仓库，停下")
+    api.create_repo(a.repo, repo_type="model", private=a.visibility == "private", exist_ok=True)
+    check_visibility(api, a.repo, a.visibility)
     want = sha256(Path(a.file))
     api.upload_file(path_or_fileobj=a.file, path_in_repo="README.md", repo_id=a.repo, repo_type="model", commit_message=a.message)
     tmp = Path("runs/hf_readme_check")
@@ -367,8 +419,7 @@ def cmd_upload(a) -> int:
     api = HfApi()  # 先查仓库，再建暂存目录：查不过就停，不留硬链接
     if not api.repo_exists(a.repo, repo_type="model") or not api.file_exists(a.repo, "README.md", repo_type="model"):
         sys.exit(f"{a.repo} 不存在或根目录没有 README.md：每个上传过的 HF 仓库都要有 README（用户 10/8 的要求），先跑 readme 子命令")
-    if not api.repo_info(a.repo, repo_type="model").private:
-        sys.exit(f"{a.repo} 不是私有仓库，停下")
+    check_visibility(api, a.repo, a.visibility)
     stage = STAGE / a.prefix
     for r in rows:
         src = RUNS / r["run"] / r["file"]
@@ -377,9 +428,10 @@ def cmd_upload(a) -> int:
         if not dst.exists():
             os.link(src, dst)  # 硬链接，不多占盘
     t0 = time.time()
-    print(f"{time.strftime('%F %T')} 开始上传 {len(rows)} 个文件到私有仓库 {a.repo}（{sum(r['size'] for r in rows) / 1e9:.2f} GB）", flush=True)
+    print(f"{time.strftime('%F %T')} 开始上传 {len(rows)} 个文件到{vis_name(a.visibility == 'private')}仓库 {a.repo}"
+          f"（{sum(r['size'] for r in rows) / 1e9:.2f} GB）", flush=True)
     api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model",
-                            allow_patterns=[f"{a.prefix}/**"], private=True, num_workers=2)  # 训练机上只占 2 个并发
+                            allow_patterns=[f"{a.prefix}/**"], private=a.visibility == "private", num_workers=2)  # 训练机上只占 2 个并发
     print(f"{time.strftime('%F %T')} 上传结束，用时 {(time.time() - t0) / 60:.1f} 分钟；HF_UPLOAD_DONE", flush=True)
     return 0
 
@@ -607,11 +659,18 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     w = sub.add_parser("whoami")
     w.add_argument("--repo", required=True)
+    w.add_argument("--visibility", choices=VIS, default="private")
+    v = sub.add_parser("visibility")
+    v.add_argument("--repo", required=True)
+    v.add_argument("--to", choices=VIS, required=True)
+    v.add_argument("--confirm", required=True, help="再写一遍仓库名，与 --repo 相同才改")
+    v.add_argument("--yes", action="store_true")
     sub.add_parser("storage")
     rd = sub.add_parser("readme")
     rd.add_argument("--repo", required=True)
     rd.add_argument("--file", required=True)
     rd.add_argument("--message", default="Update README")
+    rd.add_argument("--visibility", choices=VIS, default="private")
     p = sub.add_parser("plan")
     p.add_argument("--out", required=True)
     p.add_argument("--kind", type=kinds_arg, default=["state"], help="state、policy、final，可用逗号连几种")
@@ -623,6 +682,8 @@ def main() -> int:
         q.add_argument("--prefix", required=True)
         if name != "upload":
             q.add_argument("--out", required=True)
+        else:
+            q.add_argument("--visibility", choices=VIS, default="private")
         if name == "hubsubset":
             q.add_argument("--rest-out", default=None)
     c = sub.add_parser("spotcheck")
@@ -639,7 +700,7 @@ def main() -> int:
     a = ap.parse_args()
     if a.cmd == "plan" and a.keep < 1:
         ap.error("--keep 至少是 1")
-    return {"whoami": cmd_whoami, "storage": cmd_storage, "hubsubset": cmd_hubsubset, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
+    return {"whoami": cmd_whoami, "visibility": cmd_visibility, "storage": cmd_storage, "hubsubset": cmd_hubsubset, "readme": cmd_readme, "plan": cmd_plan, "upload": cmd_upload, "verify": cmd_verify, "spotcheck": cmd_spotcheck, "delete": cmd_delete}[a.cmd](a)
 
 
 if __name__ == "__main__":
