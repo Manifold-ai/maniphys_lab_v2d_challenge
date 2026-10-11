@@ -1,0 +1,124 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ f\ in\ \$\(ls\ runs/logs/batch/t3_simreg_ep\*.log\ \|\ sort\ -V\)\;\ do\ echo\ \"##\ \$f\"\;\ grep\ -a\ -E\ \"grounding\ plane:\|single-pass\ plane\ leveling\|object\ frame-0\ ground\ correction\|Single-pass\ foot-target\ Z\ offset\ range\|anti-penetration\ lift\|Saved\ robot\ sole\ Z\ range\"\ \"\$f\"\ \|\ sed\ \"s/\\x1b\\\[\[0-9\;\]\*m//g\"\ \|\ cut\ -c1-230\;\ done 
+# source   : 2c4f93ae7282
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T14:42:01-0600
+# ---------------------------------------------------------------
+## runs/logs/batch/t3_simreg_ep00.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.08939771316405667, 0.09461833256718967, 0.9914915128346999), offset=+0.8855)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0230 m, requested=+0.0235 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=7.479 deg -> +Z, translation_z=+0.8855 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0427, +0.0516] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/778 frames
+[INFO] Saved robot sole Z range: [+0.0008, +0.1062] m
+## runs/logs/batch/t3_simreg_ep03.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.17316829757974078, -0.033889862545078725, 0.9843090053077896), offset=+0.8693)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.7774 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=10.163 deg -> +Z, translation_z=+0.8693 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [+0.0144, +0.0542] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/781 frames
+[INFO] Saved robot sole Z range: [+0.0007, +0.1085] m
+## runs/logs/batch/t3_simreg_ep05.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.07231044729850145, -0.08525916873297608, 0.9937313889368962), offset=+0.9453)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.0024 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=6.419 deg -> +Z, translation_z=+0.9453 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0807, +0.1332] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0004] m; 5/1003 frames
+[INFO] Saved robot sole Z range: [+0.0000, +0.1081] m
+## runs/logs/batch/t3_simreg_ep07.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.05803516451276906, 0.07661324932056589, 0.9953704484806251), offset=+0.8953)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.7578 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=5.515 deg -> +Z, translation_z=+0.8953 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0259, +0.0333] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/896 frames
+[INFO] Saved robot sole Z range: [+0.0018, +0.0772] m
+## runs/logs/batch/t3_simreg_ep09.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.06366944562386938, 0.10754769647188116, 0.9921591075414977), offset=+0.8970)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.4653 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=7.180 deg -> +Z, translation_z=+0.8970 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0535, +0.0121] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/870 frames
+[INFO] Saved robot sole Z range: [+0.0022, +0.0873] m
+## runs/logs/batch/t3_simreg_ep12.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.1147947173218188, -0.04206176895543439, 0.9924983528789071), offset=+0.8817)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0056 m, requested=+0.0061 m, applied=+0.0061 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=7.022 deg -> +Z, translation_z=+0.8817 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0685, +0.1212] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0014] m; 96/700 frames
+[INFO] Saved robot sole Z range: [+0.0000, +0.1573] m
+## runs/logs/batch/t3_simreg_ep14.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.0534674174115468, -0.022444101584036792, 0.9983173331057741), offset=+0.8643)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0304 m, requested=+0.0309 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=3.324 deg -> +Z, translation_z=+0.8643 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0895, +0.0767] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 1/993 frames
+[INFO] Saved robot sole Z range: [+0.0000, +0.0828] m
+## runs/logs/batch/t3_simreg_ep15.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.06363492425249984, -0.06047289435229297, 0.996139360463201), offset=+0.9653)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0057 m, requested=+0.0062 m, applied=+0.0062 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=5.036 deg -> +Z, translation_z=+0.9653 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0384, +0.0436] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/715 frames
+[INFO] Saved robot sole Z range: [+0.0024, +0.1438] m
+## runs/logs/batch/t3_simreg_ep16.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.04400268470776928, 0.0751096192364789, 0.9962039494183207), offset=+0.8777)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.8628 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=4.994 deg -> +Z, translation_z=+0.8777 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0682, +0.0656] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/477 frames
+[INFO] Saved robot sole Z range: [+0.0007, +0.1213] m
+## runs/logs/batch/t3_simreg_ep17.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.023309074796416297, -0.005972419478671412, 0.9997104667040883), offset=+0.9237)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.0118 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=1.379 deg -> +Z, translation_z=+0.9237 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0465, +0.0188] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/440 frames
+[INFO] Saved robot sole Z range: [+0.0028, +0.1383] m
+## runs/logs/batch/t3_simreg_ep18.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.07249751173168313, -0.09248797778171863, 0.9930710371159572), offset=+0.9268)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0018 m, requested=+0.0023 m, applied=+0.0023 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=6.749 deg -> +Z, translation_z=+0.9268 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0466, +0.0773] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/858 frames
+[INFO] Saved robot sole Z range: [+0.0025, +0.1348] m
+## runs/logs/batch/t3_simreg_ep20.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.06292903414629078, 0.014715668380221621, 0.9979095078039584), offset=+0.9488)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.7978 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=3.705 deg -> +Z, translation_z=+0.9488 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0516, +0.0064] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/553 frames
+[INFO] Saved robot sole Z range: [+0.0035, +0.1322] m
+## runs/logs/batch/t3_simreg_ep22.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.006861092844333073, 0.026480400315923202, 0.999625786884317), offset=+0.8761)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0107 m, requested=+0.0112 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=1.568 deg -> +Z, translation_z=+0.8761 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0230, +0.0724] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/719 frames
+[INFO] Saved robot sole Z range: [+0.0005, +0.1421] m
+## runs/logs/batch/t3_simreg_ep23.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.0037808611410339236, 0.1272129826938387, 0.9918682181233399), offset=+0.9431)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0207 m, requested=+0.0212 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=7.312 deg -> +Z, translation_z=+0.9431 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0556, +0.0689] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/946 frames
+[INFO] Saved robot sole Z range: [+0.0020, +0.0956] m
+## runs/logs/batch/t3_simreg_ep25.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.030961958353146236, 0.07435712500053618, 0.9967509092529552), offset=+1.0001)
+[soma_to_g1] object frame-0 ground correction: minimum=+0.7924 m, requested=+0.0000 m, applied=+0.0000 m, cap=0.0100 m
+[soma_to_g1] single-pass plane leveling: tilt=4.620 deg -> +Z, translation_z=+1.0001 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.1205, -0.0646] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/859 frames
+[INFO] Saved robot sole Z range: [+0.0064, +0.1083] m
+## runs/logs/batch/t3_simreg_ep26.log
+[soma_to_g1] grounding plane: reconstructed (normal=(0.015683479707019558, 0.053756401083945735, 0.9984309078783477), offset=+0.8778)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0260 m, requested=+0.0265 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=3.210 deg -> +Z, translation_z=+0.8778 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0378, +0.0649] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/669 frames
+[INFO] Saved robot sole Z range: [+0.0007, +0.0580] m
+## runs/logs/batch/t3_simreg_ep29.log
+[soma_to_g1] grounding plane: reconstructed (normal=(-0.09724531831154243, -0.017021666727781125, 0.9951148732323797), offset=+0.8570)
+[soma_to_g1] object frame-0 ground correction: minimum=-0.0260 m, requested=+0.0265 m, applied=+0.0100 m, cap=0.0100 m (capped)
+[soma_to_g1] single-pass plane leveling: tilt=5.666 deg -> +Z, translation_z=+0.8570 m, final_plane=z=0
+[INFO] Single-pass foot-target Z offset range: [-0.0115, +0.0642] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/467 frames
+[INFO] Saved robot sole Z range: [+0.0006, +0.1197] m
