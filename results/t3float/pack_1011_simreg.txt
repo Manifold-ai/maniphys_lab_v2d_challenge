@@ -1,0 +1,30 @@
+# command  : stages/recovery/t3_float_pack.sh float_1011_simreg tier3_cari4d_f830_simreg 0 3 5 7 8 9 12 14 15 16 17 18 20 21 22 23 24 25 26 29 
+# md5      : 45499cf9002db31c2dddaa659fcc2145  stages/recovery/t3_float_pack.sh
+# source   : 5d9f1f2accff
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:19:14-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-12 02:33:46 CST 来历 17d63971c28d；同组成员那边的目录 runs/tier3_cari4d_f830_simreg → runs/tier3/incoming/float_1011_simreg/ok
+parquet 20 个，元数据 20 个；部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5
+## parquet、修改时间（UTC）、sha256 前 12 位
+episode_000000.parquet 2026-10-10_21:29:35 aaa626413a49
+episode_000003.parquet 2026-10-10_21:41:05 6df2ccd9968a
+episode_000005.parquet 2026-10-10_21:50:08 8ba5d0eb48b5
+episode_000007.parquet 2026-10-10_21:54:04 81295b2532a3
+episode_000008.parquet 2026-10-10_21:58:00 b80204c205e1
+episode_000009.parquet 2026-10-10_22:01:58 2ed0de32e3cb
+episode_000012.parquet 2026-10-10_23:31:56 bb88a26eba08
+episode_000014.parquet 2026-10-10_23:35:49 3bc86c53c41a
+episode_000015.parquet 2026-10-10_22:27:07 29691d1ae32c
+episode_000016.parquet 2026-10-10_23:39:19 110d3167bf88
+episode_000017.parquet 2026-10-10_22:35:48 69ffed7317ea
+episode_000018.parquet 2026-10-10_22:39:31 a25a9cfc6b35
+episode_000020.parquet 2026-10-10_22:47:09 c2c6dc239431
+episode_000021.parquet 2026-10-11_18:27:09 1cc95f480ba2
+episode_000022.parquet 2026-10-10_22:55:17 890185001bb9
+episode_000023.parquet 2026-10-10_22:59:31 05951fb690b7
+episode_000024.parquet 2026-10-10_23:03:34 8a12f69049bd
+episode_000025.parquet 2026-10-10_23:43:06 6d1aa71c3cd1
+episode_000026.parquet 2026-10-10_23:11:28 646de8d47cd3
+episode_000029.parquet 2026-10-10_23:24:24 ea40062171ad
+T3_FLOAT_PACK_DONE

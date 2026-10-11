@@ -30,7 +30,7 @@ policy 中间份（plan --kind policy，K=9），另造一套 runs/flash_chord �
 hubsubset（第 3 批撞上私有存储额度后加）：只挑仓库里已有、大小与 sha256 都一致的行；仓库里有同路径但不一致的文件就退出码 1；
 --rest-out 写出仓库里还没有的行。流程脚本的 check 步骤：不调 upload，核对、抽查之后停在删除前；流程脚本退出时删掉 runs/hf_spotcheck。
 readme 子命令与 upload 的闸：PYTHONPATH 前面放一个假的 huggingface_hub（状态存在 JSON 里）。仓库没有 README.md 时 upload 停、
-不留暂存目录；readme 建私有仓库、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
+不留暂存目录；readme 建私有仓库（--visibility public 遇到不存在的仓库就停，不新建公开仓库）、传 README、下载回来比 sha256，对不上报 HF_README_FAIL；有 README 后 upload 能走到上传；
 仓库是公开的 upload 停。
 可见性（第 3 批第 4 版，用户同意公开归档仓库后加）：whoami、readme、upload 的 --visibility 与仓库实际可见性对不上就停或报 FAIL；
 visibility 子命令只碰本工具建的归档仓库（根目录有 README.md、至少一个 <机器名>/runs/flash_chord/<run>/(state|policy)_<步数>.safetensors），
@@ -467,6 +467,8 @@ def test_readme_and_upload_guard() -> None:
         out = run(root, *up, rc=1, env=env)
         assert "没有 README.md" in out and not (root / "runs/hf_stage").exists(), out
         (root / "README.md").write_text("# r\n")
+        out = run(root, "readme", "--repo", "u/r", "--file", "README.md", "--visibility", "public", rc=1, env=env)
+        assert "不新建公开仓库" in out and not hub_state(root)["exists"], out  # 第 4 版审查 m3
         out = run(root, "readme", "--repo", "u/r", "--file", "README.md", env=env)
         st = hub_state(root)
         assert "HF_README_OK" in out and st["exists"] and st["private"] and st["files"]["README.md"] == "# r\n", (out, st)

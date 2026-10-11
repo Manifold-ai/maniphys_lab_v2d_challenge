@@ -291,7 +291,22 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER。审查确认：子清�
 
 - 第 1–4 步：README 传完 HF_README_OK（下载回来 sha256 一致）；改之前 whoami 为私有；`visibility` 的演习不改动仓库，`--yes` 报 HF_VISIBILITY_OK；
   改后 whoami 为公开、HF_WHOAMI_OK，仍是 1518 个文件、18.24 GB；`storage` 里本仓库计入公开。任何一条不过就停，不传第 3b 批。
-- 第 5 步：HF_UPLOAD_DONE；核对 174 / 174（HF_VERIFY_OK）；抽查 40 / 40（HF_SPOTCHECK_OK）；最后一行 HF_ARCHIVE_VERIFIED；
-  xet 缓存在日志第一行与 HF_ARCHIVE_VERIFIED 那一行相差不超过 50 MB；流程脚本结束后 `runs/hf_spotcheck` 不在；
-  本地 `runs/flash_chord` 下第 3b 批的 174 个文件都还在。
+- 第 5 步：流程脚本日志第一行的工具 md5 与第 4 版最后一次在 mf4090 上测过的版本相同（`results/ops/hf_archive_v4_tests_mf4090.txt`），
+  清单 174 个文件、md5 `28e156b9…`；HF_UPLOAD_DONE；核对 174 / 174（HF_VERIFY_OK）；抽查 40 / 40（HF_SPOTCHECK_OK），没有被抽查的两道闸停下
+  （缓存闸只算抽查期间的增长）；最后一行 HF_ARCHIVE_VERIFIED；流程脚本结束后 `runs/hf_spotcheck` 不在；本地 `runs/flash_chord` 下
+  第 3b 批的 174 个文件都还在；同时在跑的 t3p3c 训练链没有因磁盘停链。日志第一行到 HF_ARCHIVE_VERIFIED 那一行的 xet 缓存增长只报：
+  这次含上传（第 3 批第一段上传 5.42 GB 时缓存 39 → 64 MB），这一版也不删除。
 - 第 6 步：HF_README_OK；whoami 公开、HF_WHOAMI_OK，1692 个文件，约 24.36 GB（18.24 + 6.12）。
+
+### 审查与处理（第 4 版）
+
+Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER、MAJOR。审查确认：`visibility` 不加 `--yes` 不调修改接口，`--confirm` 与归档仓库的结构两道闸都有测试；
+默认 `--visibility private` 时 whoami、readme、upload 与流程脚本的行为与改前相同；公开版 README 在仓库仍私有时上传，翻转那一刻没有不实的说法，
+没有 token、`/home` 路径与网址；40、174、1692、24.36 GB 与记录和抽查规则一致；磁盘余量够 t3p3c 与抽查同时进行。
+
+| 编号 | 级别 | 问题 | 处理 |
+|---|---|---|---|
+| m1 | MINOR | 判据少了前几版都有的两条：流程脚本日志首行的工具与清单 md5、t3p3c 不因磁盘停链 | 补进第 5 步判据 |
+| m2 | MINOR | “xet 缓存首尾相差 ≤ 50 MB”这次含上传，第一段上传 5.42 GB 时就涨了 25 MB，余量不到一倍 | 改为只报；抽查期间的缓存闸照旧 50 MB |
+| m3 | MINOR | `readme --visibility public` 遇到不存在的仓库会新建公开仓库，仓库名写错就多出一个公开仓库；没有测试 | `readme` 遇到这种情况就停，不新建公开仓库；加测试 |
+| m4 | MINOR | 公开版 README 没有 `license`，HF 页面会显示没有许可；正文只写了比赛数据按 CC BY 4.0 | 许可条款由用户定（待定），这一版不加 |

@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/static_bar_from_rollout.py\ /repo/runs/diag/smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090/rollout_w256.npz 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 8296a2f53b6b89b2a5ea7387a7dc655b  stages/evaluate/static_bar_from_rollout.py
+# md5      : 50da8edda407c03d5b2f9388e1c1f5c7  runs/diag/smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090/rollout_w256.npz
+# source   : 17d63971c28d
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-11T23:50:36+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+rollout /repo/runs/diag/smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090/rollout_w256.npz：669 帧；policy /repo/runs/flash_chord/smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090/policy_4096000.safetensors
+  不动基线 ADD-AUC 0.3299（评测器顶点；trimesh 与评测器顶点一致：True）
+  summary_json {"add_auc": 0.3298766816143498, "frames": 669, "parquet": "/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet", "policy": "/repo/runs/flash_chord/smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090/policy_4096000.safetensors", "trimesh_matches_evaluator": true}

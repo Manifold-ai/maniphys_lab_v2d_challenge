@@ -1,0 +1,74 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t3p3b_train_mf4090\ t3p3b_eval_mf4090\ cand_t3_t3p3b_mf4090_gate\ cand_t3_t3p3b_mf4090\ t3-ep18-w2048-cap4m-r3a-v2-mf4090\ t3-ep21-w2048-cap4m-r3a-v2-mf4090\ t3-ep22-w2048-cap4m-r3a-v2-mf4090\ t3-ep23-w2048-cap4m-r3a-v2-mf4090\ t3-ep26-w2048-cap4m-r3a-v2-mf4090\ t3-ep17-w2048-cap4m-r3a-v2-mf4090 
+# source   : 5d9f1f2accff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T12:33:03-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-12 02:33:39 CST；来历 17d63971c28d
+## 训练链 t3p3b_train_mf4090（不含冒烟行）
+=== 2026-10-11 23:26:41 CST start t3p3b_train_mf4090, source 17d63971c28d, 期望表 stages/policy/queues/mf4090_t3p3b.expect.tsv
+=== 2026-10-11 23:55:09 CST 正式 t3-ep18-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-12 02:10:03 CST t3-ep18-w2048-cap4m-r3a-v2-mf4090 完成（1 段）
+=== 2026-10-12 02:10:03 CST 停链：见到 runs/.chain-stop-t3p3b_train_mf4090 之后的 run 都没开（续跑另起一段，见计划）
+=== 2026-10-12 02:10:03 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+## t3p3b_train_mf4090 的冒烟行
+=== 2026-10-11 23:26:44 CST 正向核对：6 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-11 23:26:44 CST 冒烟 smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:31:35 CST 冒烟 smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090 通过：858 帧，不动基线见 results/day2/bar_smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:31:35 CST 冒烟 smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-11 23:31:35 CST 冒烟 smoke-t3-ep21-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:36:12 CST 冒烟 smoke-t3-ep21-w2048-cap4m-r3a-v2-mf4090 通过：678 帧，不动基线见 results/day2/bar_smoke-t3-ep21-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:36:12 CST 冒烟 smoke-t3-ep21-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-11 23:36:12 CST 冒烟 smoke-t3-ep22-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:40:56 CST 冒烟 smoke-t3-ep22-w2048-cap4m-r3a-v2-mf4090 通过：719 帧，不动基线见 results/day2/bar_smoke-t3-ep22-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:40:56 CST 冒烟 smoke-t3-ep22-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-11 23:40:56 CST 冒烟 smoke-t3-ep23-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:46:04 CST 冒烟 smoke-t3-ep23-w2048-cap4m-r3a-v2-mf4090 通过：946 帧，不动基线见 results/day2/bar_smoke-t3-ep23-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:46:04 CST 冒烟 smoke-t3-ep23-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-11 23:46:04 CST 冒烟 smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:50:36 CST 冒烟 smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090 通过：669 帧，不动基线见 results/day2/bar_smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:50:36 CST 冒烟 smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-11 23:50:36 CST 冒烟 smoke-t3-ep17-w2048-cap4m-r3a-v2-mf4090
+=== 2026-10-11 23:55:09 CST 冒烟 smoke-t3-ep17-w2048-cap4m-r3a-v2-mf4090 通过：440 帧，不动基线见 results/day2/bar_smoke-t3-ep17-w2048-cap4m-r3a-v2-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-11 23:55:09 CST 冒烟 smoke-t3-ep17-w2048-cap4m-r3a-v2-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-12 02:10:03 CST 见到 runs/.chain-stop-t3p3b_train_mf4090：剩下的冒烟与正式训练都不开；已完成的照常交给评测链
+DIVERGE_IN_CHAIN t3p3b_train_mf4090 1
+## 各 run
+t3-ep18-w2048-cap4m-r3a-v2-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-11 12:07:19 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t3-ep21-w2048-cap4m-r3a-v2-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=1 policy=0 state=0
+t3-ep22-w2048-cap4m-r3a-v2-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=1 policy=0 state=0
+t3-ep23-w2048-cap4m-r3a-v2-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=1 policy=0 state=0
+t3-ep26-w2048-cap4m-r3a-v2-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=1 policy=0 state=0
+t3-ep17-w2048-cap4m-r3a-v2-mf4090 DONE=0 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=1 policy=0 state=0
+## t3p3b_eval_mf4090
+=== 2026-10-11 23:26:43 CST 等 runs/logs/t3p3b_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-12 02:10:44 CST 训练链已结束：=== 2026-10-12 02:10:03 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+=== 2026-10-12 02:10:44 CST start t3p3b_eval_mf4090, source 17d63971c28d, 期望表 stages/policy/queues/mf4090_t3p3b.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-12 02:15:45 CST t3-ep21-w2048-cap4m-r3a-v2-mf4090 没有 DONE：不评
+=== 2026-10-12 02:15:45 CST t3-ep22-w2048-cap4m-r3a-v2-mf4090 没有 DONE：不评
+=== 2026-10-12 02:15:45 CST t3-ep23-w2048-cap4m-r3a-v2-mf4090 没有 DONE：不评
+=== 2026-10-12 02:15:45 CST t3-ep26-w2048-cap4m-r3a-v2-mf4090 没有 DONE：不评
+=== 2026-10-12 02:15:45 CST t3-ep17-w2048-cap4m-r3a-v2-mf4090 没有 DONE：不评
+=== 2026-10-12 02:15:45 CST DAY2_EVAL_DONE（成功 1、失败 0）
+## cand_t3_t3p3b_mf4090_gate
+=== 2026-10-11 23:26:45 CST 等 runs/logs/t3p3b_eval_mf4090.log 的最后一行变成评测链的结束行
+=== 2026-10-12 02:15:46 CST 评测链成功 1 条、失败 0，开导出链 cand_t3_t3p3b_mf4090
+=== 2026-10-12 02:16:43 CST 导出链结束，退出码 0
+## cand_t3_t3p3b_mf4090
+=== 2026-10-12 02:15:46 CST start cand_t3_t3p3b_mf4090：清单 stages/evaluate/exports/cand_t3_t3p3b_mf4090.tsv（6 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 17d63971c28d
+=== 2026-10-12 02:16:43 CST Tier 3 ep18 t3-ep18-w2048-cap4m-r3a-v2-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 858（导出 858），checkpoint 相同
+=== 2026-10-12 02:16:43 CST Tier 3 ep21 t3-ep21-w2048-cap4m-r3a-v2-mf4090：没有 DONE，不导出
+=== 2026-10-12 02:16:43 CST Tier 3 ep22 t3-ep22-w2048-cap4m-r3a-v2-mf4090：没有 DONE，不导出
+=== 2026-10-12 02:16:43 CST Tier 3 ep23 t3-ep23-w2048-cap4m-r3a-v2-mf4090：没有 DONE，不导出
+=== 2026-10-12 02:16:43 CST Tier 3 ep26 t3-ep26-w2048-cap4m-r3a-v2-mf4090：没有 DONE，不导出
+=== 2026-10-12 02:16:43 CST Tier 3 ep17 t3-ep17-w2048-cap4m-r3a-v2-mf4090：没有 DONE，不导出
+=== 2026-10-12 02:16:43 CST EXPORT_CHAIN_DONE（成功 1、失败 5）
+## 导出结果表 runs/exports/cand_t3_t3p3b_mf4090.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+3	18	t3-ep18-w2048-cap4m-r3a-v2-mf4090	349999104	ok	runs/flash_chord/t3-ep18-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w1/episode_000018.json	runs/flash_chord/t3-ep18-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w1/episode_000018.parquet	d5e0564418fa7082ffdbeedad11cab262d7c039b12015699ffba9464331cab4b	1815cbbc86ff93da8eaf379828ae1b73b5a07e8b6664b16354a3c2f7050ffb63
+3	21	t3-ep21-w2048-cap4m-r3a-v2-mf4090	349999104	no_done				
+3	22	t3-ep22-w2048-cap4m-r3a-v2-mf4090	349999104	no_done				
+3	23	t3-ep23-w2048-cap4m-r3a-v2-mf4090	349999104	no_done				
+3	26	t3-ep26-w2048-cap4m-r3a-v2-mf4090	349999104	no_done				
+3	17	t3-ep17-w2048-cap4m-r3a-v2-mf4090	349999104	no_done				
+CHAIN_HEALTH_DONE

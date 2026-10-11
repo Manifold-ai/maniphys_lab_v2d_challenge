@@ -21,7 +21,7 @@ agent-doc/plan-hf-archive-policies-2026-10-08.md（policy 中间份）与 agent-
                                   仓库里有同路径但大小或 sha256 不同的文件就退出码 1。第 3 批上传到一半撞上私有存储额度，
                                   只对已提交的那部分走核对、抽查、删除（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md 第 3 版）。
   readme    --repo <用户/仓库> --file <README.md> [--message <提交说明>] [--visibility V]
-                                  把 README 传成仓库根的 README.md（仓库不存在就按 --visibility 建），再下载回来比 sha256。
+                                  把 README 传成仓库根的 README.md（仓库不存在时只新建私有仓库，--visibility public 就停），再下载回来比 sha256。
                                   用户 10/8 的要求：每个上传过的 HF 仓库都要有 README，所以 upload 遇到没有 README.md 的仓库就停。
   plan      --out <清单.json> [--kind state|policy|final，可用逗号连几种] [--keep 9]
                                   按规则挑文件，记下每个文件的大小与 sha256（只读）。--kind 默认 state；几种连用时清单是各种的并集，
@@ -399,6 +399,8 @@ def cmd_readme(a) -> int:
     need_env()
     from huggingface_hub import HfApi, hf_hub_download
     api = HfApi()
+    if a.visibility == "public" and not api.repo_exists(a.repo, repo_type="model"):  # 第 4 版审查 m3：仓库名写错时不多出一个公开仓库
+        sys.exit(f"{a.repo} 不存在：readme 不新建公开仓库，停下")
     api.create_repo(a.repo, repo_type="model", private=a.visibility == "private", exist_ok=True)
     check_visibility(api, a.repo, a.visibility)
     want = sha256(Path(a.file))
