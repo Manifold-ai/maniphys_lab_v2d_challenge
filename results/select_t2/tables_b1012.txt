@@ -1,0 +1,15 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/select_t2_b1012/tables ml40:export2_ml40 ml40:cand_t2_t2xa_ml40 ml40:cand_t2_r3t2_ml40 mf4090:export2_mf4090 
+# md5      : 64a8d99b6d386915cd3db1e133751f61  stages/evaluate/pull_submission.sh
+# source   : 1640c05f1f31
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:02:27-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:export2_ml40：ok 30  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2xa_ml40：no_done 1  ok 14  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_r3t2_ml40：ok 16  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:export2_mf4090：ok 30  
+PULL_OK 4

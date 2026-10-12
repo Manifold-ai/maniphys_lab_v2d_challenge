@@ -1,0 +1,7 @@
+# command  : bash -c $'for m in ml40 mf4090; do cmp runs/submission/select_t2_b1012/tables/export2_$m.tsv runs/submission/final/export2_$m.tsv && echo "SAME export2_$mï¼\210ä¸\216 10/3 æ\213\211å\233\236ç\232\204å\211¯æ\234¬é\200\220å\255\227è\212\202ç\233¸å\220\214ï¼\211" || exit 1; done' 
+# source   : 1640c05f1f31
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:02:43-0600
+# ---------------------------------------------------------------
+SAME export2_¼ˆä¸ 10/3 æ‹‰å›çš„å‰¯æœ¬é€å­—èŠ‚ç›¸åŒï¼‰
+SAME export2_¼ˆä¸ 10/3 æ‹‰å›çš„å‰¯æœ¬é€å­—èŠ‚ç›¸åŒï¼‰
