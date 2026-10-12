@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 bash\ -s\ --\ 1\ 2026-05-01_17-04-55_traffic_cone_ground_table_02=t1-ep17-w2048-cap10m-ml40\ 2026-04-29_11-53-57_tall_bar_stool_pull_08=t1-ep21-w2048-cap4m-mf4090\ 2026-05-01_11-36-40_white_desk_lower_to_ground_10=t1-ep10-w2048-cap10m-ml40\ 2026-06-09_10-19-09_snack_box_desk_through_06=t1-ep13-w2048-cap10m-ml40\ 2026-05-19_10-19-48_cane_swing_05=t1-ep19-w2048-cap10m-ml40\ 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05=t1-ep3-w2048-cap4m-mf4090\ 2026-05-28_14-44-09_round_table_flip_08=t1-ep14-w2048-cap4m-mf4090\ 2026-06-02_10-04-42_blue_easter_basket_place_10=t1-ep2-w2048-cap10m-ml40\ 2026-04-24_13-56-58_light_blue_book_pick_place_09=t1-ep11-w2048-cap4m-mf4090\ 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02=t1-ep16-w2048-cap4m-mf4090\ 2026-04-24_11-40-52_baseball_bat_rotate_05=t1-ep4-w2048-cap10m-ml40\ 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03=t1-ep9-w2048-cap10m-ml40\ 2026-03-20_11-59-57_cyan_water_bottle_rotate_01=t1-ep25-w2048-cap10m-ml40\  
+# source   : e78484867a86-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:14:58-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 00:14:59 CST 仓库 /home/rxzhou/v2d/maniphys_lab_v2d_challenge 来历 e87da9386f50
+seq	parquet_sha256	v2d_meta	support_md5	g1_support	run	run_parquet_sha256	same
+2026-05-01_17-04-55_traffic_cone_ground_table_02	1ae05d7b9a71fa6073a3d9ae5bac3381951bf502d3fc55eb3d476abd5dff3f95	tier=1,ep=17	c9d8c94bfe1303b7d25b1d0014159b17	no	t1-ep17-w2048-cap10m-ml40	-	-
+2026-04-29_11-53-57_tall_bar_stool_pull_08	85f0e1f631fea50c7208cf0b79fe0f2ec206f210a289e149f21a2e2b0a1c1756	tier=1,ep=21	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep21-w2048-cap4m-mf4090	85f0e1f631fea50c7208cf0b79fe0f2ec206f210a289e149f21a2e2b0a1c1756	yes
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	35a950572df323d27a65076fda3b3eb7f4dc74f710af78e07ecc6477013643ef	tier=1,ep=10	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep10-w2048-cap10m-ml40	-	-
+2026-06-09_10-19-09_snack_box_desk_through_06	5193c31a0f5be31575fdc2c5cbafbb94e365b307a3e53a0bc219d89006665a02	tier=1,ep=13	34893400ec45bd4f766c37c7e87bad9d	no	t1-ep13-w2048-cap10m-ml40	-	-
+2026-05-19_10-19-48_cane_swing_05	76733f342ddf77ebbcf024818ad4bb65890124caabcd1bbd0682b221e14a59d0	tier=1,ep=19	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep19-w2048-cap10m-ml40	-	-
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	2606660006d60ee3e000154fe6ee5d797e9c6b351c43bfaa1fbca74abe35acba	tier=1,ep=3	915839ac3f4fef01c799a904bff7a036	no	t1-ep3-w2048-cap4m-mf4090	2606660006d60ee3e000154fe6ee5d797e9c6b351c43bfaa1fbca74abe35acba	yes
+2026-05-28_14-44-09_round_table_flip_08	bd92231cf1aa5d6883faf06447978fa544fc9bca53abb9eadca935b0681252a8	tier=1,ep=14	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep14-w2048-cap4m-mf4090	bd92231cf1aa5d6883faf06447978fa544fc9bca53abb9eadca935b0681252a8	yes
+2026-06-02_10-04-42_blue_easter_basket_place_10	7b577364791db7764ef63084de2fdcb419aecf0dd8fcbc1e693901a6a5a0799f	tier=1,ep=2	cfcb149ef1a1d397e922c7cb7e19321f	no	t1-ep2-w2048-cap10m-ml40	-	-
+2026-04-24_13-56-58_light_blue_book_pick_place_09	5323a7fb982eb7366b7fd12c5defd8096ab3f8731000fba50d188fb21d4469ff	tier=1,ep=11	121eef4b511abe34038d89977d9d2272	no	t1-ep11-w2048-cap4m-mf4090	5323a7fb982eb7366b7fd12c5defd8096ab3f8731000fba50d188fb21d4469ff	yes
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	eeb6cdee9a466329dda4dd6909b3bcd093d9a6df8bd7a81107bb663f33ae68d1	tier=1,ep=16	05cb55214db197e3cbffb06cc66e1497	no	t1-ep16-w2048-cap4m-mf4090	eeb6cdee9a466329dda4dd6909b3bcd093d9a6df8bd7a81107bb663f33ae68d1	yes
+2026-04-24_11-40-52_baseball_bat_rotate_05	c3c3404593c9e0ae09a121350d3fc7b7d0f88fd8386c32c12571bedb87b0885d	tier=1,ep=4	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep4-w2048-cap10m-ml40	-	-
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	39861717009be21892a302c7543f7d5b8bbfe9c134c9c8c5bc3c929bb9107fbe	tier=1,ep=9	749adc4a9634f9d1407eac15d04a90a9	no	t1-ep9-w2048-cap10m-ml40	-	-
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	caeb0566ce29faf7c87851b174c72d93e3777e4fd0f6f17b48befd859ecf9391	tier=1,ep=25	55ce75bf14e682de9fc61e20964f8701	no	t1-ep25-w2048-cap10m-ml40	-	-
+MOTION_INPUTS 序列 13 条，有问题 0 条（缺 parquet 或 v2d_meta、有旧版 g1 支撑面、或与 run 记录的 sha256 不同）

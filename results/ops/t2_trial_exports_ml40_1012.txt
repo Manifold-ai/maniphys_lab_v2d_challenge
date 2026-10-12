@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && for r in t2-ep8-w2048-cap10m-r3a-ml40 t2-ep12-w2048-cap10m-r3a-ml40 t2-ep20-w2048-cap10m-r3a-ml40 t2-ep24-w2048-cap10m-r3a-ml40 t2-ep26-w2048-cap10m-r3a-ml40 t2-ep22-w2048-cap10m-r3a-ml40 t2-ep8-w2048-cap10m-s43-ml40 t2-ep8-w2048-cap10m-r3a-s43-ml40 t2-ep12-w2048-cap10m-s43-ml40 t2-ep12-w2048-cap10m-r3a-s43-ml40 t2-ep20-w2048-cap10m-s43-ml40 t2-ep20-w2048-cap10m-r3a-s43-ml40 t2-ep24-w2048-cap10m-s43-ml40 t2-ep24-w2048-cap10m-r3a-s43-ml40 t2-ep26-w2048-cap10m-s43-ml40 t2-ep26-w2048-cap10m-r3a-s43-ml40 ; do d=runs/flash_chord/$r; printf \'%s\\tDONE=%s\\tNONFINITE=%s\\tpolicy_349999104=%s\\teval_w4096=%s\\texport_8c778f9=%s\\n\' $r $([ -f $d/DONE ] && echo 1 || echo 0) $([ -f $d/NONFINITE ] && echo 1 || echo 0) $([ -f $d/policy_349999104.safetensors ] && echo 1 || echo 0) $([ -f $d/eval_349999104_w4096.json ] && echo 1 || echo 0) $(ls -d $d/export_8c778f9/s349999104_w1 2>/dev/null | wc -l); done; ls runs/exports/ | grep -i -E \'r3t2|t2_r3\' || echo æ²¡æ\234\211è¯\225éª\214ç\232\204å¯¼å\207ºç»\223æ\236\234è¡¨' 
+# source   : e78484867a86-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:15:31-0600
+# ---------------------------------------------------------------
+t2-ep8-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep12-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep20-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep24-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep26-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep22-w2048-cap10m-r3a-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep8-w2048-cap10m-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep8-w2048-cap10m-r3a-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep12-w2048-cap10m-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep12-w2048-cap10m-r3a-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep20-w2048-cap10m-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep20-w2048-cap10m-r3a-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep24-w2048-cap10m-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep24-w2048-cap10m-r3a-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep26-w2048-cap10m-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+t2-ep26-w2048-cap10m-r3a-s43-ml40	DONE=1	NONFINITE=0	policy_349999104=1	eval_w4096=1	export_8c778f9=0
+æ²¡æœ‰è¯•éªŒçš„å¯¼å‡ºç»“æžœè¡¨

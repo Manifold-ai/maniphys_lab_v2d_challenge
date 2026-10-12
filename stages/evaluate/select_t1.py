@@ -7,7 +7,9 @@
 
 用法（容器内，kit 依赖在 PYTHONPATH）：
   python select_t1.py --cand <dir> --kit <kit 根> --dataset-root <数据根> --commit-url <URL> --current <清单.tsv>… \
-      --out-json <逐候选分数.json> --out-tsv <选择清单.tsv> [--pack <csv>]
+      --out-json <逐候选分数.json> --out-tsv <选择清单.tsv> [--pack <csv>] [--gate AUC,SP,MP,MPPE --gate-label <名>]
+--gate：打分门 B 对照的四项合计，默认 10/3 Tier 1 CSV 的 4 位小数值；10/12 起的补候选（计划 agent-doc/plan-next-training-2026-10-12.md
+第 0 步第 4 条）传 10/9 打包的合计。选择规则里的 0.3780、25.1706 是登记的常数，不随 --gate 变。
 """
 
 import argparse
@@ -27,6 +29,14 @@ STEP = 349999104
 
 
 NORM_AUC, NORM_MPPE = 0.3780, 25.1706  # 10/3 Tier 1 合计，用于成功率之后的组合分
+
+
+def parse_gate(s: str) -> dict:
+    """--gate 的值：四个数，逗号分隔，顺序同 METRICS。"""
+    v = [float(x) for x in s.split(",")]
+    if len(v) != len(METRICS):
+        raise argparse.ArgumentTypeError(f"--gate 要 {len(METRICS)} 个数（{','.join(METRICS)}），给了 {len(v)} 个")
+    return dict(zip(METRICS, v))
 
 
 def sort_key(c):
@@ -101,6 +111,8 @@ def main():
     ap.add_argument("--out-tsv", required=True)
     ap.add_argument("--pack")
     ap.add_argument("--sha-tables", nargs="+", required=True, help="导出链结果表（runs/exports/*.tsv）；候选文件的 sha256 要与表里状态 ok 的那一行相同")
+    ap.add_argument("--gate", type=parse_gate, default=dict(GATE), help="打分门 B 的四项合计，逗号分隔，顺序 " + ",".join(METRICS))
+    ap.add_argument("--gate-label", default="10/3", help="打分门 B 的来源，只用于打印")
     a = ap.parse_args()
     shas = {}
     for t in a.sha_tables:
@@ -155,7 +167,7 @@ def main():
         print(f"  ep{ep:<3} {d.name}: " + " ".join(f"{m}={overall[m]:.6f}" for m in METRICS) + f" | 4096 世界 MP-SR {w4096}", flush=True)
     for line in excluded:
         print(f"  剔除：{line}")
-    # 打分门 A：整份打包现在交的 30 条 = 30 条逐条分数的平均（≤ 1e-9）；B：整份与 10/3 打印值（≤ 1e-4）
+    # 打分门 A：整份打包现在交的 30 条 = 30 条逐条分数的平均（≤ 1e-9）；B：整份与 --gate 给的合计（默认 10/3 打印值，≤ 1e-4）
     missing = [ep for ep, r in current.items() if r not in scores]
     if missing:
         raise SystemExit(f"现在交的 run 缺打分：{missing}")
@@ -170,9 +182,9 @@ def main():
     for m in METRICS:
         mean = sum(scores[current[ep]][m] for ep in current) / len(current)
         a_ok = abs(whole[m] - mean) <= 1e-9
-        b_ok = abs(whole[m] - GATE[m]) <= GATE_TOL
+        b_ok = abs(whole[m] - a.gate[m]) <= GATE_TOL
         gate_ok &= a_ok and b_ok
-        print(f"GATE {m}：整份 {whole[m]:.9f}，逐条平均 {mean:.9f}（A {'OK' if a_ok else '不符'}），10/3 {GATE[m]:.4f}（B {'OK' if b_ok else '不符'}）")
+        print(f"GATE {m}：整份 {whole[m]:.9f}，逐条平均 {mean:.9f}（A {'OK' if a_ok else '不符'}），{a.gate_label} {a.gate[m]:.6f}（B {'OK' if b_ok else '不符'}）")
     Path(a.out_json).write_text(json.dumps(scores, indent=1, ensure_ascii=False))
     if not gate_ok:
         print("SELECT_T1 STOP：打分门不过，不选择")

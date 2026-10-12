@@ -1,0 +1,15 @@
+# command  : python3 tools/compare_motion_inputs.py --train results/ops/t1x_inputs_ml40_1012.txt --other results/ops/t1x_inputs_mf4090_1012.txt --tier 1 --expect 2026-06-02_10-04-42_blue_easter_basket_place_10=2 2026-04-24_13-56-58_light_blue_book_pick_place_09=11 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02=16 2026-04-24_11-40-52_baseball_bat_rotate_05=4 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03=9 2026-03-20_11-59-57_cyan_water_bottle_rotate_01=25 
+# md5      : 3c643941ef563c5e0aafb7b556c21987  tools/compare_motion_inputs.py
+# md5      : 8ca4acef2a2e7624005adaf6b9b6baca  results/ops/t1x_inputs_ml40_1012.txt
+# md5      : 98221fa90af5c5b1dfec9304f1aa094b  results/ops/t1x_inputs_mf4090_1012.txt
+# source   : e78484867a86-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:25:58-0600
+# ---------------------------------------------------------------
+OK   2026-06-02_10-04-42_blue_easter_basket_place_10：训练机 7b577364791db776，基线 7b577364791db776，v2d_meta tier=1,ep=2（应为 tier=1,ep=2），支撑面 md5 两台相同（cfcb149ef1a1），基线 run t1-ep2-w2048-cap10m-ml40
+OK   2026-04-24_13-56-58_light_blue_book_pick_place_09：训练机 5323a7fb982eb736，基线 5323a7fb982eb736，v2d_meta tier=1,ep=11（应为 tier=1,ep=11），支撑面 md5 两台相同（121eef4b511a），基线 run t1-ep11-w2048-cap4m-mf4090
+OK   2026-03-12_15-06-36_spray_bottle_left_desk_ground_02：训练机 eeb6cdee9a466329，基线 eeb6cdee9a466329，v2d_meta tier=1,ep=16（应为 tier=1,ep=16），支撑面 md5 两台相同（05cb55214db1），基线 run t1-ep16-w2048-cap4m-mf4090
+OK   2026-04-24_11-40-52_baseball_bat_rotate_05：训练机 c3c3404593c9e0ae，基线 c3c3404593c9e0ae，v2d_meta tier=1,ep=4（应为 tier=1,ep=4），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep4-w2048-cap10m-ml40
+OK   2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03：训练机 39861717009be218，基线 39861717009be218，v2d_meta tier=1,ep=9（应为 tier=1,ep=9），支撑面 md5 两台相同（749adc4a9634），基线 run t1-ep9-w2048-cap10m-ml40
+OK   2026-03-20_11-59-57_cyan_water_bottle_rotate_01：训练机 caeb0566ce29faf7，基线 caeb0566ce29faf7，v2d_meta tier=1,ep=25（应为 tier=1,ep=25），支撑面 md5 两台相同（55ce75bf14e6），基线 run t1-ep25-w2048-cap10m-ml40
+INPUTS_OK

@@ -1,0 +1,38 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && for d in data/challenge/track_2/*/; do echo "== ${d%/}"; ls "$d"; for s in ground_plane support_surface mesh meta; do [ -d "$d$s" ] && echo "  $s: $(ls "$d$s" | wc -l) 项�\214�\213 $(ls "$d$s" | head -2 | tr "\\n" " ")"; done; done; echo "## Tier 3 README �\207\214�\217\220�\210� support / ground / mesh / video �\232\204�\214"; f=$(ls -d data/challenge/track_2/tier_3*/README.md 2>/dev/null | head -1); [ -n "$f" ] && grep -n -i -E "support|ground|mesh|video|exo|reconstruct|provided|input" "$f" | cut -c1-220 | head -40; echo "## Tier 2 README �\207\214�\217\220�\210� support / ground �\232\204�\214"; grep -n -i -E "support|ground" data/challenge/track_2/tier_2*/README.md | cut -c1-220 | head -20' 
+# source   : e78484867a86
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:06:33-0600
+# ---------------------------------------------------------------
+== data/challenge/track_2/tier_1_multiview_caption
+data
+ground_plane
+mesh
+meta
+README.md
+support_surface
+videos
+  ground_plane: 30 项，例 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json 2026-03-18_19-36-56_g1_box_rotate_01.json 
+  support_surface: 30 项，例 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda 2026-03-18_19-36-56_g1_box_rotate_01_support.usda 
+  mesh: 29 项，例 baseball_bat big_black_box 
+  meta: 5 项，例 episodes.jsonl episodes_metadata.jsonl 
+== data/challenge/track_2/tier_2_synthetic_noise
+data
+ground_plane
+mesh
+meta
+README.md
+support_surface
+videos
+  ground_plane: 30 项，例 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json 2026-03-18_19-36-56_g1_box_rotate_01.json 
+  support_surface: 30 项，例 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda 2026-03-18_19-36-56_g1_box_rotate_01_support.usda 
+  mesh: 29 项，例 baseball_bat big_black_box 
+  meta: 5 项，例 episodes.jsonl episodes_metadata.jsonl 
+## Tier 3 README 里提到 support / ground / mesh / video 的行
+## Tier 2 README 里提到 support / ground 的行
+23:├── support_surface/<sequence>_support.usda  static G1 support geometry
+81:## Ground plane
+83:Every episode declares `ground_plane/<sequence_id>.json` in
+90:## Support surface
+92:Every episode declares `support_surface/<sequence_id>_support.usda` in
+95:`<motion-root>/whole_body/reconstructed_stage/<sequence_id>_support.usda` alongside
+96:the G1 retargeted motion dataset before grounding or training. Ground-only episodes

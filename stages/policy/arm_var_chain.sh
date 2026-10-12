@@ -2,6 +2,8 @@
 # 起变体 A 链一段的三个 tmux（训练机上、仓库根执行）。arm_r3x_chain.sh 的参数化版本，核对项相同。段名以清单名开头：
 #   t2x*  Tier 2 铺开，ml40（计划 agent-doc/plan-t2-scaleout-2026-10-09.md；t2xa 15 条、t2xb 9 条，续跑与补跑另起一段）
 #   t3p*  Tier 3 试跑，mf4090（计划 agent-doc/plan-t3-pilot-2026-10-09.md；t3p2 是第二轮，计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）
+#   t1x*  Tier 1 补候选，mf4090，同 t3p* 的显存上限、磁盘要求与冒烟后删 state（计划 agent-doc/plan-next-training-2026-10-12.md 第 3 节 A）
+#   t1y*  Tier 1 补候选，ml40，同 t2x*（同计划第 3 节 C）
 # 队列与导出清单由 stages/policy/make_var_queue.py 按段生成。起之前确认（任何一条不过就停，什么也不起）：
 #   - GPU 型号对得上这份清单的机器；来历干净；三段日志、导出结果表、导出门的日志与标记、长链标记、停链标记、同名 tmux 会话都不存在；
 #     GPU 上没有进程；
@@ -29,7 +31,10 @@ case "$N" in
   t2x*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
   t3p*) M=mf4090; T=3; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
-  *) echo "段名要以 t2x 或 t3p 开头" >&2; exit 2 ;;
+  t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
+  t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
+  *) echo "段名要以 t2x、t3p、t1x 或 t1y 开头" >&2; exit 2 ;;
 esac
 WAIT="V2D_GPU_WAIT_S=21600"
 Q=stages/policy/queues/${M}_$N; LIST=stages/evaluate/exports/cand_t${T}_${N}_$M.tsv

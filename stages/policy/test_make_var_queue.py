@@ -12,6 +12,10 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
   3. 基线覆盖里有计划没说的键、或一条 episode 在导出清单里出现两次：报错退出，不写文件
   4. 续跑段 t2xa2 --episodes 16,7：只有这两条，顺序照清单（ep7 在前），文件名带段名
   5. 段名不对：预设段又给 --episodes、非预设段不给 --episodes、--episodes 里有清单外的 episode、段名不以清单名开头，都报错不写文件
+  6. t1xa、t1ya（agent-doc/plan-next-training-2026-10-12.md 第 3 节 A、C）：基线取 t1_select_r3x.tsv 里的 Tier 1 run（偶数号在 ml40、
+     1000 万 buffer，奇数号在 mf4090、带 400 万覆盖）；t1xa 7 条在 mf4090、一律 400 万、W&B 标签 t1x；t1ya 6 条在 ml40、没有 buffer 覆盖、标签 t1y；
+     parquet 在 /runs/motion/tier1/；导出清单档位 1。ml40 的 ep10 在第二张期望表里多一行、只差 xeval（真实情形同 t1-ep10-w2048-cap10m-ml40），
+     照常生成；那一行若还差别的列（帧数），报“找到 2 种”、不写文件（make_trial_queue.baseline 的改动，同计划审查 M2）
 用法：python3 stages/policy/test_make_var_queue.py
 """
 import subprocess
@@ -26,6 +30,8 @@ HEADER = "run\tsmoke\tsequence_id\tplayback\tsrc_frames\tsupport\tpos_tol\tori_t
 VAR = ["objective.object_position_std=0.05", "termination.object_orientation_threshold=0.6"]
 T2XA = [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17]
 T2XB = [9, 1, 13, 19, 2, 4, 14, 25, 28]
+T1XA = [17, 21, 10, 13, 19, 3, 14]
+T1YA = [2, 11, 16, 4, 9, 25]
 
 
 def seq(ep):
@@ -50,11 +56,41 @@ def pq(ep, tier=2, motion=None):
     return f"/repo/runs/motion/{motion or f'tier{tier}'}/whole_body/soma/sequence_id={seq(ep)}/robot_name=g1/data.parquet"
 
 
-def setup(root: Path, bad_key_ep=None, dup_ep=None):
+def t1_base_run(ep):
+    return f"t1-ep{ep}-w2048-cap10m-ml40" if ep % 2 == 0 else f"t1-ep{ep}-w2048-cap4m-mf4090"
+
+
+def setup_t1(q: Path, ex: Path, dup_conflict=False):
+    rows = {"ml40": [], "mf4090": []}
+    for ep in range(30):
+        run = t1_base_run(ep)
+        m = run.rsplit("-", 1)[1]
+        over = ([] if support(ep) == "true" else ["scene.support=false"]) + (["training.replay.capacity=4000000"] if m == "mf4090" else [])
+        rows[m].append((ep, run, "10000000" if m == "ml40" else "4000000", over))
+    sel = []
+    for m, items in rows.items():
+        exp, fl, sl = [HEADER], ["# Tier 1 基线"], ["# Tier 1 基线冒烟"]
+        for ep, run, cap, over in items:
+            exp.append("\t".join([run, f"smoke-{run}", seq(ep), "frame", frames(ep), support(ep), "0.015", "0.086", cap, "42", "no"]))
+            o = (" " + " ".join(over)) if over else ""
+            fl.append(f"{ENV} {run} {pq(ep, 1)} 2048 349999104{o}")
+            sl.append(f"{SENV} smoke-{run} {pq(ep, 1)} 2048 4096000{o}")
+            sel.append(f"1\t{ep}\t{run}\t349999104\t{m}")
+        (q / f"{m}_t1base.expect.tsv").write_text("\n".join(exp) + "\n")
+        (q / f"{m}_t1base.txt").write_text("\n".join(fl) + "\n")
+        (q / f"{m}_t1base_smoke.txt").write_text("\n".join(sl) + "\n")
+    run = t1_base_run(10)   # 第二张表里的同一条 run：只差 xeval；dup_conflict 时帧数也不同
+    (q / "ml40_t1dup.expect.tsv").write_text("\n".join([HEADER, "\t".join(
+        [run, f"smoke-{run}", seq(10), "frame", frames(10) + ("1" if dup_conflict else ""), support(10), "0.015", "0.086", "10000000", "42", "yes"])]) + "\n")
+    (ex / "t1_select_r3x.tsv").write_text("\n".join(sel) + "\n")
+
+
+def setup(root: Path, bad_key_ep=None, dup_ep=None, t1_dup_conflict=False):
     q = root / "stages" / "policy" / "queues"
     ex = root / "stages" / "evaluate" / "exports"
     q.mkdir(parents=True)
     ex.mkdir(parents=True)
+    setup_t1(q, ex, t1_dup_conflict)
     rows = {"ml40": [], "mf4090": []}
     for ep in range(30):
         run = base_run(ep)
@@ -175,6 +211,30 @@ def test_t3p3_parts():
                       "mf4090", motion="tier3_v2")
         r = gen(root, "t3p3a", "--episodes", "20")
         assert r.returncode != 0, r.stdout + r.stderr
+
+
+def test_t1_parts():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        r = gen(root, "t1xa")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t1xa", T1XA, "t1-ep{ep}-w2048-cap4m-r3a-mf4090", 1, "4000000", "training.replay.capacity=4000000", "t1x", "mf4090")
+        r = gen(root, "t1ya")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t1ya", T1YA, "t1-ep{ep}-w2048-cap10m-r3a-ml40", 1, "10000000", None, "t1y", "ml40")
+        r = gen(root, "t1xa", "--episodes", "10")
+        assert r.returncode != 0, r.stdout + r.stderr
+
+
+def test_t1_xeval_conflict_refuses():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root, t1_dup_conflict=True)
+        r = gen(root, "t1xa")
+        out = r.stdout + r.stderr
+        assert r.returncode != 0 and "找到 2 种" in out, out
+        assert not (root / "stages" / "policy" / "queues" / "mf4090_t1xa.txt").exists()
 
 
 def test_unknown_override_refuses():

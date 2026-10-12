@@ -1,0 +1,16 @@
+# command  : python3 tools/compare_motion_inputs.py --train results/ops/t1x_inputs_mf4090_1012.txt --other results/ops/t1x_inputs_ml40_1012.txt --tier 1 --expect 2026-05-01_17-04-55_traffic_cone_ground_table_02=17 2026-04-29_11-53-57_tall_bar_stool_pull_08=21 2026-05-01_11-36-40_white_desk_lower_to_ground_10=10 2026-06-09_10-19-09_snack_box_desk_through_06=13 2026-05-19_10-19-48_cane_swing_05=19 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05=3 2026-05-28_14-44-09_round_table_flip_08=14 
+# md5      : 3c643941ef563c5e0aafb7b556c21987  tools/compare_motion_inputs.py
+# md5      : 98221fa90af5c5b1dfec9304f1aa094b  results/ops/t1x_inputs_mf4090_1012.txt
+# md5      : 8ca4acef2a2e7624005adaf6b9b6baca  results/ops/t1x_inputs_ml40_1012.txt
+# source   : e78484867a86-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:25:58-0600
+# ---------------------------------------------------------------
+OK   2026-05-01_17-04-55_traffic_cone_ground_table_02：训练机 1ae05d7b9a71fa60，基线 1ae05d7b9a71fa60，v2d_meta tier=1,ep=17（应为 tier=1,ep=17），支撑面 md5 两台相同（c9d8c94bfe13），基线 run t1-ep17-w2048-cap10m-ml40
+OK   2026-04-29_11-53-57_tall_bar_stool_pull_08：训练机 85f0e1f631fea50c，基线 85f0e1f631fea50c，v2d_meta tier=1,ep=21（应为 tier=1,ep=21），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep21-w2048-cap4m-mf4090
+OK   2026-05-01_11-36-40_white_desk_lower_to_ground_10：训练机 35a950572df323d2，基线 35a950572df323d2，v2d_meta tier=1,ep=10（应为 tier=1,ep=10），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep10-w2048-cap10m-ml40
+OK   2026-06-09_10-19-09_snack_box_desk_through_06：训练机 5193c31a0f5be315，基线 5193c31a0f5be315，v2d_meta tier=1,ep=13（应为 tier=1,ep=13），支撑面 md5 两台相同（34893400ec45），基线 run t1-ep13-w2048-cap10m-ml40
+OK   2026-05-19_10-19-48_cane_swing_05：训练机 76733f342ddf77eb，基线 76733f342ddf77eb，v2d_meta tier=1,ep=19（应为 tier=1,ep=19），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep19-w2048-cap10m-ml40
+OK   2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05：训练机 2606660006d60ee3，基线 2606660006d60ee3，v2d_meta tier=1,ep=3（应为 tier=1,ep=3），支撑面 md5 两台相同（915839ac3f4f），基线 run t1-ep3-w2048-cap4m-mf4090
+OK   2026-05-28_14-44-09_round_table_flip_08：训练机 bd92231cf1aa5d68，基线 bd92231cf1aa5d68，v2d_meta tier=1,ep=14（应为 tier=1,ep=14），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep14-w2048-cap4m-mf4090
+INPUTS_OK

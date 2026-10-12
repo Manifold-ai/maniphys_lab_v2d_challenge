@@ -9,20 +9,26 @@
        基线取 Tier 2 导出清单里这条 episode 现在交的 run（同 t2x；ep15、17、21、23 的基线在 mf4090 上）。
        分两段（计划 agent-doc/plan-t3-v2-train10-2026-10-10.md）：t3p3a 是现有磁盘放得下的 4 集（有支撑面的 ep20 与没有手接触的 ep29 在前），
        t3p3b 是归档腾出空间后的 6 集（ep17 放最后：Tier 2 变体 A 在 ep17 上每个世界都失败）
+  t1x  Tier 1 变体 A 补候选，mf4090，buffer 400 万（计划 agent-doc/plan-next-training-2026-10-12.md 第 2 版第 3 节 A）：
+       段 t1xa 是 10/9 逐条选后 1 世界 MP-SR 仍失败、4096 世界失败原因里骨盆比例低于 0.65 的 7 条（按骨盆比例从低到高）
+  t1y  同上，ml40，buffer 1000 万（同计划第 3 节 C）：段 t1ya 是骨盆比例 0.969–1.000、不含方盒 ep1、ep28 的 6 条（同样排序，同为 1.000 的按 episode 号）
 段名以清单名开头，有几个清单名都匹配时取最长的（t3p2 不落到 t3p）。续跑或补跑另起一段（审查 M2）：段名不在上面、用 --episodes 指定这一段的 episode（必须属于这份清单，顺序照清单），
 例如 t2xa2；run 名不变，文件名带段名，所以日志、导出结果都是新的，每个 checkpoint 仍只导出一次。
 
-每条都从一条 Tier 2 基线 run（seed 42）派生。基线行用 make_trial_queue.py 的 baseline() 在基线所在机器的队列文件里找、核对
-（期望表与队列各恰好一种、冒烟与正式一致、步数、没有种子与变体的键、种子 42）。基线覆盖里只允许 scene.support=false 与
+每条都从一条基线 run（seed 42）派生：Tier 2、Tier 3 的清单用 Tier 2 基线，Tier 1 的清单用 Tier 1 基线。基线行用 make_trial_queue.py 的 baseline()
+在基线所在机器的队列文件里找、核对（期望表与队列各恰好一种、冒烟与正式一致、步数、没有种子与变体的键、种子 42）。基线覆盖里只允许 scene.support=false 与
 training.replay.capacity=4000000：出现别的键就报错，因为不知道它在新 run 里该不该留。
   t2x 的基线是 stages/evaluate/exports/{ml40,mf4090}.tsv 里这条 episode 现在交的 run，机器取 run 名的最后一段（如 -p185-ml40 → ml40）。
       buffer 用 ml40 默认的 1000 万：基线的 training.replay.capacity=4000000 去掉，期望表的 buffer 列写 10000000。
+  t1x、t1y 的基线是 stages/evaluate/exports/t1_select_r3x.tsv（10/9 逐条选的结果，与 results/ml40/select_t1/t1_select_r3x.tsv 相同）里这条 episode
+      现在交的 run，机器同样取 run 名的最后一段。t1x 一律 400 万 buffer（ml40 上训的基线加这条覆盖，同 t3p3）；t1y 一律 1000 万（同 t2x）。
   t3p、t3p2 的基线是 ml40 上的 t2-ep<N>-w2048-cap10m-ml40；t3p3 的基线同 t2x。Tier 3 都把 parquet 的 /runs/motion/tier2/ 换成清单 motion 键给的目录
       （t3p 是 /runs/motion/tier3/，t3p2、t3p3 是 /runs/motion/tier3_v2/；序列名相同），加 400 万 buffer。
-命名：t2x → t2-ep<N>-w2048-cap10m-r3a-ml40；t3p → t3-ep<N>-w2048-cap4m-r3a-mf4090；t3p2、t3p3 → t3-ep<N>-w2048-cap4m-r3a-v2-mf4090。顺序照计划（t2x 按基线 4096 世界失败:骨盆从低到高）。
+命名：t2x → t2-ep<N>-w2048-cap10m-r3a-ml40；t3p → t3-ep<N>-w2048-cap4m-r3a-mf4090；t3p2、t3p3 → t3-ep<N>-w2048-cap4m-r3a-v2-mf4090；
+t1x → t1-ep<N>-w2048-cap4m-r3a-mf4090；t1y → t1-ep<N>-w2048-cap10m-r3a-ml40。顺序照计划（t2x、t1x、t1y 按基线 4096 世界失败:骨盆从低到高）。
 输出：stages/policy/queues/<机器>_<段名>{.expect.tsv,_smoke.txt,.txt} 与 stages/evaluate/exports/cand_t<档>_<段名>_<机器>.tsv（export_chain.sh 的清单）。
-W&B 标签用清单名（t2x、t3p、t3p2、t3p3）。任何一条核对不过就退出，什么文件都不写。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b [--root <仓库根>]
+W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y）。任何一条核对不过就退出，什么文件都不写。
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
 测试：stages/policy/test_make_var_queue.py。
 """
@@ -53,7 +59,16 @@ SETS = {
              "parts": {"t3p3a": [20, 29, 0, 15], "t3p3b": [18, 21, 22, 23, 26, 17]}, "base": None, "motion": "tier3_v2",
              "run": "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090",
              "desc": "Tier 3 校正版其余 10 集：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_v2 下校正版重建的那份，基线取 Tier 2 导出清单）"},
+    "t1x": {"plan": "agent-doc/plan-next-training-2026-10-12.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+            "episodes": [17, 21, 10, 13, 19, 3, 14], "parts": {"t1xa": [17, 21, 10, 13, 19, 3, 14]}, "base": None,
+            "run": "t1-ep{ep}-w2048-cap4m-r3a-mf4090",
+            "desc": "Tier 1 补候选：骨盆比例低于 0.65 的 7 条的变体 A seed 42（mf4090，buffer 400 万，基线取 10/9 逐条选的清单）"},
+    "t1y": {"plan": "agent-doc/plan-next-training-2026-10-12.md", "tier": 1, "machine": "ml40", "cap": None,
+            "episodes": [2, 11, 16, 4, 9, 25], "parts": {"t1ya": [2, 11, 16, 4, 9, 25]}, "base": None,
+            "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
+            "desc": "Tier 1 补候选：几乎每个世界都摔的 6 条（不含方盒）的变体 A seed 42（ml40，buffer 1000 万，基线取 10/9 逐条选的清单）"},
 }
+T1_CURRENT = "t1_select_r3x.tsv"   # Tier 1 现在交的 30 条（10/9 逐条选）；Tier 2 的在 ml40.tsv、mf4090.tsv
 ENV_SMOKE = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
 
 
@@ -61,16 +76,18 @@ def env_formal(name: str) -> str:
     return f"V2D_WANDB_TAG={name} V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1"
 
 
-def current_baselines(root: Path) -> dict:
-    """Tier 2 的 episode → 现在交的 run（两份导出清单合起来，每条 episode 恰好一行）。"""
+def current_baselines(root: Path, tier: int = 2) -> dict:
+    """某一档的 episode → 现在交的 run，每条 episode 恰好一行。Tier 2：两份导出清单合起来；Tier 1：10/9 逐条选的清单。"""
+    ex = root / "stages" / "evaluate" / "exports"
+    files = [ex / T1_CURRENT] if tier == 1 else [ex / "ml40.tsv", ex / "mf4090.tsv"]
     out = {}
-    for m in ("ml40", "mf4090"):
-        for line in (root / "stages" / "evaluate" / "exports" / f"{m}.tsv").read_text().splitlines():
+    for f in files:
+        for line in f.read_text().splitlines():
             c = line.split("\t")
-            if len(c) >= 4 and c[0] == "2":
+            if len(c) >= 4 and c[0] == str(tier):
                 ep = int(c[1])
                 if ep in out:
-                    raise SystemExit(f"make_var_queue: Tier 2 ep{ep} 在导出清单里不止一行（{out[ep]}、{c[2]}）")
+                    raise SystemExit(f"make_var_queue: Tier {tier} ep{ep} 在导出清单里不止一行（{out[ep]}、{c[2]}）")
                 out[ep] = c[2]
     return out
 
@@ -97,11 +114,12 @@ def make(part: str, root: Path, episodes=None) -> dict:
     name, eps = resolve(part, episodes)
     s = SETS[name]
     qdir = root / "stages" / "policy" / "queues"
-    if s["tier"] == 2 or s["base"] is None:   # t2x 与 t3p3：基线取导出清单里这条 episode 现在交的 run
-        cur = current_baselines(root)
+    if s["tier"] in (1, 2) or s["base"] is None:   # t2x、t3p3、t1x、t1y：基线取这条 episode 现在交的 run
+        btier = 1 if s["tier"] == 1 else 2
+        cur = current_baselines(root, btier)
         missing = [ep for ep in eps if ep not in cur]
         if missing:
-            raise SystemExit(f"make_var_queue: 导出清单里没有 Tier 2 的 {missing}")
+            raise SystemExit(f"make_var_queue: 导出清单里没有 Tier {btier} 的 {missing}")
         bases = {ep: cur[ep] for ep in eps}
     else:
         bases = {ep: s["base"].format(ep=ep) for ep in eps}

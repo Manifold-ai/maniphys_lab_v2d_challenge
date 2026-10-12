@@ -51,8 +51,13 @@ def parse_line(line: str) -> dict:
 
 
 def baseline(qdir: Path, machine: str, base: str) -> tuple:
-    exp = [ln for f in sorted(qdir.glob(f"{machine}_*.expect.tsv")) for ln in f.read_text().splitlines()
-           if ln.split("\t")[0] == base]
+    # 期望表行比较时不看最后一列 xeval：同一条 run 可能在两张表里各有一行、只差 xeval（如 t1-ep10-w2048-cap10m-ml40 在 day2 与 day2b，
+    # 计划 agent-doc/plan-next-training-2026-10-12.md 审查 M2）。去掉 xeval 后仍不止一种就照旧报错。返回的行不含 xeval，调用方只用到第 0–9 列。
+    hit = [ln for f in sorted(qdir.glob(f"{machine}_*.expect.tsv")) for ln in f.read_text().splitlines() if ln.split("\t")[0] == base]
+    bad = [ln for ln in hit if len(ln.split("\t")) != len(HEADER.split("\t"))]
+    if bad:
+        raise SystemExit(f"make_trial_queue: {base} 的期望表行不是 {len(HEADER.split(chr(9)))} 列：{bad}")
+    exp = [ln.rsplit("\t", 1)[0] for ln in hit]
     row = find_one(exp, f"{base} 的期望表行").split("\t")
     def qlines(files, run):
         return [ln.strip() for f in files for ln in f.read_text().splitlines()
