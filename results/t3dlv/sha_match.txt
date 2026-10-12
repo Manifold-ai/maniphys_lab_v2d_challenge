@@ -1,0 +1,102 @@
+# command  : python3 stages/recovery/t3_sha_match.py results/ops/t3_episodes_ml40_1012_dlv.txt results/t3float/gate_dlv_ok29_mf4090.txt --inputs results/ops/t2_inputs_mf4090_1012_dlv.txt 
+# md5      : 99795f96a344fc48f10b15a1d2b9bb67  stages/recovery/t3_sha_match.py
+# md5      : 993c598ce2d6859bbae3e9cb7a9a89ee  results/ops/t3_episodes_ml40_1012_dlv.txt
+# md5      : 76eb8bd944ce01d5b4fb98d4d996f246  results/t3float/gate_dlv_ok29_mf4090.txt
+# md5      : 9ef9bcdf033bc2754d3be3bf9c968d22  results/ops/t2_inputs_mf4090_1012_dlv.txt
+# source   : 039b367c05cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:48:37-0600
+# ---------------------------------------------------------------
+B.1 记录 results/ops/t3_episodes_ml40_1012_dlv.txt；A 段记录 results/t3float/gate_dlv_ok29_mf4090.txt；Tier 2 记录 results/ops/t2_inputs_mf4090_1012_dlv.txt
+ep	A段前12位	B.1前12位	B.1修改时间	相同
+0	1c55e1bb2b20	1c55e1bb2b20	2026-10-13 01:14:18.61468	yes
+1	62b3a38c19f7	62b3a38c19f7	2026-10-13 01:14:19.03869	yes
+2	2a567a22a644	2a567a22a644	2026-10-13 01:14:19.46269	yes
+3	a937d2459310	a937d2459310	2026-10-13 01:14:19.85069	yes
+4	b0b2ca43dc20	b0b2ca43dc20	2026-10-13 01:14:20.24669	yes
+5	1a55eac94383	1a55eac94383	2026-10-13 01:14:20.63469	yes
+6	9c18e5688705	9c18e5688705	2026-10-13 01:14:21.006699	yes
+7	25fd7633d7b3	25fd7633d7b3	2026-10-13 01:14:21.41070	yes
+8	7227df1833c2	7227df1833c2	2026-10-13 01:14:21.802702	yes
+9	558ee2033cf8	558ee2033cf8	2026-10-13 01:14:22.19470	yes
+10	ebd995f2ec77	ebd995f2ec77	2026-10-13 01:14:22.59870	yes
+11	73e70bd854d4	73e70bd854d4	2026-10-13 01:14:23.02270	yes
+12	bb88a26eba08	bb88a26eba08	2026-10-13 01:14:23.414709	yes
+13	d6c906d9c614	d6c906d9c614	2026-10-13 01:14:23.82271	yes
+14	3bc86c53c41a	3bc86c53c41a	2026-10-13 01:14:24.23471	yes
+15	f20321db7f83	f20321db7f83	2026-10-13 01:14:24.622715	yes
+16	07b51bd7e1b4	07b51bd7e1b4	2026-10-13 01:14:25.046717	yes
+17	68810efd2483	68810efd2483	2026-10-13 01:14:25.458719	yes
+18	7bf8c36b3c8f	7bf8c36b3c8f	2026-10-13 01:14:25.88272	yes
+19	b3b3c2b73804	b3b3c2b73804	2026-10-13 01:14:26.28272	yes
+20	bd8ed01ceb24	bd8ed01ceb24	2026-10-13 01:14:26.638724	yes
+21	1cc95f480ba2	1cc95f480ba2	2026-10-13 01:14:27.010726	yes
+22	94662ff1637d	94662ff1637d	2026-10-13 01:14:27.430728	yes
+23	93b8b2496871	93b8b2496871	2026-10-13 01:14:27.83472	yes
+24	2b9a796805f1	2b9a796805f1	2026-10-13 01:14:28.21873	yes
+25	060d90c7a013	060d90c7a013	2026-10-13 01:14:28.63073	yes
+26	9b2ae8961abd	9b2ae8961abd	2026-10-13 01:14:28.998735	yes
+27	f1f86dfe4c88	f1f86dfe4c88	2026-10-13 01:14:29.406737	yes
+29	b9a858219b4f	b9a858219b4f	2026-10-13 01:14:30.230740	yes
+## 重建用的输入与官方 Tier 2 文件（只报）
+ep	键	相对路径	重建输入md5	Tier2_md5	相同
+0	mesh	mesh/tall_bar_stool/tall_bar_stool.glb	f3e1457400d93c8fb690ffd9d355bd0e	f3e1457400d93c8fb690ffd9d355bd0e	yes
+0	ground_plane	ground_plane/2026-06-04_14-16-23_tall_bar_stool_tip_up_04.json	3b668431c5897327af2f7611eeaa0ee8	6431249d30e5d110cb21cfe1b3aa9e8d	NO
+1	mesh	mesh/vacuum/vacuum.glb	476304d61a7dd94bf271fcd71bba1333	476304d61a7dd94bf271fcd71bba1333	yes
+1	ground_plane	ground_plane/2026-05-18_17-06-21_vacuum_left_lean_02.json	7769507559a07ea333fc4249efe65c9f	48f1e361f0dd4411dcc3697a28e6082a	NO
+2	mesh	mesh/blue_easter_basket/blue_easter_basket.glb	1fa4dcacd910c9727e3db7a84c82999d	1fa4dcacd910c9727e3db7a84c82999d	yes
+2	ground_plane	ground_plane/2026-06-02_10-04-42_blue_easter_basket_place_10.json	17e886d202d5a74f1f89a4802f4897d3	77688223a77d6f8014680d1a1a5316a8	NO
+3	mesh	mesh/contigo_coffee_mug/contigo_coffee_mug.glb	5d1c0769b2e731f2de49d107ec8fa9eb	5d1c0769b2e731f2de49d107ec8fa9eb	yes
+3	ground_plane	ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json	722b8447b5aa402d50ff8f16abc153bb	ac17f82e8b8b9399b16ae1f1e458c470	NO
+4	mesh	mesh/baseball_bat/baseball_bat.glb	237ee9fc368b8a7b6610a2a8c6e5c1ae	237ee9fc368b8a7b6610a2a8c6e5c1ae	yes
+4	ground_plane	ground_plane/2026-04-24_11-40-52_baseball_bat_rotate_05.json	2f3121bd72238ffe3892d2ddfd45bd80	0d118466855d320f1782b74f1c598771	NO
+5	mesh	mesh/big_black_box/big_black_box.glb	5b836735b51043283f03f1be07ee384a	5b836735b51043283f03f1be07ee384a	yes
+5	ground_plane	ground_plane/2026-03-18_19-36-56_g1_box_rotate_01.json	096e2a8501b12c8d457cf3ac8616864e	72cdb5619f450fd2eb2658693d4f766d	NO
+6	mesh	mesh/monitor/monitor.glb	0f499edc5d22d35308c0d1f5872d072d	0f499edc5d22d35308c0d1f5872d072d	yes
+6	ground_plane	ground_plane/2026-06-01_11-26-44_monitor_rotate_05.json	7253cff58473591b46f2c7645a7c4c03	f96a0399035dee731bacf9b446a09932	NO
+7	mesh	mesh/iron/iron.glb	348809ec44b61a61245e0b8d65ec4607	348809ec44b61a61245e0b8d65ec4607	yes
+7	ground_plane	ground_plane/2026-05-29_15-20-43_iron_round_table_02.json	4fbaeb896708e0d5f098424d6bd914c1	e4010291c7d51f1a76563ed7b50b1056	NO
+8	mesh	mesh/skinny_wood_chair/skinny_wood_chair.glb	666b6366a803130fc20050249ad67fa2	666b6366a803130fc20050249ad67fa2	yes
+8	ground_plane	ground_plane/2026-06-05_15-08-08_skinny_wood_chair_push_10.json	4d5b6070b7d8dc2ec513e74c8550452c	9626590db5bd1dc3a8188ee4d0d03f11	NO
+9	mesh	mesh/big_red_bowl/big_red_bowl.glb	f293d9eafcbc4b0654953ad2ef47de1b	f293d9eafcbc4b0654953ad2ef47de1b	yes
+9	ground_plane	ground_plane/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03.json	1f88c47f251207c65af0cf74e11adfca	191c7e647fa581314b2c60423da983db	NO
+10	mesh	mesh/white_desk/white_desk.glb	da717d2a6ac2833f82c003f69f745818	da717d2a6ac2833f82c003f69f745818	yes
+10	ground_plane	ground_plane/2026-05-01_11-36-40_white_desk_lower_to_ground_10.json	798cdb85ef94b0cbe8cd43c8934b9bb1	169d33287aa66df26ec5713863ecee89	NO
+11	mesh	mesh/light_blue_book/light_blue_book.glb	8d95a043a364254f8e77626c03c773f2	8d95a043a364254f8e77626c03c773f2	yes
+11	ground_plane	ground_plane/2026-04-24_13-56-58_light_blue_book_pick_place_09.json	1e37e75fa1f4a1e4e9763ed2d69c2eda	89332371827de29bd6ede8a96f8e0926	NO
+12	mesh	mesh/black_platform/black_platform.glb	6b75c129d641b22d7eeed4f4f7041163	6b75c129d641b22d7eeed4f4f7041163	yes
+12	ground_plane	ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json	6f94edae922375745162ab3753be2c19	dcf25842d8a4dce616f5da968ad7a5ea	NO
+13	mesh	mesh/snack_box/snack_box.glb	778a3ed147b3444c36072894e059c591	778a3ed147b3444c36072894e059c591	yes
+13	ground_plane	ground_plane/2026-06-09_10-19-09_snack_box_desk_through_06.json	d715a4d7936fe4108114cb34a9bcf2bf	99ed83c1bd198c20b22ad2b408aaf026	NO
+14	mesh	mesh/round_table/round_table.glb	6cde48a5002185c6b99c1c61733f2ff4	6cde48a5002185c6b99c1c61733f2ff4	yes
+14	ground_plane	ground_plane/2026-05-28_14-44-09_round_table_flip_08.json	cc50a4f46566ecedcade39d22ed5cfee	6073a44eef120e783ce549fb2076d249	NO
+15	mesh	mesh/wet_floor_sign/wet_floor_sign.glb	090f16c81ce7a69f7f75fd3a19f84717	090f16c81ce7a69f7f75fd3a19f84717	yes
+15	ground_plane	ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json	cd25e9640eb80e9d8c05fdddcf646387	4f778f37e24522e162de1392a4e3d9a0	NO
+16	mesh	mesh/spray_bottle/spray_bottle.glb	d424da632926a017fccf9aa51fcd4ce8	d424da632926a017fccf9aa51fcd4ce8	yes
+16	ground_plane	ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json	cbf0d452773926a0fcaa70ff2887045e	8eddd909e08e40f8bcf27c6d814e9f27	NO
+17	mesh	mesh/traffic_cone/traffic_cone.glb	d62471ba31f677cc2dbd0d3ca8401094	d62471ba31f677cc2dbd0d3ca8401094	yes
+17	ground_plane	ground_plane/2026-05-01_17-04-55_traffic_cone_ground_table_02.json	8bb5fb9391fe6bd4550f185cd2681996	ae6e062ad9041bedfd3ce8edda8c467c	NO
+18	mesh	mesh/blue_trash_can/blue_trash_can.glb	76337cd9ccd87e34d5a66847a574cc62	76337cd9ccd87e34d5a66847a574cc62	yes
+18	ground_plane	ground_plane/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08.json	a9ed04d079bc14765741fdf007a4c78b	4ea6e81e574a6ae768488fd0dbd922ba	NO
+19	mesh	mesh/cane/cane.glb	b5358e0349bae5dcd69381007b7a76a9	b5358e0349bae5dcd69381007b7a76a9	yes
+19	ground_plane	ground_plane/2026-05-19_10-19-48_cane_swing_05.json	c35e6b9eaee64121f5c7a29050fcb852	892ca67dfda866bb3afc31a4d95f5c07	NO
+20	mesh	mesh/rice_cooker/rice_cooker.glb	07813ad4566097b0aa22aed66a9f7b48	07813ad4566097b0aa22aed66a9f7b48	yes
+20	ground_plane	ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json	6f2640c81a2d583e5bcce07d4be7c026	e9526edcd097d15180c4dc2e25aa7d38	NO
+21	mesh	mesh/tall_bar_stool/tall_bar_stool.glb	f3e1457400d93c8fb690ffd9d355bd0e	f3e1457400d93c8fb690ffd9d355bd0e	yes
+21	ground_plane	ground_plane/2026-04-29_11-53-57_tall_bar_stool_pull_08.json	306910a2999aa9b2fcfccd1f6d08b073	7dfeccd7b464b5f7447a428eb2dedf98	NO
+22	mesh	mesh/step_ladder/step_ladder.glb	c59fbc68b8b87d02ee197f6d842dc14b	c59fbc68b8b87d02ee197f6d842dc14b	yes
+22	ground_plane	ground_plane/2026-05-22_16-52-36_step_ladder_drag_03.json	9ae18c9e119701e75636f10051b9fe36	583faa80583a83667bcc0006b58e960c	NO
+23	mesh	mesh/toy_stroller/toy_stroller.glb	6a9bf1918458a12aa251e8fb80b13b94	6a9bf1918458a12aa251e8fb80b13b94	yes
+23	ground_plane	ground_plane/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04.json	2b7a22f87fcfc5888874b24e5652f04d	dd8c0594fbe936ad21c98664193e73d8	NO
+24	mesh	mesh/watering_can/watering_can.glb	27d97417dc0915ecc61c08884ba5449f	27d97417dc0915ecc61c08884ba5449f	yes
+24	ground_plane	ground_plane/2026-05-29_15-43-20_watering_can_pour_right_02.json	71c191f2006d05b4f0646302171476c4	450419566d821e713e965192d5e73137	NO
+25	mesh	mesh/cyan_water_bottle/cyan_water_bottle.glb	1a620f1c665c58dec020814dba3241ac	1a620f1c665c58dec020814dba3241ac	yes
+25	ground_plane	ground_plane/2026-03-20_11-59-57_cyan_water_bottle_rotate_01.json	d3444d8464175d6b08d84fdbf6fbf192	6e5e81f07d347ea92ca3ee750b306242	NO
+26	mesh	mesh/skateboard/skateboard.glb	b8ff5c032f60b37ba48b756d54402186	b8ff5c032f60b37ba48b756d54402186	yes
+26	ground_plane	ground_plane/2026-06-05_16-05-08_skateboard_rotate_ground_10.json	bbd731883f9e7f2301de2ca20d3a3a96	237b672d4e3a1b16aac36e61b4a6d586	NO
+27	mesh	mesh/woven_basket/woven_basket.glb	6ff7ad2c4dbbe8898879beed0762cf62	6ff7ad2c4dbbe8898879beed0762cf62	yes
+27	ground_plane	ground_plane/2026-05-01_11-15-05_woven_basket_ground_desk_10.json	2869b80d87da85bff5dcf53c1465e87e	0ccc2f3493217d78a4540a198428b70c	NO
+29	mesh	mesh/rolling_luggage/rolling_luggage.glb	ab758b004e85f86cc877d0fe5a75e618	ab758b004e85f86cc877d0fe5a75e618	yes
+29	ground_plane	ground_plane/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06.json	bfab21ad51b545461cb0145b0ddbb3f6	f858e6b5146f54d9d2c9f7172bfa129e	NO
+INPUTS_DIFF 29/58：ep0 ground_plane，ep1 ground_plane，ep2 ground_plane，ep3 ground_plane，ep4 ground_plane，ep5 ground_plane，ep6 ground_plane，ep7 ground_plane，ep8 ground_plane，ep9 ground_plane，ep10 ground_plane，ep11 ground_plane，ep12 ground_plane，ep13 ground_plane，ep14 ground_plane，ep15 ground_plane，ep16 ground_plane，ep17 ground_plane，ep18 ground_plane，ep19 ground_plane，ep20 ground_plane，ep21 ground_plane，ep22 ground_plane，ep23 ground_plane，ep24 ground_plane，ep25 ground_plane，ep26 ground_plane，ep27 ground_plane，ep29 ground_plane
+SHA_MATCH 29/29

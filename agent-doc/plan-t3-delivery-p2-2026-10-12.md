@@ -127,3 +127,16 @@ A 段转发约 25 分钟（20 集约 15 分钟）；B.1 到拼目录约 20 分�
   随后另一位用户在跑这一版的物理检查（`t3_physics_all.sh`）与支撑面估计（`t3_support.py`），都是 CPU（`results/ops/t3_queue_ml40_1012_1124.txt`）。
 - 分支新提交 3511d42、58ed198 只改检查脚本（关节索引、脚算不算接触），交接文档自 9f9f708 起没有改动，没有写明交付目录。
   按第 2 节的触发条件，门槛复查不开始；另挂检测，等交接写明交付目录或目录再变。
+
+## 执行记录（10/12，时间 UTC-6）
+
+- 11:43 检测到交接文档 10-13 一节（994fda6、fbc28f3）：新版本 `tier3_cari4d_f830_best{,_suspect}`，逐集取跟丢比例最低的版本组装
+  （基线 12 集、重选 4 集、每帧配准 13 集、ep19 握点版），正式 29 集、suspect 只有 ep28；下一步写“定物体高度后处理……交付 best 给 rxzhou”。
+  交付目录写明了，按第 2 节开工；高度后处理还没做，做完若改了 parquet，用第 3 节第 8 步的列比较查出来，再补一次（`results/t3dlv/handoff_1012_1143.txt`）。
+- 11:44 mf4090 写停链标记 `runs/.chain-stop-t1xa_train_mf4090`（`results/t1x/stop_t1xa_after_ep17_mf4090.txt`）：t1xa 训完 ep17 后停，之后同步。
+- 第 0 步：两个目录名加进 `tier3_pack_remote.sh`、`t3_episode_remote.sh` 的白名单（目录名符合 `^tier3_cari4d[a-z0-9_]*$`，其余脚本不用改）。
+- 第 1 步：A 段 29 集打包（`results/t3float/pack_1012_dlv.txt`）；`OFFSET_GATE_PASS`，地面上 19 集常数偏移 −8.7 ± 4.1 mm（`results/t3float/gate_dlv_ok29_mf4090.txt`）。
+- 第 2 步：B.1 29 集，元数据四个键都在（`results/ops/t3_episodes_ml40_1012_dlv.txt`）。
+- 第 3、4 步：官方 Tier 2 输入 29 集 86 个文件（`results/ops/t2_inputs_mf4090_1012_dlv.txt`）；`SHA_MATCH 29/29`；`INPUTS_DIFF 29/58` 全是地面文件，
+  网格 29 集都相同（`results/t3dlv/sha_match.txt`）。
+- 第 5 步：`stages/recovery/expect/t3dlv_29_1012.tsv`（144 行：data、meta、地面、支撑面各 29 行，网格 28 行，ep0 与 ep21 共用 tall_bar_stool）。

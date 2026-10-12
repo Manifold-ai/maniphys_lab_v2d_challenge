@@ -1,0 +1,39 @@
+# command  : stages/recovery/t3_float_pack.sh float_1012_dlv tier3_cari4d_f830_best 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 29 
+# md5      : 45499cf9002db31c2dddaa659fcc2145  stages/recovery/t3_float_pack.sh
+# source   : 039b367c05cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:45:12-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 01:47:43 CST 来历 3e517ff030ff；同组成员那边的目录 runs/tier3_cari4d_f830_best → runs/tier3/incoming/float_1012_dlv/ok
+parquet 29 个，元数据 29 个；部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5
+## parquet、修改时间（UTC）、sha256 前 12 位
+episode_000000.parquet 2026-10-12_17:14:18 1c55e1bb2b20
+episode_000001.parquet 2026-10-12_17:14:19 62b3a38c19f7
+episode_000002.parquet 2026-10-12_17:14:19 2a567a22a644
+episode_000003.parquet 2026-10-12_17:14:19 a937d2459310
+episode_000004.parquet 2026-10-12_17:14:20 b0b2ca43dc20
+episode_000005.parquet 2026-10-12_17:14:20 1a55eac94383
+episode_000006.parquet 2026-10-12_17:14:21 9c18e5688705
+episode_000007.parquet 2026-10-12_17:14:21 25fd7633d7b3
+episode_000008.parquet 2026-10-12_17:14:21 7227df1833c2
+episode_000009.parquet 2026-10-12_17:14:22 558ee2033cf8
+episode_000010.parquet 2026-10-12_17:14:22 ebd995f2ec77
+episode_000011.parquet 2026-10-12_17:14:23 73e70bd854d4
+episode_000012.parquet 2026-10-12_17:14:23 bb88a26eba08
+episode_000013.parquet 2026-10-12_17:14:23 d6c906d9c614
+episode_000014.parquet 2026-10-12_17:14:24 3bc86c53c41a
+episode_000015.parquet 2026-10-12_17:14:24 f20321db7f83
+episode_000016.parquet 2026-10-12_17:14:25 07b51bd7e1b4
+episode_000017.parquet 2026-10-12_17:14:25 68810efd2483
+episode_000018.parquet 2026-10-12_17:14:25 7bf8c36b3c8f
+episode_000019.parquet 2026-10-12_17:14:26 b3b3c2b73804
+episode_000020.parquet 2026-10-12_17:14:26 bd8ed01ceb24
+episode_000021.parquet 2026-10-12_17:14:27 1cc95f480ba2
+episode_000022.parquet 2026-10-12_17:14:27 94662ff1637d
+episode_000023.parquet 2026-10-12_17:14:27 93b8b2496871
+episode_000024.parquet 2026-10-12_17:14:28 2b9a796805f1
+episode_000025.parquet 2026-10-12_17:14:28 060d90c7a013
+episode_000026.parquet 2026-10-12_17:14:28 9b2ae8961abd
+episode_000027.parquet 2026-10-12_17:14:29 f1f86dfe4c88
+episode_000029.parquet 2026-10-12_17:14:30 b9a858219b4f
+T3_FLOAT_PACK_DONE
