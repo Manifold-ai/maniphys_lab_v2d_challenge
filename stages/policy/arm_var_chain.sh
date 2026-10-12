@@ -34,7 +34,8 @@ case "$N" in
   t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
-  *) echo "段名要以 t2x、t3p、t1x 或 t1y 开头" >&2; exit 2 ;;
+  t3q*) M=ml40; T=3; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # D 在 ml40 上（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md）
+  *) echo "段名要以 t2x、t3p、t3q、t1x 或 t1y 开头" >&2; exit 2 ;;
 esac
 WAIT="V2D_GPU_WAIT_S=21600"
 Q=stages/policy/queues/${M}_$N; LIST=stages/evaluate/exports/cand_t${T}_${N}_$M.tsv

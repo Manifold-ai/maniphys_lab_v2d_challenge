@@ -28,7 +28,11 @@ training.replay.capacity=4000000：出现别的键就报错，因为不知道它
 t1x → t1-ep<N>-w2048-cap4m-r3a-mf4090；t1y → t1-ep<N>-w2048-cap10m-r3a-ml40。顺序照计划（t2x、t1x、t1y 按基线 4096 世界失败:骨盆从低到高）。
 输出：stages/policy/queues/<机器>_<段名>{.expect.tsv,_smoke.txt,.txt} 与 stages/evaluate/exports/cand_t<档>_<段名>_<机器>.tsv（export_chain.sh 的清单）。
 W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y）。任何一条核对不过就退出，什么文件都不写。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya [--root <仓库根>]
+  t3p4、t3q Tier 3 最终交付版 best_hm 的 29 集（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md）：参考在 /runs/motion/tier3_hm/，基线同 t3p3 取 Tier 2
+       导出清单；t3p4 在 mf4090（400 万 buffer，run 名 t3-ep<N>-w2048-cap4m-r3a-hm-mf4090），t3q 在 ml40（1000 万，t3-ep<N>-w2048-cap10m-r3a-hm-ml40）。
+       两份清单都带同一个 29 集的总顺序，段之间挪集只要 --episodes。支撑面按 best_hm 自己的支撑面定（tables 键，计划审查 1）：
+       期望表的 support 列与 scene.support=false 覆盖都按它给，不沿用 Tier 2 基线的（ep1 的 Tier 2 基线开着支撑面，best_hm 的 ep1 只有地面）。
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t3p4a|t3p4b|t3qa|t3qb [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
 测试：stages/policy/test_make_var_queue.py。
 """
@@ -40,6 +44,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from make_trial_queue import HEADER, SMOKE_STEPS, STEPS, VARIANT, baseline  # noqa: E402
 
 ALLOWED = {"scene.support=false", "training.replay.capacity=4000000"}
+# best_hm 有桌面的 12 集（results/t3hm/support_kinds_root_mf4090.txt 的 scaled_cube=yes；其余 17 集只有地面）
+TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]
+# D 的总顺序：① ep15、17；② 没在 Tier 3 训练过的 18 集与 ep8（10/9 试跑在旧参考上失败），按集号；③ 其余 8 集重训（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md 第 2 节）
+ORDER_HM = [15, 17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 19, 21, 25, 27, 0, 18, 22, 24, 26, 20, 23, 29]
 SETS = {
     "t2x": {"plan": "agent-doc/plan-t2-scaleout-2026-10-09.md", "tier": 2, "machine": "ml40", "cap": None,
             "episodes": [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17, 9, 1, 13, 19, 2, 4, 14, 25, 28],
@@ -59,6 +67,14 @@ SETS = {
              "parts": {"t3p3a": [20, 29, 0, 15], "t3p3b": [18, 21, 22, 23, 26, 17]}, "base": None, "motion": "tier3_v2",
              "run": "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090",
              "desc": "Tier 3 校正版其余 10 集：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_v2 下校正版重建的那份，基线取 Tier 2 导出清单）"},
+    "t3p4": {"plan": "agent-doc/plan-d-t3hm-train-2026-10-12.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+             "episodes": ORDER_HM, "parts": {"t3p4a": [15, 17, 1, 2, 3], "t3p4b": [12, 13, 14, 16, 19, 21, 25, 27]},
+             "base": None, "motion": "tier3_hm", "tables": TABLES_HM, "run": "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090",
+             "desc": "Tier 3 最终交付版 best_hm：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_hm，基线取 Tier 2 导出清单，支撑面按 best_hm）"},
+    "t3q": {"plan": "agent-doc/plan-d-t3hm-train-2026-10-12.md", "tier": 3, "machine": "ml40", "cap": None,
+            "episodes": ORDER_HM, "parts": {"t3qa": [4, 5, 6, 7, 8, 9, 10, 11], "t3qb": [0, 18, 22, 24, 26, 20, 23, 29]},
+            "base": None, "motion": "tier3_hm", "tables": TABLES_HM, "run": "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40",
+            "desc": "Tier 3 最终交付版 best_hm：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_hm，基线取 Tier 2 导出清单，支撑面按 best_hm）"},
     "t1x": {"plan": "agent-doc/plan-next-training-2026-10-12.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
             "episodes": [17, 21, 10, 13, 19, 3, 14], "parts": {"t1xa": [17, 21, 10, 13, 19, 3, 14]}, "base": None,
             "run": "t1-ep{ep}-w2048-cap4m-r3a-mf4090",
@@ -133,6 +149,11 @@ def make(part: str, root: Path, episodes=None) -> dict:
         if formal["worlds"] != "2048":
             raise SystemExit(f"make_var_queue: {base} 的世界数是 {formal['worlds']}，不是 2048")
         keep = [o for o in formal["overrides"] if not o.startswith("training.replay.capacity=")]
+        cols = list(row[2:8])
+        if "tables" in s:   # t3p4、t3q：支撑面按交付版自己的支撑面定，不沿用 Tier 2 基线的列与覆盖（计划审查 1）
+            on = ep in s["tables"]
+            cols[3] = "true" if on else "false"
+            keep = [o for o in keep if o != "scene.support=false"] + ([] if on else ["scene.support=false"])
         over = ([f"training.replay.capacity={s['cap']}"] if s["cap"] else []) + keep + VARIANT
         parquet = formal["parquet"]
         if s["tier"] == 3:
@@ -140,7 +161,7 @@ def make(part: str, root: Path, episodes=None) -> dict:
                 raise SystemExit(f"make_var_queue: {base} 的 parquet 不在 /runs/motion/tier2/ 下：{parquet}")
             parquet = parquet.replace("/runs/motion/tier2/", f"/runs/motion/{s['motion']}/")
         run = s["run"].format(ep=ep)
-        exp.append("\t".join([run, f"smoke-{run}", *row[2:8], s["cap"] or "10000000", "42", "no"]))
+        exp.append("\t".join([run, f"smoke-{run}", *cols, s["cap"] or "10000000", "42", "no"]))
         tail = f"{parquet} {formal['worlds']}"
         formal_lines.append(f"{env_formal(name)} {run} {tail} {STEPS} {' '.join(over)}")
         smoke.append(f"{ENV_SMOKE} smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over)}")

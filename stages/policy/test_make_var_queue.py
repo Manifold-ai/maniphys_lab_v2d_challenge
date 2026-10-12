@@ -16,6 +16,10 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      1000 万 buffer，奇数号在 mf4090、带 400 万覆盖）；t1xa 7 条在 mf4090、一律 400 万、W&B 标签 t1x；t1ya 6 条在 ml40、没有 buffer 覆盖、标签 t1y；
      parquet 在 /runs/motion/tier1/；导出清单档位 1。ml40 的 ep10 在第二张期望表里多一行、只差 xeval（真实情形同 t1-ep10-w2048-cap10m-ml40），
      照常生成；那一行若还差别的列（帧数），报“找到 2 种”、不写文件（make_trial_queue.baseline 的改动，同计划审查 M2）
+  7. t3p4a、t3p4b、t3qa、t3qb（agent-doc/plan-d-t3hm-train-2026-10-12.md）：四段合起来恰好 29 集、不重复；run 名带 -hm-，parquet 在
+     /runs/motion/tier3_hm/；mf4090 两段带 400 万覆盖、期望表 4000000，ml40 两段没有 buffer 覆盖、期望表 10000000；支撑面按 best_hm 的 12 集桌面定，
+     与基线不同的几种都核：ep1（基线是 p185 run）、ep15（基线开着支撑面、best_hm 只有地面：要加覆盖、列改 false）、ep17（基线关着、best_hm 有桌面：
+     去掉覆盖、列改 true）；ml40 的续跑段 t3qc --episodes 12,13 照总顺序生成（段之间挪集只要 --episodes）
 用法：python3 stages/policy/test_make_var_queue.py
 """
 import subprocess
@@ -211,6 +215,43 @@ def test_t3p3_parts():
                       "mf4090", motion="tier3_v2")
         r = gen(root, "t3p3a", "--episodes", "20")
         assert r.returncode != 0, r.stdout + r.stderr
+
+
+TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]
+
+
+def test_t3p4_t3q_parts():
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        parts = {"t3p4a": ("mf4090", [15, 17, 1, 2, 3]), "t3p4b": ("mf4090", [12, 13, 14, 16, 19, 21, 25, 27]),
+                 "t3qa": ("ml40", [4, 5, 6, 7, 8, 9, 10, 11]), "t3qb": ("ml40", [0, 18, 22, 24, 26, 20, 23, 29])}
+        allep = [e for _, eps in parts.values() for e in eps]
+        assert sorted(allep) == [e for e in range(30) if e != 28] and len(allep) == 29, allep
+        for part, (m, eps) in parts.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            tag = "t3p4" if m == "mf4090" else "t3q"
+            fmt = "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090" if m == "mf4090" else "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40"
+            f, sm = lines(q / f"{m}_{part}.txt"), lines(q / f"{m}_{part}_smoke.txt")
+            assert [x.split()[5] for x in f] == [fmt.format(ep=e) for e in eps], f
+            exp = lines(q / f"{m}_{part}.expect.tsv")[1:]
+            for fx, sx, row, ep in zip(f, sm, exp, eps):
+                ft, over, c = fx.split(), fx.split()[9:], row.split("\t")
+                assert ft[0] == f"V2D_WANDB_TAG={tag}" and ft[6] == pq(ep, 3, "tier3_hm"), fx
+                caps = [o for o in over if o.startswith("training.replay.capacity=")]
+                assert caps == (["training.replay.capacity=4000000"] if m == "mf4090" else []), fx
+                on = ep in TABLES_HM
+                assert ("scene.support=false" in over) == (not on) and over.count("scene.support=false") <= 1 and over[-2:] == VAR, (ep, fx)
+                assert c[5] == ("true" if on else "false") and c[2:5] == [seq(ep), "frame", frames(ep)], (ep, row)
+                assert c[8] == ("4000000" if m == "mf4090" else "10000000"), row
+                assert sx.split()[9:] == over, (fx, sx)
+        # 与基线不同的几种：ep15 基线开着（15 % 3 == 0）、best_hm 只有地面；ep17 基线关着、best_hm 有桌面；ep1 的基线是 p185 run、关着
+        assert support(15) == "true" and support(17) == "false" and support(1) == "false" and base_run(1).endswith("-p185-ml40")
+        r = gen(root, "t3qc", "--episodes", "13,12")
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert [x.split()[5] for x in lines(q / "ml40_t3qc.txt")] == ["t3-ep12-w2048-cap10m-r3a-hm-ml40", "t3-ep13-w2048-cap10m-r3a-hm-ml40"]
 
 
 def test_t1_parts():
