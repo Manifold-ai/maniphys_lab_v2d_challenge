@@ -1,0 +1,27 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && tail -1 runs/logs/cand_t2_r3t2_ml40.log && echo "## �\223�\236\234表" && cut -f1-5 runs/exports/cand_t2_r3t2_ml40.tsv && echo "## �\225��\223��\207记 $(ls runs/.chain-active-* 2>/dev/null | wc -l) 个" && echo "## GPU 计�\227�\233�\213 $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | wc -l) 个"' 
+# source   : 3e517ff030ff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:50:13-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+=== 2026-10-13 00:49:27 CST EXPORT_CHAIN_DONE（成功 16、失败 0）
+## 结果表
+tier	episode	run	step	status
+2	8	t2-ep8-w2048-cap10m-r3a-ml40	349999104	ok
+2	12	t2-ep12-w2048-cap10m-r3a-ml40	349999104	ok
+2	20	t2-ep20-w2048-cap10m-r3a-ml40	349999104	ok
+2	24	t2-ep24-w2048-cap10m-r3a-ml40	349999104	ok
+2	26	t2-ep26-w2048-cap10m-r3a-ml40	349999104	ok
+2	22	t2-ep22-w2048-cap10m-r3a-ml40	349999104	ok
+2	8	t2-ep8-w2048-cap10m-s43-ml40	349999104	ok
+2	8	t2-ep8-w2048-cap10m-r3a-s43-ml40	349999104	ok
+2	12	t2-ep12-w2048-cap10m-s43-ml40	349999104	ok
+2	12	t2-ep12-w2048-cap10m-r3a-s43-ml40	349999104	ok
+2	20	t2-ep20-w2048-cap10m-s43-ml40	349999104	ok
+2	20	t2-ep20-w2048-cap10m-r3a-s43-ml40	349999104	ok
+2	24	t2-ep24-w2048-cap10m-s43-ml40	349999104	ok
+2	24	t2-ep24-w2048-cap10m-r3a-s43-ml40	349999104	ok
+2	26	t2-ep26-w2048-cap10m-s43-ml40	349999104	ok
+2	26	t2-ep26-w2048-cap10m-r3a-s43-ml40	349999104	ok
+## 长链标记 0 个
+## GPU 计算进程 0 个

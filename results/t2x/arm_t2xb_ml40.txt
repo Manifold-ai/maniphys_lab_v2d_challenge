@@ -1,0 +1,36 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ stages/policy/arm_var_chain.sh\ t2xb 
+# md5      : 88fe413c5e801a0c820c30679e26e62d  stages/policy/arm_var_chain.sh
+# source   : 3e517ff030ff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:50:34-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+/repo/runs/cfgcheck/t2-ep9-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep9-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep1-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep1-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep4-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep4-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep14-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep14-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep25-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep25-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep28-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep28-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+核对：t2xb 在 ml40，9 条 run，来历 3e517ff030ff，可用 1417260 MB，18 份配置的 precheck 与配方断言全过
+v2d-t2xb-eval: 1 windows (created Tue Oct 13 00:50:46 2026)
+v2d-t2xb-export: 1 windows (created Tue Oct 13 00:50:48 2026)
+v2d-t2xb-train: 1 windows (created Tue Oct 13 00:50:44 2026)
+t2xb_train_ml40：=== 2026-10-13 00:50:50 CST 冒烟 smoke-t2-ep9-w2048-cap10m-r3a-ml40
+t2xb_eval_ml40：=== 2026-10-13 00:50:46 CST 等 runs/logs/t2xb_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t2_t2xb_ml40：
+runs/.chain-active-cand_t2_t2xb_ml40-gate
+runs/.chain-active-t2xb_eval_ml40
+runs/.chain-active-t2xb_train_ml40
+ARMED

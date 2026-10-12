@@ -1,0 +1,31 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_var_chain.sh\ t2xb 
+# md5      : 88fe413c5e801a0c820c30679e26e62d  stages/policy/arm_var_chain.sh
+# source   : 3e517ff030ff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:50:14-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+/repo/runs/cfgcheck/t2-ep9-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep9-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep1-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep1-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep4-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep4-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep14-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep14-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep25-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep25-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep28-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep28-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+核对：t2xb 在 ml40，9 条 run，来历 3e517ff030ff，可用 1417271 MB，18 份配置的 precheck 与配方断言全过
+预演，不起会话：
+  train:  V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg V2D_GPU_WAIT_S=21600 stages/policy/day2_train_chain.sh stages/policy/queues/ml40_t2xb.expect.tsv stages/policy/queues/ml40_t2xb_smoke.txt stages/policy/queues/ml40_t2xb.txt 44000 t2xb_train_ml40
+  eval:   V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_GPU_WAIT_S=21600 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/t2xb_train_ml40.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/ml40_t2xb.expect.tsv - t2xb_eval_ml40
+  export: V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/t2xb_eval_ml40.log stages/evaluate/exports/cand_t2_t2xb_ml40.tsv cand_t2_t2xb_ml40
+DRYRUN_OK

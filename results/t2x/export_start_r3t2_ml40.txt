@@ -1,0 +1,12 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ test\ -z\ \"\$\(nvidia-smi\ --query-compute-apps=pid\ --format=csv\,noheader\)\"\ \&\&\ \!\ tmux\ has-session\ -t\ v2d-t2r3-export\ 2\>/dev/null\ \&\&\ tmux\ new-session\ -d\ -s\ v2d-t2r3-export\ -c\ \"\$PWD\"\ \"V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ V2D_FALLBACK_MAX=0\ stages/evaluate/export_chain.sh\ stages/evaluate/exports/cand_t2_r3t2_ml40.tsv\ cand_t2_r3t2_ml40\"\ \&\&\ sleep\ 20\ \&\&\ tmux\ ls\ \&\&\ tail\ -2\ runs/logs/cand_t2_r3t2_ml40.log\ \&\&\ ls\ runs/.chain-active-\* 
+# md5      : 8ea50badb0b556d1503af4b795f8d4aa  stages/evaluate/export_chain.sh
+# md5      : 27728d5ed7ac2fe638a49bae3e9f4f56  stages/evaluate/exports/cand_t2_r3t2_ml40.tsv
+# source   : 3e517ff030ff
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:31:09-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+v2d-t2r3-export: 1 windows (created Tue Oct 13 00:31:10 2026)
+=== 2026-10-13 00:31:10 CST start cand_t2_r3t2_ml40：清单 stages/evaluate/exports/cand_t2_r3t2_ml40.tsv（16 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 3e517ff030ff
+record: → results/submission/exports/cand_t2_r3t2_ml40_fc_src.txt（36 行）
+runs/.chain-active-cand_t2_r3t2_ml40

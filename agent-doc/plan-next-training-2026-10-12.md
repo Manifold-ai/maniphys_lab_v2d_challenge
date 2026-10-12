@@ -227,3 +227,17 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
 | 5 | NIT | 输入核对记录的抬头里没有经 stdin 送过去的脚本的 md5 | 不改：`tools/motion_inputs_remote.sh` 在仓库里没改过，记录的 source 行给出了 commit |
 | 6 | NIT | 计划写“试验的 12 条”，清单是 16 条 | 采纳：改成 16 条（变体 A 11 条含对照 ep22，基线 seed 43 5 条） |
 | 7 | NIT | `baseline()` 遇到不是 11 列的期望表行会在后面报 IndexError | 采纳：命中的行不是 11 列就直接报清楚的错 |
+
+## 执行记录（10/12，时间 UTC-6）
+
+- 10:05–10:26 第 0 步：代码与清单改动、测试（Mac 与两台服务器的测试全过，`results/t1x/tests_{mf4090,ml40}.txt`）；已有队列重新生成逐字节不变；
+  输入核对 13 条全过（`results/ops/t1x_inputs_compare_t1{xa,ya}_1012.txt`）。提交 3e517ff，推送后两台同步到 3e517ff030ff。
+- 10:28 t1xa 配置展开：14 份配置，与官方配方不同 15–17 个键，意外 0 个（`results/t1x/cfgcheck_t1xa_mf4090.txt`）；预演 DRYRUN_OK，可用 8761 MB
+  （`results/t1x/arm_dryrun_t1xa_mf4090.txt`）。
+- 10:30 t1xa 起链（`results/t1x/arm_t1xa_mf4090.txt`，ARMED），第一条冒烟 ep17。
+- 10:31 ml40 上第 3 步试验的 16 条 Tier 2 run 开始导出（预演 EXPORT_DRYRUN_OK，`results/t2x/export_dryrun_r3t2_ml40.txt`；
+  `results/t2x/export_start_r3t2_ml40.txt`）；导出链结束后再起 B。
+- 10:33 t2xb 配置展开：18 份配置，与官方配方不同 14–16 个键，意外 0 个（`results/t2x/cfgcheck_t2xb_ml40.txt`）。
+- 10:49 16 条导出结束：EXPORT_CHAIN_DONE（成功 16、失败 0），ml40 没有长链标记、GPU 空（`results/t2x/export_end_r3t2_ml40.txt`）。
+- 10:50 t2xb 预演 DRYRUN_OK（9 条，可用 1417271 MB，`results/t2x/arm_dryrun_t2xb_ml40.txt`），随即起链 ARMED（`results/t2x/arm_t2xb_ml40.txt`），
+  第一条冒烟 ep9。ml40 空闲，按 10/12 的决定不再预约。

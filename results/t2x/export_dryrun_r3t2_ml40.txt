@@ -1,0 +1,46 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ V2D_EXPORT_CHAIN_DRYRUN=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ V2D_FALLBACK_MAX=0\ stages/evaluate/export_chain.sh\ stages/evaluate/exports/cand_t2_r3t2_ml40.tsv\ cand_t2_r3t2_ml40 
+# md5      : 8ea50badb0b556d1503af4b795f8d4aa  stages/evaluate/export_chain.sh
+# md5      : 27728d5ed7ac2fe638a49bae3e9f4f56  stages/evaluate/exports/cand_t2_r3t2_ml40.tsv
+# source   : 3e517ff030ff
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:30:50-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+== 预检 cand_t2_r3t2_ml40：清单 stages/evaluate/exports/cand_t2_r3t2_ml40.tsv（16 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，来历 3e517ff030ff
+  ok   runs/logs/cand_t2_r3t2_ml40.log 与 runs/exports/cand_t2_r3t2_ml40.tsv 都不存在
+  ok   check_export 能跑：check_export：宿主机缺库，走 flash_chord:latest 容器
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   Tier 2 ep8 t2-ep8-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep8-w2048-cap10m-r3a-ml40 policy_349999104 episode 8 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep8-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep12 t2-ep12-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep12-w2048-cap10m-r3a-ml40 policy_349999104 episode 12 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep12-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep20 t2-ep20-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep20-w2048-cap10m-r3a-ml40 policy_349999104 episode 20 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep20-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep24 t2-ep24-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep24-w2048-cap10m-r3a-ml40 policy_349999104 episode 24 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep24-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep26 t2-ep26-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep26-w2048-cap10m-r3a-ml40 policy_349999104 episode 26 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep26-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep22 t2-ep22-w2048-cap10m-r3a-ml40：fc_export 预检退出码 0（t2-ep22-w2048-cap10m-r3a-ml40 policy_349999104 episode 22 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep22-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep8 t2-ep8-w2048-cap10m-s43-ml40：fc_export 预检退出码 0（t2-ep8-w2048-cap10m-s43-ml40 policy_349999104 episode 8 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep8-w2048-cap10m-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep8 t2-ep8-w2048-cap10m-r3a-s43-ml40：fc_export 预检退出码 0（t2-ep8-w2048-cap10m-r3a-s43-ml40 policy_349999104 episode 8 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep8-w2048-cap10m-r3a-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep12 t2-ep12-w2048-cap10m-s43-ml40：fc_export 预检退出码 0（t2-ep12-w2048-cap10m-s43-ml40 policy_349999104 episode 12 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep12-w2048-cap10m-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep12 t2-ep12-w2048-cap10m-r3a-s43-ml40：fc_export 预检退出码 0（t2-ep12-w2048-cap10m-r3a-s43-ml40 policy_349999104 episode 12 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep12-w2048-cap10m-r3a-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep20 t2-ep20-w2048-cap10m-s43-ml40：fc_export 预检退出码 0（t2-ep20-w2048-cap10m-s43-ml40 policy_349999104 episode 20 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep20-w2048-cap10m-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep20 t2-ep20-w2048-cap10m-r3a-s43-ml40：fc_export 预检退出码 0（t2-ep20-w2048-cap10m-r3a-s43-ml40 policy_349999104 episode 20 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep20-w2048-cap10m-r3a-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep24 t2-ep24-w2048-cap10m-s43-ml40：fc_export 预检退出码 0（t2-ep24-w2048-cap10m-s43-ml40 policy_349999104 episode 24 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep24-w2048-cap10m-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep24 t2-ep24-w2048-cap10m-r3a-s43-ml40：fc_export 预检退出码 0（t2-ep24-w2048-cap10m-r3a-s43-ml40 policy_349999104 episode 24 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep24-w2048-cap10m-r3a-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep26 t2-ep26-w2048-cap10m-s43-ml40：fc_export 预检退出码 0（t2-ep26-w2048-cap10m-s43-ml40 policy_349999104 episode 26 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep26-w2048-cap10m-s43-ml40/eval_349999104_w4096.json
+  ok   Tier 2 ep26 t2-ep26-w2048-cap10m-r3a-s43-ml40：fc_export 预检退出码 0（t2-ep26-w2048-cap10m-r3a-s43-ml40 policy_349999104 episode 26 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t2-ep26-w2048-cap10m-r3a-s43-ml40/eval_349999104_w4096.json
+  --   还没训完、有 NONFINITE 或 policy 非有限的 0 行，开跑时按 no_done / nonfinite 记
+EXPORT_DRYRUN_OK

@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ for\ f\ in\ stages/policy/test_make_var_queue.py\ stages/policy/test_make_trial_queue.py\ stages/policy/test_make_r3x_queue.py\ stages/evaluate/test_select_t1.py\;\ do\ echo\ \"==\ \$f\"\;\ python3\ \$f\ \|\ tail\ -1\;\ done\ \&\&\ bash\ -n\ stages/policy/arm_var_chain.sh\ \&\&\ bash\ -n\ stages/evaluate/select_t1.sh\ \&\&\ bash\ -n\ stages/evaluate/relay_t1x.sh\ \&\&\ echo\ BASH_N_OK 
+# md5      : 806c54b8422a4951808fff85b77f50c6  stages/policy/test_make_var_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : 33d4a26b29e11781d28741534d17b9cc  stages/policy/test_make_r3x_queue.py
+# md5      : 88fe413c5e801a0c820c30679e26e62d  stages/policy/arm_var_chain.sh
+# md5      : 95c7e370579cab3e877dca0d53a833a5  stages/evaluate/select_t1.sh
+# md5      : aaf993c4f7e0d908a5008116b3fc2fab  stages/evaluate/relay_t1x.sh
+# source   : 3e517ff030ff
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:27:32-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+== stages/policy/test_make_var_queue.py
+ALL_OK
+== stages/policy/test_make_trial_queue.py
+ALL_OK
+== stages/policy/test_make_r3x_queue.py
+ALL_OK
+== stages/evaluate/test_select_t1.py
+ALL_OK
+BASH_N_OK

@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ stages/policy/arm_var_chain.sh\ t1xa 
+# md5      : 88fe413c5e801a0c820c30679e26e62d  stages/policy/arm_var_chain.sh
+# source   : 3e517ff030ff
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T10:30:30-0600
+# ---------------------------------------------------------------
+source 3e517ff030ff
+/repo/runs/cfgcheck/t1-ep17-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep17-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep21-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep21-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep10-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep10-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep13-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep13-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep19-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep19-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep3-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep3-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep14-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep14-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+核对：t1xa 在 mf4090，7 条 run，来历 3e517ff030ff，可用 8761 MB，14 份配置的 precheck 与配方断言全过
+v2d-t1xa-eval: 1 windows (created Tue Oct 13 00:30:38 2026)
+v2d-t1xa-export: 1 windows (created Tue Oct 13 00:30:40 2026)
+v2d-t1xa-train: 1 windows (created Tue Oct 13 00:30:36 2026)
+t1xa_train_mf4090：=== 2026-10-13 00:30:39 CST 冒烟 smoke-t1-ep17-w2048-cap4m-r3a-mf4090
+t1xa_eval_mf4090：=== 2026-10-13 00:30:38 CST 等 runs/logs/t1xa_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1xa_mf4090：
+runs/.chain-active-cand_t1_t1xa_mf4090-gate
+runs/.chain-active-t1xa_eval_mf4090
+runs/.chain-active-t1xa_train_mf4090
+ARMED
