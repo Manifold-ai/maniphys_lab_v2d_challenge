@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-sop-page-2130.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 811feddcea8bd70131be9dac240892f5  agent-doc/experiments/2026-10-11-sop-page-2130.claims.json
+# source   : 010a0bd9e799-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T21:39:44-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3p3c_train          P(supported)=0.79  verified               [s]  t3p3c 训练链日志里，ep22、ep23、ep26、ep17 四条冒烟（全名 smoke-t3-ep<N>-w2048-cap4m-r3a-v2-mf4090）都记了“通过”，256 世界 rollout 里非有限世界都是 0 个；t3-ep22、t3-ep23、t3-ep26 依次记了“完成（1 段）”，各自的 fc_run_watched 行写最新 policy 在 349,999,104 步非有限 0；最后一行是开始正式训练 t3-ep17-w2048-cap4m-r3a-v2-mf4090；机器一节写 2872 MB free。
+t3p3c_pace           P(supported)=0.95  verified               [p]  t3-ep22 的正式训练 10-11 12:42:41 MDT 开始，用时 131:08；t3-ep23 用时 143:06；t3-ep26 用时 131:03；t3-ep17 10-11 19:27:58 MDT 开始，还在跑，已记录的每 1000 万步间隔中位 3:31。
+t3p3ab_pace          P(supported)=0.99  verified               [pa, pb]  t3-ep15 的正式训练 10-11 06:34:51 MDT 开始、08:53:31 MDT 完成，用时 138:40，间隔中位 3:55；t3-ep18 10-11 09:55:09 MDT 开始、12:10:03 MDT 完成，用时 134:54，间隔中位 3:48。
+machines             P(supported)=0.98  verified               [m]  mf4090 上 t3-ep17-w2048-cap4m-r3a-v2-mf4090 的日志最近一行训练进度是 95.0%，mf4090 有 1 个 GPU 进程、3 个长链标记，根分区可用 2873 MB；ml40 没有长链标记，有 1 个 GPU 进程。
+gpu_ml40             P(supported)=0.88  verified               [g]  ml40 的 GPU 上只有一个计算进程，属于其他用户；它的上级进程 python -m v2d.cari4d.lib.run_inference 处理 episode_000001，物体网格是 vacuum.glb，于 Mon Oct 12 10:17:54 2026 启动。
+fp_queue             P(supported)=0.96  verified               [q]  t3_fp_pilot.sh 的参数依次是 ep13_snack_box、ep04_baseball_bat、ep11_light_blue_book、ep25_cyan_water_bottle、ep01_vacuum、ep02_blue_easter_basket、ep17_traffic_cone、ep16_spray_bottle、ep09_big_red_bowl、ep15_wet_floor_sign、ep29_rolling_luggage、ep07_iron，共 12 集；runs/tier3_cari4d_fp_pilot_f830 里有 8 个 parquet，其中 episode_000013、000004、000011、000025 的修改时间依次是 2026-10-12_04:59:14、06:46:29、08:22:42、10:15:48。
+v2sel                P(supported)=0.98  verified               [q]  runs/tier3_cari4d_v2sel_f830 里有 4 个 parquet（episode_000006、000007、000010、000022），runs/tier3_cari4d_v2sel_f830_suspect 里有 4 个（episode_000001、000003、000013、000019），这 8 个的修改时间从 2026-10-11_21:57:09 到 2026-10-12_02:49:02。
+eval5                P(supported)=0.97  verified               [e1, e2]  t3-ep0 的 MP-SR 是 0.965，t3-ep20、t3-ep29、t3-ep15 都是 0.000，t3-ep20 与 t3-ep29 的 SP-SR 是 0.895、0.713；t3-ep18 的 MP-SR 0.862、SP-SR 0.938、ADD-AUC 0.537、MPPE 4.25 cm、CHORD_SR 0.900；同集 Tier 2 r3a 的 MP-SR 依次是 ep20 0.984、ep29 0.898、ep0 0.986、ep15 0.987、ep18 0.995。
+hf_delete3a          P(supported)=0.98  verified               [hd]  第 3a 批删除前核对 125 / 125 一致（HF_VERIFY_OK），释放 5.42 GB；删除后 runs/flash_chord 消失 125 个文件，清单外消失的文件无；可用空间从 1126 MB 变成 6297 MB。
+hf_public3b          P(supported)=0.98  verified               [vp, br, rd]  改可见性之后重新读到公开（HF_VISIBILITY_OK）；第 3b 批 174 个文件（6.12 GB）上传到公开仓库，核对 174 / 174 一致，抽查 40 个都一致；README 传完之后仓库是公开的，1692 个文件，共 24.36 GB。
+simreg4              P(supported)=0.97  verified               [pc]  ep12 的间隙 f830 是 −63.5 mm、simreg 是 −64.4 mm，左手接触 320 → 377 帧；ep14 −79.3 → −78.8 mm，左手 471 → 544 帧；ep16 238.3 → 238.6 mm；ep25 728.6 → 728.4 mm，左手 59 → 113 帧；这四集两版都是“不过”，17 集结论全部相同。
+ctl_true_gpu         P(supported)=0.99  control(true) ok       [m]  mf4090 的显卡是 NVIDIA GeForce RTX 4090，显存已用 23817 MiB。
+ctl_false_ep17       P(supported)=0.06  control(false) ok      [s]  t3-ep17-w2048-cap4m-r3a-v2-mf4090 已经记了“完成（1 段）”，训练链写了 DAY2_TRAIN_DONE。
+ctl_false_fp20       P(supported)=0.01  control(false) ok      [q]  runs/tier3_cari4d_fp_pilot_f830 里有 20 个 parquet。
+ctl_false_spot       P(supported)=0.01  control(false) ok      [br]  第 3b 批抽查 40 个里有 3 个不一致。
+controls behaved as expected
