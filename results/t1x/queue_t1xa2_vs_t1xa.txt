@@ -1,0 +1,9 @@
+# command  : bash -c $'for p in stages/policy/queues/mf4090_t1xa.txt:stages/policy/queues/mf4090_t1xa2.txt stages/policy/queues/mf4090_t1xa_smoke.txt:stages/policy/queues/mf4090_t1xa2_smoke.txt stages/policy/queues/mf4090_t1xa.expect.tsv:stages/policy/queues/mf4090_t1xa2.expect.tsv stages/evaluate/exports/cand_t1_t1xa_mf4090.tsv:stages/evaluate/exports/cand_t1_t1xa2_mf4090.tsv; do a=${p%%:*}; b=${p##*:}; if diff <(grep -v "^#" "$a" | grep -v "ep17-") <(grep -v "^#" "$b") >/dev/null; then echo "SAME $b = $a �\216��\216\211 ep17�\210注�\207\212�\214�\215�\224�\211"; else echo "DIFF $b"; fi; done' 
+# source   : c2476c3ca35e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T13:14:46-0600
+# ---------------------------------------------------------------
+SAME stages/policy/queues/mf4090_t1xa2.txt = stages/policy/queues/mf4090_t1xa.txt 去掉 ep17（注释行不比）
+SAME stages/policy/queues/mf4090_t1xa2_smoke.txt = stages/policy/queues/mf4090_t1xa_smoke.txt 去掉 ep17（注释行不比）
+SAME stages/policy/queues/mf4090_t1xa2.expect.tsv = stages/policy/queues/mf4090_t1xa.expect.tsv 去掉 ep17（注释行不比）
+SAME stages/evaluate/exports/cand_t1_t1xa2_mf4090.tsv = stages/evaluate/exports/cand_t1_t1xa_mf4090.tsv 去掉 ep17（注释行不比）

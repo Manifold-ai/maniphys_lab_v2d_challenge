@@ -241,3 +241,16 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
 - 10:49 16 条导出结束：EXPORT_CHAIN_DONE（成功 16、失败 0），ml40 没有长链标记、GPU 空（`results/t2x/export_end_r3t2_ml40.txt`）。
 - 10:50 t2xb 预演 DRYRUN_OK（9 条，可用 1417271 MB，`results/t2x/arm_dryrun_t2xb_ml40.txt`），随即起链 ARMED（`results/t2x/arm_t2xb_ml40.txt`），
   第一条冒烟 ep9。ml40 空闲，按 10/12 的决定不再预约。
+- 11:44 交付版写明，mf4090 写停链标记（`results/t1x/stop_t1xa_after_ep17_mf4090.txt`）。
+- 13:11 t1xa 三条链结束：DAY2_TRAIN_DONE（完成 1）、DAY2_EVAL_DONE（成功 1）、EXPORT_CHAIN_DONE（成功 1、失败 6，失败的 6 条没开正式训练，照第 2 节的读法不算异常）；
+  ep17 的 4096 世界 MP-SR 0、ADD-AUC 0.290（`results/t1x/end_t1xa_mf4090_1012_1311.txt`）。停链标记已删（`results/t1x/unstop_t1xa_mf4090.txt`）。
+- 13:20 续跑段 `t1xa2` 生成（ep21、10、13、19、3、14）：四份队列与导出清单去掉 ep17 后与 t1xa 逐行相同（`results/t1x/queue_t1xa2_vs_t1xa.txt`）。
+- **t1xa2 提前到门槛复查期间起链**（10/12 用户授权代为决定）。第 2 节原写“门槛复查之后……还没定就先续 t1xa2”，这次改为复查第 6 步拼目录通过后就起链，
+  与第 7 步重定向同时跑。理由：
+  1. D 的训练这几个小时里起不来，起 t1xa2 不占 D 的时间：训练计划要等复查结果再写、再审；第 4a 节第 6 条要求先做 HF 归档第 4 批，
+     归档的删除一步要求 mf4090 上没有训练链；交付版的物体高度后处理还没做，改了 parquet 就要重训。
+  2. 重定向不用 GPU（`scripts/dev/incontainer` 只在 `V2D_GPU=1` 时加 `--gpus`），simreg 那次 17 集的重定向就是和 t3p3c 的训练链同时跑的，每集用时与单跑相同。
+  3. 起链之后就不能同步。复查剩下的步骤都不用再同步：重定向用已同步的代码，没过的集记“不过”、不重试，不改代码；汇总在 Mac 上跑或经 stdin 跑。
+  4. 磁盘：现在可用 8245 MB；拼目录约 0.4 GB、重定向约 2.5 GB、t1xa2 约 2.2 GB（6 × 360 MB），合计约 5.1 GB，剩约 3.1 GB，高于 1200 MB 的训练下限（估计）。
+  5. GPU 早用约 2 小时，t1xa2 预计 10/13 04:30 前后结束（估计）。
+  起链前照 t1xa 的做法跑配置展开与预演；拼目录不过就先不起，查清再说。
