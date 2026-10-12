@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -a -E "^(===|[0-9]+ / [0-9]+|�\207\212�\224�)" runs/logs/hf_archive_batch3b_delete.log; echo "�\200\220个�\226\207件�\232\204 ok �\214 $(grep -ac "^  ok " runs/logs/hf_archive_batch3b_delete.log) �\235��\200\201�\210� �\214 $(grep -ac "^�\210� " runs/logs/hf_archive_batch3b_delete.log) �\235��\200\201跳�\207 �\214 $(grep -ac "^跳�\207 " runs/logs/hf_archive_batch3b_delete.log) �\235�"; python3 -c "import json; print(\'�\205�\215\225�\255\227�\212\202�\225�\', sum(r[\'size\'] for r in json.load(open(\'runs/hf_archive_batch3b_manifest_mf4090.json\'))))"; ls -d runs/hf_stage 2>&1 | head -1' 
+# source   : 11df1c8f00d2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T21:57:20-0600
+# ---------------------------------------------------------------
+=== 2026-10-12 11:56:21 CST 开始（步骤 delete，抽查 3 个，可见性 public）；工具 md5 3ef5989f0ae92d8191053a51c0c15217；清单 runs/hf_archive_batch3b_manifest_mf4090.json（174 个文件，md5 28e156b9e2a135f932a8ff8de3d93a4b）；可用 2933 MB；xet 缓存 77 MB
+174 / 174 个文件核对一致；HF_VERIFY_OK
+释放 6.12 GB；HF_DELETE_DONE
+=== 2026-10-12 11:56:55 CST runs/flash_chord：删除前 4704 个文件、删除后 4535 个；消失 174 个（清单 174 个，其中没删的 0 个）；清单外消失的文件：无
+=== 2026-10-12 11:56:55 CST 删除后可用 8774 MB
+=== 2026-10-12 11:56:55 CST HF_ARCHIVE_DONE
+逐个文件的 ok 行 174 条、删 行 174 条、跳过 行 0 条
+清单字节数 6124514088
+ls: cannot access 'runs/hf_stage': No such file or directory

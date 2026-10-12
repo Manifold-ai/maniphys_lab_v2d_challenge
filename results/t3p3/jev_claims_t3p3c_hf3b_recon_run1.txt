@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-11-t3p3c-hf3b-delete-recon.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a934e56ea7244762e86cbb2aa6cc4d24  agent-doc/experiments/2026-10-11-t3p3c-hf3b-delete-recon.claims.json
+# source   : 11df1c8f00d2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-11T21:59:38-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3p3c_health         P(supported)=0.96  verified               [h]  t3p3c 训练链写 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0），评测链 DAY2_EVAL_DONE（成功 4、失败 0），导出链 EXPORT_CHAIN_DONE（成功 4、失败 0）；t3-ep22、ep23、ep26、ep17 四条 run 都是 DONE=1、NONFINITE=0、GUARD_STOP=0，各 35 份 policy、1 份 state。
+t3p3c_eval           P(supported)=0.97  verified               [e]  t3-ep22 的 MP-SR 0.954、t3-ep26 0.999，t3-ep23 与 t3-ep17 都是 0.000、骨盆物体手掌失败比例都是 1.000；同集 Tier 2 r3a 的 MP-SR：ep22 0.997、ep26 1.000、ep17 0.000；表里没有 ep23 的 Tier 2 行。
+precheck             P(supported)=0.94  verified               [pc]  删除前的只读核对：清单 md5 是 28e156b9e2a135f932a8ff8de3d93a4b；verify 报 174 / 174 个文件核对一致（HF_VERIFY_OK）；不加 --yes 的删除演习报预计释放约 6.12 GB，没有任何“跳过”行，两步的退出码都是 0。
+delete               P(supported)=0.97  verified               [dr]  第 3b 批删除步骤开始时可用 2933 MB；删除前重新核对 174 / 174 一致；runs/flash_chord 删除前 4704 个文件、删除后 4535 个，消失 174 个，清单 174 个里没删的 0 个，清单外消失的文件无；删除后可用 8774 MB；最后是 HF_ARCHIVE_DONE；清单字节数 6124514088；runs/hf_stage 已不存在。
+after                P(supported)=0.96  verified               [ad]  删除之后清单里的文件还在本地的 0 / 174；清单里的 35 条 run 各剩 0 份 state，各留 9 份 policy（步 270010368–349999104）；清单文件记进 ARCHIVED.json 的 174 / 174。
+readme               P(supported)=0.97  verified               [rd]  README 重传后 HF_README_OK；仓库 Rongxuan-Zhou/v2d-track2-archive 公开，1692 个文件，共 24.36 GB，HF_WHOAMI_OK。
+ep21_reg             P(supported)=0.30  UNVERIFIED             [hd]  交接文档记录：ep21 所在侧面机位已配准到主机位的世界系，ep21 重跑了 world 与 assemble 进 simreg，物体高度与倾角变化 0，精度约平移 0.3 m、偏航 1°（推断）。
+support_rule         P(supported)=0.26  UNVERIFIED             [hd]  交接文档记录的规则：Tier 3 可用官方网格与地面平面的 plane 字段，不用官方 support_surface/（理由是它放在干净物体每次静止位置下面，等于泄露静止段位置），也不读地面文件的 foot_plane_dist_stats。
+recon_next           P(supported)=0.73  verified               [hd]  交接文档写：simreg 现在 30 集（正式 21 + suspect 9）；ep12/ep14 的穿入是物体位姿本身的问题，要靠后处理，不是换版本；下一步是每帧配准跑完后逐集选版本组装，再重跑物理检查与 t3_support.py，再定物体高度后处理；GPU 队列预计 10-12 18:00 – 10-13 01:00 跑完（推断）。
+fp_results           P(supported)=0.93  verified               [q]  每帧重新配准之后的跟丢比例：ep13 0.2462（基线 0.8286），ep04 0.0299（基线 0.6712），ep11 0.0377（基线 0.5505），ep25 0.0501（基线 0.5821），ep01 0.2985（基线 1.0，重选 0.3815）；ep02 在 10-12_11:44:45 开始。
+reselect             P(supported)=0.81  verified               [q]  重新选物之后的跟丢比例：ep06 0.0678，ep07 0.0123，ep10 0.0（基线 1.0），对照 ep22 0.0431（基线 0.0445）；每帧配准版的剪影检查里 ep28 不过（可见 IoU 中位 0.4274，质心偏移 34.95 px）。
+ctl_true_delete      P(supported)=0.97  control(true) ok       [dr]  第 3b 批删除的流程脚本最后写了 HF_ARCHIVE_DONE。
+ctl_false_ep23       P(supported)=0.01  control(false) ok      [e]  t3-ep23-w2048-cap4m-r3a-v2-mf4090 的 MP-SR 是 0.954。
+ctl_false_ep04       P(supported)=0.02  control(false) ok      [q]  每帧重新配准之后 ep04 的跟丢比例仍是 0.6712，没有变化。
+ctl_false_simreg     P(supported)=0.02  control(false) ok      [hd]  交接文档写 simreg 现在只有 17 集，ep21 没有进 simreg。
+controls behaved as expected

@@ -334,3 +334,52 @@ Fable 5.1 独立审查：GO WITH FIXES，没有 BLOCKER、MAJOR。审查确认�
   4 道对照题正常。第一轮（`_run1.txt.failed`）真对照题 0.42：证据截取只留了 ep0、ep12 两个集标题，其余各集的行混在 ep12 下面；
   截取改为保留所有集标题后重跑，主张与对照题都没改。
 - 第 3b 批本地副本的删除等用户确认，且要等 mf4090 上的训练链都结束。
+
+### 第 3b 批删除（用户 10/11 21:45 前后同意，UTC-6）
+
+用户原话：“可以删 删之前检查下HF有没有对齐本地”。流程与第 3a 批删除相同（第 3 版已审），删除前另加一步只读的对齐核对。
+
+做法：
+
+1. t3p3c 整条链结束（训练、评测、导出门都写了结束行，长链标记都已删）之后才动。
+2. 删除前的对齐核对（只读，记录 `results/ops/hf_archive_batch3b_precheck_mf4090.txt`），经 `tools/hf_remote.sh` 在 mf4090 上：
+   - `hf_archive.py verify --manifest runs/hf_archive_batch3b_manifest_mf4090.json --repo Rongxuan-Zhou/v2d-track2-archive --prefix mf4090
+     --out runs/hf_archive_batch3b_mf4090.precheck.json`：仓库里每个文件的大小与 LFS sha256 对清单；
+   - `hf_archive.py delete --verified runs/hf_archive_batch3b_mf4090.precheck.json --spotcheck runs/hf_archive_batch3b_mf4090.spotcheck.json`，
+     不加 `--yes`（演习）：按现在的本地文件逐个重算大小与 sha256 对清单，只列“将删”，不删。
+   清单的 sha256 是 10/10 23:54 生成清单时按本地文件算的，两步合起来就是“本地现在的文件 = 清单 = 仓库”。
+3. 删除：`V2D_HF_ARCHIVE_STEPS=delete V2D_HF_VISIBILITY=public`，setsid 后台跑 `runs/tools/hf_archive_run.sh`，清单与输出前缀同核对时
+   （`runs/hf_archive_batch3b_manifest_mf4090.json`、`runs/hf_archive_batch3b_mf4090`），日志 `runs/logs/hf_archive_batch3b_delete.log`
+   （`results/ops/hf_archive_batch3b_delete_launch_mf4090.txt`、`results/ops/hf_archive_batch3b_delete_run_mf4090.txt`）。
+   流程脚本删除前再核对一遍仓库、过三道闸（长链标记、GPU 上的进程、导出评测训练相关的进程），每个文件删之前再按本地重算 sha256。
+4. 删除后的本地状态：`scripts/dev/pipe-py tools/hf_archive_report.py runs/hf_archive_batch3b_manifest_mf4090.json runs/hf_archive_batch3b_mf4090`
+   （`results/ops/hf_archive_batch3b_after_delete_mf4090.txt`）。
+5. README 的 3b 一行改为“10/11 已删除”，补删除前的重新核对，经 `runs/hf_readme/` 重传（`readme --visibility public`），再跑 `whoami --visibility public`。
+
+判据（执行前登记）：
+
+- 第 2 步：verify 174 / 174（HF_VERIFY_OK）；演习列出“将删” 174 个、“跳过” 0 个。有一个对不上就停，不删，报告用户。
+- 第 3 步：日志第一行的工具 md5 与第 4 版测过的相同（`hf_archive.py` `3ef5989f…`），清单 174 个文件、md5 `28e156b9…`；重新核对 174 / 174
+  （HF_VERIFY_OK）；三道闸都没拦下；`runs/flash_chord` 消失的文件正好是清单里的 174 个，清单外 0 个、没删的 0 个；可用空间的增加与清单的
+  字节数相差不超过 50 MB（ARCHIVED.json 会多出几 KB；暂存目录 `runs/hf_stage` 里的硬链接由删除步骤清掉，清掉之后空间才真正释放）；
+  HF_ARCHIVE_DONE；`runs/hf_stage` 不在。没删的不为 0 时不重试，报告是哪些、为什么。
+- 第 4 步：清单里的文件还在本地 0 / 174；ARCHIVED.json 记进 174 / 174。
+- 第 5 步：HF_README_OK；whoami 公开、HF_WHOAMI_OK，仍是 1692 个文件、24.36 GB（删本地副本不改仓库）。
+
+执行记录（10/11，UTC-6）：
+
+- 21:53 t3p3c 整条链结束（训练计划执行记录），长链标记都已删，GPU 上没有进程。
+- 21:55 删除前的对齐核对（`results/ops/hf_archive_batch3b_precheck_mf4090.txt`）：工具 md5 `3ef5989f…`，清单 md5 `28e156b9…`；
+  verify 174 / 174 一致（HF_VERIFY_OK）；删除演习逐个重算本地文件的大小与 sha256，“将删” 174 个、“跳过” 0 个，预计释放约 6.12 GB。第 2 步判据满足。
+- 21:56 删除（`results/ops/hf_archive_batch3b_delete_launch_mf4090.txt`、`results/ops/hf_archive_batch3b_delete_run_mf4090.txt`）：流程脚本与工具的 md5
+  （`acb54bf5…`、`3ef5989f…`）与第 4 版测过的相同，清单 174 个文件、md5 `28e156b9…`。删除前重新核对 174 / 174（HF_VERIFY_OK），三道闸都没拦下；
+  逐个文件的 ok 行 174 条、删 行 174 条、跳过 0 条；`runs/flash_chord` 删除前 4704 个文件、删除后 4535 个，消失 174 个，清单外 0 个、没删的 0 个
+  （少的 169 个与消失的 174 个之差，应是 5 条 run 第一次写入的 ARCHIVED.json）；可用 2933 → 8774 MB，增加 5841 MB，清单 6124514088 字节即 5841 MB；
+  HF_ARCHIVE_DONE；`runs/hf_stage` 不在。第 3 步判据满足。
+- 删除后的本地状态（`results/ops/hf_archive_batch3b_after_delete_mf4090.txt`）：清单里的文件还在本地的 0 / 174；35 条 run 各剩 0 份 state、
+  各留 9 份 policy（步 270010368–349999104，头部都完整），state 都有同步数 policy 配对；ARCHIVED.json 记进 174 / 174（35 条 run 按记录条数：
+  1 条的 5 条、2 条的 20 条、3 条的 10 条）。第 4 步判据满足。
+- 21:58 README 的 3b 一行改为“10/11 已删除”，补第 3b 批 ARCHIVED.json 的记录时间与删除前的重新核对（md5 `18adc17b…`），经 `runs/hf_readme/` 上传：
+  HF_README_OK；whoami 公开、1692 个文件、24.36 GB、HF_WHOAMI_OK（`results/ops/hf_readme_v2d_track2_archive_batch3b_deleted.txt`）。第 5 步判据满足。
+- jev（`results/t3p3/jev_claims_t3p3c_hf3b_recon.txt`，规格 `agent-doc/experiments/2026-10-11-t3p3c-hf3b-delete-recon.claims.json`）：删除的 4 条
+  （核对、删除、删除后、README）全部核实。第 3 批 299 个文件至此都在仓库里，训练机上的本地副本都已删除。

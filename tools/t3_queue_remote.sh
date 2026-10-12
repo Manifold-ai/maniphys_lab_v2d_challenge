@@ -1,5 +1,5 @@
 # 服务器上的只读快照：同组成员在 ml40 上跑的 Track 2 Tier 3 CARI4D 重建队列走到哪一集、各集的检查结论与产物。经 stdin 送过去执行。
-# 用途：估计 ml40 的 L40S 还要被占多久，以及哪些集的重建已经过了检查、可以接着 retarget 和训练。
+# 用途：估计 ml40 的 L40S 还要被占多久，以及哪些集的重建已经过了检查、可以接着 retarget 和训练；10/11 起另报重新选物与每帧重新配准的日志尾部与跟丢检查。
 # 只读：不改文件、不进别人的容器、不读环境变量。队列目录按 /lab_data/<目录>/v2d/tier3 找，跳过本用户的目录。
 # 记录要进 git：别人的目录名、用户名与 home 目录名一律换成 <其他用户>（同 tools/gpu_procs_remote.sh）。
 # 用法（Mac，仓库根）：scripts/dev/record ops/t3_queue_ml40_<时间> ssh ml40 'bash -s' < tools/t3_queue_remote.sh
@@ -29,11 +29,21 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
     echo "## PAUSE 文件：$([ -e "$T/PAUSE" ] && echo 有 || echo 无)"
     echo "## logs 下最近修改的 10 个文件"
     ls -lt --time-style=+%F_%T "$T/logs" 2>/dev/null | sed -n 2,11p
-    for f in "$T/logs/after_validation.log" "$T/logs/t3_cari4d_queue.log"; do
+    for f in "$T/logs/after_validation.log" "$T/logs/t3_cari4d_queue.log" "$T/logs/t3_reselect.log" "$T/logs/t3_fp_pilot.log" "$T/logs/t3_gpu_watch.log"; do
       echo "## $f（最后 40 行）"
       tail -n 40 "$f" 2>/dev/null | cut -c1-300
     done
-    for k in checks checks_v2; do
+    # 10/11 起：重新选物（track_check_v2sel）与每帧重新配准（track_check_fp）各有一份跟丢检查，与基线（track_check）并列
+    for k in track_check track_check_v2sel track_check_fp; do
+      echo "## 跟丢检查（runs/$k/*.json：集、lost_fraction、顶层键）"
+      for c in "$T"/runs/$k/*.json; do
+        [ -f "$c" ] || continue
+        echo "$(basename "$c" .json) $(python3 -c 'import json,sys
+j = json.load(open(sys.argv[1]))
+print("lost_fraction=%s keys=%s" % (j.get("lost_fraction"), ",".join(sorted(j))[:200]))' "$c")"
+      done
+    done
+    for k in checks checks_v2 checks_fp; do
       echo "## 各集剪影检查（runs/$k/*/object_check.json：ok、可见 IoU / 深度因子 / 质心偏移的中位、原因）"
       for c in "$T"/runs/$k/*/object_check.json; do
         [ -f "$c" ] || continue
