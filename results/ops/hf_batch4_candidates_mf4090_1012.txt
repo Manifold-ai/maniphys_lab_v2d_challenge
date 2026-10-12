@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") source $(cat .v2d-source-commit)"; df -m --output=avail . | tail -1; echo "## runs/tools ä¸\213å½\222æ¡£å·¥å\205·ç\232\204 md5"; md5sum runs/tools/hf_archive.py runs/tools/hf_archive_run.sh runs/tools/hf_archive_report.py runs/tools/test_hf_archive.py; echo "## æ\234\211 DONEã\200\201policy å¤\232äº\216 9 ä»½æ\210\226æ\234\211 state ç\232\204 runï¼\210MBã\200\201å\220\215å\255\227ã\200\201policy ä»½æ\225°ã\200\201state ä»½æ\225°ï¼\211"; for d in runs/flash_chord/*/; do n=${d%/}; [ -e $n/DONE ] || continue; p=$(ls $n | grep -c "^policy_.*\\.safetensors$"); s=$(ls $n | grep -c "^state_.*\\.safetensors$"); [ $p -gt 9 ] || [ $s -gt 0 ] || continue; echo "$(du -sm $n | cut -f1) ${n##*/} policy=$p state=$s"; done | sort -k2; echo "## æ²¡æ\234\211 DONEã\200\201ä½\206æ\234\211 state ç\232\204ç\233®å½\225"; for d in runs/flash_chord/*/; do n=${d%/}; [ -e $n/DONE ] && continue; s=$(ls $n | grep -c "^state_.*\\.safetensors$"); [ $s -gt 0 ] && echo "$(du -sm $n | cut -f1) ${n##*/} state=$s"; done; ls runs/.chain-active-* 2>/dev/null' 
+# source   : 4bc4e5b70e5a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T13:28:34-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 03:28:35 CST source df876eb3e63a
+ 7677
+## runs/tools ä¸‹å½’æ¡£å·¥å…·çš„ md5
+3ef5989f0ae92d8191053a51c0c15217  runs/tools/hf_archive.py
+acb54bf561bde72ab552b72d2f372b20  runs/tools/hf_archive_run.sh
+11e193abf408ae31b40afc60ef601859  runs/tools/hf_archive_report.py
+f8c19898458b8aecea964aaa9513d3ab  runs/tools/test_hf_archive.py
+## æœ‰ DONEã€policy å¤šäº 9 ä»½æˆ–æœ‰ state çš„ runï¼ˆMBã€åå­—ã€policy ä»½æ•°ã€state ä»½æ•°ï¼‰
+360 t1-ep17-w2048-cap4m-r3a-mf4090 policy=35 state=1
+360 t3-ep0-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep15-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep17-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep18-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep20-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep22-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep23-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+359 t3-ep29-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+## æ²¡æœ‰ DONEã€ä½†æœ‰ state çš„ç›®å½•
+158 smoke_t1_ep20_w1024 state=1
+158 smoke_t1_ep20_w2048 state=1
+158 smoke_t1_ep20_w256 state=1
+341 t1-ep28-w2048-cap4m-mf4090 state=2
+241 t1-ep7-w2048-cap4m-p185-mf4090 state=1
+runs/.chain-active-cand_t1_t1xa2_mf4090-gate
+runs/.chain-active-t1xa2_eval_mf4090
+runs/.chain-active-t1xa2_train_mf4090
