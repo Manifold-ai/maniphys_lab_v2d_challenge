@@ -147,3 +147,23 @@
 - **GPU 队列（10-12 06:38）**：重选 8 集 02:50 跑完；每帧配准 03:20 起，ep13 完成（0.83/0.77 → 0.24），ep04 在跑，之后
   ep11 25 01 02 17 16 09 15 29，ep07 将被跳过（0.012）。预计 10-12 18:00 – 10-13 01:00 跑完（推断）。日志 `logs/t3_fp_pilot.log`。
 - 下一步：每帧配准跑完 → 逐集选版本组装 → 重跑物理检查与 `t3_support.py` → 再定物体高度后处理。
+
+## 10-13：判据修正、逐集选版本组装 `tier3_cari4d_f830_best`（commit 3511d42、58ed198 及本节提交）
+
+- **关节索引错位**：SOMA `_public_joint_names` 第 0 个是 `Root`，`soma_cv` 的关节数组从 `Hips` 起，旧代码按名字下标取关节，
+  「手」漏两腕、多算右肩与左髋；feet diag 的 pelvis 实为 `Spine1`。`t3_world_probe.py` 的 `soma_joint_names` / `contact_joints`
+  是唯一入口，track check 与 physics check 共用。蒙皮权重有 `Root` 列，仍用全表。
+- **接触关节**：手；任务文本含 foot/feet 的集（只有 ep13、ep29，用户人眼确认）加脚。三版 52 份 track check 全部重算（旧结果
+  `runs/trackcheck_backup_1012_joints/`），physics 4 版与 feet diag 重算（旧结果 `runs/physics_backup_1013_joints/`；
+  `f830_simreg_pre1012` 无源未重算）。ep29 0.28 → 0.00（基线）/ 0.02（fp），ep13 fp 0.24 → 0.15。
+- **ep19 握点解法**（用户定）：跟丢段里握点取 SOMA 手掌中心、杖尖取掩码最远端、杖长取网格，解出朝向替换 CARI4D；fp 0.388 → 0.218。
+  代码与说明在 L40S `dev/pivot_ep19/`（`pivot_probe.py`，`OCCL=0`、不滑动；副本随数据放在 `runs/convert_pivot/ep19_cane/pivot_probe.py.txt`），
+  未进仓。握点沿视线滑动（0.247）与遮挡规则（0.227）都更差，没采用。ep28 只到 0.64：二维距离判手持误把靠凳子的帧算进去、
+  刮板绕杆的转角不可观测、486–924 背对相机只露刮板。用户否定了长段插值与「锁在手上」（甩动时手腕几乎不动）。
+- **新版本 `runs/tier3_cari4d_f830_best{,_suspect}`**（`t3_assemble_best.sh`，`OVERRIDE="ep19_cane=convert_pivot"`）：每集取跟丢比例最低的
+  版本，选择记录在 `runs/tier3_cari4d_f830_best.selection.json`。基线 11 集、重选 4 集（ep06/07/10/22）、每帧配准 14 集、ep19 握点版；
+  正式 29 集，suspect 只剩 ep28。三个版本的 world 步一致（同一 floor_fit sha、身体缩放、第二机位配准），可以混用。
+- **物理检查 simreg → best**：unheld_motion 3073 → 501、pose_jump 682 → 126、acceleration_spike 234 → 16；物体穿地 1461 → 2230
+  （ep10 0 → 393、ep02 65 → 203、ep13 0 → 76 等：物体现在跟到了地上，穿地要靠高度后处理）。ep19 的 pose_jump 27 → 35、
+  acceleration_spike 0 → 12，来自握点段与 CARI4D 段的接缝。支撑面已对 best 重算：`runs/support/tier3_cari4d_f830_best/`。
+- 下一步：定物体高度后处理（Δz 贴合放置段 + 防穿透）；ep28 后半段能否用、ep19 放地段交给后处理；交付 best 给 rxzhou（他的打包路径要改）。
