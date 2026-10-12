@@ -1,0 +1,28 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ stages/policy/arm_var_chain.sh\ t3p4a 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : a629fbdbf3e5
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:46:39-0600
+# ---------------------------------------------------------------
+source a629fbdbf3e5
+/repo/runs/cfgcheck/t3-ep15-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep17-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep17-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep1-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep1-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep2-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep2-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep3-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep3-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+核对：t3p4a 在 mf4090，5 条 run，来历 a629fbdbf3e5，可用 3152 MB，10 份配置的 precheck 与配方断言全过
+v2d-t3p4a-eval: 1 windows (created Tue Oct 13 07:46:46 2026)
+v2d-t3p4a-export: 1 windows (created Tue Oct 13 07:46:48 2026)
+v2d-t3p4a-train: 1 windows (created Tue Oct 13 07:46:44 2026)
+t3p4a_train_mf4090：=== 2026-10-13 07:46:46 CST 冒烟 smoke-t3-ep15-w2048-cap4m-r3a-hm-mf4090
+t3p4a_eval_mf4090：=== 2026-10-13 07:46:46 CST 等 runs/logs/t3p4a_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3p4a_mf4090：
+runs/.chain-active-cand_t3_t3p4a_mf4090-gate
+runs/.chain-active-t3p4a_eval_mf4090
+runs/.chain-active-t3p4a_train_mf4090
+ARMED

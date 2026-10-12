@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_var_chain.sh\ t3p4a 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : a629fbdbf3e5
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:46:29-0600
+# ---------------------------------------------------------------
+source a629fbdbf3e5
+/repo/runs/cfgcheck/t3-ep15-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep17-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep17-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep1-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep1-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep2-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep2-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep3-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep3-w2048-cap4m-r3a-hm-mf4090.yaml：4 条断言，全过
+核对：t3p4a 在 mf4090，5 条 run，来历 a629fbdbf3e5，可用 3153 MB，10 份配置的 precheck 与配方断言全过
+预演，不起会话：
+  train:  V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_GPU_WAIT_S=21600 V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 stages/policy/day2_train_chain.sh stages/policy/queues/mf4090_t3p4a.expect.tsv stages/policy/queues/mf4090_t3p4a_smoke.txt stages/policy/queues/mf4090_t3p4a.txt 24564 t3p4a_train_mf4090
+  eval:   V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_GPU_WAIT_S=21600 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/t3p4a_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_t3p4a.expect.tsv - t3p4a_eval_mf4090
+  export: V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/t3p4a_eval_mf4090.log stages/evaluate/exports/cand_t3_t3p4a_mf4090.tsv cand_t3_t3p4a_mf4090
+DRYRUN_OK

@@ -156,3 +156,19 @@
 | 11 | NIT | “两台约 1.5 天”是 GPU 时间 | 采纳：写明墙钟约 2 天 |
 | 12 | NIT | ep22 的人体也换了一版 | 采纳：第 1 节照实写 |
 | 13 | NIT | “训练计划第 2 节”应为第 1 节；第 1 版提交说明写了“五段”，实际四段 | 采纳：改出处；提交说明的笔误记在这里 |
+
+## 执行记录（10/12，时间 UTC−6）
+
+- 第 0 步：代码、测试、四段队列与本计划第 2 版提交 6efc9e8（`test_make_var_queue.py` 11 项全过；四段队列逐集核过支撑面：12 集有桌面的开、17 集只有地面的关）。
+- 第 1 步：门槛复查第二轮做完（`agent-doc/plan-t3-hm-p2-2026-10-12.md` 执行记录）：P2′ 29/29、没有 FAIL；`THEIRS_SAME 29/29`；`STAGE_COPY_SAME 29/29`。
+  第 4 节“`t3p4a` 起链之前”的三项都满足。
+- 第 2 步：17:20 重定向结束、记录以 `EPS_DONE` 结束之后开始第 4 批第一段：清单 297 个文件、3151.3 MB（`results/ops/hf_archive_batch4_plan_mf4090.txt`、
+  `results/ops/hf_archive_batch4_manifest_sum_mf4090.txt`）；17:24–17:41 上传 9.3 分钟、核对 297/297、抽查 22/22，停在删除前（`HF_ARCHIVE_VERIFIED`，
+  `results/ops/hf_archive_batch4_run_mf4090.txt`、`results/ops/hf_archive_batch4_verified_mf4090.txt`）；README 改为“已上传、已核对，本地未删”后仓库 1989 个文件、
+  27.51 GB（`results/ops/hf_readme_v2d_track2_archive_batch4_verified.txt`）。jev 5/7 verified、对照 3/3 正常（`results/ops/jev_claims_hf_batch4.txt`）。
+  删除等用户确认。
+- 第 3 步：17:48 同步 mf4090 到 a629fbd（`results/ops/sync_mf4090_1012_1748.txt`），四段队列都在。
+- 第 4 步：用户还没回复删除，按本计划直接起链，删除等 `t3p4a` 结束后的空档。
+- 第 5 步：配置展开 10 份配置意外键 0，ep15、ep1 `scene.support=False`，ep17、2、3 保持开（`results/t3p4/cfgcheck_t3p4a_mf4090.txt`）；预演 `DRYRUN_OK`，
+  来历 a629fbd、可用 3153 MB，训练挂 `v040_p185_nfg`、评测与导出挂 `fc_8c778f9`（`results/t3p4/arm_dryrun_t3p4a_mf4090.txt`）；17:46 起链 `ARMED`，
+  第一条冒烟 ep15（`results/t3p4/arm_t3p4a_mf4090.txt`）。预计明早 05:30–06:30 结束（估计）。
