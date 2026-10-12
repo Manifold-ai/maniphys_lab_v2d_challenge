@@ -140,3 +140,16 @@ A 段转发约 25 分钟（20 集约 15 分钟）；B.1 到拼目录约 20 分�
 - 第 3、4 步：官方 Tier 2 输入 29 集 86 个文件（`results/ops/t2_inputs_mf4090_1012_dlv.txt`）；`SHA_MATCH 29/29`；`INPUTS_DIFF 29/58` 全是地面文件，
   网格 29 集都相同（`results/t3dlv/sha_match.txt`）。
 - 第 5 步：`stages/recovery/expect/t3dlv_29_1012.tsv`（144 行：data、meta、地面、支撑面各 29 行，网格 28 行，ep0 与 ep21 共用 tall_bar_stool）。
+- 13:11 t1xa 三条链结束、标记清掉；删停链标记，mf4090 同步到 c2476c3，之后为 t1xa2 的队列再同步到 df876eb（训练计划执行记录）。
+- 第 6 步：13:18 拼目录 29 集，`V2D_T3_SET=dlv`、`TIER3_ROOT_OK`（`results/t3dlv/stage_mf4090.txt`）；`root_dlv` 29 行、修改时间 13:18:59，
+  `root_simreg` 17 行、`root_v2` 20 行、`root` 2 行，修改时间都不变；`root_dlv` 363 MB，可用 7852 MB（`results/t3dlv/stage_check_mf4090.txt`）。
+- 13:21 t1xa2 起链（理由见训练计划执行记录：重定向不用 GPU，复查剩下的步骤不用再同步）。
+- 第 7 步：13:21 在 tmux `v2d-t3dlv-retarget` 里起 29 集重定向，起前可用 7858 MB（`results/t3dlv/retarget_launch_mf4090.txt`）。
+- 13:40 分支新提交 1a6f042：物体高度后处理 `t3_height_post.py`，产物 `tier3_cari4d_f830_best_h`（只沿地面法向平移物体，静止段逐帧贴地或贴
+  `t3_support.py` 估的支撑面，物体穿地 2230 → 0 帧）；交接文档写明 Tier 3 的支撑面一律来自 `t3_support.py`。还没定的一项：手持帧里物体平移、
+  人不动，手与物体的竖直关系变了（p95 多数 30–70 mm，ep02 85、ep16 89、ep28 168 mm），是否让人体在手持段跟着平移待对方定；支撑面还要转成
+  我们的场景能读的格式（`results/t3dlv/handoff_1012_1340.txt`）。13:45 ml40 上另有 `best_hchk`、`best_hm` 两个版本，最新的 13:22 写完
+  （`results/ops/t3_queue_ml40_1012_1345.txt`）。交接文档还没写明交给我们的是哪一版，所以这一轮照旧做完 `best`，当作高度后处理之前的参照；
+  写明之后按第 2 节再做一轮（新目录名要加进白名单并同步，同步要等 t1xa2 结束或按训练计划第 2 节写停链标记）。
+- 审查 12 的待办：`challenge_to_soma.py` 的命令行入口对 Tier 2、3 先调 `forbid_tier1()`，`test_challenge_to_soma.py` 加入口守卫的测试
+  （子进程里把转换换成探针）。测试要 torch，只能在 mf4090 宿主上跑：下次同步后先跑这个测试，过了再拼下一轮的目录。

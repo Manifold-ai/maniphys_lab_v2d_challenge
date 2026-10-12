@@ -17,7 +17,9 @@
 物体不可见帧：沿用上一有效位姿；开头若不可见，用第一个有效位姿回填。
 （全数据集只有 1 帧不可见，官方 soma_to_g1 完全不处理 visible。）
 
-档位隔离：只经 paths.tier(N) 读一个档位的根目录，不读其他档位的任何文件。
+档位隔离：只经 paths.tier(N) 读一个档位的根目录，不读其他档位的任何文件。命令行入口（main）对 --tier 2、3
+先调 tier_guard.forbid_tier1()，进程此后读不到 Tier 1 的任何文件（计划 agent-doc/plan-t3-delivery-p2-2026-10-12.md 审查 12）；
+convert() 本身不调，因为守卫装上就撤不掉，测试要在同一进程里转 Tier 1。
 Tier 3 设了 V2D_T3_SET=<名> 时，读 runs/tier3/root_<名>，上面两处的 tier3 换成 tier3_<名>（paths.tier_dirname；
 计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md），不覆盖旧版的文件。
 
@@ -42,6 +44,7 @@ import numpy as np
 import pyarrow.parquet as pq
 from paths import RUNS, tier, tier_dirname
 from soma_fk import col, joint_names
+from tier_guard import forbid_tier1
 
 FLEX = "observation.human.bone_length_flexibles"
 
@@ -152,10 +155,17 @@ def convert(tier_n: int, episode: int, runs_root: Path = RUNS, object_poses: Pat
             "support_surface_frame": meta["support_surface_frame"]}
 
 
-if __name__ == "__main__":
+def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tier", type=int, required=True)
     ap.add_argument("--episode", type=int, required=True)
     ap.add_argument("--object-poses", type=Path, default=None)
-    a = ap.parse_args()
+    a = ap.parse_args(argv)
+    if a.tier in (2, 3):
+        forbid_tier1()   # 档位隔离的机制守卫：本进程此后任何读取 Tier 1 的动作都会抛错
     print(json.dumps(convert(a.tier, a.episode, object_poses=a.object_poses), ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") Ê\235•Â\216\206 $(cat .v2d-source-commit)" && for r in runs/tier3/root runs/tier3/root_v2 runs/tier3/root_simreg runs/tier3/root_dlv; do f=$r/meta/episodes_metadata.jsonl; echo "$(stat -c "%y" $f) $(wc -l < $f) Ë°\214 $f"; done && ls runs/tier3/root_dlv/data/chunk-000 | wc -l && du -sm runs/tier3/root_dlv && df -m --output=avail . | tail -1 && (tmux ls 2>/dev/null | cut -d: -f1; true)' 
+# source   : df876eb3e63a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T13:19:06-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 03:19:06 CST Êù•ÂéÜ df876eb3e63a
+2026-10-10 04:49:27.465007558 +0800 2 Ë°å runs/tier3/root/meta/episodes_metadata.jsonl
+2026-10-11 07:48:26.866836259 +0800 20 Ë°å runs/tier3/root_v2/meta/episodes_metadata.jsonl
+2026-10-12 02:39:27.168745027 +0800 17 Ë°å runs/tier3/root_simreg/meta/episodes_metadata.jsonl
+2026-10-13 03:18:59.300585098 +0800 29 Ë°å runs/tier3/root_dlv/meta/episodes_metadata.jsonl
+29
+363	runs/tier3/root_dlv
+ 7852
+v2d-train
