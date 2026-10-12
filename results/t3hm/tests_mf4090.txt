@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "�\235��\216\206 $(cat .v2d-source-commit)" && echo "== 宿主 python3 stages/retarget/test_challenge_to_soma.py" && python3 stages/retarget/test_challenge_to_soma.py 2>&1 | tail -12 && echo "== 容�\231� stages/recovery/test_t3_float_facts.py" && scripts/dev/incontainer stages/recovery/test_t3_float_facts.py 2>&1 | tail -10' 
+# md5      : 4e0f28410675872ab3926cdb0b0e3a8b  stages/retarget/test_challenge_to_soma.py
+# md5      : 4e0f28410675872ab3926cdb0b0e3a8b  stages/retarget/test_challenge_to_soma.py
+# md5      : 5212307f08da15d2e38dd7eb3ba0234a  stages/recovery/test_t3_float_facts.py
+# md5      : afba4a3b963828f3d854d6562dbf897f  scripts/dev/incontainer
+# md5      : 5212307f08da15d2e38dd7eb3ba0234a  stages/recovery/test_t3_float_facts.py
+# source   : aab130854870
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T15:57:40-0600
+# ---------------------------------------------------------------
+来历 aab130854870
+== 宿主 python3 stages/retarget/test_challenge_to_soma.py
+[test_convert_episode_20]
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool supported)
+   Kernel cache:
+     /home/rxzhou/.cache/warp/1.17.0
+  ep20 2026-06-08_16-57-34_rice_cooker_clockwise_04: 553 帧，键/形状/关节名/flex/网格/support 全部正确 ✓
+  不可见帧填补 0 帧；support 坐标系声明 g1_retarget_world
+
+5 个测试全部通过
+== 容器 stages/recovery/test_t3_float_facts.py
+test_clean ok
+test_scale ok
+test_pitch ok
+test_end_to_end ok
+test_support_root ok
+test_offset_gate ok
+ALL_OK
