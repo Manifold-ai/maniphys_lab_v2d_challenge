@@ -1,0 +1,31 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-next-training-plan.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 37065ba012998b17d6290ff3951e7a46  agent-doc/experiments/2026-10-12-next-training-plan.claims.json
+# source   : 1a592cfe5004-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T09:15:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1_success15         P(supported)=0.74  verified               [s]  10/9 逐条选的 CHOSEN 行里，maniptrans_sr=1.0 的有 15 条：ep0、5、6、7、8、12、15、18、20、22、23、24、26、27、29；其余 15 条（ep1、2、3、4、9、10、11、13、14、16、17、19、21、25、28）是 0.0。
+t1_switch_a          P(supported)=0.75  verified               [s]  记录写“换了的 episode：[0, 5, 6, 8, 15, 18, 20, 27, 29]”；这 9 条的 CHOSEN 行选中的 run 名都带 -r3a-（ep0、ep6、ep27 是 -r3a-s43-）。
+t1_switch_b          P(supported)=0.92  verified               [c]  t1-ep0-w2048-cap10m-ml40、t1-ep5-w2048-cap10m-ml40、t1-ep6-w2048-cap4m-mf4090、t1-ep15-w2048-cap10m-ml40、t1-ep20-w2048-cap4m-mf4090、t1-ep27-w2048-cap4m-mf4090、t1-ep29-w2048-cap4m-mf4090 这 7 条的 maniptrans_sr 都是 0.000000；t1-ep8-w2048-cap4m-mf4090 与 t1-ep18-w2048-cap4m-mf4090 是 1.000000。
+t1_switch_c          P(supported)=0.98  verified               [s]  CHOSEN 行括号里“现在”交的 run：ep0 是 t1-ep0-w2048-cap10m-ml40，ep5 是 t1-ep5-w2048-cap10m-ml40，ep6 是 t1-ep6-w2048-cap4m-mf4090，ep8 是 t1-ep8-w2048-cap4m-mf4090，ep15 是 t1-ep15-w2048-cap10m-ml40，ep18 是 t1-ep18-w2048-cap4m-mf4090，ep20 是 t1-ep20-w2048-cap4m-mf4090，ep27 是 t1-ep27-w2048-cap4m-mf4090，ep29 是 t1-ep29-w2048-cap4m-mf4090。
+t1_groups            P(supported)=0.90  verified               [s]  没成功的 15 条，选中轨迹的 mppe_cm：ep10 4.53、ep13 4.78、ep17 4.98、ep21 5.39、ep14 5.89、ep19 11.08；ep1 37.68、ep9 40.66、ep11 59.02、ep16 63.20、ep28 66.24、ep4 90.23、ep3 94.52、ep2 99.98、ep25 117.99；其中 ep10、ep14、ep21 的 spider_sr 是 1.0。
+t1_lucky             P(supported)=0.96  verified               [s]  选中的 ep29 run 的 4096 世界 MP-SR 是 0.150634765625，ep5 是 0.3076171875，两条的 1 世界 maniptrans_sr 都是 1.0；打包合计 maniptrans_sr 0.500000。
+t2xb                 P(supported)=0.94  verified               [tp, tq]  t2xb 是 ep9、1、13、19、2、4、14、25、28 九条，基线骨盆失败比例 0.994–1.000，计划写 t2xb 在 t2xa 的导出门结束后照登记默认要跑、是外推；t2xb 的期望表已列出 t2-ep9-w2048-cap10m-r3a-ml40 等 9 条 run，buffer 10000000、seed 42。
+t2xa                 P(supported)=0.92  verified               [te]  t2xa 的 -r3a-ml40 run 里，ep11 与 ep17 的 MP-SR 都是 0.000；没有 ep23 的 -r3a- 行。
+disk                 P(supported)=0.74  verified               [dk]  mf4090 根分区可用 8773 MB；t3-ep0、15、17、18、20、22、23、26 的 run 各 360 MB、t3-ep29 359 MB，这 9 条都是 35 份 policy、1 份 state；policy=9、state=0 的 run 在 80–121 MB 之间；t1-ep28-w2048-cap4m-mf4090 341 MB，t1-ep7-w2048-cap4m-p185-mf4090 241 MB，三个 smoke_t1_ep20_* 目录各 158 MB。
+pace                 P(supported)=0.98  verified               [pc]  t3p3c 四条正式训练的用时是 131:08、143:06、131:03、123:57。
+scoring              P(supported)=0.97  verified               [kf, sv]  三档的 tracks.json 都是 scored_episodes all、worlds_per_episode 1；打包器在有 scored episode 没有轨迹时报错；每队每周最多 5 次提交，冻结前最后三天不限。
+t1_pelvis_split      P(supported)=0.94  verified               [fs]  没过的 15 条按 4096 世界失败原因里骨盆的比例：ep17 0.076、ep21 0.150、ep10 0.222、ep13 0.248、ep19 0.350、ep3 0.491、ep14 0.576 这 7 条低于 0.65；ep1、ep2、ep4、ep9、ep11、ep16、ep25、ep28 这 8 条在 0.969–1.000 之间。
+t2_ep17_pelvis       P(supported)=0.93  verified               [t2p]  Tier 2 铺开计划写 ep17 的基线骨盆比例是 0.607。
+ep10_dup             P(supported)=0.97  verified               [dup]  t1-ep10-w2048-cap10m-ml40 在两张期望表里各有一行，两行除最后的 xeval 一列（一行 yes、一行 no）外相同。
+arm_prefix           P(supported)=0.85  verified               [arm]  arm_var_chain.sh 的段名只接受 t2x 或 t3p 开头，其余段名直接退出。
+select_gate          P(supported)=0.88  verified               [sel, selsh]  select_t1.py 的打分门 GATE 写死为 10/3 Tier 1 CSV 的四项（0.3780、0.5333、0.2667、25.1706），选择规则是 MP-SR → SP-SR → AUC / 0.3780 − MPPE / 25.1706；select_t1.sh 要求 .v2d-source-commit 是传入的 commit，并把 --current 固定为 stages/evaluate/exports/mf4090.tsv 与 ml40.tsv。
+csv_1009             P(supported)=0.78  verified               [s]  10/9 打包的合计是 add_auc 0.459651、spider_sr 0.600000、maniptrans_sr 0.500000、mppe_cm 24.623127。
+ctl_true             P(supported)=0.99  control(true) ok       [s]  这份逐条选记录最后写了 SELECT_T1_DONE。
+ctl_false_mppe       P(supported)=0.01  control(false) ok      [s]  ep19 选中轨迹的 mppe_cm 是 4.53。
+ctl_false_disk       P(supported)=0.13  control(false) ok      [dk]  mf4090 根分区可用 18773 MB。
+ctl_false_t2xb       P(supported)=0.01  control(false) ok      [tp]  t2xb 一共 15 条。
+ctl_false_split      P(supported)=0.01  control(false) ok      [fs]  ep3 的骨盆比例是 0.969，属于几乎每个世界都摔的一组。
+controls behaved as expected

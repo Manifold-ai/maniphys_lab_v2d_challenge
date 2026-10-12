@@ -1,0 +1,173 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "== $(date "+%F %T %Z")"; df -m . | tail -1; echo "## runs ä¸\213å\220\204ç\233®å½\225ï¼\210MBï¼\211"; du -sm runs/* 2>/dev/null | sort -rn | head -12; echo "## runs/flash_chord ä¸\213å\220\204 runï¼\232MBã\200\201policy ä»½æ\225°ã\200\201state ä»½æ\225°ï¼\214æ\214\211å¤§å°\217"; for d in runs/flash_chord/*/; do n=${d%/}; p=$(ls $n | grep -c "^policy_.*\\.safetensors$"); s=$(ls $n | grep -c "^state_.*\\.safetensors$"); echo "$(du -sm $n | cut -f1) ${n##*/} policy=$p state=$s"; done | sort -rn; echo "## å\220\210è®¡"; du -sm runs/flash_chord | cut -f1' 
+# source   : 1a592cfe5004-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T09:03:13-0600
+# ---------------------------------------------------------------
+== 2026-10-12 23:03:14 CST
+/dev/vda2         201462 184379      8773  96% /
+## runs ä¸‹å„ç›®å½•ï¼ˆMBï¼‰
+10058	runs/flash_chord
+3738	runs/motion_src
+2822	runs/motion
+1717	runs/diag
+656	runs/tier3
+494	runs/diag2
+188	runs/ep7
+109	runs/cache
+56	runs/train
+47	runs/logs
+19	runs/site_media
+11	runs/site_cases
+## runs/flash_chord ä¸‹å„ runï¼šMBã€policy ä»½æ•°ã€state ä»½æ•°ï¼ŒæŒ‰å¤§å°
+360 t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep23-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep22-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep20-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep18-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep17-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep15-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+360 t3-ep0-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+359 t3-ep29-w2048-cap4m-r3a-v2-mf4090 policy=35 state=1
+341 t1-ep28-w2048-cap4m-mf4090 policy=6 state=2
+241 t1-ep7-w2048-cap4m-p185-mf4090 policy=15 state=1
+158 smoke_t1_ep20_w256 policy=1 state=1
+158 smoke_t1_ep20_w2048 policy=1 state=1
+158 smoke_t1_ep20_w1024 policy=1 state=1
+121 t1-ep18-w2048-cap4m-r3a-mf4090 policy=9 state=0
+120 t1-ep18-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+119 t1-ep18-w2048-cap4m-s43-mf4090 policy=9 state=0
+116 t1-ep18-w2048-cap4m-mf4090 policy=9 state=0
+109 t1-ep27-w2048-cap4m-s43-mf4090 policy=9 state=0
+109 t1-ep27-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+109 t1-ep27-w2048-cap4m-r3a-mf4090 policy=9 state=0
+106 t1-ep27-w2048-cap4m-mf4090 policy=9 state=0
+87 t3-ep24-w2048-cap4m-r3a-v2-mf4090 policy=9 state=0
+87 t1-ep5-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+87 t1-ep5-w2048-cap4m-r3a-mf4090 policy=9 state=0
+87 t1-ep20-w2048-cap4m-r3a-mf4090 policy=9 state=0
+87 t1-ep15-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+87 t1-ep15-w2048-cap4m-r3a-mf4090 policy=9 state=0
+87 t1-ep0-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+86 t3-ep8-w2048-cap4m-r3a-mf4090 policy=9 state=0
+86 t3-ep24-w2048-cap4m-r3a-mf4090 policy=9 state=0
+86 t1-ep8-w2048-cap4m-r3a-mf4090 policy=9 state=0
+86 t1-ep7-w2048-cap4m-p185g-mf4090 policy=9 state=0
+86 t1-ep6-w2048-cap4m-s43-mf4090 policy=9 state=0
+86 t1-ep6-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+86 t1-ep6-w2048-cap4m-r3a-mf4090 policy=9 state=0
+86 t1-ep29-w2048-cap4m-s43-mf4090 policy=9 state=0
+86 t1-ep29-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+86 t1-ep29-w2048-cap4m-r3a-mf4090 policy=9 state=0
+86 t1-ep20-w2048-cap4m-s43-mf4090 policy=9 state=0
+86 t1-ep20-w2048-cap4m-r3a-s43-mf4090 policy=9 state=0
+86 t1-ep0-w2048-cap4m-r3a-mf4090 policy=9 state=0
+84 t2-ep4-w2048-cap4m-mf4090 policy=9 state=0
+84 t2-ep2-w2048-cap4m-mf4090 policy=9 state=0
+84 t1-ep8-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep9-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep6-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep28-w2048-cap4m-p185-mf4090 policy=9 state=0
+83 t2-ep27-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep25-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep23-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep21-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep19-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep17-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep15-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep13-w2048-cap4m-mf4090 policy=9 state=0
+83 t2-ep11-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep6-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep3-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep29-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep28-w2048-cap4m-p185-mf4090 policy=9 state=0
+83 t1-ep24-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep22-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep21-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep20-w2048-cap4m-rt-s43-mf4090 policy=9 state=0
+83 t1-ep20-w2048-cap4m-rt-mf4090 policy=9 state=0
+83 t1-ep20-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep20-w2048-cap1m-rt-mf4090 policy=9 state=0
+83 t1-ep20-w2048-cap1m-mf4090 policy=9 state=0
+83 t1-ep1-w2048-cap4m-p185-mf4090 policy=9 state=0
+83 t1-ep16-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep14-w2048-cap4m-mf4090 policy=9 state=0
+83 t1-ep11-w2048-cap4m-mf4090 policy=9 state=0
+83 ctrl-snackbox-w2048-cap1m-mf4090 policy=9 state=0
+80 t1-ep1-w2048-cap4m-mf4090 policy=9 state=0
+23 smoke-t1-ep20-w2048-cap4m-rt-mf4090 policy=4 state=0
+13 resumetest-t1-ep20-cap1m-mf4090 policy=2 state=0
+7 t1-ep20-w2048-cap10m-ml40 policy=2 state=0
+6 smoke-t3-ep8-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t3-ep29-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep24-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep24-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t3-ep23-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep22-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep21-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep20-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep18-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep17-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep15-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t3-ep0-w2048-cap4m-r3a-v2-mf4090 policy=1 state=0
+6 smoke-t2-ep9-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep6-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep4-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep2-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep28-w2048-cap4m-p185-mf4090 policy=1 state=0
+6 smoke-t2-ep27-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep25-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep23-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep21-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep19-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep17-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep15-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep13-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t2-ep11-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep8-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep8-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep7-w2048-cap4m-p185-mf4090 policy=1 state=0
+6 smoke-t1-ep7-w2048-cap4m-p185g-mf4090 policy=1 state=0
+6 smoke-t1-ep6-w2048-cap4m-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep6-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep6-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep6-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep5-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep5-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep3-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep29-w2048-cap4m-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep29-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep29-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep29-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep28-w2048-cap4m-p185-mf4090 policy=1 state=0
+6 smoke-t1-ep28-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep27-w2048-cap4m-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep27-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep27-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep27-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep24-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep22-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep21-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap4m-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap4m-rt-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep20-w2048-cap1m-rt-mf4090 policy=1 state=0
+6 smoke-t1-ep1-w2048-cap4m-p185-mf4090 policy=1 state=0
+6 smoke-t1-ep1-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep18-w2048-cap4m-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep18-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep18-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep18-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep16-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep15-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep15-w2048-cap4m-r3a-mf4090 policy=1 state=0
+6 smoke-t1-ep14-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep11-w2048-cap4m-mf4090 policy=1 state=0
+6 smoke-t1-ep0-w2048-cap4m-r3a-s43-mf4090 policy=1 state=0
+6 smoke-t1-ep0-w2048-cap4m-r3a-mf4090 policy=1 state=0
+1 t3-ep21-w2048-cap4m-r3a-v2-mf4090 policy=0 state=0
+1 stoptest-mf4090 policy=0 state=0
+## åˆè®¡
+10058

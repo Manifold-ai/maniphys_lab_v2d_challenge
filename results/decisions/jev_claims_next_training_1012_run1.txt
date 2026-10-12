@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-next-training-plan.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 25e89e150e2316b2209a7431736bb3bb  agent-doc/experiments/2026-10-12-next-training-plan.claims.json
+# source   : 1a592cfe5004-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T09:02:33-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1_success15         P(supported)=0.71  verified               [s]  10/9 逐条选的 CHOSEN 行里，maniptrans_sr=1.0 的有 15 条：ep0、5、6、7、8、12、15、18、20、22、23、24、26、27、29；其余 15 条（ep1、2、3、4、9、10、11、13、14、16、17、19、21、25、28）是 0.0。
+t1_switch            P(supported)=0.08  UNVERIFIED             [s, c]  换了的 episode 是 0、5、6、8、15、18、20、27、29，选中的都是名字带 -r3a- 的 run；这 9 条原来交的 run（CHOSEN 行括号里“现在”那一个）里，ep0、5、6、15、20、27、29 的 maniptrans_sr 是 0，ep8、ep18 是 1。
+t1_groups            P(supported)=0.90  verified               [s]  没成功的 15 条，选中轨迹的 mppe_cm：ep10 4.53、ep13 4.78、ep17 4.98、ep21 5.39、ep14 5.89、ep19 11.08；ep1 37.68、ep9 40.66、ep11 59.02、ep16 63.20、ep28 66.24、ep4 90.23、ep3 94.52、ep2 99.98、ep25 117.99；其中 ep10、ep14、ep21 的 spider_sr 是 1.0。
+t1_lucky             P(supported)=0.96  verified               [s]  选中的 ep29 run 的 4096 世界 MP-SR 是 0.150634765625，ep5 是 0.3076171875，两条的 1 世界 maniptrans_sr 都是 1.0；打包合计 maniptrans_sr 0.500000。
+t2xb                 P(supported)=0.94  verified               [tp, tq]  t2xb 是 ep9、1、13、19、2、4、14、25、28 九条，基线骨盆失败比例 0.994–1.000，计划写 t2xb 在 t2xa 的导出门结束后照登记默认要跑、是外推；t2xb 的期望表已列出 t2-ep9-w2048-cap10m-r3a-ml40 等 9 条 run，buffer 10000000、seed 42。
+t2xa                 P(supported)=0.91  verified               [te]  t2xa 的 -r3a-ml40 run 里，ep11 与 ep17 的 MP-SR 都是 0.000；没有 ep23 的 -r3a- 行。
+disk                 P(supported)=0.32  UNVERIFIED             [dk]  mf4090 根分区可用 8774 MB；t3-ep0、15、17、18、20、22、23、26 的 run 各 360 MB，t3-ep29 359 MB；已经只留 9 份 policy 的 run 在 83–87 MB 之间。
+pace                 P(supported)=0.98  verified               [pc]  t3p3c 四条正式训练的用时是 131:08、143:06、131:03、123:57。
+scoring              P(supported)=0.97  verified               [kf, sv]  三档的 tracks.json 都是 scored_episodes all、worlds_per_episode 1；打包器在有 scored episode 没有轨迹时报错；每队每周最多 5 次提交，冻结前最后三天不限。
+ctl_true             P(supported)=0.99  control(true) ok       [s]  这份逐条选记录最后写了 SELECT_T1_DONE。
+ctl_false_mppe       P(supported)=0.01  control(false) ok      [s]  ep19 选中轨迹的 mppe_cm 是 4.53。
+ctl_false_disk       P(supported)=0.12  control(false) ok      [dk]  mf4090 根分区可用 18774 MB。
+ctl_false_t2xb       P(supported)=0.01  control(false) ok      [tp]  t2xb 一共 15 条。
+controls behaved as expected
