@@ -70,3 +70,7 @@ flowchart LR
   每帧物体位姿的平移与四元数，ADD 用官方网格顶点；打包器只做世界系的左乘对齐（`pack_submission.py`
   `convert_track2_frame`）。rollout 里的物体位姿是我们这份网格的局部系，它和官方网格的局部系差多少，位姿误差就差多少。
   用自生成网格意味着每集带一个未知的常量局部变换误差。
+
+## 交付前门槛
+
+交付一个版本前先用 rxzhou 的训练前门槛自测，环境与脚本在 [`gate/`](gate/README.md)；支撑面的 usda 也在那里生成。

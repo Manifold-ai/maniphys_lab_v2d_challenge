@@ -8,6 +8,11 @@
 - Tier 2 的任何轨迹（人体也算）不进 Tier 3 链路（用户 10-10，Kaggle 2.8.c「easier tier's input」）。开发期也不再用 Tier 2 测误差；
   `t3_world_probe.py` / `t3_world_eval.py` / `t3_track_check_score.py` 是此前用过 Tier 2 的开发工具，结论只当背景。
 - 只用 Tier 3 输入：exo 视频、官方网格、发布的 `ground_plane`、CARI4D 输出。
+- 官方 `support_surface/` 不用（用户 10-12 定，10-13 复查规则原文）：它只在 Tier 1、Tier 2 目录里，Tier 3 没有发布输入（kit
+  `tracks.json` 的 Tier 3 `input_path` 为空），Kaggle 2.8.c 禁止更容易档位的输入；位置来自干净采集。支撑面一律来自 `t3_support.py`，
+  交付时由 `gate/t3_support_usda.py` 写成 usda。
+- 灰区：`ground_plane` 文件同样只在 Tier 1、2 目录里，规则没写明三档共用（网格有：`tracks.json` 三档同一个 `mesh_root`）。我们按内容判
+  （`plane` 是静态场景标定，不含人或物位置）在用，未问组委会。
 
 ## 现在的数据版本（parquet，Tier 2 同 schema）
 
@@ -15,7 +20,9 @@
 |---|---|
 | `$T/runs/tier3_cari4d{,_suspect}` | 冻结基线：相机系当世界系（W=I） |
 | `$T/runs/tier3_cari4d_floor{,_suspect}` | + 地面校正（CARI4D 原焦距），验收：静置物体离地 \|中位\| 1.14 cm、最大 3.86 cm（W=I 是 13.95 / 22.11 cm） |
-| `$T/runs/tier3_cari4d_f830_floor{,_suspect}` | + 主机位焦距统一 830 px 再地面校正（**交付版**）。10-10 12:22 验收：离地 \|中位\| 1.09 cm、最大 3.86 cm；主机位地面倾角 3.83°、尺度 0.9856，留一法 1.38 / 2.62 cm（`runs/floor/acceptance_f830.txt`） |
+| `$T/runs/tier3_cari4d_f830_floor{,_suspect}` | + 主机位焦距统一 830 px 再地面校正（10-10 的交付版，rxzhou 已训练的 10 集用它）。10-10 12:22 验收：离地 \|中位\| 1.09 cm、最大 3.86 cm；主机位地面倾角 3.83°、尺度 0.9856，留一法 1.38 / 2.62 cm（`runs/floor/acceptance_f830.txt`） |
+
+| `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}` | **交付版（10-13 用户定）**：逐集选重建版本（`best`）+ 物体高度后处理 + 手持段人体随物体平移（`best_h` 只有前两步）；附我们的支撑面 `support_surface/`，见「10-13 晚」一节 |
 
 「正式/可疑」是旧的剪影中位数门划分。按跟丢检出真正干净的约 13 集：ep00/05/08/12/14/18/20/21/22/23/24/26/29
 （ep12/14/21 是另两个机位，水平位置离世界系几米，跟踪干净但不计分）。
@@ -178,5 +185,30 @@
   > 30 mm 的只剩段首尾 1–4 帧（都是手正在拿放）；无接触移动 501 → 486、跳变 126 → 135（ep19 +2、ep28 +7）、加速度尖峰 16 → 18；
   手接触占比只有 ep02（0.743 → 0.731）和 ep28（0.475 → 0.449）变化超过 1 个百分点。逐集平移量与手持帧平移量在
   `runs/tier3_cari4d_f830_best_h.height_post.json`。
-- **待定**：手持帧里物体平移、人不动，手-物竖直关系变了：p95 多数 30–70 mm，ep02 85、ep16 89、ep28 168 mm。是否让人体在手持段
-  跟着平移（脚会随之离地或入地）待用户定。支撑面还要转成 rxzhou 场景能读的格式交给他。
+- 手持帧里物体平移、人不动，手-物竖直关系变了：p95 多数 30–70 mm，ep02 85、ep16 89、ep28 168 mm。已定让人体跟着平移，见下一节。
+
+## 10-13 晚：交付 `tier3_cari4d_f830_best_hm`，支撑面，门槛自测（本节提交）
+
+- **用户定**：交付 `best_hm`；支撑面一起交，用我们的；脚陷地交给机器人腿部 IK（用户与 rxzhou 一致：地面文件只负责把人和物一起放平到
+  z=0，脚对不上改机器人脚的 IK；v0.4.0 重定向本来就只平移机器人脚目标）。ep28 稍后单独分析（重建与跟踪仍有问题）。
+- `t3_height_post.py --move-human`：手持帧（`best` 的 physics check，接触关节 10 cm 内）人体根平移加上物体的平移量，前后各 20 帧渐变，
+  再做 σ=5 帧的时间平滑（不平滑时 ep19、ep28 人会一帧跳 20 cm）。`observation.human.translation` 在 SOMA 轴（与 OpenCV 差
+  diag(1,-1,-1)），第一版直接加了 OpenCV 的法向，人往反方向动；**L40S 10-13 03:38 CST（10-12 13:38 UTC−6）之前写出的 `best_hm` 是这一版，
+  已作废**（留在 `$T/dev/hm_bad_1013/`）。不加 `--move-human` 时输出与 `best_h` 逐列相同。
+- **自验（best_h → best_hm，physics）**：手持帧里脚高变化与物体高度变化之差 p95 的中位 6 mm（ep28 65 mm），方向一致 99–100%（作废版 75 mm、0%）；
+  手接触占比恢复到 `best` 的水平（ep02 0.731 → 0.743、ep28 0.449 → 0.470）；脚入地帧 5389 → 5409、脚悬空帧 1963 → 2173。
+- **rxzhou 的门槛在我们这边跑**（`stages/recovery/tier3/gate/`，见其 README）：他的代码 f0ac98f 不改，CPU，py3.11 venv 照他镜像的版本；
+  对照 simreg ep0/9/15 与他的记录逐字段相同。结果（`L40S /lab_data/yqchen/v2d/gate/logs/p2_{bh,bhm}.txt`）：
+  - 官方支撑面：`best_h`、`best_hm` 都 28/30 过，ep3、ep25 悬空（755、791 mm：官方桌面不在物体下面），无重定向失败。
+  - 我们的支撑面（`support_recheck.sh`）：两版都 30/30 间隙在 30 mm 内，ep3/6/7/20/25 落在我们的桌面上。
+  - 地面集间隙都是 0.0 mm，这是高度后处理把静止段贴地的直接结果，不说明重建对不对。高度后处理之前的 `best`（只跑了 ep0–8）
+    间隙 −23 到 −74 mm，只有 ep0 过。
+  - `best_h` → `best_hm`：手接触帧（不含 ep28）16728 → 17848，16 集增加、ep6/ep19 减少；IK 误差中位 0.743 → 0.762（有增有减）；
+    机器人脚目标的竖直偏移最大幅度变大的有 ep28（−0.33 m）、ep19（−0.14）、ep10、ep01、ep02（约 −0.12）；两版机器人脚底最低点都在
+    0–6 mm。腿姿被拉成什么样，门槛看不出来。
+- **支撑面**：`gate/t3_support_usda.py` 用上游函数算每集的 `g1_retarget_world`（依赖这一版的人体第 0 帧），写成官方同格式的 usda（不旋转
+  Cube 薄板，2 cm 厚，xy 外接框）。逐集与门槛重定向输出的物体位姿比对，30 集残差最大 1e-7 m；去掉第 0 帧锚定的变异 30 集全部被拒。
+  文件在 `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}/support_surface/`，路径与元数据 `support_surface` 字段一致（12 集有桌面，ep28 也有）。
+- **给 rxzhou**：交付目录 `tier3_cari4d_f830_best_hm`（正式 29 集）与 `_suspect`（ep28）。支撑面从这两个目录的 `support_surface/` 取，
+  不再从官方 Tier 2 目录取；地面文件我们这边只留 `plane`。门槛结果在上面，他复跑时可对照。
+- 未完成：ep28 分析；`$T/code/DEPLOYED` 仍写 ae06e75（之后的文件逐个 scp 部署）。

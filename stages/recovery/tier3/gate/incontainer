@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Stand-in for rxzhou's scripts/dev/incontainer in a gate checkout (see README.md): the same CPU-only run, in the gate
+# venv instead of the Isaac image robotic-grounding:latest. Arguments starting with /repo map to this checkout, as the
+# container mount did. setup.sh copies this file over the checkout's scripts/dev/incontainer.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"
+GATE=${T3_GATE:-/lab_data/yqchen/v2d/gate}
+args=()
+for a in "$@"; do args+=("${a/#\/repo/$ROOT}"); done
+cd "${V2D_WORKDIR:-$ROOT}"
+export PYTHONPATH="$ROOT/third_party/video_to_data/robotic_grounding/source/robotic_grounding${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONDONTWRITEBYTECODE=1
+exec "$GATE/venv/bin/python" "${args[@]}"

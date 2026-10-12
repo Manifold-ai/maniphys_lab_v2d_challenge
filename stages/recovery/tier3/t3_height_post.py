@@ -1,7 +1,7 @@
 """Object height post-process: resting placements onto their surface, then no penetration (Tier 3 inputs only).
 
-Only the object's height above the released floor changes (a shift along the floor normal); its horizontal position,
-orientation and the human are untouched. Per episode:
+Only heights change (shifts along the released floor's normal); horizontal positions and orientations are untouched.
+The object is shifted per episode as below; the human is untouched unless --move-human (then see "human"). Per episode:
 
   anchors   a resting placement's height is known: on the floor (a t3_support static segment whose median lowest hull
             point is within FLOOR_TOL_M of the floor or below it) the lowest point goes to 0; on a support (t3_support's
@@ -14,11 +14,19 @@ orientation and the human are untouched. Per episode:
   clamp     no frame's lowest point below the floor; over a support patch (t3_support's, grown by its PATCH_MARGIN_M),
             none within SUP_PEN_BAND_M below the support (deeper is beside or under it, see t3_support.py).
 
-Supports come from t3_support.py on the same version, never from the released support_surface files.
-Held frames (physics check: a contact joint within HOLD_M) are reported with their shift, the change in hand-object
-distance this makes, since the human is not moved.
+  human     --move-human: the human root translation gets the object's shift on held frames (physics check of <version>:
+            a contact joint within HOLD_M), so hand and object keep their vertical relation; off held frames it ramps to 0
+            over HUMAN_RAMP frames on each side (held mask grown by HUMAN_RAMP, then a box average of 2 HUMAN_RAMP + 1),
+            then a Gaussian of HUMAN_SIGMA frames: the object's shift has one-frame spikes (ep19's probe seam, ep28's pose
+            jumps: 0.2 m in a frame), which the body must not follow. Held frames keep a residual hand-object height
+            change (reported). Feet then leave or enter the floor by that shift; the robot's leg IK takes that up
+            (10-13, user and rxzhou: the retarget levels human and object together onto the floor plane, mismatched feet
+            are the robot foot IK's job).
 
-    python t3_height_post.py <tier3 root> <version> <support dir> <physics dir> <out version>
+Supports come from t3_support.py on the same version, never from the released support_surface files.
+Held frames are reported with the object's shift and the human's, so the change in hand-object height is their difference.
+
+    python t3_height_post.py <tier3 root> <version> <support dir> <physics dir> <out version> [--move-human]
 Writes runs/<out version>{,_suspect}/ (same split as the input) and runs/<out version>.height_post.json.
 """
 
@@ -41,6 +49,20 @@ def quat_wxyz_to_mat(q: np.ndarray) -> np.ndarray:
     return Rotation.from_quat(np.c_[q[:, 1:4], q[:, 0:1]]).as_matrix()
 
 
+HUMAN_RAMP = 10  # frames (1/3 s at 30 fps)
+HUMAN_SIGMA = 5.0  # frames
+CV_TO_SOMA = np.diag([1.0, -1.0, -1.0])  # = t3_world_probe.F; its own inverse
+
+
+def held_weight(held: np.ndarray, ramp: int = HUMAN_RAMP) -> np.ndarray:
+    """1 on held frames, falling linearly to 0 within 2 ramp frames outside them."""
+    from scipy.ndimage import binary_dilation, uniform_filter1d
+    if not held.any():
+        return np.zeros(len(held))
+    grown = binary_dilation(held, np.ones(2 * ramp + 1, bool))
+    return np.where(held, 1.0, uniform_filter1d(grown.astype(np.float64), 2 * ramp + 1, mode="constant"))
+
+
 def shifts(target: np.ndarray) -> np.ndarray:
     """Per-frame shift: the anchored frames' own values (target, NaN elsewhere), linear in between, nearest outside."""
     known = np.flatnonzero(~np.isnan(target))
@@ -54,7 +76,9 @@ def main() -> None:
     import pyarrow.parquet as pq
     import trimesh
 
-    root, version, sup_dir, phys, out_v = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), Path(sys.argv[4]), sys.argv[5]
+    argv = [a for a in sys.argv[1:] if a != "--move-human"]
+    move_human = len(argv) < len(sys.argv) - 1
+    root, version, sup_dir, phys, out_v = Path(argv[0]), argv[1], Path(argv[2]), Path(argv[3]), argv[4]
     runs = root / "runs"
     if (runs / out_v).exists() or (runs / f"{out_v}_suspect").exists():
         raise SystemExit(f"runs/{out_v} exists; pick a new name")
@@ -109,14 +133,34 @@ def main() -> None:
             floor_clamped = dz > planned + 1e-9
             floor_clamped &= ~sup_clamped
 
+            held = None
+            pz = phys / "out" / f"{name}.npz"
+            if pz.exists():
+                held = np.load(pz)["held"].astype(bool)
+            if move_human and held is None:
+                raise SystemExit(f"{name}: --move-human needs {pz}")
+            if move_human:
+                from scipy.ndimage import gaussian_filter1d
+                hdz = gaussian_filter1d(held_weight(held) * dz, HUMAN_SIGMA, mode="nearest")
+            else:
+                hdz = np.zeros(nf)
+
             new = pose.copy()
             new[:, :3] = pos + dz[:, None] * n_up
             col = pa.FixedSizeListArray.from_arrays(pa.array(new.astype(np.float32).ravel(), pa.float32()), 7)
             i = table.schema.get_field_index("observation.object.pose")
             out_t = table.set_column(i, table.schema.field(i), col)
+            if move_human:
+                tr = np.stack(table.column("observation.human.translation").to_numpy(zero_copy_only=False)).astype(np.float64)
+                tr = tr + hdz[:, None] * (n_up @ CV_TO_SOMA)  # the translation column is in SOMA's frame (t3_world_probe.F)
+                j = out_t.schema.get_field_index("observation.human.translation")
+                out_t = out_t.set_column(j, out_t.schema.field(j),
+                                         pa.FixedSizeListArray.from_arrays(pa.array(tr.astype(np.float32).ravel(), pa.float32()), 3))
             md = dict(out_t.schema.metadata or {})
             md[b"height_post"] = json.dumps({"from": version, "anchors": len(anchors), "dz_min_m": round(float(dz.min()), 4),
-                                             "dz_max_m": round(float(dz.max()), 4)}).encode()
+                                             "dz_max_m": round(float(dz.max()), 4), "move_human": move_human,
+                                             "human_dz_min_m": round(float(hdz.min()), 4),
+                                             "human_dz_max_m": round(float(hdz.max()), 4)}).encode()
             out_t = out_t.replace_schema_metadata(md)
             dst = runs / dst_v / "data" / "chunk-000" / f.name
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -125,10 +169,6 @@ def main() -> None:
             mf = runs / src_v / "meta" / f"episode_{ep:06d}.metadata.json"
             (runs / dst_v / "meta" / mf.name).write_bytes(mf.read_bytes())
 
-            held = None
-            pz = phys / "out" / f"{name}.npz"
-            if pz.exists():
-                held = np.load(pz)["held"].astype(bool)
             r4 = lambda x: round(float(x), 4)
             row = {"episode": name, "tier": dst_v, "frames": nf,
                    "anchors": [{"start": a, "end": b, "kind": k, "surface_m": r4(h), "dz_m_median": r4(np.median(dz[a:b]))} for a, b, h, k in anchors],
@@ -139,6 +179,11 @@ def main() -> None:
             if held is not None and held.any():
                 row["held_frames"] = int(held.sum())
                 row["held_abs_dz_m_p50_p95_max"] = [r4(np.median(np.abs(dz[held]))), r4(np.percentile(np.abs(dz[held]), 95)), r4(np.abs(dz[held]).max())]
+                rel = np.abs(dz - hdz)[held]
+                row["held_abs_rel_dz_m_p50_p95_max"] = [r4(np.median(rel)), r4(np.percentile(rel, 95)), r4(rel.max())]
+            if move_human:
+                row["human_abs_dz_m_p50_p95_max"] = [r4(np.median(np.abs(hdz))), r4(np.percentile(np.abs(hdz), 95)), r4(np.abs(hdz).max())]
+                row["human_step_max_m"] = r4(np.abs(np.diff(hdz)).max())
             report.append(row)
             print(json.dumps({k: v for k, v in row.items() if k != "anchors"} | {"anchors": len(anchors)}), flush=True)
     (runs / f"{out_v}.height_post.json").write_text(json.dumps(report, indent=1))
