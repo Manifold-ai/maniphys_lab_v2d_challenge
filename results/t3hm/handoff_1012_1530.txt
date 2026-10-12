@@ -1,0 +1,292 @@
+# command  : bash -c $'echo "�\210\206�\224� track2/tier3-recon $(git rev-parse --short origin/track2/tier3-recon)�\214�\226\207件 agent-doc/handoff-tier3-2026-10-10.md �\216�\217\220交说�\230\216"; git log -1 --format="%h %ad %s%n%b" --date=iso origin/track2/tier3-recon | tools/redact_stdin.sh; git show origin/track2/tier3-recon:agent-doc/handoff-tier3-2026-10-10.md | tools/redact_stdin.sh; echo "== gate/README.md"; git show origin/track2/tier3-recon:stages/recovery/tier3/gate/README.md | tools/redact_stdin.sh' 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 6e8de6f70a2b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T15:33:42-0600
+# ---------------------------------------------------------------
+分支 track2/tier3-recon d7aae27，文件 agent-doc/handoff-tier3-2026-10-10.md 与提交说明
+d7aae27 2026-10-13 05:20:11 +0800 feat(tier3): deliver best_hm with our supports; humans follow held objects; rxzhou's gate runs on our side
+- t3_height_post.py --move-human: on held frames the human root gets the object's height shift (ramped over 2x10
+  frames, Gaussian sigma 5 frames so one-frame object spikes are not followed). The translation column is in SOMA
+  axes, so the OpenCV floor normal goes through diag(1,-1,-1); the first build skipped that and moved humans the
+  wrong way. Without the flag the output equals best_h column for column.
+- gate/: rxzhou's P2' gate (his code at f0ac98f, unchanged) in a CPU py3.11 venv with his image's versions; only
+  scripts/dev/incontainer is replaced. His simreg ep0/9/15 reproduce field for field. best_h and best_hm pass
+  28/30 with the released supports (ep3, ep25 float: those tables are not under our objects) and 30/30 with ours.
+- gate/t3_support_usda.py writes our supports as support usda in g1_retarget_world, computed with the upstream
+  frame functions; each episode is checked against the gate's retarget output (max 1e-7 m over 30 episodes, a
+  no-anchor mutation fails all 30). Tier 3 does not use the released support_surface files (Tier 1/2 only,
+  Kaggle 2.8.c).
+- handoff 10-13 evening: best_hm is the delivery version.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+# Tier 3 交接（2026-10-10，分支 `track2/tier3-recon`）
+
+目标：用官方 CARI4D 从 30 段 exo 视频重建 Track 2 Tier 3 参考，交给 rxzhou 训练。机器：L40S（`ssh manifolds_l40s`），
+根目录 `/lab_data/<其他用户>/v2d/tier3`（下文 `$T`）。部署副本 `$T/code`，`$T/code/DEPLOYED` 记 commit。
+
+## 已定的规则口径
+
+- Tier 2 的任何轨迹（人体也算）不进 Tier 3 链路（用户 10-10，Kaggle 2.8.c「easier tier's input」）。开发期也不再用 Tier 2 测误差；
+  `t3_world_probe.py` / `t3_world_eval.py` / `t3_track_check_score.py` 是此前用过 Tier 2 的开发工具，结论只当背景。
+- 只用 Tier 3 输入：exo 视频、官方网格、发布的 `ground_plane`、CARI4D 输出。
+- 官方 `support_surface/` 不用（用户 10-12 定，10-13 复查规则原文）：它只在 Tier 1、Tier 2 目录里，Tier 3 没有发布输入（kit
+  `tracks.json` 的 Tier 3 `input_path` 为空），Kaggle 2.8.c 禁止更容易档位的输入；位置来自干净采集。支撑面一律来自 `t3_support.py`，
+  交付时由 `gate/t3_support_usda.py` 写成 usda。
+- 灰区：`ground_plane` 文件同样只在 Tier 1、2 目录里，规则没写明三档共用（网格有：`tracks.json` 三档同一个 `mesh_root`）。我们按内容判
+  （`plane` 是静态场景标定，不含人或物位置）在用，未问组委会。
+
+## 现在的数据版本（parquet，Tier 2 同 schema）
+
+| 目录 | 内容 |
+|---|---|
+| `$T/runs/tier3_cari4d{,_suspect}` | 冻结基线：相机系当世界系（W=I） |
+| `$T/runs/tier3_cari4d_floor{,_suspect}` | + 地面校正（CARI4D 原焦距），验收：静置物体离地 \|中位\| 1.14 cm、最大 3.86 cm（W=I 是 13.95 / 22.11 cm） |
+| `$T/runs/tier3_cari4d_f830_floor{,_suspect}` | + 主机位焦距统一 830 px 再地面校正（10-10 的交付版，rxzhou 已训练的 10 集用它）。10-10 12:22 验收：离地 \|中位\| 1.09 cm、最大 3.86 cm；主机位地面倾角 3.83°、尺度 0.9856，留一法 1.38 / 2.62 cm（`runs/floor/acceptance_f830.txt`） |
+
+| `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}` | **交付版（10-13 用户定）**：逐集选重建版本（`best`）+ 物体高度后处理 + 手持段人体随物体平移（`best_h` 只有前两步）；附我们的支撑面 `support_surface/`，见「10-13 晚」一节 |
+
+「正式/可疑」是旧的剪影中位数门划分。按跟丢检出真正干净的约 13 集：ep00/05/08/12/14/18/20/21/22/23/24/26/29
+（ep12/14/21 是另两个机位，水平位置离世界系几米，跟踪干净但不计分）。
+
+## 后台进程（都在 L40S 上 setsid 脱钩，与会话无关）
+
+1. `t3_world_all.sh`（焦距 830 → 重拟合地面 `runs/floor/floor_fit_f830.json` → world → assemble），日志 `$T/logs/t3_world_all_f830.log`，末行 `ALLDONE`。
+2. `t3_after_f830.sh`：等 1 结束后自动验收，结果写 `$T/runs/floor/acceptance_f830.txt`（末行 `DONE`），含三个版本的离地高度对比。
+3. `t3_gpu_watch.sh`：等 rxzhou 的 ml40 链真正结束（无 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/.chain-active-*`、
+   无 `flash_chord` 容器、空闲显存 ≥ 44 GB，连续 30 分钟）才启动重新配准试点 `t3_fp_pilot.sh`
+   （ep28 刮水器、ep27 编织篮、ep19 手杖、ep03 杯子）。不抢他单集之间的停顿；试点每集开始前再查，他回来就让卡。
+   日志 `$T/logs/t3_gpu_watch.log`、`$T/logs/t3_fp_pilot.log`（末行 `PILOT DONE`）。取消：`touch $T/WATCH_STOP`。
+   试点结果：`$T/runs/track_check_fp/<ep>.json`（跟丢比例，对比 `$T/runs/track_check/<ep>.json`）、`$T/runs/tier3_cari4d_fp_pilot_f830/`。
+
+## 本日结论（细节与数字在各脚本 docstring 与 commit message）
+
+- 机位：3 个（`t3_camera_groups.py`）。主机位 24 集，3–6 月没动；第二机位 ep12/14/16/25/28；ep21 单独。
+- 地面：我们重建的地面比发布地面多倾 ~4°，离相机越远越悬空，这就是 rxzhou 试跑里 ep8/ep24 悬空 115/146 mm 的原因。
+  `t3_floor_fit.py` 每机位拟合，留一法验收 1.1 cm。
+- 焦距：几何（天花板网格消失点）815–850 px；MoGe 821；DA3 868–897（ep05）；GeoCalib 942（单集不可靠）。用户定主机位用 830。
+  另两个机位没有几何估计，保留 CARI4D 焦距。
+- 单集剪影深度修正不做：地面给出的单集尺度一致到 ~1%（std 0.0072），剪影因子 std 0.06、相关 0.18，后者主要是掩码/网格偏差。
+- 跟丢（`t3_track_check.py`，只用 Tier 3 信号）：整集错 ep01/10/28（+ep06 无产出）；大段丢 ep02/04/11/13/17/19/25/27；
+  部分丢 ep03/07/09/15/16。ep01/06/10 是掩码选错物体，重新配准救不了，要改选物规则（选人在交互的物体）。
+- rxzhou 的打包脚本 `stages/recovery/tier3_pack_remote.sh:12` 写死读 `runs/tier3_cari4d`（W=I 旧版），要请他改到新目录。
+
+## 下一步
+
+1. ~~看 `acceptance_f830.txt`~~ 已通过（10-10 12:22）；把 `tier3_cari4d_f830_floor` 交给 rxzhou（先用干净的 13 集），提醒他改打包路径。
+2. 试点跑完后看跟丢比例变化，决定是否对 13 集铺开每帧重新配准（GPU，每集时长看试点）。
+3. 修掩码选物规则（ep01/06/10）。
+4. 物理后处理参考 rxzhou 的 `nopen.py`（不穿地）、静置段支撑面锚定、锚定段修正量插值；参数用 Tier 3 信号重定。
+5. 问组委会（用户决定发不发）：主机位是否就是世界相机；另两个机位的 6 集怎么落到世界系。
+
+未提交改动：无（本文件随 commit 推送）。
+
+## 10-10 晚：选物规则、重跑队列、物理检查（commit 82ec841、85154fe）
+
+- **rxzhou 页面（10-10 07:31 UTC-6）**：他的 Tier 3 试跑用的是校正前数据（悬空 115/146 mm，MP-SR 0.000）；页面上「校正版改了什么」列为待核实；
+  Tier 3 物理后处理他那边没有，归我们；t2xa 训练预计 10-10 22:00（UTC-6）结束。
+- **选物规则**（`t3_masks.py`）：ep01 选了被标成 vacuum 的三脚架、ep06 选了远处的显示器、ep10 的白桌因标签含 table 被当支撑面丢掉。
+  改为：检测候选按 IoU > 0.4 连成轨迹，有轨迹平移 ≥ 0.15 倍对角线时只在被挪动的轨迹里选；物体本身是桌子时，标签点名物体的框不当支撑面。
+  TRACK_IOU 是在这几集上定的（0.3 / 0.5 都救不了 ep01）。缓存检测上选择变化的 8 集：01 03 06 07 10 13 19 22，其中 01/06/10/22 人眼核对过。
+  `probe_prompt_pick.py`：两个注入缺陷各自让它失败。
+- **重跑队列**：`t3_reselect.sh` 写到 `runs/work_v2`、`runs/tier3_cari4d_v2sel_f830{,_suspect}`、`runs/track_check_v2sel/`，基线不动，
+  焦距与地面拟合沿用 `focal.json` / `floor_fit_f830.json`。由第二个监视进程（`JOB=t3_reselect.sh t3_gpu_watch.sh ...`）排在试点之后，
+  日志 `logs/t3_reselect.log`，末行 `RESELECT DONE`。判据：对比 `track_check_v2sel` 与 `track_check` 的 lost_fraction；ep22 是干净集，作对照，变差说明规则有问题。
+  试点若中途让卡退出（exit 4），重跑队列会接着等空闲，试点剩下的集不会自动续。（10-12 `ac535c1` 起监视进程会自动续，见 10-12 节。）
+- **物理检查**（`t3_physics_check.py` + `t3_physics_all.sh`，CPU）：闸门②各条判据改写成运动学版本，读交付 parquet。注入四种缺陷全部抓到
+  （首轮发现平滑把 20 cm 跳变藏掉了，补了 `pose_jump`）。结果 `runs/physics/<版本>/out/`。
+  - **主要发现：人体脚底普遍陷进地面**，f830 版逐集中位 −10.5 cm（ep12）到 +2.8 cm，多数在 −1 ~ −6 cm；同集静置物体只差 1~2 cm。
+    地面校正版（CARI4D 原焦距）同样或更深，所以不是焦距 830 引入的。归因未定：CARI4D 的人-物相对深度，或 MHR→SOMA 转换。
+    确认方法：在相机系里比较 CARI4D 原始 MHR 脚底与 SOMA 脚底到地面的距离。
+  - 物体穿地：ep14 469 帧（与验收 −3.86 cm 一致）、ep12 122 帧。无手移动大的集（01 10 13 02 03）与跟丢检出一致。
+- **脚陷地归因（10-11，`t3_feet_diag.py`，结果 `runs/physics/feet_diag_f830.json`）**：两部分叠加。
+  (1) world 步的实现缺口：位置以相机为原点乘 s，身体不缩放，骨盆离地高度跟着乘 s、腿长不变，脚下沉 (1−s)×骨盆高；预测与实测 29 集最大差 0.83 cm。
+  主机位 s=0.9856 → 约 −1.4 cm，第二机位 s=0.935 → 约 −6.5 cm。同一机制也让手相对物体偏 (1−s)×（手到骨盆的距离），第二机位约 3 cm（推断，未量）。
+  (2) world 步之前 CARI4D 自身：脚相对我们按物体接触拟合的地面，主机位中位 −0.9 cm，范围 −5.0 ~ +2.8 cm（ep03/12/22/04/13/23 在 −4 ~ −5 cm）。
+  修法待用户定：整体相似变换（身体也乘 s，人变矮 s 倍，手-物关系与脚-地关系都保留）vs 保持身体尺寸、只把骨盆抬回原离地高度（与图像不再严格对齐）。
+
+## 10-11：相似变换版、第二机位配准、兜底（commit dfac8b2、fab949f、ae06e75）
+
+- **当前最好的版本 `runs/tier3_cari4d_f830_simreg{,_suspect}`**：world 步把人体随场景整体缩放（`_scale_body`，容差为每集自己的
+  MHR→SOMA 残差，29 集全过）；第二机位 5 集按 `runs/floor/camera_register.json`（偏航 181.35°，t = (−0.374, 5.826) m，ep00 地面
+  基准）配准到主机位。`tier3_cari4d_f830_sim` 是只做缩放、未配准的版本；交付版 `tier3_cari4d_f830_floor` 未动，它依赖的
+  world 文件备份在 `runs/convert_world_rigid_backup/`。注意 `runs/convert/*/` 里的 world 文件现在对应 simreg。
+- 物理检查（`runs/physics/<版本>/`）：脚底中位 −2.20 → −0.85 cm，脚穿地帧 8895 → 5256；物体类检查不变。主机位剩余的
+  −3.7 ~ −4.9 cm 下沉是 CARI4D 自身的，不是深度误差（跨集相关 +0.06），修法待用户定。ep25 / ep28 的脚离地 8–9 cm。
+- 配准方法：去人背景图上 Grounding DINO（CPU）互相检测对方三脚架，方位定偏航，脚点距离按三脚架张开修正定距离
+  （`t3_walls.py plates` → `t3_gdino_cpu.py` → `t3_mutual_multi.py ... camera_register.json`）。地面胶条、墙面、天花板三条路都
+  试过，因场地对称或共同视野不足没定下来，代码不在仓里（`~/v2d/tier3/scripts/`）。**ep21 所在机位还没配准。**（10-12 已配准，见 10-12 节。）
+- 兜底：焦距配置或地面校正里没有某集时显式降级（保留 CARI4D 焦距 / 退回相机系），打 FALLBACK 并写元数据。
+- GPU 队列：试点（4 集）与 8 集重新选物仍在等 rxzhou 的链结束（10-11 05:33 仍忙）。8 集重跑走 `t3_reselect.sh`，它的 world
+  步还是旧调用（不带配准），这 8 集都是主机位，结果不受影响。
+- 问题链的因果梳理在用户本地 `~/v2d/tier3/tier3-problem-chain-2026-10-11.md`（不进仓）。
+
+## 10-12：每帧配准试点结果、重选进度、12 集每帧配准排队（commit ac535c1）
+
+- **每帧配准试点**（`t3_fp_pilot.sh`，10-11 14:00–20:46，rc 0）：跟丢比例 ep03 0.259 → 0.041、ep27 0.713 → 0.218、
+  ep19 0.795 → 0.611、ep28 1.0 → 0.810。整集 1.2–2.0 h，主要花在 05 段（47–92 min）。结果 `runs/track_check_fp/`、
+  `runs/checks_fp/`、`runs/tier3_cari4d_fp_pilot_f830/`。ep19 / ep28 的物体检查仍然不过（IoU 0.32；IoU 0.21 + 质心偏移 35 px）。
+  掩码在关键帧叠加图上选对了物体（提示框 IoU 0.91–0.94），用户看过原视频，判断原因是细长物体加上遮挡和快速运动。
+- **重选进度**（`logs/t3_reselect.log`，截至 10-12 00:41）：ep01 1.0 → 0.534、ep06 无产出 → 0.068、ep10 1.0 → 0.0、
+  ep22（对照）0.0445 → 0.0431、ep03 0.259 → 0.328（比基线差，进 `_suspect`；它的每帧配准版是 0.041）。ep07 / 13 / 19 还在跑。
+  ep01 的新掩码是吸尘器（旧的是三脚架），物体检查只剩 IoU 0.35 不过，和 ep19 同一种形态。
+- **12 集每帧配准排队**（用户 10-12 定）：最好跟丢比例 ≥ 0.2、还没做过每帧配准的 12 集，顺序 ep13 04 11 25 01 02 17 16 09 15 29 07。
+  L40S 上第二个监视进程（`JOB=t3_fp_pilot.sh SKIP_BELOW=0.2 t3_gpu_watch.sh ...`，10-12 00:32 起）排在重选之后，
+  再等 rxzhou 安静 30 分钟。脚本改动：
+  - `t3_fp_pilot.sh`：重选后跟丢比例低于基线的集从 `runs/work_v2` 复制，否则从 `runs/work` 复制，日志记录来源；
+    `SKIP_BELOW` 在每集开跑前判最好跟丢比例；已有 `runs/track_check_fp/<ep>.json` 的集跳过。
+  - `t3_gpu_watch.sh`：JOB 以 rc 3 / 4 让卡退出后回到等待，空闲后用同一份列表重启（不再「试点剩下的集不会自动续」）。
+  - 验证：本地桩测试覆盖来源选择、两种跳过、rc 4 后重启；旧版在同一组数据上一集都不跳过。L40S 副本与仓里 md5 一致，
+    替换方式是写 `.new` 再 `mv`，正在运行的重选监视进程不受影响。
+- **第二机位配准（`eb8fef5`）**：`t3_fp_pilot.sh` 的 world 步原来不传 `camera_register.json`，第二机位的集（队列里 ep16、ep25，
+  试点做过的 ep28）会停在自己的相机系。现在默认带上 `runs/floor/camera_register.json`（`REGISTER=` 关闭，文件缺失时开跑前退出）。
+  ep28 已补跑 world + assemble（`logs/world_fp_ep28_squeegee_reg.log`）：`camera_register` 生效，物体位置中位与 simreg 版同集相差
+  约 0.2 m；跟丢检查重跑各项计数不变（0.8097）。未配准的旧输出与旧 track check 在 `runs/convert_fp_world_unreg_backup/ep28_squeegee/`。
+- **口径待统一**：上面「干净 13 集」含 ep29，它的跟丢比例 0.283；本次排队门槛是 0.2，ep29 在队列里。
+- **ep21 配准（`t3_corner_register.py`）**：现场是四角四台三脚架相机（主 A、第二 C 对角，两台侧面）；ep21 是侧面那台，从上往下
+  逆时针依次是主、ep21、第二机位、没用上的那台（用户看图判断，与第四个三脚架落在 C 旁灯架、墙面 NCC 0.382 对 0.351 一致）。
+  ep21 画面左右边缘的两个三脚架间距 5.88 m（A–C 5.84 m），两点拟合偏航 90.55°、t = (3.012, 2.895) m，残差 2 cm，写进
+  `camera_register.json` 的 `"2"` 组；镜像解（270.55°）记在同一条目的 `mirrored` 里。ep21 已重跑 world + assemble 进 simreg：
+  物体高度与倾角变化 0，动作中心离主机位中位 0.54 m（第二机位 5 集 0.29–0.56 m）。精度约平移 0.3 m、偏航 1°（推断）。
+  检测输入：`dev/walls/det_plate_ep21_*.json` 与 `dev/ep21/crops_det/`（500 px 左右边缘裁图上的 Grounding DINO，提示词 `tripod .`）。
+  备份 `runs/ep21_register_backup_1012/`。
+- 尺度核对：`runs/camera_groups/camera_height_C.json` 的高度 0.81 m、地平线第 669 行是错的（按它 A–C 间距 6.88 m、正前方那台
+  43.8 m；我们的世界系给 5.89 m、6.05 m）。这个文件的 `event_rows` 是 ep21 地面拟合的输入（`t3_floor_fit.py`、`t3_floor_check.py`
+  都读），怎么清理待用户定。（用户定：只删错的字段，保留 `event_rows`；已删，原文件备份在同一备份目录。）
+- 下一步：重选和每帧配准都跑完后，逐集选版本（基线 / 重选 / 每帧配准），从同一条链组装交付版。
+
+## 10-12 白天：ep06 进 simreg、地面守卫、支撑面、IoU 判据（commit d32fe02、df41fab..a2a6620、4787273）
+
+- **simreg 现在 30 集**（正式 21 + suspect 9）：ep06 只有重选版，`convert_v2/ep06_monitor` 复制到 `runs/convert/` 后组装进 simreg，
+  位姿与 v2sel 逐值相同。
+- **规则（用户定）**：Tier 3 可用官方网格与地面平面的 `plane` 字段；**不用官方 `support_surface/`**（它是放在干净物体每次静止
+  位置下面的碰撞垫，等于泄露静止段位置），也不读地面文件的 `foot_plane_dist_stats`（由干净人体脚部算出）。守卫：`t3_inputs.py`
+  是唯一读取入口，只放行纯 `plane` 文件；`input/ground_plane/` 已清理成只有 `plane`；`probe_ground_plane_guard.py` 改动前红、改动后绿。
+- **支撑面**（`t3_support.py`，结果 `runs/support/tier3_cari4d_f830_simreg/`）：物体静止段（15 帧窗口内离中位 ≤ 5 cm，只看物体，
+  不看手）离地的作候选；MoGe（`dev/walls/moge_*.npz`，30 集已跑）只判「下面有没有表面」并按表面分组，高度取物体的；同一表面
+  上没离开过表面（±5 cm，9 帧中值滤波）的相邻静止段合成一次放置。跟踪干净的集与用户看视频一致（ep06/07/16/20/25）；ep02、ep13
+  有错段，来自跟踪（suspect）。**用户定：等逐帧配准结果出来再定支撑面与物体高度后处理**（方案：Δz 贴合放置段 + 防穿透，
+  手拿着时人物一起抬；未实现）。
+- **simreg 与 f830 的物体高度差最大 5.6 mm**（只改了人体缩放和水平配准）。rxzhou 量到间隙只差 0.9 mm 与此一致；ep12/ep14 的
+  穿入是物体位姿本身的问题，要靠后处理，不是换版本。
+- **IoU 判据改为两边轮廓各膨胀 5 px**（`t3_object_check.py` 的 `DILATE_PX`，跟丢检查同用）：细长物体错开几个像素不再判丢；
+  好/丢参照不变（ep20 0.89→0.90，ep01 0.03→0.07）。`t3_recheck_all.sh` 重算了三个版本的全部检查（旧结果 `runs/rawiou_backup_1012/`），
+  **此前文档里的跟丢比例都是旧口径**。新口径下最好跟丢比例 < 0.1 的 16 集；ep19 每帧配准版 0.39（物体检查通过），ep11 书 0.55
+  是真跟丢（书放到地上后重建仍悬在手边，叠加图 `~/v2d/tier3/viz/ep11_overlays.jpg`）。
+- **GPU 队列（10-12 06:38）**：重选 8 集 02:50 跑完；每帧配准 03:20 起，ep13 完成（0.83/0.77 → 0.24），ep04 在跑，之后
+  ep11 25 01 02 17 16 09 15 29，ep07 将被跳过（0.012）。预计 10-12 18:00 – 10-13 01:00 跑完（推断）。日志 `logs/t3_fp_pilot.log`。
+- 下一步：每帧配准跑完 → 逐集选版本组装 → 重跑物理检查与 `t3_support.py` → 再定物体高度后处理。
+
+## 10-13：判据修正、逐集选版本组装 `tier3_cari4d_f830_best`（commit 3511d42、58ed198 及本节提交）
+
+- **关节索引错位**：SOMA `_public_joint_names` 第 0 个是 `Root`，`soma_cv` 的关节数组从 `Hips` 起，旧代码按名字下标取关节，
+  「手」漏两腕、多算右肩与左髋；feet diag 的 pelvis 实为 `Spine1`。`t3_world_probe.py` 的 `soma_joint_names` / `contact_joints`
+  是唯一入口，track check 与 physics check 共用。蒙皮权重有 `Root` 列，仍用全表。
+- **接触关节**：手；任务文本含 foot/feet 的集（只有 ep13、ep29，用户人眼确认）加脚。三版 52 份 track check 全部重算（旧结果
+  `runs/trackcheck_backup_1012_joints/`），physics 4 版与 feet diag 重算（旧结果 `runs/physics_backup_1013_joints/`；
+  `f830_simreg_pre1012` 无源未重算）。ep29 0.28 → 0.00（基线）/ 0.02（fp），ep13 fp 0.24 → 0.15。
+- **ep19 握点解法**（用户定）：跟丢段里握点取 SOMA 手掌中心、杖尖取掩码最远端、杖长取网格，解出朝向替换 CARI4D；fp 0.388 → 0.218。
+  代码与说明在 L40S `dev/pivot_ep19/`（`pivot_probe.py`，`OCCL=0`、不滑动；副本随数据放在 `runs/convert_pivot/ep19_cane/pivot_probe.py.txt`），
+  未进仓。握点沿视线滑动（0.247）与遮挡规则（0.227）都更差，没采用。ep28 只到 0.64：二维距离判手持误把靠凳子的帧算进去、
+  刮板绕杆的转角不可观测、486–924 背对相机只露刮板。用户否定了长段插值与「锁在手上」（甩动时手腕几乎不动）。
+- **新版本 `runs/tier3_cari4d_f830_best{,_suspect}`**（`t3_assemble_best.sh`，`OVERRIDE="ep19_cane=convert_pivot"`）：每集取跟丢比例最低的
+  版本，选择记录在 `runs/tier3_cari4d_f830_best.selection.json`。基线 12 集、重选 4 集（ep06/07/10/22）、每帧配准 13 集、ep19 握点版；
+  正式 29 集，suspect 只剩 ep28。三个版本的 world 步一致（同一 floor_fit sha、身体缩放、第二机位配准），可以混用。
+- **物理检查 simreg → best**：unheld_motion 3073 → 501、pose_jump 682 → 126、acceleration_spike 234 → 16；物体穿地 1461 → 2230
+  （ep10 0 → 393、ep02 65 → 203、ep13 0 → 76 等：物体现在跟到了地上，穿地要靠高度后处理）。ep19 的 pose_jump 27 → 35、
+  acceleration_spike 0 → 12，来自握点段与 CARI4D 段的接缝。支撑面已对 best 重算：`runs/support/tier3_cari4d_f830_best/`。
+- 下一步：定物体高度后处理（Δz 贴合放置段 + 防穿透）；ep28 后半段能否用、ep19 放地段交给后处理；交付 best 给 rxzhou（他的打包路径要改）。
+
+### 10-13 下午：物体高度后处理 `tier3_cari4d_f830_best_h`
+
+- **规则（用户定）**：Tier 3 不用官方支撑面；支撑面一律来自 `t3_support.py`。
+- `t3_height_post.py`：只沿地面法向平移物体（水平位置、朝向、人体不动）。静止段逐帧贴合（地面静止段最低点贴地，支撑面放置段贴
+  支撑面高度），段与段之间线性插值，再做不穿地、不穿支撑面的钳制。第一版「每个放置段一个平移量」保留了段内抖动，地面静止段里
+  最低点离地仍可达 10 cm（ep14/18/28），改为逐帧；第一版产物在 L40S `dev/rerun_1013/best_h_v1/`。
+- **自验（best → best_h）**：物体穿地 2230 → 0 帧；支撑面放置段偏差最大 17 → 0 mm，支撑面穿入 67 → 17 帧；地面静止段里离地
+  > 30 mm 的只剩段首尾 1–4 帧（都是手正在拿放）；无接触移动 501 → 486、跳变 126 → 135（ep19 +2、ep28 +7）、加速度尖峰 16 → 18；
+  手接触占比只有 ep02（0.743 → 0.731）和 ep28（0.475 → 0.449）变化超过 1 个百分点。逐集平移量与手持帧平移量在
+  `runs/tier3_cari4d_f830_best_h.height_post.json`。
+- 手持帧里物体平移、人不动，手-物竖直关系变了：p95 多数 30–70 mm，ep02 85、ep16 89、ep28 168 mm。已定让人体跟着平移，见下一节。
+
+## 10-13 晚：交付 `tier3_cari4d_f830_best_hm`，支撑面，门槛自测（本节提交）
+
+- **用户定**：交付 `best_hm`；支撑面一起交，用我们的；脚陷地交给机器人腿部 IK（用户与 rxzhou 一致：地面文件只负责把人和物一起放平到
+  z=0，脚对不上改机器人脚的 IK；v0.4.0 重定向本来就只平移机器人脚目标）。ep28 稍后单独分析（重建与跟踪仍有问题）。
+- `t3_height_post.py --move-human`：手持帧（`best` 的 physics check，接触关节 10 cm 内）人体根平移加上物体的平移量，前后各 20 帧渐变，
+  再做 σ=5 帧的时间平滑（不平滑时 ep19、ep28 人会一帧跳 20 cm）。`observation.human.translation` 在 SOMA 轴（与 OpenCV 差
+  diag(1,-1,-1)），第一版直接加了 OpenCV 的法向，人往反方向动；**L40S 10-13 03:38 CST（10-12 13:38 UTC−6）之前写出的 `best_hm` 是这一版，
+  已作废**（留在 `$T/dev/hm_bad_1013/`）。不加 `--move-human` 时输出与 `best_h` 逐列相同。
+- **自验（best_h → best_hm，physics）**：手持帧里脚高变化与物体高度变化之差 p95 的中位 6 mm（ep28 65 mm），方向一致 99–100%（作废版 75 mm、0%）；
+  手接触占比恢复到 `best` 的水平（ep02 0.731 → 0.743、ep28 0.449 → 0.470）；脚入地帧 5389 → 5409、脚悬空帧 1963 → 2173。
+- **rxzhou 的门槛在我们这边跑**（`stages/recovery/tier3/gate/`，见其 README）：他的代码 f0ac98f 不改，CPU，py3.11 venv 照他镜像的版本；
+  对照 simreg ep0/9/15 与他的记录逐字段相同。结果（`L40S /lab_data/<其他用户>/v2d/gate/logs/p2_{bh,bhm}.txt`）：
+  - 官方支撑面：`best_h`、`best_hm` 都 28/30 过，ep3、ep25 悬空（755、791 mm：官方桌面不在物体下面），无重定向失败。
+  - 我们的支撑面（`support_recheck.sh`）：两版都 30/30 间隙在 30 mm 内，ep3/6/7/20/25 落在我们的桌面上。
+  - 地面集间隙都是 0.0 mm，这是高度后处理把静止段贴地的直接结果，不说明重建对不对。高度后处理之前的 `best`（只跑了 ep0–8）
+    间隙 −23 到 −74 mm，只有 ep0 过。
+  - `best_h` → `best_hm`：手接触帧（不含 ep28）16728 → 17848，16 集增加、ep6/ep19 减少；IK 误差中位 0.743 → 0.762（有增有减）；
+    机器人脚目标的竖直偏移最大幅度变大的有 ep28（−0.33 m）、ep19（−0.14）、ep10、ep01、ep02（约 −0.12）；两版机器人脚底最低点都在
+    0–6 mm。腿姿被拉成什么样，门槛看不出来。
+- **支撑面**：`gate/t3_support_usda.py` 用上游函数算每集的 `g1_retarget_world`（依赖这一版的人体第 0 帧），写成官方同格式的 usda（不旋转
+  Cube 薄板，2 cm 厚，xy 外接框）。逐集与门槛重定向输出的物体位姿比对，30 集残差最大 1e-7 m；去掉第 0 帧锚定的变异 30 集全部被拒。
+  文件在 `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}/support_surface/`，路径与元数据 `support_surface` 字段一致（12 集有桌面，ep28 也有）。
+- **给 rxzhou**：交付目录 `tier3_cari4d_f830_best_hm`（正式 29 集）与 `_suspect`（ep28）。支撑面从这两个目录的 `support_surface/` 取，
+  不再从官方 Tier 2 目录取；地面文件我们这边只留 `plane`。门槛结果在上面，他复跑时可对照。
+- 未完成：ep28 分析；`$T/code/DEPLOYED` 仍写 ae06e75（之后的文件逐个 scp 部署）。
+== gate/README.md
+# rxzhou 的训练前门槛（P2′），在我们这边用 CPU 跑
+
+用途：交付一个 Tier 3 版本之前，先用 rxzhou 自己的门槛代码判一遍，不占他的机器和时间。门槛是他的
+`stages/retarget/eps.sh`（转换 → v0.4.0 重定向 → 对齐检查）加 `p2_table.py`：重定向后物体静置时
+|间隙| ≤ 30 mm 且至少一只手有接触算过，ep29（用脚推）只看间隙。
+
+他在 mf4090 上用 Isaac 镜像 `robotic-grounding:latest` 跑，但默认不占 GPU，重定向只用到 pinocchio / pink /
+soma / pxr。这里在一个 py3.11 venv 里装同样的版本，他的代码一行不改，只把 `scripts/dev/incontainer`
+换成本目录的同名脚本（不起容器，`/repo` 映射到 checkout）。
+
+## 对照（10-13）
+
+用他 simreg 那轮的三集（ep0/9/15，parquet sha256 与他的记录相同）复跑：间隙、左右手接触帧、IK 中位、
+最近的面、状态与他的 `results/t3simreg/retarget17_mf4090.txt` 逐字段相同。环境与镜像的差别只有 numpy
+（2.3 对 1.26，pin 3.7.0 的 wheel 要求）。
+
+## 文件
+
+| 文件 | 作用 |
+|---|---|
+| `setup.sh` | 搭环境：他的某个 commit（stdin 传 tar）、上游 v0.4.0（含 LFS）、SOMA 资产链接、venv |
+| `incontainer` | 替换他 checkout 里的 `scripts/dev/incontainer` |
+| `mkroot.py` | 从一个版本目录拼他的档目录 `runs/tier3/root_<set>`；地面默认用我们清洗过的 `plane` |
+| `run_parallel.sh` | 把没跑完的集分给 W 个 `eps.sh` 并行（nice 10，转换步限 3 线程） |
+| `mkrecord.sh` | 把各集结果拼成 `p2_table.py` 要的记录 |
+| `t3_support_usda.py` | 我们的支撑面写成 usda（`g1_retarget_world`），交付用，见下 |
+| `support_recheck.sh` | 换一套支撑面重判间隙（重定向不读支撑面，不用重跑） |
+
+## 支撑面
+
+Tier 3 不用官方 `support_surface/`：它只在 Tier 1、Tier 2 目录里，Tier 3 没有发布输入（kit `tracks.json`
+的 `input_path` 为空），Kaggle 规则 2.8.c 禁止用更容易档位的输入；它的位置也来自干净采集（放在干净物体每次
+静止的位置下面，坐标系锚在发布人体的第 0 帧上）。
+
+`t3_support_usda.py` 把 `t3_support.py` 的支撑面换算进重定向的世界系：OpenCV → SOMA 轴、第 0 帧人体根节点
+锚定、地面找平、换机器人轴，全用上游函数算（`soma_to_g1.py` 359–466 行），所以文件要和交付的人体数据配套生成。
+有这一版的门槛输出时，逐集用同一个变换复算物体第 0 帧位姿并与重定向输出比对，超过 0.1 mm 就拒绝。格式与官方
+文件相同：每个支撑面一块不旋转的 Cube 薄板（2 cm 厚，世界系 xy 外接框，顶面在支撑面高度）。
+
+## 用法
+
+```bash
+# 搭环境（一次）
+git archive <rxzhou commit> libs stages scripts tools third_party | ssh <host> "<本目录>/setup.sh <commit>"
+# 一个版本过门槛
+python mkroot.py $G/repo <set> - $T/runs/<version>,$T/runs/<version>_suspect
+run_parallel.sh <set> 4                      # 结束后各 logs/<set>_w*.txt 有 EPS_DONE
+mkrecord.sh <set> > logs/rec_<set>.txt
+$G/venv/bin/python $G/repo/stages/retarget/p2_table.py logs/rec_<set>.txt --no-contact 29
+# 我们的支撑面
+PYTHONPATH=$G/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding \
+  $G/venv/bin/python t3_support_usda.py $G/repo <set> $T/runs/support/<support version> $T <out dir>
+support_recheck.sh <set> <out dir>
+```

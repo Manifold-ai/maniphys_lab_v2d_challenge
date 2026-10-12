@@ -6,6 +6,8 @@
   3. 整个场景绕相机 x 轴转 2°：判读“倾角型”，俯仰约 2°
   4. 端到端：parquet、元数据（tier3_pack_remote.sh 的布局）、网格、地面与支撑面写进临时目录，跑 main()，输出里有每集一行、判读与结束标记；
      再加 --all-rest --offset-gate 30 跑一次：地面上 8 集的间隙约 +99 mm，打 OFFSET_GATE_FAIL，不再标“事后（未登记）”
+  6. --support-root（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：支撑面只放在转来的目录里、官方 Tier 2 目录里没有：加 --support-root 时
+     4 集判在 0.7 m 的桌面上、第一行写明支撑面的目录；不加时读官方目录、找不到文件就报错
   5. --offset-gate 的判据（agent-doc/plan-t3-pilot-v2-2026-10-10.md 第 4 节）：地面上 14 集、偏移 +20 mm 时门槛 30 过、15 不过；
      偏移 −40 mm 时 30 不过；地面上只有 7 集时不判读
 用法：scripts/dev/incontainer stages/recovery/test_t3_float_facts.py
@@ -129,6 +131,40 @@ def test_end_to_end():
             assert F.main([str(root), "--tier2", str(t2), "--all-rest"]) == 0
         text = buf.getvalue()
         assert "事后（未登记）" in text and "OFFSET_GATE" not in text, text
+
+
+def test_support_root():
+    with tempfile.TemporaryDirectory() as d:
+        d = Path(d)
+        t2, root = d / "tier2", d / "pack"
+        (t2 / "mesh" / "box").mkdir(parents=True)
+        BOX.export(t2 / "mesh" / "box" / "box.obj")
+        (t2 / "ground_plane").mkdir()
+        (root / "data" / "chunk-000").mkdir(parents=True)
+        (root / "meta").mkdir()
+        (root / "support_surface").mkdir()
+        for ep, (x, z, top) in enumerate(SPOTS):
+            seq = f"seq{ep}"
+            (t2 / "ground_plane" / f"{seq}.json").write_text(json.dumps({"plane": PLANE}))
+            (root / "support_surface" / f"{seq}_support.usda").write_text(TABLE)
+            meta = {"episode_index": ep, "object": "box", "mesh": "mesh/box/box.obj", "ground_plane": f"ground_plane/{seq}.json",
+                    "support_surface": f"support_surface/{seq}_support.usda"}
+            (root / "meta" / f"episode_{ep:06d}.metadata.json").write_text(json.dumps(meta))
+            p = poses(x, z, top)
+            pq.write_table(pa.table({"observation.object.pose": p.tolist(), "observation.object.visible": [True] * len(p)}),
+                           root / "data" / "chunk-000" / f"episode_{ep:06d}.parquet")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            assert F.main([str(root), "--tier2", str(t2), "--support-root", str(root), "--all-rest", "--offset-gate", "30"]) == 0
+        text = buf.getvalue()
+        assert text.splitlines()[0].startswith(f"目录 {root}；官方 Tier 2 {t2}；支撑面 {root}；"), text
+        assert "在地面上 8，在支撑面上 4" in text and "OFFSET_GATE_PASS" in text, text
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                F.main([str(root), "--tier2", str(t2), "--all-rest"])
+            raise AssertionError("官方目录里没有支撑面，应当报错")
+        except FileNotFoundError:
+            pass
 
 
 def test_offset_gate():

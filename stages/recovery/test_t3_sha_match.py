@@ -3,6 +3,8 @@
   2. 一集不同、一集不在 A 段记录里：SHA_MISMATCH，退出码 1
   3. --inputs：“输入”行的 md5 与 Tier 2 记录相同打 INPUTS_SAME，不同打 INPUTS_DIFF，都不影响退出码与最后一行
   4. A 段记录没有结束标记、B.1 记录一行也取不到：报错
+  5. --pack（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md，审查 3）：A 段转发记录里支撑面的前 12 位与 B.1 的支撑面行相同打 SUPPORT_MATCH，
+     最后一行仍是 SHA_MATCH；一份不同、或只在一边：最后一行 SUPPORT_MISMATCH，退出码 1；转发记录里一行支撑面也没有：报错
 用法：python3 stages/recovery/test_t3_sha_match.py
 """
 import subprocess
@@ -74,6 +76,38 @@ def test_bad_inputs_refuse():
     assert p.returncode != 0 and "没有结束标记" in p.stderr, p.stdout + p.stderr
     p = run("== 空\n", a_phase())
     assert p.returncode != 0 and "一行 parquet 的 sha256 也没取到" in p.stderr, p.stdout + p.stderr
+
+
+U0, U3 = "aa11bb22cc33" + "2" * 52, "dd44ee55ff66" + "3" * 52
+
+
+def b1_sup(u0: str = U0, u3: str = U3) -> str:
+    text = b1((0, S0), (3, S3))
+    for ep, u in ((0, u0), (3, u3)):
+        anchor = f"meta/episode_{ep:06d}.metadata.json\n"
+        text = text.replace(anchor, anchor + f"可读 441 字节 2026-10-13 05:08:32.1 sha256 {u} support_surface/s{ep}_support.usda\n")
+    return text + f"## support_surface/support_usda.json sha256 {'e' * 64}\n"
+
+
+def run_pack(b1_text: str, pack_text: str):
+    with tempfile.TemporaryDirectory() as t:
+        b, a, k = Path(t) / "b1.txt", Path(t) / "a.txt", Path(t) / "pack.txt"
+        b.write_text(b1_text, encoding="utf-8")
+        a.write_text(a_phase(), encoding="utf-8")
+        k.write_text(pack_text, encoding="utf-8")
+        return subprocess.run([sys.executable, str(HERE / "t3_sha_match.py"), str(b), str(a), "--pack", str(k)], capture_output=True, text=True)
+
+
+def test_pack_supports():
+    pack = "## 支撑面 2 个：文件名、sha256 前 12 位\nsupport_surface/s0_support.usda aa11bb22cc33\nsupport_surface/s3_support.usda dd44ee55ff66\nT3_FLOAT_PACK_DONE\n"
+    p = run_pack(b1_sup(), pack)
+    assert p.returncode == 0 and "SUPPORT_MATCH 2/2" in p.stdout and p.stdout.rstrip().endswith("SHA_MATCH 2/2"), p.stdout + p.stderr
+    p = run_pack(b1_sup(u3="0" * 64), pack)
+    assert p.returncode == 1 and p.stdout.rstrip().splitlines()[-1].startswith("SUPPORT_MISMATCH 1 个：support_surface/s3_support.usda"), p.stdout
+    p = run_pack(b1_sup(), pack.replace("support_surface/s3_support.usda dd44ee55ff66\n", ""))
+    assert p.returncode == 1 and "SUPPORT_MISMATCH" in p.stdout and "s3_support.usda\t-\tdd44ee55ff66\tNO" in p.stdout, p.stdout
+    p = run_pack(b1_sup(), "## 支撑面 0 个\nT3_FLOAT_PACK_DONE\n")
+    assert p.returncode != 0 and "一行支撑面也没取到" in p.stdout + p.stderr, p.stdout + p.stderr
 
 
 if __name__ == "__main__":

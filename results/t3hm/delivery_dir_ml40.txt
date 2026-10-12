@@ -1,0 +1,66 @@
+# command  : ssh -n -o BatchMode=yes -o ConnectTimeout=15 ml40 $'me=$(id -un); mapfile -t r < <(ls -d /lab_data/*/v2d/tier3 2>/dev/null | grep -v "^/lab_data/$me/"); [ ${#r[@]} = 1 ] || { echo "�\233��\225�\215�\255��\200个�\210\226没�\234\211�\232${#r[@]}"; exit 1; }; cd "${r[0]}/runs" && date "+%F %T %Z" && for d in tier3_cari4d_f830_best_hm tier3_cari4d_f830_best_hm_suspect; do echo "== $d"; stat -c "%y %n" $d $d/data/chunk-000 $d/meta $d/support_surface 2>&1 | sed "s/\\.[0-9]* +0800/ CST/"; echo "parquet $(ls $d/data/chunk-000 2>/dev/null | wc -l)�\233meta �\213 $(ls $d/meta 2>/dev/null | wc -l) 个�\233support_surface �\213 $(ls $d/support_surface 2>/dev/null | wc -l) 个"; ls $d/meta | head -3; ls -l --time-style=+%m-%d_%H:%M $d/support_surface 2>/dev/null | awk "NR>1{print \\$5, \\$6, \\$7}"; done; ls -d tier3_cari4d_f830_best* | sed "s/^/�\233��\225 /"' 
+# source   : 6e8de6f70a2b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T15:33:16-0600
+# ---------------------------------------------------------------
+2026-10-13 05:33:16 CST
+== tier3_cari4d_f830_best_hm
+2026-10-13 05:08:31 CST tier3_cari4d_f830_best_hm
+2026-10-13 03:38:47 CST tier3_cari4d_f830_best_hm/data/chunk-000
+2026-10-13 03:38:47 CST tier3_cari4d_f830_best_hm/meta
+2026-10-13 05:08:32 CST tier3_cari4d_f830_best_hm/support_surface
+parquet 29；meta 下 29 个；support_surface 下 30 个
+episode_000000.metadata.json
+episode_000001.metadata.json
+episode_000002.metadata.json
+441 10-13_05:08 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+124 10-13_05:08 2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+441 10-13_05:08 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+124 10-13_05:08 2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+442 10-13_05:08 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+124 10-13_05:08 2026-04-25_17-20-04_black_platform_turn_05_support.usda
+442 10-13_05:08 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+124 10-13_05:08 2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda
+441 10-13_05:08 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+124 10-13_05:08 2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+441 10-13_05:08 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+124 10-13_05:08 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda
+124 10-13_05:08 2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+124 10-13_05:08 2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+124 10-13_05:08 2026-05-19_10-19-48_cane_swing_05_support.usda
+124 10-13_05:08 2026-05-22_16-52-36_step_ladder_drag_03_support.usda
+124 10-13_05:08 2026-05-28_14-44-09_round_table_flip_08_support.usda
+441 10-13_05:08 2026-05-29_15-20-43_iron_round_table_02_support.usda
+124 10-13_05:08 2026-05-29_15-43-20_watering_can_pour_right_02_support.usda
+441 10-13_05:08 2026-06-01_11-26-44_monitor_rotate_05_support.usda
+442 10-13_05:08 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+124 10-13_05:08 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+124 10-13_05:08 2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda
+442 10-13_05:08 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+124 10-13_05:08 2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda
+124 10-13_05:08 2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda
+124 10-13_05:08 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda
+441 10-13_05:08 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+442 10-13_05:08 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+7071 10-13_05:08 support_usda.json
+== tier3_cari4d_f830_best_hm_suspect
+2026-10-13 05:08:32 CST tier3_cari4d_f830_best_hm_suspect
+2026-10-13 03:38:47 CST tier3_cari4d_f830_best_hm_suspect/data/chunk-000
+2026-10-13 03:38:47 CST tier3_cari4d_f830_best_hm_suspect/meta
+2026-10-13 05:08:32 CST tier3_cari4d_f830_best_hm_suspect/support_surface
+parquet 1；meta 下 1 个；support_surface 下 2 个
+episode_000028.metadata.json
+441 10-13_05:08 2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+7071 10-13_05:08 support_usda.json
+目录 tier3_cari4d_f830_best
+目录 tier3_cari4d_f830_best_h
+目录 tier3_cari4d_f830_best_hchk
+目录 tier3_cari4d_f830_best_hchk.height_post.json
+目录 tier3_cari4d_f830_best_hchk_suspect
+目录 tier3_cari4d_f830_best_h.height_post.json
+目录 tier3_cari4d_f830_best_hm
+目录 tier3_cari4d_f830_best_hm.height_post.json
+目录 tier3_cari4d_f830_best_hm_suspect
+目录 tier3_cari4d_f830_best_h_suspect
+目录 tier3_cari4d_f830_best.selection.json
+目录 tier3_cari4d_f830_best_suspect

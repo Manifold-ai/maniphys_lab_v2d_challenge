@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep21-w2048-cap4m-r3a-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : df876eb3e63a
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-13T05:45:13+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep21-w2048-cap4m-r3a-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/policy_349999104.safetensors  sha256 1b7465db214ea67b…
+  environment_steps 349999104  world_count 4096  step_count 678  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.5559894708053904
+  chord_sr                                       0.871337890625
+  maniptrans_sr                                  0.80615234375
+  spider_sr_uncentered                           0.915771484375
+  mppe_cm                                        8.279388758020097
+  mean_add_m                                     0.10041230307246016
+  object_position_error_m                        0.0821338968347131
+  object_orientation_error_deg                   14.266148620708798
+  termination_cause_fraction (legacy object-centric) {'object': 0.090576171875, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.871337890625
+  reference_tracking.failure_cause_fraction      {'object': 0.090576171875, 'palm': 0.125732421875, 'pelvis': 0.084716796875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.5559894708053904, "checkpoint": "/repo/runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "1b7465db214ea67b33c21e741aafe47a4a33b8cb13a8f2b63f3a7f2d8e43a818", "chord_sr": 0.871337890625, "environment_steps": 349999104, "maniptrans_sr": 0.80615234375, "mean_add_m": 0.10041230307246016, "mppe_cm": 8.279388758020097, "object_orientation_error_deg": 14.266148620708798, "object_position_error_m": 0.0821338968347131, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.090576171875, "palm": 0.125732421875, "pelvis": 0.084716796875}, "reference_end_fraction": 1.0, "success_rate": 0.871337890625}, "spider_sr_uncentered": 0.915771484375, "step_count": 678, "world_count": 4096}

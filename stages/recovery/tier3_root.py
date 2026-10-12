@@ -12,8 +12,11 @@ meta/episode_<N>.metadata.json（同组成员的转换脚本每集写一份，�
   stages/retarget/challenge_to_soma.py 转 Tier 3 时把这一集的那份写进 v2d_meta.json，审查 m5）。
   规则解读未确认：Tier 3 用 Tier 2 目录里的官方网格、地面平面与支撑面（同组成员的重建也用了前两者），正式做 Tier 3 前要问组委会。
 同一集已在 root 里：parquet 与元数据都相同就跳过，不同就拒绝。相对路径必须留在各自目录里（不许绝对路径与 ..）。
+--support-from-incoming（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md：Tier 3 不用官方支撑面）：支撑面改从 <incoming>/<相对路径> 复制
+  （tier3_pack_remote.sh 设 V2D_T3_SUPPORT=delivery 时打进 tar 的交付目录里的文件），按哈希表核（表里是 B.1 记录的 sha256）；
+  provenance 每集另记 support_source = incoming 与 support_sha256，tier2_md5 只有网格与地面，note 照实写来路。不加时输出与以前相同。
 开头调 tier_guard.forbid_tier1()：本进程读不到 Tier 1 的任何文件。
-用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> --expect <表> [--root <输出>] [--tier2 <官方 Tier 2 目录>]
+用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> --expect <表> [--root <输出>] [--tier2 <官方 Tier 2 目录>] [--support-from-incoming]
 测试：stages/recovery/test_tier3_root.py。
 """
 import argparse
@@ -69,7 +72,7 @@ def deployed(incoming: Path) -> dict:
     return {"commit": m.group(0), "clean": "dirty=0" in text}
 
 
-def plan(incoming: Path, root: Path, tier2: Path, expect: dict) -> tuple:
+def plan(incoming: Path, root: Path, tier2: Path, expect: dict, support_from_incoming: bool = False) -> tuple:
     """核对并列出要写的文件（源 → 目标）、metadata 行与来源；不写任何东西。"""
     metas = sorted((incoming / "meta").glob("episode_*.metadata.json"))
     if not metas:
@@ -116,13 +119,18 @@ def plan(incoming: Path, root: Path, tier2: Path, expect: dict) -> tuple:
             copies.append((src_pq, dst_pq))
         for k in LINKED:
             rel = safe_rel(row[k])
-            src = tier2 / rel
+            from_inc = support_from_incoming and k == "support_surface"
+            src = (incoming if from_inc else tier2) / rel
             if not src.is_file():
-                raise SystemExit(f"tier3_root: ep{ep} 的 {k} 在官方 Tier 2 目录里没有：{src}")
-            info["tier2_md5"][k] = check(str(rel), src)
+                raise SystemExit(f"tier3_root: ep{ep} 的 {k} 在{'转来的目录' if from_inc else '官方 Tier 2 目录'}里没有：{src}")
+            if from_inc:
+                info["support_source"] = "incoming"
+                info["support_sha256"] = check(str(rel), src)
+            else:
+                info["tier2_md5"][k] = check(str(rel), src)
             dst = root / rel
             if dst.exists() and digest(dst, "sha256") != digest(src, "sha256"):
-                raise SystemExit(f"tier3_root: {dst} 已存在且与官方文件不同")
+                raise SystemExit(f"tier3_root: {dst} 已存在且与{'转来的文件' if from_inc else '官方文件'}不同")
             if not dst.exists():
                 copies.append((src, dst))
         rows[ep] = row
@@ -140,8 +148,9 @@ def main(argv=None) -> int:
     ap.add_argument("--expect", type=Path, required=True)
     ap.add_argument("--root", type=Path, default=TIER3)
     ap.add_argument("--tier2", type=Path, default=TIER2)
+    ap.add_argument("--support-from-incoming", action="store_true")
     a = ap.parse_args(argv)
-    copies, rows, prov = plan(a.incoming, a.root, a.tier2, load_expect(a.expect))
+    copies, rows, prov = plan(a.incoming, a.root, a.tier2, load_expect(a.expect), a.support_from_incoming)
     for src, dst in copies:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)
@@ -154,8 +163,10 @@ def main(argv=None) -> int:
     pj = meta / "provenance.json"
     old = json.loads(pj.read_text()) if pj.exists() else {}
     episodes = {**old.get("episodes", {}), **{ep: dict(info, expect=str(a.expect)) for ep, info in prov.items()}}
-    pj.write_text(json.dumps({"note": "Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面、支撑面取自官方 Tier 2 目录（规则解读未确认）",
-                              "episodes": episodes}, ensure_ascii=False, indent=1) + "\n")
+    note = ("Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；"
+            "支撑面取自同组成员的交付目录（转来的文件，sha256 核过）" if a.support_from_incoming
+            else "Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面、支撑面取自官方 Tier 2 目录（规则解读未确认）")
+    pj.write_text(json.dumps({"note": note, "episodes": episodes}, ensure_ascii=False, indent=1) + "\n")
     print(f"写 meta/episodes_metadata.jsonl（{len(rows)} 行：{', '.join(f'ep{e}' for e in sorted(rows))}）与 meta/provenance.json")
     for ep in sorted(prov, key=int):
         print(f"ep{ep} 来源：parquet 在对方的修改时间 {prov[ep]['source_parquet_mtime_utc']}，转发时对方的部署版本 {prov[ep]['deployed_at_staging']}"

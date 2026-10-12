@@ -243,7 +243,8 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   第一条冒烟 ep9。ml40 空闲，按 10/12 的决定不再预约。
 - 11:44 交付版写明，mf4090 写停链标记（`results/t1x/stop_t1xa_after_ep17_mf4090.txt`）。
 - 13:11 t1xa 三条链结束：DAY2_TRAIN_DONE（完成 1）、DAY2_EVAL_DONE（成功 1）、EXPORT_CHAIN_DONE（成功 1、失败 6，失败的 6 条没开正式训练，照第 2 节的读法不算异常）；
-  ep17 的 4096 世界 MP-SR 0、ADD-AUC 0.290（`results/t1x/end_t1xa_mf4090_1012_1311.txt`）。停链标记已删（`results/t1x/unstop_t1xa_mf4090.txt`）。
+  ep17 的 4096 世界 MP-SR 0、ADD-AUC 0.290（`results/day2/eval_t1-ep17-w2048-cap4m-r3a-mf4090_s349999104.txt`；10/12 15:55 更正出处：原先引的
+  `results/t1x/end_t1xa_mf4090_1012_1311.txt` 是链的状态快照，里面没有这两个数，评测记录当时没拉回 Mac）。停链标记已删（`results/t1x/unstop_t1xa_mf4090.txt`）。
 - 13:20 续跑段 `t1xa2` 生成（ep21、10、13、19、3、14）：四份队列与导出清单去掉 ep17 后与 t1xa 逐行相同（`results/t1x/queue_t1xa2_vs_t1xa.txt`）。
 - **t1xa2 提前到门槛复查期间起链**（10/12 用户授权代为决定）。第 2 节原写“门槛复查之后……还没定就先续 t1xa2”，这次改为复查第 6 步拼目录通过后就起链，
   与第 7 步重定向同时跑。理由：
@@ -254,3 +255,10 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   4. 磁盘：现在可用 8245 MB；拼目录约 0.4 GB、重定向约 2.5 GB、t1xa2 约 2.2 GB（6 × 360 MB），合计约 5.1 GB，剩约 3.1 GB，高于 1200 MB 的训练下限（估计）。
   5. GPU 早用约 2 小时，t1xa2 预计 10/13 04:30 前后结束（估计）。
   起链前照 t1xa 的做法跑配置展开与预演；拼目录不过就先不起，查清再说。
+- 15:30 前后检测到交接写明最终交付版 `tier3_cari4d_f830_best_hm`（分支 d7aae27，`results/t3hm/handoff_1012_1530.txt`）。按第 2 节“A 与 D 的冲突”
+  （同样适用于 t1xa2）15:31 建停链标记（`results/t1x/stop_t1xa2_after_ep21_mf4090.txt`），在训的 ep21 训完就停。
+- 15:51 t1xa2 三条链结束：DAY2_TRAIN_DONE（完成 1）、DAY2_EVAL_DONE（成功 1）、EXPORT_CHAIN_DONE（成功 1、失败 5，失败的 5 条没开正式训练，
+  读法同上）（`results/t1x/end_t1xa2_mf4090_1012_1551.txt`）。ep21 的 4096 世界 MP-SR 0.806、ADD-AUC 0.556、MPPE 8.28 cm
+  （`results/day2/eval_t1-ep21-w2048-cap4m-r3a-mf4090_s349999104.txt`）。停链标记已删（`results/t1x/unstop_t1xa2_mf4090.txt`）。
+  没开的 5 条（ep10、13、19、3、14）照第 2 节排在 D 之后（用户已定 D 的范围，第 4a 节第 4 条）；续跑时另起一段，run 名不变。
+  第二轮门槛复查按 `agent-doc/plan-t3-hm-p2-2026-10-12.md` 做。

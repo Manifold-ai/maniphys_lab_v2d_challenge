@@ -1,6 +1,9 @@
 # 服务器上的只读核对：同组成员的 Tier 3 重建产物（/lab_data/<目录>/v2d/tier3/runs/tier3_cari4d）里给定几集的文件、本用户能不能读、元数据内容。
 # 经 stdin 送过去执行。只读：不改文件、不进容器。别人的目录名、用户名与 home 目录名一律换成 <其他用户>（同 tools/t3_queue_remote.sh）。
 # V2D_T3_SUBDIR 选目录，默认 tier3_cari4d；白名单与 stages/recovery/tier3_pack_remote.sh 相同（计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）。
+# V2D_T3_SUPPORT=delivery（只许空或 delivery；计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：每集多打一行支撑面文件，格式同 parquet 行
+#   “可读 … sha256 <64 位> support_surface/<文件名>.usda”（路径不合要求或读不了另打一行说明）；另打 support_surface/support_usda.json 的
+#   sha256 与内容，那一行以 “## ” 开头，不会被 tier3_expect.py 当成文件行。不设时输出与以前相同。
 # 用法（Mac，仓库根）：scripts/dev/record ops/<名字> ssh ml40 '[V2D_T3_SUBDIR=<目录>] bash -s -- <episode> ...' < tools/t3_episode_remote.sh
 set -uo pipefail
 me="$(id -un)"
@@ -17,9 +20,11 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
   echo "== $(hostname) $(date '+%F %T %Z')"
   [ ${#roots[@]} = 1 ] || { echo "别的用户的 tier3 目录不是恰好一个：${roots[*]:-无}"; exit 1; }
   SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect) ;;
+  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect) ;;
     *) echo "V2D_T3_SUBDIR 不在白名单里：$SUB"; exit 2 ;;
   esac
+  SUP="${V2D_T3_SUPPORT:-}"
+  case "$SUP" in ""|delivery) ;; *) echo "V2D_T3_SUPPORT 只许空或 delivery：$SUP"; exit 2 ;; esac
   D="${roots[0]}/runs/$SUB"
   echo "## 目录 runs/$SUB"
   echo "## $D 的前两层"
@@ -33,6 +38,12 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
     done
     [ -r "$D/meta/episode_$e.metadata.json" ] || continue
     cat "$D/meta/episode_$e.metadata.json"; echo
+    if [ "$SUP" = delivery ]; then
+      rel="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("support_surface") or "")' "$D/meta/episode_$e.metadata.json")"
+      if [[ $rel =~ ^support_surface/[A-Za-z0-9._-]+\.usda$ ]] && [ -r "$D/$rel" ]; then
+        echo "可读 $(stat -c '%s 字节 %y' "$D/$rel" | cut -c1-40) sha256 $(sha256sum "$D/$rel" | cut -d' ' -f1) $rel"
+      else echo "支撑面读不了、不存在或路径不合要求：$rel"; fi
+    fi
     # 重建时用的输入网格与地面（元数据里的相对路径，相对 tier3/input）的 md5，用来与官方 Tier 2 目录里的同名文件比对
     for k in mesh ground_plane; do
       rel="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))[sys.argv[2]])' "$D/meta/episode_$e.metadata.json" "$k")"
@@ -40,4 +51,9 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
       echo "输入 $k $( [ -r "$f" ] && md5sum "$f" | cut -d' ' -f1 || echo 读不了或不存在) $rel"
     done
   done
+  if [ "$SUP" = delivery ]; then
+    j="$D/support_surface/support_usda.json"
+    if [ -r "$j" ]; then echo "## support_surface/support_usda.json sha256 $(sha256sum "$j" | cut -d' ' -f1)"; cat "$j"; echo
+    else echo "## support_surface/support_usda.json 读不了或不存在"; fi
+  fi
 } 2>&1 | red

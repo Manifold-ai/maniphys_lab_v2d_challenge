@@ -7,7 +7,10 @@ B.1 记录里的每一集都要在 A 段记录里，且 sha256 以 A 段的前 1
 否则打 SHA_MISMATCH 并退出码 1。A 段有、B.1 没有的集不管（A 段是 20 集，B.1 只核要拼的那几集）。
 --inputs <Tier 2 记录>（只报，不影响退出码）：stages/recovery/tier2_inputs_md5.py 的输出。B.1 每集的“输入 mesh / ground_plane <md5> <相对路径>”行
 （同组成员重建时用的网格与地面）逐个与官方 Tier 2 同一相对路径的 md5 比，打 INPUTS_SAME 或 INPUTS_DIFF（第二轮对 ep8、ep24 是手工比的）。
-用法：python3 stages/recovery/t3_sha_match.py <B.1 记录> <A 段记录> [--inputs <Tier 2 记录>]
+--pack <A 段转发记录>（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md，审查 3）：stages/recovery/t3_float_pack.sh 设 V2D_T3_SUPPORT=delivery 时打的
+“support_surface/<文件名>.usda <sha256 前 12 位>”行，逐个与 B.1 记录的支撑面行（“可读 … sha256 <64 位> support_surface/<文件名>.usda”）比：
+两边文件集合相同、B.1 的 sha256 以 A 段的前 12 位开头，打 SUPPORT_MATCH <n>/<n>；否则最后一行打 SUPPORT_MISMATCH，退出码 1。
+用法：python3 stages/recovery/t3_sha_match.py <B.1 记录> <A 段记录> [--inputs <Tier 2 记录>] [--pack <A 段转发记录>]
 测试：stages/recovery/test_t3_sha_match.py。
 """
 import argparse
@@ -19,6 +22,8 @@ B1 = re.compile(r"^可读 \d+ 字节 (\S+ \S+) sha256 ([0-9a-f]{64}) data/chunk-
 EPISODE = re.compile(r"^## episode (\d+)$")
 INPUT = re.compile(r"^输入 (mesh|ground_plane) (\S+) ((?:mesh|ground_plane)/\S+)$")
 TIER2 = re.compile(r"^([0-9a-f]{32}) ((?:mesh|ground_plane|support_surface)/\S+)$")   # 同 tier3_expect.py
+B1_SUP = re.compile(r"^可读 \d+ 字节 \S+ \S+ sha256 ([0-9a-f]{64}) (support_surface/[^/\s]+\.usda)$")
+PACK_SUP = re.compile(r"^(support_surface/[^/\s]+\.usda) ([0-9a-f]{12})$")
 
 
 def b1_rows(path: Path) -> dict:
@@ -72,11 +77,29 @@ def inputs(b1_path: Path, t2_path: Path) -> list:
     return out
 
 
+def supports(b1_path: Path, pack_path: Path) -> tuple:
+    """(B.1 的 {相对路径: sha256}, A 段转发记录的 {相对路径: 前 12 位})。两边各自重复或一行也没有就报错。"""
+    out = []
+    for path, pat, key, val in ((b1_path, B1_SUP, 2, 1), (pack_path, PACK_SUP, 1, 2)):
+        d = {}
+        for x in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            m = pat.match(x.strip())
+            if m:
+                if m.group(key) in d:
+                    raise SystemExit(f"t3_sha_match: {path} 里 {m.group(key)} 出现两次")
+                d[m.group(key)] = m.group(val)
+        if not d:
+            raise SystemExit(f"t3_sha_match: {path} 里一行支撑面也没取到")
+        out.append(d)
+    return out[0], out[1]
+
+
 def main(argv=None) -> int:
     ap_ = argparse.ArgumentParser()
     ap_.add_argument("b1", type=Path)
     ap_.add_argument("a_phase", type=Path)
     ap_.add_argument("--inputs", type=Path)
+    ap_.add_argument("--pack", type=Path)
     a = ap_.parse_args(argv)
     b1, ap = b1_rows(a.b1), a_rows(a.a_phase)
     print(f"B.1 记录 {a.b1}；A 段记录 {a.a_phase}{f'；Tier 2 记录 {a.inputs}' if a.inputs else ''}")
@@ -100,8 +123,24 @@ def main(argv=None) -> int:
                 diff.append(f"ep{ep} {k}")
             print(f"{ep}\t{k}\t{rel}\t{got}\t{want or '-'}\t{'yes' if same else 'NO'}")
         print(f"INPUTS_SAME {len(rows)}/{len(rows)}" if not diff else f"INPUTS_DIFF {len(rows) - len(diff)}/{len(rows)}：{'，'.join(diff)}")
+    sup_bad = []
+    if a.pack:
+        bs, ps = supports(a.b1, a.pack)
+        print(f"## 支撑面：B.1 与 A 段转发记录 {a.pack}")
+        print("文件	A段前12位	B.1前12位	相同")
+        for rel in sorted(set(bs) | set(ps)):
+            same = rel in bs and rel in ps and bs[rel].startswith(ps[rel])
+            if not same:
+                sup_bad.append(rel)
+            print(f"{rel}	{ps.get(rel, '-')}	{bs[rel][:12] if rel in bs else '-'}	{'yes' if same else 'NO'}")
+        n = len(set(bs) | set(ps))
+        if not sup_bad:
+            print(f"SUPPORT_MATCH {n}/{n}")
     if bad:
         print(f"SHA_MISMATCH {len(b1) - len(bad)}/{len(b1)}：ep{bad} 与 A 段记录不同或不在 A 段记录里")
+        return 1
+    if sup_bad:
+        print(f"SUPPORT_MISMATCH {len(sup_bad)} 个：{'，'.join(sup_bad)}（两边不同或只在一边）")
         return 1
     print(f"SHA_MATCH {len(b1)}/{len(b1)}")
     return 0

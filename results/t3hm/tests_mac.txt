@@ -1,0 +1,30 @@
+# command  : bash -c set\ -e\;\ for\ t\ in\ stages/recovery/test_tier3_root.py\ stages/recovery/test_tier3_expect.py\ stages/recovery/test_t3_sha_match.py\ stages/retarget/test_p2_vs_theirs.py\ stages/retarget/test_p2_compare.py\ stages/retarget/test_p2_table.py\;\ do\ echo\ \"==\ \$t\"\;\ python3\ \$t\ \|\ tail\ -1\;\ done\;\ for\ f\ in\ stages/recovery/tier3_pack_remote.sh\ tools/t3_episode_remote.sh\ stages/recovery/t3_float_pack.sh\ stages/recovery/tier3_stage.sh\;\ do\ bash\ -n\ \$f\ \&\&\ echo\ \"bash\ -n\ ok\ \$f\"\;\ done\;\ echo\ MAC_TESTS_OK 
+# md5      : 5fa069ae27110353abc96c5406e73b71  stages/recovery/test_tier3_root.py
+# md5      : 74956c5e1720b8f3258b6ff580b0a54b  stages/recovery/test_tier3_expect.py
+# md5      : fe30d9216486aa0939916e0be60a77be  stages/recovery/test_t3_sha_match.py
+# md5      : 9caf960cafe1189314a61afd7fb59fbd  stages/retarget/test_p2_vs_theirs.py
+# md5      : 528fc3b4ad58addbe6a85f92de79f234  stages/retarget/test_p2_compare.py
+# md5      : 4413110c469b3d1647d52f0a1a0b11f9  stages/recovery/tier3_pack_remote.sh
+# md5      : 78136f9f83e13d2047b8be2cb51dda94  tools/t3_episode_remote.sh
+# md5      : 562de60d4fff9fc7b95678ac78b32d13  stages/recovery/t3_float_pack.sh
+# source   : 6e8de6f70a2b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T15:53:25-0600
+# ---------------------------------------------------------------
+== stages/recovery/test_tier3_root.py
+ALL_OK
+== stages/recovery/test_tier3_expect.py
+ALL_OK
+== stages/recovery/test_t3_sha_match.py
+ALL_OK
+== stages/retarget/test_p2_vs_theirs.py
+ALL_OK
+== stages/retarget/test_p2_compare.py
+ALL_OK
+== stages/retarget/test_p2_table.py
+ALL_OK
+bash -n ok stages/recovery/tier3_pack_remote.sh
+bash -n ok tools/t3_episode_remote.sh
+bash -n ok stages/recovery/t3_float_pack.sh
+bash -n ok stages/recovery/tier3_stage.sh
+MAC_TESTS_OK

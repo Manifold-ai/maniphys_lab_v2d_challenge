@@ -9,6 +9,8 @@ L = −c·n 是相机比物体原点高多少（全部静置集，至少 6 集�
 只缩竖直分量（焦距错、深度对）时也与 L 成正比，所以 k = 1/(1 + s)。凸包与最低点用 nopen.py 的 hull_vertices、min_height；位姿 [x, y, z, qw, qx, qy, qz]，相机（OpenCV）系。
 输入两种布局：<目录>/meta/episodes_metadata.jsonl（官方档目录），或 <目录>/meta/episode_<N>.metadata.json（tier3_pack_remote.sh 的包）；
 parquet 在 <目录>/data/chunk-000/。网格、地面、支撑面按元数据里的相对路径到 --tier2 目录找（默认 libs/v2d_infra/paths.py 的 TIER2）。
+--support-root <目录>：支撑面改到这个目录找（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md：Tier 3 不用官方支撑面，取交付目录转来的文件）；
+  第一行另写明支撑面从哪个目录取。不加时与以前相同。
 --control：对照用，按登记的对照判据打 CONTROL_OK / CONTROL_FAIL；否则按登记的 Tier 3 判读打一行“判读”。
 --all-rest：事后加的（10/9 21:40，看过第一轮结果之后，未登记）：不按位移筛静置，全部集都进拟合；输出里标明，不打判读。
   加它的原因：CARI4D 开头 5 帧的抖动有 9–51 mm，位移判据把 20 集筛到 6 集。开头调 tier_guard.forbid_tier1()。
@@ -17,7 +19,7 @@ parquet 在 <目录>/data/chunk-000/。网格、地面、支撑面按元数据�
   这一行同时给 o 的标准误与地面上各集间隙的标准差，两版之间怎么选见 stages/recovery/t3_pick_version.py。
   与 --all-rest 同用时，输出不再标“事后（未登记）”。
 用法（训练机，仓库根）：scripts/dev/incontainer stages/recovery/t3_float_facts.py <目录> [--tier2 <目录>] [--frames 5] [--episodes 0,3,...] [--control]
-                       [--all-rest] [--offset-gate <mm>]
+                       [--all-rest] [--offset-gate <mm>] [--support-root <目录>]
 测试：stages/recovery/test_t3_float_facts.py。
 """
 import argparse
@@ -184,10 +186,13 @@ def main(argv=None) -> int:
     ap.add_argument("--control", action="store_true")
     ap.add_argument("--all-rest", action="store_true")
     ap.add_argument("--offset-gate", type=float, default=None, metavar="MM")
+    ap.add_argument("--support-root", type=Path, default=None)
     a = ap.parse_args(argv)
     meta = load_meta(a.root)
     eps = sorted(meta) if not a.episodes else [int(x) for x in a.episodes.split(",")]
-    print(f"目录 {a.root}；官方 Tier 2 {a.tier2}；窗口第 0–{a.frames - 1} 帧；静置判据位移 ≤ {STATIC_MM:.0f} mm；{len(eps)} 集")
+    sroot = a.support_root if a.support_root is not None else a.tier2
+    where = f"；支撑面 {a.support_root}" if a.support_root is not None else ""
+    print(f"目录 {a.root}；官方 Tier 2 {a.tier2}{where}；窗口第 0–{a.frames - 1} 帧；静置判据位移 ≤ {STATIC_MM:.0f} mm；{len(eps)} 集")
     print("ep\t物体\t帧\t位移mm\tH_m\th_mm\t面高_m\t间隙mm\t间隙30mm\tZ_m\tX_m\tD_m\tL_m\tk\tparquet_sha256")
     rows = []
     for ep in eps:
@@ -198,7 +203,7 @@ def main(argv=None) -> int:
         vis = (np.asarray(t.column("observation.object.visible").to_pylist(), dtype=bool).ravel()
                if "observation.object.visible" in t.column_names else np.ones(len(p), bool))
         plane = json.loads(safe(a.tier2, m["ground_plane"]).read_text())["plane"]
-        tops = surface_tops(safe(a.tier2, m["support_surface"]).read_text()) if m.get("support_surface") else []
+        tops = surface_tops(safe(sroot, m["support_surface"]).read_text()) if m.get("support_surface") else []
         r = episode_facts(p, vis, hull_vertices(str(safe(a.tier2, m["mesh"]))), plane, tops, a.frames)
         sha = hashlib.sha256(f.read_bytes()).hexdigest()[:12]
         if r is None:

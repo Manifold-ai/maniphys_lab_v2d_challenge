@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\ \&\&\ cat\ runs/.chain-stop-t1xa2_train_mf4090\ \&\&\ rm\ -v\ runs/.chain-stop-t1xa2_train_mf4090\ \&\&\ ls\ runs/.chain-stop-\*\ 2\>/dev/null\ \|\ wc\ -l 
+# source   : 6e8de6f70a2b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T15:56:23-0600
+# ---------------------------------------------------------------
+0
+最终交付版 tier3_cari4d_f830_best_hm 已在交接文档写明（d7aae27），按计划 agent-doc/plan-next-training-2026-10-12.md 第 2 节建停链标记，之后同步、做门槛复查第二轮（mf4090）
+removed 'runs/.chain-stop-t1xa2_train_mf4090'
+0

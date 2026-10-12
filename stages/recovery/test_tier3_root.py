@@ -7,6 +7,9 @@
   3. 同一集换了 parquet 内容（哈希表也跟着换）再跑：拒绝，已有的文件不变
   4. 元数据里的相对路径带 ..：拒绝，什么也不写
   5. Tier 2 目录参数指到含 tier_1_multiview_caption 的目录：读文件就抛 Tier1AccessError（tier_guard 在进程里生效），什么也不写
+  6. --support-from-incoming（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：支撑面从转来的目录复制（内容与官方的不同），按哈希表的 sha256 核；
+     provenance 记 support_source、support_sha256，tier2_md5 只有网格与地面；转来的支撑面被改、哈希表里还是官方支撑面的 md5、
+     或不加选项却给了转来支撑面的 sha256：都拒绝，什么也不写
 用法：python3 stages/recovery/test_tier3_root.py
 """
 import hashlib
@@ -30,7 +33,7 @@ def h(path: Path, algo: str) -> str:
     return hashlib.new(algo, path.read_bytes()).hexdigest()
 
 
-def setup(t: Path, bad_rel=False):
+def setup(t: Path, bad_rel=False, sup_incoming=False):
     inc, t2 = t / "incoming", t / "tier_2_synthetic_noise"
     lines = []
     for ep, seq, obj in ((8, "s8_chair", "chair"), (24, "s24_can", "can")):
@@ -48,15 +51,21 @@ def setup(t: Path, bad_rel=False):
             p = t2 / r[k]
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(body)
-            lines.append(f"{r[k]}\tmd5\t{h(p, 'md5')}")
+            if not (sup_incoming and k == "support_surface"):
+                lines.append(f"{r[k]}\tmd5\t{h(p, 'md5')}")
+        if sup_incoming:
+            q = inc / r["support_surface"]
+            q.parent.mkdir(parents=True, exist_ok=True)
+            q.write_text(f"delivered-table-{seq}")
+            lines.append(f"{r['support_surface']}\tsha256\t{h(q, 'sha256')}")
     (inc / "DEPLOYED").write_text(f"{COMMIT} dirty=0\n")
     exp = t / "expect.tsv"
     exp.write_text("\n".join(sorted(set(lines))) + "\n")
     return inc, t2, exp
 
 
-def run(inc, root, t2, exp):
-    return subprocess.run([sys.executable, str(HERE / "tier3_root.py"), str(inc), "--expect", str(exp), "--root", str(root), "--tier2", str(t2)],
+def run(inc, root, t2, exp, *opts):
+    return subprocess.run([sys.executable, str(HERE / "tier3_root.py"), str(inc), "--expect", str(exp), "--root", str(root), "--tier2", str(t2), *opts],
                           capture_output=True, text=True)
 
 
@@ -135,6 +144,44 @@ def test_tier1_read_blocked():
         r = run(inc, t / "root", t1, exp)
         assert r.returncode != 0 and "Tier1AccessError" in r.stderr, r.stdout + r.stderr
         assert not (t / "root").exists()
+
+
+def test_support_from_incoming():
+    with tempfile.TemporaryDirectory() as d:
+        t = Path(d)
+        inc, t2, exp = setup(t, sup_incoming=True)
+        root = t / "root"
+        r = run(inc, root, t2, exp, "--support-from-incoming")
+        assert r.returncode == 0 and r.stdout.strip().endswith("TIER3_ROOT_OK"), r.stdout + r.stderr
+        rows = [json.loads(x) for x in (root / "meta" / "episodes_metadata.jsonl").read_text().splitlines()]
+        for x in rows:
+            assert (root / x["support_surface"]).read_text() == f"delivered-table-{x['sequence_id']}", x
+            assert (root / x["mesh"]).read_text() == (t2 / x["mesh"]).read_text(), x
+        pj = json.loads((root / "meta" / "provenance.json").read_text())
+        p8 = pj["episodes"]["8"]
+        assert p8["support_source"] == "incoming" and set(p8["tier2_md5"]) == {"mesh", "ground_plane"}, p8
+        assert p8["support_sha256"] == hashlib.sha256(b"delivered-table-s8_chair").hexdigest(), p8
+        assert "支撑面取自同组成员的交付目录" in pj["note"], pj["note"]
+
+
+def test_support_from_incoming_refuses():
+    for kind in ("changed", "tier2_md5", "no_flag"):
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d)
+            inc, t2, exp = setup(t, sup_incoming=kind != "tier2_md5")
+            opts = ("--support-from-incoming",)
+            if kind == "changed":
+                (inc / "support_surface" / "s24_can_support.usda").write_text("rewritten after B.1")
+            elif kind == "tier2_md5":   # 哈希表还是官方支撑面的 md5，转来的目录里放的是交付的文件
+                for seq in ("s8_chair", "s24_can"):
+                    (inc / "support_surface").mkdir(exist_ok=True)
+                    (inc / "support_surface" / f"{seq}_support.usda").write_text(f"delivered-table-{seq}")
+            else:
+                opts = ()
+            r = run(inc, t / "root", t2, exp, *opts)
+            msg = r.stdout + r.stderr
+            assert r.returncode != 0 and "哈希表里是" in msg, (kind, msg)
+            assert not (t / "root").exists(), kind
 
 
 if __name__ == "__main__":

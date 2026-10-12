@@ -6,7 +6,10 @@
   <Tier 2 记录> results/ops/t3p_mf4090_inputs_*.txt：取“<md5> <相对路径>”行，即 mf4090 上官方 Tier 2 目录里网格、地面平面与支撑面的 md5。
 输出（stdout，TSV，无表头）：相对路径、算法、哈希。data/、meta/ 下的是转来的产物（sha256），mesh/、ground_plane/、support_surface/ 下的是
 Tier 2 目录里的文件（md5）。同一路径出现两次且哈希不同、或一行也没取到，就报错退出。
-用法：python3 stages/recovery/tier3_expect.py <远端记录> <Tier 2 记录> > stages/recovery/expect/<标签>.tsv
+--support-from-remote（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md：Tier 3 不用官方支撑面，取交付目录里的文件）：支撑面的行改取远端记录里
+  “可读 … sha256 <hex> support_surface/<文件名>.usda” 行（tools/t3_episode_remote.sh 设 V2D_T3_SUPPORT=delivery 时打的；不许子目录），
+  Tier 2 记录里的 support_surface/ 行丢掉；远端的支撑面行数必须等于 parquet 行数（每集一份），否则报错。不加时输出与以前相同。
+用法：python3 stages/recovery/tier3_expect.py <远端记录> <Tier 2 记录> [--support-from-remote] > stages/recovery/expect/<标签>.tsv
 测试：stages/recovery/test_tier3_expect.py。
 """
 import re
@@ -14,12 +17,15 @@ import sys
 from pathlib import Path
 
 REMOTE = re.compile(r"^可读 .* sha256 ([0-9a-f]{64}) ((?:data|meta)/\S+)$")
+REMOTE_SUP = re.compile(r"^可读 .* sha256 ([0-9a-f]{64}) ((?:data|meta)/\S+|support_surface/[^/\s]+\.usda)$")
 TIER2 = re.compile(r"^([0-9a-f]{32}) ((?:mesh|ground_plane|support_surface)/\S+)$")
+TIER2_NO_SUP = re.compile(r"^([0-9a-f]{32}) ((?:mesh|ground_plane)/\S+)$")
 
 
-def collect(remote: Path, tier2: Path) -> dict:
+def collect(remote: Path, tier2: Path, support_from_remote: bool = False) -> dict:
     out = {}
-    for path, pat, algo in ((remote, REMOTE, "sha256"), (tier2, TIER2, "md5")):
+    rpat, tpat = (REMOTE_SUP, TIER2_NO_SUP) if support_from_remote else (REMOTE, TIER2)
+    for path, pat, algo in ((remote, rpat, "sha256"), (tier2, tpat, "md5")):
         n = 0
         for line in path.read_text(encoding="utf-8", errors="replace").splitlines():   # record 的 command 行里非 ASCII 参数被转义坏了，不是合法 UTF-8
             m = pat.match(line.strip())
@@ -32,14 +38,21 @@ def collect(remote: Path, tier2: Path) -> dict:
             n += 1
         if n == 0:
             raise SystemExit(f"tier3_expect: {path} 里一行 {algo} 也没取到")
+    if support_from_remote:
+        n_sup = sum(r.startswith("support_surface/") for r in out)
+        n_pq = sum(r.startswith("data/") and r.endswith(".parquet") for r in out)
+        if n_sup != n_pq:
+            raise SystemExit(f"tier3_expect: --support-from-remote 要每集一份支撑面，远端记录里支撑面 {n_sup} 行、parquet {n_pq} 行")
     return out
 
 
 def main(argv=None) -> int:
-    a = sys.argv[1:] if argv is None else argv
+    a = list(sys.argv[1:] if argv is None else argv)
+    sup = "--support-from-remote" in a
+    a = [x for x in a if x != "--support-from-remote"]
     if len(a) != 2:
-        raise SystemExit("用法：tier3_expect.py <远端记录> <Tier 2 记录>")
-    for rel, (algo, h) in sorted(collect(Path(a[0]), Path(a[1])).items()):
+        raise SystemExit("用法：tier3_expect.py <远端记录> <Tier 2 记录> [--support-from-remote]")
+    for rel, (algo, h) in sorted(collect(Path(a[0]), Path(a[1]), sup).items()):
         print(f"{rel}\t{algo}\t{h}")
     return 0
 
