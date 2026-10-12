@@ -1,0 +1,9 @@
+# command  : bash -c $'a=$(LC_ALL=C grep -a "^å\217¯è¯» .* support_surface/.*\\.usda$" results/ops/t3_episodes_ml40_1012_hm.txt | LC_ALL=C awk "{print \\$(NF-1), \\$NF}" | sort); b=$(LC_ALL=C grep -aE "^[0-9a-f]{64}  support_surface/" results/t3hm/stage_check_mf4090.txt | LC_ALL=C awk "{print \\$1, \\$2}" | sort); echo "B.1 $(printf "%s\\n" "$a" | grep -c .) è¡\214ï¼\233root_hm $(printf "%s\\n" "$b" | grep -c .) è¡\214"; if [ "$a" = "$b" ]; then echo "STAGE_SUPPORT_SAME 29/29"; else echo "STAGE_SUPPORT_DIFF"; diff <(printf "%s\\n" "$a") <(printf "%s\\n" "$b"); fi' 
+# md5      : 8460be8a0c242bfd17724ae19e77672d  results/ops/t3_episodes_ml40_1012_hm.txt
+# md5      : 18bd3f85726eb6eb73b1f793e06c3d4d  results/t3hm/stage_check_mf4090.txt
+# source   : a5bdf6f7fe0a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T16:01:52-0600
+# ---------------------------------------------------------------
+B.1 29 è¡Œï¼›root_hm 29 è¡Œ
+STAGE_SUPPORT_SAME 29/29

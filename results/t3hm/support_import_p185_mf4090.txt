@@ -1,0 +1,280 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ f\ in\ 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda\ 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda\ 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda\ 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda\ 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\ 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda\ 2026-05-29_15-20-43_iron_round_table_02_support.usda\ 2026-06-01_11-26-44_monitor_rotate_05_support.usda\ 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda\ 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda\ 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda\ 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda\ \;\ do\ echo\ \"##\ usda\ \$f\"\;\ cat\ runs/tier3/root_hm/support_surface/\$f\;\ done\ \&\&\ V2D_ALLOW_FC_SRC=1\ V2D_FC_SRC=\$HOME/v2d/fc_src/v040_p185_nfg\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/support_import_check.py\ /repo/runs/tier3/root_hm/support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-05-29_15-20-43_iron_round_table_02_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-06-01_11-26-44_monitor_rotate_05_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda\ /repo/runs/tier3/root_hm/support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda\ \" 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 11872de968dc4ece0b3f7ef5fa8e0b22  stages/policy/support_import_check.py
+# source   : a5bdf6f7fe0a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T16:02:47-0600
+# ---------------------------------------------------------------
+## usda 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.6119, 0.8796, 0.8610)
+        double3 xformOp:scale = (0.0906, 0.0896, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-1.0957, 0.6397, 0.7810)
+        double3 xformOp:scale = (0.1947, 0.1655, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.9040, -0.0605, 0.8390)
+        double3 xformOp:scale = (0.5235, 0.3208, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-1.3452, -0.1887, 0.7450)
+        double3 xformOp:scale = (0.1982, 0.1521, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (0.2206, -0.9784, 0.8840)
+        double3 xformOp:scale = (0.3308, 0.3079, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.1900, 0.6386, 0.7690)
+        double3 xformOp:scale = (0.2235, 0.2224, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-05-29_15-20-43_iron_round_table_02_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.7273, 0.2398, 0.7500)
+        double3 xformOp:scale = (0.3060, 0.1243, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-06-01_11-26-44_monitor_rotate_05_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-1.0941, 0.2493, 0.7550)
+        double3 xformOp:scale = (0.5160, 0.3267, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.9097, -0.0181, 0.7620)
+        double3 xformOp:scale = (0.2483, 0.2419, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.9819, -0.0926, 0.4640)
+        double3 xformOp:scale = (0.2977, 0.2980, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.2395, 0.7783, 0.7730)
+        double3 xformOp:scale = (0.2191, 0.2337, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+## usda 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+#usda 1.0
+(
+    defaultPrim = "support_surfaces"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "support_surfaces"
+{
+    def Cube "support_0" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        double3 xformOp:translate = (-0.9140, -0.1188, 0.8570)
+        double3 xformOp:scale = (0.5748, 0.6199, 0.02)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+}
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+== 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.0453, 0.0448, 0.01)，位置 (-0.6119, 0.8796, 0.861)
+== 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.09735, 0.08275, 0.01)，位置 (-1.0957, 0.6397, 0.781)
+== 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.26175, 0.1604, 0.01)，位置 (-0.904, -0.0605, 0.839)
+== 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.0991, 0.07605, 0.01)，位置 (-1.3452, -0.1887, 0.745)
+== 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1654, 0.15395, 0.01)，位置 (0.2206, -0.9784, 0.884)
+== 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.11175, 0.1112, 0.01)，位置 (-0.19, 0.6386, 0.769)
+== 2026-05-29_15-20-43_iron_round_table_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.153, 0.06215, 0.01)，位置 (-0.7273, 0.2398, 0.75)
+== 2026-06-01_11-26-44_monitor_rotate_05_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.258, 0.16335, 0.01)，位置 (-1.0941, 0.2493, 0.755)
+== 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.12415, 0.12095, 0.01)，位置 (-0.9097, -0.0181, 0.762)
+== 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.14885, 0.149, 0.01)，位置 (-0.9819, -0.0926, 0.464)
+== 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.10955, 0.11685, 0.01)，位置 (-0.2395, 0.7783, 0.773)
+== 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.2874, 0.30995, 0.01)，位置 (-0.914, -0.1188, 0.857)

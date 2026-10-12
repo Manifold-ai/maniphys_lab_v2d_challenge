@@ -1,0 +1,47 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") �\235��\216\206 $(cat .v2d-source-commit)" && for r in runs/tier3/root runs/tier3/root_v2 runs/tier3/root_simreg runs/tier3/root_dlv runs/tier3/root_hm; do f=$r/meta/episodes_metadata.jsonl; echo "$(stat -c "%y" $f) $(wc -l < $f) �\214 $f"; done && echo "root_hm parquet $(ls runs/tier3/root_hm/data/chunk-000 | wc -l) 个�\214�\224��\222\221�\235� $(ls runs/tier3/root_hm/support_surface | wc -l) 个" && echo "## root_hm/support_surface �\232\204 sha256" && (cd runs/tier3/root_hm && sha256sum support_surface/*) && python3 -c "import json,collections; p=json.load(open(\\"runs/tier3/root_hm/meta/provenance.json\\")); e=p[\\"episodes\\"]; print(\\"provenance\\", len(e), \\"�\233\206�\233support_source\\", dict(collections.Counter(v.get(\\"support_source\\") for v in e.values())), \\"�\233tier2_md5 �\232\204�\224�\\", sorted(set(k for v in e.values() for k in v[\\"tier2_md5\\"]))); print(\\"note\\", p[\\"note\\"])" && du -sm runs/tier3/root_hm && df -m --output=avail . | tail -1 && (tmux ls 2>/dev/null | cut -d: -f1; true)' 
+# source   : a5bdf6f7fe0a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T16:01:42-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 06:01:42 CST 来历 a5bdf6f7fe0a
+2026-10-10 04:49:27.465007558 +0800 2 行 runs/tier3/root/meta/episodes_metadata.jsonl
+2026-10-11 07:48:26.866836259 +0800 20 行 runs/tier3/root_v2/meta/episodes_metadata.jsonl
+2026-10-12 02:39:27.168745027 +0800 17 行 runs/tier3/root_simreg/meta/episodes_metadata.jsonl
+2026-10-13 03:18:59.300585098 +0800 29 行 runs/tier3/root_dlv/meta/episodes_metadata.jsonl
+2026-10-13 06:01:28.926218403 +0800 29 行 runs/tier3/root_hm/meta/episodes_metadata.jsonl
+root_hm parquet 29 个，支撑面 29 个
+## root_hm/support_surface 的 sha256
+c3674b0b5f3b59dddbec43672ebecee069e384a0b99f3378164b1dede4d182bf  support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+a8535c993d61c91ccf6b5e15a14862a6ad3b3313a27dd709635f6fbd0ebb273f  support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+c430b41b094cfdc4db71d96b6f783060ecb46f6fe280ceec5c89fa2d0d722e5b  support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+7d9fc4fefca8da5cfe754dad6a8962b4decc7c5365e5b30e0fcbb16c8a8fa2d8  support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda
+05e00bab4526c83203dcf424196a8c167f86f462dc433f1393f998bd3ed22880  support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+a86c596baa66864a8660f7c653b76f4e1643ff46c3e5b51b87f650c64b1ac634  support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-19_10-19-48_cane_swing_05_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-22_16-52-36_step_ladder_drag_03_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda
+8e186739328b8253c95da5f57511b5eed6920187011ae00e85785d7359756b04  support_surface/2026-05-29_15-20-43_iron_round_table_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda
+6e84545f92aa4bf377320bdc56a6c64be9d7a289f48cd5affc1aed006877b254  support_surface/2026-06-01_11-26-44_monitor_rotate_05_support.usda
+ac0b4fe394929ae0f9ecbe722c14dd7c540afd0683cd4f84ce10b7d8d7cfd44a  support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda
+b7cf4993513131cb6e338b5587f2797b4ac92032301c6a389abef3708c4ea0a2  support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  support_surface/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda
+8f9691f6c956b01e36f06e7ed43e4bc209e176134009e69bb748865fb9c9e248  support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+e5453282bb14b830744aa9730501ed04825468d6c362d71406de16c42a285116  support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+provenance 29 集；support_source {'incoming': 29} ；tier2_md5 的键 ['ground_plane', 'mesh']
+note Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；支撑面取自同组成员的交付目录（转来的文件，sha256 核过）
+363	runs/tier3/root_hm
+ 5116
+v2d-train

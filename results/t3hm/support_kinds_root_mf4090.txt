@@ -1,0 +1,39 @@
+# command  : scripts/dev/pipe-py stages/policy/support_kinds.py runs/tier3/root_hm/support_surface 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : a5bdf6f7fe0a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T16:02:34-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+sequence_id	shapes	scaled_cube	md5
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	Cube×1	yes	c4caa3792e6fccd9d56004f586343522
+2026-03-18_19-36-56_g1_box_rotate_01	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	Cube×1	yes	8ab8b5502ccdecfa616bba88d6d9e9b7
+2026-04-24_11-40-52_baseball_bat_rotate_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-04-24_13-56-58_light_blue_book_pick_place_09	Cube×1	yes	0131411986b23b46e6deda92135d5834
+2026-04-25_17-20-04_black_platform_turn_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	Cube×1	yes	3c5649879ad433a1af37af5951078d27
+2026-04-29_11-53-57_tall_bar_stool_pull_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-01_11-15-05_woven_basket_ground_desk_10	Cube×1	yes	905edfb64de669cc8b43fe7b26d2fe7d
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-01_17-04-55_traffic_cone_ground_table_02	Cube×1	yes	60c63085cd96efda9d68a0010b436700
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-18_17-06-21_vacuum_left_lean_02	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-19_10-19-48_cane_swing_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-22_16-52-36_step_ladder_drag_03	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-28_14-44-09_round_table_flip_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-29_15-20-43_iron_round_table_02	Cube×1	yes	8b36d588b8c443d73e9f443e9b3369e9
+2026-05-29_15-43-20_watering_can_pour_right_02	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-01_11-26-44_monitor_rotate_05	Cube×1	yes	743304a3335753f5e5c7b79fc05d7fc1
+2026-06-02_10-04-42_blue_easter_basket_place_10	Cube×1	yes	f0cacd2d0eada8aea065fb3582bbb2ec
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	Cube×1	yes	d019225941ed78160c340e23fcaec511
+2026-06-05_15-08-08_skinny_wood_chair_push_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_16-05-08_skateboard_rotate_ground_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-08_16-57-34_rice_cooker_clockwise_04	Cube×1	yes	003cff253fc08ccb14368502872f9715
+2026-06-09_10-19-09_snack_box_desk_through_06	Cube×1	yes	586bbf979565670af716ff8274947960
+# 共 29 个：只有地面 17，带 scale 的方盒 12，其他 0
