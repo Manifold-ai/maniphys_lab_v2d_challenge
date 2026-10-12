@@ -1,0 +1,31 @@
+# command  : python3 stages/retarget/p2_compare.py f830=results/t3p2/p2_18.txt dlv=results/t3dlv/p2.txt 
+# md5      : ea71b6a6f692f567db84b8a067bfcd0c  stages/retarget/p2_compare.py
+# source   : 954cf4b2a2d9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T14:40:12-0600
+# ---------------------------------------------------------------
+A = f830：results/t3p2/p2_18.txt；B = dlv：results/t3dlv/p2.txt
+ep	序列	间隙mm_f830	间隙mm_dlv	差mm	左手_f830	左手_dlv	右手_f830	右手_dlv	IK_f830	IK_dlv	P2′_f830	P2′_dlv	结论
+0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	-23.4	-23.4	+0.0	280	284	455	458	0.648	0.651	过	过	不变
+3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	90.0	-31.8	-121.8	0	0	244	512	0.455	0.447	不过	不过	不变
+5	2026-03-18_19-36-56_g1_box_rotate_01	-34.9	-34.9	+0.0	488	483	614	617	0.956	0.962	不过	不过	不变
+7	2026-05-29_15-20-43_iron_round_table_02	710.9	-32.1	-743.0	0	0	562	692	0.702	0.697	不过	不过	不变
+9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	-31.6	-20.4	+11.2	382	522	417	564	0.76	0.761	不过	过	变了
+12	2026-04-25_17-20-04_black_platform_turn_05	-63.5	-64.4	-0.9	320	377	423	414	0.612	0.582	不过	不过	不变
+14	2026-05-28_14-44-09_round_table_flip_08	-79.3	-78.8	+0.5	471	544	646	624	0.596	0.602	不过	不过	不变
+15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	1.4	1.3	-0.1	0	0	420	403	0.864	0.873	过	过	不变
+16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	238.3	-89.8	-328.1	183	179	0	0	0.551	0.561	不过	不过	不变
+17	2026-05-01_17-04-55_traffic_cone_ground_table_02	-0.5	3.8	+4.3	145	136	175	150	0.909	0.927	过	过	不变
+18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	-9.3	-9.3	+0.0	298	297	422	421	0.881	0.885	过	过	不变
+20	2026-06-08_16-57-34_rice_cooker_clockwise_04	-21.8	-21.8	+0.0	0	0	325	327	0.895	0.897	过	过	不变
+21	2026-04-29_11-53-57_tall_bar_stool_pull_08	-26.1	-25.5	+0.6	449	451	462	461	0.858	0.869	过	过	不变
+22	2026-05-22_16-52-36_step_ladder_drag_03	-21.3	-22.4	-1.1	0	0	390	394	0.526	0.527	过	过	不变
+23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	-23.0	-23.0	+0.0	324	297	293	230	0.908	0.913	过	过	不变
+25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	728.6	777.6	+49.0	59	405	137	417	1.089	1.112	不过	不过	不变
+26	2026-06-05_16-05-08_skateboard_rotate_ground_10	-28.1	-28.1	+0.0	259	260	237	224	0.766	0.753	过	过	不变
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	-28.2	-28.2	+0.0	0	0	0	0	0.544	0.545	过	过	不变
+VERDICT_CHANGED ep9（1/18）
+MAX_ABS_GAP_DIFF 743.0 mm（ep7）
+GAP_DIFF_GT_1MM ep3 ep7 ep9 ep16 ep17 ep22 ep25
+ONLY_f830 无
+ONLY_dlv ep1 ep2 ep4 ep6 ep8 ep10 ep11 ep13 ep19 ep24 ep27
