@@ -1,0 +1,19 @@
+# command  : bash -c $'a=$(LC_ALL=C grep -aP "^\\d{4}-.*\\t" results/t3hm/support_kinds_root_mf4090.txt | LC_ALL=C awk -F"\\t" "{print \\$1, \\$3, \\$4}" | sort); b=$(LC_ALL=C grep -aP "^\\d{4}-.*\\t" results/t3hm/support_kinds_stage_mf4090.txt | LC_ALL=C awk -F"\\t" "{print \\$1, \\$3, \\$4}" | sort); echo "root_hm $(printf "%s\\n" "$a" | grep -c .) 份�\233reconstructed_stage $(printf "%s\\n" "$b" | grep -c .) 份"; if [ "$a" = "$b" ]; then echo "STAGE_COPY_SAME $(printf "%s\\n" "$a" | grep -c .)/$(printf "%s\\n" "$b" | grep -c .)"; else echo STAGE_COPY_DIFF; diff <(printf "%s\\n" "$a") <(printf "%s\\n" "$b"); fi' 
+# md5      : 76a6321ce19044816c7fff4d213063aa  results/t3hm/support_kinds_root_mf4090.txt
+# md5      : 52297c0bd4fd4f59291b7d1b29b1a075  results/t3hm/support_kinds_stage_mf4090.txt
+# source   : 6efc9e854966-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:24:53-0600
+# ---------------------------------------------------------------
+grep: invalid option -- P
+usage: grep [-abcdDEFGHhIiJLlMmnOopqRSsUVvwXxZz] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+grep: invalid option -- P
+usage: grep [-abcdDEFGHhIiJLlMmnOopqRSsUVvwXxZz] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+root_hm 0 份；reconstructed_stage 0 份
+STAGE_COPY_SAME 0/0

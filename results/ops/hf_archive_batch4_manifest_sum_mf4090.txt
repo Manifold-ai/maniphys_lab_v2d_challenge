@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && md5sum runs/hf_archive_batch4_manifest_mf4090.json && python3 -c "\nimport json,collections\nm=json.load(open(\\"runs/hf_archive_batch4_manifest_mf4090.json\\"))\nfs=m[\\"files\\"] if isinstance(m,dict) and \\"files\\" in m else m\ntot=sum(int(f[\\"size\\"]) for f in fs); kinds=collections.Counter(f.get(\\"kind\\") for f in fs); runs=len({f[\\"run\\"] for f in fs})\nprint(\\"Ê\226\207‰ª∂\\", len(fs), \\"‰∏™Ôº\233run\\", runs, \\"Ê\235°Ôº\233Ê\214\211Á±ª\\", dict(kinds)); print(\\"Ê\200ªÂ\255\227Ë\212\202\\", tot, \\"=\\", round(tot/1e6,1), \\"MB\\")\n"' 
+# source   : 6efc9e854966
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:23:41-0600
+# ---------------------------------------------------------------
+b6db50003958d5fb6c7162be25669c55  runs/hf_archive_batch4_manifest_mf4090.json
+Êñá‰ª∂ 297 ‰∏™Ôºõrun 11 Êù°ÔºõÊåâÁ±ª {'policy': 286, 'final': 11}
+ÊÄªÂ≠óËäÇ 3151293348 = 3151.3 MB

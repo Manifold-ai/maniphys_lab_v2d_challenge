@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-t3-hm-recheck.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1364fde4024b84a87e8acf523b998402  agent-doc/experiments/2026-10-12-t3-hm-recheck.claims.json
+# source   : 6efc9e854966-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:25:38-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+dir                  P(supported)=0.43  UNVERIFIED             [rt]  best_hm 的重定向记录正文第一行含“目录 runs/motion_src/tier3_hm、runs/motion/tier3_hm”，以 EPS_DONE 结束，29 集都跑了。
+p2_pass              P(supported)=0.96  verified               [p2]  best_hm 29 集 P2′ 全过（P2_PASS 29/29），不过 0 集，重定向失败 0 集；结果行状态 28 集 OK、ep29 是 OK+NOCONTACT。
+surfaces             P(supported)=0.15  UNVERIFIED             [p2]  best_hm 的 P2′ 表里 29 集间隙都是 −0.0 mm；“支撑面”一栏 5 集是 support、24 集是 floor；SURFACE_TO_FLOOR 5 集：ep2、9、11、13、16。
+vs_dlv               P(supported)=0.74  verified               [cd, dp]  与第一轮 best 相比，结论变了的 15 集（ep1、2、3、4、5、6、7、8、10、12、13、14、16、25、27）正是第一轮 P2′ 不过的那 15 集；两轮的集完全相同。
+vs_theirs            P(supported)=0.82  verified               [th]  我们的 P2′ 表与提供方的门槛记录逐集对照 THEIRS_SAME 29/29；只在提供方那边有的是 ep28，只在我们这边的没有。
+stage_copy           P(supported)=0.96  verified               [sc, sk]  训练场景读的 reconstructed_stage 里 29 份支撑面与 root_hm 里的 29 份逐份相同（STAGE_COPY_SAME 29/29）；其中只有地面 17 份、带 scale 的方盒 12 份。
+gate                 P(supported)=0.88  verified               [gt, sm]  A 段 OFFSET_GATE_PASS：地面上 19 集，常数模型 o = +1.2 ± 1.2 mm；SHA_MATCH 29/29、SUPPORT_MATCH 29/29；INPUTS_DIFF 29/58 全是 ground_plane。
+slab                 P(supported)=0.80  verified               [sl]  训练导入器（support.py md5 4d6eab112a442bb2b533dfb11bc7160c）建出的 12 份桌面与 usda 一致，SLAB_OK 12/12。
+stage                P(supported)=0.96  verified               [st]  拼目录之后 root_hm 有 29 行、29 个 parquet、29 份支撑面，provenance 29 集的 support_source 都是 incoming；root_dlv 29 行、root_simreg 17 行、root_v2 20 行、root 2 行。
+diff                 P(supported)=0.95  verified               [vd]  best → best_hm：物体位姿 29/29 集有差，人体平移 28/29 集有差，人体姿态、identity_coeffs、scale_params、bone_length_flexibles 都是 0/29。
+ctl_true_ep25        P(supported)=0.96  control(true) ok       [p2]  ep25 在 best_hm 里间隙 −0.0 mm，最近的面是 support，P2′ 过。
+ctl_false_count      P(supported)=0.02  control(false) ok      [p2]  best_hm 29 集里 P2′ 过 14 集。
+ctl_false_theirs     P(supported)=0.12  control(false) ok      [th]  我们的 P2′ 表与提供方的记录有 3 集不同。
+ctl_false_copy       P(supported)=0.01  control(false) ok      [sc]  reconstructed_stage 里有 2 份支撑面与 root_hm 的不同。
+controls behaved as expected
