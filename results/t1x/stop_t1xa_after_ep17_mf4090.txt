@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "Â\201\234È\223æÂ\216\237Â\233†Ôº\232‰∫§‰ª\230Á\211\210 tier3_cari4d_f830_best Â∑≤Á\224±‰∫§Ê\216•Ê\226\207Ê°£Â\206\231Ê\230\216Ôº\214Ê\214\211ËÆ°Â\210\222 agent-doc/plan-next-training-2026-10-12.md Á¨¨ 2 Ë\212\202Â\205\210Â\201\232È\227®Êß\233Â§\215Ê\237•Ôº\210Ë¶\201Â\220\214Ê\255• mf4090Ôº\211" > runs/.chain-stop-t1xa_train_mf4090 && ls -l runs/.chain-stop-t1xa_train_mf4090 && grep -aE "^=== .*Ê\255£Âº\217" runs/logs/t1xa_train_mf4090.log | tail -1' 
+# md5      : 6cacfd655914358e39f9bac2ddd4956a  agent-doc/plan-next-training-2026-10-12.md
+# source   : bf4be20b091d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:44:35-0600
+# ---------------------------------------------------------------
+-rw-rw-r-- 1 rxzhou rxzhou 178 Oct 13 01:44 runs/.chain-stop-t1xa_train_mf4090
+=== 2026-10-13 01:03:40 CST Ê≠£Âºè t1-ep17-w2048-cap4m-r3a-mf4090
