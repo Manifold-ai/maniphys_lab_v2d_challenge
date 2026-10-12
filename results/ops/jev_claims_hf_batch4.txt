@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-hf-archive-batch4.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : ccd086c823c739aacf9a7b0ddb93d9d5  agent-doc/experiments/2026-10-12-hf-archive-batch4.claims.json
+# source   : 3ac9d185db10-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T17:43:24-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+cand                 P(supported)=0.60  UNVERIFIED             [cd]  生成清单之前的候选记录里有 11 条 run（t1-ep17、t1-ep21 与 t3p3 的 9 条），每条 policy=35、state=1，没有长链标记。
+manifest             P(supported)=0.97  verified               [pl, ms]  第 4 批清单 297 个文件、11 条 run：policy 286 个、最终 state 11 个、旧 state 0 个；总字节 3151293348，即 3151.3 MB。
+readme               P(supported)=0.97  verified               [rd]  上传前 README 传成功（HF_README_OK），仓库 Rongxuan-Zhou/v2d-track2-archive 公开、1692 个文件、24.36 GB，token 权限 write，HF_WHOAMI_OK。
+upload               P(supported)=0.98  verified               [rn]  第 4 批 297 个文件上传到公开仓库用了 9.3 分钟（HF_UPLOAD_DONE），297/297 核对一致（HF_VERIFY_OK），抽查 22 个、22 个一致（HF_SPOTCHECK_OK），最后停在删除前（HF_ARCHIVE_VERIFIED）。
+cache                P(supported)=0.72  verified               [rn]  抽查期间 xet 缓存开始 83 MB、抽查后 83 MB，没有被缓存闸停下；结束时可用 3154 MB。
+local                P(supported)=0.98  verified               [vf]  核对之后清单里的 297 个文件还在本地 297/297；删掉之后每条 run 留 9 份 policy（步 270010368–349999104），共 99 份，头部完整 99 份，state 都有同步数的 policy 配对。
+spot_cover           P(supported)=0.54  UNVERIFIED             [vf]  抽查的 22 个文件覆盖了全部 11 条 run，每条 2 个（最后一份 state 与 1 份 policy）。
+ctl_true_kinds       P(supported)=0.99  control(true) ok       [vf]  清单按类别是 final 11 个、1761331700 字节，policy 286 个、1389961648 字节。
+ctl_false_count      P(supported)=0.01  control(false) ok      [rn]  第 4 批核对时有 3 个文件不一致。
+ctl_false_spot       P(supported)=0.01  control(false) ok      [rn]  第 4 批抽查了 40 个文件。
+controls behaved as expected

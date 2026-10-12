@@ -18,7 +18,7 @@ NVIDIA V2D Challenge Track 2（G1 + Dex3，FlashCHORD FlashSAC 训练）的 chec
 | 2 | 2026-10-08 | `policy_<步数>.safetensors`：52 条 run 的中间 checkpoint，每条 26 份（步 10000384–260009984） | 1352 | 6.57 GB | 10/8 已删除 |
 | 3a | 2026-10-11 | 第 3 批计划 299 个文件（11.55 GB），提交到 125 个时账号的私有存储额度用完。已提交的是：28 条已完成的正式 run 各自的最后一份 `state_<步数>.safetensors`，1 条 run 除最后一份以外的 3 份 state，4 条 run 的 94 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984） | 125 | 5.42 GB | 10/11 已删除 |
 | 3b | 2026-10-11 | 第 3 批其余 174 个，仓库改为公开后上传：34 条已完成的正式 run 各自的最后一份 state，6 条 run 的 140 份 policy 中间 checkpoint（步 10000384–260009984） | 174 | 6.12 GB | 10/11 已删除 |
-| 4 | 2026-10-12 | 11 条已完成的正式 run（Tier 3 的 9 条、Tier 1 的 2 条）：各自 26 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984）与最后一份 `state_<步数>.safetensors` | 297 | 3.15 GB | 上传中，本地未删 |
+| 4 | 2026-10-12 | 11 条已完成的正式 run（Tier 3 的 9 条、Tier 1 的 2 条）：各自 26 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984）与最后一份 `state_<步数>.safetensors` | 297 | 3.15 GB | 已上传、已核对，本地未删 |
 
 - `state`：续训用的训练状态；续训时须与同一步数的 `policy` 成对。
 - `policy`：策略网络参数，供导出与评测使用。训练过程中约每 1000 万步保存一份。
@@ -110,6 +110,7 @@ sha256sum runs/flash_chord/<run>/policy_<步数>.safetensors
 第 3b 批的 174 个文件：大小与 sha256 全部一致（174 / 174）；抽查下载 40 个，即 34 条 run 各自的最后一份 state，加上另有 policy 的 5 条 run
 各随机 1 个、只有 policy 的 1 条 run 随机 1 个，全部一致。删除训练机上的本地副本之前，又对仓库核对了一遍，仍是 174 / 174 一致；
 训练机上的 174 个文件也逐个重算了 sha256，与清单一致。
+第 4 批的 297 个文件：大小与 sha256 全部一致（297 / 297）；抽查下载 22 个，即 11 条 run 各自的最后一份 state 与随机 1 份 policy，全部一致。
 
 ## 相关代码与记录
 
