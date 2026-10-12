@@ -161,7 +161,7 @@
   未进仓。握点沿视线滑动（0.247）与遮挡规则（0.227）都更差，没采用。ep28 只到 0.64：二维距离判手持误把靠凳子的帧算进去、
   刮板绕杆的转角不可观测、486–924 背对相机只露刮板。用户否定了长段插值与「锁在手上」（甩动时手腕几乎不动）。
 - **新版本 `runs/tier3_cari4d_f830_best{,_suspect}`**（`t3_assemble_best.sh`，`OVERRIDE="ep19_cane=convert_pivot"`）：每集取跟丢比例最低的
-  版本，选择记录在 `runs/tier3_cari4d_f830_best.selection.json`。基线 11 集、重选 4 集（ep06/07/10/22）、每帧配准 14 集、ep19 握点版；
+  版本，选择记录在 `runs/tier3_cari4d_f830_best.selection.json`。基线 12 集、重选 4 集（ep06/07/10/22）、每帧配准 13 集、ep19 握点版；
   正式 29 集，suspect 只剩 ep28。三个版本的 world 步一致（同一 floor_fit sha、身体缩放、第二机位配准），可以混用。
 - **物理检查 simreg → best**：unheld_motion 3073 → 501、pose_jump 682 → 126、acceleration_spike 234 → 16；物体穿地 1461 → 2230
   （ep10 0 → 393、ep02 65 → 203、ep13 0 → 76 等：物体现在跟到了地上，穿地要靠高度后处理）。ep19 的 pose_jump 27 → 35、
