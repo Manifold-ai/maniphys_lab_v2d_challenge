@@ -1,0 +1,39 @@
+# command  : bash -c $'python3 stages/evaluate/check_t2_select.py --selection stages/evaluate/exports/t2_select_b1012.tsv --evals results/ml40/day2 results/day2 --results runs/submission/select_t2_b1012/t2 --csv runs/submission/csv/track2_tier2_full30_1003.csv; rc=$?; echo "�\237对�\205��\232�\234\237�\234\233�\200\200�\207��\201 1�\21010/3 �\232\204 CSV �\215�\230��\231份�\200\211�\213��\211�\214�\236�\231\205 $rc"; [ $rc -eq 1 ]' 
+# md5      : 3bab7733ba8ff87c2e71d9e0c5259340  stages/evaluate/check_t2_select.py
+# md5      : 3f988a3a2e39835b4363edcc39c083d4  stages/evaluate/exports/t2_select_b1012.tsv
+# source   : adfa1a03f053
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:05:40-0600
+# ---------------------------------------------------------------
+BAD  ep0  t2-ep0-w2048-cap10m-r3a-ml40：2e029d3c44cd102d；CSV 里这条的 checkpoint_sha256 是 ['c2426b1fbfc0a952']
+OK   ep1  t2-ep1-w2048-cap10m-p185-ml40：407016b8ea8ee2b3
+OK   ep2  t2-ep2-w2048-cap4m-mf4090：8a79b81085d557cb
+BAD  ep3  t2-ep3-w2048-cap10m-r3a-ml40：5277602e48db96e0；CSV 里这条的 checkpoint_sha256 是 ['8d228ecf81b5f10c']
+OK   ep4  t2-ep4-w2048-cap4m-mf4090：b01221f226064e4f
+BAD  ep5  t2-ep5-w2048-cap10m-r3a-ml40：3bc90f01a4cb5f30；CSV 里这条的 checkpoint_sha256 是 ['d8013983710b10cd']
+BAD  ep6  t2-ep6-w2048-cap10m-r3a-ml40：4b8e162b2bfe210b；CSV 里这条的 checkpoint_sha256 是 ['7d42da43fbfab3d4']
+BAD  ep7  t2-ep7-w2048-cap10m-r3a-ml40：3bdd5577aeb8fcf5；CSV 里这条的 checkpoint_sha256 是 ['d667b845054c9530']
+BAD  ep8  t2-ep8-w2048-cap10m-r3a-ml40：f8efa07dbd168fa2；CSV 里这条的 checkpoint_sha256 是 ['ad750d314bd92c13']
+OK   ep9  t2-ep9-w2048-cap4m-mf4090：85d37e1de954aaee
+BAD  ep10 t2-ep10-w2048-cap10m-r3a-ml40：f545f3852f2042a7；CSV 里这条的 checkpoint_sha256 是 ['a033b1922a991613']
+OK   ep11 t2-ep11-w2048-cap4m-mf4090：d82840c4fda61e2c
+BAD  ep12 t2-ep12-w2048-cap10m-r3a-ml40：d9afcc9484fbeb6a；CSV 里这条的 checkpoint_sha256 是 ['9640fd95ca4018ed']
+OK   ep13 t2-ep13-w2048-cap4m-mf4090：8ea7b619632d2da2
+OK   ep14 t2-ep14-w2048-cap10m-ml40：13f7d18ce96a4543
+BAD  ep15 t2-ep15-w2048-cap10m-r3a-ml40：e98b5fb771725040；CSV 里这条的 checkpoint_sha256 是 ['fcfefc3b815f90f2']
+BAD  ep16 t2-ep16-w2048-cap10m-r3a-ml40：71ba704175c5c31e；CSV 里这条的 checkpoint_sha256 是 ['dfdcaa3a76c471da']
+OK   ep17 t2-ep17-w2048-cap4m-mf4090：e344c8d301f95cd3
+BAD  ep18 t2-ep18-w2048-cap10m-r3a-ml40：be2755c54ba2f65b；CSV 里这条的 checkpoint_sha256 是 ['d970a1af248b35a1']
+OK   ep19 t2-ep19-w2048-cap4m-mf4090：1f1ef81619c48783
+BAD  ep20 t2-ep20-w2048-cap10m-r3a-ml40：ee1b0730b3caf6d9；CSV 里这条的 checkpoint_sha256 是 ['f56408f5124a1f09']
+BAD  ep21 t2-ep21-w2048-cap10m-r3a-ml40：a3ccdf9a5a9bd5cd；CSV 里这条的 checkpoint_sha256 是 ['364e830621eecd79']
+BAD  ep22 t2-ep22-w2048-cap10m-r3a-ml40：f80784f3681d4514；CSV 里这条的 checkpoint_sha256 是 ['4841c453ee2a1057']
+OK   ep23 t2-ep23-w2048-cap4m-mf4090：5d6ffe3f17d4de42
+BAD  ep24 t2-ep24-w2048-cap10m-r3a-ml40：95144c96b2940871；CSV 里这条的 checkpoint_sha256 是 ['2b3524f4c1e2af35']
+OK   ep25 t2-ep25-w2048-cap4m-mf4090：c4e2cc9f4ec9d3d7
+BAD  ep26 t2-ep26-w2048-cap10m-r3a-s43-ml40：5ebea4ef587c748f；CSV 里这条的 checkpoint_sha256 是 ['736672651897b577']
+BAD  ep27 t2-ep27-w2048-cap10m-r3a-ml40：636b63125d50d5c7；CSV 里这条的 checkpoint_sha256 是 ['9ee7c35055da4449']
+OK   ep28 t2-ep28-w2048-cap4m-p185-mf4090：1310aca646e968d1
+BAD  ep29 t2-ep29-w2048-cap10m-r3a-ml40：84cc3e02923645da；CSV 里这条的 checkpoint_sha256 是 ['c1876e72d2fc47ab']
+CHECK_T2_SELECT_BAD（18 处不符）
+负对照：期望退出码 1（10/3 的 CSV 不是这份选择），实际 1

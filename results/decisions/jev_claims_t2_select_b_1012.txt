@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-t2-select-b.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 10fed6bc0a4fce380c6aa64e56bab158  agent-doc/experiments/2026-10-12-t2-select-b.claims.json
+# source   : adfa1a03f053-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T11:06:01-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+changed18            P(supported)=0.95  verified               [sel]  按乙选择后换了 18 条 episode，选中者里名字带 -r3a- 的 18 条，ep26 换成 t2-ep26-w2048-cap10m-r3a-s43-ml40；ep11、ep17 都不在换了的名单里；记录里没有“没有资格”的行，最后是 SELECT_T2_DONE。
+tables               P(supported)=0.95  verified               [tb, cmp]  拉回的结果表：ml40 export2_ml40 ok 30，cand_t2_t2xa_ml40 ok 14、no_done 1，cand_t2_r3t2_ml40 ok 16，mf4090 export2_mf4090 ok 30；两张 export2 表与 10/3 拉回的副本逐字节相同。
+pack                 P(supported)=0.96  verified               [pk, dr]  打出的 CSV runs/submission/csv/track2_tier2_select_b1012.csv 有 22,989 行、30 条 episode；上传器 --dry-run 报 looks valid 与 nothing submitted。
+checks               P(supported)=0.71  verified               [ce, cc, neg]  拉回的导出与新 CSV 的核对都是 CHECK_T2_SELECT_OK；同一份选择清单对 10/3 的 CSV 报 18 处不符。
+ctl_true             P(supported)=0.99  control(true) ok       [sel]  选择记录最后写了 SELECT_T2_DONE。
+ctl_false_ep11       P(supported)=0.03  control(false) ok      [sel]  ep11 换成了名字带 -r3a- 的 run。
+ctl_false_rows       P(supported)=0.02  control(false) ok      [pk]  新 CSV 有 23,500 行。
+ctl_false_neg        P(supported)=0.01  control(false) ok      [neg]  负对照报 0 处不符。
+controls behaved as expected

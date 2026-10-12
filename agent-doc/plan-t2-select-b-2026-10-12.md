@@ -64,3 +64,18 @@
 | 5 | NIT | 第四层平手（run 名字典序）不在决定里 | 采纳：注明是为了结果确定、何时用到 |
 | 6 | NIT | 没换的 12 条不必重新拉 | 不改：每条都按结果表的 sha256 核，重新拉的量很小，流程统一更不容易出错 |
 | 7 | NIT | `exports` 模式也拉 fallback 行 | 采纳：第 1 节照实写 |
+
+## 执行记录（10/12，时间 UTC-6）
+
+- 第 0 步：代码与本计划第 2 版提交 1640c05，推送。
+- 第 1 步：四张结果表拉回（`results/select_t2/tables_b1012.txt`：ml40 export2 ok 30、t2xa ok 14 与 no_done 1、试验 ok 16，mf4090 export2 ok 30）；
+  两张 `export2_*.tsv` 与 10/3 的副本逐字节相同（`results/select_t2/tables_cmp_b1012.txt`）。
+- 第 2 步：`results/select_t2/select_b1012.txt`：没有资格的候选 0 条；换了 18 条，全是名字带 `-r3a-` 的 run（ep26 是 `r3a-s43`）；
+  ep11、ep17 留现在交的。选择清单 `stages/evaluate/exports/t2_select_b1012.tsv` 提交 adfa1a0、推送（打包用的代码 URL 就是这个 commit）。
+- 第 3、4 步：拉回 30 条（60 个文件，按表里的 sha256 核过，`results/select_t2/pull_b1012.txt`）；导出核对 CHECK_T2_SELECT_OK（`results/select_t2/check_exports_b1012.txt`）。
+- 第 5 步：`pack_tier.sh` 里 uv 联网解析依赖失败三次（Mac 连不上 PyPI；离线模式缺 pandas 2.x；失败的记录被之后成功的同名记录替换，没有留下）。
+  改用 uv 缓存里 10/3 打包时同一组版本的环境（Python 3.12.14、numpy 2.5.3、pandas 2.3.3、pyarrow 25.0.1、trimesh 5.1.0、kaggle 2.2.4，kit 的依赖都能导入），
+  经 `V2D_PACK_PYTHON` 传给 `pack_tier.sh`，打包器与参数不变。CSV `runs/submission/csv/track2_tier2_select_b1012.csv`：22,989 行、30 条 episode，
+  sha256 befa4565…；上传器 `--dry-run` 通过，没有提交（`results/submission/pack/t2_select_b1012{,_dryrun}.txt`）。
+- 第 6 步：CSV 核对 CHECK_T2_SELECT_OK（`results/select_t2/check_csv_b1012.txt`）；负对照（同一份清单对 10/3 的 CSV）报 18 处不符，正是换了的 18 条
+  （`results/select_t2/check_csv_negctl_b1012.txt`）。

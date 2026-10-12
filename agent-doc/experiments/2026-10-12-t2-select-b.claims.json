@@ -1,0 +1,27 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "sel": {"file": "results/select_t2/select_b1012.txt", "grep": "换了的|^  ep[0-9]+：|带 -r3a-|SELECT_T2_DONE|没有资格|ep(11|17) +→"},
+    "tb": {"file": "results/select_t2/tables_b1012.txt", "grep": "结果表|PULL_"},
+    "cmp": {"file": "results/select_t2/tables_cmp_b1012.txt"},
+    "pk": {"file": "results/submission/pack/t2_select_b1012.txt", "grep": "wrote|PACK|code|sha256"},
+    "dr": {"file": "results/submission/pack/t2_select_b1012_dryrun.txt", "grep": "rows|nothing submitted|leaderboard"},
+    "ce": {"file": "results/select_t2/check_exports_b1012.txt", "grep": "CHECK_T2_SELECT|^BAD"},
+    "cc": {"file": "results/select_t2/check_csv_b1012.txt", "grep": "CHECK_T2_SELECT|^BAD"},
+    "neg": {"file": "results/select_t2/check_csv_negctl_b1012.txt", "grep": "CHECK_T2_SELECT|负对照"}
+  },
+  "claims": [
+    {"id": "changed18", "evidence": ["sel"],
+     "claim": "按乙选择后换了 18 条 episode，选中者里名字带 -r3a- 的 18 条，ep26 换成 t2-ep26-w2048-cap10m-r3a-s43-ml40；ep11、ep17 都不在换了的名单里；记录里没有“没有资格”的行，最后是 SELECT_T2_DONE。"},
+    {"id": "tables", "evidence": ["tb", "cmp"],
+     "claim": "拉回的结果表：ml40 export2_ml40 ok 30，cand_t2_t2xa_ml40 ok 14、no_done 1，cand_t2_r3t2_ml40 ok 16，mf4090 export2_mf4090 ok 30；两张 export2 表与 10/3 拉回的副本逐字节相同。"},
+    {"id": "pack", "evidence": ["pk", "dr"],
+     "claim": "打出的 CSV runs/submission/csv/track2_tier2_select_b1012.csv 有 22,989 行、30 条 episode；上传器 --dry-run 报 looks valid 与 nothing submitted。"},
+    {"id": "checks", "evidence": ["ce", "cc", "neg"],
+     "claim": "拉回的导出与新 CSV 的核对都是 CHECK_T2_SELECT_OK；同一份选择清单对 10/3 的 CSV 报 18 处不符。"},
+    {"id": "ctl_true", "evidence": ["sel"], "control": "true", "claim": "选择记录最后写了 SELECT_T2_DONE。"},
+    {"id": "ctl_false_ep11", "evidence": ["sel"], "control": "false", "claim": "ep11 换成了名字带 -r3a- 的 run。"},
+    {"id": "ctl_false_rows", "evidence": ["pk"], "control": "false", "claim": "新 CSV 有 23,500 行。"},
+    {"id": "ctl_false_neg", "evidence": ["neg"], "control": "false", "claim": "负对照报 0 处不符。"}
+  ]
+}
