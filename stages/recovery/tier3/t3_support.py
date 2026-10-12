@@ -69,6 +69,23 @@ def basis(gp):
     return n, d, -d * n, u, np.cross(n, u)
 
 
+def static_segments(pos: np.ndarray) -> list[tuple[int, int]]:
+    """[start, end) runs where every STATIC_WINDOW-frame window keeps the positions within STATIC_RADIUS_M of its median."""
+    still = np.zeros(len(pos), bool)
+    for i in range(len(pos) - STATIC_WINDOW + 1):
+        w = pos[i:i + STATIC_WINDOW]
+        if np.linalg.norm(w - np.median(w, 0), axis=1).max() < STATIC_RADIUS_M:
+            still[i:i + STATIC_WINDOW] = True
+    return [(int(a), int(b)) for a, b in zip(*[iter(np.flatnonzero(np.diff(np.r_[0, still.astype(int), 0])))] * 2)]
+
+
+def main_basis(root: Path):
+    """Floor-plane coordinates of the main camera's world, where registered cameras are moved to (as the patches)."""
+    regs = json.loads((root / "runs/floor/camera_register.json").read_text())["groups"]
+    _, _, o, u, v = basis(list(regs["1"]["plane"]["n"]) + [regs["1"]["plane"]["d"]])
+    return o, u, v
+
+
 def rot2(a):
     return np.array([[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]])
 
@@ -145,8 +162,7 @@ def main() -> None:
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     fit = json.loads((root / "runs/floor/floor_fit_f830.json").read_text())["episodes"]
     regs = json.loads((root / "runs/floor/camera_register.json").read_text())["groups"]
-    main_gp = list(regs["1"]["plane"]["n"]) + [regs["1"]["plane"]["d"]]
-    _, _, o_m, u_m, v_m = basis(main_gp)
+    o_m, u_m, v_m = main_basis(root)
     rows = []
     for f in sorted((phys / "npz").glob("episode_*.npz")):
         z = np.load(f)
@@ -161,12 +177,7 @@ def main() -> None:
         xy = np.c_[(pos - o_m) @ u_m, (pos - o_m) @ v_m]
         hull = np.asarray(trimesh.load(root / "input" / m["mesh"], force="mesh").convex_hull.vertices, np.float64)
         held = pz["held"]
-        still = np.zeros(len(pos), bool)
-        for i in range(len(pos) - STATIC_WINDOW + 1):
-            w = pos[i:i + STATIC_WINDOW]
-            if np.linalg.norm(w - np.median(w, 0), axis=1).max() < STATIC_RADIUS_M:
-                still[i:i + STATIC_WINDOW] = True
-        static = [(int(a), int(b)) for a, b in zip(*[iter(np.flatnonzero(np.diff(np.r_[0, still.astype(int), 0])))] * 2)]
+        static = static_segments(pos)
         rest_on = {"floor": 0, "off_floor": 0, "below_floor": 0}
         segs = []
         for a, b in static:
