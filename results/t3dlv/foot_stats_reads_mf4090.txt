@@ -1,0 +1,32 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "== �\212游 $(git -C third_party/video_to_data rev-parse --short HEAD 2>/dev/null)"; grep -rn --include=*.py -e foot_plane_dist_stats -e "payload\\[\\"plane\\"\\]" -e "\\[\\"plane\\"\\]" third_party/video_to_data stages libs 2>/dev/null | cut -c1-220; echo GREP_DONE' 
+# source   : 7392e247a4ff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T00:04:31-0600
+# ---------------------------------------------------------------
+== 上游 33129dd
+third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/retarget/ground_alignment.py:1036:    if "plane" not in payload or len(payload["plane"]) != 4:
+third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/retarget/ground_alignment.py:1038:    plane = np.asarray(payload["plane"], dtype=np.float64)
+third_party/video_to_data/robotic_grounding/scripts/retarget/soma_loader_probe.py:398:        stats = gp.get("foot_plane_dist_stats", {})
+third_party/video_to_data/reconstruction/modules/v2d_hoi_object_reconstruction/mesh_to_usd/runtime/recorded_support.py:564:    ground_plane = np.asarray(ground_data["plane"], dtype=np.float64)
+third_party/video_to_data/reconstruction/modules/v2d_mv_postprocess/lib/mv_estimate_ground_plane.py:113:        Dict with ``plane`` [a,b,c,d], ``n_inliers``, ``foot_plane_dist_stats``.
+third_party/video_to_data/reconstruction/modules/v2d_mv_postprocess/lib/mv_estimate_ground_plane.py:212:        "foot_plane_dist_stats": foot_dist_stats,
+third_party/video_to_data/reconstruction/modules/v2d_mv_postprocess/lib/mv_visualize_wis3d.py:171:            ground_plane = np.array(json.load(f)["plane"])
+stages/recovery/residual_v51.py:52:    g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/support_bridge.py:105:        g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]      # Tier 2 自己的地面
+stages/recovery/bone_flex_physics.py:8:A. 复现出题方的 foot_plane_dist_stats。每条序列的 ground_plane.json 里有它，
+stages/recovery/bone_flex_physics.py:42:    n=np.array(g["plane"][:3]); d=g["plane"][3]; s=np.linalg.norm(n); n,d=n/s,d/s
+stages/recovery/bone_flex_physics.py:43:    offi.append(g["foot_plane_dist_stats"]["median"])
+stages/recovery/bone_flex_physics.py:61:print("A. 复现官方 foot_plane_dist_stats.median（30 条序列，官方中位数的中位 "
+stages/recovery/ground_plane_facts.py:24:        a, b, c, dd = j["plane"]
+stages/recovery/foot_signal.py:29:    gp=json.load(open(os.path.join(T1,meta[ei]["ground_plane"])))["plane"]
+stages/recovery/t2eval.py:104:    g = json.load(open(TIER2 / m["ground_plane"]))["plane"]; s_ = np.linalg.norm(g[:3])
+stages/recovery/st_tune.py:28:    g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/support_bridge_v2.py:106:        g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/nopen_jitter.py:28:    g = json.load(open(TIER2 / m["ground_plane"]))["plane"]; s_ = np.linalg.norm(g[:3]); n = R_CV @ (np.array(g[:3]) / s_); d = g[3] / s_
+stages/recovery/export_tier2.py:68:        g = json.load(open(TIER2 / m["ground_plane"]))["plane"]
+stages/recovery/overfit_audit.py:41:    g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/nopen_eval.py:30:    g = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/fusion_ceiling.py:87:    g_ = json.load(open(TIER2 / meta[ei]["ground_plane"]))["plane"]
+stages/recovery/t3_float_facts.py:200:        plane = json.loads(safe(a.tier2, m["ground_plane"]).read_text())["plane"]
+stages/recovery/cleanroom_params.py:53:    g = json.load(open(TIER2 / m["ground_plane"]))["plane"]; s_ = np.linalg.norm(g[:3])
+GREP_DONE
