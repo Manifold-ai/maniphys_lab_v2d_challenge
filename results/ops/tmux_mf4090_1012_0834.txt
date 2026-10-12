@@ -1,0 +1,7 @@
+# command  : ssh -o BatchMode=yes mf4090 $'tmux list-panes -a -F \'#{session_name} å½\223å\211\215å\221½ä»¤=#{pane_current_command} pane_pid=#{pane_pid} çª\227å\217£æ´»å\212¨=#{t:window_activity}\'; ps -o pid,etime,cmd --ppid $(tmux list-panes -a -F \'#{pane_pid}\' | head -1) 2>/dev/null | cut -c1-160' 
+# source   : 7e29ba26bb19
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T08:34:43-0600
+# ---------------------------------------------------------------
+v2d-train å½“å‰å‘½ä»¤=bash pane_pid=2577637 çª—å£æ´»åŠ¨=Mon Sep 28 06:39:37 2026
+    PID     ELAPSED CMD
