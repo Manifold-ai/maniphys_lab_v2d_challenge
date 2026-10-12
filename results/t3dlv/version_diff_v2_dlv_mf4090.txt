@@ -1,0 +1,163 @@
+# command  : scripts/dev/pipe-py stages/recovery/t3_version_diff.py runs/tier3/root_v2 runs/tier3/root_dlv 0 15 17 18 20 22 23 24 26 29 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : 6275a11fa4863dca318e6cd126b15579  stages/recovery/t3_version_diff.py
+# source   : fe06b7a570c6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T13:30:57-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+## ep0：root_v2 778 行，root_dlv 778 行
+  episode_index：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/778，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.259838，有差的帧 778/778，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0770966，有差的帧 778/778，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/778，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/778，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/778，NaN 不一致 0
+## ep15：root_v2 715 行，root_dlv 715 行
+  episode_index：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0.0832825，有差的帧 715/715，NaN 不一致 0，各分量 [0.05096, 0.03588, 0.02094, 0.05121, 0.04231, 0.08328]
+  observation.human.identity_coeffs：最大绝对差 0.259257，有差的帧 715/715，NaN 不一致 0
+  observation.human.pose：最大绝对差 6.27776，有差的帧 715/715，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0706007，有差的帧 715/715，NaN 不一致 0
+  observation.human.translation：最大绝对差 0.0211344，有差的帧 715/715，NaN 不一致 0，各分量 [0.00711, 0.008992, 0.02113]
+  observation.object.pose：最大绝对差 1.67454，有差的帧 715/715，NaN 不一致 0，各分量 [1.005, 0.3657, 0.2216, 1.069, 1.069, 1.322, 1.675]
+  observation.object.visible：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/715，NaN 不一致 0
+## ep17：root_v2 440 行，root_dlv 440 行
+  episode_index：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0.135986，有差的帧 440/440，NaN 不一致 0，各分量 [0.05835, 0.03844, 0.0611, 0.06561, 0.08124, 0.136]
+  observation.human.identity_coeffs：最大绝对差 0.327398，有差的帧 440/440，NaN 不一致 0
+  observation.human.pose：最大绝对差 0.307009，有差的帧 440/440，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0781952，有差的帧 440/440，NaN 不一致 0
+  observation.human.translation：最大绝对差 0.0173395，有差的帧 440/440，NaN 不一致 0，各分量 [0.00684, 0.005803, 0.01734]
+  observation.object.pose：最大绝对差 1.56351，有差的帧 440/440，NaN 不一致 0，各分量 [0.7996, 0.4621, 0.971, 1.273, 1.148, 1.476, 1.564]
+  observation.object.visible：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/440，NaN 不一致 0
+## ep18：root_v2 858 行，root_dlv 858 行
+  episode_index：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/858，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.263145，有差的帧 858/858，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0753451，有差的帧 858/858，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/858，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/858，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/858，NaN 不一致 0
+## ep20：root_v2 553 行，root_dlv 553 行
+  episode_index：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/553，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.260029，有差的帧 553/553，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0774005，有差的帧 553/553，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/553，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/553，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/553，NaN 不一致 0
+## ep22：root_v2 719 行，root_dlv 719 行
+  episode_index：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0.197469，有差的帧 719/719，NaN 不一致 0，各分量 [0.06237, 0.02156, 0.09734, 0.09837, 0.1479, 0.1975]
+  observation.human.identity_coeffs：最大绝对差 0.240747，有差的帧 719/719，NaN 不一致 0
+  observation.human.pose：最大绝对差 6.27567，有差的帧 719/719，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0737196，有差的帧 719/719，NaN 不一致 0
+  observation.human.translation：最大绝对差 0.0579517，有差的帧 719/719，NaN 不一致 0，各分量 [0.003477, 0.004483, 0.05795]
+  observation.object.pose：最大绝对差 1.0908，有差的帧 719/719，NaN 不一致 0，各分量 [0.01917, 0.01345, 0.04442, 0.9145, 0.9026, 1.089, 1.091]
+  observation.object.visible：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/719，NaN 不一致 0
+## ep23：root_v2 946 行，root_dlv 946 行
+  episode_index：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/946，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.356749，有差的帧 946/946，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0744956，有差的帧 946/946，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/946，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/946，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/946，NaN 不一致 0
+## ep24：root_v2 748 行，root_dlv 748 行
+  episode_index：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/748，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.261053，有差的帧 748/748，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0742697，有差的帧 748/748，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/748，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/748，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/748，NaN 不一致 0
+## ep26：root_v2 669 行，root_dlv 669 行
+  episode_index：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/669，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.365037，有差的帧 669/669，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.0816815，有差的帧 669/669，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/669，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/669，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/669，NaN 不一致 0
+## ep29：root_v2 467 行，root_dlv 467 行
+  episode_index：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  frame_index：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  index：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  next.done：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  observation.human.bone_length_flexibles：最大绝对差 0，有差的帧 0/467，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0]
+  observation.human.identity_coeffs：最大绝对差 0.263606，有差的帧 467/467，NaN 不一致 0
+  observation.human.pose：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  observation.human.scale_params：最大绝对差 0.076289，有差的帧 467/467，NaN 不一致 0
+  observation.human.translation：最大绝对差 0，有差的帧 0/467，NaN 不一致 0，各分量 [0, 0, 0]
+  observation.object.pose：最大绝对差 0，有差的帧 0/467，NaN 不一致 0，各分量 [0, 0, 0, 0, 0, 0, 0]
+  observation.object.visible：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  task_index：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+  timestamp：最大绝对差 0，有差的帧 0/467，NaN 不一致 0
+## 汇总（列、有差的集数、各集最大绝对差的最大值）
+episode_index	0/10	0
+frame_index	0/10	0
+index	0/10	0
+next.done	0/10	0
+observation.human.bone_length_flexibles	3/10	0.197469
+observation.human.identity_coeffs	10/10	0.365037
+observation.human.pose	3/10	6.27776
+observation.human.scale_params	10/10	0.0816815
+observation.human.translation	3/10	0.0579517
+observation.object.pose	3/10	1.67454
+observation.object.visible	0/10	0
+task_index	0/10	0
+timestamp	0/10	0
+T3_VERSION_DIFF_DONE
