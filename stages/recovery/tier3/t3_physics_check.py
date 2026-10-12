@@ -8,8 +8,9 @@ official mesh:
   object_floor_penetration   (SIM-C165, penetration of a static body) the mesh's lowest point is more than FLOOR_TOL_M
                              below the floor.
   unheld_motion              (SIM-C178, contacts push only where they touch) the object moves faster than MOVE_MPS
-                             while no hand joint is within HOLD_M of its surface, and it is not falling: its vertical
-                             acceleration is not within FALL_TOL of gravity.
+                             while no contact joint is within HOLD_M of its surface, and it is not falling: its vertical
+                             acceleration is not within FALL_TOL of gravity. Contact joints as t3_track_check.py: the
+                             hands, plus the feet when the task text names a foot.
   rest_drift / rest_jitter   (SIM-C026, a resting body stays put) over a rest segment (slower than REST_MPS, not held,
                              at least MIN_SEGMENT frames) the object drifts more than DRIFT_M end to end, or its
                              position scatters more than JITTER_M RMS about the segment median.
@@ -96,12 +97,11 @@ def check(root: Path, npz_dir: Path, assets: str, out: Path) -> None:
     from soma import SOMALayer
     from soma.units import Unit
 
-    from t3_world_probe import soma_cv
+    from t3_world_probe import contact_joints, soma_cv, soma_joint_names
 
     layer = SOMALayer(data_root=assets, identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
                       enable_procedural_transforms=False)
-    names = [str(x) for x in layer._public_joint_names]
-    hand_idx = [i for i, nm in enumerate(names) if "Hand" in nm]
+    names = [str(x) for x in layer._public_joint_names]  # with Root, as the skinning weights' columns
     w = np.asarray(layer.skinning_weights, np.float64)
     soles = [np.nonzero(w[:, [names.index(f"{s}Foot"), names.index(f"{s}ToeBase"), names.index(f"{s}ToeEnd")]].sum(1) >= 0.5)[0]
              for s in ("Left", "Right")]
@@ -129,7 +129,7 @@ def check(root: Path, npz_dir: Path, assets: str, out: Path) -> None:
         obj_low = height(np.einsum("fij,kj->fki", rot, hull) + pos[:, None]).min(1)
 
         joints, verts = soma_cv({k: z[k] for k in HUMAN_COLUMNS}, layer)
-        hands = joints[:, hand_idx]
+        hands = joints[:, contact_joints(soma_joint_names(layer, joints.shape[1]), m["task"])]
         local = np.einsum("nji,nhj->nhi", rot, hands - pos[:, None])  # R^T (p - t)
         hand_d = cKDTree(surface).query(local.reshape(-1, 3))[0].reshape(n, -1).min(1)
         held = hand_d < HOLD_M

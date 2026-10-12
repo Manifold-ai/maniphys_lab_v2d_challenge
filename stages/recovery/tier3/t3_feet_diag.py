@@ -24,7 +24,7 @@ def main() -> None:
     from soma import SOMALayer
     from soma.units import Unit
 
-    from t3_world_probe import soma_cv
+    from t3_world_probe import soma_cv, soma_joint_names
 
     root, fit_path, assets, out = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], Path(sys.argv[4])
     fit = json.loads(fit_path.read_text())
@@ -33,8 +33,7 @@ def main() -> None:
              for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     layer = SOMALayer(data_root=assets, identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
                       enable_procedural_transforms=False)
-    names = [str(x) for x in layer._public_joint_names]
-    pelvis = names.index("Hips") if "Hips" in names else 0
+    names = [str(x) for x in layer._public_joint_names]  # with Root, as the skinning weights' columns
     w = np.asarray(layer.skinning_weights, np.float64)
     soles = [np.nonzero(w[:, [names.index(f"{s}Foot"), names.index(f"{s}ToeBase"), names.index(f"{s}ToeEnd")]].sum(1) >= 0.5)[0]
              for s in ("Left", "Right")]
@@ -62,6 +61,7 @@ def main() -> None:
             joints, verts = soma_cv({k: sp[k] for k in keys}, layer)
             feet = np.stack([(verts[:, idx] @ n + d).min(1) for idx in soles], 1).min(1)
             out_row[f"feet_{stage}_m"] = round(float(np.median(feet)), 4)
+            pelvis = soma_joint_names(layer, joints.shape[1]).index("Hips")
             out_row[f"pelvis_{stage}_m"] = round(float(np.median(joints[:, pelvis] @ n + d)), 4)
         out_row["feet_world_predicted_m"] = round(out_row["feet_focal_m"] + (entry["scale"] - 1) * out_row["pelvis_focal_m"], 4)
         rows.append(out_row)

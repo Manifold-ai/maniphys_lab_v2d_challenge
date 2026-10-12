@@ -20,7 +20,6 @@ definitions, not tuned against any reference; t3_world_eval.py-style measurement
 """
 
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -30,7 +29,7 @@ from scipy.ndimage import binary_closing, uniform_filter1d
 from scipy.spatial import cKDTree
 
 from t3_object_check import DILATE_PX, centroid, load_mesh, rasterise, visible_iou
-from t3_world_probe import HUMAN_KEYS, soma_cv
+from t3_world_probe import FOOT_JOINTS, HUMAN_KEYS, contact_joints, soma_cv, soma_joint_names
 
 FPS = 30.0
 MIN_MASK_PX = 150
@@ -41,31 +40,11 @@ MOVING_MPS = 0.15
 HAND_M = 0.25
 CLOSE_GAP = 15
 MIN_SEGMENT = 8
-FOOT_TASK = re.compile(r"\b(foot|feet)\b", re.IGNORECASE)
-FOOT_JOINTS = ("LeftFoot", "LeftToeBase", "LeftToeEnd", "RightFoot", "RightToeBase", "RightToeEnd")
-
-
-def joint_names(layer, n_joints: int) -> list[str]:
-    """Names of soma_cv's joint columns. _public_joint_names starts with Root, which the layer does not output (its
-    joints start at Hips, as the pose columns in input/meta/info.json); indexing the joints with the full list shifts
-    every joint by one (the hand set lost both wrists and gained RightShoulder and LeftLeg)."""
-    names = [str(x) for x in layer._public_joint_names]
-    if names[0] != "Root" or len(names) - 1 != n_joints:
-        raise SystemExit(f"SOMA joints: {len(names)} names starting {names[:2]}, {n_joints} joint columns; want Root + one name per column")
-    return names[1:]
 
 
 def episode_task(inp: Path, ep: int) -> str:
     rows = [json.loads(line) for line in (inp / "meta" / "episodes_metadata.jsonl").read_text().splitlines() if line.strip()]
     return next(m["task"] for m in rows if m["episode_index"] == ep)
-
-
-def contact_joints(names: list[str], task: str) -> list[int]:
-    """Hands always; feet when the task text names a foot."""
-    want = {nm for nm in names if "Hand" in nm} | (set(FOOT_JOINTS) if FOOT_TASK.search(task) else set())
-    if not set(FOOT_JOINTS) <= set(names):
-        raise SystemExit(f"SOMA joints missing {sorted(set(FOOT_JOINTS) - set(names))}")
-    return [i for i, nm in enumerate(names) if nm in want]
 
 
 def runs(mask: np.ndarray) -> list[tuple[int, int]]:
@@ -120,7 +99,7 @@ def main() -> None:
                       enable_procedural_transforms=False)
     sp = dict(np.load(conv / "soma_params.npz", allow_pickle=True))
     joints, _ = soma_cv({kk: sp[kk][:n] for kk in HUMAN_KEYS}, layer)
-    names = joint_names(layer, joints.shape[1])
+    names = soma_joint_names(layer, joints.shape[1])
     task = episode_task(mesh_path.parents[2], int(conv.name[2:4]))  # <input>/mesh/<obj>/<obj>.glb
     contact_idx = contact_joints(names, task)
     hands = joints[:, contact_idx]  # (n, h, 3) camera frame

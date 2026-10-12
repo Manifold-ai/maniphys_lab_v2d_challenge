@@ -18,6 +18,7 @@ reference: the released Tier 2 human (perturbed; no denoised human exists).
 """
 
 import json
+import re
 import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
 import sys
 from pathlib import Path
@@ -48,6 +49,30 @@ def soma_cv(sp: dict, layer) -> tuple[np.ndarray, np.ndarray]:
         joints.append(got["joints"].numpy())
         verts.append(got["vertices"].numpy())
     return np.concatenate(joints).astype(np.float64) @ F, np.concatenate(verts).astype(np.float64) @ F
+
+
+FOOT_TASK = re.compile(r"\b(foot|feet)\b", re.IGNORECASE)
+FOOT_JOINTS = ("LeftFoot", "LeftToeBase", "LeftToeEnd", "RightFoot", "RightToeBase", "RightToeEnd")
+
+
+def soma_joint_names(layer, n_joints: int) -> list[str]:
+    """Names of soma_cv's joint columns. _public_joint_names starts with Root, which the layer does not output (its
+    joints start at Hips, as the pose columns in input/meta/info.json); indexing the joints with the full list shifts
+    every joint by one (the hand set lost both wrists and gained RightShoulder and LeftLeg). The skinning weights do
+    have a Root column, so they keep the full list."""
+    names = [str(x) for x in layer._public_joint_names]
+    if names[0] != "Root" or len(names) - 1 != n_joints:
+        raise SystemExit(f"SOMA joints: {len(names)} names starting {names[:2]}, {n_joints} joint columns; want Root + one name per column")
+    return names[1:]
+
+
+def contact_joints(names: list[str], task: str) -> list[int]:
+    """Joints that may move the object: the hands, plus the feet when the task text names a foot (ep13, ep29). A foot
+    near the object in any other task is not taken as moving it."""
+    if not set(FOOT_JOINTS) <= set(names):
+        raise SystemExit(f"SOMA joints missing {sorted(set(FOOT_JOINTS) - set(names))}")
+    want = {nm for nm in names if "Hand" in nm} | (set(FOOT_JOINTS) if FOOT_TASK.search(task) else set())
+    return [i for i, nm in enumerate(names) if nm in want]
 
 
 def plane_up(n: np.ndarray, d: float) -> tuple[np.ndarray, float]:
