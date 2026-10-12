@@ -11,6 +11,13 @@
 #                                                 → runs/submission/final/held/t<档位>/；
 #                                                 结果表本身存到 runs/submission/final/<结果表名>.tsv；按结果表里的 sha256 核
 #   pull_submission.sh compat <机器>              兼容性验证里 1 个世界的导出（stages/evaluate/compat/<机器>.tsv 的 export 行）→ runs/submission/compat/t<档位>/
+#   pull_submission.sh tables <目标目录> <机器>:<结果表名>…
+#                                                 远端 runs/exports/<结果表名>.tsv → <目标目录>/<结果表名>.tsv（只读结果表，给 select_t2.py 用；
+#                                                 计划 agent-doc/plan-t2-select-b-2026-10-12.md 第 2 节第 1 步）
+#   pull_submission.sh select <选择清单> <结果表目录> <目标目录>
+#                                                 选择清单（select_t2.py 写的“档位 episode run 步数 机器”）里每条 run，在结果表目录的表里找
+#                                                 档位、run、步数相同、状态 ok 的行（必须恰好一行），从那台机器拉 JSON 与 parquet，按表里的 sha256 核，
+#                                                 放到 <目标目录>/episode_XXXXXX.{json,parquet}；最后核目标目录里的 episode 数与清单行数相同（同计划第 2 节第 3 步）
 # 机器：mf4090 用 .env，ml40 用 .env.ml40（scripts/dev/_load-env）。最后一行 PULL_OK <文件数> 或 PULL_FAIL <原因>。
 set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT"
@@ -90,6 +97,46 @@ case "$MODE" in
       run="$(cut -d/ -f3 <<< "$p")"; tier="${run:1:1}"
       place "$TMP/x/$p" "runs/submission/compat/t$tier/$(basename "$p")" "$sha"
     done < "$TMP/sha"
+    ;;
+  tables)
+    DST=${2:?用法：tables <目标目录> <机器>:<结果表名>…}; shift 2
+    [[ $DST =~ ^runs/[A-Za-z0-9_./-]+$ && $DST != *..* ]] || fail "目标目录要在 runs/ 下：$DST"
+    [ $# -ge 1 ] || fail "至少给一张结果表"
+    for mn in "$@"; do
+      M=${mn%%:*}; NAME=${mn#*:}
+      [[ $NAME =~ ^[A-Za-z0-9_-]+$ ]] || fail "结果表名非法：$NAME"
+      host_env "$M"
+      echo "runs/exports/$NAME.tsv" > "$TMP/t"; rm -rf "$TMP/x"; remote_sha "$TMP/t" "$TMP/tsha"; stream "$TMP/t"
+      place "$TMP/x/runs/exports/$NAME.tsv" "$DST/$NAME.tsv" "$(cut -d' ' -f1 < "$TMP/tsha")"
+      echo "结果表 ${M}:${NAME}：$(awk -F'\t' 'NR > 1 { c[$5]++ } END { for (s in c) printf "%s %d  ", s, c[s] }' "$DST/$NAME.tsv")"
+    done
+    ;;
+  select)
+    SEL=${2:?用法：select <选择清单> <结果表目录> <目标目录>}; TBL=${3:?用法见文件头}; DST=${4:?用法见文件头}
+    [[ $DST =~ ^runs/[A-Za-z0-9_./-]+$ && $DST != *..* ]] || fail "目标目录要在 runs/ 下：$DST"
+    [ -f "$SEL" ] && compgen -G "$TBL/*.tsv" > /dev/null || fail "缺选择清单 $SEL 或结果表目录 $TBL/*.tsv"
+    total=$(awk -F'\t' 'NF >= 5' "$SEL" | wc -l | tr -d ' ')
+    for M in mf4090 ml40; do
+      awk -F'\t' -v m="$M" 'NF >= 5 && $5 == m { print $1 "\t" $3 "\t" $4 }' "$SEL" > "$TMP/sel"
+      [ -s "$TMP/sel" ] || continue
+      : > "$TMP/rows"
+      while IFS=$'\t' read -r tier run step; do
+        awk -F'\t' -v t="$tier" -v r="$run" -v s="$step" '$1 == t && $3 == r && $4 == s && $5 == "ok"' "$TBL"/*.tsv > "$TMP/hit"
+        [ "$(wc -l < "$TMP/hit" | tr -d ' ')" = 1 ] || fail "$run 在结果表里状态 ok 的行不是恰好一行"
+        cat "$TMP/hit" >> "$TMP/rows"
+      done < "$TMP/sel"
+      host_env "$M"
+      cut -f6,7 "$TMP/rows" | tr '\t' '\n' > "$TMP/list"
+      rm -rf "$TMP/x"; stream "$TMP/list"
+      while IFS=$'\t' read -r tier ep run step st j q jsha qsha; do
+        e6="$(printf %06d "$ep")"
+        [[ $(basename "$j") == "episode_$e6.json" && $(basename "$q") == "episode_$e6.parquet" ]] || fail "$run ep${ep} 的文件名与 episode 不符：$j"
+        place "$TMP/x/$j" "$DST/episode_$e6.json" "$jsha"; place "$TMP/x/$q" "$DST/episode_$e6.parquet" "$qsha"
+      done < "$TMP/rows"
+    done
+    got=$(ls "$DST"/episode_*.parquet 2>/dev/null | wc -l | tr -d ' ')
+    [ "$got" = "$total" ] || fail "目标目录里有 $got 条 episode，选择清单是 $total 条"
+    echo "按选择清单拉了 $total 条 episode 到 $DST"
     ;;
   *) fail "不认识的模式 $MODE" ;;
 esac
