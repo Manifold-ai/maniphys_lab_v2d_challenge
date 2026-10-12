@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-sop-page-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 11b706c041f2f0f62340bb0cc18650b9  agent-doc/experiments/2026-10-12-sop-page-0730.claims.json
+# source   : 7869f4e197b2-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T07:44:59-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+nine_trained         P(supported)=0.97  verified               [e1, e2, e3]  三张评测表里 t3- 开头的 run 一共 9 条（ep20、ep29、ep0、ep15、ep18、ep22、ep23、ep26、ep17）；MP-SR ≥ 0.5 的有 4 条：ep26 0.999、ep0 0.965、ep22 0.954、ep18 0.862；其余 5 条 ep20、ep29、ep15、ep23、ep17 的 MP-SR 都是 0.000。
+t3p3c_rows           P(supported)=0.97  verified               [e3]  t3-ep23 的 SP-SR 0.000、ADD-AUC 0.164、MPPE 95.73、CHORD_SR 0.000；t3-ep17 的 SP-SR 0.000、ADD-AUC 0.190、MPPE 104.12；t3-ep22 的 CHORD_SR 0.947，t3-ep26 的 CHORD_SR 0.996；同集 Tier 2 行 t2-ep22 MP-SR 0.997、t2-ep26 1.000、t2-ep17 0.000，表里没有 t2-ep23。
+t3p3c_chain          P(supported)=0.99  verified               [h]  t3p3c 训练链写 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0），评测链 DAY2_EVAL_DONE（成功 4、失败 0）；导出链 2026-10-12 11:53:58 CST 结束、写 EXPORT_CHAIN_DONE（成功 4、失败 0）；ep22、ep23、ep26、ep17 四条的 4096 世界评测都是 non_finite_worlds 0 个。
+t3p3c_pace           P(supported)=0.98  verified               [p]  t3-ep17 的正式训练 10-11 19:27:58 MDT 开始、21:31:55 MDT 完成，用时 123:57，间隔中位 3:31；t3p3c 四条的用时在 123:57 到 143:06 之间。
+machines             P(supported)=0.96  verified               [m]  10/12 这次快照里，mf4090 的 GPU 计算进程 0 个、显存占用 0 MiB、长链标记 0 个，根分区可用 8718 MB；ml40 的 GPU 计算进程 0 个、显存占用 0 MiB、长链标记 0 个。
+fp_done              P(supported)=0.93  verified               [fl]  t3_fp_pilot.log 的最后三行依次是：ep29_rolling_luggage 试点做完（lost_fraction 0.2762）；ep07_iron 最好的跟丢比例 0.0123 < 0.2，跳过；10-12_19:59:54 PILOT DONE。runs/tier3_cari4d_fp_pilot_f830 里有 15 个 parquet。
+fp_values            P(supported)=0.98  verified               [q]  跟丢检查里，ep04 在 runs/track_check 是 0.6712、在 runs/track_check_fp 是 0.0299；ep28 是 0.9099 与 0.6822；ep29 是 0.2827 与 0.2762；ep19 是 0.5034 与 0.3883，ep19 在 runs/track_check_v2sel 是 0.6456；ep13 在 track_check_v2sel 是 0.7722、在 track_check_fp 是 0.244。
+fp_all_lower         P(supported)=0.93  verified               [q]  runs/track_check_fp 列出的 15 集（ep01、02、03、04、09、11、13、15、16、17、19、25、27、28、29），每一集的 lost_fraction 都低于同一集在 runs/track_check 里的 lost_fraction。
+fp_silhouette        P(supported)=0.96  verified               [q]  runs/checks_fp 的剪影检查列了 15 集，14 集 ok=True，只有 ep28_squeegee 是 ok=False，可见 IoU 中位 0.4274、质心偏移中位 34.95。
+simreg_ep21          P(supported)=0.99  verified               [ql]  runs/tier3_cari4d_f830_simreg 有 21 个 parquet、runs/tier3_cari4d_f830_simreg_suspect 有 9 个；simreg 目录里的 episode_000021.parquet 修改时间是 2026-10-12_02:27:09。
+dirs_same            P(supported)=0.81  verified               [ql, d1]  10/12 07:31 这次快照列出的 runs/tier3_* 目录与 10/11 21:55 那次相同，都是 13 个。
+branch               P(supported)=0.97  verified               [br]  origin/track2/tier3-recon 最新的提交是 9f9f708，时间 2026-10-12 06:40:23 +0800；9f9f708 之后的提交数是 0。
+hf3b                 P(supported)=0.89  verified               [pc, dr]  第 3b 批删除前的核对是 174 / 174 一致，删除演习没有任何“跳过”行；删除步骤开始时可用 2933 MB，删除后可用 8774 MB。
+support_eps          P(supported)=0.90  verified               [p17, p2]  simreg 17 集的 P2′ 表里，“支撑面”一栏是 support 的只有 ep9 和 ep20，其余 15 集是 floor；第二轮的表里 ep8 间隙 −33.9 mm、不过，ep24 −16.6 mm、过。
+support_cfg          P(supported)=0.97  verified               [xa, xc, hm, hn]  t3p3a 与 t3p3c 的期望表里 support 一栏，t3-ep20 与 t3-ep17 是 true，同表其余 6 条正式 run 都是 false；两条训练链起链时的正向核对都写明 4 条 run 的冒烟与正式配置都与期望表一致。
+ctl_true_train       P(supported)=0.99  control(true) ok       [h]  t3p3c 的训练链写了 DAY2_TRAIN_DONE。
+ctl_false_ep28       P(supported)=0.01  control(false) ok      [q]  runs/checks_fp 里 ep28_squeegee 的剪影检查是 ok=True。
+ctl_false_gpu        P(supported)=0.01  control(false) ok      [m]  这次快照里 mf4090 有 1 个 GPU 计算进程。
+ctl_false_branch     P(supported)=0.02  control(false) ok      [br]  9f9f708 之后 origin/track2/tier3-recon 有 2 个新提交。
+controls behaved as expected

@@ -1,0 +1,10 @@
+# command  : bash -c $'git fetch -q origin track2/tier3-recon && echo "origin/track2/tier3-recon æ\234\200è¿\221 3 ä¸ªæ\217\220äº¤ï¼\210æ\227¶é\227´ä¸ºæ\217\220äº¤æ\226¹æ\234¬å\234°æ\227¶å\214ºï¼\211"; git log -3 --format="%h %ci %s" origin/track2/tier3-recon | tools/redact_stdin.sh; echo "9f9f708 ä¹\213å\220\216ç\232\204æ\217\220äº¤æ\225° $(git rev-list --count 9f9f708..origin/track2/tier3-recon)"' 
+# source   : 7869f4e197b2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T07:36:45-0600
+# ---------------------------------------------------------------
+origin/track2/tier3-recon æœ€è¿‘ 3 ä¸ªæäº¤ï¼ˆæ—¶é—´ä¸ºæäº¤æ–¹æœ¬åœ°æ—¶åŒºï¼‰
+9f9f708 2026-10-12 06:40:23 +0800 docs(tier3): handoff 10-12 daytime: ep06 in simreg, input guard, supports, dilated IoU, queue state
+4787273 2026-10-12 05:10:31 +0800 fix(tier3): silhouette IoU on silhouettes dilated by 5 px, so thin objects are not judged lost for pixel offsets
+a2a6620 2026-10-12 04:42:18 +0800 feat(tier3): placements on one support merge when the object never left the surface
+9f9f708 ä¹‹åçš„æäº¤æ•° 0

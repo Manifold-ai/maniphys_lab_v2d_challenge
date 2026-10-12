@@ -1,0 +1,225 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "e1": {
+      "file": "results/t3p3/eval_table_t3p3a.txt",
+      "grep": "^run|^t[23]-"
+    },
+    "e2": {
+      "file": "results/t3p3/eval_table_t3p3b.txt",
+      "grep": "^run|^t[23]-"
+    },
+    "e3": {
+      "file": "results/t3p3/eval_table_t3p3c.txt",
+      "grep": "^run|^t[23]-"
+    },
+    "h": {
+      "file": "results/t3p3/health_t3p3c_mf4090.txt",
+      "grep": "DAY2_|EXPORT_CHAIN_DONE|评测链成功|导出链结束|non_finite_worlds"
+    },
+    "p": {
+      "file": "results/t3p3/pace_mf4090_t3p3c_final.txt",
+      "grep": "^== |正式开始|间隔（不含"
+    },
+    "m": {
+      "file": "results/ops/machines_1012_0731.txt",
+      "grep": "^== |^-- tmux|GPU procs|^NVIDIA|chain-markers|^/dev/"
+    },
+    "q": {
+      "file": "results/ops/t3_queue_ml40_1012_0731.txt",
+      "grep": "^## (跟丢检查|各集剪影检查)|lost_fraction=|ok=(True|False|None)"
+    },
+    "ql": {
+      "file": "results/ops/t3_queue_ml40_1012_0731.txt",
+      "grep": "PILOT DONE|skipped|^## runs/tier3_|^episode_000021"
+    },
+    "d1": {
+      "file": "results/ops/t3_queue_ml40_1011_2155.txt",
+      "grep": "^## runs/tier3_"
+    },
+    "br": {
+      "file": "results/t3recon/branch_head_1012_0731.txt"
+    },
+    "pc": {
+      "file": "results/ops/hf_archive_batch3b_precheck_mf4090.txt",
+      "grep": "核对一致|_rc=|^跳过|HF_VERIFY"
+    },
+    "dr": {
+      "file": "results/ops/hf_archive_batch3b_delete_run_mf4090.txt",
+      "grep": "^=== |核对一致|释放|可用"
+    },
+    "p17": {
+      "file": "results/t3simreg/p2_17.txt",
+      "grep": "^ep\\t|^[0-9]+\\t"
+    },
+    "p2": {
+      "file": "results/t3p2/p2_2.txt",
+      "grep": "^ep\\t|^[0-9]+\\t"
+    },
+    "fl": {
+      "file": "results/ops/t3_queue_ml40_1012_0731.txt",
+      "grep": "t3_fp_pilot\\.log|pilot done|PILOT DONE|skipped|^## runs/tier3_cari4d_fp_pilot_f830"
+    },
+    "xa": {
+      "file": "stages/policy/queues/mf4090_t3p3a.expect.tsv"
+    },
+    "xc": {
+      "file": "stages/policy/queues/mf4090_t3p3c.expect.tsv"
+    },
+    "hm": {
+      "file": "results/t3p3/health_t3p3a_mf4090.txt",
+      "grep": "正向核对|^=== .*start t3p3a_train"
+    },
+    "hn": {
+      "file": "results/t3p3/health_t3p3c_mf4090.txt",
+      "grep": "正向核对|^=== .*start t3p3c_train"
+    }
+  },
+  "claims": [
+    {
+      "id": "nine_trained",
+      "evidence": [
+        "e1",
+        "e2",
+        "e3"
+      ],
+      "claim": "三张评测表里 t3- 开头的 run 一共 9 条（ep20、ep29、ep0、ep15、ep18、ep22、ep23、ep26、ep17）；MP-SR ≥ 0.5 的有 4 条：ep26 0.999、ep0 0.965、ep22 0.954、ep18 0.862；其余 5 条 ep20、ep29、ep15、ep23、ep17 的 MP-SR 都是 0.000。"
+    },
+    {
+      "id": "t3p3c_rows",
+      "evidence": [
+        "e3"
+      ],
+      "claim": "t3-ep23 的 SP-SR 0.000、ADD-AUC 0.164、MPPE 95.73、CHORD_SR 0.000；t3-ep17 的 SP-SR 0.000、ADD-AUC 0.190、MPPE 104.12；t3-ep22 的 CHORD_SR 0.947，t3-ep26 的 CHORD_SR 0.996；同集 Tier 2 行 t2-ep22 MP-SR 0.997、t2-ep26 1.000、t2-ep17 0.000，表里没有 t2-ep23。"
+    },
+    {
+      "id": "t3p3c_chain",
+      "evidence": [
+        "h"
+      ],
+      "claim": "t3p3c 训练链写 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0），评测链 DAY2_EVAL_DONE（成功 4、失败 0）；导出链 2026-10-12 11:53:58 CST 结束、写 EXPORT_CHAIN_DONE（成功 4、失败 0）；ep22、ep23、ep26、ep17 四条的 4096 世界评测都是 non_finite_worlds 0 个。"
+    },
+    {
+      "id": "t3p3c_pace",
+      "evidence": [
+        "p"
+      ],
+      "claim": "t3-ep17 的正式训练 10-11 19:27:58 MDT 开始、21:31:55 MDT 完成，用时 123:57，间隔中位 3:31；t3p3c 四条的用时在 123:57 到 143:06 之间。"
+    },
+    {
+      "id": "machines",
+      "evidence": [
+        "m"
+      ],
+      "claim": "10/12 这次快照里，mf4090 的 GPU 计算进程 0 个、显存占用 0 MiB、长链标记 0 个，根分区可用 8718 MB；ml40 的 GPU 计算进程 0 个、显存占用 0 MiB、长链标记 0 个。"
+    },
+    {
+      "id": "fp_done",
+      "evidence": [
+        "fl"
+      ],
+      "claim": "t3_fp_pilot.log 的最后三行依次是：ep29_rolling_luggage 试点做完（lost_fraction 0.2762）；ep07_iron 最好的跟丢比例 0.0123 < 0.2，跳过；10-12_19:59:54 PILOT DONE。runs/tier3_cari4d_fp_pilot_f830 里有 15 个 parquet。"
+    },
+    {
+      "id": "fp_values",
+      "evidence": [
+        "q"
+      ],
+      "claim": "跟丢检查里，ep04 在 runs/track_check 是 0.6712、在 runs/track_check_fp 是 0.0299；ep28 是 0.9099 与 0.6822；ep29 是 0.2827 与 0.2762；ep19 是 0.5034 与 0.3883，ep19 在 runs/track_check_v2sel 是 0.6456；ep13 在 track_check_v2sel 是 0.7722、在 track_check_fp 是 0.244。"
+    },
+    {
+      "id": "fp_all_lower",
+      "evidence": [
+        "q"
+      ],
+      "claim": "runs/track_check_fp 列出的 15 集（ep01、02、03、04、09、11、13、15、16、17、19、25、27、28、29），每一集的 lost_fraction 都低于同一集在 runs/track_check 里的 lost_fraction。"
+    },
+    {
+      "id": "fp_silhouette",
+      "evidence": [
+        "q"
+      ],
+      "claim": "runs/checks_fp 的剪影检查列了 15 集，14 集 ok=True，只有 ep28_squeegee 是 ok=False，可见 IoU 中位 0.4274、质心偏移中位 34.95。"
+    },
+    {
+      "id": "simreg_ep21",
+      "evidence": [
+        "ql"
+      ],
+      "claim": "runs/tier3_cari4d_f830_simreg 有 21 个 parquet、runs/tier3_cari4d_f830_simreg_suspect 有 9 个；simreg 目录里的 episode_000021.parquet 修改时间是 2026-10-12_02:27:09。"
+    },
+    {
+      "id": "dirs_same",
+      "evidence": [
+        "ql",
+        "d1"
+      ],
+      "claim": "10/12 07:31 这次快照列出的 runs/tier3_* 目录与 10/11 21:55 那次相同，都是 13 个。"
+    },
+    {
+      "id": "branch",
+      "evidence": [
+        "br"
+      ],
+      "claim": "origin/track2/tier3-recon 最新的提交是 9f9f708，时间 2026-10-12 06:40:23 +0800；9f9f708 之后的提交数是 0。"
+    },
+    {
+      "id": "hf3b",
+      "evidence": [
+        "pc",
+        "dr"
+      ],
+      "claim": "第 3b 批删除前的核对是 174 / 174 一致，删除演习没有任何“跳过”行；删除步骤开始时可用 2933 MB，删除后可用 8774 MB。"
+    },
+    {
+      "id": "support_eps",
+      "evidence": [
+        "p17",
+        "p2"
+      ],
+      "claim": "simreg 17 集的 P2′ 表里，“支撑面”一栏是 support 的只有 ep9 和 ep20，其余 15 集是 floor；第二轮的表里 ep8 间隙 −33.9 mm、不过，ep24 −16.6 mm、过。"
+    },
+    {
+      "id": "support_cfg",
+      "evidence": [
+        "xa",
+        "xc",
+        "hm",
+        "hn"
+      ],
+      "claim": "t3p3a 与 t3p3c 的期望表里 support 一栏，t3-ep20 与 t3-ep17 是 true，同表其余 6 条正式 run 都是 false；两条训练链起链时的正向核对都写明 4 条 run 的冒烟与正式配置都与期望表一致。"
+    },
+    {
+      "id": "ctl_true_train",
+      "evidence": [
+        "h"
+      ],
+      "control": "true",
+      "claim": "t3p3c 的训练链写了 DAY2_TRAIN_DONE。"
+    },
+    {
+      "id": "ctl_false_ep28",
+      "evidence": [
+        "q"
+      ],
+      "control": "false",
+      "claim": "runs/checks_fp 里 ep28_squeegee 的剪影检查是 ok=True。"
+    },
+    {
+      "id": "ctl_false_gpu",
+      "evidence": [
+        "m"
+      ],
+      "control": "false",
+      "claim": "这次快照里 mf4090 有 1 个 GPU 计算进程。"
+    },
+    {
+      "id": "ctl_false_branch",
+      "evidence": [
+        "br"
+      ],
+      "control": "false",
+      "claim": "9f9f708 之后 origin/track2/tier3-recon 有 2 个新提交。"
+    }
+  ]
+}
