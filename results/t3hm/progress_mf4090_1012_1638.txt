@@ -1,0 +1,24 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "== $(hostname) $(date "+%F %T %Z") æ\235¥å\216\206 $(cat .v2d-source-commit)" && echo "é\207\215å®\232å\220\221å·²å\207ºç»\223æ\236\234 $(ls runs/logs/batch/ | grep -c "^t3_hm_ep.*\\.tsv$") é\233\206" && (tmux ls 2>/dev/null | cut -d: -f1; true) && ls -a runs/ | grep "^\\.chain" ; nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader && df -m --output=avail . | tail -1 && cat runs/logs/batch/t3_hm_ep*.tsv 2>/dev/null | cut -f2,6,7,9,10,11' 
+# source   : 69aa89a65921
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T16:38:55-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 06:38:55 CST æ¥å† a5bdf6f7fe0a
+é‡å®šå‘å·²å‡ºç»“æœ 13 é›†
+v2d-t3hm-retarget
+v2d-train
+0 %, 0 MiB
+ 4183
+0	284	461	-0.0	floor	OK
+1	210	0	-0.0	floor	OK
+2	330	105	-0.0	floor	OK
+3	0	512	-0.0	support	OK
+4	390	449	-0.0	floor	OK
+5	484	615	-0.0	floor	OK
+6	296	223	-0.0	support	OK
+7	0	693	-0.0	support	OK
+8	223	250	-0.0	floor	OK
+9	522	563	-0.0	floor	OK
+10	116	376	-0.0	floor	OK
+11	789	782	-0.0	floor	OK
+12	353	414	-0.0	floor	OK
