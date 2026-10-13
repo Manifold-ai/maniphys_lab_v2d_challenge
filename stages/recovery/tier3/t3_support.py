@@ -20,7 +20,19 @@ are within MERGE_DH_M and whose footprints are within MERGE_XY_M are one support
 B on one table). Its height is the object's (frame-weighted median of the placements' lowest points), not MoGe's:
 one round table in six episodes reads 0.748-0.789 m from the objects, 0.775-0.845 m from MoGe. Each placement keeps
 its own height and its offset from the support's (the error a post-process anchors away); the patch is the convex
-hull of the footprints grown by PATCH_MARGIN_M. Consecutive placements on one support between which the object's lowest point stays within LIFT_M of
+hull of the footprints grown by PATCH_MARGIN_M.
+
+The hand: a segment held on at least HELD_ALL of its frames (physics check: a contact joint within HOLD_M) never saw the
+hand leave, so resting and held in the hand cannot be told apart there. A support needs one placement that was not held
+throughout; a support seen only through such held placements is dropped (`held_only`; ep28 10-13: a squeegee held still
+over a bar stool's seat for 16 frames read as a 0.654 m support, while placements held throughout on a support that is
+also seen unheld stay, ep03's mug and ep11's book). In a static segment that was not held throughout and has no surface
+under it (`on_floor`), the frames no hand is at stand on the floor: nothing else holds the object up then, so its height
+above the floor is reconstruction error (ep28's squeegee leaning on the stool after it is let go reads 14 cm off the
+floor). Only those frames (`floor_runs`) are the floor's; the held ones may be in the air: a static segment can span a
+lift of a few cm (ep24's watering can, lifted 8-11 cm and tipped for 566 frames between two rests on the floor, is one
+static segment; anchoring all of it put the can, and the kneeling human with it, 8 cm too low, 10-13).
+t3_height_post.py anchors the floor runs. Consecutive placements on one support between which the object's lowest point stays within LIFT_M of
 the support (median-filtered over LIFT_FILTER frames, so one jittery frame does not count) are one placement: the object
 never left the surface, its reconstruction drifted (ep25's final placement drifts 25 cm on the table under a resting
 hand and read as two). Leaving downwards counts too (ep13's box goes from the desk to the floor and back).
@@ -58,6 +70,7 @@ MOGE_NORMAL_DEG = 10.0
 MOGE_MIN_H_M = 0.15
 MOGE_BAND_M = 0.10
 MOGE_MIN_POINTS = 200
+HELD_ALL = 0.95
 
 
 def basis(gp):
@@ -107,7 +120,13 @@ def hull2(pts):
 
 
 def inside(poly, pts, margin):
-    """Points within `margin` of a convex counter-clockwise polygon (signed edge distances)."""
+    """Points within `margin` of a convex counter-clockwise polygon (signed edge distances).
+
+    Repeated vertices are dropped first: a zero-length edge has no normal, its NaN distance fails every point, and the
+    patches written to json (rounded to mm) have them (11 of 30 episodes, 10-13), so every reader of those files saw no
+    point inside any patch, support clamps never fired downstream."""
+    poly = np.asarray(poly, float)
+    poly = poly[np.linalg.norm(np.roll(poly, -1, 0) - poly, axis=1) > 1e-9]
     a, b = poly, np.roll(poly, -1, 0)
     e = b - a; nrm = np.c_[e[:, 1], -e[:, 0]] / np.linalg.norm(e, axis=1)[:, None]  # outward for ccw
     dist = ((pts[:, None] - a[None]) * nrm[None]).sum(-1)
@@ -189,7 +208,8 @@ def main() -> None:
             k = a + int(np.argmin(np.linalg.norm(pos[a:b] - np.median(pos[a:b], 0), axis=1)))
             wv = hull @ rot[k].T + pos[k]
             foot = np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m]
-            segs.append({"start": a, "end": b, "height_m": lo, "footprint": hull2(foot), "centre": xy[k]})
+            segs.append({"start": a, "end": b, "height_m": lo, "footprint": hull2(foot), "centre": xy[k],
+                         "held_share": float(held[a:b].mean())})
         group = fit[name]["group"] if name in fit else 0
         mg = moge_world(wdir, name, gp, regs.get(str(group)))
         for sg in segs:  # MoGe decides only whether the object stands on a surface, and which surface
@@ -203,6 +223,10 @@ def main() -> None:
                     cm = {"points": int(sel.sum()), "surface_height_m": round(peak, 3), "minus_object_m": round(peak - sg["height_m"], 3)}
             sg["moge"] = cm
             sg["status"] = "no_surface" if cm is None else ("support" if cm["minus_object_m"] >= -MOGE_ABOVE_M else "above_surface")
+            if sg["status"] == "no_surface" and sg["held_share"] < HELD_ALL:
+                sg["status"] = "on_floor"
+                e = np.flatnonzero(np.diff(np.r_[0, (~held[sg["start"]:sg["end"]].astype(bool)).astype(int), 0])) + sg["start"]
+                sg["floor_runs"] = [[int(a), int(b)] for a, b in zip(e[::2], e[1::2], strict=True)]
         groups = []  # one per physical surface: MoGe surface heights within MERGE_DH_M, footprints within MERGE_XY_M
         for sg in sorted((g for g in segs if g["status"] == "support"), key=lambda g: -(g["end"] - g["start"])):
             for gr in groups:
@@ -211,6 +235,11 @@ def main() -> None:
                     gr.append(sg); break
             else:
                 groups.append([sg])
+        for gr in groups:  # a support seen only through placements held throughout is not seen
+            if all(g["held_share"] >= HELD_ALL for g in gr):
+                for g in gr:
+                    g["status"] = "held_only"
+        groups = [gr for gr in groups if gr[0]["status"] == "support"]
         sup_out = []
         floor_pen = obj_low < -FLOOR_TOL_M
         sup_pen_any = np.zeros(len(obj_low), bool); sup_depth = np.zeros(len(obj_low))
@@ -247,7 +276,8 @@ def main() -> None:
                             "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0})
         rejected = [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3), "status": g["status"],
                      "centre_xy_m": np.round(g["centre"], 3).tolist(), "held_share": round(float(held[g["start"]:g["end"]].mean()), 2),
-                     "moge": g["moge"]} for g in sorted(segs, key=lambda g: g["start"]) if g["status"] != "support"]
+                     "moge": g["moge"]} | ({"floor_runs": g["floor_runs"]} if "floor_runs" in g else {})
+                    for g in sorted(segs, key=lambda g: g["start"]) if g["status"] != "support"]
         row = {"episode": name, "tier": rep["tier"], "frames": len(obj_low), "group": group, "rest_frames": rest_on,
                "floor_penetration_frames": int(floor_pen.sum()), "floor_penetration_max_m": round(float(-obj_low[floor_pen].min()), 3) if floor_pen.any() else 0.0,
                "support_penetration_frames": int(sup_pen_any.sum()), "support_penetration_max_m": round(float(sup_depth.max()), 3),

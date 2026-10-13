@@ -4,7 +4,8 @@ Only heights change (shifts along the released floor's normal); horizontal posit
 The object is shifted per episode as below; the human is untouched unless --move-human (then see "human"). Per episode:
 
   anchors   a resting placement's height is known: on the floor (a t3_support static segment whose median lowest hull
-            point is within FLOOR_TOL_M of the floor or below it) the lowest point goes to 0; on a support (t3_support's
+            point is within FLOOR_TOL_M of the floor or below it; and in a segment t3_support marks `on_floor`, the
+            frames no hand is at) the lowest point goes to 0; on a support (t3_support's
             placements) to the support's height, frame by frame: a resting object touches its surface on every
             frame, so its height jitter at rest goes too (10-13: one shift per placement left the lowest point up to
             10 cm off the floor within a rest, ep14 / ep18 / ep28).
@@ -103,7 +104,11 @@ def main() -> None:
             for a, b in static_segments(pos):
                 if float(np.median(obj_low[a:b])) <= FLOOR_TOL_M:
                     anchors.append((a, b, 0.0, "floor"))
-            sup = json.loads((sup_dir / f"{name}.json").read_text())["supports"] if (sup_dir / f"{name}.json").exists() else []
+            sj = json.loads((sup_dir / f"{name}.json").read_text()) if (sup_dir / f"{name}.json").exists() else {}
+            sup = sj.get("supports", [])
+            for r in sj.get("rejected", []):  # its frames no hand is at stand on the floor (t3_support.py, on_floor)
+                if r["status"] == "on_floor":
+                    anchors += [(a, b, 0.0, "floor") for a, b in r["floor_runs"]]
             for s in sup:
                 for p in s["placements"]:
                     anchors.append((p["start"], p["end"], float(s["height_m"]), "support"))

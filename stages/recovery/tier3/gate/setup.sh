@@ -24,5 +24,6 @@ export UV_PYTHON_INSTALL_DIR=$G/.py UV_CACHE_DIR=$G/.uvcache
   --extra-index-url https://download.pytorch.org/whl/cpu \
   "torch==2.7.0" "scipy==1.15.3" "trimesh==4.5.1" "pyarrow==25.0.1" "pin==3.7.0" "pin-pink==4.2.0" "viser==1.0.15" \
   "loop-rate-limiters==1.2.0" "qpsolvers==4.9.0" "daqp==0.7.2" "proxsuite==0.7.3" "osqp==1.1.3" "clarabel==0.11.1" \
-  "usd-core==26.8" "py-soma-x==0.2.1" "cmeel-urdfdom>=4,<5" "cmeel-tinyxml2>=10,<11" tqdm
+  "usd-core==26.8" "py-soma-x==0.2.1" "cmeel-urdfdom>=4,<5" "cmeel-tinyxml2>=10,<11" tqdm \\
+  h5py opencv-python-headless fast-simplification  # t3_align_check.py (masks, silhouettes, mesh decimation)
 "$G/venv/bin/python" -c "import pinocchio, pink, soma, pxr, torch; print('gate env ok', pinocchio.__version__, torch.__version__)"

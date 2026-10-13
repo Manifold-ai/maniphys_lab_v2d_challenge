@@ -25,6 +25,9 @@ soma / pxr。这里在一个 py3.11 venv 里装同样的版本，他的代码一
 | `mkrecord.sh` | 把各集结果拼成 `p2_table.py` 要的记录 |
 | `t3_support_usda.py` | 我们的支撑面写成 usda（`g1_retarget_world`），交付用，见下 |
 | `support_recheck.sh` | 换一套支撑面重判间隙（重定向不读支撑面，不用重跑） |
+| `chain_check.sh` | 一个版本的全部检查：画面对齐、物理检查、门槛、按该版本人体生成支撑面并重判 |
+| `t3_post_verify.py` | 从写出的 parquet 独立核对后处理：静止段贴面、无穿地 |
+| `t3_replace_check.py` | 10-13 登记的三条替换判据（画面对齐、物理检查、门槛），缺数据即报错 |
 
 ## 支撑面
 
