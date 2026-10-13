@@ -1,0 +1,62 @@
+# command  : bash -c $'set -uo pipefail; R=Rongxuan-Zhou/v2d-track2-transfer; T=smoke_1013; S=runs/xfer_smoke_1013; P=runs/.xfer_smoke_1013.partial\nssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && [ ! -e $S ] && mkdir -p $S && printf \\"v2d transfer smoke 2026-10-13\\\\n\\" > $S/hello.txt && head -c 65536 /dev/urandom > $S/rand.npy && ls -l $S" || { echo SMOKE_FAILED å»ºå\206\222ç\203\237ç\233®å½\225; exit 1; }\nout="$(tools/hf_remote.sh "python3 runs/tools/hf_transfer.py push --repo $R --tag $T --dirs $S; python3 -c \\"from huggingface_hub import HfApi\nfor f in HfApi().list_repo_tree(\\\\\\"$R\\\\\\", path_in_repo=\\\\\\"$T\\\\\\", recursive=True, expand=True):\n    print(\\\\\\"repo\\\\\\", f.path, getattr(f, \\\\\\"size\\\\\\", None), \\\\\\"LFS\\\\\\" if getattr(f, \\\\\\"lfs\\\\\\", None) else \\\\\\"git\\\\\\")\\"" 2>&1)"; printf "%s\\n" "$out"\ngrep -qx "HF_PUSH_OK 2" <<< "$out" || { echo SMOKE_FAILED push; exit 1; }\nssh -o BatchMode=yes ml40 "cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && [ ! -e $P ] && mkdir -p $P" || { echo SMOKE_FAILED å»ºæ\232\202å\255\230ç\233®å½\225; exit 1; }\nout="$(V2D_ENV=ml40 tools/hf_remote.sh "python3 runs/tools/hf_transfer.py pull --repo $R --tag $T --dest $P" 2>&1)"; printf "%s\\n" "$out"\n[ "$(tail -1 <<< "$out")" = "HF_PULL_OK 2" ] || { echo SMOKE_FAILED pull; exit 1; }\na="$(ssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && find $S -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum")"\nb="$(ssh -o BatchMode=yes ml40 "cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/$P && find $S -type f -print0 | LC_ALL=C sort -z | xargs -0r sha256sum")"\nprintf "mf4090:\\n%s\\nml40:\\n%s\\n" "$a" "$b"\nssh -o BatchMode=yes mf4090 "cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && rm -rf $S"; ssh -o BatchMode=yes ml40 "cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && rm -rf $P"; echo ä¸¤è¾¹ç\232\204å\206\222ç\203\237ç\233®å½\225å·²å\210 \n[ -n "$a" ] && [ "$a" = "$b" ] && [ "$(grep -c . <<< "$a")" = 2 ] && echo HF_SMOKE_OK || echo SMOKE_FAILED ä¸¤ç«¯ä¸\215ä¸\200è\207´' 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 1e96765316de
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T01:32:02-0600
+# ---------------------------------------------------------------
+total 68
+-rw-rw-r-- 1 rxzhou rxzhou    30 Oct 13 15:32 hello.txt
+-rw-rw-r-- 1 rxzhou rxzhou 65536 Oct 13 15:32 rand.npy
+â†’ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+Traceback (most recent call last):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 836, in hf_raise_for_status
+    response.raise_for_status()
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'https://huggingface.co/api/models/Rongxuan-Zhou/v2d-track2-transfer/tree/main/smoke_1013?recursive=true&expand=true'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py", line 267, in <module>
+    sys.exit(main())
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py", line 263, in main
+    return cmd_push(a) if a.cmd == "push" else cmd_pull(a)
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py", line 116, in cmd_push
+    missing, bad, extra = _diff(want, _tree(api, a.repo, tag))
+  File "/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py", line 67, in _tree
+    for f in api.list_repo_tree(repo, repo_type="model", path_in_repo=tag, recursive=True, expand=True):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py", line 4100, in list_repo_tree
+    for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 856, in hf_raise_for_status
+    raise _format(RemoteEntryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+huggingface_hub.errors.RemoteEntryNotFoundError: 404 Client Error. (Request ID: Root=1-6acdde74-54da414751c1d3b613dc9888;686f5ee0-74d7-48ec-a743-56408630633c)
+
+Entry Not Found for url: https://huggingface.co/api/models/Rongxuan-Zhou/v2d-track2-transfer/tree/main/smoke_1013?recursive=true&expand=true.
+smoke_1013 does not exist on "main"
+Traceback (most recent call last):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 836, in hf_raise_for_status
+    response.raise_for_status()
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'https://huggingface.co/api/models/Rongxuan-Zhou/v2d-track2-transfer/tree/main/smoke_1013?recursive=true&expand=true'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py", line 4100, in list_repo_tree
+    for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 856, in hf_raise_for_status
+    raise _format(RemoteEntryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+huggingface_hub.errors.RemoteEntryNotFoundError: 404 Client Error. (Request ID: Root=1-6acdde75-412d4867389eb9833cefeed7;5788fc67-a366-48a1-bc07-28184fc9cc1f)
+
+Entry Not Found for url: https://huggingface.co/api/models/Rongxuan-Zhou/v2d-track2-transfer/tree/main/smoke_1013?recursive=true&expand=true.
+smoke_1013 does not exist on "main"
+SMOKE_FAILED push

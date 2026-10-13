@@ -1,7 +1,7 @@
 """hf_transfer.py 的行为测试（暂无契约 ID：运行规范待成文）。只用标准库，Mac 与训练机都能跑。
 
 push：进程内调用，HfApi 换成假的（把 upload_large_folder 传的文件记在内存里，list_repo_tree 按它回报：大于 20 字节的带 LFS sha256，
-其余带 git blob sha1）。
+其余带 git blob sha1；标签目录不存在时与真的一样抛 RemoteEntryNotFoundError）。
   1. 正常：清单按字节序、sha256 对，仓库里是全部文件加 MANIFEST.sha256，暂存目录删掉，HF_PUSH_OK；
   2. 仓库里已与清单一致：不再上传，HF_PUSH_OK；只传了一部分且内容都对：接着传；
   3. 缺 HF_TOKEN、HF_ENDPOINT 指向镜像、仓库不存在、是公开的、没有 README、标签下有清单外的文件或内容不对、目录里有符号链接、
@@ -37,6 +37,10 @@ ht = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ht)
 
 
+class RemoteEntryNotFoundError(Exception):
+    """同 huggingface_hub 1.x：list_repo_tree 列一个不存在的目录时抛它（HTTP 404）。"""
+
+
 def blob(b: bytes) -> str:
     return hashlib.sha1(b"blob %d\0" % len(b) + b).hexdigest()
 
@@ -68,6 +72,8 @@ class FakeApi:
                     self.uploaded[rel] = p.read_bytes()
 
     def list_repo_tree(self, repo, repo_type, path_in_repo, recursive, expand):
+        if not any(rel.startswith(path_in_repo + "/") for rel in self.uploaded):
+            raise RemoteEntryNotFoundError(f"{path_in_repo} does not exist on main")
         out = [SimpleNamespace(path=path_in_repo + "/runs")]
         for rel, b in self.uploaded.items():
             if rel.startswith(path_in_repo + "/"):

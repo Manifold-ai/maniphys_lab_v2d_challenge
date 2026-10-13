@@ -62,11 +62,16 @@ def _api():  # 测试里换成假的
 
 
 def _tree(api, repo: str, tag: str) -> dict:
-    """仓库里 <标签>/ 下每个文件的 (大小, LFS sha256 或 None, blob id)。"""
+    """仓库里 <标签>/ 下每个文件的 (大小, LFS sha256 或 None, blob id)。标签目录还不存在时 HF 回 404，当作空（10/13 冒烟发现）。"""
     got = {}
-    for f in api.list_repo_tree(repo, repo_type="model", path_in_repo=tag, recursive=True, expand=True):
-        if getattr(f, "size", None) is not None:  # 目录没有 size
-            got[f.path] = (f.size, getattr(getattr(f, "lfs", None), "sha256", None), getattr(f, "blob_id", None))
+    try:
+        for f in api.list_repo_tree(repo, repo_type="model", path_in_repo=tag, recursive=True, expand=True):
+            if getattr(f, "size", None) is not None:  # 目录没有 size
+                got[f.path] = (f.size, getattr(getattr(f, "lfs", None), "sha256", None), getattr(f, "blob_id", None))
+    except Exception as e:  # noqa: BLE001
+        if type(e).__name__ in ("RemoteEntryNotFoundError", "EntryNotFoundError") and not got:
+            return {}
+        raise
     return got
 
 

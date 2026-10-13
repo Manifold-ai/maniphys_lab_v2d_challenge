@@ -1,0 +1,36 @@
+# command  : bash -c set\ -e\;\ for\ h\ in\ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge\ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ do\ H=\$\{h%%:\*\}\;\ R=\$\{h#\*:\}\;\ for\ f\ in\ tools/hf_transfer.py\ tools/test_hf_transfer.py\;\ do\ ssh\ -o\ BatchMode=yes\ \$H\ \"cat\ \>\ \$R/runs/tools/\$\(basename\ \$f\)\"\ \<\ \"\$f\"\;\ done\;\ echo\ \"==\ \$H\"\;\ echo\ \"Mac\ \$\(md5\ -q\ tools/hf_transfer.py\)\ \ tools/hf_transfer.py\"\;\ echo\ \"Mac\ \$\(md5\ -q\ tools/test_hf_transfer.py\)\ \ tools/test_hf_transfer.py\"\;\ ssh\ -o\ BatchMode=yes\ \$H\ \"cd\ \$R\ \&\&\ md5sum\ runs/tools/hf_transfer.py\ runs/tools/test_hf_transfer.py\ \&\&\ python3\ --version\ \&\&\ python3\ runs/tools/test_hf_transfer.py\"\;\ done 
+# md5      : 353fe82d81e1eecb6e75ac7e26c22706  tools/hf_transfer.py
+# source   : 1e96765316de
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T01:30:51-0600
+# ---------------------------------------------------------------
+== mf4090
+Mac 353fe82d81e1eecb6e75ac7e26c22706  tools/hf_transfer.py
+Mac ed513218235655bd309bcfd138040d20  tools/test_hf_transfer.py
+353fe82d81e1eecb6e75ac7e26c22706  runs/tools/hf_transfer.py
+ed513218235655bd309bcfd138040d20  runs/tools/test_hf_transfer.py
+Python 3.10.12
+ok test_push_ok
+ok test_push_already_there_or_partial
+ok test_push_refusals
+ok test_push_upload_errors
+ok test_pull_ok
+ok test_pull_retries_and_failures
+ok test_pull_refusals
+ok test_origin
+ALL_OK
+== ml40
+Mac 353fe82d81e1eecb6e75ac7e26c22706  tools/hf_transfer.py
+Mac ed513218235655bd309bcfd138040d20  tools/test_hf_transfer.py
+353fe82d81e1eecb6e75ac7e26c22706  runs/tools/hf_transfer.py
+ed513218235655bd309bcfd138040d20  runs/tools/test_hf_transfer.py
+Python 3.10.12
+ok test_push_ok
+ok test_push_already_there_or_partial
+ok test_push_refusals
+ok test_push_upload_errors
+ok test_pull_ok
+ok test_pull_retries_and_failures
+ok test_pull_refusals
+ok test_origin
+ALL_OK
