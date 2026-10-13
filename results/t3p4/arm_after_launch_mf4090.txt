@@ -1,0 +1,21 @@
+# command  : tools/hf_remote.sh $'md5sum runs/tools/arm_after.sh runs/tools/hf_archive_delete_checked.sh runs/tools/hf_archive.py runs/tools/hf_archive_run.sh runs/tools/hf_archive_report.py; echo "tmux �\205��\200�\216��\203�\207\214 HF_TOKEN �\232\204�\235��\225��\232$(tmux show-environment -g 2>/dev/null | grep -c \'^HF_TOKEN=\')"; ls runs/.chain-active-*; V2D_PRE_CMD=\'V2D_HF_VISIBILITY=public bash runs/tools/hf_archive_delete_checked.sh runs/hf_archive_batch4_manifest_mf4090.json Rongxuan-Zhou/v2d-track2-archive mf4090 runs/hf_archive_batch4_mf4090\' setsid nohup bash -c \'bash runs/tools/arm_after.sh t3p4b runs/logs/t3p4a_train_mf4090.log runs/logs/t3p4a_eval_mf4090.log runs/logs/cand_t3_t3p4a_mf4090.log 5 2>&1 | grep --line-buffered -v -E "@|hf_[A-Za-z0-9]{20}" > runs/logs/arm_after_t3p4b_mf4090.log\' < /dev/null > /dev/null 2>&1 & sleep 5; echo started pid $!; cat runs/logs/arm_after_t3p4b_mf4090.log; pgrep -af "[a]rm_after.sh t3p4b" | cut -c1-200' 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 1242577815aa
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T00:48:13-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+b4e9f2f66156e8591b8ec099df5405cc  runs/tools/hf_archive_delete_checked.sh
+3ef5989f0ae92d8191053a51c0c15217  runs/tools/hf_archive.py
+acb54bf561bde72ab552b72d2f372b20  runs/tools/hf_archive_run.sh
+11e193abf408ae31b40afc60ef601859  runs/tools/hf_archive_report.py
+tmux 全局环境里 HF_TOKEN 的条数：0
+runs/.chain-active-cand_t3_t3p4a_mf4090-gate
+runs/.chain-active-t3p4a_eval_mf4090
+runs/.chain-active-t3p4a_train_mf4090
+started pid 2387611
+=== 2026-10-13 14:48:14 CST 等 runs/.chain-active-* 都消失、runs/logs/t3p4a_train_mf4090.log 与 runs/logs/t3p4a_eval_mf4090.log 写完最后一行，再起 t3p4b；前置命令：V2D_HF_VISIBILITY=public bash runs/tools/hf_archive_delete_checked.sh runs/hf_archive_batch4_manifest_mf4090.json Rongxuan-Zhou/v2d-track2-archive mf4090 runs/hf_archive_batch4_mf4090；可用 1800 MB
+=== 2026-10-13 14:48:14 CST 来历与 t3p4b 的队列：a629fbdbf3e5 4252d58db1df16d47c68ace7c1e8219f  stages/policy/queues/mf4090_t3p4b.expect.tsv d8b8fdadc9ab186ae37fdc3224a20648  stages/policy/queues/mf4090_t3p4b.txt 18aca7f233fd70f565af4b62e28d19ca  stages/policy/queues/mf4090_t3p4b_smoke.txt db571799d136be7b163ffa6b847fd8bb  stages/evaluate/exports/cand_t3_t3p4b_mf4090.tsv 
+2387605 bash -c cd '/home/rxzhou/v2d/maniphys_lab_v2d_challenge' && read -r T && read -r P && [ -n "$T" ] && [ -n "$P" ] || { echo 没读到凭据; exit 1; } export HF_TOKEN="$T" https_proxy="$P" HTTP
+2387613 bash runs/tools/arm_after.sh t3p4b runs/logs/t3p4a_train_mf4090.log runs/logs/t3p4a_eval_mf4090.log runs/logs/cand_t3_t3p4a_mf4090.log 5

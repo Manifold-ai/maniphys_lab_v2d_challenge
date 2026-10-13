@@ -1,0 +1,31 @@
+# command  : bash -c python3\ tools/test_hf_archive_delete_checked.py\ \&\&\ python3\ stages/policy/test_arm_after.py\ \&\&\ python3\ stages/recovery/test_tier3_relay.py 
+# md5      : 7406188c22e8b150a4919a2ad495bad9  tools/test_hf_archive_delete_checked.py
+# md5      : a8d7477605968b319a3e9348cc19cc84  stages/policy/test_arm_after.py
+# md5      : 1fe4e30473d65452cf1846eca9b4c3f3  stages/recovery/test_tier3_relay.py
+# source   : 1242577815aa
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T00:46:49-0600
+# ---------------------------------------------------------------
+ok test_all_pass
+ok test_token_lines_filtered
+ok test_verify_fail
+ok test_dryrun_problems
+ok test_delete_problems
+ok test_missing_inputs
+ALL_OK
+ok test_waits_then_arms
+ok test_previous_outcome_blocks_arm_not_delete
+ok test_pre_cmd_fails
+ok test_machine_busy
+ok test_gpu_frees_up
+ok test_dryrun_or_arm_not_ok
+ok test_waits_for_markers_and_logs
+ok test_source_changed
+ALL_OK
+ok test_ok
+ok test_step1_refusals
+ok test_pack_fails
+ok test_step3_failures
+ok test_step4_failures
+ok test_target_appears_before_move
+ALL_OK

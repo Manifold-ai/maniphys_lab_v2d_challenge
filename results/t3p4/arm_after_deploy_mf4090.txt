@@ -1,0 +1,33 @@
+# command  : bash -c set\ -e\;\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ for\ f\ in\ tools/hf_archive_delete_checked.sh\ stages/policy/arm_after.sh\ tools/test_hf_archive_delete_checked.py\ stages/policy/test_arm_after.py\;\ do\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cat\ \>\ \$R/runs/tools/\$\(basename\ \$f\)\"\ \<\ \"\$f\"\;\ echo\ \"Mac\ \$\(md5\ -q\ \"\$f\"\)\ \ \$f\"\;\ done\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cd\ \$R\ \&\&\ md5sum\ runs/tools/hf_archive_delete_checked.sh\ runs/tools/arm_after.sh\ runs/tools/test_hf_archive_delete_checked.py\ runs/tools/test_arm_after.py\ \&\&\ bash\ --version\ \|\ head\ -1\ \&\&\ python3\ runs/tools/test_hf_archive_delete_checked.py\ \&\&\ python3\ runs/tools/test_arm_after.py\" 
+# md5      : b4e9f2f66156e8591b8ec099df5405cc  tools/hf_archive_delete_checked.sh
+# md5      : b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+# md5      : 7406188c22e8b150a4919a2ad495bad9  tools/test_hf_archive_delete_checked.py
+# source   : 1242577815aa
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T00:47:21-0600
+# ---------------------------------------------------------------
+Mac b4e9f2f66156e8591b8ec099df5405cc  tools/hf_archive_delete_checked.sh
+Mac b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+Mac 7406188c22e8b150a4919a2ad495bad9  tools/test_hf_archive_delete_checked.py
+Mac a8d7477605968b319a3e9348cc19cc84  stages/policy/test_arm_after.py
+b4e9f2f66156e8591b8ec099df5405cc  runs/tools/hf_archive_delete_checked.sh
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+7406188c22e8b150a4919a2ad495bad9  runs/tools/test_hf_archive_delete_checked.py
+a8d7477605968b319a3e9348cc19cc84  runs/tools/test_arm_after.py
+GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+ok test_all_pass
+ok test_token_lines_filtered
+ok test_verify_fail
+ok test_dryrun_problems
+ok test_delete_problems
+ok test_missing_inputs
+ALL_OK
+ok test_waits_then_arms
+ok test_previous_outcome_blocks_arm_not_delete
+ok test_pre_cmd_fails
+ok test_machine_busy
+ok test_gpu_frees_up
+ok test_dryrun_or_arm_not_ok
+ok test_waits_for_markers_and_logs
+ok test_source_changed
+ALL_OK

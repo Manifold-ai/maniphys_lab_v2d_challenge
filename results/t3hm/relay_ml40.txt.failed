@@ -1,0 +1,7 @@
+# command  : stages/recovery/tier3_relay.sh hm 29 523 
+# md5      : cb887f07d745f09bc0c0c47d7105b8b6  stages/recovery/tier3_relay.sh
+# source   : 1242577815aa
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T00:48:29-0600
+# ---------------------------------------------------------------
+scripts/dev/record: line 43: stages/recovery/tier3_relay.sh: Permission denied
