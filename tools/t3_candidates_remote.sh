@@ -1,9 +1,9 @@
 # 服务器上的只读快照：同组成员在 ml40 上做的 Tier 3 深度方向静置修正（t3_depth_post.py，分支 track2/tier3-recon 的 5752307）
 # 各候选版本的产物与检查结果：版本目录（集数、修改时间）、depth_post.json 的顶层键、画面对齐（dev/depth_diag/align_*.json，
 # 29 个常规集逐集中位 IoU 的均值，ep28 不算，口径同 t3_replace_check.py）、门槛日志（gate/logs 的 p2_* 与 oursup_*）、
-# 替换判据（t3_replace_check.py）的输出，以及别人 checkout 的最近提交与未提交改动。经 stdin 送过去执行。
+# 替换判据（t3_replace_check.py）的输出、自动判定的记录与脚本，以及 tier3/code 下最近改过的文件。经 stdin 送过去执行。
 # 用途：判断交付版要不要从 best_hm 换成深度修正版（决定记录 agent-doc/decision-t3-delivery-depth-2026-10-13.md）。
-# 只读：不改文件、不进容器、不读环境变量；git 用 --no-optional-locks，不刷新别人的 index。别人的目录名、用户名与 home 目录名一律换成 <其他用户>（同 tools/t3_queue_remote.sh）。
+# 只读：不改文件、不进容器、不读环境变量。别人的目录名、用户名与 home 目录名一律换成 <其他用户>（同 tools/t3_queue_remote.sh）。
 # 用法（Mac，仓库根）：scripts/dev/record ops/t3_candidates_ml40_<时间> ssh ml40 'bash -s' < tools/t3_candidates_remote.sh
 set -uo pipefail
 me="$(id -un)"
@@ -78,8 +78,20 @@ PY
   while IFS= read -r f; do
     case "$f" in *.json|*.txt|*.log) echo "# ${f#$T/}"; head -c 3000 "$f"; echo ;; esac
   done < <(find "$T" "$G" -maxdepth 4 -name '*replace*' -not -path '*/code/*' -not -path '*/repo/*' -type f 2>/dev/null | sort)
-  echo "## 别人 checkout（tier3/code）的最近 3 个提交与未提交改动"
-  gt() { git -c safe.directory="$T/code" --no-optional-locks -C "$T/code" "$@"; }
-  gt log -3 --format='%h %ci %s' 2>&1 | cut -c1-200
-  gt status --short 2>&1 | head -20
+  echo "## 自动判定（dev/depth_diag 的 auto_decision.json、auto_deliver.log 全文，chain_*.log 各最后 5 行）"
+  for f in "$T/dev/depth_diag/auto_decision.json" "$T/dev/depth_diag/auto_deliver.log"; do
+    echo "# ${f##*/}"; [ -r "$f" ] && { head -c 4000 "$f"; echo; } || echo "读不了或不存在"
+  done
+  for f in "$T"/dev/depth_diag/chain_*.log; do
+    [ -f "$f" ] || continue
+    echo "# ${f##*/}"; tail -n 5 "$f" | cut -c1-300
+  done
+  echo "## 自动交付脚本 dev/depth_diag/auto_deliver_remote.sh（前 120 行）"
+  head -n 120 "$T/dev/depth_diag/auto_deliver_remote.sh" 2>&1 | cut -c1-300
+  # 10/13 第一次跑时 tier3/code 不是 git 仓库（记录 results/ops/t3_candidates_ml40_1013_0940_run1.txt.failed），只列最近改过的文件
+  echo "## tier3/code 下最近修改的 10 个文件（不是 git 仓库时）"
+  if [ -d "$T/code/.git" ]; then echo "是 git 仓库，跳过"
+  else find "$T/code" -type f -not -path '*/__pycache__/*' -printf '%TF_%TH:%TM %P\n' 2>/dev/null | sort -r | head -10; fi
+  true  # 只读快照：中间某一项读不到不算失败，只有上面“目录不是恰好一个”才非零退出
 } 2>&1 | red
+exit "${PIPESTATUS[0]}"
