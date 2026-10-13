@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-t3-delivery-depth.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e9ba3939174586fa57a43ebd136259c9  agent-doc/experiments/2026-10-13-t3-delivery-depth.claims.json
+# source   : 9d4a7ec0e936-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T09:49:07-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+auto_none            P(supported)=0.97  verified               [au]  提供方的自动判定试过 dr3 与 dr2s 两个候选，两个都是 FAIL，chosen 是 none（auto_deliver.log 最后写 chosen none placed []，AUTO_DONE）。
+auto_rule            P(supported)=0.96  verified               [au]  自动交付脚本的注释写明：dr3 过判据就选 dr3，否则 dr2s 过就选 dr2s，都不过就是 none，best_hm 不变。
+dr2s_c1              P(supported)=0.98  verified               [rp]  候选 tier3_cari4d_f830_best_dr2s 的 c1_image 判据通过：iou_best 0.8101，iou_candidate 0.8073，worse_episodes 是 ep02_blue_easter_basket 与 ep10_white_desk。
+dr2s_c2              P(supported)=0.98  verified               [rp]  候选 tier3_cari4d_f830_best_dr2s 的 c2_physics 判据没通过；其中 pose_jump 交付版 70、候选 73，unheld_motion 249 对 191，acceleration_spike 12 对 12，feet_penetration 5409 对 4044，support_penetration 0 对 0。
+dr2s_c3              P(supported)=0.98  verified               [rp]  候选 tier3_cari4d_f830_best_dr2s 的 c3_gate 判据没通过：gap_pass 29，gap_episodes 30，max_abs_gap_mm 749.8；contact_delivered 17848，contact_candidate 17779。
+dr3_fail             P(supported)=0.98  verified               [rp]  候选 tier3_cari4d_f830_best_dr3 的总结果是 FAIL：c2_physics 里 unheld_motion 249 对 290、pose_jump 70 对 73；c3_gate 里 max_abs_gap_mm 749.8，contact_candidate 15476。
+ep7_gap              P(supported)=0.98  verified               [gp]  oursup_bdr2s.txt 与 oursup_bdr3.txt 都是 30 集里 29 集过，超过 30 mm 的那一行都以集号 7 开头，gap_mm=749.8，surface=floor。
+iou_hm               P(supported)=0.99  verified               [al]  align_bdr2s.json 里 29 个常规集的 mean_iou_p50：tier3_cari4d_f830_best 0.8101，tier3_cari4d_f830_best_dr2s 0.8073，tier3_cari4d_f830_best_hm 0.7384。
+branch               P(supported)=0.78  verified               [br]  分支 track2/tier3-recon 最新的提交是 5752307，5752307 之后的提交数是 0；交接文档最后一次改动的提交是 d7aae27；交接文档第 25 行把 tier3_cari4d_f830_best_hm 标为交付版。
+t3p4a                P(supported)=0.99  verified               [ev]  名字带 -hm-mf4090 的 5 条 run（ep15、ep17、ep1、ep2、ep3）在 4096 世界评测里的 MP-SR 都是 0.000。
+ctl_true_names       P(supported)=0.98  control(true) ok       [rp]  替换判据输出里 dr2s 那一份的 delivered 是 tier3_cari4d_f830_best_hm。
+ctl_false_pass       P(supported)=0.01  control(false) ok      [rp]  候选 tier3_cari4d_f830_best_dr2s 的替换判据总结果是 PASS。
+ctl_false_ep         P(supported)=0.02  control(false) ok      [gp]  oursup_bdr2s.txt 里超过 30 mm 的那一行以集号 25 开头。
+ctl_false_chosen     P(supported)=0.02  control(false) ok      [au]  自动判定最后选中的是 tier3_cari4d_f830_best_dr3。
+controls behaved as expected

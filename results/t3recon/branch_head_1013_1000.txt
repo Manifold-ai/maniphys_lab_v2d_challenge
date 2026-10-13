@@ -1,0 +1,22 @@
+# command  : bash -c $'git fetch -q origin track2/tier3-recon && echo "origin/track2/tier3-recon �\234\200�\221 3 个�\217\220交�\210�\227��\227�为�\217\220交�\200\205�\227��\214��\211"; git log -3 --format="%h %ci %s" origin/track2/tier3-recon | tools/redact_stdin.sh; echo "5752307 �\213�\220\216�\232\204�\217\220交�\225� $(git rev-list --count 5752307..origin/track2/tier3-recon)"; echo "交�\216��\226\207档�\234\200�\220\216�\200次�\224��\212��\232\204�\217\220交�\232"; git log -1 --format="%h %ci %s" origin/track2/tier3-recon -- agent-doc/handoff-tier3-2026-10-10.md | tools/redact_stdin.sh; echo "交�\216��\226\207档�\207\214�\206\231�\234\200�\210交�\230�\211\210�\232\204�\214�\232"; git show origin/track2/tier3-recon:agent-doc/handoff-tier3-2026-10-10.md | grep -n -i -e "best_hm" | head -8 | cut -c1-300 | tools/redact_stdin.sh' 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 9d4a7ec0e936
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T09:47:17-0600
+# ---------------------------------------------------------------
+origin/track2/tier3-recon 最近 3 个提交（时间为提交者时区）
+5752307 2026-10-13 10:02:29 +0800 feat(tier3): depth-first object rest correction; support rules; replacement criteria
+d7aae27 2026-10-13 05:20:11 +0800 feat(tier3): deliver best_hm with our supports; humans follow held objects; rxzhou's gate runs on our side
+1a6f042 2026-10-13 02:03:51 +0800 feat(tier3): object height post-process onto measured floor and supports, no penetration
+5752307 之后的提交数 0
+交接文档最后一次改动的提交：
+d7aae27 2026-10-13 05:20:11 +0800 feat(tier3): deliver best_hm with our supports; humans follow held objects; rxzhou's gate runs on our side
+交接文档里写最终交付版的行：
+25:| `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}` | **交付版（10-13 用户定）**：逐集选重建版本（`best`）+ 物体高度后处理 + 手持段人体随物体平移（`best_h` 只有前两步）；附我们的支撑面 `support_surface/`，见「10-13 晚」一节 |
+190:## 10-13 晚：交付 `tier3_cari4d_f830_best_hm`，支撑面，门槛自测（本节提交）
+192:- **用户定**：交付 `best_hm`；支撑面一起交，用我们的；脚陷地交给机器人腿部 IK（用户与 rxzhou 一致：地面文件只负责把人和物一起放平到
+196:  diag(1,-1,-1)），第一版直接加了 OpenCV 的法向，人往反方向动；**L40S 10-13 03:38 CST（10-12 13:38 UTC−6）之前写出的 `best_hm` 是这一版，
+198:- **自验（best_h → best_hm，physics）**：手持帧里脚高变化与物体高度变化之差 p95 的中位 6 mm（ep28 65 mm），方向一致 99–100%（作废版 75 mm、0%）；
+202:  - 官方支撑面：`best_h`、`best_hm` 都 28/30 过，ep3、ep25 悬空（755、791 mm：官方桌面不在物体下面），无重定向失败。
+206:  - `best_h` → `best_hm`：手接触帧（不含 ep28）16728 → 17848，16 集增加、ep6/ep19 减少；IK 误差中位 0.743 → 0.762（有增有减）；
+211:  文件在 `$T/runs/tier3_cari4d_f830_best_hm{,_suspect}/support_surface/`，路径与元数据 `support_surface` 字段一致（12 集有桌面，ep28 也有）。

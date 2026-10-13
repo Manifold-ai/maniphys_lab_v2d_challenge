@@ -1,0 +1,35 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ t\ in\ runs/exports/cand_t1_t1xa_mf4090.tsv\ runs/exports/cand_t1_t1xa2_mf4090.tsv\;\ do\ echo\ \"##\ \$t\"\;\ cut\ -f1-5\ \"\$t\"\;\ cut\ -f6\,7\ \"\$t\"\ \|\ tr\ \"\\t\"\ \"\\n\"\ \|\ grep\ .\ \|\ xargs\ -r\ du\ -k\;\ done\;\ for\ r\ in\ t1-ep17-w2048-cap4m-r3a-mf4090\ t1-ep21-w2048-cap4m-r3a-mf4090\;\ do\ du\ -k\ runs/flash_chord/\$r/eval_349999104_w4096.json\;\ done\;\ ls\ -d\ runs/select_t1_\*\ 2\>/dev/null\;\ df\ -m\ .\ \|\ tail\ -1 
+# source   : 9d4a7ec0e936-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T09:49:26-0600
+# ---------------------------------------------------------------
+## runs/exports/cand_t1_t1xa_mf4090.tsv
+tier	episode	run	step	status
+1	17	t1-ep17-w2048-cap4m-r3a-mf4090	349999104	ok
+1	21	t1-ep21-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	10	t1-ep10-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	13	t1-ep13-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	19	t1-ep19-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	3	t1-ep3-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	14	t1-ep14-w2048-cap4m-r3a-mf4090	349999104	no_done
+4	runs/flash_chord/t1-ep17-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000017.json
+88	runs/flash_chord/t1-ep17-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000017.parquet
+## runs/exports/cand_t1_t1xa2_mf4090.tsv
+tier	episode	run	step	status
+1	21	t1-ep21-w2048-cap4m-r3a-mf4090	349999104	ok
+1	10	t1-ep10-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	13	t1-ep13-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	19	t1-ep19-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	3	t1-ep3-w2048-cap4m-r3a-mf4090	349999104	no_done
+1	14	t1-ep14-w2048-cap4m-r3a-mf4090	349999104	no_done
+du: cannot access 'json': No such file or directory
+du: cannot access 'parquet': No such file or directory
+du: cannot access 'json': No such file or directory
+du: cannot access 'parquet': No such file or directory
+4	runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000021.json
+136	runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000021.parquet
+4	runs/flash_chord/t1-ep17-w2048-cap4m-r3a-mf4090/eval_349999104_w4096.json
+4	runs/flash_chord/t1-ep21-w2048-cap4m-r3a-mf4090/eval_349999104_w4096.json
+runs/select_t1_r3x_stage
+runs/select_t1_stage
+/dev/vda2         201462 189851      3302  99% /

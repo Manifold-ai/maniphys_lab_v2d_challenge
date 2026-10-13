@@ -1,0 +1,133 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rp": {
+      "file": "results/ops/t3_candidates_ml40_1013_1000.txt",
+      "grep": "^# dev/depth_diag/replace_|^\\{\"candidate\"|^(PASS|FAIL)$"
+    },
+    "au": {
+      "file": "results/ops/t3_candidates_ml40_1013_1000.txt",
+      "grep": "^# auto_deliver.log|^\\[2026-10-13|^AUTO_DONE|^ \"(time|chosen|tried)\"|^  \"(dr3|dr2s)\"|^# (10-13 unattended|registered criteria|else none)"
+    },
+    "gp": {
+      "file": "results/ops/t3_candidates_ml40_1013_1000.txt",
+      "grep": "^## 我们的支撑面重判|^  oursup_bdr|RESULT gap_mm"
+    },
+    "al": {
+      "file": "results/ops/t3_candidates_ml40_1013_1000.txt",
+      "grep": "^## 画面对齐|^# .*align_.*\\.json|mean_iou_p50"
+    },
+    "br": {
+      "file": "results/t3recon/branch_head_1013_1000.txt",
+      "grep": "^# run_at|最近 3 个提交|^[0-9a-f]{7} |之后的提交数|交接文档|^25:"
+    },
+    "ev": {
+      "file": "results/t3p4/eval_table_t3p4a.txt",
+      "grep": "^run|-hm-mf4090"
+    }
+  },
+  "claims": [
+    {
+      "id": "auto_none",
+      "evidence": [
+        "au"
+      ],
+      "claim": "提供方的自动判定试过 dr3 与 dr2s 两个候选，两个都是 FAIL，chosen 是 none（auto_deliver.log 最后写 chosen none placed []，AUTO_DONE）。"
+    },
+    {
+      "id": "auto_rule",
+      "evidence": [
+        "au"
+      ],
+      "claim": "自动交付脚本的注释写明：dr3 过判据就选 dr3，否则 dr2s 过就选 dr2s，都不过就是 none，best_hm 不变。"
+    },
+    {
+      "id": "dr2s_c1",
+      "evidence": [
+        "rp"
+      ],
+      "claim": "候选 tier3_cari4d_f830_best_dr2s 的 c1_image 判据通过：iou_best 0.8101，iou_candidate 0.8073，worse_episodes 是 ep02_blue_easter_basket 与 ep10_white_desk。"
+    },
+    {
+      "id": "dr2s_c2",
+      "evidence": [
+        "rp"
+      ],
+      "claim": "候选 tier3_cari4d_f830_best_dr2s 的 c2_physics 判据没通过；其中 pose_jump 交付版 70、候选 73，unheld_motion 249 对 191，acceleration_spike 12 对 12，feet_penetration 5409 对 4044，support_penetration 0 对 0。"
+    },
+    {
+      "id": "dr2s_c3",
+      "evidence": [
+        "rp"
+      ],
+      "claim": "候选 tier3_cari4d_f830_best_dr2s 的 c3_gate 判据没通过：gap_pass 29，gap_episodes 30，max_abs_gap_mm 749.8；contact_delivered 17848，contact_candidate 17779。"
+    },
+    {
+      "id": "dr3_fail",
+      "evidence": [
+        "rp"
+      ],
+      "claim": "候选 tier3_cari4d_f830_best_dr3 的总结果是 FAIL：c2_physics 里 unheld_motion 249 对 290、pose_jump 70 对 73；c3_gate 里 max_abs_gap_mm 749.8，contact_candidate 15476。"
+    },
+    {
+      "id": "ep7_gap",
+      "evidence": [
+        "gp"
+      ],
+      "claim": "oursup_bdr2s.txt 与 oursup_bdr3.txt 都是 30 集里 29 集过，超过 30 mm 的那一行都以集号 7 开头，gap_mm=749.8，surface=floor。"
+    },
+    {
+      "id": "iou_hm",
+      "evidence": [
+        "al"
+      ],
+      "claim": "align_bdr2s.json 里 29 个常规集的 mean_iou_p50：tier3_cari4d_f830_best 0.8101，tier3_cari4d_f830_best_dr2s 0.8073，tier3_cari4d_f830_best_hm 0.7384。"
+    },
+    {
+      "id": "branch",
+      "evidence": [
+        "br"
+      ],
+      "claim": "分支 track2/tier3-recon 最新的提交是 5752307，5752307 之后的提交数是 0；交接文档最后一次改动的提交是 d7aae27；交接文档第 25 行把 tier3_cari4d_f830_best_hm 标为交付版。"
+    },
+    {
+      "id": "t3p4a",
+      "evidence": [
+        "ev"
+      ],
+      "claim": "名字带 -hm-mf4090 的 5 条 run（ep15、ep17、ep1、ep2、ep3）在 4096 世界评测里的 MP-SR 都是 0.000。"
+    },
+    {
+      "id": "ctl_true_names",
+      "evidence": [
+        "rp"
+      ],
+      "control": "true",
+      "claim": "替换判据输出里 dr2s 那一份的 delivered 是 tier3_cari4d_f830_best_hm。"
+    },
+    {
+      "id": "ctl_false_pass",
+      "evidence": [
+        "rp"
+      ],
+      "control": "false",
+      "claim": "候选 tier3_cari4d_f830_best_dr2s 的替换判据总结果是 PASS。"
+    },
+    {
+      "id": "ctl_false_ep",
+      "evidence": [
+        "gp"
+      ],
+      "control": "false",
+      "claim": "oursup_bdr2s.txt 里超过 30 mm 的那一行以集号 25 开头。"
+    },
+    {
+      "id": "ctl_false_chosen",
+      "evidence": [
+        "au"
+      ],
+      "control": "false",
+      "claim": "自动判定最后选中的是 tier3_cari4d_f830_best_dr3。"
+    }
+  ]
+}
