@@ -289,3 +289,23 @@
   ml40 此后空闲。
 - 07:30 的 SOP 定时任务按规定不同步、不起链。第 3 节第 7、9 步（同步 ml40 → Tier 2 乙重做与 Tier 1 中间版逐条选，都不提交 → `t3qa` 配置展开、预演、起链）
   等下一次交互。SOP 页面的数字另做了 jev（`results/site/jev_claims_sop_page_1013_0730.txt`，第 2 轮 10 条核实，第 1 轮留档 `_run1`）。
+
+- 10/13 09:30 前后用户回复：非必须不删除，删除前要先备份到 HF 并写 README（`tier3_dlv` 与中转仓库的副本都留着）；Tier 3 的 Kaggle 比赛由用户之后加入；
+  Tier 1 由用户提交；交付版换不换由我代为决定。
+- 交付版：不换，仍是 `best_hm`（`agent-doc/decision-t3-delivery-depth-2026-10-13.md`）。提供方事先登记的三条替换判据，深度修正的两个候选 dr3、dr2s 都没过，
+  提供方的自动判定是 none；没过的是位姿跳变 70 → 73 帧、ep7 在候选里静置时离地 749.8 mm 且下面没有支撑面（dr3 另有无手持运动 249 → 290、手接触帧 15476）。
+  jev 10 条核实（0.78–0.99），对照 4 条正常（`results/t3hm/jev_claims_delivery_depth.txt`）。
+- 10:12 前后同步 ml40 到 66a8f0d（先修 `select_t1.py`：几张导出表里同一条 run 的 ok 行不再被另一张表的 no_done 行覆盖；t1xa 的表把 ep21 记成 no_done，
+  按表名排序在 t1xa2 之后读，不修会把 ep21 的新候选剔掉。测试 Mac 与 ml40 容器里都过，`results/ml40/t1x/test_select_t1_ml40.txt`）。
+  第 3 节第 7 步的 Tier 1 中间版逐条选：两条新候选约 240 KB（`results/ops/t1x_cand_size_mf4090.txt`），用户同意这次经 Mac 管道转，`relay_t1x.sh` 先转 t1xa、
+  再转 t1xa2（`results/ops/relay_t1x_t1xa{,2}.txt`，候选 56 个、结果表 7 张）。`select_t1.sh` 标签 t1x1013（`results/ml40/select_t1/select_t1x1013.txt`）：
+  打分门 A、B 都过；只有 ep21 换成 `t1-ep21-w2048-cap4m-r3a-mf4090`（1 世界 MP-SR 1.0），ep17 留现在交的；对比 C1–C5 都过，COMPARE_OK
+  （`results/ml40/select_t1/compare_t1x1013.txt`）。CSV 四项 AUC 0.4713、SP-SR 0.6000、MP-SR 0.5333、MPPE 24.5366（10/9：0.4597、0.6000、0.5000、24.6231）；
+  拉回 Mac，两端 sha256 相同（37bc9b9d…，`results/submission/pull_t1x1013.txt`）；上传器 `--dry-run` 通过，没有提交（`results/submission/pack/t1_select_t1x1013_dryrun.txt`）。
+  提交由用户做。
+- Tier 2 乙重做（标签 b1013，`agent-doc/plan-t2-select-b-2026-10-12.md` 执行记录）：与 10/12 相比换了 ep2、9、13、14、19、28，都换成 t2xb 的 run；CSV 打好、没有提交。
+- 10:17 前后同步 ml40 回到 a629fbd（与 mf4090 部署的相同，`results/t3q/source_both_1013.txt`）。`t3qa`：配置展开 16 份、意外键 0（`results/t3q/cfgcheck_t3qa_ml40.txt`）；
+  预演 DRYRUN_OK，训练挂 `v040_p185_nfg`、评测与导出挂 `fc_8c778f9`，可用 1,386,753 MB（`results/t3q/arm_dryrun_t3qa_ml40.txt`）；10:22 起链 ARMED
+  （`results/t3q/arm_t3qa_ml40.txt`）；10:27 ep4 冒烟通过。按 t2xb 每条约 2.06 小时估，训练链约 10/14 03:30 结束，评测与导出约 03:30–04:30 结束（估计）。
+- jev：Tier 1、Tier 2 与 `t3qa` 的 15 条核实（0.75–0.99），对照 4 条正常（`results/t3q/jev_claims_t1x1013_b1013_t3qa.txt`）；第 1 轮的真对照 0.62
+  （证据里没有 ep17 的候选行），补上候选行后重跑，第 1 轮留档 `_run1`。

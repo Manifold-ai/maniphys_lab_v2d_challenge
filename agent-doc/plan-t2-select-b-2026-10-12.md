@@ -79,3 +79,22 @@
   sha256 befa4565…；上传器 `--dry-run` 通过，没有提交（`results/submission/pack/t2_select_b1012{,_dryrun}.txt`）。
 - 第 6 步：CSV 核对 CHECK_T2_SELECT_OK（`results/select_t2/check_csv_b1012.txt`）；负对照（同一份清单对 10/3 的 CSV）报 18 处不符，正是换了的 18 条
   （`results/select_t2/check_csv_negctl_b1012.txt`）。
+
+## 执行记录（10/13，标签 b1013：加 t2xb 的候选再选一次，时间 UTC-6）
+
+计划 D 第 3 节第 7 步要求 t2xb 结束后用它的候选重做一次乙。做法、判据与 10/12 相同，只多一张结果表 `cand_t2_t2xb_ml40`，现在交的清单仍是 10/3 那份。
+
+- 第 1 步：五张结果表拉回（`results/select_t2/tables_b1013.txt`：ml40 export2 ok 30、t2xa ok 14 与 no_done 1、试验 ok 16、t2xb ok 9，mf4090 export2 ok 30）；
+  两张 `export2_*.tsv` 与 10/3 的副本、t2xa 与试验两张与 10/12 的副本逐字节相同（`results/select_t2/tables_cmp_b1013.txt`；第 1 次的输出在 Mac 的 bash 3.2 下
+  把变量名后面的中文吃掉了，比较本身照常，留档 `_run1`）。
+- 第 2 步：`results/select_t2/select_b1013.txt`：与 10/3 相比换了 24 条，全是名字带 `-r3a-` 的 run；与 10/12 的清单相比只差 ep2、9、13、14、19、28 六条
+  （`results/select_t2/diff_b1012_b1013.txt`），都换成 t2xb 的 run：ep13 MP-SR 0.130、ep2 0.011，其余四条 MP-SR 都是 0、按 ADD-AUC 换
+  （ep9 0.206 → 0.274、ep14 0.303 → 0.432、ep19 0.180 → 0.318、ep28 0.077 → 0.105）；ep1、ep4、ep25 的 t2xb run ADD-AUC 更低，留现在交的。
+  选择清单 `stages/evaluate/exports/t2_select_b1013.tsv` 提交 5888a41、推送。
+- 第 3、4 步：拉回 30 条（60 个文件，`results/select_t2/pull_b1013.txt`）；导出核对 CHECK_T2_SELECT_OK（`results/select_t2/check_exports_b1013.txt`）。
+- 第 5 步：同 10/12 用 uv 缓存里的环境（`V2D_PACK_PYTHON`）。CSV `runs/submission/csv/track2_tier2_select_b1013.csv`：22,989 行、30 条 episode，sha256 770a1101…；
+  上传器 `--dry-run` 通过，没有提交（`results/submission/pack/t2_select_b1013{,_dryrun}.txt`）。
+- 第 6 步：CSV 核对 CHECK_T2_SELECT_OK（`results/select_t2/check_csv_b1013.txt`）；负对照（这份清单对 10/12 的 CSV）报 6 处不符，正是新换的 6 条
+  （`results/select_t2/check_csv_negctl_b1013.txt`）。
+- 只报：ep9 换上的 t2xb run ADD-AUC 更高，但 MPPE 29.44 → 56.92 cm 变差（`results/t2x/eval_table_t2xb.txt`）；乙只看 MP-SR 与 ADD-AUC，照登记的规则不改。
+- jev：`results/t3q/jev_claims_t1x1013_b1013_t3qa.txt` 的 t2_* 四条核实（0.90–0.99）。交不交、什么时候交仍由用户定。

@@ -1,0 +1,201 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "t1s": {
+      "file": "results/ml40/select_t1/select_t1x1013.txt",
+      "grep": "^GATE|^CHOSEN ep(17|21)|^  ep(17|21) |^PACKED|^SELECT_T1_DONE|剔除|^wrote"
+    },
+    "t1c": {
+      "file": "results/ml40/select_t1/compare_t1x1013.txt",
+      "grep": "^C[1-5]|COMPARE_|合计"
+    },
+    "t1d": {
+      "file": "results/submission/pack/t1_select_t1x1013_dryrun.txt",
+      "grep": "^# command|looks valid|left today|nothing submitted"
+    },
+    "t1p": {
+      "file": "results/submission/pull_t1x1013.txt",
+      "grep": "^ml40 |^mac |用时|track2_tier1"
+    },
+    "rl": {
+      "file": "results/ops/relay_t1x_t1xa2.txt",
+      "grep": "候选|RELAY_DONE|stage_t1"
+    },
+    "t2s": {
+      "file": "results/select_t2/select_b1013.txt",
+      "grep": "换了的 episode|^  ep(2|9|13|14|19|28)：|-r3a- 的|SELECT_T2_DONE"
+    },
+    "t2d": {
+      "file": "results/select_t2/diff_b1012_b1013.txt",
+      "grep": "^[<>] |退出码|^[0-9,c]+$"
+    },
+    "t2k": {
+      "file": "results/select_t2/check_csv_b1013.txt",
+      "grep": "^# command|CHECK_T2_SELECT"
+    },
+    "t2n": {
+      "file": "results/select_t2/check_csv_negctl_b1013.txt",
+      "grep": "^# command|CHECK_T2_SELECT|负对照"
+    },
+    "t2p": {
+      "file": "results/submission/pack/t2_select_b1013.txt",
+      "grep": "^# command|^wrote|sha256"
+    },
+    "src": {
+      "file": "results/t3q/source_both_1013.txt",
+      "grep": "^# command|^# run_at|来历"
+    },
+    "arm": {
+      "file": "results/t3q/arm_t3qa_ml40.txt",
+      "grep": "^source|^核对|ARMED|冒烟"
+    },
+    "dry": {
+      "file": "results/t3q/arm_dryrun_t3qa_ml40.txt",
+      "grep": "train:|eval:|export:|DRYRUN_OK|^核对"
+    },
+    "cfg": {
+      "file": "results/t3q/cfgcheck_t3qa_ml40.txt",
+      "grep": "^=== 队列|^== |共 284|配置核对"
+    }
+  },
+  "claims": [
+    {
+      "id": "t1_gate",
+      "evidence": [
+        "t1s"
+      ],
+      "claim": "Tier 1 逐条选 t1x1013 的四项打分门（add_auc、spider_sr、maniptrans_sr、mppe_cm）都是 A OK 与 B OK，B 对照的 10/9 值是 0.459651、0.600000、0.500000、24.623127。"
+    },
+    {
+      "id": "t1_ep21",
+      "evidence": [
+        "t1s"
+      ],
+      "claim": "ep21 选中 t1-ep21-w2048-cap4m-r3a-mf4090（maniptrans_sr 1.0、add_auc 约 0.6095、mppe_cm 约 2.796），现在交的是 t1-ep21-w2048-cap4m-mf4090；ep17 选中的仍是现在交的 t1-ep17-w2048-cap10m-ml40。"
+    },
+    {
+      "id": "t1_packed",
+      "evidence": [
+        "t1s"
+      ],
+      "claim": "打包写出 track2_tier1_select_t1x1013.csv（22,989 行），合计 add_auc 0.471279、spider_sr 0.600000、maniptrans_sr 0.533333、mppe_cm 24.536550。"
+    },
+    {
+      "id": "t1_compare",
+      "evidence": [
+        "t1c"
+      ],
+      "claim": "与 10/9 对比：上一次的 54 个候选缺或分数不同 0 个；清单以外 23 条 episode 选中的 run 都没变；C4 里只有 ep21 换了；C5 最大差 4.62e-07；结果 COMPARE_OK。"
+    },
+    {
+      "id": "t1_dry",
+      "evidence": [
+        "t1d"
+      ],
+      "claim": "上传器带 --dry-run 检查 track2_tier1_select_t1x1013.csv：22,989 行、30 条 episode、looks valid，Tier 1 四个榜各写 5 left today，最后写 nothing submitted。"
+    },
+    {
+      "id": "t1_pull",
+      "evidence": [
+        "t1p"
+      ],
+      "claim": "拉回 Mac 后，ml40 与 Mac 上这份 CSV 的 sha256 相同，都是 37bc9b9defec2c27 开头，文件 12139924 字节。"
+    },
+    {
+      "id": "t1_relay",
+      "evidence": [
+        "rl"
+      ],
+      "claim": "第二次转发（t1xa2）抄了 1 个候选，转发后 ml40 上候选 56 个、结果表 7 张，最后写 RELAY_DONE。"
+    },
+    {
+      "id": "t2_changed",
+      "evidence": [
+        "t2d"
+      ],
+      "claim": "Tier 2 b1013 的选择清单与 10/12 的相比，不同的是 ep2、ep9、ep13、ep14、ep19、ep28 这 6 行，新的 6 行都是名字以 -cap10m-r3a-ml40 结尾的 run。"
+    },
+    {
+      "id": "t2_mp",
+      "evidence": [
+        "t2s"
+      ],
+      "claim": "ep13 换成的 t2-ep13-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.130、ADD-AUC 0.452；ep2 换成的 t2-ep2-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.011、ADD-AUC 0.386。"
+    },
+    {
+      "id": "t2_check",
+      "evidence": [
+        "t2k",
+        "t2n"
+      ],
+      "claim": "Tier 2 b1013 的 CSV 核对写 CHECK_T2_SELECT_OK；负对照用 10/12 的 CSV 核这份选择，写 CHECK_T2_SELECT_BAD（6 处不符），退出码 1 与期望相同。"
+    },
+    {
+      "id": "t2_pack",
+      "evidence": [
+        "t2p"
+      ],
+      "claim": "Tier 2 的 CSV track2_tier2_select_b1013.csv 有 22,989 行，sha256 以 770a11013885 开头，打包命令用的 commit 是 5888a4190a6f 开头的那个。"
+    },
+    {
+      "id": "t3q_src",
+      "evidence": [
+        "src"
+      ],
+      "claim": "这份记录（2026-10-13 运行）里 ml40 与 mf4090 两台的来历都是 a629fbdbf3e5。"
+    },
+    {
+      "id": "t3q_arm",
+      "evidence": [
+        "arm"
+      ],
+      "claim": "t3qa 在 ml40 起链：8 条 run，来历 a629fbdbf3e5，可用 1386753 MB，16 份配置的 precheck 与配方断言全过，第一条冒烟是 smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40，最后写 ARMED。"
+    },
+    {
+      "id": "t3q_mount",
+      "evidence": [
+        "dry"
+      ],
+      "claim": "t3qa 的预演里训练用 /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg，评测与导出用 /lab_data/rxzhou/v2d/fc_src/fc_8c778f9，最后写 DRYRUN_OK。"
+    },
+    {
+      "id": "t3q_cfg",
+      "evidence": [
+        "cfg"
+      ],
+      "claim": "t3qa 的配置展开有 16 份配置（冒烟 8 份、正式 8 份），每份都写 意外 0 个，最后写 配置核对通过。"
+    },
+    {
+      "id": "ctl_true_ep17",
+      "evidence": [
+        "t1s"
+      ],
+      "control": "true",
+      "claim": "ep17 有两个候选，t1-ep17-w2048-cap10m-ml40 与 t1-ep17-w2048-cap4m-r3a-mf4090；选中的是 t1-ep17-w2048-cap10m-ml40，r3a 那条没有被选中。"
+    },
+    {
+      "id": "ctl_false_mp",
+      "evidence": [
+        "t1s"
+      ],
+      "control": "false",
+      "claim": "Tier 1 新 CSV 打包的 maniptrans_sr 合计是 0.500000。"
+    },
+    {
+      "id": "ctl_false_t2",
+      "evidence": [
+        "t2d"
+      ],
+      "control": "false",
+      "claim": "Tier 2 b1013 与 10/12 的选择清单相比，ep25 那一行换了。"
+    },
+    {
+      "id": "ctl_false_src",
+      "evidence": [
+        "src"
+      ],
+      "control": "false",
+      "claim": "起 t3qa 之前 ml40 的来历是 66a8f0d0f3a9。"
+    }
+  ]
+}

@@ -267,3 +267,7 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   ep13 0.130、ep19 0.000、ep2 0.011、ep4 0.000、ep14 0.000、ep25 0.000、ep28 0.000，没有一条 ≥ 0.5，所以 C（t1ya）不起，报给用户
   （`results/t2x/eval_table_t2xb.txt`；jev 0.97，`results/t3p4/jev_claims_t3p4a_t2xb_batch4.txt` 的 t2xb_mpsr）。B 的结果只用来判 C，不拿来调 Tier 1 的参数。
   ml40 07:09 起空闲，接 D 的 `t3qa`（同步之后）。
+
+- 10/13 10:13–10:16 Tier 1 中间版逐条选（标签 t1x1013，经过见 `agent-doc/plan-d-t3hm-train-2026-10-12.md` 执行记录）：候选是 10/9 的 54 个加 t1xa 的 ep17、
+  t1xa2 的 ep21；只有 ep21 换成变体 A 的 run，CSV 的 MP-SR 0.5000 → 0.5333、ADD-AUC 0.4597 → 0.4713、MPPE 24.62 → 24.54 cm，SP-SR 不变。
+  按第 3 节 A 的“选”，打分门与选择规则都没改。没开的 5 条（ep10、13、19、3、14）训完之后再选一次。
