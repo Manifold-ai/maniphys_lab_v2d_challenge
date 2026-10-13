@@ -1,0 +1,175 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "hm": {
+   "file": "results/t3hm/p2.txt",
+   "grep": "^记录|^P2_|^RETARGET_FAIL"
+  },
+  "th": {
+   "file": "results/t3hm/p2_vs_theirs.txt",
+   "grep": "^我们|^THEIRS_|^ONLY_"
+  },
+  "dl": {
+   "file": "results/t3dlv/p2.txt",
+   "grep": "^P2_PASS|^P2_FAIL"
+  },
+  "sl": {
+   "file": "results/t3hm/support_slab_check.txt",
+   "grep": "^导入器|^SLAB_"
+  },
+  "vd": {
+   "file": "results/t3hm/version_diff_v2_hm_mf4090.txt",
+   "grep": "^## ep[0-9]+：|object\\.pose："
+  },
+  "t3": {
+   "file": "results/t3p4/status_mf4090_1012_2305.txt",
+   "grep": "^=== .*(正式|完成|冒烟 .*通过)|写于|MB free"
+  },
+  "t2": {
+   "file": "results/t2x/status_ml40_1012_2305.txt",
+   "grep": "^=== .*(正式|完成)|写于"
+  },
+  "t1": {
+   "file": "results/t1x/eval_table_t1xa.txt",
+   "grep": "^run|^t1-"
+  },
+  "hf": {
+   "file": "results/ops/hf_archive_batch4_verified_mf4090.txt",
+   "grep": "^## |按类别"
+  },
+  "sel": {
+   "file": "results/select_t2/select_b1012.txt",
+   "grep": "^换了的 episode|^  ep[0-9]+：.*→|^选中者里|SELECT_T2_DONE"
+  },
+  "yq": {
+   "file": "results/t3hm/handoff_1012_2255.txt",
+   "grep": "IoU|uncorrected|depth_post|replace_check"
+  }
+ },
+ "claims": [
+  {
+   "id": "hm_gate",
+   "evidence": [
+    "hm",
+    "th"
+   ],
+   "claim": "最终交付版 best_hm 的 29 集训练前门槛全过（P2_PASS 29/29，重定向失败 0），与提供方记录逐集对照 THEIRS_SAME 29/29。"
+  },
+  {
+   "id": "best_gate",
+   "evidence": [
+    "dl"
+   ],
+   "claim": "高度后处理之前的 best 版 29 集里门槛过 14 集、不过 15 集。"
+  },
+  {
+   "id": "slab",
+   "evidence": [
+    "sl"
+   ],
+   "claim": "12 份桌面支撑面在训练用的导入器里与 usda 一致（SLAB_OK 12/12）。"
+  },
+  {
+   "id": "t2xb",
+   "evidence": [
+    "t2"
+   ],
+   "claim": "t2xb 已训完 ep9、ep1、ep13、ep19、ep2 五条，ep4 在正式训练。"
+  },
+  {
+   "id": "vd_reg",
+   "evidence": [
+    "vd"
+   ],
+   "claim": "ep15 与 ep17 的 observation.object.pose 前三个分量（位置）最大绝对差分别是 1.006 与 0.9711，约 1 m。"
+  },
+  {
+   "id": "vd_22",
+   "evidence": [
+    "vd"
+   ],
+   "claim": "ep22 的 observation.object.pose 前三个分量最大绝对差是 0.01895、0.04244、0.04387，最大约 0.044 m。"
+  },
+  {
+   "id": "vd_rest",
+   "evidence": [
+    "vd"
+   ],
+   "claim": "ep0、18、20、23、24、26、29 这 7 集的 observation.object.pose 前三个分量里，第 2 个分量的差最大，在 0.01476–0.07884 之间，第 1、3 个分量的差都小于 0.005。"
+  },
+  {
+   "id": "t3_smoke",
+   "evidence": [
+    "t3"
+   ],
+   "claim": "t3p4a 在 2026-10-13 07:46:46 CST 正向核对 5 条 run，5 条冒烟（ep15、17、1、2、3）都通过。"
+  },
+  {
+   "id": "t3_runs",
+   "evidence": [
+    "t3"
+   ],
+   "claim": "t3-ep15 在 10:24:23 CST 完成，t3-ep17 在 12:22:50 CST 完成，同一时刻开始正式训练 t3-ep1；快照时可用 1999 MB。"
+  },
+  {
+   "id": "t1",
+   "evidence": [
+    "t1"
+   ],
+   "claim": "Tier 1 变体 A 补候选：ep17 的 4096 世界 MP-SR 0.000、ADD-AUC 0.290；ep21 的 MP-SR 0.806、ADD-AUC 0.556、MPPE 8.28 cm。"
+  },
+  {
+   "id": "hf4",
+   "evidence": [
+    "hf"
+   ],
+   "claim": "HF 归档第 4 批清单 297 个文件、11 条 run，297 个全部核对一致，抽查 22 个全部一致，清单里的文件还都在本地。"
+  },
+  {
+   "id": "sel",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "Tier 2 按乙逐条选换了 18 条，换上的都是名字带 -r3a- 的 run。"
+  },
+  {
+   "id": "yq",
+   "evidence": [
+    "yq"
+   ],
+   "claim": "提供方的新提交给出 29 集的剪影重合度：竖直平移 0.737、深度修正 0.807、不修正 0.810，并加了按事先登记的三条判据检查替换的脚本。"
+  },
+  {
+   "id": "ctl_true_smoke",
+   "evidence": [
+    "t3"
+   ],
+   "control": "true",
+   "claim": "t3p4a 的 ep3 冒烟通过，781 帧。"
+  },
+  {
+   "id": "ctl_false_gate",
+   "evidence": [
+    "hm"
+   ],
+   "control": "false",
+   "claim": "best_hm 29 集里有 3 集不过门槛。"
+  },
+  {
+   "id": "ctl_false_t2xb",
+   "evidence": [
+    "t2"
+   ],
+   "control": "false",
+   "claim": "t2xb 已经训完 8 条。"
+  },
+  {
+   "id": "ctl_false_ep21",
+   "evidence": [
+    "t1"
+   ],
+   "control": "false",
+   "claim": "ep21 的 4096 世界 MP-SR 是 0.000。"
+  }
+ ]
+}

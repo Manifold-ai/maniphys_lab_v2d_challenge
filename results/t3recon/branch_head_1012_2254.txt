@@ -1,0 +1,11 @@
+# command  : bash -c $'git fetch -q origin track2/tier3-recon && echo "origin/track2/tier3-recon æ\234\200è¿\221 3 ä¸ªæ\217\220äº¤ï¼\210æ\227¶é\227´ä¸ºæ\217\220äº¤è\200\205æ\227¶å\214ºï¼\211"; git log -3 --format="%h %ci %s" origin/track2/tier3-recon | tools/redact_stdin.sh; echo "d7aae27 ä¹\213å\220\216ç\232\204æ\217\220äº¤æ\225° $(git rev-list --count d7aae27..origin/track2/tier3-recon)"' 
+# source   : f5468849aeed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T22:54:45-0600
+# ---------------------------------------------------------------
+origin/track2/tier3-recon æœ€è¿‘ 3 ä¸ªæäº¤ï¼ˆæ—¶é—´ä¸ºæäº¤è€…æ—¶åŒºï¼‰
+ControlSocket /Users/rongxuanzhou/.ssh/cm/rxzhou@43.138.68.120-22 already exists, disabling multiplexing
+5752307 2026-10-13 10:02:29 +0800 feat(tier3): depth-first object rest correction; support rules; replacement criteria
+d7aae27 2026-10-13 05:20:11 +0800 feat(tier3): deliver best_hm with our supports; humans follow held objects; rxzhou's gate runs on our side
+1a6f042 2026-10-13 02:03:51 +0800 feat(tier3): object height post-process onto measured floor and supports, no penetration
+d7aae27 ä¹‹åçš„æäº¤æ•° 1

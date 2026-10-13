@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-sop-page-2305.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 2733fef57b18930f57ec83c310957862  agent-doc/experiments/2026-10-12-sop-page-2305.claims.json
+# source   : f5468849aeed-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T23:07:31-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+hm_gate              P(supported)=0.84  verified               [hm, th]  最终交付版 best_hm 的 29 集训练前门槛全过（P2_PASS 29/29，重定向失败 0），与提供方记录逐集对照 THEIRS_SAME 29/29。
+best_gate            P(supported)=0.84  verified               [dl]  高度后处理之前的 best 版 29 集里门槛过 14 集、不过 15 集。
+slab                 P(supported)=0.85  verified               [sl]  12 份桌面支撑面在训练用的导入器里与 usda 一致（SLAB_OK 12/12）。
+t2xb                 P(supported)=0.85  verified               [t2]  t2xb 已训完 ep9、ep1、ep13、ep19、ep2 五条，ep4 在正式训练。
+vd_reg               P(supported)=0.68  UNVERIFIED             [vd]  ep15 与 ep17 的 observation.object.pose 前三个分量（位置）最大绝对差分别是 1.006 与 0.9711，约 1 m。
+vd_22                P(supported)=0.97  verified               [vd]  ep22 的 observation.object.pose 前三个分量最大绝对差是 0.01895、0.04244、0.04387，最大约 0.044 m。
+vd_rest              P(supported)=0.97  verified               [vd]  ep0、18、20、23、24、26、29 这 7 集的 observation.object.pose 前三个分量里，第 2 个分量的差最大，在 0.01476–0.07884 之间，第 1、3 个分量的差都小于 0.005。
+t3_smoke             P(supported)=0.88  verified               [t3]  t3p4a 在 2026-10-13 07:46:46 CST 正向核对 5 条 run，5 条冒烟（ep15、17、1、2、3）都通过。
+t3_runs              P(supported)=0.85  verified               [t3]  t3-ep15 在 10:24:23 CST 完成，t3-ep17 在 12:22:50 CST 完成，同一时刻开始正式训练 t3-ep1；快照时可用 1999 MB。
+t1                   P(supported)=0.97  verified               [t1]  Tier 1 变体 A 补候选：ep17 的 4096 世界 MP-SR 0.000、ADD-AUC 0.290；ep21 的 MP-SR 0.806、ADD-AUC 0.556、MPPE 8.28 cm。
+hf4                  P(supported)=0.97  verified               [hf]  HF 归档第 4 批清单 297 个文件、11 条 run，297 个全部核对一致，抽查 22 个全部一致，清单里的文件还都在本地。
+sel                  P(supported)=0.95  verified               [sel]  Tier 2 按乙逐条选换了 18 条，换上的都是名字带 -r3a- 的 run。
+yq                   P(supported)=0.95  verified               [yq]  提供方的新提交给出 29 集的剪影重合度：竖直平移 0.737、深度修正 0.807、不修正 0.810，并加了按事先登记的三条判据检查替换的脚本。
+ctl_true_smoke       P(supported)=0.78  control(true) ok       [t3]  t3p4a 的 ep3 冒烟通过，781 帧。
+ctl_false_gate       P(supported)=0.01  control(false) ok      [hm]  best_hm 29 集里有 3 集不过门槛。
+ctl_false_t2xb       P(supported)=0.18  control(false) ok      [t2]  t2xb 已经训完 8 条。
+ctl_false_ep21       P(supported)=0.01  control(false) ok      [t1]  ep21 的 4096 世界 MP-SR 是 0.000。
+controls behaved as expected

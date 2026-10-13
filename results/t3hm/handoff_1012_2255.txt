@@ -1,0 +1,40 @@
+# command  : bash -c $'echo "Â\210\206Ê\224Ø track2/tier3-recon $(git rev-parse --short origin/track2/tier3-recon)Ôº\2325752307 Á\232\204Ê\217\220‰∫§ËØ¥Ê\230\216„\200\201Ê\224πÂ\212®Á\232\204Ê\226\207‰ª∂‰∏\216‰∫§Ê\216•Ê\226\207Ê°£Á\232\204Ê\224πÂ\212®"; git log -1 --format="%h %ad%n%B" --date=iso 5752307 | tools/redact_stdin.sh; git show --stat --format= 5752307 | tools/redact_stdin.sh; git show 5752307 -- agent-doc/handoff-tier3-2026-10-10.md | tools/redact_stdin.sh' 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : f5468849aeed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T22:55:23-0600
+# ---------------------------------------------------------------
+ÂàÜÊîØ track2/tier3-recon 5752307Ôºö5752307 ÁöÑÊèê‰∫§ËØ¥Êòé„ÄÅÊîπÂä®ÁöÑÊñá‰ª∂‰∏é‰∫§Êé•ÊñáÊ°£ÁöÑÊîπÂä®
+5752307 2026-10-13 10:02:29 +0800
+feat(tier3): depth-first object rest correction; support rules; replacement criteria
+
+- t3_depth_post.py: rest frames meet their surface by a depth ratio along the object's own ray (capped at +-5 %, the rest
+  vertical, one correction per rest segment); frames between rests interpolate the depth ratio only, so they keep their
+  image position; clamps smoothed in time off rests. Humans follow the object's vertical move on held frames, never down
+  past the feet (--move-human=3d follows all of it). Silhouette IoU on 29 episodes: vertical shift 0.737, this 0.807,
+  uncorrected 0.810.
+- t3_support.py: a support seen only through placements held throughout is dropped (held_only, ep28's fake 0.654 m
+  seat); unheld static frames with nothing under them are on the floor (on_floor floor_runs, frame by frame: ep24's can
+  is lifted for 566 of them). inside() drops repeated vertices: patches rounded to mm in the json had zero-length edges
+  in 11 episodes, so every downstream support test (clamps, penetration counts) saw nothing inside.
+- t3_height_post.py anchors on_floor floor runs.
+- diagnosis: t3_depth_diag.py (depth error at rests, 1-3 %), t3_hand_depth_diag.py (the hand pins depth only within
+  ~29 cm), t3_rest_split.py (rest wander is position, not orientation), t3_align_check.py (world poses back on the masks).
+- gate/: chain_check.sh (all checks of a version), t3_post_verify.py (independent check from the parquet),
+  t3_replace_check.py (the three criteria registered before results; refuses on missing data).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ stages/recovery/tier3/gate/README.md           |   3 +
+ stages/recovery/tier3/gate/chain_check.sh      |  21 ++
+ stages/recovery/tier3/gate/setup.sh            |   3 +-
+ stages/recovery/tier3/gate/t3_post_verify.py   |  34 +++
+ stages/recovery/tier3/gate/t3_replace_check.py | 126 +++++++++++
+ stages/recovery/tier3/t3_align_check.py        | 138 ++++++++++++
+ stages/recovery/tier3/t3_depth_diag.py         | 123 +++++++++++
+ stages/recovery/tier3/t3_depth_post.py         | 277 +++++++++++++++++++++++++
+ stages/recovery/tier3/t3_hand_depth_diag.py    | 151 ++++++++++++++
+ stages/recovery/tier3/t3_height_post.py        |   9 +-
+ stages/recovery/tier3/t3_rest_split.py         |  82 ++++++++
+ stages/recovery/tier3/t3_support.py            |  38 +++-
+ 12 files changed, 998 insertions(+), 7 deletions(-)

@@ -1,0 +1,75 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t1xa_train_mf4090\ t1xa_eval_mf4090\ cand_t1_t1xa_mf4090_gate\ cand_t1_t1xa_mf4090\ t1-ep17-w2048-cap4m-r3a-mf4090 
+# source   : f5468849aeed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T22:56:06-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-13 12:56:06 CST；来历 a629fbdbf3e5
+## 训练链 t1xa_train_mf4090（不含冒烟行）
+=== 2026-10-13 00:30:36 CST start t1xa_train_mf4090, source 3e517ff030ff, 期望表 stages/policy/queues/mf4090_t1xa.expect.tsv
+=== 2026-10-13 01:03:40 CST 正式 t1-ep17-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 03:06:09 CST t1-ep17-w2048-cap4m-r3a-mf4090 完成（1 段）
+=== 2026-10-13 03:06:09 CST 停链：见到 runs/.chain-stop-t1xa_train_mf4090 之后的 run 都没开（续跑另起一段，见计划）
+=== 2026-10-13 03:06:09 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+## t1xa_train_mf4090 的冒烟行
+=== 2026-10-13 00:30:39 CST 正向核对：7 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-13 00:30:39 CST 冒烟 smoke-t1-ep17-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:35:08 CST 冒烟 smoke-t1-ep17-w2048-cap4m-r3a-mf4090 通过：440 帧，不动基线见 results/day2/bar_smoke-t1-ep17-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:35:08 CST 冒烟 smoke-t1-ep17-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:35:08 CST 冒烟 smoke-t1-ep21-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:39:45 CST 冒烟 smoke-t1-ep21-w2048-cap4m-r3a-mf4090 通过：678 帧，不动基线见 results/day2/bar_smoke-t1-ep21-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:39:45 CST 冒烟 smoke-t1-ep21-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:39:45 CST 冒烟 smoke-t1-ep10-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:44:28 CST 冒烟 smoke-t1-ep10-w2048-cap4m-r3a-mf4090 通过：794 帧，不动基线见 results/day2/bar_smoke-t1-ep10-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:44:28 CST 冒烟 smoke-t1-ep10-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:44:28 CST 冒烟 smoke-t1-ep13-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:49:04 CST 冒烟 smoke-t1-ep13-w2048-cap4m-r3a-mf4090 通过：922 帧，不动基线见 results/day2/bar_smoke-t1-ep13-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:49:04 CST 冒烟 smoke-t1-ep13-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:49:04 CST 冒烟 smoke-t1-ep19-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:53:45 CST 冒烟 smoke-t1-ep19-w2048-cap4m-r3a-mf4090 通过：886 帧，不动基线见 results/day2/bar_smoke-t1-ep19-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:53:45 CST 冒烟 smoke-t1-ep19-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:53:45 CST 冒烟 smoke-t1-ep3-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 00:58:22 CST 冒烟 smoke-t1-ep3-w2048-cap4m-r3a-mf4090 通过：781 帧，不动基线见 results/day2/bar_smoke-t1-ep3-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:58:22 CST 冒烟 smoke-t1-ep3-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 00:58:22 CST 冒烟 smoke-t1-ep14-w2048-cap4m-r3a-mf4090
+=== 2026-10-13 01:03:40 CST 冒烟 smoke-t1-ep14-w2048-cap4m-r3a-mf4090 通过：993 帧，不动基线见 results/day2/bar_smoke-t1-ep14-w2048-cap4m-r3a-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:03:40 CST 冒烟 smoke-t1-ep14-w2048-cap4m-r3a-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 03:06:09 CST 见到 runs/.chain-stop-t1xa_train_mf4090：剩下的冒烟与正式训练都不开；已完成的照常交给评测链
+DIVERGE_IN_CHAIN t1xa_train_mf4090 1
+## 各 run
+t1-ep17-w2048-cap4m-r3a-mf4090 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 13:03:49 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+## t1xa_eval_mf4090
+=== 2026-10-13 00:30:38 CST 等 runs/logs/t1xa_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-13 03:06:38 CST 训练链已结束：=== 2026-10-13 03:06:09 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+=== 2026-10-13 03:06:38 CST start t1xa_eval_mf4090, source 3e517ff030ff, 期望表 stages/policy/queues/mf4090_t1xa.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-13 03:10:04 CST t1-ep21-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST t1-ep10-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST t1-ep13-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST t1-ep19-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST t1-ep3-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST t1-ep14-w2048-cap4m-r3a-mf4090 没有 DONE：不评
+=== 2026-10-13 03:10:04 CST DAY2_EVAL_DONE（成功 1、失败 0）
+## cand_t1_t1xa_mf4090_gate
+=== 2026-10-13 00:30:40 CST 等 runs/logs/t1xa_eval_mf4090.log 的最后一行变成评测链的结束行
+=== 2026-10-13 03:10:40 CST 评测链成功 1 条、失败 0，开导出链 cand_t1_t1xa_mf4090
+=== 2026-10-13 03:11:37 CST 导出链结束，退出码 0
+## cand_t1_t1xa_mf4090
+=== 2026-10-13 03:10:40 CST start cand_t1_t1xa_mf4090：清单 stages/evaluate/exports/cand_t1_t1xa_mf4090.tsv（7 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 3e517ff030ff
+=== 2026-10-13 03:11:37 CST Tier 1 ep17 t1-ep17-w2048-cap4m-r3a-mf4090：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 440（导出 440），checkpoint 相同
+=== 2026-10-13 03:11:37 CST Tier 1 ep21 t1-ep21-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST Tier 1 ep10 t1-ep10-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST Tier 1 ep13 t1-ep13-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST Tier 1 ep19 t1-ep19-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST Tier 1 ep3 t1-ep3-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST Tier 1 ep14 t1-ep14-w2048-cap4m-r3a-mf4090：没有 DONE，不导出
+=== 2026-10-13 03:11:37 CST EXPORT_CHAIN_DONE（成功 1、失败 6）
+## 导出结果表 runs/exports/cand_t1_t1xa_mf4090.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+1	17	t1-ep17-w2048-cap4m-r3a-mf4090	349999104	ok	runs/flash_chord/t1-ep17-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000017.json	runs/flash_chord/t1-ep17-w2048-cap4m-r3a-mf4090/export_8c778f9/s349999104_w1/episode_000017.parquet	38947497786e700f93953a37fdfeec62a309ec176613b7e12821a825c336a6c1	04aaf53c923af928face25425720b72eb07b834c51c1eabf1fa70bcc889a08c1
+1	21	t1-ep21-w2048-cap4m-r3a-mf4090	349999104	no_done				
+1	10	t1-ep10-w2048-cap4m-r3a-mf4090	349999104	no_done				
+1	13	t1-ep13-w2048-cap4m-r3a-mf4090	349999104	no_done				
+1	19	t1-ep19-w2048-cap4m-r3a-mf4090	349999104	no_done				
+1	3	t1-ep3-w2048-cap4m-r3a-mf4090	349999104	no_done				
+1	14	t1-ep14-w2048-cap4m-r3a-mf4090	349999104	no_done				
+CHAIN_HEALTH_DONE

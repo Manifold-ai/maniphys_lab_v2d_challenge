@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-12-sop-page-2305.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e940a1a6bc4a6653719061209da0d07a  agent-doc/experiments/2026-10-12-sop-page-2305.claims.json
+# source   : f5468849aeed-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-12T23:06:58-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+hm_gate              P(supported)=0.61  UNVERIFIED             [hm, th]  最终交付版 best_hm 的 29 集训练前门槛全过（P2_PASS 29/29，重定向失败 0），与提供方记录逐集对照 THEIRS_SAME 29/29。
+best_gate            P(supported)=0.84  verified               [dl]  高度后处理之前的 best 版 29 集里门槛过 14 集、不过 15 集。
+slab                 P(supported)=0.54  UNVERIFIED             [sl]  12 份桌面支撑面在训练用的导入器里与 usda 一致（SLAB_OK 12/12）。
+vd                   P(supported)=0.16  UNVERIFIED             [vd]  已训练的 10 集里，best_hm 与训练用的 f830 版物体位姿都不同；ep15 与 ep17 的位置分量最大差约 1 m（1.006、0.9711），ep22 的最大差约 0.044 m，其余 7 集的最大差在 0.015–0.079 m。
+t3p4a                P(supported)=0.62  UNVERIFIED             [t3]  t3p4a 在 2026-10-13 07:46 CST（UTC−6 的 10/12 17:46）起链，5 条冒烟都通过；ep15 10:24 CST（UTC−6 20:24）训完，ep17 12:22 CST（UTC−6 22:22）训完，之后开始正式训练 ep1；快照时 mf4090 可用 1999 MB。
+t2xb                 P(supported)=0.85  verified               [t2]  t2xb 已训完 ep9、ep1、ep13、ep19、ep2 五条，ep4 在正式训练。
+t1                   P(supported)=0.98  verified               [t1]  Tier 1 变体 A 补候选：ep17 的 4096 世界 MP-SR 0.000、ADD-AUC 0.290；ep21 的 MP-SR 0.806、ADD-AUC 0.556、MPPE 8.28 cm。
+hf4                  P(supported)=0.97  verified               [hf]  HF 归档第 4 批清单 297 个文件、11 条 run，297 个全部核对一致，抽查 22 个全部一致，清单里的文件还都在本地。
+sel                  P(supported)=0.96  verified               [sel]  Tier 2 按乙逐条选换了 18 条，换上的都是名字带 -r3a- 的 run。
+yq                   P(supported)=0.21  UNVERIFIED             [yq]  提供方的新提交给出 29 集的剪影重合度：竖直平移 0.737、深度修正 0.807、不修正 0.810，并加了按事先登记的三条判据检查替换的脚本。
+ctl_true_smoke       P(supported)=0.78  control(true) ok       [t3]  t3p4a 的 ep3 冒烟通过，781 帧。
+ctl_false_gate       P(supported)=0.01  control(false) ok      [hm]  best_hm 29 集里有 3 集不过门槛。
+ctl_false_t2xb       P(supported)=0.22  control(false) ok      [t2]  t2xb 已经训完 8 条。
+ctl_false_ep21       P(supported)=0.01  control(false) ok      [t1]  ep21 的 4096 世界 MP-SR 是 0.000。
+controls behaved as expected
