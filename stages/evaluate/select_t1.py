@@ -39,6 +39,24 @@ def parse_gate(s: str) -> dict:
     return dict(zip(METRICS, v))
 
 
+def merge_sha_tables(paths) -> dict:
+    """导出链结果表 → {run: (状态, json sha256, parquet sha256)}，只收 Tier 1 的 9 列行。同一条 run 在几张表里出现时（前一段没导出完、
+    后一段才导出 ok，例如 t1xa 的 ep21 是 no_done、t1xa2 的 ep21 是 ok），状态 ok 的那一行算数，与表的读入顺序无关；
+    两张表里都是 ok 但 sha256 不同就停。10/13 之前是后读的表直接覆盖前面的，表名按字母排在后面的旧表会把 ok 盖成 no_done。"""
+    shas = {}
+    for t in paths:
+        for line in open(t):
+            f = line.rstrip("\n").split("\t")
+            if len(f) != 9 or f[0] != "1":
+                continue
+            row, old = (f[4], f[7], f[8]), shas.get(f[2])
+            if old is None or (old[0] != "ok" and row[0] == "ok"):
+                shas[f[2]] = row
+            elif old[0] == row[0] == "ok" and old != row:
+                raise SystemExit(f"{f[2]} 在两张导出表里都是 ok，sha256 不同：{old[1:]} 对 {row[1:]}（{t}）")
+    return shas
+
+
 def sort_key(c):
     """登记的选择规则（第 2 版）：MP-SR → SP-SR → AUC / 0.3780 − MPPE / 25.1706（大者优先）。缺指标的候选不进这里（先剔除）。"""
     return (c["maniptrans_sr"], c["spider_sr"], c["add_auc"] / NORM_AUC - c["mppe_cm"] / NORM_MPPE)
@@ -114,12 +132,7 @@ def main():
     ap.add_argument("--gate", type=parse_gate, default=dict(GATE), help="打分门 B 的四项合计，逗号分隔，顺序 " + ",".join(METRICS))
     ap.add_argument("--gate-label", default="10/3", help="打分门 B 的来源，只用于打印")
     a = ap.parse_args()
-    shas = {}
-    for t in a.sha_tables:
-        for line in open(t):
-            f = line.rstrip("\n").split("\t")
-            if len(f) == 9 and f[0] == "1":
-                shas[f[2]] = (f[4], f[7], f[8])
+    shas = merge_sha_tables(a.sha_tables)
     ps = load_packer(a.kit)
     current = {}
     for f in a.current:
