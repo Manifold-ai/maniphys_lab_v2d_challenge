@@ -89,3 +89,12 @@ Tier 2 的检查只读 Tier 2 的发布输入、v5.4 帧参考、导出文件与
 | m9 加给用户的提交清单 | 加 R6 |
 | m10 第 1 版文件尾部残留了命令行 | 删掉 |
 
+
+## 执行记录（10/13，R5 组委会账号的仓库权限）
+
+- 10/13 17:28（UTC-6）用户决定邀请 GitHub 账号 Nvidia-V2D-Challenge 为仓库协作者。kit `update_b1f8f703` 的 `README.md:30–33` 要求：私有仓库邀请该账号为协作者并授予仓库访问权限，保证它能看到提交对应的 commit。
+  该账号存在（`gh api users/Nvidia-V2D-Challenge`：type User，name “V2D Challenge”，company “Nvidia”，创建于 2026-10-01）。按最小权限申请 Read（`permission=pull`），能查看 commit 即可。
+- 结果：没有邀请成功。`PUT repos/Manifold-ai/maniphys_lab_v2d_challenge/collaborators/Nvidia-V2D-Challenge` 返回 404（`results/ops/github_invite_nvidia_1013.txt.failed`）。
+  原因：仓库属于组织 Manifold-ai，visibility 为 internal；本账号 Rongxuan-Zhou 是该仓库的外部协作者，权限为 maintain，admin 为 false（`gh api repos/Manifold-ai/maniphys_lab_v2d_challenge` 的 `permissions`）。
+  列出仓库邀请的接口同样返回 403 “Must have admin rights to Repository.”。添加协作者需要仓库 admin 或组织所有者操作；GitHub 文档另说明组织与企业管理员可以限制邀请外部协作者。
+- 待办：由组织 Manifold-ai 的所有者或仓库 admin 在仓库 Settings → Collaborators and teams 中添加 Nvidia-V2D-Challenge（Read）；邀请须由该账号接受后才生效。此前两份待交 CSV 里的 commit（66a8f0d、5888a41）组委会仍无法打开。

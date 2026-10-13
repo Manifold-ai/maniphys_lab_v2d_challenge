@@ -1,0 +1,6 @@
+# command  : gh api -X PUT repos/Manifold-ai/maniphys_lab_v2d_challenge/collaborators/Nvidia-V2D-Challenge -f permission=pull --jq \{id\,\ invitee:\ .invitee.login\,\ permissions\,\ created_at\,\ html_url\} 
+# source   : 98efeae52f40
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T17:28:20-0600
+# ---------------------------------------------------------------
+{"message":"Not Found","documentation_url":"https://docs.github.com/rest/collaborators/collaborators#add-a-repository-collaborator","status":"404"}gh: Not Found (HTTP 404)
