@@ -247,3 +247,18 @@
 - 第 5 步：配置展开 10 份配置意外键 0，ep15、ep1 `scene.support=False`，ep17、2、3 保持开（`results/t3p4/cfgcheck_t3p4a_mf4090.txt`）；预演 `DRYRUN_OK`，
   来历 a629fbd、可用 3153 MB，训练挂 `v040_p185_nfg`、评测与导出挂 `fc_8c778f9`（`results/t3p4/arm_dryrun_t3p4a_mf4090.txt`）；17:46 起链 `ARMED`，
   第一条冒烟 ep15（`results/t3p4/arm_t3p4a_mf4090.txt`）。预计明早 05:30–06:30 结束（估计）。
+
+## 执行记录（10/13，时间 UTC−6）
+
+- 00:09 前后用户确认删除第 4 批（“确认过HF和本地一样的就可以删”）。删除一步要求没有训练链、GPU 空闲，`t3p4a` 还在跑；按
+  `agent-doc/plan-mf4090-handover-2026-10-13.md`（第 2 版，审查 GO WITH FIXES 后全部采纳）在 mf4090 上挂接续，00:48 起
+  （`results/t3p4/arm_after_launch_mf4090.txt`）：`t3p4a` 三条链结束、卡空后先做删除前的对齐核对与演习，过了再删；`t3p4a` 训练、评测、导出全部做完才起 `t3p4b`。
+  `t3p4b` 的配置展开 00:22 已做（16/16、意外 0，支撑面随 `best_hm`，`results/t3p4/cfgcheck_t3p4b_mf4090.txt`）。
+- ep3 的磁盘：在训的 run 比训完的大约 120 MB，训完缩回 360 MB；按这个算 ep3 开跑前约剩 1.6 GB，高于 1200 MB 的闸（未落盘的临时查看）。
+- 第 8 步（ml40 的数据转发）：第 2 版经 Mac 管道，00:48 第 1 次脚本没有执行权限、什么都没动；00:51 第 2 次约 25 KB/s，00:57 停掉，
+  `RELAY_FAILED 2（转发）`、暂存目录已删（`results/t3hm/relay_ml40.txt.failed`）。用户定改经 HF；第 3 版审查 GO WITH FIXES（0 MAJOR），12 条全部采纳（1e96765）。
+  私有中转仓库 `Rongxuan-Zhou/v2d-track2-transfer` 建好，README `HF_README_OK`、`HF_WHOAMI_OK`、私有（`results/ops/hf_readme_v2d_track2_transfer.txt`）；
+  账号私有存储 81.73 GB（`results/ops/hf_storage_1013_0110.txt`）。
+- 冒烟第 1 次停在 push：标签目录还不存在时 `list_repo_tree` 回 404，工具当成了出错，什么都没传（`results/t3hm/hf_transfer_smoke.txt.failed`）；
+  改成当作空目录、假 API 也照真的抛 404 后重新部署（两台 md5 相同、测试全过，`results/t3hm/hf_transfer_deploy2.txt`）。冒烟第 2 次 `HF_SMOKE_OK`：
+  上传 2 个文件加清单，`.npy` 走 LFS，ml40 经代理下载 2/2，两端 sha256 相同，两边冒烟目录已删（`results/t3hm/hf_transfer_smoke.txt`）。
