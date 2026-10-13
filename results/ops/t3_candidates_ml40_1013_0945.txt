@@ -1,0 +1,714 @@
+# command  : ssh -o BatchMode=yes ml40 bash\ -s 
+# source   : cdfabdc940d4
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T09:41:32-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-13 23:41:34 CST
+## 别人的脚本类进程（pid、已运行、命令行）
+## runs/ 下 tier3_cari4d_f830_best* 版本目录（修改时间、parquet 数、名字）
+2026-10-13 01:14:18 29 tier3_cari4d_f830_best
+2026-10-13 07:00:37 29 tier3_cari4d_f830_best_d
+2026-10-13 07:29:11 29 tier3_cari4d_f830_best_dc
+2026-10-13 07:29:25 1 tier3_cari4d_f830_best_dc_suspect
+2026-10-13 08:22:20 29 tier3_cari4d_f830_best_dr
+2026-10-13 09:08:44 29 tier3_cari4d_f830_best_dr2
+2026-10-13 10:44:02 29 tier3_cari4d_f830_best_dr2s
+2026-10-13 10:44:17 1 tier3_cari4d_f830_best_dr2s_suspect
+2026-10-13 09:08:59 1 tier3_cari4d_f830_best_dr2_suspect
+2026-10-13 10:04:19 29 tier3_cari4d_f830_best_dr3
+2026-10-13 10:04:34 1 tier3_cari4d_f830_best_dr3_suspect
+2026-10-13 08:22:35 1 tier3_cari4d_f830_best_dr_suspect
+2026-10-13 07:00:52 1 tier3_cari4d_f830_best_d_suspect
+2026-10-13 07:05:16 29 tier3_cari4d_f830_best_dw
+2026-10-13 07:05:30 1 tier3_cari4d_f830_best_dw_suspect
+2026-10-13 01:53:03 29 tier3_cari4d_f830_best_h
+2026-10-13 03:20:56 29 tier3_cari4d_f830_best_hchk
+2026-10-13 03:21:11 1 tier3_cari4d_f830_best_hchk_suspect
+2026-10-13 05:08:31 29 tier3_cari4d_f830_best_hm
+2026-10-13 06:05:20 29 tier3_cari4d_f830_best_hm2
+2026-10-13 06:05:34 1 tier3_cari4d_f830_best_hm2_suspect
+2026-10-13 05:08:32 1 tier3_cari4d_f830_best_hm_suspect
+2026-10-13 01:53:17 1 tier3_cari4d_f830_best_h_suspect
+2026-10-13 01:14:29 1 tier3_cari4d_f830_best_suspect
+## runs/*.depth_post.json（修改时间、字节、顶层键：类型与长度或值）
+# 2026-10-13 07:29:25 27167 tier3_cari4d_f830_best_dc.depth_post.json
+  (list): list 30
+# 2026-10-13 07:00:52 27903 tier3_cari4d_f830_best_d.depth_post.json
+  (list): list 30
+# 2026-10-13 09:08:59 27890 tier3_cari4d_f830_best_dr2.depth_post.json
+  (list): list 30
+# 2026-10-13 10:44:17 27941 tier3_cari4d_f830_best_dr2s.depth_post.json
+  (list): list 30
+# 2026-10-13 10:04:34 27895 tier3_cari4d_f830_best_dr3.depth_post.json
+  (list): list 30
+# 2026-10-13 08:22:35 27853 tier3_cari4d_f830_best_dr.depth_post.json
+  (list): list 30
+# 2026-10-13 07:05:30 27173 tier3_cari4d_f830_best_dw.depth_post.json
+  (list): list 30
+## dev/depth_diag/（修改时间、字节、名字）
+2026-10-13_11:24:20 555 auto_deliver.log
+2026-10-13_11:24:20 1938 auto_decision.json
+2026-10-13_11:24:20 813 replace_bdr2s.json
+2026-10-13_11:24:20 670 replace_bdr2s.log
+2026-10-13_11:24:19 354 chain_bdr2s.log
+2026-10-13_10:50:44 14279 align_bdr2s.json
+2026-10-13_10:50:44 12327 align_bdr2s.log
+2026-10-13_10:44:16 4096 dump_dr2s
+2026-10-13_10:44:00 812 replace_bdr3.json
+2026-10-13_10:44:00 669 replace_bdr3.log
+2026-10-13_10:43:59 352 chain_bdr3.log
+2026-10-13_10:10:58 14249 align_bdr3.json
+2026-10-13_10:10:58 12297 align_bdr3.log
+2026-10-13_10:04:34 4096 dump_dr3
+2026-10-13_10:04:17 3707 auto_deliver_remote.sh
+2026-10-13_10:01:34 810 replace_dr2_fixed.json
+2026-10-13_10:00:59 4096 support_v2_chk
+2026-10-13_09:54:42 807 replace_dr2.json
+2026-10-13_09:48:51 352 chain_bdr2.log
+2026-10-13_09:15:32 14242 align_bdr2.json
+2026-10-13_09:15:32 12290 align_bdr2.log
+2026-10-13_09:08:59 4096 dump_dr2
+2026-10-13_09:08:42 1446 chain_check.sh
+2026-10-13_09:03:40 350 chain_dr.log
+2026-10-13_08:29:16 14212 align_dr.json
+2026-10-13_08:29:16 12260 align_dr.log
+2026-10-13_08:23:17 1344 chain_dr.sh
+2026-10-13_08:22:47 1723 verify_dr.py
+2026-10-13_08:22:35 4096 dump_dr
+2026-10-13_08:14:40 2608 align_split_dc.json
+2026-10-13_08:14:40 2220 align_split_dc.log
+2026-10-13_07:35:54 14218 align_dc.json
+2026-10-13_07:35:54 12266 align_dc.log
+2026-10-13_07:34:23 354 chain_dc.log
+2026-10-13_07:29:54 469 chain_dc.sh
+2026-10-13_07:29:25 4096 dump_dc
+2026-10-13_07:25:23 6139 align_split.json
+2026-10-13_07:25:23 5228 align_split.log
+2026-10-13_07:23:43 4096 dump_dw
+2026-10-13_07:20:24 20483 rest_split.json
+2026-10-13_07:20:24 5146 rest_split.log
+2026-10-13_07:15:39 18058 align_4.json
+2026-10-13_07:15:39 15566 align_4.log
+2026-10-13_07:05:33 2058 align_3.log
+2026-10-13_06:42:21 15385 hand_depth.json
+2026-10-13_06:42:21 12866 hand_depth.log
+2026-10-13_06:31:49 993 hand_depth_ep00.json
+2026-10-13_06:17:43 23343 best.json
+2026-10-13_06:17:43 18534 best.log
+## 画面对齐：每个 align_*.json 里各版本 29 个常规集（不含 ep28）逐集 iou_p50 的均值与集数
+# 2026-10-13 07:15:39 align_4.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_d: n=29 mean_iou_p50=0.8080
+  tier3_cari4d_f830_best_dw: n=29 mean_iou_p50=0.7641
+  tier3_cari4d_f830_best_hm2: n=29 mean_iou_p50=0.7372
+# 2026-10-13 09:15:32 align_bdr2.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_dr: n=29 mean_iou_p50=0.8074
+  tier3_cari4d_f830_best_dr2: n=29 mean_iou_p50=0.8070
+# 2026-10-13 10:50:44 align_bdr2s.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_dr2s: n=29 mean_iou_p50=0.8073
+  tier3_cari4d_f830_best_hm: n=29 mean_iou_p50=0.7384
+# 2026-10-13 10:10:58 align_bdr3.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_dr3: n=29 mean_iou_p50=0.8073
+  tier3_cari4d_f830_best_hm: n=29 mean_iou_p50=0.7384
+# 2026-10-13 07:35:54 align_dc.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_dc: n=29 mean_iou_p50=0.7917
+  tier3_cari4d_f830_best_dw: n=29 mean_iou_p50=0.7641
+# 2026-10-13 08:29:16 align_dr.json
+  tier3_cari4d_f830_best: n=29 mean_iou_p50=0.8101
+  tier3_cari4d_f830_best_dc: n=29 mean_iou_p50=0.7917
+  tier3_cari4d_f830_best_dr: n=29 mean_iou_p50=0.8074
+# 2026-10-13 08:14:40 align_split_dc.json
+  tier3_cari4d_f830_best: n=2 mean_iou_p50=0.8069
+  tier3_cari4d_f830_best_dc: n=2 mean_iou_p50=0.7322
+# 2026-10-13 07:25:23 align_split.json
+  tier3_cari4d_f830_best: n=5 mean_iou_p50=0.8079
+  tier3_cari4d_f830_best_dw: n=5 mean_iou_p50=0.6493
+## 门槛日志 gate/logs（修改时间、字节、名字）
+2026-10-13_11:24:19 1230 oursup_bdr2s.txt
+2026-10-13_11:16:20 6067 support_usda_bdr2s.txt
+2026-10-13_11:09:32 4073 p2_bdr2s.txt
+2026-10-13_11:09:32 6712 rec_bdr2s.txt
+2026-10-13_11:09:25 6735 bdr2s_w1.txt
+2026-10-13_11:06:58 6760 bdr2s_w4.txt
+2026-10-13_11:06:56 6792 bdr2s_w5.txt
+2026-10-13_11:04:20 6759 bdr2s_w2.txt
+2026-10-13_11:03:59 6863 bdr2s_w3.txt
+2026-10-13_11:02:06 6756 bdr2s_w0.txt
+2026-10-13_10:43:59 1230 oursup_bdr3.txt
+2026-10-13_10:36:01 6067 support_usda_bdr3.txt
+2026-10-13_10:29:18 4069 p2_bdr3.txt
+2026-10-13_10:29:18 6679 rec_bdr3.txt
+2026-10-13_10:29:17 6718 bdr3_w1.txt
+2026-10-13_10:27:16 6775 bdr3_w5.txt
+2026-10-13_10:27:09 6741 bdr3_w4.txt
+2026-10-13_10:24:38 6740 bdr3_w2.txt
+2026-10-13_10:24:21 6846 bdr3_w3.txt
+2026-10-13_10:22:23 6737 bdr3_w0.txt
+2026-10-13_09:48:51 1234 oursup_bdr2.txt
+2026-10-13_09:40:45 6067 support_usda_bdr2.txt
+2026-10-13_09:34:01 4074 p2_bdr2.txt
+2026-10-13_09:34:01 6684 rec_bdr2.txt
+2026-10-13_09:33:58 6718 bdr2_w1.txt
+2026-10-13_09:31:54 6775 bdr2_w5.txt
+2026-10-13_09:31:43 6743 bdr2_w4.txt
+2026-10-13_09:29:19 6846 bdr2_w3.txt
+2026-10-13_09:29:17 6744 bdr2_w2.txt
+2026-10-13_09:27:15 6739 bdr2_w0.txt
+2026-10-13_09:03:40 1234 oursup_bdr.txt
+2026-10-13_08:55:42 6067 support_usda_bdr.txt
+2026-10-13_08:49:02 4074 p2_bdr.txt
+2026-10-13_08:49:02 6655 rec_bdr.txt
+2026-10-13_08:48:05 6701 bdr_w1.txt
+2026-10-13_08:45:51 6726 bdr_w4.txt
+2026-10-13_08:45:48 6758 bdr_w5.txt
+2026-10-13_08:43:12 6728 bdr_w2.txt
+2026-10-13_08:43:02 6829 bdr_w3.txt
+2026-10-13_08:41:08 6722 bdr_w0.txt
+2026-10-13_08:18:10 1234 oursup_bdc.txt
+2026-10-13_08:10:12 6067 support_usda_bdc.txt
+2026-10-13_07:55:14 4050 p2_bdc.txt
+2026-10-13_07:55:14 6695 rec_bdc.txt
+2026-10-13_07:54:35 6701 bdc_w1.txt
+2026-10-13_07:52:22 6758 bdc_w5.txt
+2026-10-13_07:51:50 6728 bdc_w4.txt
+2026-10-13_07:49:34 6829 bdc_w3.txt
+2026-10-13_07:49:34 6728 bdc_w2.txt
+2026-10-13_07:47:28 6722 bdc_w0.txt
+2026-10-13_07:29:29 250 bdw_w1.txt
+2026-10-13_07:27:20 6722 bdw_w0.txt
+2026-10-13_05:53:42 1543 bhm2_w2.txt
+2026-10-13_05:52:33 1484 bhm2_w0.txt
+2026-10-13_05:51:32 1521 bhm2_w1.txt
+2026-10-13_04:59:39 6185 support_usda_bhm.txt
+2026-10-13_04:43:51 1230 oursup_bhm.txt
+2026-10-13_04:35:53 3156 oursup_bhm_usda.txt
+2026-10-13_04:35:52 1230 oursup_bh.txt
+# p2_bdc.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	198	246	1.065	-0.0	floor	OK	+0.0032～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 25/30：ep0 ep1 ep2 ep4 ep5 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 5/30：ep3 ep6 ep7 ep20 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bdr2s.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	197	247	1.128	-0.0	floor	OK	+0.0032～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 25/30：ep0 ep1 ep2 ep4 ep5 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 5/30：ep3 ep6 ep7 ep20 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bdr2.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	197	247	1.128	-0.0	floor	OK	+0.0032～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 25/30：ep0 ep1 ep2 ep4 ep5 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 5/30：ep3 ep6 ep7 ep20 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bdr3.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	140	101	1.128	-0.0	floor	OK	+0.0032～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 25/30：ep0 ep1 ep2 ep4 ep5 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 5/30：ep3 ep6 ep7 ep20 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bdr.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	194	246	1.111	-0.0	floor	OK	+0.0032～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 25/30：ep0 ep1 ep2 ep4 ep5 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 5/30：ep3 ep6 ep7 ep20 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bhm.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	182	259	1.335	-0.0	floor	OK	+0.0043～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.563	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 28/30：ep0 ep1 ep2 ep4 ep5 ep6 ep7 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep20 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 2/30：ep3 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+# p2_bh.txt 最后 6 行
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	140	194	1.146	-0.0	floor	OK	+0.0060～+0.0986	-	-	-	过	-
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	0	0	0.545	-0.0	floor	OK+NOCONTACT	+0.0006～+0.1197	-	-	-	过	接触一条不适用，只按间隙判
+P2_PASS 28/30：ep0 ep1 ep2 ep4 ep5 ep6 ep7 ep8 ep9 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep20 ep21 ep22 ep23 ep24 ep26 ep27 ep28 ep29
+P2_FAIL 2/30：ep3 ep25
+RETARGET_FAIL 0/30：无
+CONTACT_NA ep29=过
+## 我们的支撑面重判（oursup_*.txt）：有 gap_mm 的集数、|gap| ≤ 30 mm 的集数、最大 |gap|
+  oursup_bdc.txt: 30 集，30 集过，最大 17.9 mm
+  oursup_bdr2s.txt: 30 集，29 集过，最大 749.8 mm
+  oursup_bdr2.txt: 30 集，30 集过，最大 17.9 mm
+  oursup_bdr3.txt: 30 集，29 集过，最大 749.8 mm
+  oursup_bdr.txt: 30 集，30 集过，最大 17.9 mm
+  oursup_bhm.txt: 30 集，30 集过，最大 0.0 mm
+  oursup_bhm_usda.txt: 0 集，0 集过，最大 0.0 mm
+  oursup_bh.txt: 30 集，30 集过，最大 0.0 mm
+  oursup_bh_usda.txt: 0 集，0 集过，最大 0.0 mm
+## 替换判据的输出（名字含 replace 的文件，tier3 与 gate 下四层以内）
+2026-10-13_09:54 807 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_dr2.json
+2026-10-13_10:01 810 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_dr2_fixed.json
+2026-10-13_10:44 669 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_bdr3.log
+2026-10-13_10:44 812 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_bdr3.json
+2026-10-13_11:24 670 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_bdr2s.log
+2026-10-13_11:24 813 /lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_bdr2s.json
+# dev/depth_diag/replace_bdr2s.json
+{
+ "candidate": "tier3_cari4d_f830_best_dr2s",
+ "delivered": "tier3_cari4d_f830_best_hm",
+ "c1_image": {
+  "iou_best": 0.8101,
+  "iou_candidate": 0.8073,
+  "worse_episodes": [
+   "ep02_blue_easter_basket",
+   "ep10_white_desk"
+  ],
+  "pass": true
+ },
+ "c2_physics": {
+  "delivered_vs_candidate": {
+   "unheld_motion": [
+    249,
+    191
+   ],
+   "pose_jump": [
+    70,
+    73
+   ],
+   "acceleration_spike": [
+    12,
+    12
+   ],
+   "feet_penetration": [
+    5409,
+    4044
+   ],
+   "support_penetration": [
+    0,
+    0
+   ]
+  },
+  "object_floor_penetration": 0,
+  "feet_floating_reported": [
+   1226,
+   1479
+  ],
+  "pass": false
+ },
+ "c3_gate": {
+  "gap_pass": 29,
+  "gap_episodes": 30,
+  "max_abs_gap_mm": 749.8,
+  "contact_delivered": 17848,
+  "contact_candidate": 17779,
+  "pass": false
+ },
+ "pass": false
+}
+# dev/depth_diag/replace_bdr2s.log
+{"candidate": "tier3_cari4d_f830_best_dr2s", "delivered": "tier3_cari4d_f830_best_hm", "c1_image": {"iou_best": 0.8101, "iou_candidate": 0.8073, "worse_episodes": ["ep02_blue_easter_basket", "ep10_white_desk"], "pass": true}, "c2_physics": {"delivered_vs_candidate": {"unheld_motion": [249, 191], "pose_jump": [70, 73], "acceleration_spike": [12, 12], "feet_penetration": [5409, 4044], "support_penetration": [0, 0]}, "object_floor_penetration": 0, "feet_floating_reported": [1226, 1479], "pass": false}, "c3_gate": {"gap_pass": 29, "gap_episodes": 30, "max_abs_gap_mm": 749.8, "contact_delivered": 17848, "contact_candidate": 17779, "pass": false}, "pass": false}
+FAIL
+
+# dev/depth_diag/replace_bdr3.json
+{
+ "candidate": "tier3_cari4d_f830_best_dr3",
+ "delivered": "tier3_cari4d_f830_best_hm",
+ "c1_image": {
+  "iou_best": 0.8101,
+  "iou_candidate": 0.8073,
+  "worse_episodes": [
+   "ep02_blue_easter_basket",
+   "ep10_white_desk"
+  ],
+  "pass": true
+ },
+ "c2_physics": {
+  "delivered_vs_candidate": {
+   "unheld_motion": [
+    249,
+    290
+   ],
+   "pose_jump": [
+    70,
+    73
+   ],
+   "acceleration_spike": [
+    12,
+    12
+   ],
+   "feet_penetration": [
+    5409,
+    4044
+   ],
+   "support_penetration": [
+    0,
+    0
+   ]
+  },
+  "object_floor_penetration": 0,
+  "feet_floating_reported": [
+   1226,
+   1479
+  ],
+  "pass": false
+ },
+ "c3_gate": {
+  "gap_pass": 29,
+  "gap_episodes": 30,
+  "max_abs_gap_mm": 749.8,
+  "contact_delivered": 17848,
+  "contact_candidate": 15476,
+  "pass": false
+ },
+ "pass": false
+}
+# dev/depth_diag/replace_bdr3.log
+{"candidate": "tier3_cari4d_f830_best_dr3", "delivered": "tier3_cari4d_f830_best_hm", "c1_image": {"iou_best": 0.8101, "iou_candidate": 0.8073, "worse_episodes": ["ep02_blue_easter_basket", "ep10_white_desk"], "pass": true}, "c2_physics": {"delivered_vs_candidate": {"unheld_motion": [249, 290], "pose_jump": [70, 73], "acceleration_spike": [12, 12], "feet_penetration": [5409, 4044], "support_penetration": [0, 0]}, "object_floor_penetration": 0, "feet_floating_reported": [1226, 1479], "pass": false}, "c3_gate": {"gap_pass": 29, "gap_episodes": 30, "max_abs_gap_mm": 749.8, "contact_delivered": 17848, "contact_candidate": 15476, "pass": false}, "pass": false}
+FAIL
+
+# dev/depth_diag/replace_dr2_fixed.json
+{
+ "candidate": "tier3_cari4d_f830_best_dr2",
+ "delivered": "tier3_cari4d_f830_best_hm",
+ "c1_image": {
+  "iou_best": 0.8101,
+  "iou_candidate": 0.807,
+  "worse_episodes": [
+   "ep02_blue_easter_basket",
+   "ep10_white_desk"
+  ],
+  "pass": true
+ },
+ "c2_physics": {
+  "delivered_vs_candidate": {
+   "unheld_motion": [
+    249,
+    207
+   ],
+   "pose_jump": [
+    70,
+    69
+   ],
+   "acceleration_spike": [
+    12,
+    12
+   ],
+   "feet_penetration": [
+    5409,
+    4051
+   ],
+   "support_penetration": [
+    0,
+    37
+   ]
+  },
+  "object_floor_penetration": 0,
+  "feet_floating_reported": [
+   1226,
+   1464
+  ],
+  "pass": false
+ },
+ "c3_gate": {
+  "gap_pass": 30,
+  "gap_episodes": 30,
+  "max_abs_gap_mm": 17.9,
+  "contact_delivered": 17848,
+  "contact_candidate": 17804,
+  "pass": true
+ },
+ "pass": false
+}
+# dev/depth_diag/replace_dr2.json
+{
+ "candidate": "tier3_cari4d_f830_best_dr2",
+ "delivered": "tier3_cari4d_f830_best_hm",
+ "c1_image": {
+  "iou_best": 0.8101,
+  "iou_candidate": 0.807,
+  "worse_episodes": [
+   "ep02_blue_easter_basket",
+   "ep10_white_desk"
+  ],
+  "pass": true
+ },
+ "c2_physics": {
+  "delivered_vs_candidate": {
+   "unheld_motion": [
+    249,
+    207
+   ],
+   "pose_jump": [
+    70,
+    69
+   ],
+   "acceleration_spike": [
+    12,
+    12
+   ],
+   "feet_penetration": [
+    5409,
+    4051
+   ],
+   "support_penetration": [
+    0,
+    0
+   ]
+  },
+  "object_floor_penetration": 0,
+  "feet_floating_reported": [
+   1226,
+   1464
+  ],
+  "pass": true
+ },
+ "c3_gate": {
+  "gap_pass": 30,
+  "gap_episodes": 30,
+  "max_abs_gap_mm": 17.9,
+  "contact_delivered": 17848,
+  "contact_candidate": 17804,
+  "pass": true
+ },
+ "pass": true
+}
+## 自动判定（dev/depth_diag 的 auto_decision.json、auto_deliver.log 全文，chain_*.log 各最后 5 行）
+# auto_decision.json
+{
+ "time": "2026-10-13T11:24:20",
+ "chosen": "none",
+ "gate_set": "",
+ "tried": [
+  "dr3",
+  "dr2s"
+ ],
+ "support_usda_placed_regular_suspect": [],
+ "code": "track2/tier3-recon 5752307",
+ "bdr3": {
+  "candidate": "tier3_cari4d_f830_best_dr3",
+  "delivered": "tier3_cari4d_f830_best_hm",
+  "c1_image": {
+   "iou_best": 0.8101,
+   "iou_candidate": 0.8073,
+   "worse_episodes": [
+    "ep02_blue_easter_basket",
+    "ep10_white_desk"
+   ],
+   "pass": true
+  },
+  "c2_physics": {
+   "delivered_vs_candidate": {
+    "unheld_motion": [
+     249,
+     290
+    ],
+    "pose_jump": [
+     70,
+     73
+    ],
+    "acceleration_spike": [
+     12,
+     12
+    ],
+    "feet_penetration": [
+     5409,
+     4044
+    ],
+    "support_penetration": [
+     0,
+     0
+    ]
+   },
+   "object_floor_penetration": 0,
+   "feet_floating_reported": [
+    1226,
+    1479
+   ],
+   "pass": false
+  },
+  "c3_gate": {
+   "gap_pass": 29,
+   "gap_episodes": 30,
+   "max_abs_gap_mm": 749.8,
+   "contact_delivered": 17848,
+   "contact_candidate": 15476,
+   "pass": false
+  },
+  "pass": false
+ },
+ "bdr2s": {
+  "candidate": "tier3_cari4d_f830_best_dr2s",
+  "delivered": "tier3_cari4d_f830_best_hm",
+  "c1_image": {
+   "iou_best": 0.8101,
+   "iou_candidate": 0.8073,
+   "worse_episodes": [
+    "ep02_blue_easter_basket",
+    "ep10_white_desk"
+   ],
+   "pass": true
+  },
+  "c2_physics": {
+   "delivered_vs_candidate": {
+    "unheld_motion": [
+     249,
+     191
+    ],
+    "pose_jump": [
+     70,
+     73
+    ],
+    "acceleration_spike": [
+     12,
+     12
+    ],
+    "feet_penetration": [
+     5409,
+     4044
+    ],
+    "support_penetration": [
+     0,
+     0
+    ]
+   },
+   "object_floor_penetration": 0,
+   "feet_floating_reported": [
+    1226,
+    1479
+   ],
+   "pass": false
+  },
+  "c3_gate": {
+   "gap_pass": 29,
+   "gap_episodes": 30,
+   "max_abs_gap_mm": 749.8,
+   "contact_delivered": 17848,
+   "contact_candidate": 17779,
+   "pass": false
+  },
+  "pass": false
+ }
+}
+
+# auto_deliver.log
+[2026-10-13 10:04:18] start
+独立重算：锚定段最低点中位与支撑面之差最大 1.1 mm；低于地面 0.1 mm 以上的帧 0
+用到竖直补偿的帧 1428 / 22990（6.2%）；深度比例触到上限的帧 1510
+VERIFY_OK
+[2026-10-13 10:44:00] dr3: FAIL
+独立重算：锚定段最低点中位与支撑面之差最大 1.1 mm；低于地面 0.1 mm 以上的帧 0
+用到竖直补偿的帧 1428 / 22990（6.2%）；深度比例触到上限的帧 1510
+VERIFY_OK
+[2026-10-13 11:24:20] dr2s: FAIL
+[2026-10-13 11:24:20] chosen none placed []
+AUTO_DONE
+
+# chain_bdr2.log
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_DONE
+# chain_bdr2s.log
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_DONE
+# chain_bdr3.log
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_DONE
+# chain_dc.log
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_LAUNCHED
+# chain_dr.log
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_DONE
+## 自动交付脚本 dev/depth_diag/auto_deliver_remote.sh（前 120 行）
+#!/usr/bin/env bash
+# 10-13 unattended (user away): regenerate the two depth-first candidates with the fixed support test, check each with the
+# registered criteria, pick dr3 (human follows vertically) if it passes, else dr2s (human follows in 3-D) if it passes,
+# else none (best_hm stays). The chosen one gets its supports placed in its version dirs. Writes the decision json.
+# Code: track2/tier3-recon 5752307 (deployed under $T/code).
+set -u
+T=/lab_data/<其他用户>/v2d/tier3; G=/lab_data/<其他用户>/v2d/gate; C=$T/code/stages/recovery/tier3; D=$T/dev/depth_diag
+PY=/lab_data/<其他用户>/v2d/venv/bin/python
+cd $T
+log() { echo "[$(date '+%F %T')] $*"; }
+ARGS="$T tier3_cari4d_f830_best runs/tier3_cari4d_f830_best.selection.json runs/support/tier3_cari4d_f830_best_v2 runs/physics/tier3_cari4d_f830_best"
+
+gen() {  # version, mode flag, gate set
+  local V=$1 MODE=$2
+  rm -rf runs/$V runs/${V}_suspect runs/$V.depth_post.json runs/physics/$V $D/dump_${V#tier3_cari4d_f830_best_}
+  nice -n 10 $PY $C/t3_depth_post.py $ARGS $V $MODE dump=$D/dump_${V#tier3_cari4d_f830_best_} > logs/depth_post_$V.log 2>&1 || { log "$V generation failed"; return 1; }
+  $PY $C/gate/t3_post_verify.py $V $D/dump_${V#tier3_cari4d_f830_best_} 5 || { log "$V verify failed"; return 1; }
+}
+
+check() {  # version, gate set -> 0 if the criteria pass
+  local V=$1 S=$2
+  rm -rf $G/repo/runs/tier3/root_$S $G/repo/runs/motion_src/tier3_$S $G/repo/runs/motion/tier3_$S $G/repo/runs/logs/batch/t3_${S}_* \
+         $G/logs/${S}_w*.txt $G/support_usda_$S $G/logs/oursup_$S.txt $D/align_$S.json
+  bash $C/gate/chain_check.sh $V $S tier3_cari4d_f830_best tier3_cari4d_f830_best_hm > $D/chain_$S.log 2>&1
+  $PY $C/gate/t3_replace_check.py $T $G $D/align_$S.json runs/support/tier3_cari4d_f830_best_v2 $V $S \
+      tier3_cari4d_f830_best_hm bhm $D/replace_$S.json > $D/replace_$S.log 2>&1
+  tail -1 $D/replace_$S.log | grep -q '^PASS$'
+}
+
+place() {  # version, gate set: the version's own supports into its dirs, at the metadata's paths
+  local V=$1 S=$2
+  for sub in "" _suspect; do
+    mkdir -p runs/$V$sub/support_surface
+    for f in runs/$V$sub/meta/episode_*.metadata.json; do
+      s=$($PY -c "import json,sys; print(json.load(open(sys.argv[1]))['support_surface'])" $f)
+      cp $G/support_usda_$S/$(basename $s) runs/$V$sub/$s
+    done
+    cp $G/support_usda_$S/support_usda.json runs/$V$sub/support_surface/
+  done
+  echo "$(ls runs/$V/support_surface/*.usda | wc -l) $(ls runs/${V}_suspect/support_surface/*.usda | wc -l)"
+}
+
+log "start"
+CHOSEN=none; SET=; TRIED=""
+gen tier3_cari4d_f830_best_dr3 --move-human && { TRIED="dr3"; check tier3_cari4d_f830_best_dr3 bdr3 && { CHOSEN=tier3_cari4d_f830_best_dr3; SET=bdr3; }; }
+log "dr3: $(tail -1 $D/replace_bdr3.log 2>/dev/null)"
+if [ $CHOSEN = none ]; then
+  gen tier3_cari4d_f830_best_dr2s --move-human=3d && { TRIED="$TRIED dr2s"; check tier3_cari4d_f830_best_dr2s bdr2s && { CHOSEN=tier3_cari4d_f830_best_dr2s; SET=bdr2s; }; }
+  log "dr2s: $(tail -1 $D/replace_bdr2s.log 2>/dev/null)"
+fi
+PLACED=""
+[ $CHOSEN != none ] && PLACED=$(place $CHOSEN $SET)
+$PY - "$CHOSEN" "$SET" "$TRIED" "$PLACED" <<'EOF' > $D/auto_decision.json
+import json, sys, datetime
+chosen, gset, tried, placed = sys.argv[1:5]
+out = {"time": datetime.datetime.now().isoformat(timespec="seconds"), "chosen": chosen, "gate_set": gset, "tried": tried.split(),
+       "support_usda_placed_regular_suspect": placed.split(), "code": "track2/tier3-recon 5752307"}
+for s in ("bdr3", "bdr2s"):
+    try:
+        out[s] = json.load(open(f"/lab_data/<其他用户>/v2d/tier3/dev/depth_diag/replace_{s}.json"))
+    except FileNotFoundError:
+        pass
+print(json.dumps(out, indent=1))
+EOF
+log "chosen $CHOSEN placed [$PLACED]"
+echo AUTO_DONE
+## tier3/code 下最近修改的 10 个文件（不是 git 仓库时）
+2026-10-13_10:02 stages/recovery/tier3/t3_support.py
+2026-10-13_10:02 stages/recovery/tier3/t3_rest_split.py
+2026-10-13_10:02 stages/recovery/tier3/t3_height_post.py
+2026-10-13_10:02 stages/recovery/tier3/t3_hand_depth_diag.py
+2026-10-13_10:02 stages/recovery/tier3/t3_depth_post.py
+2026-10-13_10:02 stages/recovery/tier3/t3_depth_diag.py
+2026-10-13_10:02 stages/recovery/tier3/t3_align_check.py
+2026-10-13_10:02 stages/recovery/tier3/gate/t3_replace_check.py
+2026-10-13_10:02 stages/recovery/tier3/gate/t3_post_verify.py
+2026-10-13_10:02 stages/recovery/tier3/gate/setup.sh

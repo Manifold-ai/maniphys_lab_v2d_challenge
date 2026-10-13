@@ -67,11 +67,12 @@ PY
     echo "# ${f##*/} 最后 6 行"
     tail -n 6 "$f" | cut -c1-300
   done
-  echo "## 我们的支撑面重判（oursup_*.txt）：有 gap_mm 的集数、|gap| ≤ 30 mm 的集数、最大 |gap|"
+  echo "## 我们的支撑面重判（oursup_*.txt）：有 gap_mm 的集数、|gap| ≤ 30 mm 的集数、最大 |gap|；|gap| > 30 mm 的行原样列出"
   for f in "$G"/logs/oursup_*.txt; do
     [ -f "$f" ] || continue
     awk -v n="${f##*/}" '/gap_mm=/ { split($0, a, "gap_mm="); split(a[2], b, " "); g = b[1] + 0; if (g < 0) g = -g;
-      c++; if (g <= 30) p++; if (g > m) m = g } END { printf "  %s: %d 集，%d 集过，最大 %.1f mm\n", n, c, p, m }' "$f"
+      c++; if (g <= 30) p++; else bad = bad "\n    " substr($0, 1, 200); if (g > m) m = g }
+      END { printf "  %s: %d 集，%d 集过，最大 %.1f mm%s\n", n, c, p, m, bad }' "$f"
   done
   echo "## 替换判据的输出（名字含 replace 的文件，tier3 与 gate 下四层以内）"
   find "$T" "$G" -maxdepth 4 -name '*replace*' -not -path '*/code/*' -not -path '*/repo/*' -printf '%TF_%TH:%TM %s %p\n' 2>/dev/null | sort
