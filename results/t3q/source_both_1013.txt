@@ -1,0 +1,7 @@
+# command  : bash -c $'for h in ml40 mf4090; do case $h in ml40) R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge;; mf4090) R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge;; esac; echo "$h Ê\235•Â\216\206 $(ssh -o BatchMode=yes $h cat $R/.v2d-source-commit)"; done' 
+# source   : d17f2581de29
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T10:18:14-0600
+# ---------------------------------------------------------------
+ml40 Êù•ÂéÜ a629fbdbf3e5
+mf4090 Êù•ÂéÜ a629fbdbf3e5

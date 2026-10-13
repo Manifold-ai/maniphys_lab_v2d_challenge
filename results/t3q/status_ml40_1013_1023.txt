@@ -1,0 +1,29 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ ml40\ t3\ t3qa 
+# source   : d17f2581de29
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T10:23:28-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-14 00:23:40 CST；来历 a629fbdbf3e5
+## t3qa train（runs/logs/t3qa_train_ml40.log）
+=== 2026-10-14 00:22:29 CST start t3qa_train_ml40, source a629fbdbf3e5, 期望表 stages/policy/queues/ml40_t3qa.expect.tsv
+=== 2026-10-14 00:22:34 CST 正向核对：8 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-14 00:22:34 CST 冒烟 smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40
+## t3qa eval（runs/logs/t3qa_eval_ml40.log）
+=== 2026-10-14 00:22:31 CST 等 runs/logs/t3qa_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t3-ep10-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep11-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep4-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep5-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep6-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep7-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep8-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep9-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+## 机器
+2097 MiB, 0 %
+1386676 MB free
+runs/.chain-active-cand_t3_t3qa_ml40-gate
+runs/.chain-active-t3qa_eval_ml40
+runs/.chain-active-t3qa_train_ml40

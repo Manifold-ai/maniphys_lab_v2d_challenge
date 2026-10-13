@@ -1,0 +1,109 @@
+# command  : python3 stages/evaluate/select_t2.py --current stages/evaluate/exports/ml40.tsv stages/evaluate/exports/mf4090.tsv --tables runs/submission/select_t2_b1013/tables/export2_ml40.tsv runs/submission/select_t2_b1013/tables/cand_t2_t2xa_ml40.tsv runs/submission/select_t2_b1013/tables/cand_t2_r3t2_ml40.tsv runs/submission/select_t2_b1013/tables/cand_t2_t2xb_ml40.tsv runs/submission/select_t2_b1013/tables/export2_mf4090.tsv --evals results/ml40/day2 results/day2 --out-tsv stages/evaluate/exports/t2_select_b1013.tsv 
+# md5      : 0e695d0143774e7cdfb52a80202ed48e  stages/evaluate/select_t2.py
+# md5      : 87893276ee5596d5a0a49b5727bffe08  stages/evaluate/exports/ml40.tsv
+# md5      : da902d1a929a4784da1434d9e4ae7f31  stages/evaluate/exports/mf4090.tsv
+# md5      : 460f2366a6156b4e57adefaa950cc180  runs/submission/select_t2_b1013/tables/export2_ml40.tsv
+# md5      : ad9fde15ea60ad8871a4d4b2aa91bb3a  runs/submission/select_t2_b1013/tables/cand_t2_t2xa_ml40.tsv
+# md5      : 97225bb14302d24f29d843f8b519ec61  runs/submission/select_t2_b1013/tables/cand_t2_r3t2_ml40.tsv
+# md5      : f79368395379513462aef6bf2b6eb404  runs/submission/select_t2_b1013/tables/cand_t2_t2xb_ml40.tsv
+# md5      : 66ec8b62bf81e5c4fa16c1bffa6cfac7  runs/submission/select_t2_b1013/tables/export2_mf4090.tsv
+# source   : d17f2581de29
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T10:24:42-0600
+# ---------------------------------------------------------------
+  ep0    t2-ep0-w2048-cap10m-ml40：MP-SR 0.361816  ADD-AUC 0.311234（export2_ml40.tsv）  现在交的
+  ep0  → t2-ep0-w2048-cap10m-r3a-ml40：MP-SR 0.985840  ADD-AUC 0.399874（cand_t2_t2xa_ml40.tsv）
+  ep1  → t2-ep1-w2048-cap10m-p185-ml40：MP-SR 0.000000  ADD-AUC 0.204029（export2_ml40.tsv）  现在交的
+  ep1    t2-ep1-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.180167（cand_t2_t2xb_ml40.tsv）
+  ep2  → t2-ep2-w2048-cap10m-r3a-ml40：MP-SR 0.011230  ADD-AUC 0.386355（cand_t2_t2xb_ml40.tsv）
+  ep2    t2-ep2-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.262964（export2_mf4090.tsv）  现在交的
+  ep3    t2-ep3-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.325439（export2_ml40.tsv）  现在交的
+  ep3  → t2-ep3-w2048-cap10m-r3a-ml40：MP-SR 0.806152  ADD-AUC 0.717662（cand_t2_t2xa_ml40.tsv）
+  ep4    t2-ep4-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.113555（cand_t2_t2xb_ml40.tsv）
+  ep4  → t2-ep4-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.128821（export2_mf4090.tsv）  现在交的
+  ep5    t2-ep5-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.348974（export2_ml40.tsv）  现在交的
+  ep5  → t2-ep5-w2048-cap10m-r3a-ml40：MP-SR 0.955566  ADD-AUC 0.621753（cand_t2_t2xa_ml40.tsv）
+  ep6  → t2-ep6-w2048-cap10m-r3a-ml40：MP-SR 0.991211  ADD-AUC 0.549583（cand_t2_t2xa_ml40.tsv）
+  ep6    t2-ep6-w2048-cap4m-mf4090：MP-SR 0.000244  ADD-AUC 0.264613（export2_mf4090.tsv）  现在交的
+  ep7    t2-ep7-w2048-cap10m-p185g-ml40：MP-SR 0.067139  ADD-AUC 0.582040（export2_ml40.tsv）  现在交的
+  ep7  → t2-ep7-w2048-cap10m-r3a-ml40：MP-SR 0.981934  ADD-AUC 0.861248（cand_t2_t2xa_ml40.tsv）
+  ep8    t2-ep8-w2048-cap10m-ml40：MP-SR 0.020508  ADD-AUC 0.561716（export2_ml40.tsv）  现在交的
+  ep8  → t2-ep8-w2048-cap10m-r3a-ml40：MP-SR 0.999268  ADD-AUC 0.611162（cand_t2_r3t2_ml40.tsv）
+  ep8    t2-ep8-w2048-cap10m-r3a-s43-ml40：MP-SR 0.999023  ADD-AUC 0.646323（cand_t2_r3t2_ml40.tsv）
+  ep8    t2-ep8-w2048-cap10m-s43-ml40：MP-SR 0.002197  ADD-AUC 0.505043（cand_t2_r3t2_ml40.tsv）
+  ep9  → t2-ep9-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.274019（cand_t2_t2xb_ml40.tsv）
+  ep9    t2-ep9-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.206152（export2_mf4090.tsv）  现在交的
+  ep10   t2-ep10-w2048-cap10m-ml40：MP-SR 0.270508  ADD-AUC 0.332667（export2_ml40.tsv）  现在交的
+  ep10 → t2-ep10-w2048-cap10m-r3a-ml40：MP-SR 0.963379  ADD-AUC 0.397335（cand_t2_t2xa_ml40.tsv）
+  ep11   t2-ep11-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.084747（cand_t2_t2xa_ml40.tsv）
+  ep11 → t2-ep11-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.185367（export2_mf4090.tsv）  现在交的
+  ep12   t2-ep12-w2048-cap10m-ml40：MP-SR 0.000732  ADD-AUC 0.493979（export2_ml40.tsv）  现在交的
+  ep12 → t2-ep12-w2048-cap10m-r3a-ml40：MP-SR 0.988281  ADD-AUC 0.753283（cand_t2_r3t2_ml40.tsv）
+  ep12   t2-ep12-w2048-cap10m-r3a-s43-ml40：MP-SR 0.985107  ADD-AUC 0.757196（cand_t2_r3t2_ml40.tsv）
+  ep12   t2-ep12-w2048-cap10m-s43-ml40：MP-SR 0.424316  ADD-AUC 0.632774（cand_t2_r3t2_ml40.tsv）
+  ep13 → t2-ep13-w2048-cap10m-r3a-ml40：MP-SR 0.130127  ADD-AUC 0.452119（cand_t2_t2xb_ml40.tsv）
+  ep13   t2-ep13-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.200566（export2_mf4090.tsv）  现在交的
+  ep14   t2-ep14-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.302970（export2_ml40.tsv）  现在交的
+  ep14 → t2-ep14-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.431587（cand_t2_t2xb_ml40.tsv）
+  ep15 → t2-ep15-w2048-cap10m-r3a-ml40：MP-SR 0.986572  ADD-AUC 0.559861（cand_t2_t2xa_ml40.tsv）
+  ep15   t2-ep15-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.313215（export2_mf4090.tsv）  现在交的
+  ep16   t2-ep16-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.450374（export2_ml40.tsv）  现在交的
+  ep16 → t2-ep16-w2048-cap10m-r3a-ml40：MP-SR 0.937500  ADD-AUC 0.695637（cand_t2_t2xa_ml40.tsv）
+  ep17   t2-ep17-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.258654（cand_t2_t2xa_ml40.tsv）
+  ep17 → t2-ep17-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.289546（export2_mf4090.tsv）  现在交的
+  ep18   t2-ep18-w2048-cap10m-ml40：MP-SR 0.039551  ADD-AUC 0.442422（export2_ml40.tsv）  现在交的
+  ep18 → t2-ep18-w2048-cap10m-r3a-ml40：MP-SR 0.994873  ADD-AUC 0.521326（cand_t2_t2xa_ml40.tsv）
+  ep19 → t2-ep19-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.317943（cand_t2_t2xb_ml40.tsv）
+  ep19   t2-ep19-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.179591（export2_mf4090.tsv）  现在交的
+  ep20   t2-ep20-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.415476（export2_ml40.tsv）  现在交的
+  ep20 → t2-ep20-w2048-cap10m-r3a-ml40：MP-SR 0.983887  ADD-AUC 0.731351（cand_t2_r3t2_ml40.tsv）
+  ep20   t2-ep20-w2048-cap10m-r3a-s43-ml40：MP-SR 0.934326  ADD-AUC 0.741503（cand_t2_r3t2_ml40.tsv）
+  ep20   t2-ep20-w2048-cap10m-s43-ml40：MP-SR 0.096191  ADD-AUC 0.481060（cand_t2_r3t2_ml40.tsv）
+  ep21 → t2-ep21-w2048-cap10m-r3a-ml40：MP-SR 0.965332  ADD-AUC 0.516481（cand_t2_t2xa_ml40.tsv）
+  ep21   t2-ep21-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.172868（export2_mf4090.tsv）  现在交的
+  ep22   t2-ep22-w2048-cap10m-ml40：MP-SR 0.724365  ADD-AUC 0.516503（export2_ml40.tsv）  现在交的
+  ep22 → t2-ep22-w2048-cap10m-r3a-ml40：MP-SR 0.996582  ADD-AUC 0.663060（cand_t2_r3t2_ml40.tsv）
+  ep23 → t2-ep23-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.499987（export2_mf4090.tsv）  现在交的
+  ep24   t2-ep24-w2048-cap10m-ml40：MP-SR 0.000000  ADD-AUC 0.467083（export2_ml40.tsv）  现在交的
+  ep24 → t2-ep24-w2048-cap10m-r3a-ml40：MP-SR 0.999023  ADD-AUC 0.813699（cand_t2_r3t2_ml40.tsv）
+  ep24   t2-ep24-w2048-cap10m-r3a-s43-ml40：MP-SR 0.998779  ADD-AUC 0.796849（cand_t2_r3t2_ml40.tsv）
+  ep24   t2-ep24-w2048-cap10m-s43-ml40：MP-SR 0.000000  ADD-AUC 0.474855（cand_t2_r3t2_ml40.tsv）
+  ep25   t2-ep25-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.115728（cand_t2_t2xb_ml40.tsv）
+  ep25 → t2-ep25-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.123506（export2_mf4090.tsv）  现在交的
+  ep26   t2-ep26-w2048-cap10m-ml40：MP-SR 0.006104  ADD-AUC 0.361823（export2_ml40.tsv）  现在交的
+  ep26   t2-ep26-w2048-cap10m-r3a-ml40：MP-SR 0.999512  ADD-AUC 0.452524（cand_t2_r3t2_ml40.tsv）
+  ep26 → t2-ep26-w2048-cap10m-r3a-s43-ml40：MP-SR 0.999756  ADD-AUC 0.465146（cand_t2_r3t2_ml40.tsv）
+  ep26   t2-ep26-w2048-cap10m-s43-ml40：MP-SR 0.001221  ADD-AUC 0.322567（cand_t2_r3t2_ml40.tsv）
+  ep27 → t2-ep27-w2048-cap10m-r3a-ml40：MP-SR 0.986816  ADD-AUC 0.808282（cand_t2_t2xa_ml40.tsv）
+  ep27   t2-ep27-w2048-cap4m-mf4090：MP-SR 0.000000  ADD-AUC 0.551102（export2_mf4090.tsv）  现在交的
+  ep28 → t2-ep28-w2048-cap10m-r3a-ml40：MP-SR 0.000000  ADD-AUC 0.105422（cand_t2_t2xb_ml40.tsv）
+  ep28   t2-ep28-w2048-cap4m-p185-mf4090：MP-SR 0.000000  ADD-AUC 0.076663（export2_mf4090.tsv）  现在交的
+  ep29   t2-ep29-w2048-cap10m-ml40：MP-SR 0.139648  ADD-AUC 0.527369（export2_ml40.tsv）  现在交的
+  ep29 → t2-ep29-w2048-cap10m-r3a-ml40：MP-SR 0.897949  ADD-AUC 0.715181（cand_t2_t2xa_ml40.tsv）
+换了的 episode 24 条：
+  ep0：t2-ep0-w2048-cap10m-ml40（MP-SR 0.362、ADD-AUC 0.311）→ t2-ep0-w2048-cap10m-r3a-ml40（MP-SR 0.986、ADD-AUC 0.400）
+  ep2：t2-ep2-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.263）→ t2-ep2-w2048-cap10m-r3a-ml40（MP-SR 0.011、ADD-AUC 0.386）
+  ep3：t2-ep3-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.325）→ t2-ep3-w2048-cap10m-r3a-ml40（MP-SR 0.806、ADD-AUC 0.718）
+  ep5：t2-ep5-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.349）→ t2-ep5-w2048-cap10m-r3a-ml40（MP-SR 0.956、ADD-AUC 0.622）
+  ep6：t2-ep6-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.265）→ t2-ep6-w2048-cap10m-r3a-ml40（MP-SR 0.991、ADD-AUC 0.550）
+  ep7：t2-ep7-w2048-cap10m-p185g-ml40（MP-SR 0.067、ADD-AUC 0.582）→ t2-ep7-w2048-cap10m-r3a-ml40（MP-SR 0.982、ADD-AUC 0.861）
+  ep8：t2-ep8-w2048-cap10m-ml40（MP-SR 0.021、ADD-AUC 0.562）→ t2-ep8-w2048-cap10m-r3a-ml40（MP-SR 0.999、ADD-AUC 0.611）
+  ep9：t2-ep9-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.206）→ t2-ep9-w2048-cap10m-r3a-ml40（MP-SR 0.000、ADD-AUC 0.274）
+  ep10：t2-ep10-w2048-cap10m-ml40（MP-SR 0.271、ADD-AUC 0.333）→ t2-ep10-w2048-cap10m-r3a-ml40（MP-SR 0.963、ADD-AUC 0.397）
+  ep12：t2-ep12-w2048-cap10m-ml40（MP-SR 0.001、ADD-AUC 0.494）→ t2-ep12-w2048-cap10m-r3a-ml40（MP-SR 0.988、ADD-AUC 0.753）
+  ep13：t2-ep13-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.201）→ t2-ep13-w2048-cap10m-r3a-ml40（MP-SR 0.130、ADD-AUC 0.452）
+  ep14：t2-ep14-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.303）→ t2-ep14-w2048-cap10m-r3a-ml40（MP-SR 0.000、ADD-AUC 0.432）
+  ep15：t2-ep15-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.313）→ t2-ep15-w2048-cap10m-r3a-ml40（MP-SR 0.987、ADD-AUC 0.560）
+  ep16：t2-ep16-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.450）→ t2-ep16-w2048-cap10m-r3a-ml40（MP-SR 0.938、ADD-AUC 0.696）
+  ep18：t2-ep18-w2048-cap10m-ml40（MP-SR 0.040、ADD-AUC 0.442）→ t2-ep18-w2048-cap10m-r3a-ml40（MP-SR 0.995、ADD-AUC 0.521）
+  ep19：t2-ep19-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.180）→ t2-ep19-w2048-cap10m-r3a-ml40（MP-SR 0.000、ADD-AUC 0.318）
+  ep20：t2-ep20-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.415）→ t2-ep20-w2048-cap10m-r3a-ml40（MP-SR 0.984、ADD-AUC 0.731）
+  ep21：t2-ep21-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.173）→ t2-ep21-w2048-cap10m-r3a-ml40（MP-SR 0.965、ADD-AUC 0.516）
+  ep22：t2-ep22-w2048-cap10m-ml40（MP-SR 0.724、ADD-AUC 0.517）→ t2-ep22-w2048-cap10m-r3a-ml40（MP-SR 0.997、ADD-AUC 0.663）
+  ep24：t2-ep24-w2048-cap10m-ml40（MP-SR 0.000、ADD-AUC 0.467）→ t2-ep24-w2048-cap10m-r3a-ml40（MP-SR 0.999、ADD-AUC 0.814）
+  ep26：t2-ep26-w2048-cap10m-ml40（MP-SR 0.006、ADD-AUC 0.362）→ t2-ep26-w2048-cap10m-r3a-s43-ml40（MP-SR 1.000、ADD-AUC 0.465）
+  ep27：t2-ep27-w2048-cap4m-mf4090（MP-SR 0.000、ADD-AUC 0.551）→ t2-ep27-w2048-cap10m-r3a-ml40（MP-SR 0.987、ADD-AUC 0.808）
+  ep28：t2-ep28-w2048-cap4m-p185-mf4090（MP-SR 0.000、ADD-AUC 0.077）→ t2-ep28-w2048-cap10m-r3a-ml40（MP-SR 0.000、ADD-AUC 0.105）
+  ep29：t2-ep29-w2048-cap10m-ml40（MP-SR 0.140、ADD-AUC 0.527）→ t2-ep29-w2048-cap10m-r3a-ml40（MP-SR 0.898、ADD-AUC 0.715）
+选中者里名字带 -r3a- 的 24 条；选择清单 stages/evaluate/exports/t2_select_b1013.tsv
+SELECT_T2_DONE

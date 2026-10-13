@@ -1,0 +1,34 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ stages/policy/arm_var_chain.sh\ t3qa 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : d17f2581de29
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T10:22:20-0600
+# ---------------------------------------------------------------
+source a629fbdbf3e5
+/repo/runs/cfgcheck/t3-ep4-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep5-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep5-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep6-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep6-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep7-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep7-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep8-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep8-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep9-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep10-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep11-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40.yaml：4 条断言，全过
+核对：t3qa 在 ml40，8 条 run，来历 a629fbdbf3e5，可用 1386753 MB，16 份配置的 precheck 与配方断言全过
+v2d-t3qa-eval: 1 windows (created Wed Oct 14 00:22:31 2026)
+v2d-t3qa-export: 1 windows (created Wed Oct 14 00:22:33 2026)
+v2d-t3qa-train: 1 windows (created Wed Oct 14 00:22:29 2026)
+t3qa_train_ml40：=== 2026-10-14 00:22:34 CST 冒烟 smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40
+t3qa_eval_ml40：=== 2026-10-14 00:22:31 CST 等 runs/logs/t3qa_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3qa_ml40：
+runs/.chain-active-cand_t3_t3qa_ml40-gate
+runs/.chain-active-t3qa_eval_ml40
+runs/.chain-active-t3qa_train_ml40
+ARMED
