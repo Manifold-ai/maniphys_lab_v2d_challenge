@@ -15,7 +15,7 @@ NVIDIA V2D Challenge Track 2（G1 + Dex3，FlashCHORD FlashSAC 训练）训练�
 | 标签 | 上传日期（UTC-6） | 发送端 → 接收端 | 内容 | 文件数 | 大小 |
 |---|---|---|---|---|---|
 | `smoke_1013` | 2026-10-13 | mf4090 → ml40 | 冒烟：一个文本文件与一个 LFS 文件，验证上传、经代理下载、跳转到 CDN 这条路 | 2 | 约 64 KB |
-| `t3hm_1013a` | 2026-10-13 | mf4090 → ml40 | Tier 3 最终交付版（best_hm）的档目录 `runs/tier3/root_hm`、转换结果 `runs/motion_src/tier3_hm`、重定向结果 `runs/motion/tier3_hm`；29 集（不含 ep28）。状态：上传中 | 523 | 约 2.29 GB |
+| `t3hm_1013a` | 2026-10-13 | mf4090 → ml40 | Tier 3 最终交付版（best_hm）的档目录 `runs/tier3/root_hm`、转换结果 `runs/motion_src/tier3_hm`、重定向结果 `runs/motion/tier3_hm`；29 集（不含 ep28）。状态：已传、已核对（ml40 收到 523/523，两端 sha256 逐行相同，已挪到位） | 523 | 2.40 GB |
 
 ## 目录结构
 

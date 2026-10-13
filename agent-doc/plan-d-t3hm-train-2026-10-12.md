@@ -262,3 +262,11 @@
 - 冒烟第 1 次停在 push：标签目录还不存在时 `list_repo_tree` 回 404，工具当成了出错，什么都没传（`results/t3hm/hf_transfer_smoke.txt.failed`）；
   改成当作空目录、假 API 也照真的抛 404 后重新部署（两台 md5 相同、测试全过，`results/t3hm/hf_transfer_deploy2.txt`）。冒烟第 2 次 `HF_SMOKE_OK`：
   上传 2 个文件加清单，`.npy` 走 LFS，ml40 经代理下载 2/2，两端 sha256 相同，两边冒烟目录已删（`results/t3hm/hf_transfer_smoke.txt`）。
+- 01:34–01:56 经 HF 转发 `RELAY_OK`（`results/t3hm/relay_ml40_hf.txt`）：mf4090 上传 523 个文件、2395.4 MB 用 118 秒，仓库里 524 个（含清单）缺 0、不符 0、多出 0；
+  ml40 下载 523/523 用 1156 秒（约 2 MB/s）；两端 sha256 清单都是 523 个、逐行相同（摘要 5c696a8cb24f2fb7），非普通文件 0；支撑面与 `root_hm` 同名文件 29/29 相同；
+  parquet、`v2d_meta.json`、支撑面各 29 份，`_g1_support` 0，档位 3，集号 0–27 与 29（人工核对，与预期一致），`sequence_id` 与目录不符 0；挪到位后清单与来源逐行相同。
+  上传期间 mf4090 的可用空间没有因为上传变少（暂存是硬链接，xet 缓存 95 → 96 MB；可用 1701 → 1545 MB 是 ep2 在长）。
+- 01:56 ml40 容器里 `check_inputs.py`（md5 2a0e1527…，来历 3e517ff）对 29 个 parquet：mesh 与 urdf 58 处都在、缺失 0，支撑面 29 份都找到，fps 都是 30，退出码 0
+  （`results/t3hm/check_inputs_ml40.txt`）。第 8 节的判据全部满足。中转仓库的 README 改为“已传、已核对”后重传，`HF_README_OK`，仓库私有、529 个文件、2.40 GB
+  （`results/ops/hf_readme_v2d_track2_transfer_relayed.txt`）。仓库里的副本删不删，待 `t3qa`、`t3qb` 用完后定。
+- 之后：B 结束 → 拉回结果与健康记录 → 同步 ml40 → `t3qa` 配置展开 → 预演 → 起链（第 3 节第 7、9 步）。07:00 的 SOP 定时任务不同步、不起链，这几步等下一次交互。
