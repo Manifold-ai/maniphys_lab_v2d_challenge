@@ -1,0 +1,29 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier1_select_t1x1013.csv --track track_2_tier1 -m Tier\ 1\ per-episode\ select\ t1x1013 --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 950809d6affc8a439cbcf84965cb56a9  runs/submission/csv/track2_tier1_select_t1x1013.csv
+# source   : 79e374ec8b52
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T17:53:10-0600
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier1_select_t1x1013.csv: 22,989 rows over 30 episodes, 12,139,924 B - looks valid
+Track 2 - Robotic Grounding (Tier 1: multi-view input): 4 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier1-auc           5 left today
+  spider_sr        v2d-challenge-track2-tier1-sp-sr         5 left today
+  maniptrans_sr    v2d-challenge-track2-tier1-mp-sr         5 left today
+  mppe_cm          v2d-challenge-track2-tier1-mppe          5 left today
+Receipt: runs/submission/csv/track2_tier1_select_t1x1013.csv.9df45debdd14.kaggle-receipt.json
+
+  add_auc          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - AUC (submission 57159315)
+  spider_sr        ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - SP-SR (submission 57159318)
+  maniptrans_sr    FAIL SSLError: HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with url: /v1/competitions.CompetitionApiService/StartSubmissionUpload (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))
+  mppe_cm          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MPPE (cm) (submission 57159328)
+
+Retry only failed uploads using the same file, track and message with --only maniptrans_sr.
+Check Kaggle first if an upload's connection failed after sending the file.
+
+Waiting for scores...
+  spider_sr        COMPLETE 0.60000 (submission 57159318)
+  add_auc          COMPLETE 0.47127 (submission 57159315)
+  mppe_cm          COMPLETE 24.53655 (submission 57159328)
+  maniptrans_sr    UPLOAD_FAILED HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with url: /v1/competitions.CompetitionApiService/StartSubmissionUpload (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))
+Receipt: runs/submission/csv/track2_tier1_select_t1x1013.csv.9df45debdd14.kaggle-receipt.json

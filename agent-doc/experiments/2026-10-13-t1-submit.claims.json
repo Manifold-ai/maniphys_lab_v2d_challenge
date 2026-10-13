@@ -1,0 +1,96 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "s1": {
+      "file": "results/submission/submit_t1x1013.txt.failed",
+      "grep": "^# run_at|looks valid|left today|ACCEPTED|FAIL|COMPLETE|UPLOAD_FAILED"
+    },
+    "s2": {
+      "file": "results/submission/submit_t1x1013_mpsr.txt",
+      "grep": "^# run_at|leaderboard|left today|ACCEPTED|COMPLETE"
+    },
+    "chk": {
+      "file": "results/submission/t1_subs_check_1013_1755.txt",
+      "grep": "^# run_at|^== |No submissions|57159315"
+    },
+    "dry": {
+      "file": "results/submission/dryrun_t1x1013_1013_1755.txt",
+      "grep": "^# run_at|left today|nothing submitted"
+    },
+    "pk": {
+      "file": "results/ml40/select_t1/select_t1x1013.txt",
+      "grep": "^PACKED|locally computed"
+    }
+  },
+  "claims": [
+    {
+      "id": "t1s_three",
+      "evidence": [
+        "s1"
+      ],
+      "claim": "第一次上传（2026-10-13 17:53 运行）里，AUC、SP-SR、MPPE 三个比赛都 ACCEPTED 并 COMPLETE，公榜分分别是 0.47127、0.60000、24.53655，提交号分别是 57159315、57159318、57159328。"
+    },
+    {
+      "id": "t1s_mp_fail",
+      "evidence": [
+        "s1"
+      ],
+      "claim": "第一次上传里 MP-SR 在 StartSubmissionUpload 这一步报 SSLError（UNEXPECTED_EOF_WHILE_READING），最终状态是 UPLOAD_FAILED，没有提交号。"
+    },
+    {
+      "id": "t1s_nodup",
+      "evidence": [
+        "chk",
+        "dry"
+      ],
+      "claim": "补交之前，MP-SR 比赛的提交列表是 No submissions found，同时查的 AUC 比赛列出了 57159315 这一条；dry-run 显示 AUC、SP-SR、MPPE 今天各剩 4 次，MP-SR 剩 5 次。"
+    },
+    {
+      "id": "t1s_retry",
+      "evidence": [
+        "s2"
+      ],
+      "claim": "补交只发 MP-SR 一个比赛（1 leaderboard），ACCEPTED，提交号 57159369，COMPLETE 0.53333。"
+    },
+    {
+      "id": "t1s_local",
+      "evidence": [
+        "pk"
+      ],
+      "claim": "打包时本地复算的合计是 add_auc 0.471279、spider_sr 0.600000、maniptrans_sr 0.533333、mppe_cm 24.536550。"
+    },
+    {
+      "id": "t1s_match",
+      "evidence": [
+        "s1",
+        "s2",
+        "pk"
+      ],
+      "claim": "Kaggle 四个公榜分（AUC 0.47127、SP-SR 0.60000、MP-SR 0.53333、MPPE 24.53655）与打包时本地复算的合计（0.471279、0.600000、0.533333、24.536550）逐项相差都小于 1e-5。"
+    },
+    {
+      "id": "ctl_true_sp",
+      "evidence": [
+        "s1"
+      ],
+      "control": "true",
+      "claim": "SP-SR 的提交号是 57159318，公榜分 0.60000。"
+    },
+    {
+      "id": "ctl_false_mp",
+      "evidence": [
+        "s2"
+      ],
+      "control": "false",
+      "claim": "MP-SR 的公榜分是 0.50000。"
+    },
+    {
+      "id": "ctl_false_all",
+      "evidence": [
+        "s1"
+      ],
+      "control": "false",
+      "claim": "第一次上传时四个比赛都上传成功。"
+    }
+  ]
+}

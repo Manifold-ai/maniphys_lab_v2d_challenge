@@ -1,0 +1,11 @@
+# command  : bash -c for\ s\ in\ v2d-challenge-track2-tier1-mp-sr\ v2d-challenge-track2-tier1-auc\;\ do\ echo\ \"==\ \$s\"\;\ /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle\ competitions\ submissions\ \$s\ 2\>\&1\ \|\ head\ -8\;\ done 
+# source   : 79e374ec8b52
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T17:55:06-0600
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier1-mp-sr
+No submissions found
+== v2d-challenge-track2-tier1-auc
+     ref  fileName                         date                        description                        status                     publicScore  privateScore  
+--------  -------------------------------  --------------------------  ---------------------------------  -------------------------  -----------  ------------  
+57159315  track2_tier1_select_t1x1013.csv  2026-10-13 23:53:19.827000  Tier 1 per-episode select t1x1013  SubmissionStatus.COMPLETE  0.47127                    

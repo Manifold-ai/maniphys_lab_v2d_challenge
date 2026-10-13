@@ -1,0 +1,15 @@
+{
+  "track": "track_2_tier1",
+  "file": "/Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier1_select_t1x1013.csv",
+  "message": "Tier 1 per-episode select t1x1013",
+  "submissions": {
+    "maniptrans_sr": {
+      "slug": "v2d-challenge-track2-tier1-mp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MP-SR",
+      "ref": 57159369,
+      "public_score": "0.53333",
+      "error": ""
+    }
+  }
+}

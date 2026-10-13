@@ -271,3 +271,20 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
 - 10/13 10:13–10:16 Tier 1 中间版逐条选（标签 t1x1013，经过见 `agent-doc/plan-d-t3hm-train-2026-10-12.md` 执行记录）：候选是 10/9 的 54 个加 t1xa 的 ep17、
   t1xa2 的 ep21；只有 ep21 换成变体 A 的 run，CSV 的 MP-SR 0.5000 → 0.5333、ADD-AUC 0.4597 → 0.4713、MPPE 24.62 → 24.54 cm，SP-SR 不变。
   按第 3 节 A 的“选”，打分门与选择规则都没改。没开的 5 条（ep10、13、19、3、14）训完之后再选一次。
+
+- 10/13 17:53–17:56 Tier 1 第一次真实提交（第 4a 节第 7 条：提交不代做，等用户同意）。用户在对话中确认 4 个比赛页面的队名是 maniphys.ai，并要求提交 Tier 1。
+  交的是 `runs/submission/csv/track2_tier1_select_t1x1013.csv`（sha256 37bc9b9d…，CSV 里的代码链接为 66a8f0d），说明 “Tier 1 per-episode select t1x1013”。
+  17:53 第一次上传：AUC、SP-SR、MPPE 三个比赛上传成功；MP-SR 在 StartSubmissionUpload 一步报 SSLError，没有生成提交（`results/submission/submit_t1x1013.txt.failed`）。
+  补交前核对：MP-SR 比赛的提交列表为空，AUC 比赛列出 57159315；今天剩余次数 AUC、SP-SR、MPPE 各 4，MP-SR 5（`results/submission/t1_subs_check_1013_1755.txt`、`dryrun_t1x1013_1013_1755.txt`）。
+  17:55 按上传器的提示用 `--only maniptrans_sr` 补交 MP-SR，同一文件、同一说明（`results/submission/submit_t1x1013_mpsr.txt`）。收据复制在 `results/submission/receipts/`。
+
+  | 比赛 | 提交号 | Kaggle 公榜分 | 打包时本地复算 |
+  |---|---|---|---|
+  | AUC | 57159315 | 0.47127 | 0.471279 |
+  | SP-SR | 57159318 | 0.60000 | 0.600000 |
+  | MP-SR | 57159369 | 0.53333 | 0.533333 |
+  | MPPE（cm） | 57159328 | 24.53655 | 24.536550 |
+
+  四项相差都小于 1e-5：Tier 1 的本地复算与榜单一致，第 4a 节第 7 条要核对的这一点成立。Track 2 没有私榜（kit `config/tracks.json` 的 `private_fraction` 为 0）。
+  本周每个 Tier 1 比赛已用 1 次（网站规则每周 5 次，最后三天不限）。jev 6 条全部 verified（0.75–0.98），3 道对照正常（`results/submission/jev_claims_t1_submit_1013.txt`）。
+  组委会账号 Nvidia-V2D-Challenge 的仓库权限还没生效（`agent-doc/plan-submission-check-2026-10-03.md` 末尾），66a8f0d 组委会暂时打不开。Tier 2 没有提交。

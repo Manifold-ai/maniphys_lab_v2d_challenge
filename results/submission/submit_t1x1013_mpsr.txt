@@ -1,0 +1,17 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier1_select_t1x1013.csv --track track_2_tier1 -m Tier\ 1\ per-episode\ select\ t1x1013 --only maniptrans_sr --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 950809d6affc8a439cbcf84965cb56a9  runs/submission/csv/track2_tier1_select_t1x1013.csv
+# source   : 79e374ec8b52
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T17:55:48-0600
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier1_select_t1x1013.csv: 22,989 rows over 30 episodes, 12,139,924 B - looks valid
+Track 2 - Robotic Grounding (Tier 1: multi-view input): 1 leaderboard(s)
+  maniptrans_sr    v2d-challenge-track2-tier1-mp-sr         5 left today
+Receipt: runs/submission/csv/track2_tier1_select_t1x1013.csv.808c3b3ad535.kaggle-receipt.json
+
+  maniptrans_sr    ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MP-SR (submission 57159369)
+
+Waiting for scores...
+  maniptrans_sr    COMPLETE 0.53333 (submission 57159369)
+Receipt: runs/submission/csv/track2_tier1_select_t1x1013.csv.808c3b3ad535.kaggle-receipt.json

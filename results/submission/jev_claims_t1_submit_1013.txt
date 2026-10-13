@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-t1-submit.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1e3cf7186ffffaf837f5a1a7fdd4d7fc  agent-doc/experiments/2026-10-13-t1-submit.claims.json
+# source   : 79e374ec8b52-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T17:57:36-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1s_three            P(supported)=0.97  verified               [s1]  第一次上传（2026-10-13 17:53 运行）里，AUC、SP-SR、MPPE 三个比赛都 ACCEPTED 并 COMPLETE，公榜分分别是 0.47127、0.60000、24.53655，提交号分别是 57159315、57159318、57159328。
+t1s_mp_fail          P(supported)=0.97  verified               [s1]  第一次上传里 MP-SR 在 StartSubmissionUpload 这一步报 SSLError（UNEXPECTED_EOF_WHILE_READING），最终状态是 UPLOAD_FAILED，没有提交号。
+t1s_nodup            P(supported)=0.96  verified               [chk, dry]  补交之前，MP-SR 比赛的提交列表是 No submissions found，同时查的 AUC 比赛列出了 57159315 这一条；dry-run 显示 AUC、SP-SR、MPPE 今天各剩 4 次，MP-SR 剩 5 次。
+t1s_retry            P(supported)=0.91  verified               [s2]  补交只发 MP-SR 一个比赛（1 leaderboard），ACCEPTED，提交号 57159369，COMPLETE 0.53333。
+t1s_local            P(supported)=0.98  verified               [pk]  打包时本地复算的合计是 add_auc 0.471279、spider_sr 0.600000、maniptrans_sr 0.533333、mppe_cm 24.536550。
+t1s_match            P(supported)=0.75  verified               [s1, s2, pk]  Kaggle 四个公榜分（AUC 0.47127、SP-SR 0.60000、MP-SR 0.53333、MPPE 24.53655）与打包时本地复算的合计（0.471279、0.600000、0.533333、24.536550）逐项相差都小于 1e-5。
+ctl_true_sp          P(supported)=0.97  control(true) ok       [s1]  SP-SR 的提交号是 57159318，公榜分 0.60000。
+ctl_false_mp         P(supported)=0.02  control(false) ok      [s2]  MP-SR 的公榜分是 0.50000。
+ctl_false_all        P(supported)=0.02  control(false) ok      [s1]  第一次上传时四个比赛都上传成功。
+controls behaved as expected

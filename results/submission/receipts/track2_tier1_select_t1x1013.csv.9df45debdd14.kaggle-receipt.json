@@ -1,0 +1,36 @@
+{
+  "track": "track_2_tier1",
+  "file": "/Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier1_select_t1x1013.csv",
+  "message": "Tier 1 per-episode select t1x1013",
+  "submissions": {
+    "add_auc": {
+      "slug": "v2d-challenge-track2-tier1-auc",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - AUC",
+      "ref": 57159315,
+      "public_score": "0.47127",
+      "error": ""
+    },
+    "spider_sr": {
+      "slug": "v2d-challenge-track2-tier1-sp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - SP-SR",
+      "ref": 57159318,
+      "public_score": "0.60000",
+      "error": ""
+    },
+    "maniptrans_sr": {
+      "slug": "v2d-challenge-track2-tier1-mp-sr",
+      "state": "UPLOAD_FAILED",
+      "error": "HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with url: /v1/competitions.CompetitionApiService/StartSubmissionUpload (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+    },
+    "mppe_cm": {
+      "slug": "v2d-challenge-track2-tier1-mppe",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MPPE (cm)",
+      "ref": 57159328,
+      "public_score": "24.53655",
+      "error": ""
+    }
+  }
+}
