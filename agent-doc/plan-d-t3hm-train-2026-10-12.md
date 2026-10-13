@@ -139,49 +139,80 @@
 3. 加入 Tier 3 的 4 个 Kaggle 比赛（Tier 3 要交，30 集训完之前加入就行）。
 4. Tier 1 中间版逐条选之后交不交一次（第 4a 节第 7 条的建议）。
 
-## 8. 补充：ml40 的数据转发（第 3 节第 8 步；10/13 00:30 写，第 2 版按 Fable 5.1 审查修改，审查后执行）
+## 8. 补充：ml40 的数据转发（第 3 节第 8 步；10/13 00:30 写，第 2 版按 Fable 5.1 审查修改，第 3 版改经 HF 私有仓库中转，审查后执行）
 
 - **为什么今晚做**：B（t2xb）估计 07:00–07:30 结束，之后 ml40 要等同步、转发、`t3qa` 起链。转发只在 ml40 上新建三个原本不存在的目录，
   不碰 t2xb 用的 Tier 2 目录，也不改仓库代码（“链在跑时不同步”管的是代码，这一步不同步）；先做掉，早上只剩同步与起链。
-- **事实**（00:25）：mf4090 上 `runs/tier3/root_hm` 363 MB、117 个文件，`runs/motion_src/tier3_hm` 1096 MB、232 个，`runs/motion/tier3_hm` 829 MB、174 个，
+- **第 2 版经 Mac 管道太慢**：00:51 起跑，2 分钟只到 3 MB（约 25 KB/s，2.3 GB 要一天以上），00:57 停掉，`RELAY_FAILED 2（转发）`，暂存目录已删，
+  ml40 上什么都没留下（`results/t3hm/relay_ml40.txt.failed`）。第 1 次（00:48）因脚本没有执行权限没跑起来，什么都没动。用户 10/13 01:00 前后定：
+  “需要传数据还是得HF”。
+- **事实**（00:25 与 01:05–01:15）：mf4090 上 `runs/tier3/root_hm` 363 MB、117 个文件，`runs/motion_src/tier3_hm` 1096 MB、232 个，`runs/motion/tier3_hm` 829 MB、174 个，
   合计约 2288 MB、523 个文件，没有符号链接；`runs/motion/tier3_hm` 下 data.parquet 29 个、`reconstructed_stage` 支撑面 29 份（`<序列>_support.usda`，
   没有 `<序列>_g1_support.usda`；文件名里带 `_g1_` 的那份是序列名 `g1_box_rotate_01` 本身），`motion_src` 29 个序列目录；`root_hm/support_surface` 29 份同名支撑面。
   ml40 仓库副本（`/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`，来历 3e517ff，还没有 `t3q` 的队列）里三个目标都不存在，`/lab_data` 可用约 1.39 TB。
-- **做法**：`stages/recovery/tier3_relay.sh hm 29 523`（Mac 上执行，Mac 只转发；测试 `stages/recovery/test_tier3_relay.py` 6 组在 Mac 上全过）：
-  ① 来源三个目录都在，目标三个目录与暂存目录 `runs/.relay_tier3_hm.partial` 都不存在才建暂存目录；② mf4090 `tar` 打包经 Mac 管道在暂存目录解开
-  （ssh 带保活，Mac 断网时几分钟内失败，不会挂一夜）；③ 两端各列 sha256 清单（相对仓库根，按字节序），Mac 上比对：文件数 523、逐行相同，
-  两端都只能有普通文件与目录；④ 在暂存目录里查 parquet、`v2d_meta.json`、支撑面各 29 份、没有 `_g1_support`，档位都是 3、集号 29 个各不相同、
-  `sequence_id` 与所在目录同名，每份 `reconstructed_stage` 支撑面与 `root_hm/support_surface` 里同名文件的 sha256 相同；⑤ 挪到位之前再查一次目标都不存在、
-  暂存目录与三个上级目录在同一个文件系统（`mv` 只是改名），挪完在目标位置再列一次 sha256 清单，要与来源逐行相同。②–④ 任何一步不过就删暂存目录，
-  目标不留半成品；⑤ 中途不过什么都不删。
-  命令：`caffeinate -i scripts/dev/record t3hm/relay_ml40 stages/recovery/tier3_relay.sh hm 29 523`（Mac 不睡）。
-  ⑥ 之后在 ml40 容器里（不占 GPU）对 29 个 parquet 跑 `stages/policy/check_inputs.py`（parquet 能读、帧数与 fps、引用的资产与支撑面在容器内都在），
+  ml40 经 http 代理能到 huggingface.co：接口 0.74 秒返回，从公开归档仓库下载一份 160 MB 的 state，30 秒下了 157 MB，约 5.2 MB/s（未落盘的临时查看）；
+  mf4090 上传约 5.6 MB/s（第 4 批 3.15 GB 用 9.3 分钟）。ml40 的主机 Python 与 flash_chord 镜像里都没有 huggingface_hub，接收端只用标准库下载，
+  不在 ml40 上装包。账号私有存储已用 81.73 GB（`results/ops/hf_storage_1013_0110.txt`）；第 3 批撞过私有额度，这次再加约 2.3 GB。
+- **做法**：
+  ① 新建私有仓库 `Rongxuan-Zhou/v2d-track2-transfer`，只做中转：`docs/hf/v2d-track2-transfer/README.md` 拷到 mf4090 的 `runs/hf_readme/v2d-track2-transfer.md`，
+  经 `tools/hf_remote.sh` 跑 `hf_archive.py readme --repo Rongxuan-Zhou/v2d-track2-transfer --file … --visibility private`（仓库不存在时只建私有仓库）与
+  `hf_archive.py whoami --repo Rongxuan-Zhou/v2d-track2-transfer --visibility private`（`results/ops/hf_readme_v2d_track2_transfer.txt`）。
+  ② `tools/hf_transfer.py` 与 `tools/test_hf_transfer.py` 经 ssh 的 stdin 复制到 mf4090 与 ml40 的 `runs/tools/`，两端 md5 对比，两台都跑测试
+  （`results/t3hm/hf_transfer_deploy.txt`）。
+  ②′ 冒烟（审查 F5，`results/t3hm/hf_transfer_smoke.txt`）：mf4090 上建 `runs/xfer_smoke_1013/`（一个文本文件、一个 64 KB 的 `.npy`，后者按仓库默认的
+  `.gitattributes` 走 LFS，下载时会跳到 CDN），push 标签 `smoke_1013`；ml40 上 pull 到 `runs/.xfer_smoke_1013.partial/`；两端 sha256 逐行相同后删掉两边的冒烟目录。
+  这一步验证 ml40 上标准库经带密码的 http 代理走 CONNECT、证书校验、跳 CDN 不带 token 这条路，不过就不传正式数据。
+  ③ `caffeinate -i scripts/dev/record t3hm/relay_ml40_hf stages/recovery/tier3_relay.sh hm 29 523 t3hm_1013a`（测试 `stages/recovery/test_tier3_relay.py` 6 组在 Mac 上全过）：
+  第 1 步同第 2 版；第 2 步 mf4090 上 `hf_transfer.py push` 三个目录（硬链接进 `runs/hf_xfer/t3hm_1013a/` 再上传，不多占盘；仓库必须私有、有 README、
+  标签下原本没有文件；传完列仓库核对路径、大小与 LFS sha256，删掉暂存的硬链接），ml40 上 `hf_transfer.py pull` 到暂存目录（只对 huggingface.co 带 token，
+  跳到 CDN 时不带；每个文件边下边算 sha256，与清单不同重下一次，仍不同就停）；第 3–5 步同第 2 版：两端 sha256 清单（发送端现场列、接收端现场列，
+  不信任仓库里的清单）在 Mac 上逐行比对，文件数 523；暂存目录里查集数、档位、集号、`sequence_id`、支撑面与 `root_hm` 同名文件的 sha256；挪之前再查目标、
+  同一个文件系统；挪完再比一次清单。②–④ 任何一步不过就删暂存目录；⑤ 中途不过什么都不删。
+  ④ 之后在 ml40 容器里（不占 GPU）对 29 个 parquet 跑 `stages/policy/check_inputs.py`（parquet 能读、帧数与 fps、引用的资产与支撑面在容器内都在），
   记录 `results/t3hm/check_inputs_ml40.txt`。
-- **判据**：最后一行 `RELAY_OK`；两端清单都是 523 个文件、逐行相同，挪到位后的清单与来源逐行相同；parquet、`v2d_meta.json`、支撑面各 29 份，档位都是 3，
+- **判据**：README 上传 `HF_README_OK`，`whoami` 报仓库私有；两台的测试全过、复制的文件 md5 相同；冒烟 `HF_PUSH_OK 2`、`HF_PULL_OK 2`、两端 sha256 相同；上传 `HF_PUSH_OK 523`，下载 `HF_PULL_OK 523`；
+  最后一行 `RELAY_OK`；两端清单都是 523 个文件、逐行相同，挪到位后的清单与来源逐行相同；parquet、`v2d_meta.json`、支撑面各 29 份，档位都是 3，
   集号 29 个各不相同（记录里应是 0–27 与 29，ep28 还没交付，人工核对），`sequence_id` 与目录全同名，支撑面与 `root_hm` 同名文件 29/29 相同；
   `check_inputs.py` 29 个都没有缺失（退出码 0）。不过就停，不重试，查清再说。
-- **风险与收尾**：2.3 GB 经 Mac 转发。②–④ 失败时暂存目录删掉、目标不受影响；Mac 断网时连删暂存目录的命令也到不了 ml40，重跑之前先确认 Mac 上没有转发进程，
-  再在 ml40 上手动删 `runs/.relay_tier3_hm.partial`，然后重跑同一条命令。⑤ 中途失败（三次 `mv` 只做了一部分）时不删任何东西：看暂存目录里剩什么，
-  把剩下的手动挪完再按 ③ 的命令核一遍清单，或删掉已挪到位的目录与暂存目录后重跑。mf4090 上 `tar` 读盘与 `t3p4a` 的训练同时进行，只读；
-  训练若在读的过程中改写了这些文件，`tar` 会报错，第 2 步失败，等 `t3p4a` 当前这一集结束后重跑，不放宽检查。ml40 上写盘与 t2xb 同时进行，空间充足。
-  转发不碰另一位用户的目录。
+- **风险与收尾**：凭据只经 `tools/hf_remote.sh` 的 stdin 进到两台机器上这两条命令的环境里，命令结束就没了；`hf_transfer.py` 不打印 token，输出经同样的过滤。
+  私有额度若不够，上传在第 2 步失败，什么都不删，停下报告。仓库里的副本在 `t3qa`、`t3qb` 用完之后删不删待定。上传或下载中途失败时，暂存目录删掉、
+  目标不受影响；仓库里的 `t3hm_1013a/` 留着，同一条命令可以重跑（push 见到与清单一致的副本就不重传、传了一半就接着传，只有内容不对或有清单外的文件才要换标签）。⑤ 中途失败（三次 `mv` 只做了一部分）时不删任何东西：
+  看暂存目录里剩什么，把剩下的手动挪完再按 ③ 的命令核一遍清单，或删掉已挪到位的目录与暂存目录后重跑。mf4090 上读盘、上传与 `t3p4a` 的训练同时进行，
+  只读；ml40 上写盘与 t2xb 同时进行，空间充足。转发不碰另一位用户的目录。
 - **之后**：B 结束 → 拉回结果与健康记录 → 同步 ml40（带上 `t3q` 的队列与 `arm_var_chain.sh` 的 `t3q*`；`scripts/dev/remote` 不删 `runs/`，转来的数据不受影响）
   → `t3qa` 配置展开 → 预演 → 起链（第 3 节第 7、9 步）。
 
-### 第 8 节的审查与处理
+### 第 8 节的审查与处理（第 2 版）
 
 | 编号 | 级别 | 意见 | 处理 |
 |---|---|---|---|
-| F1 | MAJOR | 第 5 步挪之前不再查目标；转发的几分钟里若有人建了同名目录，`mv` 会把整棵树挪进去，照样写 RELAY_OK | 采纳：挪之前再查目标都不存在；挪完在目标位置重列清单、与来源逐行比对；测试补“解包后有人建了目标”一例 |
+| F1 | MAJOR | 第 5 步挪之前不再查目标；转发的几分钟里若有人建了同名目录，`mv` 会把整棵树挪进去，照样写 RELAY_OK | 采纳：挪之前再查目标都不存在；挪完在目标位置重列清单、与来源逐行比对；测试补“下载后有人建了目标”一例 |
 | F2 | MINOR | 三次 `mv` 不是一个事务，中途失败会留下一半；跨文件系统时 `mv` 是复制加删除 | 采纳：挪之前查暂存目录与三个上级目录在同一个文件系统；手动收尾写进“风险与收尾” |
-| F3 | MINOR | Mac 断网时删不了暂存目录，重跑会被第 1 步拒；ssh 没有保活，Mac 睡着会挂很久 | 采纳：ssh 加 `ServerAliveInterval=30`、`ServerAliveCountMax=6`；命令前加 `caffeinate -i`；手动删残留暂存目录的步骤写进“风险与收尾” |
-| F4 | MINOR | 第 4 节“集号与目录对得上”“支撑面 md5 与 root_hm 的相同”没有实现；523 与集号列表只打印不判 | 采纳：查 `sequence_id` 与目录同名；在 Mac 上用清单比对 29 份支撑面与 `root_hm/support_surface` 同名文件；文件数作为第 3 个参数（523）判；集号列表在记录里人工核对 |
-| F5 | MINOR | 测试缺：转发途中出现目标、残留暂存目录、打包失败、清单失败、集号重复、目标外的哨兵文件、来源不变 | 采纳：全部补上（6 组，每例都核来源不变、哨兵文件不变） |
+| F3 | MINOR | Mac 断网时删不了暂存目录，重跑会被第 1 步拒；ssh 没有保活，Mac 睡着会挂很久 | 采纳：ssh 加 `ServerAliveInterval=30`、`ServerAliveCountMax=6`；命令前加 `caffeinate -i`；第 3 版不再经 Mac 传数据 |
+| F4 | MINOR | 第 4 节“集号与目录对得上”“支撑面 md5 与 root_hm 的相同”没有实现；523 与集号列表只打印不判 | 采纳：查 `sequence_id` 与目录同名；在 Mac 上用清单比对 29 份支撑面与 `root_hm/support_surface` 同名文件；文件数作为参数（523）判；集号列表在记录里人工核对 |
+| F5 | MINOR | 测试缺：转发途中出现目标、残留暂存目录、传输失败、清单失败、集号重复、目标外的哨兵文件、来源不变 | 采纳：全部补上（6 组，每例都核来源不变、哨兵文件不变） |
 | F6 | NIT | `xargs -0 sha256sum` 没有 `-r`，空列表时会给出一行 | 采纳：`xargs -0r`；另有文件数判据 |
 | F7 | NIT | 数支撑面会把 `<序列>_g1_support.usda` 也算进去，而它加载时优先 | 采纳：分开数，有 `_g1_support` 就停 |
 | F8 | NIT | 非普通文件数的两次查询没有查退出码，ssh 失败时报成“两端清单不一致” | 采纳：分别查，失败时写明是哪一端 |
-| F9 | NIT | parquet 里的路径、属主、权限从 Mac 上查不了 | 采纳：第 ⑥ 步在 ml40 容器里对 29 个 parquet 跑 `check_inputs.py` |
-| F10 | NIT | `tar` 读的时候训练若在写这些文件会报错 | 记录：不放宽检查，失败就等当前这一集结束后重跑（写进“风险与收尾”） |
+| F9 | NIT | parquet 里的路径、属主、权限从 Mac 上查不了 | 采纳：第 ④ 步在 ml40 容器里对 29 个 parquet 跑 `check_inputs.py` |
+| F10 | NIT | 读的时候训练若在写这些文件会出错 | 记录：不放宽检查，失败就等当前这一集结束后重跑 |
+
+### 第 8 节的审查与处理（第 3 版）
+
+| 编号 | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| F1 | MINOR | 带不带 token 只比主机不比协议，同主机的 http 跳转会把 token 明文发出去 | 采纳：比协议加主机；补单元测试 |
+| F2 | MINOR | 清单行是 `.` 时落点是暂存目录本身，`.part` 会写到它外面 | 采纳：拒绝 `.`、`//`、结尾 `/`，并核实落点在暂存目录里面；补 `.`、绝对路径、反斜杠、`./`、`//`、大写或长度不对的 sha256、重复、空清单的测试 |
+| F3 | MINOR | push 没有 `HF_ENDPOINT` 的闸，手动在 mf4090 上跑会把 token 发给镜像 | 采纳：同 `hf_archive.py` 的闸，另要 `HF_TOKEN` |
+| F4 | MINOR | 下载失败后同一个标签不能重传，只能换标签再传 2.3 GB，旧的还占私有额度 | 采纳：push 见到与清单一致就不重传，传了一半且内容都对就接着传；内容核对用 LFS sha256 与 git blob sha1 |
+| F5 | MINOR | ml40 上经代理的这条路没测过（测试去掉了代理，用的是 http） | 采纳：正式数据之前先跑两个文件的冒烟（第 ②′ 步） |
+| F6 | MINOR | 重试不隔时间，429、5xx 与哈希不符一样只试两次 | 采纳：最多 3 次，每次间隔 5 秒乘次数 |
+| F7 | MINOR | 测试缺：同主机换协议、重定向转圈、单个文件 404、清单的各种坏行、上传抛错、上传后缺文件、下载报的数目不对、hf_remote 的凭据过滤 | 采纳：全部补上（`test_hf_transfer.py` 8 组、`test_tier3_relay.py` 6 组、新 `test_hf_remote.py` 2 组） |
+| F8 | NIT | 读写清单没写 `encoding="utf-8"` | 采纳 |
+| F9 | NIT | 硬链接或上传出错时暂存目录留着，下次要换标签 | 采纳：出错时删掉暂存的硬链接与 `.cache` 再报错 |
+| F10 | NIT | 每次跳转的 `HTTPError` 没关 | 采纳：`e.close()` |
+| F11 | NIT | README 里的命令路径是 `tools/`，训练机上是 `runs/tools/`；`t3hm_1013a` 一行写在上传之前 | 采纳：改路径；这一行先写“上传中”，核对通过后改 |
+| F12 | NIT | 转发脚本里的主机与路径和 `hf_remote.sh` 的取自两处，没有核对 | 采纳：两次输出里 `_load-env` 打的“→ 主机:路径”要与脚本里的一致，否则停 |
 
 ## 审查与处理（第 2 版）
 

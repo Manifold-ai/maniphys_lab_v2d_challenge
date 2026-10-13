@@ -1,7 +1,17 @@
 # command  : stages/recovery/tier3_relay.sh hm 29 523 
 # md5      : cb887f07d745f09bc0c0c47d7105b8b6  stages/recovery/tier3_relay.sh
-# source   : 1242577815aa
+# source   : 5ced0facb0c4
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-13T00:48:29-0600
+# run_at   : 2026-10-13T00:49:05-0600
 # ---------------------------------------------------------------
-scripts/dev/record: line 43: stages/recovery/tier3_relay.sh: Permission denied
+=== 2026-10-13 00:49:05 MDT mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge → ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge：runs/tier3/root_hm runs/motion_src/tier3_hm runs/motion/tier3_hm（29 集、523 个文件）
+来历 a629fbdbf3e5
+363	runs/tier3/root_hm
+1096	runs/motion_src/tier3_hm
+829	runs/motion/tier3_hm
+来历 3e517ff030ff
+/dev/vdb              2063132 673279   1389838      33% /lab_data
+=== 2026-10-13 00:57:11 MDT 已删 ml40 上的暂存目录 runs/.relay_tier3_hm.partial
+=== 2026-10-13 00:57:11 MDT RELAY_FAILED 2（转发）
+tar: runs: Cannot mkdir: No such file or directory
+tar: runs/tier3/root_hm/data/chunk-000/episode_000002.parquet: Cannot open: No such file or directory

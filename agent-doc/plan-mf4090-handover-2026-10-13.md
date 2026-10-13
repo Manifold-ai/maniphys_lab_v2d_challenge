@@ -106,3 +106,11 @@
 | n4 | NIT | 只查了 `.spotcheck.json`，没查 `.verified.json`；报告失败也写 DONE | 采纳：两个都查；报告的退出码记进日志（报告只报，不挡） |
 | n5 | NIT | 提交后 HEAD 与 a629fbd 差四个新文件，早上“与 Mac 上提交的相同”会被误读 | 采纳：第 1 节写明 |
 | n6 | NIT | 去掉凭据只在本脚本起 tmux 服务时有效；已有服务时新会话用它的全局环境 | 采纳：查过 tmux 全局环境里 `HF_TOKEN` 0 条；起接续时再查一次并记录（只数条数） |
+
+## 执行记录（10/13，时间 UTC−6）
+
+- 00:09 前后用户确认删除第 4 批。00:22 `t3p4b` 配置展开 16/16、意外 0，ep12、14、19、21 关支撑面，ep13、16、25、27 开（`results/t3p4/cfgcheck_t3p4b_mf4090.txt`）。
+- 第 1 版审查 GO WITH FIXES（1 MAJOR、5 MINOR、6 NIT），全部采纳，改成第 2 版（1242577）。Mac 上测试 6 组、8 组全过（`results/t3p4/tests_handover_mac.txt`）。
+- 00:47 两个脚本与两份测试复制到 mf4090 的 `runs/tools/`，四个文件两端 md5 相同；mf4090（bash 5.1.16）上两份测试全过（`results/t3p4/arm_after_deploy_mf4090.txt`）。
+- 00:48 起接续（`results/t3p4/arm_after_launch_mf4090.txt`）：pid 2387613；日志里的前置命令与第 2 节第 3 步一字不差；tmux 全局环境里 `HF_TOKEN` 0 条；
+  记下来历 a629fbdbf3e5 与 `t3p4b` 三份队列、导出清单的 md5；可用 1800 MB；在等 `t3p4a` 的三个长链标记消失。
