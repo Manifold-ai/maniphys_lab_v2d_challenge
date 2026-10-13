@@ -259,7 +259,7 @@
   `RELAY_FAILED 2（转发）`、暂存目录已删（`results/t3hm/relay_ml40.txt.failed`）。用户定改经 HF；第 3 版审查 GO WITH FIXES（0 MAJOR），12 条全部采纳（1e96765）。
   私有中转仓库 `Rongxuan-Zhou/v2d-track2-transfer` 建好，README `HF_README_OK`、`HF_WHOAMI_OK`、私有（`results/ops/hf_readme_v2d_track2_transfer.txt`）；
   账号私有存储 81.73 GB（`results/ops/hf_storage_1013_0110.txt`）。
-- 冒烟第 1 次停在 push：标签目录还不存在时 `list_repo_tree` 回 404，工具当成了出错，什么都没传（`results/t3hm/hf_transfer_smoke.txt.failed`）；
+- 冒烟第 1 次停在 push：标签目录还不存在时 `list_repo_tree` 回 404，工具当成了出错，什么都没传（`results/t3hm/hf_transfer_smoke_run1.txt.failed`）；
   改成当作空目录、假 API 也照真的抛 404 后重新部署（两台 md5 相同、测试全过，`results/t3hm/hf_transfer_deploy2.txt`）。冒烟第 2 次 `HF_SMOKE_OK`：
   上传 2 个文件加清单，`.npy` 走 LFS，ml40 经代理下载 2/2，两端 sha256 相同，两边冒烟目录已删（`results/t3hm/hf_transfer_smoke.txt`）。
 - 01:34–01:56 经 HF 转发 `RELAY_OK`（`results/t3hm/relay_ml40_hf.txt`）：mf4090 上传 523 个文件、2395.4 MB 用 118 秒，仓库里 524 个（含清单）缺 0、不符 0、多出 0；
