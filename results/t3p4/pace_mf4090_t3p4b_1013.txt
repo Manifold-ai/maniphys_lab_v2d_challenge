@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ date\ \"+%F\ %T\ %Z\"\;\ grep\ -a\ \"training\ progress\"\ runs/logs/t3-ep12-w2048-cap4m-r3a-hm-mf4090.log\ \|\ tail\ -2\;\ for\ r\ in\ 15\ 17\ 1\ 2\ 3\;\ do\ grep\ -a\ \"training\ progress\"\ runs/logs/t3-ep\$r-w2048-cap4m-r3a-hm-mf4090.log\ \|\ tail\ -1\ \|\ sed\ \"s/\^/ep\$r\ final:\ /\"\;\ done\;\ df\ -m\ .\ \|\ tail\ -1 
+# source   : 0d6685f40d90-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T07:38:38-0600
+# ---------------------------------------------------------------
+2026-10-13 21:38:39 CST
+training progress: 238,000,128/349,999,104 environment steps (68.0%); 38,207 env steps/s; elapsed 01:43:49; ETA 00:48:51
+training progress: 241,500,160/349,999,104 environment steps (69.0%); 38,205 env steps/s; elapsed 01:45:21; ETA 00:47:20
+ep15 final: training progress: 349,999,104/349,999,104 environment steps (100.0%); 43,983 env steps/s; elapsed 02:12:38; ETA 00:00:00
+ep17 final: training progress: 349,999,104/349,999,104 environment steps (100.0%); 50,020 env steps/s; elapsed 01:56:37; ETA 00:00:00
+ep1 final: training progress: 349,999,104/349,999,104 environment steps (100.0%); 46,380 env steps/s; elapsed 02:05:46; ETA 00:00:00
+ep2 final: training progress: 349,999,104/349,999,104 environment steps (100.0%); 46,103 env steps/s; elapsed 02:06:32; ETA 00:00:00
+ep3 final: training progress: 349,999,104/349,999,104 environment steps (100.0%); 48,654 env steps/s; elapsed 01:59:54; ETA 00:00:00
+/dev/vda2         201462 189310      3842  99% /

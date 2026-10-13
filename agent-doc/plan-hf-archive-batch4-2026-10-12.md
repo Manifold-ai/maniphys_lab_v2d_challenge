@@ -107,3 +107,14 @@ t1xa2 结束后约 1 小时到“请求确认删除”。
 | n1 | NIT | “约 4.5 GB”混用 MiB 与 MB | 采纳：按第 3b 批的文件大小写成约 4,583.7 MB（4.58 GB），抽查约 2.64 GB；审查给的 policy 大小 4,859,992 字节与记录不符，记录里是 4,859,972–4,860,004 字节 |
 | n2 | NIT | 抽查个数与可用空间增加量没有进判据 | 采纳：抽查 2 × run 数；可用空间增加与清单总字节相差不超过 50 MB |
 | n3 | NIT | Mac 睡眠会让整批顺延；标记残留时 `plan` 永远拒绝，没写怎么判 | 采纳：第 2 节第 1 步注明顺延无害；残留标记按 t1xa 的查法核实后报给用户，不自动删 |
+
+## 执行记录（时间 UTC−6）
+
+- 10/12 17:24–17:41 上传、核对与抽查：297 / 297 一致，抽查 22 个一致，本地副本留着（`results/ops/hf_archive_batch4_run_mf4090.txt`、
+  `results/ops/hf_archive_batch4_verified_mf4090.txt`）。
+- 10/13 00:09 前后用户同意删除（“确认过HF和本地一样的就可以删”）。删除要在没有训练链时做，交给 `t3p4a` 结束后的接续进程
+  （`agent-doc/plan-mf4090-handover-2026-10-13.md`）。
+- 10/13 05:09–05:10 删除：删前对仓库再核对 297 / 297 一致，演习将删 297、跳过 0；删后消失 297 个（其中没删的 0 个），清单外消失的文件无；
+  可用空间增加 3006 MB，与清单 3005 MiB 相差 1；11 条 run 各剩 9 份 policy、0 份 state，DONE 与日志都在。第 3 节的判据全部满足
+  （`results/ops/hf_archive_batch4_delete_run_mf4090.txt`、`results/ops/hf_archive_batch4_after_delete_mf4090.txt`、`results/ops/hf_archive_batch4_done_logs_mf4090.txt`）。
+- 10/13 07:35 README 第 4 批改为“10/13 已删除”，重传 `HF_README_OK`（`results/ops/hf_readme_v2d_track2_archive_batch4_deleted.txt`）。

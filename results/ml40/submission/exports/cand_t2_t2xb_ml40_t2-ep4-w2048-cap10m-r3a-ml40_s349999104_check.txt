@@ -1,0 +1,32 @@
+# command  : stages/evaluate/check_export.sh t2-ep4-w2048-cap10m-r3a-ml40 349999104 1 
+# md5      : 99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh
+# source   : 3e517ff030ff
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-13T21:06:31+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+== t2-ep4-w2048-cap10m-r3a-ml40 第 349,999,104 步，1 世界：runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1
+  ok   恰好一份 episode_*.json（找到 1 份）
+  info policy sha256 b1a97eaf2c6ee885…；motion parquet /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet（803 帧）
+  ok   JSON world_count 1 = 1
+  ok   JSON step_count 803 = motion 帧数 803
+  ok   JSON checkpoint_sha256 = policy 文件的 sha256
+  ok   JSON non_finite_worlds 为空（[]）
+  info add_auc 0.1136，chord_sr 0.0000，maniptrans_sr 0.0000，spider_sr_uncentered 0.0000，mppe_cm 111.4769，mean_per_point_error_cm 111.4769，relative_position_error_cm 0.0000
+  ok   有 episode_000004.parquet
+  ok   schema flash_chord_object_trajectories_v1
+  ok   单位 meter、四元数 xyzw
+  ok   元数据 world_count 1、object_body_count 1、start_frame 0
+  ok   元数据 step_count 803 = 803
+  ok   行数 803 = 803 × 1 世界 × 1 个刚体
+  ok   step 0..802 每步 1 行
+  ok   reference_frame = step（起始帧 0、连续）
+  ok   environment_valid 全真
+  ok   achieved / reference 位姿全有限
+  ok   元数据 checkpoint_sha256 = policy 文件的 sha256
+  ok   元数据 eval_code_sha256 b1b3ebe3ae4629d1… = 8c778f9 的 b1b3ebe3ae4629d1…
+  ok   元数据 eval_script_sha256 160d24f5fbeb70cc… = 8c778f9 的 160d24f5fbeb70cc…
+  ok   元数据 reference_parquet = JSON 的 parquet
+  info 元数据 episode_index （无，打包器按文件名 episode_000004.parquet）
+  info 评测器记下的参考位姿 vs motion parquet 的物体位姿：位置最大差 0.0000 mm，朝向最大差 0.0433°（只报，不作判据）
+EXPORT_OK

@@ -1,0 +1,16 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ r\ in\ t1-ep17-w2048-cap4m-r3a-mf4090\ t1-ep21-w2048-cap4m-r3a-mf4090\ t3-ep0-w2048-cap4m-r3a-v2-mf4090\ t3-ep15-w2048-cap4m-r3a-v2-mf4090\ t3-ep17-w2048-cap4m-r3a-v2-mf4090\ t3-ep18-w2048-cap4m-r3a-v2-mf4090\ t3-ep20-w2048-cap4m-r3a-v2-mf4090\ t3-ep22-w2048-cap4m-r3a-v2-mf4090\ t3-ep23-w2048-cap4m-r3a-v2-mf4090\ t3-ep26-w2048-cap4m-r3a-v2-mf4090\ t3-ep29-w2048-cap4m-r3a-v2-mf4090\;\ do\ echo\ \"\$r\ DONE=\$\(\[\ -f\ runs/flash_chord/\$r/DONE\ \]\ \&\&\ echo\ 1\ \|\|\ echo\ 0\)\ ARCHIVED=\$\(\[\ -f\ runs/flash_chord/\$r/ARCHIVED.json\ \]\ \&\&\ echo\ 1\ \|\|\ echo\ 0\)\ logs=\$\(ls\ runs/logs/\$r.log\ runs/logs/\$r.s\*.log\ 2\>/dev/null\ \|\ wc\ -l\)\ MB=\$\(du\ -sm\ runs/flash_chord/\$r\ \|\ cut\ -f1\)\ policy=\$\(ls\ runs/flash_chord/\$r/policy_\*.safetensors\ \|\ wc\ -l\)\ state=\$\(ls\ runs/flash_chord/\$r/state_\*.safetensors\ 2\>/dev/null\ \|\ wc\ -l\)\"\;\ done 
+# source   : 0d6685f40d90
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T07:34:29-0600
+# ---------------------------------------------------------------
+t1-ep17-w2048-cap4m-r3a-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=87 policy=9 state=0
+t1-ep21-w2048-cap4m-r3a-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=87 policy=9 state=0
+t3-ep0-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=87 policy=9 state=0
+t3-ep15-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0
+t3-ep17-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0
+t3-ep18-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=87 policy=9 state=0
+t3-ep20-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0
+t3-ep22-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0
+t3-ep23-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=87 policy=9 state=0
+t3-ep26-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0
+t3-ep29-w2048-cap4m-r3a-v2-mf4090 DONE=1 ARCHIVED=1 logs=2 MB=86 policy=9 state=0

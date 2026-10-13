@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-sop-page-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : ffd452fb7f5b95a090bad0484446b1ff  agent-doc/experiments/2026-10-13-sop-page-0730.claims.json
+# source   : 0d6685f40d90-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T08:23:58-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+spsr_up              P(supported)=0.73  verified               [t2]  表里 SP-SR 比同一 episode 的基线高的变体 A run（名字带 -r3a-）有 4 条：ep13 0.615（基线 0.000）、ep19 0.634（基线 0.000）、ep2 0.422（基线 0.000）、ep14 0.948（基线 0.336）。
+spsr_zero            P(supported)=0.73  verified               [t2]  ep9、ep1、ep4、ep25、ep28 这 5 个 episode 的变体 A run（名字带 -r3a-）与它们的基线 run，SP-SR 都是 0.000。
+auc_six              P(supported)=0.93  verified               [t2]  变体 A（名字带 -r3a-）的 ADD-AUC 比同一 episode 的基线高的是 ep9（0.274 对 0.206）、ep13（0.452 对 0.201）、ep19（0.318 对 0.180）、ep2（0.386 对 0.263）、ep14（0.432 对 0.303）、ep28（0.105 对 0.077）；比基线低的是 ep1（0.180 对 0.204）、ep4（0.114 对 0.129）、ep25（0.116 对 0.124）。
+mppe_two             P(supported)=0.83  verified               [t2]  变体 A（名字带 -r3a-）的 MPPE 比同一 episode 的基线大的是 ep9（56.92 对 29.44）与 ep25（123.93 对 117.09）；其余 7 条变体 A 的 MPPE 比基线小：ep1 46.62 对 46.70、ep13 12.71 对 27.13、ep19 14.57 对 40.55、ep2 26.35 对 42.03、ep4 111.49 对 119.79、ep14 7.58 对 12.57、ep28 58.69 对 60.36。
+t2xb_times           P(supported)=0.98  verified               [hh]  t2xb 训练链在 2026-10-13 20:07:05 CST 写 DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0），评测链在 20:59:21 CST 写 DAY2_EVAL_DONE（成功 9、失败 0），导出链在 21:09:44 CST 写 EXPORT_CHAIN_DONE（成功 9、失败 0）。
+t3p4a_times          P(supported)=0.98  verified               [h3]  t3p4a 训练链里 t3-ep15 在 08:09:58 CST 开始正式训练、10:24:23 完成，t3-ep17 在 12:22:50 完成，t3-ep1 在 14:30:20 完成，t3-ep2 在 16:38:53 完成，t3-ep3 在 18:40:42 完成；训练链 18:40:42 写 DAY2_TRAIN_DONE，评测链 19:03:46 写 DAY2_EVAL_DONE，导出链 19:08:33 写 EXPORT_CHAIN_DONE。
+t3p4b_smokes         P(supported)=0.98  verified               [st]  t3p4b 训练链 19:10:37 CST 正向核对 8 条 run；ep12、ep13、ep14、ep16、ep19、ep21、ep25、ep27 的冒烟都有 SMOKE_OK 行和“通过”行；19:51:18 CST 开始正式训练 t3-ep12-w2048-cap4m-r3a-hm-mf4090。
+t3p4b_pace           P(supported)=0.95  verified               [pc]  命令读的是 runs/logs/t3-ep12-w2048-cap4m-r3a-hm-mf4090.log 的最后两行训练进度；2026-10-13 21:38:39 CST 时最后一行是 241,500,160/349,999,104 环境步（69.0%），38,205 env steps/s，ETA 00:47:20；命令里 df -m 那一行写 /dev/vda2 201462 189310 3842 99% /，即可用 3842 MB。
+relay                P(supported)=0.98  verified               [rl]  转发记录的清单是 523 个文件、2395.4 MB；上传写 HF_PUSH_OK 523，下载写 HF_PULL_OK 523；来源与目标的 sha256 清单摘要都是 5c696a8cb24f2fb7；2026-10-13 01:56:09 MDT 写 RELAY_OK。
+delete_times         P(supported)=0.97  verified               [dl]  删除步骤在 2026-10-13 19:09:49 CST 开始，19:10:22 CST 写 HF_ARCHIVE_DONE 和 HF_DELETE_CHECKED_DONE，19:10:40 CST 写 ARM_AFTER_ARMED。
+ctl_true_ep2         P(supported)=0.99  control(true) ok       [t2]  t2-ep2-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.422。
+ctl_false_smoke      P(supported)=0.01  control(false) ok      [st]  t3p4b 的 ep21 冒烟没有通过。
+ctl_false_relay      P(supported)=0.01  control(false) ok      [rl]  转发记录的清单是 600 个文件。
+ctl_false_ep9        P(supported)=0.03  control(false) ok      [t2]  t2-ep9-w2048-cap10m-r3a-ml40 的 MPPE 比它的基线 t2-ep9-w2048-cap4m-mf4090 小。
+controls behaved as expected

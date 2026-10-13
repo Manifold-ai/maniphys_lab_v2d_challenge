@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep15-w2048-cap4m-r3a-hm-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : a629fbdbf3e5
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-13T18:40:47+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep15-w2048-cap4m-r3a-hm-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep15-w2048-cap4m-r3a-hm-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep15-w2048-cap4m-r3a-hm-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep15-w2048-cap4m-r3a-hm-mf4090/policy_349999104.safetensors  sha256 4e18bd622aa016ff…
+  environment_steps 349999104  world_count 4096  step_count 715  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.3095682424265188
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.00048828125
+  mppe_cm                                        22.185047536155402
+  mean_add_m                                     0.2498812969015461
+  object_position_error_m                        0.2192834918202115
+  object_orientation_error_deg                   53.030867320097386
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 0.994384765625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.3095682424265188, "checkpoint": "/repo/runs/flash_chord/t3-ep15-w2048-cap4m-r3a-hm-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "4e18bd622aa016ff1f4682ddb51a672893e0135f13ec58457655d532e6938239", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.2498812969015461, "mppe_cm": 22.185047536155402, "object_orientation_error_deg": 53.030867320097386, "object_position_error_m": 0.2192834918202115, "parquet": "/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 0.994384765625}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.00048828125, "step_count": 715, "world_count": 4096}

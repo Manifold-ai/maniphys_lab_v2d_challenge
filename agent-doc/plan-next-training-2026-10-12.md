@@ -262,3 +262,8 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   （`results/day2/eval_t1-ep21-w2048-cap4m-r3a-mf4090_s349999104.txt`）。停链标记已删（`results/t1x/unstop_t1xa2_mf4090.txt`）。
   没开的 5 条（ep10、13、19、3、14）照第 2 节排在 D 之后（用户已定 D 的范围，第 4a 节第 4 条）；续跑时另起一段，run 名不变。
   第二轮门槛复查按 `agent-doc/plan-t3-hm-p2-2026-10-12.md` 做。
+
+- 10/13 07:09 B（t2xb）结束（`agent-doc/plan-t2-scaleout-2026-10-09.md` 执行记录）。按第 3 节 C 的停手规则判：B 的 9 条 4096 世界 MP-SR 是 ep9 0.000、ep1 0.000、
+  ep13 0.130、ep19 0.000、ep2 0.011、ep4 0.000、ep14 0.000、ep25 0.000、ep28 0.000，没有一条 ≥ 0.5，所以 C（t1ya）不起，报给用户
+  （`results/t2x/eval_table_t2xb.txt`；jev 0.97，`results/t3p4/jev_claims_t3p4a_t2xb_batch4.txt` 的 t2xb_mpsr）。B 的结果只用来判 C，不拿来调 Tier 1 的参数。
+  ml40 07:09 起空闲，接 D 的 `t3qa`（同步之后）。

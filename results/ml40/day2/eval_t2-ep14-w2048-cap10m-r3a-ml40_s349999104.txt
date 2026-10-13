@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t2-ep14-w2048-cap10m-r3a-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 3e517ff030ff
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-13T20:41:26+0800
+# ---------------------------------------------------------------
+fc_eval: t2-ep14-w2048-cap10m-r3a-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/policy_349999104.safetensors  sha256 208b88bba8cc49a4…
+  environment_steps 349999104  world_count 4096  step_count 993  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.4315868581289731
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.948486328125
+  mppe_cm                                        7.57727147427118
+  mean_add_m                                     0.11430877936049354
+  object_position_error_m                        0.07434216144878625
+  object_orientation_error_deg                   18.602600808645224
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 0.99951171875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.4315868581289731, "checkpoint": "/repo/runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/policy_349999104.safetensors", "checkpoint_sha256": "208b88bba8cc49a4a1ffbf2db24a8e0db7d788f069b33eb38576ec8eb8ede1c7", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.11430877936049354, "mppe_cm": 7.57727147427118, "object_orientation_error_deg": 18.602600808645224, "object_position_error_m": 0.07434216144878625, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 0.99951171875}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.948486328125, "step_count": 993, "world_count": 4096}

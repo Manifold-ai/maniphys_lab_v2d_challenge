@@ -18,12 +18,12 @@ NVIDIA V2D Challenge Track 2（G1 + Dex3，FlashCHORD FlashSAC 训练）的 chec
 | 2 | 2026-10-08 | `policy_<步数>.safetensors`：52 条 run 的中间 checkpoint，每条 26 份（步 10000384–260009984） | 1352 | 6.57 GB | 10/8 已删除 |
 | 3a | 2026-10-11 | 第 3 批计划 299 个文件（11.55 GB），提交到 125 个时账号的私有存储额度用完。已提交的是：28 条已完成的正式 run 各自的最后一份 `state_<步数>.safetensors`，1 条 run 除最后一份以外的 3 份 state，4 条 run 的 94 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984） | 125 | 5.42 GB | 10/11 已删除 |
 | 3b | 2026-10-11 | 第 3 批其余 174 个，仓库改为公开后上传：34 条已完成的正式 run 各自的最后一份 state，6 条 run 的 140 份 policy 中间 checkpoint（步 10000384–260009984） | 174 | 6.12 GB | 10/11 已删除 |
-| 4 | 2026-10-12 | 11 条已完成的正式 run（Tier 3 的 9 条、Tier 1 的 2 条）：各自 26 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984）与最后一份 `state_<步数>.safetensors` | 297 | 3.15 GB | 已上传、已核对，本地未删 |
+| 4 | 2026-10-12 | 11 条已完成的正式 run（Tier 3 的 9 条、Tier 1 的 2 条）：各自 26 份 `policy_<步数>.safetensors` 中间 checkpoint（步 10000384–260009984）与最后一份 `state_<步数>.safetensors` | 297 | 3.15 GB | 10/13 已删除 |
 
 - `state`：续训用的训练状态；续训时须与同一步数的 `policy` 成对。
 - `policy`：策略网络参数，供导出与评测使用。训练过程中约每 1000 万步保存一份。
 - 第 2 批的 52 条 run 在训练机上各保留最新的 9 份 policy（步 270010368–349999104）。导出使用最后一份；评测器报错时，
-  导出链最多向前回退 8 份，因此这 9 份留在本地。第 3 批的 policy 按同样的规则挑选，最新的 9 份不归档。
+  导出链最多向前回退 8 份，因此这 9 份留在本地。第 3、4 批的 policy 按同样的规则挑选，最新的 9 份不归档。
 - 第 3 批起，已完成的正式 run 的最后一份 state 也归档。训练链不续训已完成的 run，这份 state 只在续训时需要；
   同一步数的 policy 留在训练机上，导出与评测不受影响。
 - 文件名中的数字是训练步数。run 目录名标明了档位（`t1`、`t2`、`t3`）、episode（`ep18`）、并行世界数（`w2048`）、
@@ -111,6 +111,7 @@ sha256sum runs/flash_chord/<run>/policy_<步数>.safetensors
 各随机 1 个、只有 policy 的 1 条 run 随机 1 个，全部一致。删除训练机上的本地副本之前，又对仓库核对了一遍，仍是 174 / 174 一致；
 训练机上的 174 个文件也逐个重算了 sha256，与清单一致。
 第 4 批的 297 个文件：大小与 sha256 全部一致（297 / 297）；抽查下载 22 个，即 11 条 run 各自的最后一份 state 与随机 1 份 policy，全部一致。
+删除训练机上的本地副本之前，又对仓库核对了两遍，都是 297 / 297 一致；删除时训练机上的 297 个文件也逐个重算了 sha256，与清单一致。
 
 ## 相关代码与记录
 
@@ -121,5 +122,5 @@ sha256sum runs/flash_chord/<run>/policy_<步数>.safetensors
 - `tools/hf_remote.sh`：带凭据在训练机上执行命令，凭据只经 stdin 传递，`HF_ENDPOINT` 固定为 https://huggingface.co。
 - `tools/hf_archive_report.py`：汇总核对、抽查与本地状态。
 - 计划：`agent-doc/plan-hf-archive-2026-10-01.md`（第 1 批）、`agent-doc/plan-hf-archive-policies-2026-10-08.md`（第 2 批）、
-  `agent-doc/plan-hf-archive-batch3-2026-10-10.md`（第 3 批）。
+  `agent-doc/plan-hf-archive-batch3-2026-10-10.md`（第 3 批）、`agent-doc/plan-hf-archive-batch4-2026-10-12.md`（第 4 批）。
 - 记录：`results/ops/hf_archive_*.txt`。

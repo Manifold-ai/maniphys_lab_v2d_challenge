@@ -1,0 +1,100 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=20 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t2xb_train_ml40\ t2xb_eval_ml40\ cand_t2_t2xb_ml40_gate\ cand_t2_t2xb_ml40\ t2-ep9-w2048-cap10m-r3a-ml40\ t2-ep1-w2048-cap10m-r3a-ml40\ t2-ep13-w2048-cap10m-r3a-ml40\ t2-ep19-w2048-cap10m-r3a-ml40\ t2-ep2-w2048-cap10m-r3a-ml40\ t2-ep4-w2048-cap10m-r3a-ml40\ t2-ep14-w2048-cap10m-r3a-ml40\ t2-ep25-w2048-cap10m-r3a-ml40\ t2-ep28-w2048-cap10m-r3a-ml40 
+# source   : 0d6685f40d90
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T07:32:25-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-13 21:32:28 CST；来历 3e517ff030ff
+## 训练链 t2xb_train_ml40（不含冒烟行）
+=== 2026-10-13 00:50:44 CST start t2xb_train_ml40, source 3e517ff030ff, 期望表 stages/policy/queues/ml40_t2xb.expect.tsv
+=== 2026-10-13 01:39:50 CST 正式 t2-ep9-w2048-cap10m-r3a-ml40
+=== 2026-10-13 03:49:32 CST t2-ep9-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 03:49:32 CST 正式 t2-ep1-w2048-cap10m-r3a-ml40
+=== 2026-10-13 05:40:58 CST t2-ep1-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 05:40:58 CST 正式 t2-ep13-w2048-cap10m-r3a-ml40
+=== 2026-10-13 07:36:22 CST t2-ep13-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 07:36:22 CST 正式 t2-ep19-w2048-cap10m-r3a-ml40
+=== 2026-10-13 09:46:21 CST t2-ep19-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 09:46:21 CST 正式 t2-ep2-w2048-cap10m-r3a-ml40
+=== 2026-10-13 11:48:29 CST t2-ep2-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 11:48:29 CST 正式 t2-ep4-w2048-cap10m-r3a-ml40
+=== 2026-10-13 13:56:04 CST t2-ep4-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 13:56:04 CST 正式 t2-ep14-w2048-cap10m-r3a-ml40
+=== 2026-10-13 16:17:30 CST t2-ep14-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 16:17:30 CST 正式 t2-ep25-w2048-cap10m-r3a-ml40
+=== 2026-10-13 18:11:59 CST t2-ep25-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 18:12:00 CST 正式 t2-ep28-w2048-cap10m-r3a-ml40
+=== 2026-10-13 20:07:05 CST t2-ep28-w2048-cap10m-r3a-ml40 完成（1 段）
+=== 2026-10-13 20:07:05 CST DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）
+## t2xb_train_ml40 的冒烟行
+=== 2026-10-13 00:50:50 CST 正向核对：9 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-13 00:50:50 CST 冒烟 smoke-t2-ep9-w2048-cap10m-r3a-ml40
+=== 2026-10-13 00:56:51 CST 冒烟 smoke-t2-ep9-w2048-cap10m-r3a-ml40 通过：870 帧，不动基线见 results/day2/bar_smoke-t2-ep9-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 00:56:51 CST 冒烟 smoke-t2-ep1-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:02:20 CST 冒烟 smoke-t2-ep1-w2048-cap10m-r3a-ml40 通过：747 帧，不动基线见 results/day2/bar_smoke-t2-ep1-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:02:20 CST 冒烟 smoke-t2-ep13-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:07:35 CST 冒烟 smoke-t2-ep13-w2048-cap10m-r3a-ml40 通过：922 帧，不动基线见 results/day2/bar_smoke-t2-ep13-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:07:35 CST 冒烟 smoke-t2-ep19-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:12:37 CST 冒烟 smoke-t2-ep19-w2048-cap10m-r3a-ml40 通过：886 帧，不动基线见 results/day2/bar_smoke-t2-ep19-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:12:37 CST 冒烟 smoke-t2-ep2-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:18:16 CST 冒烟 smoke-t2-ep2-w2048-cap10m-r3a-ml40 通过：980 帧，不动基线见 results/day2/bar_smoke-t2-ep2-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:18:16 CST 冒烟 smoke-t2-ep4-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:23:41 CST 冒烟 smoke-t2-ep4-w2048-cap10m-r3a-ml40 通过：803 帧，不动基线见 results/day2/bar_smoke-t2-ep4-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:23:41 CST 冒烟 smoke-t2-ep14-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:29:22 CST 冒烟 smoke-t2-ep14-w2048-cap10m-r3a-ml40 通过：993 帧，不动基线见 results/day2/bar_smoke-t2-ep14-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:29:22 CST 冒烟 smoke-t2-ep25-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:34:16 CST 冒烟 smoke-t2-ep25-w2048-cap10m-r3a-ml40 通过：859 帧，不动基线见 results/day2/bar_smoke-t2-ep25-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-13 01:34:16 CST 冒烟 smoke-t2-ep28-w2048-cap10m-r3a-ml40
+=== 2026-10-13 01:39:50 CST 冒烟 smoke-t2-ep28-w2048-cap10m-r3a-ml40 通过：988 帧，不动基线见 results/day2/bar_smoke-t2-ep28-w2048-cap10m-r3a-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+DIVERGE_IN_CHAIN t2xb_train_ml40 1
+## 各 run
+t2-ep9-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 13:46:00 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep1-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 15:37:42 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep13-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 17:33:08 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep19-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 19:42:33 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep2-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 21:46:31 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep4-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-12 23:52:38 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep14-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-13 02:14:14 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep25-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-13 04:09:39 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+t2-ep28-w2048-cap10m-r3a-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-13 06:04:08 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+## t2xb_eval_ml40
+=== 2026-10-13 00:50:46 CST 等 runs/logs/t2xb_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-13 20:07:50 CST 训练链已结束：=== 2026-10-13 20:07:05 CST DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）
+=== 2026-10-13 20:07:50 CST start t2xb_eval_ml40, source 3e517ff030ff, 期望表 stages/policy/queues/ml40_t2xb.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-13 20:59:21 CST DAY2_EVAL_DONE（成功 9、失败 0）
+## cand_t2_t2xb_ml40_gate
+=== 2026-10-13 00:50:48 CST 等 runs/logs/t2xb_eval_ml40.log 的最后一行变成评测链的结束行
+=== 2026-10-13 20:59:53 CST 评测链成功 9 条、失败 0，开导出链 cand_t2_t2xb_ml40
+=== 2026-10-13 21:09:44 CST 导出链结束，退出码 0
+## cand_t2_t2xb_ml40
+=== 2026-10-13 20:59:53 CST start cand_t2_t2xb_ml40：清单 stages/evaluate/exports/cand_t2_t2xb_ml40.tsv（9 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 3e517ff030ff
+=== 2026-10-13 21:01:14 CST Tier 2 ep9 t2-ep9-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 870（导出 870），checkpoint 相同
+=== 2026-10-13 21:02:18 CST Tier 2 ep1 t2-ep1-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 747（导出 747），checkpoint 相同
+=== 2026-10-13 21:03:24 CST Tier 2 ep13 t2-ep13-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 922（导出 922），checkpoint 相同
+=== 2026-10-13 21:04:26 CST Tier 2 ep19 t2-ep19-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 886（导出 886），checkpoint 相同
+=== 2026-10-13 21:05:31 CST Tier 2 ep2 t2-ep2-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 980（导出 980），checkpoint 相同
+=== 2026-10-13 21:06:32 CST Tier 2 ep4 t2-ep4-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 803（导出 803），checkpoint 相同
+=== 2026-10-13 21:07:35 CST Tier 2 ep14 t2-ep14-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 993（导出 993），checkpoint 相同
+=== 2026-10-13 21:08:39 CST Tier 2 ep25 t2-ep25-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 859（导出 859），checkpoint 相同
+=== 2026-10-13 21:09:44 CST Tier 2 ep28 t2-ep28-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 988（导出 988），checkpoint 相同
+=== 2026-10-13 21:09:44 CST EXPORT_CHAIN_DONE（成功 9、失败 0）
+## 导出结果表 runs/exports/cand_t2_t2xb_ml40.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+2	9	t2-ep9-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep9-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000009.json	runs/flash_chord/t2-ep9-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000009.parquet	8c451a8842c8f30a477340d2f9b78889196331f4086b4b5f41a6866f8c25ff2c	1ad14212e0872f4042141379cb1b943974eee6dc7d6afc403a35255dcdf8ebcc
+2	1	t2-ep1-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000001.json	runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000001.parquet	89dd5e23cfa301095ab414e6df0c4d70122aeb472b3571b6cc45175fdf2ba443	9388bc2c456df119ffec01f24c8e2bbe73c8fc392060a0e3ae6e11c174016178
+2	13	t2-ep13-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000013.json	runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000013.parquet	5cfb2ee5081602e7af64ffa318d03b536019bf897619608ba903c4625ed38a0b	eead459ebc4e5fcd80cafdd62fcae3df5328a9b490c2cfe74663ddc690bc6ae3
+2	19	t2-ep19-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000019.json	runs/flash_chord/t2-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000019.parquet	ba71a41e4618a5d87b66d81fa5335c8d758da4cae93919e4f84d409725295c64	63f252ab957f7fa964bebf6ace2c2049c4b890fcf4da364085a3aeee55b8f046
+2	2	t2-ep2-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000002.json	runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000002.parquet	2ef0a19724e5e180f9131fc1d18dea9e5208b6dad29278215bffa3ab436978b1	8b9fa6453ca0e884ed942d26b9cb1ab1dbf38bba52d902ab0bc62c7f6002566e
+2	4	t2-ep4-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000004.json	runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000004.parquet	8fca0d8740d04562581926af309e9e1699c6a959eb5730f3fd3b4ab338d3d306	c55a10bc06e89608b452e57fcd73840affad8a8facd808cc328eab3e18c8b976
+2	14	t2-ep14-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000014.json	runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000014.parquet	81de3ef4c5314c518b2ce714bc3c9d0141a51a5310e1ae49d443cdeec3323010	556bb41ba22c2b2d961eaae9d0d5b4121b07a8e33f2cd16a366690366705bcb9
+2	25	t2-ep25-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000025.json	runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000025.parquet	821ce9e218ec14c627773a27c0497b90ca4aabe5b64a97e88fd564245901e232	c06ff371bcce18f1f710588e79e6be58432c42667021cee98e7e0c28a215bb00
+2	28	t2-ep28-w2048-cap10m-r3a-ml40	349999104	ok	runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000028.json	runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000028.parquet	7e3c25f43d64a2f1dbc82f812f9692d3733aef997a955d6146d5839473716f5d	9829267e827528ee5f1e85b286c48bbb2bd04ca9dcd8fe4e528285e1cb0e7cca
+CHAIN_HEALTH_DONE

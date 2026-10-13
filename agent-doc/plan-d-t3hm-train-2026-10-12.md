@@ -270,3 +270,22 @@
   （`results/t3hm/check_inputs_ml40.txt`）。第 8 节的判据全部满足。中转仓库的 README 改为“已传、已核对”后重传，`HF_README_OK`，仓库私有、529 个文件、2.40 GB
   （`results/ops/hf_readme_v2d_track2_transfer_relayed.txt`）。仓库里的副本删不删，待 `t3qa`、`t3qb` 用完后定。
 - 之后：B 结束 → 拉回结果与健康记录 → 同步 ml40 → `t3qa` 配置展开 → 预演 → 起链（第 3 节第 7、9 步）。07:00 的 SOP 定时任务不同步、不起链，这几步等下一次交互。
+
+- 04:40–05:08 `t3p4a` 三条链结束（服务器日志的 CST 已换成 UTC−6；健康记录 `results/t3p4/health_t3p4a_mf4090.txt`，评测表 `results/t3p4/eval_table_t3p4a.txt`，
+  评测与导出文本已拉回 `results/day2/`、`results/submission/exports/`）：训练链 04:40 写 DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0），
+  评测链 05:03 写 DAY2_EVAL_DONE（成功 5、失败 0），导出链 05:08 写 EXPORT_CHAIN_DONE（成功 5、失败 0）。第 4 节“每集”的判据全过：5 条冒烟都过、
+  256 世界 diag 非有限世界 0；正式 run 都有 DONE、35 份 policy、最后一步 349999104，看守扫描非有限 0；4096 世界评测 world_count 4096、non_finite_worlds 0，
+  1 世界导出 ok，checkpoint 与评测相同。
+- 读法（只报）：5 集对 `best_hm` 参考的 4096 世界 MP-SR 都是 0.000，都记“没跟上”；ADD-AUC ep15 0.310、ep17 0.247、ep1 0.011、ep2 0.137、ep3 0.117，
+  骨盆失败比例 0.984–1.000。并列：ep15、ep17 在 t3p3（f830 版参考）也是 0.000（ADD-AUC 0.364、0.190）；同一集 Tier 2 变体 A 的 MP-SR ep15 0.987、ep17 0.000、
+  ep1 0.000、ep2 0.011、ep3 0.806（对照 v5.4，不同档不比）。没跟上的集补不补 seed 43，照第 4 节等 29 集训完再定。原因没查。
+- jev（`results/t3p4/jev_claims_t3p4a_t2xb_batch4.txt`，规格 `agent-doc/experiments/2026-10-13-t3p4a-t2xb-batch4.claims.json`）：22 条全部核实（0.81–0.99），
+  4 道对照题正常。
+- 05:09–05:10 第 4 批删除，05:10 `t3p4b` 起链，经过见 `agent-doc/plan-mf4090-handover-2026-10-13.md` 执行记录。8 条冒烟都过；05:51 起 ep12 正式训练，
+  07:38 时 69%，38,205 env steps/s（t3p4a 的 5 集是 43,983–50,020）（`results/t3p4/status_mf4090_1013_0730.txt`、`results/t3p4/pace_mf4090_t3p4b_1013.txt`）。
+  训练挂 `v040_p185_nfg`（在跑容器的挂载，`results/ops/gpu_procs_mf4090_1013_0730.txt`），评测与导出挂 `fc_8c778f9`（起链预演，
+  `results/t3p4/arm_after_t3p4b_mf4090_log.txt`）。8 集预计 10/13 22:30 到 10/14 03:00 之间训完，之后 mf4090 约剩 1.3 GB（估计）。
+- 07:09 B 结束（结果见 `agent-doc/plan-t2-scaleout-2026-10-09.md` 执行记录）；C 按登记的停手规则不起（`agent-doc/plan-next-training-2026-10-12.md` 执行记录）。
+  ml40 此后空闲。
+- 07:30 的 SOP 定时任务按规定不同步、不起链。第 3 节第 7、9 步（同步 ml40 → Tier 2 乙重做与 Tier 1 中间版逐条选，都不提交 → `t3qa` 配置展开、预演、起链）
+  等下一次交互。SOP 页面的数字另做了 jev（`results/site/jev_claims_sop_page_1013_0730.txt`，第 2 轮 10 条核实，第 1 轮留档 `_run1`）。

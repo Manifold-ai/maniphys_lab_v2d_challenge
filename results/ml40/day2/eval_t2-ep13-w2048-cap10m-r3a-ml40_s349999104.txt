@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t2-ep13-w2048-cap10m-r3a-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 3e517ff030ff
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-13T20:18:33+0800
+# ---------------------------------------------------------------
+fc_eval: t2-ep13-w2048-cap10m-r3a-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/policy_349999104.safetensors  sha256 feeb07e563ae3934…
+  environment_steps 349999104  world_count 4096  step_count 922  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.4521191611465818
+  chord_sr                                       0.541748046875
+  maniptrans_sr                                  0.130126953125
+  spider_sr_uncentered                           0.614501953125
+  mppe_cm                                        12.708148382894372
+  mean_add_m                                     0.13881773517482796
+  object_position_error_m                        0.12606444977903336
+  object_orientation_error_deg                   16.365440388994696
+  termination_cause_fraction (legacy object-centric) {'object': 0.443115234375, 'wrist': 0.416259765625}
+  reference_tracking.success_rate (= chord_sr)   0.541748046875
+  reference_tracking.failure_cause_fraction      {'object': 0.443115234375, 'palm': 0.416259765625, 'pelvis': 0.344970703125}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.4521191611465818, "checkpoint": "/repo/runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/policy_349999104.safetensors", "checkpoint_sha256": "feeb07e563ae3934e2c1f6dc15de9a5708e0a7bf321a58b5d105f44aec9979db", "chord_sr": 0.541748046875, "environment_steps": 349999104, "maniptrans_sr": 0.130126953125, "mean_add_m": 0.13881773517482796, "mppe_cm": 12.708148382894372, "object_orientation_error_deg": 16.365440388994696, "object_position_error_m": 0.12606444977903336, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.443115234375, "palm": 0.416259765625, "pelvis": 0.344970703125}, "reference_end_fraction": 1.0, "success_rate": 0.541748046875}, "spider_sr_uncentered": 0.614501953125, "step_count": 922, "world_count": 4096}

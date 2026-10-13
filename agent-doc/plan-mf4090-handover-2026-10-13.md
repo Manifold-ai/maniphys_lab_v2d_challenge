@@ -114,3 +114,16 @@
 - 00:47 两个脚本与两份测试复制到 mf4090 的 `runs/tools/`，四个文件两端 md5 相同；mf4090（bash 5.1.16）上两份测试全过（`results/t3p4/arm_after_deploy_mf4090.txt`）。
 - 00:48 起接续（`results/t3p4/arm_after_launch_mf4090.txt`）：pid 2387613；日志里的前置命令与第 2 节第 3 步一字不差；tmux 全局环境里 `HF_TOKEN` 0 条；
   记下来历 a629fbdbf3e5 与 `t3p4b` 三份队列、导出清单的 md5；可用 1800 MB；在等 `t3p4a` 的三个长链标记消失。
+
+- 05:09–05:10（服务器日志 19:09–19:10 CST）接续进程跑完，最后一行 `ARM_AFTER_ARMED`（`results/t3p4/arm_after_t3p4b_mf4090_log.txt`）：
+  - 05:09 `t3p4a` 的三条链都写了结束行（训练完成 5、失败 0、跳过 0、发散 0；评测成功 5、失败 0；导出成功 5、失败 0），卡空，没有训练、评测、导出进程，可用 1277 MB。
+  - 前置命令：删除前的对齐核对 297 / 297 一致（`HF_VERIFY_OK`）；演习将删 297 个、跳过 0 个；删除时又核对一遍 297 / 297，`HF_DELETE_DONE`；
+    `runs/flash_chord` 下消失 297 个（清单 297 个，其中没删的 0 个），清单外消失的文件无，`HF_ARCHIVE_DONE`；可用 1276 → 4282 MB，增加 3006 MB，
+    与清单 3005 MiB 相差 1；报告退出码 0，`HF_DELETE_CHECKED_DONE`（删除日志 `results/ops/hf_archive_batch4_delete_run_mf4090.txt`）。
+  - 来历与 `t3p4b` 的队列、导出清单和 00:48 记下的相同；预演 `DRYRUN_OK`（8 条 run、16 份配置的 precheck 与配方断言全过，可用 4282 MB）；05:10 起链，三个会话都在。
+- 07:34 早上的核对：删除后报告里 11 条 run 各剩 9 份 policy（步 270010368–349999104）、0 份 state，头部完整 99 / 99，清单里的文件在本地 0 / 297
+  （`results/ops/hf_archive_batch4_after_delete_mf4090.txt`）；11 条 run 都有 DONE、`ARCHIVED.json` 与两份日志（`results/ops/hf_archive_batch4_done_logs_mf4090.txt`）。
+  第 3 节的判据全部满足。`t3p4b` 的训练挂 `v040_p185_nfg`、评测与导出挂 `fc_8c778f9`（`results/ops/gpu_procs_mf4090_1013_0730.txt` 与起链预演）。
+- 07:35 归档仓库 README：第 4 批改为“10/13 已删除”，补删除前再核对的一句与第 4 批计划的出处，第 3、4 批的 policy 挑法写在一起；拷到 mf4090 后两端 md5 相同，
+  重传 `HF_README_OK`，公开、1989 个文件、27.51 GB（`results/ops/hf_readme_v2d_track2_archive_batch4_deleted.txt`）。
+- jev：与 `t3p4a` 的结果同一份规格（`agent-doc/plan-d-t3hm-train-2026-10-12.md` 执行记录），删除、起链与 README 的 7 条全部核实（0.95–0.98）。

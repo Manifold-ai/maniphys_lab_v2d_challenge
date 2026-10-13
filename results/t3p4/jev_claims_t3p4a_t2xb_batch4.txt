@@ -1,0 +1,35 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-t3p4a-t2xb-batch4.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f60b8efac78c9ce40dcee4a5faa5e956  agent-doc/experiments/2026-10-13-t3p4a-t2xb-batch4.claims.json
+# source   : 0d6685f40d90-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T07:37:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3p4a_train          P(supported)=0.98  verified               [h3]  健康记录“训练链 t3p4a_train_mf4090”一节的最后一行写 DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0）。
+t3p4a_runs           P(supported)=0.98  verified               [r3]  t3-ep15、t3-ep17、t3-ep1、t3-ep2、t3-ep3（全名都带 -w2048-cap4m-r3a-hm-mf4090）这 5 条 run 的行都写 DONE=1、NONFINITE=0、GUARD_STOP=0、policy=35、state=1，每条下面的看守行都写“含非有限的扫描行 0”。
+t3p4a_eval_export    P(supported)=0.98  verified               [h3]  t3p4a 的评测链记了 DAY2_EVAL_DONE（成功 5、失败 0），导出链记了 EXPORT_CHAIN_DONE（成功 5、失败 0）；导出结果表 5 行的状态都是 ok；5 条导出核对行都写 world_count 4096、non_finite_worlds 0 个、checkpoint 相同。
+t3p4a_mpsr           P(supported)=0.98  verified               [t3]  名字带 -hm- 的 5 条 Tier 3 run（ep15、ep17、ep1、ep2、ep3）的 MP-SR 都是 0.000，ADD-AUC 依次是 0.310、0.247、0.011、0.137、0.117，骨盆失败比例依次是 0.994、1.000、1.000、1.000、0.984。
+t3p4a_vs_t2          P(supported)=0.98  verified               [t3]  表里同一 episode 的 Tier 2 变体 A run（名字带 -cap10m-r3a-ml40）的 MP-SR 是：ep15 0.987、ep17 0.000、ep1 0.000、ep2 0.011、ep3 0.806。
+t3p4a_vs_v2          P(supported)=0.98  verified               [t3]  ep15 与 ep17 的旧 Tier 3 run（名字带 -r3a-v2-）的 MP-SR 也都是 0.000，ADD-AUC 分别是 0.364 与 0.190；同一集名字带 -hm- 的 run 的 ADD-AUC 分别是 0.310 与 0.247。
+t2xb_train           P(supported)=0.97  verified               [h2]  健康记录“训练链 t2xb_train_ml40”一节的最后一行写 DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）。
+t2xb_runs_a          P(supported)=0.99  verified               [r2]  t2-ep9、t2-ep1、t2-ep13、t2-ep19、t2-ep2（全名都带 -w2048-cap10m-r3a-ml40）这 5 条 run 的行都写 DONE=1、NONFINITE=0、GUARD_STOP=0、policy=35、state=1，每条下面的看守行都写“含非有限的扫描行 0”。
+t2xb_runs_b          P(supported)=0.98  verified               [r2]  t2-ep4、t2-ep14、t2-ep25、t2-ep28（全名都带 -w2048-cap10m-r3a-ml40）这 4 条 run 的行都写 DONE=1、NONFINITE=0、GUARD_STOP=0、policy=35、state=1，每条下面的看守行都写“含非有限的扫描行 0”。
+t2xb_eval_export     P(supported)=0.98  verified               [h2]  t2xb 的评测链记了 DAY2_EVAL_DONE（成功 9、失败 0），导出链记了 EXPORT_CHAIN_DONE（成功 9、失败 0）；9 条导出核对行都写 world_count 4096、non_finite_worlds 0 个、checkpoint 相同。
+t2xb_mpsr            P(supported)=0.97  verified               [t2]  名字带 -cap10m-r3a-ml40 的 9 条 run 的 MP-SR 依次是：ep9 0.000、ep1 0.000、ep13 0.130、ep19 0.000、ep2 0.011、ep4 0.000、ep14 0.000、ep25 0.000、ep28 0.000。
+t2xb_better          P(supported)=0.88  verified               [t2]  与表里同一 episode 的基线 run 相比，变体 A（名字带 -r3a-）在 ep13 的 SP-SR 是 0.615（基线 0.000）、ADD-AUC 0.452（基线 0.201）；在 ep14 的 SP-SR 是 0.948（基线 0.336）、MPPE 7.58 cm（基线 12.57 cm）；在 ep19 的 SP-SR 是 0.634（基线 0.000）、MPPE 14.57 cm（基线 40.55 cm）。
+t2xb_worse           P(supported)=0.94  verified               [t2]  ep9 的变体 A（名字带 -r3a-）MPPE 是 56.92 cm，基线是 29.44 cm；ep25 的变体 A MPPE 是 123.93 cm，基线是 117.09 cm；ep4 的变体 A MPPE 是 111.49 cm，基线是 119.79 cm。
+b4_pre               P(supported)=0.97  verified               [dl]  删除前的对齐核对写“297 / 297 个文件核对一致；HF_VERIFY_OK”；演习一行写“将删 297 个（清单 297 个），跳过 0 个，退出码 0”。
+b4_delete            P(supported)=0.98  verified               [dl]  删除后 runs/flash_chord 下消失 297 个文件（清单 297 个，其中没删的 0 个），清单外消失的文件：无；可用空间删除前 1276 MB、删除后 4282 MB，增加 3006 MB，与清单 3005 MiB 相差 1；随后写 HF_DELETE_CHECKED_DONE。
+b4_after             P(supported)=0.96  verified               [ad]  删除后报告：清单里的 11 条 run 每条留下 9 份 policy（最小步 270010368，最大步 349999104），共 99 份，头部完整 99 份；11 条 run 现在各剩 0 份 state；清单里的文件还在本地的 0 / 297。
+b4_done              P(supported)=0.95  verified               [dn]  第 4 批的 11 条 run 的行都写 DONE=1、ARCHIVED=1、logs=2、policy=9、state=0。
+t3p4b_armed          P(supported)=0.97  verified               [dl]  接续进程记下上一段 5 条训练、评测、导出都做完、来历与队列没变，预演写 DRYRUN_OK，然后在 2026-10-13 19:10:40 CST 写 ARM_AFTER_ARMED。
+t3p4b_mounts         P(supported)=0.96  verified               [mk, gp]  t3p4b 的预演里训练用 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg，评测与导出用 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9；正在跑的容器 fc-t3-ep12-w2048-cap4m-r3a-hm-mf4090 把 /home/rxzhou/v2d/fc_src/v040_p185_nfg 挂到 /workspace。
+readme               P(supported)=0.98  verified               [rd]  README 传到 Rongxuan-Zhou/v2d-track2-archive 后下载回来的 sha256 与本地相同（HF_README_OK）；仓库公开，1989 个文件，共 27.51 GB。
+machines             P(supported)=0.95  verified               [mc]  快照时 ml40 没有 tmux 会话（no server running），GPU 计算进程 0 个，L40S 利用率 0 %、显存 0 MiB，长链标记 0 个；mf4090 有 v2d-t3p4b-train、v2d-t3p4b-eval、v2d-t3p4b-export 三个会话，GPU 计算进程 1 个。
+t3p4b_now            P(supported)=0.81  verified               [mc]  快照时 mf4090 在正式训练 t3-ep12-w2048-cap4m-r3a-hm-mf4090（2026-10-13 19:51:18 CST 开始），看守日志最后一行写 220,008,448 步、非有限 0；根分区可用 3855 MB。
+ctl_true_ep14        P(supported)=0.99  control(true) ok       [t2]  t2-ep14-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.948。
+ctl_false_ep15       P(supported)=0.01  control(false) ok      [t3]  t3-ep15-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.987。
+ctl_false_space      P(supported)=0.02  control(false) ok      [dl]  第 4 批删除后可用空间增加了 3500 MB。
+ctl_false_eval       P(supported)=0.01  control(false) ok      [h2]  t2xb 的评测链记了 DAY2_EVAL_DONE（成功 8、失败 1）。
+controls behaved as expected

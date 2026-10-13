@@ -1,0 +1,44 @@
+# command  : bash -c for\ h\ in\ mf4090\ ml40\;\ do\ R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ \[\ \$h\ =\ mf4090\ \]\ \&\&\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=15\ \$h\ \"cd\ \$R\ \&\&\ echo\ ==\ \$h\ \\\$\(date\ \\\"+%F\ %T\ %Z\\\"\)\;\ echo\ --\ tmux\;\ tmux\ ls\ 2\>\&1\;\ for\ f\ in\ \\\$\(ls\ -t\ runs/logs/\*.log\ \|\ head\ -3\)\;\ do\ echo\ --\ \\\$f\ \\\$\(stat\ -c\ %y\ \\\$f\ \|\ cut\ -c1-19\)\ lines\ \\\$\(wc\ -l\ \<\ \\\$f\)\;\ tail\ -2\ \\\$f\ \|\ cut\ -c1-300\;\ done\;\ echo\ GPU\ procs\ \\\$\(nvidia-smi\ --query-compute-apps=pid\ --format=csv\,noheader\ \|\ wc\ -l\)\;\ nvidia-smi\ --query-gpu=name\,utilization.gpu\,memory.used\,memory.total\ --format=csv\,noheader\;\ echo\ chain-markers\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\)\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\)\;\ echo\ source\ \\\$\(cat\ .v2d-source-commit\)\;\ df\ -m\ \$R\ \|\ tail\ -1\;\ free\ -g\ \|\ sed\ -n\ 2p\"\;\ done 
+# source   : 0d6685f40d90
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T07:30:52-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-13 21:30:53 CST
+-- tmux
+v2d-t3p4b-eval: 1 windows (created Tue Oct 13 19:10:35 2026)
+v2d-t3p4b-export: 1 windows (created Tue Oct 13 19:10:37 2026)
+v2d-t3p4b-train: 1 windows (created Tue Oct 13 19:10:33 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/t3-ep12-w2048-cap4m-r3a-hm-mf4090.log 2026-10-13 21:30:51 lines 320
+nefc overflow - please increase njmax to 1213
+nefc overflow - please increase njmax to 1166
+-- runs/logs/t3-ep12-w2048-cap4m-r3a-hm-mf4090.nanwatch.log 2026-10-13 21:29:24 lines 24
+10-13 07:25:23 MDT 210,008,064 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-13 07:29:24 MDT 220,008,448 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t3p4b_train_mf4090.log 2026-10-13 19:51:18 lines 965
+=== 2026-10-13 19:51:18 CST 冒烟 smoke-t3-ep27-w2048-cap4m-r3a-hm-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-13 19:51:18 CST 正式 t3-ep12-w2048-cap4m-r3a-hm-mf4090
+GPU procs 1
+NVIDIA GeForce RTX 4090, 100 %, 23905 MiB, 24564 MiB
+chain-markers 3 runs/.chain-active-cand_t3_t3p4b_mf4090-gate runs/.chain-active-t3p4b_eval_mf4090 runs/.chain-active-t3p4b_train_mf4090
+source a629fbdbf3e5
+/dev/vda2         201462 189297      3855  99% /
+Mem:             111           8          12           0          90         101
+== ml40 2026-10-13 21:31:03 CST
+-- tmux
+no server running on /tmp/tmux-1003/default
+-- runs/logs/cand_t2_t2xb_ml40_gate.log 2026-10-13 21:09:44 lines 3
+=== 2026-10-13 20:59:53 CST 评测链成功 9 条、失败 0，开导出链 cand_t2_t2xb_ml40
+=== 2026-10-13 21:09:44 CST 导出链结束，退出码 0
+-- runs/logs/cand_t2_t2xb_ml40.log 2026-10-13 21:09:44 lines 30
+=== 2026-10-13 21:09:44 CST Tier 2 ep28 t2-ep28-w2048-cap10m-r3a-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 988（导出 988），checkpoint 相同
+=== 2026-10-13 21:09:44 CST EXPORT_CHAIN_DONE（成功 9、失败 0）
+-- runs/logs/t2-ep28-w2048-cap10m-r3a-ml40.export_8c778f9_s349999104_w1.log 2026-10-13 21:09:40 lines 111
+report: /repo/runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000028.json
+object trajectories: /repo/runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000028.parquet
+GPU procs 0
+NVIDIA L40S, 0 %, 0 MiB, 46068 MiB
+chain-markers 0
+source 3e517ff030ff
+/dev/vdb         2063132 676345   1386772  33% /lab_data
+Mem:             111           1          26           0          83         108

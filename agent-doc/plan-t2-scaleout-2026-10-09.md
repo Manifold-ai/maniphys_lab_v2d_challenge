@@ -151,3 +151,20 @@ t2xa 现在起。t2xb 在 t2xa 的导出门结束后由我起，照登记默认�
     （0.79–0.98），3 道对照题正常。第 1、2 轮把训练链结束行与 14 条 run 的健康状况各写成一条，只有 0.51–0.65（`_run1`、`_run2` 留档），
     拆成按 5 条一组后过。
   - t2xb 没有起：ml40 的 GPU 由另一位用户的重建任务排队使用（两个等卡脚本），t2xb 与它们谁先用卡待定。
+
+- 10/12 10:50 t2xb 起链（配置展开 `results/t2x/cfgcheck_t2xb_ml40.txt`、预演 `results/t2x/arm_dryrun_t2xb_ml40.txt`、起链 `results/t2x/arm_t2xb_ml40.txt`；
+  ml40 空闲时不再约时段，10/12 定下，见 `agent-doc/plan-next-training-2026-10-12.md`）。
+- 10/13 07:09 t2xb 整条链结束（服务器日志的 CST 已换成 UTC−6；健康记录 `results/t2x/health_t2xb_ml40.txt`，评测与导出文本已拉回 `results/ml40/`）：
+  - 训练链 06:07 写 DAY2_TRAIN_DONE（完成 9、失败 0、跳过 0、发散 0）；评测链 06:59 写 DAY2_EVAL_DONE（成功 9、失败 0）；导出门随即开导出链，07:09 写
+    EXPORT_CHAIN_DONE（成功 9、失败 0）。
+  - R1：9 条冒烟都过（256 世界 rollout 非有限世界 0），都有 DONE，NONFINITE 0、NONFINITE_GUARD_STOP 0、NONFINITE_GUARD 0，各 35 份 policy、1 份 state，
+    看守日志里含非有限的扫描行 0；`DIVERGE_IN_CHAIN 1` 数到的是链结束行自己（“发散 0”）。R2：9 条 4096 世界评测 world_count 4096、non_finite_worlds 0、
+    step_count 与导出相同、checkpoint 相同。R3：9 条导出 ok。
+  - 只报（t2xb 是外推，单独汇总；`results/t2x/eval_table_t2xb.txt`，每条与它的基线并列）：4096 世界 MP-SR ep9 0.000、ep1 0.000、ep13 0.130、ep19 0.000、
+    ep2 0.011、ep4 0.000、ep14 0.000、ep25 0.000、ep28 0.000，基线都是 0.000。SP-SR 比基线高 4 条（ep13 0.615、ep19 0.634、ep2 0.422，基线 0.000；
+    ep14 0.948，基线 0.336），其余 5 条两边都是 0.000；ADD-AUC 比基线高 6 条、低 3 条（ep1、ep4、ep25）；MPPE 比基线差 2 条（ep9 29.44 → 56.92 cm、
+    ep25 117.09 → 123.93 cm）。原因没查。
+  - jev：t2xb 的 7 条在 `results/t3p4/jev_claims_t3p4a_t2xb_batch4.txt` 里全部核实（0.88–0.99）；SP-SR、ADD-AUC、MPPE 的逐条比较在
+    `results/site/jev_claims_sop_page_1013_0730.txt`（第 2 轮 10 条核实，0.73–0.98；第 1 轮一条把两件事写成一句、一条证据缺上下文，0.65 与 0.10，`_run1` 留档）。
+  - C 的停手规则判定记在 `agent-doc/plan-next-training-2026-10-12.md`；Tier 2 用 t2xb 的候选重做一次乙，等同步 ml40 之后
+    （`agent-doc/plan-d-t3hm-train-2026-10-12.md` 第 3 节第 7 步）。

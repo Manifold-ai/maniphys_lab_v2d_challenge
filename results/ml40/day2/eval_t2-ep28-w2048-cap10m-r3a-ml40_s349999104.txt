@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t2-ep28-w2048-cap10m-r3a-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 3e517ff030ff
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-13T20:53:30+0800
+# ---------------------------------------------------------------
+fc_eval: t2-ep28-w2048-cap10m-r3a-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/policy_349999104.safetensors  sha256 d0090cde8c29f046…
+  environment_steps 349999104  world_count 4096  step_count 988  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.10542169177097829
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        58.68996036514093
+  mean_add_m                                     0.7501439812304511
+  object_position_error_m                        0.5846449554261995
+  object_orientation_error_deg                   101.00815041718981
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.10542169177097829, "checkpoint": "/repo/runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/policy_349999104.safetensors", "checkpoint_sha256": "d0090cde8c29f046c46d64184518410a4824da17c6937f531ef2d976176243f9", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.7501439812304511, "mppe_cm": 58.68996036514093, "object_orientation_error_deg": 101.00815041718981, "object_position_error_m": 0.5846449554261995, "parquet": "/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 1.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 988, "world_count": 4096}
