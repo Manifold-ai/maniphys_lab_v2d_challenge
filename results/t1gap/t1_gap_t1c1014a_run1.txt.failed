@@ -1,0 +1,10 @@
+# command  : python3 stages/evaluate/t1_gap.py --select results/ml40/select_t1/select_t1c1014a.txt --board results/submission/leaderboard_1014_0735.txt 
+# md5      : 9f5adf580bb4ea988974b6bce84df2d7  stages/evaluate/t1_gap.py
+# md5      : 5fc47e13022661bd4f434f0c57740abd  results/ml40/select_t1/select_t1c1014a.txt
+# md5      : 7c0087e04c8a3dbabfe502246c1633f0  results/submission/leaderboard_1014_0735.txt
+# source   : 84a40552a715
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:03:58-0600
+# ---------------------------------------------------------------
+核对：CHOSEN 行的平均与 PACKED 行一致；榜单上 maniphys.ai 的四项：add_auc 0.47127、spider_sr 0.6、maniptrans_sr 0.53333、mppe_cm 24.5365
+add_auc：榜单 0.47127 与 PACKED 0.541406 相差超过 1e-4

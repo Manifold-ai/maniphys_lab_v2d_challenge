@@ -1,0 +1,551 @@
+{
+ "t1-ep0-w2048-cap10m-ml40": {
+  "run": "t1-ep0-w2048-cap10m-ml40",
+  "episode": 0,
+  "add_auc": 0.34487467866323906,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.461187201344282,
+  "mp_sr_4096": 0.4384765625
+ },
+ "t1-ep0-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep0-w2048-cap4m-r3a-mf4090",
+  "episode": 0,
+  "add_auc": 0.7430109254498716,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.418497333877149,
+  "mp_sr_4096": 0.982666015625
+ },
+ "t1-ep0-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep0-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 0,
+  "add_auc": 0.8482487146529563,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.0174454125734418,
+  "mp_sr_4096": 0.911865234375
+ },
+ "t1-ep1-w2048-cap4m-p185-mf4090": {
+  "run": "t1-ep1-w2048-cap4m-p185-mf4090",
+  "episode": 1,
+  "add_auc": 0.1718540829986613,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 37.68320593776477,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep10-w2048-cap10m-ml40": {
+  "run": "t1-ep10-w2048-cap10m-ml40",
+  "episode": 10,
+  "add_auc": 0.23409949622166246,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 4.533250040204083,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep11-w2048-cap4m-mf4090": {
+  "run": "t1-ep11-w2048-cap4m-mf4090",
+  "episode": 11,
+  "add_auc": 0.08909722222222223,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 59.01702593036777,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep12-w2048-cap10m-ml40": {
+  "run": "t1-ep12-w2048-cap10m-ml40",
+  "episode": 12,
+  "add_auc": 0.6711607142857143,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.032498956242503,
+  "mp_sr_4096": 0.991943359375
+ },
+ "t1-ep13-w2048-cap10m-ml40": {
+  "run": "t1-ep13-w2048-cap10m-ml40",
+  "episode": 13,
+  "add_auc": 0.27148861171366595,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 4.784905742215958,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep13-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep13-w2048-cap10m-r3a-ml40",
+  "episode": 13,
+  "add_auc": 0.6382863340563991,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.8768909500324016,
+  "mp_sr_4096": 0.451416015625
+ },
+ "t1-ep14-w2048-cap4m-mf4090": {
+  "run": "t1-ep14-w2048-cap4m-mf4090",
+  "episode": 14,
+  "add_auc": 0.32974572004028196,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 5.891362034408814,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep15-w2048-cap10m-ml40": {
+  "run": "t1-ep15-w2048-cap10m-ml40",
+  "episode": 15,
+  "add_auc": 0.26993006993006996,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 4.197603422916061,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep15-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep15-w2048-cap4m-r3a-mf4090",
+  "episode": 15,
+  "add_auc": 0.7322552447552447,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.8268371840171926,
+  "mp_sr_4096": 0.957275390625
+ },
+ "t1-ep15-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep15-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 15,
+  "add_auc": 0.6032342657342658,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.9658223813394242,
+  "mp_sr_4096": 0.980224609375
+ },
+ "t1-ep16-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep16-w2048-cap10m-r3a-ml40",
+  "episode": 16,
+  "add_auc": 0.7722746331236897,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.8648722784770058,
+  "mp_sr_4096": 0.903076171875
+ },
+ "t1-ep16-w2048-cap4m-mf4090": {
+  "run": "t1-ep16-w2048-cap4m-mf4090",
+  "episode": 16,
+  "add_auc": 0.25720649895178194,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 63.20460027332292,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep17-w2048-cap10m-ml40": {
+  "run": "t1-ep17-w2048-cap10m-ml40",
+  "episode": 17,
+  "add_auc": 0.3705965909090909,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 4.9791209202716695,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep17-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep17-w2048-cap4m-r3a-mf4090",
+  "episode": 17,
+  "add_auc": 0.28849431818181814,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 145.562845886178,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep18-w2048-cap4m-mf4090": {
+  "run": "t1-ep18-w2048-cap4m-mf4090",
+  "episode": 18,
+  "add_auc": 0.5942599067599068,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.9585118862325506,
+  "mp_sr_4096": 0.152099609375
+ },
+ "t1-ep18-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep18-w2048-cap4m-r3a-mf4090",
+  "episode": 18,
+  "add_auc": 0.8194201631701632,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.5328263195110892,
+  "mp_sr_4096": 0.776123046875
+ },
+ "t1-ep18-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep18-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 18,
+  "add_auc": 0.7341928904428904,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.5826038999189602,
+  "mp_sr_4096": 0.77099609375
+ },
+ "t1-ep18-w2048-cap4m-s43-mf4090": {
+  "run": "t1-ep18-w2048-cap4m-s43-mf4090",
+  "episode": 18,
+  "add_auc": 0.3453525641025641,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 38.567641675885575,
+  "mp_sr_4096": 0.7138671875
+ },
+ "t1-ep19-w2048-cap10m-ml40": {
+  "run": "t1-ep19-w2048-cap10m-ml40",
+  "episode": 19,
+  "add_auc": 0.2357505643340858,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 11.076841387614174,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep19-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep19-w2048-cap10m-r3a-ml40",
+  "episode": 19,
+  "add_auc": 0.4301636568848758,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.6812776999188834,
+  "mp_sr_4096": 0.257568359375
+ },
+ "t1-ep2-w2048-cap10m-ml40": {
+  "run": "t1-ep2-w2048-cap10m-ml40",
+  "episode": 2,
+  "add_auc": 0.11364795918367347,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 99.98471706810578,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep2-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep2-w2048-cap10m-r3a-ml40",
+  "episode": 2,
+  "add_auc": 0.4220025510204082,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 24.511569842818176,
+  "mp_sr_4096": 0.00146484375
+ },
+ "t1-ep20-w2048-cap10m-ml40": {
+  "run": "t1-ep20-w2048-cap10m-ml40",
+  "episode": 20,
+  "add_auc": 0.44767179023508136,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 2.7785292620727815,
+  "mp_sr_4096": 0.00048828125
+ },
+ "t1-ep20-w2048-cap1m-mf4090": {
+  "run": "t1-ep20-w2048-cap1m-mf4090",
+  "episode": 20,
+  "add_auc": 0.40574141048824597,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 13.407781585921688,
+  "mp_sr_4096": 0.003173828125
+ },
+ "t1-ep20-w2048-cap4m-mf4090": {
+  "run": "t1-ep20-w2048-cap4m-mf4090",
+  "episode": 20,
+  "add_auc": 0.366749547920434,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 5.409430430050518,
+  "mp_sr_4096": 0.015625
+ },
+ "t1-ep20-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep20-w2048-cap4m-r3a-mf4090",
+  "episode": 20,
+  "add_auc": 0.825497287522604,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.496914725111775,
+  "mp_sr_4096": 0.793701171875
+ },
+ "t1-ep20-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep20-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 20,
+  "add_auc": 0.6289556962025317,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 14.53762851448034,
+  "mp_sr_4096": 0.917724609375
+ },
+ "t1-ep20-w2048-cap4m-s43-mf4090": {
+  "run": "t1-ep20-w2048-cap4m-s43-mf4090",
+  "episode": 20,
+  "add_auc": 0.47174502712477395,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 2.6816215575406264,
+  "mp_sr_4096": 0.000244140625
+ },
+ "t1-ep21-w2048-cap4m-mf4090": {
+  "run": "t1-ep21-w2048-cap4m-mf4090",
+  "episode": 21,
+  "add_auc": 0.26069321533923306,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 5.39320857446075,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep21-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep21-w2048-cap4m-r3a-mf4090",
+  "episode": 21,
+  "add_auc": 0.6095132743362832,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.7959144057329666,
+  "mp_sr_4096": 0.80615234375
+ },
+ "t1-ep22-w2048-cap4m-mf4090": {
+  "run": "t1-ep22-w2048-cap4m-mf4090",
+  "episode": 22,
+  "add_auc": 0.5679763560500696,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.629846032937194,
+  "mp_sr_4096": 0.763916015625
+ },
+ "t1-ep23-w2048-cap10m-ml40": {
+  "run": "t1-ep23-w2048-cap10m-ml40",
+  "episode": 23,
+  "add_auc": 0.7074524312896406,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.786477939501086,
+  "mp_sr_4096": 0.97509765625
+ },
+ "t1-ep24-w2048-cap4m-mf4090": {
+  "run": "t1-ep24-w2048-cap4m-mf4090",
+  "episode": 24,
+  "add_auc": 0.5880681818181818,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 3.19287576209323,
+  "mp_sr_4096": 0.962158203125
+ },
+ "t1-ep25-w2048-cap10m-ml40": {
+  "run": "t1-ep25-w2048-cap10m-ml40",
+  "episode": 25,
+  "add_auc": 0.07377764842840512,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 117.99437038960046,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep26-w2048-cap10m-ml40": {
+  "run": "t1-ep26-w2048-cap10m-ml40",
+  "episode": 26,
+  "add_auc": 0.5008408071748879,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.592229727678722,
+  "mp_sr_4096": 0.9560546875
+ },
+ "t1-ep27-w2048-cap4m-mf4090": {
+  "run": "t1-ep27-w2048-cap4m-mf4090",
+  "episode": 27,
+  "add_auc": 0.6256637168141592,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.460013854846433,
+  "mp_sr_4096": 0.32080078125
+ },
+ "t1-ep27-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep27-w2048-cap4m-r3a-mf4090",
+  "episode": 27,
+  "add_auc": 0.7817477876106195,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.0985347595422974,
+  "mp_sr_4096": 0.9345703125
+ },
+ "t1-ep27-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep27-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 27,
+  "add_auc": 0.8486725663716814,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.668799539931547,
+  "mp_sr_4096": 0.843505859375
+ },
+ "t1-ep27-w2048-cap4m-s43-mf4090": {
+  "run": "t1-ep27-w2048-cap4m-s43-mf4090",
+  "episode": 27,
+  "add_auc": 0.6043141592920354,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.503138656217651,
+  "mp_sr_4096": 0.0009765625
+ },
+ "t1-ep28-w2048-cap4m-p185-mf4090": {
+  "run": "t1-ep28-w2048-cap4m-p185-mf4090",
+  "episode": 28,
+  "add_auc": 0.10399797570850203,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 66.23784922334049,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep29-w2048-cap4m-mf4090": {
+  "run": "t1-ep29-w2048-cap4m-mf4090",
+  "episode": 29,
+  "add_auc": 0.6680942184154176,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.3231031982152133,
+  "mp_sr_4096": 0.173583984375
+ },
+ "t1-ep29-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep29-w2048-cap4m-r3a-mf4090",
+  "episode": 29,
+  "add_auc": 0.7218950749464668,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.9759410449599373,
+  "mp_sr_4096": 0.150634765625
+ },
+ "t1-ep29-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep29-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 29,
+  "add_auc": 0.7135974304068522,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.9686861584196778,
+  "mp_sr_4096": 0.499267578125
+ },
+ "t1-ep29-w2048-cap4m-s43-mf4090": {
+  "run": "t1-ep29-w2048-cap4m-s43-mf4090",
+  "episode": 29,
+  "add_auc": 0.6351713062098501,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.207205712195053,
+  "mp_sr_4096": 0.029541015625
+ },
+ "t1-ep3-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep3-w2048-cap10m-r3a-ml40",
+  "episode": 3,
+  "add_auc": 0.8384282970550576,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.08808401635105,
+  "mp_sr_4096": 0.734130859375
+ },
+ "t1-ep3-w2048-cap4m-mf4090": {
+  "run": "t1-ep3-w2048-cap4m-mf4090",
+  "episode": 3,
+  "add_auc": 0.11923815620998718,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 94.52498360410192,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep4-w2048-cap10m-ml40": {
+  "run": "t1-ep4-w2048-cap10m-ml40",
+  "episode": 4,
+  "add_auc": 0.15076276463262764,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 90.22925234128536,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep5-w2048-cap10m-ml40": {
+  "run": "t1-ep5-w2048-cap10m-ml40",
+  "episode": 5,
+  "add_auc": 0.4511465603190429,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.835022495394744,
+  "mp_sr_4096": 0.001220703125
+ },
+ "t1-ep5-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep5-w2048-cap4m-r3a-mf4090",
+  "episode": 5,
+  "add_auc": 0.6799601196410767,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.194150756247241,
+  "mp_sr_4096": 0.3076171875
+ },
+ "t1-ep5-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep5-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 5,
+  "add_auc": 0.45849950149551344,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 8.99831848058921,
+  "mp_sr_4096": 0.251220703125
+ },
+ "t1-ep6-w2048-cap4m-mf4090": {
+  "run": "t1-ep6-w2048-cap4m-mf4090",
+  "episode": 6,
+  "add_auc": 0.6299221611721612,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.3520188684027334,
+  "mp_sr_4096": 0.562255859375
+ },
+ "t1-ep6-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep6-w2048-cap4m-r3a-mf4090",
+  "episode": 6,
+  "add_auc": 0.7196657509157509,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.3796700068209713,
+  "mp_sr_4096": 0.979248046875
+ },
+ "t1-ep6-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep6-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 6,
+  "add_auc": 0.7487408424908425,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.0865236052988063,
+  "mp_sr_4096": 0.91748046875
+ },
+ "t1-ep6-w2048-cap4m-s43-mf4090": {
+  "run": "t1-ep6-w2048-cap4m-s43-mf4090",
+  "episode": 6,
+  "add_auc": 0.6051968864468864,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.9254879754417056,
+  "mp_sr_4096": 0.000244140625
+ },
+ "t1-ep7-w2048-cap4m-p185g-mf4090": {
+  "run": "t1-ep7-w2048-cap4m-p185g-mf4090",
+  "episode": 7,
+  "add_auc": 0.66650390625,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 3.0479117767889976,
+  "mp_sr_4096": 0.652587890625
+ },
+ "t1-ep8-w2048-cap4m-mf4090": {
+  "run": "t1-ep8-w2048-cap4m-mf4090",
+  "episode": 8,
+  "add_auc": 0.7020656779661016,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.6455510699040397,
+  "mp_sr_4096": 0.9794921875
+ },
+ "t1-ep8-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep8-w2048-cap4m-r3a-mf4090",
+  "episode": 8,
+  "add_auc": 0.877295197740113,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.41810525603504,
+  "mp_sr_4096": 0.95458984375
+ },
+ "t1-ep9-w2048-cap10m-ml40": {
+  "run": "t1-ep9-w2048-cap10m-ml40",
+  "episode": 9,
+  "add_auc": 0.20359195402298852,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 40.659718798064,
+  "mp_sr_4096": 0.0
+ }
+}

@@ -7,7 +7,8 @@
   像成功的：取现在 MP-SR 成功的 episode 的中位 AUC 与中位 MPPE，SP 与 MP 都算成功；
   只跟住的：取现在没成功但 MPPE 在 15 cm 以内的 episode 的中位 AUC 与中位 MPPE，SP 算成功、MP 不算。
 修的顺序按 MPPE 从大到小（先修丢得最远的），只在现在 MP-SR 不成功的 episode 里选。
-用法：python3 stages/evaluate/t1_gap.py --select <select 记录> --board <榜单快照>"""
+用法：python3 stages/evaluate/t1_gap.py --select <select 记录> --board <榜单快照> [--candidate]
+--candidate：select 记录是选出来、还没交的 CSV，不核对榜单上 maniphys.ai 的四项等于 PACKED（交过的那份才核）。"""
 
 import argparse
 import re
@@ -72,14 +73,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--select", required=True)
     ap.add_argument("--board", required=True)
+    ap.add_argument("--candidate", action="store_true")
     a = ap.parse_args()
     eps, packed = read_select(a.select)
     board = read_board(a.board)
     ours = board["maniphys.ai"]
     print("核对：CHOSEN 行的平均与 PACKED 行一致；榜单上 maniphys.ai 的四项：" + "、".join(f"{k} {ours[k]:g}" for k in METRICS))
-    for k in METRICS:
-        if abs(ours[k] - packed[k]) > 1e-4:
-            raise SystemExit(f"{k}：榜单 {ours[k]} 与 PACKED {packed[k]} 相差超过 1e-4")
+    if a.candidate:
+        print("候选（还没交）：不核对榜单与 PACKED；下面“我们”的四项是 PACKED：" + "、".join(f"{k} {packed[k]:g}" for k in METRICS))
+    else:
+        for k in METRICS:
+            if abs(ours[k] - packed[k]) > 1e-4:
+                raise SystemExit(f"{k}：榜单 {ours[k]} 与 PACKED {packed[k]} 相差超过 1e-4")
 
     print("\n== 现在每项差多少（30 条 episode；SP、MP 换算成成功条数，AUC、MPPE 换算成 30 条的总和）")
     for t in ["CHORD Baseline", "Xueyi Wang (FF)"]:

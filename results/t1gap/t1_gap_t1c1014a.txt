@@ -1,0 +1,66 @@
+# command  : python3 stages/evaluate/t1_gap.py --select results/ml40/select_t1/select_t1c1014a.txt --board results/submission/leaderboard_1014_0735.txt --candidate 
+# md5      : 8f83308d7a773c047df3770de818b1ba  stages/evaluate/t1_gap.py
+# md5      : 5fc47e13022661bd4f434f0c57740abd  results/ml40/select_t1/select_t1c1014a.txt
+# md5      : 7c0087e04c8a3dbabfe502246c1633f0  results/submission/leaderboard_1014_0735.txt
+# source   : 84a40552a715-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:04:43-0600
+# ---------------------------------------------------------------
+核对：CHOSEN 行的平均与 PACKED 行一致；榜单上 maniphys.ai 的四项：add_auc 0.47127、spider_sr 0.6、maniptrans_sr 0.53333、mppe_cm 24.5365
+候选（还没交）：不核对榜单与 PACKED；下面“我们”的四项是 PACKED：add_auc 0.541406、spider_sr 0.733333、maniptrans_sr 0.633333、mppe_cm 16.5848
+
+== 现在每项差多少（30 条 episode；SP、MP 换算成成功条数，AUC、MPPE 换算成 30 条的总和）
+-- CHORD Baseline
+  add_auc        对方 0.51038 我们 0.54141：已经超过
+  spider_sr      对方 0.70000（21 条）我们 0.73333（22 条）：已经超过
+  maniptrans_sr  对方 0.20000（6 条）我们 0.63333（19 条）：已经超过
+  mppe_cm        对方 17.736 我们 16.585：已经超过
+-- Xueyi Wang (FF)
+  add_auc        对方 0.56422 我们 0.54141：30 条总和要再加 0.684
+  spider_sr      对方 0.70000（21 条）我们 0.73333（22 条）：已经超过
+  maniptrans_sr  对方 0.66666（20 条）我们 0.63333（19 条）：要多成功 2 条才超过
+  mppe_cm        对方 8.220 我们 16.585：30 条总和要再减 250.9 cm
+
+== 现在 MP-SR 不成功的 episode，按 MPPE 从大到小：
+  ep25  AUC 0.074  SP 0  MPPE  117.99  t1-ep25-w2048-cap10m-ml40
+  ep4   AUC 0.151  SP 0  MPPE   90.23  t1-ep4-w2048-cap10m-ml40
+  ep28  AUC 0.104  SP 0  MPPE   66.24  t1-ep28-w2048-cap4m-p185-mf4090
+  ep11  AUC 0.089  SP 0  MPPE   59.02  t1-ep11-w2048-cap4m-mf4090
+  ep9   AUC 0.204  SP 0  MPPE   40.66  t1-ep9-w2048-cap10m-ml40
+  ep1   AUC 0.172  SP 0  MPPE   37.68  t1-ep1-w2048-cap4m-p185-mf4090
+  ep2   AUC 0.422  SP 0  MPPE   24.51  t1-ep2-w2048-cap10m-r3a-ml40
+  ep14  AUC 0.330  SP 1  MPPE    5.89  t1-ep14-w2048-cap4m-mf4090
+  ep17  AUC 0.371  SP 0  MPPE    4.98  t1-ep17-w2048-cap10m-ml40
+  ep10  AUC 0.234  SP 1  MPPE    4.53  t1-ep10-w2048-cap10m-ml40
+  ep19  AUC 0.430  SP 1  MPPE    3.68  t1-ep19-w2048-cap10m-r3a-ml40
+  MPPE 超过 15 cm 的 7 条合计 436.3 cm，占 30 条总和 497.5 cm 的 87.7%
+
+== 假设“像成功的”：修好的 episode 取 AUC 0.722、SP 1、MP 1、MPPE 2.09 cm（不低于原值的项保留原值）
+  修前  1 条（到 ep25）：add_auc 0.5630  spider_sr 0.7667  maniptrans_sr 0.6667  mppe_cm 12.72
+  修前  2 条（到 ep4）：add_auc 0.5820  spider_sr 0.8000  maniptrans_sr 0.7000  mppe_cm 9.78
+  修前  3 条（到 ep28）：add_auc 0.6026  spider_sr 0.8333  maniptrans_sr 0.7333  mppe_cm 7.64
+  修前  4 条（到 ep11）：add_auc 0.6237  spider_sr 0.8667  maniptrans_sr 0.7667  mppe_cm 5.75
+  修前  5 条（到 ep9）：add_auc 0.6410  spider_sr 0.9000  maniptrans_sr 0.8000  mppe_cm 4.46
+  修前  6 条（到 ep1）：add_auc 0.6593  spider_sr 0.9333  maniptrans_sr 0.8333  mppe_cm 3.28
+  修前  7 条（到 ep2）：add_auc 0.6693  spider_sr 0.9667  maniptrans_sr 0.8667  mppe_cm 2.53
+  修前  8 条（到 ep14）：add_auc 0.6824  spider_sr 0.9667  maniptrans_sr 0.9000  mppe_cm 2.40
+  修前  9 条（到 ep17）：add_auc 0.6941  spider_sr 1.0000  maniptrans_sr 0.9333  mppe_cm 2.30
+  修前 10 条（到 ep10）：add_auc 0.7104  spider_sr 1.0000  maniptrans_sr 0.9667  mppe_cm 2.22
+  修前 11 条（到 ep19）：add_auc 0.7201  spider_sr 1.0000  maniptrans_sr 1.0000  mppe_cm 2.17
+  超过 CHORD Baseline 至少要修：add_auc 0 条；spider_sr 0 条；maniptrans_sr 0 条；mppe_cm 0 条
+  超过 Xueyi Wang (FF) 至少要修：add_auc 2 条；spider_sr 0 条；maniptrans_sr 2 条；mppe_cm 3 条
+
+== 假设“只跟住的”：修好的 episode 取 AUC 0.350、SP 1、MP 0、MPPE 4.76 cm（不低于原值的项保留原值）
+  修前  1 条（到 ep25）：add_auc 0.5506  spider_sr 0.7667  maniptrans_sr 0.6333  mppe_cm 12.81
+  修前  2 条（到 ep4）：add_auc 0.5573  spider_sr 0.8000  maniptrans_sr 0.6333  mppe_cm 9.96
+  修前  3 条（到 ep28）：add_auc 0.5655  spider_sr 0.8333  maniptrans_sr 0.6333  mppe_cm 7.91
+  修前  4 条（到 ep11）：add_auc 0.5742  spider_sr 0.8667  maniptrans_sr 0.6333  mppe_cm 6.10
+  修前  5 条（到 ep9）：add_auc 0.5791  spider_sr 0.9000  maniptrans_sr 0.6333  mppe_cm 4.91
+  修前  6 条（到 ep1）：add_auc 0.5850  spider_sr 0.9333  maniptrans_sr 0.6333  mppe_cm 3.81
+  修前  7 条（到 ep2）：add_auc 0.5850  spider_sr 0.9667  maniptrans_sr 0.6333  mppe_cm 3.15
+  修前  8 条（到 ep14）：add_auc 0.5857  spider_sr 0.9667  maniptrans_sr 0.6333  mppe_cm 3.11
+  修前  9 条（到 ep17）：add_auc 0.5857  spider_sr 1.0000  maniptrans_sr 0.6333  mppe_cm 3.10
+  修前 10 条（到 ep10）：add_auc 0.5896  spider_sr 1.0000  maniptrans_sr 0.6333  mppe_cm 3.10
+  修前 11 条（到 ep19）：add_auc 0.5896  spider_sr 1.0000  maniptrans_sr 0.6333  mppe_cm 3.10
+  超过 CHORD Baseline 至少要修：add_auc 0 条；spider_sr 0 条；maniptrans_sr 0 条；mppe_cm 0 条
+  超过 Xueyi Wang (FF) 至少要修：add_auc 3 条；spider_sr 0 条；maniptrans_sr 修不到；mppe_cm 3 条
