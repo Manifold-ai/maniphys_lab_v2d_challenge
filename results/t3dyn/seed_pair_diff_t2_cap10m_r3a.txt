@@ -1,0 +1,13 @@
+# command  : python3 tools/seed_pair_diff.py results/t3dyn/seed_pairs_t2_cap10m_r3a.txt --only=-r3a- 
+# md5      : 3da2c53a6a89619c8625e5ca2a5107fa  tools/seed_pair_diff.py
+# md5      : 037a79ad9781f21bf71f93c88b3eba94  results/t3dyn/seed_pairs_t2_cap10m_r3a.txt
+# source   : cfe6976ffbcd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:53:24-0600
+# ---------------------------------------------------------------
+t2-ep12-w2048-cap10m-r3a-ml40  MP-SR 0.988（t2-ep12-w2048-cap10m-r3a-ml40）与 0.985（t2-ep12-w2048-cap10m-r3a-s43-ml40），差 0.003
+t2-ep20-w2048-cap10m-r3a-ml40  MP-SR 0.984（t2-ep20-w2048-cap10m-r3a-ml40）与 0.934（t2-ep20-w2048-cap10m-r3a-s43-ml40），差 0.050
+t2-ep24-w2048-cap10m-r3a-ml40  MP-SR 0.999（t2-ep24-w2048-cap10m-r3a-ml40）与 0.999（t2-ep24-w2048-cap10m-r3a-s43-ml40），差 0.000
+t2-ep26-w2048-cap10m-r3a-ml40  MP-SR 1.000（t2-ep26-w2048-cap10m-r3a-ml40）与 1.000（t2-ep26-w2048-cap10m-r3a-s43-ml40），差 0.000
+t2-ep8-w2048-cap10m-r3a-ml40  MP-SR 0.999（t2-ep8-w2048-cap10m-r3a-ml40）与 0.999（t2-ep8-w2048-cap10m-r3a-s43-ml40），差 0.000
+共 5 对；MP-SR 差的中位数 0.000，最大 0.050（t2-ep20-w2048-cap10m-r3a-ml40）；差超过 0.2 的 0 对，超过 0.4 的 0 对

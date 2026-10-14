@@ -1,10 +1,11 @@
-# 计划：Tier 3 动力学修复版（best_dyn4、best_dyn4s）的训练试点（2026-10-14，第 1 版）
+# 计划：Tier 3 动力学修复版（best_dyn4、best_dyn4s）的训练试点（2026-10-14，第 2 版）
 
 10/14 09:21 MDT 另一位用户在 `track2/tier3-recon` 上推送了交接文档的更新（8107fef），随后提出用 best_dyn4 重训 ep3、15、16，
 再用 best_dyn4 与 best_dyn4s 各训一条 ep12，看人体抖动修复有没有作用。09:50 前后用户转来这个请求。按 `agent-doc/plan-next-training-2026-10-12.md`
 第 4a 节的授权（“你来为我进行决策并给我判断的理由”），已决定做这次试点，依据与 jev 记录见 9116bf3
-（`results/decisions/jev_claims_t3dyn_pilot_1014.txt`）。本计划写做法、判据与停手规则。时间一律 UTC−6（MDT），服务器日志是 CST（MDT + 14 小时）。
-第 1 版还没有经过独立审查（第 8 节）。
+（`results/decisions/jev_claims_t3dyn_pilot_1014.txt`）。本计划写做法、判据与判读方法。时间一律 UTC−6（MDT），服务器日志是 CST（MDT + 14 小时）。
+第 1 版（cfe6976）经独立审查（Fable 5.1）为 GO WITH FIXES，第 2 版按审查意见修改，逐条处理见第 8 节。主要改动：对称判定的问题不只在 ep16，
+ep3 同样适用；取消 ep16 的停手规则，改为在第 4 节预先登记判读方法；Q2 的门槛改为“疑似”，要补种子才算数。
 
 ## 1. 事实
 
@@ -20,7 +21,11 @@
   局部二次拟合），ep12、ep5 的根加速度降到 24、20 m/s²。29 集根加速度 p99 的中位数：best_dyn4 47.6、best_dyn4s 11.6、Tier 2 4.3 m/s²；物体违规帧
   6.33% 与 6.35%。
 - **对称朝向**：best_dyn4 的修复记录里，ep16（喷壶）判出 24 个对称等价朝向，477 帧里 445 帧换了朝向；ep3（杯子）3 个，781 帧里 463 帧
-  （`results/ops/t3_dyn_logs_ml40_1014_0730.txt`）。检查与修复用同一套对称：对称判错时，ep16 上“转动违规清零”不能说明问题。
+  （`results/ops/t3_dyn_logs_ml40_1014_0730.txt`）。检查与修复用同一套对称：对称判错时，“转动违规清零”不能说明换出来的朝向分支对。
+  判定方法（`results/t3dyn/sym_code_8107fef.txt`）：绕三个惯性主轴每 15° 试一次，转动后表面点到原表面的平均最近距离小于 min(1 cm, 最大半径的 5%)
+  就算对称。平均值对手柄、扳机这类小部件不敏感：同一份记录里吸尘器、复活节篮、杯子、熨斗、手杖都判出 3 个，浇水壶、编织篮 7 个，球棒、碗、喷壶、
+  锥桶 24 个，水瓶 26 个。ep3 的任务是“lift it by the handle”，左右手轮流拿（`results/site/task_table.txt`），手柄朝哪一边对手和物体的关系有影响。
+  修复从第 0 帧的分支开始逐帧取最近的等价朝向，只保证朝向连续，不保证分支与画面一致。
 - **文件**（ml40 只读记录 `results/ops/t3_episodes_ml40_1014_hm4.txt`、`…_dyn4.txt`、`…_dyn4s.txt`；并排对照 `results/t3dyn/support_meta_compare_1014.txt`）：
   4 集的 parquet 都与 best_hm 的不同；元数据的 sha256 与 best_hm 的相同；best_dyn4、best_dyn4s 的目录里只有 `data/` 与 `meta/`，没有支撑面，
   元数据指向的支撑面文件名与 best_hm 的相同。best_dyn4 的 4 个 parquet 共 3,607,380 字节，best_dyn4s 的 ep12 是 947,851 字节，合计约 4.56 MB。
@@ -33,7 +38,8 @@
   mf4090 → ml40 有经 HF 私有仓库的 `stages/recovery/tier3_relay.sh`。
 - **种子噪声**：Tier 1 在 mf4090 上 `w2048-cap4m-r3a` 种子 42 与 43 的 8 对 run，4096 世界 MP-SR 差的中位数 0.066，最大 0.348（ep29），超过 0.4 的
   0 对（`results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt`）；连同不带 r3a 的旧配置一共 13 对，最大 0.562，超过 0.4 的 2 对
-  （`results/t3dyn/seed_pair_diff_t1_cap4m_all.txt`）。
+  （`results/t3dyn/seed_pair_diff_t1_cap4m_all.txt`）。Tier 2 变体 A 的 5 对（ml40，1000 万 buffer）最大差 0.050，但 5 对都在 0.93 以上，
+  接近上限，说明不了中段的噪声（`results/t3dyn/seed_pair_diff_t2_cap10m_r3a.txt`）。这些数只用来解读本次结果，不进任何 Tier 3 的数据或配置。
 - **用时**（best_hm，mf4090）：5 条冒烟约 23 分钟；ep15 训了 2 小时 14 分、ep3 2 小时 2 分（`results/t3p4/health_t3p4a_mf4090.txt`），ep12 2 小时 33 分、
   ep16 1 小时 57 分（`results/t3p4/end_t3p4b_mf4090_1013_2354.txt`）；5 条评测 23 分钟。重定向每集 3–4 分钟（`results/t3hm/retarget_mf4090.txt`）。
   ml40 上没跑过 400 万 buffer 的 Tier 3 run，暂按 mf4090 的用时估。
@@ -48,7 +54,8 @@
 2. **配置照抄 best_hm 那批，只换参考**：变体 A、seed 42、2048 世界、3.5 亿步、400 万 buffer、支撑面开关按 best_hm（ep3、ep16 开，ep12、ep15 关）。
    队列行由 `stages/policy/make_copy_queue.py` 从 best_hm 的队列行照抄，只改 run 名、parquet 目录与 W&B 标签三处，`--check` 逐条列出改了什么
    （`results/t3dyn/copy_check_t3pdyn.txt`、`copy_check_t3qdyn.txt`，都是 `COPY_CHECK_OK`）。ml40 上也用 400 万 buffer：ep12 的 best_hm 基线就是 400 万。
-3. **分两台**：mf4090 训 ep15 → ep3 → ep16（段名 `t3pdyn`），与 best_hm 基线同机同配置；ep16 放最后，等对称朝向的确认（第 4 节的停手规则）。
+3. **分两台**：mf4090 训 ep15 → ep3 → ep16（段名 `t3pdyn`），与 best_hm 基线同机同配置。三条都训，不设停手规则：对称判错只会让手和物体对不上，
+   不会让参考更好跟，所以跟上了照样算数，没跟上按第 4 节记“看不清”；那段时间 mf4090 没有别的训练要跑。
    ml40 训 ep12 的 dyn4 → dyn4s（段名 `t3qdyn`），两版在同一台机器上比。理由：两台都空着时并行，结果早 4–5 小时；mf4090 在 t1xb 之后没有排好的 Tier 1 训练，
    Tier 1 最差几集的计划还没写（`agent-doc/plan-next-training-2026-10-12.md` 末尾 10/13 的记录：另写计划、审过再用 ml40），ml40 那两条约 5 小时，傍晚就空出来。
 4. **支撑面沿用 best_hm 的**：best_dyn4、best_dyn4s 的目录里没有支撑面，元数据与 best_hm 的逐字节相同。拼目录时从 mf4090 上已拼好的 `runs/tier3/root_hm`
@@ -78,20 +85,26 @@
 - jev：第 1 节里本计划新查的 10 条都核实（0.92–0.99），对照 5 道正常（`results/t3dyn/jev_claims_plan_1014.txt`；前两轮留作 `_run1`、`_run2`：
   一次是哈希表比对的证据里没带命令行，一次是三件事合成了一条说法）。两台机器的状态、best_hm 与 Tier 2 的分数、交接文档、对称朝向、种子噪声、
   镜像这几条在做决定时已核（11/11，对照 5 道正常，`results/decisions/jev_claims_t3dyn_pilot_1014.txt`）。
+  第 2 版新补的 5 条（对称判定方法两条、各集对称数、ep3 的任务、Tier 2 的种子对）核实 0.76–0.98，对照 3 道正常
+  （`results/t3dyn/jev_claims_plan_v2_1014.txt`；第 1 轮留作 `_run1`：两件事合成了一条说法，证据少抓了一行）。
 
 **第 1–8 步（审查通过、mf4090 的 t1xb 三条链都结束之后；Mac 上、仓库根执行）**
 
 1. 同步与测试。t1xb 的结束记录、健康记录与 Tier 1 的接力不在本计划里。两台都没有长链标记才同步：
    `scripts/dev/record ops/sync_mf4090_1014_<时分> scripts/dev/remote`、`V2D_ENV=ml40 scripts/dev/record ops/sync_ml40_1014_<时分> scripts/dev/remote`。
    两台各跑一次测试（`results/t3dyn/tests_mf4090.txt`、`tests_ml40.txt`）：
-   `ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && for f in stages/policy/test_make_copy_queue.py stages/recovery/test_tier3_expect.py stages/recovery/test_tier3_root.py stages/recovery/test_tier3_relay.py; do echo "== $f"; python3 $f | tail -1; done && bash -n stages/recovery/tier3_stage.sh && bash -n stages/policy/arm_var_chain.sh && echo "bash -n ok"'`
-   （ml40 换成 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`）。
+   `ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && for f in stages/policy/test_make_copy_queue.py stages/recovery/test_tier3_expect.py stages/recovery/test_tier3_root.py; do echo "== $f"; python3 $f | tail -1; done && bash -n stages/recovery/tier3_stage.sh && bash -n stages/policy/arm_var_chain.sh && echo "bash -n ok"'`
+   （ml40 换成 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`）。`tier3_relay.sh` 在 Mac 上跑，它的测试只在 Mac 上跑（`results/t3dyn/tests_mac_1014.txt`）。
+   同步之后 ml40 部署的就是本计划的提交；Tier 1 的接力与逐条选（`relay_t1x.sh`、`select_t1`）用这份部署，只写 `runs/` 下的目录，
+   `t3qdyn` 在跑时也能做；要改代码的话等 `t3qdyn` 三条链结束再同步。
 2. 拼目录（用户同意走 Mac 管道之后）：
    `V2D_T3_SUBDIR=tier3_cari4d_f830_best_dyn4 V2D_T3_SET=dyn4 V2D_T3_SUPPORT_DIR=runs/tier3/root_hm scripts/dev/record t3dyn/stage_dyn4_mf4090 stages/recovery/tier3_stage.sh t3dyn4_4_1014 3 12 15 16`
    `V2D_T3_SUBDIR=tier3_cari4d_f830_best_dyn4s V2D_T3_SET=dyn4s V2D_T3_SUPPORT_DIR=runs/tier3/root_hm scripts/dev/record t3dyn/stage_dyn4s_mf4090 stages/recovery/tier3_stage.sh t3dyn4s_1_1014 12`
 3. 重定向（mf4090 的 tmux，照 10/12 best_hm 的做法；可用 ≥ 2500 MB 才开）：
    `scripts/dev/record t3dyn/retarget_launch_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && A=$(df -m --output=avail . | tail -1) && echo "可用 $A MB" && [ "$A" -ge 2500 ] && ! tmux has-session -t v2d-t3dyn-retarget 2>/dev/null && tmux new-session -d -s v2d-t3dyn-retarget "V2D_T3_SET=dyn4 V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3dyn/retarget_dyn4_mf4090 stages/retarget/eps.sh 3 3 12 15 16; V2D_T3_SET=dyn4s V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3dyn/retarget_dyn4s_mf4090 stages/retarget/eps.sh 3 12" && sleep 20 && tmux ls | cut -d: -f1'`
-   两份记录都以 `EPS_DONE` 结束后用 `scripts/dev/pull-results` 拉回。
+   两份记录都以 `EPS_DONE` 结束后用 `scripts/dev/pull-results` 拉回。然后照 10/13 第 ④ 步，在 mf4090 的容器里（不占 GPU）对 5 个 parquet 跑
+   `check_inputs.py`（parquet 能读、帧数与 fps、引用的资产与支撑面在容器内都在）：
+   `scripts/dev/record t3dyn/check_inputs_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum stages/policy/check_inputs.py && scripts/dev/in-flash-chord "python /repo/stages/policy/check_inputs.py $(ls runs/motion/tier3_dyn4/whole_body/soma/sequence_id=*/robot_name=g1/data.parquet runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=*/robot_name=g1/data.parquet | sed s,^,/repo/, | tr "\n" " ")"; echo "check_inputs 退出码 $?"'`
 4. 数一下要转的文件（只读）：
    `scripts/dev/record t3dyn/relay_counts_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && for s in dyn4 dyn4s; do echo "$s $(find runs/tier3/root_$s runs/motion_src/tier3_$s runs/motion/tier3_$s -type f | wc -l)"; done'`
 5. HF 中转。先在 `docs/hf/v2d-track2-transfer/README.md` 加两行（`t3dyn4_1014a`、`t3dyn4s_1014a`，状态写“上传中”），提交，
@@ -100,16 +113,16 @@
    然后转发（文件数取第 4 步的）：
    `caffeinate -i scripts/dev/record t3dyn/relay_dyn4_ml40_hf stages/recovery/tier3_relay.sh dyn4 4 <文件数> t3dyn4_1014a`
    `caffeinate -i scripts/dev/record t3dyn/relay_dyn4s_ml40_hf stages/recovery/tier3_relay.sh dyn4s 1 <文件数> t3dyn4s_1014a`
-   两次都 `RELAY_OK` 后 README 两行改为“已传、已核对”，提交、重新上传（记录 `ops/hf_readme_v2d_track2_transfer_t3dyn_relayed`）。
+   两次都 `RELAY_OK` 后，ml40 的容器里对转过去的 parquet 同样跑一次 `check_inputs.py`（记录 `t3dyn/check_inputs_ml40`，命令同第 3 步，
+   主机与目录换成 ml40 的），再把 README 两行改为“已传、已核对”，提交、重新上传（记录 `ops/hf_readme_v2d_track2_transfer_t3dyn_relayed`）。
 6. mf4090 起 `t3pdyn`（第 3 步之后就能做，不等第 5 步）：
    `scripts/dev/record t3dyn/cfgcheck_t3pdyn_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && stages/policy/fc_config_check.sh stages/policy/queues/mf4090_t3pdyn_smoke.txt stages/policy/queues/mf4090_t3pdyn.txt'`
    `scripts/dev/record t3dyn/arm_dryrun_t3pdyn_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && (nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader; true) && V2D_ARM_DRYRUN=1 stages/policy/arm_var_chain.sh t3pdyn'`
    `scripts/dev/record t3dyn/arm_t3pdyn_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && (nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader; true) && stages/policy/arm_var_chain.sh t3pdyn'`
 7. ml40 起 `t3qdyn`（第 5 步之后）：同第 6 步，主机换成 ml40、目录换成 `/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge`、段名 `t3qdyn`、记录名 `…_ml40`。
    起链要求 GPU 上没有别的进程；另一位用户若在用 ml40 的 GPU（交接文档写了要约 GPU 做逐帧评测），等它结束再起，不停别人的进程。
-8. ep16（第 4 节的停手规则）：train 日志出现 `正式 t3-ep3-w2048-cap4m-r3a-dyn4-mf4090` 之后，还没收到另一位用户对喷壶 24 个对称朝向的确认，就建停链标记：
-   `scripts/dev/record t3dyn/stop_t3pdyn_after_ep3_mf4090 ssh -o BatchMode=yes mf4090 'cd ~/v2d/maniphys_lab_v2d_challenge && grep -q "正式 t3-ep3-w2048-cap4m-r3a-dyn4-mf4090" runs/logs/t3pdyn_train_mf4090.log && date "+%F %T %Z" && touch runs/.chain-stop-t3pdyn_train_mf4090 && ls -l runs/.chain-stop-t3pdyn_train_mf4090 && tail -2 runs/logs/t3pdyn_train_mf4090.log'`。
-   ep3 训完之前收到确认，就删掉标记（`t3dyn/unstop_t3pdyn_mf4090`）。链结束后标记一律删掉、留记录。
+8. 对称朝向：不建停链标记（第 1 版的停手规则已取消，见第 8 节）。请另一位用户核对 ep3（杯子，3 个）与 ep16（喷壶，24 个）修复后的朝向分支
+   与画面是否一致（手柄、扳机朝哪边），结果只用于第 4 节的判读和全量重训之前的核对，不影响这次起链。
 9. 每段结束：拉回结果、健康记录（`chain_health_remote.sh`）、评测表——`stages/evaluate/eval_table.py` 把这段的 run 与同集的 best_hm run、Tier 2 run 并列
    （`results/t3dyn/eval_table_t3pdyn.txt`、`eval_table_t3qdyn.txt`）、按第 4 节判读、jev、执行记录、提交、报告。
 
@@ -117,19 +130,31 @@
 
 - **第 0 步**：Mac 上 5 份测试 `ALL_OK`、`bash -n` 通过；`make_copy_queue.py --check` 两段都 `COPY_CHECK_OK`，每条只差 W&B 标签、run 名、parquet 目录（冒烟行只差后两处）；
   哈希表 parquet 以外的行与 `t3hm_29_1012.tsv` 相同。
-- **第 1–7 步**：两台测试全过；拼目录两次都 `TIER3_ROOT_OK`，`root_dyn4` 4 集、`root_dyn4s` 1 集，provenance 的 `support_source` 是 `runs/tier3/root_hm`；
+- **第 1–7 步**：两台测试全过；两次 `check_inputs.py` 都没有缺失（退出码 0）；拼目录两次都 `TIER3_ROOT_OK`，`root_dyn4` 4 集、`root_dyn4s` 1 集，provenance 的 `support_source` 是 `runs/tier3/root_hm`；
   重定向两份记录都以 `EPS_DONE` 结束、5 行结果都没有 `FAIL:*`（有 `FAIL` 的集从队列里拿掉、重新生成、再核；`ALIGN` 或 `NOCONTACT` 照训，在报告里标出，
   并与 best_hm 同集的状态并列）；转发两次 `RELAY_OK`；配置展开通过、意外键 0；预演 `DRYRUN_OK`；起链 `ARMED`，起链记录里训练挂 `v040_p185_nfg`、
   评测与导出挂 `fc_8c778f9`；两台部署的 commit 相同。
 - **每条 run**：冒烟过；正式 run 有 DONE、最后一步 349999104、看守扫描非有限 0；4096 世界评测完成。
-- **Q1（转动违规是不是 best_hm 训不动的主因）**：训完的 ep3、ep15、ep16（ep16 被停就只看前两集），对照各自参考的 4096 世界 MP-SR：
+- **Q1（转动违规是不是 best_hm 训不动的主因）**：训完的 ep3、ep15、ep16，对照各自参考的 4096 世界 MP-SR。先定每集算不算数：
+  - ep15 照常算（2 个对称，只换了 8 帧）。
+  - ep3、ep16：出结果之前另一位用户确认了修复后的朝向分支与画面一致，就照常算；没确认时，≥ 0.5 照常算（对称判错只会让手和物体对不上，
+    不会让参考更好跟），< 0.5 不算，这一集记“看不清”。
+  - 冒烟没过、没训的集不算。
+
+  再看算数的集：
   - 至少 2 集 ≥ 0.5：**支持**。接着写剩下那些有转动违规的失败集用 best_dyn4 重训的计划（另审），GPU 与 Tier 1 怎么分到时再定。
-  - 全部 < 0.1：**不支持**。不在 best_dyn4 上全量重训，先做逐帧终止分析（每个世界在第几帧、因为哪一项被终止），再谈 Tier 3 的下一轮训练。
-  - 其余：**看不清**，同样先做逐帧终止分析。
+  - 至少 2 集算数，而且都 < 0.1：**不支持**。不在 best_dyn4 上全量重训，先做逐帧终止分析（每个世界在第几帧、因为哪一项被终止），再谈 Tier 3 的下一轮训练。
+  - 其余（包括算数的不到 2 集）：**看不清**，同样先做逐帧终止分析。
   ep12 dyn4 也与它的 best_hm 基线（0.000）并列报，但不计入 Q1：best_hm 的 ep12 没有转动违规。
-- **Q2（人体平滑有没有用）**：ep12 的 MP-SR，dyn4s 减 dyn4 ≥ 0.4 记“平滑有用”，≤ −0.4 记“平滑变差”，绝对值 < 0.4 记“看不出差别”。
-  依据：r3a 同配置换种子的 8 对里最大差 0.348（`results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt`）；旧配置有过 0.562，单集单种子只能看出大差别。
-  看不出差别时，重训用 best_dyn4（改动少）。
+- **Q2（人体平滑有没有用）**：ep12 的 MP-SR，dyn4s 减 dyn4：
+  - ≥ 0.4 记“平滑疑似有用”。要拿 best_dyn4s 去全量重训，先给 ep12 的两版各补一条 seed 43，同向、差也 ≥ 0.4 才算数。
+  - ≤ −0.4 记“平滑疑似变差”，同样要补种子才算数。
+  - 绝对值 < 0.4 记“看不出差别”。dyn4 已经 ≥ 0.6 时差值到不了 0.4，这种情况记“平滑不是 ep12 的瓶颈”。
+  - 看不出差别、不是瓶颈或没有补种子时，重训用 best_dyn4（改动少）。
+  依据：r3a 同配置换种子的 8 对里最大差 0.348（`results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt`）；旧配置 13 对里有 2 对超过 0.4（最大 0.562），
+  所以单集单种子的 0.4 只能算疑似。这些数只用来解读，不进任何 Tier 3 的数据或配置。
+- **全量重训之前**（不论 Q1 怎么判）：凡是修复里换了朝向分支、物体又有手柄或扳机这类不对称部件的集，要先核对分支与画面一致，或在 best_dyn4 的
+  下一版里改掉对称判定。这一条是第 1 节“对称朝向”那条事实带出来的，试点本身不检验它。
 - **并列报**（只报，不据此改判据）：SP-SR、ADD-AUC、MPPE、三类失败比例，与同集 best_hm、Tier 2 的行并列；重定向的左右手接触帧、间隙与 best_hm 同集比。
 - **停**：任何一步不满足就停在那一步，查原因，不改判据、不改配置重跑。
 
@@ -137,9 +162,10 @@
 
 - **不检验分数**：评测对照的是 run 自己的参考，不是干净真值。“跟上”只说明参考训得动，不说明更接近真值。best_dyn4 改了物体轨迹（质心改动 p95 0.8–11 cm），
   本地能看的只有画面对齐 IoU（0.700 → 0.697）。真值只有提交才看得到；档位隔离不许拿 Tier 1 来比。
-- **样本小**：Q1 只有 3 集（可能只有 2 集），特征是事后挑的；Q2 是 1 集 1 个种子，只能看出 0.4 以上的差别。
+- **样本小**：Q1 只有 3 集，ep3、ep16 没确认对称时失败不算数，特征又是事后挑的；Q2 是 1 集 1 个种子，0.4 以上的差别也只算疑似。
 - **机器**：ep12 的 best_hm 基线在 mf4090 上训，试点在 ml40 上训，配置相同、GPU 不同；Q2 的两条在同一台，不受影响。
-- **ep16 的对称**：喷壶如果有扳机，24 个对称朝向就不对，ep16 的参考可能在不等价的朝向之间切换。没确认就不训（停手规则）。
+- **对称判定**：判定对小部件不敏感，杯子的手柄、喷壶的扳机都可能被当成对称。修复后朝向连续，但分支可能与画面相反：
+  对训练的影响是手和物体对不上（只会更难跟），对分数的影响是朝向离真值更远（试点看不到）。第 4 节的判读与全量重训前的核对针对这一条。
 - **门槛**：动力学检查还没接进我们的门槛；这次用另一位用户跑出的检查结果。全量重训之前要先接进来（10/13 的重新开训条件）。
 - **用时**：ml40 上 400 万 buffer 没跑过，按 mf4090 估；ep12 在 mf4090 上训了 2 小时 33 分，是这几集里最慢的。
 - **转运**：Mac 离线时第 2、5 步推后；第 2 步约 4.56 MB 走 Mac 管道（要用户同意），第 5 步经 HF，不碰另一位用户的目录。
@@ -149,19 +175,34 @@
 - 11:30 前后 mf4090 的 t1xb 链结束；11:30–11:45 同步与测试；11:45 前后拼目录（约 3 分钟）；11:50–12:10 重定向 5 集；
   12:10–12:30 转发两版到 ml40。
 - mf4090 约 12:20 起链：冒烟约 15 分钟，ep15 约 12:35–14:50，ep3 约 14:50–16:50，ep16 约 16:50–18:50，评测与导出约 19:10 结束。
-  ep16 被停的话，评测约 17:15 结束。**ep16 的确认要在 16:50 前后之前**（ep3 开训之后、训完之前处理停链标记）。
+  另一位用户对 ep3、ep16 朝向分支的核对最好在 19:10 之前，这样出结果时就能按第 4 节判读；晚了也不影响起链。
 - ml40 约 12:40 起链：冒烟约 10 分钟，ep12 dyn4 约 12:50–15:20，dyn4s 约 15:20–17:50，评测约 18:05 结束。
 
 ## 7. 要用户定的
 
 1. **人体层 4.56 MB 走 Mac 管道**（约 3 分钟）。数据转运的规矩是几 MB 以上走 HF、介于中间要先量再问；ml40 的主机 Python 没有 `huggingface_hub`，现在推不了 HF。
    建议同意。不同意的话，要先在 ml40 上找一个带 `huggingface_hub` 的环境（容器或虚拟环境）做推送，另写、另审，起链推后约 1–2 小时。
-2. **ep16 的对称朝向**请另一位用户确认（喷壶 24 个对称等价朝向、477 帧里 445 帧换了朝向是否合理）。16:50 前后之前没有确认，ep16 不训。
+2. **对称朝向的核对**请另一位用户做：ep3（杯子，3 个对称，781 帧里 463 帧换了朝向）与 ep16（喷壶，24 个，477 帧里 445 帧）修复后的朝向分支与画面
+   是否一致。不卡起链，只影响第 4 节的判读；全量重训之前，其他换了分支又有不对称部件的集也要核对。
 3. 另一位用户要用 ml40 的 GPU 做逐帧评测的话，最好在 12:30 前用完；起链时 GPU 上有别的进程，`arm_var_chain.sh` 会停下，要等。
 
 ## 8. 审查
 
-第 1 版待独立审查（GO、GO WITH FIXES 或 NO GO），结论与逐条处理写在这里。
+第 1 版（cfe6976）由 Fable 5.1 独立审查，只读，结论 **GO WITH FIXES**（1 MAJOR、3 MINOR、5 NIT）。审查核过、没有问题的部分：第 1 节的数字与记录一致；
+两张哈希表从记录重新生成，与仓库里的逐字节相同；`--check` 两段 `COPY_CHECK_OK`，新 run 与 best_hm 源行只差 W&B 标签、run 名、parquet 目录；
+重定向、共用层自 a5bdf6f、训练与评测脚本自 a629fbd 没有改动；第 3 节各命令的参数、环境变量与各脚本的前置检查对得上；常设规矩都守住了。
+
+| # | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| 1 | MAJOR | ep3 是带手柄的杯子（任务 “lift it by the handle”），判出 3 个对称、463 帧换了朝向，同一判定对熨斗、吸尘器、手杖也给 3；第 1 版只对 ep16 设了确认，ep3 直接计入 Q1 | 采纳并扩大：第 1 节补判定方法与 29 集的对称数；第 4 节登记 ep3、ep16 没确认时失败不算数、跟上照算；全量重训之前要核对分支或改判定 |
+| 2 | MINOR | ep16 的停链标记要人在 14:50–16:50 之间手动建，Mac 离线就建不上；ep3 冒烟没过时“正式 t3-ep3”不出现，触发条件失效 | 取消停手规则，ep16 照训（第 2 节第 3 条），判读在第 4 节预先登记 |
+| 3 | MINOR | Q2 的 0.4 依据是 r3a 8 对最大差 0.348，旧配置有 2 对超过 0.4；dyn4 已经高时差值有上限 | 采纳：≥ 0.4 只记“疑似”，补 seed 43 才算数；dyn4 ≥ 0.6 时记“平滑不是 ep12 的瓶颈” |
+| 4 | MINOR | ep16 被停时导出链对没训的 run 记失败、Q1 的门从 2/3 变 2/2、确认迟到怎么补训，都没写 | 取消停手规则后前两条不再出现；Q1 补“冒烟没过、没训的集不算”“算数的不到 2 集记看不清” |
+| 5 | NIT | 拿 Tier 1 的种子差校准 Tier 3 的读数，容易被读成越线 | 采纳：注明只用于解读、不进 Tier 3 的数据或配置；补 Tier 2 变体 A 的 5 对（最大 0.050，都在 0.93 以上，说明不了中段） |
+| 6 | NIT | `tier3_relay.sh` 在 Mac 上跑，服务器上跑它的测试不守任何东西，ml40 有没有 `shasum` 没记录过 | 采纳：服务器上只跑三份测试，relay 的测试留在 Mac |
+| 7 | NIT | 10/13 转运后的第 ④ 步（容器里对 parquet 跑 `check_inputs.py`）没了 | 采纳：mf4090 重定向之后、ml40 转运之后各跑一次 |
+| 8 | NIT | `t3qdyn` 起链后 ml40 约 5.5 小时不能同步，Tier 1 的 ml40 接力与逐条选没安排 | 采纳：第 1 步注明接力与逐条选用这次同步的部署、只写 `runs/`，可与 `t3qdyn` 并行；要改代码就等链结束 |
+| 9 | NIT | `tools/t3_record_compare.py` 没有测试，而它的输出是第 1 节的依据 | 不补测试：审查从记录重新生成两张哈希表，与仓库里的逐字节相同，已交叉核过；记在这里 |
 
 ## 9. 执行记录
 

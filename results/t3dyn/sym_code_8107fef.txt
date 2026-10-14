@@ -1,0 +1,40 @@
+# command  : bash -c git\ show\ 8107fef:stages/recovery/tier3/t3_dynamics_post.py\ \|\ sed\ -n\ \"1\,12p\;48\,56p\;95\,108p\" 
+# source   : cfe6976ffbcd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:53:53-0600
+# ---------------------------------------------------------------
+"""Object dynamics post-process: an untouched object does not move, and its orientation is continuous (Tier 3 inputs only).
+
+The dynamics check (gate/t3_dynamics_check.py) on the retargeted best_hm found every episode violating physics from its
+first frames: unheld objects creeping and jittering at rest, and orientation jumps, many of them between equivalent
+poses of a symmetric object. This rewrites the object's trajectory into the set those checks accept; the human is
+untouched. Per episode, in this order:
+
+  symmetry  the mesh's symmetry rotations are found from its shape (rotations about the principal axes, in SYM_STEP_DEG
+            steps, that move the centred surface by less than SYM_M on average). Frame by frame, the orientation is
+            replaced by the equivalent one closest to the previous frame's, about the centre of mass, so the shape on
+            screen is unchanged and only the orientation target becomes continuous.
+  unheld    held comes from the physics check of the input version (a contact joint within HOLD_M: hands, plus feet
+from scipy.spatial import cKDTree
+from scipy.spatial.transform import Rotation, Slerp
+
+FPS = 30.0
+GAP = 5  # frames
+MIN_RUN = 3  # frames
+WINDOW_S = 0.3
+SYM_M = 0.01
+SYM_REL = 0.05  # of the largest centre-to-surface distance, for small objects
+def symmetries(points, com, inertia):
+    """Body-frame rotations (about the centre of mass) that leave the shape in place."""
+    c = points - com
+    tol = min(SYM_M, SYM_REL * float(np.linalg.norm(c, axis=1).max()))
+    tree = cKDTree(c)
+    _, axes = np.linalg.eigh(inertia)
+    found = [np.eye(3)]
+    for k in range(3):
+        for deg in range(SYM_STEP_DEG, 360, SYM_STEP_DEG):
+            g = Rotation.from_rotvec(axes[:, k] * np.deg2rad(deg)).as_matrix()
+            if tree.query(c @ g.T)[0].mean() < tol and all(angle(g, f) > 1e-3 for f in found):
+                found.append(g)
+    return found
+

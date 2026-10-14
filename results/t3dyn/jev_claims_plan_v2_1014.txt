@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t3dyn-plan-v2.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b5e92e8d4acbdcbce5d2de6fcd03a634  agent-doc/experiments/2026-10-14-t3dyn-plan-v2.claims.json
+# source   : cfe6976ffbcd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:56:46-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sym_method           P(supported)=0.76  verified               [symcode]  对称判定在惯性主轴上按 SYM_STEP_DEG=15 度一档试转动；转动后表面点到原表面的平均最近距离小于 tol 就记为对称，tol 是 SYM_M=0.01 与 SYM_REL=0.05 乘最大半径两者中较小的那个。
+sym_closest          P(supported)=0.88  verified               [symcode]  修复逐帧把物体朝向换成等价朝向里离上一帧最近的那一个。
+sym_counts           P(supported)=0.96  verified               [dlog]  best_dyn4 的修复记录里，吸尘器 ep01、复活节篮 ep02、杯子 ep03、熨斗 ep07、手杖 ep19 的 symmetries 都是 3；浇水壶 ep24 与编织篮 ep27 是 7；喷壶 ep16 是 24；ep15 是 2 且 symmetric_switch_frames 是 8。
+ep3_task             P(supported)=0.91  verified               [task]  ep3 的任务是走到圆桌边，用右手拿着手柄把咖啡杯提起来再放下，然后换左手，交替几次。
+t2_seed              P(supported)=0.98  verified               [t2seed]  Tier 2 的 w2048-cap10m-r3a 与 w2048-cap10m-r3a-s43 成对的 5 集里，MP-SR 差最大的是 ep20（0.984 与 0.934，差 0.050），其余 4 对的差都不超过 0.003。
+ctl_true_ep16task    P(supported)=0.98  control(true) ok       [task]  ep16 的任务是用左手拿起白色桌上的喷壶并放到地上。
+ctl_false_sym        P(supported)=0.01  control(false) ok      [dlog]  熨斗 ep07 的 symmetries 是 1，没有换过朝向。
+ctl_false_t2seed     P(supported)=0.01  control(false) ok      [t2seed]  Tier 2 变体 A 的 5 对种子 run 里有 2 对 MP-SR 差超过 0.4。
+controls behaved as expected
