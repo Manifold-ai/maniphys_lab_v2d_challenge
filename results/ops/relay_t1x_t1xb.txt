@@ -1,0 +1,16 @@
+# command  : stages/evaluate/relay_t1x.sh t1xb runs/select_t1_t1yb 
+# md5      : aaf993c4f7e0d908a5008116b3fc2fab  stages/evaluate/relay_t1x.sh
+# source   : 6267d135d9fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:31:25-0600
+# ---------------------------------------------------------------
+stage_t1_candidates: 抄了 5 个候选到 runs/select_t1_t1xb_stage/cand（5 个 run 目录）
+候选 66 个，结果表 9 张
+这一段的新候选（run、导出状态）：
+run	status
+t1-ep3-w2048-cap4m-r3a-mf4090	ok
+t1-ep19-w2048-cap4m-r3a-mf4090	ok
+t1-ep13-w2048-cap4m-r3a-mf4090	ok
+t1-ep10-w2048-cap4m-r3a-mf4090	ok
+t1-ep14-w2048-cap4m-r3a-mf4090	ok
+RELAY_DONE

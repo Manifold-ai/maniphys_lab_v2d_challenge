@@ -1,0 +1,7 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_SELECT_TAG=t1c1014b\ V2D_SELECT_DIR=runs/select_t1_t1xb\ V2D_SELECT_CURRENT=stages/evaluate/exports/t1_select_t1x1013.tsv\ V2D_SELECT_GATE=0.471279\,0.600000\,0.533333\,24.536550\ V2D_SELECT_GATE_LABEL=10/13\ stages/evaluate/select_t1.sh\ https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/004978af97ed77f17dcb90bdf0fae90aa0bb48c9 
+# md5      : 95c7e370579cab3e877dca0d53a833a5  stages/evaluate/select_t1.sh
+# source   : 6267d135d9fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:32:03-0600
+# ---------------------------------------------------------------
+record: → results/select_t1/select_t1c1014b.txt（133 行）
