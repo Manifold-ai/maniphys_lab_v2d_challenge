@@ -1,0 +1,24 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ stages/policy/arm_var_chain.sh\ t3pdyn 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:11:51-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+/repo/runs/cfgcheck/t3-ep15-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep3-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep3-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep16-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep16-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+核对：t3pdyn 在 mf4090，3 条 run，来历 af011f6fec0d，可用 86557 MB，6 份配置的 precheck 与配方断言全过
+v2d-t3pdyn-eval: 1 windows (created Thu Oct 15 04:11:56 2026)
+v2d-t3pdyn-export: 1 windows (created Thu Oct 15 04:11:58 2026)
+v2d-t3pdyn-train: 1 windows (created Thu Oct 15 04:11:54 2026)
+t3pdyn_train_mf4090：=== 2026-10-15 04:11:55 CST 冒烟 smoke-t3-ep15-w2048-cap4m-r3a-dyn4-mf4090
+t3pdyn_eval_mf4090：=== 2026-10-15 04:11:56 CST 等 runs/logs/t3pdyn_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3pdyn_mf4090：
+runs/.chain-active-cand_t3_t3pdyn_mf4090-gate
+runs/.chain-active-t3pdyn_eval_mf4090
+runs/.chain-active-t3pdyn_train_mf4090
+ARMED

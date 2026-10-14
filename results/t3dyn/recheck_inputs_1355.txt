@@ -1,0 +1,20 @@
+# command  : python3 tools/t3_record_compare.py am=results/ops/t3_episodes_ml40_1014_dyn4.txt now=results/ops/t3_episodes_ml40_1014_dyn4_1355.txt am_s=results/ops/t3_episodes_ml40_1014_dyn4s.txt now_s=results/ops/t3_episodes_ml40_1014_dyn4s_1355.txt 
+# md5      : 1311dd720887f460b6044830a0a73fe0  tools/t3_record_compare.py
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:55:36-0600
+# ---------------------------------------------------------------
+相对路径	am	now	am_s	now_s	与 am 相同
+data/chunk-000/episode_000003.parquet	0fecc6b8afb0	0fecc6b8afb0	—	—	now
+data/chunk-000/episode_000012.parquet	cd3fa82cddeb	cd3fa82cddeb	ba2bb52ea805	ba2bb52ea805	now
+data/chunk-000/episode_000015.parquet	994108372ce7	994108372ce7	—	—	now
+data/chunk-000/episode_000016.parquet	4695209f3981	4695209f3981	—	—	now
+meta/episode_000003.metadata.json	25263b0927ad	25263b0927ad	—	—	now
+meta/episode_000012.metadata.json	8d63583fa347	8d63583fa347	8d63583fa347	8d63583fa347	now、am_s、now_s
+meta/episode_000015.metadata.json	4290c6ba32d8	4290c6ba32d8	—	—	now
+meta/episode_000016.metadata.json	ae90db183e6a	ae90db183e6a	—	—	now
+support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda	没有	没有	—	—	无
+support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda	没有	没有	没有	没有	无
+support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda	没有	没有	—	—	无
+support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda	没有	没有	—	—	无
+COMPARE_DONE（12 个路径，4 份记录）

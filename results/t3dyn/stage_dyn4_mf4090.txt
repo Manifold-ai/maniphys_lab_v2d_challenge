@@ -1,0 +1,39 @@
+# command  : stages/recovery/tier3_stage.sh t3dyn4_4_1014 3 12 15 16 
+# md5      : 2aa5732ffe6be06d5b29a2e5b11e1c92  stages/recovery/tier3_stage.sh
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:55:45-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-15 03:55:54 CST 来历 af011f6fec0d
+0fecc6b8afb0efc8b11b57dcd6c025cdc43418ae3160a07d1273d12f8556510c  ./data/chunk-000/episode_000003.parquet
+cd3fa82cddeb1bb0a9ff0c37d4f33fd0890e45ab47d04bbdec8c8fd4d384b2d4  ./data/chunk-000/episode_000012.parquet
+994108372ce77731dae395a13e0987050a522e3be48d32de4f9438fcd12569b4  ./data/chunk-000/episode_000015.parquet
+4695209f398151744cc0ad45aa5e3473d768a799dc5255928af9c95c749e905b  ./data/chunk-000/episode_000016.parquet
+66b5401e2a30b31e2d0bc090a66dd19951d7539ead3383346ae0f02b0480ee15  ./DEPLOYED
+25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3  ./meta/episode_000003.metadata.json
+8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00  ./meta/episode_000012.metadata.json
+4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7  ./meta/episode_000015.metadata.json
+ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344  ./meta/episode_000016.metadata.json
+部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5；同组成员那边的目录 runs/tier3_cari4d_f830_best_dyn4；V2D_T3_SET=dyn4；V2D_T3_SUPPORT_DIR=runs/tier3/root_hm
+写 data/chunk-000/episode_000003.parquet sha256 0fecc6b8afb0efc8b11b57dcd6c025cdc43418ae3160a07d1273d12f8556510c
+写 mesh/contigo_coffee_mug/contigo_coffee_mug.glb sha256 6ac9976cc09e5dfb8b068672d91a00fafa73a774035e96cad4faa7e50aec283f md5 5d1c0769b2e731f2de49d107ec8fa9eb
+写 ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json sha256 edee94f6e18f17bca636511710ff0d6e4a7f912683b44f32ab64828c421e3fc6 md5 ac17f82e8b8b9399b16ae1f1e458c470
+写 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda sha256 7d9fc4fefca8da5cfe754dad6a8962b4decc7c5365e5b30e0fcbb16c8a8fa2d8 md5 3c5649879ad433a1af37af5951078d27
+写 data/chunk-000/episode_000012.parquet sha256 cd3fa82cddeb1bb0a9ff0c37d4f33fd0890e45ab47d04bbdec8c8fd4d384b2d4
+写 mesh/black_platform/black_platform.glb sha256 5c27db3c4896bbc494c3d68721b97cf130b15e4fd4e6110e2f2a6e92beecea4a md5 6b75c129d641b22d7eeed4f4f7041163
+写 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json sha256 50eba8f29dd2f1ea30657dfcb7aad72956b0b7770c1570a58cf444a8bc0edc1e md5 dcf25842d8a4dce616f5da968ad7a5ea
+写 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000015.parquet sha256 994108372ce77731dae395a13e0987050a522e3be48d32de4f9438fcd12569b4
+写 mesh/wet_floor_sign/wet_floor_sign.glb sha256 7a762ca67b09823ce9476441cd3a2396a7fc135d2dcb74533067952360dac1f5 md5 090f16c81ce7a69f7f75fd3a19f84717
+写 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json sha256 2eb28c6af4ea9f597e48e47db8d2f87ddcca9730c7d4825ed43d89d4be93390c md5 4f778f37e24522e162de1392a4e3d9a0
+写 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000016.parquet sha256 4695209f398151744cc0ad45aa5e3473d768a799dc5255928af9c95c749e905b
+写 mesh/spray_bottle/spray_bottle.glb sha256 e5063cd7014d97475b1fed361e6c2383579ab7d3e48e589f1c43d0040f61f372 md5 d424da632926a017fccf9aa51fcd4ce8
+写 ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json sha256 c2aa033a12ed0081c8b8d06bcb83be766ca0bfd650db4bc713aa9d71055eba5f md5 8eddd909e08e40f8bcf27c6d814e9f27
+写 support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda sha256 c3674b0b5f3b59dddbec43672ebecee069e384a0b99f3378164b1dede4d182bf md5 c4caa3792e6fccd9d56004f586343522
+写 meta/episodes_metadata.jsonl（4 行：ep3, ep12, ep15, ep16）与 meta/provenance.json
+ep3 来源：parquet 在对方的修改时间 2026-10-14T04:12:33+00:00，转发时对方的部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5（干净 True），parquet sha256 0fecc6b8afb0efc8b11b57dcd6c025cdc43418ae3160a07d1273d12f8556510c
+ep12 来源：parquet 在对方的修改时间 2026-10-14T04:12:42+00:00，转发时对方的部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5（干净 True），parquet sha256 cd3fa82cddeb1bb0a9ff0c37d4f33fd0890e45ab47d04bbdec8c8fd4d384b2d4
+ep15 来源：parquet 在对方的修改时间 2026-10-14T04:12:44+00:00，转发时对方的部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5（干净 True），parquet sha256 994108372ce77731dae395a13e0987050a522e3be48d32de4f9438fcd12569b4
+ep16 来源：parquet 在对方的修改时间 2026-10-14T04:12:45+00:00，转发时对方的部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5（干净 True），parquet sha256 4695209f398151744cc0ad45aa5e3473d768a799dc5255928af9c95c749e905b
+TIER3_ROOT_OK

@@ -1,0 +1,19 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_var_chain.sh\ t3pdyn 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:11:43-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+/repo/runs/cfgcheck/t3-ep15-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep3-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep3-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep16-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep16-w2048-cap4m-r3a-dyn4-mf4090.yaml：4 条断言，全过
+核对：t3pdyn 在 mf4090，3 条 run，来历 af011f6fec0d，可用 86557 MB，6 份配置的 precheck 与配方断言全过
+预演，不起会话：
+  train:  V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_GPU_WAIT_S=21600 V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 stages/policy/day2_train_chain.sh stages/policy/queues/mf4090_t3pdyn.expect.tsv stages/policy/queues/mf4090_t3pdyn_smoke.txt stages/policy/queues/mf4090_t3pdyn.txt 24564 t3pdyn_train_mf4090
+  eval:   V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_GPU_WAIT_S=21600 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/t3pdyn_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_t3pdyn.expect.tsv - t3pdyn_eval_mf4090
+  export: V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/t3pdyn_eval_mf4090.log stages/evaluate/exports/cand_t3_t3pdyn_mf4090.tsv cand_t3_t3pdyn_mf4090
+DRYRUN_OK

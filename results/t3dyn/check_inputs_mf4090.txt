@@ -1,0 +1,61 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum stages/policy/check_inputs.py && scripts/dev/in-flash-chord "python /repo/stages/policy/check_inputs.py $(ls runs/motion/tier3_dyn4/whole_body/soma/sequence_id=*/robot_name=g1/data.parquet runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=*/robot_name=g1/data.parquet | sed s,^,/repo/, | tr "\\n" " ")"; echo "check_inputs �\200\200�\207��\201 $?"' 
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:10:14-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+== /repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 38a1e8a494b4dfa8…
+  fps = [30.0]
+  列 object_name = '2026-04-25_17-20-04_black_platform_turn_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_dyn4s/whole_body/reconstructed_stage/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+== /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 fed3be65214ddf0d…
+  fps = [30.0]
+  列 object_name = '2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_dyn4/whole_body/reconstructed_stage/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+== /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 924e30ad310c37d9…
+  fps = [30.0]
+  列 object_name = '2026-04-25_17-20-04_black_platform_turn_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_dyn4/whole_body/reconstructed_stage/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+== /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 f3925bc9774f4d28…
+  fps = [30.0]
+  列 object_name = '2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_dyn4/whole_body/reconstructed_stage/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+== /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 93c6e65c8e100fe2…
+  fps = [30.0]
+  列 object_name = '2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_dyn4/whole_body/reconstructed_stage/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+check_inputs 退出码 0

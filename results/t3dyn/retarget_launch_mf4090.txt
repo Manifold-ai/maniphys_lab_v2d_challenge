@@ -1,0 +1,12 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && A=$(df -m --output=avail . | tail -1) && echo "Â\217ØÁ\224® $A MB" && [ "$A" -ge 2500 ] && ! tmux has-session -t v2d-t3dyn-retarget 2>/dev/null && tmux new-session -d -s v2d-t3dyn-retarget "V2D_T3_SET=dyn4 V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3dyn/retarget_dyn4_mf4090 stages/retarget/eps.sh 3 3 12 15 16; V2D_T3_SET=dyn4s V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3dyn/retarget_dyn4s_mf4090 stages/retarget/eps.sh 3 12" && sleep 20 && tmux ls | cut -d: -f1' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:56:28-0600
+# ---------------------------------------------------------------
+ÂèØÁî® 86931 MB
+v2d-t3dyn-retarget
+v2d-train

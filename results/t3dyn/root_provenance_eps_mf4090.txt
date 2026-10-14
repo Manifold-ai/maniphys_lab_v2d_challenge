@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && for s in dyn4 dyn4s; do echo "== root_$s"; python3 -c "\nimport json\nd=json.load(open(\\"runs/tier3/root_$s/meta/provenance.json\\"))\nprint(\\"note:\\", d[\\"note\\"][:200])\neps=d[\\"episodes\\"]\nfor k in sorted(eps, key=str):\n    e=eps[k]\n    print(k, {x: e.get(x) for x in (\\"support_source\\",\\"version\\",\\"subdir\\") if x in e}, sorted(e)[:14])\n"; done' 
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:56:20-0600
+# ---------------------------------------------------------------
+== root_dyn4
+note: Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；支撑面取自 runs/tier3/root_hm（同组成员上一版交付目录里的文件，sha256 核过）
+12 {'support_source': 'runs/tier3/root_hm'} ['deployed_at_staging', 'deployed_at_staging_clean', 'expect', 'incoming', 'metadata_sha256', 'parquet_sha256', 'source_parquet_mtime_utc', 'support_sha256', 'support_source', 'tier2_md5']
+15 {'support_source': 'runs/tier3/root_hm'} ['deployed_at_staging', 'deployed_at_staging_clean', 'expect', 'incoming', 'metadata_sha256', 'parquet_sha256', 'source_parquet_mtime_utc', 'support_sha256', 'support_source', 'tier2_md5']
+16 {'support_source': 'runs/tier3/root_hm'} ['deployed_at_staging', 'deployed_at_staging_clean', 'expect', 'incoming', 'metadata_sha256', 'parquet_sha256', 'source_parquet_mtime_utc', 'support_sha256', 'support_source', 'tier2_md5']
+3 {'support_source': 'runs/tier3/root_hm'} ['deployed_at_staging', 'deployed_at_staging_clean', 'expect', 'incoming', 'metadata_sha256', 'parquet_sha256', 'source_parquet_mtime_utc', 'support_sha256', 'support_source', 'tier2_md5']
+== root_dyn4s
+note: Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；支撑面取自 runs/tier3/root_hm（同组成员上一版交付目录里的文件，sha256 核过）
+12 {'support_source': 'runs/tier3/root_hm'} ['deployed_at_staging', 'deployed_at_staging_clean', 'expect', 'incoming', 'metadata_sha256', 'parquet_sha256', 'source_parquet_mtime_utc', 'support_sha256', 'support_source', 'tier2_md5']

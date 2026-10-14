@@ -1,0 +1,27 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ s\ in\ dyn4\ dyn4s\;\ do\ echo\ \"==\ root_\$s\"\;\ python3\ -c\ \"import\ json\,sys\;\ d=json.load\(open\(\\\"runs/tier3/root_\$s/meta/provenance.json\\\"\)\)\;\ print\(\\\"support_source\\\"\,\ d.get\(\\\"support_source\\\"\)\)\;\ print\(\\\"keys\\\"\,\ sorted\(d\)\[:12\]\)\"\;\ ls\ runs/tier3/root_\$s/data/chunk-000/\ runs/tier3/root_\$s/support_surface/\ \|\ cat\;\ done 
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:56:14-0600
+# ---------------------------------------------------------------
+== root_dyn4
+support_source None
+keys ['episodes', 'note']
+runs/tier3/root_dyn4/data/chunk-000/:
+episode_000003.parquet
+episode_000012.parquet
+episode_000015.parquet
+episode_000016.parquet
+
+runs/tier3/root_dyn4/support_surface/:
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+2026-04-25_17-20-04_black_platform_turn_05_support.usda
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+== root_dyn4s
+support_source None
+keys ['episodes', 'note']
+runs/tier3/root_dyn4s/data/chunk-000/:
+episode_000012.parquet
+
+runs/tier3/root_dyn4s/support_surface/:
+2026-04-25_17-20-04_black_platform_turn_05_support.usda

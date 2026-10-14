@@ -16,6 +16,8 @@ NVIDIA V2D Challenge Track 2（G1 + Dex3，FlashCHORD FlashSAC 训练）训练�
 |---|---|---|---|---|---|
 | `smoke_1013` | 2026-10-13 | mf4090 → ml40 | 冒烟：一个文本文件与一个 LFS 文件，验证上传、经代理下载、跳转到 CDN 这条路 | 2 | 约 64 KB |
 | `t3hm_1013a` | 2026-10-13 | mf4090 → ml40 | Tier 3 最终交付版（best_hm）的档目录 `runs/tier3/root_hm`、转换结果 `runs/motion_src/tier3_hm`、重定向结果 `runs/motion/tier3_hm`；29 集（不含 ep28）。状态：已传、已核对（ml40 收到 523/523，两端 sha256 逐行相同，已挪到位） | 523 | 2.40 GB |
+| `t3dyn4_1014a` | 2026-10-14 | mf4090 → ml40 | Tier 3 动力学修复版 best_dyn4（ep3、12、15、16）的档目录 `runs/tier3/root_dyn4`、转换结果 `runs/motion_src/tier3_dyn4`、重定向结果 `runs/motion/tier3_dyn4`；ml40 只训其中的 ep12。状态：上传中 | 74 | 约 328 MB |
+| `t3dyn4s_1014a` | 2026-10-14 | mf4090 → ml40 | best_dyn4s（在 best_dyn4 上加人体时间平滑）ep12 的 `runs/tier3/root_dyn4s`、`runs/motion_src/tier3_dyn4s`、`runs/motion/tier3_dyn4s`。状态：上传中 | 20 | 约 118 MB |
 
 ## 目录结构
 
@@ -43,7 +45,7 @@ token 只发给 huggingface.co 本身，跳转到 CDN 时不带。
 
 - 上传与下载：`tools/hf_transfer.py`（`push` 在发送端，`pull` 在接收端）。
 - 整套转发与核对：`stages/recovery/tier3_relay.sh`；计划与判据：`agent-doc/plan-d-t3hm-train-2026-10-12.md` 第 8 节。
-- 每次转发的记录在 `results/t3hm/` 下（`relay_ml40_hf.txt` 等）。
+- 每次转发的记录在 `results/t3hm/` 下（`relay_ml40_hf.txt` 等）；10/14 的两个标签见 `agent-doc/plan-t3dyn-pilot-2026-10-14.md` 第 3 节第 5 步，记录在 `results/t3dyn/` 下。
 
 ## 保留
 

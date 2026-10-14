@@ -1,0 +1,7 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ for\ s\ in\ dyn4\ dyn4s\;\ do\ echo\ \"\$s\ \$\(find\ runs/tier3/root_\$s\ runs/motion_src/tier3_\$s\ runs/motion/tier3_\$s\ -type\ f\ \|\ wc\ -l\)\ \$\(du\ -scm\ runs/tier3/root_\$s\ runs/motion_src/tier3_\$s\ runs/motion/tier3_\$s\ \|\ tail\ -1\ \|\ cut\ -f1\)\ MB\"\;\ done 
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:12:13-0600
+# ---------------------------------------------------------------
+dyn4 74 328 MB
+dyn4s 20 118 MB

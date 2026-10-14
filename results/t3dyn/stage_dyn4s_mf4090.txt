@@ -1,0 +1,18 @@
+# command  : stages/recovery/tier3_stage.sh t3dyn4s_1_1014 12 
+# md5      : 2aa5732ffe6be06d5b29a2e5b11e1c92  stages/recovery/tier3_stage.sh
+# source   : 453b90d25aaf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:56:02-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-15 03:56:06 CST 来历 af011f6fec0d
+ba2bb52ea8058cee8067a7975ea0ef3d2798fa88977042b44e081394a6a134e3  ./data/chunk-000/episode_000012.parquet
+66b5401e2a30b31e2d0bc090a66dd19951d7539ead3383346ae0f02b0480ee15  ./DEPLOYED
+8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00  ./meta/episode_000012.metadata.json
+部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5；同组成员那边的目录 runs/tier3_cari4d_f830_best_dyn4s；V2D_T3_SET=dyn4s；V2D_T3_SUPPORT_DIR=runs/tier3/root_hm
+写 data/chunk-000/episode_000012.parquet sha256 ba2bb52ea8058cee8067a7975ea0ef3d2798fa88977042b44e081394a6a134e3
+写 mesh/black_platform/black_platform.glb sha256 5c27db3c4896bbc494c3d68721b97cf130b15e4fd4e6110e2f2a6e92beecea4a md5 6b75c129d641b22d7eeed4f4f7041163
+写 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json sha256 50eba8f29dd2f1ea30657dfcb7aad72956b0b7770c1570a58cf444a8bc0edc1e md5 dcf25842d8a4dce616f5da968ad7a5ea
+写 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 meta/episodes_metadata.jsonl（1 行：ep12）与 meta/provenance.json
+ep12 来源：parquet 在对方的修改时间 2026-10-14T05:19:13+00:00，转发时对方的部署版本 ae06e75ba5b1a9827e6a476925475f3382a4d5c5（干净 True），parquet sha256 ba2bb52ea8058cee8067a7975ea0ef3d2798fa88977042b44e081394a6a134e3
+TIER3_ROOT_OK
