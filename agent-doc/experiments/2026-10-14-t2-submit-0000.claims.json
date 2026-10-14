@@ -1,0 +1,114 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "sub": {
+      "file": "results/submission/submit_b1013.txt",
+      "grep": "ACCEPTED|COMPLETE|^runs/"
+    },
+    "lb": {
+      "file": "results/submission/leaderboard_1014_0007.txt",
+      "grep": "^==|maniphys|Xueyi|CHORD|Open4D"
+    },
+    "tab": {
+      "file": "results/t3p4/eval_table_t3p4b.txt",
+      "grep": "^run|^t3-|^t2-"
+    },
+    "end": {
+      "file": "results/t3p4/end_t3p4b_mf4090_1013_2354.txt",
+      "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|t3-ep27-w2048-cap4m-r3a-hm-mf4090 完成"
+    },
+    "exp": {
+      "file": "results/t3p4/export_t3p4b_mf4090.txt",
+      "grep": "EXPORT_CHAIN_DONE|mf4090\t"
+    },
+    "arm": {
+      "file": "results/t1x/arm_t1xb_mf4090.txt",
+      "grep": "^source|^核对|created|ARMED"
+    },
+    "st": {
+      "file": "results/t1x/status_t1yb_ml40_1013_2359.txt",
+      "grep": "冒烟 smoke-t1-ep[0-9]+-w2048-cap10m-r3a-ml40 通过|正式"
+    }
+  },
+  "claims": [
+    {
+      "id": "t2_sub",
+      "evidence": ["sub"],
+      "claim": "Tier 2 的 CSV track2_tier2_select_b1013.csv（22,989 行、30 条 episode）提交到 4 个 Tier 2 榜，4 个都 ACCEPTED，分数是 AUC 0.51379、SP-SR 0.73333、MP-SR 0.53333、MPPE 16.54028。"
+    },
+    {
+      "id": "t2_top3",
+      "evidence": ["lb"],
+      "claim": "在 v2d-challenge-track2-tier2-auc、tier2-sp-sr、tier2-mp-sr 三个榜上，maniphys.ai 都排在第一行（0.51379、0.73333、0.53333），分数高于 Xueyi Wang (FF) 与 CHORD Baseline。"
+    },
+    {
+      "id": "t2_mppe",
+      "evidence": ["lb"],
+      "claim": "在 v2d-challenge-track2-tier2-mppe 榜上，Xueyi Wang (FF) 15.34253 排第一行，maniphys.ai 16.54028 第二，CHORD Baseline 20.52402 第三，Open4D 48.79037 第四。"
+    },
+    {
+      "id": "t1_same",
+      "evidence": ["lb"],
+      "claim": "Tier 1 四个榜上 maniphys.ai 的分数是 AUC 0.47127、SP-SR 0.60000、MP-SR 0.53333、MPPE 24.53655。"
+    },
+    {
+      "id": "t3_absent",
+      "evidence": ["lb"],
+      "claim": "Tier 3 的四个榜上只有 Xueyi Wang (FF) 与 CHORD Baseline (CARI4D Reconstruction)，没有 maniphys.ai。"
+    },
+    {
+      "id": "p4b_tab",
+      "evidence": ["tab"],
+      "claim": "t3p4b 的 8 条 run（t3-ep12、13、14、16、19、21、25、27，名字以 -cap4m-r3a-hm-mf4090 结尾）里只有 ep21 的 MP-SR 大于 0（0.501，SP-SR 0.876）；ep14 的 SP-SR 是 0.121，其余 run 的 MP-SR 与 SP-SR 都是 0.000。"
+    },
+    {
+      "id": "p4b_t2",
+      "evidence": ["tab"],
+      "claim": "同一张表里 Tier 2 变体 A 的 run（名字以 -cap10m-r3a-ml40 结尾）的 MP-SR 是 ep12 0.988、ep13 0.130、ep14 0.000、ep16 0.938、ep19 0.000、ep21 0.965、ep25 0.000、ep27 0.987。"
+    },
+    {
+      "id": "p4b_end",
+      "evidence": ["end"],
+      "claim": "t3p4b 的训练链在 2026-10-14 13:07:32 CST 写 DAY2_TRAIN_DONE（完成 8、失败 0），ep27 在同一时刻训完；评测链 13:45:25 CST 写 DAY2_EVAL_DONE（成功 8、失败 0）。"
+    },
+    {
+      "id": "p4b_exp",
+      "evidence": ["exp"],
+      "claim": "t3p4b 的导出链在 2026-10-14 13:53:19 CST 写 EXPORT_CHAIN_DONE（成功 8、失败 0），导出的 8 条 run 步数都是 349999104。"
+    },
+    {
+      "id": "t1xb_arm",
+      "evidence": ["arm"],
+      "claim": "t1xb 在 mf4090 起链：5 条 run，来历 fa5250481779，三个 tmux 会话在 2026-10-14 13:56:46 到 13:56:50 之间创建，最后写 ARMED。"
+    },
+    {
+      "id": "t1yb_smoke",
+      "evidence": ["st"],
+      "claim": "t1yb 的 5 条冒烟（ep16、2、3、19、13）都通过，2026-10-14 12:55:17 CST 开始正式 run t1-ep16-w2048-cap10m-r3a-ml40。"
+    },
+    {
+      "id": "ctl_true_ep21",
+      "evidence": ["tab"],
+      "control": "true",
+      "claim": "t3-ep21-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.558。"
+    },
+    {
+      "id": "ctl_false_sub",
+      "evidence": ["sub"],
+      "control": "false",
+      "claim": "这次 Tier 2 提交的 SP-SR 分数是 0.60000。"
+    },
+    {
+      "id": "ctl_false_mppe",
+      "evidence": ["lb"],
+      "control": "false",
+      "claim": "在 v2d-challenge-track2-tier2-mppe 榜上，maniphys.ai 排第一行。"
+    },
+    {
+      "id": "ctl_false_arm",
+      "evidence": ["arm"],
+      "control": "false",
+      "claim": "t1xb 的来历是 004978af97ed。"
+    }
+  ]
+}

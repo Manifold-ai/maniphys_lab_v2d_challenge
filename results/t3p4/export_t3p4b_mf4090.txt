@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ tail\ -n\ 1\ runs/logs/cand_t3_t3p4b_mf4090.log\ \&\&\ cut\ -f1-4\ runs/exports/cand_t3_t3p4b_mf4090.tsv 
+# source   : fa5250481779
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T23:54:28-0600
+# ---------------------------------------------------------------
+=== 2026-10-14 13:53:19 CST EXPORT_CHAIN_DONE（成功 8、失败 0）
+tier	episode	run	step
+3	12	t3-ep12-w2048-cap4m-r3a-hm-mf4090	349999104
+3	13	t3-ep13-w2048-cap4m-r3a-hm-mf4090	349999104
+3	14	t3-ep14-w2048-cap4m-r3a-hm-mf4090	349999104
+3	16	t3-ep16-w2048-cap4m-r3a-hm-mf4090	349999104
+3	19	t3-ep19-w2048-cap4m-r3a-hm-mf4090	349999104
+3	21	t3-ep21-w2048-cap4m-r3a-hm-mf4090	349999104
+3	25	t3-ep25-w2048-cap4m-r3a-hm-mf4090	349999104
+3	27	t3-ep27-w2048-cap4m-r3a-hm-mf4090	349999104

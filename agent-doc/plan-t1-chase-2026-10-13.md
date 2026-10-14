@@ -193,3 +193,14 @@ C 的其余 4 条（ep11、4、9、25）在 Tier 2 上都是 0，照旧不起，
   预演 DRYRUN_OK：5 条 run，来历 004978af97ed，可用 1,381,278 MB，训练挂 `v040_p185_nfg`，评测与导出挂 `fc_8c778f9`，只评 349999104 步
   （`results/t1x/arm_dryrun_t1yb_ml40.txt`）。
 - 22:29 t1yb 起链 ARMED，第一条冒烟 ep16（`results/t1x/arm_t1yb_ml40.txt`）。5 条冒烟先跑完再跑正式，预计 10/14 10:00 前后训完（估计）。
+- 22:55 t1yb 的 5 条冒烟都通过（SMOKE_OK，256 世界 rollout 非有限世界 0 个），开训正式 ep16（`results/t1x/status_t1yb_ml40_1013_2359.txt`）。
+- 23:53 mf4090 上 t3p4b 的三条链都结束：DAY2_TRAIN_DONE（完成 8）、DAY2_EVAL_DONE（成功 8）、EXPORT_CHAIN_DONE（成功 8、失败 0）
+  （`results/t3p4/end_t3p4b_mf4090_1013_2354.txt`、`results/t3p4/export_t3p4b_mf4090.txt`）。23:54 删掉 t3p4b 的停链标记
+  （`results/t3p4/unstop_t3p4b_mf4090.txt`；这份记录里打印导出表的 awk 引号写错，那一段报错没打出来，删标记照常执行，导出表另记在 export 那份）。
+- 23:55 同步 mf4090 到 fa52504（`results/` 以外干净）；三个测试都是 ALL_OK，链脚本 `bash -n` 通过，t1xb 四份文件的 md5 与 Mac 上的相同
+  （`results/t1x/tests_mf4090_1014.txt`）。
+- t1xb 配置展开：5 份正式配置与官方配方不同 16 个键，意外 0 个；5 条冒烟此前已 DONE，跳过核对（`results/t1x/cfgcheck_t1xb_mf4090.txt`）。
+  预演 DRYRUN_OK：5 条 run，来历 fa5250481779，可用 88,893 MB，训练挂 `v040_p185_nfg`，评测与导出挂 `fc_8c778f9`，只评 349999104 步
+  （`results/t1x/arm_dryrun_t1xb_mf4090.txt`）。
+- 23:56 t1xb 起链 ARMED（`results/t1x/arm_t1xb_mf4090.txt`）。冒烟已 DONE 的 run 先由链复核（SMOKE_OK）再开训正式，第一条正式是 ep3。
+  t3p4b 在这台每条训 1 小时 53 分到 2 小时 33 分（平均约 2 小时 10 分），照此估计 5 条正式 10/14 11:00 前后训完，评测与导出再加约 40 分钟（估计）。

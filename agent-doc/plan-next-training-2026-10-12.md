@@ -300,3 +300,5 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   - 最差的几条（1 世界 SP-SR 失败、MPPE 大）另写计划，审过再用 ml40。
   - 22:40 前后：另写的计划是 `agent-doc/plan-t1-chase-2026-10-13.md`（第 2 版，Fable 5.1 审查 GO WITH FIXES）。按审查第 6 条，
     这 5 条改成段 `t1xb`、顺序 ep3、19、13、10、14（SP-SR 失败的在前），run 名与期望表行不变；t1xa3 的四份文件删掉，没有起过链。
+  - 23:56 mf4090 上 Tier 3 的链结束后起 t1xb（`results/t1x/arm_t1xb_mf4090.txt`，经过见 `agent-doc/plan-t1-chase-2026-10-13.md` 执行记录）。
+    23:54 仓库所在分区可用 88,894 MB（`results/t3p4/end_t3p4b_mf4090_1013_2354.txt`）。

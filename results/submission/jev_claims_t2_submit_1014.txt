@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t2-submit-0000.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e03ef1ee4b8ce38341608201fdd50efa  agent-doc/experiments/2026-10-14-t2-submit-0000.claims.json
+# source   : fa5250481779-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T00:07:34-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t2_sub               P(supported)=0.97  verified               [sub]  Tier 2 的 CSV track2_tier2_select_b1013.csv（22,989 行、30 条 episode）提交到 4 个 Tier 2 榜，4 个都 ACCEPTED，分数是 AUC 0.51379、SP-SR 0.73333、MP-SR 0.53333、MPPE 16.54028。
+t2_top3              P(supported)=0.97  verified               [lb]  在 v2d-challenge-track2-tier2-auc、tier2-sp-sr、tier2-mp-sr 三个榜上，maniphys.ai 都排在第一行（0.51379、0.73333、0.53333），分数高于 Xueyi Wang (FF) 与 CHORD Baseline。
+t2_mppe              P(supported)=0.94  verified               [lb]  在 v2d-challenge-track2-tier2-mppe 榜上，Xueyi Wang (FF) 15.34253 排第一行，maniphys.ai 16.54028 第二，CHORD Baseline 20.52402 第三，Open4D 48.79037 第四。
+t1_same              P(supported)=0.98  verified               [lb]  Tier 1 四个榜上 maniphys.ai 的分数是 AUC 0.47127、SP-SR 0.60000、MP-SR 0.53333、MPPE 24.53655。
+t3_absent            P(supported)=0.98  verified               [lb]  Tier 3 的四个榜上只有 Xueyi Wang (FF) 与 CHORD Baseline (CARI4D Reconstruction)，没有 maniphys.ai。
+p4b_tab              P(supported)=0.96  verified               [tab]  t3p4b 的 8 条 run（t3-ep12、13、14、16、19、21、25、27，名字以 -cap4m-r3a-hm-mf4090 结尾）里只有 ep21 的 MP-SR 大于 0（0.501，SP-SR 0.876）；ep14 的 SP-SR 是 0.121，其余 run 的 MP-SR 与 SP-SR 都是 0.000。
+p4b_t2               P(supported)=0.99  verified               [tab]  同一张表里 Tier 2 变体 A 的 run（名字以 -cap10m-r3a-ml40 结尾）的 MP-SR 是 ep12 0.988、ep13 0.130、ep14 0.000、ep16 0.938、ep19 0.000、ep21 0.965、ep25 0.000、ep27 0.987。
+p4b_end              P(supported)=0.96  verified               [end]  t3p4b 的训练链在 2026-10-14 13:07:32 CST 写 DAY2_TRAIN_DONE（完成 8、失败 0），ep27 在同一时刻训完；评测链 13:45:25 CST 写 DAY2_EVAL_DONE（成功 8、失败 0）。
+p4b_exp              P(supported)=0.98  verified               [exp]  t3p4b 的导出链在 2026-10-14 13:53:19 CST 写 EXPORT_CHAIN_DONE（成功 8、失败 0），导出的 8 条 run 步数都是 349999104。
+t1xb_arm             P(supported)=0.95  verified               [arm]  t1xb 在 mf4090 起链：5 条 run，来历 fa5250481779，三个 tmux 会话在 2026-10-14 13:56:46 到 13:56:50 之间创建，最后写 ARMED。
+t1yb_smoke           P(supported)=0.97  verified               [st]  t1yb 的 5 条冒烟（ep16、2、3、19、13）都通过，2026-10-14 12:55:17 CST 开始正式 run t1-ep16-w2048-cap10m-r3a-ml40。
+ctl_true_ep21        P(supported)=0.99  control(true) ok       [tab]  t3-ep21-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.558。
+ctl_false_sub        P(supported)=0.01  control(false) ok      [sub]  这次 Tier 2 提交的 SP-SR 分数是 0.60000。
+ctl_false_mppe       P(supported)=0.05  control(false) ok      [lb]  在 v2d-challenge-track2-tier2-mppe 榜上，maniphys.ai 排第一行。
+ctl_false_arm        P(supported)=0.01  control(false) ok      [arm]  t1xb 的来历是 004978af97ed。
+controls behaved as expected

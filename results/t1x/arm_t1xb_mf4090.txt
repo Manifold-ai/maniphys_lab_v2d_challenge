@@ -1,0 +1,28 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ stages/policy/arm_var_chain.sh\ t1xb 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : fa5250481779
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T23:56:42-0600
+# ---------------------------------------------------------------
+source fa5250481779
+/repo/runs/cfgcheck/t1-ep3-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep3-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep19-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep19-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep13-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep13-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep10-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep10-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep14-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep14-w2048-cap4m-r3a-mf4090.yaml：4 条断言，全过
+核对：t1xb 在 mf4090，5 条 run，来历 fa5250481779，可用 88893 MB，10 份配置的 precheck 与配方断言全过
+v2d-t1xb-eval: 1 windows (created Wed Oct 14 13:56:48 2026)
+v2d-t1xb-export: 1 windows (created Wed Oct 14 13:56:50 2026)
+v2d-t1xb-train: 1 windows (created Wed Oct 14 13:56:46 2026)
+t1xb_train_mf4090：in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+t1xb_eval_mf4090：=== 2026-10-14 13:56:48 CST 等 runs/logs/t1xb_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1xb_mf4090：
+runs/.chain-active-cand_t1_t1xb_mf4090-gate
+runs/.chain-active-t1xb_eval_mf4090
+runs/.chain-active-t1xb_train_mf4090
+ARMED

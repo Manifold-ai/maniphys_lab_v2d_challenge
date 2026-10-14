@@ -98,3 +98,15 @@
   （`results/select_t2/check_csv_negctl_b1013.txt`）。
 - 只报：ep9 换上的 t2xb run ADD-AUC 更高，但 MPPE 29.44 → 56.92 cm 变差（`results/t2x/eval_table_t2xb.txt`）；乙只看 MP-SR 与 ADD-AUC，照登记的规则不改。
 - jev：`results/t3q/jev_claims_t1x1013_b1013_t3qa.txt` 的 t2_* 四条核实（0.90–0.99）。交不交、什么时候交仍由用户定。
+
+## 提交（10/14，时间 UTC-6）
+
+- 10/14 00:00 前后用户确认 Tier 2 四个比赛的队名无误，同意提交 b1013 并看排名。这次同意只针对 b1013 这一次提交。
+- 00:04 上传器 `--dry-run` 通过，CSV md5 与打包时相同（68be09b0…），4 个榜当天各剩 5 次（`results/submission/dryrun_b1013_1014_0004.txt`）。
+- 00:05 提交，4 个榜一次都 ACCEPTED（submission 57169480、57169488、57169498、57169505），公榜分 AUC 0.51379、SP-SR 0.73333、
+  MP-SR 0.53333、MPPE 16.54028 cm（`results/submission/submit_b1013.txt`；回执复制到 `results/submission/receipts/`）。
+  Tier 2 打包时只算了 4096 世界的选择指标，没有单世界的本地复算分，这次没有本地分可对照。
+- 00:07 的榜（`results/submission/leaderboard_1014_0007.txt`）：AUC、SP-SR、MP-SR 三项 maniphys.ai 排第一；MPPE 排第二，Xueyi Wang (FF) 15.34253 cm，
+  差 1.20 cm（30 条 MPPE 总和约差 35.9 cm）。CHORD 基线 0.37374、0.53333、0.06666、20.52402 cm，四项都超过。按成功条数：SP-SR 22 / 30（基线与 FF 都是 16 / 30），
+  MP-SR 16 / 30（FF 8 / 30，基线 2 / 30）。
+- jev：`results/submission/jev_claims_t2_submit_1014.txt`（11 条核实 0.94–0.99，4 个对照正常）、`results/site/jev_claims_sop_page_1014_0000.txt`（4 条核实，3 个对照正常）。

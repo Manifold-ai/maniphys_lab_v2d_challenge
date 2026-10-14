@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-sop-0000.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : c680566807fb0b009fb5eaeadb50c4e1  agent-doc/experiments/2026-10-14-sop-0000.claims.json
+# source   : fa5250481779-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T00:11:19-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+chord_t2             P(supported)=0.98  verified               [lb]  Tier 2 四个榜（v2d-challenge-track2-tier2-auc、sp-sr、mp-sr、mppe）上 CHORD Baseline 的分数是 AUC 0.37374、SP-SR 0.53333、MP-SR 0.06666、MPPE 20.52402。
+beat_chord           P(supported)=0.97  verified               [lb]  Tier 2 四个榜上 maniphys.ai 都好于 CHORD Baseline：AUC 0.51379 对 0.37374、SP-SR 0.73333 对 0.53333、MP-SR 0.53333 对 0.06666、MPPE 16.54028 对 20.52402（MPPE 越小越好）。
+ff_gap               P(supported)=0.98  verified               [lb]  Tier 2 MPPE 榜上 maniphys.ai 的 16.54028 比 Xueyi Wang (FF) 的 15.34253 高约 1.20。
+p4a_zero             P(supported)=0.99  verified               [p4a]  t3p4a 的 5 条 hm run（t3-ep15、ep17、ep1、ep2、ep3，名字以 -cap4m-r3a-hm-mf4090 结尾）的 MP-SR 都是 0.000。
+ctl_true_open4d      P(supported)=0.98  control(true) ok       [lb]  Tier 2 AUC 榜上 Open4D 的分数是 0.25005。
+ctl_false_chord      P(supported)=0.01  control(false) ok      [lb]  Tier 2 SP-SR 榜上 CHORD Baseline 的分数是 0.73333。
+ctl_false_p4a        P(supported)=0.01  control(false) ok      [p4a]  t3-ep15-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.987。
+controls behaved as expected
