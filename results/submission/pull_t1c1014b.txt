@@ -1,0 +1,9 @@
+# command  : bash -c $'set -eu; R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge; f=runs/submission/csv/track2_tier1_select_t1c1014b.csv; test ! -e "$f"; t0=$(date +%s); rsync -a "ml40:$R/$f" "$f"; echo "ç\224¨æ\227¶ $(( $(date +%s) - t0 )) ç§\222"; echo "ml40 $(ssh -o BatchMode=yes ml40 sha256sum "$R/$f" | cut -d" " -f1)"; echo "mac  $(shasum -a 256 "$f" | cut -d" " -f1)"; ls -l "$f"' 
+# source   : fa86653fa09b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:52:11-0600
+# ---------------------------------------------------------------
+ç”¨æ—¶ 24 ç§’
+ml40 0c92e434dbdc8f831f950d52f9a86dbf9e3d723433e311f870198708e67dcf5b
+mac  0c92e434dbdc8f831f950d52f9a86dbf9e3d723433e311f870198708e67dcf5b
+-rw-r--r--@ 1 rongxuanzhou  staff  12140135 Oct 14 11:32 runs/submission/csv/track2_tier1_select_t1c1014b.csv

@@ -1,0 +1,15 @@
+# command  : bash -c $'R=Manifold-ai/maniphys_lab_v2d_challenge; echo "== è´¦å\217·"; gh api users/Nvidia-V2D-Challenge --jq "\\"login \\" + .login + \\", type \\" + .type"; echo "== æ\230¯å\220¦å\215\217ä½\234è\200\205ï¼\210204 æ\230¯ï¼\214404 ä¸\215æ\230¯æ\210\226é\202\200è¯·è¿\230æ²¡æ\216¥å\217\227ï¼\211"; gh api -i repos/$R/collaborators/Nvidia-V2D-Challenge 2>&1 | head -1; echo "== å¯¹è¿\231ä¸ªä»\223åº\223ç\232\204æ\235\203é\231\220"; gh api repos/$R/collaborators/Nvidia-V2D-Challenge/permission --jq .permission; echo "== å¾\205æ\216¥å\217\227ç\232\204é\202\200è¯·ï¼\210è¦\201ç®¡ç\220\206å\221\230æ\235\203é\231\220æ\211\215è\203½ç\234\213ï¼\211"; gh api repos/$R/invitations 2>&1 | tail -1; echo "== ä»\223åº\223å\217¯è§\201æ\200§ä¸\216æ\234¬è´¦å\217·æ\235\203é\231\220"; gh api repos/$R --jq "\\"visibility \\" + .visibility + \\"; mine: \\" + (.permissions|to_entries|map(select(.value))|map(.key)|join(\\",\\"))"' 
+# source   : fa86653fa09b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T13:54:28-0600
+# ---------------------------------------------------------------
+== è´¦å·
+login Nvidia-V2D-Challenge, type User
+== æ˜¯å¦åä½œè€…ï¼ˆ204 æ˜¯ï¼Œ404 ä¸æ˜¯æˆ–é‚€è¯·è¿˜æ²¡æ¥å—ï¼‰
+HTTP/2.0 404 Not Found
+== å¯¹è¿™ä¸ªä»“åº“çš„æƒé™
+none
+== å¾…æ¥å—çš„é‚€è¯·ï¼ˆè¦ç®¡ç†å‘˜æƒé™æ‰èƒ½çœ‹ï¼‰
+{"message":"Must have admin rights to Repository.","documentation_url":"https://docs.github.com/rest/collaborators/invitations#list-repository-invitations","status":"403"}gh: Must have admin rights to Repository. (HTTP 403)
+== ä»“åº“å¯è§æ€§ä¸æœ¬è´¦å·æƒé™
+visibility internal; mine: maintain,pull,push,triage
