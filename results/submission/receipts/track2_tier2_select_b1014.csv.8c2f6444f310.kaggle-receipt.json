@@ -1,0 +1,39 @@
+{
+  "track": "track_2_tier2",
+  "file": "/Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier2_select_b1014.csv",
+  "message": "Tier 2 per-episode select b1014",
+  "submissions": {
+    "add_auc": {
+      "slug": "v2d-challenge-track2-tier2-auc",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - AUC",
+      "ref": 57197028,
+      "public_score": "0.50890",
+      "error": ""
+    },
+    "spider_sr": {
+      "slug": "v2d-challenge-track2-tier2-sp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - SP-SR",
+      "ref": 57197030,
+      "public_score": "0.73333",
+      "error": ""
+    },
+    "maniptrans_sr": {
+      "slug": "v2d-challenge-track2-tier2-mp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - MP-SR",
+      "ref": 57197033,
+      "public_score": "0.53333",
+      "error": ""
+    },
+    "mppe_cm": {
+      "slug": "v2d-challenge-track2-tier2-mppe",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - MPPE (cm)",
+      "ref": 57197036,
+      "public_score": "15.32195",
+      "error": ""
+    }
+  }
+}

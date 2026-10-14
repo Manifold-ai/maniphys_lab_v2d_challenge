@@ -263,3 +263,7 @@ run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.
   导出记录不是 1 个世界就拒绝，改后重跑数字与 4 处换法不变（`results/first/t2_lost_swap_recheck.txt`），b1014 清单照旧有效；
   另一条 NIT 是乙的 ep19 探查：16:16 在 ml40 与 t3qdyn 同卡起跑（`V2D_ALLOW_SHARED_GPU=1`），早于零。原因是用户要今天交新版，mf4090 的卡 21:00 前后才空；
   共卡只会让两边变慢，不改导出的数；探查的结果要等零在 ml40 上通过才作数（零要同步 `V2D_EXPORT_SUFFIX`，链在跑时不能同步）。
+- 16:46 用户回“交tier2”。核 CSV sha256 仍是 3f89908a… 后一次交到 Tier 2 四个榜（`results/submission/submit_b1014.txt`，收据在 `results/submission/receipts/`）：
+  AUC 0.50890、SP-SR 0.73333、MP-SR 0.53333、MPPE 15.32195。16:47 的榜（`results/submission/leaderboard_1014_1647.txt`）：Tier 2 MPPE 我们 15.32195，
+  FF 15.34253，**拿到 MPPE 第一**（按第 4 节戊的判据）；AUC 榜显示的仍是我们最好的 0.51379，四个榜都是第一。代理量的方向对上了：
+  真值合计降了 (16.54028 − 15.32195) × 30 = 36.5 cm，代理量算的是 38.2 cm。
