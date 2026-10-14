@@ -1,0 +1,17 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ for\ f\ in\ stages/policy/test_make_copy_queue.py\ stages/recovery/test_tier3_expect.py\ stages/recovery/test_tier3_root.py\;\ do\ echo\ \"==\ \$f\"\;\ python3\ \$f\ \|\ tail\ -1\;\ done\ \&\&\ bash\ -n\ stages/recovery/tier3_stage.sh\ \&\&\ bash\ -n\ stages/policy/arm_var_chain.sh\ \&\&\ echo\ \"bash\ -n\ ok\" 
+# md5      : ff0e04f1eef65fe844f2178b0702c307  stages/policy/test_make_copy_queue.py
+# md5      : 1ab41d5e9da7fe66fe996ce6887ec654  stages/recovery/test_tier3_expect.py
+# md5      : 2aa5732ffe6be06d5b29a2e5b11e1c92  stages/recovery/tier3_stage.sh
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : af011f6fec0d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:34:14-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+== stages/policy/test_make_copy_queue.py
+ALL_OK
+== stages/recovery/test_tier3_expect.py
+ALL_OK
+== stages/recovery/test_tier3_root.py
+ALL_OK
+bash -n ok

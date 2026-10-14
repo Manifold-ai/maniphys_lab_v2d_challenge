@@ -218,4 +218,8 @@ ep3 同样适用；取消 ep16 的停手规则，改为在第 4 节预先登记�
 
 ## 9. 执行记录
 
-（未开始）
+- 11:27 mf4090 的 t1xb 三条链都结束（`results/t1x/end_t1xb_mf4090_1014_1131.txt`、`results/t1x/health_t1xb_mf4090.txt`）；Tier 1 的接力与第二次逐条选
+  另记（af011f6）。
+- 11:33 两台都同步到 af011f6（`results/ops/sync_mf4090_1014_1133.txt`、`results/ops/sync_ml40_1014_1133.txt`）；三份测试两台都是 `ALL_OK`，
+  `bash -n` 通过（`results/t3dyn/tests_mf4090.txt`、`results/t3dyn/tests_ml40.txt`）。
+- 第 2 步（人体层 4.56 MB 走 Mac 管道）等用户同意，还没做。
