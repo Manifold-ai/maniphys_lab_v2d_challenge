@@ -1,0 +1,28 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\ \&\&\ stages/policy/arm_var_chain.sh\ t1yb 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:29:45-0600
+# ---------------------------------------------------------------
+source 004978af97ed
+/repo/runs/cfgcheck/t1-ep16-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep16-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep2-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep3-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep3-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep19-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep13-w2048-cap10m-r3a-ml40.yaml：4 条断言，全过
+核对：t1yb 在 ml40，5 条 run，来历 004978af97ed，可用 1381278 MB，10 份配置的 precheck 与配方断言全过
+v2d-t1yb-eval: 1 windows (created Wed Oct 14 12:29:52 2026)
+v2d-t1yb-export: 1 windows (created Wed Oct 14 12:29:54 2026)
+v2d-t1yb-train: 1 windows (created Wed Oct 14 12:29:50 2026)
+t1yb_train_ml40：=== 2026-10-14 12:29:54 CST 冒烟 smoke-t1-ep16-w2048-cap10m-r3a-ml40
+t1yb_eval_ml40：=== 2026-10-14 12:29:52 CST 等 runs/logs/t1yb_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1yb_ml40：
+runs/.chain-active-cand_t1_t1yb_ml40-gate
+runs/.chain-active-t1yb_eval_ml40
+runs/.chain-active-t1yb_train_ml40
+ARMED

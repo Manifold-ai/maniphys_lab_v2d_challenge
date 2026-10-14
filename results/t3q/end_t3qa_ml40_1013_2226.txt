@@ -1,0 +1,75 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ ml40\ t3\ t3qa 
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:26:31-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-14 12:26:32 CST；来历 a629fbdbf3e5
+## t3qa train（runs/logs/t3qa_train_ml40.log）
+=== 2026-10-14 00:27:22 CST 冒烟 smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40 通过：803 帧，不动基线见 results/day2/bar_smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:27:22 CST 冒烟 smoke-t3-ep5-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep5-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:32:47 CST 冒烟 smoke-t3-ep5-w2048-cap10m-r3a-hm-ml40 通过：1003 帧，不动基线见 results/day2/bar_smoke-t3-ep5-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:32:47 CST 冒烟 smoke-t3-ep6-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep6-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:38:07 CST 冒烟 smoke-t3-ep6-w2048-cap10m-r3a-hm-ml40 通过：546 帧，不动基线见 results/day2/bar_smoke-t3-ep6-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:38:07 CST 冒烟 smoke-t3-ep7-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep7-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:42:59 CST 冒烟 smoke-t3-ep7-w2048-cap10m-r3a-hm-ml40 通过：896 帧，不动基线见 results/day2/bar_smoke-t3-ep7-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:42:59 CST 冒烟 smoke-t3-ep8-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep8-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:47:49 CST 冒烟 smoke-t3-ep8-w2048-cap10m-r3a-hm-ml40 通过：708 帧，不动基线见 results/day2/bar_smoke-t3-ep8-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:47:49 CST 冒烟 smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:52:57 CST 冒烟 smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40 通过：870 帧，不动基线见 results/day2/bar_smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:52:57 CST 冒烟 smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:58:02 CST 冒烟 smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40 通过：794 帧，不动基线见 results/day2/bar_smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 00:58:02 CST 冒烟 smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40
+SMOKE_OK smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 01:03:00 CST 冒烟 smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40 通过：901 帧，不动基线见 results/day2/bar_smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-14 01:03:00 CST 正式 t3-ep4-w2048-cap10m-r3a-hm-ml40
+fc_run_watched: t3-ep4-w2048-cap10m-r3a-hm-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-14 03:10:54 CST t3-ep4-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 03:10:54 CST 正式 t3-ep5-w2048-cap10m-r3a-hm-ml40
+fc_run_watched: t3-ep5-w2048-cap10m-r3a-hm-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-14 05:33:37 CST t3-ep5-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 05:33:37 CST 正式 t3-ep6-w2048-cap10m-r3a-hm-ml40
+fc_run_watched: t3-ep6-w2048-cap10m-r3a-hm-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-14 07:44:24 CST t3-ep6-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 07:44:24 CST 正式 t3-ep7-w2048-cap10m-r3a-hm-ml40
+fc_run_watched: t3-ep7-w2048-cap10m-r3a-hm-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-14 09:42:52 CST t3-ep7-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 09:42:52 CST 正式 t3-ep8-w2048-cap10m-r3a-hm-ml40
+fc_run_watched: t3-ep8-w2048-cap10m-r3a-hm-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-14 11:53:08 CST t3-ep8-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 11:53:08 CST 见到 runs/.chain-stop-t3qa_train_ml40：剩下的冒烟与正式训练都不开；已完成的照常交给评测链
+=== 2026-10-14 11:53:08 CST 停链：见到 runs/.chain-stop-t3qa_train_ml40 之后的 run 都没开（续跑另起一段，见计划）
+=== 2026-10-14 11:53:08 CST DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0）
+## t3qa eval（runs/logs/t3qa_eval_ml40.log）
+=== 2026-10-14 00:22:31 CST 等 runs/logs/t3qa_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-14 11:53:32 CST 训练链已结束：=== 2026-10-14 11:53:08 CST DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0）
+=== 2026-10-14 11:53:32 CST start t3qa_eval_ml40, source a629fbdbf3e5, 期望表 stages/policy/queues/ml40_t3qa.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-14 12:20:33 CST t3-ep9-w2048-cap10m-r3a-hm-ml40 没有 DONE：不评
+=== 2026-10-14 12:20:33 CST t3-ep10-w2048-cap10m-r3a-hm-ml40 没有 DONE：不评
+=== 2026-10-14 12:20:33 CST t3-ep11-w2048-cap10m-r3a-hm-ml40 没有 DONE：不评
+=== 2026-10-14 12:20:33 CST DAY2_EVAL_DONE（成功 5、失败 0）
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t3-ep4-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep5-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep6-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep7-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep8-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t3-ep4-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 62.99145，平均回报 5.81112，loss_scale —；摘要里 nan 0 项
+t3-ep5-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 127.33004，平均回报 14.52587，loss_scale —；摘要里 nan 0 项
+t3-ep6-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 379.9902，平均回报 76.53287，loss_scale —；摘要里 nan 0 项
+t3-ep7-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 672.17712，平均回报 170.65428，loss_scale —；摘要里 nan 0 项
+t3-ep8-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 544.58026，平均回报 116.61632，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t3-ep10-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep11-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep9-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+## 机器
+3 MiB, 0 %
+1381508 MB free
+（没有长链标记）

@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-sop-2230.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 009f229765bd1a07f097be8fe825fd47  agent-doc/experiments/2026-10-13-sop-2230.claims.json
+# source   : 004978af97ed-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:33:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+p_t3qa_tab           P(supported)=0.99  verified               [tab]  t3qa 的 5 条 run（t3-ep4 到 t3-ep8，名字以 -cap10m-r3a-hm-ml40 结尾）的 MP-SR / SP-SR 是：ep4 0.000 / 0.000，ep5 0.000 / 0.116，ep6 0.198 / 0.978，ep7 0.996 / 0.997，ep8 0.998 / 0.999。
+p_t2_same            P(supported)=0.98  verified               [tab]  同一张表里 Tier 2 变体 A 的 run（t2-ep4 到 t2-ep8，名字以 -cap10m-r3a-ml40 结尾）的 MP-SR 是 ep4 0.000、ep5 0.956、ep6 0.991、ep7 0.982、ep8 0.999。
+p_t3qa_end           P(supported)=0.97  verified               [end]  t3qa 的训练链在 2026-10-14 11:53:08 CST 写 DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0）；评测链 12:20:33 CST 写 DAY2_EVAL_DONE（成功 5、失败 0），ep9、ep10、ep11 没有 DONE、不评。
+p_export             P(supported)=0.97  verified               [uns]  t3qa 的导出链在 12:26:11 CST 写 EXPORT_CHAIN_DONE（成功 5、失败 3），之后停链标记 runs/.chain-stop-t3qa_train_ml40 被删掉。
+p_arm                P(supported)=0.94  verified               [arm]  t1yb 在 ml40 起链：5 条 run，来历 004978af97ed，三个 tmux 会话在 2026-10-14 12:29:50 到 12:29:54 之间创建，第一条冒烟是 smoke-t1-ep16-w2048-cap10m-r3a-ml40，最后写 ARMED。
+ctl_true_ep7         P(supported)=0.99  control(true) ok       [tab]  t3-ep7-w2048-cap10m-r3a-hm-ml40 的 ADD-AUC 是 0.803。
+ctl_false_ep5        P(supported)=0.01  control(false) ok      [tab]  t3-ep5-w2048-cap10m-r3a-hm-ml40 的 MP-SR 是 0.956。
+ctl_false_smoke      P(supported)=0.02  control(false) ok      [arm]  t1yb 的第一条冒烟是 smoke-t1-ep3-w2048-cap10m-r3a-ml40。
+controls behaved as expected

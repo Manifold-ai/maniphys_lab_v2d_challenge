@@ -1,0 +1,66 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "tab": {
+      "file": "results/t3q/eval_table_t3qa.txt",
+      "grep": "^run|^t3-|^t2-"
+    },
+    "end": {
+      "file": "results/t3q/end_t3qa_ml40_1013_2226.txt",
+      "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|没有 DONE"
+    },
+    "uns": {
+      "file": "results/t3q/unstop_t3qa_ml40.txt",
+      "grep": "^# command|EXPORT_CHAIN_DONE|removed|^20|标记"
+    },
+    "arm": {
+      "file": "results/t1x/arm_t1yb_ml40.txt",
+      "grep": "^source|^核对|created|冒烟|ARMED"
+    }
+  },
+  "claims": [
+    {
+      "id": "p_t3qa_tab",
+      "evidence": ["tab"],
+      "claim": "t3qa 的 5 条 run（t3-ep4 到 t3-ep8，名字以 -cap10m-r3a-hm-ml40 结尾）的 MP-SR / SP-SR 是：ep4 0.000 / 0.000，ep5 0.000 / 0.116，ep6 0.198 / 0.978，ep7 0.996 / 0.997，ep8 0.998 / 0.999。"
+    },
+    {
+      "id": "p_t2_same",
+      "evidence": ["tab"],
+      "claim": "同一张表里 Tier 2 变体 A 的 run（t2-ep4 到 t2-ep8，名字以 -cap10m-r3a-ml40 结尾）的 MP-SR 是 ep4 0.000、ep5 0.956、ep6 0.991、ep7 0.982、ep8 0.999。"
+    },
+    {
+      "id": "p_t3qa_end",
+      "evidence": ["end"],
+      "claim": "t3qa 的训练链在 2026-10-14 11:53:08 CST 写 DAY2_TRAIN_DONE（完成 5、失败 0、跳过 0、发散 0）；评测链 12:20:33 CST 写 DAY2_EVAL_DONE（成功 5、失败 0），ep9、ep10、ep11 没有 DONE、不评。"
+    },
+    {
+      "id": "p_export",
+      "evidence": ["uns"],
+      "claim": "t3qa 的导出链在 12:26:11 CST 写 EXPORT_CHAIN_DONE（成功 5、失败 3），之后停链标记 runs/.chain-stop-t3qa_train_ml40 被删掉。"
+    },
+    {
+      "id": "p_arm",
+      "evidence": ["arm"],
+      "claim": "t1yb 在 ml40 起链：5 条 run，来历 004978af97ed，三个 tmux 会话在 2026-10-14 12:29:50 到 12:29:54 之间创建，第一条冒烟是 smoke-t1-ep16-w2048-cap10m-r3a-ml40，最后写 ARMED。"
+    },
+    {
+      "id": "ctl_true_ep7",
+      "evidence": ["tab"],
+      "control": "true",
+      "claim": "t3-ep7-w2048-cap10m-r3a-hm-ml40 的 ADD-AUC 是 0.803。"
+    },
+    {
+      "id": "ctl_false_ep5",
+      "evidence": ["tab"],
+      "control": "false",
+      "claim": "t3-ep5-w2048-cap10m-r3a-hm-ml40 的 MP-SR 是 0.956。"
+    },
+    {
+      "id": "ctl_false_smoke",
+      "evidence": ["arm"],
+      "control": "false",
+      "claim": "t1yb 的第一条冒烟是 smoke-t1-ep3-w2048-cap10m-r3a-ml40。"
+    }
+  ]
+}

@@ -183,3 +183,13 @@ C 的其余 4 条（ep11、4、9、25）在 Tier 2 上都是 0，照旧不起，
 | 9 | NIT | “这次要训的 14 条”应是表里的 14 条 | 采纳 |
 | 10 | NIT | “奇数号基线在 mf4090 上”说的是测试夹具 | 采纳：注明夹具；真实情形写在第 3 节第 4 条 |
 | 11 | NIT | 两台的 Tier 3 停链标记链结束后还在 | 采纳：第 3 节第 5 条加一步，同步前删并记录 |
+
+## 执行记录（10/13，时间 UTC-6）
+
+- 22:26 ml40 上 Tier 3 的三条链都结束（`results/t3q/end_t3qa_ml40_1013_2226.txt`），删掉 t3qa 的停链标记（`results/t3q/unstop_t3qa_ml40.txt`）。
+- 22:27 同步 ml40 到 004978a（工作树干净）；测试 `test_make_var_queue.py`、`test_make_trial_queue.py`、`test_select_t1.py` 都是 ALL_OK，
+  几个链脚本 `bash -n` 通过，t1yb 四份文件的 md5 与 Mac 上的相同（`results/t1x/tests_ml40_1013.txt`）。
+- t1yb 配置展开：10 份配置，与官方配方不同 14–16 个键，意外 0 个，配置核对通过（`results/t1x/cfgcheck_t1yb_ml40.txt`）；
+  预演 DRYRUN_OK：5 条 run，来历 004978af97ed，可用 1,381,278 MB，训练挂 `v040_p185_nfg`，评测与导出挂 `fc_8c778f9`，只评 349999104 步
+  （`results/t1x/arm_dryrun_t1yb_ml40.txt`）。
+- 22:29 t1yb 起链 ARMED，第一条冒烟 ep16（`results/t1x/arm_t1yb_ml40.txt`）。5 条冒烟先跑完再跑正式，预计 10/14 10:00 前后训完（估计）。

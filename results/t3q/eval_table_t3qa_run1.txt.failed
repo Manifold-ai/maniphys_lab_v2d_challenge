@@ -1,0 +1,31 @@
+# command  : python3 stages/evaluate/eval_table.py \ results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt\ results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt\ results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt\ results/ml40/day2/eval_t2-ep5-w2048-cap10m-r3a-ml40_s349999104.txt\ results/ml40/day2/eval_t3-ep6-w2048-cap10m-r3a-hm-ml40_s349999104.txt\ results/ml40/day2/eval_t2-ep6-w2048-cap10m-r3a-ml40_s349999104.txt\ results/ml40/day2/eval_t3-ep7-w2048-cap10m-r3a-hm-ml40_s349999104.txt\ results/ml40/day2/eval_t2-ep7-w2048-cap10m-r3a-ml40_s349999104.txt\ results/ml40/day2/eval_t3-ep8-w2048-cap10m-r3a-hm-ml40_s349999104.txt\ results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : 486f1a6914e8eba3f4b603aa57fd1ea1  results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : a6c87488b51501129181ffad4d1cbdad  results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : a76cc9180f60fab0dfe581218f3134aa  results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : ad6adfa92fdc4e0adbe43eec0d7158df  results/ml40/day2/eval_t2-ep5-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 64a8f6e03e154237ad8c18a92212a27a  results/ml40/day2/eval_t3-ep6-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : c62f232f829cc0ef1e7e94bf68fdaa4e  results/ml40/day2/eval_t2-ep6-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 0f4b45c04dd0c0b9f8fff987f920b0dc  results/ml40/day2/eval_t3-ep7-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : 63d9a85859bdaa681be0a7389cc76e31  results/ml40/day2/eval_t2-ep7-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : da54664abc4e79d08d08fe98ff7460d6  results/ml40/day2/eval_t3-ep8-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : a554a055027f7ecc675c5118db5b24a8  results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:30:32-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+Traceback (most recent call last):
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 42, in <module>
+    sys.exit(main(sys.argv[1:]))
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 37, in main
+    print("\t".join(row(Path(p))))
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 15, in row
+    m = re.search(r"summary_json (\{.*\})", path.read_text(encoding="utf-8"))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: ' results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep5-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep6-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep6-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep7-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep7-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep8-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt'

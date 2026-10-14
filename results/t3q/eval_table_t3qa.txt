@@ -1,0 +1,27 @@
+# command  : python3 stages/evaluate/eval_table.py results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep5-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep6-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep6-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep7-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep7-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t3-ep8-w2048-cap10m-r3a-hm-ml40_s349999104.txt results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : 486f1a6914e8eba3f4b603aa57fd1ea1  results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : a6c87488b51501129181ffad4d1cbdad  results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : a76cc9180f60fab0dfe581218f3134aa  results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : ad6adfa92fdc4e0adbe43eec0d7158df  results/ml40/day2/eval_t2-ep5-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 64a8f6e03e154237ad8c18a92212a27a  results/ml40/day2/eval_t3-ep6-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : c62f232f829cc0ef1e7e94bf68fdaa4e  results/ml40/day2/eval_t2-ep6-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : 0f4b45c04dd0c0b9f8fff987f920b0dc  results/ml40/day2/eval_t3-ep7-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : 63d9a85859bdaa681be0a7389cc76e31  results/ml40/day2/eval_t2-ep7-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : da54664abc4e79d08d08fe98ff7460d6  results/ml40/day2/eval_t3-ep8-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+# md5      : a554a055027f7ecc675c5118db5b24a8  results/ml40/day2/eval_t2-ep8-w2048-cap10m-r3a-ml40_s349999104.txt
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:30:42-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep4-w2048-cap10m-r3a-hm-ml40	349999104	4096	803	0.000	0.000	0.101	120.64	120.11	117.6	0.000	1.000	1.000	1.000	b623e8300414
+t2-ep4-w2048-cap10m-r3a-ml40	349999104	4096	803	0.000	0.000	0.114	111.49	110.95	118.0	0.000	1.000	1.000	1.000	b1a97eaf2c6e
+t3-ep5-w2048-cap10m-r3a-hm-ml40	349999104	4096	1003	0.000	0.116	0.084	55.93	55.80	77.6	0.000	0.887	1.000	0.958	5c05215f3363
+t2-ep5-w2048-cap10m-r3a-ml40	349999104	4096	1003	0.956	0.971	0.622	2.70	2.63	8.1	0.919	0.032	0.046	0.079	3bc90f01a4cb
+t3-ep6-w2048-cap10m-r3a-hm-ml40	349999104	4096	546	0.198	0.978	0.628	3.79	3.73	10.4	0.815	0.031	0.149	0.111	7881e6602cfc
+t2-ep6-w2048-cap10m-r3a-ml40	349999104	4096	546	0.991	0.993	0.550	2.54	2.20	18.1	0.866	0.030	0.012	0.130	4b8e162b2bfe
+t3-ep7-w2048-cap10m-r3a-hm-ml40	349999104	4096	896	0.996	0.997	0.803	2.11	1.78	14.4	0.990	0.003	0.010	0.005	24a96665ad46
+t2-ep7-w2048-cap10m-r3a-ml40	349999104	4096	896	0.982	0.983	0.861	2.15	1.87	13.5	0.973	0.018	0.019	0.027	3bdd5577aeb8
+t3-ep8-w2048-cap10m-r3a-hm-ml40	349999104	4096	708	0.998	0.999	0.774	2.32	2.29	3.8	0.998	0.001	0.001	0.001	c9617568d8f0
+t2-ep8-w2048-cap10m-r3a-ml40	349999104	4096	708	0.999	1.000	0.611	2.40	2.28	8.3	0.999	0.001	0.001	0.001	f8efa07dbd16

@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z" && echo "�\225��\223��\207记 $(ls runs/.chain-active-* 2>/dev/null | wc -l) 个" && tail -n 1 runs/logs/cand_t3_t3qa_ml40.log && echo "-- 导�\207��\223�\236\234表�\210run�\200\201�\212��\200\201�\211" && cut -f1-4 runs/exports/cand_t3_t3qa_ml40.tsv | awk -F"\\t" "{print \\$1, \\$2, \\$3, \\$4}" | cut -c1-160 && cat runs/.chain-stop-t3qa_train_ml40 && rm -v runs/.chain-stop-t3qa_train_ml40 && echo "�\201\234�\223��\207记�\211� $(ls runs/.chain-stop-* 2>/dev/null | wc -l) 个"' 
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:26:38-0600
+# ---------------------------------------------------------------
+2026-10-14 12:26:39 CST
+长链标记 0 个
+=== 2026-10-14 12:26:11 CST EXPORT_CHAIN_DONE（成功 5、失败 3）
+-- 导出结果表（run、状态）
+tier episode run step
+3 4 t3-ep4-w2048-cap10m-r3a-hm-ml40 349999104
+3 5 t3-ep5-w2048-cap10m-r3a-hm-ml40 349999104
+3 6 t3-ep6-w2048-cap10m-r3a-hm-ml40 349999104
+3 7 t3-ep7-w2048-cap10m-r3a-hm-ml40 349999104
+3 8 t3-ep8-w2048-cap10m-r3a-hm-ml40 349999104
+3 9 t3-ep9-w2048-cap10m-r3a-hm-ml40 349999104
+3 10 t3-ep10-w2048-cap10m-r3a-hm-ml40 349999104
+3 11 t3-ep11-w2048-cap10m-r3a-hm-ml40 349999104
+停链原因：Tier 3 重建还有已知问题（人体根节点抖动、物体慢速漂移、重定向后手掌离物体远、物体朝向未检查），10/13 决定暂停剩下的 Tier 3 训练；在训的那条训完，已完成的照常评测与导出，空出的卡给 Tier 1
+removed 'runs/.chain-stop-t3qa_train_ml40'
+停链标记剩 0 个

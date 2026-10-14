@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ for\ f\ in\ stages/policy/test_make_var_queue.py\ stages/policy/test_make_trial_queue.py\ stages/evaluate/test_select_t1.py\;\ do\ echo\ \"==\ \$f\"\;\ python3\ \$f\ \|\ tail\ -1\;\ done\ \&\&\ bash\ -n\ stages/policy/arm_var_chain.sh\ \&\&\ bash\ -n\ stages/policy/day2_train_chain.sh\ \&\&\ bash\ -n\ stages/evaluate/relay_t1x.sh\ \&\&\ bash\ -n\ stages/evaluate/select_t1.sh\ \&\&\ echo\ \"bash\ -n\ ok\"\ \&\&\ for\ s\ in\ t1yb\;\ do\ for\ f\ in\ stages/policy/queues/ml40_\$\{s\}.expect.tsv\ stages/policy/queues/ml40_\$\{s\}.txt\ stages/policy/queues/ml40_\$\{s\}_smoke.txt\ stages/evaluate/exports/cand_t1_\$\{s\}_ml40.tsv\;\ do\ md5sum\ \$f\;\ done\;\ done 
+# md5      : 91f6fa5c39e1b0f01d53b9457633f5e4  stages/policy/test_make_var_queue.py
+# md5      : ca30e63adcb2c36443c96223c94039e1  stages/policy/test_make_trial_queue.py
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# md5      : d1cecdc180776a0593fe0cfa06d13d2c  stages/policy/day2_train_chain.sh
+# md5      : aaf993c4f7e0d908a5008116b3fc2fab  stages/evaluate/relay_t1x.sh
+# md5      : 95c7e370579cab3e877dca0d53a833a5  stages/evaluate/select_t1.sh
+# source   : 004978af97ed
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:27:02-0600
+# ---------------------------------------------------------------
+source 004978af97ed
+== stages/policy/test_make_var_queue.py
+ALL_OK
+== stages/policy/test_make_trial_queue.py
+ALL_OK
+== stages/evaluate/test_select_t1.py
+ALL_OK
+bash -n ok
+4ca3a61b9132b23137f2078e486b7003  stages/policy/queues/ml40_t1yb.expect.tsv
+bdee191a0ecfc7a7ff0c6a10f5f6a3bf  stages/policy/queues/ml40_t1yb.txt
+78f967194193c4cff7ecd6666bf49f85  stages/policy/queues/ml40_t1yb_smoke.txt
+a221d9f375e853bfc52bfe623cb2c3d8  stages/evaluate/exports/cand_t1_t1yb_ml40.tsv
