@@ -1,0 +1,65 @@
+# command  : stages/recovery/tier3_relay.sh dyn4 4 74 t3dyn4_1014a 
+# md5      : 1af69cc2ada9122495d2d37e13538993  stages/recovery/tier3_relay.sh
+# source   : 4df6bb54d135
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:13:14-0600
+# ---------------------------------------------------------------
+=== 2026-10-14 14:13:15 MDT mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge → ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge：runs/tier3/root_dyn4 runs/motion_src/tier3_dyn4 runs/motion/tier3_dyn4（4 集、74 个文件）
+来历 af011f6fec0d
+54	runs/tier3/root_dyn4
+157	runs/motion_src/tier3_dyn4
+117	runs/motion/tier3_dyn4
+来历 af011f6fec0d
+/dev/vdb              2063132 689103   1374014      34% /lab_data
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：74 个文件，342.5 MB；仓库里已有 0 个；暂存 runs/hf_xfer/t3dyn4_1014a；开始上传
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py:138: FutureWarning: 
+================================================================================
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+
+Use `upload_folder` instead:
+
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-transfer", repo_type="model", folder_path="runs/hf_xfer")
+================================================================================
+
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/tier3/root_dyn4/data/chunk-000/episode_000015.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/tier3/root_dyn4/data/chunk-000/episode_000003.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/tier3/root_dyn4/data/chunk-000/episode_000012.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/tier3/root_dyn4/data/chunk-000/episode_000016.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4_1014a/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+
+
+
+---------- 2026-10-15 04:13:21 (0:00:00) ----------
+Files:   hashed 15/75 (3.6M/342.6M) | pre-uploaded: 0/0 (0.0/342.6M) (+75 unsure) | committed: 0/75 (0.0/342.6M) | ignored: 0
+Workers: hashing: 1 | get upload mode: 1 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+仓库里 t3dyn4_1014a/：清单 75 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 74
+=== 2026-10-14 14:13:36 MDT 上传用时 19 秒
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+清单：74 个文件；开始下载到 runs/.relay_tier3_dyn4.partial
+  50 / 74，249.2 MB
+  74 / 74，342.5 MB
+HF_PULL_OK 74
+=== 2026-10-14 14:16:44 MDT 下载用时 188 秒
+=== 2026-10-14 14:16:49 MDT sha256 清单：来源 74 个文件（清单摘要 ccdf0ecfa8552c78），目标 74 个（ccdf0ecfa8552c78）；非普通文件：来源 0，目标 0
+=== 2026-10-14 14:16:49 MDT reconstructed_stage 与 root 的 support_surface 同名比对：4 份，不同 0 份 
+=== 2026-10-14 14:16:50 MDT 暂存目录里：parquet 4、v2d_meta.json 4、支撑面 4（_g1_ 0）；档位 3；集号 4 个（3,12,15,16）；sequence_id 与目录不符 0
+54	runs/tier3/root_dyn4
+157	runs/motion_src/tier3_dyn4
+117	runs/motion/tier3_dyn4
+=== 2026-10-14 14:16:52 MDT 挪到位后清单与来源逐行相同（74 个文件）
+=== 2026-10-14 14:16:52 MDT RELAY_OK
