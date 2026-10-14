@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-sop-1655.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 45f28b19fe1b846a0d496a6ac257607f  agent-doc/experiments/2026-10-14-sop-1655.claims.json
+# source   : ea64401951d9-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T17:02:09-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1_sub               P(supported)=0.98  verified               [s1]  t1c1014b 的四项是 AUC 0.54623、SP-SR 0.73333、MP-SR 0.63333、MPPE 16.55939。
+t2_sub               P(supported)=0.98  verified               [s2]  b1014 的四项是 AUC 0.50890、SP-SR 0.73333、MP-SR 0.53333、MPPE 15.32195。
+lb_t2                P(supported)=0.91  verified               [lb]  16:47 的榜上 Tier 2 四个榜第一都是 maniphys.ai：AUC 0.51379、SP-SR 0.73333、MP-SR 0.53333、MPPE 15.32195；Tier 2 MPPE 上 Xueyi Wang (FF) 是 15.34253。
+lb_t1                P(supported)=0.91  verified               [lb]  16:47 的 Tier 1 榜上，SP-SR 第一是 maniphys.ai（0.73333）；AUC、MP-SR、MPPE 第一是 Xueyi Wang (FF)（0.56422、0.66666、8.22045），maniphys.ai 第二（0.54623、0.63333、16.55939）。
+gap_ff               P(supported)=0.97  verified               [gap]  对 Xueyi Wang (FF)，t1c1014b 的 MP-SR 还要多成功 2 条，30 条 ADD-AUC 总和还要加 0.540，MPPE 总和还要减 250.2 cm；MPPE 超过 15 cm 的 7 条占 30 条总和的 87.8%。
+health               P(supported)=0.96  verified               [hy, hx]  t1yb 与 t1xb 都是训练完成 5、评测成功 5、导出成功 5、失败 0，10 条 run 的 NONFINITE 都是 0。
+pilot                P(supported)=0.93  verified               [pd, qd]  16:53 的记录里，t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 已完成（1 段），t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 在训；t3-ep12-w2048-cap4m-r3a-dyn4-ml40 的最新 policy 是 320012288 步；两台的冒烟都通过。
+probe                P(supported)=0.98  verified               [pr]  ep19 第 340013056 步那份 policy 导出的那 1 局 maniptrans_sr 与 spider_sr_uncentered 都是 1.0，add_auc 约 0.514，mppe_cm 约 3.15。
+swap                 P(supported)=0.70  verified               [sw]  跟丢的集里换掉 ep4、ep28、ep9、ep1 四集，导出那 1 局对照自己参考的 MPPE 合计变化 -38.17 cm。
+collab               P(supported)=0.96  verified               [co]  15:59 查 Nvidia-V2D-Challenge 是否仓库协作者返回 404，对仓库的权限是 none。
+ctl_true_t2sp        P(supported)=0.98  control(true) ok       [s2]  b1014 的 SP-SR 是 0.73333。
+ctl_false_t1mppe     P(supported)=0.03  control(false) ok      [lb]  16:47 的 Tier 1 MPPE 榜第一是 maniphys.ai。
+ctl_false_probe      P(supported)=0.01  control(false) ok      [pr]  ep19 第 340013056 步那份 policy 导出的那 1 局 maniptrans_sr 是 0.0。
+ctl_false_collab     P(supported)=0.05  control(false) ok      [co]  15:59 时 Nvidia-V2D-Challenge 对仓库有 read 权限。
+controls behaved as expected

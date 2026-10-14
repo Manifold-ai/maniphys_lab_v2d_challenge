@@ -1,0 +1,32 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "lb": {"file": "results/submission/leaderboard_1014_1647.txt", "grep": "^== v2d-challenge-track2-tier[12]|maniphys|Xueyi|CHORD"},
+    "s1": {"file": "results/submission/submit_t1c1014b.txt", "grep": "COMPLETE|ACCEPTED"},
+    "s2": {"file": "results/submission/submit_b1014.txt", "grep": "COMPLETE|ACCEPTED"},
+    "gap": {"file": "results/t1gap/t1_gap_t1c1014b.txt", "grep": "^== |^-- |^  (add_auc|spider_sr|maniptrans_sr|mppe_cm) |MPPE 超过 15 cm"},
+    "hy": {"file": "results/t1x/health_t1yb_ml40.txt", "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|DONE="},
+    "hx": {"file": "results/t1x/health_t1xb_mf4090.txt", "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|DONE="},
+    "pd": {"file": "results/t3dyn/status_t3pdyn_mf4090_1014_1653.txt", "grep": "^## |正式 t3-ep|完成（1 段）|冒烟 smoke-t3-ep[0-9]+-w2048-cap4m-r3a-dyn4-mf4090 通过|dyn4-mf4090：|MB free"},
+    "qd": {"file": "results/t3dyn/status_t3qdyn_ml40_1014_1653.txt", "grep": "^## |正式 t3-ep|通过|dyn4s?-ml40："},
+    "pr": {"file": "results/ml40/first/probe_ep19_s340013056.txt", "grep": "add_auc |maniptrans_sr|spider_sr_uncentered|mppe_cm|policy_340013056"},
+    "sw": {"file": "results/first/t2_lost_swap.txt", "grep": "^集|^[0-9]+\\t|合计变化"},
+    "co": {"file": "results/ops/collab_check_nvidia_1014_1559.txt", "grep": "^== |HTTP|^none|visibility"}
+  },
+  "claims": [
+    {"id": "t1_sub", "evidence": ["s1"], "claim": "t1c1014b 的四项是 AUC 0.54623、SP-SR 0.73333、MP-SR 0.63333、MPPE 16.55939。"},
+    {"id": "t2_sub", "evidence": ["s2"], "claim": "b1014 的四项是 AUC 0.50890、SP-SR 0.73333、MP-SR 0.53333、MPPE 15.32195。"},
+    {"id": "lb_t2", "evidence": ["lb"], "claim": "16:47 的榜上 Tier 2 四个榜第一都是 maniphys.ai：AUC 0.51379、SP-SR 0.73333、MP-SR 0.53333、MPPE 15.32195；Tier 2 MPPE 上 Xueyi Wang (FF) 是 15.34253。"},
+    {"id": "lb_t1", "evidence": ["lb"], "claim": "16:47 的 Tier 1 榜上，SP-SR 第一是 maniphys.ai（0.73333）；AUC、MP-SR、MPPE 第一是 Xueyi Wang (FF)（0.56422、0.66666、8.22045），maniphys.ai 第二（0.54623、0.63333、16.55939）。"},
+    {"id": "gap_ff", "evidence": ["gap"], "claim": "对 Xueyi Wang (FF)，t1c1014b 的 MP-SR 还要多成功 2 条，30 条 ADD-AUC 总和还要加 0.540，MPPE 总和还要减 250.2 cm；MPPE 超过 15 cm 的 7 条占 30 条总和的 87.8%。"},
+    {"id": "health", "evidence": ["hy", "hx"], "claim": "t1yb 与 t1xb 都是训练完成 5、评测成功 5、导出成功 5、失败 0，10 条 run 的 NONFINITE 都是 0。"},
+    {"id": "pilot", "evidence": ["pd", "qd"], "claim": "16:53 的记录里，t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 已完成（1 段），t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 在训；t3-ep12-w2048-cap4m-r3a-dyn4-ml40 的最新 policy 是 320012288 步；两台的冒烟都通过。"},
+    {"id": "probe", "evidence": ["pr"], "claim": "ep19 第 340013056 步那份 policy 导出的那 1 局 maniptrans_sr 与 spider_sr_uncentered 都是 1.0，add_auc 约 0.514，mppe_cm 约 3.15。"},
+    {"id": "swap", "evidence": ["sw"], "claim": "跟丢的集里换掉 ep4、ep28、ep9、ep1 四集，导出那 1 局对照自己参考的 MPPE 合计变化 -38.17 cm。"},
+    {"id": "collab", "evidence": ["co"], "claim": "15:59 查 Nvidia-V2D-Challenge 是否仓库协作者返回 404，对仓库的权限是 none。"},
+    {"id": "ctl_true_t2sp", "evidence": ["s2"], "control": "true", "claim": "b1014 的 SP-SR 是 0.73333。"},
+    {"id": "ctl_false_t1mppe", "evidence": ["lb"], "control": "false", "claim": "16:47 的 Tier 1 MPPE 榜第一是 maniphys.ai。"},
+    {"id": "ctl_false_probe", "evidence": ["pr"], "control": "false", "claim": "ep19 第 340013056 步那份 policy 导出的那 1 局 maniptrans_sr 是 0.0。"},
+    {"id": "ctl_false_collab", "evidence": ["co"], "control": "false", "claim": "15:59 时 Nvidia-V2D-Challenge 对仓库有 read 权限。"}
+  ]
+}
