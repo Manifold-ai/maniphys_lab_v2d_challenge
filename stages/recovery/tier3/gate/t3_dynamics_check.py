@@ -5,8 +5,12 @@ and only then is the motion judged against what that state allows. Speed never d
 (REST_MPS) separates rest from motion where a rule needs it, with no band in between.
 
 State (per frame):
-  held       the reference's own contact label (hand_contact_active, what the reward uses) on either hand, or a palm
-             within HOLD_M of the object surface. The union, so an unheld verdict is never caused by a missing label alone.
+  held       the reference's own contact label (hand_contact_active, what the reward uses) on either hand, or a robot
+             hand link's collision surface (palm and every finger link, by forward kinematics of the training URDF)
+             within HOLD_M of the object surface; the soles count too when the task text names a foot, the rule the
+             human-layer check uses. The union, so an unheld verdict is never caused by a missing label alone. The palm
+             origin alone is not enough: the distal finger links start 12.7 cm from it, so a fingertip grasp read as
+             unheld; link origins are not enough for a kick, the toe is 13 cm ahead of the ankle.
   supported  not held, and the lowest hull point is within SUPPORT_TOL_M of the floor or of a support top under it.
   airborne   not held and not supported.
 
@@ -33,12 +37,16 @@ Checks (translation of the centre of mass, rotation about it; derivatives by a l
 Thresholds are physical bounds chosen loose, so a flag means physically impossible rather than unusual. Tier 1 / 2
 references are only for reading the false positive rate of the check, never for tuning anything Tier 3 uses.
 
+The URDF is $T3_G1_URDF, else flash_chord's main_with_hand.urdf under $T3_GATE/repo.
+
 Usage: t3_dynamics_check.py <motion set dir> <episodes_metadata.jsonl> <support source> <out.json> [episode,...]
   motion set dir   .../runs/motion/<set> (holds whole_body/soma/sequence_id=*/robot_name=g1/data.parquet)
   support source   a directory of <sequence>_support.usda, or "stage" for <motion set dir>/whole_body/reconstructed_stage
 """
 
 import json
+import os
+import re
 import sys
 from pathlib import Path
 
@@ -49,6 +57,8 @@ from scipy.signal import savgol_filter
 from scipy.spatial import cKDTree
 
 G = 9.81
+FOOT_TASK = re.compile(r"\b(foot|feet)\b", re.IGNORECASE)  # the same rule as t3_world_probe.FOOT_TASK (that module needs torch)
+URDF_REL = "repo/third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/assets/urdfs/g1/main_with_hand.urdf"
 WINDOW_S = 0.3
 REST_MPS = 0.05
 HOLD_M = 0.10
@@ -99,8 +109,76 @@ def runs(mask):
     return out
 
 
-def check(part: Path, supports):
-    cols = ["fps", "robot_root_position", "ee_pose_w", "hand_contact_active", "object_body_position", "object_body_wxyz"]
+def limb_geometry(model, urdf: str, feet: bool):
+    """[(frame id, (P, 3) points in that frame)]: the collision geometry of the hand links (ankle links when feet), as
+    points on its surface. Meshes give their convex hull vertices, cylinders 8 points on each end circle (G1's soles
+    are rows of cylinders, so this reaches the toe and the heel), boxes their corners, spheres their centre."""
+    import pinocchio as pin
+    import trimesh as tm
+    geom = pin.buildGeomFromUrdf(model, urdf, pin.GeometryType.COLLISION, package_dirs=[str(Path(urdf).parent)])
+    ring = np.c_[np.cos(np.arange(8) * np.pi / 4), np.sin(np.arange(8) * np.pi / 4)]
+    out = {}
+    for o in geom.geometryObjects:
+        name = model.frames[o.parentFrame].name
+        if not ("_hand_" in name or (feet and name.endswith("ankle_roll_link"))):
+            continue
+        g = o.geometry
+        kind = type(g).__name__
+        if kind == "Cylinder":
+            P = np.vstack([np.c_[g.radius * ring, np.full(8, z)] for z in (-g.halfLength, g.halfLength)])
+        elif kind == "Box":
+            P = np.array([[x, y, z] for x in (-1, 1) for y in (-1, 1) for z in (-1, 1)]) * g.halfSide
+        elif kind == "Sphere":
+            P = np.zeros((1, 3))
+        else:
+            mesh = tm.load(o.meshPath, force="mesh", process=False)
+            P = np.asarray(mesh.convex_hull.vertices) * np.asarray(o.meshScale)
+        P = P @ o.placement.rotation.T + o.placement.translation
+        out.setdefault(o.parentFrame, []).append(P)
+    if not out:
+        raise SystemExit("no hand collision geometry in the URDF")
+    return [(f, np.vstack(v)) for f, v in out.items()]
+
+
+def limb_points(r, feet: bool):
+    """(T, K, 3) world points on the robot hand links' collision surfaces (and the soles when feet), by forward
+    kinematics of the training URDF."""
+    import pinocchio as pin
+    urdf = os.environ.get("T3_G1_URDF") or str(Path(os.environ["T3_GATE"]) / URDF_REL)
+    model = pin.buildModelFromUrdf(urdf, pin.JointModelFreeFlyer())
+    data = model.createData()
+    names = r["robot_joint_names"]
+    missing = [nm for nm in names if not model.existJointName(nm)]
+    if missing:
+        raise SystemExit(f"URDF lacks joints {missing}")
+    qi = [model.joints[model.getJointId(nm)].idx_q for nm in names]
+    parts = limb_geometry(model, urdf, feet)
+    root, wxyz, J = (np.asarray(r[k], np.float64) for k in ("robot_root_position", "robot_root_wxyz", "robot_joint_positions"))
+    out = np.empty((len(J), sum(len(P) for _, P in parts), 3))
+    q = np.zeros(model.nq)
+    for t in range(len(J)):
+        q[:3], q[3:7], q[qi] = root[t], np.r_[wxyz[t, 1:], wxyz[t, :1]], J[t]
+        pin.framesForwardKinematics(model, data, q)
+        out[t] = np.vstack([P @ data.oMf[f].rotation.T + data.oMf[f].translation for f, P in parts])
+    return out
+
+
+HELD_COLS = ["robot_root_position", "robot_root_wxyz", "robot_joint_names", "robot_joint_positions", "hand_contact_active"]
+
+
+def held_of(r, R, pos, surf, feet: bool):
+    """The held state: the contact label on either hand, or a hand link's surface (a sole when feet) within HOLD_M of the
+    object surface."""
+    pts = limb_points(r, feet)
+    Ws = np.einsum("tij,vj->tvi", R, surf) + pos[:, None]
+    limb_d = np.stack([cKDTree(Ws[t]).query(pts[t])[0].min() for t in range(len(pts))])
+    label = np.array(r["hand_contact_active"]).max(0) > 0.5
+    return label | (limb_d < HOLD_M), label, limb_d
+
+
+def check(part: Path, supports, feet: bool = False, frames: bool = False):
+    """frames=True also returns the per-frame masks (held, supported, each violation) for diagnosis."""
+    cols = ["fps", "object_body_position", "object_body_wxyz"] + HELD_COLS
     r = pq.read_table(part / "data.parquet", columns=cols).to_pylist()[0]
     fps = r["fps"]
     win = int(round(WINDOW_S * fps)) | 1
@@ -122,11 +200,7 @@ def check(part: Path, supports):
     com = pos + R @ com_b
     low = np.einsum("tij,vj->tvi", R, hull)[..., 2].min(1) + pos[:, 2]
 
-    palms = np.array(r["ee_pose_w"])[:, :, :3]
-    Ws = np.einsum("tij,vj->tvi", R, surf) + pos[:, None]
-    palm_d = np.stack([np.linalg.norm(Ws - palms[:, i][:, None], axis=2).min(1) for i in range(palms.shape[1])], 1).min(1)
-    label = np.array(r["hand_contact_active"]).max(0) > 0.5
-    held = label | (palm_d < HOLD_M)
+    held, label, limb_d = held_of(r, R, pos, surf, feet)
 
     gap = np.abs(low)  # the floor is z = 0 in g1_retarget_world
     for lo, hi, top in supports:
@@ -197,6 +271,8 @@ def check(part: Path, supports):
         "measure": {"root_acc_p99_mps2": round(float(np.percentile(root_a, 99)), 2),
                     "tau_unheld_p99": round(float(np.percentile(tau[~held], 99)), 3) if (~held).any() else None,
                     "torque_bound_unheld": round(G * r_max, 3)},
+        **({"per_frame": {"held": held, "label": label, "limb_d": limb_d, "supported": supported, "gap": gap,
+                          "object_any": obj, **bad}} if frames else {}),
     }
 
 
@@ -213,11 +289,14 @@ def main():
         if not (part / "data.parquet").exists():
             continue
         sd = mset / "whole_body/reconstructed_stage" if sup_src == "stage" else Path(sup_src)
-        res["episodes"][f"ep{ep:02d}"] = {"sequence_id": seq, **check(part, supports_of(sd / f"{seq}_support.usda"))}
+        res["episodes"][f"ep{ep:02d}"] = {"sequence_id": seq, **check(part, supports_of(sd / f"{seq}_support.usda"),
+                                                                        feet=bool(FOOT_TASK.search(m["task"])))}
         e = res["episodes"][f"ep{ep:02d}"]
         print(f"ep{ep:02d} T={e['frames']:4d} held {e['share']['held']:.2f} sup {e['share']['supported']:.2f} air "
               f"{e['share']['airborne']:.2f} | " + " ".join(f"{k} {v}" for k, v in e["count"].items())
               + f" | 物体首个违规帧 {e['first']['object_any']}", flush=True)
+    if not res["episodes"]:
+        raise SystemExit(f"no episode found under {mset}")
     out.write_text(json.dumps(res, indent=1, ensure_ascii=False))
 
 
