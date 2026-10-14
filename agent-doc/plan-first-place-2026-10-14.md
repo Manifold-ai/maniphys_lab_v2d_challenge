@@ -227,5 +227,5 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
   （`results/first/tests_mac_step0.txt`）。代码审查见第 8 节。
 - 15:39 第 0 步补充（按第二轮审查）：`fall_order_one.py` 与 4 组测试，连同 `test_fall_order.py` 的 7 组共 11 个通过；`test_fc_export.py` 第 10 组补 hydra 目录与
   预演两条断言，10 组 `ALL_OK`（`results/first/tests_mac_step0b.txt`；pytest 用本机缓存的 uv 环境，numpy 取另一份同为 Python 3.13 的缓存环境）。
--  按代码再审补：缺文件、缺键逐条按门不过记，补两组测试；13 个通过，`test_fc_export.py` 仍 `ALL_OK`（`results/first/tests_mac_step0c.txt`）。
+- 15:43 按代码再审补：缺文件、缺键逐条按门不过记，补两组测试；13 个通过，`test_fc_export.py` 仍 `ALL_OK`（`results/first/tests_mac_step0c.txt`）。
   第 0 步完成。
