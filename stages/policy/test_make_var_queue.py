@@ -25,7 +25,8 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      去掉覆盖、列改 true）；ml40 的续跑段 t3qc --episodes 12,13 照总顺序生成（段之间挪集只要 --episodes）
   8. --seed（agent-doc/plan-first-place-2026-10-14.md 选项甲）：t1xb_s43 --episodes 14 --seed 43 在 mf4090 出 t1-ep14-w2048-cap4m-r3a-s43-mf4090，
      t1yb_s43 --episodes 19 --seed 43 在 ml40 出 t1-ep19-w2048-cap10m-r3a-s43-ml40；覆盖是 seed 42 那条的覆盖在变体 A 两项前插
-     reset.seed=43 training.seed=43，冒烟行同样；期望表种子列 43、其余列与 seed 42 那条相同；导出清单对得上；预设段加 --seed、种子 0 都报错不写文件。
+     reset.seed=43 training.seed=43，冒烟行同样；期望表种子列 43、其余列与 seed 42 那条相同；导出清单对得上、抬头注明改种子；
+     预设段加 --seed、种子 0、10000、显式 42、段名 _s43 却不给 --seed、给 --seed 43 而段名不以 _s43 结尾，都报错不写文件。
 用法：python3 stages/policy/test_make_var_queue.py
 """
 import subprocess
@@ -298,13 +299,12 @@ def test_seed_option():
         root = Path(t)
         setup(root)
         q = root / "stages" / "policy" / "queues"
-        for m, base_part, part, ep, run42 in (("mf4090", "t1xb", "t1xb_s43", 14, "t1-ep14-w2048-cap4m-r3a-mf4090"),
-                                              ("ml40", "t1yb", "t1yb_s43", 19, "t1-ep19-w2048-cap10m-r3a-ml40")):
+        for m, base_part, part, ep, run42, run43 in (
+                ("mf4090", "t1xb", "t1xb_s43", 14, "t1-ep14-w2048-cap4m-r3a-mf4090", "t1-ep14-w2048-cap4m-r3a-s43-mf4090"),
+                ("ml40", "t1yb", "t1yb_s43", 19, "t1-ep19-w2048-cap10m-r3a-ml40", "t1-ep19-w2048-cap10m-r3a-s43-ml40")):
             assert gen(root, base_part).returncode == 0
             r = gen(root, part, "--episodes", str(ep), "--seed", "43")
             assert r.returncode == 0, r.stdout + r.stderr
-            stem, mach = run42.rsplit("-", 1)
-            run43 = f"{stem}-s43-{mach}"
             f43, s43 = lines(q / f"{m}_{part}.txt"), lines(q / f"{m}_{part}_smoke.txt")
             f42 = [x for x in lines(q / f"{m}_{base_part}.txt") if f" {run42} " in f" {x} "]
             s42 = [x for x in lines(q / f"{m}_{base_part}_smoke.txt") if f" smoke-{run42} " in f" {x} "]
@@ -319,11 +319,19 @@ def test_seed_option():
             assert e43[:2] == [run43, "smoke-" + run43] and e43[2:9] == e42[2:9] and e43[9:] == ["43", "no"], (e43, e42)
             cand = lines(root / "stages" / "evaluate" / "exports" / f"cand_t1_{part}_{m}.tsv")
             assert cand == [f"1\t{ep}\t{run43}\t349999104"], cand
-            assert "种子 43（reset.seed=43 training.seed=43）" in (q / f"{m}_{part}.txt").read_text()
-        for args in (["t1xb", "--seed", "43"], ["t1xb_s0", "--episodes", "14", "--seed", "0"]):
+            note = "本段改种子：种子 43（reset.seed=43 training.seed=43）"
+            assert note in (q / f"{m}_{part}.txt").read_text()
+            assert note in (root / "stages" / "evaluate" / "exports" / f"cand_t1_{part}_{m}.tsv").read_text()
+        bad = (["t1xb", "--seed", "43"], ["t1xb_s0", "--episodes", "14", "--seed", "0"],
+               ["t1xb_s10000", "--episodes", "14", "--seed", "10000"], ["t1xb_s42", "--episodes", "14", "--seed", "42"],
+               ["t1xb_s44", "--episodes", "14"], ["t1xb_new", "--episodes", "14", "--seed", "43"],
+               ["t1xb_s44", "--episodes", "14", "--seed", "43"])
+        before = (q / "mf4090_t1xb.txt").read_text()
+        for args in bad:
             r = gen(root, *args)
             assert r.returncode != 0, (args, r.stdout)
-        assert not (q / "mf4090_t1xb_s0.txt").exists()
+            assert args[0] == "t1xb" or not (q / f"mf4090_{args[0]}.txt").exists(), args
+        assert (q / "mf4090_t1xb.txt").read_text() == before
 
 
 def test_t1_xeval_conflict_refuses():

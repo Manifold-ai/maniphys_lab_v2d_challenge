@@ -220,6 +220,17 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 | 2 | NIT | 没测 `--ori 0.6` 用在不带 `-r3a-` 的 run 上、多条 run 时每条都生效 | 采纳：补一组测试 |
 | 3 | NIT | MPPE 差在不同运行时下可能不小，容易被当成问题 | 采纳：丙的判据写明 MPPE 差只报，超过参考容差不算门不过 |
 
+甲的代码步（a91d66a，`make_var_queue.py --seed`）再审：**GO WITH FIXES**（1 MINOR、3 NIT）。审查用真实基线生成了 `t1xb_s43`、`t1yb_s43`，与 seed 42 那条只差
+run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.seed=43`，与 `make_trial_queue.py` 的 seed 43 写法一致；链脚本（`arm_var_chain.sh`、
+`precheck_expect.sh`、`fc_config_check.sh`、`day2_train_chain.sh`、`relay_t1x.sh`）都接得住新段名与种子列。
+
+| # | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| 1 | MINOR | 显式 `--seed 42` 会生成与预设段同名的 run；段名带 `_s43` 却漏给 `--seed` 会静默生成 seed 42 | 采纳：不给 `--seed` 才是 seed 42，显式 42 拒绝；段名以 `_s<N>` 结尾与 `--seed N` 必须一致，补测试 |
+| 2 | NIT | 测试里期望的 run 名用与被测代码相同的 `rsplit` 推出；上界只测了 0 | 采纳：改成字面量，加 10000 与几种不一致的拒绝 |
+| 3 | NIT | 没有“预设段逐字节不变”的记录 | 采纳：14 个预设段与 t1xa2 重新生成，0 个文件变化（`results/first/queue_regen_seed_option.txt`） |
+| 4 | NIT | 导出清单抬头没写改种子 | 采纳：队列与导出清单抬头都写“本段改种子：种子 N（…）” |
+
 ## 9. 执行记录
 
 - 15:29 第 0 步（Mac，不用 GPU）：`fc_export.sh` 加 `V2D_EXPORT_SUFFIX`，`test_fc_export.py` 补第 10 组（带后缀重新导出到新目录、日志名带后缀、
@@ -232,3 +243,6 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 - 15:45 甲的代码步（按第二轮审查第 5 条，不用 GPU）：`make_var_queue.py` 加 `--seed N`（只许非预设段，run 名在机器名前加 `-s<N>`，覆盖在变体 A 前插
   `reset.seed=<N> training.seed=<N>`，期望表种子列写 N；不给时照旧）；`test_make_var_queue.py` 加第 8 组，`test_make_var_queue.py`、`test_make_copy_queue.py`
   都是 `ALL_OK`（`results/first/tests_mac_seed_option.txt`）。甲的两段是 `t1xb_s43 --episodes 14 --seed 43`、`t1yb_s43 --episodes 19 --seed 43`；代码审查后才生成队列。
+- 15:50 按甲的代码审查改：段名与种子必须一致、显式 42 拒绝、导出清单抬头注明改种子；测试改成字面量并加拒绝情形，两份测试 `ALL_OK`
+  （`results/first/tests_mac_seed_option2.txt`）；14 个预设段与 t1xa2 重新生成，逐字节不变（`results/first/queue_regen_seed_option.txt`）。
+  甲的两段队列等甲排上时再生成。

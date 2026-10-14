@@ -1,0 +1,9 @@
+# command  : bash -c $'for s in t2xa t2xb t3p t3p2 t3p3a t3p3b t1xa t1ya t3p4a t3p4b t3qa t3qb t1xb t1yb; do python3 stages/policy/make_var_queue.py $s > /dev/null || echo "FAIL ${s}"; done; python3 stages/policy/make_var_queue.py t1xa2 --episodes 21,10,13,19,3,14 > /dev/null || echo "FAIL t1xa2"; echo "-- git statusï¼\210make_var_queue.py ä¸\216æµ\213è¯\225ä»¥å¤\226ï¼\214stages/ ä¸\213åº\224å½\223æ²¡æ\234\211æ\224¹å\212¨ï¼\211"; git status --short stages/ | grep -v -E "make_var_queue.py|test_make_var_queue.py" || true; echo "-- é¢\204è®¾æ®µä¸\216 t1xa2 é\207\215æ\226°ç\224\237æ\210\220å\220\216é\200\220å\255\227è\212\202ä¸\215å\217\230ï¼\232$(git status --short stages/policy/queues stages/evaluate/exports | wc -l | tr -d " ") ä¸ªæ\226\207ä»¶æ\234\211å\217\230å\214\226"' 
+# md5      : a004ff83d8fa3ea9c8d1b5fdad6cdc37  stages/policy/make_var_queue.py
+# md5      : a004ff83d8fa3ea9c8d1b5fdad6cdc37  stages/policy/make_var_queue.py
+# source   : a91d66ae3a78-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:50:06-0600
+# ---------------------------------------------------------------
+-- git statusï¼ˆmake_var_queue.py ä¸æµ‹è¯•ä»¥å¤–ï¼Œstages/ ä¸‹åº”å½“æ²¡æœ‰æ”¹åŠ¨ï¼‰
+-- é¢„è®¾æ®µä¸ t1xa2 é‡æ–°ç”Ÿæˆåé€å­—èŠ‚ä¸å˜ï¼š0 ä¸ªæ–‡ä»¶æœ‰å˜åŒ–

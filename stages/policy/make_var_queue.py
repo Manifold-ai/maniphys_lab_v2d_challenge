@@ -36,7 +36,8 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
        导出清单；t3p4 在 mf4090（400 万 buffer，run 名 t3-ep<N>-w2048-cap4m-r3a-hm-mf4090），t3q 在 ml40（1000 万，t3-ep<N>-w2048-cap10m-r3a-hm-ml40）。
        两份清单都带同一个 29 集的总顺序，段之间挪集只要 --episodes。支撑面按 best_hm 自己的支撑面定（tables 键，计划审查 1）：
        期望表的 support 列与 scene.support=false 覆盖都按它给，不沿用 Tier 2 基线的（ep1 的 Tier 2 基线开着支撑面，best_hm 的 ep1 只有地面）。
---seed N（计划 agent-doc/plan-first-place-2026-10-14.md 第 2 节选项甲）：只许用在非预设的段（同时给 --episodes），N 是 1–9999、不是 42 的整数。
+--seed N（计划 agent-doc/plan-first-place-2026-10-14.md 第 2 节选项甲）：只许用在非预设的段（同时给 --episodes），N 是 1–9999、不是 42 的整数；
+  段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
 用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb [--root <仓库根>]
@@ -45,6 +46,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
 测试：stages/policy/test_make_var_queue.py。
 """
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -142,14 +144,20 @@ def resolve(part: str, episodes=None) -> tuple:
     return name, [ep for ep in s["episodes"] if ep in episodes]
 
 
-def make(part: str, root: Path, episodes=None, seed: int = 42) -> dict:
+def make(part: str, root: Path, episodes=None, seed=None) -> dict:
     name, eps = resolve(part, episodes)
     s = SETS[name]
-    if seed != 42:
+    tail = re.search(r"_s(\d+)$", part)
+    if seed is None and tail:
+        raise SystemExit(f"make_var_queue: 段名 {part} 以 _s{tail.group(1)} 结尾，要给同一个 --seed")
+    if seed is not None:
         if part in s["parts"]:
             raise SystemExit(f"make_var_queue: {part} 是预设的段，不能改种子；新种子另起一段并给 --episodes")
-        if not 1 <= seed <= 9999:
-            raise SystemExit(f"make_var_queue: --seed 要在 1–9999 之间：{seed}")
+        if seed == 42 or not 1 <= seed <= 9999:
+            raise SystemExit(f"make_var_queue: --seed 要在 1–9999 之间、不是 42（不给就是 seed 42）：{seed}")
+        if not tail or int(tail.group(1)) != seed:
+            raise SystemExit(f"make_var_queue: 给了 --seed {seed}，段名要以 _s{seed} 结尾：{part}")
+    seed = 42 if seed is None else seed
     seed_over = [] if seed == 42 else [f"reset.seed={seed}", f"training.seed={seed}"]
     qdir = root / "stages" / "policy" / "queues"
     if s["tier"] in (1, 2) or s["base"] is None:   # t2x、t3p3、t1x、t1y：基线取这条 episode 现在交的 run
@@ -192,7 +200,7 @@ def make(part: str, root: Path, episodes=None, seed: int = 42) -> dict:
         smoke.append(f"{ENV_SMOKE} smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over)}")
         cand.append(f"{s['tier']}\t{ep}\t{run}\t{STEPS}")
     head = (f"# {s['desc']}；这一段 {part}：{'、'.join(f'ep{e}' for e in eps)}；计划 {s['plan']}；变体 A = {' '.join(VARIANT)}；"
-            + (f"种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
+            + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
             + f"训练挂 v040_p185_nfg（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
     stem = f"{s['machine']}_{part}"
     return {
@@ -200,7 +208,8 @@ def make(part: str, root: Path, episodes=None, seed: int = 42) -> dict:
         qdir / f"{stem}_smoke.txt": "\n".join([head, *smoke]) + "\n",
         qdir / f"{stem}.txt": "\n".join([head, *formal_lines]) + "\n",
         root / "stages" / "evaluate" / "exports" / f"cand_t{s['tier']}_{part}_{s['machine']}.tsv":
-            "\n".join([f"# {s['desc']}，段 {part} 的候选导出（计划 {s['plan']}）：档位 episode run 步数。make_var_queue.py 生成，不要手改。", *cand]) + "\n",
+            "\n".join([f"# {s['desc']}，段 {part} 的候选导出（计划 {s['plan']}）：档位 episode run 步数。"
+                       + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）。" if seed_over else "") + "make_var_queue.py 生成，不要手改。", *cand]) + "\n",
     }
 
 
@@ -209,7 +218,7 @@ def main(argv=None) -> int:
     ap.add_argument("part")
     ap.add_argument("--episodes", type=lambda x: [int(v) for v in x.split(",") if v.strip()], default=None)
     ap.add_argument("--root", default=str(Path(__file__).resolve().parents[2]))
-    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--seed", type=int, default=None)
     a = ap.parse_args(argv)
     for path, text in make(a.part, Path(a.root), a.episodes, a.seed).items():
         path.parent.mkdir(parents=True, exist_ok=True)
