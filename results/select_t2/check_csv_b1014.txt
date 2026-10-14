@@ -1,0 +1,39 @@
+# command  : python3 stages/evaluate/check_t2_select.py --selection stages/evaluate/exports/t2_select_b1014.tsv --evals results/ml40/day2 results/day2 --results runs/submission/select_t2_b1014/t2 --csv runs/submission/csv/track2_tier2_select_b1014.csv 
+# md5      : 3bab7733ba8ff87c2e71d9e0c5259340  stages/evaluate/check_t2_select.py
+# md5      : 5cb8ebd8cc3fead05b731064132e0d7d  stages/evaluate/exports/t2_select_b1014.tsv
+# md5      : 31ca742544b810e6f58f944f2edf6050  runs/submission/csv/track2_tier2_select_b1014.csv
+# source   : c4f248dc60f3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:43:31-0600
+# ---------------------------------------------------------------
+OK   ep0  t2-ep0-w2048-cap10m-r3a-ml40：2e029d3c44cd102d
+OK   ep1  t2-ep1-w2048-cap10m-r3a-ml40：250179908dabe1b9
+OK   ep2  t2-ep2-w2048-cap10m-r3a-ml40：ef29bbe4ea5db27c
+OK   ep3  t2-ep3-w2048-cap10m-r3a-ml40：5277602e48db96e0
+OK   ep4  t2-ep4-w2048-cap10m-r3a-ml40：b1a97eaf2c6ee885
+OK   ep5  t2-ep5-w2048-cap10m-r3a-ml40：3bc90f01a4cb5f30
+OK   ep6  t2-ep6-w2048-cap10m-r3a-ml40：4b8e162b2bfe210b
+OK   ep7  t2-ep7-w2048-cap10m-r3a-ml40：3bdd5577aeb8fcf5
+OK   ep8  t2-ep8-w2048-cap10m-r3a-ml40：f8efa07dbd168fa2
+OK   ep9  t2-ep9-w2048-cap4m-mf4090：85d37e1de954aaee
+OK   ep10 t2-ep10-w2048-cap10m-r3a-ml40：f545f3852f2042a7
+OK   ep11 t2-ep11-w2048-cap4m-mf4090：d82840c4fda61e2c
+OK   ep12 t2-ep12-w2048-cap10m-r3a-ml40：d9afcc9484fbeb6a
+OK   ep13 t2-ep13-w2048-cap10m-r3a-ml40：feeb07e563ae3934
+OK   ep14 t2-ep14-w2048-cap10m-r3a-ml40：208b88bba8cc49a4
+OK   ep15 t2-ep15-w2048-cap10m-r3a-ml40：e98b5fb771725040
+OK   ep16 t2-ep16-w2048-cap10m-r3a-ml40：71ba704175c5c31e
+OK   ep17 t2-ep17-w2048-cap4m-mf4090：e344c8d301f95cd3
+OK   ep18 t2-ep18-w2048-cap10m-r3a-ml40：be2755c54ba2f65b
+OK   ep19 t2-ep19-w2048-cap10m-r3a-ml40：b8b70150e74a1533
+OK   ep20 t2-ep20-w2048-cap10m-r3a-ml40：ee1b0730b3caf6d9
+OK   ep21 t2-ep21-w2048-cap10m-r3a-ml40：a3ccdf9a5a9bd5cd
+OK   ep22 t2-ep22-w2048-cap10m-r3a-ml40：f80784f3681d4514
+OK   ep23 t2-ep23-w2048-cap4m-mf4090：5d6ffe3f17d4de42
+OK   ep24 t2-ep24-w2048-cap10m-r3a-ml40：95144c96b2940871
+OK   ep25 t2-ep25-w2048-cap4m-mf4090：c4e2cc9f4ec9d3d7
+OK   ep26 t2-ep26-w2048-cap10m-r3a-s43-ml40：5ebea4ef587c748f
+OK   ep27 t2-ep27-w2048-cap10m-r3a-ml40：636b63125d50d5c7
+OK   ep28 t2-ep28-w2048-cap4m-p185-mf4090：1310aca646e968d1
+OK   ep29 t2-ep29-w2048-cap10m-r3a-ml40：84cc3e02923645da
+CHECK_T2_SELECT_OK

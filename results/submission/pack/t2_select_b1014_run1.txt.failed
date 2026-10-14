@@ -1,0 +1,16 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/select_t2_b1014/t2 runs/submission/csv/track2_tier2_select_b1014.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c4f248dc60f39f4c7b03c535fbace6ae6b422bc9 '' 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# source   : c4f248dc60f3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:42:18-0600
+# ---------------------------------------------------------------
+error: Request failed after 3 retries in 7.0s
+  cause: Failed to fetch: `https://mirror.nju.edu.cn/pypi/web/packages/b3/60/6793778f2617cce469383dac0ba08c4f2401cf342df0c7b9ca53939d9b46/pyarrow-26.0.0-cp312-cp312-macosx_12_0_arm64.whl.metadata`
+  cause: error sending request for url (https://files.pythonhosted.org/packages/b3/60/6793778f2617cce469383dac0ba08c4f2401cf342df0c7b9ca53939d9b46/pyarrow-26.0.0-cp312-cp312-macosx_12_0_arm64.whl.metadata)
+  cause: client error (Connect)
+  cause: Connection reset by peer (os error 54)
+error: Request failed after 3 retries in 6.4s
+  cause: Failed to fetch: `https://mirror.nju.edu.cn/pypi/web/packages/31/2f/5ea3570fcb8ccd0882bea99436a513b2c85dad8f774a2057849130a8fb99/numpy-2.5.4-cp312-cp312-macosx_14_0_arm64.whl.metadata`
+  cause: error sending request for url (https://files.pythonhosted.org/packages/31/2f/5ea3570fcb8ccd0882bea99436a513b2c85dad8f774a2057849130a8fb99/numpy-2.5.4-cp312-cp312-macosx_14_0_arm64.whl.metadata)
+  cause: client error (Connect)
+  cause: Connection reset by peer (os error 54)

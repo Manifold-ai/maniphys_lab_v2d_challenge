@@ -1,0 +1,20 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/select_t2_b1014/t2 runs/submission/csv/track2_tier2_select_b1014.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c4f248dc60f39f4c7b03c535fbace6ae6b422bc9 '' 
+# md5      : ee8ebf91ac349d12355c1107f9f16d99  stages/evaluate/pack_tier.sh
+# source   : c4f248dc60f3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:42:53-0600
+# ---------------------------------------------------------------
+error: No solution found when resolving `--with` dependencies
+  cause: Because pandas>=2.0.0,<=2.3.3 needs to be downloaded from a registry and you require pandas<3, we can conclude that you require pandas<=1.5.3.
+         And because you require pandas>=2.0, we can conclude that your requirements are unsatisfiable.
+
+hint: Packages were unavailable because the network was disabled. When the network is disabled, registry packages may only be read from the cache.
+
+hint: `pandas` was found on https://mirror.nju.edu.cn/pypi/web/simple, but not at the requested version (pandas>=2.0.0,<=2.3.3). A compatible version may be available on a subsequent index (e.g., https://pypi.tuna.tsinghua.edu.cn/simple). By default, uv will only consider versions that are published on the first index that contains a given package, to avoid dependency confusion attacks. If all indexes are equally trusted, use `--index-strategy unsafe-best-match` to consider all versions from all indexes, regardless of the order in which they were defined.
+error: No solution found when resolving `--with` dependencies
+  cause: Because pandas>=2.0.0,<=2.3.3 needs to be downloaded from a registry and you require pandas<3, we can conclude that you require pandas<=1.5.3.
+         And because you require pandas>=2.0, we can conclude that your requirements are unsatisfiable.
+
+hint: Packages were unavailable because the network was disabled. When the network is disabled, registry packages may only be read from the cache.
+
+hint: `pandas` was found on https://mirror.nju.edu.cn/pypi/web/simple, but not at the requested version (pandas>=2.0.0,<=2.3.3). A compatible version may be available on a subsequent index (e.g., https://pypi.tuna.tsinghua.edu.cn/simple). By default, uv will only consider versions that are published on the first index that contains a given package, to avoid dependency confusion attacks. If all indexes are equally trusted, use `--index-strategy unsafe-best-match` to consider all versions from all indexes, regardless of the order in which they were defined.

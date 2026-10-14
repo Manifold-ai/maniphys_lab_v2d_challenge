@@ -1,0 +1,11 @@
+# command  : stages/evaluate/pull_submission.sh select stages/evaluate/exports/t2_select_b1014.tsv runs/submission/select_t2_b1014/tables runs/submission/select_t2_b1014/t2 
+# md5      : 64a8d99b6d386915cd3db1e133751f61  stages/evaluate/pull_submission.sh
+# md5      : 5cb8ebd8cc3fead05b731064132e0d7d  stages/evaluate/exports/t2_select_b1014.tsv
+# source   : c4f248dc60f3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:41:51-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+按选择清单拉了 30 条 episode 到 runs/submission/select_t2_b1014/t2
+PULL_OK 60

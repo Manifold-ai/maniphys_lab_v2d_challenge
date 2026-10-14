@@ -253,3 +253,9 @@ run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.
 - 15:50 按甲的代码审查改：段名与种子必须一致、显式 42 拒绝、导出清单抬头注明改种子；测试改成字面量并加拒绝情形，两份测试 `ALL_OK`
   （`results/first/tests_mac_seed_option2.txt`）；14 个预设段与 t1xa2 重新生成，逐字节不变（`results/first/queue_regen_seed_option.txt`）。
   甲的两段队列等甲排上时再生成。
+- 16:40–17:00 戊（Tier 2 b1014）：结果表 5 张 `PULL_OK 5`、选中的 30 集 `PULL_OK 60`（sha256 逐个核）、`CHECK_T2_SELECT_OK`；打包头两次失败（留作 `_run1`、`_run2`）：
+  uv 要从 PyPI 取 numpy 2.5.4，本机网络连不上，离线模式又解不出 pandas。改用 `V2D_PACK_PYTHON` 指向 10/13 打 b1013 的同一份缓存环境
+  （`~/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi`，Python 3.12.14、numpy 2.5.3、pandas 2.3.3、pyarrow 25.0.1、trimesh 5.1.0、kaggle 2.2.4，与 b1013 记录里的版本逐项相同），
+  `PACK_OK`：`runs/submission/csv/track2_tier2_select_b1014.csv` 22,989 行、sha256 3f89908a…；上传器 `--dry-run` 通过，四个榜今天各剩 4 次
+  （`results/submission/pack/t2_select_b1014.txt`、`…_dryrun.txt`）。CSV 核对 `CHECK_T2_SELECT_OK`；反向对照（b1013 的 CSV 对 b1014 的清单）4 处不符、退出码 1，
+  正是换的 4 集（`results/select_t2/check_csv_b1014.txt`、`check_csv_negctl_b1014.txt`、`diff_b1013_b1014.txt`）。没有提交。
