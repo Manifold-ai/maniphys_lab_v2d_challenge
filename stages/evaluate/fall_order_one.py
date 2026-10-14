@@ -5,7 +5,7 @@ fall_order.py 的 main() 只收 10/7 试验的清单（每集 base42、base43、
 runs/flash_chord/<run>/eval_<步数>_w<世界数>.json；Tier 2 的 run 只读 Tier 2 的东西。
 物体朝向阈值的核对：run 名带 -r3a- 的按变体 0.6，其余按官方 1.5；--ori 0.6 或 1.5 对全部 run 改用给定值。
 run_one 的门（误差名、数组形状、npz 与新评 JSON 的 MP-SR、checkpoint sha256、MP-SR 复现、朝向阈值）不过就打印问题、这条不分类；
-有一条不过退出码 1，全部过退出码 0。
+文件缺、读不了或 JSON 缺键也按门不过记，接着处理下一条。有一条不过退出码 1，全部过退出码 0。MPPE 差只报，超过参考容差不算门不过。
 用法：python stages/evaluate/fall_order_one.py <run> [<run> ...] [--steps 349999104] [--worlds 4096] [--root .] [--ori 0.6|1.5]
 """
 
@@ -28,7 +28,12 @@ def main(argv=None) -> int:
     bad = 0
     for run in a.runs:
         is_var = a.ori == 0.6 if a.ori is not None else "-r3a-" in run
-        r = fo.run_one(a.root, run, a.steps, a.worlds, is_var)
+        try:
+            r = fo.run_one(a.root, run, a.steps, a.worlds, is_var)
+        except (OSError, KeyError, ValueError) as e:
+            print(f"== {run}：门不过，不分类：读不了评测文件或缺键（{type(e).__name__}: {e}）")
+            bad += 1
+            continue
         print(f"== {run}（物体朝向阈值按 {0.6 if is_var else 1.5} 核）：新评 MP-SR {r['mp_new']:.4f}，与原评测差 {r['d_mp']:+.4f}；"
               f"MPPE 差 {r['d_mppe']:+.2f} cm（参考容差 {r['tol']:.2f}，只报）")
         if r["problems"]:

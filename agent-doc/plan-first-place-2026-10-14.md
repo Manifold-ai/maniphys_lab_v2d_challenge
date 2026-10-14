@@ -150,7 +150,8 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
   （先比 MP-SR，再比 SP-SR，再比 AUC / 0.3780 − MPPE / 25.1706），打分门 A、B 照旧。新 CSV 只打包、不提交，提交要用户点头。
 - 甲的停手：ep14 的 s43 那条 4096 世界 MP-SR 低于 0.3、ep19 的低于 0.2（低于它现有的 0.258），这一集不再补；那 1 局成功的集也不再补。
   补 s44 及以后由用户定（第 7 节第 2 条）。
-- 丙：每集报骨盆失守与接触帧的先后（`fall_order.py` 的判法不改）、diag2 能跑的行报接近、抓取、跟踪三类的占比，只报；写训练计划之前不起训练。
+- 丙：每集报骨盆失守与接触帧的先后（`fall_order.py` 的门与判法不改）、diag2 能跑的行报接近、抓取、跟踪三类的占比，只报；写训练计划之前不起训练。
+  新评与原评测的 MPPE 差只报，超过参考容差不算门不过（两次评测的运行时可能不同）；评测文件缺或读不了的那条按门不过记，其余照常。
 - 档位隔离：Tier 2 的诊断、选择与判断只用 Tier 2 的数据；用 `fall_order.py` 跑 Tier 2 之前先核对它读的文件只有 Tier 2 的。Tier 1 的结果不拿来调
   Tier 2 的任何东西。
 - 丁：不做。
@@ -209,6 +210,16 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 | 6 | NIT | 后缀测试没断言 hydra 目录与预演 | 采纳：补两条断言 |
 | 7 | NIT | `fc_eval_dump.sh` 的评测 JSON 不在候选找的位置 | 采纳：写进第 3 节第 3 步 |
 
+第 3 版（a452a8c）的代码再审：**GO WITH FIXES**（1 MINOR、2 NIT）。审查核过：`fall_order_one.py` 只换入口，门与 `crossings`、`classify`、`describe` 全部沿用，
+不暴露 `--repro-mp`；退出码与结尾标记与文件头一致；按现有记录，丙列的 14 条 run 都不会因非实质原因卡在门上（p185 两条按官方 1.50 核，
+原评测 JSON 都在 run 根目录，14 条 MP-SR 都在 0–0.011）。
+
+| # | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| 1 | MINOR | 缺文件或缺键时 `run_one` 抛异常，整条命令退出、其余 run 不再处理 | 采纳：逐条捕获，按门不过记、接着处理；补一组测试 |
+| 2 | NIT | 没测 `--ori 0.6` 用在不带 `-r3a-` 的 run 上、多条 run 时每条都生效 | 采纳：补一组测试 |
+| 3 | NIT | MPPE 差在不同运行时下可能不小，容易被当成问题 | 采纳：丙的判据写明 MPPE 差只报，超过参考容差不算门不过 |
+
 ## 9. 执行记录
 
 - 15:29 第 0 步（Mac，不用 GPU）：`fc_export.sh` 加 `V2D_EXPORT_SUFFIX`，`test_fc_export.py` 补第 10 组（带后缀重新导出到新目录、日志名带后缀、
@@ -216,3 +227,5 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
   （`results/first/tests_mac_step0.txt`）。代码审查见第 8 节。
 - 15:39 第 0 步补充（按第二轮审查）：`fall_order_one.py` 与 4 组测试，连同 `test_fall_order.py` 的 7 组共 11 个通过；`test_fc_export.py` 第 10 组补 hydra 目录与
   预演两条断言，10 组 `ALL_OK`（`results/first/tests_mac_step0b.txt`；pytest 用本机缓存的 uv 环境，numpy 取另一份同为 Python 3.13 的缓存环境）。
+-  按代码再审补：缺文件、缺键逐条按门不过记，补两组测试；13 个通过，`test_fc_export.py` 仍 `ALL_OK`（`results/first/tests_mac_step0c.txt`）。
+  第 0 步完成。
