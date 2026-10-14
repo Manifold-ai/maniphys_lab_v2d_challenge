@@ -1,0 +1,20 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/tier2_inputs_md5.py\ 3\ 12\ 15\ 16 
+# md5      : 41e973c3bcb287eb603e0b00cebb0ce4  stages/recovery/tier2_inputs_md5.py
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:15:06-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-15 00:15:17 CST 来历 fa5250481779；Tier 2 目录 /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise
+5d1c0769b2e731f2de49d107ec8fa9eb mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+ac17f82e8b8b9399b16ae1f1e458c470 ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+915839ac3f4fef01c799a904bff7a036 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+dcf25842d8a4dce616f5da968ad7a5ea ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+090f16c81ce7a69f7f75fd3a19f84717 mesh/wet_floor_sign/wet_floor_sign.glb
+4f778f37e24522e162de1392a4e3d9a0 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+d424da632926a017fccf9aa51fcd4ce8 mesh/spray_bottle/spray_bottle.glb
+8eddd909e08e40f8bcf27c6d814e9f27 ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+05cb55214db197e3cbffb06cc66e1497 support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+TIER2_INPUTS_DONE（4 集，12 个文件）

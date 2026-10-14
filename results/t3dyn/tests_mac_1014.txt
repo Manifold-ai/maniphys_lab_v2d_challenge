@@ -1,0 +1,28 @@
+# command  : bash -c for\ t\ in\ stages/policy/test_make_copy_queue.py\ stages/policy/test_make_var_queue.py\ stages/recovery/test_tier3_expect.py\ stages/recovery/test_tier3_root.py\ stages/recovery/test_tier3_relay.py\;\ do\ echo\ \"==\ \$t\"\;\ python3\ \$t\ 2\>\&1\ \|\ tail\ -2\;\ done\;\ bash\ -n\ stages/recovery/tier3_stage.sh\ \&\&\ bash\ -n\ stages/recovery/tier3_pack_remote.sh\ \&\&\ bash\ -n\ tools/t3_episode_remote.sh\ \&\&\ echo\ SYNTAX_OK 
+# md5      : ff0e04f1eef65fe844f2178b0702c307  stages/policy/test_make_copy_queue.py
+# md5      : 91f6fa5c39e1b0f01d53b9457633f5e4  stages/policy/test_make_var_queue.py
+# md5      : 1ab41d5e9da7fe66fe996ce6887ec654  stages/recovery/test_tier3_expect.py
+# md5      : 2c6a3b699afdb23f72aaca24b83ba0e2  stages/recovery/test_tier3_root.py
+# md5      : 2aa5732ffe6be06d5b29a2e5b11e1c92  stages/recovery/tier3_stage.sh
+# md5      : 1a518a7f4f76640aec80f60cfa23f7b4  stages/recovery/tier3_pack_remote.sh
+# md5      : 2d0128b29cd961002182334ca93d7c46  tools/t3_episode_remote.sh
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:20:29-0600
+# ---------------------------------------------------------------
+== stages/policy/test_make_copy_queue.py
+ok test_refuses
+ALL_OK
+== stages/policy/test_make_var_queue.py
+ok test_duplicate_export_row_refuses
+ALL_OK
+== stages/recovery/test_tier3_expect.py
+ok test_support_record_refuses
+ALL_OK
+== stages/recovery/test_tier3_root.py
+ok test_support_dir_refuses
+ALL_OK
+== stages/recovery/test_tier3_relay.py
+ok test_target_appears_before_move
+ALL_OK
+SYNTAX_OK

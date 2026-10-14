@@ -10,6 +10,8 @@
   6. --support-from-incoming（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：支撑面从转来的目录复制（内容与官方的不同），按哈希表的 sha256 核；
      provenance 记 support_source、support_sha256，tier2_md5 只有网格与地面；转来的支撑面被改、哈希表里还是官方支撑面的 md5、
      或不加选项却给了转来支撑面的 sha256：都拒绝，什么也不写
+  7. --support-dir <目录>（计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md）：支撑面从另一个目录复制（转来的目录里没有支撑面），按哈希表的 sha256 核；
+     provenance 的 support_source 是这个目录；那里的支撑面被改、两个选项一起给、不加选项：都拒绝，什么也不写
 用法：python3 stages/recovery/test_tier3_root.py
 """
 import hashlib
@@ -33,7 +35,7 @@ def h(path: Path, algo: str) -> str:
     return hashlib.new(algo, path.read_bytes()).hexdigest()
 
 
-def setup(t: Path, bad_rel=False, sup_incoming=False):
+def setup(t: Path, bad_rel=False, sup_incoming=False, sup_dir=None):
     inc, t2 = t / "incoming", t / "tier_2_synthetic_noise"
     lines = []
     for ep, seq, obj in ((8, "s8_chair", "chair"), (24, "s24_can", "can")):
@@ -51,10 +53,10 @@ def setup(t: Path, bad_rel=False, sup_incoming=False):
             p = t2 / r[k]
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(body)
-            if not (sup_incoming and k == "support_surface"):
+            if not ((sup_incoming or sup_dir) and k == "support_surface"):
                 lines.append(f"{r[k]}\tmd5\t{h(p, 'md5')}")
-        if sup_incoming:
-            q = inc / r["support_surface"]
+        if sup_incoming or sup_dir:
+            q = (sup_dir or inc) / r["support_surface"]
             q.parent.mkdir(parents=True, exist_ok=True)
             q.write_text(f"delivered-table-{seq}")
             lines.append(f"{r['support_surface']}\tsha256\t{h(q, 'sha256')}")
@@ -181,6 +183,45 @@ def test_support_from_incoming_refuses():
             r = run(inc, t / "root", t2, exp, *opts)
             msg = r.stdout + r.stderr
             assert r.returncode != 0 and "哈希表里是" in msg, (kind, msg)
+            assert not (t / "root").exists(), kind
+
+
+def test_support_dir():
+    with tempfile.TemporaryDirectory() as d:
+        t = Path(d)
+        hm = t / "root_hm"
+        inc, t2, exp = setup(t, sup_dir=hm)
+        root = t / "root"
+        r = run(inc, root, t2, exp, "--support-dir", str(hm))
+        assert r.returncode == 0 and r.stdout.strip().endswith("TIER3_ROOT_OK"), r.stdout + r.stderr
+        assert not (inc / "support_surface").exists()
+        rows = [json.loads(x) for x in (root / "meta" / "episodes_metadata.jsonl").read_text().splitlines()]
+        for x in rows:
+            assert (root / x["support_surface"]).read_text() == f"delivered-table-{x['sequence_id']}", x
+        pj = json.loads((root / "meta" / "provenance.json").read_text())
+        p24 = pj["episodes"]["24"]
+        assert p24["support_source"] == str(hm) and set(p24["tier2_md5"]) == {"mesh", "ground_plane"}, p24
+        assert p24["support_sha256"] == hashlib.sha256(b"delivered-table-s24_can").hexdigest(), p24
+        assert f"支撑面取自 {hm}" in pj["note"], pj["note"]
+
+
+def test_support_dir_refuses():
+    for kind in ("changed", "both", "no_flag"):
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d)
+            hm = t / "root_hm"
+            inc, t2, exp = setup(t, sup_dir=hm)
+            opts = ("--support-dir", str(hm))
+            if kind == "changed":
+                (hm / "support_surface" / "s8_chair_support.usda").write_text("rewritten after the record")
+            elif kind == "both":
+                opts = ("--support-dir", str(hm), "--support-from-incoming")
+            else:
+                opts = ()
+            r = run(inc, t / "root", t2, exp, *opts)
+            msg = r.stdout + r.stderr
+            want = "只能给一个" if kind == "both" else "哈希表里是"
+            assert r.returncode != 0 and want in msg, (kind, msg)
             assert not (t / "root").exists(), kind
 
 

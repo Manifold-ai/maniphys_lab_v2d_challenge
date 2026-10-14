@@ -1,0 +1,469 @@
+# command  : ssh -o BatchMode=yes ml40 V2D_T3_SUBDIR=tier3_cari4d_f830_best_hm\ V2D_T3_SUPPORT=delivery\ bash\ -s\ --\ 3\ 12\ 15\ 16 
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:10:22-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-15 00:10:44 CST
+## 目录 runs/tier3_cari4d_f830_best_hm
+## /lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d_f830_best_hm 的前两层
+drwxrwsr-x 2026-10-13_05:08:31.6264370360 4096 
+drwxrwsr-x 2026-10-13_03:38:32.1036127250 4096 data
+drwxrwsr-x 2026-10-13_03:38:47.0356837930 4096 data/chunk-000
+drwxrwsr-x 2026-10-13_03:38:47.0476838500 4096 meta
+-rw-rw-r-- 2026-10-13_03:38:32.1236128200 649 meta/episode_000000.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:32.8876164560 707 meta/episode_000001.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:33.6196199410 842 meta/episode_000002.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:34.1996227010 766 meta/episode_000003.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:35.0356266800 708 meta/episode_000004.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:36.1276318780 562 meta/episode_000005.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:36.4756335340 733 meta/episode_000006.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:36.8756354380 646 meta/episode_000007.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:36.9796359320 629 meta/episode_000008.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:37.6756392450 834 meta/episode_000009.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:38.0396409780 664 meta/episode_000010.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:38.5076432050 610 meta/episode_000011.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:39.3316471270 619 meta/episode_000012.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:39.8076493920 692 meta/episode_000013.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:40.4156522860 721 meta/episode_000014.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:41.0156551410 721 meta/episode_000015.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:41.3956569500 671 meta/episode_000016.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:41.6636582250 649 meta/episode_000017.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:42.2956612330 628 meta/episode_000018.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:42.6516629280 687 meta/episode_000019.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:43.2076655740 667 meta/episode_000020.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:43.8476686200 600 meta/episode_000021.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:44.2116703520 625 meta/episode_000022.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:44.7236727890 683 meta/episode_000023.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:45.1676749020 660 meta/episode_000024.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:45.6796773390 791 meta/episode_000025.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:46.0876792810 647 meta/episode_000026.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:46.3916807280 656 meta/episode_000027.metadata.json
+-rw-rw-r-- 2026-10-13_03:38:47.0476838500 728 meta/episode_000029.metadata.json
+drwxrwsr-x 2026-10-13_05:08:32.7584428860 4096 support_surface
+-rw-rw-r-- 2026-10-13_05:08:32.2944404880 441 support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.8584382340 124 support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.6464423070 441 support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.8224380480 124 support_surface/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.0984394750 442 support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.1424397020 124 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.7824378410 442 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.4864414800 124 support_surface/2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.7224427000 441 support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.0584392680 124 support_surface/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.3344406950 441 support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.3744409010 124 support_surface/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.2584403010 124 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.7104374700 124 support_surface/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.4104410870 124 support_surface/2026-05-19_10-19-48_cane_swing_05_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.5264416860 124 support_surface/2026-05-22_16-52-36_step_ladder_drag_03_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.2184400950 124 support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.9344386270 441 support_surface/2026-05-29_15-20-43_iron_round_table_02_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.6024420790 124 support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.8984384420 441 support_surface/2026-06-01_11-26-44_monitor_rotate_05_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.7464376560 442 support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.5624418730 124 support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.6704372630 124 support_surface/2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.0144390410 442 support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+-rw-rw-r-- 2026-10-13_05:08:31.9744388340 124 support_surface/2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.6824424930 124 support_surface/2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.7584428860 124 support_surface/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.4504412940 441 support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.1784398880 442 support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.7584428860 7071 support_surface/support_usda.json
+## episode 3
+可读 1062877 字节 2026-10-13 03:38:34.19962 sha256 759ed5e3d89919a2cb44759883bf13a9fd0575a3e26dbc709847244d70774ed7 data/chunk-000/episode_000003.parquet
+可读 766 字节 2026-10-13 03:38:34.199622701 sha256 25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3 meta/episode_000003.metadata.json
+{"calibration_sequence": "2026-04-27_09-37-33_calibration", "episode_index": 3, "frames": 781, "ground_plane": "ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json", "mesh": "mesh/contigo_coffee_mug/contigo_coffee_mug.glb", "notes": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "object": "contigo_coffee_mug", "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "support_surface": "support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the coffee mug on the round table, lift it by the handle with your right hand and set it down, then repeat with your left, alternating a few times before leaving it on the table."}
+可读 442 字节 2026-10-13 05:08:31.782437841 sha256 7d9fc4fefca8da5cfe754dad6a8962b4decc7c5365e5b30e0fcbb16c8a8fa2d8 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+输入 mesh 5d1c0769b2e731f2de49d107ec8fa9eb mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+输入 ground_plane 722b8447b5aa402d50ff8f16abc153bb ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+## episode 12
+可读 953717 字节 2026-10-13 03:38:39.331647 sha256 8497f2d570e6afabba52f42b4f0859a78e8e385e1607348f26945532e9d2ac8c data/chunk-000/episode_000012.parquet
+可读 619 字节 2026-10-13 03:38:39.331647127 sha256 8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00 meta/episode_000012.metadata.json
+{"calibration_sequence": "2026-04-25_14-36-15_calibration", "episode_index": 12, "frames": 700, "ground_plane": "ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json", "mesh": "mesh/black_platform/black_platform.glb", "notes": "2026-04-25_17-20-04_black_platform_turn_05", "object": "black_platform", "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05", "support_surface": "support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the platform on the ground and turn the platform over. Place on the ground when done."}
+可读 124 字节 2026-10-13 05:08:32.142439702 sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+输入 mesh 6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+输入 ground_plane 6f94edae922375745162ab3753be2c19 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+## episode 15
+可读 974960 字节 2026-10-13 03:38:41.015655 sha256 6661a22f318f2488387d6a69ef563e1fb6674acead05df9e80b2aae15ab12e91 data/chunk-000/episode_000015.parquet
+可读 721 字节 2026-10-13 03:38:41.015655141 sha256 4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7 meta/episode_000015.metadata.json
+{"calibration_sequence": "2026-05-06_09-28-56_calibration", "episode_index": 15, "frames": 715, "ground_plane": "ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json", "mesh": "mesh/wet_floor_sign/wet_floor_sign.glb", "notes": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "object": "wet_floor_sign", "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "support_surface": "support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the wet floor sign, pick it up with one hand and hold onto it while walking around for at least 10 seconds, then place it back on the floor."}
+可读 124 字节 2026-10-13 05:08:32.258440301 sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+输入 mesh 090f16c81ce7a69f7f75fd3a19f84717 mesh/wet_floor_sign/wet_floor_sign.glb
+输入 ground_plane cd25e9640eb80e9d8c05fdddcf646387 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+## episode 16
+可读 643199 字节 2026-10-13 03:38:41.391656 sha256 6ee7855940a29445c0c0e46b9e60a1bb1fa994ba4846208848c7bd2d9b38d914 data/chunk-000/episode_000016.parquet
+可读 671 字节 2026-10-13 03:38:41.395656950 sha256 ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344 meta/episode_000016.metadata.json
+{"calibration_sequence": "2026-03-12_13-41-31_calibration", "episode_index": 16, "frames": 477, "ground_plane": "ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json", "mesh": "mesh/spray_bottle/spray_bottle.glb", "notes": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "object": "spray_bottle", "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "support_surface": "support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the spray bottle on the white desk, pick up the spray bottle with your left hand and place it on the ground."}
+可读 441 字节 2026-10-13 05:08:32.294440488 sha256 c3674b0b5f3b59dddbec43672ebecee069e384a0b99f3378164b1dede4d182bf support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+输入 mesh d424da632926a017fccf9aa51fcd4ce8 mesh/spray_bottle/spray_bottle.glb
+输入 ground_plane cbf0d452773926a0fcaa70ff2887045e ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+## support_surface/support_usda.json sha256 e4201a7b72ef946589831ac775f6c4990ef52d38ad44a4026ea9e0b445f4b627
+{
+ "set": "bhm",
+ "support_dir": "/lab_data/<其他用户>/v2d/tier3/runs/support/tier3_cari4d_f830_best",
+ "episodes": [
+  {
+   "episode": "ep00_tall_bar_stool",
+   "sequence_id": "2026-06-04_14-16-23_tall_bar_stool_tip_up_04",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep01_vacuum",
+   "sequence_id": "2026-05-18_17-06-21_vacuum_left_lean_02",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep02_blue_easter_basket",
+   "sequence_id": "2026-06-02_10-04-42_blue_easter_basket_place_10",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.772,
+     "top_z_m": 0.772,
+     "xy_min_m": [
+      -1.0339,
+      -0.139
+     ],
+     "xy_max_m": [
+      -0.7856,
+      0.1029
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep03_contigo_coffee_mug",
+   "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.755,
+     "top_z_m": 0.755,
+     "xy_min_m": [
+      -1.4443,
+      -0.2647
+     ],
+     "xy_max_m": [
+      -1.2461,
+      -0.1126
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep04_baseball_bat",
+   "sequence_id": "2026-04-24_11-40-52_baseball_bat_rotate_05",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep05_big_black_box",
+   "sequence_id": "2026-03-18_19-36-56_g1_box_rotate_01",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep06_monitor",
+   "sequence_id": "2026-06-01_11-26-44_monitor_rotate_05",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.765,
+     "top_z_m": 0.765,
+     "xy_min_m": [
+      -1.3521,
+      0.0859
+     ],
+     "xy_max_m": [
+      -0.8361,
+      0.4127
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep07_iron",
+   "sequence_id": "2026-05-29_15-20-43_iron_round_table_02",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.76,
+     "top_z_m": 0.76,
+     "xy_min_m": [
+      -0.8803,
+      0.1777
+     ],
+     "xy_max_m": [
+      -0.5743,
+      0.302
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep08_skinny_wood_chair",
+   "sequence_id": "2026-06-05_15-08-08_skinny_wood_chair_push_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep09_big_red_bowl",
+   "sequence_id": "2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.474,
+     "top_z_m": 0.474,
+     "xy_min_m": [
+      -1.1307,
+      -0.2415
+     ],
+     "xy_max_m": [
+      -0.833,
+      0.0564
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep10_white_desk",
+   "sequence_id": "2026-05-01_11-36-40_white_desk_lower_to_ground_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep11_light_blue_book",
+   "sequence_id": "2026-04-24_13-56-58_light_blue_book_pick_place_09",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.849,
+     "top_z_m": 0.849,
+     "xy_min_m": [
+      -1.1657,
+      -0.2209
+     ],
+     "xy_max_m": [
+      -0.6422,
+      0.1
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep12_black_platform",
+   "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep13_snack_box",
+   "sequence_id": "2026-06-09_10-19-09_snack_box_desk_through_06",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.867,
+     "top_z_m": 0.867,
+     "xy_min_m": [
+      -1.2014,
+      -0.4287
+     ],
+     "xy_max_m": [
+      -0.6266,
+      0.1912
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep14_round_table",
+   "sequence_id": "2026-05-28_14-44-09_round_table_flip_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep15_wet_floor_sign",
+   "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep16_spray_bottle",
+   "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.871,
+     "top_z_m": 0.871,
+     "xy_min_m": [
+      -0.6572,
+      0.8348
+     ],
+     "xy_max_m": [
+      -0.5666,
+      0.9244
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep17_traffic_cone",
+   "sequence_id": "2026-05-01_17-04-55_traffic_cone_ground_table_02",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.779,
+     "top_z_m": 0.779,
+     "xy_min_m": [
+      -0.3017,
+      0.5274
+     ],
+     "xy_max_m": [
+      -0.0782,
+      0.7498
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep18_blue_trash_can",
+   "sequence_id": "2026-05-06_10-00-19_blue_trash_can_drag_sideways_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep19_cane",
+   "sequence_id": "2026-05-19_10-19-48_cane_swing_05",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep20_rice_cooker",
+   "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.783,
+     "top_z_m": 0.783,
+     "xy_min_m": [
+      -0.349,
+      0.6614
+     ],
+     "xy_max_m": [
+      -0.1299,
+      0.8951
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep21_tall_bar_stool",
+   "sequence_id": "2026-04-29_11-53-57_tall_bar_stool_pull_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep22_step_ladder",
+   "sequence_id": "2026-05-22_16-52-36_step_ladder_drag_03",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep23_toy_stroller",
+   "sequence_id": "2026-06-03_15-08-03_toy_stroller_back_forth_ground_04",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep24_watering_can",
+   "sequence_id": "2026-05-29_15-43-20_watering_can_pour_right_02",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep25_cyan_water_bottle",
+   "sequence_id": "2026-03-20_11-59-57_cyan_water_bottle_rotate_01",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.791,
+     "top_z_m": 0.791,
+     "xy_min_m": [
+      -1.1931,
+      0.557
+     ],
+     "xy_max_m": [
+      -0.9984,
+      0.7225
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep26_skateboard",
+   "sequence_id": "2026-06-05_16-05-08_skateboard_rotate_ground_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep27_woven_basket",
+   "sequence_id": "2026-05-01_11-15-05_woven_basket_ground_desk_10",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.894,
+     "top_z_m": 0.894,
+     "xy_min_m": [
+      0.0552,
+      -1.1323
+     ],
+     "xy_max_m": [
+      0.386,
+      -0.8244
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep28_squeegee",
+   "sequence_id": "2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.654,
+     "top_z_m": 0.654,
+     "xy_min_m": [
+      -0.5038,
+      -0.8486
+     ],
+     "xy_max_m": [
+      1.0295,
+      -0.5627
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep29_rolling_luggage",
+   "sequence_id": "2026-06-05_18-27-40_rolling_luggage_left_foot_push_06",
+   "check_m": 0.0,
+   "supports": []
+  }
+ ]
+}

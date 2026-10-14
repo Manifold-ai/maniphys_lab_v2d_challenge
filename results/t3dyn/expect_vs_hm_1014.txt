@@ -1,0 +1,28 @@
+# command  : bash -c $'for f in stages/recovery/expect/t3dyn4_4_1014.tsv stages/recovery/expect/t3dyn4s_1_1014.tsv; do echo "== $f"; grep -v "^data/" "$f" | while IFS="\t" read -r p a h; do g=$(awk -F"\\t" -v p="$p" "\\$1==p{print \\$2\\" \\"\\$3}" stages/recovery/expect/t3hm_29_1012.tsv); if [ "$g" = "$a $h" ]; then echo "same $p"; else echo "DIFF $p"; fi; done; done' 
+# md5      : 2f55f21b6f7a53130e5576058481d4b6  stages/recovery/expect/t3dyn4_4_1014.tsv
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:21:25-0600
+# ---------------------------------------------------------------
+== stages/recovery/expect/t3dyn4_4_1014.tsv
+same ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+same ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+same ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+same ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+same mesh/black_platform/black_platform.glb
+same mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+same mesh/spray_bottle/spray_bottle.glb
+same mesh/wet_floor_sign/wet_floor_sign.glb
+same meta/episode_000003.metadata.json
+same meta/episode_000012.metadata.json
+same meta/episode_000015.metadata.json
+same meta/episode_000016.metadata.json
+same support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+same support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+same support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+same support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+== stages/recovery/expect/t3dyn4s_1_1014.tsv
+same ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+same mesh/black_platform/black_platform.glb
+same meta/episode_000012.metadata.json
+same support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda

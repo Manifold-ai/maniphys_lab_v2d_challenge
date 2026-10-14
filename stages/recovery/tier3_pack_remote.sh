@@ -8,6 +8,8 @@
 #   10/11 的 tier3_cari4d_f830_simreg 与 _suspect（人体随场景缩放、第二机位 5 集配准到主机位；计划 agent-doc/plan-t3-simreg-p2-2026-10-11.md）。
 #   10/12 的交付版 tier3_cari4d_f830_best 与 _suspect（逐集取跟丢比例最低的版本组装；计划 agent-doc/plan-t3-delivery-p2-2026-10-12.md）。
 #   10/12 晚的最终交付版 tier3_cari4d_f830_best_hm 与 _suspect（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）。
+#   10/14 的动力学修复版 tier3_cari4d_f830_best_dyn4（只改物体）、tier3_cari4d_f830_best_dyn4s（再加人体时间平滑）与各自的 _suspect
+#   （计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md）。
 #   白名单与 tools/t3_episode_remote.sh 相同，改一处要两处一起改。
 # V2D_T3_SUPPORT=delivery（只许空或 delivery）：每集元数据 support_surface 指向的交付目录里的文件也打进 tar；路径必须形如
 #   support_surface/<文件名>.usda（不许绝对路径、.. 与子目录），缺或读不了就退出码 1。不设时与以前相同。
@@ -18,7 +20,7 @@ me="$(id -un)"
 mapfile -t roots < <(ls -d /lab_data/*/v2d/tier3 2>/dev/null | grep -v "^/lab_data/$me/")
 [ ${#roots[@]} = 1 ] || { echo "tier3_pack_remote: 别的用户的 tier3 目录有 ${#roots[@]} 个，应当恰好一个" >&2; exit 1; }
 SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect) ;;
+case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect) ;;
   *) echo "tier3_pack_remote: V2D_T3_SUBDIR 不在白名单里：$SUB" >&2; exit 2 ;;
 esac
 SUP="${V2D_T3_SUPPORT:-}"

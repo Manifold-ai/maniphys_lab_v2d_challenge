@@ -15,8 +15,12 @@ meta/episode_<N>.metadata.json（同组成员的转换脚本每集写一份，�
 --support-from-incoming（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md：Tier 3 不用官方支撑面）：支撑面改从 <incoming>/<相对路径> 复制
   （tier3_pack_remote.sh 设 V2D_T3_SUPPORT=delivery 时打进 tar 的交付目录里的文件），按哈希表核（表里是 B.1 记录的 sha256）；
   provenance 每集另记 support_source = incoming 与 support_sha256，tier2_md5 只有网格与地面，note 照实写来路。不加时输出与以前相同。
+--support-dir <目录>（计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md：动力学修复版的目录里没有支撑面，沿用 best_hm 交付的那几份）：支撑面改从
+  <目录>/<相对路径> 复制（例如 runs/tier3/root_hm，里面的支撑面是 best_hm 拼目录时按哈希表核过的交付文件），按哈希表的 sha256 核
+  （stages/recovery/tier3_expect.py --support-record 生成）；provenance 记 support_source = <目录> 与 support_sha256。与 --support-from-incoming 只能给一个。
 开头调 tier_guard.forbid_tier1()：本进程读不到 Tier 1 的任何文件。
-用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> --expect <表> [--root <输出>] [--tier2 <官方 Tier 2 目录>] [--support-from-incoming]
+用法（仓库根）：python3 stages/recovery/tier3_root.py <incoming> --expect <表> [--root <输出>] [--tier2 <官方 Tier 2 目录>]
+                [--support-from-incoming | --support-dir <目录>]
 测试：stages/recovery/test_tier3_root.py。
 """
 import argparse
@@ -72,8 +76,11 @@ def deployed(incoming: Path) -> dict:
     return {"commit": m.group(0), "clean": "dirty=0" in text}
 
 
-def plan(incoming: Path, root: Path, tier2: Path, expect: dict, support_from_incoming: bool = False) -> tuple:
+def plan(incoming: Path, root: Path, tier2: Path, expect: dict, support_from_incoming: bool = False, support_dir: Path = None) -> tuple:
     """核对并列出要写的文件（源 → 目标）、metadata 行与来源；不写任何东西。"""
+    if support_from_incoming and support_dir is not None:
+        raise SystemExit("tier3_root: --support-from-incoming 与 --support-dir 只能给一个")
+    sup_src = incoming if support_from_incoming else support_dir   # None：支撑面同网格、地面，取官方 Tier 2 目录
     metas = sorted((incoming / "meta").glob("episode_*.metadata.json"))
     if not metas:
         raise SystemExit(f"tier3_root: {incoming}/meta 下没有 episode_*.metadata.json")
@@ -119,18 +126,19 @@ def plan(incoming: Path, root: Path, tier2: Path, expect: dict, support_from_inc
             copies.append((src_pq, dst_pq))
         for k in LINKED:
             rel = safe_rel(row[k])
-            from_inc = support_from_incoming and k == "support_surface"
-            src = (incoming if from_inc else tier2) / rel
+            from_inc = sup_src is not None and k == "support_surface"
+            src = (sup_src if from_inc else tier2) / rel
+            where = ("转来的目录" if support_from_incoming else f"支撑面目录 {support_dir}") if from_inc else "官方 Tier 2 目录"
             if not src.is_file():
-                raise SystemExit(f"tier3_root: ep{ep} 的 {k} 在{'转来的目录' if from_inc else '官方 Tier 2 目录'}里没有：{src}")
+                raise SystemExit(f"tier3_root: ep{ep} 的 {k} 在{where}里没有：{src}")
             if from_inc:
-                info["support_source"] = "incoming"
+                info["support_source"] = "incoming" if support_from_incoming else str(support_dir)
                 info["support_sha256"] = check(str(rel), src)
             else:
                 info["tier2_md5"][k] = check(str(rel), src)
             dst = root / rel
             if dst.exists() and digest(dst, "sha256") != digest(src, "sha256"):
-                raise SystemExit(f"tier3_root: {dst} 已存在且与{'转来的文件' if from_inc else '官方文件'}不同")
+                raise SystemExit(f"tier3_root: {dst} 已存在且与{'这次取的支撑面' if from_inc else '官方文件'}不同")
             if not dst.exists():
                 copies.append((src, dst))
         rows[ep] = row
@@ -149,8 +157,9 @@ def main(argv=None) -> int:
     ap.add_argument("--root", type=Path, default=TIER3)
     ap.add_argument("--tier2", type=Path, default=TIER2)
     ap.add_argument("--support-from-incoming", action="store_true")
+    ap.add_argument("--support-dir", type=Path)
     a = ap.parse_args(argv)
-    copies, rows, prov = plan(a.incoming, a.root, a.tier2, load_expect(a.expect), a.support_from_incoming)
+    copies, rows, prov = plan(a.incoming, a.root, a.tier2, load_expect(a.expect), a.support_from_incoming, a.support_dir)
     for src, dst in copies:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)
@@ -165,6 +174,8 @@ def main(argv=None) -> int:
     episodes = {**old.get("episodes", {}), **{ep: dict(info, expect=str(a.expect)) for ep, info in prov.items()}}
     note = ("Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；"
             "支撑面取自同组成员的交付目录（转来的文件，sha256 核过）" if a.support_from_incoming
+            else "Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面取自官方 Tier 2 目录（规则解读未确认）；"
+            f"支撑面取自 {a.support_dir}（同组成员上一版交付目录里的文件，sha256 核过）" if a.support_dir is not None
             else "Tier 3 的轨迹来自同组成员的 CARI4D 重建（不是官方数据）；网格、地面、支撑面取自官方 Tier 2 目录（规则解读未确认）")
     pj.write_text(json.dumps({"note": note, "episodes": episodes}, ensure_ascii=False, indent=1) + "\n")
     print(f"写 meta/episodes_metadata.jsonl（{len(rows)} 行：{', '.join(f'ep{e}' for e in sorted(rows))}）与 meta/provenance.json")

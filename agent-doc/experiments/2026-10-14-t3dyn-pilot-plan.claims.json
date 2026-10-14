@@ -1,0 +1,168 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "cmp": {
+      "file": "results/t3dyn/support_meta_compare_1014.txt",
+      "grep": "^# command|^相对路径|^data/|^meta/|^support_surface/|^COMPARE"
+    },
+    "dyn4": {
+      "file": "results/ops/t3_episodes_ml40_1014_dyn4.txt",
+      "grep": "^# command|^## 目录|^## episode|^可读|^支撑面"
+    },
+    "dyn4s": {
+      "file": "results/ops/t3_episodes_ml40_1014_dyn4s.txt",
+      "grep": "^# command|^## 目录|^## episode|^可读|^支撑面"
+    },
+    "evh": {
+      "file": "results/t3dyn/expect_vs_hm_1014.txt",
+      "grep": "^# command|^== |^same|^DIFF"
+    },
+    "cpa": {
+      "file": "results/t3dyn/copy_check_t3pdyn.txt",
+      "grep": "^t3-|^  |^相同|^不同|^COPY"
+    },
+    "cpb": {
+      "file": "results/t3dyn/copy_check_t3qdyn.txt",
+      "grep": "^t3-|^  |^相同|^不同|^COPY"
+    },
+    "probe": {
+      "file": "results/ops/ml40_hf_hub_probe_1014.txt",
+      "grep": "^# command|^Python|Module|hf|^[0-9]+$"
+    },
+    "ta": {
+      "file": "results/t3p4/health_t3p4a_mf4090.txt",
+      "grep": "正式 t3-ep(15|3)-|t3-ep(15|3)-w2048-cap4m-r3a-hm-mf4090 完成"
+    },
+    "tb": {
+      "file": "results/t3p4/end_t3p4b_mf4090_1013_2354.txt",
+      "grep": "正式 t3-ep(12|16)-|t3-ep(12|16)-w2048-cap4m-r3a-hm-mf4090 完成"
+    },
+    "tests": {
+      "file": "results/t3dyn/tests_mac_1014.txt",
+      "grep": "^== |ALL_OK|SYNTAX_OK|FAIL|Error"
+    },
+    "q": {
+      "file": "stages/policy/queues/mf4090_t3pdyn.expect.tsv"
+    },
+    "qq": {
+      "file": "stages/policy/queues/ml40_t3qdyn.expect.tsv"
+    }
+  },
+  "claims": [
+    {
+      "id": "files_pq",
+      "evidence": [
+        "cmp"
+      ],
+      "claim": "表里 ep3、ep12、ep15、ep16 的 parquet，dyn4 一列的 sha256 与 hm 一列的都不同；ep12 的 parquet，dyn4s 一列的 sha256 也与 hm 的不同。"
+    },
+    {
+      "id": "files_meta",
+      "evidence": [
+        "cmp"
+      ],
+      "claim": "表里 ep3、ep12、ep15、ep16 的元数据（meta/…metadata.json），dyn4 一列的 sha256 与 hm 一列的相同；ep12 的元数据在 dyn4s 一列里也与 hm 的相同。"
+    },
+    {
+      "id": "files_sup",
+      "evidence": [
+        "cmp"
+      ],
+      "claim": "表里 4 份支撑面文件（support_surface/…_support.usda）在 hm 一列都有 sha256，在 dyn4 一列都是“没有”；ep12 的那份（black_platform）在 dyn4s 一列也是“没有”。"
+    },
+    {
+      "id": "sizes",
+      "evidence": [
+        "dyn4",
+        "dyn4s"
+      ],
+      "claim": "best_dyn4 的 ep3、ep12、ep15、ep16 parquet 分别是 1057557、945116、967996、636711 字节；best_dyn4s 的 ep12 parquet 是 947851 字节。"
+    },
+    {
+      "id": "expect_same",
+      "evidence": [
+        "evh"
+      ],
+      "claim": "t3dyn4_4_1014.tsv 与 t3dyn4s_1_1014.tsv 里 data/ 以外的每一行（网格、地面、元数据、支撑面）都与 t3hm_29_1012.tsv 里同一路径的行相同，没有一行不同。"
+    },
+    {
+      "id": "copy_only3",
+      "evidence": [
+        "cpa",
+        "cpb"
+      ],
+      "claim": "t3pdyn 与 t3qdyn 的每条新 run，正式行与 best_hm 源行相比只改了 W&B 标签（t3p4 → t3dyn）、run 名与 parquet 目录（tier3_hm → tier3_dyn4 或 tier3_dyn4s）；冒烟行只改了 run 名与 parquet 目录；期望表只改了前两列；两段的检查都是 COPY_CHECK_OK。"
+    },
+    {
+      "id": "ml40_no_hub",
+      "evidence": [
+        "probe"
+      ],
+      "claim": "ml40 的主机 Python 是 3.10.12，import huggingface_hub 报 ModuleNotFoundError，也没有 hf 命令。"
+    },
+    {
+      "id": "hm_time",
+      "evidence": [
+        "ta",
+        "tb"
+      ],
+      "claim": "best_hm 上 t3-ep15 的正式训练 08:09:58 到 10:24:23 CST（约 2 小时 14 分），t3-ep3 16:38:53 到 18:40:42（约 2 小时 2 分），t3-ep12 19:51:18 到 22:24:44（约 2 小时 33 分），t3-ep16 02:41:37 到 04:38:32（约 1 小时 57 分）。"
+    },
+    {
+      "id": "tests_ok",
+      "evidence": [
+        "tests"
+      ],
+      "claim": "Mac 上 test_make_copy_queue.py、test_make_var_queue.py、test_tier3_expect.py、test_tier3_root.py、test_tier3_relay.py 都是 ALL_OK，三个 shell 脚本 bash -n 通过（SYNTAX_OK）。"
+    },
+    {
+      "id": "queue_cfg",
+      "evidence": [
+        "q",
+        "qq"
+      ],
+      "claim": "t3pdyn 的期望表有 3 条 run，顺序 ep15、ep3、ep16，名字以 -dyn4-mf4090 结尾，buffer 列都是 4000000，种子 42，ep3 与 ep16 的支撑面列 true、ep15 的 false；t3qdyn 有 ep12 的 -dyn4-ml40 与 -dyn4s-ml40 两条，buffer 4000000，支撑面 false。"
+    },
+    {
+      "id": "ctl_true_meta",
+      "evidence": [
+        "cmp"
+      ],
+      "control": "true",
+      "claim": "meta/episode_000012.metadata.json 在 hm、dyn4、dyn4s 三份记录里的 sha256 前 12 位都是 8d63583fa347。"
+    },
+    {
+      "id": "ctl_false_sup",
+      "evidence": [
+        "cmp"
+      ],
+      "control": "false",
+      "claim": "best_dyn4 的目录里有 ep16（喷壶）的支撑面文件，sha256 与 best_hm 的相同。"
+    },
+    {
+      "id": "ctl_false_time",
+      "evidence": [
+        "ta",
+        "tb"
+      ],
+      "control": "false",
+      "claim": "t3-ep12-w2048-cap4m-r3a-hm-mf4090 的正式训练只用了 1 小时 57 分。"
+    },
+    {
+      "id": "ctl_false_hub",
+      "evidence": [
+        "probe"
+      ],
+      "control": "false",
+      "claim": "ml40 的主机 Python 能 import huggingface_hub。"
+    },
+    {
+      "id": "ctl_false_cap",
+      "evidence": [
+        "cpa"
+      ],
+      "control": "false",
+      "claim": "t3pdyn 的正式行与 best_hm 源行相比，training.replay.capacity 从 4000000 改成了 10000000。"
+    }
+  ]
+}

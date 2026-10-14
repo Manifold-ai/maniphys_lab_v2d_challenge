@@ -1,0 +1,49 @@
+# command  : ssh -o BatchMode=yes ml40 V2D_T3_SUBDIR=tier3_cari4d_f830_best_dyn4s\ V2D_T3_SUPPORT=delivery\ bash\ -s\ --\ 12 
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:10:47-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-15 00:10:48 CST
+## 目录 runs/tier3_cari4d_f830_best_dyn4s
+## /lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d_f830_best_dyn4s 的前两层
+drwxrwsr-x 2026-10-14_13:19:10.7734598850 4096 
+drwxrwsr-x 2026-10-14_13:19:10.7574598060 4096 data
+drwxrwsr-x 2026-10-14_13:19:16.5614887760 4096 data/chunk-000
+drwxrwsr-x 2026-10-14_13:19:16.5734888360 4096 meta
+-rw-rw-r-- 2026-10-14_13:19:10.7734598850 649 meta/episode_000000.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:10.9814609230 707 meta/episode_000001.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:11.2454622410 842 meta/episode_000002.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:11.4614633190 766 meta/episode_000003.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:11.6854644380 708 meta/episode_000004.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:11.9494657550 562 meta/episode_000005.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:12.1054665340 733 meta/episode_000006.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:12.3414677120 646 meta/episode_000007.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:12.5334686710 629 meta/episode_000008.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:12.7774698880 834 meta/episode_000009.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:12.9934709670 664 meta/episode_000010.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:13.2334721650 610 meta/episode_000011.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:13.4254731220 619 meta/episode_000012.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:13.6654743200 692 meta/episode_000013.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:13.9294756380 721 meta/episode_000014.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:14.1294766370 721 meta/episode_000015.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:14.2654773150 671 meta/episode_000016.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:14.3934779540 649 meta/episode_000017.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:14.6214790930 628 meta/episode_000018.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:14.8574802700 687 meta/episode_000019.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:15.0174810690 667 meta/episode_000020.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:15.2054820070 600 meta/episode_000021.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:15.4014829860 625 meta/episode_000022.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:15.6534842440 683 meta/episode_000023.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:15.8574852630 660 meta/episode_000024.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:16.0934864400 791 meta/episode_000025.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:16.2774873590 647 meta/episode_000026.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:16.4334881380 656 meta/episode_000027.metadata.json
+-rw-rw-r-- 2026-10-14_13:19:16.5734888360 728 meta/episode_000029.metadata.json
+## episode 12
+可读 947851 字节 2026-10-14 13:19:13.421473 sha256 ba2bb52ea8058cee8067a7975ea0ef3d2798fa88977042b44e081394a6a134e3 data/chunk-000/episode_000012.parquet
+可读 619 字节 2026-10-14 13:19:13.425473122 sha256 8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00 meta/episode_000012.metadata.json
+{"calibration_sequence": "2026-04-25_14-36-15_calibration", "episode_index": 12, "frames": 700, "ground_plane": "ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json", "mesh": "mesh/black_platform/black_platform.glb", "notes": "2026-04-25_17-20-04_black_platform_turn_05", "object": "black_platform", "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05", "support_surface": "support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the platform on the ground and turn the platform over. Place on the ground when done."}
+支撑面读不了、不存在或路径不合要求：support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+输入 mesh 6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+输入 ground_plane 6f94edae922375745162ab3753be2c19 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+## support_surface/support_usda.json 读不了或不存在

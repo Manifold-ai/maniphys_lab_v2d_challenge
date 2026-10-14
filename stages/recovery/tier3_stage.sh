@@ -15,6 +15,9 @@
 # V2D_T3_SUPPORT=delivery（只许空或 delivery，计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：打包带上交付目录里每集的支撑面，
 #   tier3_root.py 加 --support-from-incoming（支撑面从转来的目录复制，按哈希表的 sha256 核）；哈希表要用 tier3_expect.py --support-from-remote 生成。
 #   不设时与以前相同。
+# V2D_T3_SUPPORT_DIR=runs/tier3/root_<名>（计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md）：转来的目录里不带支撑面（V2D_T3_SUPPORT 不设），
+#   tier3_root.py 加 --support-dir <目录>，支撑面从 mf4090 上这个已拼好的档目录复制（例如 root_hm），按哈希表的 sha256 核；
+#   哈希表要用 tier3_expect.py --support-record 生成。与 V2D_T3_SUPPORT=delivery 只能设一个。
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 TAG=${1:?用法：tier3_stage.sh <标签> <集>...}; shift
@@ -26,8 +29,12 @@ SUB=${V2D_T3_SUBDIR:-tier3_cari4d}; SET=${V2D_T3_SET:-}
 [[ $SET =~ ^[a-z0-9]*$ ]] || { echo "tier3_stage: V2D_T3_SET 只许小写字母与数字：$SET" >&2; exit 2; }
 SUP=${V2D_T3_SUPPORT:-}
 [[ $SUP =~ ^(delivery)?$ ]] || { echo "tier3_stage: V2D_T3_SUPPORT 只许空或 delivery：$SUP" >&2; exit 2; }
+SDIR=${V2D_T3_SUPPORT_DIR:-}
+[[ $SDIR =~ ^(runs/tier3/root_[a-z0-9]+)?$ ]] || { echo "tier3_stage: V2D_T3_SUPPORT_DIR 只许空或 runs/tier3/root_<名>：$SDIR" >&2; exit 2; }
+[ -z "$SDIR" ] || [ "$SUP" != delivery ] || { echo "tier3_stage: V2D_T3_SUPPORT=delivery 与 V2D_T3_SUPPORT_DIR 只能设一个" >&2; exit 2; }
 SFLAG=""; SNOTE=""
 if [ "$SUP" = delivery ]; then SFLAG=" --support-from-incoming"; SNOTE="；V2D_T3_SUPPORT=delivery"; fi
+if [ -n "$SDIR" ]; then SFLAG=" --support-dir $SDIR"; SNOTE="；V2D_T3_SUPPORT_DIR=$SDIR"; fi
 R='~/v2d/maniphys_lab_v2d_challenge'; IN="runs/tier3/incoming/$TAG"; EXP="stages/recovery/expect/$TAG.tsv"
 [ -f "$EXP" ] || { echo "tier3_stage: 缺哈希表 ${EXP}（先用 stages/recovery/tier3_expect.py 生成、提交并同步）" >&2; exit 1; }
 ssh -o BatchMode=yes mf4090 "cd $R && [ -f $EXP ] && [ ! -e $IN ] && [ ! -e $IN.partial ] && mkdir -p $IN.partial" \

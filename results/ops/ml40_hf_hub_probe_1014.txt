@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes ml40 $'python3 --version; python3 -c "import huggingface_hub" 2>&1 | tail -1; ls ~/.local/bin 2>/dev/null | grep -c . ; command -v hf || echo "没�\234\211 hf �\221�令"' 
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:23:22-0600
+# ---------------------------------------------------------------
+Python 3.10.12
+ModuleNotFoundError: No module named 'huggingface_hub'
+0
+没有 hf 命令

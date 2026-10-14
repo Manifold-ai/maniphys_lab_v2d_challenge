@@ -1,0 +1,70 @@
+# command  : ssh -o BatchMode=yes ml40 V2D_T3_SUBDIR=tier3_cari4d_f830_best_dyn4\ V2D_T3_SUPPORT=delivery\ bash\ -s\ --\ 3\ 12\ 15\ 16 
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:10:45-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-15 00:10:46 CST
+## 目录 runs/tier3_cari4d_f830_best_dyn4
+## /lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d_f830_best_dyn4 的前两层
+drwxrwsr-x 2026-10-14_12:12:31.4893839360 4096 
+drwxrwsr-x 2026-10-14_12:12:31.4733838550 4096 data
+drwxrwsr-x 2026-10-14_12:12:54.8335016660 4096 data/chunk-000
+drwxrwsr-x 2026-10-14_12:12:54.8455017270 4096 meta
+-rw-rw-r-- 2026-10-14_12:12:31.4893839360 649 meta/episode_000000.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:32.3373882130 707 meta/episode_000001.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:33.2413927730 842 meta/episode_000002.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:33.9733964650 766 meta/episode_000003.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:35.8654060080 708 meta/episode_000004.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:36.7814106280 562 meta/episode_000005.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:37.2894131900 733 meta/episode_000006.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:38.0334169420 646 meta/episode_000007.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:38.3494185360 629 meta/episode_000008.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:39.9054263840 834 meta/episode_000009.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:40.4574291680 664 meta/episode_000010.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:41.3174335050 610 meta/episode_000011.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:42.2734383270 619 meta/episode_000012.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:43.0214421000 692 meta/episode_000013.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:43.8934464960 721 meta/episode_000014.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:44.6374502490 721 meta/episode_000015.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:45.4174541820 671 meta/episode_000016.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:45.9494568650 649 meta/episode_000017.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:46.7414608590 628 meta/episode_000018.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:47.4374643690 687 meta/episode_000019.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:48.4174693110 667 meta/episode_000020.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:49.3294739110 600 meta/episode_000021.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:49.8934767550 625 meta/episode_000022.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:50.6414805270 683 meta/episode_000023.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:51.5694852070 660 meta/episode_000024.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:52.7934913790 791 meta/episode_000025.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:53.4974949290 647 meta/episode_000026.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:54.0694978130 656 meta/episode_000027.metadata.json
+-rw-rw-r-- 2026-10-14_12:12:54.8455017270 728 meta/episode_000029.metadata.json
+## episode 3
+可读 1057557 字节 2026-10-14 12:12:33.97339 sha256 0fecc6b8afb0efc8b11b57dcd6c025cdc43418ae3160a07d1273d12f8556510c data/chunk-000/episode_000003.parquet
+可读 766 字节 2026-10-14 12:12:33.973396465 sha256 25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3 meta/episode_000003.metadata.json
+{"calibration_sequence": "2026-04-27_09-37-33_calibration", "episode_index": 3, "frames": 781, "ground_plane": "ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json", "mesh": "mesh/contigo_coffee_mug/contigo_coffee_mug.glb", "notes": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "object": "contigo_coffee_mug", "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05", "support_surface": "support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the coffee mug on the round table, lift it by the handle with your right hand and set it down, then repeat with your left, alternating a few times before leaving it on the table."}
+支撑面读不了、不存在或路径不合要求：support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+输入 mesh 5d1c0769b2e731f2de49d107ec8fa9eb mesh/contigo_coffee_mug/contigo_coffee_mug.glb
+输入 ground_plane 722b8447b5aa402d50ff8f16abc153bb ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json
+## episode 12
+可读 945116 字节 2026-10-14 12:12:42.273438 sha256 cd3fa82cddeb1bb0a9ff0c37d4f33fd0890e45ab47d04bbdec8c8fd4d384b2d4 data/chunk-000/episode_000012.parquet
+可读 619 字节 2026-10-14 12:12:42.273438327 sha256 8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00 meta/episode_000012.metadata.json
+{"calibration_sequence": "2026-04-25_14-36-15_calibration", "episode_index": 12, "frames": 700, "ground_plane": "ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json", "mesh": "mesh/black_platform/black_platform.glb", "notes": "2026-04-25_17-20-04_black_platform_turn_05", "object": "black_platform", "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05", "support_surface": "support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the platform on the ground and turn the platform over. Place on the ground when done."}
+支撑面读不了、不存在或路径不合要求：support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+输入 mesh 6b75c129d641b22d7eeed4f4f7041163 mesh/black_platform/black_platform.glb
+输入 ground_plane 6f94edae922375745162ab3753be2c19 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json
+## episode 15
+可读 967996 字节 2026-10-14 12:12:44.637450 sha256 994108372ce77731dae395a13e0987050a522e3be48d32de4f9438fcd12569b4 data/chunk-000/episode_000015.parquet
+可读 721 字节 2026-10-14 12:12:44.637450249 sha256 4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7 meta/episode_000015.metadata.json
+{"calibration_sequence": "2026-05-06_09-28-56_calibration", "episode_index": 15, "frames": 715, "ground_plane": "ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json", "mesh": "mesh/wet_floor_sign/wet_floor_sign.glb", "notes": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "object": "wet_floor_sign", "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08", "support_surface": "support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the wet floor sign, pick it up with one hand and hold onto it while walking around for at least 10 seconds, then place it back on the floor."}
+支撑面读不了、不存在或路径不合要求：support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+输入 mesh 090f16c81ce7a69f7f75fd3a19f84717 mesh/wet_floor_sign/wet_floor_sign.glb
+输入 ground_plane cd25e9640eb80e9d8c05fdddcf646387 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json
+## episode 16
+可读 636711 字节 2026-10-14 12:12:45.417454 sha256 4695209f398151744cc0ad45aa5e3473d768a799dc5255928af9c95c749e905b data/chunk-000/episode_000016.parquet
+可读 671 字节 2026-10-14 12:12:45.417454182 sha256 ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344 meta/episode_000016.metadata.json
+{"calibration_sequence": "2026-03-12_13-41-31_calibration", "episode_index": 16, "frames": 477, "ground_plane": "ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json", "mesh": "mesh/spray_bottle/spray_bottle.glb", "notes": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "object": "spray_bottle", "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02", "support_surface": "support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk to the spray bottle on the white desk, pick up the spray bottle with your left hand and place it on the ground."}
+支撑面读不了、不存在或路径不合要求：support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+输入 mesh d424da632926a017fccf9aa51fcd4ce8 mesh/spray_bottle/spray_bottle.glb
+输入 ground_plane cbf0d452773926a0fcaa70ff2887045e ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json
+## support_surface/support_usda.json 读不了或不存在

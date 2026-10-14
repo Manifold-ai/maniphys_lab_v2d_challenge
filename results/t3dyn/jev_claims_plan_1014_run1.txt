@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t3dyn-pilot-plan.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4861dc48f17b060e75300f41d28f964d  agent-doc/experiments/2026-10-14-t3dyn-pilot-plan.claims.json
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:28:31-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+files_dyn            P(supported)=0.79  verified               [cmp]  ep3、12、15、16 的 parquet 在 best_dyn4（以及 ep12 在 best_dyn4s）里都与 best_hm 的不同；这几集的元数据 sha256 在 dyn4、dyn4s 里与 best_hm 的相同；4 份支撑面在 best_hm 里有，在 best_dyn4 里没有，ep12 的在 best_dyn4s 里也没有。
+sizes                P(supported)=0.99  verified               [dyn4, dyn4s]  best_dyn4 的 ep3、ep12、ep15、ep16 parquet 分别是 1057557、945116、967996、636711 字节；best_dyn4s 的 ep12 parquet 是 947851 字节。
+expect_same          P(supported)=0.08  UNVERIFIED             [evh]  t3dyn4_4_1014.tsv 与 t3dyn4s_1_1014.tsv 里 data/ 以外的每一行（网格、地面、元数据、支撑面）都与 t3hm_29_1012.tsv 里同一路径的行相同，没有一行不同。
+copy_only3           P(supported)=0.93  verified               [cpa, cpb]  t3pdyn 与 t3qdyn 的每条新 run，正式行与 best_hm 源行相比只改了 W&B 标签（t3p4 → t3dyn）、run 名与 parquet 目录（tier3_hm → tier3_dyn4 或 tier3_dyn4s）；冒烟行只改了 run 名与 parquet 目录；期望表只改了前两列；两段的检查都是 COPY_CHECK_OK。
+ml40_no_hub          P(supported)=0.98  verified               [probe]  ml40 的主机 Python 是 3.10.12，import huggingface_hub 报 ModuleNotFoundError，也没有 hf 命令。
+hm_time              P(supported)=0.96  verified               [ta, tb]  best_hm 上 t3-ep15 的正式训练 08:09:58 到 10:24:23 CST（约 2 小时 14 分），t3-ep3 16:38:53 到 18:40:42（约 2 小时 2 分），t3-ep12 19:51:18 到 22:24:44（约 2 小时 33 分），t3-ep16 02:41:37 到 04:38:32（约 1 小时 57 分）。
+tests_ok             P(supported)=0.98  verified               [tests]  Mac 上 test_make_copy_queue.py、test_make_var_queue.py、test_tier3_expect.py、test_tier3_root.py、test_tier3_relay.py 都是 ALL_OK，三个 shell 脚本 bash -n 通过（SYNTAX_OK）。
+queue_cfg            P(supported)=0.93  verified               [q, qq]  t3pdyn 的期望表有 3 条 run，顺序 ep15、ep3、ep16，名字以 -dyn4-mf4090 结尾，buffer 列都是 4000000，种子 42，ep3 与 ep16 的支撑面列 true、ep15 的 false；t3qdyn 有 ep12 的 -dyn4-ml40 与 -dyn4s-ml40 两条，buffer 4000000，支撑面 false。
+ctl_true_meta        P(supported)=0.94  control(true) ok       [cmp]  meta/episode_000012.metadata.json 在 hm、dyn4、dyn4s 三份记录里的 sha256 前 12 位都是 8d63583fa347。
+ctl_false_sup        P(supported)=0.03  control(false) ok      [cmp]  best_dyn4 的目录里有 ep16（喷壶）的支撑面文件，sha256 与 best_hm 的相同。
+ctl_false_time       P(supported)=0.12  control(false) ok      [ta, tb]  t3-ep12-w2048-cap4m-r3a-hm-mf4090 的正式训练只用了 1 小时 57 分。
+ctl_false_hub        P(supported)=0.01  control(false) ok      [probe]  ml40 的主机 Python 能 import huggingface_hub。
+ctl_false_cap        P(supported)=0.04  control(false) ok      [cpa]  t3pdyn 的正式行与 best_hm 源行相比，training.replay.capacity 从 4000000 改成了 10000000。
+controls behaved as expected

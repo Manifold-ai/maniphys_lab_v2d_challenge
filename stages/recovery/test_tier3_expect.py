@@ -4,6 +4,9 @@
   3. 一份记录一行也取不到：报错
   4. --support-from-remote（计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：支撑面的行取远端的 sha256、Tier 2 记录里的支撑面行丢掉；
      support_usda.json 那一行（以 “## ” 开头）与子目录里的文件不取；远端支撑面行数与 parquet 行数不等就报错；不加选项时远端的支撑面行不取
+  5. --support-record <记录>（计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md）：支撑面的行取另一份记录里的 sha256，只取主记录元数据 JSON 的
+     support_surface 指到的那份（另一份记录里多出来的不取），Tier 2 记录里的支撑面行丢掉；另一份记录里缺这份、两个选项一起给、
+     元数据没有 support_surface：都报错
   （两份假记录的 Tier 2 那份头一行带坏的 UTF-8 字节，同 scripts/dev/record 记下的含中文参数的 command 行）
 用法：python3 stages/recovery/test_tier3_expect.py
 """
@@ -37,6 +40,17 @@ def run(remote: str, tier2: str, *opts: str):
         r.write_text(remote, encoding="utf-8")
         s.write_bytes(b"# command  : bash -c \xe6\x94\\225\n" + tier2.encode("utf-8"))   # 同真记录：头一行有坏的 UTF-8
         return subprocess.run([sys.executable, str(HERE / "tier3_expect.py"), str(r), str(s), *opts], capture_output=True, text=True)
+
+
+def run_rec(remote: str, tier2: str, rec: str, *opts: str):
+    """同 run，另写一份支撑面记录，经 --support-record 传进去。"""
+    with tempfile.TemporaryDirectory() as t:
+        r, s, q = Path(t) / "r.txt", Path(t) / "s.txt", Path(t) / "q.txt"
+        r.write_text(remote, encoding="utf-8")
+        s.write_bytes(b"# command  : bash -c \xe6\x94\\225\n" + tier2.encode("utf-8"))
+        q.write_text(rec, encoding="utf-8")
+        return subprocess.run([sys.executable, str(HERE / "tier3_expect.py"), str(r), str(s), "--support-record", str(q), *opts],
+                              capture_output=True, text=True)
 
 
 C64, D64 = "c" * 64, "d" * 64
@@ -84,6 +98,35 @@ def test_support_from_remote():
 def test_support_count_refuses():
     p = run(REMOTE, TIER2, "--support-from-remote")
     assert p.returncode != 0 and "支撑面 0 行、parquet 1 行" in p.stderr + p.stdout, p.stdout + p.stderr
+
+
+DYN = REMOTE.replace('{"episode_index": 8, "mesh": "mesh/chair/chair.glb"}',
+                     '{"episode_index": 8, "mesh": "mesh/chair/chair.glb", "support_surface": "support_surface/s8_support.usda"}')
+HM_SUP = (f"可读 441 字节 2026-10-13 05:08:32.1 sha256 {C64} support_surface/s8_support.usda\n"
+          f"可读 124 字节 2026-10-13 05:08:32.1 sha256 {D64} support_surface/s9_support.usda\n"
+          f"## support_surface/support_usda.json sha256 {D64}\n")
+
+
+def test_support_record():
+    p = run_rec(DYN, TIER2, HM_SUP)
+    assert p.returncode == 0, p.stderr
+    assert p.stdout.splitlines() == [
+        f"data/chunk-000/episode_000008.parquet\tsha256\t{A64}",
+        "ground_plane/s8.json\tmd5\t9626590db5bd1dc3a8188ee4d0d03f11",
+        "mesh/chair/chair.glb\tmd5\t666b6366a803130fc20050249ad67fa2",
+        f"meta/episode_000008.metadata.json\tsha256\t{B64}",
+        f"support_surface/s8_support.usda\tsha256\t{C64}",
+    ], p.stdout
+
+
+def test_support_record_refuses():
+    cases = (
+        (run_rec(DYN, TIER2, HM_SUP.replace("s8_support", "s7_support")), "里没有这些支撑面"),
+        (run_rec(DYN, TIER2, HM_SUP, "--support-from-remote"), "只能给一个"),
+        (run_rec(REMOTE, TIER2, HM_SUP), "不合要求"),
+    )
+    for p, want in cases:
+        assert p.returncode != 0 and want in p.stderr + p.stdout, (want, p.stdout + p.stderr)
 
 
 if __name__ == "__main__":

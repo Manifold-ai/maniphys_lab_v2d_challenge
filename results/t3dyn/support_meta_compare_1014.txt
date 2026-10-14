@@ -1,0 +1,20 @@
+# command  : python3 tools/t3_record_compare.py hm=results/ops/t3_episodes_ml40_1014_hm4.txt dyn4=results/ops/t3_episodes_ml40_1014_dyn4.txt dyn4s=results/ops/t3_episodes_ml40_1014_dyn4s.txt 
+# md5      : 1311dd720887f460b6044830a0a73fe0  tools/t3_record_compare.py
+# source   : 9116bf35a2f7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:21:05-0600
+# ---------------------------------------------------------------
+相对路径	hm	dyn4	dyn4s	与 hm 相同
+data/chunk-000/episode_000003.parquet	759ed5e3d899	0fecc6b8afb0	—	无
+data/chunk-000/episode_000012.parquet	8497f2d570e6	cd3fa82cddeb	ba2bb52ea805	无
+data/chunk-000/episode_000015.parquet	6661a22f318f	994108372ce7	—	无
+data/chunk-000/episode_000016.parquet	6ee7855940a2	4695209f3981	—	无
+meta/episode_000003.metadata.json	25263b0927ad	25263b0927ad	—	dyn4
+meta/episode_000012.metadata.json	8d63583fa347	8d63583fa347	8d63583fa347	dyn4、dyn4s
+meta/episode_000015.metadata.json	4290c6ba32d8	4290c6ba32d8	—	dyn4
+meta/episode_000016.metadata.json	ae90db183e6a	ae90db183e6a	—	dyn4
+support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda	c3674b0b5f3b	没有	—	无
+support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda	4f9e5e6f2014	没有	没有	无
+support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda	7d9fc4fefca8	没有	—	无
+support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda	4f9e5e6f2014	没有	—	无
+COMPARE_DONE（12 个路径，3 份记录）
