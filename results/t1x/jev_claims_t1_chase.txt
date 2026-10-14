@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-t1-chase.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 5952c9e20e9833c01d8e67e37c087194  agent-doc/experiments/2026-10-13-t1-chase.claims.json
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:04:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+c_gates              P(supported)=0.97  verified               [kit]  SP-SR（SPIDER）的门限是位置 0.1 m、朝向 0.5 rad；MP-SR（ManipTrans）的门限是位置 0.03 m、朝向 30 度；MPPE 关键点半径是 0.05 m。
+c_prior5             P(supported)=0.72  verified               [t2a, t2b]  Tier 2 变体 A（名字以 -cap10m-r3a-ml40 结尾的 run）的 SP-SR：ep16 0.939、ep3 0.854、ep19 0.634、ep13 0.615、ep2 0.422。
+c_prior0             P(supported)=0.75  verified               [t2a, t2b]  Tier 2 变体 A（-cap10m-r3a-ml40）在 ep9、ep1、ep4、ep25、ep28、ep11、ep17 上的 MP-SR 与 SP-SR 都是 0.000，失败_骨盆一列都是 1.000。
+c_ep16               P(supported)=0.99  verified               [t2a]  Tier 2 的 ep16：变体 A 的 run t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938，基线 t2-ep16-w2048-cap10m-ml40 的 MP-SR 是 0.000。
+c_orient             P(supported)=0.98  verified               [x13, x17, x19]  这三份 1 世界导出里，ep13 的物体位置误差约 0.0406 m、朝向误差约 38.2 度；ep17 约 0.0404 m、39.3 度；ep19 约 0.105 m、47.2 度。
+c_q3                 P(supported)=0.97  verified               [q3]  t1xa3 的四份文件都与 t1xa2 的同名文件去掉 ep21 之后相同（四行 SAME），期望表里 5 条 run 是 ep10、ep13、ep19、ep3、ep14，seed 都是 42。
+c_inp                P(supported)=0.98  verified               [inp]  t1yb 的 5 条序列（ep16、ep3、ep2、ep19、ep13）的输入核对都是 OK，最后一行是 INPUTS_OK。
+c_regen              P(supported)=0.87  verified               [rg]  重新生成之后，git 只显示 make_var_queue.py 与 test_make_var_queue.py 改了、t1yb 的四个文件是新文件，没有 FAIL；ep16 与 ep2 的期望表行与 t1ya 的相同。
+c_gap                P(supported)=0.97  verified               [gap]  与 CHORD Baseline 比：spider_sr 要多成功 4 条才超过，add_auc 的 30 条总和要再加 1.173，mppe_cm 的 30 条总和要再减 204.0 cm，maniptrans_sr 已经超过。
+c_bar3               P(supported)=0.95  verified               [bar3, sel3]  ep3 物体一直不动时的 ADD-AUC 约 0.539，高于现在交的 ep3 轨迹 t1-ep3-w2048-cap4m-mf4090 的 add_auc 约 0.119。
+ctl_true_ep10        P(supported)=0.97  control(true) ok       [t2a]  Tier 2 的 t2-ep10-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.963。
+ctl_false_gate       P(supported)=0.03  control(false) ok      [kit]  SP-SR 的朝向门限是 0.6 rad。
+ctl_false_ep2        P(supported)=0.01  control(false) ok      [t2b]  Tier 2 的 t2-ep2-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.854。
+ctl_false_inp        P(supported)=0.01  control(false) ok      [inp]  t1yb 的输入核对里 ep3 那条序列两台机器不一致，最后一行不是 INPUTS_OK。
+controls behaved as expected

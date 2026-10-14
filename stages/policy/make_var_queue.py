@@ -12,6 +12,10 @@
   t1x  Tier 1 变体 A 补候选，mf4090，buffer 400 万（计划 agent-doc/plan-next-training-2026-10-12.md 第 2 版第 3 节 A）：
        段 t1xa 是 10/9 逐条选后 1 世界 MP-SR 仍失败、4096 世界失败原因里骨盆比例低于 0.65 的 7 条（按骨盆比例从低到高）
   t1y  同上，ml40，buffer 1000 万（同计划第 3 节 C）：段 t1ya 是骨盆比例 0.969–1.000、不含方盒 ep1、ep28 的 6 条（同样排序，同为 1.000 的按 episode 号）
+  t1xb Tier 1 追基线，mf4090，buffer 400 万（计划 agent-doc/plan-t1-chase-2026-10-13.md）：t1xa 没开的 5 条换个顺序，SP-SR 失败的排前面：
+       ep3、19、13、10、14；run 名、期望表行与 t1xa 的相同（冒烟已 DONE），基线、派生规则同 t1x，W&B 标签 t1xb
+  t1yb 同一计划，ml40，buffer 1000 万：1 世界 SP-SR 失败、Tier 2 变体 A 的 4096 世界 SP-SR 不低于 0.4 的 5 条，顺序 ep16、2、3、19、13；
+       ep16、ep2 的 run 名与 t1ya 的相同（t1ya 没训过），基线、派生规则同 t1y，W&B 标签 t1yb
 段名以清单名开头，有几个清单名都匹配时取最长的（t3p2 不落到 t3p）。续跑或补跑另起一段（审查 M2）：段名不在上面、用 --episodes 指定这一段的 episode（必须属于这份清单，顺序照清单），
 例如 t2xa2；run 名不变，文件名带段名，所以日志、导出结果都是新的，每个 checkpoint 仍只导出一次。
 
@@ -25,14 +29,14 @@ training.replay.capacity=4000000：出现别的键就报错，因为不知道它
   t3p、t3p2 的基线是 ml40 上的 t2-ep<N>-w2048-cap10m-ml40；t3p3 的基线同 t2x。Tier 3 都把 parquet 的 /runs/motion/tier2/ 换成清单 motion 键给的目录
       （t3p 是 /runs/motion/tier3/，t3p2、t3p3 是 /runs/motion/tier3_v2/；序列名相同），加 400 万 buffer。
 命名：t2x → t2-ep<N>-w2048-cap10m-r3a-ml40；t3p → t3-ep<N>-w2048-cap4m-r3a-mf4090；t3p2、t3p3 → t3-ep<N>-w2048-cap4m-r3a-v2-mf4090；
-t1x → t1-ep<N>-w2048-cap4m-r3a-mf4090；t1y → t1-ep<N>-w2048-cap10m-r3a-ml40。顺序照计划（t2x、t1x、t1y 按基线 4096 世界失败:骨盆从低到高）。
+t1x、t1xb → t1-ep<N>-w2048-cap4m-r3a-mf4090；t1y、t1yb → t1-ep<N>-w2048-cap10m-r3a-ml40。顺序照计划（t2x、t1x、t1y 按基线 4096 世界失败:骨盆从低到高，t1xb、t1yb 见上）。
 输出：stages/policy/queues/<机器>_<段名>{.expect.tsv,_smoke.txt,.txt} 与 stages/evaluate/exports/cand_t<档>_<段名>_<机器>.tsv（export_chain.sh 的清单）。
-W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y）。任何一条核对不过就退出，什么文件都不写。
+W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。任何一条核对不过就退出，什么文件都不写。
   t3p4、t3q Tier 3 最终交付版 best_hm 的 29 集（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md）：参考在 /runs/motion/tier3_hm/，基线同 t3p3 取 Tier 2
        导出清单；t3p4 在 mf4090（400 万 buffer，run 名 t3-ep<N>-w2048-cap4m-r3a-hm-mf4090），t3q 在 ml40（1000 万，t3-ep<N>-w2048-cap10m-r3a-hm-ml40）。
        两份清单都带同一个 29 集的总顺序，段之间挪集只要 --episodes。支撑面按 best_hm 自己的支撑面定（tables 键，计划审查 1）：
        期望表的 support 列与 scene.support=false 覆盖都按它给，不沿用 Tier 2 基线的（ep1 的 Tier 2 基线开着支撑面，best_hm 的 ep1 只有地面）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t3p4a|t3p4b|t3qa|t3qb [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
 测试：stages/policy/test_make_var_queue.py。
 """
@@ -83,6 +87,14 @@ SETS = {
             "episodes": [2, 11, 16, 4, 9, 25], "parts": {"t1ya": [2, 11, 16, 4, 9, 25]}, "base": None,
             "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
             "desc": "Tier 1 补候选：几乎每个世界都摔的 6 条（不含方盒）的变体 A seed 42（ml40，buffer 1000 万，基线取 10/9 逐条选的清单）"},
+    "t1xb": {"plan": "agent-doc/plan-t1-chase-2026-10-13.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+             "episodes": [3, 19, 13, 10, 14], "parts": {"t1xb": [3, 19, 13, 10, 14]}, "base": None,
+             "run": "t1-ep{ep}-w2048-cap4m-r3a-mf4090",
+             "desc": "Tier 1 追基线：10/12 计划 A 没开的 5 条，SP-SR 失败的 ep3、19、13 排在前面的变体 A seed 42（mf4090，buffer 400 万，基线取 10/9 逐条选的清单）"},
+    "t1yb": {"plan": "agent-doc/plan-t1-chase-2026-10-13.md", "tier": 1, "machine": "ml40", "cap": None,
+             "episodes": [16, 2, 3, 19, 13], "parts": {"t1yb": [16, 2, 3, 19, 13]}, "base": None,
+             "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
+             "desc": "Tier 1 追基线：1 世界 SP-SR 失败、Tier 2 变体 A 的 4096 世界 SP-SR 不低于 0.4 的 5 条的变体 A seed 42（ml40，buffer 1000 万，基线取 10/9 逐条选的清单）"},
 }
 T1_CURRENT = "t1_select_r3x.tsv"   # Tier 1 现在交的 30 条（10/9 逐条选）；Tier 2 的在 ml40.tsv、mf4090.tsv
 ENV_SMOKE = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"

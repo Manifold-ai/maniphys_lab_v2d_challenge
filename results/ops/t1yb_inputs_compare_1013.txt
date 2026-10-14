@@ -1,0 +1,14 @@
+# command  : python3 tools/compare_motion_inputs.py --train results/ops/t1yb_inputs_ml40_1013.txt --other results/ops/t1yb_inputs_mf4090_1013.txt --tier 1 --expect 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02=16 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05=3 2026-06-02_10-04-42_blue_easter_basket_place_10=2 2026-05-19_10-19-48_cane_swing_05=19 2026-06-09_10-19-09_snack_box_desk_through_06=13 
+# md5      : 3c643941ef563c5e0aafb7b556c21987  tools/compare_motion_inputs.py
+# md5      : ef775b62a5c9f11531d29e165bdf4dd1  results/ops/t1yb_inputs_ml40_1013.txt
+# md5      : c66d7f1bc847b31ddf58c5598cbda2d9  results/ops/t1yb_inputs_mf4090_1013.txt
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:01:27-0600
+# ---------------------------------------------------------------
+OK   2026-03-12_15-06-36_spray_bottle_left_desk_ground_02：训练机 eeb6cdee9a466329，基线 eeb6cdee9a466329，v2d_meta tier=1,ep=16（应为 tier=1,ep=16），支撑面 md5 两台相同（05cb55214db1），基线 run t1-ep16-w2048-cap4m-mf4090
+OK   2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05：训练机 2606660006d60ee3，基线 2606660006d60ee3，v2d_meta tier=1,ep=3（应为 tier=1,ep=3），支撑面 md5 两台相同（915839ac3f4f），基线 run t1-ep3-w2048-cap4m-mf4090
+OK   2026-06-02_10-04-42_blue_easter_basket_place_10：训练机 7b577364791db776，基线 7b577364791db776，v2d_meta tier=1,ep=2（应为 tier=1,ep=2），支撑面 md5 两台相同（cfcb149ef1a1），基线 run t1-ep2-w2048-cap10m-ml40
+OK   2026-05-19_10-19-48_cane_swing_05：训练机 76733f342ddf77eb，基线 76733f342ddf77eb，v2d_meta tier=1,ep=19（应为 tier=1,ep=19），支撑面 md5 两台相同（e7b1026ef52e），基线 run t1-ep19-w2048-cap10m-ml40
+OK   2026-06-09_10-19-09_snack_box_desk_through_06：训练机 5193c31a0f5be315，基线 5193c31a0f5be315，v2d_meta tier=1,ep=13（应为 tier=1,ep=13），支撑面 md5 两台相同（34893400ec45），基线 run t1-ep13-w2048-cap10m-ml40
+INPUTS_OK

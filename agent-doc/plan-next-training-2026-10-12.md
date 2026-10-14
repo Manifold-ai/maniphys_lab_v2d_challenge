@@ -295,6 +295,8 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
     （`results/t1x/queue_t1xa3_vs_t1xa2.txt`）。5 条的冒烟都已 DONE（state 已删，记 STATE_PRUNED）；正式 run 的目录里只有 `.lock`，没有残留 state
     （`results/t1x/precheck_t1xa3_mf4090.txt`）。
   - mf4090 上 Tier 3 的三条链结束后再同步，之后照 t1xa 的做法跑配置展开、预演、起链。5 条约 11 小时（每条约 2.2 小时，估计）。
-  - 磁盘：21:54 仓库所在分区可用约 89 GB（`results/ops/mf4090_disk_1013_2150.txt`；18:08 时只有 2034 MB，`results/t3p4/status_mf4090_1013_1810.txt`），
+  - 磁盘：21:54 仓库所在分区可用 91,101,152 KiB，约 87 GiB（`results/ops/mf4090_disk_1013_2150.txt`；18:08 时只有 2034 MB，`results/t3p4/status_mf4090_1013_1810.txt`），
     run 目录与镜像都在。起链门槛 2500 MB 够用，HF 归档第 5 批这次不做（非必须不删）。
   - 最差的几条（1 世界 SP-SR 失败、MPPE 大）另写计划，审过再用 ml40。
+  - 22:40 前后：另写的计划是 `agent-doc/plan-t1-chase-2026-10-13.md`（第 2 版，Fable 5.1 审查 GO WITH FIXES）。按审查第 6 条，
+    这 5 条改成段 `t1xb`、顺序 ep3、19、13、10、14（SP-SR 失败的在前），run 名与期望表行不变；t1xa3 的四份文件删掉，没有起过链。

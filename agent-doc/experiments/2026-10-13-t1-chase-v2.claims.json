@@ -1,0 +1,53 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rg2": {
+      "file": "results/t1x/queue_t1xb_t1yb_regen.txt",
+      "grep": "FAIL|^D  |^ M |^\\?\\? |SAME|^-- |^t1-"
+    },
+    "sel": {
+      "file": "results/ml40/select_t1/select_t1x1013.txt",
+      "grep": "^CHOSEN ep(2|3|16|19|13|10|14):"
+    }
+  },
+  "claims": [
+    {
+      "id": "v2_t1xb_rows",
+      "evidence": ["rg2"],
+      "claim": "t1xb 的期望表依次是 ep3、ep19、ep13、ep10、ep14 五条 cap4m-r3a-mf4090 的 run，seed 都是 42，这五条在 t1xa 与 t1xb 两张期望表里的行都相同（SAME）。"
+    },
+    {
+      "id": "v2_t1yb_rows",
+      "evidence": ["rg2"],
+      "claim": "t1yb 的期望表依次是 ep16、ep2、ep3、ep19、ep13 五条 cap10m-r3a-ml40 的 run，capacity 都是 10000000；ep16、ep2 在 t1ya 与 t1yb 里的行相同。"
+    },
+    {
+      "id": "v2_regen",
+      "evidence": ["rg2"],
+      "claim": "重新生成后没有 FAIL；git 显示 t1xa3 的四个文件删了，make_var_queue.py 与测试改了，t1xb、t1yb 的文件与 t1_select_t1x1013.tsv 是新的；t1_select_t1x1013.tsv 与 ml40 选集记录里的同名文件相同。"
+    },
+    {
+      "id": "v2_chosen",
+      "evidence": ["sel"],
+      "claim": "现在交的轨迹里，ep2 的 add_auc 约 0.114、mppe_cm 约 99.98；ep3 约 0.119、94.52；ep16 约 0.257、63.20；ep19 约 0.236、11.08；ep13 约 0.271、4.78；这五条的 spider_sr 都是 0。"
+    },
+    {
+      "id": "ctl_true_ep10",
+      "evidence": ["sel"],
+      "control": "true",
+      "claim": "现在交的 ep10 的 spider_sr 是 1.0，maniptrans_sr 是 0.0。"
+    },
+    {
+      "id": "ctl_false_order",
+      "evidence": ["rg2"],
+      "control": "false",
+      "claim": "t1xb 的期望表第一条是 ep10。"
+    },
+    {
+      "id": "ctl_false_cap",
+      "evidence": ["rg2"],
+      "control": "false",
+      "claim": "t1yb 的期望表里 capacity 都是 4000000。"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z" && for e in 16 3 2 19 13; do for r in t1-ep${e}-w2048-cap10m-r3a-ml40 smoke-t1-ep${e}-w2048-cap10m-r3a-ml40; do if [ -e runs/flash_chord/$r ]; then echo "$r: �\233��\225�\234��\232$(ls -A runs/flash_chord/$r | head -5 | tr "\\n" " ")"; else echo "$r: 没�\234\211�\233��\225"; fi; done; done; ls runs/logs/ | grep -E "t1y" || echo "没�\234\211 t1y �\232\204�\227��\227"; df -Pk . | tail -n 1' 
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:01:33-0600
+# ---------------------------------------------------------------
+2026-10-14 12:01:34 CST
+t1-ep16-w2048-cap10m-r3a-ml40: 没有目录
+smoke-t1-ep16-w2048-cap10m-r3a-ml40: 没有目录
+t1-ep3-w2048-cap10m-r3a-ml40: 没有目录
+smoke-t1-ep3-w2048-cap10m-r3a-ml40: 没有目录
+t1-ep2-w2048-cap10m-r3a-ml40: 没有目录
+smoke-t1-ep2-w2048-cap10m-r3a-ml40: 没有目录
+t1-ep19-w2048-cap10m-r3a-ml40: 没有目录
+smoke-t1-ep19-w2048-cap10m-r3a-ml40: 没有目录
+t1-ep13-w2048-cap10m-r3a-ml40: 没有目录
+smoke-t1-ep13-w2048-cap10m-r3a-ml40: 没有目录
+没有 t1y 的日志
+/dev/vdb        2112647088 696715796 1415914908      33% /lab_data

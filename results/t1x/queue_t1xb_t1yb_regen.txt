@@ -1,0 +1,49 @@
+# command  : bash -c $'for s in t2xa t2xb t3p t3p2 t3p3a t3p3b t1xa t1ya t3p4a t3p4b t3qa t3qb t1xb t1yb; do python3 stages/policy/make_var_queue.py $s > /dev/null || echo "FAIL ${s}"; done; python3 stages/policy/make_var_queue.py t1xa2 --episodes 21,10,13,19,3,14 > /dev/null || echo "FAIL t1xa2"; echo "-- git statusï¼\210åº\224å\217ªæ\234\211 make_var_queue.pyã\200\201æµ\213è¯\225æ\224¹äº\206ï¼\214t1xa3 å\233\233ä¸ªæ\226\207ä»¶å\210 äº\206ï¼\214t1xbã\200\201t1yb ç\232\204å\205«ä¸ªæ\226\207ä»¶ä¸\216 t1_select_t1x1013.tsv æ\230¯æ\226°ç\232\204ï¼\211"; git status --short stages/; for p in t1xb:mf4090 t1yb:ml40; do s=${p%%:*}; m=${p##*:}; echo "-- ${s} æ\234\237æ\234\233è¡¨"; cut -f1,3,6,9,10 stages/policy/queues/${m}_${s}.expect.tsv; done; echo "-- å\220\214ä¸\200 run å\234¨ä¸¤æ®µé\207\214ç\232\204æ\234\237æ\234\233è¡¨è¡\214"; for e in 3 19 13 10 14; do r="t1-ep${e}-w2048-cap4m-r3a-mf4090"; diff <(grep "^${r}\t" stages/policy/queues/mf4090_t1xa.expect.tsv) <(grep "^${r}\t" stages/policy/queues/mf4090_t1xb.expect.tsv) > /dev/null && echo "SAME expect ${r}ï¼\210t1xa ä¸\216 t1xbï¼\211"; done; for e in 16 2; do r="t1-ep${e}-w2048-cap10m-r3a-ml40"; diff <(grep "^${r}\t" stages/policy/queues/ml40_t1ya.expect.tsv) <(grep "^${r}\t" stages/policy/queues/ml40_t1yb.expect.tsv) > /dev/null && echo "SAME expect ${r}ï¼\210t1ya ä¸\216 t1ybï¼\211"; done; echo "-- t1_select_t1x1013.tsv ä¸\216 ml40 é\200\211é\233\206è®°å½\225é\207\214ç\232\204å\220\214å\220\215æ\226\207ä»¶"; cmp stages/evaluate/exports/t1_select_t1x1013.tsv results/ml40/select_t1/t1_select_t1x1013.tsv && echo "SAME t1_select_t1x1013.tsv"' 
+# md5      : 1021e13d0b9f84a3b17c71ec1dab19da  stages/policy/make_var_queue.py
+# md5      : 1021e13d0b9f84a3b17c71ec1dab19da  stages/policy/make_var_queue.py
+# md5      : cf24ed7162876770d1b2768d26c500e3  stages/evaluate/exports/t1_select_t1x1013.tsv
+# md5      : cf24ed7162876770d1b2768d26c500e3  results/ml40/select_t1/t1_select_t1x1013.tsv
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:15:05-0600
+# ---------------------------------------------------------------
+-- git statusï¼ˆåº”åªæœ‰ make_var_queue.pyã€æµ‹è¯•æ”¹äº†ï¼Œt1xa3 å››ä¸ªæ–‡ä»¶åˆ äº†ï¼Œt1xbã€t1yb çš„å…«ä¸ªæ–‡ä»¶ä¸ t1_select_t1x1013.tsv æ˜¯æ–°çš„ï¼‰
+D  stages/evaluate/exports/cand_t1_t1xa3_mf4090.tsv
+ M stages/policy/make_var_queue.py
+D  stages/policy/queues/mf4090_t1xa3.expect.tsv
+D  stages/policy/queues/mf4090_t1xa3.txt
+D  stages/policy/queues/mf4090_t1xa3_smoke.txt
+ M stages/policy/test_make_var_queue.py
+?? stages/evaluate/exports/cand_t1_t1xb_mf4090.tsv
+?? stages/evaluate/exports/cand_t1_t1yb_ml40.tsv
+?? stages/evaluate/exports/t1_select_t1x1013.tsv
+?? stages/policy/queues/mf4090_t1xb.expect.tsv
+?? stages/policy/queues/mf4090_t1xb.txt
+?? stages/policy/queues/mf4090_t1xb_smoke.txt
+?? stages/policy/queues/ml40_t1yb.expect.tsv
+?? stages/policy/queues/ml40_t1yb.txt
+?? stages/policy/queues/ml40_t1yb_smoke.txt
+-- t1xb æœŸæœ›è¡¨
+run	sequence_id	support	capacity	seed
+t1-ep3-w2048-cap4m-r3a-mf4090	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	true	4000000	42
+t1-ep19-w2048-cap4m-r3a-mf4090	2026-05-19_10-19-48_cane_swing_05	false	4000000	42
+t1-ep13-w2048-cap4m-r3a-mf4090	2026-06-09_10-19-09_snack_box_desk_through_06	true	4000000	42
+t1-ep10-w2048-cap4m-r3a-mf4090	2026-05-01_11-36-40_white_desk_lower_to_ground_10	false	4000000	42
+t1-ep14-w2048-cap4m-r3a-mf4090	2026-05-28_14-44-09_round_table_flip_08	false	4000000	42
+-- t1yb æœŸæœ›è¡¨
+run	sequence_id	support	capacity	seed
+t1-ep16-w2048-cap10m-r3a-ml40	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	true	10000000	42
+t1-ep2-w2048-cap10m-r3a-ml40	2026-06-02_10-04-42_blue_easter_basket_place_10	true	10000000	42
+t1-ep3-w2048-cap10m-r3a-ml40	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	true	10000000	42
+t1-ep19-w2048-cap10m-r3a-ml40	2026-05-19_10-19-48_cane_swing_05	false	10000000	42
+t1-ep13-w2048-cap10m-r3a-ml40	2026-06-09_10-19-09_snack_box_desk_through_06	true	10000000	42
+-- åŒä¸€ run åœ¨ä¸¤æ®µé‡Œçš„æœŸæœ›è¡¨è¡Œ
+SAME expect t1-ep3-w2048-cap4m-r3a-mf4090ï¼ˆt1xa ä¸ t1xbï¼‰
+SAME expect t1-ep19-w2048-cap4m-r3a-mf4090ï¼ˆt1xa ä¸ t1xbï¼‰
+SAME expect t1-ep13-w2048-cap4m-r3a-mf4090ï¼ˆt1xa ä¸ t1xbï¼‰
+SAME expect t1-ep10-w2048-cap4m-r3a-mf4090ï¼ˆt1xa ä¸ t1xbï¼‰
+SAME expect t1-ep14-w2048-cap4m-r3a-mf4090ï¼ˆt1xa ä¸ t1xbï¼‰
+SAME expect t1-ep16-w2048-cap10m-r3a-ml40ï¼ˆt1ya ä¸ t1ybï¼‰
+SAME expect t1-ep2-w2048-cap10m-r3a-ml40ï¼ˆt1ya ä¸ t1ybï¼‰
+-- t1_select_t1x1013.tsv ä¸ ml40 é€‰é›†è®°å½•é‡Œçš„åŒåæ–‡ä»¶
+SAME t1_select_t1x1013.tsv

@@ -1,0 +1,129 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "kit": {
+      "file": "third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/v2dlb/object_pose.py",
+      "grep": "^_(SPIDER|MANIPTRANS|MPPE)_"
+    },
+    "t2a": {
+      "file": "results/t2x/eval_table_t2xa.txt",
+      "grep": "^run|^t2-ep(16|3|10|11|17)-"
+    },
+    "t2b": {
+      "file": "results/t2x/eval_table_t2xb.txt",
+      "grep": "^run|^t2-ep(2|19|13|9|1|4|25|28)-"
+    },
+    "x13": {
+      "file": "results/ml40/submission/exports/export_ml40_t1-ep13-w2048-cap10m-ml40_s349999104.txt",
+      "grep": "^# command|object_(position|orientation)_error"
+    },
+    "x17": {
+      "file": "results/ml40/submission/exports/export_ml40_t1-ep17-w2048-cap10m-ml40_s349999104.txt",
+      "grep": "^# command|object_(position|orientation)_error"
+    },
+    "x19": {
+      "file": "results/ml40/submission/exports/export_ml40_t1-ep19-w2048-cap10m-ml40_s349999104.txt",
+      "grep": "^# command|object_(position|orientation)_error"
+    },
+    "q3": {
+      "file": "results/t1x/queue_t1xa3_vs_t1xa2.txt",
+      "grep": "SAME|DIFF|^run|^t1-"
+    },
+    "inp": {
+      "file": "results/ops/t1yb_inputs_compare_1013.txt",
+      "grep": "^OK|^BAD|INPUTS_"
+    },
+    "rg": {
+      "file": "results/t1x/queue_t1yb_regen.txt",
+      "grep": "FAIL|^ M |^\\?\\? |SAME|^-- "
+    },
+    "gap": {
+      "file": "results/t1gap/t1_gap_1013.txt",
+      "grep": "^-- |对方|91\\.0%"
+    },
+    "bar3": {
+      "file": "results/day2/bar_smoke-t1-ep3-w2048-cap4m-mf4090.txt",
+      "grep": "^# command|不动基线 ADD-AUC"
+    },
+    "sel3": {
+      "file": "results/ml40/select_t1/select_t1x1013.txt",
+      "grep": "^CHOSEN ep3:"
+    }
+  },
+  "claims": [
+    {
+      "id": "c_gates",
+      "evidence": ["kit"],
+      "claim": "SP-SR（SPIDER）的门限是位置 0.1 m、朝向 0.5 rad；MP-SR（ManipTrans）的门限是位置 0.03 m、朝向 30 度；MPPE 关键点半径是 0.05 m。"
+    },
+    {
+      "id": "c_prior5",
+      "evidence": ["t2a", "t2b"],
+      "claim": "Tier 2 变体 A（名字以 -cap10m-r3a-ml40 结尾的 run）的 SP-SR：ep16 0.939、ep3 0.854、ep19 0.634、ep13 0.615、ep2 0.422。"
+    },
+    {
+      "id": "c_prior0",
+      "evidence": ["t2a", "t2b"],
+      "claim": "Tier 2 变体 A（-cap10m-r3a-ml40）在 ep9、ep1、ep4、ep25、ep28、ep11、ep17 上的 MP-SR 与 SP-SR 都是 0.000，失败_骨盆一列都是 1.000。"
+    },
+    {
+      "id": "c_ep16",
+      "evidence": ["t2a"],
+      "claim": "Tier 2 的 ep16：变体 A 的 run t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938，基线 t2-ep16-w2048-cap10m-ml40 的 MP-SR 是 0.000。"
+    },
+    {
+      "id": "c_orient",
+      "evidence": ["x13", "x17", "x19"],
+      "claim": "这三份 1 世界导出里，ep13 的物体位置误差约 0.0406 m、朝向误差约 38.2 度；ep17 约 0.0404 m、39.3 度；ep19 约 0.105 m、47.2 度。"
+    },
+    {
+      "id": "c_q3",
+      "evidence": ["q3"],
+      "claim": "t1xa3 的四份文件都与 t1xa2 的同名文件去掉 ep21 之后相同（四行 SAME），期望表里 5 条 run 是 ep10、ep13、ep19、ep3、ep14，seed 都是 42。"
+    },
+    {
+      "id": "c_inp",
+      "evidence": ["inp"],
+      "claim": "t1yb 的 5 条序列（ep16、ep3、ep2、ep19、ep13）的输入核对都是 OK，最后一行是 INPUTS_OK。"
+    },
+    {
+      "id": "c_regen",
+      "evidence": ["rg"],
+      "claim": "重新生成之后，git 只显示 make_var_queue.py 与 test_make_var_queue.py 改了、t1yb 的四个文件是新文件，没有 FAIL；ep16 与 ep2 的期望表行与 t1ya 的相同。"
+    },
+    {
+      "id": "c_gap",
+      "evidence": ["gap"],
+      "claim": "与 CHORD Baseline 比：spider_sr 要多成功 4 条才超过，add_auc 的 30 条总和要再加 1.173，mppe_cm 的 30 条总和要再减 204.0 cm，maniptrans_sr 已经超过。"
+    },
+    {
+      "id": "c_bar3",
+      "evidence": ["bar3", "sel3"],
+      "claim": "ep3 物体一直不动时的 ADD-AUC 约 0.539，高于现在交的 ep3 轨迹 t1-ep3-w2048-cap4m-mf4090 的 add_auc 约 0.119。"
+    },
+    {
+      "id": "ctl_true_ep10",
+      "evidence": ["t2a"],
+      "control": "true",
+      "claim": "Tier 2 的 t2-ep10-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.963。"
+    },
+    {
+      "id": "ctl_false_gate",
+      "evidence": ["kit"],
+      "control": "false",
+      "claim": "SP-SR 的朝向门限是 0.6 rad。"
+    },
+    {
+      "id": "ctl_false_ep2",
+      "evidence": ["t2b"],
+      "control": "false",
+      "claim": "Tier 2 的 t2-ep2-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.854。"
+    },
+    {
+      "id": "ctl_false_inp",
+      "evidence": ["inp"],
+      "control": "false",
+      "claim": "t1yb 的输入核对里 ep3 那条序列两台机器不一致，最后一行不是 INPUTS_OK。"
+    }
+  ]
+}

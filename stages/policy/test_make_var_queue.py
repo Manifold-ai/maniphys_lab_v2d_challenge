@@ -16,6 +16,9 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      1000 万 buffer，奇数号在 mf4090、带 400 万覆盖）；t1xa 7 条在 mf4090、一律 400 万、W&B 标签 t1x；t1ya 6 条在 ml40、没有 buffer 覆盖、标签 t1y；
      parquet 在 /runs/motion/tier1/；导出清单档位 1。ml40 的 ep10 在第二张期望表里多一行、只差 xeval（真实情形同 t1-ep10-w2048-cap10m-ml40），
      照常生成；那一行若还差别的列（帧数），报“找到 2 种”、不写文件（make_trial_queue.baseline 的改动，同计划审查 M2）
+     t1xb、t1yb（agent-doc/plan-t1-chase-2026-10-13.md）：t1xb 5 条在 mf4090、顺序 ep3、19、13、10、14，一律 400 万、标签 t1xb，
+     5 条的行与 t1xa 的同一 run 相同（期望表逐字，正式行只差 W&B 标签，冒烟行相同）；t1yb 5 条在 ml40、顺序 ep16、2、3、19、13，
+     没有 buffer 覆盖、标签 t1yb，夹具里奇数号的基线在 mf4090、带的 400 万覆盖要去掉；ep16、ep2 的行与 t1ya 的同样相同
   7. t3p4a、t3p4b、t3qa、t3qb（agent-doc/plan-d-t3hm-train-2026-10-12.md）：四段合起来恰好 29 集、不重复；run 名带 -hm-，parquet 在
      /runs/motion/tier3_hm/；mf4090 两段带 400 万覆盖、期望表 4000000，ml40 两段没有 buffer 覆盖、期望表 10000000；支撑面按 best_hm 的 12 集桌面定，
      与基线不同的几种都核：ep1（基线是 p185 run）、ep15（基线开着支撑面、best_hm 只有地面：要加覆盖、列改 false）、ep17（基线关着、best_hm 有桌面：
@@ -36,6 +39,8 @@ T2XA = [29, 23, 6, 18, 7, 16, 0, 21, 15, 10, 27, 3, 5, 11, 17]
 T2XB = [9, 1, 13, 19, 2, 4, 14, 25, 28]
 T1XA = [17, 21, 10, 13, 19, 3, 14]
 T1YA = [2, 11, 16, 4, 9, 25]
+T1XB = [3, 19, 13, 10, 14]
+T1YB = [16, 2, 3, 19, 13]
 
 
 def seq(ep):
@@ -264,6 +269,23 @@ def test_t1_parts():
         r = gen(root, "t1ya")
         assert r.returncode == 0, r.stdout + r.stderr
         check_set(root, "t1ya", T1YA, "t1-ep{ep}-w2048-cap10m-r3a-ml40", 1, "10000000", None, "t1y", "ml40")
+        r = gen(root, "t1xb")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t1xb", T1XB, "t1-ep{ep}-w2048-cap4m-r3a-mf4090", 1, "4000000", "training.replay.capacity=4000000", "t1xb", "mf4090")
+        r = gen(root, "t1yb")
+        assert r.returncode == 0, r.stdout + r.stderr
+        check_set(root, "t1yb", T1YB, "t1-ep{ep}-w2048-cap10m-r3a-ml40", 1, "10000000", None, "t1yb", "ml40")
+        # 同一条 run 在两段里都有：期望表的行逐字相同，正式行只差 W&B 标签，冒烟行相同
+        q = root / "stages" / "policy" / "queues"
+        same = [("mf4090", "t1xa", "t1xb", "t1x", ep, f"t1-ep{ep}-w2048-cap4m-r3a-mf4090") for ep in T1XB]
+        same += [("ml40", "t1ya", "t1yb", "t1y", ep, f"t1-ep{ep}-w2048-cap10m-r3a-ml40") for ep in (16, 2)]
+        for m, a, b, tag, ep, run in same:
+            pick = lambda p: [x for x in lines(p) if f" {run} " in f" {x} " or x.startswith(run + "\t")]   # noqa: E731
+            ps = lambda p: [x for x in lines(p) if f" smoke-{run} " in f" {x} "]   # noqa: E731
+            assert pick(q / f"{m}_{a}.expect.tsv") == pick(q / f"{m}_{b}.expect.tsv") != [], run
+            fa, fb = pick(q / f"{m}_{a}.txt"), pick(q / f"{m}_{b}.txt")
+            assert len(fa) == len(fb) == 1 and fa[0].replace(f"V2D_WANDB_TAG={tag} ", f"V2D_WANDB_TAG={b} ") == fb[0], run
+            assert ps(q / f"{m}_{a}_smoke.txt") == ps(q / f"{m}_{b}_smoke.txt") != [], run
         r = gen(root, "t1xa", "--episodes", "10")
         assert r.returncode != 0, r.stdout + r.stderr
 

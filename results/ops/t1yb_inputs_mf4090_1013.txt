@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 bash\ -s\ --\ 1\ 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02=t1-ep16-w2048-cap4m-mf4090\ 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05=t1-ep3-w2048-cap4m-mf4090\ 2026-06-02_10-04-42_blue_easter_basket_place_10=t1-ep2-w2048-cap10m-ml40\ 2026-05-19_10-19-48_cane_swing_05=t1-ep19-w2048-cap10m-ml40\ 2026-06-09_10-19-09_snack_box_desk_through_06=t1-ep13-w2048-cap10m-ml40 
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:01:26-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-14 12:01:27 CST 仓库 /home/rxzhou/v2d/maniphys_lab_v2d_challenge 来历 a629fbdbf3e5
+seq	parquet_sha256	v2d_meta	support_md5	g1_support	run	run_parquet_sha256	same
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	eeb6cdee9a466329dda4dd6909b3bcd093d9a6df8bd7a81107bb663f33ae68d1	tier=1,ep=16	05cb55214db197e3cbffb06cc66e1497	no	t1-ep16-w2048-cap4m-mf4090	eeb6cdee9a466329dda4dd6909b3bcd093d9a6df8bd7a81107bb663f33ae68d1	yes
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	2606660006d60ee3e000154fe6ee5d797e9c6b351c43bfaa1fbca74abe35acba	tier=1,ep=3	915839ac3f4fef01c799a904bff7a036	no	t1-ep3-w2048-cap4m-mf4090	2606660006d60ee3e000154fe6ee5d797e9c6b351c43bfaa1fbca74abe35acba	yes
+2026-06-02_10-04-42_blue_easter_basket_place_10	7b577364791db7764ef63084de2fdcb419aecf0dd8fcbc1e693901a6a5a0799f	tier=1,ep=2	cfcb149ef1a1d397e922c7cb7e19321f	no	t1-ep2-w2048-cap10m-ml40	-	-
+2026-05-19_10-19-48_cane_swing_05	76733f342ddf77ebbcf024818ad4bb65890124caabcd1bbd0682b221e14a59d0	tier=1,ep=19	e7b1026ef52ee91c15c1fcd6d216c653	no	t1-ep19-w2048-cap10m-ml40	-	-
+2026-06-09_10-19-09_snack_box_desk_through_06	5193c31a0f5be31575fdc2c5cbafbb94e365b307a3e53a0bc219d89006665a02	tier=1,ep=13	34893400ec45bd4f766c37c7e87bad9d	no	t1-ep13-w2048-cap10m-ml40	-	-
+MOTION_INPUTS 序列 5 条，有问题 0 条（缺 parquet 或 v2d_meta、有旧版 g1 支撑面、或与 run 记录的 sha256 不同）

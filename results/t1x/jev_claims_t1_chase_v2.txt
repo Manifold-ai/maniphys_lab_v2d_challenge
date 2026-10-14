@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-t1-chase-v2.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : c8d51f4f82271c250428c491fc89ae30  agent-doc/experiments/2026-10-13-t1-chase-v2.claims.json
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:16:56-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+v2_t1xb_rows         P(supported)=0.97  verified               [rg2]  t1xb 的期望表依次是 ep3、ep19、ep13、ep10、ep14 五条 cap4m-r3a-mf4090 的 run，seed 都是 42，这五条在 t1xa 与 t1xb 两张期望表里的行都相同（SAME）。
+v2_t1yb_rows         P(supported)=0.98  verified               [rg2]  t1yb 的期望表依次是 ep16、ep2、ep3、ep19、ep13 五条 cap10m-r3a-ml40 的 run，capacity 都是 10000000；ep16、ep2 在 t1ya 与 t1yb 里的行相同。
+v2_regen             P(supported)=0.96  verified               [rg2]  重新生成后没有 FAIL；git 显示 t1xa3 的四个文件删了，make_var_queue.py 与测试改了，t1xb、t1yb 的文件与 t1_select_t1x1013.tsv 是新的；t1_select_t1x1013.tsv 与 ml40 选集记录里的同名文件相同。
+v2_chosen            P(supported)=0.97  verified               [sel]  现在交的轨迹里，ep2 的 add_auc 约 0.114、mppe_cm 约 99.98；ep3 约 0.119、94.52；ep16 约 0.257、63.20；ep19 约 0.236、11.08；ep13 约 0.271、4.78；这五条的 spider_sr 都是 0。
+ctl_true_ep10        P(supported)=0.97  control(true) ok       [sel]  现在交的 ep10 的 spider_sr 是 1.0，maniptrans_sr 是 0.0。
+ctl_false_order      P(supported)=0.01  control(false) ok      [rg2]  t1xb 的期望表第一条是 ep10。
+ctl_false_cap        P(supported)=0.01  control(false) ok      [rg2]  t1yb 的期望表里 capacity 都是 4000000。
+controls behaved as expected

@@ -1,0 +1,25 @@
+# command  : bash -c $'for s in t2xa t2xb t3p t3p2 t3p3a t3p3b t1xa t1ya t3p4a t3p4b t3qa t3qb t1yb; do python3 stages/policy/make_var_queue.py $s > /dev/null || echo "FAIL ${s}"; done; python3 stages/policy/make_var_queue.py t1xa2 --episodes 21,10,13,19,3,14 > /dev/null || echo "FAIL t1xa2"; python3 stages/policy/make_var_queue.py t1xa3 --episodes 10,13,19,3,14 > /dev/null || echo "FAIL t1xa3"; echo "-- git statusï¼\210å\217ªåº\224æ\234\211 make_var_queue.pyã\200\201æµ\213è¯\225ä¸\216 t1yb ç\232\204å\233\233ä¸ªæ\226°æ\226\207ä»¶ï¼\211"; git status --short stages/; echo "-- t1yb æ\234\237æ\234\233è¡¨"; cut -f1,3,6,9,10 stages/policy/queues/ml40_t1yb.expect.tsv; echo "-- ä¸\216 t1ya ç\233¸å\220\214ç\232\204è¡\214ï¼\210ep16ã\200\201ep2ï¼\211"; for e in 16 2; do r="t1-ep${e}-w2048-cap10m-r3a-ml40"; diff <(grep "^${r}\t" stages/policy/queues/ml40_t1ya.expect.tsv) <(grep "^${r}\t" stages/policy/queues/ml40_t1yb.expect.tsv) > /dev/null && echo "SAME expect ${r}"; done' 
+# md5      : a25d2668130dd9a012150c7def009de5  stages/policy/make_var_queue.py
+# md5      : a25d2668130dd9a012150c7def009de5  stages/policy/make_var_queue.py
+# md5      : a25d2668130dd9a012150c7def009de5  stages/policy/make_var_queue.py
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T21:59:44-0600
+# ---------------------------------------------------------------
+-- git statusï¼ˆåªåº”æœ‰ make_var_queue.pyã€æµ‹è¯•ä¸ t1yb çš„å››ä¸ªæ–°æ–‡ä»¶ï¼‰
+ M stages/policy/make_var_queue.py
+ M stages/policy/test_make_var_queue.py
+?? stages/evaluate/exports/cand_t1_t1yb_ml40.tsv
+?? stages/policy/queues/ml40_t1yb.expect.tsv
+?? stages/policy/queues/ml40_t1yb.txt
+?? stages/policy/queues/ml40_t1yb_smoke.txt
+-- t1yb æœŸæœ›è¡¨
+run	sequence_id	support	capacity	seed
+t1-ep16-w2048-cap10m-r3a-ml40	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	true	10000000	42
+t1-ep3-w2048-cap10m-r3a-ml40	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	true	10000000	42
+t1-ep2-w2048-cap10m-r3a-ml40	2026-06-02_10-04-42_blue_easter_basket_place_10	true	10000000	42
+t1-ep19-w2048-cap10m-r3a-ml40	2026-05-19_10-19-48_cane_swing_05	false	10000000	42
+t1-ep13-w2048-cap10m-r3a-ml40	2026-06-09_10-19-09_snack_box_desk_through_06	true	10000000	42
+-- ä¸ t1ya ç›¸åŒçš„è¡Œï¼ˆep16ã€ep2ï¼‰
+SAME expect t1-ep16-w2048-cap10m-r3a-ml40
+SAME expect t1-ep2-w2048-cap10m-r3a-ml40
