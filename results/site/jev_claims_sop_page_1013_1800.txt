@@ -1,0 +1,41 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-13-sop-1800.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 09ec15d7183fb5f62cbad914107219c2  agent-doc/experiments/2026-10-13-sop-1800.claims.json
+# source   : 1c06a7508645-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T22:11:40-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sub_three            P(supported)=0.97  verified               [s1]  第一次上传（2026-10-13 17:53 运行）里，AUC、SP-SR、MPPE 三个比赛 COMPLETE 的公榜分分别是 0.47127、0.60000、24.53655。
+sub_mp               P(supported)=0.98  verified               [s1, s2]  第一次上传里 MP-SR 没有上传成功（SSLError，UPLOAD_FAILED）；17:55 运行的补交只发 MP-SR 一个比赛，COMPLETE 0.53333。
+sub_nodup            P(supported)=0.96  verified               [chk, dry1]  补交之前，MP-SR 比赛的提交列表是 No submissions found；dry-run 显示 MP-SR 今天还剩 5 次，AUC、SP-SR、MPPE 各剩 4 次。
+sub_match            P(supported)=0.79  verified               [s1, s2, pk]  四项公榜分 0.47127、0.60000、0.53333、24.53655 与打包时本地复算的合计 0.471279、0.600000、0.533333、24.536550 逐项相差都小于 1e-5。
+sel_delta            P(supported)=0.97  verified               [pk]  这次逐条选之前（10/9）的 CSV 合计是 add_auc 0.459651、spider_sr 0.600000、maniptrans_sr 0.500000、mppe_cm 24.623127；打包出的新 CSV 是 add_auc 0.471279、spider_sr 0.600000、maniptrans_sr 0.533333、mppe_cm 24.536550。
+board_base           P(supported)=0.99  verified               [lb]  Tier 1 四个榜（auc、sp-sr、mp-sr、mppe）上 CHORD Baseline 的分数分别是 0.51038、0.70000、0.20000、17.73644。
+board_xw             P(supported)=0.99  verified               [lb]  Tier 1 四个榜（auc、sp-sr、mp-sr、mppe）上 Xueyi Wang (FF) 的分数分别是 0.56422、0.70000、0.66666、8.22045。
+board_us             P(supported)=0.98  verified               [lb]  Tier 1 的四个榜上都有队名 maniphys.ai 的一行，分数分别是 0.47127、0.60000、0.53333、24.53655；Tier 2、Tier 3 的八个榜上没有 maniphys.ai。
+board_open4d         P(supported)=0.98  verified               [lb]  Tier 1 榜上 Open4D 的 AUC 0.28652、SP-SR 0.16666、MP-SR 0.10000 都低于 maniphys.ai 的 0.47127、0.60000、0.53333，Open4D 的 MPPE 46.19853 高于 maniphys.ai 的 24.53655。
+gap_base             P(supported)=0.99  verified               [gap]  对 CHORD Baseline：spider_sr 要多成功 4 条才超过（对方 21 条、己方 18 条）；maniptrans_sr 已经超过；add_auc 的 30 条总和要再加 1.173；mppe_cm 的 30 条总和要再减 204.0 cm。
+gap_xw               P(supported)=0.99  verified               [gap]  对 Xueyi Wang (FF)：spider_sr 要多成功 4 条；maniptrans_sr 要多成功 5 条（对方 20 条、己方 16 条）；add_auc 总和要再加 2.788；mppe_cm 总和要再减 489.5 cm。
+gap_91               P(supported)=0.99  verified               [gap]  MPPE 超过 15 cm 的 9 条合计 669.5 cm，占 30 条总和 736.1 cm 的 91.0%。
+gap_nine             P(supported)=0.88  verified               [gap]  MP-SR 不成功的 episode 按 MPPE 从大到小排，前 9 条是 ep25、ep2、ep3、ep4、ep28、ep16、ep11、ep9、ep1，第 10 条 ep19 的 MPPE 是 11.08。
+gap_scen             P(supported)=0.98  verified               [gap]  按“像成功的”假设（AUC 0.715、MPPE 2.14 cm），超过 CHORD Baseline 至少要修 add_auc 2 条、spider_sr 4 条、mppe_cm 2 条；按“只跟住的”假设（AUC 0.271、MPPE 4.98 cm），超过 CHORD Baseline 的 add_auc 要修 10 条。
+sp_fail              P(supported)=0.96  verified               [ch]  CHOSEN 行里 spider_sr 为 0.0 的是 ep1、ep2、ep3、ep4、ep9、ep11、ep13、ep16、ep17、ep19、ep25、ep28 这 12 条，其余 episode 的 spider_sr 是 1.0。
+stop_mf              P(supported)=0.87  verified               [st1]  mf4090 的停链记录运行于 2026-10-13 21:46（UTC-6），写了 runs/.chain-stop-t3p4b_train_mf4090，停链原因写明暂停剩下的 Tier 3 训练；当时训练日志的最后两行是 t3-ep25 完成、t3-ep27 开始正式训练。
+stop_ml              P(supported)=0.80  verified               [st2]  ml40 的停链记录运行于 2026-10-13 21:46（UTC-6），写了 runs/.chain-stop-t3qa_train_ml40；当时训练日志的最后两行是 t3-ep7 完成、t3-ep8 开始正式训练。
+t3p4b_seven          P(supported)=0.84  verified               [sm1, st1]  t3p4b 在 ep27 开始正式训练之前已完成 ep12、ep13、ep14、ep16、ep19、ep21、ep25 这七集。
+t3qa_four            P(supported)=0.88  verified               [sm2, st2]  t3qa 已完成 ep4、ep5、ep6、ep7 这四集，ep8 在正式训练。
+disk_now             P(supported)=0.89  verified               [dk]  mf4090 的磁盘记录运行于 2026-10-13 21:54（UTC-6）：仓库所在分区（/dev/vda2，挂在 /）可用 91101152 KB；runs 共 27G；t3-ep27 的目录 DONE=n、有 15 份 policy，其余 t3 hm 目录 DONE=y、各 35 份 policy。
+disk_1808            P(supported)=0.97  verified               [s1810]  2026-10-13 18:08（UTC-6）运行的 mf4090 状态记录里，机器一节写着 2034 MB free。
+arm_t3qa             P(supported)=0.92  verified               [arm]  t3qa 在 ml40 起链：8 条 run，第一条冒烟是 smoke-t3-ep4-w2048-cap10m-r3a-hm-ml40，最后写 ARMED；记录运行于 2026-10-13 10:22（UTC-6）。
+b1013_diff           P(supported)=0.89  verified               [t2d]  Tier 2 b1013 与 10/12 的选择清单相比，不同的是 ep2、ep9、ep13、ep14、ep19、ep28 这 6 行，新的 6 行都是名字以 -cap10m-r3a-ml40 结尾的 run。
+b1013_check          P(supported)=0.93  verified               [t2k, t2n]  b1013 的 CSV 核对写 CHECK_T2_SELECT_OK；负对照写 CHECK_T2_SELECT_BAD（6 处不符）。
+b1013_dry            P(supported)=0.95  verified               [dry2]  2026-10-13 16:59（UTC-6）运行的上传器 dry run 对 track2_tier2_select_b1013.csv 写 looks valid，Tier 2 四个比赛各剩 5 次，最后写 nothing submitted。
+delivery             P(supported)=0.93  verified               [dec]  决定是 Tier 3 交付版不换；dr2s、dr3 的判据 2、3 都不过；位姿跳变 best_hm 70 帧、两个候选都是 73 帧；两个候选里 ep7 的间隙是 749.8 mm，面是地面。
+invite               P(supported)=0.98  verified               [inv]  10/13 17:28 邀请 Nvidia-V2D-Challenge 为协作者返回 404；本账号对该仓库的权限是 maintain、admin 为 false；添加协作者要仓库 admin 或组织所有者操作。
+smokes               P(supported)=0.97  verified               [smk]  ep10、ep13、ep19、ep3、ep14 的变体 A 冒烟（smoke-t1-ep<N>-w2048-cap4m-r3a-mf4090）都写了“通过”。
+ctl_true_t2          P(supported)=0.99  control(true) ok       [lb]  Tier 2 的 MPPE 榜上 CHORD Baseline 的分数是 20.52402。
+ctl_false_disk       P(supported)=0.03  control(false) ok      [dk]  这份 mf4090 磁盘记录里仓库所在分区只剩 2034 MB 可用。
+ctl_false_ep8        P(supported)=0.03  control(false) ok      [st2]  ml40 的停链记录里 t3-ep8 已经完成。
+ctl_false_sp         P(supported)=0.02  control(false) ok      [gap]  对 CHORD Baseline，spider_sr 已经超过。
+controls behaved as expected
