@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t1c1014a.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f1cbcbd69431f504a389db891940a82e  agent-doc/experiments/2026-10-14-t1c1014a.claims.json
+# source   : d6445dc3ac61-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T11:09:23-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+packed               P(supported)=0.90  verified               [sel]  t1c1014a 打包的 CSV 本地算出 AUC 0.5414、SP-SR 0.7333、MP-SR 0.6333、MPPE 16.5848；换了的 episode 是 2、3、13、16、19，四个门都是 A OK、B OK。
+beat_chord           P(supported)=0.94  verified               [gap]  按榜单快照，t1c1014a 的四项都已经超过 CHORD Baseline：AUC 0.54141 对 0.51038，SP-SR 22 条对 21 条，MP-SR 19 条对 6 条，MPPE 16.585 对 17.736。
+vs_ff                P(supported)=0.97  verified               [gap]  对 Xueyi Wang (FF)，t1c1014a 只有 SP-SR 已经超过；MP-SR 还要多成功 2 条，AUC 的 30 条总和还差 0.684，MPPE 的 30 条总和还要减 250.9 cm。
+new_sp               P(supported)=0.98  verified               [sel]  ep3、ep13、ep16 选中的 t1yb run 的 spider_sr 与 maniptrans_sr 都是 1.0；ep19 的 spider_sr 1.0、maniptrans_sr 0.0；ep2 两项都是 0.0。
+ctl_true_ep3         P(supported)=0.22  CONTROL(true) FAILED   [sel]  ep3 选的是 t1-ep3-w2048-cap10m-r3a-ml40，之前交的是 t1-ep3-w2048-cap4m-mf4090。
+ctl_false_ff         P(supported)=0.68  CONTROL(false) FAILED  [gap]  t1c1014a 的 MP-SR 已经超过 Xueyi Wang (FF)。
+ctl_false_mppe       P(supported)=0.04  control(false) ok      [sel]  t1c1014a 打包的 CSV 本地算出的 MPPE 是 24.5366 cm。
+CONTROLS MISBEHAVED: do not rely on this batch
