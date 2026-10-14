@@ -109,7 +109,7 @@ def runs(mask):
     return out
 
 
-def limb_geometry(model, urdf: str, feet: bool):
+def limb_geometry(model, urdf: str, feet: bool, hands: bool = True):
     """[(frame id, (P, 3) points in that frame)]: the collision geometry of the hand links (ankle links when feet), as
     points on its surface. Meshes give their convex hull vertices, cylinders 8 points on each end circle (G1's soles
     are rows of cylinders, so this reaches the toe and the heel), boxes their corners, spheres their centre."""
@@ -120,7 +120,7 @@ def limb_geometry(model, urdf: str, feet: bool):
     out = {}
     for o in geom.geometryObjects:
         name = model.frames[o.parentFrame].name
-        if not ("_hand_" in name or (feet and name.endswith("ankle_roll_link"))):
+        if not ((hands and "_hand_" in name) or (feet and name.endswith("ankle_roll_link"))):
             continue
         g = o.geometry
         kind = type(g).__name__
@@ -136,13 +136,13 @@ def limb_geometry(model, urdf: str, feet: bool):
         P = P @ o.placement.rotation.T + o.placement.translation
         out.setdefault(o.parentFrame, []).append(P)
     if not out:
-        raise SystemExit("no hand collision geometry in the URDF")
+        raise SystemExit("no hand or sole collision geometry in the URDF")
     return [(f, np.vstack(v)) for f, v in out.items()]
 
 
-def limb_points(r, feet: bool):
+def limb_points(r, feet: bool, hands: bool = True, split: bool = False):
     """(T, K, 3) world points on the robot hand links' collision surfaces (and the soles when feet), by forward
-    kinematics of the training URDF."""
+    kinematics of the training URDF. split=True returns {link name: (T, P, 3)} instead."""
     import pinocchio as pin
     urdf = os.environ.get("T3_G1_URDF") or str(Path(os.environ["T3_GATE"]) / URDF_REL)
     model = pin.buildModelFromUrdf(urdf, pin.JointModelFreeFlyer())
@@ -152,7 +152,7 @@ def limb_points(r, feet: bool):
     if missing:
         raise SystemExit(f"URDF lacks joints {missing}")
     qi = [model.joints[model.getJointId(nm)].idx_q for nm in names]
-    parts = limb_geometry(model, urdf, feet)
+    parts = limb_geometry(model, urdf, feet, hands)
     root, wxyz, J = (np.asarray(r[k], np.float64) for k in ("robot_root_position", "robot_root_wxyz", "robot_joint_positions"))
     out = np.empty((len(J), sum(len(P) for _, P in parts), 3))
     q = np.zeros(model.nq)
@@ -160,6 +160,9 @@ def limb_points(r, feet: bool):
         q[:3], q[3:7], q[qi] = root[t], np.r_[wxyz[t, 1:], wxyz[t, :1]], J[t]
         pin.framesForwardKinematics(model, data, q)
         out[t] = np.vstack([P @ data.oMf[f].rotation.T + data.oMf[f].translation for f, P in parts])
+    if split:
+        ends = np.cumsum([0] + [len(P) for _, P in parts])
+        return {model.frames[f].name: out[:, a:b] for (f, _), a, b in zip(parts, ends[:-1], ends[1:])}
     return out
 
 

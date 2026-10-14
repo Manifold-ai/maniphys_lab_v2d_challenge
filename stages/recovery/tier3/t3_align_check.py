@@ -8,7 +8,11 @@ dir's intrinsics; silhouette IoU against the object mask with both dilated by DI
 silhouette centroid offset in pixels. Frames: every STRIDE-th frame where the mask has at least MIN_MASK_PX pixels.
 
     python t3_align_check.py <tier3 root> <selection json> <out json> <version>... [ep=convert dir ...] [only=<ep>,<ep>]
-        [stride=<n>] [split=<dump dir>]
+        [stride=<n>] [split=<dump dir>] [human=<SOMA assets dir>]
+human: also the body. Each version's SOMA body (t3_world_probe.soma_cv, the downstream's way: frame-0 identity and scale,
+OpenCV world frame) goes through the same similarity and intrinsics, and its silhouette is compared with the SAM2 person
+mask the same way. Pixels inside the object mask are left out of both: the object hides the body there and the person
+mask stops at it. Reported under "human" per version. CPU only (CUDA_VISIBLE_DEVICES is cleared).
 split: with t3_depth_post.py's dump of where each frame's correction came from, the IoU of the first and the last
 version is also reported per class of frame (held or not, x anchored / interpolated / floor clamp / support clamp).
 Masks from the convert dir's work dir (convert -> work, convert_v2 -> work_v2, convert_fp -> work_fp; the pivot
@@ -45,6 +49,41 @@ def similarity(conv: Path):
     return s, r, t, c["intrinsics"], float(np.abs((pc @ r.T) * s + t - pw).max())
 
 
+def version_file(root: Path, version: str, ep: int) -> Path:
+    for sub in ("", "_suspect"):
+        f = root / "runs" / (version + sub) / "data/chunk-000" / f"episode_{ep:06d}.parquet"
+        if f.exists():
+            return f
+    raise SystemExit(f"{version}: no episode {ep}")
+
+
+HUMAN_COLUMNS = {"poses": "observation.human.pose", "transl": "observation.human.translation",
+                 "identity_coeffs": "observation.human.identity_coeffs", "scale_params": "observation.human.scale_params",
+                 "bone_length_flexibles": "observation.human.bone_length_flexibles"}  # as t3_physics_check.HUMAN_COLUMNS
+
+
+def human_verts(root: Path, version: str, ep: int, frames: list[int], layer) -> np.ndarray:
+    """(len(frames), V, 3) body vertices in the world (OpenCV) frame."""
+    from t3_world_probe import soma_cv
+    t = pq.read_table(version_file(root, version, ep), columns=list(HUMAN_COLUMNS.values()))
+    sp = {k: np.stack(t.column(c).to_numpy(zero_copy_only=False)).astype(np.float64) for k, c in HUMAN_COLUMNS.items()}
+    first = {k: sp[k][:1] for k in ("identity_coeffs", "scale_params")}  # soma_cv takes frame 0's; keep it frame 0
+    sp = {k: v[frames] for k, v in sp.items()}
+    sp.update({k: np.repeat(v, len(frames), 0) for k, v in first.items()})
+    return soma_cv(sp, layer)[1]
+
+
+def silhouette(V, F, rot, t, s, K, shape):
+    X = (V - t) @ rot / s  # rot.T @ (V - t) / s, row-wise
+    if (X[:, 2] <= 0.05).any():
+        return None
+    uv = X @ K.T
+    uv = (uv[:, :2] / uv[:, 2:]).astype(np.int32)
+    sil = np.zeros(shape, np.uint8)
+    cv2.fillPoly(sil, list(uv[F]), 1)
+    return sil
+
+
 def world_pose(root: Path, version: str, ep: int) -> np.ndarray:
     for sub in ("", "_suspect"):
         f = root / "runs" / (version + sub) / "data/chunk-000" / f"episode_{ep:06d}.parquet"
@@ -63,6 +102,15 @@ def main() -> None:
     only = {int(x) for x in kv.pop("only", "").split(",") if x}
     stride = int(kv.pop("stride", STRIDE))
     split = Path(kv.pop("split")) if "split" in kv else None
+    layer = None
+    if "human" in kv:
+        import os
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
+        from soma import SOMALayer
+        from soma.units import Unit
+        layer = SOMALayer(data_root=kv.pop("human"), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                          enable_procedural_transforms=False)
+        HF = np.asarray(layer.faces)
     root, sel, out, versions = Path(args[0]), Path(args[1]), Path(args[2]), args[3:]
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     kern = np.ones((2 * DILATE_PX + 1, 2 * DILATE_PX + 1), np.uint8)
@@ -81,6 +129,22 @@ def main() -> None:
         poses = {v: world_pose(root, v, ep) for v in versions}
         n = min(len(p) for p in poses.values())
         res_v = {v: {"iou": [], "off": [], "frame": []} for v in versions}
+        if layer is not None:
+            hres = {v: [] for v in versions}
+            frames = list(range(0, n, stride))
+            hv = {v: human_verts(root, v, ep, frames, layer) for v in versions}
+            for i, f in enumerate(frames):
+                pm = (H[f"{f:06d}-k0.person_mask.png"][()] > 0).astype(np.uint8)
+                if pm.sum() < MIN_MASK_PX:
+                    continue
+                keep = (H[f"{f:06d}-k0.obj_rend_mask.png"][()] == 0)
+                md = (cv2.dilate(pm, kern) > 0) & keep
+                for v in versions:
+                    sil = silhouette(hv[v][i], HF, rot, t, s, K, pm.shape)
+                    if sil is None:
+                        continue
+                    sd = (cv2.dilate(sil, kern) > 0) & keep
+                    hres[v].append(float((sd & md).sum() / max(1, (sd | md).sum())))
         for f in range(0, n, stride):
             om = (H[f"{f:06d}-k0.obj_rend_mask.png"][()] > 0).astype(np.uint8)
             if om.sum() < MIN_MASK_PX:
@@ -112,6 +176,10 @@ def main() -> None:
             row[v] = {"frames": len(iou), "iou_p50": round(float(np.median(iou)), 4) if len(iou) else None,
                       "iou_mean": round(float(iou.mean()), 4) if len(iou) else None,
                       "centroid_px_p50": round(float(np.nanmedian(off)), 2) if len(off) else None}
+            if layer is not None:
+                h = np.array(hres[v])
+                row[v]["human"] = {"frames": len(h), "iou_p50": round(float(np.median(h)), 4) if len(h) else None,
+                                   "iou_mean": round(float(h.mean()), 4) if len(h) else None}
         if split is not None and (split / f"{name}.npz").exists():
             z = np.load(split / f"{name}.npz")
             a, b = versions[0], versions[-1]
