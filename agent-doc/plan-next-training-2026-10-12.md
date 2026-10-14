@@ -288,3 +288,13 @@ t1xa、t1ya 的顺序、run 名、buffer、支撑面覆盖、W&B 标签、档位
   四项相差都小于 1e-5：Tier 1 的本地复算与榜单一致，第 4a 节第 7 条要核对的这一点成立。Track 2 没有私榜（kit `config/tracks.json` 的 `private_fraction` 为 0）。
   本周每个 Tier 1 比赛已用 1 次（网站规则每周 5 次，最后三天不限）。jev 6 条全部 verified（0.75–0.98），3 道对照正常（`results/submission/jev_claims_t1_submit_1013.txt`）。
   组委会账号 Nvidia-V2D-Challenge 的仓库权限还没生效（`agent-doc/plan-submission-check-2026-10-03.md` 末尾），66a8f0d 组委会暂时打不开。Tier 2 没有提交。
+
+- 10/13 21:46 用户决定：Tier 3 剩下的训练停（经过见 `agent-doc/plan-d-t3hm-train-2026-10-12.md` 执行记录），空出的卡先给 Tier 1 追基线
+  （与 CHORD 基线、Xueyi Wang (FF) 的差距见 `results/t1gap/t1_gap_1013.txt`）。
+  - A 没开的 5 条（ep10、13、19、3、14）续跑，段名 `t1xa3`，run 名不变。四份队列与导出清单是 t1xa2 去掉 ep21，逐行相同
+    （`results/t1x/queue_t1xa3_vs_t1xa2.txt`）。5 条的冒烟都已 DONE（state 已删，记 STATE_PRUNED）；正式 run 的目录里只有 `.lock`，没有残留 state
+    （`results/t1x/precheck_t1xa3_mf4090.txt`）。
+  - mf4090 上 Tier 3 的三条链结束后再同步，之后照 t1xa 的做法跑配置展开、预演、起链。5 条约 11 小时（每条约 2.2 小时，估计）。
+  - 磁盘：21:54 仓库所在分区可用约 89 GB（`results/ops/mf4090_disk_1013_2150.txt`；18:08 时只有 2034 MB，`results/t3p4/status_mf4090_1013_1810.txt`），
+    run 目录与镜像都在。起链门槛 2500 MB 够用，HF 归档第 5 批这次不做（非必须不删）。
+  - 最差的几条（1 世界 SP-SR 失败、MPPE 大）另写计划，审过再用 ml40。

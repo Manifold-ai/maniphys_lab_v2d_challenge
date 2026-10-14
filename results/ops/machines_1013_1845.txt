@@ -1,0 +1,46 @@
+# command  : bash -c for\ h\ in\ mf4090\ ml40\;\ do\ R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ \[\ \$h\ =\ mf4090\ \]\ \&\&\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=15\ \$h\ \"cd\ \$R\ \&\&\ echo\ ==\ \$h\ \\\$\(date\ \\\"+%F\ %T\ %Z\\\"\)\;\ echo\ --\ tmux\;\ tmux\ ls\ 2\>\&1\;\ for\ f\ in\ \\\$\(ls\ -t\ runs/logs/\*.log\ \|\ head\ -3\)\;\ do\ echo\ --\ \\\$f\ \\\$\(stat\ -c\ %y\ \\\$f\ \|\ cut\ -c1-19\)\ lines\ \\\$\(wc\ -l\ \<\ \\\$f\)\;\ tail\ -2\ \\\$f\ \|\ cut\ -c1-300\;\ done\;\ echo\ GPU\ procs\ \\\$\(nvidia-smi\ --query-compute-apps=pid\ --format=csv\,noheader\ \|\ wc\ -l\)\;\ nvidia-smi\ --query-gpu=name\,utilization.gpu\,memory.used\,memory.total\ --format=csv\,noheader\;\ echo\ chain-markers\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\ \|\ wc\ -l\)\ \\\$\(ls\ runs/.chain-active-\*\ 2\>/dev/null\)\;\ echo\ source\ \\\$\(cat\ .v2d-source-commit\)\;\ df\ -m\ \$R\ \|\ tail\ -1\;\ free\ -g\ \|\ sed\ -n\ 2p\"\;\ done 
+# source   : 44c1cf1f1657
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T19:36:17-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-14 09:36:20 CST
+-- tmux
+v2d-t3p4b-eval: 1 windows (created Tue Oct 13 19:10:35 2026)
+v2d-t3p4b-export: 1 windows (created Tue Oct 13 19:10:37 2026)
+v2d-t3p4b-train: 1 windows (created Tue Oct 13 19:10:33 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- runs/logs/t3-ep25-w2048-cap4m-r3a-hm-mf4090.log 2026-10-14 09:35:28 lines 118
+training progress: 98,000,896/349,999,104 environment steps (28.0%); 51,350 env steps/s; elapsed 00:31:48; ETA 01:21:47
+training progress: 101,500,928/349,999,104 environment steps (29.0%); 51,352 env steps/s; elapsed 00:32:57; ETA 01:20:39
+-- runs/logs/t3-ep25-w2048-cap4m-r3a-hm-mf4090.nanwatch.log 2026-10-14 09:35:12 lines 12
+10-13 19:33:11 MDT 90,003,456 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-13 19:35:12 MDT 100,003,840 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t3p4b_train_mf4090.log 2026-10-14 09:01:09 lines 989
+=== 2026-10-14 09:01:09 CST t3-ep21-w2048-cap4m-r3a-hm-mf4090 完成（1 段）
+=== 2026-10-14 09:01:09 CST 正式 t3-ep25-w2048-cap4m-r3a-hm-mf4090
+GPU procs 1
+NVIDIA GeForce RTX 4090, 99 %, 23781 MiB, 24564 MiB
+chain-markers 3 runs/.chain-active-cand_t3_t3p4b_mf4090-gate runs/.chain-active-t3p4b_eval_mf4090 runs/.chain-active-t3p4b_train_mf4090
+source a629fbdbf3e5
+/dev/vda2         303255 201429     89380  70% /
+Mem:             111           6          15           0          89         103
+== ml40 2026-10-14 09:36:23 CST
+-- tmux
+v2d-t3qa-eval: 1 windows (created Wed Oct 14 00:22:31 2026)
+v2d-t3qa-export: 1 windows (created Wed Oct 14 00:22:33 2026)
+v2d-t3qa-train: 1 windows (created Wed Oct 14 00:22:29 2026)
+-- runs/logs/t3-ep7-w2048-cap10m-r3a-hm-ml40.log 2026-10-14 09:35:21 lines 188
+Warning: EPA horizon = 24 isn't large enough.
+training progress: 329,000,960/349,999,104 environment steps (94.0%); 50,088 env steps/s; elapsed 01:49:28; ETA 00:06:59
+-- runs/logs/t3-ep7-w2048-cap10m-r3a-hm-ml40.nanwatch.log 2026-10-14 09:32:32 lines 34
+10-13 19:30:32 MDT 310,011,904 步：非有限 0 / 1207577（NaN 0，inf 0）
+10-13 19:32:32 MDT 320,012,288 步：非有限 0 / 1207577（NaN 0，inf 0）
+-- runs/logs/t3qa_train_ml40.log 2026-10-14 07:44:24 lines 978
+=== 2026-10-14 07:44:24 CST t3-ep6-w2048-cap10m-r3a-hm-ml40 完成（1 段）
+=== 2026-10-14 07:44:24 CST 正式 t3-ep7-w2048-cap10m-r3a-hm-ml40
+GPU procs 1
+NVIDIA L40S, 99 %, 40211 MiB, 46068 MiB
+chain-markers 3 runs/.chain-active-cand_t3_t3qa_ml40-gate runs/.chain-active-t3qa_eval_ml40 runs/.chain-active-t3qa_train_ml40
+source a629fbdbf3e5
+/dev/vdb         2063132 679350   1383767  33% /lab_data
+Mem:             111           7          16           0          87         102

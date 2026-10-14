@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ date\ \"+%F\ %T\ %Z\"\ \&\&\ for\ e\ in\ 10\ 13\ 19\ 3\ 14\;\ do\ s=runs/flash_chord/smoke-t1-ep\$\{e\}-w2048-cap4m-r3a-mf4090\;\ f=runs/flash_chord/t1-ep\$\{e\}-w2048-cap4m-r3a-mf4090\;\ echo\ \"ep\$\{e\}\ smoke:\ DONE=\$\(test\ -f\ \$s/DONE\ \&\&\ echo\ y\ \|\|\ echo\ n\)\ STATE_PRUNED=\$\(cat\ \$s/STATE_PRUNED\ 2\>/dev/null\ \|\|\ echo\ -\)\ policies=\$\(ls\ \$s/policy_\*.safetensors\ 2\>/dev/null\ \|\ wc\ -l\)\ states=\$\(ls\ \$s/state_\*.safetensors\ 2\>/dev/null\ \|\ wc\ -l\)\;\ formal\ dir:\ \$\(test\ -d\ \$f\ \&\&\ ls\ \$f\ \|\ head\ -5\ \|\ tr\ \"\\n\"\ \"\ \"\ \|\|\ echo\ none\)\"\;\ ls\ results/day2/bar_smoke-t1-ep\$\{e\}-w2048-cap4m-r3a-mf4090.txt\ 2\>/dev/null\;\ done\;\ ls\ runs/logs/\ \|\ grep\ -E\ \"t1xa3\"\ \|\|\ echo\ \"no\ t1xa3\ logs\"\;\ ls\ runs/.chain-stop-\*\ 2\>/dev/null 
+# source   : 44c1cf1f1657-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T21:53:16-0600
+# ---------------------------------------------------------------
+2026-10-14 11:53:16 CST
+ep10 smoke: DONE=y STATE_PRUNED=4096000 policies=1 states=0; formal dir: 
+results/day2/bar_smoke-t1-ep10-w2048-cap4m-r3a-mf4090.txt
+ep13 smoke: DONE=y STATE_PRUNED=4096000 policies=1 states=0; formal dir: 
+results/day2/bar_smoke-t1-ep13-w2048-cap4m-r3a-mf4090.txt
+ep19 smoke: DONE=y STATE_PRUNED=4096000 policies=1 states=0; formal dir: 
+results/day2/bar_smoke-t1-ep19-w2048-cap4m-r3a-mf4090.txt
+ep3 smoke: DONE=y STATE_PRUNED=4096000 policies=1 states=0; formal dir: 
+results/day2/bar_smoke-t1-ep3-w2048-cap4m-r3a-mf4090.txt
+ep14 smoke: DONE=y STATE_PRUNED=4096000 policies=1 states=0; formal dir: 
+results/day2/bar_smoke-t1-ep14-w2048-cap4m-r3a-mf4090.txt
+no t1xa3 logs
+runs/.chain-stop-t3p4b_train_mf4090

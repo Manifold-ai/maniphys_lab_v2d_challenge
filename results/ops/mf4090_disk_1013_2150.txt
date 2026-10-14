@@ -1,0 +1,28 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && date "+%F %T %Z" && df -Pk . && echo "-- æ\234¬ä»\223ç\224¨ç\232\204é\225\234å\203\217ï¼\210å\217ªå\210\227è¿\231ä¸\211ä¸ªï¼\211" && docker images --format "{{.Repository}}:{{.Tag}} {{.Size}} {{.CreatedSince}}" | grep -E "^(flash_chord|robotic-grounding|nvcr.io/nvidia/isaac-lab):" && echo "-- runs/flash_chord dirs $(ls runs/flash_chord | wc -l)" && for d in runs/flash_chord/t3-*-hm-mf4090; do echo "$d DONE=$(test -f $d/DONE && echo y || echo n) policies=$(ls $d/policy_*.safetensors 2>/dev/null | wc -l)"; done && echo "-- du" && timeout 100 du -sh runs 2>/dev/null' 
+# source   : 44c1cf1f1657-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-13T21:54:38-0600
+# ---------------------------------------------------------------
+2026-10-14 11:54:38 CST
+Filesystem     1024-blocks      Used Available Capacity Mounted on
+/dev/vda2        310533088 206686548  91101152      70% /
+-- æœ¬ä»“ç”¨çš„é•œåƒï¼ˆåªåˆ—è¿™ä¸‰ä¸ªï¼‰
+flash_chord:latest 22GB 2 weeks ago
+robotic-grounding:latest 29.8GB 2 weeks ago
+nvcr.io/nvidia/isaac-lab:2.3.2 26.4GB 8 months ago
+-- runs/flash_chord dirs 190
+runs/flash_chord/t3-ep12-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep13-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep14-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep15-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep16-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep17-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep19-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep1-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep21-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep25-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep27-w2048-cap4m-r3a-hm-mf4090 DONE=n policies=15
+runs/flash_chord/t3-ep2-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+runs/flash_chord/t3-ep3-w2048-cap4m-r3a-hm-mf4090 DONE=y policies=35
+-- du
+27G	runs
