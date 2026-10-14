@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ stages/policy/arm_var_chain.sh\ t3qdyn 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : 60fc2ad541c0-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:20:30-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+/repo/runs/cfgcheck/t3-ep12-w2048-cap4m-r3a-dyn4-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep12-w2048-cap4m-r3a-dyn4s-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40.yaml：4 条断言，全过
+核对：t3qdyn 在 ml40，2 条 run，来历 af011f6fec0d，可用 1373568 MB，4 份配置的 precheck 与配方断言全过
+v2d-t3qdyn-eval: 1 windows (created Thu Oct 15 04:20:35 2026)
+v2d-t3qdyn-export: 1 windows (created Thu Oct 15 04:20:37 2026)
+v2d-t3qdyn-train: 1 windows (created Thu Oct 15 04:20:33 2026)
+t3qdyn_train_ml40：=== 2026-10-15 04:20:34 CST 冒烟 smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40
+t3qdyn_eval_ml40：=== 2026-10-15 04:20:35 CST 等 runs/logs/t3qdyn_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3qdyn_ml40：
+runs/.chain-active-cand_t3_t3qdyn_ml40-gate
+runs/.chain-active-t3qdyn_eval_ml40
+runs/.chain-active-t3qdyn_train_ml40
+ARMED

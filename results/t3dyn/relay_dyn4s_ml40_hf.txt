@@ -1,0 +1,52 @@
+# command  : stages/recovery/tier3_relay.sh dyn4s 1 20 t3dyn4s_1014a 
+# md5      : 1af69cc2ada9122495d2d37e13538993  stages/recovery/tier3_relay.sh
+# source   : 4df6bb54d135
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T14:16:53-0600
+# ---------------------------------------------------------------
+=== 2026-10-14 14:16:53 MDT mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge → ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge：runs/tier3/root_dyn4s runs/motion_src/tier3_dyn4s runs/motion/tier3_dyn4s（1 集、20 个文件）
+来历 af011f6fec0d
+22	runs/tier3/root_dyn4s
+58	runs/motion_src/tier3_dyn4s
+39	runs/motion/tier3_dyn4s
+来历 af011f6fec0d
+/dev/vdb              2063132 689430   1373687      34% /lab_data
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：20 个文件，123.3 MB；仓库里已有 0 个；暂存 runs/hf_xfer/t3dyn4s_1014a；开始上传
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py:138: FutureWarning: 
+================================================================================
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+
+Use `upload_folder` instead:
+
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-transfer", repo_type="model", folder_path="runs/hf_xfer")
+================================================================================
+
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4s_1014a/runs/tier3/root_dyn4s/data/chunk-000/episode_000012.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/home/rxzhou/.local/lib/python3.10/site-packages/huggingface_hub/hf_api.py:5247: UserWarning: It seems that you are about to commit a data file (t3dyn4s_1014a/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+
+
+
+---------- 2026-10-15 04:16:58 (0:00:00) ----------
+Files:   hashed 0/21 (0.0/123.3M) | pre-uploaded: 0/0 (0.0/123.3M) (+21 unsure) | committed: 0/21 (0.0/123.3M) | ignored: 0
+Workers: hashing: 2 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+仓库里 t3dyn4s_1014a/：清单 21 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 20
+=== 2026-10-14 14:17:19 MDT 上传用时 25 秒
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+清单：20 个文件；开始下载到 runs/.relay_tier3_dyn4s.partial
+  20 / 20，123.3 MB
+HF_PULL_OK 20
+=== 2026-10-14 14:18:14 MDT 下载用时 55 秒
+=== 2026-10-14 14:18:18 MDT sha256 清单：来源 20 个文件（清单摘要 ae0905c98b4fd070），目标 20 个（ae0905c98b4fd070）；非普通文件：来源 0，目标 0
+=== 2026-10-14 14:18:18 MDT reconstructed_stage 与 root 的 support_surface 同名比对：1 份，不同 0 份 
+=== 2026-10-14 14:18:19 MDT 暂存目录里：parquet 1、v2d_meta.json 1、支撑面 1（_g1_ 0）；档位 3；集号 1 个（12）；sequence_id 与目录不符 0
+22	runs/tier3/root_dyn4s
+58	runs/motion_src/tier3_dyn4s
+39	runs/motion/tier3_dyn4s
+=== 2026-10-14 14:18:21 MDT 挪到位后清单与来源逐行相同（20 个文件）
+=== 2026-10-14 14:18:21 MDT RELAY_OK

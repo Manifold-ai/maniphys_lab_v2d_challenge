@@ -222,4 +222,22 @@ ep3 同样适用；取消 ep16 的停手规则，改为在第 4 节预先登记�
   另记（af011f6）。
 - 11:33 两台都同步到 af011f6（`results/ops/sync_mf4090_1014_1133.txt`、`results/ops/sync_ml40_1014_1133.txt`）；三份测试两台都是 `ALL_OK`，
   `bash -n` 通过（`results/t3dyn/tests_mf4090.txt`、`results/t3dyn/tests_ml40.txt`）。
-- 第 2 步（人体层 4.56 MB 走 Mac 管道）等用户同意，还没做。
+- 13:50 前后用户同意人体层走 Mac 管道（“可以走mac”）。13:55 先核对另一位用户的文件：dyn4 四集与 dyn4s 的 ep12 与上午的记录 sha256 逐个相同，
+  `track2/tier3-recon` 仍停在 8107fef（`results/t3dyn/recheck_inputs_1355.txt`）。
+- 13:55 拼目录两次都 `TIER3_ROOT_OK`：`root_dyn4` 4 集、`root_dyn4s` 1 集，5 集的 `support_source` 都是 `runs/tier3/root_hm`
+  （`results/t3dyn/stage_dyn4_mf4090.txt`、`stage_dyn4s_mf4090.txt`、`root_provenance_eps_mf4090.txt`）。来源记录里另一位用户的部署版本仍写 ae06e75
+  （与 best_hm 时相同），生成 best_dyn4、best_dyn4s 的代码按交接文档是 `track2/tier3-recon` 上的 7a4bf37 与 cabb668，部署标记没跟着更新，记在这里。
+- 13:56–14:08 mf4090 重定向 5 集：两份记录都以 `EPS_DONE` 结束，5 行 `ok=1`、没有 `FAIL`，间隙 −0.4 到 0.2 mm（`results/t3dyn/retarget_dyn4_mf4090.txt`、
+  `retarget_dyn4s_mf4090.txt`）。接触帧与 best_hm 同集并列（只报）：ep3 右手 421 帧（best_hm 512），左手两版都是 0；ep12 左 426、右 310（best_hm 353、414；
+  dyn4s 426、307）；ep15 右手 422（399）；ep16 左手 182（180）。
+- 14:10 mf4090 容器里 `check_inputs.py` 对 5 个 parquet 退出码 0（`results/t3dyn/check_inputs_mf4090.txt`）。
+- 14:11 `t3pdyn` 配置展开 6 份、意外 0 个；预演 `DRYRUN_OK`（来历 af011f6，可用 86557 MB，训练挂 `v040_p185_nfg`，评测与导出挂 `fc_8c778f9`）；
+  起链 `ARMED`（`results/t3dyn/cfgcheck_t3pdyn_mf4090.txt`、`arm_dryrun_t3pdyn_mf4090.txt`、`arm_t3pdyn_mf4090.txt`）。14:16 ep15 冒烟通过
+  （715 帧，256 世界里非有限 0 个）。
+- 14:12 中转仓库 README 加两行（上传中）并上传，`HF_README_OK`、仓库私有。14:13–14:18 转发：dyn4 `RELAY_OK`（74 个文件，上传 19 秒、下载 188 秒），
+  dyn4s `RELAY_OK`（20 个文件），两端 sha256 清单逐行相同（`results/t3dyn/relay_dyn4_ml40_hf.txt`、`relay_dyn4s_ml40_hf.txt`）。
+- 14:18 ml40 容器里 `check_inputs.py` 对 5 个 parquet 退出码 0（`results/t3dyn/check_inputs_ml40.txt`）；README 两行改为“已传、已核对”后重传，`HF_README_OK`
+  （`results/ops/hf_readme_v2d_track2_transfer_t3dyn_relayed.txt`）。
+- 14:20 `t3qdyn` 配置展开 4 份、意外 0 个；预演 `DRYRUN_OK`（来历 af011f6，可用 1,373,568 MB）；起链 `ARMED`，第一条冒烟 ep12 dyn4
+  （`results/t3dyn/cfgcheck_t3qdyn_ml40.txt`、`arm_dryrun_t3qdyn_ml40.txt`、`arm_t3qdyn_ml40.txt`）。第 4 节“第 1–7 步”的判据全部满足。
+- 估计：ml40 两条约 20:00–20:30 评完，mf4090 三条约 21:00–21:20 评完（按 best_hm 那批的用时）。
