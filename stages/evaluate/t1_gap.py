@@ -58,6 +58,9 @@ def read_board(path):
 
 
 def beats(k, ours, target):
+    # Kaggle 显示的分数截到 5 位小数（0.471279 显示成 0.47127，20/30 显示成 0.66666），SP、MP 按成功条数比
+    if k in ("spider_sr", "maniptrans_sr"):
+        return round(ours * N) > round(target * N)
     return ours < target if k == "mppe_cm" else ours > target
 
 
