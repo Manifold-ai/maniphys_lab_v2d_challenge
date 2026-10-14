@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ nvidia-smi\ --query-gpu=memory.used\,memory.total\ --format=csv\,noheader\ \&\&\ \!\ tmux\ has-session\ -t\ v2d-probe-ep19\ 2\>/dev/null\ \&\&\ tmux\ new-session\ -d\ -s\ v2d-probe-ep19\ \"for\ s\ in\ 300011520\ 310011904\ 320012288\ 330012672\ 340013056\;\ do\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ V2D_ALLOW_SHARED_GPU=1\ scripts/dev/record\ first/probe_ep19_s\\\$s\ stages/evaluate/fc_export.sh\ t1-ep19-w2048-cap10m-r3a-ml40\ \\\$s\;\ done\;\ echo\ PROBE_EP19_DONE\ \>\ runs/logs/probe_ep19.done\"\ \&\&\ sleep\ 5\ \&\&\ tmux\ ls\ \|\ cut\ -d:\ -f1 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : a3a62c81b85f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:16:57-0600
+# ---------------------------------------------------------------
+source af011f6fec0d
+23953 MiB, 46068 MiB
+v2d-probe-ep19
+v2d-t3qdyn-eval
+v2d-t3qdyn-export
+v2d-t3qdyn-train

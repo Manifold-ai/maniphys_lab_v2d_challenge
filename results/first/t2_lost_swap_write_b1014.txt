@@ -1,0 +1,24 @@
+# command  : python3 tools/t2_lost_swap.py --select results/select_t2/select_b1013.txt --episodes 4 25 28 9 1 17 2 11 --current-tsv stages/evaluate/exports/t2_select_b1013.tsv --write-tsv stages/evaluate/exports/t2_select_b1014.tsv 
+# md5      : d8a18f0fb338f5ba7f4de8f701afc83b  tools/t2_lost_swap.py
+# md5      : 8711be972ebede3708ddce5f42abf58e  results/select_t2/select_b1013.txt
+# md5      : 74efed54ae634e79e951413d4f0da4c1  stages/evaluate/exports/t2_select_b1013.tsv
+# source   : a3a62c81b85f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T16:41:02-0600
+# ---------------------------------------------------------------
+集	现在交的 run	导出那 1 局 SP / MP / AUC / MPPE	另一条 run	导出那 1 局 SP / MP / AUC / MPPE	换了 MPPE 合计变化（cm）	AUC 合计变化
+4	t2-ep4-w2048-cap4m-mf4090	0 / 0 / 0.126 / 130.44	t2-ep4-w2048-cap10m-r3a-ml40	0 / 0 / 0.114 / 111.48	-18.96（换）	-0.013
+25	t2-ep25-w2048-cap4m-mf4090	0 / 0 / 0.132 / 115.88	t2-ep25-w2048-cap10m-r3a-ml40	0 / 0 / 0.123 / 116.51	+0.63	-0.009
+28	t2-ep28-w2048-cap10m-r3a-ml40	0 / 0 / 0.092 / 58.62	t2-ep28-w2048-cap4m-p185-mf4090	0 / 0 / 0.075 / 56.14	-2.48（换）	-0.017
+9	t2-ep9-w2048-cap10m-r3a-ml40	0 / 0 / 0.274 / 44.97	t2-ep9-w2048-cap4m-mf4090	0 / 0 / 0.221 / 38.75	-6.23（换）	-0.053
+1	t2-ep1-w2048-cap10m-p185-ml40	0 / 0 / 0.224 / 47.03	t2-ep1-w2048-cap10m-r3a-ml40	0 / 0 / 0.175 / 36.52	-10.51（换）	-0.050
+17	t2-ep17-w2048-cap4m-mf4090	0 / 0 / 0.350 / 5.43	t2-ep17-w2048-cap10m-r3a-ml40	0 / 0 / 0.256 / 153.48	+148.05	-0.094
+2	t2-ep2-w2048-cap10m-r3a-ml40	0 / 0 / 0.341 / 26.43	t2-ep2-w2048-cap4m-mf4090	0 / 0 / 0.318 / 46.51	+20.08	-0.023
+11	t2-ep11-w2048-cap4m-mf4090	0 / 0 / 0.212 / 9.38	t2-ep11-w2048-cap10m-r3a-ml40	0 / 0 / 0.077 / 69.54	+60.16	-0.135
+只换 MPPE 更低、SP 与 MP 不变差的集：导出那 1 局对照自己参考的 MPPE 合计变化 -38.17 cm（目标：真值合计减 35.9 cm 以上；这里是代理量，不是真值）
+写：ep1 t2-ep1-w2048-cap10m-p185-ml40 → t2-ep1-w2048-cap10m-r3a-ml40
+写：ep4 t2-ep4-w2048-cap4m-mf4090 → t2-ep4-w2048-cap10m-r3a-ml40
+写：ep9 t2-ep9-w2048-cap10m-r3a-ml40 → t2-ep9-w2048-cap4m-mf4090
+写：ep28 t2-ep28-w2048-cap10m-r3a-ml40 → t2-ep28-w2048-cap4m-p185-mf4090
+写 stages/evaluate/exports/t2_select_b1014.tsv（30 行，改了 4 行）
+T2_LOST_SWAP_DONE

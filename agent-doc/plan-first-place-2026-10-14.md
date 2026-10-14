@@ -122,6 +122,8 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 | 丙 | 跟丢的集先诊断：Tier 1 的 ep25、4、28、9、1、11 与 Tier 2 的 8 集，各用本档交上去的 run 跑 `fc_eval_dump.sh`，再用单条 run 的驱动 `stages/evaluate/fall_order_one.py`（第 0 步新写，调 `fall_order.py` 的 `run_one` 与 `describe`，门与判法不改；`fall_order.py` 的 `main()` 只收 10/7 试验的四条一组）；diag2 只用于它支持的行 | Tier 1 MPPE、AUC；Tier 2 MPPE | 约 14 集 × 5–7 分钟 ≈ 1.5–2 GPU 小时 | 只报；MPPE 第一只能靠修好跟丢的集，诊断之后另写训练计划 |
 | 丁 | 同一 checkpoint 导出多局、交成功的那局 | Tier 1 MP-SR、AUC | 不到 1 GPU 小时 | 规则风险（1.2），不做，除非组委会书面同意 |
 
+| 戊 | Tier 2 跟丢的集改挑（16:20 用户要今天就交新版后加）：两条候选 4096 世界 MP-SR 都是 0 的集，原规则按 ADD-AUC 挑；改成按“导出那 1 局对照自己参考的 MPPE”挑低的，SP、MP 不许变差，其余集不动。按 `results/first/t2_lost_swap.txt` 只换 ep1、4、9、28，导出那 1 局的 MPPE 合计 −38.17 cm、ADD-AUC 合计 −0.133 | Tier 2 MPPE | 不用 GPU | 榜上要减 35.9 cm；余量约 2 cm，又是对照自己参考的代理量，成败只能看榜 |
+
 考虑过但不排：Tier 1 的 ep25、4、9、11 补 r3a。Tier 2 同集的 r3a 都是 0、骨盆约 1.0，Tier 1 大概率同样跟丢，先等丙的诊断。
 
 ## 3. 建议的顺序
@@ -155,6 +157,11 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 - 档位隔离：Tier 2 的诊断、选择与判断只用 Tier 2 的数据；用 `fall_order.py` 跑 Tier 2 之前先核对它读的文件只有 Tier 2 的。Tier 1 的结果不拿来调
   Tier 2 的任何东西。
 - 丁：不做。
+- 戊（Tier 2 b1014）：选择清单 `stages/evaluate/exports/t2_select_b1014.tsv` 由 `tools/t2_lost_swap.py --write-tsv` 从 b1013 生成，只改 ep1、4、9、28 四行
+  （`results/first/t2_lost_swap_write_b1014.txt`）。打包照 10/13 b1013 的流程：拉结果表与选中的导出（sha256 逐个核）、`check_t2_select.py` 核导出与评测、
+  `pack_tier.sh 2 … select_b1014`（30 条、22,989 行）、核 CSV、反向对照（b1013 的 CSV 对 b1014 的清单必须核不过）、上传器 `--dry-run`。任何一步不过就停。
+  只读 Tier 2 的导出与评测；打包器读 Tier 1 的干净参考定行的网格、算本地分数，这个分数照旧被滤掉、不用于选择。提交要用户点头；交后看榜：
+  Tier 2 MPPE 低于 15.34253 记“拿到 MPPE 第一”，否则记“代理量没对上”，报用户，不再按这个代理量改挑。
 
 ## 5. 风险
 
