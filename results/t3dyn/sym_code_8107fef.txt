@@ -1,7 +1,7 @@
-# command  : bash -c git\ show\ 8107fef:stages/recovery/tier3/t3_dynamics_post.py\ \|\ sed\ -n\ \"1\,12p\;48\,56p\;95\,108p\" 
-# source   : cfe6976ffbcd
+# command  : bash -c git\ show\ 8107fef:stages/recovery/tier3/t3_dynamics_post.py\ \|\ sed\ -n\ \"1\,12p\;48\,57p\;95\,108p\" 
+# source   : 84a40552a715-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-14T10:53:53-0600
+# run_at   : 2026-10-14T11:06:24-0600
 # ---------------------------------------------------------------
 """Object dynamics post-process: an untouched object does not move, and its orientation is continuous (Tier 3 inputs only).
 
@@ -24,6 +24,7 @@ MIN_RUN = 3  # frames
 WINDOW_S = 0.3
 SYM_M = 0.01
 SYM_REL = 0.05  # of the largest centre-to-surface distance, for small objects
+SYM_STEP_DEG = 15
 def symmetries(points, com, inertia):
     """Body-frame rotations (about the centre of mass) that leave the shape in place."""
     c = points - com
