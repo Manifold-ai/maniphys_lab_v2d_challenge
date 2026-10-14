@@ -1,8 +1,8 @@
-# 计划：Tier 1 与 Tier 2 各榜争第一（2026-10-14，第 2 版）
+# 计划：Tier 1 与 Tier 2 各榜争第一（2026-10-14，第 3 版）
 
 10/14 14:15 MDT 用户：“我们力求所有第一”。14:17 的榜上，我们在 Tier 1、Tier 2 的 8 个榜里有 4 个第一（Tier 1 SP-SR，Tier 2 AUC、SP-SR、MP-SR），
 其余 4 个（Tier 1 AUC、MP-SR、MPPE，Tier 2 MPPE）都排在 Xueyi Wang (FF) 后面。本计划只收集事实、列选项与判据，这一步不用 GPU，
-不同步、不起链、不停任何进程、不提交。两台机器上 Tier 3 试点的链约 21:20 MDT 才结束。时间一律 UTC−6（MDT）。第 1 版（3ece756）经独立审查（Fable 5.1）为 GO WITH FIXES，第 2 版按审查意见修改，逐条处理见第 8 节。
+不同步、不起链、不停任何进程、不提交。两台机器上 Tier 3 试点的链约 21:20 MDT 才结束。时间一律 UTC−6（MDT）。第 1 版（3ece756）经独立审查（Fable 5.1）为 GO WITH FIXES，第 2 版（dc0c9ca）按审查意见修改；第 2 版再审仍是 GO WITH FIXES，第 3 版按第二轮意见修改，逐条处理见第 8 节。
 
 ## 1. 事实
 
@@ -118,28 +118,34 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 |---|---|---|---|---|
 | 零 | 复现性：交上去的 ep14（`t1-ep14-w2048-cap4m-mf4090`）与 ep19（`t1-ep19-w2048-cap10m-r3a-ml40`）最终 checkpoint 按 kit 的做法各再导出 1 局，与候选文件比 sha256。`fc_export.sh` 遇到已有结果只打印，所以加一个输出后缀 `V2D_EXPORT_SUFFIX`（默认空，行为不变） | 2.9.b、乙的前提 | 2 局 × 约 2 分钟 | 相同才做乙；不同就报用户 |
 | 乙 | 先探：ep14 r3a（mf4090）与 ep19 r3a（ml40）各 5 份更早的 checkpoint（300011520、310011904、320012288、330012672、340013056，`results/first/snapshots_ep14_ep19.txt`）按 kit 的做法导出 1 局，读导出 JSON 的四项；4096 世界评测走 `fc_eval_dump.sh`，第 0 世界与 1 局导出对照。有一份那 1 局 MP 成功，才做第二步：逐条选支持带步数的候选 | Tier 1 MP-SR、AUC | 10 份 × 约 7 分钟 ≈ 1.2 GPU 小时 | 相邻 checkpoint 相关，成功概率比新种子低，但最便宜 |
-| 甲 | 新种子：ep14、ep19 各补 1 条 seed 43（`t1-ep14-w2048-cap4m-r3a-s43-mf4090`、`t1-ep19-w2048-cap10m-r3a-s43-ml40`，`make_trial_queue.py` 现成支持 s43）。再补 s44 起要改生成器、另审 | Tier 1 MP-SR、AUC | 2 条 × 约 2.1 小时 | k=1 时多 2 条 MP 成功的概率约 0.175（偏乐观，1.4） |
-| 丙 | 跟丢的集先诊断：Tier 1 的 ep25、4、28、9、1、11 与 Tier 2 的 8 集，各用本档交上去的 run 跑 `fc_eval_dump.sh` 加 `fall_order.py`；diag2 只用于它支持的行 | Tier 1 MPPE、AUC；Tier 2 MPPE | 约 14 集 × 5–7 分钟 ≈ 1.5–2 GPU 小时 | 只报；MPPE 第一只能靠修好跟丢的集，诊断之后另写训练计划 |
+| 甲 | 新种子：ep14、ep19 各补 1 条 seed 43（`t1-ep14-w2048-cap4m-r3a-s43-mf4090`、`t1-ep19-w2048-cap10m-r3a-s43-ml40`）。现有生成器出不了单条的 s43：`make_trial_queue.py` 只出 10/7 试验的段，`make_var_queue.py` 只出 seed 42。甲排上之前给 `make_var_queue.py` 加种子参数、补测试、另审（不用 GPU，可在乙、丙跑的时候做） | Tier 1 MP-SR、AUC | 2 条 × 约 2.1 小时 | k=1 时多 2 条 MP 成功的概率约 0.175（偏乐观，1.4） |
+| 丙 | 跟丢的集先诊断：Tier 1 的 ep25、4、28、9、1、11 与 Tier 2 的 8 集，各用本档交上去的 run 跑 `fc_eval_dump.sh`，再用单条 run 的驱动 `stages/evaluate/fall_order_one.py`（第 0 步新写，调 `fall_order.py` 的 `run_one` 与 `describe`，门与判法不改；`fall_order.py` 的 `main()` 只收 10/7 试验的四条一组）；diag2 只用于它支持的行 | Tier 1 MPPE、AUC；Tier 2 MPPE | 约 14 集 × 5–7 分钟 ≈ 1.5–2 GPU 小时 | 只报；MPPE 第一只能靠修好跟丢的集，诊断之后另写训练计划 |
 | 丁 | 同一 checkpoint 导出多局、交成功的那局 | Tier 1 MP-SR、AUC | 不到 1 GPU 小时 | 规则风险（1.2），不做，除非组委会书面同意 |
 
 考虑过但不排：Tier 1 的 ep25、4、9、11 补 r3a。Tier 2 同集的 r3a 都是 0、骨盆约 1.0，Tier 1 大概率同样跟丢，先等丙的诊断。
 
 ## 3. 建议的顺序
 
-0. 代码（现在、不用 GPU）：`stages/evaluate/fc_export.sh` 加 `V2D_EXPORT_SUFFIX`（输出目录与日志名后加后缀；默认空时一切照旧），补预演测试；
-   `results/ml40/select_t1/t1_select_t1c1014b.tsv` 复制为 `stages/evaluate/exports/t1_select_t1c1014b.tsv`（`select_t1.sh` 只认这个目录）。提交、代码审查。
+0. 代码（现在、不用 GPU）：`stages/evaluate/fc_export.sh` 加 `V2D_EXPORT_SUFFIX`（输出目录、日志名与 hydra 目录后加后缀；默认空时一切照旧），补测试；
+   `results/ml40/select_t1/t1_select_t1c1014b.tsv` 复制为 `stages/evaluate/exports/t1_select_t1c1014b.tsv`（`select_t1.sh` 只认这个目录）；
+   新写 `stages/evaluate/fall_order_one.py` 与测试。提交、代码审查。
 1. 两台的 Tier 3 试点链都结束后（ml40 约 20:30、mf4090 约 21:20）同步、跑测试，先做零（ep19 在 ml40、ep14 在 mf4090）。
 2. 零通过就做乙的探查与丙的诊断，两台各一半，约 23:30 前出结果。
 3. 乙有可用的 checkpoint：另写逐条选的代码改动（候选键改成 `<run>@s<步数>`，贯穿 `stage_t1_candidates.sh`、`relay_t1x.sh`、`select_t1.py`，
-   补测试），代码审查后进逐条选、打包，报用户。乙没有：甲排上。
+   补测试；`fc_eval_dump.sh` 的评测 JSON 写在 `runs/flash_chord/<run>/eval_dump/` 下，而候选与导出链找的是 run 根目录下的
+   `eval_<步数>_w4096.json`，这一步一并处理，或探查通过后按现有评测链补评一次），代码审查后进逐条选、打包，报用户。
+   乙没有：甲排上（先做生成器的种子参数，见第 2 节）。
 4. 丙的诊断出来后另写训练计划、另审。Tier 3 全量重训与本计划怎么分卡，等试点结果出来再定（第 7 节第 2 条）。
 
 ## 4. 判据（执行前登记）
 
-- 零：两份再导出的 JSON 与 parquet 的 sha256 都与候选文件相同，记“1 局可复现”，做乙；有一个不同就停在这一步，不做乙，报用户
-  （现有提交按 2.9.b 的复现要另想办法）。
-- 乙的探查：某份 checkpoint 那 1 局 `maniptrans_sr` 与 `spider_sr` 都是 1，记“可用”。第 0 世界与 1 局导出的四项相同记“第 0 世界 = 1 局导出”，
-  不同只报。进逐条选时登记 `V2D_SELECT_CURRENT=stages/evaluate/exports/t1_select_t1c1014b.tsv`、
+- 零：在同一台机器上比，不搬文件。ep14 的再导出（mf4090，`V2D_EXPORT_SUFFIX=_rep1`）对照 mf4090 `runs/exports/export_mf4090.tsv` 里
+  `t1-ep14-w2048-cap4m-mf4090` 那一行的 json、parquet 两个 sha256；ep19 的再导出（ml40）对照 ml40 `runs/exports/cand_t1_t1yb_ml40.tsv` 里
+  `t1-ep19-w2048-cap10m-r3a-ml40` 那一行的两个 sha256。打分只看 parquet：两份 parquet 都相同记“1 局可复现”，做乙；parquet 相同而 JSON 不同时，
+  列出不同的键再定，不直接停；有一份 parquet 不同就停在这一步，不做乙，报用户（现有提交按 2.9.b 的复现要另想办法）。
+- 乙的探查：某份 checkpoint 那 1 局导出 JSON 的 `metrics.maniptrans_sr` 与 `metrics.spider_sr_uncentered` 都是 1，记“可用”。
+  第 0 世界的对照（只报）：`fc_eval_dump.sh` 的 npz 里第 0 世界的 `mp_success`、`sp_success`、`mp_position_m`、`mp_orientation_deg`，对 1 局导出 JSON 的
+  `maniptrans_sr`、`spider_sr_uncentered`、`object_position_error_m`、`object_orientation_error_deg`（允许 float16 的舍入）；AUC、MPPE 没有逐世界的值，不在对照里。进逐条选时登记 `V2D_SELECT_CURRENT=stages/evaluate/exports/t1_select_t1c1014b.tsv`、
   `V2D_SELECT_GATE=0.546236,0.733333,0.633333,16.559396`（`results/ml40/select_t1/select_t1c1014b.txt` 的 PACKED 行），选法不变
   （先比 MP-SR，再比 SP-SR，再比 AUC / 0.3780 − MPPE / 25.1706），打分门 A、B 照旧。新 CSV 只打包、不提交，提交要用户点头。
 - 甲的停手：ep14 的 s43 那条 4096 世界 MP-SR 低于 0.3、ep19 的低于 0.2（低于它现有的 0.258），这一集不再补；那 1 局成功的集也不再补。
@@ -189,8 +195,24 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 | 12 | NIT | 六集“摔”的诊断，`fall_order.py` 直接给骨盆失守与接触的先后 | 采纳：丙主用它 |
 | 13 | NIT | 审查提示词放在会话 scratchpad，不会留下来 | 采纳：删掉这句引用，审查的问题与处理记在本节 |
 
+第 2 版（dc0c9ca）再请同一位审查者看改动与第 0 步的代码，结论 **GO WITH FIXES**（5 MINOR、2 NIT）。审查核过：`V2D_EXPORT_SUFFIX` 的校验、输出目录、
+日志名、“已有结果”、hydra 目录与锁都对，默认空时与改前相同，9 个旧测试组不变；导出链、提交拉取、兼容检查都按不带后缀的目录找文件，带后缀的不会被当成提交导出；
+第 4 节每条判据两个方向都有动作；门 B 的值与 PACKED 行一致；第 1 版 13 条都有处理。
+
+| # | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| 1 | MINOR | 零没写比什么、在哪台机器上比 | 采纳：各在原机器上对照导出表那一行的两个 sha256，表的路径写进判据 |
+| 2 | MINOR | 打分只看 parquet，JSON 不同不该直接停 | 采纳：parquet 定结论，JSON 不同列出键再定 |
+| 3 | MINOR | “第 0 世界与 1 局导出的四项相同”算不出来：npz 没有逐世界的 AUC、MPPE；`spider_sr` 在 JSON 里叫 `spider_sr_uncentered` | 采纳：改成对照 MP、SP 标记与平均位置、朝向误差，键名照 JSON |
+| 4 | MINOR | `fall_order.py` 的 `main()` 只收四条一组的试验清单，单条 run 跑不了 | 采纳：第 0 步新写 `fall_order_one.py`（调 `run_one`、`describe`）与 4 组测试 |
+| 5 | MINOR | 现有生成器出不了单条的 s43 | 采纳：甲排上之前给 `make_var_queue.py` 加种子参数、补测试、另审 |
+| 6 | NIT | 后缀测试没断言 hydra 目录与预演 | 采纳：补两条断言 |
+| 7 | NIT | `fc_eval_dump.sh` 的评测 JSON 不在候选找的位置 | 采纳：写进第 3 节第 3 步 |
+
 ## 9. 执行记录
 
-- 15:40 第 0 步（Mac，不用 GPU）：`fc_export.sh` 加 `V2D_EXPORT_SUFFIX`，`test_fc_export.py` 补第 10 组（带后缀重新导出到新目录、日志名带后缀、
+- 15:29 第 0 步（Mac，不用 GPU）：`fc_export.sh` 加 `V2D_EXPORT_SUFFIX`，`test_fc_export.py` 补第 10 组（带后缀重新导出到新目录、日志名带后缀、
   原来那份不动、不合格式的后缀退出码 2），10 组 `ALL_OK`，`bash -n` 通过；`t1_select_t1c1014b.tsv` 复制到 `stages/evaluate/exports/`，与原件 sha256 相同
   （`results/first/tests_mac_step0.txt`）。代码审查见第 8 节。
+- 15:39 第 0 步补充（按第二轮审查）：`fall_order_one.py` 与 4 组测试，连同 `test_fall_order.py` 的 7 组共 11 个通过；`test_fc_export.py` 第 10 组补 hydra 目录与
+  预演两条断言，10 组 `ALL_OK`（`results/first/tests_mac_step0b.txt`；pytest 用本机缓存的 uv 环境，numpy 取另一份同为 Python 3.13 的缓存环境）。

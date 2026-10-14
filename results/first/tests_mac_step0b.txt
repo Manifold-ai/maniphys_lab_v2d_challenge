@@ -1,0 +1,13 @@
+# command  : bash -c $'python3 stages/evaluate/test_fc_export.py | tail -1; bash -n stages/evaluate/fc_export.sh && echo \'bash -n ok\'; echo \'== pytestï¼\210ç¼\223å\255\230 uv ç\216¯å¢\203ï¼\232pytest 9.1.1 å\212  numpy 2.5.3ï¼\214Python 3.13ï¼\211\'; PYTHONPATH=/Users/rongxuanzhou/.cache/uv/archive-v0/6KE9pD0MrqF8fG2N/lib/python3.13/site-packages /Users/rongxuanzhou/.cache/uv/archive-v0/XDqH-7wr9aqfqU4z/bin/python -m pytest -q -p no:cacheprovider stages/evaluate/test_fall_order_one.py stages/evaluate/test_fall_order.py 2>&1 | tail -1' 
+# md5      : a6700f19cb1b43a1e258730b2493780d  stages/evaluate/test_fc_export.py
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# md5      : 13b2ba70f384d8d13c0bbf68f2e78e19  stages/evaluate/test_fall_order_one.py
+# md5      : 01033556182e6270a2e28c79c039ec64  stages/evaluate/test_fall_order.py
+# source   : dc0c9ca5aee1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:38:56-0600
+# ---------------------------------------------------------------
+ALL_OK
+bash -n ok
+== pytestï¼ˆç¼“å­˜ uv çŽ¯å¢ƒï¼špytest 9.1.1 åŠ  numpy 2.5.3ï¼ŒPython 3.13ï¼‰
+11 passed in 0.59s

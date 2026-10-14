@@ -14,7 +14,8 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
   9. Tier 3 校正版（agent-doc/plan-t3-pilot-v2-2026-10-10.md）：parquet 在 runs/motion/tier3_v2/ 下时，v2d_meta.json 到 runs/motion_src/tier3_v2/
      找（tier3/ 下第一轮那份不读）；目录名大写、空后缀或 Tier 1、2 带后缀都拒绝，退出码 2。
  10. V2D_EXPORT_SUFFIX（agent-doc/plan-first-place-2026-10-14.md 选项零）：已有不带后缀的结果时，带后缀照样重新导出到 s<步数>_w1_<名>/、
-     日志名也带后缀，原来那份不动；不带后缀时行为不变；后缀不合格式（没有下划线、大写、斜杠、超过 16 个字符）退出码 2，不起容器。
+     日志名与 hydra.run.dir 也带后缀，原来那份不动；预演打印带后缀的路径、不建目录；不带后缀时行为不变；后缀不合格式（没有下划线、大写、
+     斜杠、超过 16 个字符）退出码 2，不起容器。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -209,6 +210,10 @@ def test_suffix() -> None:
         assert rep.with_suffix(".json").is_file() and rep.with_suffix(".parquet").is_file(), text
         assert f"evaluation.metrics_output=/repo/runs/flash_chord/{RUN}/export_8c778f9/s{STEP}_w1_rep1/episode_000006.json" in calls, calls
         assert (root / f"runs/logs/{RUN}.export_8c778f9_s{STEP}_w1_rep1.log").is_file(), text
+        assert f"hydra.run.dir=/repo/runs/flash_chord/{RUN}/export_8c778f9/s{STEP}_w1_rep1/hydra/episode_000006" in calls, calls
+        rc, text, calls = run(root, V2D_EXPORT_SUFFIX="_rep2", V2D_EXPORT_DRYRUN="1")
+        assert rc == 0 and not calls and f"export_8c778f9/s{STEP}_w1_rep2/episode_000006.json" in text, (rc, text)
+        assert not (root / f"runs/flash_chord/{RUN}/export_8c778f9/s{STEP}_w1_rep2").exists()
         assert out(root).with_suffix(".json").read_text() == first
         rc, text, calls = run(root, V2D_EXPORT_SUFFIX="_rep1")
         assert rc == 0 and not calls and "已有结果" in text, (rc, text)
