@@ -1,0 +1,26 @@
+# command  : bash -c git\ log\ origin/track2/tier3-recon\ --since=\"2026-10-13\ 12:00\ -0600\"\ --format=\"%h\ %cd\ %s\"\ --date=iso\ --stat\ \|\ tools/redact_stdin.sh 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 9e3983ba342a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T07:34:07-0600
+# ---------------------------------------------------------------
+b5203ec 2026-10-14 13:05:17 +0800 docs(handoff): tier3 dynamics check and post-process, best_dyn4 results
+
+ agent-doc/handoff-tier3-dynamics-2026-10-14.md | 80 ++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+7a4bf37 2026-10-14 12:14:22 +0800 fix(tier3): dynamics post locks only resting unheld frames, tapers one-sided offsets, never adds floor penetration
+
+ stages/recovery/tier3/t3_dynamics_post.py | 40 ++++++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 9 deletions(-)
+c0299ab 2026-10-14 12:08:15 +0800 fix(tier3): dynamics check judges held by every robot hand link's collision surface, soles when the task names a foot
+
+ stages/recovery/tier3/gate/t3_dynamics_check.py | 99 ++++++++++++++++++++++---
+ 1 file changed, 89 insertions(+), 10 deletions(-)
+43e2b9d 2026-10-14 10:10:35 +0800 feat(tier3): dynamics post-process - unheld runs locked to one pose, symmetric-equivalent orientations made continuous, held runs absorb the offsets
+
+ stages/recovery/tier3/t3_dynamics_post.py | 219 ++++++++++++++++++++++++++++++
+ 1 file changed, 219 insertions(+)
+cdda135 2026-10-14 09:54:56 +0800 feat(tier3): dynamics check on the retargeted reference - contact state first, then Newton/Euler residuals, shape-aware rotation
+
+ stages/recovery/tier3/gate/t3_dynamics_check.py | 225 ++++++++++++++++++++++++
+ 1 file changed, 225 insertions(+)

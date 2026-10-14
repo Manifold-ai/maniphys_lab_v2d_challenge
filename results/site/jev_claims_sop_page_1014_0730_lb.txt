@@ -1,0 +1,12 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-sop-0730-lb.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : de04d6610730d681d975e2d7e51f79bc  agent-doc/experiments/2026-10-14-sop-0730-lb.claims.json
+# source   : 9e3983ba342a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T07:42:25-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+lb_t2_0735           P(supported)=0.96  verified               [lb]  07:35 的快照里，Tier 2 的 AUC、SP-SR、MP-SR 三个榜第一都是 maniphys.ai（0.51379、0.73333、0.53333）；MPPE 榜第一是 Xueyi Wang (FF) 15.34253，maniphys.ai 16.54028 排第二；CHORD Baseline 四项是 0.37374、0.53333、0.06666、20.52402。
+ctl_true_t1          P(supported)=0.99  control(true) ok       [lb]  Tier 1 AUC 榜上 CHORD Baseline 的分数是 0.51038。
+ctl_false_mppe_first P(supported)=0.02  control(false) ok      [lb]  Tier 2 MPPE 榜第一是 maniphys.ai。
+controls behaved as expected

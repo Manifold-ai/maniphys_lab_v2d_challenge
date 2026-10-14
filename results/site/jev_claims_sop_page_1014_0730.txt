@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-sop-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 461d4fc9f99cd4a8847bd17b3f09e255  agent-doc/experiments/2026-10-14-sop-0730.claims.json
+# source   : 9e3983ba342a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T07:42:08-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+yb_done4             P(supported)=0.89  verified               [st_yb]  ml40 的 t1yb 已完成 4 条正式 run：t1-ep16、t1-ep2、t1-ep3、t1-ep19（名字以 -w2048-cap10m-r3a-ml40 结尾），t1-ep13-w2048-cap10m-r3a-ml40 在 2026-10-14 21:10:31 CST 开始正式训练、还没有完成。
+xb_done3             P(supported)=0.84  verified               [st_xb]  mf4090 的 t1xb 已完成 3 条正式 run：t1-ep3、t1-ep19、t1-ep13（名字以 -w2048-cap4m-r3a-mf4090 结尾）。
+xb_running           P(supported)=0.74  verified               [st_xb]  t1-ep10-w2048-cap4m-r3a-mf4090 在 2026-10-14 20:15:40 CST 开始正式训练，记录里它在“没有 DONE 的正式 run”之列；t1-ep14-w2048-cap4m-r3a-mf4090 还没有 policy。
+nonfinite0           P(supported)=0.98  verified               [st_yb, st_xb]  看守日志里，t1yb 的 5 条 run（t1-ep16、ep2、ep3、ep19、ep13，-cap10m-r3a-ml40）和 t1xb 的 t1-ep3、ep19、ep13、ep10（-cap4m-r3a-mf4090）的非有限行都是 0。
+eval_wait            P(supported)=0.98  verified               [st_yb, st_xb]  t1yb 与 t1xb 的评测日志都在等训练日志的最后一行变成 DAY2_TRAIN_DONE 或 DAY2_TRAIN_FAILED。
+disk                 P(supported)=0.95  verified               [st_xb]  07:30 这份记录里 mf4090 可用磁盘是 87508 MB。
+gpu_only             P(supported)=0.93  verified               [gpu_m, gpu_l]  mf4090 与 ml40 的 GPU 上各只有一个计算进程，都是本用户的 train_flash_sac.py 训练。
+dyn_ratio            P(supported)=0.99  verified               [dyn]  物体违规帧占比（29 集）best_hm 是 25.5%，best_dyn4 是 6.3%；开头 30 帧就违规的集从 29 降到 3；画面对齐 IoU 从 0.700 变成 0.697。
+dyn_status           P(supported)=0.98  verified               [dyn]  交付版仍是 best_hm，best_dyn4 还没换上去；要不要用 best_dyn4 做训练试点还没定，建议的对照是 ep15、ep3，它们在 Tier 2 上能训到 0.8 以上。
+dyn_method           P(supported)=0.98  verified               [dyn]  检查读训练实际用的机器人层 parquet，先判每帧接触状态，再判该状态下运动是否物理上可能；检查项包括没被碰时累计漂移 3 cm 和按形状判的转动漂移。修复只改物体、人体不动：对称物体取离上一帧最近的等价朝向，没被碰的静置段只保留一个位姿，被碰段吸收两端的位置差和朝向差；人体没有做时间平滑。
+dyn_gate             P(supported)=0.98  verified               [dyn]  用官方支撑面时 best_dyn4 不过 ep3、6、7、20、25，best_hm 不过 ep3、25；用按本档重新生成的支撑面，best_dyn4 和 best_hm 都是 30/30 过。
+commit_times         P(supported)=0.77  verified               [blog]  track2/tier3-recon 分支这批提交的时间从 2026-10-14 09:54:56 +0800 到 2026-10-14 13:05:17 +0800，最后一条是 best_dyn4 结果的交接文档。
+dyn_dirs             P(supported)=0.92  verified               [q]  ml40 的 Tier 3 队列目录里有 tier3_cari4d_f830_best_dyn、best_dynr、best_dyn4、best_dyn4s 四个目录各 29 个 parquet，best_dyn1、best_dyn2、best_dyn3 各 4 个 parquet。
+lb_t2_0735           P(supported)=0.57  UNVERIFIED             [lb]  07:35 的快照里，Tier 2 的 AUC、SP-SR、MP-SR 三个榜第一都是 maniphys.ai（0.51379、0.73333、0.53333）；MPPE 榜第一是 Xueyi Wang (FF) 15.34253，maniphys.ai 16.54028 排第二；CHORD Baseline 四项是 0.37374、0.53333、0.06666、20.52402。
+ctl_true_ep16        P(supported)=0.99  control(true) ok       [st_yb]  t1-ep16-w2048-cap10m-r3a-ml40 在 2026-10-14 14:51:50 CST 完成（1 段）。
+ctl_true_mppe        P(supported)=0.88  control(true) ok       [lb]  07:35 的 Tier 2 MPPE 榜上 maniphys.ai 的分数是 16.54028。
+ctl_false_ep10       P(supported)=0.24  control(false) ok      [st_xb]  t1-ep10-w2048-cap4m-r3a-mf4090 已经完成（1 段）。
+ctl_false_dyn        P(supported)=0.01  control(false) ok      [dyn]  best_dyn4 的物体违规帧占比是 25.5%，交付版已经换成 best_dyn4。
+ctl_false_disk       P(supported)=0.07  control(false) ok      [st_xb]  07:30 这份记录里 mf4090 可用磁盘是 23783 MB。
+controls behaved as expected

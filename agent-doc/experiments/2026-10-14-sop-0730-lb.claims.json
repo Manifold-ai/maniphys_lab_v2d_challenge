@@ -1,0 +1,28 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "lb": {
+      "file": "results/submission/leaderboard_1014_0735.txt",
+      "grep": "^== |maniphys|Xueyi|CHORD|Open4D"
+    }
+  },
+  "claims": [
+    {
+      "id": "lb_t2_0735",
+      "evidence": ["lb"],
+      "claim": "07:35 的快照里，Tier 2 的 AUC、SP-SR、MP-SR 三个榜第一都是 maniphys.ai（0.51379、0.73333、0.53333）；MPPE 榜第一是 Xueyi Wang (FF) 15.34253，maniphys.ai 16.54028 排第二；CHORD Baseline 四项是 0.37374、0.53333、0.06666、20.52402。"
+    },
+    {
+      "id": "ctl_true_t1",
+      "evidence": ["lb"],
+      "control": "true",
+      "claim": "Tier 1 AUC 榜上 CHORD Baseline 的分数是 0.51038。"
+    },
+    {
+      "id": "ctl_false_mppe_first",
+      "evidence": ["lb"],
+      "control": "false",
+      "claim": "Tier 2 MPPE 榜第一是 maniphys.ai。"
+    }
+  ]
+}
