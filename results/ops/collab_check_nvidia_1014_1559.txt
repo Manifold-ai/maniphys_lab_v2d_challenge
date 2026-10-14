@@ -1,0 +1,13 @@
+# command  : bash -c $'R=Manifold-ai/maniphys_lab_v2d_challenge; echo "== æ\230¯å\220¦å\215\217ä½\234è\200\205ï¼\210204 æ\230¯ï¼\214404 ä¸\215æ\230¯æ\210\226é\202\200è¯·è¿\230æ²¡æ\216¥å\217\227ï¼\211"; gh api -i repos/$R/collaborators/Nvidia-V2D-Challenge 2>&1 | head -1; echo "== å¯¹è¿\231ä¸ªä»\223åº\223ç\232\204æ\235\203é\231\220"; gh api repos/$R/collaborators/Nvidia-V2D-Challenge/permission --jq .permission; echo "== æ\234¬è´¦å\217·å¯¹ä»\223åº\223ç\232\204æ\235\203é\231\220"; gh api repos/$R --jq "\\"visibility \\" + .visibility + \\"; mine: \\" + (.permissions|to_entries|map(select(.value))|map(.key)|join(\\",\\"))"; echo "== æ\234¬è´¦å\217·å\234¨ç»\204ç»\207é\207\214ç\232\204èº«ä»½"; gh api user/memberships/orgs/Manifold-ai --jq "\\"role \\" + .role + \\", state \\" + .state" 2>&1 | tail -1' 
+# source   : 9ff67ec120e0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:59:12-0600
+# ---------------------------------------------------------------
+== æ˜¯å¦åä½œè€…ï¼ˆ204 æ˜¯ï¼Œ404 ä¸æ˜¯æˆ–é‚€è¯·è¿˜æ²¡æ¥å—ï¼‰
+HTTP/2.0 404 Not Found
+== å¯¹è¿™ä¸ªä»“åº“çš„æƒé™
+none
+== æœ¬è´¦å·å¯¹ä»“åº“çš„æƒé™
+visibility internal; mine: maintain,pull,push,triage
+== æœ¬è´¦å·åœ¨ç»„ç»‡é‡Œçš„èº«ä»½
+gh: This API operation needs the "admin:org" scope. To request it, run:  gh auth refresh -h github.com -s admin:org
