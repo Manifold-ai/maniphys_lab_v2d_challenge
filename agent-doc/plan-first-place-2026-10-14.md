@@ -122,7 +122,7 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
 | 丙 | 跟丢的集先诊断：Tier 1 的 ep25、4、28、9、1、11 与 Tier 2 的 8 集，各用本档交上去的 run 跑 `fc_eval_dump.sh`，再用单条 run 的驱动 `stages/evaluate/fall_order_one.py`（第 0 步新写，调 `fall_order.py` 的 `run_one` 与 `describe`，门与判法不改；`fall_order.py` 的 `main()` 只收 10/7 试验的四条一组）；diag2 只用于它支持的行 | Tier 1 MPPE、AUC；Tier 2 MPPE | 约 14 集 × 5–7 分钟 ≈ 1.5–2 GPU 小时 | 只报；MPPE 第一只能靠修好跟丢的集，诊断之后另写训练计划 |
 | 丁 | 同一 checkpoint 导出多局、交成功的那局 | Tier 1 MP-SR、AUC | 不到 1 GPU 小时 | 规则风险（1.2），不做，除非组委会书面同意 |
 
-| 戊 | Tier 2 跟丢的集改挑（16:20 用户要今天就交新版后加）：两条候选 4096 世界 MP-SR 都是 0 的集，原规则按 ADD-AUC 挑；改成按“导出那 1 局对照自己参考的 MPPE”挑低的，SP、MP 不许变差，其余集不动。按 `results/first/t2_lost_swap.txt` 只换 ep1、4、9、28，导出那 1 局的 MPPE 合计 −38.17 cm、ADD-AUC 合计 −0.133 | Tier 2 MPPE | 不用 GPU | 榜上要减 35.9 cm；余量约 2 cm，又是对照自己参考的代理量，成败只能看榜 |
+| 戊 | Tier 2 跟丢的集改挑（16:20 用户要今天就交新版后加）：两条候选 4096 世界 MP-SR 都是 0 的集，原规则按 ADD-AUC 挑；改成按“导出那 1 局对照自己参考的 MPPE”挑低的，SP、MP 不许变差，其余集不动。按 `results/first/t2_lost_swap.txt` 只换 ep1、4、9、28，导出那 1 局的 MPPE 合计 −38.17 cm、ADD-AUC 合计 −0.133 | Tier 2 MPPE | 不用 GPU | 榜上要减 35.9 cm；余量约 2 cm，又是对照自己参考的代理量，成败只能看榜。交的就是这 4 局导出（不重新导出），单局数才是榜上的预测量；4096 世界的均值在 ep28 上方向相反（60.36 对 58.69）、ep1 上持平（46.70 对 46.62），这两集的收益只是单局样本（`results/first/t2_lost_candidates_4096.txt`）。ep28 的 −2.48 cm 落在 v5.4 参考对真值每集 2–3 cm 的误差带里；审查粗估拿到 MPPE 第一的把握约六成，用掉 Tier 2 本周剩下 4 次里的 1 次，由用户定 |
 
 考虑过但不排：Tier 1 的 ep25、4、9、11 补 r3a。Tier 2 同集的 r3a 都是 0、骨盆约 1.0，Tier 1 大概率同样跟丢，先等丙的诊断。
 
@@ -259,3 +259,7 @@ run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.
   `PACK_OK`：`runs/submission/csv/track2_tier2_select_b1014.csv` 22,989 行、sha256 3f89908a…；上传器 `--dry-run` 通过，四个榜今天各剩 4 次
   （`results/submission/pack/t2_select_b1014.txt`、`…_dryrun.txt`）。CSV 核对 `CHECK_T2_SELECT_OK`；反向对照（b1013 的 CSV 对 b1014 的清单）4 处不符、退出码 1，
   正是换的 4 集（`results/select_t2/check_csv_b1014.txt`、`check_csv_negctl_b1014.txt`、`diff_b1013_b1014.txt`）。没有提交。
+- 戊的审查（Fable 5.1）：**GO WITH FIXES**（1 MINOR、3 NIT）。MINOR：把握写清（见第 2 节戊）。NIT：`t2_lost_swap.py` 一集多条合格替代时只取 MPPE 最低的一条、
+  导出记录不是 1 个世界就拒绝，改后重跑数字与 4 处换法不变（`results/first/t2_lost_swap_recheck.txt`），b1014 清单照旧有效；
+  另一条 NIT 是乙的 ep19 探查：16:16 在 ml40 与 t3qdyn 同卡起跑（`V2D_ALLOW_SHARED_GPU=1`），早于零。原因是用户要今天交新版，mf4090 的卡 21:00 前后才空；
+  共卡只会让两边变慢，不改导出的数；探查的结果要等零在 ml40 上通过才作数（零要同步 `V2D_EXPORT_SUFFIX`，链在跑时不能同步）。

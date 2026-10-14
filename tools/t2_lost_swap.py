@@ -3,7 +3,8 @@
 
 计划 agent-doc/plan-first-place-2026-10-14.md 第 1.6 节：榜上 Tier 2 MPPE 与 Xueyi Wang (FF) 差 1.198 cm，30 集真值合计要减 35.9 cm 以上。
 读已拉回 Mac 的导出记录（fc_export.sh 的输出：results/submission/exports/、results/ml40/submission/exports/ 下 *_<run>_s<步数>.txt，
-不含 _check），取 “== …episode_XXXXXX.json” 之后的 add_auc 与 mppe_cm 两行；同一条 run 有几份记录时取最后修改的那份，并核对几份的数一致。
+不含 _check），取 “== …episode_XXXXXX.json” 之后的 add_auc、mppe_cm、spider_sr_uncentered、maniptrans_sr；记录的 world_count 不是 1 就拒绝；
+同一条 run 有几份记录时核对几份的数一致。一集有几条合格的替代时只换 MPPE 最低的那一条。
 现在交的 run 取 results/select_t2/select_b1013.txt 的 “→” 行。不读 Tier 1 的任何东西。
 用法：python3 tools/t2_lost_swap.py --select results/select_t2/select_b1013.txt --episodes 4 25 28 9 1 17 2 11 [--step 349999104]
       [--current-tsv stages/evaluate/exports/t2_select_b1013.tsv --write-tsv stages/evaluate/exports/t2_select_b1014.tsv]
@@ -30,6 +31,9 @@ def exported(run: str, step: str):
             mppe = re.search(r"^\s*mppe_cm\s+([0-9.]+)\s*$", body, re.M)
             sp = re.search(r"^\s*spider_sr_uncentered\s+([0-9.]+)\s*$", body, re.M)
             mp = re.search(r"^\s*maniptrans_sr\s+([0-9.]+)\s*$", body, re.M)
+            wc = re.search(r"world_count (\d+)", body)
+            if not wc or wc.group(1) != "1":
+                raise SystemExit(f"t2_lost_swap: {f} 不是 1 个世界的导出（world_count {wc.group(1) if wc else '缺'}），不能当导出那 1 局读")
             if auc and mppe and sp and mp:
                 vals.append((f.stat().st_mtime, str(f), float(auc.group(1)), float(mppe.group(1)), float(sp.group(1)), float(mp.group(1))))
     if not vals:
@@ -65,6 +69,7 @@ def main():
             print(f"{ep}\t（候选不足两条：{cands.get(ep)}）")
             continue
         cur = exported(chosen[ep], a.step)
+        best = None   # 合格的替代里 MPPE 最低的一条，一集只换一次
         for other in cands[ep]:
             if other == chosen[ep]:
                 continue
@@ -74,11 +79,14 @@ def main():
                 continue
             d_mppe, d_auc = alt[3] - cur[3], alt[2] - cur[2]
             take = d_mppe < 0 and alt[4] >= cur[4] and alt[5] >= cur[5]
-            if take:
-                total += d_mppe
-                swaps[ep] = other
+            if take and (best is None or d_mppe < best[0]):
+                best = (d_mppe, other)
             fmt = lambda v: f"{v[4]:.0f} / {v[5]:.0f} / {v[2]:.3f} / {v[3]:.2f}"  # noqa: E731
-            print(f"{ep}\t{chosen[ep]}\t{fmt(cur)}\t{other}\t{fmt(alt)}\t{d_mppe:+.2f}{'（换）' if take else ''}\t{d_auc:+.3f}")
+            print(f"{ep}\t{chosen[ep]}\t{fmt(cur)}\t{other}\t{fmt(alt)}\t{d_mppe:+.2f}{'（合格）' if take else ''}\t{d_auc:+.3f}")
+        if best:
+            total += best[0]
+            swaps[ep] = best[1]
+            print(f"  ep{ep} 换成 {best[1]}（合格的替代里 MPPE 最低）")
     print(f"只换 MPPE 更低、SP 与 MP 不变差的集：导出那 1 局对照自己参考的 MPPE 合计变化 {total:+.2f} cm（目标：真值合计减 35.9 cm 以上；这里是代理量，不是真值）")
     if a.write_tsv:
         out = Path(a.write_tsv)
