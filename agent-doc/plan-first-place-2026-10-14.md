@@ -229,3 +229,6 @@ kit，`third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/`）：
   预演两条断言，10 组 `ALL_OK`（`results/first/tests_mac_step0b.txt`；pytest 用本机缓存的 uv 环境，numpy 取另一份同为 Python 3.13 的缓存环境）。
 - 15:43 按代码再审补：缺文件、缺键逐条按门不过记，补两组测试；13 个通过，`test_fc_export.py` 仍 `ALL_OK`（`results/first/tests_mac_step0c.txt`）。
   第 0 步完成。
+- 15:45 甲的代码步（按第二轮审查第 5 条，不用 GPU）：`make_var_queue.py` 加 `--seed N`（只许非预设段，run 名在机器名前加 `-s<N>`，覆盖在变体 A 前插
+  `reset.seed=<N> training.seed=<N>`，期望表种子列写 N；不给时照旧）；`test_make_var_queue.py` 加第 8 组，`test_make_var_queue.py`、`test_make_copy_queue.py`
+  都是 `ALL_OK`（`results/first/tests_mac_seed_option.txt`）。甲的两段是 `t1xb_s43 --episodes 14 --seed 43`、`t1yb_s43 --episodes 19 --seed 43`；代码审查后才生成队列。
