@@ -7,6 +7,8 @@
 #   V2D_EXPORT_WORLDS=1       世界数；V2D_EXPORT_TRAJ=0 只写 metrics JSON（4096 世界的比对用：轨迹每世界每帧一行，太大）
 #   V2D_EXPORT_UNGUARDED=1    跳过 NaN 守卫，只给兼容性验证里含 NaN 的反向对照用
 #   V2D_ALLOW_SHARED_GPU=1    GPU 上有别的进程时也照样导出（默认拒绝，退出码 6）
+#   V2D_EXPORT_SUFFIX=_<名>   输出目录与日志名后加这个后缀（下划线开头，小写字母与数字，最多 16 个）；默认空，行为不变。用途：同一份 policy
+#                             再导出一次、与原来那份比 sha256（计划 agent-doc/plan-first-place-2026-10-14.md 第 2 节选项零）
 #   V2D_EXPORT_DRYRUN=1       预检：守卫、run 记录、v2d_meta.json、输出路径都照常核，然后只打印将在容器里执行的命令，退出码 0；
 #                             不加锁、不查 GPU、不起容器、不写任何文件（链在跑的时候也能用，计划第 7 节第 3 步）
 # 规矩一（用户 10/1 采纳）：含 NaN 的 policy 不拿去导出。run 目录有 NONFINITE，或这一份 policy 有非有限参数、读不了、还没写完，
@@ -22,7 +24,8 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"; cd "$ROOT"
 die() { echo "fc_export: $*" >&2; exit "${2:-2}"; }
 RUN=${1:?用法：fc_export.sh <run> <步数>}; STEP=${2:?用法：fc_export.sh <run> <步数>}
-W=${V2D_EXPORT_WORLDS:-1}; TRAJ=${V2D_EXPORT_TRAJ:-1}
+W=${V2D_EXPORT_WORLDS:-1}; TRAJ=${V2D_EXPORT_TRAJ:-1}; SUF=${V2D_EXPORT_SUFFIX:-}
+[[ -z $SUF || $SUF =~ ^_[a-z0-9]{1,16}$ ]] || die "V2D_EXPORT_SUFFIX 只许空，或下划线开头、1–16 个小写字母与数字：$SUF"
 [[ $RUN =~ ^t([123])-[a-z0-9_-]{2,56}$ ]] || die "run 名非法或没有 t<档位>- 前缀：$RUN"
 T=${BASH_REMATCH[1]}
 [[ $STEP =~ ^[0-9]+$ && $W =~ ^[1-9][0-9]*$ && $TRAJ =~ ^[01]$ ]] || die "步数、世界数必须是正整数，V2D_EXPORT_TRAJ 只能是 0 或 1"
@@ -58,9 +61,9 @@ assert str(m["tier"]) == sys.argv[2] and m["sequence_id"] == sys.argv[3], (m["ti
 print(int(m["episode"]))
 PY
 )" || die "读不了 ${META}，或其中的档位、序列与 run 不符"
-OUTD="$O/export_8c778f9/s${STEP}_w${W}"
+OUTD="$O/export_8c778f9/s${STEP}_w${W}${SUF}"
 J="$OUTD/episode_$(printf %06d "$EP").json"; Q="${J%.json}.parquet"
-LOG="runs/logs/$RUN.export_8c778f9_s${STEP}_w${W}.log"
+LOG="runs/logs/$RUN.export_8c778f9_s${STEP}_w${W}${SUF}.log"
 # 摘要只供人看：它出错（例如 JSON 缺了它认识的键）不改变导出的结论
 summary() { python3 stages/policy/eval_summary.py "$J" || echo "fc_export: 摘要打印失败（导出本身的结论不变）"; }
 ARGS=("evaluation.checkpoint=/repo/$P" "evaluation.world_count=$W" "evaluation.reset_mode=explicit" "evaluation.metrics_output=/repo/$J")

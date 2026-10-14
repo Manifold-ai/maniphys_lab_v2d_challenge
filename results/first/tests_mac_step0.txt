@@ -1,0 +1,13 @@
+# command  : bash -c python3\ stages/evaluate/test_fc_export.py\ \|\ tail\ -1\;\ bash\ -n\ stages/evaluate/fc_export.sh\ \&\&\ echo\ \"bash\ -n\ ok\"\;\ shasum\ -a\ 256\ stages/evaluate/exports/t1_select_t1c1014b.tsv\ results/ml40/select_t1/t1_select_t1c1014b.tsv 
+# md5      : 329fb83909c28a9137ca465c0bc5444c  stages/evaluate/test_fc_export.py
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# md5      : 4f735fe054d064633f1d110054869313  stages/evaluate/exports/t1_select_t1c1014b.tsv
+# md5      : 4f735fe054d064633f1d110054869313  results/ml40/select_t1/t1_select_t1c1014b.tsv
+# source   : 3ece756396db-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:28:59-0600
+# ---------------------------------------------------------------
+ALL_OK
+bash -n ok
+24eea8036b062f77dece73a681f6d53d1fb398f8b5d0a99e153f4189905d77c3  stages/evaluate/exports/t1_select_t1c1014b.tsv
+24eea8036b062f77dece73a681f6d53d1fb398f8b5d0a99e153f4189905d77c3  results/ml40/select_t1/t1_select_t1c1014b.tsv
