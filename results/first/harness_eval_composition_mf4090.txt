@@ -1,0 +1,45 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/fc_src/fc_8c778f9\ \&\&\ head\ -3\ SOURCE_V2D.txt\ \&\&\ sha256sum\ src/flash_chord/evaluation/harness.py\ \&\&\ sed\ -n\ 215\,250p\ src/flash_chord/evaluation/harness.py 
+# source   : ae52d5471526-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:08:19-0600
+# ---------------------------------------------------------------
+flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch）
+与 third_party/patches/flash_chord-8c778f9.sha256 列的 11 个文件逐字节相同，其余与 v0.4.0 相同（stages/policy/fc_src_check.py）
+生成于 2026-10-02 10:49:40 CST；仓库来历 90a73fa8e852
+6e61b092e9aa9d00d11c557b8508c09ef990314a3f68b0779bbf97765c85ddc2  src/flash_chord/evaluation/harness.py
+
+def apply_evaluation_composition(
+    config: dict[str, Any],
+    *,
+    world_count: int,
+    reset_mode: EvaluationResetMode = "explicit",
+) -> dict[str, Any]:
+    """Force the unassisted, non-resetting, full-sequence composition onto a checkpoint config.
+
+    Mutates only this in-memory copy. The tracking-failure terms are disabled so a failed world
+    keeps advancing instead of freezing at its failure frame; their limits are applied afterwards
+    to the recorded errors, and ``reference_end`` completes every world.
+    """
+    config["scene"]["world_count"] = world_count
+    config["env"]["auto_reset"] = False
+    config["env"]["voc_scale"] = 0.0
+    if reset_mode == "explicit":
+        config["env"]["voc"]["max_force"] = 0.0
+        config["env"]["voc"]["max_torque"] = 0.0
+    config["env"]["reset"]["always_reset_to_first_frame"] = True
+    if reset_mode == "explicit":
+        config["env"]["reset"]["voc_decay_steps"] = 0
+    config["env"]["reset"]["seed"] = 42
+    # The resolved config inlines termination under `env` as well as at the top level.
+    for termination in _termination_blocks(config):
+        if _is_recon_body_termination(termination):
+            for name in _RECON_BODY_THRESHOLD_FIELDS:
+                termination[name] = _DISABLED_THRESHOLD
+            if not bool(termination["truncate_at_reference_end"]):
+                raise ValueError("evaluation requires reference-end truncation so every world completes")
+        else:
+            for name in _FAILURE_TERMS:
+                if name in termination:
+                    termination[name]["enabled"] = False
+            if not bool(termination["reference_end"]["enabled"]):
+                raise ValueError("evaluation requires reference-end truncation so every world completes")

@@ -1,0 +1,78 @@
+# command  : python3 tools/kaggle_rules.py --pattern=. --pages=Evaluation\,abstract\,Description\,data-description v2d-challenge-track2-tier1-mp-sr v2d-challenge-track2-tier2-mppe 
+# md5      : fe89dcbb1ded332cffb05e3ace7536d6  tools/kaggle_rules.py
+# source   : ae52d5471526-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:02:53-0600
+# ---------------------------------------------------------------
+段落正则：.
+## v2d-challenge-track2-tier1-mp-sr：id 168671，标题 Track 2 - Robotic Grounding (Tier 1: multi-view input) - MP-SR，截止 2026-11-04T22:00:00Z
+各页：data-description（2554 字符）, Description（373 字符）, Evaluation（1335 字符）, rules（14391 字符）, abstract（717 字符）, foundational-rules（23654 字符）
+### Evaluation：1335 字符，sha256 b9f8fa5e4e6570a4efab3527c9ab43d40afb80945648d032209d3854bb4af333
+- Submissions are evaluated on **MP-SR**, the ManipTrans success rate.
+- An episode succeeds when **every** tracked object satisfies both of the following, each averaged over the frames of the episode:
+- - position error under 3 cm - orientation error under 30 degrees
+- The score is the fraction of episodes that succeed.
+- **Higher is better.** A rollout that reproduces the reference exactly scores 1.0.
+- This is the strict gate. One object drifting past 3 cm fails the whole episode, so a policy that handles the primary object well but loses a second one scores nothing for that episode.
+- ## Submission File
+- Submit a CSV with the same columns and row ids as `sample_submission.csv`. Positions are metres, quaternions are `xyzw`, and evaluator, policy checkpoint, packer, uploader, and commit details record provenance.
+- ```csv row_id,pos_x,pos_y,pos_z,quat_x,quat_y,quat_z,quat_w,eval_script_sha256,eval_code_sha256,checkpoint_sha256,packer_script_sha256,uploader_script_sha256,code_commit_url track_2/e000000/w000/f000000/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... track_2/e000000/w000/f000001/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... track_2/e000000/w000/f000002/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... ```
+- Questions: v2d_challenge@nvidia.com
+### abstract：717 字符，sha256 5264cf0c31e16eaf6fd8dcf7f0f63cefcc207d07edc614936202ed5627c0959d
+- # Track 2 - Robotic Grounding (Tier 1: multi-view input): MP-SR
+- **Third-Person-View 4D HOI → Policy**
+- How much reconstruction error can robot policy learning tolerate? This is one metric leaderboard of the V2D Challenge. Register for the challenge separately from joining this Kaggle competition.
+- This tier takes clean multi-view reconstruction from `track_2/tier_1_multiview_caption/`. The scorer evaluates the object-pose rollout from your policy against the clean multi-view object trajectory configured for this competition. The same CSV goes to all four metric competitions in this tier.
+- Leaderboard freeze: **November 4, 2026 at 5:00 p.m. EST**. Winners are announced November 12 at our CoRL 2026 tutorial.
+### Description：373 字符，sha256 14948bd38d5c1355ec1819c443aa7a10de73d83fce4dde656fbe6cd08ced769d
+- ## What you submit
+- Train your policy using this tier's allowed input, record its object-pose rollout with the challenge evaluator, and pack the trajectory for Kaggle. The scored set has 30 episodes and 22,989 pose rows. The sample submission specifies the exact rows. The scorer computes the metric from the submitted trajectory without aligning the supplied world frame.
+### data-description：2554 字符，sha256 b867527958b8c6e407c2ccdeb2235d70a86c1d7a9a088885cb7a69162e37abff
+- # Track 2 - Robotic Grounding (Tier 1: multi-view input) - MP-SR
+- ## Task and data
+- Use the clean multi-view reconstruction to train a robot policy, then record its object-pose rollout in the provided evaluation environment. Get the tier input at `track_2/tier_1_multiview_caption/` in [the challenge dataset](https://huggingface.co/datasets/nvidia/video_to_data_challenge) and use the linked challenge toolkit. The scoring reference in this bundle is the clean multi-view object trajectory. Use the input allowed for this tier when producing your rollout. The supplied trajectory fixes the world frame, so the scorer applies no initial-pose alignment.
+- Kaggle's Data tab supplies `sample_submission.csv` (22,989 rows, 11,632,601 bytes). This fixes every required `row_id` and the column order. Its zero poses are placeholders. The host uploads `solution.csv` with the scoring reference; participants do not upload that file. The same submission goes to this tier's other competitions (AUC, SP-SR, MPPE).
+- ## Evaluation
+- **MP-SR** (ManipTrans success rate). An episode succeeds when **every** tracked object has a frame-averaged position error under 3 cm **and** a frame-averaged orientation error under 30 degrees. The score is the fraction of episodes that succeed. **Higher is better.**
+- This is the strict success gate: one object drifting past 3 cm fails the whole episode.
+- The scored set has 30 episodes, 22,989 frames and 22,989 pose rows. All scored rows are on Kaggle's Public leaderboard. Episode ids are sparse, so take them from the sample.
+- ## Submission format
+- Submit a CSV matching `sample_submission.csv` exactly:
+- | Column | Meaning | |---|---| | `row_id` | `track_2/e/w/f/o`; unchanged from the sample. | | `pos_x`, `pos_y`, `pos_z` | Object position in metres. | | `quat_x`, `quat_y`, `quat_z`, `quat_w` | Object orientation in `xyzw` order. | | `eval_script_sha256`, `eval_code_sha256` | Evaluator build digests, constant across the submission. | | `checkpoint_sha256` | Policy checkpoint digest, constant within an episode. | | `packer_script_sha256`, `uploader_script_sha256` | Digests of the scripts that create and upload the submission; collected without an allowlist. | | `code_commit_url` | GitHub commit URL for the producing code, constant across the file. |
+- Use the challenge submission packer to preserve frame alignment and object order. The host scorer computes the metric from the poses; submitted self-reported scores are ignored. Questions: v2d_challenge@nvidia.com.
+## v2d-challenge-track2-tier2-mppe：id 168686，标题 Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - MPPE (cm)，截止 2026-11-04T22:00:00Z
+各页：data-description（2834 字符）, Description（373 字符）, Evaluation（1707 字符）, rules（14408 字符）, abstract（739 字符）, foundational-rules（23654 字符）
+### Evaluation：1707 字符，sha256 681962b4fe0170be4803155485b03888d418ba7f67ae28cf6d86f1f3870dc8ec
+- Submissions are evaluated on **MPPE**, the mean per-point position error, in centimetres.
+- Six points are rigidly attached to each object at a radius of 5 cm along its body frame's principal axes. Each is carried into the world by that object's pose and compared against the same point on the reference:
+- $$ \mathrm{MPPE}\_t = \frac{1}{6}\sum\_{k=1}^{6} \lVert (p\_t + R\_t v\_k) - (\hat{p}\_t + \hat{R}\_t v\_k) \rVert\_2 $$
+- where the six \(v\_k\) are \(\pm 5\,\mathrm{cm}\) along each principal axis. Averaged over points, objects and frames within an episode, then over episodes.
+- **Lower is better.** A rollout that reproduces the reference exactly scores 0.
+- Because the points sit off the object's origin, orientation error shows up as position error: a rotation about the object's centre leaves the origin untouched but moves every keypoint. The 5 cm radius sets how strongly it is weighed. One object is enough to score it, so no episode is skipped.
+- ## Submission File
+- Submit a CSV with the same columns and row ids as `sample_submission.csv`. Positions are metres, quaternions are `xyzw`, and evaluator, policy checkpoint, packer, uploader, and commit details record provenance.
+- ```csv row_id,pos_x,pos_y,pos_z,quat_x,quat_y,quat_z,quat_w,eval_script_sha256,eval_code_sha256,checkpoint_sha256,packer_script_sha256,uploader_script_sha256,code_commit_url track_2/e000000/w000/f000000/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... track_2/e000000/w000/f000001/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... track_2/e000000/w000/f000002/o0,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0... ```
+- Questions: v2d_challenge@nvidia.com
+### abstract：739 字符，sha256 f39da873e44a224547b423c68a9b20ec9f5645ca45eff877e1615ef983e34c8f
+- # Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input): MPPE (cm)
+- **Third-Person-View 4D HOI → Policy**
+- How much reconstruction error can robot policy learning tolerate? This is one metric leaderboard of the V2D Challenge. Register for the challenge separately from joining this Kaggle competition.
+- This tier takes synthetically corrupted reconstruction from `track_2/tier_2_synthetic_noise/`. The scorer evaluates the object-pose rollout from your policy against the clean multi-view object trajectory configured for this competition. The same CSV goes to all four metric competitions in this tier.
+- Leaderboard freeze: **November 4, 2026 at 5:00 p.m. EST**. Winners are announced November 12 at our CoRL 2026 tutorial.
+### Description：373 字符，sha256 14948bd38d5c1355ec1819c443aa7a10de73d83fce4dde656fbe6cd08ced769d
+- ## What you submit
+- Train your policy using this tier's allowed input, record its object-pose rollout with the challenge evaluator, and pack the trajectory for Kaggle. The scored set has 30 episodes and 22,989 pose rows. The sample submission specifies the exact rows. The scorer computes the metric from the submitted trajectory without aligning the supplied world frame.
+### data-description：2834 字符，sha256 5a5cf6b863dda76205f39f16bc57afb0c1e01acf7f4e2f4fbb5b2c1e4c23f4fb
+- # Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - MPPE (cm)
+- ## Task and data
+- Use the synthetically corrupted reconstruction to train a robot policy, then record its object-pose rollout in the provided evaluation environment. Get the tier input at `track_2/tier_2_synthetic_noise/` in [the challenge dataset](https://huggingface.co/datasets/nvidia/video_to_data_challenge) and use the linked challenge toolkit. The scoring reference in this bundle is the clean multi-view object trajectory. Use the input allowed for this tier when producing your rollout. The supplied trajectory fixes the world frame, so the scorer applies no initial-pose alignment.
+- Kaggle's Data tab supplies `sample_submission.csv` (22,989 rows, 11,632,601 bytes). This fixes every required `row_id` and the column order. Its zero poses are placeholders. The host uploads `solution.csv` with the scoring reference; participants do not upload that file. The same submission goes to this tier's other competitions (AUC, SP-SR, MP-SR).
+- ## Evaluation
+- **MPPE** (mean per-point position error, centimetres). Six points are rigidly attached to each object at 5 cm along its body frame's principal axes, carried into the world by the object's pose, and compared point for point against the same construction on the reference. Averaged over points, objects and frames within an episode, then over episodes. **Lower is better**, and it is unbounded.
+- Because the points sit off the object's origin, this penalises orientation error as well as position error, in one number and in the same units. A single object is enough to score it, so unlike RPE no episode is skipped.
+- The scored set has 30 episodes, 22,989 frames and 22,989 pose rows. All scored rows are on Kaggle's Public leaderboard. Episode ids are sparse, so take them from the sample.
+- ## Submission format
+- Submit a CSV matching `sample_submission.csv` exactly:
+- | Column | Meaning | |---|---| | `row_id` | `track_2/e/w/f/o`; unchanged from the sample. | | `pos_x`, `pos_y`, `pos_z` | Object position in metres. | | `quat_x`, `quat_y`, `quat_z`, `quat_w` | Object orientation in `xyzw` order. | | `eval_script_sha256`, `eval_code_sha256` | Evaluator build digests, constant across the submission. | | `checkpoint_sha256` | Policy checkpoint digest, constant within an episode. | | `packer_script_sha256`, `uploader_script_sha256` | Digests of the scripts that create and upload the submission; collected without an allowlist. | | `code_commit_url` | GitHub commit URL for the producing code, constant across the file. |
+- Use the challenge submission packer to preserve frame alignment and object order. The host scorer computes the metric from the poses; submitted self-reported scores are ignored. Questions: v2d_challenge@nvidia.com.
+KAGGLE_RULES_DONE

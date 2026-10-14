@@ -7,7 +7,9 @@ POST competitions.PageService/ListPages 取各页内容。只打印 rules（比�
 Competition Code、公开、开源、外部数据与预训练模型的段落原文（按空行分段，段内换行并成空格）。不需要登录，不用 Kaggle token。
 用户 10/11 回复 HF 归档“不需要private”，改公开之前先核规则（计划 agent-doc/plan-hf-archive-batch3-2026-10-10.md）。
 
-用法：python3 tools/kaggle_rules.py <比赛 slug> [<比赛 slug> ...]
+用法：python3 tools/kaggle_rules.py [--pattern=<正则>] [--pages=<页名,…>] <比赛 slug> [<比赛 slug> ...]
+  --pattern=<正则>：换掉默认的“分享”正则，按别的话题挑段落；--pages=<页名,…>：要看的页，默认 rules,foundational-rules
+  （10/14 查提交怎么产生、能不能挑世界：计划 agent-doc/plan-first-place-2026-10-14.md）。
 """
 import hashlib
 import http.cookiejar
@@ -38,12 +40,24 @@ def fetch(slug: str) -> list:
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
-        sys.exit("用法：python3 tools/kaggle_rules.py <比赛 slug> [...]")
-    for slug in sys.argv[1:]:
+    args = sys.argv[1:]
+    pat = PAT
+    pages_wanted = ("rules", "foundational-rules")
+    while args and args[0].startswith("--"):
+        opt = args.pop(0)
+        if opt.startswith("--pattern="):
+            pat = re.compile(opt.split("=", 1)[1])
+            print(f"段落正则：{pat.pattern}")
+        elif opt.startswith("--pages="):
+            pages_wanted = tuple(opt.split("=", 1)[1].split(","))
+        else:
+            sys.exit(f"不认识的选项：{opt}")
+    if not args:
+        sys.exit("用法：python3 tools/kaggle_rules.py [--pattern=<正则>] <比赛 slug> [...]")
+    for slug in args:
         pages = {p.get("name"): p.get("content") or "" for p in fetch(slug)}
         print(f"各页：{', '.join(f'{k}（{len(v)} 字符）' for k, v in pages.items())}")
-        for name in ("rules", "foundational-rules"):
+        for name in pages_wanted:
             text = pages.get(name)
             if text is None:
                 print(f"### {name}：没有这一页")
@@ -51,7 +65,7 @@ def main() -> int:
             print(f"### {name}：{len(text)} 字符，sha256 {hashlib.sha256(text.encode()).hexdigest()}")
             for para in re.split(r"\n\s*\n", text):
                 para = " ".join(re.sub(r"<[^>]+>", "", para).split())
-                if para and PAT.search(para):
+                if para and pat.search(para):
                     print(f"- {para}")
     print("KAGGLE_RULES_DONE")
     return 0

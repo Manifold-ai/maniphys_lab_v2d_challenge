@@ -1,0 +1,21 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ mf4090\ \"cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ ==\ mf4090\ t1-ep14-w2048-cap4m-r3a-mf4090\ \&\&\ ls\ runs/flash_chord/t1-ep14-w2048-cap4m-r3a-mf4090/\ \|\ grep\ -c\ \^policy_\ \&\&\ ls\ runs/flash_chord/t1-ep14-w2048-cap4m-r3a-mf4090/\ \|\ grep\ -E\ \\\"\^policy_\(30\|31\|32\|33\|34\)\[0-9\]\{7\}\\.\\\"\"\;\ ssh\ -o\ BatchMode=yes\ ml40\ \"cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ ==\ ml40\ t1-ep19-w2048-cap10m-r3a-ml40\ \&\&\ ls\ runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/\ \|\ grep\ -c\ \^policy_\ \&\&\ ls\ runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/\ \|\ grep\ -E\ \\\"\^policy_\(30\|31\|32\|33\|34\)\[0-9\]\{7\}\\.\\\"\" 
+# source   : ae52d5471526-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T15:11:26-0600
+# ---------------------------------------------------------------
+== mf4090 t1-ep14-w2048-cap4m-r3a-mf4090
+35
+policy_300011520.safetensors
+policy_310011904.safetensors
+policy_320012288.safetensors
+policy_330012672.safetensors
+policy_340013056.safetensors
+policy_349999104.safetensors
+== ml40 t1-ep19-w2048-cap10m-r3a-ml40
+35
+policy_300011520.safetensors
+policy_310011904.safetensors
+policy_320012288.safetensors
+policy_330012672.safetensors
+policy_340013056.safetensors
+policy_349999104.safetensors

@@ -1,0 +1,33 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rules": {"file": "results/ops/kaggle_rules_submission_1014.txt", "grep": "^## |^### |different checkpoint|Leaderboard positions are subject to verification|single command-line|Held-out evaluation|Final Submissions|record the code that produced"},
+    "page": {"file": "results/ops/kaggle_rules_evaluation_page_1014.txt", "grep": "^## |record its object-pose rollout|All scored rows"},
+    "kit": {"file": "results/submission/kit_facts.txt", "grep": "worlds_per_episode|world-count|one checkpoint per episode|deterministic"},
+    "harness": {"file": "results/first/harness_eval_composition_mf4090.txt", "grep": "SOURCE|8c778f9|seed|always_reset|auto_reset"},
+    "est": {"file": "results/first/t1_multiworld_estimate.txt", "grep": "^== |^N=|^14\t|^19\t|^10\t|^现在"},
+    "seed": {"file": "results/first/t1_seed_estimate_ep14_ep19.txt", "grep": "^== |^N="},
+    "fail": {"file": "results/first/t1_fail_runs.txt", "grep": "^集|^(25|4|28|11|9|1|2)\t"},
+    "t2": {"file": "results/first/t2_mppe_proxy.txt", "grep": "^集|^(4|25|28|9|1|17|2|11)\t|^30 集|^榜上"},
+    "gap": {"file": "results/t1gap/t1_gap_t1c1014b.txt", "grep": "^== |^-- |^  (add_auc|spider_sr|maniptrans_sr|mppe_cm) |MPPE 超过 15 cm|修前  3 条"},
+    "snap": {"file": "results/first/snapshots_ep14_ep19.txt"}
+  },
+  "claims": [
+    {"id": "rule_ckpt", "evidence": ["rules"], "claim": "比赛规则写明每个 sequence 可以用不同的 checkpoint。"},
+    {"id": "rule_verify", "evidence": ["rules"], "claim": "规则写明榜上名次要经核验：组委会可以要求证明分数来自提交的流程，而不是操纵指标、提交文件或评测过程；名次靠前的队要按要求提供能复现提交的单条命令。"},
+    {"id": "rule_heldout", "evidence": ["rules"], "claim": "规则写明闭赛后组委会会在不属于比赛数据、也不分发给参赛者的数据上评测选出的方案，每队最多可选 2 份 Final Submissions。"},
+    {"id": "kit_world1", "evidence": ["kit"], "claim": "kit 里 Track 2 三档的 worlds_per_episode 都是 1，kit 的 run_policy_evaluation.py 的 --world-count 默认是 1。"},
+    {"id": "harness_seed", "evidence": ["harness"], "claim": "8c778f9 评测器在评测时把重置种子设为 42，并且每个世界都重置到第一帧（always_reset_to_first_frame 为 True，auto_reset 为 False）。"},
+    {"id": "ep14_r3a", "evidence": ["est"], "claim": "交上去的 ep14 run 是 t1-ep14-w2048-cap4m-mf4090，4096 世界 MP-SR 0.000；候选里 4096 世界 MP-SR 最高的 ep14 run 是 t1-ep14-w2048-cap4m-r3a-mf4090，0.677。"},
+    {"id": "seed_k2", "evidence": ["seed"], "claim": "只给 ep14、ep19 每集补 2 个新种子时，按独立假设期望多出 1.35 条 MP 成功，至少多 2 条的概率 0.403；每集 4 个时是 1.69 条与 0.689。"},
+    {"id": "multi16", "evidence": ["est"], "claim": "按乙的算法导出 16 局时，期望多出 2.13 条 MP 成功，至少多 2 条的概率 0.993，AUC 期望到 0.5705。"},
+    {"id": "fail7", "evidence": ["fail"], "claim": "ep25、ep4、ep28、ep11、ep9、ep1 在 Tier 1 试过的 run，4096 世界 MP-SR 与 SP-SR 都是 0.000；ep2 的 t1-ep2-w2048-cap10m-r3a-ml40 SP-SR 0.138、MP-SR 0.001。"},
+    {"id": "t2proxy", "evidence": ["t2"], "claim": "Tier 2 交上去的 run 对照自己参考的 MPPE 超过 15 cm 的有 8 集，合计 481.1 cm，占 30 集合计 574.7 cm 的 83.7%；榜上 MPPE 要合计减 35.9 cm 才超过 FF。"},
+    {"id": "gap_mppe", "evidence": ["gap"], "claim": "对 Xueyi Wang (FF)，t1c1014b 的 MPPE 30 条总和要再减 250.2 cm；MPPE 超过 15 cm 的 7 条合计 436.3 cm，占 87.8%；按像成功的假设修前 3 条后 MPPE 是 7.62。"},
+    {"id": "snap35", "evidence": ["snap"], "claim": "t1-ep14-w2048-cap4m-r3a-mf4090 与 t1-ep19-w2048-cap10m-r3a-ml40 各有 35 份 policy，300011520 到 349999104 步的 6 份都在。"},
+    {"id": "ctl_true_page", "evidence": ["page"], "control": "true", "claim": "比赛说明页要求用挑战赛的评测器录下策略的物体位姿轨迹再打包提交。"},
+    {"id": "ctl_false_world", "evidence": ["kit"], "control": "false", "claim": "kit 里 Track 2 的 worlds_per_episode 是 4096。"},
+    {"id": "ctl_false_seed", "evidence": ["seed"], "control": "false", "claim": "只给 ep14、ep19 每集补 2 个新种子时，至少多 2 条 MP 成功的概率是 0.95。"},
+    {"id": "ctl_false_fail", "evidence": ["fail"], "control": "false", "claim": "ep25 的 Tier 1 run 在 4096 世界里 MP-SR 是 0.5。"}
+  ]
+}
