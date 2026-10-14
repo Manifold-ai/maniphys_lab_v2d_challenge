@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes ml40 docker\ images\ --format\ \"\{\{.Repository\}\}:\{\{.Tag\}\}\ \{\{.Size\}\}\" 
+# source   : 58955f9d292a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T09:58:41-0600
+# ---------------------------------------------------------------
+flash_chord:latest 22GB
+v2d_sam3d:latest 29.6GB
+v2d_grounding_dino:latest 23.9GB
+v2d_sam2:latest 22.5GB
+v2d_cari4d:latest 41.3GB
+ghcr.io/astral-sh/uv:0.11.21 86.7MB
+nvidia/cuda:13.0.2-devel-ubuntu24.04 11.4GB
+docker/dockerfile:1.7 35.9MB

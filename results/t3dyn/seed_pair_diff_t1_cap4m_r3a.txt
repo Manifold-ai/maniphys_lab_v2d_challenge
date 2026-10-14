@@ -1,0 +1,16 @@
+# command  : python3 tools/seed_pair_diff.py results/t3dyn/seed_pairs_t1_cap4m.txt --only=-r3a- 
+# md5      : 3da2c53a6a89619c8625e5ca2a5107fa  tools/seed_pair_diff.py
+# md5      : f2885ce2ee4489369e03b2eb8302722b  results/t3dyn/seed_pairs_t1_cap4m.txt
+# source   : 58955f9d292a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T09:59:59-0600
+# ---------------------------------------------------------------
+t1-ep0-w2048-cap4m-r3a-mf4090  MP-SR 0.983（t1-ep0-w2048-cap4m-r3a-mf4090）与 0.912（t1-ep0-w2048-cap4m-r3a-s43-mf4090），差 0.071
+t1-ep15-w2048-cap4m-r3a-mf4090  MP-SR 0.957（t1-ep15-w2048-cap4m-r3a-mf4090）与 0.980（t1-ep15-w2048-cap4m-r3a-s43-mf4090），差 0.023
+t1-ep18-w2048-cap4m-r3a-mf4090  MP-SR 0.776（t1-ep18-w2048-cap4m-r3a-mf4090）与 0.771（t1-ep18-w2048-cap4m-r3a-s43-mf4090），差 0.005
+t1-ep20-w2048-cap4m-r3a-mf4090  MP-SR 0.794（t1-ep20-w2048-cap4m-r3a-mf4090）与 0.918（t1-ep20-w2048-cap4m-r3a-s43-mf4090），差 0.124
+t1-ep27-w2048-cap4m-r3a-mf4090  MP-SR 0.935（t1-ep27-w2048-cap4m-r3a-mf4090）与 0.844（t1-ep27-w2048-cap4m-r3a-s43-mf4090），差 0.091
+t1-ep29-w2048-cap4m-r3a-mf4090  MP-SR 0.151（t1-ep29-w2048-cap4m-r3a-mf4090）与 0.499（t1-ep29-w2048-cap4m-r3a-s43-mf4090），差 0.348
+t1-ep5-w2048-cap4m-r3a-mf4090  MP-SR 0.308（t1-ep5-w2048-cap4m-r3a-mf4090）与 0.251（t1-ep5-w2048-cap4m-r3a-s43-mf4090），差 0.057
+t1-ep6-w2048-cap4m-r3a-mf4090  MP-SR 0.979（t1-ep6-w2048-cap4m-r3a-mf4090）与 0.917（t1-ep6-w2048-cap4m-r3a-s43-mf4090），差 0.062
+共 8 对；MP-SR 差的中位数 0.066，最大 0.348（t1-ep29-w2048-cap4m-r3a-mf4090）；差超过 0.2 的 1 对，超过 0.4 的 0 对

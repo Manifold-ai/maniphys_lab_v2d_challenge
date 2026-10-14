@@ -1,0 +1,47 @@
+# command  : python3 stages/evaluate/eval_table.py \ results/day2/eval_t1-ep0-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep0-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep15-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep15-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep18-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep18-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep20-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep20-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep27-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep27-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep29-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep29-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep5-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep6-w2048-cap4m-r3a-mf4090_s349999104.txt\ results/day2/eval_t1-ep6-w2048-cap4m-r3a-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep18-w2048-cap4m-mf4090_s349999104.txt\ results/day2/eval_t1-ep18-w2048-cap4m-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep20-w2048-cap4m-mf4090_s349999104.txt\ results/day2/eval_t1-ep20-w2048-cap4m-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep27-w2048-cap4m-mf4090_s349999104.txt\ results/day2/eval_t1-ep27-w2048-cap4m-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt\ results/day2/eval_t1-ep29-w2048-cap4m-s43-mf4090_s349999104.txt\ results/day2/eval_t1-ep6-w2048-cap4m-mf4090_s349999104.txt\ results/day2/eval_t1-ep6-w2048-cap4m-s43-mf4090_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : afe17ee97c81ce47356bf9afa4d5a14c  results/day2/eval_t1-ep0-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : e6925dfe672bb154f69ee67b50492216  results/day2/eval_t1-ep0-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 17e1818d7b297093f40057b163d7d210  results/day2/eval_t1-ep15-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 08abd7129f6e5f035b7af154580fda31  results/day2/eval_t1-ep15-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 092a3c146cea72e5bdddcc3ed7ffd742  results/day2/eval_t1-ep18-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 2cf4a8b9e2d9c312f9ca43870f37f704  results/day2/eval_t1-ep18-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : c7588c2751a8e850c940bb7ea1fc634a  results/day2/eval_t1-ep20-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 08a79915338e1ea6ecaf81cbf36030d0  results/day2/eval_t1-ep20-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 3f26f241cfaf7b5946a3608d0a0e9e5b  results/day2/eval_t1-ep27-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : d71d97b79b2426c23361d028c270d698  results/day2/eval_t1-ep27-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 0affd20e8fb2caef77a17ed43bd967c9  results/day2/eval_t1-ep29-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 9f5e5b0a8a3ce094c2a978bb7ac794e8  results/day2/eval_t1-ep29-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 8b530e49367ee8232becd58cd5fb4827  results/day2/eval_t1-ep5-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : d7c0743529d3b3344562d7afea90688a  results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 2f4f4b6d9868c75001e35f595a3e582e  results/day2/eval_t1-ep6-w2048-cap4m-r3a-mf4090_s349999104.txt
+# md5      : 0392ff410fb69d14934ed4600ea49e39  results/day2/eval_t1-ep6-w2048-cap4m-r3a-s43-mf4090_s349999104.txt
+# md5      : 4c3c278bd390510ac4e91b2825441d20  results/day2/eval_t1-ep18-w2048-cap4m-mf4090_s349999104.txt
+# md5      : f7be6b55563db349a9d6f1b47f166dc2  results/day2/eval_t1-ep18-w2048-cap4m-s43-mf4090_s349999104.txt
+# md5      : 1978ed078604a0cef1d82d79d0a5b6fb  results/day2/eval_t1-ep20-w2048-cap4m-mf4090_s349999104.txt
+# md5      : ea1bdb34aeafd7f117d6ba4b36513b0a  results/day2/eval_t1-ep20-w2048-cap4m-s43-mf4090_s349999104.txt
+# md5      : 593d06fc3d9d008bb8d28395abb1cf4d  results/day2/eval_t1-ep27-w2048-cap4m-mf4090_s349999104.txt
+# md5      : 2fb22d6f030fbcbf5ee5f822402d16ae  results/day2/eval_t1-ep27-w2048-cap4m-s43-mf4090_s349999104.txt
+# md5      : 52d442284b2b0e3bbdae800f6cf8800f  results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt
+# md5      : 1605ad149b3bb6f0ed544c875b36294d  results/day2/eval_t1-ep29-w2048-cap4m-s43-mf4090_s349999104.txt
+# md5      : 1a39718b9632fd5dea0cab86df642f18  results/day2/eval_t1-ep6-w2048-cap4m-mf4090_s349999104.txt
+# md5      : 6d687be7b083046e3c2e11f73d49478b  results/day2/eval_t1-ep6-w2048-cap4m-s43-mf4090_s349999104.txt
+# source   : 58955f9d292a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T09:54:24-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+Traceback (most recent call last):
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 42, in <module>
+    sys.exit(main(sys.argv[1:]))
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 37, in main
+    print("\t".join(row(Path(p))))
+  File "/Users/rongxuanzhou/V2D/stages/evaluate/eval_table.py", line 15, in row
+    m = re.search(r"summary_json (\{.*\})", path.read_text(encoding="utf-8"))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+OSError: [Errno 63] File name too long: ' results/day2/eval_t1-ep0-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep0-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep15-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep15-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep18-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep18-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep20-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep20-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep27-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep27-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep29-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep29-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep5-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep5-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep6-w2048-cap4m-r3a-mf4090_s349999104.txt results/day2/eval_t1-ep6-w2048-cap4m-r3a-s43-mf4090_s349999104.txt results/day2/eval_t1-ep18-w2048-cap4m-mf4090_s349999104.txt results/day2/eval_t1-ep18-w2048-cap4m-s43-mf4090_s349999104.txt results/day2/eval_t1-ep20-w2048-cap4m-mf4090_s349999104.txt results/day2/eval_t1-ep20-w2048-cap4m-s43-mf4090_s349999104.txt results/day2/eval_t1-ep27-w2048-cap4m-mf4090_s349999104.txt results/day2/eval_t1-ep27-w2048-cap4m-s43-mf4090_s349999104.txt results/day2/eval_t1-ep29-w2048-cap4m-mf4090_s349999104.txt results/day2/eval_t1-ep29-w2048-cap4m-s43-mf4090_s349999104.txt results/day2/eval_t1-ep6-w2048-cap4m-mf4090_s349999104.txt results/day2/eval_t1-ep6-w2048-cap4m-s43-mf4090_s349999104.txt'

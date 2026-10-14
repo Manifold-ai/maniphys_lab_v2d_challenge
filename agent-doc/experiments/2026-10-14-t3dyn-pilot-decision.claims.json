@@ -1,0 +1,175 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "st_yb": {
+      "file": "results/t1x/status_t1yb_ml40_1014_0950.txt",
+      "grep": "^## |^== |DAY2_TRAIN_DONE|DAY2_EVAL_DONE|MiB|MB free|长链标记"
+    },
+    "st_xb": {
+      "file": "results/t1x/status_t1xb_mf4090_1014_0950.txt",
+      "grep": "^## |^== |正式 t1-ep14|完成（1 段）|t1-ep14-w2048-cap4m-r3a-mf4090：|MiB|chain-active"
+    },
+    "t3a": {
+      "file": "results/t3p4/eval_table_t3p4a.txt",
+      "grep": "^run|^t3-ep15|^t2-ep15|^t3-ep3|^t2-ep3"
+    },
+    "t3b": {
+      "file": "results/t3p4/eval_table_t3p4b.txt",
+      "grep": "^run|^t3-ep12|^t2-ep12|^t3-ep16|^t2-ep16"
+    },
+    "seed": {
+      "file": "results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt",
+      "grep": "^# command|^t1-|^共"
+    },
+    "ho": {
+      "file": "results/t3dyn/handoff_tier3_dynamics_8107fef.txt",
+      "grep": "^## |best_dyn4s|只改人体|各集 p99|根加速度|物体违规帧占比|转动违规|正例|抖动降了|平滑只改善"
+    },
+    "dlog": {
+      "file": "results/ops/t3_dyn_logs_ml40_1014_0730.txt",
+      "grep": "ep16_spray_bottle|ep03_contigo"
+    },
+    "img": {
+      "file": "results/ops/docker_images_ml40_1014_1015.txt",
+      "grep": "^# command|:latest|:[0-9]"
+    },
+    "inc": {
+      "file": "scripts/dev/incontainer",
+      "grep": "^IMAGE="
+    },
+    "plan": {
+      "file": "agent-doc/plan-d-t3hm-train-2026-10-12.md",
+      "grep": "10/13 19:30|21:46 用户决定|重新开训的条件"
+    },
+    "lb": {
+      "file": "results/submission/leaderboard_1014_0735.txt",
+      "grep": "^== v2d-challenge-track2-tier3|Xueyi|CHORD|maniphys"
+    },
+    "seedall": {
+      "file": "results/t3dyn/seed_pair_diff_t1_cap4m_all.txt",
+      "grep": "^# command|^t1-|^共"
+    }
+  },
+  "claims": [
+    {
+      "id": "ml40_idle",
+      "evidence": [
+        "st_yb"
+      ],
+      "claim": "ml40 的 t1yb 训练链 2026-10-14 23:05:45 CST 以 DAY2_TRAIN_DONE（完成 5、失败 0）结束，评测链 23:32:51 CST 以 DAY2_EVAL_DONE（成功 5、失败 0）结束；23:49 的快照里 GPU 3 MiB、0%，没有长链标记。"
+    },
+    {
+      "id": "mf_busy",
+      "evidence": [
+        "st_xb"
+      ],
+      "claim": "mf4090 的 t1-ep14-w2048-cap4m-r3a-mf4090 在 2026-10-14 22:31:25 CST 开始正式训练，最新完整 policy 是 180006912 步、写于 23:45:56 CST；快照里 GPU 24005 MiB、100%，还有 t1xb 的训练、评测和候选三个长链标记。"
+    },
+    {
+      "id": "hm_zero",
+      "evidence": [
+        "t3a",
+        "t3b"
+      ],
+      "claim": "best_hm 上 4096 世界评测的 MP-SR：t3-ep3、t3-ep12、t3-ep15、t3-ep16（都是 w2048-cap4m-r3a-hm-mf4090）都是 0.000；同集 Tier 2 的 t2 run（w2048-cap10m-r3a-ml40）分别是 0.806、0.988、0.987、0.938。"
+    },
+    {
+      "id": "seed_noise",
+      "evidence": [
+        "seed"
+      ],
+      "claim": "Tier 1 在 mf4090 上 w2048-cap4m-r3a 配置、种子 42 与 s43 的 8 对 run 里，MP-SR 差的中位数是 0.066，最大是 ep29 的 0.348（0.151 与 0.499），差超过 0.4 的有 0 对。"
+    },
+    {
+      "id": "seed_noise_all",
+      "evidence": [
+        "seedall"
+      ],
+      "claim": "连同不带 r3a 的旧配置一起算，13 对种子 run 的 MP-SR 差最大是 0.562（t1-ep6-w2048-cap4m-mf4090），差超过 0.4 的有 2 对。"
+    },
+    {
+      "id": "ho_hypo",
+      "evidence": [
+        "ho"
+      ],
+      "claim": "交接文档说：在 best_hm 上，跟上的 ep06、07、08 和训到 0.5 的 ep21 转动违规都是 0，失败的 14 集里 12 集有转动违规；只有 4 个正例、特征是事后挑的，所以只是待检验的假设；best_dyn4 已把 ep03、ep15、ep16 的转动违规清零，best_dyn4s 把 ep12、ep05 的抖动降到 24、20。"
+    },
+    {
+      "id": "ho_dyn4s",
+      "evidence": [
+        "ho"
+      ],
+      "claim": "best_dyn4s 在 best_dyn4 上只改人体（时间平滑）；根加速度 p99 的中位数 best_dyn4 是 47.6、best_dyn4s 是 11.6、Tier 2 是 4.3 m/s²；物体违规帧占比 6.33% 与 6.35% 基本不变；文档说平滑和训练失败之间还没有证据联系。"
+    },
+    {
+      "id": "ep16_sym",
+      "evidence": [
+        "dlog"
+      ],
+      "claim": "best_dyn4 的修复记录里，ep16_spray_bottle 的 symmetries 是 24，symmetric_switch_frames 是 445（共 477 帧）；ep03_contigo_coffee_mug 的 symmetries 是 3，symmetric_switch_frames 是 463（共 781 帧）。"
+    },
+    {
+      "id": "no_rg_ml40",
+      "evidence": [
+        "img",
+        "inc"
+      ],
+      "claim": "重定向用的容器入口 scripts/dev/incontainer 用的镜像是 robotic-grounding:latest，而 ml40 的 docker 镜像列表里没有 robotic-grounding。"
+    },
+    {
+      "id": "restart_cond",
+      "evidence": [
+        "plan"
+      ],
+      "claim": "10/13 记下的 Tier 3 重新开训条件是待定状态，内容是另一位用户交出新版重建，并且训练前的门槛加上物体朝向与慢速漂移两项检查。"
+    },
+    {
+      "id": "t3_board",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "07:35 的 Tier 3 四个榜上只有 Xueyi Wang (FF) 和 CHORD Baseline (CARI4D Reconstruction)：CHORD 是 AUC 0.00226、SP-SR 0、MP-SR 0、MPPE 70.17205，FF 是 AUC 0.15606、SP-SR 0、MP-SR 0、MPPE 70.38283；maniphys.ai 不在 Tier 3 榜上。"
+    },
+    {
+      "id": "ctl_true_t2ep3",
+      "evidence": [
+        "t3a"
+      ],
+      "control": "true",
+      "claim": "t2-ep3-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.854。"
+    },
+    {
+      "id": "ctl_false_hm16",
+      "evidence": [
+        "t3b"
+      ],
+      "control": "false",
+      "claim": "t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.938。"
+    },
+    {
+      "id": "ctl_false_rg",
+      "evidence": [
+        "img",
+        "inc"
+      ],
+      "control": "false",
+      "claim": "ml40 上已经有 robotic-grounding:latest 镜像。"
+    },
+    {
+      "id": "ctl_false_ml40busy",
+      "evidence": [
+        "st_yb"
+      ],
+      "control": "false",
+      "claim": "23:49 的快照里 ml40 的 t1yb 评测链还在跑，GPU 占用 100%。"
+    },
+    {
+      "id": "ctl_false_seed",
+      "evidence": [
+        "seed"
+      ],
+      "control": "false",
+      "claim": "r3a 配置的 8 对种子 run 里，MP-SR 差超过 0.4 的有 3 对。"
+    }
+  ]
+}

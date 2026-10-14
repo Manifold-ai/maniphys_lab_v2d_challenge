@@ -1,0 +1,25 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t3dyn-pilot-decision.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 24d83b93a06761241c80814a6df59170  agent-doc/experiments/2026-10-14-t3dyn-pilot-decision.claims.json
+# source   : 58955f9d292a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T10:00:10-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ml40_idle            P(supported)=0.94  verified               [st_yb]  ml40 的 t1yb 训练链 2026-10-14 23:05:45 CST 以 DAY2_TRAIN_DONE（完成 5、失败 0）结束，评测链 23:32:51 CST 以 DAY2_EVAL_DONE（成功 5、失败 0）结束；23:49 的快照里 GPU 3 MiB、0%，没有长链标记。
+mf_busy              P(supported)=0.95  verified               [st_xb]  mf4090 的 t1-ep14-w2048-cap4m-r3a-mf4090 在 2026-10-14 22:31:25 CST 开始正式训练，最新完整 policy 是 180006912 步、写于 23:45:56 CST；快照里 GPU 24005 MiB、100%，还有 t1xb 的训练、评测和候选三个长链标记。
+hm_zero              P(supported)=0.97  verified               [t3a, t3b]  best_hm 上 4096 世界评测的 MP-SR：t3-ep3、t3-ep12、t3-ep15、t3-ep16（都是 w2048-cap4m-r3a-hm-mf4090）都是 0.000；同集 Tier 2 的 t2 run（w2048-cap10m-r3a-ml40）分别是 0.806、0.988、0.987、0.938。
+seed_noise           P(supported)=0.74  verified               [seed]  Tier 1 在 mf4090 上 w2048-cap4m-r3a 配置、种子 42 与 s43 的 8 对 run 里，MP-SR 差的中位数是 0.066，最大是 ep29 的 0.348（0.151 与 0.499），差超过 0.4 的有 0 对。
+seed_noise_all       P(supported)=0.95  verified               [seedall]  连同不带 r3a 的旧配置一起算，13 对种子 run 的 MP-SR 差最大是 0.562（t1-ep6-w2048-cap4m-mf4090），差超过 0.4 的有 2 对。
+ho_hypo              P(supported)=0.97  verified               [ho]  交接文档说：在 best_hm 上，跟上的 ep06、07、08 和训到 0.5 的 ep21 转动违规都是 0，失败的 14 集里 12 集有转动违规；只有 4 个正例、特征是事后挑的，所以只是待检验的假设；best_dyn4 已把 ep03、ep15、ep16 的转动违规清零，best_dyn4s 把 ep12、ep05 的抖动降到 24、20。
+ho_dyn4s             P(supported)=0.96  verified               [ho]  best_dyn4s 在 best_dyn4 上只改人体（时间平滑）；根加速度 p99 的中位数 best_dyn4 是 47.6、best_dyn4s 是 11.6、Tier 2 是 4.3 m/s²；物体违规帧占比 6.33% 与 6.35% 基本不变；文档说平滑和训练失败之间还没有证据联系。
+ep16_sym             P(supported)=0.97  verified               [dlog]  best_dyn4 的修复记录里，ep16_spray_bottle 的 symmetries 是 24，symmetric_switch_frames 是 445（共 477 帧）；ep03_contigo_coffee_mug 的 symmetries 是 3，symmetric_switch_frames 是 463（共 781 帧）。
+no_rg_ml40           P(supported)=0.96  verified               [img, inc]  重定向用的容器入口 scripts/dev/incontainer 用的镜像是 robotic-grounding:latest，而 ml40 的 docker 镜像列表里没有 robotic-grounding。
+restart_cond         P(supported)=0.96  verified               [plan]  10/13 记下的 Tier 3 重新开训条件是待定状态，内容是另一位用户交出新版重建，并且训练前的门槛加上物体朝向与慢速漂移两项检查。
+t3_board             P(supported)=0.94  verified               [lb]  07:35 的 Tier 3 四个榜上只有 Xueyi Wang (FF) 和 CHORD Baseline (CARI4D Reconstruction)：CHORD 是 AUC 0.00226、SP-SR 0、MP-SR 0、MPPE 70.17205，FF 是 AUC 0.15606、SP-SR 0、MP-SR 0、MPPE 70.38283；maniphys.ai 不在 Tier 3 榜上。
+ctl_true_t2ep3       P(supported)=0.99  control(true) ok       [t3a]  t2-ep3-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.854。
+ctl_false_hm16       P(supported)=0.01  control(false) ok      [t3b]  t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.938。
+ctl_false_rg         P(supported)=0.08  control(false) ok      [img, inc]  ml40 上已经有 robotic-grounding:latest 镜像。
+ctl_false_ml40busy   P(supported)=0.01  control(false) ok      [st_yb]  23:49 的快照里 ml40 的 t1yb 评测链还在跑，GPU 占用 100%。
+ctl_false_seed       P(supported)=0.01  control(false) ok      [seed]  r3a 配置的 8 对种子 run 里，MP-SR 差超过 0.4 的有 3 对。
+controls behaved as expected

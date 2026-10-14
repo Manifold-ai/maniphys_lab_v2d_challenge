@@ -1,0 +1,9 @@
+# command  : python3 tools/seed_pair_diff.py results/t3dyn/seed_pairs_t1_cap4m.txt --only -r3a- 
+# md5      : 3da2c53a6a89619c8625e5ca2a5107fa  tools/seed_pair_diff.py
+# md5      : f2885ce2ee4489369e03b2eb8302722b  results/t3dyn/seed_pairs_t1_cap4m.txt
+# source   : 58955f9d292a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T09:59:53-0600
+# ---------------------------------------------------------------
+usage: seed_pair_diff.py [-h] [--col COL] [--only ONLY] table
+seed_pair_diff.py: error: argument --only: expected one argument

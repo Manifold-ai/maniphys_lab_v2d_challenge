@@ -1,0 +1,15 @@
+# command  : git log --format=%h\ %ad\ %s --date=iso origin/track2/tier3-recon -10 
+# source   : 58955f9d292a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T09:57:21-0600
+# ---------------------------------------------------------------
+8107fef 2026-10-14 23:21:32 +0800 docs(handoff): best_dyn4s results, training outcome on best_hm, why drift remains after dyn4
+cabb668 2026-10-14 23:21:32 +0800 feat(tier3): human temporal smoothing (best_dyn4s), foot slip checks, body IoU in the align check
+b5203ec 2026-10-14 13:05:17 +0800 docs(handoff): tier3 dynamics check and post-process, best_dyn4 results
+7a4bf37 2026-10-14 12:14:22 +0800 fix(tier3): dynamics post locks only resting unheld frames, tapers one-sided offsets, never adds floor penetration
+c0299ab 2026-10-14 12:08:15 +0800 fix(tier3): dynamics check judges held by every robot hand link's collision surface, soles when the task names a foot
+43e2b9d 2026-10-14 10:10:35 +0800 feat(tier3): dynamics post-process - unheld runs locked to one pose, symmetric-equivalent orientations made continuous, held runs absorb the offsets
+cdda135 2026-10-14 09:54:56 +0800 feat(tier3): dynamics check on the retargeted reference - contact state first, then Newton/Euler residuals, shape-aware rotation
+5752307 2026-10-13 10:02:29 +0800 feat(tier3): depth-first object rest correction; support rules; replacement criteria
+d7aae27 2026-10-13 05:20:11 +0800 feat(tier3): deliver best_hm with our supports; humans follow held objects; rxzhou's gate runs on our side
+1a6f042 2026-10-13 02:03:51 +0800 feat(tier3): object height post-process onto measured floor and supports, no penetration
