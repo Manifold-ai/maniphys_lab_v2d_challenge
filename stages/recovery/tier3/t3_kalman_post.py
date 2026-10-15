@@ -28,7 +28,7 @@ rules with one model, run forward then backward over the whole episode:
              not the orientation, which crept with the 3 deg observations (ep03 frames 0-92 turned 42 deg, dyn7 had
              locked them) or followed a rest flip after a reset (ep01 frame 697, 91 deg); rot_drift 986 -> 1122. And
              ep06's smoothed centre of mass ended 4 mm off its support slab (dyn7's lock keeps it 9 mm inside).
-             --no-lock gives best_kf2's behaviour.
+             Rest runs at most GAP frames apart are merged into one lock first. --no-lock gives best_kf2's behaviour.
   floor      no frame's lowest hull point lower than in the input or than the floor, whichever is lower (as
              t3_dynamics_post's last step).
 
@@ -258,7 +258,15 @@ def main() -> None:
             z_com, z_R = com.copy(), Rc.copy()
             lock_rows = []
             low_c = low_of(com - Rc @ com_b, Rc).min(1)  # as t3_dynamics_post's low0: same centre of mass, symmetric turn
-            for a, b in runs(rest) if do_lock else []:
+            # rests split by at most GAP frames are one rest: a 2-frame touch does not move an object 7.5 cm (ep02 frames
+            # 269-272 and 274-393 locked apart left a step the dynamics check measured as 120 frames of rest drift)
+            rest_runs = []
+            for a, b in runs(rest):
+                if rest_runs and a - rest_runs[-1][1] <= GAP:
+                    rest_runs[-1] = (rest_runs[-1][0], b)
+                else:
+                    rest_runs.append((a, b))
+            for a, b in rest_runs if do_lock else []:
                 if b - a < MIN_RUN:
                     continue
                 Rm, flips = robust_mean(Rc[a:b])
