@@ -1,0 +1,25 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ V2D_DUMP_CHAIN_DRYRUN=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/dump_chain.sh\ stages/evaluate/frames/dump_t2_ml40_1015.txt\ frames_t2_ml40_1015 
+# md5      : c75e22151fde3976abebdd76ce6baf97  stages/evaluate/dump_chain.sh
+# md5      : 87ae2bc4d2d4bd43a15e0e04e7bcff0c  stages/evaluate/frames/dump_t2_ml40_1015.txt
+# source   : 02c81e98013b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:01:10-0600
+# ---------------------------------------------------------------
+source 02c81e98013b
+== 预检 frames_t2_ml40_1015：清单 stages/evaluate/frames/dump_t2_ml40_1015.txt（3 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，来历 02c81e98013b
+  ok   runs/logs/frames_t2_ml40_1015.log 与 runs/frames/frames_t2_ml40_1015.tsv 都不存在
+  ok   nvidia-smi 能跑
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   没有别的长链标记（无）
+  ok   没有残留的 fc-evaldump-* 容器（无）
+  ok   runs 所在分区可用 1300074 MB，不少于 1204 MB（行数 × 60 MB + 1 GB）
+  ok   t2-ep1-w2048-cap10m-r3a-ml40：有 policy_349999104.safetensors
+  ok   t2-ep1-w2048-cap10m-r3a-ml40：没有 NONFINITE
+  ok   t2-ep1-w2048-cap10m-r3a-ml40：原评测 runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep2-w2048-cap10m-r3a-ml40：有 policy_349999104.safetensors
+  ok   t2-ep2-w2048-cap10m-r3a-ml40：没有 NONFINITE
+  ok   t2-ep2-w2048-cap10m-r3a-ml40：原评测 runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep4-w2048-cap10m-r3a-ml40：有 policy_349999104.safetensors
+  ok   t2-ep4-w2048-cap10m-r3a-ml40：没有 NONFINITE
+  ok   t2-ep4-w2048-cap10m-r3a-ml40：原评测 runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+DUMP_DRYRUN_OK

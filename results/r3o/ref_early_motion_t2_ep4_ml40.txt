@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ scripts/dev/in-flash-chord\ \'cd\ /repo\ \&\&\ python\ stages/evaluate/ref_early_motion.py\ t2-ep4-w2048-cap10m-r3a-ml40\' 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 0e6208e2c49a68e688fe2dd640c8ba66  stages/evaluate/ref_early_motion.py
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:02:58-0600
+# ---------------------------------------------------------------
+source 02c81e98013b
+== t2-ep4-w2048-cap10m-r3a-ml40：从第 0 帧起 第 25 帧 0.3 cm、17.8°；第 51 帧 0.7 cm、34.4°；第 100 帧 0.7 cm、82.6°；第 0–51 帧相邻帧转角最大 2.7°；参考第一次接触第 133 帧
+REF_EARLY_MOTION_DONE

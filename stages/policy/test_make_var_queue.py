@@ -27,6 +27,10 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      t1yb_s43 --episodes 19 --seed 43 在 ml40 出 t1-ep19-w2048-cap10m-r3a-s43-ml40；覆盖是 seed 42 那条的覆盖在变体 A 两项前插
      reset.seed=43 training.seed=43，冒烟行同样；期望表种子列 43、其余列与 seed 42 那条相同；导出清单对得上、抬头注明改种子；
      预设段加 --seed、种子 0、10000、显式 42、段名 _s43 却不给 --seed、给 --seed 43 而段名不以 _s43 结尾，都报错不写文件。
+  9. r3o（agent-doc/plan-r3o-2026-10-15.md 2.1–2.3）：t1oa、t1ob 在 mf4090（400 万覆盖在最前、标签 t1o），t2oa、t2ob 在 ml40（没有 buffer 覆盖、标签 t2o），
+     顺序照计划；冒烟与正式行在原有环境变量之后、run 名之前多 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4，run 名带 -r3o-，覆盖以变体 A 两项结尾；
+     现在交的是变体 A 的 run（夹具里 ep20 改成 -r3a-）时改用它的基线配方 run，parquet 相同；抬头写 v040_p185_nfg_oo；
+     t1xa 这类原有的段一行也不带 V2D_OBJ_ORI_。
 用法：python3 stages/policy/test_make_var_queue.py
 """
 import subprocess
@@ -361,6 +365,42 @@ def test_duplicate_export_row_refuses():
         r = gen(root, "t2xa")
         assert r.returncode != 0 and "不止一行" in r.stdout + r.stderr, r.stdout + r.stderr
         assert not (root / "stages" / "evaluate" / "exports" / "cand_t2_t2xa_ml40.tsv").exists()
+
+
+def test_r3o_parts():
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        sel = root / "stages" / "evaluate" / "exports" / "t1_select_r3x.tsv"
+        sel.write_text(sel.read_text().replace("t1-ep20-w2048-cap10m-ml40", "t1-ep20-w2048-cap10m-r3a-ml40"))
+        q = root / "stages" / "policy" / "queues"
+        r3o = ["V2D_OBJ_ORI_WEIGHT=1.0", "V2D_OBJ_ORI_STD=0.4"]
+        cases = [("t1oa", [20, 25, 28, 11], "mf4090", 1, "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "training.replay.capacity=4000000", "t1o"),
+                 ("t1ob", [4, 9, 1, 2], "mf4090", 1, "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "training.replay.capacity=4000000", "t1o"),
+                 ("t2oa", [12, 25, 28, 1], "ml40", 2, "t2-ep{ep}-w2048-cap10m-r3o-ml40", None, "t2o"),
+                 ("t2ob", [4, 17, 9, 2, 11], "ml40", 2, "t2-ep{ep}-w2048-cap10m-r3o-ml40", None, "t2o")]
+        for name, eps, m, tier, fmt, cap, tag in cases:
+            p = gen(root, name)
+            assert p.returncode == 0, p.stdout + p.stderr
+            f, s = lines(q / f"{m}_{name}.txt"), lines(q / f"{m}_{name}_smoke.txt")
+            assert len(f) == len(s) == len(eps)
+            for fx, sx, ep in zip(f, s, eps):
+                ft, st = fx.split(), sx.split()
+                assert ft[:7] == f"V2D_WANDB_TAG={tag} V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1".split() + r3o, fx
+                assert st[:7] == SENV.split() + r3o, sx
+                assert ft[7] == fmt.format(ep=ep) and st[7] == "smoke-" + ft[7], (fx, sx)
+                assert ft[8] == pq(ep, tier) and ft[9:11] == ["2048", "349999104"] and st[8:11] == [pq(ep, tier), "2048", "4096000"], fx
+                over = ft[11:]
+                assert over[-2:] == VAR and over.count(VAR[0]) == 1 and st[11:] == over, fx
+                caps = [o for o in over if o.startswith("training.replay.capacity=")]
+                assert caps == ([cap] if cap else []) and (not cap or over[0] == cap), fx
+            head = (q / f"{m}_{name}.txt").read_text().splitlines()[0]
+            assert "v040_p185_nfg_oo" in head and "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4" in head, head
+            cand = lines(root / "stages" / "evaluate" / "exports" / f"cand_t{tier}_{name}_{m}.tsv")
+            assert cand == [f"{tier}\t{ep}\t{fmt.format(ep=ep)}\t349999104" for ep in eps], cand
+        p = gen(root, "t1xa")
+        assert p.returncode == 0, p.stderr
+        assert not any("V2D_OBJ_ORI_" in x for x in lines(q / "mf4090_t1xa.txt") + lines(q / "mf4090_t1xa_smoke.txt"))
 
 
 if __name__ == "__main__":

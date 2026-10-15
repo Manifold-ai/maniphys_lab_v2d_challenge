@@ -23,9 +23,10 @@ printf 'root:x:0:\n%s:x:%s:\n' "$G" "$(id -g)" > "$ID/group"
 GPU=(); [ "${V2D_GPU:-0}" = 1 ] && GPU=(--runtime=nvidia --gpus "device=${V2D_GPU_DEVICE:-0}")
 # 宿主机上已设置的这些变量按名字转发进容器：-e NAME 只写变量名，值由 docker 从环境读，不进 argv
 # （这台机器多人共用，argv 对所有人可见；CLAUDE.md：凭据不落命令行）。
+# V2D_OBJ_ORI_WEIGHT、V2D_OBJ_ORI_STD：r3o 的物体朝向项（只有 v040_p185_nfg_oo 副本读它们，计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
 ENVS=()
 for v in WANDB_API_KEY WANDB_RUN_ID WANDB_RESUME WANDB_TAGS WANDB_INIT_TIMEOUT \
-         XLA_PYTHON_CLIENT_PREALLOCATE XLA_CLIENT_MEM_FRACTION TF_CPP_MIN_LOG_LEVEL; do
+         XLA_PYTHON_CLIENT_PREALLOCATE XLA_CLIENT_MEM_FRACTION TF_CPP_MIN_LOG_LEVEL V2D_OBJ_ORI_WEIGHT V2D_OBJ_ORI_STD; do
   [ -n "${!v+x}" ] && ENVS+=(-e "$v")
 done
 # V2D_CONTAINER_NAME：给容器命名，便于接管与 docker stop。

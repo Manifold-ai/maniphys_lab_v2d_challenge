@@ -189,7 +189,8 @@ while :; do
       image_base11_sha="$FP_BASE" deps_freeze_sha="$FP_FREEZE" \
       source_commit="$(cat .v2d-source-commit 2>/dev/null || echo unknown)" upstream="$UPSTREAM" \
       parquet="$PARQ" parquet_sha256="$PARQ_SHA" world_count="$W" total_steps="$STEPS" \
-      overrides="$OVR" resume_from="${LATEST:-none}" wandb_id="${WANDB_RUN_ID:-disabled}"
+      overrides="$OVR" resume_from="${LATEST:-none}" wandb_id="${WANDB_RUN_ID:-disabled}" \
+      fc_src="${V2D_FC_SRC:-image}" obj_ori_weight="${V2D_OBJ_ORI_WEIGHT:-}" obj_ori_std="${V2D_OBJ_ORI_STD:-}"
     echo "=== $(date '+%F %T %Z') fc_run $RUN 第 $seg 段（尝试 $attempt）resume_from=${LATEST:-none} ===" >> "$LOG"
     if ! V2D_DETACH=1 V2D_GPU=1 V2D_CONTAINER_NAME="$CNAME" scripts/dev/in-flash-chord "$CMD" >> "$LOG" 2>&1; then
       record event=abort reason=docker_run_failed; die "docker run 失败，见 $LOG" 7

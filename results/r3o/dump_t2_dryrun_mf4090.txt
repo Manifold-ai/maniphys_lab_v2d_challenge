@@ -1,0 +1,31 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ V2D_DUMP_CHAIN_DRYRUN=1\ V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/dump_chain.sh\ stages/evaluate/frames/dump_t2_mf4090_1015.txt\ frames_t2_mf4090_1015 
+# md5      : c75e22151fde3976abebdd76ce6baf97  stages/evaluate/dump_chain.sh
+# md5      : 780fd925fd839bf9a51117a1d0d47d05  stages/evaluate/frames/dump_t2_mf4090_1015.txt
+# source   : 02c81e98013b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:01:09-0600
+# ---------------------------------------------------------------
+source 02c81e98013b
+== 预检 frames_t2_mf4090_1015：清单 stages/evaluate/frames/dump_t2_mf4090_1015.txt（5 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，来历 02c81e98013b
+  ok   runs/logs/frames_t2_mf4090_1015.log 与 runs/frames/frames_t2_mf4090_1015.tsv 都不存在
+  ok   nvidia-smi 能跑
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   没有别的长链标记（无）
+  ok   没有残留的 fc-evaldump-* 容器（无）
+  ok   runs 所在分区可用 84514 MB，不少于 1324 MB（行数 × 60 MB + 1 GB）
+  ok   t2-ep9-w2048-cap4m-mf4090：有 policy_349999104.safetensors
+  ok   t2-ep9-w2048-cap4m-mf4090：没有 NONFINITE
+  ok   t2-ep9-w2048-cap4m-mf4090：原评测 runs/flash_chord/t2-ep9-w2048-cap4m-mf4090/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep11-w2048-cap4m-mf4090：有 policy_349999104.safetensors
+  ok   t2-ep11-w2048-cap4m-mf4090：没有 NONFINITE
+  ok   t2-ep11-w2048-cap4m-mf4090：原评测 runs/flash_chord/t2-ep11-w2048-cap4m-mf4090/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep17-w2048-cap4m-mf4090：有 policy_349999104.safetensors
+  ok   t2-ep17-w2048-cap4m-mf4090：没有 NONFINITE
+  ok   t2-ep17-w2048-cap4m-mf4090：原评测 runs/flash_chord/t2-ep17-w2048-cap4m-mf4090/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep25-w2048-cap4m-mf4090：有 policy_349999104.safetensors
+  ok   t2-ep25-w2048-cap4m-mf4090：没有 NONFINITE
+  ok   t2-ep25-w2048-cap4m-mf4090：原评测 runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t2-ep28-w2048-cap4m-p185-mf4090：有 policy_349999104.safetensors
+  ok   t2-ep28-w2048-cap4m-p185-mf4090：没有 NONFINITE
+  ok   t2-ep28-w2048-cap4m-p185-mf4090：原评测 runs/flash_chord/t2-ep28-w2048-cap4m-p185-mf4090/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+DUMP_DRYRUN_OK

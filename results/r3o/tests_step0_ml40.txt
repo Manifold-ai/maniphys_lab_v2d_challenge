@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ scripts/dev/in-flash-chord\ \'cd\ /repo\ \&\&\ python\ -m\ pytest\ -q\ -p\ no:cacheprovider\ stages/evaluate/test_fall_order.py\ stages/evaluate/test_fall_order_one.py\ stages/evaluate/test_onset_terms.py\ stages/evaluate/test_fail_onset.py\ 2\>\&1\ \|\ tail\ -3\' 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 01033556182e6270a2e28c79c039ec64  stages/evaluate/test_fall_order.py
+# md5      : 5c8203d566023b4791e44f8701df4095  stages/evaluate/test_fall_order_one.py
+# md5      : 779712b0db7752f5e7a41df78eb9eff5  stages/evaluate/test_onset_terms.py
+# md5      : 455109a130545ac8d0d4740d428f44dc  stages/evaluate/test_fail_onset.py
+# source   : 47c1bddafd93
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T13:57:17-0600
+# ---------------------------------------------------------------
+source 47c1bddafd93
+...............................                                          [100%]
+31 passed in 7.47s

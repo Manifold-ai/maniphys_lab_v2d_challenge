@@ -4,11 +4,14 @@
 #   t3p*  Tier 3 试跑，mf4090（计划 agent-doc/plan-t3-pilot-2026-10-09.md；t3p2 是第二轮，计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）
 #   t1x*  Tier 1 补候选，mf4090，同 t3p* 的显存上限、磁盘要求与冒烟后删 state（计划 agent-doc/plan-next-training-2026-10-12.md 第 3 节 A）
 #   t1y*  Tier 1 补候选，ml40，同 t2x*（同计划第 3 节 C）
+#   t1o*、t2o*  r3o 试点（计划 agent-doc/plan-r3o-2026-10-15.md）：t1o* 同 t1x*（mf4090），t2o* 同 t2x*（ml40）；训练挂 v040_p185_nfg_oo、按
+#         third_party/patches/flash_chord-p185-nfg-oo.sha256 核对；冒烟与正式队列每行都要带 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4、run 名带 -r3o-；
+#         其余段一行都不许带 V2D_OBJ_ORI_ 或 -r3o-（训练副本 v040_p185_nfg 不认这两个变量，带了也是白带）
 # 队列与导出清单由 stages/policy/make_var_queue.py 按段生成。起之前确认（任何一条不过就停，什么也不起）：
 #   - GPU 型号对得上这份清单的机器；来历干净；三段日志、导出结果表、导出门的日志与标记、长链标记、停链标记、同名 tmux 会话都不存在；
 #     GPU 上没有进程；
 #     仓库所在分区的可用空间不低于这份清单的要求
-#   - 副本 v040_p185_nfg 与 fc_8c778f9 都在，v040_p185_nfg 按 sha256 清单核对通过
+#   - 训练副本（v040_p185_nfg，t1o*、t2o* 是 v040_p185_nfg_oo）与 fc_8c778f9 都在，训练副本按它的 sha256 清单核对通过
 #   - 期望表至少一条 run；导出清单的行与期望表的 run 一一对应、顺序相同、档位相同
 #   - 导出要读的 runs/motion_src/<目录>/<序列>/v2d_meta.json 都在，里面的档位与 episode 和导出清单一致（fc_export.sh 从这里取 episode 号）；
 #     目录取自正式队列行的 parquet（runs/motion/<目录>/…），是 tier<档>，或 Tier 3 校正版的 tier3_<名>（与 fc_export.sh 相同）
@@ -35,8 +38,13 @@ case "$N" in
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
   t3q*) M=ml40; T=3; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # D 在 ml40 上（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md）
-  *) echo "段名要以 t2x、t3p、t3q、t1x 或 t1y 开头" >&2; exit 2 ;;
+  t1o*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # r3o（计划 agent-doc/plan-r3o-2026-10-15.md）
+  t2o*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; COPY=v040_p185_nfg_oo ;;
+  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o 或 t2o 开头" >&2; exit 2 ;;
 esac
+COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
+[ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256
 WAIT="V2D_GPU_WAIT_S=21600"
 Q=stages/policy/queues/${M}_$N; LIST=stages/evaluate/exports/cand_t${T}_${N}_$M.tsv
 LT=${N}_train_$M; LE=${N}_eval_$M; LX=cand_t${T}_${N}_$M
@@ -61,9 +69,16 @@ others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | tr -d ' ')
 [ -z "$others" ] || stop "GPU 上有别的进程（${others//$'\n'/,}）"
 free_mb="$(df -Pk . | awk 'NR == 2 {print int($4 / 1024)}')"
 [ "$free_mb" -ge "$NEED_MB" ] || stop "可用空间只有 ${free_mb} MB（要求 ${NEED_MB} MB）"
-[ -f "$SRC/v040_p185_nfg/SOURCE_V2D.txt" ] && [ -f "$SRC/fc_8c778f9/SOURCE_V2D.txt" ] || stop "$SRC 下缺副本"
-python3 stages/policy/fc_src_check.py "$SRC/v040_p185_nfg" third_party/patches/flash_chord-p185-nfg.sha256 | tail -1 | grep -q '^FC_SRC_OK' \
-  || stop "$SRC/v040_p185_nfg 按清单核对不过"
+[ -f "$SRC/$COPY/SOURCE_V2D.txt" ] && [ -f "$SRC/fc_8c778f9/SOURCE_V2D.txt" ] || stop "$SRC 下缺副本（$COPY 或 fc_8c778f9）"
+python3 stages/policy/fc_src_check.py "$SRC/$COPY" "$MAN" | tail -1 | grep -q '^FC_SRC_OK' \
+  || stop "$SRC/$COPY 按清单 $MAN 核对不过"
+R3O="V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"
+r3o_bad="$(grep -vhE '^[[:space:]]*(#|$)' "${Q}_smoke.txt" "$Q.txt" | awk -v want=" $R3O " -v oo="$([ "$COPY" = v040_p185_nfg_oo ] && echo 1 || echo 0)" '
+  { has = index($0, want) > 0; any = index($0, "V2D_OBJ_ORI_") > 0; named = ($0 ~ /-r3o-/)
+    if (oo == 1 && !(has && named)) bad++
+    if (oo == 0 && (any || named)) bad++ }
+  END { print bad + 0 }')"
+[ "$r3o_bad" = 0 ] || stop "冒烟或正式队列里有 ${r3o_bad} 行的 r3o 环境变量或 run 名与训练副本 $COPY 不符"
 
 runs=(); cfgs=(); seqs=()
 while IFS=$'\t' read -r run smoke seq _; do runs+=("$run"); cfgs+=("$run" "$smoke"); seqs+=("$seq"); done < <(tail -n +2 "$Q.expect.tsv" | grep -v '^[[:space:]]*$')
@@ -95,9 +110,9 @@ VAR="objective.object_position_std=0.05 env.objective.object_position_std=0.05 t
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"
-echo "核对：$N 在 ${M}，${#runs[@]} 条 run，来历 ${src0}，可用 ${free_mb} MB，${#cfgs[@]} 份配置的 precheck 与配方断言全过"
+echo "核对：$N 在 ${M}，${#runs[@]} 条 run，来历 ${src0}，可用 ${free_mb} MB，训练副本 ${COPY}，${#cfgs[@]} 份配置的 precheck 与配方断言全过"
 
-CMD_T="V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=$SRC/v040_p185_nfg $WAIT ${EXTRA:+$EXTRA }stages/policy/day2_train_chain.sh $Q.expect.tsv ${Q}_smoke.txt $Q.txt $PEAK $LT"
+CMD_T="V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=$SRC/$COPY $WAIT ${EXTRA:+$EXTRA }stages/policy/day2_train_chain.sh $Q.expect.tsv ${Q}_smoke.txt $Q.txt $PEAK $LT"
 CMD_E="V2D_FC_SRC=$SRC/fc_8c778f9 $WAIT V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/$LT.log stages/evaluate/day2_eval_chain.sh $Q.expect.tsv - $LE"
 CMD_X="V2D_FC_SRC=$SRC/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/$LE.log $LIST $LX"
 if [ "${V2D_ARM_DRYRUN:-0}" = 1 ]; then

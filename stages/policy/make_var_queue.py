@@ -40,9 +40,14 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
+  t1o、t2o（计划 agent-doc/plan-r3o-2026-10-15.md）：r3o 试点 = 变体 A 加物体朝向项。队列行开头多两个环境变量
+      V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4（训练副本 v040_p185_nfg_oo 读它们，不进 Hydra 配置）；run 名带 -r3o-。
+      t1o（mf4090，400 万）：t1oa = 对照 ep20 与 ep25、28、11，t1ob = ep4、9、1、2；t2o（ml40，1000 万）：t2oa = 对照 ep12 与 ep25、28、1，
+      t2ob = ep4、17、9、2、11。基线照 t1x、t2x 取现在交的 run；那条 run 是变体 A 的（名字带 -r3a-）时改用去掉 -r3a- 的基线配方 run
+      （变体 A 就是从它派生的，parquet 相同；make_trial_queue.baseline 不收带变体键的基线）。
 测试：stages/policy/test_make_var_queue.py。
 """
 import argparse
@@ -101,7 +106,16 @@ SETS = {
              "episodes": [16, 2, 3, 19, 13], "parts": {"t1yb": [16, 2, 3, 19, 13]}, "base": None,
              "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
              "desc": "Tier 1 追基线：1 世界 SP-SR 失败、Tier 2 变体 A 的 4096 世界 SP-SR 不低于 0.4 的 5 条的变体 A seed 42（ml40，buffer 1000 万，基线取 10/9 逐条选的清单）"},
+    "t1o": {"plan": "agent-doc/plan-r3o-2026-10-15.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+            "episodes": [20, 25, 28, 11, 4, 9, 1, 2], "parts": {"t1oa": [20, 25, 28, 11], "t1ob": [4, 9, 1, 2]}, "base": None,
+            "run": "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
+            "desc": "Tier 1 r3o 试点 P1：对照 ep20 与跟丢的 7 集，变体 A 加物体朝向项 seed 42（mf4090，buffer 400 万，基线取 10/9 逐条选的清单）"},
+    "t2o": {"plan": "agent-doc/plan-r3o-2026-10-15.md", "tier": 2, "machine": "ml40", "cap": None,
+            "episodes": [12, 25, 28, 1, 4, 17, 9, 2, 11], "parts": {"t2oa": [12, 25, 28, 1], "t2ob": [4, 17, 9, 2, 11]}, "base": None,
+            "run": "t2-ep{ep}-w2048-cap10m-r3o-ml40", "variant": "r3o",
+            "desc": "Tier 2 r3o 试点 P2：对照 ep12 与跟丢的 8 集，变体 A 加物体朝向项 seed 42（ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
 }
+R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
 T1_CURRENT = "t1_select_r3x.tsv"   # Tier 1 现在交的 30 条（10/9 逐条选）；Tier 2 的在 ml40.tsv、mf4090.tsv
 ENV_SMOKE = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
 
@@ -167,6 +181,8 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
         if missing:
             raise SystemExit(f"make_var_queue: 导出清单里没有 Tier {btier} 的 {missing}")
         bases = {ep: cur[ep] for ep in eps}
+        if s.get("variant") == "r3o":   # 现在交的是变体 A 的 run（如 t1-ep20-w2048-cap4m-r3a-mf4090）就取它的基线配方 run
+            bases = {ep: b.replace("-r3a-", "-") for ep, b in bases.items()}
     else:
         bases = {ep: s["base"].format(ep=ep) for ep in eps}
     exp, smoke, formal_lines, cand = [HEADER], [], [], []
@@ -196,12 +212,14 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
             run = f"{stem_}-s{seed}-{mach_}"
         exp.append("\t".join([run, f"smoke-{run}", *cols, s["cap"] or "10000000", str(seed), "no"]))
         tail = f"{parquet} {formal['worlds']}"
-        formal_lines.append(f"{env_formal(name)} {run} {tail} {STEPS} {' '.join(over)}")
-        smoke.append(f"{ENV_SMOKE} smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over)}")
+        r3o = f"{R3O_ENV} " if s.get("variant") == "r3o" else ""
+        formal_lines.append(f"{env_formal(name)} {r3o}{run} {tail} {STEPS} {' '.join(over)}")
+        smoke.append(f"{ENV_SMOKE} {r3o}smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over)}")
         cand.append(f"{s['tier']}\t{ep}\t{run}\t{STEPS}")
     head = (f"# {s['desc']}；这一段 {part}：{'、'.join(f'ep{e}' for e in eps)}；计划 {s['plan']}；变体 A = {' '.join(VARIANT)}；"
             + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
-            + f"训练挂 v040_p185_nfg（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
+            + (f"r3o = 变体 A 加 {R3O_ENV}；训练挂 v040_p185_nfg_oo" if s.get("variant") == "r3o" else "训练挂 v040_p185_nfg")
+            + "（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
     stem = f"{s['machine']}_{part}"
     return {
         qdir / f"{stem}.expect.tsv": "\n".join(exp) + "\n",
