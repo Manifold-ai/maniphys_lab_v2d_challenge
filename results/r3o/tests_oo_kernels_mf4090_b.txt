@@ -1,0 +1,16 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg_oo\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/oo_test_kernels.py\"\ 2\>\&1\ \|\ grep\ -v\ \"\^Module\\\|\^Warp\\\|Kernel\ cache\\\|warp-cache\"\ \|\ tail\ -8 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 0f58af68bec58109dbf9f75bc1b24106  stages/policy/oo_test_kernels.py
+# source   : 6a3d5f3545f9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:27:24-0600
+# ---------------------------------------------------------------
+source 6a3d5f3545f9
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+O1/O2：64 个世界，前 12 项与分数逐位相同；第 13 项与 numpy 最大差 3.60e-06，范围 2.17e-27–0.999997；权重 1 时分数差与 frame_dt × 第 13 项最大差 1.57e-07
+O3：set_weights 补第 13 个、课程写了就用写的、少名字报错
+O4/O6：weights_for 补第 13 个、别的目标函数不变；默认 0 与 0.4；非法值报错
+O5：/workspace/src/flash_chord/configs/curriculum/recon_body_flash_sac.yaml 的 9 段逐段 weights_for，第 13 个都是 1.0，前 12 个等于这一段的映射
+OO_KERNELS_OK
