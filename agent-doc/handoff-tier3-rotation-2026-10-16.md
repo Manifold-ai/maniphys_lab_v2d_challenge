@@ -79,8 +79,18 @@ ep04 的三帧翻转（313/509/669）仍是翻的，ep03/ep01 原本对的帧改
 **kf2 用自己的支撑面复检**（`$G/dyn/kf2_sup.sh`，末行 KF2SUP_DONE，`$G/dyn/tier3_bkf2_ownsup.json`）：结果与用 bhm 支撑面
 几乎相同（违规帧 2080，ep06 仍 91 帧悬空）。原因：`t3_support_usda.py` 的支撑面来自固定的 `runs/support/tier3_cari4d_f830_best_v2`，
 不随物体轨迹版本变，bkf2 与 bhm 的 ep06 支撑面完全相同（x −1.352 起）；kf2 的显示器质心 x −1.356，**确实在板外 4 mm**，仿真里
-会从板边翻下。rxzhou 的门槛（`oursup_bkf2.txt`）判 ep06 过（底面间隙 −0.8 mm），因为它只看最低点高度、不看质心是否在板上。
+会从板边翻下。rxzhou 的门槛（`oursup_bkf2.txt`）判 ep06 过（底面间隙 −0.8 mm）：`stages/retarget/check_support_alignment.py`
+是坐标系对齐检查，每集只判一次——取网格最低的 5% 帧，用这些帧全部顶点的 xy 均值（几何中心，不是质心）找它下方的板，
+|间隙| < 20 mm 即过；不逐帧、不用质心。逐帧按质心 xy 选板的是我们的 `t3_dynamics_check.py`（`under` 用 `com`），ep06 就是它查出的。
 之前「换成版本自己的支撑面就好」的说法不成立。静置段沿用锁定后 ep06 会回到 hm 的位置（dyn7 是 −1.343，板内 9 mm），这是推断。
+
+## CoCoNet 推理侧还没试过的（10-16 查，不需重训）
+
+- 滑窗：`clip_len` 96、`coconet_stride` 96，窗不重叠，`overlap_policy` first_occurrence。ep02/03/13/28 的 289 帧 CoCoNet 跳变里
+  只有 9 帧落在 96 的整数倍上（随机约 3 帧），窗边界不是主因。重叠窗加投票预计收益小（推断）。
+- 初值：CoCoNet 的输入含按初始姿态渲染的 RGB 分支（镜像内 `run_mhr_wild_inference.py`）。这 4 集 FoundationPose 的 86 个跳变帧
+  有 80 个在 CoCoNet 里原样出现（`$G/diag/stage_flips_episode_*.json`）。推断：CoCoNet 的分支跟着初值走，换初值（基线跟踪版、
+  对称/翻转候选）并按与分割掩码的一致性逐窗自动挑选，可能是不重训的根源修法；未验证，要 GPU。
 
 ## 接手怎么做
 
