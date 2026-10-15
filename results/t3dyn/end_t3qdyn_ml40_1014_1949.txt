@@ -1,0 +1,51 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ ml40\ t3\ t3qdyn 
+# source   : 20b834615802
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T19:49:01-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-15 09:49:02 CST；来历 af011f6fec0d
+## t3qdyn train（runs/logs/t3qdyn_train_ml40.log）
+=== 2026-10-15 04:20:33 CST start t3qdyn_train_ml40, source af011f6fec0d, 期望表 stages/policy/queues/ml40_t3qdyn.expect.tsv
+=== 2026-10-15 04:20:34 CST 正向核对：2 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-15 04:20:34 CST 冒烟 smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40
+SMOKE_OK smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40
+=== 2026-10-15 04:26:04 CST 冒烟 smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40 通过：700 帧，不动基线见 results/day2/bar_smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-15 04:26:04 CST 冒烟 smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40
+SMOKE_OK smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40
+=== 2026-10-15 04:31:36 CST 冒烟 smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 通过：700 帧，不动基线见 results/day2/bar_smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-15 04:31:36 CST 正式 t3-ep12-w2048-cap4m-r3a-dyn4-ml40
+fc_run_watched: t3-ep12-w2048-cap4m-r3a-dyn4-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-15 07:03:03 CST t3-ep12-w2048-cap4m-r3a-dyn4-ml40 完成（1 段）
+=== 2026-10-15 07:03:03 CST 正式 t3-ep12-w2048-cap4m-r3a-dyn4s-ml40
+fc_run_watched: t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-15 09:32:17 CST t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 完成（1 段）
+=== 2026-10-15 09:32:17 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+## t3qdyn eval（runs/logs/t3qdyn_eval_ml40.log）
+=== 2026-10-15 04:20:35 CST 等 runs/logs/t3qdyn_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-15 09:32:36 CST 训练链已结束：=== 2026-10-15 09:32:17 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+=== 2026-10-15 09:32:36 CST start t3qdyn_eval_ml40, source af011f6fec0d, 期望表 stages/policy/queues/ml40_t3qdyn.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-15 09:44:00 CST DAY2_EVAL_DONE（成功 2、失败 0）
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t3-ep12-w2048-cap4m-r3a-dyn4-ml40 非有限行 0 结局  扫描 34
+t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 非有限行 0 结局  扫描 34
+t3-ep4-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep5-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep6-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep7-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+t3-ep8-w2048-cap10m-r3a-hm-ml40 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t3-ep12-w2048-cap4m-r3a-dyn4-ml40.s1.log：平均回合长度 343.76987，平均回报 55.48637，loss_scale —；摘要里 nan 0 项
+t3-ep12-w2048-cap4m-r3a-dyn4s-ml40.s1.log：平均回合长度 341.35089，平均回报 41.86643，loss_scale —；摘要里 nan 0 项
+t3-ep4-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 62.99145，平均回报 5.81112，loss_scale —；摘要里 nan 0 项
+t3-ep5-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 127.33004，平均回报 14.52587，loss_scale —；摘要里 nan 0 项
+t3-ep6-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 379.9902，平均回报 76.53287，loss_scale —；摘要里 nan 0 项
+t3-ep7-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 672.17712，平均回报 170.65428，loss_scale —；摘要里 nan 0 项
+t3-ep8-w2048-cap10m-r3a-hm-ml40.s1.log：平均回合长度 544.58026，平均回报 116.61632，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t3-ep10-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep11-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+t3-ep9-w2048-cap10m-r3a-hm-ml40：（还没有 policy）
+## 机器
+0 MiB, 0 %
+1370040 MB free
+（没有长链标记）
