@@ -1,0 +1,16 @@
+# command  : bash -c git\ log\ --since=\"2026-10-14\ 10:00\"\ --format=\"%h\ %ci\ %s\"\ origin/track2/tier3-recon\ \|\ tools/redact_stdin.sh 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 202e3b343a3c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T16:24:18-0600
+# ---------------------------------------------------------------
+921e79c 2026-10-16 02:00:08 +0800 docs(handoff): rotation post-opt pilot removes only small jumps; kf2 ep06 object is 4 mm off its support slab
+0247249 2026-10-16 00:41:26 +0800 docs(handoff): best_dyn7 recheck numbers in the 10-16 handoff
+8e68820 2026-10-16 00:41:07 +0800 docs(handoff): rotation jumps come from CoCoNet; Kalman full run and its drift causes; rotation post-opt pilot running
+0539247 2026-10-15 23:47:44 +0800 feat(tier3): object-rotation post-optimization pilot and stage-level flip diagnosis
+197a02f 2026-10-15 12:47:40 +0800 feat(tier3): flip probes (hand geometry, V-JEPA 2 / DINOv2 features) and the per-frame evidence table; handoff for 10-15 afternoon
+52542c8 2026-10-15 11:56:03 +0800 feat(tier3): trial tools for flip handling - contact-switched Kalman/RTS smoother and FoundationPose scorer probe
+037ae97 2026-10-15 11:55:52 +0800 fix(tier3): dynamics post fades each grasp end's offset over 0.5 s instead of spreading it over the whole run
+3e38561 2026-10-15 10:55:24 +0800 docs(handoff): 10-15 self-checks, problems found, best_dyn7 candidate, new tools and provenance
+a3547c3 2026-10-15 10:52:12 +0800 feat(tier3): self-checks for object pose post-processing; symmetry by largest surface shift; robust rest/grasp orientation; provenance
+4dd545b 2026-10-15 08:54:42 +0800 docs(handoff): what each dyn version on L40S is, the symmetry test accepts non-symmetric turns, ep06 MP-SR corrected

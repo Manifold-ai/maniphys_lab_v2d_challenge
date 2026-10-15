@@ -1,0 +1,6 @@
+# command  : curl -s -m 20 https://huggingface.co/api/datasets/nvidia/video_to_data_challenge/tree/main/track_2 
+# source   : 202e3b343a3c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T16:27:33-0600
+# ---------------------------------------------------------------
+[{"type":"directory","oid":"75b5ba1dfda520a8c8278b68c38175153bd7b516","size":0,"path":"track_2/tier_1_multiview_caption"},{"type":"directory","oid":"38b86bcf5546667985701a0e3eb9a9b3f808150c","size":0,"path":"track_2/tier_2_synthetic_noise"},{"type":"file","oid":"9cb003bc69677d8a8271f407f0f4a1ffa462c74e","size":1387,"path":"track_2/README.md"}]
