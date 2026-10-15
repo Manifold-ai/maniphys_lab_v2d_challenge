@@ -1,0 +1,174 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "lb": {
+      "file": "results/submission/leaderboard_1015_1130.txt",
+      "grep": "^== v2d-challenge-track2-tier[12]|maniphys|Xueyi"
+    },
+    "gap": {
+      "file": "results/t1gap/t1_gap_t1c1014b.txt",
+      "grep": "436\\.3"
+    },
+    "t2proxy": {
+      "file": "results/first/t2_mppe_proxy.txt",
+      "grep": "481\\.1"
+    },
+    "t2lost": {
+      "file": "results/first/t1_fail_runs.txt",
+      "grep": "^(25|4|28|9|1)\\t2\\t"
+    },
+    "fo": {
+      "file": "results/ml40/frames/fall_order_one_t1_ml40.txt",
+      "grep": "^\\[|k=25"
+    },
+    "terms": {
+      "file": "results/ops/fc_objective_terms_1015.txt",
+      "grep": "^==|^termination |TERM_COUNT|object_orientation"
+    },
+    "cur": {
+      "file": "results/ops/fc_curriculum_1015.txt",
+      "grep": "thresholds|voc_scale|immediate_first_frame_probability"
+    },
+    "r3a": {
+      "file": "agent-doc/plan-step3-recipe-trial-2026-10-04.md",
+      "grep": "^\\| `objective.object_position_std`|^\\| `termination.object_orientation_threshold`"
+    },
+    "pairs": {
+      "file": "results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt",
+      "grep": "t1-ep20-|^共"
+    },
+    "t2ctl": {
+      "file": "results/t3dyn/eval_table_t3qdyn_s43.txt",
+      "grep": "^run|^t2-"
+    },
+    "lbmppe": {
+      "file": "results/submission/leaderboard_1015_1130.txt",
+      "grep": "^== v2d-challenge-track2-tier2-mppe|^1701809[0-9]|^1704099[0-9]"
+    }
+  },
+  "claims": [
+    {
+      "id": "ff_t1_sp",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "10/15 的榜上，Tier 1 SP-SR 榜 Xueyi Wang (FF) 是 0.80000、排第一，maniphys.ai 是 0.73333、排第二。"
+    },
+    {
+      "id": "t2_mppe_lead",
+      "evidence": [
+        "lbmppe"
+      ],
+      "claim": "Tier 2 MPPE 榜上 maniphys.ai 的分数是 15.32195，Xueyi Wang (FF) 的分数是 15.34253，两者差 0.02058。"
+    },
+    {
+      "id": "t1_lost_share",
+      "evidence": [
+        "gap"
+      ],
+      "claim": "MPPE 超过 15 cm 的 7 条合计 436.3 cm，占 30 条总和 496.8 cm 的 87.8%。"
+    },
+    {
+      "id": "t2_proxy_share",
+      "evidence": [
+        "t2proxy"
+      ],
+      "claim": "Tier 2 对照自己参考的 MPPE 里，超过 15 cm 的 8 集合计 481.1 cm，占 30 集合计 574.7 cm 的 83.7%，这 8 集是 ep4、25、28、9、1、17、2、11。"
+    },
+    {
+      "id": "t2_lost_zero",
+      "evidence": [
+        "t2lost"
+      ],
+      "claim": "Tier 2 的 ep25、ep4、ep28、ep9、ep1 上，r3a 的 run 和另一种配方的 run，MP-SR 与 SP-SR 都是 0.000。"
+    },
+    {
+      "id": "t1_objfirst",
+      "evidence": [
+        "fo"
+      ],
+      "claim": "t1-ep2、t1-ep4、t1-ep9、t1-ep25 这四条 run 在 k=25 时物体先的比例在 95.2% 到 100.0% 之间。"
+    },
+    {
+      "id": "no_ori_term",
+      "evidence": [
+        "terms"
+      ],
+      "claim": "三个 FlashCHORD 副本的 recon_body 目标函数都是 12 项，名单里有 object_position，没有 object_orientation。"
+    },
+    {
+      "id": "ori_term_thr",
+      "evidence": [
+        "terms"
+      ],
+      "claim": "v040_p185_nfg 的终止配置里 object_orientation_threshold 是 1.50。"
+    },
+    {
+      "id": "cur_voc",
+      "evidence": [
+        "cur"
+      ],
+      "claim": "voc_scale 依次是 1.0、0.75、0.5、0.25、0.1、0.05、0.0、0.0、0.0。"
+    },
+    {
+      "id": "cur_first",
+      "evidence": [
+        "cur"
+      ],
+      "claim": "immediate_first_frame_probability 出现两次，分别是 0.25 和 0.50。"
+    },
+    {
+      "id": "r3a_def",
+      "evidence": [
+        "r3a"
+      ],
+      "claim": "变体 A 把 objective.object_position_std 从 0.2 m 改成 0.05 m，把 termination.object_orientation_threshold 从 1.5 rad 改成 0.6 rad。"
+    },
+    {
+      "id": "ep20_pair",
+      "evidence": [
+        "pairs"
+      ],
+      "claim": "t1-ep20-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.794，它的 seed 43 是 0.918；8 对里差最大是 0.348。"
+    },
+    {
+      "id": "t2_ctl",
+      "evidence": [
+        "t2ctl"
+      ],
+      "claim": "t2-ep12-w2048-cap10m-r3a-ml40 在 4096 个世界上的 MP-SR 是 0.988。"
+    },
+    {
+      "id": "ctl_true_t2sp",
+      "evidence": [
+        "lb"
+      ],
+      "control": "true",
+      "claim": "10/15 的榜上，Tier 2 SP-SR 榜 maniphys.ai 是 0.73333、排第一。"
+    },
+    {
+      "id": "ctl_false_terms",
+      "evidence": [
+        "terms"
+      ],
+      "control": "false",
+      "claim": "fc_8c778f9 的 recon_body 目标函数里有 object_orientation 这一项。"
+    },
+    {
+      "id": "ctl_false_lb",
+      "evidence": [
+        "lb"
+      ],
+      "control": "false",
+      "claim": "10/15 的榜上，Tier 1 SP-SR 榜 maniphys.ai 排第一。"
+    },
+    {
+      "id": "ctl_false_cur",
+      "evidence": [
+        "cur"
+      ],
+      "control": "false",
+      "claim": "课程的每一段 voc_scale 都是 1.0。"
+    }
+  ]
+}

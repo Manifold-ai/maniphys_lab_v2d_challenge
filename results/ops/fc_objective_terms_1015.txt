@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 for\ d\ in\ v040_p185\ v040_p185_nfg\ fc_8c778f9\;\ do\ f=/home/rxzhou/v2d/fc_src/\$d/src/flash_chord/objectives/recon_body.py\;\ echo\ \"==\ \$\{d\}:\ RECON_BODY_OBJECTIVE_TERM_NAMES\ in\ recon_body.py\"\;\ sed\ -n\ \"/\^RECON_BODY_OBJECTIVE_TERM_NAMES\ =\ \(/\,/\^\)/p\"\ \$f\ \|\ grep\ \"\\\"\"\ \|\ tr\ -d\ \"\ \\\"\,\"\ \|\ tr\ \"\\n\"\ \"\ \"\;\ echo\;\ grep\ -n\ \"_RECON_BODY_OBJECTIVE_TERM_COUNT\ =\ \"\ \$f\;\ echo\ \"\ \ \ lines\ containing\ object_orientation:\ \$\(grep\ -c\ object_orientation\ \$f\)\"\;\ done\;\ echo\ \"==\ v040_p185_nfg\ configs/termination/recon_body.yaml\"\;\ grep\ orientation\ /home/rxzhou/v2d/fc_src/v040_p185_nfg/src/flash_chord/configs/termination/recon_body.yaml 
+# source   : b7ad65098e1b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T11:18:42-0600
+# ---------------------------------------------------------------
+== v040_p185: RECON_BODY_OBJECTIVE_TERM_NAMES in recon_body.py
+termination action_rate_l2 action_l2 soft_joint_limit pelvis_position pelvis_orientation body_joint_position object_position progress palm_position palm_orientation force_closure 
+40:_RECON_BODY_OBJECTIVE_TERM_COUNT = wp.constant(12)
+   lines containing object_orientation: 0
+== v040_p185_nfg: RECON_BODY_OBJECTIVE_TERM_NAMES in recon_body.py
+termination action_rate_l2 action_l2 soft_joint_limit pelvis_position pelvis_orientation body_joint_position object_position progress palm_position palm_orientation force_closure 
+40:_RECON_BODY_OBJECTIVE_TERM_COUNT = wp.constant(12)
+   lines containing object_orientation: 0
+== fc_8c778f9: RECON_BODY_OBJECTIVE_TERM_NAMES in recon_body.py
+termination action_rate_l2 action_l2 soft_joint_limit pelvis_position pelvis_orientation body_joint_position object_position progress palm_position palm_orientation force_closure 
+40:_RECON_BODY_OBJECTIVE_TERM_COUNT = wp.constant(12)
+   lines containing object_orientation: 0
+== v040_p185_nfg configs/termination/recon_body.yaml
+pelvis_orientation_threshold: 1.50
+palm_orientation_threshold: 1.50
+object_orientation_threshold: 1.50

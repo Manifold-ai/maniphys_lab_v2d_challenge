@@ -1,0 +1,37 @@
+# command  : ssh -o BatchMode=yes mf4090 c=/home/rxzhou/v2d/fc_src/v040_p185_nfg/src/flash_chord/configs\;\ echo\ \"==\ curriculum/recon_body_flash_sac.yaml\ \(thresholds\,\ voc_scale\,\ immediate_first_frame_probability\)\"\;\ grep\ -E\ \"thresholds\|voc_scale\|immediate_first_frame_probability\"\ \$c/curriculum/recon_body_flash_sac.yaml\;\ echo\ \"==\ objective/recon_body.yaml\ \(weights\ and\ stds\)\"\;\ grep\ -E\ \"_weight\|_std\"\ \$c/objective/recon_body.yaml 
+# source   : b7ad65098e1b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T11:19:07-0600
+# ---------------------------------------------------------------
+== curriculum/recon_body_flash_sac.yaml (thresholds, voc_scale, immediate_first_frame_probability)
+thresholds: [35000320, 70000640, 104998912, 139999232, 174999552, 209999872, 288749568, 306249728, 349999104]
+    voc_scale: 1.0
+    voc_scale: 0.75
+    voc_scale: 0.5
+    voc_scale: 0.25
+    voc_scale: 0.1
+    voc_scale: 0.05
+    voc_scale: 0.0
+    voc_scale: 0.0
+    immediate_first_frame_probability: 0.25
+    voc_scale: 0.0
+    immediate_first_frame_probability: 0.50
+== objective/recon_body.yaml (weights and stds)
+termination_weight: -300.0
+action_rate_l2_weight: -0.0001
+action_l2_weight: -0.000001
+soft_joint_limit_weight: -0.001
+pelvis_position_weight: 1.0
+pelvis_orientation_weight: 1.0
+body_joint_position_weight: 5.0
+object_position_weight: 1.0
+progress_weight: 1.0
+palm_position_weight: 1.0
+palm_orientation_weight: 1.0
+force_closure_weight: 5.0
+pelvis_position_std: 0.3
+pelvis_orientation_std: 0.4
+body_joint_position_std: 1.0
+object_position_std: 0.2
+palm_position_std: 0.2
+palm_orientation_std: 0.4
