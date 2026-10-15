@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ runs/tools/frames_b6891ce/stages/evaluate/ref_early_motion.py\ t1-ep4-w2048-cap10m-ml40\ t1-ep9-w2048-cap10m-ml40\ t1-ep25-w2048-cap10m-ml40 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 0e6208e2c49a68e688fe2dd640c8ba66  runs/tools/frames_b6891ce/stages/evaluate/ref_early_motion.py
+# source   : 6bfb7841a795
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-15T15:37:44+0800
+# ---------------------------------------------------------------
+== t1-ep4-w2048-cap10m-ml40：从第 0 帧起 第 25 帧 0.1 cm、18.0°；第 51 帧 0.1 cm、30.9°；第 100 帧 0.3 cm、67.5°；第 0–51 帧相邻帧转角最大 1.4°；参考第一次接触第 109 帧
+== t1-ep9-w2048-cap10m-ml40：从第 0 帧起 第 25 帧 0.2 cm、7.0°；第 51 帧 0.4 cm、1.1°；第 100 帧 0.7 cm、6.6°；第 0–51 帧相邻帧转角最大 5.0°；参考第一次接触第 163 帧
+== t1-ep25-w2048-cap10m-ml40：从第 0 帧起 第 25 帧 0.1 cm、1.0°；第 51 帧 1.1 cm、3.0°；第 100 帧 1.0 cm、4.0°；第 0–51 帧相邻帧转角最大 0.5°；参考第一次接触第 100 帧
+REF_EARLY_MOTION_DONE

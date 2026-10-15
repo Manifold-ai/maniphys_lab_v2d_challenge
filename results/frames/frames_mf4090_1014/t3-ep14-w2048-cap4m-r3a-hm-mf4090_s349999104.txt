@@ -1,0 +1,7 @@
+# command  : stages/evaluate/fc_eval_dump.sh t3-ep14-w2048-cap4m-r3a-hm-mf4090 349999104 
+# md5      : a17009f0bf349ab40410eadb88287960  stages/evaluate/fc_eval_dump.sh
+# source   : 6bfb7841a795
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-15T14:56:09+0800
+# ---------------------------------------------------------------
+fc_eval_dump: t3-ep14-w2048-cap4m-r3a-hm-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep14-w2048-cap4m-r3a-hm-mf4090/eval_dump/eval_349999104_w4096.json runs/flash_chord/t3-ep14-w2048-cap4m-r3a-hm-mf4090/eval_dump/eval_349999104_w4096.npz
