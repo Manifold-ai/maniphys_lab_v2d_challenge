@@ -57,22 +57,34 @@ ep01 20 等 `fp` 集（`$G/dyn/kf2_post.log`）。
   kf2 平滑后 −1.356，出界 4 mm，于是按到地面算间隙 765 mm。高度没错。训练会把支撑面建成薄板，质心出板在仿真里会翻，所以要用
   kf2 自己的支撑面复检：**正在跑**（见下）。
 
-## 正在跑（10-16 00:45 CST）
+## 试点与复检结果（10-16 02:05 CST，两项后台任务都已跑完）
 
-1. **旋转优化试点**（GPU，L40S）：`$T/code/stages/recovery/tier3/t3_rot_pilot.sh`，由 `$T/logs/rot_pilot_start.sh` 在
-   23:53:48 启动（rxzhou 的链 23:23 结束、空 30 分钟后；用户 10-15 授权，消息已由用户发给 rxzhou）。对 runs/work_fp 的副本
-   （`$T/runs/work_rot/<ep>`，原目录不动）只重跑第 07、08 步，加 `--optimize_object_rotation`。顺序 ep03、ep04、ep01、ep02、
-   ep28、ep13，每集约 20 分钟，预计 01:55 前后完。进度 `$T/logs/t3_rot_pilot.log`（末行 `ROT PILOT DONE`；`yielding`/
-   `not started` 表示让卡或没开始），单集日志 `$T/logs/cari4d_<ep>_rot.log`。每集开跑前检查 rxzhou 的链标记与 flash_chord 容器，
-   有就退出（exit 4）；重跑同一命令会跳过已完成的集。00:40 时 ep03、ep04 完成，ep01 在跑。
-   - ep03 已有结果：07 后跳变 35→18；与 CoCoNet 的朝向差中位 2.9°、最大 8.5°；对照帧 117/131/345/451 与原来差 5–8°，451 仍对。
-     推断（未核）：少掉的是刚过 24° 的小跳变，百度级翻转改不动（梯度优化从 CoCoNet 初值出发换不了分支）。
-2. **kf2 自己的支撑面 + 动力学复检**（CPU）：`$G/dyn/kf2_sup.sh`，日志 `$G/dyn/kf2_sup.log`（末行 `KF2SUP_DONE`），
-   结果 `$G/dyn/tier3_bkf2_ownsup.json`，支撑面 `$G/support_usda_bkf2/`。
+**旋转优化试点**（`t3_rot_pilot.sh`，23:53–01:58，`$T/runs/work_rot/`，日志 `$T/logs/t3_rot_pilot.log` 末行 ROT PILOT DONE；
+6 集都只重跑了 07、08 步）。对比用 `gate/diag/rot_compare.py`（v2d_cari4d 镜像内，挂 `work_fp` 与 `work_rot`）：
+
+| 集 | 冻结旋转（原版）>24° / >60° / >90° | 优化旋转 >24° / >60° / >90° | 相对 CoCoNet 的改动 中位 / 最大 |
+|---|---|---|---|
+| ep03 | 35 / 5 / 3 | 18 / 4 / 2 | 2.9° / 8.5° |
+| ep04 | 65 / 35 / 26 | 55 / 32 / 25 | 2.4° / 8.7° |
+| ep01 | 56 / 19 / 15 | 47 / 18 / 15 | 1.4° / 7.7° |
+| ep02 | 112 / 56 / 35 | 85 / 48 / 32 | 3.4° / 9.8° |
+| ep28 | 88 / 44 / 33 | 87 / 40 / 31 | 1.6° / 8.7° |
+| ep13 | 54 / 31 / 26 | 44 / 28 / 23 | 0.6° / 9.7° |
+| 合计 | 410 / 190 / 138 | 336 / 170 / 128 | |
+
+结论：打开旋转优化只去掉刚过门槛的小跳变（>24° 少 18%），>90° 的翻转只少 7%；任何一帧相对 CoCoNet 都没改超过 10°，
+ep04 的三帧翻转（313/509/669）仍是翻的，ep03/ep01 原本对的帧改动 ≤ 8°。**这条路修不了成段翻转。**
+为什么改动封顶在 10° 左右（学习率与步数，还是损失形状）没查；即使放开，梯度优化也只能从 CoCoNet 初值附近走，换不了分支（推断）。
+
+**kf2 用自己的支撑面复检**（`$G/dyn/kf2_sup.sh`，末行 KF2SUP_DONE，`$G/dyn/tier3_bkf2_ownsup.json`）：结果与用 bhm 支撑面
+几乎相同（违规帧 2080，ep06 仍 91 帧悬空）。原因：`t3_support_usda.py` 的支撑面来自固定的 `runs/support/tier3_cari4d_f830_best_v2`，
+不随物体轨迹版本变，bkf2 与 bhm 的 ep06 支撑面完全相同（x −1.352 起）；kf2 的显示器质心 x −1.356，**确实在板外 4 mm**，仿真里
+会从板边翻下。rxzhou 的门槛（`oursup_bkf2.txt`）判 ep06 过（底面间隙 −0.8 mm），因为它只看最低点高度、不看质心是否在板上。
+之前「换成版本自己的支撑面就好」的说法不成立。静置段沿用锁定后 ep06 会回到 hm 的位置（dyn7 是 −1.343，板内 9 mm），这是推断。
 
 ## 接手怎么做
 
-- 试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU）：
+- （已做，见上）试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU）：
   ```
   cd $T/runs/work_rot; A=""; P=""; for e in ep03_contigo_coffee_mug ep04_baseball_bat ep01_vacuum ep02_blue_easter_basket ep28_squeegee ep13_snack_box; do s=$(printf episode_%06d $((10#${e:2:2}))); A="$A -v $PWD/$e/cari4d/$s:/w/$e/$s:ro"; P="$P /w/$e/$s"; done
   docker run --rm --network none --user $(id -u):$(id -g) -e HOME=/tmp --entrypoint "" $A -v $T/code/stages/recovery/tier3:/s:ro -v $G/diag:/o v2d_cari4d:latest python /s/t3_stage_flips.py $P --out /o/stage_flips_rot.json
