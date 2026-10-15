@@ -107,7 +107,7 @@ def main():
     newW = W.copy()
     newW[:, :3, :3] = newR
     newW[:, :3, 3] = W[:, :3, :3] @ centre + W[:, :3, 3] - newR @ centre
-    changed = turn > 1e-6
+    changed = (newR != W[:, :3, :3]).any((1, 2))  # exact: arccos of a float32 rotation's trace is never 0
     untouched = np.ones(n, bool)
     for a, b in replaced:
         untouched[a:b] = False
