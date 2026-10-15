@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43 
+# md5      : a004ff83d8fa3ea9c8d1b5fdad6cdc37  stages/policy/make_var_queue.py
+# source   : 67f11a0ebfe5
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:27:46-0600
+# ---------------------------------------------------------------
+写 stages/policy/queues/mf4090_t1xb_s43.expect.tsv（2 行）
+写 stages/policy/queues/mf4090_t1xb_s43_smoke.txt（2 行）
+写 stages/policy/queues/mf4090_t1xb_s43.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1xb_s43_mf4090.tsv（2 行）
