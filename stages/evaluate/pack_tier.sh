@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # 用官方打包器把一档的导出打成提交 CSV，再用官方上传器的 --dry-run 只做校验与只读预检（Mac 上、仓库根执行）。不上传。
 # 计划 agent-doc/plan-submission-exports-2026-10-02.md 第 3.5 节。
-# 用法：stages/evaluate/pack_tier.sh <档位 1|2> <结果目录> <名字> [episode …]
+# 用法：stages/evaluate/pack_tier.sh <档位 1|2|3> <结果目录> <名字> [episode …]
+#   Tier 3（计划 agent-doc/plan-r3o-2026-10-15.md 2.4）：不给 --frame-references（kit 的 Tier 3 没有发布的输入轨迹）；打包器按干净参考算的
+#   “locally computed” 那一行同 Tier 2 滤掉（Tier 3 的选择只用 Tier 3 的数据）。
 #   结果目录：pull_submission.sh 拉下来的 runs/submission/final/t<档位> 或 runs/submission/compat/t<档位>（里面只放这一档的 episode_XXXXXX.{json,parquet}）。
 #   给了 episode：复制一份 kit 的 config/tracks.json，把这一档的 scored_episodes 改成这几条，用 --config 传给打包器（只用于预演）；
 #     预演不跑上传器预检（行数与官方样例对不上，必然不过）。
@@ -36,7 +38,7 @@ def v(p):
     except m.PackageNotFoundError:
         return "无"
 print("# python", sys.version.split()[0], " ".join(f"{p}={v(p)}" for p in ("numpy", "pandas", "pyarrow", "trimesh", "kaggle")))'
-  if [ "$T" = 2 ]; then
+  if [ "$T" = 2 ] || [ "$T" = 3 ]; then
     # -u：不缓冲，stdout 与 stderr 不会把那一行切开；grep 不锚定行首，混进了别的输出也照样滤掉整行
     "${PY[@]}" -u "$KIT/tools/pack_submission.py" "${args[@]}" 2>&1 | { grep -v 'locally computed' || true; }
     rc=${PIPESTATUS[0]}
@@ -51,7 +53,7 @@ fi
 
 T=${1:?用法见文件头}; RES=${2:?用法见文件头}; NAME=${3:?用法见文件头}; shift 3; EPS=("$@"); NEG=${V2D_PACK_NEGCTL:-0}
 [ "$NEG" != 1 ] || { [ "$T" = 2 ] && [ $# -gt 0 ]; } || { echo "pack_tier: V2D_PACK_NEGCTL=1 只许 Tier 2 预演用" >&2; exit 2; }
-[[ $T =~ ^[12]$ ]] || { echo "pack_tier: 档位只能是 1 或 2（Tier 3 还没有导出）" >&2; exit 2; }
+[[ $T =~ ^[123]$ ]] || { echo "pack_tier: 档位只能是 1、2 或 3" >&2; exit 2; }
 [[ $NAME =~ ^[A-Za-z0-9_-]+$ ]] || { echo "pack_tier: 名字只能用字母、数字、_、-" >&2; exit 2; }
 [ -d "$RES" ] || { echo "pack_tier: 没有结果目录 $RES" >&2; exit 2; }
 bad="$(find "$RES" -name '*.parquet' ! -name 'episode_[0-9][0-9][0-9][0-9][0-9][0-9].parquet' | head -3)"

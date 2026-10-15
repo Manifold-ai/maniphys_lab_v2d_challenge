@@ -6,7 +6,9 @@
   2. Tier 1：那一行照录；上传器同样只收到 --dry-run；
   3. 给了 episode（预演）：打包器收到 --config，里面这一档的 scored_episodes 是这几条；不调上传器；
   4. 打包器失败：退出码非零，不调上传器；反向对照（V2D_PACK_NEGCTL=1）：不给帧参考、打包器报刚体变换不对 → NEGCTL_OK；只许 Tier 2 预演用；
-  5. 拒绝：工作树有未提交改动、HEAD 不在 origin 上、CSV 已存在、kit 的 zip 不对、缺 Tier 2 的帧参考、结果目录里有不合名字的 parquet。
+  5. 拒绝：工作树有未提交改动、HEAD 不在 origin 上、CSV 已存在、kit 的 zip 不对、缺 Tier 2 的帧参考、结果目录里有不合名字的 parquet；
+  6. Tier 3（计划 agent-doc/plan-r3o-2026-10-15.md 2.4）：“locally computed” 同 Tier 2 滤掉；打包器不收 --frame-references；track 是 track_2_tier3；
+     上传器只收到 --dry-run；档位 4 拒绝。
 用法：python3 stages/evaluate/test_pack_tier.py
 """
 import hashlib
@@ -47,17 +49,17 @@ def git(root: Path, *a) -> str:
 
 def setup(root: Path) -> dict:
     for d in ("stages/evaluate", "scripts/dev", f"{KITREL}/tools", f"{KITREL}/submit", f"{KITREL}/config",
-              "data/challenge/track_2/tier_1_multiview_caption/meta", "runs/submission/frame_refs_t2", "runs/submission/final/t1", "runs/submission/final/t2"):
+              "data/challenge/track_2/tier_1_multiview_caption/meta", "runs/submission/frame_refs_t2", "runs/submission/final/t1", "runs/submission/final/t2", "runs/submission/final/t3"):
         (root / d).mkdir(parents=True, exist_ok=True)
     for f in ("stages/evaluate/pack_tier.sh", "scripts/dev/record"):
         shutil.copy(REPO / f, root / f); (root / f).chmod(0o755)
     (root / f"{KITREL}/tools/pack_submission.py").write_text(FAKE_PACK)
     (root / f"{KITREL}/submit/v2d_submit.py").write_text(FAKE_SUBMIT)
     (root / f"{KITREL}/requirements.txt").write_text("numpy\n")
-    (root / f"{KITREL}/config/tracks.json").write_text(json.dumps({"tracks": {"track_2_tier1": {"scored_episodes": "all"}, "track_2_tier2": {"scored_episodes": "all"}}}))
+    (root / f"{KITREL}/config/tracks.json").write_text(json.dumps({"tracks": {"track_2_tier1": {"scored_episodes": "all"}, "track_2_tier2": {"scored_episodes": "all"}, "track_2_tier3": {"scored_episodes": "all"}}}))
     (root / "kit/v2d_submission_kit.zip").write_bytes(b"zip")
     (root / "runs/submission/frame_refs_t2/manifest.tsv").write_text("x\n")
-    for t in ("t1", "t2"):
+    for t in ("t1", "t2", "t3"):
         (root / f"runs/submission/final/{t}/episode_000003.parquet").write_text("p")
     (root / ".gitignore").write_text("runs/\ndata/\nkit/\n")
     git(root, "init", "-q"); git(root, "-c", "user.email=t@t", "-c", "user.name=t", "add", "-A")
@@ -152,6 +154,23 @@ def test_refusals() -> None:
             root = Path(t); setup(root); mutate(root)
             r = pack(root, "2", "runs/submission/final/t2", "x")
             assert r.returncode == 2 and argv(root, "pack") is None and argv(root, "submit") is None, (name, r.stdout, r.stderr)
+
+
+def test_tier3_filters_local_scores() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        r = pack(root, "3", "runs/submission/final/t3", "x")
+        rec = (root / "results/submission/pack/t3_x.txt").read_text()
+        assert r.returncode == 0 and r.stdout.rstrip().endswith("PACK_OK"), r.stdout + r.stderr
+        assert "locally computed" not in rec and "locally computed" not in r.stdout and "locally computed" not in r.stderr, rec
+        a = argv(root, "pack")
+        assert "--frame-references" not in a and a[a.index("--track") + 1] == "track_2_tier3", a
+        s = argv(root, "submit")
+        assert "--dry-run" in s and s[s.index("--track") + 1] == "track_2_tier3", s
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        r = pack(root, "4", "runs/submission/final/t3", "x")
+        assert r.returncode == 2 and argv(root, "pack") is None, r.stdout + r.stderr
 
 
 if __name__ == "__main__":
