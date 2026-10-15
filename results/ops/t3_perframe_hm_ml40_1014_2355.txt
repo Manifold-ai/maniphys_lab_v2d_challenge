@@ -1,0 +1,117 @@
+# command  : bash -c $'ssh -o BatchMode=yes ml40 \'T=$(ls -d /lab_data/*/v2d/tier3 | grep -v "^/lab_data/$(id -un)/" | head -1); cd $T/dev/perframe/hm && echo "== �\226\207件"; ls -la --time-style=+%F_%T; echo "== 表头"; head -1 ep00.csv; echo "== �\214�\225��\210�\215�\220�表头�\211"; for f in ep*.csv; do echo "$f $(($(wc -l < $f)-1))"; done; echo "== state �\217\226�\200�"; tail -q -n +2 ep*.csv | cut -d, -f3 | sort | uniq -c; echo "== evidence �\217\226�\200�"; tail -q -n +2 ep*.csv | cut -d, -f22 | sort | uniq -c; echo "== sha256"; sha256sum ep*.csv summary.json\' | tools/redact_stdin.sh' 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 78a1878178bf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T23:48:32-0600
+# ---------------------------------------------------------------
+== 文件
+total 1556
+drwxrwsr-x 2 <其他用户> mfshared  4096 2026-10-15_12:50:04 .
+drwxrwsr-x 3 <其他用户> mfshared  4096 2026-10-15_12:36:01 ..
+-rw-rw-r-- 1 <其他用户> mfshared 50662 2026-10-15_12:35:45 ep00.csv
+-rw-rw-r-- 1 <其他用户> mfshared 49511 2026-10-15_12:36:27 ep01.csv
+-rw-rw-r-- 1 <其他用户> mfshared 64975 2026-10-15_12:37:05 ep02.csv
+-rw-rw-r-- 1 <其他用户> mfshared 50763 2026-10-15_12:37:35 ep03.csv
+-rw-rw-r-- 1 <其他用户> mfshared 52490 2026-10-15_12:38:12 ep04.csv
+-rw-rw-r-- 1 <其他用户> mfshared 64948 2026-10-15_12:38:32 ep05.csv
+-rw-rw-r-- 1 <其他用户> mfshared 35896 2026-10-15_12:38:46 ep06.csv
+-rw-rw-r-- 1 <其他用户> mfshared 57389 2026-10-15_12:39:12 ep07.csv
+-rw-rw-r-- 1 <其他用户> mfshared 46904 2026-10-15_12:39:36 ep08.csv
+-rw-rw-r-- 1 <其他用户> mfshared 56447 2026-10-15_12:40:03 ep09.csv
+-rw-rw-r-- 1 <其他用户> mfshared 52830 2026-10-15_12:40:24 ep10.csv
+-rw-rw-r-- 1 <其他用户> mfshared 58908 2026-10-15_12:40:45 ep11.csv
+-rw-rw-r-- 1 <其他用户> mfshared 46578 2026-10-15_12:41:02 ep12.csv
+-rw-rw-r-- 1 <其他用户> mfshared 62077 2026-10-15_12:41:26 ep13.csv
+-rw-rw-r-- 1 <其他用户> mfshared 65420 2026-10-15_12:41:47 ep14.csv
+-rw-rw-r-- 1 <其他用户> mfshared 47114 2026-10-15_12:42:29 ep15.csv
+-rw-rw-r-- 1 <其他用户> mfshared 31839 2026-10-15_12:42:46 ep16.csv
+-rw-rw-r-- 1 <其他用户> mfshared 29597 2026-10-15_12:43:02 ep17.csv
+-rw-rw-r-- 1 <其他用户> mfshared 57255 2026-10-15_12:43:20 ep18.csv
+-rw-rw-r-- 1 <其他用户> mfshared 59310 2026-10-15_12:44:43 ep19.csv
+-rw-rw-r-- 1 <其他用户> mfshared 36381 2026-10-15_12:44:59 ep20.csv
+-rw-rw-r-- 1 <其他用户> mfshared 45113 2026-10-15_12:45:18 ep21.csv
+-rw-rw-r-- 1 <其他用户> mfshared 47687 2026-10-15_12:45:41 ep22.csv
+-rw-rw-r-- 1 <其他用户> mfshared 61557 2026-10-15_12:46:04 ep23.csv
+-rw-rw-r-- 1 <其他用户> mfshared 48493 2026-10-15_12:46:33 ep24.csv
+-rw-rw-r-- 1 <其他用户> mfshared 56699 2026-10-15_12:47:00 ep25.csv
+-rw-rw-r-- 1 <其他用户> mfshared 44764 2026-10-15_12:47:24 ep26.csv
+-rw-rw-r-- 1 <其他用户> mfshared 37907 2026-10-15_12:47:50 ep27.csv
+-rw-rw-r-- 1 <其他用户> mfshared 67784 2026-10-15_12:49:41 ep28.csv
+-rw-rw-r-- 1 <其他用户> mfshared 32798 2026-10-15_12:50:04 ep29.csv
+-rw-rw-r-- 1 <其他用户> mfshared  6022 2026-10-15_12:50:04 summary.json
+== 表头
+episode,frame,state,label_left,label_right,limb_d_m,viol_object_any,viol_lin_held,viol_lin_airborne,viol_lin_supported,viol_rot_torque,viol_rot_jump,viol_rot_jump_symmetric,viol_rest_drift,viol_rot_drift,viol_root_acc,turn_prev_deg,dev_local_deg,orient_outlier,mask_px,iou,evidence
+== 行数（不含表头）
+ep00.csv 778
+ep01.csv 747
+ep02.csv 980
+ep03.csv 781
+ep04.csv 803
+ep05.csv 1003
+ep06.csv 546
+ep07.csv 896
+ep08.csv 708
+ep09.csv 870
+ep10.csv 794
+ep11.csv 901
+ep12.csv 700
+ep13.csv 922
+ep14.csv 993
+ep15.csv 715
+ep16.csv 477
+ep17.csv 440
+ep18.csv 858
+ep19.csv 886
+ep20.csv 553
+ep21.csv 678
+ep22.csv 719
+ep23.csv 946
+ep24.csv 748
+ep25.csv 859
+ep26.csv 669
+ep27.csv 565
+ep28.csv 988
+ep29.csv 467
+== state 取值
+    496 airborne
+  16360 held
+   6134 supported
+== evidence 取值
+    264 no_mask
+     34 no_mask+outlier
+    731 off_image
+     79 off_image+outlier
+  21496 ok
+    386 outlier
+== sha256
+3bd6b9332e1ee0ade2063a8297b8f854a7eac24d7cb48bb11eb014c2fd135f4f  ep00.csv
+c31eb86fbb428336d8f721654241277941eefe57510e4b36d8643a42882c3f81  ep01.csv
+2187340af15b9d84236c8733793ca48d3d67319d87b896d7a135d0eba996bcfd  ep02.csv
+3b89d233e237f97276cffa393feaf97c93c9c045c4450e9c92a8229cc9f0cd9e  ep03.csv
+fbf11a0c7b89c4951fd94034481f3208e1bc325a17ed974c7222f948c585ee5f  ep04.csv
+564875dc4429e0b229d6290384c64a57e7fd59ccdbeab47b6c2f49f40bd59df0  ep05.csv
+e9aa63e7c52a8d856175237c1285f9d2ed9890cddaf9d5045e372feb4ce78c67  ep06.csv
+b354e141a56dbe1f31992430dfe582f5516f84cf2a30547d5600b09e0ec34f1c  ep07.csv
+2542061897b03d890c5061e5169a92fa308328ef59aedce9c159ff57fcf995e1  ep08.csv
+9ab5cd8cc7029679e18280facb48d7a9cba2875e3f6f33702a879b6415a23d0b  ep09.csv
+432150b5dd474628e2a8065c47c95f9e5a531ca4681bd08a5f7d08f7ff05eb55  ep10.csv
+c0900610eed1b8da9fc8be3cd2b732387a72b09e021312a2c62c063d2aac28fc  ep11.csv
+e9815fa47f9db0ffbe83f3d250caf1b45c11a9eff56b8432a59e5f5f3e9d046c  ep12.csv
+eb3a529f14d81593a07a4817cc8a656c53c6bc44be338ccf6ee265d217d8facd  ep13.csv
+f47ddc906bceba6992fc17f989e990c024a68338f1b2396df4cc4a2bc85fc0ee  ep14.csv
+7a4614ee8db6ebd6fdbdafb378b5ababe11e414c3596082935e0b3622bf2860b  ep15.csv
+59cbd94ca6aa28b7a1ca4b5732106f4d9da4b1274702525cb5c2ccf4a167d52e  ep16.csv
+a5dd119281487ccb4b4c50f079082568b9e3b696d4f0a2e8ba4ddea0f1a1512f  ep17.csv
+9cb6221fadb062162390a9a7af7e64a1c8eed96b9b1b143ba61974d6df9f8f7b  ep18.csv
+24bd61b9968e91ea8521485d4bff9f77fc5e5b2fafd9b83afac29c58af1bda3b  ep19.csv
+bb388a8595b1df8c01fddff8f0aa6e6a44e8678a172746edb8fa92e5904bfdaf  ep20.csv
+d32864bf543f24a37ceb3837e6f66dedbc30084a1ba93feca4b839fb4b394a86  ep21.csv
+d96c488698eafcc86f8abb47ecca88a6889f765361c103f3015d2cc0d2812bd0  ep22.csv
+1aa92021044089d86bb967074f398fd0a7299b4dd018157d7cf3e8cc730987e7  ep23.csv
+9a1bdc9a80c37de50af9cce3c81492fc7a344897cd4ed17a6cfb419ae72836a0  ep24.csv
+88da7d8b0b25f14fa360156a7141eea1c2cc3d41cf437193b42be47fb2837721  ep25.csv
+16be8d898ba599f63a59fef0721491b75d1f55e40a4e87e4357d5dac2f57425c  ep26.csv
+accbd06ccb97903c79998a138c17e05d0d49d19cf6132b035cd515bd2398d35d  ep27.csv
+f976b9177517a7495d5be9753809ab3884f8db6a72ea2253affcfbf68f8eef67  ep28.csv
+b1c54b1d2eb3d9a42c68040757b97760423a367d11032d18d0767350df7a14e5  ep29.csv
+61994bc0f1254c2739ccabfe0097c7f924a02e627288407b0a8f192a19e45088  summary.json

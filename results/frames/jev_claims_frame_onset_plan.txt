@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-frame-onset-plan.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f93df4f5b7687ae83e834b55f22a4e78  agent-doc/experiments/2026-10-14-frame-onset-plan.claims.json
+# source   : 78a1878178bf-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T23:49:12-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+gpu_idle             P(supported)=0.96  verified               [gpu_mf, gpu_ml]  两份快照里 mf4090 的 RTX 4090 与 ml40 的 L40S 都是 0 MiB、0 %。
+ho_wait              P(supported)=0.98  verified               [ho]  交接里写着：是否往重建侧投入，等逐帧终止分析，先确认失败是否集中在翻转帧与遮挡段。
+ho_table             P(supported)=0.98  verified               [ho]  交接里写着逐帧证据表的帧号即参考帧号，可直接和逐帧终止帧对照。
+pf_rows              P(supported)=0.98  verified               [pf]  证据表 ep03.csv 有 781 行、ep12.csv 700 行、ep15.csv 715 行、ep16.csv 477 行（不含表头）。
+pf_vals              P(supported)=0.92  verified               [pf]  证据表的 state 列只有 airborne、held、supported 三种值；evidence 列的值有 ok、off_image、outlier、no_mask 以及它们的组合。
+dump_behav           P(supported)=0.95  verified               [dump]  fc_eval_dump.sh 在已有结果时直接打印并返回；GPU 上有别的进程时拒绝评测。
+fo_consts            P(supported)=0.99  verified               [fo]  fall_order.py 里 REPRO_MP 是 0.01，K_MAIN 是 25。
+r3_dev               P(supported)=0.82  verified               [r3]  10/7 的 fall_order 记录里登记了偏离：MP-SR 复现门从 0.01 改为 0.025；t1-ep27-w2048-cap4m-r3a-s43-mf4090 新评与原评差 +0.0142。
+eval_time            P(supported)=0.99  verified               [h3]  mf4090 的 t3pdyn 评测链 10:40:57 CST 开始，10:53:39 CST 以 DAY2_EVAL_DONE（成功 3、失败 0）结束。
+t3_runs              P(supported)=0.99  verified               [t3b, t3q]  t3-ep21-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.501；t3-ep6-w2048-cap10m-r3a-hm-ml40 是 0.198；t3-ep7-w2048-cap10m-r3a-hm-ml40 是 0.996。
+t1_runs              P(supported)=0.98  verified               [t1]  t1c1014b 的选择清单里 ep1 是 t1-ep1-w2048-cap4m-p185-mf4090，ep25 是 t1-ep25-w2048-cap10m-ml40，ep2 是 t1-ep2-w2048-cap10m-r3a-ml40。
+diag_contact         P(supported)=0.82  verified               [diag]  diag_rollout.py 从 policy 内嵌的配置里取参考 parquet，并用参考对象的 contact_active 逐侧取接触。
+chain_conv           P(supported)=0.87  verified               [exp]  export_chain.sh 起链时写 runs/.chain-active-<日志名>，GPU 上有进程时最多等 V2D_GPU_WAIT_S 秒，默认 7200。
+ctl_true_ep8         P(supported)=0.99  control(true) ok       [t3q]  t3-ep8-w2048-cap10m-r3a-hm-ml40 的 MP-SR 是 0.998。
+ctl_true_gpu         P(supported)=0.95  control(true) ok       [gpu_ml]  ml40 的 GPU 是 NVIDIA L40S。
+ctl_false_repro      P(supported)=0.01  control(false) ok      [fo]  fall_order.py 里 REPRO_MP 是 0.05。
+ctl_false_rows       P(supported)=0.01  control(false) ok      [pf]  证据表 ep16.csv 有 715 行（不含表头）。
+controls behaved as expected

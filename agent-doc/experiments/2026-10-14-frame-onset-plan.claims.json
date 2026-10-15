@@ -1,0 +1,37 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "gpu_mf": {"file": "results/ops/gpu_procs_mf4090_1014_2333.txt", "grep": "^== |MiB"},
+    "gpu_ml": {"file": "results/ops/gpu_procs_ml40_1014_2333.txt", "grep": "^== |MiB"},
+    "ho": {"file": "results/t3dyn/handoff_tier3_197a02f.txt", "grep": "逐帧终止分析|逐帧证据表|帧号即参考帧号"},
+    "pf": {"file": "results/ops/t3_perframe_hm_ml40_1014_2355.txt", "grep": "^== |^ep(03|12|15|16)\\.csv [0-9]|^ +[0-9]+ (airborne|held|supported|ok|off_image|outlier|no_mask)"},
+    "dump": {"file": "stages/evaluate/fc_eval_dump.sh", "grep": "已有结果|拒绝评测"},
+    "fo": {"file": "stages/evaluate/fall_order.py", "grep": "^REPRO_MP|^K_MAIN"},
+    "r3": {"file": "results/r3/fall_order_t1.txt", "grep": "偏离登记|t1-ep27-w2048-cap4m-r3a-s43-mf4090: MP-SR"},
+    "h3": {"file": "results/t3dyn/health_t3pdyn_mf4090.txt", "grep": "start t3pdyn_eval|DAY2_EVAL_DONE"},
+    "t3b": {"file": "results/t3p4/eval_table_t3p4b.txt", "grep": "^run|^t3-ep21-"},
+    "t3q": {"file": "results/t3q/eval_table_t3qa.txt", "grep": "^run|^t3-ep[4-8]-"},
+    "t1": {"file": "stages/evaluate/exports/t1_select_t1c1014b.tsv", "grep": "^1\\t(1|2|4|9|11|25|28)\\t"},
+    "diag": {"file": "stages/evaluate/diag_rollout.py", "grep": "contact_active|user.resolved_config_json"},
+    "exp": {"file": "stages/evaluate/export_chain.sh", "grep": "chain-active|V2D_GPU_WAIT_S"}
+  },
+  "claims": [
+    {"id": "gpu_idle", "evidence": ["gpu_mf", "gpu_ml"], "claim": "两份快照里 mf4090 的 RTX 4090 与 ml40 的 L40S 都是 0 MiB、0 %。"},
+    {"id": "ho_wait", "evidence": ["ho"], "claim": "交接里写着：是否往重建侧投入，等逐帧终止分析，先确认失败是否集中在翻转帧与遮挡段。"},
+    {"id": "ho_table", "evidence": ["ho"], "claim": "交接里写着逐帧证据表的帧号即参考帧号，可直接和逐帧终止帧对照。"},
+    {"id": "pf_rows", "evidence": ["pf"], "claim": "证据表 ep03.csv 有 781 行、ep12.csv 700 行、ep15.csv 715 行、ep16.csv 477 行（不含表头）。"},
+    {"id": "pf_vals", "evidence": ["pf"], "claim": "证据表的 state 列只有 airborne、held、supported 三种值；evidence 列的值有 ok、off_image、outlier、no_mask 以及它们的组合。"},
+    {"id": "dump_behav", "evidence": ["dump"], "claim": "fc_eval_dump.sh 在已有结果时直接打印并返回；GPU 上有别的进程时拒绝评测。"},
+    {"id": "fo_consts", "evidence": ["fo"], "claim": "fall_order.py 里 REPRO_MP 是 0.01，K_MAIN 是 25。"},
+    {"id": "r3_dev", "evidence": ["r3"], "claim": "10/7 的 fall_order 记录里登记了偏离：MP-SR 复现门从 0.01 改为 0.025；t1-ep27-w2048-cap4m-r3a-s43-mf4090 新评与原评差 +0.0142。"},
+    {"id": "eval_time", "evidence": ["h3"], "claim": "mf4090 的 t3pdyn 评测链 10:40:57 CST 开始，10:53:39 CST 以 DAY2_EVAL_DONE（成功 3、失败 0）结束。"},
+    {"id": "t3_runs", "evidence": ["t3b", "t3q"], "claim": "t3-ep21-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.501；t3-ep6-w2048-cap10m-r3a-hm-ml40 是 0.198；t3-ep7-w2048-cap10m-r3a-hm-ml40 是 0.996。"},
+    {"id": "t1_runs", "evidence": ["t1"], "claim": "t1c1014b 的选择清单里 ep1 是 t1-ep1-w2048-cap4m-p185-mf4090，ep25 是 t1-ep25-w2048-cap10m-ml40，ep2 是 t1-ep2-w2048-cap10m-r3a-ml40。"},
+    {"id": "diag_contact", "evidence": ["diag"], "claim": "diag_rollout.py 从 policy 内嵌的配置里取参考 parquet，并用参考对象的 contact_active 逐侧取接触。"},
+    {"id": "chain_conv", "evidence": ["exp"], "claim": "export_chain.sh 起链时写 runs/.chain-active-<日志名>，GPU 上有进程时最多等 V2D_GPU_WAIT_S 秒，默认 7200。"},
+    {"id": "ctl_true_ep8", "evidence": ["t3q"], "control": "true", "claim": "t3-ep8-w2048-cap10m-r3a-hm-ml40 的 MP-SR 是 0.998。"},
+    {"id": "ctl_true_gpu", "evidence": ["gpu_ml"], "control": "true", "claim": "ml40 的 GPU 是 NVIDIA L40S。"},
+    {"id": "ctl_false_repro", "evidence": ["fo"], "control": "false", "claim": "fall_order.py 里 REPRO_MP 是 0.05。"},
+    {"id": "ctl_false_rows", "evidence": ["pf"], "control": "false", "claim": "证据表 ep16.csv 有 715 行（不含表头）。"}
+  ]
+}
