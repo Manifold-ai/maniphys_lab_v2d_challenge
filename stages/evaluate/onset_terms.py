@@ -5,7 +5,7 @@
 --pos-thr、--ori-thr 改物体越线的门槛（默认同 fall_order.py 的 0.10 m、0.6 rad）：r3o 计划第 0 步要按 MP-SR 的常数
 （3 cm、30°）与中间值重读“先丢朝向”（agent-doc/plan-r3o-2026-10-15.md，审查第 2 条）。骨盆的门槛不变。
 打印：每条 run 失败世界里 t_obj 存在的个数，其中只有位置超、只有朝向超、两者都超的个数；t_obj 那一步位置误差（cm）与朝向误差（度）的中位；
-t_pel 同样分骨盆位置与朝向；按这组门槛、k = 25 时失败世界里物体先、骨盆先、同时的比例（同 fall_order 的分类，只报）。
+t_pel 同样分骨盆位置与朝向；按这组门槛、k = 25 时摔倒的失败世界（t_pel 存在的）里物体先、骨盆先、同时的比例（口径同 fall_order.shares，只报）。
 自检：三类个数之和等于 t_obj 存在的个数，否则退出码 1。
 用法：python stages/evaluate/onset_terms.py <run> [<run> ...] [--steps 349999104] [--worlds 4096] [--root .] [--pos-thr 0.10] [--ori-thr 0.6]
 """
@@ -65,9 +65,11 @@ def main(argv=None) -> int:
                   f"朝向误差中位 {np.degrees(np.median(obj_at[:, 1])):.1f}°；t_obj 中位第 {int(np.median(t_obj[wo]))} 步")
         if len(wp):
             print(f"  骨盆越线 {len(wp)} 个：只有位置 {pp}，只有朝向 {op}，两者 {bp}（门槛 {float(thr[0])} m、{float(thr[1])} rad）")
-        if failed.any():
-            of, pf, si = fo.classify(t_obj[failed], t_pel[failed], fo.K_MAIN)
-            print(f"  k={fo.K_MAIN}：失败世界 {int(failed.sum())} 个，物体先 {of.mean():.1%}、骨盆先 {pf.mean():.1%}、同时 {si.mean():.1%}")
+        fallen = failed & (t_pel >= 0)
+        if fallen.any():
+            of, pf, si = fo.classify(t_obj[fallen], t_pel[fallen], fo.K_MAIN)
+            print(f"  k={fo.K_MAIN}：摔倒的失败世界 {int(fallen.sum())} 个（失败 {int(failed.sum())} 个），物体先 {of.mean():.1%}、骨盆先 {pf.mean():.1%}、"
+                  f"同时 {si.mean():.1%}")
         if po + oo + bo != len(wo) or pp + op + bp != len(wp):
             print("  自检不过：三类个数之和与越线个数不等")
             bad += 1

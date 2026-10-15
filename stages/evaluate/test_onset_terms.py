@@ -4,7 +4,8 @@
 朝向误差每步涨 0.0121 rad（第 93 步过 0.52 rad、第 100 步过 0.6 rad），骨盆第 180 步越线。斜率避开整步压线，免得 float32 舍入决定越线在哪一步。
 1. 默认门槛（0.10 m、0.6 rad）：物体在第 100 步越线，只有朝向超，k=25 时物体先 100%；
 2. MP-SR 的常数（0.03 m、0.52 rad）：物体在第 69 步越线，只有位置超；
-3. 不同档的 run 一起给：退出码 2。
+3. 不同档的 run 一起给：退出码 2；
+4. 骨盆没越线的失败世界不算进 k=25 的先后（口径同 fall_order.shares）：两个失败世界骨盆不越线时，摔倒的是 8 个、物体先仍是 100%。
 要 numpy 与 pytest。
 """
 
@@ -64,3 +65,17 @@ def test_mixed_tiers_refused(tmp_path):
     make(tmp_path, "t2-ep4-w2048-cap10m-ml40")
     p = call(tmp_path, "t1-ep4-w2048-cap10m-ml40", "t2-ep4-w2048-cap10m-ml40")
     assert p.returncode == 2 and "一次只收同一档" in p.stderr, p.stdout + p.stderr
+
+
+def test_unfallen_worlds_excluded(tmp_path):
+    make(tmp_path, "t1-ep4-w2048-cap10m-ml40")
+    o = tmp_path / "runs/flash_chord/t1-ep4-w2048-cap10m-ml40/eval_dump/eval_1_w9.npz"
+    z = dict(np.load(o))
+    te = z["tracking_error"].copy()
+    te[:, 2:4, 0] = 0.0   # 世界 2、3 失败但骨盆从没越线
+    z["tracking_error"] = te
+    np.savez_compressed(o, **z)
+    p = call(tmp_path, "t1-ep4-w2048-cap10m-ml40")
+    assert p.returncode == 0, p.stdout + p.stderr
+    assert "摔倒的失败世界 8 个（失败 10 个），物体先 100.0%" in p.stdout, p.stdout
+
