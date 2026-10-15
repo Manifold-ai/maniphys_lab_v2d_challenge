@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-15-q2-s43.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7ef36eda04b85a433fd210e9e4455fe8  agent-doc/experiments/2026-10-15-q2-s43.claims.json
+# source   : 752bf0ceb097-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T09:25:37-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+s43_both_zero        P(supported)=0.98  verified               [s43]  t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40 与 t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40 在 4096 个世界上的 MP-SR 都是 0.000。
+s42_pair             P(supported)=0.99  verified               [s42]  t3-ep12-w2048-cap4m-r3a-dyn4-ml40 在 4096 个世界上的 MP-SR 是 0.562，t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 是 0.000。
+s43_pelvis           P(supported)=0.98  verified               [s43]  两条 seed 43 的 run 骨盆失败比例分别是 0.998 和 1.000。
+health_ok            P(supported)=0.98  verified               [health]  训练链完成 2 条、失败 0、发散 0；两条 run 的看守扫描里含非有限值的扫描行都是 0；评测链成功 2 条；导出链成功 2 条。
+pairs_max            P(supported)=0.98  verified               [pairs]  这 8 对种子的 MP-SR 差最大是 0.348，没有一对超过 0.4。
+ctl_true_t2          P(supported)=0.97  control(true) ok       [t2]  t2-ep12-w2048-cap10m-r3a-ml40 在 4096 个世界上的 MP-SR 是 0.988。
+ctl_false_s43_col    P(supported)=0.02  control(false) ok      [s43]  t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40 在 4096 个世界上的 MP-SR 是 0.094。
+ctl_false_s42        P(supported)=0.01  control(false) ok      [s42]  t3-ep12-w2048-cap4m-r3a-dyn4-ml40 在 4096 个世界上的 MP-SR 是 0.000。
+ctl_false_export     P(supported)=0.01  control(false) ok      [health]  导出链有 1 条失败。
+controls behaved as expected

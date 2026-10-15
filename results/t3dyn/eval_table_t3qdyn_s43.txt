@@ -1,0 +1,19 @@
+# command  : python3 stages/evaluate/eval_table.py results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40_s349999104.txt results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40_s349999104.txt results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4-ml40_s349999104.txt results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4s-ml40_s349999104.txt results/day2/eval_t3-ep12-w2048-cap4m-r3a-hm-mf4090_s349999104.txt results/ml40/day2/eval_t2-ep12-w2048-cap10m-r3a-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : 0e0f9ae9eb9791f728aaea74be7b3639  results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40_s349999104.txt
+# md5      : 4af737037e5704bc3f00be1b950bb570  results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40_s349999104.txt
+# md5      : 4b448a966711f5f843c2352833ce680c  results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4-ml40_s349999104.txt
+# md5      : bb3d00559b2ad898b87db20a0586343e  results/ml40/day2/eval_t3-ep12-w2048-cap4m-r3a-dyn4s-ml40_s349999104.txt
+# md5      : 96b3061233f84a34c06156c759ccf711  results/day2/eval_t3-ep12-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+# md5      : 5524f9364cafaef99fe9ac9f9cadaa38  results/ml40/day2/eval_t2-ep12-w2048-cap10m-r3a-ml40_s349999104.txt
+# source   : 752bf0ceb097
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T09:24:05-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40	349999104	4096	700	0.000	0.094	0.239	21.84	21.59	56.1	0.000	0.998	1.000	1.000	ef1659b19603
+t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40	349999104	4096	700	0.000	0.000	0.233	23.11	22.88	77.5	0.000	1.000	1.000	1.000	af4807060771
+t3-ep12-w2048-cap4m-r3a-dyn4-ml40	349999104	4096	700	0.562	0.730	0.453	13.38	13.28	23.3	0.657	0.292	0.315	0.326	a1468c42156e
+t3-ep12-w2048-cap4m-r3a-dyn4s-ml40	349999104	4096	700	0.000	0.779	0.275	8.65	8.52	22.8	0.000	0.973	0.989	1.000	55988bc30f96
+t3-ep12-w2048-cap4m-r3a-hm-mf4090	349999104	4096	700	0.000	0.000	0.159	27.18	26.96	75.5	0.000	0.999	1.000	1.000	dc876434d747
+t2-ep12-w2048-cap10m-r3a-ml40	349999104	4096	700	0.988	0.989	0.753	1.88	1.83	6.2	0.983	0.012	0.012	0.017	d9afcc9484fb

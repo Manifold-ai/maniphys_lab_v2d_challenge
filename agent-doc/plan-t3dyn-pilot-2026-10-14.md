@@ -268,3 +268,24 @@ ep3 同样适用；取消 ep16 的停手规则，改为在第 4 节预先登记�
   ep06 的 MP-SR 是 0.198（此前误作 0.815，那是 chord_sr），是这个假设的反例；best_dyn5、best_dyn6 不要用；best_dyn7 是新候选（新对称判据、第 3 步
   稳健化），21:14 起在 ml40 上用 CPU 跑重定向、门槛与动力学检查（`results/ops/t3_queue_ml40_1014_2125.txt`），尚未交付。两台 GPU 21:30 都空着
   （`results/ops/gpu_procs_mf4090_1014_2125.txt`、`results/ops/gpu_procs_ml40_1014_2125.txt`）。
+- 10/15 09:23 ml40 的 Q2 补种子（`t3qdyn_s43`，计划 `agent-doc/plan-overnight-2026-10-15.md`）结束：dyn4 s43 04:07–06:38、dyn4s s43 06:38–09:08 训练，
+  评测 09:09–09:20，导出 09:21–09:23；训练完成 2、失败 0、发散 0，看守扫描非有限 0，导出 world_count 4096、non_finite_worlds 0
+  （`results/q2/health_t3qdyn_s43_ml40.txt`；其中 `DIVERGE_IN_CHAIN … 1` 数的是 `DAY2_TRAIN_DONE（… 发散 0）` 这一行本身）。两种分数并列，4096 世界为主
+  （`results/t3dyn/eval_table_t3qdyn_s43.txt`；导出那 1 局见 `results/ml40/submission/exports/cand_t3_t3qdyn*_ml40_*`）：
+
+  | run | 4096 世界 MP-SR / SP-SR / ADD-AUC / MPPE / 骨盆失败比例 | 导出那 1 局 MP / SP / ADD-AUC / MPPE |
+  |---|---|---|
+  | dyn4 s43 | 0.000 / 0.094 / 0.239 / 21.84 cm / 0.998 | 0 / 1 / 0.235 / 8.73 cm |
+  | dyn4s s43 | 0.000 / 0.000 / 0.233 / 23.11 cm / 1.000 | 0 / 0 / 0.233 / 22.31 cm |
+  | dyn4 s42（10/14） | 0.562 / 0.730 / 0.453 / 13.38 cm / 0.292 | 1 / 1 / 0.542 / 2.86 cm |
+  | dyn4s s42（10/14） | 0.000 / 0.779 / 0.275 / 8.65 cm / 0.973 | 0 / 1 / 0.259 / 6.58 cm |
+
+  Q2 判读（第 4 节，以及 plan-overnight 第 4 节新登记的两条）：s43 这一对 dyn4s 减 dyn4 为 0.000，绝对值小于 0.4，记“两种子不一致，看不出差别”；
+  s42 那一对的“平滑疑似变差”没有得到 s43 的印证，不算数。s43 的 dyn4 低于 0.6，“不是瓶颈”不适用。按登记，全量重训若做仍用 best_dyn4（这一对只供参考）。
+  并列报（计划外，不改判据）：同一配置的 dyn4，seed 42 是 0.562、seed 43 是 0.000，差 0.562，大于 Tier 1 r3a 同配置 8 对种子的最大差 0.348
+  （`results/t3dyn/seed_pair_diff_t1_cap4m_r3a.txt`，只用来解读）。试点里唯一的正面结果“ep12 在 best_dyn4 上跟上 56%”换种子没有复现，
+  不能当作 best_dyn4 有用的证据；seed 43 两版的骨盆失败比例都接近 1。
+  jev 5 条核实（0.98–0.99），对照 4 道正常（`results/t3dyn/jev_claims_q2_s43.txt`；规格 `agent-doc/experiments/2026-10-15-q2-s43.claims.json`）。
+  第一次核对整批作废：假对照“dyn4 s43 的 MP-SR 是 0.562”得 0.92，jev 把 s43 与 s42 两行认混了；改为按种子分别取证据行、加一道读错列的假对照后重跑
+  （作废那次的输出没有留下：`scripts/dev/record` 重跑成功时删掉同名的 `.failed`。那次 5 条说法 0.94–0.99，失败的就是这道假对照
+  `ctl_false_s43 P(supported)=0.92 CONTROL(false) FAILED`，另两道对照正常）。

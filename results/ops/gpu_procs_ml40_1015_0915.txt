@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes ml40 bash\ -s 
+# source   : 752bf0ceb097
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T09:16:01-0600
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-15 23:16:03 CST
+NVIDIA L40S, 765 MiB, 46068 MiB, 0 %
+469398, 756 MiB
+## GPU 进程 469398：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  469398 本用户 01:27 [Thu Oct 15 23:14:35 2026] python scripts/evaluate_policy.py evaluation.checkpoint=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/policy_349999104.safetensors evaluation.world_count=4096 evaluation.metrics_output=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/eval_349999104_w4096.json hydra.run.dir=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/hydra/eval-349999104-w4096
+  469367 root 01:27 [Thu Oct 15 23:14:35 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 69911fddd41638f7a30b1eb2cc784a5d4ef4c5123984a362be37b5eb078ef3dd -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-eval-t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40
+image flash_chord:latest
+created 2026-10-15T15:14:36.827857132Z  started 2026-10-15T15:14:36.884809454Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","cd /workspace && python scripts/evaluate_policy.py evaluation.checkpoint=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/policy_349999104.safetensors evaluation.world_count=4096 evaluation.metrics_output=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/eval_349999104_w4096.json hydra.run.dir=/repo/runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40/hydra/eval-349999104-w4096 "]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/fc_8c778f9 -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+## 运行中的容器（列表）
+69911fddd416 flash_chord:latest About a minute ago Up About a minute fc-eval-t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
