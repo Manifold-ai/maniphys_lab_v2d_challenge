@@ -91,3 +91,19 @@
   （`results/q2/push_t3qdyn_s43_ml40.txt`）；配置核对通过、意外 0 个（`results/q2/cfgcheck_t3qdyn_s43_ml40.txt`）；挂上第二个 arm_after，
   `V2D_AFTER_MAX_POLLS=1080`，日志里记下的队列 md5 与推上去的相同（`results/q2/arm_after_launch_t3qdyn_s43_ml40.txt`）。
 - 01:32 ml40 的 dump 链结束，arm_after 起甲的 ep19（`t1yb_s43`）；01:52 mf4090 的 dump 链结束，arm_after 起甲的 ep14（`t1xb_s43`）。
+- 03:56 ml40 甲的 ep19 结束：冒烟 01:32–01:37，训练 01:37–03:48，评测 03:49–03:54，导出 03:56；完成 1、失败 0、发散 0，看守扫描非有限 0，
+  导出 world_count 4096、non_finite_worlds 0（`results/jia/health_t1yb_s43_ml40.txt`）。03:57 arm_after 起 Q2（`t3qdyn_s43`）：两条冒烟都过，
+  dyn4 s43 04:07–06:38 训练，dyn4s s43 06:38 起训练（`results/q2/status_ml40_1015_0730.txt`）。
+- 04:30 mf4090 甲的 ep14 结束：冒烟 01:52–01:57，训练 01:57–04:21，评测 04:22–04:28，导出 04:29–04:30；完成 1、失败 0、发散 0，看守扫描非有限 0，
+  导出 world_count 4096、non_finite_worlds 0（`results/jia/health_t1xb_s43_mf4090.txt`）。两份健康记录里的 `DIVERGE_IN_CHAIN … 1` 数的是
+  `DAY2_TRAIN_DONE（… 发散 0）` 这一行本身（`chain_health_remote.sh` 用 `grep -c '发散'`），不是发散。此后 mf4090 空闲（07:31 显存 0 MiB、利用率 0%）。
+- 07:30 按第 4 节读甲（两种分数并列，4096 世界为主；`results/jia/eval_table_jia_s43.txt`，导出那 1 局见 `results/submission/exports/` 与
+  `results/ml40/submission/exports/` 下的 `cand_t1_t1[xy]b_s43_*` 记录）：
+
+  | run | 4096 世界 MP-SR / SP-SR / ADD-AUC / MPPE | 导出那 1 局 MP / SP / ADD-AUC / MPPE | 同集 seed 42 变体 A（4096 世界 MP-SR） |
+  |---|---|---|---|
+  | `t1-ep14-w2048-cap4m-r3a-s43-mf4090` | 0.565 / 0.775 / 0.447 / 11.11 cm | 0 / 0 / 0.148 / 84.74 cm | 0.677 |
+  | `t1-ep19-w2048-cap10m-r3a-s43-ml40` | 0.030 / 0.656 / 0.383 / 20.44 cm | 0 / 1 / 0.477 / 3.48 cm | 0.258 |
+
+  ep14：0.565 不低于 0.3，按停手规则不停；补 s44 由用户定（`plan-first-place-2026-10-14.md` 第 7 节第 2 条），未排。ep19：0.030 低于 0.2，
+  这一集不再补，现有最好的仍是 seed 42 变体 A 的 0.258。两条导出的那 1 局 MP 都失败，所以“那 1 局成功的集不再补”这条用不上。

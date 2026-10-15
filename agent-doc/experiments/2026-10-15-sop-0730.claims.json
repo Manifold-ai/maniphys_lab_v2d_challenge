@@ -1,0 +1,38 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "lb": {"file": "results/submission/leaderboard_1014_2000.txt", "grep": "^== |maniphys|Xueyi"},
+    "rules": {"file": "results/ops/kaggle_rules_submission_1014.txt", "grep": "Final Submissions for judging|Held-out evaluation"},
+    "zero": {"file": "results/first/zero_ep19_ml40_rep2.txt", "grep": "^s349999104"},
+    "jia": {"file": "results/jia/eval_table_jia_s43.txt", "grep": "^run|^t1-ep1[49]"},
+    "tp": {"file": "results/t3dyn/eval_table_t3pdyn.txt", "grep": "^run|^t3-"},
+    "tq": {"file": "results/t3dyn/eval_table_t3qdyn.txt", "grep": "^run|^t3-"},
+    "collab": {"file": "results/ops/collab_check_nvidia_1014_2000.txt", "grep": "^# run_at|^==|^HTTP|^none"},
+    "q2": {"file": "results/q2/status_ml40_1015_0730.txt", "grep": "^=== |写于"},
+    "mf": {"file": "results/ops/gpu_procs_mf4090_1015_0730.txt", "grep": "^# run_at|RTX 4090"},
+    "hmf": {"file": "results/jia/health_t1xb_s43_mf4090.txt", "grep": "看守|DAY2_TRAIN_DONE|EXPORT_CHAIN_DONE"},
+    "handoff": {"file": "results/t3dyn/handoff_tier3_197a02f.txt", "grep": "best_dyn7|best_dyn5|best_dyn6|交付版仍是"},
+    "join": {"file": "results/frames/t3_onset_evidence.txt", "grep": "^== 窗口 15|p = 0\\.00[13]）"}
+  },
+  "claims": [
+    {"id": "lb_t2mppe", "evidence": ["lb"], "claim": "2026-10-14 20:00 的榜上，Tier 2 MPPE 榜 maniphys.ai 是 15.32195、排第一，Xueyi Wang (FF) 是 15.34253、排第二。"},
+    {"id": "lb_t1", "evidence": ["lb"], "claim": "2026-10-14 20:00 的榜上，Tier 1 SP-SR 榜 maniphys.ai 排第一；Tier 1 AUC、MP-SR、MPPE 三个榜 maniphys.ai 都排第二，排第一的都是 Xueyi Wang (FF)。"},
+    {"id": "rules_final", "evidence": ["rules"], "claim": "规则写明比赛结束后由主办方用不属于比赛数据、也不分发给参赛者的数据评各队选定的方案，每队最多选 2 个 Final Submission。"},
+    {"id": "zero3", "evidence": ["zero"], "claim": "同一个 checkpoint（729280de2d28）导出 3 次，spider_sr_uncentered 分别是 1.0、1.0、0.0，maniptrans_sr 都是 0.0，mppe_cm 分别是 3.681、3.293、15.723。"},
+    {"id": "jia14", "evidence": ["jia"], "claim": "t1-ep14-w2048-cap4m-r3a-s43-mf4090 在 4096 个世界上的 MP-SR 是 0.565，同集 t1-ep14-w2048-cap4m-r3a-mf4090 是 0.677。"},
+    {"id": "jia19", "evidence": ["jia"], "claim": "t1-ep19-w2048-cap10m-r3a-s43-ml40 在 4096 个世界上的 MP-SR 是 0.030，t1-ep19-w2048-cap10m-r3a-ml40 是 0.258。"},
+    {"id": "pdyn", "evidence": ["tp"], "claim": "dyn4 版本上 ep15、ep3、ep16 的 MP-SR 分别是 0.000、0.106、0.000；同集 hm 版本的 MP-SR 都是 0.000。"},
+    {"id": "qdyn", "evidence": ["tq"], "claim": "ep12 的 dyn4 版 MP-SR 是 0.562；dyn4s 版 MP-SR 是 0.000，骨盆失败比例 0.973；同集 hm 版 MP-SR 是 0.000。"},
+    {"id": "collab", "evidence": ["collab"], "claim": "2026-10-14 20:01（UTC-6）查询时，Nvidia-V2D-Challenge 不是仓库协作者：返回 404，权限 none。"},
+    {"id": "q2", "evidence": ["q2"], "claim": "ml40 上 t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40 在 20:38:52 CST 训完，t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40 同一时刻开始正式训练，到 21:27 CST 最新的 policy 是 110004224 步。"},
+    {"id": "mfidle", "evidence": ["mf"], "claim": "2026-10-15 07:31（UTC-6）时，mf4090 的 RTX 4090 显存占用 0 MiB、利用率 0%。"},
+    {"id": "jia_health", "evidence": ["hmf"], "claim": "mf4090 上 t1-ep14 seed 43 的训练链完成 1 条、发散 0；看守扫描里含非有限值的扫描行是 0；导出链成功 1 条。"},
+    {"id": "dyn7", "evidence": ["handoff"], "claim": "best_dyn7 是候选、尚未交付，交付版仍是 best_hm；best_dyn5、best_dyn6 标为不要用。"},
+    {"id": "join_n", "evidence": ["join"], "claim": "15 帧窗口下，F_jump 有 4 条 run 进入汇总，F_rot 有 5 条，两者都读作集中。"},
+    {"id": "ctl_true_t1mppe", "evidence": ["lb"], "control": "true", "claim": "2026-10-14 20:00 的榜上，Tier 1 MPPE 榜排第一的是 Xueyi Wang (FF)，分数 8.22045。"},
+    {"id": "ctl_false_jia14", "evidence": ["jia"], "control": "false", "claim": "t1-ep14-w2048-cap4m-r3a-s43-mf4090 在 4096 个世界上的 MP-SR 是 0.677。"},
+    {"id": "ctl_false_collab", "evidence": ["collab"], "control": "false", "claim": "2026-10-14 20:01（UTC-6）查询时，Nvidia-V2D-Challenge 已经是仓库协作者，权限 write。"},
+    {"id": "ctl_false_dyn7", "evidence": ["handoff"], "control": "false", "claim": "best_dyn7 已经交付，取代 best_hm 成为交付版。"},
+    {"id": "ctl_false_zero", "evidence": ["zero"], "control": "false", "claim": "同一个 checkpoint 导出 3 次，三次的 mppe_cm 完全相同。"}
+  ]
+}
