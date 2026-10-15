@@ -169,7 +169,9 @@ def make(part: str, root: Path, report: list = None) -> dict:
         qdir / f"{stem}_smoke.txt": "\n".join([head, *sm]) + "\n",
         qdir / f"{stem}.txt": "\n".join([head, *fo]) + "\n",
         root / "stages" / "evaluate" / "exports" / f"cand_t3_{part}_{s['machine']}.tsv":
-            "\n".join([f"# {s['desc']}，段 {part} 的候选导出（计划 {PLAN}）：档位 episode run 步数。make_copy_queue.py 生成，不要手改。", *cand]) + "\n",
+            "\n".join([f"# {s['desc']}，段 {part} 的候选导出（计划 {PLAN}）：档位 episode run 步数。"
+                       + (f"本段改种子：seed {s['seed']}。" if s.get("seed") is not None else "")
+                       + "make_copy_queue.py 生成，不要手改。", *cand]) + "\n",
     }
 
 

@@ -1,0 +1,19 @@
+# command  : python3 stages/policy/make_copy_queue.py t3qdyn --check 
+# md5      : a66a525170b18ed3c917a06b6a971589  stages/policy/make_copy_queue.py
+# source   : e014818d9332-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:48:57-0600
+# ---------------------------------------------------------------
+t3-ep12-w2048-cap4m-r3a-dyn4-ml40（源 t3-ep12-w2048-cap4m-r3a-hm-mf4090）
+  正式行：V2D_WANDB_TAG=t3p4 → V2D_WANDB_TAG=t3dyn；t3-ep12-w2048-cap4m-r3a-hm-mf4090 → t3-ep12-w2048-cap4m-r3a-dyn4-ml40；/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet → /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  冒烟行：smoke-t3-ep12-w2048-cap4m-r3a-hm-mf4090 → smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40；/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet → /repo/runs/motion/tier3_dyn4/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  期望表：t3-ep12-w2048-cap4m-r3a-hm-mf4090 → t3-ep12-w2048-cap4m-r3a-dyn4-ml40；smoke-t3-ep12-w2048-cap4m-r3a-hm-mf4090 → smoke-t3-ep12-w2048-cap4m-r3a-dyn4-ml40
+t3-ep12-w2048-cap4m-r3a-dyn4s-ml40（源 t3-ep12-w2048-cap4m-r3a-hm-mf4090）
+  正式行：V2D_WANDB_TAG=t3p4 → V2D_WANDB_TAG=t3dyn；t3-ep12-w2048-cap4m-r3a-hm-mf4090 → t3-ep12-w2048-cap4m-r3a-dyn4s-ml40；/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet → /repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  冒烟行：smoke-t3-ep12-w2048-cap4m-r3a-hm-mf4090 → smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40；/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet → /repo/runs/motion/tier3_dyn4s/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+  期望表：t3-ep12-w2048-cap4m-r3a-hm-mf4090 → t3-ep12-w2048-cap4m-r3a-dyn4s-ml40；smoke-t3-ep12-w2048-cap4m-r3a-hm-mf4090 → smoke-t3-ep12-w2048-cap4m-r3a-dyn4s-ml40
+相同 stages/policy/queues/ml40_t3qdyn.expect.tsv
+相同 stages/policy/queues/ml40_t3qdyn_smoke.txt
+相同 stages/policy/queues/ml40_t3qdyn.txt
+相同 stages/evaluate/exports/cand_t3_t3qdyn_ml40.tsv
+COPY_CHECK_OK
