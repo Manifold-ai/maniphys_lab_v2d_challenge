@@ -28,11 +28,13 @@ untouched. Per episode, in this order:
             else. The human-layer held and the anchors judged a different object than the check does; frames one called
             held and the other unheld stayed unlocked, and the check measured them as drift (ep13, ep01, ep19; ep24 had no
             anchors at all and nothing was locked).
-  held      a held run's ends would now jump to the locked neighbours. The jump is spread over the run: the position
-            offset and the rotation offset (slerp) go linearly from the one needed at its start to the one needed at
-            its end; at the episode's start or end, where nothing constrains the pose, the offset is zero, so the
-            run tapers back to the input (taking the single offset it has moved all of ep02's last 587 frames by
-            the 12 cm a resting run before them lost). Then the run's interior is
+  held      a held run's ends would now jump to the locked neighbours. Each end's offset (position, and rotation by
+            slerp) fades to zero over TAPER_S into the run (cosine), so the run meets the locked runs without a step
+            and its middle keeps the input, where the hand holds it; a run shorter than 2 TAPER_S spreads the two
+            offsets linearly over its length. At the episode's start or end nothing constrains the pose and that
+            end's offset is zero. Until 10-15 every run spread its end offsets linearly over its whole length: ep07's
+            two rests lost 5.8 and 4.7 cm of reconstruction drift when locked, and the 709 frames between them moved
+            ~5 cm, away from the hand and off the image (IoU 0.863 -> 0.835); dyn5 had lost contacts the same way. Then the run's interior is
             smoothed (centre of mass by a local quadratic over WINDOW_S, orientation by a windowed chordal mean); the
             ends stay where the offsets put them, so the locked runs and the held ones meet without a step.
   outliers  the input's orientation jumps on single frames (the reconstruction flipping: ep03 turns 120 deg at frame
@@ -70,6 +72,7 @@ MIN_RUN = 3  # frames
 WINDOW_S = 0.3
 OUTLIER_DEG = 20.0
 MAX_OFFSET_DEG = 20.0
+TAPER_S = 0.5  # an end's offset fades to zero over this much of the unlocked run (cosine)
 
 
 def to_R(q):  # wxyz -> matrices
@@ -222,9 +225,19 @@ def main() -> None:
                     if deg > MAX_OFFSET_DEG:
                         dropped.append({"run": [a, b], "end": "start" if k == 0 else "end", "deg": round(deg, 1)})
                         d0, d1 = ((d0[0], np.eye(3)), d1) if k == 0 else (d0, (d1[0], np.eye(3)))
-                w = np.linspace(0, 1, b - a + 2)[1:-1]
-                dp = (1 - w)[:, None] * d0[0] + w[:, None] * d1[0]
-                dR = Slerp([0, 1], Rotation.from_matrix([d0[1], d1[1]]))(w).as_matrix()
+                L, nt = b - a, int(round(TAPER_S * FPS))
+                if L >= 2 * nt:  # each end's offset fades out near it; the middle keeps the input (and the hand)
+                    i = np.arange(L, dtype=np.float64)
+                    w0 = np.where(i < nt, 0.5 * (1 + np.cos(np.pi * (i + 1) / (nt + 1))), 0.0)
+                    w1 = w0[::-1]
+                    dp = w0[:, None] * d0[0] + w1[:, None] * d1[0]
+                    r0 = Slerp([0, 1], Rotation.from_matrix([np.eye(3), d0[1]]))(w0).as_matrix()
+                    r1 = Slerp([0, 1], Rotation.from_matrix([np.eye(3), d1[1]]))(w1).as_matrix()
+                    dR = np.einsum("fij,fjk->fik", r1, r0)
+                else:  # too short to fade both ends: spread linearly as before
+                    w = np.linspace(0, 1, L + 2)[1:-1]
+                    dp = (1 - w)[:, None] * d0[0] + w[:, None] * d1[0]
+                    dR = Slerp([0, 1], Rotation.from_matrix([d0[1], d1[1]]))(w).as_matrix()
                 c = com[a:b] + dp
                 r = np.einsum("fij,fjk->fik", dR, Rc[a:b])
                 if b - a > win:
