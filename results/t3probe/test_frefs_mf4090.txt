@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ --version\ \&\&\ python3\ -c\ \"import\ numpy\,\ pyarrow\;\ print\(\\\"numpy\\\"\,\ numpy.__version__\,\ \\\"pyarrow\\\"\,\ pyarrow.__version__\)\"\ \&\&\ python3\ stages/evaluate/test_make_frame_refs_t3.py\ 2\>\&1\ \|\ tail\ -7 
+# md5      : 3893e38f7aeda8a31fe969f2bb04de35  stages/evaluate/test_make_frame_refs_t3.py
+# source   : 4c6b2da4ef06
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:59:07-0600
+# ---------------------------------------------------------------
+Python 3.10.12
+numpy 2.2.6 pyarrow 25.0.1
+  （没有 pandas：跳过用 kit 函数核四元数约定）
+ok  test_normal
+ok  test_row_failures
+ok  test_refusals
+ok  test_tier1_blocked
+ALL_OK

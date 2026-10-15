@@ -1,0 +1,31 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/evaluate/make_frame_refs_t3.py\ stages/evaluate/exports/t3_select_probe1015.tsv\ mf4090\ --out\ runs/submission/frame_refs_t3_probe1015 
+# md5      : f9cadb08905e017d623162b11e50dbda  stages/evaluate/make_frame_refs_t3.py
+# md5      : ab988c2f5a634d2ac1062c01b9a79a1c  stages/evaluate/exports/t3_select_probe1015.tsv
+# source   : 4c6b2da4ef06
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:59:29-0600
+# ---------------------------------------------------------------
+== Tier 3 帧参考：mf4090（VM-1-2-ubuntu）上 22 集（清单另有 8 集在别的机器）→ runs/submission/frame_refs_t3_probe1015（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep0  t3-ep0-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-06-04_14-16-23_tall_bar_stool_tip_up_04，778 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep1  t3-ep1-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-18_17-06-21_vacuum_left_lean_02，747 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 1.3e-15
+  ok   ep2  t3-ep2-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-06-02_10-04-42_blue_easter_basket_place_10，980 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep3  t3-ep3-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05，781 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 8.9e-16，四元数转回矩阵最大差 8.9e-16
+  ok   ep12 t3-ep12-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-04-25_17-20-04_black_platform_turn_05，700 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep13 t3-ep13-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-06-09_10-19-09_snack_box_desk_through_06，922 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep14 t3-ep14-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-28_14-44-09_round_table_flip_08，993 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep15 t3-ep15-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08，715 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.4e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep16 t3-ep16-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02，477 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep17 t3-ep17-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-01_17-04-55_traffic_cone_ground_table_02，440 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep18 t3-ep18-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08，858 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 6.7e-16，四元数转回矩阵最大差 6.7e-16
+  ok   ep19 t3-ep19-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-19_10-19-48_cane_swing_05，886 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 1.3e-15
+  ok   ep20 t3-ep20-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-06-08_16-57-34_rice_cooker_clockwise_04，553 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep21 t3-ep21-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-04-29_11-53-57_tall_bar_stool_pull_08，678 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep22 t3-ep22-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-05-22_16-52-36_step_ladder_drag_03，719 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep23 t3-ep23-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04，946 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep24 t3-ep24-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-05-29_15-43-20_watering_can_pour_right_02，748 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep25 t3-ep25-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-03-20_11-59-57_cyan_water_bottle_rotate_01，859 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep26 t3-ep26-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-06-05_16-05-08_skateboard_rotate_ground_10，669 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep27 t3-ep27-w2048-cap4m-r3a-hm-mf4090：tier3_hm/2026-05-01_11-15-05_woven_basket_ground_desk_10，565 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep28 t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090：tier3_hm28/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_，988 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep29 t3-ep29-w2048-cap4m-r3a-v2-mf4090：tier3_v2/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06，467 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.1e-15，四元数转回矩阵最大差 8.9e-16
+FRAME_REFS_T3_OK 22

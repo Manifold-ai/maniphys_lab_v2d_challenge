@@ -1,0 +1,7 @@
+# command  : python3 stages/evaluate/frefs_t3_match.py runs/submission/select_t3_probe1015/t3 runs/submission/select_t3_probe1015/frame_refs 
+# md5      : 5f252bc83afeedc7b3658e3397598741  stages/evaluate/frefs_t3_match.py
+# source   : 4c6b2da4ef06
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T16:00:26-0600
+# ---------------------------------------------------------------
+FREFS_T3_MATCH_OK 30

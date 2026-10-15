@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/evaluate/make_frame_refs_t3.py stages/evaluate/test_make_frame_refs_t3.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : f9cadb08905e017d623162b11e50dbda  stages/evaluate/make_frame_refs_t3.py
+# md5      : 3893e38f7aeda8a31fe969f2bb04de35  stages/evaluate/test_make_frame_refs_t3.py
+# source   : 4c6b2da4ef06
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:58:54-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 4c6b2da4ef06；远端来历 e396fde1b00a
+  ok   f9cadb08905e017d623162b11e50dbda  stages/evaluate/make_frame_refs_t3.py
+  ok   3893e38f7aeda8a31fe969f2bb04de35  stages/evaluate/test_make_frame_refs_t3.py
+远端来历（放完）e396fde1b00a
+PUSH_OK（2 个文件）

@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_GPU=0\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/evaluate/make_frame_refs_t3.py\ /repo/stages/evaluate/exports/t3_select_probe1015.tsv\ ml40\ --out\ /repo/runs/submission/frame_refs_t3_probe1015\"\ 2\>\&1\ \|\ grep\ -v\ \"\^in-flash-chord\" 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : f9cadb08905e017d623162b11e50dbda  stages/evaluate/make_frame_refs_t3.py
+# md5      : ab988c2f5a634d2ac1062c01b9a79a1c  stages/evaluate/exports/t3_select_probe1015.tsv
+# source   : 4c6b2da4ef06
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:59:30-0600
+# ---------------------------------------------------------------
+== Tier 3 帧参考：ml40（VM-0-16-ubuntu）上 8 集（清单另有 22 集在别的机器）→ /repo/runs/submission/frame_refs_t3_probe1015（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep4  t3-ep4-w2048-cap10m-r3a-hm-ml40：tier3_hm/2026-04-24_11-40-52_baseball_bat_rotate_05，803 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep5  t3-ep5-w2048-cap10m-r3a-hm-ml40：tier3_hm/2026-03-18_19-36-56_g1_box_rotate_01，1003 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep6  t3-ep6-w2048-cap10m-r3a-hm-ml40：tier3_hm/2026-06-01_11-26-44_monitor_rotate_05，546 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.2e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep7  t3-ep7-w2048-cap10m-r3a-hm-ml40：tier3_hm/2026-05-29_15-20-43_iron_round_table_02，896 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.2e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep8  t3-ep8-w2048-cap10m-r3a-hm-ml40：tier3_hm/2026-06-05_15-08-08_skinny_wood_chair_push_10，708 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep9  t3-ep9-w2048-cap10m-r3a-hm-ph-ml40：tier3_hm/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03，870 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.9e-15，四元数转回矩阵最大差 1.3e-15
+  ok   ep10 t3-ep10-w2048-cap10m-r3a-hm-ph-ml40：tier3_hm/2026-05-01_11-36-40_white_desk_lower_to_ground_10，794 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 6.7e-16，四元数转回矩阵最大差 8.9e-16
+  ok   ep11 t3-ep11-w2048-cap10m-r3a-hm-ph-ml40：tier3_hm/2026-04-24_13-56-58_light_blue_book_pick_place_09，901 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+FRAME_REFS_T3_OK 8
