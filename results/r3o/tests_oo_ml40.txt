@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ echo\ \"==\ nfg\"\ \&\&\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/nfg_test_kernels.py\"\ 2\>\&1\ \|\ grep\ -E\ \"\^K\[12\]\|NFG_KERNELS\"\ \&\&\ echo\ \"==\ oo\"\ \&\&\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/oo_test_kernels.py\"\ 2\>\&1\ \|\ grep\ -E\ \"\^O\[0-9\]\|OO_KERNELS\|Error\" 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 1837375c85a290f13f23c9ffff123a3b  stages/policy/nfg_test_kernels.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : ecb0c203730a1836c0011d09e0631cd4  stages/policy/oo_test_kernels.py
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:01:50-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+== nfg
+K1 CPU：512 个世界全部有限，12 个输出逐位相同（其中 506 个世界被判终止）
+K1 CPU：注入的 4 个世界都被判骨盆失败、误差写成 -1 与 0；999 m 那个不算；其余世界与上游逐位相同（上游对世界 3 的 pelvis_done 是 0）
+K2：只清在重置掩码里、含非有限值的行（整行清零）；很大的有限值与掩码外的世界不动；取行的函数三种情形都对
+NFG_KERNELS_OK
+== oo
+O1/O2：64 个世界，前 12 项与分数逐位相同；第 13 项与 numpy 最大差 1.20e-06，范围 1.97e-09–0.999999；权重 1 时分数差与 frame_dt × 第 13 项最大差 5.16e-07
+O3：set_weights 补第 13 个、课程写了就用写的、少名字报错
+O7：类里 launch 的 39 个实参与 kernel 形参一一对应（核了 13 个关键位置）
+O4/O6：weights_for 补第 13 个、别的目标函数不变；默认 0 与 0.4；非法值报错
+O5：/workspace/src/flash_chord/configs/curriculum/recon_body_flash_sac.yaml 的 9 段逐段 weights_for，第 13 个都是 1.0，前 12 个等于这一段的映射
+OO_KERNELS_OK

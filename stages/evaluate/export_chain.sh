@@ -4,12 +4,15 @@
 # 用法：V2D_FC_SRC=<8c778f9 副本> [V2D_WAIT_FOR_EVAL_LOG=<上一段评测链日志>] [V2D_COMPAT_GATE=<compat 门槛文件>] \
 #         stages/evaluate/export_chain.sh <导出清单> <日志名>
 #       预检：V2D_EXPORT_CHAIN_DRYRUN=1 加上同样的环境与参数（见“预检”一段）
+#       导出都已在、只缺结果表、训练占着 GPU 时：再加 V2D_GPU_WAIT_START=0 V2D_GPU_WAIT_S=0（见第 2 步）
 # 清单（stages/evaluate/exports/<机器>.tsv，export_map.py 生成）每行 tab 分隔：档位 episode run 步数；# 开头为注释。
 # 0. 日志 runs/logs/<日志名>.log 或结果表 runs/exports/<日志名>.tsv 已存在、清单读不了或没有行：拒绝（退出码 2，不写日志）。
 # 1. 设了 V2D_WAIT_FOR_EVAL_LOG：每分钟看它的最后一行，变成 DAY2_EVAL_DONE / DAY2_EVAL_FAILED 才开始。从启动起就写长链标记
 #    runs/.chain-active-<日志名>。本日志里不出现任何链结束标记的原文（抄进来的行把标记换成中文；10/1 起链事故的教训）。
 # 2. 设了 V2D_COMPAT_GATE：门槛不是“完成 1”只记警告、照样导出（真加载不了的话每行会自己很快失败；只有个别行失败时，其余行不受连累）。
 #    GPU 上有进程就每分钟看一次，最多等 V2D_GPU_WAIT_S 秒（默认 7200），等不到就停；没设 V2D_FC_SRC 或它核不过，停。
+#    V2D_GPU_WAIT_START=0：开头这次不等（默认 1 = 等）。fc_export 遇到已有完整结果（JSON 与要求的 parquet）直接返回、不查 GPU，
+#    所以导出都已在、只缺结果表时，训练占着 GPU 也能做；要真导出的行仍由 fc_export 查 GPU（退出码 6），按第 3 步等，V2D_GPU_WAIT_S=0 就立刻停。
 # 3. 逐行（某行不过不停）：
 #    run 没有 DONE → no_done；有 NONFINITE，或最终一步 fc_export 退出码 12（规矩一：含 NaN 的 policy 不导出；不回退，记缺，等用户定）→ nonfinite。
 #    否则 fc_export.sh 导出（1 个世界、写轨迹），再 check_export.sh 核结构与来历，再核“候选”条件（box6 计划第 4.5 节）：
@@ -30,12 +33,13 @@ set -uo pipefail
 cd "$(dirname "$0")/../.."
 LIST=${1:?用法见文件头}; NAME=${2:?用法见文件头}
 LOG="runs/logs/$NAME.log"; OUT="runs/exports/$NAME.tsv"; MARK="runs/.chain-active-$NAME"
-DRY="${V2D_EXPORT_CHAIN_DRYRUN:-0}"; FMAX="${V2D_FALLBACK_MAX:-8}"; GPU_WAIT_S="${V2D_GPU_WAIT_S:-7200}"
+DRY="${V2D_EXPORT_CHAIN_DRYRUN:-0}"; FMAX="${V2D_FALLBACK_MAX:-8}"; GPU_WAIT_S="${V2D_GPU_WAIT_S:-7200}"; WAIT_START="${V2D_GPU_WAIT_START:-1}"
 [ -e "$LOG" ] || [ -e "$OUT" ] && { echo "export_chain: $LOG 或 $OUT 已存在，拒绝（确认后改名或删掉再起）" >&2; exit 2; }
 [ -r "$LIST" ] || { echo "export_chain: 读不了清单 $LIST" >&2; exit 2; }
 NROW="$(grep -cvE '^(#|$)' "$LIST")"
 [ "$NROW" -gt 0 ] || { echo "export_chain: 清单 $LIST 没有行" >&2; exit 2; }
 [[ $FMAX =~ ^[0-9]+$ && $GPU_WAIT_S =~ ^[0-9]+$ ]] || { echo "export_chain: V2D_FALLBACK_MAX、V2D_GPU_WAIT_S 必须是非负整数" >&2; exit 2; }
+[[ $WAIT_START =~ ^[01]$ ]] || { echo "export_chain: V2D_GPU_WAIT_START 只能是 0 或 1" >&2; exit 2; }
 demark() { sed -E 's/DAY2_EVAL_DONE/评测链完成/g; s/DAY2_EVAL_FAILED/评测链失败/g; s/DAY2_TRAIN_DONE/训练链完成/g; s/DAY2_TRAIN_FAILED/训练链失败/g; s/EXPORT_CHAIN_(DONE|FAILED)/导出链结束/g'; }
 eval_ok() {  # eval_ok <4096 世界评测 JSON> <这次导出的 JSON>：打一行说明；满足候选条件返回 0
   python3 - "$1" "$2" <<'PY'
@@ -59,6 +63,7 @@ if [ "$DRY" = 1 ]; then
   echo "== 预检 ${NAME}：清单 ${LIST}（${NROW} 行），V2D_FC_SRC=${V2D_FC_SRC:-未设}，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
   echo "  ok   $LOG 与 $OUT 都不存在"
   chk "check_export 能跑：$(stages/evaluate/check_export.sh --probe 2>&1)" "stages/evaluate/check_export.sh --probe"
+  [ "$WAIT_START" = 1 ] || echo "  --   开头不等 GPU（V2D_GPU_WAIT_START=0）；要真导出的行遇到 GPU 被占，最多等 ${GPU_WAIT_S} 秒"
   if [ -n "${V2D_WAIT_FOR_EVAL_LOG:-}" ]; then chk "要等的评测链日志 $V2D_WAIT_FOR_EVAL_LOG 已存在" "[ -f '$V2D_WAIT_FOR_EVAL_LOG' ]"; fi
   [ -n "${V2D_COMPAT_GATE:-}" ] && echo "  --   门槛 ${V2D_COMPAT_GATE}：$( (cat "$V2D_COMPAT_GATE" 2>/dev/null || echo 还没写，开跑时再看) | demark)"
   chk "V2D_FC_SRC 是核对过的 8c778f9 副本" "[ -n '${V2D_FC_SRC:-}' ] && python3 stages/policy/fc_src_check.py '${V2D_FC_SRC:-/nonexistent}' third_party/patches/flash_chord-8c778f9.sha256"
@@ -112,7 +117,11 @@ if [ -n "${V2D_COMPAT_GATE:-}" ]; then
   if grep -q '完成 1、' "$V2D_COMPAT_GATE" 2>/dev/null; then say "compat 门槛是“完成 1”"
   else say "警告：compat 门槛 $V2D_COMPAT_GATE 不是“完成 1”，照样导出，逐行看结果：$( (cat "$V2D_COMPAT_GATE" 2>/dev/null || echo 没有门槛文件) | demark)"; fi
 fi
-wait_gpu || stop "GPU 被别的进程占了 ${GPU_WAIT_S} 秒，停下"
+if [ "$WAIT_START" = 1 ]; then
+  wait_gpu || stop "GPU 被别的进程占了 ${GPU_WAIT_S} 秒，停下"
+else
+  say "开头不等 GPU（V2D_GPU_WAIT_START=0）：已有完整导出的行不碰 GPU；要真导出的行遇到 GPU 被占，最多等 ${GPU_WAIT_S} 秒"
+fi
 [ -n "${V2D_FC_SRC:-}" ] || stop "没设 V2D_FC_SRC，停下"
 scripts/dev/record "submission/exports/${NAME}_fc_src" python3 stages/policy/fc_src_check.py "$V2D_FC_SRC" third_party/patches/flash_chord-8c778f9.sha256 >> "$LOG" 2>&1 \
   || stop "V2D_FC_SRC=${V2D_FC_SRC} 不是核对过的 8c778f9 副本（results/submission/exports/${NAME}_fc_src.txt.failed），停下"

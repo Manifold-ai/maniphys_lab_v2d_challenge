@@ -1,0 +1,25 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | sed "s/^/gpu: /"; echo "gpu è¿\233ç¨\213æ\225° $(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .)"; for t in stages/policy/test_r3o_gate.py stages/policy/test_fc_run_r3o_guard.py stages/policy/test_make_var_queue.py; do echo "== $t"; python3 $t 2>&1 | tail -3; done; echo "== é\227¨ç\232\204è¯\225è·\221ï¼\210t2oa è¿\230æ²¡æ\234\211ç»\223æ\236\234ï¼\214åº\224ä¸º ERRORã\200\201é\200\200å\207ºç \201 2ï¼\211"; python3 stages/policy/r3o_gate.py t2oa; echo "rc=$?"' 
+# md5      : 610fe291e6aa77f4116b69a8e2bd7757  stages/policy/test_r3o_gate.py
+# md5      : aadd3d2ab058caa74059aa83d89ecc73  stages/policy/test_fc_run_r3o_guard.py
+# md5      : 139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:06:03-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+gpu è¿›ç¨‹æ•° 0
+== stages/policy/test_r3o_gate.py
+ok  test_errors
+ok  test_tier2_guard
+ALL_OK
+== stages/policy/test_fc_run_r3o_guard.py
+ok  test_guard
+ALL_OK
+== stages/policy/test_make_var_queue.py
+ok test_duplicate_export_row_refuses
+ok test_r3o_parts
+ALL_OK
+== é—¨çš„è¯•è·‘ï¼ˆt2oa è¿˜æ²¡æœ‰ç»“æœï¼Œåº”ä¸º ERRORã€é€€å‡ºç  2ï¼‰
+r3o_gate: è¯»ä¸äº†è¯„æµ‹æˆ–è¯„æµ‹ä¸å¹²å‡€ï¼šFileNotFoundError: [Errno 2] No such file or directory: '/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t2-ep12-w2048-cap10m-r3o-ml40/eval_349999104_w4096.json'
+R3O_GATE_ERROR
+rc=2

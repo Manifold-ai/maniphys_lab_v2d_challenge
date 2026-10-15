@@ -1,0 +1,19 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_EXPORT_CHAIN_DRYRUN=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/export_chain.sh\ stages/evaluate/exports/cand_t3_t3probe_ml40.tsv\ cand_t3_t3probe_ml40 
+# md5      : 8ea50badb0b556d1503af4b795f8d4aa  stages/evaluate/export_chain.sh
+# md5      : 6583839052cb035164b3d4e1ef902d17  stages/evaluate/exports/cand_t3_t3probe_ml40.tsv
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:06:23-0600
+# ---------------------------------------------------------------
+== 预检 cand_t3_t3probe_ml40：清单 stages/evaluate/exports/cand_t3_t3probe_ml40.tsv（3 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，来历 e396fde1b00a
+  ok   runs/logs/cand_t3_t3probe_ml40.log 与 runs/exports/cand_t3_t3probe_ml40.tsv 都不存在
+  ok   check_export 能跑：check_export：宿主机缺库，走 flash_chord:latest 容器
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   Tier 3 ep9 t3-ep9-w2048-cap10m-r3a-hm-ph-ml40：fc_export 预检退出码 0（t3-ep9-w2048-cap10m-r3a-hm-ph-ml40 policy_4096000 episode 9 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t3-ep9-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json
+  ok   Tier 3 ep10 t3-ep10-w2048-cap10m-r3a-hm-ph-ml40：fc_export 预检退出码 0（t3-ep10-w2048-cap10m-r3a-hm-ph-ml40 policy_4096000 episode 10 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t3-ep10-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json
+  ok   Tier 3 ep11 t3-ep11-w2048-cap10m-r3a-hm-ph-ml40：fc_export 预检退出码 0（t3-ep11-w2048-cap10m-r3a-hm-ph-ml40 policy_4096000 episode 11 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json
+  --   还没训完、有 NONFINITE 或 policy 非有限的 0 行，开跑时按 no_done / nonfinite 记
+EXPORT_DRYRUN_OK

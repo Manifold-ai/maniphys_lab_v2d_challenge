@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge || exit 1; echo source $(cat .v2d-source-commit); md5sum runs/tools/arm_after.sh stages/policy/r3o_gate.py stages/policy/r3o_gate.json; L=runs/logs/arm_after_t2ob_ml40.log; [ ! -e $L ] || { echo "$L 已�\255\230�\234�"; exit 1; }; V2D_PRE_CMD="python3 stages/policy/r3o_gate.py t2oa" V2D_AFTER_MAX_POLLS=1080 setsid -f nohup bash runs/tools/arm_after.sh t2ob runs/logs/t2oa_train_ml40.log runs/logs/t2oa_eval_ml40.log runs/logs/cand_t2_t2oa_ml40.log 4 > $L 2>&1 < /dev/null; sleep 4; pgrep -af "[r]uns/tools/arm_after.sh t2ob" | cut -c1-220; cat $L | cut -c1-400' 
+# md5      : 139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+# md5      : 139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:10:56-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+2dafe7768ea6acae52b0723a2288ab72  stages/policy/r3o_gate.json
+650998 bash -c cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge || exit 1; echo source $(cat .v2d-source-commit); md5sum runs/tools/arm_after.sh stages/policy/r3o_gate.py stages/policy/r3o_gate.json; L=runs/logs/arm_af
+651002 bash runs/tools/arm_after.sh t2ob runs/logs/t2oa_train_ml40.log runs/logs/t2oa_eval_ml40.log runs/logs/cand_t2_t2oa_ml40.log 4
+=== 2026-10-16 05:10:57 CST 等 runs/.chain-active-* 都消失、runs/logs/t2oa_train_ml40.log 与 runs/logs/t2oa_eval_ml40.log 写完最后一行，再起 t2ob；前置命令：python3 stages/policy/r3o_gate.py t2oa；可用 1299086 MB
+=== 2026-10-16 05:10:57 CST 来历与 t2ob 的队列：e396fde1b00a ad009d6204d824a5de3376b4c483b8b9  stages/policy/queues/ml40_t2ob.expect.tsv de99a7e09f786d8e2076a594b71feb00  stages/policy/queues/ml40_t2ob.txt 2f5c39964eb97a224fa3e1b6a97b099c  stages/policy/queues/ml40_t2ob_smoke.txt 0f96f5ec0a27bfe971cf6a88d1ad5ec2  stages/evaluate/exports/cand_t2_t2ob_ml40.tsv 

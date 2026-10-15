@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ stages/policy/make_patched_fc_src.sh\ /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo\ third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch\ third_party/patches/flash_chord-p185-nfg.sha256\ third_party/patches/flash_chord-v0.4.0-object-orientation.patch\ third_party/patches/flash_chord-p185-nfg-oo.sha256\ \&\&\ python3\ stages/policy/fc_src_check.py\ /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo\ third_party/patches/flash_chord-p185-nfg-oo.sha256\ \|\ tail\ -1 
+# md5      : 9e24ee7da6de7f96322157abbda82ce8  stages/policy/make_patched_fc_src.sh
+# md5      : ffea72c807221ff2cbd5df36333e7ade  third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# md5      : 9eb311755f0e3bfab9d35533fed47e7f  third_party/patches/flash_chord-v0.4.0-object-orientation.patch
+# md5      : b9cb137b415db09c540953f7c744b384  third_party/patches/flash_chord-p185-nfg-oo.sha256
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : b9cb137b415db09c540953f7c744b384  third_party/patches/flash_chord-p185-nfg-oo.sha256
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:01:41-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+PATCHED_FC_SRC_OK /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo
+FC_SRC_OK

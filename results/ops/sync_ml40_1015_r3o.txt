@@ -1,0 +1,7 @@
+# command  : scripts/dev/remote 
+# md5      : 0d7aa6e725f328f5bdaa7895c41e9f18  scripts/dev/remote
+# source   : e396fde1b00a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:01:36-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
