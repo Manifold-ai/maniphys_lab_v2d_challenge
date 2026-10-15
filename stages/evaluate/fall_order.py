@@ -17,6 +17,7 @@
 import argparse
 import json
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -30,6 +31,11 @@ SHARE = 0.60
 MIN_FALLEN = 50
 REPRO_MP = 0.01
 CURVE_OFFSETS = (-100, -75, -50, -25, 0)
+
+
+def is_variant(run: str) -> bool:
+    """变体 A（-r3a-）与 r3o（-r3o-，变体 A 加物体朝向项）的物体朝向终止阈值都是 0.6，其余是官方 1.5。"""
+    return re.search(r"-r3[ao]-", run) is not None
 
 
 def first_true(mask):

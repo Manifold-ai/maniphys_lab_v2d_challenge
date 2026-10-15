@@ -7,7 +7,7 @@
   “接触中” = 任一侧为真。
 - 门（不过就记“门不过”，JSON 里 gate_ok 为 false，不出计数）：fall_order.run_one 列出的问题；新评 JSON 的 start_frame 不是 0 或
   reference_tracking.reference_end_fraction 不是 1.0（帧号 = 步号的前提）；参考帧数不等于评测的 step_count；policy 或参考读不了；
-  G4：这一次给的 run 之间骨盆、手掌、物体位置阈值与 active_after_step 不同，或同一变体（名字带不带 -r3a-）的物体朝向阈值不同：与严格多数不同的那条
+  G4：这一次给的 run 之间骨盆、手掌、物体位置阈值与 active_after_step 不同，或同一变体（名字带不带 -r3a- 或 -r3o-，fall_order.is_variant）的物体朝向阈值不同：与严格多数不同的那条
   记门不过，没有严格多数时整组记门不过；门不过的删去计数。参考的 hand_contact_active 只许 0、1。坏文件只算这一条门不过；档位守卫拦下的读取让整次调用失败。
   复现门另打 z = 差 / √(2p(1−p)/N)。
 - 起点：失败世界里 t_on = min(t_pel, t_obj)（存在的那个）；两者都没有的失败世界计入 no_cross。帧号 = 步号。
@@ -91,7 +91,7 @@ def one(root: Path, run: str, steps: int, worlds: int, mode: str) -> dict:
         p_old = float(json.loads((o / f"eval_{steps}_w{worlds}.json").read_text())["metrics"]["maniptrans_sr"])
         n_new = int(json.loads((o / f"eval_dump/eval_{steps}_w{worlds}.json").read_text())["world_count"])
         tol = repro_tol(mode, p_old, n_new)
-        r = fo.run_one(str(root), run, steps, worlds, "-r3a-" in run, repro_mp=tol)
+        r = fo.run_one(str(root), run, steps, worlds, fo.is_variant(run), repro_mp=tol)
     except tier_guard.Tier1AccessError:
         raise   # 档位守卫拦下的读取必须让整次调用失败，不能记成门不过
     except Exception as e:  # noqa: BLE001  坏文件（如截断的 npz）只算这一条门不过，其余 run 照常（代码审查第 14 条）
@@ -163,7 +163,7 @@ def g4(ds: list) -> None:
 
     mark(lambda d: (tuple(d["thr"][:5]), tuple(d["act"])), have)
     for var in (True, False):
-        mark(lambda d: d["thr"][5], [d for d in have if ("-r3a-" in d["run"]) == var])
+        mark(lambda d: d["thr"][5], [d for d in have if fo.is_variant(d["run"]) == var])
 
 
 def summary(d: dict) -> str:

@@ -3,7 +3,7 @@
 fall_order.py 的 main() 只收 10/7 试验的清单（每集 base42、base43、var42、var43 四条 run），跟丢的集只有单条 run，所以另写这个驱动。
 只读这条 run 自己的文件：runs/flash_chord/<run>/eval_dump/eval_<步数>_w<世界数>.{json,npz}（fc_eval_dump.sh 的输出）与原评测
 runs/flash_chord/<run>/eval_<步数>_w<世界数>.json；Tier 2 的 run 只读 Tier 2 的东西。
-物体朝向阈值的核对：run 名带 -r3a- 的按变体 0.6，其余按官方 1.5；--ori 0.6 或 1.5 对全部 run 改用给定值。
+物体朝向阈值的核对：run 名带 -r3a- 或 -r3o- 的按变体 0.6（fall_order.is_variant），其余按官方 1.5；--ori 0.6 或 1.5 对全部 run 改用给定值。
 run_one 的门（误差名、数组形状、npz 与新评 JSON 的 MP-SR、checkpoint sha256、MP-SR 复现、朝向阈值）不过就打印问题、这条不分类；
 文件缺、读不了或 JSON 缺键也按门不过记，接着处理下一条。有一条不过退出码 1，全部过退出码 0。MPPE 差只报，超过参考容差不算门不过。
 一次只收同一档的 run；t2、t3 先装 Tier 1 禁读（libs/v2d_infra/tier_guard.py，同 onset_terms.py；r3o 计划审查第 6 条）。
@@ -36,7 +36,7 @@ def main(argv=None) -> int:
         tier_guard.forbid_tier1()
     bad = 0
     for run in a.runs:
-        is_var = a.ori == 0.6 if a.ori is not None else "-r3a-" in run
+        is_var = a.ori == 0.6 if a.ori is not None else fo.is_variant(run)
         try:
             r = fo.run_one(a.root, run, a.steps, a.worlds, is_var)
         except (OSError, KeyError, ValueError) as e:

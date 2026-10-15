@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && f=$(ls runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/wandb/run-*/files/wandb-summary.json) && echo "$f" && python3 -c "\nimport json, math, sys\nd = json.load(open(sys.argv[1]))\nfor k in sorted(k for k in d if \\"orientation\\" in k):\n    print(k, d[k])\ndt = 0.02\nt = d[\\"reward_components/object_orientation_weighted_mean_per_env_step\\"] / (1.0 * dt)\ne = d[\\"tracking_error/object_orientation_rad_mean_env_max_per_step\\"]\nprint(\\"æ\226°é¡¹å\235\207å\200¼ï¼\210weighted / (æ\235\203é\207\215 1.0 Ã\227 frame_dt 0.02)ï¼\211%.3fï¼\233æ\214\211ç»\210æ\255¢é\202£è¾¹ç\232\204æ\234\235å\220\221è¯¯å·®å\235\207å\200¼ %.4f rad ä¼° exp(-(e/0.4)^2) = %.3f\\" % (t, e, math.exp(-(e / 0.4) ** 2)))\nprint(\\"æ\216¥çº¿æ£\200æ\237¥ï¼\210æ\226°é¡¹å\235\207å\200¼ >= 0.9ï¼\211ï¼\232\\" + (\\"è¿\207\\" if t >= 0.9 else \\"ä¸\215è¿\207\\"))\n" "$f"' 
+# source   : 184421eb21cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:38:24-0600
+# ---------------------------------------------------------------
+runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/wandb/run-20261015_132948-t1-ep20-w2048-cap4m-r3o-g1-mf4090-s1/files/wandb-summary.json
+reward_components/object_orientation_weighted_mean_per_env_step 0.01911800354719162
+reward_components/palm_orientation_weighted_mean_per_env_step 0.0007604824495501816
+reward_components/pelvis_orientation_weighted_mean_per_env_step 0.015376067720353603
+tracking_error/object_orientation_rad_mean_env_max_per_step 0.06333468109369278
+tracking_error/palm_orientation_rad_mean_env_max_per_step 0.7042401432991028
+tracking_error/pelvis_orientation_rad_mean_env_max_per_step 0.19646957516670227
+æ–°é¡¹å‡å€¼ï¼ˆweighted / (æƒé‡ 1.0 Ã— frame_dt 0.02)ï¼‰0.956ï¼›æŒ‰ç»ˆæ­¢é‚£è¾¹çš„æœå‘è¯¯å·®å‡å€¼ 0.0633 rad ä¼° exp(-(e/0.4)^2) = 0.975
+æŽ¥çº¿æ£€æŸ¥ï¼ˆæ–°é¡¹å‡å€¼ >= 0.9ï¼‰ï¼šè¿‡

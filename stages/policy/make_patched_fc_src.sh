@@ -11,7 +11,7 @@
 #   第二个之后再打，按第三份清单（要列出与 v0.4.0 不同的全部文件，同 fc_src_check.py）核对；只给第三个、不给第二个时拒绝。
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd -P)"; cd "$ROOT"
-DST=${1:?用法：make_patched_fc_src.sh <目标目录> [<第二个补丁> <清单>]}
+DST=${1:?用法：make_patched_fc_src.sh <目标目录> [<第二个补丁> <清单> [<第三个补丁> <清单>]]}
 PATCH2=${2:-}; MANIFEST2=${3:-}; PATCH3=${4:-}; MANIFEST3=${5:-}
 if [ -n "$PATCH2" ]; then
   [ -f "$PATCH2" ] && [ -f "$MANIFEST2" ] || { echo "第二个补丁与清单都要给，且文件要在：$PATCH2 $MANIFEST2" >&2; exit 2; }

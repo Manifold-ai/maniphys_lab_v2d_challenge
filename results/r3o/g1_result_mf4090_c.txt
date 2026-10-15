@@ -1,0 +1,26 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -v "^ *$" runs/logs/r3o_g1_mf4090.log | grep -E "===|R3O_G1|�\205\203�\225��\215�|课�\213段|�\204�\204\217|带 object|episode_000020|sha256|fc_eval|maniptrans|world_count|EVAL|�\204�\213" | cut -c1-300 | tail -20; python3 -c "\nimport json\nj = json.load(open(\\"runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/eval_4096000_w4096.json\\"))\nm = j[\\"metrics\\"]\nprint(\\"8c778f9 �\204�\213�\232world_count\\", j.get(\\"world_count\\"), \\"step_count\\", j.get(\\"step_count\\"), \\"maniptrans_sr\\", m.get(\\"maniptrans_sr\\"), \\"spider_sr\\", m.get(\\"spider_sr_uncentered\\", m.get(\\"spider_sr\\")), \\"mppe_cm\\", m.get(\\"mppe_cm\\"))\n"' 
+# source   : 184421eb21cc-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:39:38-0600
+# ---------------------------------------------------------------
+带 object_orientation 字样的键（上游本来就有的应只是终止阈值与观测项）：.env.termination.object_orientation_threshold; .termination.object_orientation_threshold
+课程段 18 个，每段的 objective_weights 都只有上游 12 个名字：是
+r3o 弄脏的地方：无
+fc_eval: t1-ep20-w2048-cap4m-r3o-g1-mf4090 policy_4096000（4096 世界）→ runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/eval_4096000_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/policy_4096000.safetensors  sha256 302c95818aa024bf…
+  environment_steps 4096000  world_count 4096  step_count 553  start_frame 0  reset_mode explicit  non_finite_worlds []
+  maniptrans_sr                                  0.0
+  summary_json {"add_auc": 0.4694373905119801, "checkpoint": "/repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/policy_4096000.safetensors", "checkpoint_sha256": "302c95818aa024bf02696e125c27042e4965a27385109ec554ca317761fd63fa", "chord_sr": 0.0, "environment_steps": 4096000, "maniptrans_sr":
+=== 2026-10-16 04:38:15 CST 8c778f9 的 4096 世界评测成功
+=== 2026-10-16 04:38:15 CST fc_export t1-ep20-w2048-cap4m-r3o-g1-mf4090 policy_4096000 episode 20 world_count=1 traj=1 ===
+fc_export: t1-ep20-w2048-cap4m-r3o-g1-mf4090 policy_4096000（episode 20，1 世界）→ runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/export_8c778f9/s4096000_w1/episode_000020.json 与 runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/export_8c778f9/s4096000_w1/episode_000020.parquet
+== runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/export_8c778f9/s4096000_w1/episode_000020.json
+  checkpoint /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/policy_4096000.safetensors  sha256 302c95818aa024bf…
+  environment_steps 4096000  world_count 1  step_count 553  start_frame 0  reset_mode explicit  non_finite_worlds []
+  maniptrans_sr                                  0.0
+  summary_json {"add_auc": 0.4698236889692586, "checkpoint": "/repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/policy_4096000.safetensors", "checkpoint_sha256": "302c95818aa024bf02696e125c27042e4965a27385109ec554ca317761fd63fa", "chord_sr": 0.0, "environment_steps": 4096000, "maniptrans_sr":
+17a7799efbe9fb32409000cba8130bf5a3ff572575c231408e39be16df8c9f67  runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/export_8c778f9/s4096000_w1/episode_000020.json
+909dd063adbefdcd909a8b6ce97c135c800bf1890f082ac5e3e056b2400fd574  runs/flash_chord/t1-ep20-w2048-cap4m-r3o-g1-mf4090/export_8c778f9/s4096000_w1/episode_000020.parquet
+=== 2026-10-16 04:39:12 CST 8c778f9 的 1 局导出成功
+R3O_G1_OK
+8c778f9 评测：world_count 4096 step_count 553 maniptrans_sr 0.0 spider_sr 0.0 mppe_cm 3.4408618697029563

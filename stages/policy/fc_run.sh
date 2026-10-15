@@ -35,6 +35,14 @@ OVR_ARR=("$@"); OVR="$*"
 [[ $W =~ ^[0-9]+$ && $STEPS =~ ^[0-9]+$ && $W -gt 0 ]] || die "world_count / total_steps 必须是正整数"
 (( STEPS % W == 0 )) || die "total_steps 必须能被 world_count 整除"
 KEEP="${V2D_KEEP_STATES:-2}"; [[ $KEEP =~ ^[1-9][0-9]*$ ]] || die "V2D_KEEP_STATES 必须 ≥ 1"
+# r3o（计划 agent-doc/plan-r3o-2026-10-15.md 2.1，代码审查第 7 条）：run 名带 -r3o-、设了 V2D_OBJ_ORI_WEIGHT、训练副本打了物体朝向补丁
+# （SOURCE_V2D.txt 里有 object-orientation），三样要么都有，要么都没有。否则手动起的 r3o run 会在普通副本上按权重 0 训、却叫 r3o。
+HAS_OO=0
+[ -n "${V2D_FC_SRC:-}" ] && grep -q object-orientation "$V2D_FC_SRC/SOURCE_V2D.txt" 2>/dev/null && HAS_OO=1
+if [[ $RUN == *-r3o-* ]] || [ -n "${V2D_OBJ_ORI_WEIGHT:-}" ] || [ "$HAS_OO" = 1 ]; then
+  [[ $RUN == *-r3o-* ]] && [ -n "${V2D_OBJ_ORI_WEIGHT:-}" ] && [ "$HAS_OO" = 1 ] \
+    || die "r3o 的 run 名（-r3o-）、V2D_OBJ_ORI_WEIGHT、打了物体朝向补丁的副本要同时具备：run ${RUN}，V2D_OBJ_ORI_WEIGHT=${V2D_OBJ_ORI_WEIGHT:-未设}，V2D_FC_SRC=${V2D_FC_SRC:-未设}"
+fi
 ME="$(id -un)"
 
 OUT="runs/flash_chord/$RUN"; LOGDIR=runs/logs
@@ -166,7 +174,8 @@ while :; do
     RESUME=()
     if [ -n "$LATEST" ]; then
       if [ "${V2D_FORCE_RESUME:-0}" != 1 ]; then
-        for kv in "parquet_sha256=$PARQ_SHA" "overrides=$OVR" "world_count=$W" "total_steps=$STEPS" "image=$IMG"; do
+        for kv in "parquet_sha256=$PARQ_SHA" "overrides=$OVR" "world_count=$W" "total_steps=$STEPS" "image=$IMG" \
+                  "fc_src=${V2D_FC_SRC:-image}" "obj_ori_weight=${V2D_OBJ_ORI_WEIGHT:-}" "obj_ori_std=${V2D_OBJ_ORI_STD:-}"; do   # 后三项：r3o 审查第 6 条（旧记录里没有就跳过）
           k="${kv%%=*}"; want="$(lineage_start "$k")"
           [ "$want" = __NONE__ ] || [ "$want" = "${kv#*=}" ] || die "续训被拒：$k 与本 lineage 起点不同（起点：$want）。确认无误可设 V2D_FORCE_RESUME=1"
         done

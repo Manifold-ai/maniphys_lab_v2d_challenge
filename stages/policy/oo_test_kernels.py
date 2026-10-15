@@ -1,12 +1,16 @@
-"""r3o 物体朝向项的组件测试（计划 agent-doc/plan-r3o-2026-10-15.md 2.1，审查第 7、8 条）。在 FlashCHORD 容器里、CPU 上跑，挂打了 r3o 补丁的副本：
+"""r3o 物体朝向项的组件测试（守 docs/contracts/policy.md 的 POLICY-I007、I008、I009；计划 agent-doc/plan-r3o-2026-10-15.md 2.1，审查第 7、8 条）。在 FlashCHORD 容器里、CPU 上跑，挂打了 r3o 补丁的副本：
   V2D_FC_SRC=<fc_src/v040_p185_nfg_oo> scripts/dev/in-flash-chord "python /repo/stages/policy/oo_test_kernels.py"
 O1：同一组输入分别交给上游 v0.4.0 的 compose_recon_body_objective（从 /repo/third_party/video_to_data 里的源码按文件加载）与打了补丁的版本。
     第 13 项权重 0：前 12 项与分数逐位相同；第 13 项等于 numpy 按同一组四元数算的 exp(-θ²/σ²)（含与目标完全相同、互为相反数、相差 90° 的世界）。
+    第 13 项的 σ 用 0.7，与手掌朝向的 0.4 不同：kernel 或实参若把两者弄混，第 13 项就对不上（代码审查第 1 条）。
 O2：第 13 项权重 1：分数比上游正好多 frame_dt × 第 13 项。
 O3：ReconBodyObjective.set_weights 收课程给的 12 个上游名字，第 13 个补上对象自己的权重；课程写了第 13 个就用写的；少名字照旧报错。
 O4：CurriculumStage.weights_for：名单里有 object_orientation 而课程没写时补环境变量给的权重；名单里没有它时（别的目标函数）与上游相同。
 O5：真实的 configs/curriculum/recon_body_flash_sac.yaml 实例化后 9 段逐段 weights_for：前 12 个等于这一段的映射，第 13 个等于环境变量。
 O6：V2D_OBJ_ORI_WEIGHT 为负或非有限、V2D_OBJ_ORI_STD 不是正的有限数时报错；默认是 0 与 0.4。
+O7：按源码核对 ReconBodyObjective.evaluate 里 wp.launch(compose_recon_body_objective, …) 的实参与 kernel 形参一一对应：个数相同，
+    object_target_quat_w 对 self.command.body_target_quat_w、object_orientation_std 对 self.object_orientation_std 等（代码审查第 2 条；
+    O1、O2 用测试自己的实参表，碰不到类里那一份）。
 最后一行 OO_KERNELS_OK，或断言失败退出。
 """
 import importlib.util
@@ -22,6 +26,7 @@ CURRICULUM_YAML = "/workspace/src/flash_chord/configs/curriculum/recon_body_flas
 DEVICE = "cpu"
 W, B, Q, F = 64, 5, 12, 10   # 世界、每个世界的刚体（骨盆 0、手腕 1 与 2、物体 4）、每个世界的坐标数、参考帧数
 OBJ, STDS, DT = 4, (0.3, 0.4, 1.0, 0.05, 0.2, 0.4), 0.02
+ORI_STD = 0.7   # 第 13 项的 σ，故意与 STDS 里手掌朝向的 0.4 不同
 WEIGHTS12 = (-300.0, -1.0e-4, -1.0e-6, -1.0e-3, 1.0, 1.0, 5.0, 1.0, 1.0, 1.0, 1.0, 5.0)
 
 
@@ -109,15 +114,15 @@ def expected_term(d, std=0.4):
 def test_o1_o2(upstream, patched) -> None:
     d = make_inputs(np.random.default_rng(11))
     t_old, s_old = launch(upstream, d, WEIGHTS12, patched=False)
-    t_new, s_new = launch(patched, d, WEIGHTS12 + (0.0,), patched=True)
+    t_new, s_new = launch(patched, d, WEIGHTS12 + (0.0,), patched=True, ori_std=ORI_STD)
     assert t_old.tobytes() == np.ascontiguousarray(t_new[:, :12]).tobytes(), "O1：前 12 项不逐位相同"
     assert s_old.tobytes() == s_new.tobytes(), "O1：权重 0 时分数不逐位相同"
-    want, theta = expected_term(d)
+    want, theta = expected_term(d, ORI_STD)
     err = np.abs(t_new[:, 12] - want).max()
     assert err < 1e-5, f"O1：第 13 项与 numpy 差 {err}"
     assert t_new[0, 12] > 0.99999 and t_new[1, 12] > 0.99999, "O1：与目标相同或互为相反数时第 13 项不是 1"
-    assert abs(theta[2] - math.pi / 2) < 1e-4 and t_new[2, 12] < 1e-6, "O1：差 90° 的世界不对"
-    _, s_one = launch(patched, d, WEIGHTS12 + (1.0,), patched=True)
+    assert abs(theta[2] - math.pi / 2) < 1e-4 and abs(t_new[2, 12] - math.exp(-(math.pi / 2) ** 2 / ORI_STD ** 2)) < 1e-5, "O1：差 90° 的世界不对"
+    _, s_one = launch(patched, d, WEIGHTS12 + (1.0,), patched=True, ori_std=ORI_STD)
     gap = np.abs((s_one - s_old) - DT * t_new[:, 12]).max()
     assert gap < 1e-5, f"O2：权重 1 时分数多出的部分与 frame_dt × 第 13 项差 {gap}"
     print(f"O1/O2：{W} 个世界，前 12 项与分数逐位相同；第 13 项与 numpy 最大差 {err:.2e}，范围 {t_new[:, 12].min():.3g}–{t_new[:, 12].max():.6f}；"
@@ -192,11 +197,37 @@ def test_o5() -> None:
     print(f"O5：{CURRICULUM_YAML} 的 9 段逐段 weights_for，第 13 个都是 1.0，前 12 个等于这一段的映射")
 
 
+def test_o7(rb) -> None:
+    import ast
+    import inspect
+    import textwrap
+    kernel = rb.compose_recon_body_objective
+    func = getattr(kernel, "func", None)
+    params = list(inspect.signature(func).parameters) if func else [a.label for a in kernel.adj.args]
+    tree = ast.parse(textwrap.dedent(inspect.getsource(rb.ReconBodyObjective.evaluate)))
+    calls = [c for c in ast.walk(tree) if isinstance(c, ast.Call) and getattr(c.func, "attr", "") == "launch"
+             and c.args and ast.unparse(c.args[0]) == "compose_recon_body_objective"]
+    assert len(calls) == 1, f"O7：evaluate 里 launch compose_recon_body_objective 的地方有 {len(calls)} 处"
+    kw = {k.arg: k.value for k in calls[0].keywords}
+    actual = [ast.unparse(e) for e in kw["inputs"].elts + kw["outputs"].elts]
+    assert len(actual) == len(params), f"O7：实参 {len(actual)} 个、形参 {len(params)} 个"
+    m = dict(zip(params, actual))
+    want = {"body_q": "state.body_q", "object_body_id": "self.object_body_id", "object_target_pos_w": "self.command.body_target_pos_w",
+            "object_target_quat_w": "self.command.body_target_quat_w", "pelvis_body_id": "self.pelvis_body_id",
+            "object_position_std": "self.config.object_position_std", "palm_position_std": "self.config.palm_position_std",
+            "palm_orientation_std": "self.config.palm_orientation_std", "object_orientation_std": "self.object_orientation_std",
+            "weights": "self.weights", "frame_dt": "self.frame_dt", "terms": "self.terms", "score": "self.score"}
+    bad = {k: (m.get(k), v) for k, v in want.items() if m.get(k) != v}
+    assert not bad, f"O7：类里 wp.launch 的实参与 kernel 形参对不上（实际、应为）：{bad}"
+    print(f"O7：类里 launch 的 {len(actual)} 个实参与 kernel 形参一一对应（核了 {len(want)} 个关键位置）")
+
+
 def main() -> None:
     wp.init()
     from flash_chord.objectives import recon_body as patched
     test_o1_o2(load_upstream(), patched)
     test_o3(patched)
+    test_o7(patched)
     test_o4_o6()
     test_o5()
     print("OO_KERNELS_OK")

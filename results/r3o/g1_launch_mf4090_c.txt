@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ \!\ tmux\ has-session\ -t\ r3o-g1\ 2\>/dev/null\ \&\&\ mv\ runs/logs/r3o_g1_mf4090.log\ runs/logs/r3o_g1_mf4090.try2.log\ \&\&\ tmux\ new-session\ -d\ -s\ r3o-g1\ \"stages/policy/r3o_g1.sh\ \>\ runs/logs/r3o_g1_mf4090.log\ 2\>\&1\"\ \&\&\ sleep\ 2\ \&\&\ tmux\ ls\ \|\ grep\ r3o-g1 
+# md5      : f13816823f75cab7cedb64853cfacd22  stages/policy/r3o_g1.sh
+# source   : 184421eb21cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:34:13-0600
+# ---------------------------------------------------------------
+source 184421eb21cc
+r3o-g1: 1 windows (created Fri Oct 16 04:34:14 2026)

@@ -73,9 +73,10 @@ free_mb="$(df -Pk . | awk 'NR == 2 {print int($4 / 1024)}')"
 python3 stages/policy/fc_src_check.py "$SRC/$COPY" "$MAN" | tail -1 | grep -q '^FC_SRC_OK' \
   || stop "$SRC/$COPY 按清单 $MAN 核对不过"
 R3O="V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"
-r3o_bad="$(grep -vhE '^[[:space:]]*(#|$)' "${Q}_smoke.txt" "$Q.txt" | awk -v want=" $R3O " -v oo="$([ "$COPY" = v040_p185_nfg_oo ] && echo 1 || echo 0)" '
+r3o_bad="$({ grep -vhE '^[[:space:]]*(#|$)' "${Q}_smoke.txt" "$Q.txt" || true; } | awk -v want=" $R3O " -v oo="$([ "$COPY" = v040_p185_nfg_oo ] && echo 1 || echo 0)" '
   { has = index($0, want) > 0; any = index($0, "V2D_OBJ_ORI_") > 0; named = ($0 ~ /-r3o-/)
-    if (oo == 1 && !(has && named)) bad++
+    line = $0; nw = gsub(/V2D_OBJ_ORI_WEIGHT=/, "", line); line = $0; ns = gsub(/V2D_OBJ_ORI_STD=/, "", line)   # 每个变量正好一次（env 取最后一个）
+    if (oo == 1 && !(has && named && nw == 1 && ns == 1)) bad++
     if (oo == 0 && (any || named)) bad++ }
   END { print bad + 0 }')"
 [ "$r3o_bad" = 0 ] || stop "冒烟或正式队列里有 ${r3o_bad} 行的 r3o 环境变量或 run 名与训练副本 $COPY 不符"

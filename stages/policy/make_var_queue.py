@@ -46,7 +46,8 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   t1o、t2o（计划 agent-doc/plan-r3o-2026-10-15.md）：r3o 试点 = 变体 A 加物体朝向项。队列行开头多两个环境变量
       V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4（训练副本 v040_p185_nfg_oo 读它们，不进 Hydra 配置）；run 名带 -r3o-。
       t1o（mf4090，400 万）：t1oa = 对照 ep20 与 ep25、28、11，t1ob = ep4、9、1、2；t2o（ml40，1000 万）：t2oa = 对照 ep12 与 ep25、28、1，
-      t2ob = ep4、17、9、2、11。基线照 t1x、t2x 取现在交的 run；那条 run 是变体 A 的（名字带 -r3a-）时改用去掉 -r3a- 的基线配方 run
+      t2ob = ep4、17、9、2、11。基线的取法同 t1x、t2x（Tier 1 是 t1_select_r3x.tsv，Tier 2 是 exports/ml40.tsv、mf4090.tsv 这两份较早的导出清单，
+      不是 b1014；基线只用来取 parquet、期望表的列与支撑面覆盖，同一集的这几样与 b1014 选中的 run 相同）；那条 run 是变体 A 的（名字带 -r3a-）时改用去掉 -r3a- 的基线配方 run
       （变体 A 就是从它派生的，parquet 相同；make_trial_queue.baseline 不收带变体键的基线）。
 测试：stages/policy/test_make_var_queue.py。
 """

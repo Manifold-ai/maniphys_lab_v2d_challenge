@@ -8,6 +8,7 @@
 6. --ori 0.6 用在名字不带 -r3a- 的 run 上按 0.6 核，且一次给多条时每条都按它核。
 7. 不同档的 run 一起给：退出码 2；
 8. t2 的 run 装 Tier 1 禁读：root 在 tier_1_multiview_caption 目录下时读文件就被拦（档位隔离），t1 的 run 不装、照常读。
+9. 名字带 -r3o- 的 run（r3o，变体 A 加物体朝向项）同样按 0.6 核：0.6 过门，1.5 门不过（fall_order.is_variant，r3o 计划代码审查第 5 条）。
 用 test_fall_order.py 的 make_run 造数据。要 numpy 与 pytest。
 """
 
@@ -94,3 +95,13 @@ def test_tier_guard(tmp_path):
     assert p.returncode != 0 and "档位隔离" in p.stderr, p.stdout + p.stderr
     p = call(root, "t1-ep9-w2048-cap10m-ml40")
     assert p.returncode == 0 and "FALL_ORDER_ONE_DONE" in p.stdout, p.stdout + p.stderr
+
+
+def test_r3o_name_is_variant(tmp_path):
+    make_run(tmp_path, "t1-ep2-w2048-cap4m-r3o-mf4090", 0.6, [(150, 70)] * 4 + [(None, 90)])
+    make_run(tmp_path, "t1-ep9-w2048-cap4m-r3o-mf4090", 1.5, [(60, 120)])
+    p = call(tmp_path, "t1-ep2-w2048-cap4m-r3o-mf4090")
+    assert p.returncode == 0 and "（物体朝向阈值按 0.6 核）" in p.stdout, p.stdout + p.stderr
+    p = call(tmp_path, "t1-ep9-w2048-cap4m-r3o-mf4090")
+    assert p.returncode == 1 and "不是 0.6" in p.stdout, p.stdout
+
