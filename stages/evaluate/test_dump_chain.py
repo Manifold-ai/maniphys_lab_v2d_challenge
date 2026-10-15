@@ -12,7 +12,8 @@
   6. 日志里链结束标记的原文只出现在最后一行；
   7. 预检：不写日志、结果表与标记；policy 缺、NONFINITE、原评测不是 4096 世界或有非有限世界、副本核不过、磁盘不够、别的长链标记、
      残留的 fc-evaldump-* 容器各报 FAIL；已有 dump 的行只提示；全过打 DUMP_DRYRUN_OK。
-  另：副本核不过时不等 GPU 就停；调用时长链标记非空。
+  另：副本核不过时不等 GPU 就停；调用时长链标记非空；环境里残留的 V2D_EVAL_WORLDS 不影响（固定 4096）；nvidia-smi 出错按被占处理；
+  一直报 6 时重跑之间停顿、累计等满就停；清单最后一行没有换行也读。
 用法：python3 stages/evaluate/test_dump_chain.py
 """
 import hashlib
@@ -30,7 +31,8 @@ A, B, C, D = "t3-ep7-w2048-cap10m-r3a-hm-ml40", "t3-ep8-w2048-cap10m-r3a-hm-ml40
 NAME = "dump_mf"
 FAKE_DUMP = r'''#!/usr/bin/env bash
 RUN=$1; STEP=$2; K="${RUN//-/_}"
-echo "$RUN $STEP $([ -s runs/.chain-active-dump_mf ] && echo marked || echo unmarked)" >> runs/fake_calls.txt
+echo "$RUN $STEP $([ -s runs/.chain-active-dump_mf ] && echo marked || echo unmarked) W=${V2D_EVAL_WORLDS:-unset}" >> runs/fake_calls.txt
+[ "${FAKE_ALWAYS6_RUN:-}" = "$RUN" ] && { echo "fc_eval_dump: GPU 上有别的进程" >&2; exit 6; }   # 一直报 6，GPU 却看着是空的
 if [ "${FAKE_BUSY_RUN:-}" = "$RUN" ] && [ ! -f runs/busy_done ]; then   # 第一次调用时有别的进程占了 GPU，占 2 秒
   date +%s > runs/gpu_busy; touch runs/busy_done; echo "fc_eval_dump: GPU 上有别的进程" >&2; exit 6
 fi
@@ -45,6 +47,7 @@ exit "$rc"
 '''
 FAKE_SRC = 'import os, sys\nrc = int(os.environ.get("FAKE_SRC_RC", "0")); print("FC_SRC_OK" if rc == 0 else "FC_SRC_FAIL 1"); sys.exit(rc)\n'
 FAKE_GPU = r'''#!/usr/bin/env bash
+[ "${FAKE_GPU:-}" = error ] && { echo "NVIDIA-SMI has failed" >&2; exit 9; }
 [ "${FAKE_GPU:-}" = busy ] && { printf "4242\n"; exit 0; }
 [ -f runs/gpu_busy ] && [ $(( $(date +%s) - $(cat runs/gpu_busy) )) -lt "${FAKE_GPU_HOLD:-2}" ] && echo 4242
 exit 0
@@ -125,13 +128,13 @@ def k(run: str) -> str:
 
 def test_normal(tmp: Path) -> None:
     setup(tmp, runs=(A, B, C, D), dumped=(B,), nonfinite=(C,), no_policy=(D,))
-    p = chain(tmp)
+    p = chain(tmp, V2D_EVAL_WORLDS="64")   # 环境里残留的世界数不影响（审查第 12 条）
     assert p.returncode == 0, p.stderr
     t = table(tmp)
     assert [t[r][2] for r in (A, B, C, D)] == ["ok", "exists", "nonfinite", "no_policy"], t
     npz = tmp / f"runs/flash_chord/{A}/eval_dump/eval_{STEP}_w4096.npz"
     assert t[A][6] == hashlib.sha256(npz.read_bytes()).hexdigest()
-    assert calls(tmp) == [f"{A} {STEP} marked"], calls(tmp)   # 调用时标记非空（scripts/dev/remote 只认非空标记）
+    assert calls(tmp) == [f"{A} {STEP} marked W=4096"], calls(tmp)   # 调用时标记非空（scripts/dev/remote 只认非空标记），世界数固定 4096
     assert not (tmp / f"runs/.chain-active-{NAME}").exists()
     assert (tmp / f"results/frames/{NAME}/{A}_s{STEP}.txt").exists()
     assert (tmp / f"results/frames/{NAME}/fc_src.txt").exists()
@@ -163,6 +166,26 @@ def test_gpu_always_busy(tmp: Path) -> None:
     assert p.returncode == 1, p.stdout
     assert log(tmp).splitlines()[-1].endswith("DUMP_CHAIN_FAILED")
     assert calls(tmp) == [] and not (tmp / f"runs/.chain-active-{NAME}").exists()
+
+
+def test_gpu_error_and_retry_limit(tmp: Path) -> None:
+    setup(tmp, runs=(A,))
+    p = chain(tmp, FAKE_GPU="error", V2D_GPU_WAIT_S="2")   # nvidia-smi 出错按被占处理
+    assert p.returncode == 1 and calls(tmp) == [] and "nvidia-smi 出错" in log(tmp), log(tmp)
+    d = tmp / "always6"
+    d.mkdir()
+    setup(d, runs=(A, B))
+    p = chain(d, FAKE_ALWAYS6_RUN=A, V2D_GPU_WAIT_S="3")
+    text = (d / f"runs/logs/{NAME}.log").read_text()
+    assert p.returncode == 1 and "累计等 GPU 超过 3 秒" in text and text.splitlines()[-1].endswith("DUMP_CHAIN_FAILED"), text
+    n = len([c for c in calls(d) if c.startswith(A + " ")])
+    assert 2 <= n <= 5 and not any(c.startswith(B + " ") for c in calls(d)), calls(d)   # 重跑之间停 1 秒，不连发
+    d = tmp / "nonl"
+    d.mkdir()
+    setup(d, runs=(A, B), lst=f"{A} {STEP}\n{B} {STEP}")   # 最后一行没有换行
+    p = chain(d)
+    t = {f[0]: f for f in (x.split("\t") for x in (d / f"runs/frames/{NAME}.tsv").read_text().splitlines()[1:])}
+    assert p.returncode == 0 and t[A][2] == "ok" and t[B][2] == "ok", t
 
 
 def test_busy_midway(tmp: Path) -> None:
@@ -242,10 +265,16 @@ def test_dryrun(tmp: Path) -> None:
     p = chain(d, V2D_DUMP_CHAIN_DRYRUN="1", FAKE_DOCKER_LEFT="fc-evaldump-old")
     assert p.returncode == 1 and "FAIL 没有别的长链标记" in p.stdout and "FAIL 没有残留的 fc-evaldump-* 容器（fc-evaldump-old）" in p.stdout, p.stdout
     assert "DUMP_DRYRUN_FAIL 2" in p.stdout, p.stdout
+    d = tmp / "smierr"
+    d.mkdir()
+    setup(d, runs=(A,))
+    p = chain(d, V2D_DUMP_CHAIN_DRYRUN="1", FAKE_GPU="error")
+    assert p.returncode == 1 and "FAIL nvidia-smi 能跑" in p.stdout, p.stdout
 
 
 def main() -> None:
-    tests = [test_normal, test_fail_continue, test_gpu_wait_then_go, test_gpu_always_busy, test_busy_midway, test_fc_src, test_refuse,
+    tests = [test_normal, test_fail_continue, test_gpu_wait_then_go, test_gpu_always_busy, test_gpu_error_and_retry_limit, test_busy_midway,
+             test_fc_src, test_refuse,
              test_markers_once, test_dryrun]
     for t in tests:
         with tempfile.TemporaryDirectory() as d:

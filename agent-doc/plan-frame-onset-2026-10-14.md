@@ -82,7 +82,9 @@
    `scripts/dev/record frames/onset_t3_<机器> scripts/dev/in-flash-chord "cd /repo && python stages/evaluate/fail_onset.py /repo/results/frames/t3_<机器> <该机 t3 run…> --repro noise"`；
    `scripts/dev/record frames/onset_t1_<机器> scripts/dev/in-flash-chord "cd /repo && python stages/evaluate/fail_onset.py /repo/results/frames/t1_<机器> <该机 t1 run…> --repro fixed"`；
    Tier 1 的 7 条另跑登记的 `fall_order_one.py`（`frames/fall_order_one_t1_<机器>`，门与判法不改）。拉回后在 Mac 上：
-   `scripts/dev/record frames/t3_onset_evidence <带 numpy 的 python> stages/evaluate/t3_onset_evidence.py results/t3frame/evidence_hm_1015_1235cst results/frames/t3_*/onset_t3-*-hm-*.json`。
+   `scripts/dev/record frames/t3_onset_evidence <带 numpy 的 python> stages/evaluate/t3_onset_evidence.py results/t3frame/evidence_hm_1015_1235cst
+   results/frames/t3_mf4090/onset_t3-*-hm-*.json results/ml40/frames/t3_ml40/onset_t3-*-hm-*.json`（ml40 的结果拉回到 `results/ml40/`；脚本要求恰好是
+   登记的 18 集）。链跑着时两台不能同步：分析脚本按约定复制到 `runs/tools/frames/` 再跑，记 md5，与提交里的逐字相同。
 6. **记录**：执行记录、jev（数字与判读，带对照）、提交；给另一位用户的摘要经用户转。
 
 ## 4. 判据（执行前登记，不改）
@@ -170,6 +172,33 @@
 | 14 | NIT | 第 3 节分析命令是省略号 | 采纳：写成完整命令，每台分两档各调一次 |
 | 15 | NIT | 误差数组是 float16 | 采纳：写进第 5 节 |
 
+代码审查（第 2 版代码，提交 6e263ea；独立 agent，PASS WITH FIXES，15 条）：
+
+| # | 级别 | 意见 | 处理 |
+|---|---|---|---|
+| 1 | MAJOR | 第 5 步的通配漏掉拉回到 `results/ml40/` 的 5 条 ml40 结果，脚本也不核收了哪些集 | 采纳：`t3_onset_evidence.py` 要求 best_hm 的集恰好是登记的 18 集、不重复，否则退出码 2；第 5 步命令改成两个目录 |
+| 2 | MINOR | G4 的多数在平票时取决于参数顺序 | 采纳：没有严格多数时整组记门不过（两个脚本） |
+| 3 | MINOR | GPU 检查在 nvidia-smi 出错时当成卡空 | 采纳：`dump_chain.sh` 与 `fc_eval_dump.sh` 都按被占处理；预检加“nvidia-smi 能跑” |
+| 4 | MINOR | 退出码 6 的重跑没有停顿、没有总时限 | 采纳：重跑前停 `V2D_POLL_S` 秒，一行累计等满 `V2D_GPU_WAIT_S` 就停 |
+| 5 | MINOR | 接触只核了 Tier 1 的一集，Tier 3 的接触值没核 | 采纳：`hand_contact_active` 有 0、1 以外的值记门不过 |
+| 6 | MINOR | 冻结期越线的测试放在成功世界上，测不到 | 采纳：另放一个在失败世界上，并断言它仍记 no_cross |
+| 7 | MINOR | 新调用处没有测试证明档位守卫会拦 | 采纳：两个脚本各加一个读到 Tier 1 目录名时调用失败的测试；守卫的错误不再被宽的 except 吞掉 |
+| 8 | MINOR | 证据表测试只测了两种旗标 | 采纳：每个用到的列单独置位，断言只有对应旗标命中 |
+| 9 | NIT | 清单最后一行没有换行会丢 | 采纳：读到最后一行 |
+| 10 | NIT | G4 不过的 JSON 里仍有计数 | 采纳：删去计数 |
+| 11 | NIT | 两处中位数的算法不同 | 采纳：都用 np.percentile |
+| 12 | NIT | 没有固定世界数，环境里残留的 `V2D_EVAL_WORLDS` 会让每行失败 | 采纳：调用时固定 4096 |
+| 13 | NIT | 两处档位守卫的边角 | 采纳：按文件名先筛再读；`contact_check.py` 对非 t1 的 run 装守卫 |
+| 14 | NIT | 一个坏 npz 会让整次调用失败 | 采纳：只算那一条门不过（守卫的错误除外） |
+| 15 | NIT | 拷贝脚本的远端报错可能带出别人的目录名 | 采纳：远端 stderr 丢掉 |
+
 ## 9. 执行记录
 
-（待填）
+- 00:13 第 2 版代码与计划提交（6e263ea）。00:2x 证据表快照：31 个文件的 sha256 与 23:55 的登记全部相同，用到的布尔列只有 0、1
+  （`results/t3frame/evidence_fetch_hm.txt`；第一次在 Mac 的 bash 3.2 上因全角标点紧跟变量失败，修后重跑，a4e9c59）。
+- 00:2x 两台同步到 a4e9c59；两台 `test_dump_chain.py` 都 `ALL_OK`，容器里 21 个 pytest 都过（`results/frames/tests_mf4090.txt`、`tests_ml40.txt`）；
+  两台预检 `DUMP_DRYRUN_OK`（`results/frames/dryrun_frames_*_1014.txt`）。甲的队列生成后两台再同步到 6bfb784。
+- 00:30 两台起 dump 链（`results/frames/arm_frames_*_1014.txt`），标记写了内容，副本核对通过；00:31 两台挂上甲的 arm_after（`agent-doc/plan-overnight-2026-10-15.md`）。
+- 00:34 代码审查回来（上表）。在跑的两条 dump 链用的是 6bfb784 的 `dump_chain.sh`：第 3、4、9、12 条这次碰不到（两台 nvidia-smi 正常、清单都以换行结尾、
+  tmux 全局环境里没有 `V2D_EVAL_WORLDS`），不停链；改动供以后用。分析脚本改后在 Mac 上 23 个测试全过、`test_dump_chain.py` 在 mf4090 的临时目录里 10 组全过；
+  链跑着不能同步，跑分析时把这一版的 `fail_onset.py`、`fall_order.py` 复制到 `runs/tools/frames/` 再跑，记 md5。

@@ -16,7 +16,8 @@ O="runs/flash_chord/$RUN"; P="$O/policy_${STEP}.safetensors"; [ -f "$P" ] || die
 [ -f "$O/NONFINITE" ] && die "$RUN 有 NONFINITE，不评" 12
 D="$O/eval_dump"; J="$D/eval_${STEP}_w${W}.json"; N="$D/eval_${STEP}_w${W}.npz"; LOG="runs/logs/$RUN.eval_dump_${STEP}_w${W}.log"
 if [ -s "$J" ] && [ -s "$N" ]; then echo "fc_eval_dump: 已有结果 $J $N"; exit 0; fi
-others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ')"
+others="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null)" || die "nvidia-smi 出错，按 GPU 被占处理，拒绝评测" 6
+others="$(printf '%s' "$others" | tr -d ' ')"
 [ -z "$others" ] || die "GPU 上有别的进程（PID ${others//$'\n'/,}），拒绝评测" 6
 mkdir -p "$D" runs/logs
 echo "=== $(date '+%F %T %Z') fc_eval_dump $RUN policy_$STEP world_count=$W ===" >> "$LOG"

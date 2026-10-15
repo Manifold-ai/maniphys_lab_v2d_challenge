@@ -7,7 +7,9 @@
 5. 缺 dump 的 run 记门不过，同一次给的其余 run 照常处理，退出码 0，结尾计数对；
 6. policy 里的参考路径以 /repo/ 开头时，换成 --root 下的路径；
 7. 新评 JSON 的 start_frame 不是 0：门不过；
-8. G4：三条里一条的骨盆阈值与另两条不同，那一条门不过；混档拒绝；复现门的 z 值对。
+8. G4：三条里一条的骨盆阈值与另两条不同，那一条门不过、删去计数；两条各一种时不论顺序都门不过；混档拒绝；复现门的 z 值对；
+9. 失败世界里冻结期内的越线不计；参考接触有 0、1 以外的值、npz 截断：这一条门不过，其余照常；Tier 3 的 run 读到 Tier 1 目录：守卫拦下、调用失败；
+   起点分位用 np.percentile。
 """
 
 import json
@@ -39,6 +41,8 @@ def make(root: Path, run: str, pattern, n_fail=50, n_ok=10, ori=0.6, mp_shift=0.
         if t_pel is not None:
             te[t_pel:, wi, 0] = 1.0
     te[10:40, 0, 4] = 0.5  # 冻结期内的物体越线，不计
+    if n_fail > 4:
+        te[10:40, n_ok + 4, 4] = 0.5   # 失败世界里冻结期内的越线也不计（代码审查第 6 条；pattern 第 5 项是 (None, None) 时它应当记 no_cross）
     o = root / "runs/flash_chord" / run
     (o / "eval_dump").mkdir(parents=True)
     np.savez_compressed(o / "eval_dump/eval_1_w9.npz", tracking_error=te.astype(np.float16), error_names=np.array(NAMES),
@@ -80,6 +84,7 @@ def test_onset_counts(tmp_path):
     assert [d["n_on"][t] for t in (60, 70, 90, 200)] == [10, 10, 10, 10] and sum(d["n_on"]) == 40
     assert d["n_on"][20] == 0 and sum(d["n_obj"]) == 30 and d["n_obj"][150] == 10
     assert d["mode_window"] == [55, 70, 20]
+    assert d["q_on"][2] == 80.0   # np.percentile 的中位：60、70、90、200 各 10 个
     of, pf, si = d["classes"]["25"]
     assert abs(of - 1 / 3) < 1e-9 and abs(pf - 2 / 3) < 1e-9 and si == 0
     assert "FAIL_ONSET_DONE（门过 1、门不过 0）" in p.stdout
@@ -154,7 +159,45 @@ def test_g4(tmp_path):
     p, d = call(tmp_path, *runs)
     assert d[runs[0]]["gate_ok"] and d[runs[1]]["gate_ok"], (d[runs[0]]["problems"], d[runs[1]]["problems"])
     assert not d[runs[2]]["gate_ok"] and any(x.startswith("G4") for x in d[runs[2]]["problems"])
+    assert "n_on" not in d[runs[2]] and "n_on" in d[runs[0]]   # 门不过的删去计数
     assert p.stdout.rstrip().endswith("FAIL_ONSET_DONE（门过 2、门不过 1）")
+
+
+def test_g4_tie(tmp_path):
+    a, b = "t3-ep1-w2048-cap4m-r3a-hm-mf4090", "t3-ep2-w2048-cap4m-r3a-hm-mf4090"
+    make(tmp_path, a, [(60, 120)])
+    make(tmp_path, b, [(60, 120)], pel_thr=0.6)
+    for order in ((a, b), (b, a)):   # 两条各一种：不论顺序，两条都门不过
+        _, d = call(tmp_path, *order)
+        assert not d[a]["gate_ok"] and not d[b]["gate_ok"], (order, d[a]["problems"], d[b]["problems"])
+
+
+def test_contact_values(tmp_path):
+    r = "t3-ep14-w2048-cap4m-r3a-hm-mf4090"
+    c = np.zeros((2, T))
+    c[1, 50:60] = 0.5
+    make(tmp_path, r, [(60, 120)], contact=c)
+    _, d = call(tmp_path, r)
+    assert not d[r]["gate_ok"] and any("0、1 以外" in x for x in d[r]["problems"]), d[r]["problems"]
+
+
+def test_corrupt_npz(tmp_path):
+    bad, good = "t3-ep16-w2048-cap4m-r3a-hm-mf4090", "t3-ep17-w2048-cap4m-r3a-hm-mf4090"
+    make(tmp_path, bad, [(60, 120)])
+    make(tmp_path, good, [(60, 120)])
+    f = tmp_path / f"runs/flash_chord/{bad}/eval_dump/eval_1_w9.npz"
+    f.write_bytes(f.read_bytes()[:200])   # 截断
+    p, d = call(tmp_path, bad, good)
+    assert p.returncode == 0 and not d[bad]["gate_ok"] and d[good]["gate_ok"], (p.stderr, d.get(bad, {}).get("problems"))
+
+
+def test_tier_guard(tmp_path):
+    root = tmp_path / "tier_1_multiview_caption"   # Tier 3 的 run 读到带 Tier 1 目录名的路径：守卫拦下，整次调用失败
+    r = "t3-ep19-w2048-cap4m-r3a-hm-mf4090"
+    make(root, r, [(60, 120)])
+    p = subprocess.run([sys.executable, str(HERE / "fail_onset.py"), str(tmp_path / "out"), r, "--steps", "1", "--worlds", "9", "--root", str(root),
+                        "--repro", "noise"], capture_output=True, text=True)
+    assert p.returncode != 0 and "Tier1AccessError" in p.stderr, (p.returncode, p.stderr[-500:])
 
 
 def test_repo_prefix(tmp_path):

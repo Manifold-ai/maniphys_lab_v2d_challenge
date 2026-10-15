@@ -11,7 +11,9 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import fail_onset as fon  # noqa: E402
+from libs.v2d_infra import tier_guard  # noqa: E402
 
 
 def main(argv=None) -> int:
@@ -21,6 +23,8 @@ def main(argv=None) -> int:
     ap.add_argument("--steps", type=int, default=349999104)
     ap.add_argument("--root", default=".")
     a = ap.parse_args(argv)
+    if not a.run.startswith("t1-"):
+        tier_guard.forbid_tier1()   # Tier 2、Tier 3 的 run 不许读 Tier 1（代码审查第 13 条）
     z = np.load(a.npz, allow_pickle=False)
     d_sides = [str(s) for s in z["contact_sides"]]
     d_c = np.asarray(z["contact_active"], dtype=bool)          # (T, 侧)

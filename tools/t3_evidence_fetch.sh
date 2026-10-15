@@ -13,7 +13,7 @@ n="$(printf '%s\n' "$want" | grep -c .)"
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
 root="$(ssh -n -o BatchMode=yes ml40 'ls -d /lab_data/*/v2d/tier3 | grep -v "^/lab_data/$(id -un)/" | head -1')"
 [ -n "$root" ] || { echo "t3_evidence_fetch: ml40 上找不到另一位用户的 tier3 目录" >&2; exit 2; }
-ssh -n -o BatchMode=yes ml40 "cd '$root/dev/perframe/hm' && tar cf - ep[0-9][0-9].csv summary.json" | tar xf - -C "$tmp" \
+ssh -n -o BatchMode=yes ml40 "cd '$root/dev/perframe/hm' && tar cf - ep[0-9][0-9].csv summary.json" 2>/dev/null | tar xf - -C "$tmp" \
   || { echo "t3_evidence_fetch: 拷贝失败" >&2; exit 1; }
 bad=0
 while read -r sha f; do

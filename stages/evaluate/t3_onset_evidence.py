@@ -13,9 +13,12 @@
   “至少这么多命中”的概率（泊松二项，起点挤在一个窗口时 A 只能是 0 或 1，命中的机会约等于 B）；E ≤ 1.25 的 ≥ 2/3 记“不集中”；其余“看不清”。
 另报：每条 run 起点的四分位距与最集中窗口的占比（≥ 50% 标“单窗口”）；ep04 已对照视频确认的头尾颠倒帧（313、509、669，见另一位用户的交接 197a02f）
   之后 30 帧内的起点数与同样宽度的机会占比。只报，不据此起训练。读文件前调 tier_guard.forbid_tier1()。
-用法：python stages/evaluate/t3_onset_evidence.py <证据目录> <onset JSON> [<onset JSON> ...]
+收的集（代码审查第 1 条）：按文件名 onset_<run>.json 先筛（不是 t3 best_hm 的不读），best_hm 的集必须恰好是登记的 18 集、不重复，否则退出码 2；
+  --expect-eps 只给测试用。G4 没有严格多数时整组门不过。分位用 np.percentile（与 fail_onset.py 同一定义）。
+用法：python stages/evaluate/t3_onset_evidence.py <证据目录> <onset JSON> [<onset JSON> ...] [--expect-eps 1,2,…]
 """
 
+import argparse
 import csv
 import json
 import re
@@ -37,6 +40,8 @@ BOOL_OK = {"0", "1", "True", "False"}
 W_MAIN, W_SENS = 15, (5, 30)
 MIN_ONSET, MIN_MEDIAN, B_LO, B_HI, E_HI, E_LO, MIN_RUNS, P_MAX = 50, 100, 0.02, 0.5, 2.0, 1.25, 4, 0.05
 KNOWN_FLIPS = {4: (313, 509, 669)}
+REGISTERED_HM = (1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 19, 21, 25, 27)   # 计划第 1 节：best_hm 训过的 18 集
+HM_FILE = re.compile(r"^onset_(t3-ep(\d+)-.*-hm-.*)\.json$")
 AFTER = 30
 
 
@@ -89,9 +94,10 @@ def enrich(n_on: np.ndarray, flag: np.ndarray, b0: int, w: int):
     return a, b, (a / b if b > 0 else float("nan"))
 
 
-def wquant(n_on: np.ndarray, q: float) -> int:
-    c = np.cumsum(n_on)
-    return int(np.searchsorted(c, q * c[-1])) if c[-1] else -1
+def wquant(n_on: np.ndarray, q: float) -> float:
+    """每帧计数展开成起点帧号后取 np.percentile（与 fail_onset.py 的分位同一定义）。"""
+    x = np.repeat(np.arange(len(n_on)), n_on.astype(int))
+    return float(np.percentile(x, q * 100)) if len(x) else -1.0
 
 
 def reading(es: list, bs: list) -> str:
@@ -108,29 +114,44 @@ def reading(es: list, bs: list) -> str:
 
 
 def main(argv=None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
-    if len(argv) < 2:
-        print(__doc__.strip().splitlines()[-1], file=sys.stderr)
-        return 2
+    ap = argparse.ArgumentParser()
+    ap.add_argument("evdir")
+    ap.add_argument("files", nargs="+")
+    ap.add_argument("--expect-eps", default=",".join(map(str, REGISTERED_HM)), help="只给测试用")
+    a = ap.parse_args(argv)
     tier_guard.forbid_tier1()
-    evdir = Path(argv[0])
-    ds = [json.loads(Path(p).read_text()) for p in argv[1:]]
-    have = [d for d in ds if d.get("gate_ok") and re.match(r"^t3-ep\d+-.*-hm-", d["run"])]
-    common = Counter((tuple(d["thr"]), tuple(d["act"])) for d in have).most_common(1)[0][0] if have else None
+    evdir = Path(a.evdir)
+    want = sorted(int(x) for x in a.expect_eps.split(","))
+    picked, skipped = [], []
+    for p in map(Path, a.files):
+        m = HM_FILE.match(p.name)
+        (picked if m else skipped).append((p, m))
+    eps = [int(m.group(2)) for _, m in picked]
+    if sorted(eps) != want:
+        print(f"t3_onset_evidence: best_hm 的集应当恰好是 {want}、不重复，这次是 {sorted(eps)}", file=sys.stderr)
+        return 2
+    for p, _ in skipped:
+        print(f"{p.name}\t—\t—\t不收：只收 Tier 3 best_hm 的 onset（按文件名，没有读）")
+    ds = [json.loads(p.read_text()) for p, _ in picked]
+    have = [d for d in ds if d.get("gate_ok")]
+    cnt = Counter((tuple(d["thr"]), tuple(d["act"])) for d in have)
+    common = None
+    if cnt:
+        (val, n), = cnt.most_common(1)
+        common = val if n * 2 > len(have) else None   # 没有严格多数时整组都算 G4 不过
     per = {w: {f: ([], []) for f in FLAGS} for w in (W_MAIN, *W_SENS)}
     print("run\tep\t有起点\t起点四分位距\t最集中窗口占比\t" + "\t".join(f"{f} B/A/E" for f in FLAGS))
-    for d in ds:
+    for (p, fm), d in zip(picked, ds):
         run = d["run"]
-        m = re.match(r"^t3-ep(\d+)-.*-hm-", run)
-        if not m:
-            print(f"{run}\t—\t—\t不收：只收 Tier 3 best_hm 的 run")
+        ep = int(fm.group(2))
+        if run != fm.group(1):
+            print(f"{run}\tep{ep}\t—\t门不过：文件名 {p.name} 与 JSON 里的 run 不符")
             continue
-        ep = int(m.group(1))
         if not d.get("gate_ok"):
             print(f"{run}\tep{ep}\t—\t门不过（fail_onset）：" + "；".join(d.get("problems", [])))
             continue
-        if (tuple(d["thr"]), tuple(d["act"])) != common or abs(d["thr"][5] - 0.6) > 1e-9:
-            print(f"{run}\tep{ep}\t—\t门不过（G4）：阈值 {d['thr']}、active_after_step {d['act']} 与其他 run 不同或物体朝向阈值不是 0.6")
+        if common is None or (tuple(d["thr"]), tuple(d["act"])) != common or abs(d["thr"][5] - 0.6) > 1e-9:
+            print(f"{run}\tep{ep}\t—\t门不过（G4）：阈值 {d['thr']}、active_after_step {d['act']} 与其他 run 不同、没有严格多数或物体朝向阈值不是 0.6")
             continue
         T = int(d["step_count"])
         flags, why = flags_from_csv(evdir / f"ep{ep:02d}.csv", T)
@@ -154,7 +175,7 @@ def main(argv=None) -> int:
                     per[w][f][1].append(b)
                 if w == W_MAIN:
                     cells.append(f"{b:.2f}/{a:.2f}/{e:.2f}" + ("" if ok else "（不可比）"))
-        iqr = f"{q25}–{q75}（中位 {q50}{'，太早' if early else ''}）" if d["n_onset"] else "—"
+        iqr = f"{q25:g}–{q75:g}（中位 {q50:g}{'，太早' if early else ''}）" if d["n_onset"] else "—"
         print(f"{run}\tep{ep}\t{d['n_onset']}\t{iqr}\t{share:.0%}{'（单窗口）' if share >= 0.5 else ''}\t" + "\t".join(cells))
         if d["n_onset"]:
             inside = "，".join(f"{f} {int(flags[f][w0:w1 + 1].sum())}" for f in FLAGS)

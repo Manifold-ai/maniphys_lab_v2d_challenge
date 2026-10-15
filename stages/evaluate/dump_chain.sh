@@ -12,6 +12,7 @@
 #    否则跑 fc_eval_dump.sh：退出码 0 且 JSON、npz 都在 → ok；退出码 6（GPU 刚被别人占了）→ 等 GPU 空了重跑这一行（同样最多等
 #    V2D_GPU_WAIT_S，等不到就停整条链）；其他 → failed（结果表记退出码）。每次调用经 scripts/dev/record 落盘到 results/frames/<日志名>/<run>_s<步数>.txt。
 #    结果表 runs/frames/<日志名>.tsv：run 步数 状态 退出码 JSON npz npz 的 sha256。
+#    nvidia-smi 出错按 GPU 被占处理；调用 fc_eval_dump.sh 时固定 V2D_EVAL_WORLDS=4096；退出码 6 的重跑之间停 V2D_POLL_S 秒，一行累计等满 V2D_GPU_WAIT_S 就停。
 # 3. 日志最后一行 DUMP_CHAIN_DONE（成功 x、失败 y）（成功 = ok + exists），停在中途时是 DUMP_CHAIN_FAILED。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
@@ -23,7 +24,7 @@ DRY="${V2D_DUMP_CHAIN_DRYRUN:-0}"; GPU_WAIT_S="${V2D_GPU_WAIT_S:-7200}"; POLL_S=
 [ -r "$LIST" ] || { echo "dump_chain: 读不了清单 $LIST" >&2; exit 2; }
 [[ $GPU_WAIT_S =~ ^[0-9]+$ && $POLL_S =~ ^[1-9][0-9]*$ ]] || { echo "dump_chain: V2D_GPU_WAIT_S、V2D_POLL_S 必须是整数" >&2; exit 2; }
 ROWS=()
-while read -r run step extra; do
+while read -r run step extra || [ -n "${run:-}" ]; do   # 最后一行没有换行也读
   case "$run" in ''|'#'*) continue ;; esac
   [[ $run =~ ^[a-z0-9][a-z0-9_-]{2,59}$ && $step =~ ^[0-9]+$ && -z ${extra:-} ]] || { echo "dump_chain: 清单行格式不对：$run $step ${extra:-}" >&2; exit 2; }
   for r in "${ROWS[@]+"${ROWS[@]}"}"; do [ "${r% *}" = "$run" ] && { echo "dump_chain: 清单里 $run 重复" >&2; exit 2; }; done
@@ -39,6 +40,7 @@ if [ "$DRY" = 1 ]; then
   chk() { if eval "$2" >/dev/null 2>&1; then echo "  ok   $1"; else echo "  FAIL $1"; bad=$((bad + 1)); fi; }
   echo "== 预检 ${NAME}：清单 ${LIST}（${NROW} 行），V2D_FC_SRC=${V2D_FC_SRC:-未设}，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
   echo "  ok   $LOG 与 $OUT 都不存在"
+  chk "nvidia-smi 能跑" "nvidia-smi --query-compute-apps=pid --format=csv,noheader"
   chk "V2D_FC_SRC 是核对过的 8c778f9 副本" "[ -n '${V2D_FC_SRC:-}' ] && python3 stages/policy/fc_src_check.py '${V2D_FC_SRC:-/nonexistent}' third_party/patches/flash_chord-8c778f9.sha256"
   others="$(ls runs/.chain-active-* 2>/dev/null | paste -sd, -)"
   chk "没有别的长链标记（${others:-无}）" "[ -z '$others' ]"
@@ -61,7 +63,11 @@ mkdir -p runs/logs runs/frames
 echo "$NAME $(cat .v2d-source-commit 2>/dev/null || echo unknown) $(date '+%F %T %Z')" > "$MARK"; trap 'rm -f "$MARK"' EXIT
 say() { echo "=== $(date '+%F %T %Z') $*" | demark | tee -a "$LOG"; }
 stop() { say "$*"; echo "=== $(date '+%F %T %Z') DUMP_CHAIN_FAILED" | tee -a "$LOG"; exit 1; }
-gpu_pids() { nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ' | paste -sd, -; }
+gpu_pids() {  # nvidia-smi 出错按“GPU 被占”处理（审查第 3 条：不能把出错读成卡空）
+  local out
+  out="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null)" || { echo "nvidia-smi 出错"; return; }
+  printf '%s\n' "$out" | tr -d ' ' | grep . | paste -sd, -
+}
 wait_gpu() {  # GPU 上有进程就每 POLL_S 秒看一次，最多 GPU_WAIT_S 秒；空了返回 0。只看，不动别人的进程
   local t0=$SECONDS p
   p="$(gpu_pids)"; [ -n "$p" ] || return 0
@@ -91,11 +97,15 @@ for row_ in "${ROWS[@]}"; do
   if dumped "$run" "$step"; then row "$run" "$step" exists 0; say "${run}：已有 dump，不重评"; continue; fi
   if [ -e "$d/NONFINITE" ]; then row "$run" "$step" nonfinite -; say "${run}：有 NONFINITE，不评"; continue; fi
   if [ ! -s "$d/policy_${step}.safetensors" ]; then row "$run" "$step" no_policy -; say "${run}：没有 policy_${step}.safetensors"; continue; fi
+  t_row=$SECONDS
   while :; do
     rc=0
-    scripts/dev/record "frames/${NAME}/${run}_s${step}" stages/evaluate/fc_eval_dump.sh "$run" "$step" >> "$LOG" 2>&1 < /dev/null || rc=$?
+    V2D_EVAL_WORLDS="$W" scripts/dev/record "frames/${NAME}/${run}_s${step}" stages/evaluate/fc_eval_dump.sh "$run" "$step" >> "$LOG" 2>&1 < /dev/null || rc=$?
     [ "$rc" = 6 ] || break
+    # 退出码 6：等 GPU 空了再重跑；每次重跑前先停 POLL_S 秒，这一行累计等满 GPU_WAIT_S 就停整条链（审查第 4 条）
+    [ $((SECONDS - t_row)) -lt "$GPU_WAIT_S" ] || stop "${run} 这一行累计等 GPU 超过 ${GPU_WAIT_S} 秒，停下；之前的行已写进 $OUT"
     wait_gpu || stop "GPU 被别的进程占了 ${GPU_WAIT_S} 秒，停在 ${run}；之前的行已写进 $OUT"
+    sleep "$POLL_S"
   done
   if [ "$rc" = 0 ] && dumped "$run" "$step"; then row "$run" "$step" ok 0; say "${run}：评完，dump 已存"
   else row "$run" "$step" failed "$rc"; say "${run}：fc_eval_dump 失败（退出码 ${rc}），见 results/frames/${NAME}/${run}_s${step}.txt.failed 与 runs/logs/${run}.eval_dump_${step}_w${W}.log"; fi

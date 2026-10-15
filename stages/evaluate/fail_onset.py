@@ -7,7 +7,8 @@
   “接触中” = 任一侧为真。
 - 门（不过就记“门不过”，JSON 里 gate_ok 为 false，不出计数）：fall_order.run_one 列出的问题；新评 JSON 的 start_frame 不是 0 或
   reference_tracking.reference_end_fraction 不是 1.0（帧号 = 步号的前提）；参考帧数不等于评测的 step_count；policy 或参考读不了；
-  G4：这一次给的 run 之间骨盆、手掌、物体位置阈值与 active_after_step 不同，或同一变体（名字带不带 -r3a-）的物体朝向阈值不同（与多数不同的那条记门不过）。
+  G4：这一次给的 run 之间骨盆、手掌、物体位置阈值与 active_after_step 不同，或同一变体（名字带不带 -r3a-）的物体朝向阈值不同：与严格多数不同的那条
+  记门不过，没有严格多数时整组记门不过；门不过的删去计数。参考的 hand_contact_active 只许 0、1。坏文件只算这一条门不过；档位守卫拦下的读取让整次调用失败。
   复现门另打 z = 差 / √(2p(1−p)/N)。
 - 起点：失败世界里 t_on = min(t_pel, t_obj)（存在的那个）；两者都没有的失败世界计入 no_cross。帧号 = 步号。
 - 输出：<outdir>/onset_<run>.json（n_on、n_pel、n_obj 每帧计数，contact，门与汇总）与同名 .txt（第 4 节“只报”各项）。
@@ -31,6 +32,7 @@ import fall_order as fo  # noqa: E402
 from libs.v2d_infra import tier_guard  # noqa: E402
 
 WIN = 15            # 起点最集中的窗口（帧）
+COUNT_KEYS = ("n_on", "n_pel", "n_obj", "n_palm", "contact", "q_on", "q_pel", "q_obj", "classes", "pel_phase", "mode_window")
 KS = (10, 25, 50)   # 三类的 k，主值 25
 
 
@@ -58,11 +60,15 @@ def ref_contact(path: Path):
     c = np.asarray(t["hand_contact_active"][0], dtype=np.float64)
     if c.ndim != 2 or c.shape[0] != len(sides):
         raise ValueError(f"hand_contact_active 形状 {c.shape} 与 hand_sides {sides} 对不上")
+    bad = sorted(set(np.unique(c).tolist()) - {0.0, 1.0})
+    if bad:   # 只许 0、1：不论按什么门槛读，接触帧都一样（代码审查第 5 条）
+        raise ValueError(f"hand_contact_active 有 0、1 以外的值：{bad[:5]}")
     return sides, c > 0.5
 
 
 def quantiles(x: np.ndarray):
-    return [int(v) for v in np.percentile(x, [10, 25, 50, 75, 90])] if len(x) else []
+    """np.percentile（线性插值）的 10/25/50/75/90 分位，保留一位小数；t3_onset_evidence.py 用同一个定义。"""
+    return [round(float(v), 1) for v in np.percentile(x, [10, 25, 50, 75, 90])] if len(x) else []
 
 
 def onset(t_pel: np.ndarray, t_obj: np.ndarray) -> np.ndarray:
@@ -86,7 +92,9 @@ def one(root: Path, run: str, steps: int, worlds: int, mode: str) -> dict:
         n_new = int(json.loads((o / f"eval_dump/eval_{steps}_w{worlds}.json").read_text())["world_count"])
         tol = repro_tol(mode, p_old, n_new)
         r = fo.run_one(str(root), run, steps, worlds, "-r3a-" in run, repro_mp=tol)
-    except (OSError, KeyError, ValueError) as e:
+    except tier_guard.Tier1AccessError:
+        raise   # 档位守卫拦下的读取必须让整次调用失败，不能记成门不过
+    except Exception as e:  # noqa: BLE001  坏文件（如截断的 npz）只算这一条门不过，其余 run 照常（代码审查第 14 条）
         out["problems"].append(f"读不了评测文件或缺键（{type(e).__name__}: {e}）")
         return out
     T = int(r["te"].shape[0])
@@ -104,7 +112,9 @@ def one(root: Path, run: str, steps: int, worlds: int, mode: str) -> dict:
         out["parquet"], out["sides"] = str(pq_path), sides
         if contact.shape[1] != T:
             out["problems"].append(f"参考帧数 {contact.shape[1]} 与评测 step_count {T} 不符")
-    except (OSError, KeyError, ValueError, struct.error) as e:
+    except tier_guard.Tier1AccessError:
+        raise
+    except Exception as e:  # noqa: BLE001
         out["problems"].append(f"读不了 policy 或参考（{type(e).__name__}: {e}）")
     if out["problems"]:
         return out
@@ -142,11 +152,14 @@ def g4(ds: list) -> None:
     def mark(key, group):
         if not group:
             return
-        common = Counter(key(d) for d in group).most_common(1)[0][0]
+        (common, n), = Counter(key(d) for d in group).most_common(1)
+        strict = n * 2 > len(group)   # 没有严格多数（如两条各一种）时整组都记门不过，不靠参数顺序定谁对（代码审查第 2 条）
         for d in group:
-            if key(d) != common:
-                d["problems"].append(f"G4：阈值或 active_after_step 与这一次的其他 run 不同（{d['thr']}、{d['act']}）")
+            if not strict or key(d) != common:
+                d["problems"].append(f"G4：阈值或 active_after_step 与这一次的其他 run 不同或没有多数（{d['thr']}、{d['act']}）")
                 d["gate_ok"] = False
+                for k in COUNT_KEYS:   # 门不过不出计数（代码审查第 10 条）
+                    d.pop(k, None)
 
     mark(lambda d: (tuple(d["thr"][:5]), tuple(d["act"])), have)
     for var in (True, False):
