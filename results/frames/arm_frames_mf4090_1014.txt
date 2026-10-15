@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ tmux\ new-session\ -d\ -s\ frames_mf4090_1014\ \'cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/dump_chain.sh\ stages/evaluate/frames/dump_mf4090_1014.txt\ frames_mf4090_1014\'\ \&\&\ tmux\ ls\ \|\ grep\ frames_ 
+# md5      : 87c3dbf7df15e5dd04cb7b9865292eb0  stages/evaluate/dump_chain.sh
+# md5      : e11b7a0f255bc833ac41b9ddf088f6e4  stages/evaluate/frames/dump_mf4090_1014.txt
+# source   : 6bfb7841a795
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:30:52-0600
+# ---------------------------------------------------------------
+source 6bfb7841a795
+frames_mf4090_1014: 1 windows (created Thu Oct 15 14:30:52 2026)

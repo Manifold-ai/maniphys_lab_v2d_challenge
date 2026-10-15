@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && mkdir -p runs/tools && cp stages/policy/arm_after.sh runs/tools/arm_after.sh && md5sum stages/policy/arm_after.sh runs/tools/arm_after.sh && ls runs/logs/arm_after_t1xb_s43_mf4090.log 2>/dev/null && { echo æ\227¥å¿\227å·²å\255\230å\234¨ï¼\214ä¸\215èµ·; exit 3; }; setsid nohup bash -c \'bash runs/tools/arm_after.sh t1xb_s43 runs/logs/t3pdyn_train_mf4090.log runs/logs/t3pdyn_eval_mf4090.log runs/logs/cand_t3_t3pdyn_mf4090.log 3 > runs/logs/arm_after_t1xb_s43_mf4090.log 2>&1\' < /dev/null > /dev/null 2>&1 & echo launched; pgrep -af \'[a]rm_after.sh t1xb_s43\' | cut -c1-200' 
+# md5      : b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+# md5      : b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+# source   : 6bfb7841a795
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:31:09-0600
+# ---------------------------------------------------------------
+source 6bfb7841a795
+b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+launched
+3682425 bash -c cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && mkdir -p runs/tools && cp stages/policy/arm_after.sh runs/tools/arm_after.sh && md5sum stages
+3682431 bash -c bash runs/tools/arm_after.sh t1xb_s43 runs/logs/t3pdyn_train_mf4090.log runs/logs/t3pdyn_eval_mf4090.log runs/logs/cand_t3_t3pdyn_mf4090.log 3 > runs/logs/arm_after_t1xb_s43_mf4090.log

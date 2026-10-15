@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_var_chain.sh\ t1xb_s43 
+# md5      : 2bd1ec966af167cc763a49fa6fda0675  stages/policy/arm_var_chain.sh
+# source   : 6bfb7841a795
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:29:03-0600
+# ---------------------------------------------------------------
+source 6bfb7841a795
+/repo/runs/cfgcheck/t1-ep14-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep14-w2048-cap4m-r3a-s43-mf4090.yaml：4 条断言，全过
+核对：t1xb_s43 在 mf4090，1 条 run，来历 6bfb7841a795，可用 85450 MB，2 份配置的 precheck 与配方断言全过
+预演，不起会话：
+  train:  V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg V2D_GPU_WAIT_S=21600 V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 stages/policy/day2_train_chain.sh stages/policy/queues/mf4090_t1xb_s43.expect.tsv stages/policy/queues/mf4090_t1xb_s43_smoke.txt stages/policy/queues/mf4090_t1xb_s43.txt 24564 t1xb_s43_train_mf4090
+  eval:   V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_GPU_WAIT_S=21600 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/t1xb_s43_train_mf4090.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/mf4090_t1xb_s43.expect.tsv - t1xb_s43_eval_mf4090
+  export: V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/t1xb_s43_eval_mf4090.log stages/evaluate/exports/cand_t1_t1xb_s43_mf4090.tsv cand_t1_t1xb_s43_mf4090
+DRYRUN_OK
