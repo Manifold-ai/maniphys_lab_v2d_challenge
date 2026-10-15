@@ -1,0 +1,203 @@
+{
+ "_doc": "Tier 3 version registry: the one place a version's status and purpose are written (t3_versions.py renders runs/VERSIONS.md from this plus each version's files). status: delivered | candidate | kept (read by name by rxzhou's tools: tier3_pack_remote.sh, t3_episode_remote.sh whitelist; never move or rename) | archived (runs/archive/, gate copies in gate/archive/, moves logged in archive/MOVED.tsv). A version that is superseded is archived at once. Names drop the tier3_cari4d_f830_ prefix where it applies.",
+ "versions": {
+  "tier3_cari4d": {
+   "status": "kept",
+   "date": "10-09",
+   "from": "CARI4D on the official meshes (runs/work)",
+   "purpose": "first batch; 20 pass the silhouette check, 9 in _suspect"
+  },
+  "tier3_cari4d_floor": {
+   "status": "kept",
+   "date": "10-10",
+   "from": "tier3_cari4d conversion (inferred)",
+   "purpose": "floor correction"
+  },
+  "f830_floor": {
+   "status": "kept",
+   "date": "10-10",
+   "from": "tier3_cari4d conversion (inferred)",
+   "purpose": "focal 830 + floor correction (rxzhou's 10-10 training choice)"
+  },
+  "f830_sim": {
+   "status": "archived",
+   "date": "10-11",
+   "from": "f830_floor (inferred)",
+   "purpose": "human scaled with the scene; superseded by f830_simreg"
+  },
+  "f830_simreg": {
+   "status": "kept",
+   "date": "10-11",
+   "from": "f830_sim",
+   "purpose": "f830_sim + the 5 second-camera episodes registered to the main camera"
+  },
+  "tier3_cari4d_fp_pilot_f830": {
+   "status": "archived",
+   "date": "10-11",
+   "from": "runs/work_fp (FoundationPose register-every-frame)",
+   "purpose": "every-frame registration pilot, 15 episodes; its episodes enter best through convert_fp"
+  },
+  "tier3_cari4d_v2sel_f830": {
+   "status": "archived",
+   "date": "10-11",
+   "from": "runs/work_v2",
+   "purpose": "re-selection pilot (t3_reselect.sh); its episodes enter best through convert_v2"
+  },
+  "best": {
+   "status": "kept",
+   "date": "10-12",
+   "from": "convert, convert_v2, convert_fp, convert_pivot",
+   "purpose": "per-episode pick of the version with the least lost tracking (best.selection.json)"
+  },
+  "best_h": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best (inferred)",
+   "purpose": "object height post-process only (t3_height_post.py)"
+  },
+  "best_hchk": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best (inferred)",
+   "purpose": "height post-process variant; what differs from best_h was not recorded"
+  },
+  "best_hm": {
+   "status": "delivered",
+   "date": "10-13",
+   "from": "best",
+   "purpose": "height post-process + the human follows the object over held runs; delivered 10-13, rxzhou trains on it"
+  },
+  "best_hm2": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best (inferred)",
+   "purpose": "height post-process variant after best_hm; what differs was not recorded"
+  },
+  "best_d": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm (inferred: made after it, as replacement candidates)",
+   "purpose": "depth post-process (t3_depth_post.py), first run; variants d/dw/dc/dr/dr2 differ in settings that were not recorded"
+  },
+  "best_dw": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm (inferred: made after it, as replacement candidates)",
+   "purpose": "depth post-process variant (see best_d)"
+  },
+  "best_dc": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm (inferred: made after it, as replacement candidates)",
+   "purpose": "depth post-process variant (see best_d)"
+  },
+  "best_dr": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm (inferred: made after it, as replacement candidates)",
+   "purpose": "depth post-process variant (see best_d)"
+  },
+  "best_dr2": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm (inferred: made after it, as replacement candidates)",
+   "purpose": "depth post-process variant (see best_d)"
+  },
+  "best_dr3": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm",
+   "purpose": "unattended depth candidate; failed the replacement criteria (~/v2d/tier3/auto/decision_report.txt), user stopped replacing best_hm"
+  },
+  "best_dr2s": {
+   "status": "archived",
+   "date": "10-13",
+   "from": "best_hm",
+   "purpose": "unattended depth candidate with support rule v2; failed the same criteria"
+  },
+  "best_dyn1": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "dynamics post-process v1, 4 pilot episodes; superseded by dyn4 (handoff-tier3-dynamics-2026-10-14.md)"
+  },
+  "best_dyn2": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "held state from the robot layer; discarded"
+  },
+  "best_dyn3": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "held runs trimmed by the robot layer; discarded"
+  },
+  "best_dyn": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "dyn1 rules on all 30; exposed three wrong rules; discarded"
+  },
+  "best_dynr": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "intermediate run after fixing those rules; unrecorded differences from dyn4; discarded"
+  },
+  "best_dyn4": {
+   "status": "kept",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "dynamics post-process (7a4bf37); its symmetry rule was wrong (turned objects into wrong poses); rxzhou evaluated it on ep12"
+  },
+  "best_dyn4s": {
+   "status": "kept",
+   "date": "10-14",
+   "from": "best_dyn4",
+   "purpose": "dyn4 + human temporal smoothing (t3_human_smooth.py)"
+  },
+  "best_dyn5": {
+   "status": "archived",
+   "date": "10-14",
+   "from": "best_hm",
+   "purpose": "locks from the check's own contact states; ep29 locked whole; do not use"
+  },
+  "best_dyn6": {
+   "status": "archived",
+   "date": "10-15",
+   "from": "best_hm",
+   "purpose": "dyn4 rules + new symmetry rule (uncommitted code); step 3 still turned objects; do not use"
+  },
+  "best_dyn7": {
+   "status": "candidate",
+   "date": "10-15",
+   "from": "best_hm",
+   "purpose": "new symmetry rule + robust step 3 + tapered offsets (037ae97); 2162 violation frames"
+  },
+  "best_kf1": {
+   "status": "archived",
+   "date": "10-15",
+   "from": "best_hm",
+   "purpose": "Kalman post-process pilot, 3 episodes"
+  },
+  "best_kf2": {
+   "status": "candidate",
+   "date": "10-15",
+   "from": "best_hm",
+   "purpose": "contact-switched Kalman/RTS (t3_kalman_post.py, 52542c8); 2080 violation frames; rests creep (rot_drift 1122)"
+  },
+  "best_kf3": {
+   "status": "candidate",
+   "date": "10-16",
+   "from": "best_hm",
+   "purpose": "kf2 + rests locked as dyn7 and bridged (889628a)"
+  }
+ },
+ "work": {
+  "work": "CARI4D register-first-then-track runs, all 30 episodes (input to convert)",
+  "work_fp": "FoundationPose register-every-frame runs (input to convert_fp; base of the stage pilots)",
+  "work_v2": "re-selection runs (input to convert_v2)",
+  "work_init": "initialization pilot (t3_init_pilot.sh, 10-16)"
+ }
+}
