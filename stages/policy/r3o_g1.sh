@@ -21,18 +21,44 @@ env "${envs[@]}" V2D_FC_SRC="$FC/v040_p185_nfg_oo" stages/policy/fc_run.sh "$R" 
 grep -h "V2D object_orientation term: weight=1.0 std=0.4" runs/logs/"$R".s*.log | head -1 | grep -q . \
   || { echo "R3O_G1_FAIL 训练日志里没有 r3o 的开关行"; exit 1; }
 echo "=== $(date '+%F %T %Z') 训练完、日志里有 r3o 的开关行"
-# 用评测器自己读配置的函数（8c778f9 的 read_checkpoint_metadata、checkpoint_config）取它重建环境时看到的配置；退出码 3 = 配置里有 r3o 的字样
+# 用评测器自己读配置的函数（8c778f9 的 read_checkpoint_metadata、checkpoint_config）取它重建环境时看到的配置，查三处会被 r3o 弄脏的地方：
+# 课程每段的 objective_weights 只能是上游 12 个名字；任何地方不许有 object_orientation_weight、object_orientation_std 键；整份配置不许有 V2D_OBJ_ORI。
+# 上游本来就有的 object_orientation 字样（终止阈值、观测项）只列出来。退出码 3 = 查到了。
 V2D_FC_SRC="$FC/fc_8c778f9" scripts/dev/in-flash-chord "cd /workspace && python - <<'PY'
 import json
+from flash_chord.objectives.recon_body import RECON_BODY_OBJECTIVE_TERM_NAMES as NAMES12
 from flash_chord.training.checkpoint import read_checkpoint_metadata
 from flash_chord.training.checkpoint_metadata import checkpoint_config
 p = '/repo/runs/flash_chord/$R/policy_4096000.safetensors'
 md = read_checkpoint_metadata(p)
-cfg = json.dumps(checkpoint_config(md), sort_keys=True)
-bad = [k for k in ('object_orientation', 'V2D_OBJ_ORI') if k in cfg]
+cfg = checkpoint_config(md)
+paths, bad, stages = [], [], 0
+def walk(node, path):
+    global stages
+    if isinstance(node, dict):
+        if 'objective_weights' in node:
+            stages += 1
+            extra = sorted(set(node['objective_weights']) - set(NAMES12))
+            if extra:
+                bad.append(path + '.objective_weights 多出 ' + ','.join(extra))
+        for k, v in node.items():
+            q = path + '.' + str(k)
+            if 'object_orientation' in str(k):
+                paths.append(q)
+            if str(k) in ('object_orientation_weight', 'object_orientation_std'):
+                bad.append(q)
+            walk(v, q)
+    elif isinstance(node, list):
+        for n, v in enumerate(node):
+            walk(v, path + '[%d]' % n)
+walk(cfg, '')
+if 'V2D_OBJ_ORI' in json.dumps(cfg):
+    bad.append('V2D_OBJ_ORI 出现在配置里')
 print('checkpoint 用户元数据的键：' + ', '.join(sorted(md)))
-print('评测器读到的配置 %d 字符，其中 r3o 的字样：%s' % (len(cfg), ', '.join(bad) if bad else '无'))
-raise SystemExit(3 if bad else 0)
+print('带 object_orientation 字样的键（上游本来就有的应只是终止阈值与观测项）：' + '; '.join(paths))
+print('课程段 %d 个，每段的 objective_weights 都只有上游 12 个名字：%s' % (stages, '是' if stages and not bad else '否'))
+print('r3o 弄脏的地方：' + ('; '.join(bad) if bad else '无'))
+raise SystemExit(3 if bad or not stages else 0)
 PY"; rc=$?
 if [ "$rc" != 0 ]; then
   [ "$rc" = 3 ] && echo "R3O_G1_FAIL checkpoint 配置里带了 r3o 的键" || echo "R3O_G1_FAIL 读 checkpoint 元数据出错（退出码 $rc）"
