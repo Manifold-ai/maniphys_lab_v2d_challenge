@@ -18,7 +18,7 @@ ssh -n -o BatchMode=yes ml40 "cd '$root/dev/perframe/hm' && tar cf - ep[0-9][0-9
 bad=0
 while read -r sha f; do
   got="$(shasum -a 256 "$tmp/$f" 2>/dev/null | cut -d' ' -f1)"
-  if [ "$got" = "$sha" ]; then echo "ok   $f $sha"; else echo "FAIL $f 登记 $sha，拷来的 ${got:-缺}"; bad=$((bad + 1)); fi
+  if [ "$got" = "$sha" ]; then echo "ok   $f $sha"; else echo "FAIL ${f} 登记 ${sha}，拷来的 ${got:-缺}"; bad=$((bad + 1)); fi
 done <<< "$want"
 extra="$(cd "$tmp" && ls | grep -vxF -f <(printf '%s\n' "$want" | awk '{print $2}') || true)"
 [ -z "$extra" ] || { echo "FAIL 拷来的多出文件：$extra"; bad=$((bad + 1)); }
@@ -26,7 +26,7 @@ if [ "$bad" != 0 ]; then echo "T3_EVIDENCE_FETCH_FAIL $bad"; exit 1; fi
 echo "== 用到的布尔列的取值（30 集合计）"
 for c in 4 5 7 11 12 13 15 16 19; do
   name="$(head -1 "$tmp/ep00.csv" | cut -d, -f"$c")"
-  echo "$name：$(tail -q -n +2 "$tmp"/ep*.csv | cut -d, -f"$c" | sort | uniq -c | awk '{printf "%s×%s ", $2, $1}')"
+  echo "${name}：$(tail -q -n +2 "$tmp"/ep*.csv | cut -d, -f"$c" | sort | uniq -c | awk '{printf "%s×%s ", $2, $1}')"
 done
 mkdir -p "$DST" && cp "$tmp"/ep*.csv "$tmp"/summary.json "$DST"/
 echo "T3_EVIDENCE_FETCH_OK 31 个文件 → $DST"
