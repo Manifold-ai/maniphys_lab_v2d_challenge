@@ -6,6 +6,8 @@
 4. MP-SR 与原评测差超过 0.01：门不过；
 5. 缺 dump 文件：这条按门不过记、不抛异常，同一次给的其余 run 照常处理；
 6. --ori 0.6 用在名字不带 -r3a- 的 run 上按 0.6 核，且一次给多条时每条都按它核。
+7. 不同档的 run 一起给：退出码 2；
+8. t2 的 run 装 Tier 1 禁读：root 在 tier_1_multiview_caption 目录下时读文件就被拦（档位隔离），t1 的 run 不装、照常读。
 用 test_fall_order.py 的 make_run 造数据。要 numpy 与 pytest。
 """
 
@@ -75,3 +77,20 @@ def test_ori_override_applies_to_every_run(tmp_path):
     assert p.returncode == 1 and p.stdout.count("门不过，不分类") == 2, p.stdout
     p = call(tmp_path, "t1-ep25-w2048-cap10m-ml40", "t1-ep28-w2048-cap4m-p185-mf4090", ori="0.6")
     assert p.returncode == 0 and p.stdout.count("（物体朝向阈值按 0.6 核）") == 2, p.stdout + p.stderr
+
+
+def test_mixed_tiers_refused(tmp_path):
+    make_run(tmp_path, "t1-ep9-w2048-cap10m-ml40", 1.5, [(60, 120)])
+    make_run(tmp_path, "t2-ep9-w2048-cap4m-mf4090", 1.5, [(60, 120)])
+    p = call(tmp_path, "t1-ep9-w2048-cap10m-ml40", "t2-ep9-w2048-cap4m-mf4090")
+    assert p.returncode == 2 and "一次只收同一档" in p.stderr, p.stdout + p.stderr
+
+
+def test_tier_guard(tmp_path):
+    root = tmp_path / "tier_1_multiview_caption"
+    make_run(root, "t2-ep9-w2048-cap4m-mf4090", 1.5, [(60, 120)])
+    make_run(root, "t1-ep9-w2048-cap10m-ml40", 1.5, [(60, 120)])
+    p = call(root, "t2-ep9-w2048-cap4m-mf4090")
+    assert p.returncode != 0 and "档位隔离" in p.stderr, p.stdout + p.stderr
+    p = call(root, "t1-ep9-w2048-cap10m-ml40")
+    assert p.returncode == 0 and "FALL_ORDER_ONE_DONE" in p.stdout, p.stdout + p.stderr

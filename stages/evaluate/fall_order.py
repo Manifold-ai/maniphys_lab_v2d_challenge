@@ -37,7 +37,7 @@ def first_true(mask):
     return np.where(mask.any(axis=0), mask.argmax(axis=0), -1)
 
 
-def crossings(z, object_from_zero=False):
+def crossings(z, object_from_zero=False, obj_pos_m=OBJ_POS_M, obj_ori_rad=OBJ_ORI_RAD):
     te = np.asarray(z["tracking_error"], dtype=np.float32)
     thr = z["thresholds"]
     act = z["active_after_step"]
@@ -48,7 +48,7 @@ def crossings(z, object_from_zero=False):
 
     pel_mask = ((te[..., 0] > thr[0]) | (te[..., 1] > thr[1])) & active(0) & active(1)
     palm = ((te[..., 2] > thr[2]) | (te[..., 3] > thr[3])) & active(2) & active(3)
-    obj = ((te[..., 4] > OBJ_POS_M) | (te[..., 5] > OBJ_ORI_RAD)) & active(4) & active(5)
+    obj = ((te[..., 4] > obj_pos_m) | (te[..., 5] > obj_ori_rad)) & active(4) & active(5)
     return te, first_true(obj), first_true(pel_mask), first_true(palm), pel_mask
 
 
