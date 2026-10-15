@@ -1,0 +1,30 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && echo "== nfg_test_kernels.py�\210oo �\211��\234��\211" && V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg_oo scripts/dev/in-flash-chord "python /repo/stages/policy/nfg_test_kernels.py" 2>&1 | grep -v "^Module\\|^Warp\\|kernel cache" | tail -6 && echo "== oo_test_kernels.py�\210oo �\211��\234��\211" && V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg_oo scripts/dev/in-flash-chord "python /repo/stages/policy/oo_test_kernels.py" 2>&1 | grep -v "^Module\\|^Warp\\|kernel cache" | tail -12' 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 1837375c85a290f13f23c9ffff123a3b  stages/policy/nfg_test_kernels.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : a45245991bdfd48c27d707b5a63d6428  stages/policy/oo_test_kernels.py
+# source   : 42c94bfb38b8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:26:30-0600
+# ---------------------------------------------------------------
+source 42c94bfb38b8
+== nfg_test_kernels.py（oo 副本）
+   Kernel cache:
+     /warp-cache/1.14.0
+K1 CPU：512 个世界全部有限，12 个输出逐位相同（其中 506 个世界被判终止）
+K1 CPU：注入的 4 个世界都被判骨盆失败、误差写成 -1 与 0；999 m 那个不算；其余世界与上游逐位相同（上游对世界 3 的 pelvis_done 是 0）
+K2：只清在重置掩码里、含非有限值的行（整行清零）；很大的有限值与掩码外的世界不动；取行的函数三种情形都对
+NFG_KERNELS_OK
+== oo_test_kernels.py（oo 副本）
+  File "/opt/venv/lib/python3.11/site-packages/omegaconf/dictconfig.py", line 164, in _validate_get
+    self._format_and_raise(
+  File "/opt/venv/lib/python3.11/site-packages/omegaconf/base.py", line 231, in _format_and_raise
+    format_and_raise(
+  File "/opt/venv/lib/python3.11/site-packages/omegaconf/_utils.py", line 899, in format_and_raise
+    _raise(ex, cause)
+  File "/opt/venv/lib/python3.11/site-packages/omegaconf/_utils.py", line 797, in _raise
+    raise ex.with_traceback(sys.exc_info()[2])  # set env var OC_CAUSE=1 for full trace
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+omegaconf.errors.ConfigAttributeError: Key 'weights_for' not in 'CurriculumStage'
+    full_key: [0].weights_for
+    object_type=CurriculumStage

@@ -176,12 +176,13 @@ def test_o4_o6() -> None:
 
 
 def test_o5() -> None:
-    from hydra.utils import instantiate
     from omegaconf import OmegaConf
+    from flash_chord.configuration import instantiate_typed
+    from flash_chord.lifecycle.curriculum import FixedCurriculum
     from flash_chord.objectives import recon_body as rb
     os.environ["V2D_OBJ_ORI_WEIGHT"] = "1.0"
     names13 = rb.RECON_BODY_OBJECTIVE_TERM_NAMES + ("object_orientation",)
-    cur = instantiate(OmegaConf.load(CURRICULUM_YAML))
+    cur = instantiate_typed(OmegaConf.load(CURRICULUM_YAML), FixedCurriculum)   # 同训练与评测的实例化方式（_convert_="all"）
     assert len(cur.stages) == 9, f"O5：课程不是 9 段：{len(cur.stages)}"
     for i, stage in enumerate(cur.stages):
         assert "object_orientation" not in stage.objective_weights, f"O5：第 {i + 1} 段的配置里出现了第 13 个名字"
