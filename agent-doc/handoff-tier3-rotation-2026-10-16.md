@@ -60,7 +60,7 @@ ep01 20 等 `fp` 集（`$G/dyn/kf2_post.log`）。
 ## 试点与复检结果（10-16 02:05 CST，两项后台任务都已跑完）
 
 **旋转优化试点**（`t3_rot_pilot.sh`，23:53–01:58，`$T/runs/work_rot/`，日志 `$T/logs/t3_rot_pilot.log` 末行 ROT PILOT DONE；
-6 集都只重跑了 07、08 步）。对比用 `gate/diag/rot_compare.py`（v2d_cari4d 镜像内，挂 `work_fp` 与 `work_rot`）：
+6 集都只重跑了 07、08 步；`work_rot` 已于 10-16 07:05 删除，统计结果保留在 `$G/diag/`）。对比用 `gate/diag/rot_compare.py`（v2d_cari4d 镜像内，挂 `work_fp` 与 `work_rot`）：
 
 | 集 | 冻结旋转（原版）>24° / >60° / >90° | 优化旋转 >24° / >60° / >90° | 相对 CoCoNet 的改动 中位 / 最大 |
 |---|---|---|---|
@@ -118,10 +118,19 @@ ep13 13→8、ep03 3→2。对照帧：ep04 313/509/669（CoCoNet 头尾颠倒�
 ```
 cd $T/code/stages/recovery/tier3 && setsid nohup ./t3_yield_wait.sh t3_init_pilot.sh ep13_snack_box ep28_squeegee ep04_baseball_bat ep03_contigo_coffee_mug > /dev/null 2>&1 < /dev/null &
 ```
-跑完后用 `t3_stage_flips.py`（命令见下，把 `work_rot` 换成 `work_init`）统计，并与 `work_fp` 比较：06 的跳变数、被替换段内的跳变、
+跑完后用 `t3_pilot_compare.py`（`runs` 挂 `/r`、官方网格挂 `/m`，参数 `/r work_init /m <out json> <集...>`；在 `work_rot` 上验证过，数字与 `rot_compare.py` 一致）统计，并与 `work_fp` 比较：06/07 的跳变数、被替换段内的跳变与轮廓重合度、
 对照帧（ep04 应翻过来约 180°，ep03 117/131/345 不应变，451 看是否被带坏）。
 
-## 接手怎么做
+## 版本整理（10-16 07:00–07:10）
+
+版本的状态与用途只记在 `stages/recovery/tier3/versions.json`，`t3_versions.py` 据此和目录生成 `$T/runs/VERSIONS.md` 并核对
+（目录里有却没登记、登记了却不在该在的位置，都报出来、退出码 1）。被取代的版本立刻归档。本次把 21 个过程版或废弃版（深度系列
+d/dw/dc/dr/dr2/dr3/dr2s，高度 h/hchk/hm2，动力学 dyn/dyn1/dyn2/dyn3/dynr/dyn5/dyn6，kf1，sim，v2sel_f830，fp_pilot_f830）
+连同 `_suspect` 与记录文件移入 `$T/runs/archive/`（57 项），它们在门槛环境的重定向副本移入 `$G/archive/`（39 项），每一项移动记在
+各自的 `MOVED.tsv`。rxzhou 工具按名字直接读的 16 个目录（`tier3_pack_remote.sh` 白名单）原地不动，已逐个核对。删除只有
+`runs/work_rot`（55G）。
+
+
 
 - （已做，见上）试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU）：
   ```

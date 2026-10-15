@@ -126,7 +126,7 @@ best_dyn4 还剩 1464 帧累计漂移（含 ep28）。检查端的静止和运�
 
 都在 `$T/runs/` 下，名字是 `tier3_cari4d_f830_<版本>`，修复记录是同名的 `.dynamics_post.json`（dyn4s 是 `.human_smooth.json`）。
 输入都是 best_hm，除 dyn4s 外人体都没动。时间是 10-14 的 CST。**能用的只有 best_dyn4 和 best_dyn4s，其余是迭代过程中的
-中间产物，留着只为对照，请忽略。**
+中间产物，留着只为对照，请忽略。**（10-16：现状以 `$T/runs/VERSIONS.md` 为准，下表除 dyn4、dyn4s、dyn7 外都已移入 `runs/archive/`。）
 
 | 版本 | 集 | 生成 | 内容 | 状态 |
 |---|---|---|---|---|
