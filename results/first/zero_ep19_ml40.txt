@@ -1,0 +1,19 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EXPORT_SUFFIX=_rep1 stages/evaluate/fc_export.sh t1-ep19-w2048-cap10m-r3a-ml40 349999104 | tail -3; D=runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9; echo "== Â\206\215ÂØºÂ\207∫Ôº\210_rep1Ôº\211"; sha256sum $D/s349999104_w1_rep1/episode_000019.json $D/s349999104_w1_rep1/episode_000019.parquet; echo "== Â\216\237ÂØºÂ\207∫"; sha256sum $D/s349999104_w1/episode_000019.json $D/s349999104_w1/episode_000019.parquet; echo "== ÂØºÂ\207∫Ë°®È\202£‰∏\200Ë°\214Ôº\210json_sha256„\200\201parquet_sha256Ôº\211"; awk -F"\\t" "\\$3==\\"t1-ep19-w2048-cap10m-r3a-ml40\\" && \\$4==\\"349999104\\" {print \\$8\\"  \\"\\$9}" runs/exports/cand_t1_t1yb_ml40.tsv' 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : 1c5ef752e4cf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T19:50:03-0600
+# ---------------------------------------------------------------
+source 1c5ef752e4cf
+stages/evaluate/fc_export.sh: line 83: runs/logs/t1-ep19-w2048-cap10m-r3a-ml40.export_8c778f9_s349999104_w1_rep1.log: No such file or directory
+  reference_tracking.failure_cause_fraction      {'object': 0.0, 'palm': 0.0, 'pelvis': 0.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.46487020316027095, "checkpoint": "/repo/runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/policy_349999104.safetensors", "checkpoint_sha256": "729280de2d2840ea84a400ca4320c9119c91c2b0336d48e288ac4d3686ee41d9", "chord_sr": 1.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.05465685331994042, "mppe_cm": 3.2934498696070245, "object_orientation_error_deg": 14.362219570197668, "object_position_error_m": 0.0314855828531624, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.0, "palm": 0.0, "pelvis": 0.0}, "reference_end_fraction": 1.0, "success_rate": 1.0}, "spider_sr_uncentered": 1.0, "step_count": 886, "world_count": 1}
+== ÂÜçÂØºÂá∫Ôºà_rep1Ôºâ
+bd11bd3d29c85aced8b12a888797a540144806c494af7ce5c54a0105ef0afa6d  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1_rep1/episode_000019.json
+14463871b82c5de026906b777253828efb4e6abb8c41572de5a9f97f8614a290  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1_rep1/episode_000019.parquet
+== ÂéüÂØºÂá∫
+d43e765c03443b5ad5e5478eb9c715a8c3becba4984f4cb7eefc7dcdbd5a7320  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000019.json
+a2ba1e1fb58267195bdb38a33edc95dacc40a32e3d4b9d13cd99ec1a0434e514  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000019.parquet
+== ÂØºÂá∫Ë°®ÈÇ£‰∏ÄË°åÔºàjson_sha256„ÄÅparquet_sha256Ôºâ
+d43e765c03443b5ad5e5478eb9c715a8c3becba4984f4cb7eefc7dcdbd5a7320  a2ba1e1fb58267195bdb38a33edc95dacc40a32e3d4b9d13cd99ec1a0434e514

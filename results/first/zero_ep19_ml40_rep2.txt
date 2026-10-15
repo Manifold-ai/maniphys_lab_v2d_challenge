@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EXPORT_SUFFIX=_rep2 stages/evaluate/fc_export.sh t1-ep19-w2048-cap10m-r3a-ml40 349999104 > /dev/null; D=runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9; sha256sum $D/s349999104_w1/episode_000019.parquet $D/s349999104_w1_rep1/episode_000019.parquet $D/s349999104_w1_rep2/episode_000019.parquet; python3 -c "\nimport json\nfor s in [\\"s349999104_w1\\",\\"s349999104_w1_rep1\\",\\"s349999104_w1_rep2\\"]:\n    d=json.load(open(\\"runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/\\"+s+\\"/episode_000019.json\\"))\n    m=d[\\"metrics\\"]\n    print(s, \\"add_auc\\", round(m[\\"add_auc\\"],4), \\"maniptrans_sr\\", m[\\"maniptrans_sr\\"], \\"spider_sr_uncentered\\", m[\\"spider_sr_uncentered\\"], \\"mppe_cm\\", round(m[\\"mppe_cm\\"],3), \\"checkpoint\\", d[\\"checkpoint_sha256\\"][:12])\n"' 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : 1c5ef752e4cf
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T19:52:03-0600
+# ---------------------------------------------------------------
+source 1c5ef752e4cf
+stages/evaluate/fc_export.sh: line 83: runs/logs/t1-ep19-w2048-cap10m-r3a-ml40.export_8c778f9_s349999104_w1_rep2.log: No such file or directory
+a2ba1e1fb58267195bdb38a33edc95dacc40a32e3d4b9d13cd99ec1a0434e514  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1/episode_000019.parquet
+14463871b82c5de026906b777253828efb4e6abb8c41572de5a9f97f8614a290  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1_rep1/episode_000019.parquet
+27acca07b8f073ab3c9d423f7e1d04d71e262521d4664e25f34b878079094c0d  runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/export_8c778f9/s349999104_w1_rep2/episode_000019.parquet
+s349999104_w1 add_auc 0.4255 maniptrans_sr 0.0 spider_sr_uncentered 1.0 mppe_cm 3.681 checkpoint 729280de2d28
+s349999104_w1_rep1 add_auc 0.4649 maniptrans_sr 0.0 spider_sr_uncentered 1.0 mppe_cm 3.293 checkpoint 729280de2d28
+s349999104_w1_rep2 add_auc 0.3181 maniptrans_sr 0.0 spider_sr_uncentered 0.0 mppe_cm 15.723 checkpoint 729280de2d28
