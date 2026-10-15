@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && echo \'== test_dump_chain.py\' && python3 stages/evaluate/test_dump_chain.py | tail -1 && echo \'== pytestï¼\210å®¹å\231¨ï¼\211\' && scripts/dev/in-flash-chord \'cd /repo && python -m pytest -q -p no:cacheprovider stages/evaluate/test_fail_onset.py stages/evaluate/test_t3_onset_evidence.py stages/evaluate/test_fall_order_one.py 2>&1 | tail -2\' && bash -n stages/evaluate/dump_chain.sh && echo \'bash -n ok\'' 
+# md5      : 1e3fd00542f41ce0d141d7fe5e841e07  stages/evaluate/test_dump_chain.py
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : e05c7e8f223a000be42f2f147450a90a  stages/evaluate/test_fail_onset.py
+# md5      : 2ae28bcb6b2af049b8e222b55da0fe5f  stages/evaluate/test_t3_onset_evidence.py
+# md5      : 3b0cf7f9bbe9bbc24f9199c2217619dd  stages/evaluate/test_fall_order_one.py
+# md5      : 87c3dbf7df15e5dd04cb7b9865292eb0  stages/evaluate/dump_chain.sh
+# source   : a4e9c5964e3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:14:12-0600
+# ---------------------------------------------------------------
+source a4e9c5964e3a
+== test_dump_chain.py
+ALL_OK
+== pytestï¼ˆå®¹å™¨ï¼‰
+.....................                                                    [100%]
+21 passed in 4.96s
+bash -n ok

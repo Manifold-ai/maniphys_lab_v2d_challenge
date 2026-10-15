@@ -1,0 +1,48 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ V2D_DUMP_CHAIN_DRYRUN=1\ V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/dump_chain.sh\ stages/evaluate/frames/dump_ml40_1014.txt\ frames_ml40_1014 
+# md5      : 87c3dbf7df15e5dd04cb7b9865292eb0  stages/evaluate/dump_chain.sh
+# md5      : 697cbfd7701823ea50dd515ccc266f30  stages/evaluate/frames/dump_ml40_1014.txt
+# source   : a4e9c5964e3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:14:36-0600
+# ---------------------------------------------------------------
+source a4e9c5964e3a
+== 预检 frames_ml40_1014：清单 stages/evaluate/frames/dump_ml40_1014.txt（11 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，来历 a4e9c5964e3a
+  ok   runs/logs/frames_ml40_1014.log 与 runs/frames/frames_ml40_1014.tsv 都不存在
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   没有别的长链标记（无）
+  ok   没有残留的 fc-evaldump-* 容器（无）
+  ok   runs 所在分区可用 1359986 MB，不少于 1684 MB（行数 × 60 MB + 1 GB）
+  ok   t3-ep4-w2048-cap10m-r3a-hm-ml40：有 policy_349999104.safetensors
+  ok   t3-ep4-w2048-cap10m-r3a-hm-ml40：没有 NONFINITE
+  ok   t3-ep4-w2048-cap10m-r3a-hm-ml40：原评测 runs/flash_chord/t3-ep4-w2048-cap10m-r3a-hm-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep5-w2048-cap10m-r3a-hm-ml40：有 policy_349999104.safetensors
+  ok   t3-ep5-w2048-cap10m-r3a-hm-ml40：没有 NONFINITE
+  ok   t3-ep5-w2048-cap10m-r3a-hm-ml40：原评测 runs/flash_chord/t3-ep5-w2048-cap10m-r3a-hm-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep6-w2048-cap10m-r3a-hm-ml40：有 policy_349999104.safetensors
+  ok   t3-ep6-w2048-cap10m-r3a-hm-ml40：没有 NONFINITE
+  ok   t3-ep6-w2048-cap10m-r3a-hm-ml40：原评测 runs/flash_chord/t3-ep6-w2048-cap10m-r3a-hm-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4-ml40：有 policy_349999104.safetensors
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4-ml40：没有 NONFINITE
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4-ml40：原评测 runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4s-ml40：有 policy_349999104.safetensors
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4s-ml40：没有 NONFINITE
+  ok   t3-ep12-w2048-cap4m-r3a-dyn4s-ml40：原评测 runs/flash_chord/t3-ep12-w2048-cap4m-r3a-dyn4s-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t1-ep2-w2048-cap10m-r3a-ml40：有 policy_349999104.safetensors
+  ok   t1-ep2-w2048-cap10m-r3a-ml40：没有 NONFINITE
+  ok   t1-ep2-w2048-cap10m-r3a-ml40：原评测 runs/flash_chord/t1-ep2-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t1-ep4-w2048-cap10m-ml40：有 policy_349999104.safetensors
+  ok   t1-ep4-w2048-cap10m-ml40：没有 NONFINITE
+  ok   t1-ep4-w2048-cap10m-ml40：原评测 runs/flash_chord/t1-ep4-w2048-cap10m-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t1-ep9-w2048-cap10m-ml40：有 policy_349999104.safetensors
+  ok   t1-ep9-w2048-cap10m-ml40：没有 NONFINITE
+  ok   t1-ep9-w2048-cap10m-ml40：原评测 runs/flash_chord/t1-ep9-w2048-cap10m-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t1-ep25-w2048-cap10m-ml40：有 policy_349999104.safetensors
+  ok   t1-ep25-w2048-cap10m-ml40：没有 NONFINITE
+  ok   t1-ep25-w2048-cap10m-ml40：原评测 runs/flash_chord/t1-ep25-w2048-cap10m-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep7-w2048-cap10m-r3a-hm-ml40：有 policy_349999104.safetensors
+  ok   t3-ep7-w2048-cap10m-r3a-hm-ml40：没有 NONFINITE
+  ok   t3-ep7-w2048-cap10m-r3a-hm-ml40：原评测 runs/flash_chord/t3-ep7-w2048-cap10m-r3a-hm-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+  ok   t3-ep8-w2048-cap10m-r3a-hm-ml40：有 policy_349999104.safetensors
+  ok   t3-ep8-w2048-cap10m-r3a-hm-ml40：没有 NONFINITE
+  ok   t3-ep8-w2048-cap10m-r3a-hm-ml40：原评测 runs/flash_chord/t3-ep8-w2048-cap10m-r3a-hm-ml40/eval_349999104_w4096.json 是 4096 世界、没有非有限世界
+DUMP_DRYRUN_OK

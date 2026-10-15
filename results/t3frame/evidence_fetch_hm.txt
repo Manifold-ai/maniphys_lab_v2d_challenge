@@ -1,0 +1,49 @@
+# command  : tools/t3_evidence_fetch.sh results/t3frame/evidence_hm_1015_1235cst results/ops/t3_perframe_hm_ml40_1014_2355.txt 
+# md5      : 00ee06a11e424715fe026924bce67e00  tools/t3_evidence_fetch.sh
+# md5      : 9828a0612f3af971acd95970fc5f4f2d  results/ops/t3_perframe_hm_ml40_1014_2355.txt
+# source   : a4e9c5964e3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:13:20-0600
+# ---------------------------------------------------------------
+ok   ep00.csv 3bd6b9332e1ee0ade2063a8297b8f854a7eac24d7cb48bb11eb014c2fd135f4f
+ok   ep01.csv c31eb86fbb428336d8f721654241277941eefe57510e4b36d8643a42882c3f81
+ok   ep02.csv 2187340af15b9d84236c8733793ca48d3d67319d87b896d7a135d0eba996bcfd
+ok   ep03.csv 3b89d233e237f97276cffa393feaf97c93c9c045c4450e9c92a8229cc9f0cd9e
+ok   ep04.csv fbf11a0c7b89c4951fd94034481f3208e1bc325a17ed974c7222f948c585ee5f
+ok   ep05.csv 564875dc4429e0b229d6290384c64a57e7fd59ccdbeab47b6c2f49f40bd59df0
+ok   ep06.csv e9aa63e7c52a8d856175237c1285f9d2ed9890cddaf9d5045e372feb4ce78c67
+ok   ep07.csv b354e141a56dbe1f31992430dfe582f5516f84cf2a30547d5600b09e0ec34f1c
+ok   ep08.csv 2542061897b03d890c5061e5169a92fa308328ef59aedce9c159ff57fcf995e1
+ok   ep09.csv 9ab5cd8cc7029679e18280facb48d7a9cba2875e3f6f33702a879b6415a23d0b
+ok   ep10.csv 432150b5dd474628e2a8065c47c95f9e5a531ca4681bd08a5f7d08f7ff05eb55
+ok   ep11.csv c0900610eed1b8da9fc8be3cd2b732387a72b09e021312a2c62c063d2aac28fc
+ok   ep12.csv e9815fa47f9db0ffbe83f3d250caf1b45c11a9eff56b8432a59e5f5f3e9d046c
+ok   ep13.csv eb3a529f14d81593a07a4817cc8a656c53c6bc44be338ccf6ee265d217d8facd
+ok   ep14.csv f47ddc906bceba6992fc17f989e990c024a68338f1b2396df4cc4a2bc85fc0ee
+ok   ep15.csv 7a4614ee8db6ebd6fdbdafb378b5ababe11e414c3596082935e0b3622bf2860b
+ok   ep16.csv 59cbd94ca6aa28b7a1ca4b5732106f4d9da4b1274702525cb5c2ccf4a167d52e
+ok   ep17.csv a5dd119281487ccb4b4c50f079082568b9e3b696d4f0a2e8ba4ddea0f1a1512f
+ok   ep18.csv 9cb6221fadb062162390a9a7af7e64a1c8eed96b9b1b143ba61974d6df9f8f7b
+ok   ep19.csv 24bd61b9968e91ea8521485d4bff9f77fc5e5b2fafd9b83afac29c58af1bda3b
+ok   ep20.csv bb388a8595b1df8c01fddff8f0aa6e6a44e8678a172746edb8fa92e5904bfdaf
+ok   ep21.csv d32864bf543f24a37ceb3837e6f66dedbc30084a1ba93feca4b839fb4b394a86
+ok   ep22.csv d96c488698eafcc86f8abb47ecca88a6889f765361c103f3015d2cc0d2812bd0
+ok   ep23.csv 1aa92021044089d86bb967074f398fd0a7299b4dd018157d7cf3e8cc730987e7
+ok   ep24.csv 9a1bdc9a80c37de50af9cce3c81492fc7a344897cd4ed17a6cfb419ae72836a0
+ok   ep25.csv 88da7d8b0b25f14fa360156a7141eea1c2cc3d41cf437193b42be47fb2837721
+ok   ep26.csv 16be8d898ba599f63a59fef0721491b75d1f55e40a4e87e4357d5dac2f57425c
+ok   ep27.csv accbd06ccb97903c79998a138c17e05d0d49d19cf6132b035cd515bd2398d35d
+ok   ep28.csv f976b9177517a7495d5be9753809ab3884f8db6a72ea2253affcfbf68f8eef67
+ok   ep29.csv b1c54b1d2eb3d9a42c68040757b97760423a367d11032d18d0767350df7a14e5
+ok   summary.json 61994bc0f1254c2739ccabfe0097c7f924a02e627288407b0a8f192a19e45088
+== 用到的布尔列的取值（30 集合计）
+label_left：0×15350 1×7640 
+label_right：0×12341 1×10649 
+viol_object_any：0×16783 1×6207 
+viol_rot_torque：0×22066 1×924 
+viol_rot_jump：0×22294 1×696 
+viol_rot_jump_symmetric：0×22956 1×34 
+viol_rot_drift：0×21487 1×1503 
+viol_root_acc：0×22989 1×1 
+orient_outlier：0×22491 1×499 
+T3_EVIDENCE_FETCH_OK 31 个文件 → results/t3frame/evidence_hm_1015_1235cst
