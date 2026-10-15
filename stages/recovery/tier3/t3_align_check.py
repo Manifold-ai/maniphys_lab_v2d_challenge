@@ -8,7 +8,9 @@ dir's intrinsics; silhouette IoU against the object mask with both dilated by DI
 silhouette centroid offset in pixels. Frames: every STRIDE-th frame where the mask has at least MIN_MASK_PX pixels.
 
     python t3_align_check.py <tier3 root> <selection json> <out json> <version>... [ep=convert dir ...] [only=<ep>,<ep>]
-        [stride=<n>] [split=<dump dir>] [human=<SOMA assets dir>]
+        [stride=<n>] [split=<dump dir>] [human=<SOMA assets dir>] [perframe=1]
+perframe: also each version's per-frame IoU (frame, iou) and the frames under LOW_IOU, so a few flipped frames are not
+averaged away (10-15: ep04's bat turned end over end on single frames while its mean IoU looked ordinary).
 human: also the body. Each version's SOMA body (t3_world_probe.soma_cv, the downstream's way: frame-0 identity and scale,
 OpenCV world frame) goes through the same similarity and intrinsics, and its silhouette is compared with the SAM2 person
 mask the same way. Pixels inside the object mask are left out of both: the object hides the body there and the person
@@ -34,6 +36,7 @@ STRIDE = 5
 DILATE_PX = 5
 MIN_MASK_PX = 200
 MAX_FACES = 20000
+LOW_IOU = 0.5
 WORK = {"convert": "work", "convert_v2": "work_v2", "convert_fp": "work_fp", "convert_pivot": "work_fp"}
 
 
@@ -102,6 +105,7 @@ def main() -> None:
     only = {int(x) for x in kv.pop("only", "").split(",") if x}
     stride = int(kv.pop("stride", STRIDE))
     split = Path(kv.pop("split")) if "split" in kv else None
+    perframe = kv.pop("perframe", "0") == "1"
     layer = None
     if "human" in kv:
         import os
@@ -176,6 +180,10 @@ def main() -> None:
             row[v] = {"frames": len(iou), "iou_p50": round(float(np.median(iou)), 4) if len(iou) else None,
                       "iou_mean": round(float(iou.mean()), 4) if len(iou) else None,
                       "centroid_px_p50": round(float(np.nanmedian(off)), 2) if len(off) else None}
+            fr = np.array(res_v[v]["frame"])
+            row[v]["low_iou_frames"] = int((iou < LOW_IOU).sum()) if len(iou) else 0
+            if perframe:
+                row[v]["per_frame"] = {"frame": fr.tolist(), "iou": [round(float(x), 3) for x in iou]}
             if layer is not None:
                 h = np.array(hres[v])
                 row[v]["human"] = {"frames": len(h), "iou_p50": round(float(np.median(h)), 4) if len(h) else None,

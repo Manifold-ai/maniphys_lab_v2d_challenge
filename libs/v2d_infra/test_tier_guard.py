@@ -1,6 +1,7 @@
 """tier_guard 的测试（子进程里跑，因为 audit hook 装上就卸不掉）。
 
-守：档位隔离——Tier 2/3 提交管线读不到 Tier 1 的任何文件，且 Tier 2 照常可读。
+守：档位隔离——Tier 2/3 提交管线读不到 Tier 1 的任何文件，且 Tier 2 照常可读；
+Tier 3 管线（forbid_lower_tiers）Tier 1、Tier 2 都读不到，经软链接也读不到。
 契约表尚未落到 docs/contracts/（仓库处于 P0），暂无契约 ID，落表后补上。
 """
 import subprocess
@@ -61,7 +62,35 @@ def test_guard_without_pyarrow():
     assert "BLOCKED open" in r.stdout and "LEAK" not in r.stdout, "没装 pyarrow 时 open 没拦住"
 
 
+# Tier 3：Tier 1、Tier 2 都拦，按真实路径判断（软链接改个名字也拦得住）；Tier 3 自己的目录照常可读。
+# 只用标准库和临时目录，不依赖发布数据。
+PROBE_TIER3 = r'''
+import os, sys, tempfile; sys.path.insert(0, %r)
+from tier_guard import forbid_lower_tiers, TierAccessError
+d = tempfile.mkdtemp()
+for sub in ("tier_1_multiview_caption", "tier_2_synthetic_noise", "tier3_input"):
+    os.makedirs(os.path.join(d, sub)); open(os.path.join(d, sub, "x.json"), "w").write("{}")
+os.symlink(os.path.join(d, "tier_1_multiview_caption"), os.path.join(d, "innocent_name"))
+forbid_lower_tiers()
+open(os.path.join(d, "tier3_input", "x.json")).read(); print("TIER3_OK")
+for name in ("tier_1_multiview_caption", "tier_2_synthetic_noise", "innocent_name"):
+    try:
+        open(os.path.join(d, name, "x.json")); print("LEAK", name)
+    except TierAccessError:
+        print("BLOCKED", name)
+''' % str(HERE)
+
+
+def test_guard_tier3():
+    r = subprocess.run([sys.executable, "-c", PROBE_TIER3], capture_output=True, text=True)
+    print(r.stdout, r.stderr)
+    assert "TIER3_OK" in r.stdout, "守卫误伤了 Tier 3 自己的读取"
+    assert "LEAK" not in r.stdout, "有低档位读取没拦住"
+    assert r.stdout.count("BLOCKED") == 3
+
+
 if __name__ == "__main__":
+    test_guard_tier3()
     test_guard_without_pyarrow()
     try:
         import numpy, pyarrow  # noqa: F401

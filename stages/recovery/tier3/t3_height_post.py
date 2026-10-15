@@ -80,6 +80,11 @@ def main() -> None:
     argv = [a for a in sys.argv[1:] if a != "--move-human"]
     move_human = len(argv) < len(sys.argv) - 1
     root, version, sup_dir, phys, out_v = Path(argv[0]), argv[1], Path(argv[2]), Path(argv[3]), argv[4]
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "libs" / "v2d_infra"))
+    from tier_guard import forbid_lower_tiers
+    forbid_lower_tiers()  # Tier 3: nothing from Tier 1 or Tier 2 (Kaggle 2.8.c)
+    import t3_provenance
+    prov = t3_provenance.stamp([root / "input", root / "runs" / version, root / "runs" / f"{version}_suspect", sup_dir, phys])
     runs = root / "runs"
     if (runs / out_v).exists() or (runs / f"{out_v}_suspect").exists():
         raise SystemExit(f"runs/{out_v} exists; pick a new name")
@@ -192,6 +197,7 @@ def main() -> None:
             report.append(row)
             print(json.dumps({k: v for k, v in row.items() if k != "anchors"} | {"anchors": len(anchors)}), flush=True)
     (runs / f"{out_v}.height_post.json").write_text(json.dumps(report, indent=1))
+    t3_provenance.write(runs / f"{out_v}.provenance.json", prov | {"made_by": "t3_height_post.py", "from_version": version})
 
 
 if __name__ == "__main__":

@@ -13,10 +13,15 @@ import os
 import sys
 
 TIER1_DIRNAME = "tier_1_multiview_caption"
+TIER2_DIRNAME = "tier_2_synthetic_noise"
 
 
-class Tier1AccessError(RuntimeError):
+class TierAccessError(RuntimeError):
     """故意不继承 OSError：glob 等代码会 except OSError 把错误吞掉、静默返回空结果（Python 3.10 实测）。"""
+
+
+class Tier1AccessError(TierAccessError):
+    pass
 
 
 def _check(path):
@@ -28,10 +33,33 @@ def _check(path):
         raise Tier1AccessError(f"档位隔离：Tier 2/3 管线试图读取 Tier 1 文件 {p}")
 
 
+def _check_lower(path):
+    """Tier 3：Tier 1、Tier 2 都不许读。按字面路径与真实路径各查一次：软链接换个名字也拦得住
+    （10-15：一份复制出来的 Tier 1 轨迹换了目录名就绕过了只看字面的检查）。"""
+    try:
+        p = os.fsdecode(path)
+    except TypeError:
+        return
+    for q in (p, os.path.realpath(p)):
+        for name in (TIER1_DIRNAME, TIER2_DIRNAME):
+            if name in q:
+                raise TierAccessError(f"档位隔离：Tier 3 管线试图读取低档位文件 {p}（{q}）")
+
+
+def forbid_lower_tiers():
+    """Tier 3 管线入口调用：此后本进程读 Tier 1 或 Tier 2 的任何文件都会抛 TierAccessError。
+    复制出来、换了名字的数据拦不住，那要靠 t3_provenance 记录的输入清单。"""
+    _install(_check_lower)
+
+
 def forbid_tier1():
+    _install(_check)
+
+
+def _install(check):
     def hook(event, args):
         if event in ("open", "os.listdir", "os.scandir", "glob.glob", "glob.glob/2") and args:
-            _check(args[0])
+            check(args[0])
     sys.addaudithook(hook)
     try:
         import pyarrow.parquet as pq
@@ -39,11 +67,12 @@ def forbid_tier1():
         return
     for name in ("read_table", "ParquetFile"):
         orig = getattr(pq, name)
-        if getattr(orig, "_tier_guarded", False):
+        if check in getattr(orig, "_tier_checks", ()):  # 同一种检查只包一层；不同检查叠加（先 tier1 再 lower 两个都生效）
             continue
-        def guarded(source, *a, _orig=orig, **k):
+        def guarded(source, *a, _orig=orig, _check=check, **k):
             if isinstance(source, (str, bytes, os.PathLike)):
                 _check(source)
             return _orig(source, *a, **k)
         guarded._tier_guarded = True
+        guarded._tier_checks = (*getattr(orig, "_tier_checks", ()), check)
         setattr(pq, name, guarded)

@@ -25,11 +25,13 @@ Checks (translation of the centre of mass, rotation about it; derivatives by a l
   rot_torque        |dL/dt| per unit mass within the torque the state allows: unheld, gravity about a contact point
                     (g * r_max); held, a hand (A_HAND * r_max). L = R (I/m) R^T w with I from the mesh, uniform density;
                     w from consecutive frames without smoothing, so a jump is not averaged away.
-  rot_drift         over a contiguous unheld run, the centred surface (centre of mass removed) moves more than DRIFT_M
-                    (mean nearest-point distance) from its pose at the run start. Shape-aware: turning about a symmetry
-                    axis moves no surface and is not motion (Tier 1's bat spins 1.6 rad about its axis untouched).
-  rot_jump          one frame turns more than OMEGA_MAX / fps and the centred surface moves at least SYM_M.
-  rot_jump_symmetric  the same turn, but the surface moves less than SYM_M: an equivalent pose of a symmetric object.
+  rot_drift         over a contiguous unheld run, some point of the centred surface (centre of mass removed) lands more
+                    than DRIFT_M from the surface at the run start (t3_symmetry.Shape.shift: the largest nearest-surface
+                    distance). Shape-aware: turning about a symmetry axis moves no surface and is not motion (Tier 1's
+                    bat spins 1.6 rad about its axis untouched). Until 10-15 this was the mean distance, which missed a
+                    mug turning its handle away or a spray bottle turning its nozzle.
+  rot_jump          one frame turns more than OMEGA_MAX / fps and some surface point lands at least SYM_M off the surface.
+  rot_jump_symmetric  the same turn, but no point lands SYM_M off: an equivalent pose of a symmetric object.
                     Physically nothing happened, but the orientation target the policy tracks jumped; reported apart
                     and kept out of object_any.
   root_acc          the robot root's |a| <= A_BODY.
@@ -56,6 +58,9 @@ import trimesh
 from scipy.signal import savgol_filter
 from scipy.spatial import cKDTree
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # run with -I, which leaves the script's directory off the path
+from t3_symmetry import SYM_M, Shape  # noqa: E402
+
 G = 9.81
 FOOT_TASK = re.compile(r"\b(foot|feet)\b", re.IGNORECASE)  # the same rule as t3_world_probe.FOOT_TASK (that module needs torch)
 URDF_REL = "repo/third_party/video_to_data/robotic_grounding/flash_chord/src/flash_chord/assets/urdfs/g1/main_with_hand.urdf"
@@ -69,7 +74,6 @@ A_BODY = 2.0 * G
 MU_MIN, MU_MAX = 0.2, 1.0
 DRIFT_M = 0.03
 OMEGA_MAX = 4 * np.pi
-SYM_M = 0.01
 G_VEC = np.array([0.0, 0.0, -G])
 
 
@@ -239,9 +243,8 @@ def check(part: Path, supports, feet: bool = False, frames: bool = False):
     bad["rot_torque"] = np.where(held, tau > A_HAND * r_max, tau > G * r_max)
 
     # shape-aware: compare the centred posed surface, so turning about a symmetry axis is no motion
-    cen = surf[::6] - com_b
-    posed = np.einsum("tij,vj->tvi", R, cen)
-    shape_d = lambda a, b: float(cKDTree(posed[a]).query(posed[b])[0].mean())
+    shape = Shape(mesh, com_b)
+    shape_d = lambda a, b: shape.shift(R[a].T @ R[b])
     step_shape = np.r_[0.0, [shape_d(t, t + 1) if ang[t] > OMEGA_MAX / fps else 0.0 for t in range(n - 1)]]
     jump = np.r_[False, ang > OMEGA_MAX / fps]
     bad["rot_jump"] = jump & (step_shape >= SYM_M)
@@ -251,8 +254,7 @@ def check(part: Path, supports, feet: bool = False, frames: bool = False):
     turn = np.zeros(n, bool)
     for s, e in runs(~held):
         drift[s:e] = np.linalg.norm(com[s:e, :2] - com[s, :2], axis=1) > DRIFT_M
-        tree = cKDTree(posed[s])
-        turn[s:e] = [tree.query(posed[t])[0].mean() > DRIFT_M for t in range(s, e)]
+        turn[s:e] = [shape_d(s, t) > DRIFT_M for t in range(s, e)]
     bad["rest_drift"] = drift
     bad["rot_drift"] = turn
 
