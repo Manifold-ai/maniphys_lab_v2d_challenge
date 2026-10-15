@@ -19,6 +19,16 @@ rules with one model, run forward then backward over the whole episode:
              160 deg reset put a used frame 162 deg off its observation). Which side of a multi-frame flip is right
              the trajectory cannot tell; that needs the image (render both, compare with the video), not done here.
   smooth     Rauch-Tung-Striebel backward pass (on the error state for the orientation).
+  rests      (10-16, best_kf3) every rest run of at least MIN_RUN frames is locked as t3_dynamics_post locks it: the
+             orientation at the robust mean (frames within OUTLIER_DEG of the run's medoid, so flipped frames are
+             replaced, not followed), the centre of mass at the median with the lowest hull point at the run's median.
+             The filter observes the locked pose on those frames with SIGMA_LOCK_* noise, never gated, so no reset
+             happens inside a rest and the held runs on either side are smoothed into it; the output on locked frames
+             is the locked pose exactly. Why: in best_kf2 the zero-velocity pseudo-observation held the velocities but
+             not the orientation, which crept with the 3 deg observations (ep03 frames 0-92 turned 42 deg, dyn7 had
+             locked them) or followed a rest flip after a reset (ep01 frame 697, 91 deg); rot_drift 986 -> 1122. And
+             ep06's smoothed centre of mass ended 4 mm off its support slab (dyn7's lock keeps it 9 mm inside).
+             --no-lock gives best_kf2's behaviour.
   floor      no frame's lowest hull point lower than in the input or than the floor, whichever is lower (as
              t3_dynamics_post's last step).
 
@@ -27,7 +37,7 @@ the version's selection json. Symmetric objects first get continuous equivalent 
 t3_dynamics_post step 1). Asserted: on frames whose observation was used, the output orientation stays within
 GATE_DEG of it.
 
-    python t3_kalman_post.py <tier3 root> <version> <physics dir> <selection json> <out version> [episode,...]
+    python t3_kalman_post.py <tier3 root> <version> <physics dir> <selection json> <out version> [episode,...] [--no-lock]
 Writes runs/<out version>{,_suspect}/, runs/<out version>.kalman_post.json and .provenance.json.
 """
 
@@ -53,6 +63,7 @@ SIGMA_ZV, SIGMA_ZW = 0.005, 0.02  # zero-velocity pseudo-observation, m/s and ra
 GATE_CHI2 = 16.27  # chi-square 3 dof, 0.999
 GATE_DEG = 30.0
 RESET_AFTER = 5
+SIGMA_LOCK_POS, SIGMA_LOCK_ROT = 0.001, np.deg2rad(0.1)  # a locked rest's pose, observed as nearly exact
 
 
 def exp_so3(v):
@@ -77,8 +88,10 @@ def update(x, P, y, H, Rn):
     return x + K @ y, (np.eye(len(x)) - K @ H) @ P, float(y @ np.linalg.solve(S, y))
 
 
-def smooth_position(z, rest, cam):
+def smooth_position(z, rest, cam, lock=None):
+    """lock: frames whose observation is a locked rest pose (observed with SIGMA_LOCK_POS, never gated)."""
     n = len(z)
+    lock = np.zeros(n, bool) if lock is None else lock
     H = np.hstack([np.eye(3), np.zeros((3, 3))])
     Hv = np.hstack([np.zeros((3, 3)), np.eye(3)])
     xf, Pf, xp, Pp = np.zeros((n, 6)), np.zeros((n, 6, 6)), np.zeros((n, 6)), np.zeros((n, 6, 6))
@@ -94,9 +107,11 @@ def smooth_position(z, rest, cam):
         u /= np.linalg.norm(u)
         d = np.linalg.norm(z[t] - cam)
         Rn = SIGMA_PERP ** 2 * np.eye(3) + ((SIGMA_RAY_REL * d) ** 2 - SIGMA_PERP ** 2) * np.outer(u, u)
+        if lock[t]:
+            Rn = SIGMA_LOCK_POS ** 2 * np.eye(3)
         y = z[t] - H @ x
         S = H @ P @ H.T + Rn
-        if t == 0 or float(y @ np.linalg.solve(S, y)) <= GATE_CHI2:
+        if t == 0 or lock[t] or float(y @ np.linalg.solve(S, y)) <= GATE_CHI2:
             x, P, _ = update(x, P, y, H, Rn)
             used[t], streak = True, 0
         else:
@@ -119,8 +134,10 @@ def smooth_position(z, rest, cam):
     return xs[:, :3], used, resets
 
 
-def smooth_rotation(Z, rest):
+def smooth_rotation(Z, rest, lock=None):
+    """lock: frames whose observation is a locked rest orientation (observed with SIGMA_LOCK_ROT, never gated)."""
     n = len(Z)
+    lock = np.zeros(n, bool) if lock is None else lock
     H = np.hstack([np.eye(3), np.zeros((3, 3))])
     Hw = np.hstack([np.zeros((3, 3)), np.eye(3)])
     Rf, wf, Pf = np.zeros((n, 3, 3)), np.zeros((n, 3)), np.zeros((n, 6, 6))
@@ -128,15 +145,15 @@ def smooth_rotation(Z, rest):
     R, w, P = Z[0].copy(), np.zeros(3), np.diag([SIGMA_ROT ** 2] * 3 + [1.0] * 3)
     used, resets, streak = np.zeros(n, bool), 0, 0
     cut = np.zeros(n, bool)
-    Rn = SIGMA_ROT ** 2 * np.eye(3)
     for t in range(n):
         if t:
             F, Q = cv_model(ALPHA_REST if rest[t] else ALPHA_MOVE)
             R, P = R @ exp_so3(w * DT), F @ P @ F.T + Q
         Rp[t], wp[t], Pp[t] = R, w, P
+        Rn = (SIGMA_LOCK_ROT if lock[t] else SIGMA_ROT) ** 2 * np.eye(3)
         y = log_so3(R.T @ Z[t])
         S = H @ P @ H.T + Rn
-        ok = t == 0 or (float(y @ np.linalg.solve(S, y)) <= GATE_CHI2 and np.degrees(np.linalg.norm(y)) <= GATE_DEG)
+        ok = t == 0 or lock[t] or (float(y @ np.linalg.solve(S, y)) <= GATE_CHI2 and np.degrees(np.linalg.norm(y)) <= GATE_DEG)
         if ok:
             dx, P, _ = update(np.zeros(6), P, y, H, Rn)
             R, w, used[t], streak = R @ exp_so3(dx[:3]), w + dx[3:], True, 0
@@ -174,12 +191,14 @@ def main() -> None:
     import t3_inputs
     import t3_provenance
     from t3_align_check import similarity
-    from t3_dynamics_post import angle, to_q, to_R
+    from t3_dynamics_post import MIN_RUN, angle, robust_mean, runs, to_q, to_R
     from t3_support import basis
     from t3_symmetry import SYM_M, Shape, nearest_equivalent, symmetries
 
-    root, version, phys, sel, out_v = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), Path(sys.argv[4]), sys.argv[5]
-    only = {int(x) for x in sys.argv[6].split(",")} if len(sys.argv) > 6 else None
+    argv = [a for a in sys.argv if a != "--no-lock"]
+    do_lock = len(argv) == len(sys.argv)
+    root, version, phys, sel, out_v = Path(argv[1]), argv[2], Path(argv[3]), Path(argv[4]), argv[5]
+    only = {int(x) for x in argv[6].split(",")} if len(argv) > 6 else None
     rn = root / "runs"
     prov = t3_provenance.stamp([root / "input", rn / version, rn / f"{version}_suspect", phys, sel])
     if (rn / out_v).exists() or (rn / f"{out_v}_suspect").exists():
@@ -227,12 +246,33 @@ def main() -> None:
             rest = resting & ~held
             _, _, cam, _, _ = similarity(root / "runs" / convert[name] / name)  # world = s r cam + t: the centre is t
 
-            new_com, used_p, resets_p = smooth_position(com, rest, cam)
-            new_R, used_r, resets_r = smooth_rotation(Rc, rest)
+            # rests locked as t3_dynamics_post step 2; the filter observes the locked pose there
+            lock = np.zeros(n, bool)
+            z_com, z_R = com.copy(), Rc.copy()
+            lock_rows = []
+            low_c = low_of(com - Rc @ com_b, Rc).min(1)  # as t3_dynamics_post's low0: same centre of mass, symmetric turn
+            for a, b in runs(rest) if do_lock else []:
+                if b - a < MIN_RUN:
+                    continue
+                Rm, flips = robust_mean(Rc[a:b])
+                cm = np.median(com[a:b], 0)
+                l_now = (Rm @ (hull - com_b).T).T @ n_up + cm @ n_up + d_up
+                cm = cm + (float(np.median(low_c[a:b])) - l_now.min()) * n_up
+                z_com[a:b], z_R[a:b], lock[a:b] = cm, Rm, True
+                lock_rows.append({"start": a, "end": b, "drift_removed_m": round(float(np.linalg.norm(com[a:b] - cm, axis=1).max()), 4),
+                                  "turn_removed_rad": round(max(angle(Rm, x) for x in Rc[a:b]), 3), "rest_flips_replaced": flips})
+
+            new_com, used_p, resets_p = smooth_position(z_com, rest, cam, lock)
+            new_R, used_r, resets_r = smooth_rotation(z_R, rest, lock)
+            lock_err = max([np.degrees(angle(new_R[t], z_R[t])) for t in np.flatnonzero(lock)], default=0.0)
+            new_com[lock], new_R[lock] = z_com[lock], z_R[lock]  # the filter only bridges into them; a rest is its lock
             dev = np.degrees([angle(new_R[t], Rc[t]) for t in range(n)])
-            if (dev[used_r] > GATE_DEG + 1e-6).any():
-                t = int(np.flatnonzero(used_r)[np.argmax(dev[used_r])])
+            free = used_r & ~lock
+            if (dev[free] > GATE_DEG + 1e-6).any():
+                t = int(np.flatnonzero(free)[np.argmax(dev[free])])
                 raise SystemExit(f"{name}: frame {t}'s observation was used but the output is {dev[t]:.1f} deg from it")
+            if (~used_r & lock).any() or (~used_p & lock).any():
+                raise SystemExit(f"{name}: a locked frame was gated out")
 
             new_pos = new_com - new_R @ com_b
             low1 = low_of(new_pos, new_R).min(1)
@@ -244,7 +284,7 @@ def main() -> None:
             i = table.schema.get_field_index("observation.object.pose")
             out_t = table.set_column(i, table.schema.field(i), col)
             md = dict(out_t.schema.metadata or {})
-            md[b"kalman_post"] = json.dumps({"from": version}).encode()
+            md[b"kalman_post"] = json.dumps({"from": version, "rest_lock": do_lock, "locked_runs": len(lock_rows)}).encode()
             out_t = out_t.replace_schema_metadata(md)
             dst = rn / dst_v / "data" / "chunk-000" / f.name
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -255,17 +295,18 @@ def main() -> None:
 
             shift = np.linalg.norm(new_com - com, axis=1)
             row = {"episode": name, "tier": dst_v, "frames": n, "symmetries": len(G), "continuous_axis": sym_axis is not None,
-                   "rest_share": round(float(rest.mean()), 3),
+                   "rest_share": round(float(rest.mean()), 3), "locked_share": round(float(lock.mean()), 3),
+                   "locked_runs": lock_rows, "filter_off_lock_deg_max": round(float(lock_err), 2),
                    "position_rejected": int((~used_p).sum()), "position_resets": resets_p,
                    "rotation_rejected": int((~used_r).sum()), "rotation_resets": resets_r,
-                   "turn_from_input_deg_p95_max_used": [round(float(np.percentile(dev[used_r], 95)), 1), round(float(dev[used_r].max()), 1)],
+                   "turn_from_input_deg_p95_max_used": [round(float(np.percentile(dev[free], 95)), 1), round(float(dev[free].max()), 1)] if free.any() else [0.0, 0.0],
                    "turn_from_input_deg_max_rejected": round(float(dev[~used_r].max()), 1) if (~used_r).any() else 0.0,
                    "com_shift_m_p50_p95_max": [round(float(x), 4) for x in np.percentile(shift, [50, 95, 100])],
                    "floor_lifted_frames": int((lift > 0).sum())}
             report.append(row)
-            print(json.dumps(row), flush=True)
+            print(json.dumps({k: v for k, v in row.items() if k != "locked_runs"}), flush=True)
     (rn / f"{out_v}.kalman_post.json").write_text(json.dumps(report, indent=1))
-    t3_provenance.write(rn / f"{out_v}.provenance.json", prov | {"made_by": "t3_kalman_post.py", "from_version": version})
+    t3_provenance.write(rn / f"{out_v}.provenance.json", prov | {"made_by": "t3_kalman_post.py", "from_version": version, "rest_lock": do_lock})
 
 
 if __name__ == "__main__":
