@@ -274,3 +274,12 @@ run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.
   每次得到的是不同的一局，交上去的轨迹是一次随机抽样。按第 4 节停在这一步：乙不做（16:16 的 ep19 探查结果不用），报用户。
   影响：（1）规则 2.9.b 要求能复现，组委会用同一条命令重跑会得到另一局、另一组分数；（2）逐条选按交上去那一局的分数挑，等于在候选之间挑运气好的那一局，
   榜上的分数比期望值偏高；（3）4096 世界的成功率才是期望值的估计。待定：要不要就复现问题问组委会；逐条选要不要改用 4096 世界的统计量；有没有让评测器确定的设置。
+- 20:00 刷新 12 个榜，与 18:30 相同（`results/submission/leaderboard_1014_2000.txt`）。组委会账号 Nvidia-V2D-Challenge 仍不是仓库协作者：
+  HTTP 404，权限 none（`results/ops/collab_check_nvidia_1014_2000.txt`）。
+- 20:10 前后用户定：选和汇报都把两种分数并列（交上去那一局，即榜上算的分数；4096 个世界的统计），以 4096 个世界为主。榜上可能因此略低，
+  但更接近真实水平。用户给的依据是闭赛后组委会用未公开的数据再评，与第 1 节引的规则原文一致（“After the Competition closes, the Competition
+  Sponsor evaluates selected solutions against data that is not part of the Competition Data and is not distributed to Participants.”；每队最多选
+  2 个 Final Submission）。上一条的“逐条选要不要改用 4096 世界的统计量”由此定下；问不问组委会、有没有让评测器确定的设置仍待定。落实：
+  （1）`select_t1.py` 的记录里每条候选列的是导出那一局的四项，4096 世界只列 MP-SR；改成以 4096 世界为主、两种分数都列，先写计划、审过再改，
+  Tier 2 的逐条选和 b1014 的换选（`tools/t2_lost_swap.py` 按导出那一局的 MPPE 挑）一并核对；（2）已交的 t1c1014b、b1014 补算 4096 世界的
+  期望值，与榜上的分数并列；Tier 2 的本地数是对照自己参考的代理量，照此标明。

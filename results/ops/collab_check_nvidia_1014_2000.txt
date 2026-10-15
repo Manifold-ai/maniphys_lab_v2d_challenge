@@ -1,0 +1,9 @@
+# command  : bash -c R=Manifold-ai/maniphys_lab_v2d_challenge\;\ echo\ \"==\ collaborator\ \(204\ yes\;\ 404\ no\ or\ invite\ not\ accepted\)\"\;\ gh\ api\ -i\ repos/\$R/collaborators/Nvidia-V2D-Challenge\ 2\>\&1\ \|\ head\ -1\;\ echo\ \"==\ permission\"\;\ gh\ api\ repos/\$R/collaborators/Nvidia-V2D-Challenge/permission\ --jq\ .permission 
+# source   : 9e17914db296
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T20:01:55-0600
+# ---------------------------------------------------------------
+== collaborator (204 yes; 404 no or invite not accepted)
+HTTP/2.0 404 Not Found
+== permission
+none
