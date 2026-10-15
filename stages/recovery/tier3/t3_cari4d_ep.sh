@@ -6,6 +6,7 @@
 # T3_WORK (default runs/work) picks the work root under $T3_ROOT; T3_FP_MODE=register-every-frame lays
 # third_party/patches/cari4d-fp-sequence-mode.patch over the inference entry and runs FoundationPose registering every
 # frame (re-acquires a lost object) instead of registering once and tracking.
+# T3_CARI4D_EXTRA adds wrapper flags as they are (e.g. --optimize_object_rotation for t3_rot_pilot.sh).
 # Log: $T3_ROOT/logs/cari4d_<name><T3_LOG_TAG>.log; the last line carries rc.
 set -u
 name=$1
@@ -45,7 +46,7 @@ LOG=$T/logs/cari4d_$name${T3_LOG_TAG:-}.log
     T3_EXTRA_MOUNTS="$T3_EXTRA_MOUNTS;$pdir/run_inference.py:$ri:ro"
     export V2D_FP_SEQUENCE_MODE=$FP_MODE
   fi
-  echo "foundationpose mode: $FP_MODE"
+  echo "foundationpose mode: $FP_MODE${T3_CARI4D_EXTRA:+, extra: $T3_CARI4D_EXTRA}"
   source ~/proxy.sh >/dev/null
   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
   export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF${V2D_FP_SEQUENCE_MODE:+,V2D_FP_SEQUENCE_MODE}
@@ -58,7 +59,7 @@ LOG=$T/logs/cari4d_$name${T3_LOG_TAG:-}.log
   $PY "$S/t3_run.py" v2d.cari4d.docker.run_inference $overwrite \
     --video_path "$video" --mask_h5_path "$W/masks_k0.h5" --object_mesh_path "$mesh" \
     --weights_path "$WEIGHTS/cari4d" --output_dir "$W/cari4d" \
-    --skip_weight_download --expected_frames "$frames" --postopt_batch_size 128
+    --skip_weight_download --expected_frames "$frames" --postopt_batch_size 128 ${T3_CARI4D_EXTRA:-}
 } > "$LOG" 2>&1
 rc=$?
 echo "$(date +%T) cari4d rc=$rc" >> "$LOG"
