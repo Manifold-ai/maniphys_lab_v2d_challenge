@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ cat\ runs/logs/r3o_g1_mf4090.log\ \|\ grep\ -v\ \"\^\ \*\$\"\ \|\ cut\ -c1-300\ \|\ tail\ -40 
+# source   : ffee511a86a0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:32:12-0600
+# ---------------------------------------------------------------
+=== 2026-10-16 04:28:31 CST G1 开始：t1-ep20-w2048-cap4m-r3o-g1-mf4090，环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4，来历 6562c00dc582
+fc_run: t1-ep20-w2048-cap4m-r3o-g1-mf4090 完成
+=== 2026-10-16 04:31:46 CST 训练完、日志里有 r3o 的开关行
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+KeyError: 'resolved_config_json'
+R3O_G1_FAIL checkpoint 配置里带了 r3o 的键

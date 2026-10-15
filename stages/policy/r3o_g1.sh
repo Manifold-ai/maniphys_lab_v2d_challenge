@@ -21,18 +21,23 @@ env "${envs[@]}" V2D_FC_SRC="$FC/v040_p185_nfg_oo" stages/policy/fc_run.sh "$R" 
 grep -h "V2D object_orientation term: weight=1.0 std=0.4" runs/logs/"$R".s*.log | head -1 | grep -q . \
   || { echo "R3O_G1_FAIL 训练日志里没有 r3o 的开关行"; exit 1; }
 echo "=== $(date '+%F %T %Z') 训练完、日志里有 r3o 的开关行"
-V2D_FC_SRC="$FC/fc_8c778f9" scripts/dev/in-flash-chord "python - <<'PY'
+# 用评测器自己读配置的函数（8c778f9 的 read_checkpoint_metadata、checkpoint_config）取它重建环境时看到的配置；退出码 3 = 配置里有 r3o 的字样
+V2D_FC_SRC="$FC/fc_8c778f9" scripts/dev/in-flash-chord "cd /workspace && python - <<'PY'
 import json
-from safetensors import safe_open
+from flash_chord.training.checkpoint import read_checkpoint_metadata
+from flash_chord.training.checkpoint_metadata import checkpoint_config
 p = '/repo/runs/flash_chord/$R/policy_4096000.safetensors'
-with safe_open(p, 'np') as f:
-    md = f.metadata()
-cfg = md['resolved_config_json']
+md = read_checkpoint_metadata(p)
+cfg = json.dumps(checkpoint_config(md), sort_keys=True)
 bad = [k for k in ('object_orientation', 'V2D_OBJ_ORI') if k in cfg]
-print('checkpoint 元数据的键：' + ', '.join(sorted(md)))
-print('解析后配置里出现的 r3o 字样：' + (', '.join(bad) if bad else '无'))
-raise SystemExit(1 if bad else 0)
-PY" || { echo "R3O_G1_FAIL checkpoint 配置里带了 r3o 的键"; exit 1; }
+print('checkpoint 用户元数据的键：' + ', '.join(sorted(md)))
+print('评测器读到的配置 %d 字符，其中 r3o 的字样：%s' % (len(cfg), ', '.join(bad) if bad else '无'))
+raise SystemExit(3 if bad else 0)
+PY"; rc=$?
+if [ "$rc" != 0 ]; then
+  [ "$rc" = 3 ] && echo "R3O_G1_FAIL checkpoint 配置里带了 r3o 的键" || echo "R3O_G1_FAIL 读 checkpoint 元数据出错（退出码 $rc）"
+  exit 1
+fi
 V2D_FC_SRC="$FC/fc_8c778f9" stages/policy/fc_eval.sh "$R" 4096000 || { echo "R3O_G1_FAIL 8c778f9 评测"; exit 1; }
 [ -f "runs/flash_chord/$R/eval_4096000_w4096.json" ] || { echo "R3O_G1_FAIL 评测结果文件不在"; exit 1; }
 echo "=== $(date '+%F %T %Z') 8c778f9 的 4096 世界评测成功"
