@@ -73,8 +73,10 @@ def main():
     args = sys.argv[1:]
     max_gap = int(args[args.index("--max-gap") + 1]) if "--max-gap" in args else MAX_GAP
     c = Path(args[0])
-    seq = c.name
-    pkl = c / "foundationpose" / f"{seq}.pkl"
+    pkls = sorted((c / "foundationpose").glob("episode_*.pkl"))
+    assert len(pkls) == 1, f"expected one episode pkl under {c}/foundationpose, found {len(pkls)}"
+    pkl = pkls[0]
+    seq = pkl.stem  # the dir may be mounted under another name
     d = pickle.load(open(pkl, "rb"))
     W = np.asarray(d["obj_pose_world"], np.float64)
     C = np.asarray(d["fp_poses_cam"], np.float64)[:, 0]
