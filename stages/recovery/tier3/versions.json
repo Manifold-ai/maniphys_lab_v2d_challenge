@@ -13,22 +13,22 @@
    "from": "tier3_cari4d conversion (inferred)",
    "purpose": "floor correction"
   },
-  "f830_floor": {
+  "floor": {
    "status": "kept",
    "date": "10-10",
    "from": "tier3_cari4d conversion (inferred)",
    "purpose": "focal 830 + floor correction (rxzhou's 10-10 training choice)"
   },
-  "f830_sim": {
+  "sim": {
    "status": "archived",
    "date": "10-11",
    "from": "f830_floor (inferred)",
    "purpose": "human scaled with the scene; superseded by f830_simreg"
   },
-  "f830_simreg": {
+  "simreg": {
    "status": "kept",
    "date": "10-11",
-   "from": "f830_sim",
+   "from": "sim",
    "purpose": "f830_sim + the 5 second-camera episodes registered to the main camera"
   },
   "tier3_cari4d_fp_pilot_f830": {
@@ -198,6 +198,6 @@
   "work": "CARI4D register-first-then-track runs, all 30 episodes (input to convert)",
   "work_fp": "FoundationPose register-every-frame runs (input to convert_fp; base of the stage pilots)",
   "work_v2": "re-selection runs (input to convert_v2)",
-  "work_init": "initialization pilot (t3_init_pilot.sh, 10-16)"
+  "work_init": "pending: initialization pilot (t3_init_pilot.sh, 10-16); created when the pilot starts"
  }
 }
