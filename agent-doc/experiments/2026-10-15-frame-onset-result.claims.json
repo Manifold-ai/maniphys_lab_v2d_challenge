@@ -1,0 +1,29 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "join": {"file": "results/frames/t3_onset_evidence.txt", "grep": "^== 窗口 15|^  F_(flip|jump|rot)"},
+    "on_mf": {"file": "results/frames/onset_t3hm_mf4090.txt", "grep": "^== t3-ep(1|3|16|21|25|27)-|起点 t_on"},
+    "terms_mf": {"file": "results/frames/onset_terms_t3hm_mf4090.txt", "grep": "^== t3-ep16-|物体越线"},
+    "early_mf": {"file": "results/frames/ref_early_motion_t3hm_mf4090.txt", "grep": "^== t3-ep(3|27)-"},
+    "height_mf": {"file": "results/frames/ref_start_height_t3hm_mf4090.txt", "grep": "^== t3-ep(1|16|25)-"},
+    "fo_ml40": {"file": "results/ml40/frames/fall_order_one_t1_ml40.txt", "grep": "^\\[|k=25"},
+    "terms_t1": {"file": "results/frames/onset_terms_t1_mf4090.txt", "grep": "^== |物体越线"},
+    "early_t1": {"file": "results/ml40/frames/ref_early_motion_t1_ml40.txt", "grep": "^== t1-ep4-"}
+  },
+  "claims": [
+    {"id": "join_jump", "evidence": ["join"], "claim": "15 帧窗口下 F_jump（单帧跳变）读作集中：4/4 条 E ≥ 2.0，机会水平 p = 0.001。"},
+    {"id": "join_rot", "evidence": ["join"], "claim": "15 帧窗口下 F_rot（转动违规）读作集中：4/5 条 E ≥ 2.0，机会水平 p = 0.003。"},
+    {"id": "join_flip", "evidence": ["join"], "claim": "15 帧窗口下 F_flip（短翻转）读作看不清。"},
+    {"id": "early51", "evidence": ["on_mf"], "claim": "mf4090 上 t3-ep1、t3-ep3、t3-ep16、t3-ep25、t3-ep27 这 5 条 best_hm run 的起点 t_on 分位 10/25/50/75/90 都是第 51 帧。"},
+    {"id": "ep3_ref", "evidence": ["early_mf"], "claim": "t3-ep3 best_hm 的参考物体从第 0 帧到第 51 帧转了 51.3°、位置动了 0.5 cm，参考第一次接触在第 100 帧。"},
+    {"id": "ep27_ref", "evidence": ["early_mf"], "claim": "t3-ep27 best_hm 的参考物体到第 51 帧转了 121.1°，第 0–51 帧相邻帧转角最大 176.3°。"},
+    {"id": "ep16_sim", "evidence": ["terms_mf", "height_mf"], "claim": "t3-ep16 best_hm 物体越线那一步的位置误差中位 98.7 cm、朝向误差中位 94.3°，t_obj 中位第 51 步；参考物体第 0 帧的 z 是 1.002 米，scene.support=True。"},
+    {"id": "t1_objfirst", "evidence": ["fo_ml40"], "claim": "t1-ep4、t1-ep9、t1-ep25 三条在 k=25 时物体先的比例都不低于 99.5%。"},
+    {"id": "t1_ori", "evidence": ["terms_t1"], "claim": "t1-ep11 的物体越线 4096 个里只有朝向越线的有 4002 个，越线那一步朝向误差中位 35.1°。"},
+    {"id": "t1_ep4_ref", "evidence": ["early_t1"], "claim": "t1-ep4 的参考物体从第 0 帧到第 100 帧转了 67.5°，位置只动了 0.3 cm。"},
+    {"id": "ctl_true_ep21", "evidence": ["on_mf"], "control": "true", "claim": "t3-ep21 best_hm 的复现门是 noise 0.0331，原评 MP-SR 0.5010。"},
+    {"id": "ctl_false_flip", "evidence": ["join"], "control": "false", "claim": "15 帧窗口下 F_flip（短翻转）读作集中。"},
+    {"id": "ctl_false_height", "evidence": ["height_mf"], "control": "false", "claim": "t3-ep16 best_hm 的参考物体第 0 帧 z 是 0.381 米。"},
+    {"id": "ctl_false_t1pos", "evidence": ["terms_t1"], "control": "false", "claim": "t1-ep11 的物体越线里只有位置越线的占多数。"}
+  ]
+}

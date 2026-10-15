@@ -202,3 +202,23 @@
 - 00:34 代码审查回来（上表）。在跑的两条 dump 链用的是 6bfb784 的 `dump_chain.sh`：第 3、4、9、12 条这次碰不到（两台 nvidia-smi 正常、清单都以换行结尾、
   tmux 全局环境里没有 `V2D_EVAL_WORLDS`），不停链；改动供以后用。分析脚本改后在 Mac 上 23 个测试全过、`test_dump_chain.py` 在 mf4090 的临时目录里 10 组全过；
   链跑着不能同步，跑分析时把这一版的 `fail_onset.py`、`fall_order.py` 复制到 `runs/tools/frames/` 再跑，记 md5。
+- 01:32 ml40 的 dump 链 `DUMP_CHAIN_DONE（成功 11、失败 0）`，同一分钟甲的 ep19 由 arm_after 起链；01:51 mf4090 `DUMP_CHAIN_DONE（成功 17、失败 0）`，
+  01:52 甲的 ep14 起链（`agent-doc/plan-overnight-2026-10-15.md`）。
+- 01:33–01:55 分析（两台容器里、CPU，用 `runs/tools/frames_b6891ce/` 下与 b6891ce 逐字相同的脚本，部署记录 `results/frames/deploy_frames_b6891ce_*.txt`）：
+  门全过——Tier 3 的 21 条（noise 门，|z| ≤ 1.48）、Tier 1 的 7 条（fixed 门）；登记的 `fall_order_one.py` 两台都 `FALL_ORDER_ONE_DONE`。
+  记录：`results/frames/onset_*`、`results/ml40/frames/onset_*`、`fall_order_one_t1_*`。接触核对 00:40 `CONTACT_SAME`（`results/frames/contact_check_t1ep16.txt`）。
+- Tier 3 对照（第 4 节读法，`results/frames/t3_onset_evidence.txt`，18 条 best_hm 都过 G4、G5）：窗口 15 帧，F_jump **集中**（4/4 条 E ≥ 2，机会水平 p = 0.001），
+  F_rot **集中**（4/5，p = 0.003）；F_flip、F_vis、F_obj、F_sw 看不清；F_root 没有可比的 run（证据表 30 集只有 1 帧带这个标记）。窗口 5 帧：F_jump、F_rot 集中；
+  30 帧：都看不清。进入汇总的只有 4–5 条；8 条（ep1、3、4、5、16、17、25、27）起点中位 < 100 帧（第 51–88 帧），按登记不进汇总。ep04 已确认的三处头尾颠倒
+  之后 30 帧内没有起点（起点都在第 51 帧）。
+- 事后诊断（计划外，只报，不改第 4 节的读法；`stages/evaluate/onset_terms.py`、`ref_early_motion.py`、`ref_start_height.py`）：
+  - 早起点 8 集都在第一次接触之前越线。参考物体自己在动：ep3、ep4、ep27 到第 51 帧分别转了 51.3°、85.0°、121.1°（ep27 第 0–51 帧单帧最大 176.3°），
+    这 3 集越线只有朝向项。仿真里物体大幅位移：ep16 位置 98.7 cm（开局 z 1.002 m，support 开）、ep25 92.4 cm（z 0.930 m，support 开）、ep1 48.6 cm 且转 84°
+    （z 0.381 m，support 关），参考同期只动 1.6–12.4 cm；前两条像是从台面掉下，第三条像是立着的物体倒下（推断，未验证）。ep5 只有位置越线（第 69 帧 10.6 cm）。
+  - Tier 1 丙：7 集物体先 95.2–100%（k = 25），骨盆晚 1.5–13.5 秒（中位）越线。除 ep2（位置与朝向混合）外，越线以朝向为主（约 35°，位置 3–7 cm），
+    多在第一次接触之后不久；参考在接触前不动（ep1、9、11、25、28）。ep4 例外：第 72 帧、接触（第 109 帧）之前越线，干净参考里的球棒到第 100 帧原地转了 67.5°
+    （位置 0.3 cm），评测的朝向误差不计对称（推断：这一集靠训练补不回来，未验证）。摔倒世界的 t_pel 81–100% 落在接触中（ep2 87%、ep4 100%、ep25 93% 等）。
+  - 更正：周报与 SOP 里“跟丢的集几乎每个世界都是骨盆先失败”不对。骨盆失败比例接近 1 只说明最后几乎都摔；先越线的是物体，以朝向为主。
+  - dyn4 的 ep15：起点中位第 518 帧（best_hm 第 490 帧），物体先 99.3%，修复版没改变失败的时间。
+- jev：10 条核实（0.87–0.98），对照 4 道正常（`results/frames/jev_claims_frame_onset_result.txt`）。
+- 时间更正：提交说明里 7590ce6 写 01:35–01:45（实际约 01:33）、0828410 写 01:50（约 01:36）、e63f721 写 01:50（约 01:38），以本节为准。

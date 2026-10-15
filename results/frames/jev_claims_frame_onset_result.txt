@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-15-frame-onset-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 941d314e2564e7774fec88c254fa76c5  agent-doc/experiments/2026-10-15-frame-onset-result.claims.json
+# source   : 4f29a7b2cac9-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T01:53:48-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+join_jump            P(supported)=0.93  verified               [join]  15 帧窗口下 F_jump（单帧跳变）读作集中：4/4 条 E ≥ 2.0，机会水平 p = 0.001。
+join_rot             P(supported)=0.97  verified               [join]  15 帧窗口下 F_rot（转动违规）读作集中：4/5 条 E ≥ 2.0，机会水平 p = 0.003。
+join_flip            P(supported)=0.97  verified               [join]  15 帧窗口下 F_flip（短翻转）读作看不清。
+early51              P(supported)=0.87  verified               [on_mf]  mf4090 上 t3-ep1、t3-ep3、t3-ep16、t3-ep25、t3-ep27 这 5 条 best_hm run 的起点 t_on 分位 10/25/50/75/90 都是第 51 帧。
+ep3_ref              P(supported)=0.89  verified               [early_mf]  t3-ep3 best_hm 的参考物体从第 0 帧到第 51 帧转了 51.3°、位置动了 0.5 cm，参考第一次接触在第 100 帧。
+ep27_ref             P(supported)=0.98  verified               [early_mf]  t3-ep27 best_hm 的参考物体到第 51 帧转了 121.1°，第 0–51 帧相邻帧转角最大 176.3°。
+ep16_sim             P(supported)=0.95  verified               [terms_mf, height_mf]  t3-ep16 best_hm 物体越线那一步的位置误差中位 98.7 cm、朝向误差中位 94.3°，t_obj 中位第 51 步；参考物体第 0 帧的 z 是 1.002 米，scene.support=True。
+t1_objfirst          P(supported)=0.97  verified               [fo_ml40]  t1-ep4、t1-ep9、t1-ep25 三条在 k=25 时物体先的比例都不低于 99.5%。
+t1_ori               P(supported)=0.98  verified               [terms_t1]  t1-ep11 的物体越线 4096 个里只有朝向越线的有 4002 个，越线那一步朝向误差中位 35.1°。
+t1_ep4_ref           P(supported)=0.92  verified               [early_t1]  t1-ep4 的参考物体从第 0 帧到第 100 帧转了 67.5°，位置只动了 0.3 cm。
+ctl_true_ep21        P(supported)=0.98  control(true) ok       [on_mf]  t3-ep21 best_hm 的复现门是 noise 0.0331，原评 MP-SR 0.5010。
+ctl_false_flip       P(supported)=0.04  control(false) ok      [join]  15 帧窗口下 F_flip（短翻转）读作集中。
+ctl_false_height     P(supported)=0.01  control(false) ok      [height_mf]  t3-ep16 best_hm 的参考物体第 0 帧 z 是 0.381 米。
+ctl_false_t1pos      P(supported)=0.02  control(false) ok      [terms_t1]  t1-ep11 的物体越线里只有位置越线的占多数。
+controls behaved as expected
