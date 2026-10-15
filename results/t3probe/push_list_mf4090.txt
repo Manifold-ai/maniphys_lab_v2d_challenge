@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 651770fb5db6fb238a515aced6ec9d6d  stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv
+# source   : 5107b2321523
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:15:42-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 5107b2321523；远端来历 b106c320bae6
+  ok   651770fb5db6fb238a515aced6ec9d6d  stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv
+远端来历（放完）b106c320bae6
+PUSH_OK（1 个文件）

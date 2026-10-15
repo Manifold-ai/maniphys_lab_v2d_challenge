@@ -1,0 +1,8 @@
+# command  : env V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg stages/policy/fc_run.sh t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 /repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet 2048 4096000 training.replay.capacity=4000000 objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 
+# md5      : 852caeef246198dc52ef3ed93e995ce9  stages/policy/fc_run.sh
+# md5      : ecfba5438d3bc8d0427af9d00c5facdf  runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+# source   : b106c320bae6
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-16T04:43:54+0800
+# ---------------------------------------------------------------
+fc_run: t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 完成

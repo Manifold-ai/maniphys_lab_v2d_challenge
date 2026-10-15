@@ -1,0 +1,32 @@
+# command  : bash -c set\ -e\;\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ T=runs/tools/t_export_chain\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cd\ \$R\ \&\&\ test\ \!\ -e\ runs/tools/export_chain.sh\ \&\&\ test\ \!\ -e\ \$T\ \&\&\ mkdir\ -p\ \$T/stages/evaluate\ \$T/scripts/dev\"\;\ for\ pair\ in\ \"stages/evaluate/export_chain.sh\ runs/tools/export_chain.sh\"\ \"stages/evaluate/export_chain.sh\ \$T/stages/evaluate/export_chain.sh\"\ \"stages/evaluate/test_export_chain.py\ \$T/stages/evaluate/test_export_chain.py\"\ \"stages/evaluate/check_export.sh\ \$T/stages/evaluate/check_export.sh\"\ \"scripts/dev/record\ \$T/scripts/dev/record\"\;\ do\ set\ --\ \$pair\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cat\ \>\ \$R/\$2\"\ \<\ \"\$1\"\;\ echo\ \"Mac\ \$\(md5\ -q\ \"\$1\"\)\ \ \$1\ -\>\ \$2\"\;\ done\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cd\ \$R\ \&\&\ chmod\ +x\ runs/tools/export_chain.sh\ \$T/stages/evaluate/export_chain.sh\ \$T/stages/evaluate/check_export.sh\ \$T/scripts/dev/record\ \&\&\ md5sum\ runs/tools/export_chain.sh\ \$T/stages/evaluate/\*\ \$T/scripts/dev/record\ \&\&\ bash\ --version\ \|\ head\ -1\ \&\&\ python3\ \$T/stages/evaluate/test_export_chain.py\" 
+# md5      : c595c029582b78dd815d4b3e126f0e02  stages/evaluate/export_chain.sh
+# md5      : c595c029582b78dd815d4b3e126f0e02  stages/evaluate/export_chain.sh
+# md5      : 8c2cf9dd9e5a83317f66fa74d99940cb  stages/evaluate/test_export_chain.py
+# md5      : 99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# source   : 5107b2321523
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:15:52-0600
+# ---------------------------------------------------------------
+Mac c595c029582b78dd815d4b3e126f0e02  stages/evaluate/export_chain.sh -> runs/tools/export_chain.sh
+Mac c595c029582b78dd815d4b3e126f0e02  stages/evaluate/export_chain.sh -> runs/tools/t_export_chain/stages/evaluate/export_chain.sh
+Mac 8c2cf9dd9e5a83317f66fa74d99940cb  stages/evaluate/test_export_chain.py -> runs/tools/t_export_chain/stages/evaluate/test_export_chain.py
+Mac 99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh -> runs/tools/t_export_chain/stages/evaluate/check_export.sh
+Mac f0f962d0ec877003f7646671d688a5e5  scripts/dev/record -> runs/tools/t_export_chain/scripts/dev/record
+c595c029582b78dd815d4b3e126f0e02  runs/tools/export_chain.sh
+99e58e42055c9f7c5c5413f5f5a0e8f0  runs/tools/t_export_chain/stages/evaluate/check_export.sh
+c595c029582b78dd815d4b3e126f0e02  runs/tools/t_export_chain/stages/evaluate/export_chain.sh
+8c2cf9dd9e5a83317f66fa74d99940cb  runs/tools/t_export_chain/stages/evaluate/test_export_chain.py
+f0f962d0ec877003f7646671d688a5e5  runs/tools/t_export_chain/scripts/dev/record
+GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+ok  test_normal
+ok  test_candidate_condition
+ok  test_rule2_fallback
+ok  test_row_failures
+ok  test_gpu_waits
+ok  test_no_start_wait
+ok  test_gate_and_stops
+ok  test_refusals
+ok  test_waits_for_previous_eval
+ok  test_dryrun
+ALL_OK

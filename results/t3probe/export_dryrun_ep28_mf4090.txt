@@ -1,0 +1,17 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && md5sum runs/tools/export_chain.sh && nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | sed "s/^/gpu �\233�\213 /"; V2D_EXPORT_CHAIN_DRYRUN=1 V2D_GPU_WAIT_START=0 V2D_GPU_WAIT_S=0 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 bash runs/tools/export_chain.sh stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv cand_t3_t3probe_mf4090' 
+# md5      : 651770fb5db6fb238a515aced6ec9d6d  stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv
+# source   : 5107b2321523
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:16:19-0600
+# ---------------------------------------------------------------
+c595c029582b78dd815d4b3e126f0e02  runs/tools/export_chain.sh
+gpu 进程 3986193, 23836 MiB
+== 预检 cand_t3_t3probe_mf4090：清单 stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv（1 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，来历 b106c320bae6
+  ok   runs/logs/cand_t3_t3probe_mf4090.log 与 runs/exports/cand_t3_t3probe_mf4090.tsv 都不存在
+  ok   check_export 能跑：check_export：宿主机 python3
+  --   开头不等 GPU（V2D_GPU_WAIT_START=0）；要真导出的行遇到 GPU 被占，最多等 0 秒
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   Tier 3 ep28 t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090：fc_export 预检退出码 0（t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 policy_4096000 episode 28 world_count=1 traj=1）
+       有干净的 4096 世界评测 runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090/eval_4096000_w4096.json
+  --   还没训完、有 NONFINITE 或 policy 非有限的 0 行，开跑时按 no_done / nonfinite 记
+EXPORT_DRYRUN_OK

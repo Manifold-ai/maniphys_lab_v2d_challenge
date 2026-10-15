@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \|\|\ exit\ 1\;\ N=cand_t3_t3probe_mf4090\;\ V2D_GPU_WAIT_START=0\ V2D_GPU_WAIT_S=0\ V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9\ setsid\ -f\ nohup\ bash\ runs/tools/export_chain.sh\ stages/evaluate/exports/\$N.tsv\ \$N\ \>\ runs/logs/\$N.nohup\ 2\>\&1\ \<\ /dev/null\;\ for\ i\ in\ 1\ 2\ 3\ 4\ 5\ 6\ 7\ 8\ 9\ 10\ 11\ 12\;\ do\ sleep\ 5\;\ tail\ -1\ runs/logs/\$N.log\ 2\>/dev/null\ \|\ grep\ -q\ \"EXPORT_CHAIN_\"\ \&\&\ break\;\ done\;\ cat\ runs/logs/\$N.log\ \|\ cut\ -c1-300\;\ echo\ ----\;\ cat\ runs/exports/\$N.tsv\;\ echo\ ----\;\ cat\ runs/logs/\$N.nohup\ \|\ head\ -5\;\ ls\ runs/.chain-active-\* 
+# source   : 5107b2321523
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:16:29-0600
+# ---------------------------------------------------------------
+=== 2026-10-16 05:16:29 CST start cand_t3_t3probe_mf4090：清单 stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv（1 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 8 份，GPU 最多等 0 秒，来历 b106c320bae6
+=== 2026-10-16 05:16:29 CST 开头不等 GPU（V2D_GPU_WAIT_START=0）：已有完整导出的行不碰 GPU；要真导出的行遇到 GPU 被占，最多等 0 秒
+record: → results/submission/exports/cand_t3_t3probe_mf4090_fc_src.txt（36 行）
+record: → results/submission/exports/cand_t3_t3probe_mf4090_t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090_s4096000.txt（23 行）
+record: → results/submission/exports/cand_t3_t3probe_mf4090_t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090_s4096000_check.txt（31 行）
+=== 2026-10-16 05:16:30 CST Tier 3 ep28 t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090：第 4096000 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 988（导出 988），checkpoint 相同
+=== 2026-10-16 05:16:30 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+----
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+3	28	t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090	4096000	ok	runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090/export_8c778f9/s4096000_w1/episode_000028.json	runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090/export_8c778f9/s4096000_w1/episode_000028.parquet	2e5d533c37215c04dbac3097900301e53fc14e7e6ed7d8e1c202e7de6ab6a795	9397095b9fde20125e700bfc7afa21a8c75027edfc4bfca4346ec06aeae4c446
+----
+=== 2026-10-16 05:16:29 CST start cand_t3_t3probe_mf4090：清单 stages/evaluate/exports/cand_t3_t3probe_mf4090.tsv（1 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 8 份，GPU 最多等 0 秒，来历 b106c320bae6
+=== 2026-10-16 05:16:29 CST 开头不等 GPU（V2D_GPU_WAIT_START=0）：已有完整导出的行不碰 GPU；要真导出的行遇到 GPU 被占，最多等 0 秒
+=== 2026-10-16 05:16:30 CST Tier 3 ep28 t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090：第 4096000 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 988（导出 988），checkpoint 相同
+=== 2026-10-16 05:16:30 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/.chain-active-cand_t1_t1oa_mf4090-gate
+runs/.chain-active-t1oa_eval_mf4090
+runs/.chain-active-t1oa_train_mf4090
