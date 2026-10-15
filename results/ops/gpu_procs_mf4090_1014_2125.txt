@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes mf4090 bash\ -s 
+# source   : 2aa06de8f6f4
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T21:30:44-0600
+# ---------------------------------------------------------------
+== VM-1-2-<其他用户> 2026-10-15 11:30:47 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /maniphys-visual-dev-worker-120
+image maniphys-visual-worker:dev-image2mesh-egl-20260928
+created 2026-10-04T10:44:51.020377077Z  started 2026-10-04T10:44:51.477371168Z
+entrypoint ["/usr/bin/tini"]
+cmd ["--","python","-m","maniphys_visual_worker.main"]
+workdir /src/services/visual_worker
+mounts /home/<其他用户>/maniphys-dev/visual-dev/work -> /var/lib/maniphys-visual; /home/<其他用户>/maniphys-dev/visual-dev/models/da3-oneformer-20260928 -> /models/release; 
+## 运行中的容器（列表）
+32dd4cefb482 maniphys-visual-worker:dev-image2mesh-egl-20260928 10 days ago Up 10 days maniphys-visual-dev-worker-120
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
