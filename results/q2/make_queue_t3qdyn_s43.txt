@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_copy_queue.py t3qdyn_s43 
+# md5      : 1cf6ac4d21d0d82ddf13c8754a55991c  stages/policy/make_copy_queue.py
+# source   : 792292387d6c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:32:36-0600
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t3qdyn_s43.expect.tsv（3 行）
+写 stages/policy/queues/ml40_t3qdyn_s43_smoke.txt（3 行）
+写 stages/policy/queues/ml40_t3qdyn_s43.txt（3 行）
+写 stages/evaluate/exports/cand_t3_t3qdyn_s43_ml40.tsv（3 行）

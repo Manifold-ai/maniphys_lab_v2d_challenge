@@ -6,6 +6,8 @@
   2. t3qdyn：ep12 两条，dyn4 与 dyn4s 各指到 tier3_dyn4、tier3_dyn4s，名字以 -ml40 结尾；400 万 buffer 覆盖与期望表 4000000 照留
   3. --check：生成后 COPY_CHECK_OK；手改一个文件后 COPY_CHECK_FAIL、退出码 1
   4. 源 run 缺、在两份队列里各有一行、parquet 不在 tier3_hm 下、正式步数不对、新 run 名已在别的队列里：都报错，什么文件都不写
+  5. t3qdyn_s43：两条 run 名 t3-ep12-w2048-cap4m-r3a-{dyn4,dyn4s}-s43-ml40；正式行、冒烟行在变体 A 两项之前多出 reset.seed=43 training.seed=43、
+     其余同 t3qdyn；期望表种子列 43、其余同 t3qdyn；源行已有种子覆盖时报错、什么文件都不写
 用法：python3 stages/policy/test_make_copy_queue.py
 """
 import subprocess
@@ -19,11 +21,11 @@ VAR = "objective.object_position_std=0.05 termination.object_orientation_thresho
 EPS = {15: ("seq15_sign", "false"), 3: ("seq3_mug", "true"), 12: ("seq12_platform", "false"), 16: ("seq16_bottle", "true")}
 
 
-def lines(ep, steps="349999104", motion="tier3_hm"):
+def lines(ep, steps="349999104", motion="tier3_hm", seedtok=""):
     seq, sup = EPS[ep]
     run = f"t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090"
     pq = f"/repo/runs/motion/{motion}/whole_body/soma/sequence_id={seq}/robot_name=g1/data.parquet"
-    over = "training.replay.capacity=4000000 " + ("scene.support=false " if sup == "false" else "") + VAR
+    over = "training.replay.capacity=4000000 " + ("scene.support=false " if sup == "false" else "") + seedtok + VAR
     formal = f"V2D_WANDB_TAG=t3p4 V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_KEEP_STATES=1 {run} {pq} 2048 {steps} {over}"
     smoke = (f"V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 smoke-{run} {pq} 2048 4096000 {over}")
     exp = "\t".join([run, f"smoke-{run}", seq, "frame", str(500 + ep), sup, "0.015", "0.086", "4000000", "42", "no"])
@@ -115,6 +117,36 @@ def test_refuses():
             r = gen(t, "t3pdyn")
             assert r.returncode != 0 and "make_copy_queue:" in r.stdout + r.stderr, (name, r.stdout + r.stderr)
             assert not (q / "mf4090_t3pdyn.txt").exists() and not (t / "stages" / "evaluate").exists(), name
+
+
+def test_t3qdyn_s43():
+    with tempfile.TemporaryDirectory() as d:
+        t = Path(d)
+        q = setup(t)
+        assert gen(t, "t3qdyn").returncode == 0
+        r = gen(t, "t3qdyn_s43")
+        assert r.returncode == 0, r.stdout + r.stderr
+        base_f, base_s, base_e = body(q / "ml40_t3qdyn.txt"), body(q / "ml40_t3qdyn_smoke.txt"), body(q / "ml40_t3qdyn.expect.tsv")
+        fo, sm, ex = body(q / "ml40_t3qdyn_s43.txt"), body(q / "ml40_t3qdyn_s43_smoke.txt"), body(q / "ml40_t3qdyn_s43.expect.tsv")
+        runs = ["t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40", "t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40"]
+        olds = ["t3-ep12-w2048-cap4m-r3a-dyn4-ml40", "t3-ep12-w2048-cap4m-r3a-dyn4s-ml40"]
+        seedvar = "reset.seed=43 training.seed=43 " + VAR
+        for i in range(2):
+            assert fo[i] == base_f[i].replace(olds[i], runs[i]).replace(VAR, seedvar), (fo[i], base_f[i])
+            assert sm[i] == base_s[i].replace(olds[i], runs[i]).replace(VAR, seedvar), (sm[i], base_s[i])
+            want = base_e[i + 1].replace(olds[i], runs[i]).split("\t")
+            want[9] = "43"
+            assert ex[i + 1] == "\t".join(want), (ex[i + 1], want)
+        cand = body(t / "stages" / "evaluate" / "exports" / "cand_t3_t3qdyn_s43_ml40.tsv")
+        assert cand == [f"3\t12\t{x}\t349999104" for x in runs], cand
+        r = gen(t, "t3qdyn_s43", "--check")
+        assert r.returncode == 0 and "插入 reset.seed=43 training.seed=43" in r.stdout and "42 → 43" in r.stdout, r.stdout
+    with tempfile.TemporaryDirectory() as d:
+        t = Path(d)
+        q = setup(t, tweak={12: {"seedtok": "reset.seed=7 "}})
+        r = gen(t, "t3qdyn_s43")
+        assert r.returncode != 0 and "已有种子覆盖" in r.stdout + r.stderr, r.stdout + r.stderr
+        assert not (q / "ml40_t3qdyn_s43.txt").exists() and not (t / "stages" / "evaluate").exists()
 
 
 if __name__ == "__main__":
