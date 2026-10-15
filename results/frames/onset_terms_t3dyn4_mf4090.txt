@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ runs/tools/frames_b6891ce/stages/evaluate/onset_terms.py\ t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 2446e0ee59c7fafeeb8c4993d800ace5  runs/tools/frames_b6891ce/stages/evaluate/onset_terms.py
+# source   : 6bfb7841a795
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-15T15:52:51+0800
+# ---------------------------------------------------------------
+== t3-ep15-w2048-cap4m-r3a-dyn4-mf4090（step_count 715，物体判越线用 位置 > 0.1 m 或朝向 > 0.6 rad，同 fall_order.py）
+  物体越线 4096 个：只有位置 1896，只有朝向 1979，两者 221；越线那一步位置误差中位 10.0 cm、朝向误差中位 34.5°；t_obj 中位第 518 步
+  骨盆越线 4094 个：只有位置 3030，只有朝向 959，两者 105（门槛 0.7 m、1.5 rad）
+ONSET_TERMS_DONE
