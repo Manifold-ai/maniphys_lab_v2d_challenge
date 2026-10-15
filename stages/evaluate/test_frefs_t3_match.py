@@ -3,7 +3,8 @@
 临时目录里放结果目录（ep3、ep7 的 metrics JSON，记着 checkpoint 与 motion parquet）与帧参考目录（两台机器各一份 manifest、两个 npz）。
   1. 对得上：FREFS_T3_MATCH_OK 2；帧参考里多出来的集只报不拒；
   2. 逐集 FAIL（退出码 1）：run、步数、档位目录、序列与导出不符；npz 缺、sha256 不对；这一集在 manifest 里 0 行或 2 行；JSON 的路径认不出；
-  3. manifest 表头不对：FAIL 1；结果目录里没有 JSON：FAIL。
+     结果目录里这一集只有 parquet 没有 JSON，或只有 JSON 没有 parquet；
+  3. manifest 表头不对：FAIL 1；结果目录里既没有 JSON 也没有 parquet：FAIL。
 用法：python3 stages/evaluate/test_frefs_t3_match.py
 """
 import hashlib
@@ -69,6 +70,8 @@ def test_episode_failures() -> None:
         "dup": (lambda res, fref: edit(fref / "manifest_ml40.tsv", HEAD, HEAD + (fref / "manifest_mf4090.tsv").read_text().splitlines()[1] + "\n"), "有 2 行"),
         "none": (lambda res, fref: edit(fref / "manifest_mf4090.tsv", (fref / "manifest_mf4090.tsv").read_text(), HEAD), "有 0 行"),
         "json": (lambda res, fref: (res / "episode_000003.json").write_text(json.dumps({"checkpoint": "x", "parquet": "y"})), "认不出"),
+        "no_json": (lambda res, fref: (res / "episode_000003.json").unlink(), "没有 metrics JSON"),
+        "no_parquet": (lambda res, fref: (res / "episode_000003.parquet").unlink(), "没有 parquet"),
     }
     for name, (mutate, word) in cases.items():
         with tempfile.TemporaryDirectory() as t:
@@ -85,12 +88,12 @@ def test_file_failures() -> None:
         edit(fref / "manifest_ml40.tsv", "source_parquet_sha256", "src")
         r = match(res, fref)
         assert r.returncode == 1 and "读不了帧参考的 manifest" in r.stdout and r.stdout.rstrip().endswith("FREFS_T3_MATCH_FAIL 1"), r.stdout
-    with tempfile.TemporaryDirectory() as t:   # 结果目录里没有 JSON
+    with tempfile.TemporaryDirectory() as t:   # 结果目录里既没有 JSON 也没有 parquet
         res, fref = setup(Path(t))
-        for j in res.glob("*.json"):
+        for j in list(res.glob("*.json")) + list(res.glob("*.parquet")):
             j.unlink()
         r = match(res, fref)
-        assert r.returncode == 1 and "没有 episode_XXXXXX.json" in r.stdout, r.stdout
+        assert r.returncode == 1 and "没有 episode_XXXXXX.json 与 .parquet" in r.stdout, r.stdout
 
 
 if __name__ == "__main__":

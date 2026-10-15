@@ -4,6 +4,7 @@
 结果目录里每条 episode_XXXXXX.json（评测器写的 metrics JSON）记着导出用的 checkpoint（/repo/runs/flash_chord/<run>/policy_<步数>.safetensors）与
 motion parquet（/repo/runs/motion/<档位目录>/whole_body/soma/sequence_id=<序列>/robot_name=g1/data.parquet）。帧参考目录里的 manifest_*.tsv
 （make_frame_refs_t3.py 写的）每集一行：episode run 步数 档位目录 序列 帧数 poses.npy 的 sha256 来源 parquet 的 sha256 文件 sha256。逐集要求：
+  - 结果目录里这一集的 parquet 与 JSON 成对（按两种文件的并集逐集走，Fable 复核第 2 条：打包器读的是 parquet）；
   - 所有 manifest 合起来，这一集恰好一行，文件名是 episode_XXXXXX.npz；
   - run、步数、档位目录、序列都与 JSON 里的相同（帧参考来自打包的这条 run 训练用的那份输入）；
   - episode_XXXXXX.npz 在帧参考目录里，sha256 等于 manifest 记的。
@@ -41,15 +42,22 @@ def manifest_rows(fref: Path) -> dict:
     return rows
 
 
+def episodes(res: Path, ext: str) -> dict:
+    return {int(p.stem[len("episode_"):]): p for p in res.glob(f"episode_[0-9][0-9][0-9][0-9][0-9][0-9].{ext}")}
+
+
 def check(res: Path, fref: Path) -> tuple:
     rows = manifest_rows(fref)
-    jsons = sorted(res.glob("episode_[0-9][0-9][0-9][0-9][0-9][0-9].json"))
-    if not jsons:
-        return [f"  FAIL 结果目录 {res} 里没有 episode_XXXXXX.json"], 0, 1
+    js, pqs = episodes(res, "json"), episodes(res, "parquet")
+    eps = sorted(set(js) | set(pqs))   # 按两种文件的并集走：打包器读的是 parquet，没有 JSON 的 parquet 就对不上是哪条 run（Fable 复核第 2 条）
+    if not eps:
+        return [f"  FAIL 结果目录 {res} 里没有 episode_XXXXXX.json 与 .parquet"], 0, 1
     msgs, ok, bad = [], 0, 0
-    for j in jsons:
-        ep = int(j.stem[len("episode_"):])
+    for ep in eps:
+        j = js.get(ep)
         try:
+            if j is None or ep not in pqs:
+                raise ValueError("结果目录里这一集只有 " + ("parquet、没有 metrics JSON" if j is None else "metrics JSON、没有 parquet"))
             x = json.loads(j.read_text())
             c, mo = CKPT.fullmatch(str(x.get("checkpoint", ""))), MOTION.fullmatch(str(x.get("parquet", "")))
             if not (c and mo):
@@ -58,7 +66,7 @@ def check(res: Path, fref: Path) -> tuple:
             if len(hit) != 1:
                 raise ValueError(f"manifest 里这一集有 {len(hit)} 行（{', '.join(n for n, _ in hit) or '无'}），要恰好 1 行")
             name, r = hit[0]
-            want = {"run": c.group(1), "step": c.group(2), "tier_dir": mo.group(1), "sequence": mo.group(2), "file": f"{j.stem}.npz"}
+            want = {"run": c.group(1), "step": c.group(2), "tier_dir": mo.group(1), "sequence": mo.group(2), "file": f"episode_{ep:06d}.npz"}
             diff = [f"{k} {r[k]}（导出 {v}）" for k, v in want.items() if r[k] != v]
             if diff:
                 raise ValueError(f"{name} 与导出不符：{'；'.join(diff)}")
@@ -72,7 +80,7 @@ def check(res: Path, fref: Path) -> tuple:
         except (OSError, ValueError) as e:
             msgs.append(f"  FAIL ep{ep}：{type(e).__name__}: {e}")
             bad += 1
-    extra = sorted(set(rows) - {int(j.stem[len("episode_"):]) for j in jsons})
+    extra = sorted(set(rows) - set(eps))
     if extra:
         msgs.append(f"  --   帧参考里有、结果目录里没有的集（打包器不读）：{extra}")
     return msgs, ok, bad
