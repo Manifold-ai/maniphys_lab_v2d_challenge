@@ -72,7 +72,7 @@ def main():
             jb, jp = jump_frames(base[st]), jump_frames(pil[st])
             jumps[st] = jb | jp
             row[f"jumps_{st}_base_pilot"] = [len(jb), len(jp)]
-            row[f"jumps_{st}_in_reinit_base_pilot"] = [sum(reinit[f] for f in jb), sum(reinit[f] for f in jp)]
+            row[f"jumps_{st}_in_reinit_base_pilot"] = [int(sum(reinit[f] for f in jb)), int(sum(reinit[f] for f in jp))]
         chk = CHECKED.get(seq, [])
         frames = sorted(set(range(0, n, STRIDE)) | jumps["06"] | jumps["07"] | set(np.flatnonzero(reinit).tolist()) | set(chk))
 
