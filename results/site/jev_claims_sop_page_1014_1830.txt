@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-sop-1830.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 78856c2f2e12ab500dcb973446ce5060  agent-doc/experiments/2026-10-14-sop-1830.claims.json
+# source   : f930d6730342-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T18:31:55-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep12_dyn4_done       P(supported)=0.94  verified               [qd]  t3-ep12-w2048-cap4m-r3a-dyn4-ml40 在 2026-10-15 07:03:03 CST 完成（1 段），t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 同时开训正式，最新 policy 是 200007680 步。
+ep3_progress         P(supported)=0.98  verified               [pd]  t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 已完成（1 段）；t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的最新 policy 是 310011904 步；t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 还没有 policy。
+nonfinite            P(supported)=0.95  verified               [pd, qd]  两台试点 run 的看守扫描非有限行都是 0。
+dyn5                 P(supported)=0.87  verified               [q]  ml40 的 Tier 3 目录里有 tier3_cari4d_f830_best_dyn5，29 个 parquet，修改时间是 2026-10-14 23:32 前后（CST）。
+lb_same              P(supported)=0.83  verified               [lb]  18:30 的 Tier 2 MPPE 榜上 maniphys.ai 是 15.32195、Xueyi Wang (FF) 是 15.34253，maniphys.ai 排第一。
+ctl_true_dyn5s       P(supported)=0.97  control(true) ok       [q]  best_dyn5 另有一个 _suspect 目录。
+ctl_false_ep16       P(supported)=0.02  control(false) ok      [pd]  t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 已经完成（1 段）。
+ctl_false_lb         P(supported)=0.15  control(false) ok      [lb]  18:30 的 Tier 2 MPPE 榜第一是 Xueyi Wang (FF)。
+controls behaved as expected

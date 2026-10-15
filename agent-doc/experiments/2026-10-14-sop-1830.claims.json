@@ -1,0 +1,83 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "pd": {
+      "file": "results/t3dyn/status_t3pdyn_mf4090_1014_1830.txt",
+      "grep": "^## |正式 t3-ep|完成（1 段）|dyn4-mf4090：|dyn4-mf4090 非有限行|MB free"
+    },
+    "qd": {
+      "file": "results/t3dyn/status_t3qdyn_ml40_1014_1830.txt",
+      "grep": "^## |正式 t3-ep|完成（1 段）|dyn4s?-ml40：|dyn4s?-ml40 非有限行"
+    },
+    "q": {
+      "file": "results/ops/t3_queue_ml40_1014_1830.txt",
+      "grep": "^## runs/tier3_cari4d_f830_best_dyn5|episode_000000.parquet 2026-10-14_23:32"
+    },
+    "lb": {
+      "file": "results/submission/leaderboard_1014_1830.txt",
+      "grep": "^== v2d-challenge-track2-tier2|maniphys|Xueyi|CHORD"
+    }
+  },
+  "claims": [
+    {
+      "id": "ep12_dyn4_done",
+      "evidence": [
+        "qd"
+      ],
+      "claim": "t3-ep12-w2048-cap4m-r3a-dyn4-ml40 在 2026-10-15 07:03:03 CST 完成（1 段），t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 同时开训正式，最新 policy 是 200007680 步。"
+    },
+    {
+      "id": "ep3_progress",
+      "evidence": [
+        "pd"
+      ],
+      "claim": "t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 已完成（1 段）；t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的最新 policy 是 310011904 步；t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 还没有 policy。"
+    },
+    {
+      "id": "nonfinite",
+      "evidence": [
+        "pd",
+        "qd"
+      ],
+      "claim": "两台试点 run 的看守扫描非有限行都是 0。"
+    },
+    {
+      "id": "dyn5",
+      "evidence": [
+        "q"
+      ],
+      "claim": "ml40 的 Tier 3 目录里有 tier3_cari4d_f830_best_dyn5，29 个 parquet，修改时间是 2026-10-14 23:32 前后（CST）。"
+    },
+    {
+      "id": "lb_same",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "18:30 的 Tier 2 MPPE 榜上 maniphys.ai 是 15.32195、Xueyi Wang (FF) 是 15.34253，maniphys.ai 排第一。"
+    },
+    {
+      "id": "ctl_true_dyn5s",
+      "evidence": [
+        "q"
+      ],
+      "control": "true",
+      "claim": "best_dyn5 另有一个 _suspect 目录。"
+    },
+    {
+      "id": "ctl_false_ep16",
+      "evidence": [
+        "pd"
+      ],
+      "control": "false",
+      "claim": "t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 已经完成（1 段）。"
+    },
+    {
+      "id": "ctl_false_lb",
+      "evidence": [
+        "lb"
+      ],
+      "control": "false",
+      "claim": "18:30 的 Tier 2 MPPE 榜第一是 Xueyi Wang (FF)。"
+    }
+  ]
+}

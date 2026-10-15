@@ -1,0 +1,10 @@
+# command  : python3 tools/site_check.py docs/site/v2d-track2.html 
+# md5      : 38a1f872e2067f9767cdb06577b5130d  tools/site_check.py
+# md5      : e72c7059d1acd2c0695829c265612db4  docs/site/v2d-track2.html
+# source   : f930d6730342-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T18:31:49-0600
+# ---------------------------------------------------------------
+（页面引用了 168 个 media/ 素材，没给 --media-dir，未核对）
+docs/site/v2d-track2.html：35 页，站内链接 612 个，侧栏链接 35 个，素材引用 168 个，标题 V2D Track 2 进度
+SITE_OK
