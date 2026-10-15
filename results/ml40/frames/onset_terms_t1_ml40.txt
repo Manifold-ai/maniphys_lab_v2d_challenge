@@ -1,0 +1,20 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ runs/tools/frames_b6891ce/stages/evaluate/onset_terms.py\ t1-ep4-w2048-cap10m-ml40\ t1-ep25-w2048-cap10m-ml40\ t1-ep9-w2048-cap10m-ml40\ t1-ep2-w2048-cap10m-r3a-ml40 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# md5      : 2446e0ee59c7fafeeb8c4993d800ace5  runs/tools/frames_b6891ce/stages/evaluate/onset_terms.py
+# source   : 6bfb7841a795
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-15T15:35:43+0800
+# ---------------------------------------------------------------
+== t1-ep4-w2048-cap10m-ml40（step_count 803，物体判越线用 位置 > 0.1 m 或朝向 > 0.6 rad，同 fall_order.py）
+  物体越线 4096 个：只有位置 0，只有朝向 4096，两者 0；越线那一步位置误差中位 0.5 cm、朝向误差中位 34.7°；t_obj 中位第 72 步
+  骨盆越线 4096 个：只有位置 2792，只有朝向 1256，两者 48（门槛 0.7 m、1.5 rad）
+== t1-ep25-w2048-cap10m-ml40（step_count 859，物体判越线用 位置 > 0.1 m 或朝向 > 0.6 rad，同 fall_order.py）
+  物体越线 4096 个：只有位置 85，只有朝向 3985，两者 26；越线那一步位置误差中位 6.3 cm、朝向误差中位 36.3°；t_obj 中位第 127 步
+  骨盆越线 4096 个：只有位置 3582，只有朝向 477，两者 37（门槛 0.7 m、1.5 rad）
+== t1-ep9-w2048-cap10m-ml40（step_count 870，物体判越线用 位置 > 0.1 m 或朝向 > 0.6 rad，同 fall_order.py）
+  物体越线 4096 个：只有位置 0，只有朝向 4096，两者 0；越线那一步位置误差中位 2.8 cm、朝向误差中位 35.4°；t_obj 中位第 195 步
+  骨盆越线 4095 个：只有位置 2587，只有朝向 1431，两者 77（门槛 0.7 m、1.5 rad）
+== t1-ep2-w2048-cap10m-r3a-ml40（step_count 980，物体判越线用 位置 > 0.1 m 或朝向 > 0.6 rad，同 fall_order.py）
+  物体越线 4047 个：只有位置 1541，只有朝向 2365，两者 141；越线那一步位置误差中位 8.5 cm、朝向误差中位 34.7°；t_obj 中位第 587 步
+  骨盆越线 4010 个：只有位置 3190，只有朝向 757，两者 63（门槛 0.7 m、1.5 rad）
+ONSET_TERMS_DONE
