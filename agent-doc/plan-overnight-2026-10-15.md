@@ -87,3 +87,6 @@
 ## 7. 执行记录
 
 - 00:30 两台起 dump 链；00:31 两台挂上甲的 arm_after（见第 1 节）。
+- 00:4x 审查（第 6 节）后按意见修改，提交 a6d0200。00:5x ml40 上按第 3 节的顺序：推 4 个文件 `PUSH_OK`、md5 一致、远端来历仍是 6bfb784
+  （`results/q2/push_t3qdyn_s43_ml40.txt`）；配置核对通过、意外 0 个（`results/q2/cfgcheck_t3qdyn_s43_ml40.txt`）；挂上第二个 arm_after，
+  `V2D_AFTER_MAX_POLLS=1080`，日志里记下的队列 md5 与推上去的相同（`results/q2/arm_after_launch_t3qdyn_s43_ml40.txt`）。

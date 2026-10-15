@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum stages/policy/arm_after.sh runs/tools/arm_after.sh && ls runs/logs/arm_after_t3qdyn_s43_ml40.log 2>/dev/null && { echo æ\227¥å¿\227å·²å\255\230å\234¨ï¼\214ä¸\215èµ·; exit 3; }; V2D_AFTER_MAX_POLLS=1080 setsid nohup bash -c \'bash runs/tools/arm_after.sh t3qdyn_s43 runs/logs/t1yb_s43_train_ml40.log runs/logs/t1yb_s43_eval_ml40.log runs/logs/cand_t1_t1yb_s43_ml40.log 1 > runs/logs/arm_after_t3qdyn_s43_ml40.log 2>&1\' < /dev/null > /dev/null 2>&1 & echo launched; pgrep -af \'[a]rm_after.sh\' | cut -c1-200' 
+# md5      : b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+# source   : a6d0200f650b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:50:51-0600
+# ---------------------------------------------------------------
+source 6bfb7841a795
+b631f35b35682e21880fb29e33aadffc  stages/policy/arm_after.sh
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+launched
+154375 bash -c bash runs/tools/arm_after.sh t1yb_s43 runs/logs/t3qdyn_train_ml40.log runs/logs/t3qdyn_eval_ml40.log runs/logs/cand_t3_t3qdyn_ml40.log 2 > runs/logs/arm_after_t1yb_s43_ml40.log 2>&1
+154378 bash runs/tools/arm_after.sh t1yb_s43 runs/logs/t3qdyn_train_ml40.log runs/logs/t3qdyn_eval_ml40.log runs/logs/cand_t3_t3qdyn_ml40.log 2
+165783 bash -c cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum stages/policy/arm_after.sh runs/tools/arm_after.sh && ls runs/logs/arm_after_t3qdyn
+165787 bash -c bash runs/tools/arm_after.sh t3qdyn_s43 runs/logs/t1yb_s43_train_ml40.log runs/logs/t1yb_s43_eval_ml40.log runs/logs/cand_t1_t1yb_s43_ml40.log 1 > runs/logs/arm_after_t3qdyn_s43_ml40.lo

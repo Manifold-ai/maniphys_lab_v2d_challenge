@@ -1,0 +1,18 @@
+# command  : scripts/dev/push-new-files stages/policy/queues/ml40_t3qdyn_s43.expect.tsv stages/policy/queues/ml40_t3qdyn_s43_smoke.txt stages/policy/queues/ml40_t3qdyn_s43.txt stages/evaluate/exports/cand_t3_t3qdyn_s43_ml40.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 616746e1a576984f2c1458fba6131cd7  stages/policy/queues/ml40_t3qdyn_s43.expect.tsv
+# md5      : c956ee14faca226b7fa25723c3c56be1  stages/policy/queues/ml40_t3qdyn_s43_smoke.txt
+# md5      : 0b0b6810486f3ba0eafe3cc6e8f81f1c  stages/policy/queues/ml40_t3qdyn_s43.txt
+# md5      : c3f859fd191d42fdc8ca1ad4ae8ed722  stages/evaluate/exports/cand_t3_t3qdyn_s43_ml40.tsv
+# source   : a6d0200f650b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:49:42-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 a6d0200f650b；远端来历 6bfb7841a795
+  ok   616746e1a576984f2c1458fba6131cd7  stages/policy/queues/ml40_t3qdyn_s43.expect.tsv
+  ok   c956ee14faca226b7fa25723c3c56be1  stages/policy/queues/ml40_t3qdyn_s43_smoke.txt
+  ok   0b0b6810486f3ba0eafe3cc6e8f81f1c  stages/policy/queues/ml40_t3qdyn_s43.txt
+  ok   c3f859fd191d42fdc8ca1ad4ae8ed722  stages/evaluate/exports/cand_t3_t3qdyn_s43_ml40.tsv
+远端来历（放完）6bfb7841a795
+PUSH_OK（4 个文件）
