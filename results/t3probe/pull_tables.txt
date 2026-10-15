@@ -1,0 +1,33 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/select_t3_probe1015/tables mf4090:cand_t3_t3p_mf4090 mf4090:cand_t3_t3p2b_mf4090 mf4090:cand_t3_t3p3a_mf4090 mf4090:cand_t3_t3p3b_mf4090 mf4090:cand_t3_t3p3c_mf4090 mf4090:cand_t3_t3p4a_mf4090 mf4090:cand_t3_t3p4b_mf4090 mf4090:cand_t3_t3pdyn_mf4090 mf4090:cand_t3_t3probe_mf4090 ml40:cand_t3_t3probe_ml40 ml40:cand_t3_t3qa_ml40 ml40:cand_t3_t3qdyn_ml40 ml40:cand_t3_t3qdyn_s43_ml40 
+# md5      : 64a8d99b6d386915cd3db1e133751f61  stages/evaluate/pull_submission.sh
+# source   : e932c0d1ce11
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:18:56-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p2b_mf4090：ok 1  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p3a_mf4090：ok 4  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p3b_mf4090：no_done 5  ok 1  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p3c_mf4090：ok 4  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p4a_mf4090：ok 5  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3p4b_mf4090：ok 8  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pdyn_mf4090：ok 3  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3probe_mf4090：ok 1  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3probe_ml40：ok 3  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qa_ml40：no_done 3  ok 5  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qdyn_ml40：ok 2  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qdyn_s43_ml40：ok 2  
+PULL_OK 13

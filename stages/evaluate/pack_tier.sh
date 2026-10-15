@@ -2,8 +2,11 @@
 # 用官方打包器把一档的导出打成提交 CSV，再用官方上传器的 --dry-run 只做校验与只读预检（Mac 上、仓库根执行）。不上传。
 # 计划 agent-doc/plan-submission-exports-2026-10-02.md 第 3.5 节。
 # 用法：stages/evaluate/pack_tier.sh <档位 1|2|3> <结果目录> <名字> [episode …]
-#   Tier 3（计划 agent-doc/plan-r3o-2026-10-15.md 2.4）：不给 --frame-references（kit 的 Tier 3 没有发布的输入轨迹）；打包器按干净参考算的
-#   “locally computed” 那一行同 Tier 2 滤掉（Tier 3 的选择只用 Tier 3 的数据）。
+#   Tier 3（计划 agent-doc/plan-r3o-2026-10-15.md 2.4、2.4.1）：必须用 V2D_FRAME_REFS=<目录> 给 --frame-references（kit 的 tracks/track_2/README.md：
+#   用自己的重建时，要把策略输入表达在发布的 Track 2 世界系里）。目录由 stages/evaluate/make_frame_refs_t3.py 在训练机上生成、
+#   pull_submission.sh frefs 拉回，里面要有 manifest_*.tsv；打包前 stages/evaluate/frefs_t3_match.py 逐集核：manifest 恰好一行、run 与步数、
+#   档位目录与序列都和导出 JSON 里的相同、npz 的 sha256 对，不过就拒绝。别的档位设了 V2D_FRAME_REFS 就拒绝。
+#   打包器按干净参考算的 “locally computed” 那一行同 Tier 2 滤掉（Tier 3 的选择只用 Tier 3 的数据）。
 #   结果目录：pull_submission.sh 拉下来的 runs/submission/final/t<档位> 或 runs/submission/compat/t<档位>（里面只放这一档的 episode_XXXXXX.{json,parquet}）。
 #   给了 episode：复制一份 kit 的 config/tracks.json，把这一档的 scored_episodes 改成这几条，用 --config 传给打包器（只用于预演）；
 #     预演不跑上传器预检（行数与官方样例对不上，必然不过）。
@@ -27,9 +30,10 @@ PY=(uv run --no-project --python 3.12 --with-requirements "$KIT/requirements.txt
 [ -n "${V2D_PACK_PYTHON:-}" ] && PY=("$V2D_PACK_PYTHON")
 
 if [ "${1:-}" = --inner ]; then   # 由 record 调用：真正跑打包器，Tier 2 滤掉本地分数那一行
-  shift; T=$1; RES=$2; CSV=$3; URL=$4; CFG=$5; NEG=${6:-0}
+  shift; T=$1; RES=$2; CSV=$3; URL=$4; CFG=$5; NEG=${6:-0}; FREF=${7:-}
   args=(--track "track_2_tier$T" --results "$RES" --dataset-root data/challenge --code-commit "$URL" -o "$CSV")
-  [ "$T" = 2 ] && [ "$NEG" != 1 ] && args+=(--frame-references runs/submission/frame_refs_t2)
+  [ "$T" = 2 ] && [ "$NEG" != 1 ] && [ -z "$FREF" ] && FREF=runs/submission/frame_refs_t2
+  [ -n "$FREF" ] && args+=(--frame-references "$FREF")
   [ -n "$CFG" ] && args+=(--config "$CFG")
   "${PY[@]}" -c 'import importlib.metadata as m, sys
 def v(p):
@@ -62,6 +66,16 @@ bad="$(find "$RES" -name '*.parquet' ! -name 'episode_[0-9][0-9][0-9][0-9][0-9][
 for need in data/challenge/track_2/tier_1_multiview_caption/meta $([ "$T" = 2 ] && echo runs/submission/frame_refs_t2/manifest.tsv); do
   [ -e "$need" ] || { echo "pack_tier: 缺 ${need}（先跑 stages/evaluate/pull_submission.sh data / refs）" >&2; exit 2; }
 done
+FREF=${V2D_FRAME_REFS:-}; MATCH=""
+if [ "$T" = 3 ]; then
+  [ -n "$FREF" ] || { echo "pack_tier: Tier 3 要用 V2D_FRAME_REFS=<目录> 给帧参考（make_frame_refs_t3.py 生成、pull_submission.sh frefs 拉回；kit 的 tracks/track_2/README.md：用自己的重建要给 --frame-references）" >&2; exit 2; }
+  compgen -G "$FREF/manifest_*.tsv" > /dev/null || { echo "pack_tier: 帧参考目录 $FREF 里没有 manifest_*.tsv" >&2; exit 2; }
+  # 逐集核：manifest 恰好一行、run 与步数和导出的 checkpoint 相同、档位目录与序列和导出的 motion parquet 相同、npz 的 sha256 对（Fable 5.1 的审查）
+  MATCH="$(python3 stages/evaluate/frefs_t3_match.py "$RES" "$FREF" 2>&1)" \
+    || { echo "$MATCH" >&2; echo "pack_tier: 帧参考与结果目录逐集对不上（stages/evaluate/frefs_t3_match.py）" >&2; exit 2; }
+else
+  [ -z "$FREF" ] || { echo "pack_tier: V2D_FRAME_REFS 只给 Tier 3 用（Tier 2 固定用 runs/submission/frame_refs_t2）" >&2; exit 2; }
+fi
 CSV="runs/submission/csv/track2_tier${T}_${NAME}.csv"
 [ ! -e "$CSV" ] || { echo "pack_tier: $CSV 已存在，拒绝覆盖" >&2; exit 2; }
 [ -z "$(git status --porcelain -- . ':(exclude)results')" ] || { echo "pack_tier: 工作树有未提交的改动（results/ 除外），--code-commit 指不回这次的代码" >&2; exit 2; }
@@ -82,6 +96,7 @@ print(f"预演：{track} 只计 episode {[int(e) for e in eps]}（{dst}）")
 PY
 fi
 echo "pack_tier: Tier ${T}，结果目录 ${RES}，代码 $URL"
+[ -z "$FREF" ] || echo "pack_tier: 帧参考 ${FREF}：$(ls "$FREF"/episode_*.npz | wc -l | tr -d ' ') 个 npz，$(cd "$FREF" && for m in manifest_*.tsv; do printf '%s sha256 %s  ' "$m" "$(shasum -a 256 "$m" | cut -c1-16)"; done)逐集核对 $(tail -1 <<< "$MATCH")"
 if [ "$NEG" = 1 ]; then
   if scripts/dev/record "submission/pack/t${T}_${NAME}" bash stages/evaluate/pack_tier.sh --inner "$T" "$RES" "$CSV" "$URL" "$CFG" 1; then
     echo "NEGCTL_FAIL（不给帧参考也打包成功了）"; exit 1
@@ -90,7 +105,7 @@ if [ "$NEG" = 1 ]; then
     && { echo "NEGCTL_OK（不给帧参考时打包器报不是一个刚体变换）"; exit 0; }
   echo "NEGCTL_FAIL（打包失败，但不是因为刚体变换，见 results/submission/pack/t${T}_${NAME}.txt.failed）"; exit 1
 fi
-scripts/dev/record "submission/pack/t${T}_${NAME}" bash stages/evaluate/pack_tier.sh --inner "$T" "$RES" "$CSV" "$URL" "$CFG" || exit 1
+scripts/dev/record "submission/pack/t${T}_${NAME}" bash stages/evaluate/pack_tier.sh --inner "$T" "$RES" "$CSV" "$URL" "$CFG" 0 "$FREF" || exit 1
 tail -4 "results/submission/pack/t${T}_${NAME}.txt"
 if [ -n "$CFG" ]; then echo "PACK_OK（预演，不跑上传器预检）"; exit 0; fi
 scripts/dev/record "submission/pack/t${T}_${NAME}_dryrun" "${PY[@]}" "$KIT/submit/v2d_submit.py" "$CSV" --track "track_2_tier$T" \
