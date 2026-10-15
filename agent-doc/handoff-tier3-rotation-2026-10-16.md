@@ -92,6 +92,35 @@ ep04 的三帧翻转（313/509/669）仍是翻的，ep03/ep01 原本对的帧改
   有 80 个在 CoCoNet 里原样出现（`$G/diag/stage_flips_episode_*.json`）。推断：CoCoNet 的分支跟着初值走，换初值（基线跟踪版、
   对称/翻转候选）并按与分割掩码的一致性逐窗自动挑选，可能是不重训的根源修法；未验证，要 GPU。
 
+## 初值试点（10-16 06:35 起，等卡中）
+
+**`fp_reliable` 的含义**（镜像内 `cari4d/prep/run_foundationpose_mhr_export.py` 逐帧循环、`foundationpose_pose_selection.py`
+的 `filter_ranked_candidates`）：FoundationPose 每帧生成约 200 个候选（ep04 中位 202），按 FP 分数排序、取掩码 IoU 前若干名。
+为 True 的情况：首轮在这些候选里找到与上一确认姿态转角 < 15°+2.5°×(距上次可见的帧数)、平移在自适应门槛内的候选，且物体最近
+可见（时序过滤生效）；或重新捕获后连续若干帧一致而确认；或 register-first 模式的首帧。为 False：首轮没有合格候选而走重试
+（交替 rgb/depth 细化，门槛放宽，最后一次接受任何候选）、沿用上一确认姿态（carried）、物体久不可见只按 IoU 选、深度无效。
+即「与上一确认姿态连续」，不是「对」：错误分支被连续跟住时仍是 True（ep03 第 117 帧可靠而与正确的 CoCoNet 差 56°）。
+不可靠帧绝大多数是重试帧：ep13 84/86、ep28 309/323、ep04 214/218；CoCoNet 跳变端点落在重试帧上 ep13 100/108、ep28 124/176。
+连续不可靠段：ep13 最长 41 帧，ep28 ≤60 帧的段覆盖 253/323，ep04 最长 31，ep02 有 117–156 帧的长段。
+
+**做法**（`t3_fp_init.py`，`7440c73` 之后 `84fa744` 部署）：CoCoNet 读 stage-05 pkl 的 `obj_pose_world`（`run_mhr_wild_inference.py:553`）。
+每段 ≤ 60 帧的不可靠段，旋转在两侧可靠帧之间 slerp（段在首尾则沿用一侧），绕网格包围盒中心转，物体中心位置不变；
+`fp_poses_cam` 按各帧相机重写；更新 05 阶段标记的输出身份，使 01–05 复用、06–08 重跑。`t3_init_pilot.sh` 在 `runs/work_init/`
+的副本上做；`t3_yield_wait.sh` 等 rxzhou 的链结束、卡空 30 分钟后启动它，让卡退出（3/4）后重新等。
+
+**干跑**（`$G/diag/init_dry/`，只改 pkl，不跑 GPU）：替换帧数 ep13 86、ep04 218、ep03 58；初值单帧 >24° 跳变 ep04 48→31、
+ep13 13→8、ep03 3→2。对照帧：ep04 313/509/669（CoCoNet 头尾颠倒）新初值与 CoCoNet 差 114/175/155°（原 FP 128/59/70），
+像是落到了正确一侧；ep03 第 451 帧（CoCoNet 对）新初值与 CoCoNet 差 162°（原 FP 128°），两侧可靠帧本身在错误分支上。
+试点同时检验两个方向：CoCoNet 若跟着初值走，ep04 会变好、ep03 第 451 帧会变坏。
+
+**状态与恢复**：等卡日志 `$T/logs/t3_yield_wait.log`（末行 WAIT DONE），试点日志 `$T/logs/t3_init_pilot.log`（末行 INIT PILOT DONE），
+集顺序 ep13、ep28、ep04、ep03。进程 `pgrep -af t3_yield_wait`。断了重挂（已完成的集跳过）：
+```
+cd $T/code/stages/recovery/tier3 && setsid nohup ./t3_yield_wait.sh t3_init_pilot.sh ep13_snack_box ep28_squeegee ep04_baseball_bat ep03_contigo_coffee_mug > /dev/null 2>&1 < /dev/null &
+```
+跑完后用 `t3_stage_flips.py`（命令见下，把 `work_rot` 换成 `work_init`）统计，并与 `work_fp` 比较：06 的跳变数、被替换段内的跳变、
+对照帧（ep04 应翻过来约 180°，ep03 117/131/345 不应变，451 看是否被带坏）。
+
 ## 接手怎么做
 
 - （已做，见上）试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU）：
