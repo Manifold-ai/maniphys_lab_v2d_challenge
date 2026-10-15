@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ scripts/dev/in-flash-chord\ \'cd\ /repo\ \&\&\ python\ runs/tools/frames_b6891ce/stages/evaluate/contact_check.py\ runs/diag2/t1-ep16-w2048-cap4m-mf4090/rollout_w4096.npz\ t1-ep16-w2048-cap4m-mf4090\' 
+# md5      : 08c6adc94d3fd5ad9c2e97718a2500cb  scripts/dev/in-flash-chord
+# source   : ba3f513b35a1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:39:56-0600
+# ---------------------------------------------------------------
+参考 /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet；diag 的侧 ['left', 'right']、形状 (477, 2)；parquet 的侧 ['left', 'right']、形状 (2, 477)
+  left：diag 接触 184 帧，parquet 接触 184 帧，不同 0 帧
+  right：diag 接触 0 帧，parquet 接触 0 帧，不同 0 帧
+CONTACT_SAME

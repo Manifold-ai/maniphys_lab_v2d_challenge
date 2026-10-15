@@ -1,0 +1,40 @@
+# command  : bash -c $'git archive b6891ce stages/evaluate/fail_onset.py stages/evaluate/fall_order.py stages/evaluate/fall_order_one.py stages/evaluate/contact_check.py libs/v2d_infra | ssh -o BatchMode=yes mf4090 \'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && mkdir -p runs/tools/frames_b6891ce && tar xf - -C runs/tools/frames_b6891ce && cd runs/tools/frames_b6891ce && find . -type f | sort | xargs md5sum\'; echo \'== Ê\217\220‰∫§È\207\214Á\232\204 md5\'; git archive b6891ce stages/evaluate/fail_onset.py stages/evaluate/fall_order.py stages/evaluate/fall_order_one.py stages/evaluate/contact_check.py libs/v2d_infra | tar tf - | grep -v \'/$\' | sort | while read f; do echo "$(git show b6891ce:$f | md5 -q)  ./$f"; done' 
+# md5      : 5f39931f2154ca9b82a8b13c07b19d72  stages/evaluate/fail_onset.py
+# md5      : 8161a75ab6529432af0293277a12335e  stages/evaluate/fall_order.py
+# md5      : 73e730d27091f4e1c5920b88949653af  stages/evaluate/fall_order_one.py
+# md5      : fe37be7d3520181d8245db14cca41ea9  stages/evaluate/contact_check.py
+# md5      : 5f39931f2154ca9b82a8b13c07b19d72  stages/evaluate/fail_onset.py
+# md5      : 8161a75ab6529432af0293277a12335e  stages/evaluate/fall_order.py
+# md5      : 73e730d27091f4e1c5920b88949653af  stages/evaluate/fall_order_one.py
+# md5      : fe37be7d3520181d8245db14cca41ea9  stages/evaluate/contact_check.py
+# source   : ba3f513b35a1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T00:39:28-0600
+# ---------------------------------------------------------------
+e52f45163e5b25a5f33ad96704cc1fbb  ./libs/v2d_infra/add_metrics.py
+d41d8cd98f00b204e9800998ecf8427e  ./libs/v2d_infra/__init__.py
+8189c6c535958413cd0abd7cb8193d19  ./libs/v2d_infra/paths.py
+4b7f9ea6bd8f7ecb1b51579245ca6247  ./libs/v2d_infra/README.md
+1e233e6d325a05702b41718147c31d34  ./libs/v2d_infra/soma_fk.py
+6fc5cda1942d7c7e424de5c4345e1391  ./libs/v2d_infra/test_paths.py
+953917e1aa8acd81059748b04bbaa586  ./libs/v2d_infra/test_soma_fk.py
+a1c87ae17851692072bde792ca96522b  ./libs/v2d_infra/test_tier_guard.py
+a6889638fd1976532225d4ba71d9a7cb  ./libs/v2d_infra/tier_guard.py
+fe37be7d3520181d8245db14cca41ea9  ./stages/evaluate/contact_check.py
+5f39931f2154ca9b82a8b13c07b19d72  ./stages/evaluate/fail_onset.py
+73e730d27091f4e1c5920b88949653af  ./stages/evaluate/fall_order_one.py
+8161a75ab6529432af0293277a12335e  ./stages/evaluate/fall_order.py
+== Êèê‰∫§ÈáåÁöÑ md5
+d41d8cd98f00b204e9800998ecf8427e  ./libs/v2d_infra/__init__.py
+e52f45163e5b25a5f33ad96704cc1fbb  ./libs/v2d_infra/add_metrics.py
+8189c6c535958413cd0abd7cb8193d19  ./libs/v2d_infra/paths.py
+4b7f9ea6bd8f7ecb1b51579245ca6247  ./libs/v2d_infra/README.md
+1e233e6d325a05702b41718147c31d34  ./libs/v2d_infra/soma_fk.py
+6fc5cda1942d7c7e424de5c4345e1391  ./libs/v2d_infra/test_paths.py
+953917e1aa8acd81059748b04bbaa586  ./libs/v2d_infra/test_soma_fk.py
+a1c87ae17851692072bde792ca96522b  ./libs/v2d_infra/test_tier_guard.py
+a6889638fd1976532225d4ba71d9a7cb  ./libs/v2d_infra/tier_guard.py
+fe37be7d3520181d8245db14cca41ea9  ./stages/evaluate/contact_check.py
+5f39931f2154ca9b82a8b13c07b19d72  ./stages/evaluate/fail_onset.py
+73e730d27091f4e1c5920b88949653af  ./stages/evaluate/fall_order_one.py
+8161a75ab6529432af0293277a12335e  ./stages/evaluate/fall_order.py
