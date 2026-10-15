@@ -1,0 +1,24 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "health_p": {"file": "results/t3dyn/health_t3pdyn_mf4090.txt", "grep": "DONE=|DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|non_finite_worlds"},
+    "tab_p": {"file": "results/t3dyn/eval_table_t3pdyn.txt", "grep": "^run|^t3-ep|^t2-ep"},
+    "tab_q": {"file": "results/t3dyn/eval_table_t3qdyn.txt", "grep": "^run|^t3-ep|^t2-ep"},
+    "rule": {"file": "agent-doc/plan-t3dyn-pilot-2026-10-14.md", "grep": "Q1（转动违规|ep15 照常算|ep3、ep16：出结果之前|没有确认时|冒烟没过|再看算数的集|至少 2 集 ≥ 0.5|至少 2 集算数|其余（包括|ep12 dyn4 也与|Q2（人体平滑|≤ −0.4|看不出差别、不是瓶颈"}
+  },
+  "claims": [
+    {"id": "p_done", "evidence": ["health_p"], "claim": "mf4090 上 t3-ep15、t3-ep3、t3-ep16 三条 w2048-cap4m-r3a-dyn4 run 都是 DONE=1、NONFINITE=0；评测链以 DAY2_EVAL_DONE（成功 3、失败 0）结束，导出链以 EXPORT_CHAIN_DONE（成功 3、失败 0）结束，三条的 4096 世界评测 non_finite_worlds 都是 0。"},
+    {"id": "ep15", "evidence": ["tab_p"], "claim": "t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.000、SP-SR 0.000、失败_骨盆 1.000；同集 best_hm 的 t3-ep15-w2048-cap4m-r3a-hm-mf4090 MP-SR 0.000、失败_骨盆 0.994。"},
+    {"id": "ep3", "evidence": ["tab_p"], "claim": "t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.106、SP-SR 0.500、ADD-AUC 0.439、MPPE 36.23 cm、失败_骨盆 0.471；同集 t3-ep3-w2048-cap4m-r3a-hm-mf4090 是 MP-SR 0.000、SP-SR 0.000、ADD-AUC 0.117、MPPE 76.42 cm、失败_骨盆 0.984。"},
+    {"id": "ep16", "evidence": ["tab_p"], "claim": "t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.000、ADD-AUC 0.344、MPPE 55.08 cm、失败_骨盆 1.000；同集 t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.009、MPPE 87.04 cm。"},
+    {"id": "ep12", "evidence": ["tab_q"], "claim": "t3-ep12-w2048-cap4m-r3a-dyn4-ml40 的 MP-SR 是 0.562；t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 的 MP-SR 是 0.000、SP-SR 0.779、失败_骨盆 0.973；同集 t3-ep12-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.000。"},
+    {"id": "rule_ep15", "evidence": ["rule"], "claim": "按登记的 Q1 规则，ep15 照常算数。"},
+    {"id": "rule_unconfirmed", "evidence": ["rule"], "claim": "按登记的 Q1 规则，ep3、ep16 出结果前没有确认朝向分支时，MP-SR 低于 0.5 就不算数，这一集记“看不清”。"},
+    {"id": "rule_unclear", "evidence": ["rule"], "claim": "按登记的 Q1 规则，算数的集不到 2 集时记“看不清”，同样先做逐帧终止分析。"},
+    {"id": "rule_q2", "evidence": ["rule"], "claim": "按登记的 Q2 规则，ep12 的 dyn4s 减 dyn4 小于等于 −0.4 时记“平滑疑似变差”，要补种子才算数；没有补种子时重训用 best_dyn4。"},
+    {"id": "ctl_true_t2ep15", "evidence": ["tab_p"], "control": "true", "claim": "t2-ep15-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.987。"},
+    {"id": "ctl_true_hm16", "evidence": ["tab_p"], "control": "true", "claim": "t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.009。"},
+    {"id": "ctl_false_ep3", "evidence": ["tab_p"], "control": "false", "claim": "t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.806。"},
+    {"id": "ctl_false_rule", "evidence": ["rule"], "control": "false", "claim": "按登记的 Q1 规则，ep3、ep16 没有确认朝向分支时，MP-SR 低于 0.5 也照常算数。"}
+  ]
+}

@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-14-t3dyn-pilot-result.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 2beaaf9f5717c7581da932cd3c99ea90  agent-doc/experiments/2026-10-14-t3dyn-pilot-result.claims.json
+# source   : c100d7a42a7f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T21:00:16-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+p_done               P(supported)=0.98  verified               [health_p]  mf4090 上 t3-ep15、t3-ep3、t3-ep16 三条 w2048-cap4m-r3a-dyn4 run 都是 DONE=1、NONFINITE=0；评测链以 DAY2_EVAL_DONE（成功 3、失败 0）结束，导出链以 EXPORT_CHAIN_DONE（成功 3、失败 0）结束，三条的 4096 世界评测 non_finite_worlds 都是 0。
+ep15                 P(supported)=0.97  verified               [tab_p]  t3-ep15-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.000、SP-SR 0.000、失败_骨盆 1.000；同集 best_hm 的 t3-ep15-w2048-cap4m-r3a-hm-mf4090 MP-SR 0.000、失败_骨盆 0.994。
+ep3                  P(supported)=0.99  verified               [tab_p]  t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.106、SP-SR 0.500、ADD-AUC 0.439、MPPE 36.23 cm、失败_骨盆 0.471；同集 t3-ep3-w2048-cap4m-r3a-hm-mf4090 是 MP-SR 0.000、SP-SR 0.000、ADD-AUC 0.117、MPPE 76.42 cm、失败_骨盆 0.984。
+ep16                 P(supported)=0.99  verified               [tab_p]  t3-ep16-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.000、ADD-AUC 0.344、MPPE 55.08 cm、失败_骨盆 1.000；同集 t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.009、MPPE 87.04 cm。
+ep12                 P(supported)=0.99  verified               [tab_q]  t3-ep12-w2048-cap4m-r3a-dyn4-ml40 的 MP-SR 是 0.562；t3-ep12-w2048-cap4m-r3a-dyn4s-ml40 的 MP-SR 是 0.000、SP-SR 0.779、失败_骨盆 0.973；同集 t3-ep12-w2048-cap4m-r3a-hm-mf4090 的 MP-SR 是 0.000。
+rule_ep15            P(supported)=0.98  verified               [rule]  按登记的 Q1 规则，ep15 照常算数。
+rule_unconfirmed     P(supported)=0.98  verified               [rule]  按登记的 Q1 规则，ep3、ep16 出结果前没有确认朝向分支时，MP-SR 低于 0.5 就不算数，这一集记“看不清”。
+rule_unclear         P(supported)=0.98  verified               [rule]  按登记的 Q1 规则，算数的集不到 2 集时记“看不清”，同样先做逐帧终止分析。
+rule_q2              P(supported)=0.97  verified               [rule]  按登记的 Q2 规则，ep12 的 dyn4s 减 dyn4 小于等于 −0.4 时记“平滑疑似变差”，要补种子才算数；没有补种子时重训用 best_dyn4。
+ctl_true_t2ep15      P(supported)=0.99  control(true) ok       [tab_p]  t2-ep15-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.987。
+ctl_true_hm16        P(supported)=0.99  control(true) ok       [tab_p]  t3-ep16-w2048-cap4m-r3a-hm-mf4090 的 ADD-AUC 是 0.009。
+ctl_false_ep3        P(supported)=0.01  control(false) ok      [tab_p]  t3-ep3-w2048-cap4m-r3a-dyn4-mf4090 的 MP-SR 是 0.806。
+ctl_false_rule       P(supported)=0.02  control(false) ok      [rule]  按登记的 Q1 规则，ep3、ep16 没有确认朝向分支时，MP-SR 低于 0.5 也照常算数。
+controls behaved as expected

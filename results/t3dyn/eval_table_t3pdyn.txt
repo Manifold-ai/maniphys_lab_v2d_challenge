@@ -1,0 +1,25 @@
+# command  : python3 stages/evaluate/eval_table.py results/day2/eval_t3-ep15-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt results/day2/eval_t3-ep3-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt results/day2/eval_t3-ep16-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt results/day2/eval_t3-ep15-w2048-cap4m-r3a-hm-mf4090_s349999104.txt results/day2/eval_t3-ep3-w2048-cap4m-r3a-hm-mf4090_s349999104.txt results/day2/eval_t3-ep16-w2048-cap4m-r3a-hm-mf4090_s349999104.txt results/ml40/day2/eval_t2-ep15-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t2-ep3-w2048-cap10m-r3a-ml40_s349999104.txt results/ml40/day2/eval_t2-ep16-w2048-cap10m-r3a-ml40_s349999104.txt 
+# md5      : 8d5ba0ce41cc44125bee2a1c11b4eda2  stages/evaluate/eval_table.py
+# md5      : fd3b4abade33716ae8638dde227e3326  results/day2/eval_t3-ep15-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt
+# md5      : 8996b2a89bc283ee7caf42ea12d35a60  results/day2/eval_t3-ep3-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt
+# md5      : 26be62a1216631ddf9e35e3b16f55229  results/day2/eval_t3-ep16-w2048-cap4m-r3a-dyn4-mf4090_s349999104.txt
+# md5      : 94d4d3a27df38c6d8d8c1669564e80cc  results/day2/eval_t3-ep15-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+# md5      : 14e85da416dbcff15cb903ec31487339  results/day2/eval_t3-ep3-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+# md5      : 772ce5468be1e5482d4889594a536952  results/day2/eval_t3-ep16-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+# md5      : eb79ebc02f0a1d0d8add279ac3a92c14  results/ml40/day2/eval_t2-ep15-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : aa90c837445183b96e1be3d001674b77  results/ml40/day2/eval_t2-ep3-w2048-cap10m-r3a-ml40_s349999104.txt
+# md5      : ad90be1766f1aaffc0ef5f36d281e7f5  results/ml40/day2/eval_t2-ep16-w2048-cap10m-r3a-ml40_s349999104.txt
+# source   : c100d7a42a7f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-14T20:58:48-0600
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep15-w2048-cap4m-r3a-dyn4-mf4090	349999104	4096	715	0.000	0.000	0.305	22.91	22.65	42.1	0.000	1.000	1.000	1.000	10709fa8182b
+t3-ep3-w2048-cap4m-r3a-dyn4-mf4090	349999104	4096	781	0.106	0.500	0.439	36.23	36.00	53.6	0.077	0.471	0.900	0.848	e9f73cdd6bf8
+t3-ep16-w2048-cap4m-r3a-dyn4-mf4090	349999104	4096	477	0.000	0.000	0.344	55.08	54.93	59.9	0.000	1.000	1.000	1.000	8f96d912cba7
+t3-ep15-w2048-cap4m-r3a-hm-mf4090	349999104	4096	715	0.000	0.000	0.310	22.19	21.93	53.0	0.000	0.994	1.000	1.000	4e18bd622aa0
+t3-ep3-w2048-cap4m-r3a-hm-mf4090	349999104	4096	781	0.000	0.000	0.117	76.42	76.10	94.0	0.000	0.984	1.000	1.000	cb8bdee2198e
+t3-ep16-w2048-cap4m-r3a-hm-mf4090	349999104	4096	477	0.000	0.000	0.009	87.04	86.78	113.6	0.000	1.000	1.000	1.000	0948582787c4
+t2-ep15-w2048-cap10m-r3a-ml40	349999104	4096	715	0.987	0.987	0.560	2.71	2.36	16.2	0.975	0.013	0.021	0.019	e98b5fb77172
+t2-ep3-w2048-cap10m-r3a-ml40	349999104	4096	781	0.806	0.854	0.718	11.93	11.57	28.4	0.681	0.109	0.266	0.259	5277602e48db
+t2-ep16-w2048-cap10m-r3a-ml40	349999104	4096	477	0.938	0.939	0.696	5.99	5.61	22.2	0.918	0.060	0.077	0.067	71ba704175c5
