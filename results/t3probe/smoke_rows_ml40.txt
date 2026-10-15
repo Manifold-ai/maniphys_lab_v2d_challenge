@@ -1,0 +1,17 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)�\233$(date "+%F %T %Z")" && for e in 9 10 11; do r=smoke-t3-ep$e-w2048-cap10m-r3a-hm-ml40; if [ -f runs/flash_chord/$r/DONE ]; then V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg stages/policy/run_queue_line.sh stages/policy/queues/ml40_t3qa_smoke.txt $r; echo "fc_run �\200\200�\207��\201 $?�\210$(date +%T)�\211"; else echo "$r 没�\234\211 DONE�\232�\215�\234��\211\215�\217�起�\255�\203�\214�\201\234�\213"; exit 4; fi; done' 
+# md5      : 03d2bd733fcec5dba9739debd8a9dd02  stages/policy/run_queue_line.sh
+# md5      : 185d2f849ae927d1e87a6a43d31222f6  stages/policy/queues/ml40_t3qa_smoke.txt
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:16:18-0600
+# ---------------------------------------------------------------
+source 02c81e98013b；2026-10-16 04:16:18 CST
+run_queue_line: smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40 ← stages/policy/queues/ml40_t3qa_smoke.txt（行首环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0；V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg）
+fc_run: smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40 已完成（runs/flash_chord/smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40/DONE），跳过
+fc_run 退出码 0（04:16:18）
+run_queue_line: smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40 ← stages/policy/queues/ml40_t3qa_smoke.txt（行首环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0；V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg）
+fc_run: smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40 已完成（runs/flash_chord/smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40/DONE），跳过
+fc_run 退出码 0（04:16:18）
+run_queue_line: smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40 ← stages/policy/queues/ml40_t3qa_smoke.txt（行首环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0；V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg）
+fc_run: smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40 已完成（runs/flash_chord/smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40/DONE），跳过
+fc_run 退出码 0（04:16:18）

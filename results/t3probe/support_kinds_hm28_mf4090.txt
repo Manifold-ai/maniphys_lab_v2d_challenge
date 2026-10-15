@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)�\233$(date "+%F %T %Z")" && python3 stages/policy/support_kinds.py runs/tier3/root_hm28/support_surface && echo "## �\207\215�\232�\220\221�\220\216�\234��\231��\207\214�\232\204�\202�份" && python3 stages/policy/support_kinds.py runs/motion/tier3_hm28/whole_body/reconstructed_stage' 
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:43:04-0600
+# ---------------------------------------------------------------
+source 184421eb21cc；2026-10-16 04:43:05 CST
+sequence_id	shapes	scaled_cube	md5
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	Cube×1	yes	cdccec16c18ec50cee1d95565c2170a5
+# 共 1 个：只有地面 0，带 scale 的方盒 1，其他 0
+## 重定向后场景里的那份
+sequence_id	shapes	scaled_cube	md5
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	Cube×1	yes	cdccec16c18ec50cee1d95565c2170a5
+# 共 1 个：只有地面 0，带 scale 的方盒 1，其他 0

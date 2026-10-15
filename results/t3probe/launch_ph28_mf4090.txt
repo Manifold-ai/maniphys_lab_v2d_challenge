@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)ï¼\233$(date "+%F %T %Z")" && ! ls runs/.chain-active-* >/dev/null 2>&1 && [ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] && ! tmux has-session -t r3o-g1 2>/dev/null && ! tmux has-session -t v2d-t3probe-ph28 2>/dev/null && [ ! -e runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 ] && [ -f runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet ] && echo "èµ·å\211\215æ£\200æ\237¥é\200\232è¿\207ï¼\232æ²¡æ\234\211é\225¿é\223¾æ \207è®°ï¼\214GPU ä¸\212æ²¡æ\234\211è¿\233ç¨\213ï¼\214æ²¡æ\234\211 r3o-g1 ä¸\216å\220\214å\220\215ä¼\232è¯\235ï¼\214run ç\233®å½\225è¿\230æ²¡æ\234\211ï¼\214parquet å\234¨" && tmux new-session -d -s v2d-t3probe-ph28 "scripts/dev/record t3probe/train_ph_ep28_mf4090 env V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg stages/policy/fc_run.sh t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 /repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet 2048 4096000 training.replay.capacity=4000000 objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 && sleep 15 && scripts/dev/record t3probe/nonfinite_ph_ep28_mf4090 python3 stages/policy/ckpt_nonfinite.py t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 --steps 4096000 --fail-on-nonfinite && scripts/dev/record t3probe/eval_ph_ep28_mf4090 env V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 stages/policy/fc_eval.sh t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 4096000 && scripts/dev/record t3probe/evalcheck_ph_ep28_mf4090 python3 stages/policy/eval_check.py runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090/eval_4096000_w4096.json && scripts/dev/record t3probe/export_ph_ep28_mf4090 env V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 stages/evaluate/fc_export.sh t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 4096000" && sleep 30 && echo "tmuxï¼\232$(tmux ls | cut -d: -f1 | tr "\\n" " ")" && ls -d runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 && (tail -n 3 runs/logs/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090.log 2>&1; true)' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 852caeef246198dc52ef3ed93e995ce9  stages/policy/fc_run.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:43:54-0600
+# ---------------------------------------------------------------
+source b106c320bae6ï¼›2026-10-16 04:43:54 CST
+èµ·å‰æ£€æŸ¥é€šè¿‡ï¼šæ²¡æœ‰é•¿é“¾æ ‡è®°ï¼ŒGPU ä¸Šæ²¡æœ‰è¿›ç¨‹ï¼Œæ²¡æœ‰ r3o-g1 ä¸åŒåä¼šè¯ï¼Œrun ç›®å½•è¿˜æ²¡æœ‰ï¼Œparquet åœ¨
+tmuxï¼šv2d-t3probe-ph28 v2d-train 
+runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 4096 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()

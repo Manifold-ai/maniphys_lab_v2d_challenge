@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/eval_check.py runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json 
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : 19953b132776005658f77a542b1c984c  runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json
+# source   : 02c81e98013b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-16T04:56:02+0800
+# ---------------------------------------------------------------
+runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json：checkpoint_sha256 fa642f24eca6941c…，world_count 4096，non_finite_worlds []
+  maniptrans_sr 0.0，spider_sr_uncentered 0.0，add_auc 0.06015956256286417，mppe_cm 76.28821762661477
+EVAL_CHECK OK

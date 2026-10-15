@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum runs/tools/arm_after.sh stages/policy/r3o_gate.py stages/policy/r3o_gate.json && echo "== �\227�空�\221�\210P1a �\230没�\204�\214�\224为 ERROR�\211" && { python3 stages/policy/r3o_gate.py t1oa; echo "�\200\200�\207��\201 $?"; } ; echo "== arm_after �\233�\213�\216�\227��\227�\200头"; pgrep -af "[a]rm_after.sh t1ob" | cut -c1-150; head -4 runs/logs/arm_after_t1ob_mf4090.log | cut -c1-220' 
+# md5      : 139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+# md5      : 2dafe7768ea6acae52b0723a2288ab72  stages/policy/r3o_gate.json
+# md5      : 139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+# source   : d1df234f4549
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T15:00:03-0600
+# ---------------------------------------------------------------
+source b106c320bae6
+b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+139cb3d0e39e6fd8e32a319aa7c13b37  stages/policy/r3o_gate.py
+2dafe7768ea6acae52b0723a2288ab72  stages/policy/r3o_gate.json
+== 门空跑（P1a 还没评，应为 ERROR）
+r3o_gate: 读不了评测或评测不干净：FileNotFoundError: [Errno 2] No such file or directory: '/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep20-w2048-cap4m-r3o-mf4090/eval_349999104_w4096.json'
+R3O_GATE_ERROR
+退出码 2
+== arm_after 进程与日志开头
+3969568 bash -c cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && md5sum runs/tools/arm_after.sh stages/polic
+3969573 bash runs/tools/arm_after.sh t1ob runs/logs/t1oa_train_mf4090.log runs/logs/t1oa_eval_mf4090.log runs/logs/cand_t1_t1oa_mf4090.log 4
+=== 2026-10-16 04:57:24 CST 等 runs/.chain-active-* 都消失、runs/logs/t1oa_train_mf4090.log 与 runs/logs/t1oa_eval_mf4090.log 写完最后一行，再起 t1ob；前置命令：python3 stages/policy/r3o_gate.py t1oa
+=== 2026-10-16 04:57:24 CST 来历与 t1ob 的队列：b106c320bae6 d1c6c712c3bb236e2899ab9f2b4c0e92  stages/policy/queues/mf4090_t1ob.expect.tsv bbc9b32b13765087baea7c911889ce97  stages/policy/queues/mf4090_t1ob.txt a8e

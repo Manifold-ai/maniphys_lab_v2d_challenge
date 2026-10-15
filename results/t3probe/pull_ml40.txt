@@ -1,0 +1,8 @@
+# command  : env V2D_ENV=ml40 scripts/dev/pull-results 
+# md5      : 35b26d7e7a53c90cd0a0d6949766ec99  scripts/dev/pull-results
+# source   : d1df234f4549
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:58:07-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+已回流到 results/ml40/

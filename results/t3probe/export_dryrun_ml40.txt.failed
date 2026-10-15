@@ -1,0 +1,16 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)�\233$(date "+%F %T %Z")" && rc_all=0; for e in 9 10 11; do r=smoke-t3-ep$e-w2048-cap10m-r3a-hm-ml40; echo "== $r"; V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EXPORT_DRYRUN=1 stages/evaluate/fc_export.sh $r 4096000; rc=$?; echo "fc_export �\200\200�\207��\201 $rc"; [ $rc = 0 ] || rc_all=$rc; done; exit $rc_all' 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:13:08-0600
+# ---------------------------------------------------------------
+source 02c81e98013b；2026-10-16 04:13:09 CST
+== smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+fc_export: run 名非法或没有 t<档位>- 前缀：smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+fc_export 退出码 2
+== smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+fc_export 退出码 2
+== smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40
+fc_export 退出码 2
+fc_export: run 名非法或没有 t<档位>- 前缀：smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+fc_export: run 名非法或没有 t<档位>- 前缀：smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40

@@ -1,0 +1,392 @@
+# command  : ssh -o BatchMode=yes ml40 V2D_T3_SUBDIR=tier3_cari4d_f830_best_hm_suspect\ V2D_T3_SUPPORT=delivery\ bash\ -s\ --\ 28 
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:13:44-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-16 04:13:45 CST
+## 目录 runs/tier3_cari4d_f830_best_hm_suspect
+## /lab_data/<其他用户>/v2d/tier3/runs/tier3_cari4d_f830_best_hm_suspect 的前两层
+drwxrwsr-x 2026-10-13_05:08:32.7664429270 4096 
+drwxrwsr-x 2026-10-13_03:38:47.4396857150 4096 data
+drwxrwsr-x 2026-10-13_03:38:47.4396857150 4096 data/chunk-000
+drwxrwsr-x 2026-10-13_03:38:47.4636858290 4096 meta
+-rw-rw-r-- 2026-10-13_03:38:47.4636858290 726 meta/episode_000028.metadata.json
+drwxrwsr-x 2026-10-13_05:08:32.8024431130 4096 support_surface
+-rw-rw-r-- 2026-10-13_05:08:32.8024431130 441 support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+-rw-rw-r-- 2026-10-13_05:08:32.8024431130 7071 support_surface/support_usda.json
+## episode 28
+可读 1342239 字节 2026-10-13 03:38:47.46368 sha256 57f3f46ece2cf480300844136e87242abeba069b0f3e785cae241e1dea70e8f3 data/chunk-000/episode_000028.parquet
+可读 726 字节 2026-10-13 03:38:47.463685829 sha256 b0dae8b68b23d02578eab025779e5db9f71a34fc76841ff6b83ae1943b5eb530 meta/episode_000028.metadata.json
+{"calibration_sequence": "2026-05-19_09-56-19_calibration", "episode_index": 28, "frames": 988, "ground_plane": "ground_plane/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_.json", "mesh": "mesh/squeegee/squeegee.glb", "notes": "2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_", "object": "squeegee", "sequence_id": "2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_", "support_surface": "support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda", "support_surface_frame": "g1_retarget_world", "task": "Walk over to the squeegee leaning on the tall bar stool and using both hands to pick up the squeegee proceed to hold the squeegee infront of you and perform sweeping motions away you."}
+可读 441 字节 2026-10-13 05:08:32.802443113 sha256 f3882f9cb0253f6d839fa30d192ed18c401a58018e6eae38eff6a58e510c579a support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+输入 mesh d96cf141d29a09cab5c930cca8d28c33 mesh/squeegee/squeegee.glb
+输入 ground_plane 208b99e494a1adc8d6ecdd34fd1d181f ground_plane/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_.json
+## support_surface/support_usda.json sha256 e4201a7b72ef946589831ac775f6c4990ef52d38ad44a4026ea9e0b445f4b627
+{
+ "set": "bhm",
+ "support_dir": "/lab_data/<其他用户>/v2d/tier3/runs/support/tier3_cari4d_f830_best",
+ "episodes": [
+  {
+   "episode": "ep00_tall_bar_stool",
+   "sequence_id": "2026-06-04_14-16-23_tall_bar_stool_tip_up_04",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep01_vacuum",
+   "sequence_id": "2026-05-18_17-06-21_vacuum_left_lean_02",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep02_blue_easter_basket",
+   "sequence_id": "2026-06-02_10-04-42_blue_easter_basket_place_10",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.772,
+     "top_z_m": 0.772,
+     "xy_min_m": [
+      -1.0339,
+      -0.139
+     ],
+     "xy_max_m": [
+      -0.7856,
+      0.1029
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep03_contigo_coffee_mug",
+   "sequence_id": "2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.755,
+     "top_z_m": 0.755,
+     "xy_min_m": [
+      -1.4443,
+      -0.2647
+     ],
+     "xy_max_m": [
+      -1.2461,
+      -0.1126
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep04_baseball_bat",
+   "sequence_id": "2026-04-24_11-40-52_baseball_bat_rotate_05",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep05_big_black_box",
+   "sequence_id": "2026-03-18_19-36-56_g1_box_rotate_01",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep06_monitor",
+   "sequence_id": "2026-06-01_11-26-44_monitor_rotate_05",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.765,
+     "top_z_m": 0.765,
+     "xy_min_m": [
+      -1.3521,
+      0.0859
+     ],
+     "xy_max_m": [
+      -0.8361,
+      0.4127
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep07_iron",
+   "sequence_id": "2026-05-29_15-20-43_iron_round_table_02",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.76,
+     "top_z_m": 0.76,
+     "xy_min_m": [
+      -0.8803,
+      0.1777
+     ],
+     "xy_max_m": [
+      -0.5743,
+      0.302
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep08_skinny_wood_chair",
+   "sequence_id": "2026-06-05_15-08-08_skinny_wood_chair_push_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep09_big_red_bowl",
+   "sequence_id": "2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.474,
+     "top_z_m": 0.474,
+     "xy_min_m": [
+      -1.1307,
+      -0.2415
+     ],
+     "xy_max_m": [
+      -0.833,
+      0.0564
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep10_white_desk",
+   "sequence_id": "2026-05-01_11-36-40_white_desk_lower_to_ground_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep11_light_blue_book",
+   "sequence_id": "2026-04-24_13-56-58_light_blue_book_pick_place_09",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.849,
+     "top_z_m": 0.849,
+     "xy_min_m": [
+      -1.1657,
+      -0.2209
+     ],
+     "xy_max_m": [
+      -0.6422,
+      0.1
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep12_black_platform",
+   "sequence_id": "2026-04-25_17-20-04_black_platform_turn_05",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep13_snack_box",
+   "sequence_id": "2026-06-09_10-19-09_snack_box_desk_through_06",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.867,
+     "top_z_m": 0.867,
+     "xy_min_m": [
+      -1.2014,
+      -0.4287
+     ],
+     "xy_max_m": [
+      -0.6266,
+      0.1912
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep14_round_table",
+   "sequence_id": "2026-05-28_14-44-09_round_table_flip_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep15_wet_floor_sign",
+   "sequence_id": "2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08",
+   "check_m": 1e-07,
+   "supports": []
+  },
+  {
+   "episode": "ep16_spray_bottle",
+   "sequence_id": "2026-03-12_15-06-36_spray_bottle_left_desk_ground_02",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.871,
+     "top_z_m": 0.871,
+     "xy_min_m": [
+      -0.6572,
+      0.8348
+     ],
+     "xy_max_m": [
+      -0.5666,
+      0.9244
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep17_traffic_cone",
+   "sequence_id": "2026-05-01_17-04-55_traffic_cone_ground_table_02",
+   "check_m": 1e-07,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.779,
+     "top_z_m": 0.779,
+     "xy_min_m": [
+      -0.3017,
+      0.5274
+     ],
+     "xy_max_m": [
+      -0.0782,
+      0.7498
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep18_blue_trash_can",
+   "sequence_id": "2026-05-06_10-00-19_blue_trash_can_drag_sideways_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep19_cane",
+   "sequence_id": "2026-05-19_10-19-48_cane_swing_05",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep20_rice_cooker",
+   "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.783,
+     "top_z_m": 0.783,
+     "xy_min_m": [
+      -0.349,
+      0.6614
+     ],
+     "xy_max_m": [
+      -0.1299,
+      0.8951
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep21_tall_bar_stool",
+   "sequence_id": "2026-04-29_11-53-57_tall_bar_stool_pull_08",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep22_step_ladder",
+   "sequence_id": "2026-05-22_16-52-36_step_ladder_drag_03",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep23_toy_stroller",
+   "sequence_id": "2026-06-03_15-08-03_toy_stroller_back_forth_ground_04",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep24_watering_can",
+   "sequence_id": "2026-05-29_15-43-20_watering_can_pour_right_02",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep25_cyan_water_bottle",
+   "sequence_id": "2026-03-20_11-59-57_cyan_water_bottle_rotate_01",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.791,
+     "top_z_m": 0.791,
+     "xy_min_m": [
+      -1.1931,
+      0.557
+     ],
+     "xy_max_m": [
+      -0.9984,
+      0.7225
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep26_skateboard",
+   "sequence_id": "2026-06-05_16-05-08_skateboard_rotate_ground_10",
+   "check_m": 0.0,
+   "supports": []
+  },
+  {
+   "episode": "ep27_woven_basket",
+   "sequence_id": "2026-05-01_11-15-05_woven_basket_ground_desk_10",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.894,
+     "top_z_m": 0.894,
+     "xy_min_m": [
+      0.0552,
+      -1.1323
+     ],
+     "xy_max_m": [
+      0.386,
+      -0.8244
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep28_squeegee",
+   "sequence_id": "2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_",
+   "check_m": 0.0,
+   "supports": [
+    {
+     "support": 0,
+     "height_m": 0.654,
+     "top_z_m": 0.654,
+     "xy_min_m": [
+      -0.5038,
+      -0.8486
+     ],
+     "xy_max_m": [
+      1.0295,
+      -0.5627
+     ]
+    }
+   ]
+  },
+  {
+   "episode": "ep29_rolling_luggage",
+   "sequence_id": "2026-06-05_18-27-40_rolling_luggage_left_foot_push_06",
+   "check_m": 0.0,
+   "supports": []
+  }
+ ]
+}

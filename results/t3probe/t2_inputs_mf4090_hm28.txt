@@ -1,0 +1,11 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/tier2_inputs_md5.py\ 28 
+# md5      : 41e973c3bcb287eb603e0b00cebb0ce4  stages/recovery/tier2_inputs_md5.py
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:14:09-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-16 04:14:10 CST 来历 02c81e98013b；Tier 2 目录 /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise
+d96cf141d29a09cab5c930cca8d28c33 mesh/squeegee/squeegee.glb
+552de94cbc647c68dd15bdf5006a7c74 ground_plane/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_.json
+a93e92e5cffd8bd74bfc583bd9be6b6e support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+TIER2_INPUTS_DONE（1 集，3 个文件）

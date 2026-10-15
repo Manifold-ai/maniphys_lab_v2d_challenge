@@ -1,0 +1,9 @@
+# command  : python3 stages/policy/ckpt_nonfinite.py t3-ep10-w2048-cap10m-r3a-hm-ph-ml40 --steps 4096000 --fail-on-nonfinite 
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# source   : 02c81e98013b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-16T04:33:02+0800
+# ---------------------------------------------------------------
+== t3-ep10-w2048-cap10m-r3a-hm-ph-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+  全部有限

@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)ï¼\233$(date "+%F %T %Z")" && r=smoke-t3-ep28-w2048-cap4m-r3a-hm28-mf4090 && echo "== $rï¼\210run ç\233®å½\225è¿\230ä¸\215å\255\230å\234¨ï¼\214å\217ªç\234\213å\220\215å\255\227è¿\231ä¸\200å\205³ï¼\211" && V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 V2D_EXPORT_DRYRUN=1 stages/evaluate/fc_export.sh $r 4096000 2>&1; rc=$?; echo "fc_export é\200\200å\207ºç \201 $rc"; exit $rc' 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:13:18-0600
+# ---------------------------------------------------------------
+source 02c81e98013bï¼›2026-10-16 04:13:18 CST
+== smoke-t3-ep28-w2048-cap4m-r3a-hm28-mf4090ï¼ˆrun ç›®å½•è¿˜ä¸å­˜åœ¨ï¼Œåªçœ‹åå­—è¿™ä¸€å…³ï¼‰
+fc_export: run åéæ³•æˆ–æ²¡æœ‰ t<æ¡£ä½>- å‰ç¼€ï¼šsmoke-t3-ep28-w2048-cap4m-r3a-hm28-mf4090
+fc_export é€€å‡ºç  2

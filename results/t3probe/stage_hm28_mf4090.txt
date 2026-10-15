@@ -1,0 +1,19 @@
+# command  : env V2D_T3_SUBDIR=tier3_cari4d_f830_best_hm_suspect V2D_T3_SET=hm28 V2D_T3_SUPPORT=delivery stages/recovery/tier3_stage.sh t3hm28_1015 28 
+# md5      : 2aa5732ffe6be06d5b29a2e5b11e1c92  stages/recovery/tier3_stage.sh
+# source   : 184421eb21cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:36:26-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-16 04:36:32 CST 来历 184421eb21cc
+57f3f46ece2cf480300844136e87242abeba069b0f3e785cae241e1dea70e8f3  ./data/chunk-000/episode_000028.parquet
+193a6d19362382dfdfe643054461e3403a62d10522355526a6f52a410e4dc2b7  ./DEPLOYED
+b0dae8b68b23d02578eab025779e5db9f71a34fc76841ff6b83ae1943b5eb530  ./meta/episode_000028.metadata.json
+f3882f9cb0253f6d839fa30d192ed18c401a58018e6eae38eff6a58e510c579a  ./support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+部署版本 0539247070e26500185e9b59ee1759179c720279；同组成员那边的目录 runs/tier3_cari4d_f830_best_hm_suspect；V2D_T3_SET=hm28；V2D_T3_SUPPORT=delivery
+写 data/chunk-000/episode_000028.parquet sha256 57f3f46ece2cf480300844136e87242abeba069b0f3e785cae241e1dea70e8f3
+写 mesh/squeegee/squeegee.glb sha256 aa3e2fad95d7201aab1e76b0e2321ad34d593e42a6fa8996031e4b4d5f690cc2 md5 d96cf141d29a09cab5c930cca8d28c33
+写 ground_plane/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_.json sha256 353bc4a5271c942f3d11d174bdadf6625177bf5f7ec385c075f0e33560ec6fe8 md5 552de94cbc647c68dd15bdf5006a7c74
+写 support_surface/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda sha256 f3882f9cb0253f6d839fa30d192ed18c401a58018e6eae38eff6a58e510c579a md5 cdccec16c18ec50cee1d95565c2170a5
+写 meta/episodes_metadata.jsonl（1 行：ep28）与 meta/provenance.json
+ep28 来源：parquet 在对方的修改时间 2026-10-12T19:38:47+00:00，转发时对方的部署版本 0539247070e26500185e9b59ee1759179c720279（干净 True），parquet sha256 57f3f46ece2cf480300844136e87242abeba069b0f3e785cae241e1dea70e8f3
+TIER3_ROOT_OK

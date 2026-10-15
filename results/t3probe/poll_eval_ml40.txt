@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "$(date "+%F %T %Z")" && echo "ËÆ∞ÂΩ\225Ôº\232$(ls results/t3probe/ 2>/dev/null | tr "\\n" " ")" && echo "GPUÔº\232[$(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" " ")]" && if tmux has-session -t v2d-t3probe-eval 2>/dev/null; then echo "‰º\232ËØ\235 v2d-t3probe-eval Ëø\230Â\234®Ë∑\221"; exit 1; else echo "‰º\232ËØ\235 v2d-t3probe-eval Â∑≤Áª\223Ê\235\237"; fi' 
+# source   : d1df234f4549
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:57:37-0600
+# ---------------------------------------------------------------
+2026-10-16 04:57:37 CST
+ËÆ∞ÂΩïÔºöevalcheck_ph_ep10_ml40.txt evalcheck_ph_ep11_ml40.txt evalcheck_ph_ep9_ml40.txt eval_ph_ep10_ml40.txt eval_ph_ep11_ml40.txt eval_ph_ep9_ml40.txt export_ph_ep10_ml40.txt export_ph_ep11_ml40.txt export_ph_ep9_ml40.txt nonfinite_ph_ep10_ml40.txt nonfinite_ph_ep11_ml40.txt nonfinite_ph_ep9_ml40.txt train_ph_ep10_ml40.txt train_ph_ep11_ml40.txt train_ph_ep9_ml40.txt 
+GPUÔºö[]
+‰ºöËØù v2d-t3probe-eval Â∑≤ÁªìÊùü

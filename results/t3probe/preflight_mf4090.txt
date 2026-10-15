@@ -1,0 +1,29 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)ï¼\233$(date "+%F %T %Z")" && (ls runs/.chain-active-* 2>/dev/null || echo "æ²¡æ\234\211é\225¿é\223¾æ \207è®°") && echo "## GPU è¿\233ç¨\213" && (nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader; true) && md5sum stages/evaluate/fc_export.sh stages/policy/fc_run.sh stages/recovery/tier3_root.py stages/recovery/tier3_expect.py stages/retarget/eps.sh stages/policy/check_inputs.py && echo "## ep28 ä¸\216 hm28 ç\233¸å\205³ç\232\204å·²æ\234\211ç\233®å½\225" && (ls -d runs/tier3/root_hm28 runs/tier3/incoming/t3hm28_1015 runs/tier3/incoming/t3hm28_1015.partial runs/motion/tier3_hm28 runs/motion_src/tier3_hm28 stages/recovery/expect/t3hm28_1015.tsv 2>&1; ls -d runs/flash_chord/*-ep28-* 2>/dev/null | grep t3; true) && echo "## å\217¯ç\224¨ $(df -m --output=avail . | tail -1) MB"' 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# md5      : 8affa6b027247a705d26d1e1226c8eeb  stages/policy/fc_run.sh
+# md5      : 0601935778b0a8bafeabb91ac76d2cb9  stages/recovery/tier3_root.py
+# md5      : f4c44b1c71fbf2693846ede308af9c8d  stages/recovery/tier3_expect.py
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:12:58-0600
+# ---------------------------------------------------------------
+source 02c81e98013bï¼›2026-10-16 04:12:59 CST
+runs/.chain-active-frames_t2_mf4090_1015
+## GPU è¿›ç¨‹
+3936046, 780 MiB
+535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+e083a0cd4823bd0a4e7b1127a5bbdd55  stages/policy/fc_run.sh
+0601935778b0a8bafeabb91ac76d2cb9  stages/recovery/tier3_root.py
+f4c44b1c71fbf2693846ede308af9c8d  stages/recovery/tier3_expect.py
+babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+## ep28 ä¸ hm28 ç›¸å…³çš„å·²æœ‰ç›®å½•
+ls: cannot access 'runs/tier3/root_hm28': No such file or directory
+ls: cannot access 'runs/tier3/incoming/t3hm28_1015': No such file or directory
+ls: cannot access 'runs/tier3/incoming/t3hm28_1015.partial': No such file or directory
+ls: cannot access 'runs/motion/tier3_hm28': No such file or directory
+ls: cannot access 'runs/motion_src/tier3_hm28': No such file or directory
+ls: cannot access 'stages/recovery/expect/t3hm28_1015.tsv': No such file or directory
+## å¯ç”¨ 84440 MB

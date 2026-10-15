@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "$(date "+%F %T %Z")" && echo "ËÆ∞ÂΩ\225Ôº\232$(ls results/t3probe/ 2>/dev/null | tr "\\n" " ")" && echo "GPUÔº\232[$(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" " ")]" && if tmux has-session -t v2d-t3probe-ph28 2>/dev/null; then echo "‰º\232ËØ\235 v2d-t3probe-ph28 Ëø\230Â\234®Ë∑\221"; exit 1; else echo "‰º\232ËØ\235 v2d-t3probe-ph28 Â∑≤Áª\223Ê\235\237"; fi' 
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:54:34-0600
+# ---------------------------------------------------------------
+2026-10-16 04:54:35 CST
+ËÆ∞ÂΩïÔºöevalcheck_ph_ep28_mf4090.txt eval_ph_ep28_mf4090.txt export_ph_ep28_mf4090.txt nonfinite_ph_ep28_mf4090.txt retarget_hm28_mf4090.txt train_ph_ep28_mf4090.txt 
+GPUÔºö[3966070, 418 MiB ]
+‰ºöËØù v2d-t3probe-ph28 Â∑≤ÁªìÊùü

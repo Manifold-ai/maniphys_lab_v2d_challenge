@@ -1,0 +1,38 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)�\233$(date "+%F %T %Z")" && for e in 9 10 11; do r=smoke-t3-ep$e-w2048-cap10m-r3a-hm-ml40; d=runs/flash_chord/$r; echo "== $r"; sha256sum $d/policy_4096000.safetensors; echo "exit 记�\225�\232$(grep "\\"event\\": \\"exit\\"" $d/run_record.jsonl | grep -o "\\"rc\\": \\"[0-9]*\\"" | tr "\\n" " ")"; echo "�\214\202�\232\204�\220�\201�\232$(grep -a -m1 "in-flash-chord: /workspace" runs/logs/$r.log)"; for L in runs/logs/$r.s*.log; do echo "�\210\206段�\227��\227 $L�\232completed 4096000 �\214 $(grep -a -c "completed 4096000 environment steps" $L)�\214�\212��\224\231�\214 $(grep -a -c -E "Tracebac[k]|RESOURCE_EXHAUSTE[D]|exceeds the base limi[t]" $L)"; done; grep -a -E "SMOKE_OK $r|�\206\222�\203\237 $r �\200\232�\207|SMOKE_FAIL $r" runs/logs/t3qa_train_ml40.log | cut -c1-200; done; echo "## �\235\236�\234\211�\231\220�\211��\217\217�\210�\217�读�\211"; python3 stages/policy/ckpt_nonfinite.py --steps 4096000 --fail-on-nonfinite smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40 smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40 smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40' 
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# source   : 02c81e98013b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:15:24-0600
+# ---------------------------------------------------------------
+source 02c81e98013b；2026-10-16 04:15:25 CST
+== smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+3a476a8c101237c8b3622dd8215a667839ced445e4ec3ecab2d14078741fefc0  runs/flash_chord/smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40/policy_4096000.safetensors
+exit 记录："rc": "0" 
+挂的源码：in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+分段日志 runs/logs/smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40.s1.log：completed 4096000 行 1，报错行 0
+SMOKE_OK smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:52:57 CST 冒烟 smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40 通过：870 帧，不动基线见 results/day2/bar_smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有限
+== smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+893b04d8aeb56dd815b33b59d9a3d7ac2ed460a2b02216f2fc533bc3e75ec106  runs/flash_chord/smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40/policy_4096000.safetensors
+exit 记录："rc": "0" 
+挂的源码：in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+分段日志 runs/logs/smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40.s1.log：completed 4096000 行 1，报错行 0
+SMOKE_OK smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 00:58:02 CST 冒烟 smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40 通过：794 帧，不动基线见 results/day2/bar_smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有�
+== smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40
+67e3e694e193f1f5ae4ddda6b4486e7fdd111f7bc926dae953e59080c2c11876  runs/flash_chord/smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40/policy_4096000.safetensors
+exit 记录："rc": "0" 
+挂的源码：in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+分段日志 runs/logs/smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40.s1.log：completed 4096000 行 1，报错行 0
+SMOKE_OK smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40
+=== 2026-10-14 01:03:00 CST 冒烟 smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40 通过：901 帧，不动基线见 results/day2/bar_smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40.txt；256 世界 rollout 里非有�
+## 非有限扫描（只读）
+== smoke-t3-ep9-w2048-cap10m-r3a-hm-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+  全部有限
+== smoke-t3-ep10-w2048-cap10m-r3a-hm-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+  全部有限
+== smoke-t3-ep11-w2048-cap10m-r3a-hm-ml40（policy 1 份）
+    4,096,000 步：非有限 0 / 1207577（NaN 0，inf 0）
+  全部有限

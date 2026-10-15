@@ -1,0 +1,31 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)ï¼\233$(date "+%F %T %Z")" && (ls runs/.chain-active-* 2>/dev/null || echo "æ²¡æ\234\211é\225¿é\223¾æ \207è®°") && echo "GPU è¿\233ç¨\213ï¼\232[$(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" " ")]" && echo "tmux ä¼\232è¯\235ï¼\232[$(tmux ls 2>/dev/null | cut -d: -f1 | tr "\\n" " ")]" && d=runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090 && if [ -e $d ]; then echo "å·²å\255\230å\234¨ $d"; else echo "ä¸\215å\255\230å\234¨ $d"; fi && md5sum stages/policy/fc_run.sh stages/evaluate/fc_export.sh stages/policy/fc_eval.sh stages/policy/eval_check.py stages/policy/ckpt_nonfinite.py third_party/patches/flash_chord-p185-nfg.sha256 && head -1 /home/rxzhou/v2d/fc_src/v040_p185_nfg/SOURCE_V2D.txt && head -1 /home/rxzhou/v2d/fc_src/fc_8c778f9/SOURCE_V2D.txt && ls runs/motion_src/tier3_hm28/*/v2d_meta.json && out=$(python3 stages/policy/fc_src_check.py /home/rxzhou/v2d/fc_src/v040_p185_nfg third_party/patches/flash_chord-p185-nfg.sha256 2>&1); echo "$out" | tail -3; echo "## å\217¯ç\224¨ $(df -m --output=avail . | tail -1) MB"; echo "$out" | tail -1 | grep -q "^FC_SRC_OK"' 
+# md5      : 852caeef246198dc52ef3ed93e995ce9  stages/policy/fc_run.sh
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : 5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:43:20-0600
+# ---------------------------------------------------------------
+source b106c320bae6ï¼›2026-10-16 04:43:21 CST
+æ²¡æœ‰é•¿é“¾æ ‡è®°
+GPU è¿›ç¨‹ï¼š[]
+tmux ä¼šè¯ï¼š[v2d-train ]
+ä¸å­˜åœ¨ runs/flash_chord/t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090
+852caeef246198dc52ef3ed93e995ce9  stages/policy/fc_run.sh
+535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+5a45f586937bd05b75c29f1b3d3ba1a9  stages/policy/ckpt_nonfinite.py
+04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+flash_chord v0.4.0ï¼ˆ33129ddï¼‰+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch
+flash_chord 8c778f905cï¼ˆv0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patchï¼‰
+runs/motion_src/tier3_hm28/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/v2d_meta.json
+  ok   src/flash_chord/training/flash_sac/nonfinite_guard.py sha256 fbd0776661ef8906â€¦
+  ok   src/flash_chord/training/flash_sac/runner.py sha256 c35b0732ab82fb5câ€¦
+FC_SRC_OK
+## å¯ç”¨ 83691 MB

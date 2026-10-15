@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)�\233$(date "+%F %T %Z")" && md5sum stages/policy/check_inputs.py && P=$(ls runs/motion/tier3_hm28/whole_body/soma/sequence_id=*/robot_name=g1/data.parquet) && echo "parquet�\232$P" && sha256sum $P && scripts/dev/in-flash-chord "python /repo/stages/policy/check_inputs.py /repo/$P"; rc=$?; echo "check_inputs �\200\200�\207��\201 $rc"; exit $rc' 
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:42:58-0600
+# ---------------------------------------------------------------
+source 184421eb21cc；2026-10-16 04:42:58 CST
+2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+parquet：runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+6f73701f4c4e599fb58d8e8b36853d53481bbce4a35f14166fb94f2cf0278368  runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+== /repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 6f73701f4c4e599f…
+  fps = [30.0]
+  列 object_name = '2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_hm28/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_hm28/whole_body/reconstructed_stage/2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+check_inputs 退出码 0

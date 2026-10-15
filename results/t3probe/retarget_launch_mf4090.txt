@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)Ôº\233$(date "+%F %T %Z")" && A=$(df -m --output=avail . | tail -1) && echo "Â\217ØÁ\224® $A MB" && [ "$A" -ge 2500 ] && ! tmux has-session -t v2d-t3probe-retarget 2>/dev/null && [ ! -e runs/motion/tier3_hm28 ] && tmux new-session -d -s v2d-t3probe-retarget "V2D_T3_SET=hm28 V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3probe/retarget_hm28_mf4090 stages/retarget/eps.sh 3 28" && sleep 20 && echo "tmuxÔº\232$(tmux ls | cut -d: -f1 | tr "\\n" " ")"' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : 184421eb21cc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:36:45-0600
+# ---------------------------------------------------------------
+source 184421eb21ccÔºõ2026-10-16 04:36:46 CST
+ÂèØÁî® 83680 MB
+tmuxÔºör3o-g1 v2d-t3probe-retarget v2d-train 

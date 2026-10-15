@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo "source $(cat .v2d-source-commit)ï¼\233$(date "+%F %T %Z")" && ! ls runs/.chain-active-* >/dev/null 2>&1 && [ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] && ! tmux has-session -t v2d-t3probe-ph 2>/dev/null && ! tmux has-session -t v2d-t3probe-eval 2>/dev/null && [ ! -e runs/flash_chord/t3-ep9-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json ] && [ ! -e runs/flash_chord/t3-ep10-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json ] && [ ! -e runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json ] && echo "èµ·å\211\215æ£\200æ\237¥é\200\232è¿\207ï¼\232æ²¡æ\234\211é\225¿é\223¾æ \207è®°ï¼\214GPU ä¸\212æ²¡æ\234\211è¿\233ç¨\213ï¼\214æ²¡æ\234\211å\220\214å\220\215 tmux ä¼\232è¯\235ï¼\214ä¸\211ä»½è¯\204æµ\213 JSON é\203½è¿\230æ²¡æ\234\211" && tmux new-session -d -s v2d-t3probe-eval "scripts/dev/record t3probe/eval_ph_ep9_ml40 env V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 stages/policy/fc_eval.sh t3-ep9-w2048-cap10m-r3a-hm-ph-ml40 4096000 && scripts/dev/record t3probe/evalcheck_ph_ep9_ml40 python3 stages/policy/eval_check.py runs/flash_chord/t3-ep9-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json; scripts/dev/record t3probe/eval_ph_ep10_ml40 env V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 stages/policy/fc_eval.sh t3-ep10-w2048-cap10m-r3a-hm-ph-ml40 4096000 && scripts/dev/record t3probe/evalcheck_ph_ep10_ml40 python3 stages/policy/eval_check.py runs/flash_chord/t3-ep10-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json; scripts/dev/record t3probe/eval_ph_ep11_ml40 env V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 stages/policy/fc_eval.sh t3-ep11-w2048-cap10m-r3a-hm-ph-ml40 4096000 && scripts/dev/record t3probe/evalcheck_ph_ep11_ml40 python3 stages/policy/eval_check.py runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/eval_4096000_w4096.json" && sleep 20 && echo "tmuxï¼\232$(tmux ls | cut -d: -f1 | tr "\\n" " ")" && echo "GPUï¼\232[$(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" " ")]"' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : cfddcc8556ae72f1a8a766ab3034f529  stages/policy/eval_check.py
+# source   : 184421eb21cc-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:39:52-0600
+# ---------------------------------------------------------------
+source 02c81e98013bï¼›2026-10-16 04:39:53 CST
+èµ·å‰æ£€æŸ¥é€šè¿‡ï¼šæ²¡æœ‰é•¿é“¾æ ‡è®°ï¼ŒGPU ä¸Šæ²¡æœ‰è¿›ç¨‹ï¼Œæ²¡æœ‰åŒå tmux ä¼šè¯ï¼Œä¸‰ä»½è¯„æµ‹ JSON éƒ½è¿˜æ²¡æœ‰
+tmuxï¼šv2d-t3probe-eval 
+GPUï¼š[628765, 468 MiB ]
