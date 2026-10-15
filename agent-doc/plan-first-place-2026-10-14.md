@@ -283,3 +283,7 @@ run 名、冒烟名、种子列与插在变体 A 前的 `reset.seed=43 training.
   （1）`select_t1.py` 的记录里每条候选列的是导出那一局的四项，4096 世界只列 MP-SR；改成以 4096 世界为主、两种分数都列，先写计划、审过再改，
   Tier 2 的逐条选和 b1014 的换选（`tools/t2_lost_swap.py` 按导出那一局的 MPPE 挑）一并核对；（2）已交的 t1c1014b、b1014 补算 4096 世界的
   期望值，与榜上的分数并列；Tier 2 的本地数是对照自己参考的代理量，照此标明。
+- 10/15 11:2x 用户定：ep14 不补 seed 44（“不补 seed 44”，第 7 节第 2 条里甲补 s44 这一项就此了结）；Tier 3 的 4 个 Kaggle 比赛要加入
+  （“加入 Tier 3 的比赛”），由 rxzhou 在网页上逐个接受规则、在 Team 页把队名改成 maniphys.ai。11:25 查：Tier 1、Tier 2 的 8 个已加入，
+  Tier 3 的 4 个都还没有（`results/submission/kaggle_join_status_1015.txt`）。`tools/kaggle_join_status.sh` 原先把 uvx 连不上 PyPI 的错误吞掉、
+  输出“比赛 0 个”，改为报错并可用 `KAGGLE_BIN` 指定已有的客户端。
