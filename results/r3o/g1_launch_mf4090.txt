@@ -1,0 +1,9 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ \(nvidia-smi\ --query-compute-apps=pid\,used_memory\ --format=csv\,noheader\;\ true\)\ \&\&\ ls\ runs/.chain-active-\*\ 2\>/dev/null\;\ \!\ tmux\ has-session\ -t\ r3o-g1\ 2\>/dev/null\ \&\&\ tmux\ new-session\ -d\ -s\ r3o-g1\ \"stages/policy/r3o_g1.sh\ \>\ runs/logs/r3o_g1_mf4090.log\ 2\>\&1\"\ \&\&\ sleep\ 3\ \&\&\ tmux\ ls\ \|\ grep\ r3o-g1\ \&\&\ head\ -2\ runs/logs/r3o_g1_mf4090.log 
+# md5      : f3411e446d0ef5eadb0b3ddc064a6ff1  stages/policy/r3o_g1.sh
+# source   : 6562c00dc582
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:28:31-0600
+# ---------------------------------------------------------------
+source 6562c00dc582
+r3o-g1: 1 windows (created Fri Oct 16 04:28:31 2026)
+=== 2026-10-16 04:28:31 CST G1 开始：t1-ep20-w2048-cap4m-r3o-g1-mf4090，环境 V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4，来历 6562c00dc582
