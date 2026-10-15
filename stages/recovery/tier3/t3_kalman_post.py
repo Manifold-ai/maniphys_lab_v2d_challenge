@@ -96,7 +96,7 @@ def smooth_position(z, rest, cam, lock=None):
     Hv = np.hstack([np.zeros((3, 3)), np.eye(3)])
     xf, Pf, xp, Pp = np.zeros((n, 6)), np.zeros((n, 6, 6)), np.zeros((n, 6)), np.zeros((n, 6, 6))
     x, P = np.r_[z[0], np.zeros(3)], np.diag([0.05 ** 2] * 3 + [1.0] * 3)
-    used, resets, streak = np.zeros(n, bool), 0, 0
+    used, resets, streak, lock_cuts = np.zeros(n, bool), 0, 0, 0
     cut = np.zeros(n, bool)  # a reset starts a new segment; the backward pass does not cross it
     for t in range(n):
         if t:
@@ -107,11 +107,14 @@ def smooth_position(z, rest, cam, lock=None):
         u /= np.linalg.norm(u)
         d = np.linalg.norm(z[t] - cam)
         Rn = SIGMA_PERP ** 2 * np.eye(3) + ((SIGMA_RAY_REL * d) ** 2 - SIGMA_PERP ** 2) * np.outer(u, u)
-        if lock[t]:
-            Rn = SIGMA_LOCK_POS ** 2 * np.eye(3)
         y = z[t] - H @ x
         S = H @ P @ H.T + Rn
-        if t == 0 or lock[t] or float(y @ np.linalg.solve(S, y)) <= GATE_CHI2:
+        passes = float(y @ np.linalg.solve(S, y)) <= GATE_CHI2  # tested with the ordinary noise, locked or not
+        if lock[t] and t and not passes:  # entering a rest far from the prediction: a new segment, as a reset
+            x, P = np.r_[z[t], np.zeros(3)], np.diag([SIGMA_LOCK_POS ** 2] * 3 + [SIGMA_ZV ** 2] * 3)
+            used[t], streak, lock_cuts, cut[t] = True, 0, lock_cuts + 1, True
+        elif t == 0 or lock[t] or passes:
+            Rn = SIGMA_LOCK_POS ** 2 * np.eye(3) if lock[t] else Rn
             x, P, _ = update(x, P, y, H, Rn)
             used[t], streak = True, 0
         else:
@@ -131,7 +134,7 @@ def smooth_position(z, rest, cam, lock=None):
         C = Pf[t] @ F.T @ np.linalg.inv(Pp[t + 1])
         xs[t] = xf[t] + C @ (xs[t + 1] - xp[t + 1])
         Ps[t] = Pf[t] + C @ (Ps[t + 1] - Pp[t + 1]) @ C.T
-    return xs[:, :3], used, resets
+    return xs[:, :3], used, resets, lock_cuts
 
 
 def smooth_rotation(Z, rest, lock=None):
@@ -143,18 +146,22 @@ def smooth_rotation(Z, rest, lock=None):
     Rf, wf, Pf = np.zeros((n, 3, 3)), np.zeros((n, 3)), np.zeros((n, 6, 6))
     Rp, wp, Pp = np.zeros((n, 3, 3)), np.zeros((n, 3)), np.zeros((n, 6, 6))
     R, w, P = Z[0].copy(), np.zeros(3), np.diag([SIGMA_ROT ** 2] * 3 + [1.0] * 3)
-    used, resets, streak = np.zeros(n, bool), 0, 0
+    used, resets, streak, lock_cuts = np.zeros(n, bool), 0, 0, 0
     cut = np.zeros(n, bool)
     for t in range(n):
         if t:
             F, Q = cv_model(ALPHA_REST if rest[t] else ALPHA_MOVE)
             R, P = R @ exp_so3(w * DT), F @ P @ F.T + Q
         Rp[t], wp[t], Pp[t] = R, w, P
-        Rn = (SIGMA_LOCK_ROT if lock[t] else SIGMA_ROT) ** 2 * np.eye(3)
+        Rn = SIGMA_ROT ** 2 * np.eye(3)
         y = log_so3(R.T @ Z[t])
         S = H @ P @ H.T + Rn
-        ok = t == 0 or lock[t] or (float(y @ np.linalg.solve(S, y)) <= GATE_CHI2 and np.degrees(np.linalg.norm(y)) <= GATE_DEG)
-        if ok:
+        passes = float(y @ np.linalg.solve(S, y)) <= GATE_CHI2 and np.degrees(np.linalg.norm(y)) <= GATE_DEG
+        if lock[t] and t and not passes:  # entering a rest far from the prediction (a flip on either side): new segment
+            R, w, P = Z[t].copy(), np.zeros(3), np.diag([SIGMA_LOCK_ROT ** 2] * 3 + [SIGMA_ZW ** 2] * 3)
+            used[t], streak, lock_cuts, cut[t] = True, 0, lock_cuts + 1, True
+        elif t == 0 or lock[t] or passes:
+            Rn = SIGMA_LOCK_ROT ** 2 * np.eye(3) if lock[t] else Rn
             dx, P, _ = update(np.zeros(6), P, y, H, Rn)
             R, w, used[t], streak = R @ exp_so3(dx[:3]), w + dx[3:], True, 0
         else:
@@ -176,7 +183,7 @@ def smooth_rotation(Z, rest, lock=None):
         dx = C @ e
         Rs[t], ws[t] = Rf[t] @ exp_so3(dx[:3]), wf[t] + dx[3:]
         Ps[t] = Pf[t] + C @ (Ps[t + 1] - Pp[t + 1]) @ C.T
-    return Rs, used, resets
+    return Rs, used, resets, lock_cuts
 
 
 def main() -> None:
@@ -262,8 +269,8 @@ def main() -> None:
                 lock_rows.append({"start": a, "end": b, "drift_removed_m": round(float(np.linalg.norm(com[a:b] - cm, axis=1).max()), 4),
                                   "turn_removed_rad": round(max(angle(Rm, x) for x in Rc[a:b]), 3), "rest_flips_replaced": flips})
 
-            new_com, used_p, resets_p = smooth_position(z_com, rest, cam, lock)
-            new_R, used_r, resets_r = smooth_rotation(z_R, rest, lock)
+            new_com, used_p, resets_p, cuts_p = smooth_position(z_com, rest, cam, lock)
+            new_R, used_r, resets_r, cuts_r = smooth_rotation(z_R, rest, lock)
             lock_err = max([np.degrees(angle(new_R[t], z_R[t])) for t in np.flatnonzero(lock)], default=0.0)
             new_com[lock], new_R[lock] = z_com[lock], z_R[lock]  # the filter only bridges into them; a rest is its lock
             dev = np.degrees([angle(new_R[t], Rc[t]) for t in range(n)])
@@ -299,6 +306,7 @@ def main() -> None:
                    "locked_runs": lock_rows, "filter_off_lock_deg_max": round(float(lock_err), 2),
                    "position_rejected": int((~used_p).sum()), "position_resets": resets_p,
                    "rotation_rejected": int((~used_r).sum()), "rotation_resets": resets_r,
+                   "lock_entry_cuts_position_rotation": [cuts_p, cuts_r],
                    "turn_from_input_deg_p95_max_used": [round(float(np.percentile(dev[free], 95)), 1), round(float(dev[free].max()), 1)] if free.any() else [0.0, 0.0],
                    "turn_from_input_deg_max_rejected": round(float(dev[~used_r].max()), 1) if (~used_r).any() else 0.0,
                    "com_shift_m_p50_p95_max": [round(float(x), 4) for x in np.percentile(shift, [50, 95, 100])],
