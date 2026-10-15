@@ -1,0 +1,30 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && echo "== oo_test_kernels.py" && V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg_oo scripts/dev/in-flash-chord "python /repo/stages/policy/oo_test_kernels.py" 2>&1 | grep -E "^O[0-9]|OO_KERNELS|Error|assert" && echo "== pytest�\210容�\231��\211" && scripts/dev/in-flash-chord "cd /repo && python -m pytest -q -p no:cacheprovider stages/evaluate/test_fall_order.py stages/evaluate/test_fall_order_one.py stages/evaluate/test_onset_terms.py stages/evaluate/test_fail_onset.py 2>&1 | tail -2" && echo "== 宿主�\234� python" && python3 stages/policy/test_fc_run_r3o_guard.py | tail -1 && python3 stages/policy/test_make_var_queue.py | tail -1 && bash -n stages/policy/arm_var_chain.sh && echo "bash -n ok"' 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : ecb0c203730a1836c0011d09e0631cd4  stages/policy/oo_test_kernels.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 01033556182e6270a2e28c79c039ec64  stages/evaluate/test_fall_order.py
+# md5      : 9b19bf0b3c4554d8b6c45e1775759442  stages/evaluate/test_fall_order_one.py
+# md5      : 738650d1a328b2732221acbbdf646a68  stages/evaluate/test_onset_terms.py
+# md5      : 455109a130545ac8d0d4740d428f44dc  stages/evaluate/test_fail_onset.py
+# md5      : aadd3d2ab058caa74059aa83d89ecc73  stages/policy/test_fc_run_r3o_guard.py
+# md5      : 74a979a1a3bcdebcfd6ca722cc8c5b1f  stages/policy/test_make_var_queue.py
+# md5      : f9c72698964306179cd0de79601449f1  stages/policy/arm_var_chain.sh
+# source   : b106c320bae6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T14:43:15-0600
+# ---------------------------------------------------------------
+source b106c320bae6
+== oo_test_kernels.py
+O1/O2：64 个世界，前 12 项与分数逐位相同；第 13 项与 numpy 最大差 1.20e-06，范围 1.97e-09–0.999999；权重 1 时分数差与 frame_dt × 第 13 项最大差 5.16e-07
+O3：set_weights 补第 13 个、课程写了就用写的、少名字报错
+O7：类里 launch 的 39 个实参与 kernel 形参一一对应（核了 13 个关键位置）
+O4/O6：weights_for 补第 13 个、别的目标函数不变；默认 0 与 0.4；非法值报错
+O5：/workspace/src/flash_chord/configs/curriculum/recon_body_flash_sac.yaml 的 9 段逐段 weights_for，第 13 个都是 1.0，前 12 个等于这一段的映射
+OO_KERNELS_OK
+== pytest（容器）
+.................................                                        [100%]
+33 passed in 6.12s
+== 宿主机 python
+ALL_OK
+ALL_OK
+bash -n ok
