@@ -1,0 +1,1735 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"bash\ -s\ --\ ep13_snack_box\ ep28_squeegee\ ep04_baseball_bat\ ep03_contigo_coffee_mug\"\ \<\ tools/t3_init_outputs_remote.sh\ \|\ tools/redact_stdin.sh 
+# md5      : aa7db33e93abf7efc5c8f019ac1491be  tools/t3_init_outputs_remote.sh
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 3e8f5759150a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:45:22-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-16 22:45:23 CST
+## code/stages/recovery/tier3/versions.json 里提到 init 的行
+225:  "work_init": "pending: initialization pilot (t3_init_pilot.sh, 10-16); created when the pilot starts"
+## work_fp/ep13_snack_box：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-12_01:30 1133617384 depth/moge2/aligned.h5
+2026-10-12_01:23 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-12_01:20 1756 depth/moge2/depth_report.json
+2026-10-12_01:20 98139 depth/moge2/intrinsics.pkl
+2026-10-12_01:20 3262906496 depth/moge2/raw.npy
+2026-10-12_01:21 563 export/episode_000013/edex
+2026-10-12_01:21 2590 export/episode_000013/wild_export.json
+2026-10-12_04:29 262403 foundationpose/episode_000013.pkl
+2026-10-12_04:33 705120516 inference/coconet.pth
+2026-10-12_04:53 67543776 inference/episode_000013_step200000_before_after.mp4
+2026-10-12_04:53 24231338 inference/episode_000013_step200000_reconstruction.mp4
+2026-10-12_04:32 3423487584 inference/materialized_inputs.h5
+2026-10-12_01:35 0 inference/.materialized_inputs.h5.lock
+2026-10-12_04:40 705193760 inference/refined.pth
+2026-10-12_04:40 2909474 inference/refinement_checkpoint.pth
+2026-10-12_01:23 4114715 mhr_init/episode_000013.pkl
+2026-10-12_01:23 947273 mhr_init/episode_000013.sam3d.h5
+2026-10-12_01:23 8803 mhr_init/episode_000013.stats.pkl
+2026-10-12_04:53 5504 pipeline_report.json
+2026-10-12_01:20 1600 .stages/01_depth.json
+2026-10-12_01:21 1640 .stages/02_export.json
+2026-10-12_01:23 2035 .stages/03_human_initialization.json
+2026-10-12_01:30 1738 .stages/04_depth_alignment.json
+2026-10-12_04:29 1684 .stages/05_object_pose.json
+2026-10-12_04:33 2661 .stages/06_coconet.json
+2026-10-12_04:40 2027 .stages/07_refinement.json
+2026-10-12_04:53 2326 .stages/08_render.json
+## work_fp/ep13_snack_box：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1791752007578492873,
+    "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_before_after.mp4",
+    "size": 67543776
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791739150801915046,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 50837849
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291329191374934,
+      "path": "/data/object_mesh_path/snack_box.glb",
+      "size": 16079288
+    },
+    "video": {
+      "mtime_ns": 1790291476379864495,
+      "path": "/data/video_path/episode_000013.0.color.mp4",
+      "size": 26883933
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000013",
+  "output_video": {
+    "mtime_ns": 1791752006722489188,
+    "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_reconstruction.mp4",
+    "size": 24231338
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000013",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791739248062412774,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/raw.npy",
+          "size": 3262906496
+        },
+        {
+          "mtime_ns": 1791739248494414983,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/intrinsics.pkl",
+          "size": 98139
+        },
+        {
+          "mtime_ns": 1791739251042428011,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/depth_report.json",
+          "size": 1756
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791739309538726934,
+          "path": "/data/video_path/cari4d/episode_000013/export/episode_000013/wild_export.json",
+          "size": 2590
+        },
+        {
+          "mtime_ns": 1791739309506726771,
+          "path": "/data/video_path/cari4d/episode_000013/export/episode_000013/object_mesh/output_aligned.glb",
+          "size": 16079516
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791739385027112240,
+          "path": "/data/video_path/cari4d/episode_000013/mhr_init/episode_000013.pkl",
+          "size": 4114715
+        },
+        {
+          "mtime_ns": 1791739384423109159,
+          "path": "/data/video_path/cari4d/episode_000013/mhr_init/episode_000013.sam3d.h5",
+          "size": 947273
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791739836101404496,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/aligned.h5",
+          "size": 1133617384
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 4058.8977387021296,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1791750543412133692,
+          "path": "/data/video_path/cari4d/episode_000013/foundationpose/episode_000013.pkl",
+          "size": 262403
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 242.41860507894307,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1791750784953224450,
+          "path": "/data/video_path/cari4d/episode_000013/inference/coconet.pth",
+          "size": 705120516
+        },
+        {
+          "mtime_ns": 1791750766781146776,
+          "path": "/data/video_path/cari4d/episode_000013/inference/materialized_inputs.h5",
+          "size": 3423487584
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 461.5786208580248,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1791751246867207142,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refined.pth",
+          "size": 705193760
+        },
+        {
+          "mtime_ns": 1791751244627197490,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refinement_checkpoint.pth",
+          "size": 2909474
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 760.5379633570556,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1791752006722489188,
+          "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_reconstruction.mp4",
+          "size": 24231338
+        },
+        {
+          "mtime_ns": 1791752007578492873,
+          "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_before_after.mp4",
+          "size": 67543776
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_init/ep13_snack_box：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-12_01:30 1133617384 depth/moge2/aligned.h5
+2026-10-12_01:23 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-12_01:20 1756 depth/moge2/depth_report.json
+2026-10-12_01:20 98139 depth/moge2/intrinsics.pkl
+2026-10-12_01:20 3262906496 depth/moge2/raw.npy
+2026-10-12_01:21 563 export/episode_000013/edex
+2026-10-12_01:21 2590 export/episode_000013/wild_export.json
+2026-10-16_14:41 262403 foundationpose/episode_000013.pkl
+2026-10-16_14:41 466 foundationpose/fp_init.json
+2026-10-16_14:45 705120512 inference/coconet.pth
+2026-10-16_15:05 67577358 inference/episode_000013_step200000_before_after.mp4
+2026-10-16_15:05 24250189 inference/episode_000013_step200000_reconstruction.mp4
+2026-10-16_14:44 3423487584 inference/materialized_inputs.h5
+2026-10-12_01:35 0 inference/.materialized_inputs.h5.lock
+2026-10-16_14:52 705193760 inference/refined.pth
+2026-10-16_14:52 2909474 inference/refinement_checkpoint.pth
+2026-10-12_01:23 4114715 mhr_init/episode_000013.pkl
+2026-10-12_01:23 947273 mhr_init/episode_000013.sam3d.h5
+2026-10-12_01:23 8803 mhr_init/episode_000013.stats.pkl
+2026-10-16_15:05 5489 pipeline_report.json
+2026-10-12_01:20 1600 .stages/01_depth.json
+2026-10-12_01:21 1640 .stages/02_export.json
+2026-10-12_01:23 2035 .stages/03_human_initialization.json
+2026-10-12_01:30 1738 .stages/04_depth_alignment.json
+2026-10-16_14:41 1371 .stages/05_object_pose.json
+2026-10-16_14:45 2661 .stages/06_coconet.json
+2026-10-16_14:52 2027 .stages/07_refinement.json
+2026-10-16_15:05 2326 .stages/08_render.json
+## work_init/ep13_snack_box：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1792134325205891876,
+    "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_before_after.mp4",
+    "size": 67577358
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791739150801915046,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 50837849
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291329191374934,
+      "path": "/data/object_mesh_path/snack_box.glb",
+      "size": 16079288
+    },
+    "video": {
+      "mtime_ns": 1790291476379864495,
+      "path": "/data/video_path/episode_000013.0.color.mp4",
+      "size": 26883933
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000013",
+  "output_video": {
+    "mtime_ns": 1792134324353887594,
+    "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_reconstruction.mp4",
+    "size": 24250189
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000013",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791739248062412774,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/raw.npy",
+          "size": 3262906496
+        },
+        {
+          "mtime_ns": 1791739248494414983,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/intrinsics.pkl",
+          "size": 98139
+        },
+        {
+          "mtime_ns": 1791739251042428011,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/depth_report.json",
+          "size": 1756
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791739309538726934,
+          "path": "/data/video_path/cari4d/episode_000013/export/episode_000013/wild_export.json",
+          "size": 2590
+        },
+        {
+          "mtime_ns": 1791739309506726771,
+          "path": "/data/video_path/cari4d/episode_000013/export/episode_000013/object_mesh/output_aligned.glb",
+          "size": 16079516
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791739385027112240,
+          "path": "/data/video_path/cari4d/episode_000013/mhr_init/episode_000013.pkl",
+          "size": 4114715
+        },
+        {
+          "mtime_ns": 1791739384423109159,
+          "path": "/data/video_path/cari4d/episode_000013/mhr_init/episode_000013.sam3d.h5",
+          "size": 947273
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791739836101404496,
+          "path": "/data/video_path/cari4d/episode_000013/depth/moge2/aligned.h5",
+          "size": 1133617384
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1792132889626792555,
+          "path": "/data/video_path/cari4d/episode_000013/foundationpose/episode_000013.pkl",
+          "size": 262403
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 206.30286527704448,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1792133109767873918,
+          "path": "/data/video_path/cari4d/episode_000013/inference/coconet.pth",
+          "size": 705120512
+        },
+        {
+          "mtime_ns": 1792133093155792042,
+          "path": "/data/video_path/cari4d/episode_000013/inference/materialized_inputs.h5",
+          "size": 3423487584
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 456.59143249713816,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792133566382119722,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refined.pth",
+          "size": 705193760
+        },
+        {
+          "mtime_ns": 1792133564358109779,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refinement_checkpoint.pth",
+          "size": 2909474
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 758.6876107030548,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1792134324353887594,
+          "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_reconstruction.mp4",
+          "size": 24250189
+        },
+        {
+          "mtime_ns": 1792134325205891876,
+          "path": "/data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_before_after.mp4",
+          "size": 67577358
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_fp/ep28_squeegee：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-10_00:55 1069395408 depth/moge2/aligned.h5
+2026-10-10_00:48 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-10_00:45 1759 depth/moge2/depth_report.json
+2026-10-10_00:45 105135 depth/moge2/intrinsics.pkl
+2026-10-10_00:45 3496476800 depth/moge2/raw.npy
+2026-10-10_00:46 563 export/episode_000028/edex
+2026-10-10_00:46 2605 export/episode_000028/wild_export.json
+2026-10-11_15:21 280728 foundationpose/episode_000028.pkl
+2026-10-11_15:25 755562564 inference/coconet.pth
+2026-10-11_15:46 70694163 inference/episode_000028_step200000_before_after.mp4
+2026-10-11_15:46 25425808 inference/episode_000028_step200000_reconstruction.mp4
+2026-10-11_15:25 3668551192 inference/materialized_inputs.h5
+2026-10-10_01:00 0 inference/.materialized_inputs.h5.lock
+2026-10-11_15:33 755640288 inference/refined.pth
+2026-10-11_15:33 3116706 inference/refinement_checkpoint.pth
+2026-10-10_00:47 4409141 mhr_init/episode_000028.pkl
+2026-10-10_00:47 993002 mhr_init/episode_000028.sam3d.h5
+2026-10-10_00:47 9397 mhr_init/episode_000028.stats.pkl
+2026-10-11_15:46 5503 pipeline_report.json
+2026-10-10_00:45 1601 .stages/01_depth.json
+2026-10-10_00:46 1639 .stages/02_export.json
+2026-10-10_00:47 2035 .stages/03_human_initialization.json
+2026-10-10_00:55 1738 .stages/04_depth_alignment.json
+2026-10-11_15:21 1684 .stages/05_object_pose.json
+2026-10-11_15:25 2661 .stages/06_coconet.json
+2026-10-11_15:33 2027 .stages/07_refinement.json
+2026-10-11_15:46 2326 .stages/08_render.json
+## work_fp/ep28_squeegee：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1791704766378677827,
+    "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_before_after.mp4",
+    "size": 70694163
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791520722506014977,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 56238676
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291335111233754,
+      "path": "/data/object_mesh_path/squeegee.glb",
+      "size": 10939880
+    },
+    "video": {
+      "mtime_ns": 1790291553050035753,
+      "path": "/data/video_path/episode_000028.0.color.mp4",
+      "size": 28512527
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000028",
+  "output_video": {
+    "mtime_ns": 1791704765470673805,
+    "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_reconstruction.mp4",
+    "size": 25425808
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000028",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791564333251011604,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/raw.npy",
+          "size": 3496476800
+        },
+        {
+          "mtime_ns": 1791564333667013609,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/intrinsics.pkl",
+          "size": 105135
+        },
+        {
+          "mtime_ns": 1791564336395026764,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/depth_report.json",
+          "size": 1759
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791564395879313593,
+          "path": "/data/video_path/cari4d/episode_000028/export/episode_000028/wild_export.json",
+          "size": 2605
+        },
+        {
+          "mtime_ns": 1791564395859313496,
+          "path": "/data/video_path/cari4d/episode_000028/export/episode_000028/object_mesh/output_aligned.glb",
+          "size": 10940128
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791564475067695471,
+          "path": "/data/video_path/cari4d/episode_000028/mhr_init/episode_000028.pkl",
+          "size": 4409141
+        },
+        {
+          "mtime_ns": 1791564474443692461,
+          "path": "/data/video_path/cari4d/episode_000028/mhr_init/episode_000028.sam3d.h5",
+          "size": 993002
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791564954354001856,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/aligned.h5",
+          "size": 1069395408
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 4826.576560732909,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1791703310196244374,
+          "path": "/data/video_path/cari4d/episode_000028/foundationpose/episode_000028.pkl",
+          "size": 280728
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 224.22170974314213,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1791703533817230132,
+          "path": "/data/video_path/cari4d/episode_000028/inference/coconet.pth",
+          "size": 755562564
+        },
+        {
+          "mtime_ns": 1791703515501149240,
+          "path": "/data/video_path/cari4d/episode_000028/inference/materialized_inputs.h5",
+          "size": 3668551192
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 458.0372014599852,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1791703991803260914,
+          "path": "/data/video_path/cari4d/episode_000028/inference/refined.pth",
+          "size": 755640288
+        },
+        {
+          "mtime_ns": 1791703989475250553,
+          "path": "/data/video_path/cari4d/episode_000028/inference/refinement_checkpoint.pth",
+          "size": 3116706
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 774.3871904681437,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1791704765470673805,
+          "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_reconstruction.mp4",
+          "size": 25425808
+        },
+        {
+          "mtime_ns": 1791704766378677827,
+          "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_before_after.mp4",
+          "size": 70694163
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_init/ep28_squeegee：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-10_00:55 1069395408 depth/moge2/aligned.h5
+2026-10-10_00:48 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-10_00:45 1759 depth/moge2/depth_report.json
+2026-10-10_00:45 105135 depth/moge2/intrinsics.pkl
+2026-10-10_00:45 3496476800 depth/moge2/raw.npy
+2026-10-10_00:46 563 export/episode_000028/edex
+2026-10-10_00:46 2605 export/episode_000028/wild_export.json
+2026-10-16_15:06 280728 foundationpose/episode_000028.pkl
+2026-10-16_15:06 1117 foundationpose/fp_init.json
+2026-10-16_15:09 755562560 inference/coconet.pth
+2026-10-16_15:30 70743180 inference/episode_000028_step200000_before_after.mp4
+2026-10-16_15:30 25448206 inference/episode_000028_step200000_reconstruction.mp4
+2026-10-16_15:09 3668551192 inference/materialized_inputs.h5
+2026-10-10_01:00 0 inference/.materialized_inputs.h5.lock
+2026-10-16_15:17 755640288 inference/refined.pth
+2026-10-16_15:17 3116706 inference/refinement_checkpoint.pth
+2026-10-10_00:47 4409141 mhr_init/episode_000028.pkl
+2026-10-10_00:47 993002 mhr_init/episode_000028.sam3d.h5
+2026-10-10_00:47 9397 mhr_init/episode_000028.stats.pkl
+2026-10-16_15:30 5487 pipeline_report.json
+2026-10-10_00:45 1601 .stages/01_depth.json
+2026-10-10_00:46 1639 .stages/02_export.json
+2026-10-10_00:47 2035 .stages/03_human_initialization.json
+2026-10-10_00:55 1738 .stages/04_depth_alignment.json
+2026-10-16_15:06 1371 .stages/05_object_pose.json
+2026-10-16_15:09 2661 .stages/06_coconet.json
+2026-10-16_15:17 2027 .stages/07_refinement.json
+2026-10-16_15:30 2326 .stages/08_render.json
+## work_init/ep28_squeegee：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1792135816485324568,
+    "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_before_after.mp4",
+    "size": 70743180
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791520722506014977,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 56238676
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291335111233754,
+      "path": "/data/object_mesh_path/squeegee.glb",
+      "size": 10939880
+    },
+    "video": {
+      "mtime_ns": 1790291553050035753,
+      "path": "/data/video_path/episode_000028.0.color.mp4",
+      "size": 28512527
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000028",
+  "output_video": {
+    "mtime_ns": 1792135815589320412,
+    "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_reconstruction.mp4",
+    "size": 25448206
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000028",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791564333251011604,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/raw.npy",
+          "size": 3496476800
+        },
+        {
+          "mtime_ns": 1791564333667013609,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/intrinsics.pkl",
+          "size": 105135
+        },
+        {
+          "mtime_ns": 1791564336395026764,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/depth_report.json",
+          "size": 1759
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791564395879313593,
+          "path": "/data/video_path/cari4d/episode_000028/export/episode_000028/wild_export.json",
+          "size": 2605
+        },
+        {
+          "mtime_ns": 1791564395859313496,
+          "path": "/data/video_path/cari4d/episode_000028/export/episode_000028/object_mesh/output_aligned.glb",
+          "size": 10940128
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791564475067695471,
+          "path": "/data/video_path/cari4d/episode_000028/mhr_init/episode_000028.pkl",
+          "size": 4409141
+        },
+        {
+          "mtime_ns": 1791564474443692461,
+          "path": "/data/video_path/cari4d/episode_000028/mhr_init/episode_000028.sam3d.h5",
+          "size": 993002
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791564954354001856,
+          "path": "/data/video_path/cari4d/episode_000028/depth/moge2/aligned.h5",
+          "size": 1069395408
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1792134384454189880,
+          "path": "/data/video_path/cari4d/episode_000028/foundationpose/episode_000028.pkl",
+          "size": 280728
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 200.27282906603068,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1792134586159207877,
+          "path": "/data/video_path/cari4d/episode_000028/inference/coconet.pth",
+          "size": 755562560
+        },
+        {
+          "mtime_ns": 1792134568095116493,
+          "path": "/data/video_path/cari4d/episode_000028/inference/materialized_inputs.h5",
+          "size": 3668551192
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 456.8216129108332,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792135042957532051,
+          "path": "/data/video_path/cari4d/episode_000028/inference/refined.pth",
+          "size": 755640288
+        },
+        {
+          "mtime_ns": 1792135040745520736,
+          "path": "/data/video_path/cari4d/episode_000028/inference/refinement_checkpoint.pth",
+          "size": 3116706
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 773.353682924062,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1792135815589320412,
+          "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_reconstruction.mp4",
+          "size": 25448206
+        },
+        {
+          "mtime_ns": 1792135816485324568,
+          "path": "/data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_before_after.mp4",
+          "size": 70743180
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_fp/ep04_baseball_bat：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-09_12:50 993150236 depth/moge2/aligned.h5
+2026-10-09_09:18 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-09_12:41 1757 depth/moge2/depth_report.json
+2026-10-09_12:41 85525 depth/moge2/intrinsics.pkl
+2026-10-09_12:41 2841772160 depth/moge2/raw.npy
+2026-10-09_12:41 563 export/episode_000004/edex
+2026-10-09_12:42 2644 export/episode_000004/wild_export.json
+2026-10-12_06:19 229441 foundationpose/episode_000004.pkl
+2026-10-12_06:22 614171908 inference/coconet.pth
+2026-10-12_06:41 57547217 inference/episode_000004_step200000_before_after.mp4
+2026-10-12_06:41 20738238 inference/episode_000004_step200000_reconstruction.mp4
+2026-10-12_06:22 2981630468 inference/materialized_inputs.h5
+2026-10-09_12:54 0 inference/.materialized_inputs.h5.lock
+2026-10-12_06:30 614237216 inference/refined.pth
+2026-10-12_06:30 2535330 inference/refinement_checkpoint.pth
+2026-10-09_12:43 3583856 mhr_init/episode_000004.pkl
+2026-10-09_12:43 839427 mhr_init/episode_000004.sam3d.h5
+2026-10-09_12:43 7732 mhr_init/episode_000004.stats.pkl
+2026-10-12_06:41 5505 pipeline_report.json
+2026-10-09_12:41 1600 .stages/01_depth.json
+2026-10-09_12:42 1646 .stages/02_export.json
+2026-10-09_12:43 2035 .stages/03_human_initialization.json
+2026-10-09_12:50 1737 .stages/04_depth_alignment.json
+2026-10-12_06:19 1683 .stages/05_object_pose.json
+2026-10-12_06:22 2660 .stages/06_coconet.json
+2026-10-12_06:30 2027 .stages/07_refinement.json
+2026-10-12_06:41 2326 .stages/08_render.json
+## work_fp/ep04_baseball_bat：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1791758470339666536,
+    "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4",
+    "size": 57547217
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791519373203155782,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 42926107
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291267036857190,
+      "path": "/data/object_mesh_path/baseball_bat.glb",
+      "size": 10231524
+    },
+    "video": {
+      "mtime_ns": 1790291424413103948,
+      "path": "/data/video_path/episode_000004.0.color.mp4",
+      "size": 23743749
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000004",
+  "output_video": {
+    "mtime_ns": 1791758469495662660,
+    "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_reconstruction.mp4",
+    "size": 20738238
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000004",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791520862414714054,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/raw.npy",
+          "size": 2841772160
+        },
+        {
+          "mtime_ns": 1791520863042717220,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/intrinsics.pkl",
+          "size": 85525
+        },
+        {
+          "mtime_ns": 1791520865286728534,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/depth_report.json",
+          "size": 1757
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791520921007009291,
+          "path": "/data/video_path/cari4d/episode_000004/export/episode_000004/wild_export.json",
+          "size": 2644
+        },
+        {
+          "mtime_ns": 1791520920827008384,
+          "path": "/data/video_path/cari4d/episode_000004/export/episode_000004/object_mesh/output_aligned.glb",
+          "size": 10231804
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791521024327529052,
+          "path": "/data/video_path/cari4d/episode_000004/mhr_init/episode_000004.pkl",
+          "size": 3583856
+        },
+        {
+          "mtime_ns": 1791521023583525313,
+          "path": "/data/video_path/cari4d/episode_000004/mhr_init/episode_000004.sam3d.h5",
+          "size": 839427
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791521434481582549,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/aligned.h5",
+          "size": 993150236
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 4671.762419138104,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1791757156937634080,
+          "path": "/data/video_path/cari4d/episode_000004/foundationpose/episode_000004.pkl",
+          "size": 229441
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 182.01960059511475,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1791757338438467863,
+          "path": "/data/video_path/cari4d/episode_000004/inference/coconet.pth",
+          "size": 614171908
+        },
+        {
+          "mtime_ns": 1791757323726400280,
+          "path": "/data/video_path/cari4d/episode_000004/inference/materialized_inputs.h5",
+          "size": 2981630468
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 467.6205302448943,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1791757806000615530,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refined.pth",
+          "size": 614237216
+        },
+        {
+          "mtime_ns": 1791757804064606638,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refinement_checkpoint.pth",
+          "size": 2535330
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 664.2120787650347,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1791758469495662660,
+          "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_reconstruction.mp4",
+          "size": 20738238
+        },
+        {
+          "mtime_ns": 1791758470339666536,
+          "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4",
+          "size": 57547217
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_init/ep04_baseball_bat：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-09_12:50 993150236 depth/moge2/aligned.h5
+2026-10-09_09:18 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-09_12:41 1757 depth/moge2/depth_report.json
+2026-10-09_12:41 85525 depth/moge2/intrinsics.pkl
+2026-10-09_12:41 2841772160 depth/moge2/raw.npy
+2026-10-09_12:41 563 export/episode_000004/edex
+2026-10-09_12:42 2644 export/episode_000004/wild_export.json
+2026-10-16_15:31 229441 foundationpose/episode_000004.pkl
+2026-10-16_15:31 1596 foundationpose/fp_init.json
+2026-10-16_15:34 614171840 inference/coconet.pth
+2026-10-16_15:53 57534132 inference/episode_000004_step200000_before_after.mp4
+2026-10-16_15:53 20740590 inference/episode_000004_step200000_reconstruction.mp4
+2026-10-16_15:33 2981630468 inference/materialized_inputs.h5
+2026-10-09_12:54 0 inference/.materialized_inputs.h5.lock
+2026-10-16_15:42 614237216 inference/refined.pth
+2026-10-16_15:42 2535330 inference/refinement_checkpoint.pth
+2026-10-09_12:43 3583856 mhr_init/episode_000004.pkl
+2026-10-09_12:43 839427 mhr_init/episode_000004.sam3d.h5
+2026-10-09_12:43 7732 mhr_init/episode_000004.stats.pkl
+2026-10-16_15:53 5489 pipeline_report.json
+2026-10-09_12:41 1600 .stages/01_depth.json
+2026-10-09_12:42 1646 .stages/02_export.json
+2026-10-09_12:43 2035 .stages/03_human_initialization.json
+2026-10-09_12:50 1737 .stages/04_depth_alignment.json
+2026-10-16_15:31 1370 .stages/05_object_pose.json
+2026-10-16_15:34 2660 .stages/06_coconet.json
+2026-10-16_15:42 2027 .stages/07_refinement.json
+2026-10-16_15:53 2326 .stages/08_render.json
+## work_init/ep04_baseball_bat：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1792137185819663266,
+    "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4",
+    "size": 57534132
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791519373203155782,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 42926107
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291267036857190,
+      "path": "/data/object_mesh_path/baseball_bat.glb",
+      "size": 10231524
+    },
+    "video": {
+      "mtime_ns": 1790291424413103948,
+      "path": "/data/video_path/episode_000004.0.color.mp4",
+      "size": 23743749
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000004",
+  "output_video": {
+    "mtime_ns": 1792137184983659675,
+    "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_reconstruction.mp4",
+    "size": 20740590
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000004",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791520862414714054,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/raw.npy",
+          "size": 2841772160
+        },
+        {
+          "mtime_ns": 1791520863042717220,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/intrinsics.pkl",
+          "size": 85525
+        },
+        {
+          "mtime_ns": 1791520865286728534,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/depth_report.json",
+          "size": 1757
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791520921007009291,
+          "path": "/data/video_path/cari4d/episode_000004/export/episode_000004/wild_export.json",
+          "size": 2644
+        },
+        {
+          "mtime_ns": 1791520920827008384,
+          "path": "/data/video_path/cari4d/episode_000004/export/episode_000004/object_mesh/output_aligned.glb",
+          "size": 10231804
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791521024327529052,
+          "path": "/data/video_path/cari4d/episode_000004/mhr_init/episode_000004.pkl",
+          "size": 3583856
+        },
+        {
+          "mtime_ns": 1791521023583525313,
+          "path": "/data/video_path/cari4d/episode_000004/mhr_init/episode_000004.sam3d.h5",
+          "size": 839427
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791521434481582549,
+          "path": "/data/video_path/cari4d/episode_000004/depth/moge2/aligned.h5",
+          "size": 993150236
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1792135871529580083,
+          "path": "/data/video_path/cari4d/episode_000004/foundationpose/episode_000004.pkl",
+          "size": 229441
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 181.9811452939175,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1792136055838438795,
+          "path": "/data/video_path/cari4d/episode_000004/inference/coconet.pth",
+          "size": 614171840
+        },
+        {
+          "mtime_ns": 1792136039846364095,
+          "path": "/data/video_path/cari4d/episode_000004/inference/materialized_inputs.h5",
+          "size": 2981630468
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 468.6250533501152,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792136524340642463,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refined.pth",
+          "size": 614237216
+        },
+        {
+          "mtime_ns": 1792136522372633147,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refinement_checkpoint.pth",
+          "size": 2535330
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 661.3135378428269,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1792137184983659675,
+          "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_reconstruction.mp4",
+          "size": 20740590
+        },
+        {
+          "mtime_ns": 1792137185819663266,
+          "path": "/data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4",
+          "size": 57534132
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_fp/ep03_contigo_coffee_mug：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-09_11:48 987388196 depth/moge2/aligned.h5
+2026-10-09_09:07 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-09_11:40 1750 depth/moge2/depth_report.json
+2026-10-09_11:40 83193 depth/moge2/intrinsics.pkl
+2026-10-09_11:40 2763915392 depth/moge2/raw.npy
+2026-10-09_11:41 560 export/episode_000003/edex
+2026-10-09_11:41 2644 export/episode_000003/wild_export.json
+2026-10-11_20:18 223346 foundationpose/episode_000003.pkl
+2026-10-11_20:21 597357828 inference/coconet.pth
+2026-10-11_20:40 58818084 inference/episode_000003_step200000_before_after.mp4
+2026-10-11_20:40 20732648 inference/episode_000003_step200000_reconstruction.mp4
+2026-10-11_20:21 2899942596 inference/materialized_inputs.h5
+2026-10-09_11:52 0 inference/.materialized_inputs.h5.lock
+2026-10-11_20:29 597421728 inference/refined.pth
+2026-10-11_20:29 2466210 inference/refinement_checkpoint.pth
+2026-10-09_11:42 3485714 mhr_init/episode_000003.pkl
+2026-10-09_11:42 787202 mhr_init/episode_000003.sam3d.h5
+2026-10-09_11:42 7534 mhr_init/episode_000003.stats.pkl
+2026-10-11_20:40 5509 pipeline_report.json
+2026-10-09_11:40 1600 .stages/01_depth.json
+2026-10-09_11:41 1656 .stages/02_export.json
+2026-10-09_11:42 2035 .stages/03_human_initialization.json
+2026-10-09_11:48 1737 .stages/04_depth_alignment.json
+2026-10-11_20:18 1683 .stages/05_object_pose.json
+2026-10-11_20:21 2660 .stages/06_coconet.json
+2026-10-11_20:29 2026 .stages/07_refinement.json
+2026-10-11_20:40 2325 .stages/08_render.json
+## work_fp/ep03_contigo_coffee_mug：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1791722428887107561,
+    "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4",
+    "size": 58818084
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791512597275568546,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 42311215
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291293300230872,
+      "path": "/data/object_mesh_path/contigo_coffee_mug.glb",
+      "size": 8663920
+    },
+    "video": {
+      "mtime_ns": 1790291418633241799,
+      "path": "/data/video_path/episode_000003.0.color.mp4",
+      "size": 24694371
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000003",
+  "output_video": {
+    "mtime_ns": 1791722427999103543,
+    "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_reconstruction.mp4",
+    "size": 20732648
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000003",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791517222736693337,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/raw.npy",
+          "size": 2763915392
+        },
+        {
+          "mtime_ns": 1791517225388706789,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/intrinsics.pkl",
+          "size": 83193
+        },
+        {
+          "mtime_ns": 1791517227552717764,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/depth_report.json",
+          "size": 1750
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791517276972968026,
+          "path": "/data/video_path/cari4d/episode_000003/export/episode_000003/wild_export.json",
+          "size": 2644
+        },
+        {
+          "mtime_ns": 1791517276948967905,
+          "path": "/data/video_path/cari4d/episode_000003/export/episode_000003/object_mesh/output_aligned.glb",
+          "size": 8664196
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791517344713309918,
+          "path": "/data/video_path/cari4d/episode_000003/mhr_init/episode_000003.pkl",
+          "size": 3485714
+        },
+        {
+          "mtime_ns": 1791517344205307358,
+          "path": "/data/video_path/cari4d/episode_000003/mhr_init/episode_000003.sam3d.h5",
+          "size": 787202
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791517702763064983,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/aligned.h5",
+          "size": 987388196
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 4176.057758377865,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1791721119069165735,
+          "path": "/data/video_path/cari4d/episode_000003/foundationpose/episode_000003.pkl",
+          "size": 223346
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 172.25837251590565,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1791721290697944844,
+          "path": "/data/video_path/cari4d/episode_000003/inference/coconet.pth",
+          "size": 597357828
+        },
+        {
+          "mtime_ns": 1791721276517880466,
+          "path": "/data/video_path/cari4d/episode_000003/inference/materialized_inputs.h5",
+          "size": 2899942596
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 467.1734657010529,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1791721757740066060,
+          "path": "/data/video_path/cari4d/episode_000003/inference/refined.pth",
+          "size": 597421728
+        },
+        {
+          "mtime_ns": 1791721755936057863,
+          "path": "/data/video_path/cari4d/episode_000003/inference/refinement_checkpoint.pth",
+          "size": 2466210
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 670.9698943521362,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1791722427999103543,
+          "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_reconstruction.mp4",
+          "size": 20732648
+        },
+        {
+          "mtime_ns": 1791722428887107561,
+          "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4",
+          "size": 58818084
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+## work_init/ep03_contigo_coffee_mug：cari4d 目录（三层，文件的大小与修改时间）
+2026-10-09_11:48 987388196 depth/moge2/aligned.h5
+2026-10-09_09:07 0 depth/moge2/.aligned.h5.storage-repack.lock
+2026-10-09_11:40 1750 depth/moge2/depth_report.json
+2026-10-09_11:40 83193 depth/moge2/intrinsics.pkl
+2026-10-09_11:40 2763915392 depth/moge2/raw.npy
+2026-10-09_11:41 560 export/episode_000003/edex
+2026-10-09_11:41 2644 export/episode_000003/wild_export.json
+2026-10-16_15:54 223346 foundationpose/episode_000003.pkl
+2026-10-16_15:54 870 foundationpose/fp_init.json
+2026-10-16_15:57 597357824 inference/coconet.pth
+2026-10-16_16:15 58818835 inference/episode_000003_step200000_before_after.mp4
+2026-10-16_16:15 20737954 inference/episode_000003_step200000_reconstruction.mp4
+2026-10-16_15:56 2899942596 inference/materialized_inputs.h5
+2026-10-09_11:52 0 inference/.materialized_inputs.h5.lock
+2026-10-16_16:04 597421728 inference/refined.pth
+2026-10-16_16:04 2466210 inference/refinement_checkpoint.pth
+2026-10-09_11:42 3485714 mhr_init/episode_000003.pkl
+2026-10-09_11:42 787202 mhr_init/episode_000003.sam3d.h5
+2026-10-09_11:42 7534 mhr_init/episode_000003.stats.pkl
+2026-10-16_16:16 5494 pipeline_report.json
+2026-10-09_11:40 1600 .stages/01_depth.json
+2026-10-09_11:41 1656 .stages/02_export.json
+2026-10-09_11:42 2035 .stages/03_human_initialization.json
+2026-10-09_11:48 1737 .stages/04_depth_alignment.json
+2026-10-16_15:54 1370 .stages/05_object_pose.json
+2026-10-16_15:57 2660 .stages/06_coconet.json
+2026-10-16_16:04 2026 .stages/07_refinement.json
+2026-10-16_16:16 2325 .stages/08_render.json
+## work_init/ep03_contigo_coffee_mug：pipeline_report.json
+{
+  "checkpoint": {
+    "mtime_ns": 1790312995638388297,
+    "path": "/data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth",
+    "repository": "1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9",
+    "sha256": "78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3",
+    "size": 2084484133,
+    "step": 200000
+  },
+  "comparison_video": {
+    "mtime_ns": 1792138559781953515,
+    "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4",
+    "size": 58818835
+  },
+  "defaults": {
+    "coconet_supervision": "checkpoint_embedded_offline",
+    "depth": "moge2",
+    "foundationpose": "register_every_frame",
+    "human_prompt": "sam2_bbox_mask",
+    "postopt_contact_activation_distance_m": 0.05,
+    "postopt_frames": 128,
+    "postopt_human_pose_prior_weight": 200.0,
+    "postopt_steps": 300,
+    "postopt_temporal_weight": 100.0
+  },
+  "inputs": {
+    "masks": {
+      "mtime_ns": 1791512597275568546,
+      "path": "/data/video_path/masks_k0.h5",
+      "size": 42311215
+    },
+    "object_mesh": {
+      "mtime_ns": 1790291293300230872,
+      "path": "/data/object_mesh_path/contigo_coffee_mug.glb",
+      "size": 8663920
+    },
+    "video": {
+      "mtime_ns": 1790291418633241799,
+      "path": "/data/video_path/episode_000003.0.color.mp4",
+      "size": 24694371
+    }
+  },
+  "output_root": "/data/video_path/cari4d/episode_000003",
+  "output_video": {
+    "mtime_ns": 1792138558901949120,
+    "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_reconstruction.mp4",
+    "size": 20737954
+  },
+  "schema": "v2d.cari4d.wild_inference.v1",
+  "sequence": "episode_000003",
+  "stages": [
+    {
+      "elapsed_seconds": 0.0,
+      "name": "01_depth",
+      "outputs": [
+        {
+          "mtime_ns": 1791517222736693337,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/raw.npy",
+          "size": 2763915392
+        },
+        {
+          "mtime_ns": 1791517225388706789,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/intrinsics.pkl",
+          "size": 83193
+        },
+        {
+          "mtime_ns": 1791517227552717764,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/depth_report.json",
+          "size": 1750
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "02_export",
+      "outputs": [
+        {
+          "mtime_ns": 1791517276972968026,
+          "path": "/data/video_path/cari4d/episode_000003/export/episode_000003/wild_export.json",
+          "size": 2644
+        },
+        {
+          "mtime_ns": 1791517276948967905,
+          "path": "/data/video_path/cari4d/episode_000003/export/episode_000003/object_mesh/output_aligned.glb",
+          "size": 8664196
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "03_human_initialization",
+      "outputs": [
+        {
+          "mtime_ns": 1791517344713309918,
+          "path": "/data/video_path/cari4d/episode_000003/mhr_init/episode_000003.pkl",
+          "size": 3485714
+        },
+        {
+          "mtime_ns": 1791517344205307358,
+          "path": "/data/video_path/cari4d/episode_000003/mhr_init/episode_000003.sam3d.h5",
+          "size": 787202
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "04_depth_alignment",
+      "outputs": [
+        {
+          "mtime_ns": 1791517702763064983,
+          "path": "/data/video_path/cari4d/episode_000003/depth/moge2/aligned.h5",
+          "size": 987388196
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 0.0,
+      "name": "05_object_pose",
+      "outputs": [
+        {
+          "mtime_ns": 1792137242795908728,
+          "path": "/data/video_path/cari4d/episode_000003/foundationpose/episode_000003.pkl",
+          "size": 223346
+        }
+      ],
+      "reused": true
+    },
+    {
+      "elapsed_seconds": 176.83738358900882,
+      "name": "06_coconet",
+      "outputs": [
+        {
+          "mtime_ns": 1792137423240695313,
+          "path": "/data/video_path/cari4d/episode_000003/inference/coconet.pth",
+          "size": 597357824
+        },
+        {
+          "mtime_ns": 1792137408364629957,
+          "path": "/data/video_path/cari4d/episode_000003/inference/materialized_inputs.h5",
+          "size": 2899942596
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 467.8625695609953,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792137891110792973,
+          "path": "/data/video_path/cari4d/episode_000003/inference/refined.pth",
+          "size": 597421728
+        },
+        {
+          "mtime_ns": 1792137889270784575,
+          "path": "/data/video_path/cari4d/episode_000003/inference/refinement_checkpoint.pth",
+          "size": 2466210
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 668.4786397360731,
+      "name": "08_render",
+      "outputs": [
+        {
+          "mtime_ns": 1792138558901949120,
+          "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_reconstruction.mp4",
+          "size": 20737954
+        },
+        {
+          "mtime_ns": 1792138559781953515,
+          "path": "/data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4",
+          "size": 58818835
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+
+T3_INIT_OUTPUTS_REMOTE_DONE

@@ -1,0 +1,213 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"bash\ -s\"\ \<\ tools/t3_init_pilot_remote.sh\ \|\ tools/redact_stdin.sh 
+# md5      : d091f063f7d64f8878f6afa91f23d5f9  tools/t3_init_pilot_remote.sh
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 3e8f5759150a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:44:49-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-16 22:44:51 CST
+## code/stages/recovery/tier3/t3_init_pilot.sh（前 80 行）
+#!/usr/bin/env bash
+# Initialization pilot: rerun CARI4D from CoCoNet (stage 06) on, with FoundationPose's unreliable frames re-initialized
+# from its reliable neighbours (t3_fp_init.py), on copies of finished register-every-frame runs (runs/work_fp).
+# Tests the premise that CoCoNet follows its initialization: if it does, the jumps on the replaced frames go away.
+# GPU and yielding as t3_rot_pilot.sh: before every episode it stops (exit 4) when rxzhou's chains are back
+# (runs/.chain-active-* or a flash_chord container) and never waits for the card (exit 3); t3_init_wait.sh waits.
+#   setsid nohup t3_init_pilot.sh ep13_snack_box ep28_squeegee > /dev/null 2>&1 < /dev/null &
+# Per episode: runs/work_fp/<ep> is copied to runs/work_init/<ep> (the source is not touched), the pkl is rewritten in
+# the copy, stage 06-08 markers and outputs are removed so stages 01-05 are reused. Log: logs/t3_init_pilot.log; CARI4D
+# log logs/cari4d_<ep>_init.log. An episode whose copy already has a refined bundle is skipped.
+set -u
+S=$(cd "$(dirname "$0")" && pwd)
+T=${T3_ROOT:-/lab_data/<其他用户>/v2d/tier3}
+MIN_FREE_MIB=${MIN_FREE_MIB:-44000}
+LOG=$T/logs/t3_init_pilot.log
+say() { echo "$(date +%m-%d_%T) $*" >> "$LOG"; }
+gpu_free() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
+RX_RUNS=${RX_RUNS:-/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs}
+rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
+for name in "$@"; do
+  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep")
+  src=$T/runs/work_fp/$name; dst=$T/runs/work_init/$name; c=$dst/cari4d/$seq
+  [ -f "$c/inference/refined.pth" ] && { say "$name: already has a refined bundle in work_init, skipped"; continue; }
+  [ -f "$src/cari4d/$seq/pipeline_report.json" ] || { say "$name: no finished run in work_fp"; continue; }
+  if rx_busy; then say "$name: rxzhou's chain is active, yielding before this episode"; exit 4; fi
+  free=$(gpu_free)
+  [ "$free" -ge "$MIN_FREE_MIB" ] || { say "$name: only ${free} MiB free on the GPU, not started"; exit 3; }
+  if [ ! -f "$c/foundationpose/fp_init.json" ]; then
+    rm -rf "$dst"; mkdir -p "$T/runs/work_init" && cp -a "$src" "$dst" || { say "$name: copy failed"; continue; }
+    rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
+      "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
+    r=$(docker run --rm --network none --user "$(id -u):$(id -g)" -e HOME=/tmp --entrypoint "" -v "$c:/c" -v "$S:/s:ro" \
+      v2d_cari4d:latest python /s/t3_fp_init.py /c 2>&1) || { say "$name: t3_fp_init.py failed: $r"; continue; }
+    say "$name: copied work_fp to work_init, stages 06-08 cleared; $r"
+  fi
+  T3_WORK=runs/work_init T3_FP_MODE=register-every-frame T3_LOG_TAG=_init \
+    "$S/t3_cari4d_ep.sh" "$name" || { say "$name: CARI4D failed (logs/cari4d_${name}_init.log)"; continue; }
+  # stage 05 must have been reused: a rerun would overwrite the rewritten initialization
+  rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_init.log" | tr '\n' ' ')
+  say "$name: done; $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_init.log" | tr '\n' ' ')${rerun:+ RERAN EARLIER STAGES: $rerun}"
+done
+say "INIT PILOT DONE"
+## logs/t3_init_pilot.log（全文，每行截到 400 字）
+10-16_14:41:29 ep13_snack_box: copied work_fp to work_init, stages 06-08 cleared; episode_000013 {'max_gap': 60, 'frames': 922, 'unreliable': 86, 'replaced_frames': 86, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [37.6, 141.9, 179.0]}
+10-16_15:05:27 ep13_snack_box: done; 06_coconet elapsed_seconds=206.303 07_refinement elapsed_seconds=456.591 08_render elapsed_seconds=758.688 
+10-16_15:06:24 ep28_squeegee: copied work_fp to work_init, stages 06-08 cleared; episode_000028 {'max_gap': 60, 'frames': 988, 'unreliable': 323, 'replaced_frames': 253, 'kept_runs_longer_than_max_gap': [[205, 275]], 'turn_deg_p50_p90_max_on_replaced': [16.5, 137.0, 169.9]}
+10-16_15:30:18 ep28_squeegee: done; 06_coconet elapsed_seconds=200.273 07_refinement elapsed_seconds=456.822 08_render elapsed_seconds=773.354 
+10-16_15:31:11 ep04_baseball_bat: copied work_fp to work_init, stages 06-08 cleared; episode_000004 {'max_gap': 60, 'frames': 803, 'unreliable': 218, 'replaced_frames': 218, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [21.5, 120.1, 179.4]}
+10-16_15:53:07 ep04_baseball_bat: done; 06_coconet elapsed_seconds=181.981 07_refinement elapsed_seconds=468.625 08_render elapsed_seconds=661.314 
+10-16_15:54:02 ep03_contigo_coffee_mug: copied work_fp to work_init, stages 06-08 cleared; episode_000003 {'max_gap': 60, 'frames': 781, 'unreliable': 58, 'replaced_frames': 58, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [11.8, 36.4, 50.8]}
+10-16_16:16:01 ep03_contigo_coffee_mug: done; 06_coconet elapsed_seconds=176.837 07_refinement elapsed_seconds=467.863 08_render elapsed_seconds=668.479 
+10-16_16:16:01 INIT PILOT DONE
+## runs/work_init 两层
+drwxrwsr-x 2026-10-16_15:53 4096 
+drwxrwsr-x 2026-10-09_10:23 4096 ep03_contigo_coffee_mug
+drwxr-sr-x 2026-10-09_09:03 4096 ep03_contigo_coffee_mug/cari4d
+drwxrwsr-x 2026-10-09_02:57 4096 ep03_contigo_coffee_mug/detect
+-rw-r--r-- 2026-09-25_07:10 24694371 ep03_contigo_coffee_mug/episode_000003.0.color.mp4
+-rw-rw-r-- 2026-10-09_10:22 7417 ep03_contigo_coffee_mug/mask_report.json
+-rw-r--r-- 2026-10-09_10:23 42311215 ep03_contigo_coffee_mug/masks_k0.h5
+drwxr-sr-x 2026-10-09_03:00 4096 ep03_contigo_coffee_mug/moge_000069
+-rw-rw-r-- 2026-10-09_10:22 148254 ep03_contigo_coffee_mug/overlay_000000.png
+-rw-rw-r-- 2026-10-09_10:22 150691 ep03_contigo_coffee_mug/overlay_000455.png
+-rw-rw-r-- 2026-10-09_10:22 150644 ep03_contigo_coffee_mug/overlay_000780.png
+-rw-rw-r-- 2026-10-09_10:22 384 ep03_contigo_coffee_mug/prompts.json
+drwxr-sr-x 2026-10-09_02:59 4096 ep03_contigo_coffee_mug/sam2_masks
+drwxrwsr-x 2026-10-09_10:23 24576 ep03_contigo_coffee_mug/sam2_masks_human_minus_object
+drwxrwsr-x 2026-10-09_03:00 4096 ep03_contigo_coffee_mug/sam3d_in
+drwxrwsr-x 2026-10-09_03:01 4096 ep03_contigo_coffee_mug/sam3d_out
+drwxrwsr-x 2026-10-09_12:16 4096 ep04_baseball_bat
+drwxr-sr-x 2026-10-09_09:14 4096 ep04_baseball_bat/cari4d
+drwxrwsr-x 2026-10-09_03:03 4096 ep04_baseball_bat/detect
+-rw-r--r-- 2026-09-25_07:10 23743749 ep04_baseball_bat/episode_000004.0.color.mp4
+-rw-rw-r-- 2026-10-09_12:15 7120 ep04_baseball_bat/mask_report.json
+-rw-r--r-- 2026-10-09_12:16 42926107 ep04_baseball_bat/masks_k0.h5
+drwxr-sr-x 2026-10-09_03:05 4096 ep04_baseball_bat/moge_000093
+-rw-rw-r-- 2026-10-09_12:15 345508 ep04_baseball_bat/overlay_000000.png
+-rw-rw-r-- 2026-10-09_12:15 211733 ep04_baseball_bat/overlay_000535.png
+-rw-rw-r-- 2026-10-09_12:15 204113 ep04_baseball_bat/overlay_000802.png
+-rw-rw-r-- 2026-10-09_12:15 385 ep04_baseball_bat/prompts.json
+drwxr-sr-x 2026-10-09_03:05 4096 ep04_baseball_bat/sam2_masks
+drwxrwsr-x 2026-10-09_12:15 24576 ep04_baseball_bat/sam2_masks_human_minus_object
+drwxrwsr-x 2026-10-09_03:05 4096 ep04_baseball_bat/sam3d_in
+drwxrwsr-x 2026-10-09_03:06 4096 ep04_baseball_bat/sam3d_out
+drwxrwsr-x 2026-10-12_01:19 4096 ep13_snack_box
+drwxr-sr-x 2026-10-12_01:19 4096 ep13_snack_box/cari4d
+drwxrwsr-x 2026-10-09_03:49 4096 ep13_snack_box/detect
+-rw-r--r-- 2026-09-25_07:11 26883933 ep13_snack_box/episode_000013.0.color.mp4
+-rw-rw-r-- 2026-10-12_01:18 6190 ep13_snack_box/mask_report.json
+-rw-r--r-- 2026-10-12_01:19 50837849 ep13_snack_box/masks_k0.h5
+-rw-rw-r-- 2026-10-12_01:18 244054 ep13_snack_box/overlay_000000.png
+-rw-rw-r-- 2026-10-12_01:18 237598 ep13_snack_box/overlay_000077.png
+-rw-rw-r-- 2026-10-12_01:18 261341 ep13_snack_box/overlay_000921.png
+-rw-rw-r-- 2026-10-12_01:17 374 ep13_snack_box/prompts.json
+drwxr-sr-x 2026-10-12_01:18 4096 ep13_snack_box/sam2_masks
+drwxrwsr-x 2026-10-12_01:18 36864 ep13_snack_box/sam2_masks_human_minus_object
+drwxrwsr-x 2026-10-10_00:43 4096 ep28_squeegee
+drwxr-sr-x 2026-10-10_00:43 4096 ep28_squeegee/cari4d
+drwxrwsr-x 2026-10-09_04:56 4096 ep28_squeegee/detect
+-rw-r--r-- 2026-09-25_07:12 28512527 ep28_squeegee/episode_000028.0.color.mp4
+-rw-rw-r-- 2026-10-09_12:37 4929 ep28_squeegee/mask_report.json
+-rw-r--r-- 2026-10-09_12:38 56238676 ep28_squeegee/masks_k0.h5
+drwxr-sr-x 2026-10-09_04:59 4096 ep28_squeegee/moge_000507
+-rw-rw-r-- 2026-10-09_12:37 239561 ep28_squeegee/overlay_000000.png
+-rw-rw-r-- 2026-10-09_12:37 244705 ep28_squeegee/overlay_000658.png
+-rw-rw-r-- 2026-10-09_12:37 387543 ep28_squeegee/overlay_000987.png
+-rw-rw-r-- 2026-10-09_12:37 384 ep28_squeegee/prompts.json
+drwxr-sr-x 2026-10-09_04:58 4096 ep28_squeegee/sam2_masks
+drwxrwsr-x 2026-10-09_12:38 36864 ep28_squeegee/sam2_masks_human_minus_object
+drwxrwsr-x 2026-10-09_04:59 4096 ep28_squeegee/sam3d_in
+drwxrwsr-x 2026-10-09_05:00 4096 ep28_squeegee/sam3d_out
+## runs/work_init/<集>/ 下三层里的 json、npz、txt（路径、大小、修改时间）
+2026-10-16_16:16 5494 ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+2026-10-09_02:56 2855 ep03_contigo_coffee_mug/detect/boxes_000000.json
+2026-10-09_02:56 2483 ep03_contigo_coffee_mug/detect/boxes_000065.json
+2026-10-09_02:56 2950 ep03_contigo_coffee_mug/detect/boxes_000130.json
+2026-10-09_02:56 2693 ep03_contigo_coffee_mug/detect/boxes_000195.json
+2026-10-09_02:56 2473 ep03_contigo_coffee_mug/detect/boxes_000260.json
+2026-10-09_02:56 2480 ep03_contigo_coffee_mug/detect/boxes_000325.json
+2026-10-09_02:57 2907 ep03_contigo_coffee_mug/detect/boxes_000390.json
+2026-10-09_02:57 2473 ep03_contigo_coffee_mug/detect/boxes_000455.json
+2026-10-09_02:57 2492 ep03_contigo_coffee_mug/detect/boxes_000520.json
+2026-10-09_02:57 2477 ep03_contigo_coffee_mug/detect/boxes_000585.json
+2026-10-09_02:57 2698 ep03_contigo_coffee_mug/detect/boxes_000650.json
+2026-10-09_02:57 2472 ep03_contigo_coffee_mug/detect/boxes_000715.json
+2026-10-09_02:57 2475 ep03_contigo_coffee_mug/detect/boxes_000780.json
+2026-10-09_10:22 7417 ep03_contigo_coffee_mug/mask_report.json
+2026-10-09_03:00 133 ep03_contigo_coffee_mug/moge_000069/intrinsics.json
+2026-10-09_10:22 384 ep03_contigo_coffee_mug/prompts.json
+2026-10-09_03:00 876 ep03_contigo_coffee_mug/sam3d_in/pick.json
+2026-10-09_03:01 133 ep03_contigo_coffee_mug/sam3d_out/intrinsics.json
+2026-10-09_03:01 224 ep03_contigo_coffee_mug/sam3d_out/scale_report.json
+2026-10-09_03:01 363 ep03_contigo_coffee_mug/sam3d_out/transform.json
+2026-10-16_15:53 5489 ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+2026-10-09_03:01 1595 ep04_baseball_bat/detect/boxes_000000.json
+2026-10-09_03:01 1590 ep04_baseball_bat/detect/boxes_000067.json
+2026-10-09_03:01 1590 ep04_baseball_bat/detect/boxes_000134.json
+2026-10-09_03:01 1597 ep04_baseball_bat/detect/boxes_000200.json
+2026-10-09_03:02 1398 ep04_baseball_bat/detect/boxes_000267.json
+2026-10-09_03:02 1400 ep04_baseball_bat/detect/boxes_000334.json
+2026-10-09_03:02 1588 ep04_baseball_bat/detect/boxes_000401.json
+2026-10-09_03:02 1798 ep04_baseball_bat/detect/boxes_000468.json
+2026-10-09_03:02 1580 ep04_baseball_bat/detect/boxes_000535.json
+2026-10-09_03:02 1597 ep04_baseball_bat/detect/boxes_000602.json
+2026-10-09_03:02 1806 ep04_baseball_bat/detect/boxes_000668.json
+2026-10-09_03:03 1595 ep04_baseball_bat/detect/boxes_000735.json
+2026-10-09_03:03 1606 ep04_baseball_bat/detect/boxes_000802.json
+2026-10-09_12:15 7120 ep04_baseball_bat/mask_report.json
+2026-10-09_03:05 133 ep04_baseball_bat/moge_000093/intrinsics.json
+2026-10-09_12:15 385 ep04_baseball_bat/prompts.json
+2026-10-09_03:05 867 ep04_baseball_bat/sam3d_in/pick.json
+2026-10-09_03:06 133 ep04_baseball_bat/sam3d_out/intrinsics.json
+2026-10-09_03:06 272 ep04_baseball_bat/sam3d_out/scale_report.json
+2026-10-09_03:06 359 ep04_baseball_bat/sam3d_out/transform.json
+2026-10-16_15:05 5489 ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+2026-10-09_03:47 1993 ep13_snack_box/detect/boxes_000000.json
+2026-10-09_03:47 1811 ep13_snack_box/detect/boxes_000077.json
+2026-10-09_03:47 1605 ep13_snack_box/detect/boxes_000154.json
+2026-10-09_03:47 1394 ep13_snack_box/detect/boxes_000230.json
+2026-10-09_03:47 1997 ep13_snack_box/detect/boxes_000307.json
+2026-10-09_03:48 1803 ep13_snack_box/detect/boxes_000384.json
+2026-10-09_03:48 1805 ep13_snack_box/detect/boxes_000460.json
+2026-10-09_03:48 1805 ep13_snack_box/detect/boxes_000537.json
+2026-10-09_03:48 1822 ep13_snack_box/detect/boxes_000614.json
+2026-10-09_03:48 2211 ep13_snack_box/detect/boxes_000691.json
+2026-10-09_03:48 1808 ep13_snack_box/detect/boxes_000768.json
+2026-10-09_03:49 1814 ep13_snack_box/detect/boxes_000844.json
+2026-10-09_03:49 2007 ep13_snack_box/detect/boxes_000921.json
+2026-10-12_01:18 6190 ep13_snack_box/mask_report.json
+2026-10-12_01:17 374 ep13_snack_box/prompts.json
+2026-10-16_15:30 5487 ep28_squeegee/cari4d/episode_000028/pipeline_report.json
+2026-10-09_04:54 1001 ep28_squeegee/detect/boxes_000000.json
+2026-10-09_04:54 1001 ep28_squeegee/detect/boxes_000082.json
+2026-10-09_04:54 1004 ep28_squeegee/detect/boxes_000164.json
+2026-10-09_04:54 987 ep28_squeegee/detect/boxes_000247.json
+2026-10-09_04:55 1197 ep28_squeegee/detect/boxes_000329.json
+2026-10-09_04:55 1178 ep28_squeegee/detect/boxes_000411.json
+2026-10-09_04:55 1209 ep28_squeegee/detect/boxes_000494.json
+2026-10-09_04:55 1209 ep28_squeegee/detect/boxes_000576.json
+2026-10-09_04:55 1010 ep28_squeegee/detect/boxes_000658.json
+2026-10-09_04:55 792 ep28_squeegee/detect/boxes_000740.json
+2026-10-09_04:55 1408 ep28_squeegee/detect/boxes_000822.json
+2026-10-09_04:56 994 ep28_squeegee/detect/boxes_000905.json
+2026-10-09_04:56 1006 ep28_squeegee/detect/boxes_000987.json
+2026-10-09_12:37 4929 ep28_squeegee/mask_report.json
+2026-10-09_04:59 133 ep28_squeegee/moge_000507/intrinsics.json
+2026-10-09_12:37 384 ep28_squeegee/prompts.json
+2026-10-09_04:59 857 ep28_squeegee/sam3d_in/pick.json
+2026-10-09_05:00 133 ep28_squeegee/sam3d_out/intrinsics.json
+2026-10-09_05:00 224 ep28_squeegee/sam3d_out/scale_report.json
+2026-10-09_05:00 359 ep28_squeegee/sam3d_out/transform.json
+## runs、logs 下 10/16 14:00 CST 之后改过的文件（三层以内）
+2026-10-16_14:41 10424 runs/archive/MOVED.tsv
+2026-10-16_15:05 91727 logs/cari4d_ep13_snack_box_init.log
+2026-10-16_15:30 95222 logs/cari4d_ep28_squeegee_init.log
+2026-10-16_15:53 85866 logs/cari4d_ep04_baseball_bat_init.log
+2026-10-16_16:16 1317 logs/t3_yield_wait.log
+2026-10-16_16:16 1701 logs/t3_init_pilot.log
+2026-10-16_16:16 84899 logs/cari4d_ep03_contigo_coffee_mug_init.log
+## runs 下（三层以内）文件名带 init 的 json、tsv、md、txt
+## 代码里引用 work_init 或 init 列的脚本
+code/stages/recovery/tier3/versions.json
+code/stages/recovery/tier3/t3_init_pilot.sh
+T3_INIT_PILOT_REMOTE_DONE
