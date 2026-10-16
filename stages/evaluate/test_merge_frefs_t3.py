@@ -16,7 +16,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "stages/evaluate"))
-from frefs_t3_match import COLS, manifest_rows  # noqa: E402
+from frefs_t3_match import COLS, manifest_rows
 
 TOOL = REPO / "stages/evaluate/merge_frefs_t3.py"
 
@@ -25,7 +25,7 @@ def sha256(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def make_src(d: Path, rows: dict, rotation: dict = None) -> None:
+def make_src(d: Path, rows: dict, rotation: dict | None = None) -> None:
     d.mkdir(parents=True)
     for mach, eps in rows.items():
         lines = ["\t".join(COLS)]
@@ -39,7 +39,7 @@ def make_src(d: Path, rows: dict, rotation: dict = None) -> None:
 
 
 def run(*args) -> subprocess.CompletedProcess:
-    return subprocess.run([sys.executable, str(TOOL), *map(str, args)], capture_output=True, text=True)
+    return subprocess.run([sys.executable, str(TOOL), *map(str, args)], capture_output=True, text=True, check=False)
 
 
 def setup(root: Path) -> tuple:
@@ -81,12 +81,21 @@ def test_refuse() -> None:
         cases.append(("源 npz 被改过", run("--out", root / "o4", "--take", f"{a}=0,18"), root / "o4"))
         for name, r, out in cases:
             assert r.returncode != 0 and not out.exists(), (name, r.stdout, r.stderr)
+        cases.append(("--take-plain 的源目录有 ROTATION.json", run("--out", root / "o6", "--take-plain", f"{b}=1"), root / "o6"))
+        for name, r, out in cases[-1:]:
+            assert r.returncode != 0 and not out.exists(), (name, r.stdout, r.stderr)
         keep = root / "o5"
         keep.mkdir()
         (keep / "x").write_text("x")
         r = run("--out", keep, "--take", f"{b}=1")
         assert r.returncode != 0 and (keep / "x").read_text() == "x" and len(list(keep.iterdir())) == 1, r.stdout
-    print("  2. 拒绝：同一集来自两个源、要的集不在 manifest 里、--take 写法错、源 npz 被改过、目标目录已存在")
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        a, b = setup(root)
+        r = run("--out", root / "o7", "--take-plain", f"{a}=0", "--take", f"{b}=1,2")
+        assert r.returncode == 0 and r.stdout.strip().endswith("MERGE_FREFS_OK 3"), r.stdout + r.stderr
+    print("  2. 拒绝：同一集来自两个源、要的集不在 manifest 里、--take 写法错、源 npz 被改过、目标目录已存在、--take-plain 的源有 ROTATION.json；"
+          "--take-plain 用在没有 ROTATION.json 的源上照常合并")
 
 
 if __name__ == "__main__":

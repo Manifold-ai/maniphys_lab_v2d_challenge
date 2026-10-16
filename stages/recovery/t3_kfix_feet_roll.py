@@ -143,8 +143,9 @@ def main() -> int:
         gp = np.asarray(t3_inputs.ground_plane(a.root, metas[name]), np.float64)
         n_r, d_r = plane(gp[:3], gp[3])
         lat, dep = floor_axes(n_r)
-        # allow_pickle：这个 npz 是本仓 t3_kfix.py 在 ml40 上写的（含字符串数组），来源可信；读法同 t3_feet_diag.py
-        sp = dict(np.load(conv / "soma_params_focal.npz", allow_pickle=True))
+        # 只取 keys 里的数值数组，不需要 allow_pickle（npz 里另有字符串数组，不去读它）
+        z = np.load(conv / "soma_params_focal.npz")
+        sp = {k: z[k] for k in keys}
         _, verts = soma_cv({k: sp[k] for k in keys}, layer)
         v = verts[:, sole]                                   # (T, 鞋底顶点, 3)，相机系
         hr = v @ n_r + d_r

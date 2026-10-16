@@ -33,8 +33,8 @@ def main() -> int:
         sa, sb = d / "soma_params_focal.npz", theirs / d.name / "soma_params_focal.npz"
         hum = "人体：缺文件"
         if sa.exists() and sb.exists():
-            # allow_pickle：两边的 npz 都是本仓 t3_kfix.py 与另一位用户 t3_convert_ep.py 在同一台服务器上写的（含字符串数组）
-            pa, pb = np.load(sa, allow_pickle=True), np.load(sb, allow_pickle=True)
+            # 只取 transl、poses 两个数值数组，不需要 allow_pickle（npz 里另有字符串数组，不去读它）
+            pa, pb = np.load(sa), np.load(sb)
             hum = "人体 " + "、".join(f"{k} 最大差 {float(np.abs(np.asarray(pa[k], float) - np.asarray(pb[k], float)).max()):.2e}"
                                       for k in ("transl", "poses") if k in pa.files and k in pb.files)
         print(f"{d.name}：{len(Ta)} 帧，物体位置最大差 {dt:.2e} m、朝向最大差 {dr:.2e}°，新内参差 {dk:.2e}；{hum}")

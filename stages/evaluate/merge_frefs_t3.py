@@ -9,6 +9,7 @@
   - 写 MERGE.json：每个源目录、它的 manifest 的 sha256（以及若有 ROTATION.json 则记它的 sha256 与 label）、取了哪些集。
 目标目录已存在就拒绝。
 用法：python3 stages/evaluate/merge_frefs_t3.py --out <目标目录> --take <源目录 1>=0,18,20 --take <源目录 2>=1,2,3 …
+--take-plain <源目录>=<集,…>：同 --take，但源目录有 ROTATION.json 就拒绝（新参考那一侧用它：标定内参已含偏航，不能再转一次）。
 最后一行 MERGE_FREFS_OK n（n 是集数）。测试：stages/evaluate/test_merge_frefs_t3.py。
 """
 import argparse
@@ -19,7 +20,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from frefs_t3_match import COLS  # noqa: E402
+from frefs_t3_match import COLS
 
 
 def sha256(p: Path) -> str:
@@ -56,16 +57,22 @@ def read_manifests(src: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
-    ap.add_argument("--take", action="append", required=True, help="<源目录>=<集,集,…>")
+    ap.add_argument("--take", action="append", default=[], help="<源目录>=<集,集,…>")
+    ap.add_argument("--take-plain", action="append", default=[],
+                    help="同 --take，但这个源目录不许有 ROTATION.json（新参考的 frame refs：标定内参已含偏航，不能再转一次；复核 MINOR）")
     a = ap.parse_args()
+    if not a.take and not a.take_plain:
+        raise SystemExit("至少给一个 --take 或 --take-plain")
     if a.out.exists():
         raise SystemExit(f"{a.out} 已存在")
     plan, seen = [], {}
-    for item in a.take:
+    for item, plain in [(x, False) for x in a.take] + [(x, True) for x in a.take_plain]:
         if "=" not in item:
             raise SystemExit(f"--take 要写成 <源目录>=<集,集,…>，收到 {item!r}")
         d, eps = item.rsplit("=", 1)
         src = Path(d)
+        if plain and (src / "ROTATION.json").exists():
+            raise SystemExit(f"{src}：--take-plain 的源目录不许有 ROTATION.json（新参考的 frame refs 不能再转偏航）")
         want = sorted({int(e) for e in eps.split(",") if e.strip()})
         rows = read_manifests(src)
         for ep in want:
