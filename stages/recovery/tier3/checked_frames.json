@@ -204,5 +204,15 @@
     "kf3": "ok"
    }
   }
+ },
+ "third_pass_dr2s": {
+  "_doc": "10-16 ~11:00, user on overlays video | best | hm | dr2s | kf3 (review_dr2s/): position mainly, dr2s keeps best's orientation",
+  "ep01_all": "all versions about the same",
+  "ep03_f117": "kf3 position most accurate; dr2s a little to the right",
+  "ep03_f451": "none accurate; dr2s and best relatively most accurate apart from being upside down",
+  "ep04_f313": "kf3 most accurate; the others upside down",
+  "ep13_all": "dr2s most accurate",
+  "ep28_all": "all poor",
+  "ep29_all": "all good"
  }
 }
