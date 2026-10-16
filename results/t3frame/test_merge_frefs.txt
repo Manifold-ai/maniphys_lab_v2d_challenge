@@ -1,0 +1,9 @@
+# command  : python3 stages/evaluate/test_merge_frefs_t3.py 
+# md5      : b94910fc9e6e96e10274dee249208547  stages/evaluate/test_merge_frefs_t3.py
+# source   : 4046cb428a02-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:17:39-0600
+# ---------------------------------------------------------------
+  1. 正常：两个源按集合并，npz 逐字节相同，manifest 按集排序，MERGE.json 齐全，frefs_t3_match 读得通
+  2. 拒绝：同一集来自两个源、要的集不在 manifest 里、--take 写法错、源 npz 被改过、目标目录已存在
+ALL_OK
