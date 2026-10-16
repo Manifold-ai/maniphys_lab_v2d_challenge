@@ -331,3 +331,12 @@ CARI4D 位姿取 `runs/convert`。对照（流程焦距步 830）复现 3.83°�
   0.0014 mm；物体相对 f830 结果移动中位 29.7 cm、最大 39.6 cm。
 - 未做：第 2 步地面校正重拟（`t3_support.py` 写死 `floor_fit_f830.json`、`t3_versions.py` 前缀写死 `tier3_cari4d_f830_`，要参数化）；第 3 步
   新转换目录与整链重跑。另：10-16 post_review 的对照里人体 identity_coeffs 重跑差 0.0056（物体逐位一致），world 步人体重拟不完全可复现。
+
+## 世界系第 2 步：GB 内参下的地面校正（10-16 23:30 CST）
+
+`t3_focal_all.sh convert convert_kgb intrinsics_gb.json`（部署 `16c2b7f`）：30 集 focal 全过，主机位 24 集 (866.3, 701.8, 531.1)，第二、
+侧机位保留 CARI4D 内参（spec 里 null，与 focal.json 相同）。`runs/convert_kgb/` 只含 focal 及其起点文件，`runs/convert*` 未动。
+`t3_floor_fit.py ... floor_fit_kgb.json convert_kgb`：主机位组倾斜 1.222°、缩放 0.98400（d_ours 1.4102 / 发布 1.3877），与 rxzhou GB1 行一致；
+第二、侧机位组与 f830 版相同（内参没变）。**留一法：校正前接触点高度逐集中位的绝对值中位 1.04 cm，留一校正后 1.53 cm（最大 2.32 cm）**——
+f830 时校正把 15.6 cm 降到 1.4 cm，GB 下校正不再改善留一高度：13 集里 7 集变好（ep04/05/08/23/26/27/29）、5 集变差（ep15/17/18/22/24），
+都在 ±3 cm 内。推断：0.984 的缩放主要来自把 1.2° 倾斜的平面外推到相机原点，未核实。主机位世界系要不要再做地面校正，待用户定。
