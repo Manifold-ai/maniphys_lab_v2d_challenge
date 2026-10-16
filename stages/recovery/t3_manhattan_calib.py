@@ -12,6 +12,9 @@ B 的代价明显变高。判读按 bootstrap 区间（看数据之前登记）�
 线段来自每段视频 31 帧的逐像素中位数背景上的 LSD（长度 ≥ 40 px）；初始指派用逐个 RANSAC 消失点（同 t3_horizon_check.py），
 之后交替：固定指派做最小二乘、按新参数重新指派（夹角 < 2° 才指派，其余算离群），共 5 轮。
 自检：`--selftest` 在已知参数的合成房间上跑两种拟合，参数要恢复到登记的容差内（见 selftest）。
+错切检验：`--skew-cx 702.8` 把 cx 固定为吊顶方格给的值，比较三种拟合 B 在同一套指派下的代价：cx 自由、cx 固定不加错切、cx 固定加错切
+（K 的 (0, 1) 元，u = f x + skew y + cx）。错切只让竖直线倾斜、不影响水平线；若加错切能把代价降回 cx 自由时的水平，墙上竖直线与方格的冲突就能由
+约 0.3° 的错切解释（看结果之前写下）。
 灵敏度：`--n-rot 横滚°,俯仰°` 把 n 绕相机 z 轴（横滚）、x 轴（俯仰）转一个小角再拟合，看 B 的 cx、cy、f 跟着怎么动。理论（看结果之前写下）：
 俯仰约 3.2° 时竖直消失点在主点下方约 f/|n_z| ≈ 1.55 万像素，竖直线段的倾斜对“横滚”与“竖直消失点的横坐标”几乎等价，
 所以 B 的 cx ≈ 真 cx − (f/|n_z|)·横滚误差（0.1° 约 27 px）；俯仰误差主要进 f 与 cy（地平线行号 ≈ cy − f·n_z/n_y 是测出来的）。
@@ -37,9 +40,10 @@ W, H = 1536, 1152
 ASSIGN_DEG, ROUNDS, SCALE = 2.0, 5, math.sin(math.radians(0.5))
 
 
-def undistort(p: np.ndarray, f, cx, cy, k1, k2) -> np.ndarray:
-    """像素 → 去畸变的归一化坐标（迭代求逆）。"""
-    xd, yd = (p[..., 0] - cx) / f, (p[..., 1] - cy) / f
+def undistort(p: np.ndarray, f, cx, cy, k1, k2, skew: float = 0.0) -> np.ndarray:
+    """像素 → 去畸变的归一化坐标（迭代求逆）。skew 是 K 的 (0, 1) 元（像素）：u = f x + skew y + cx。"""
+    yd = (p[..., 1] - cy) / f
+    xd = (p[..., 0] - cx - skew * yd) / f
     xu, yu = xd.copy(), yd.copy()
     for _ in range(12):
         r2 = xu * xu + yu * yu
@@ -53,9 +57,9 @@ def distort(xu: np.ndarray, f, cx, cy, k1, k2) -> np.ndarray:
     return xu * (1.0 + k1 * r2 + k2 * r2 * r2) * f + np.array([cx, cy])
 
 
-def plane_normals(seg: np.ndarray, f, cx, cy, k1, k2) -> np.ndarray:
-    a = undistort(seg[:, 0:2], f, cx, cy, k1, k2)
-    b = undistort(seg[:, 2:4], f, cx, cy, k1, k2)
+def plane_normals(seg: np.ndarray, f, cx, cy, k1, k2, skew: float = 0.0) -> np.ndarray:
+    a = undistort(seg[:, 0:2], f, cx, cy, k1, k2, skew)
+    b = undistort(seg[:, 2:4], f, cx, cy, k1, k2, skew)
     r1 = np.c_[a, np.ones(len(a))]
     r2 = np.c_[b, np.ones(len(b))]
     m = np.cross(r1, r2)
@@ -76,12 +80,13 @@ def rot_b(n: np.ndarray, yaw: float) -> np.ndarray:
 class Fit:
     """内参 (f, cx, cy, k1, k2) 共用，每段视频一个姿态。mode A：旋转向量 3 个参数；mode B：yaw 1 个参数。"""
 
-    def __init__(self, segs: list, mode: str, n: np.ndarray = None):
-        self.segs, self.mode, self.n = segs, mode, n
+    def __init__(self, segs: list, mode: str, n: np.ndarray = None, skew_cx: float = None, skew_free: bool = True):
+        """skew_cx 给了数时：cx 固定为它；skew_free 为真时原来 cx 的那个参数改作错切 skew（像素），为假时那个参数不起作用、错切为 0。"""
+        self.segs, self.mode, self.n, self.skew_cx, self.skew_free = segs, mode, n, skew_cx, skew_free
         self.lens = [np.hypot(s[:, 2] - s[:, 0], s[:, 3] - s[:, 1]) for s in segs]
 
     def unpack(self, x: np.ndarray):
-        k = x[:5]
+        k = x[:5] if self.skew_cx is None else np.array([x[0], self.skew_cx, x[2], x[3], x[4]])
         poses = []
         for i in range(len(self.segs)):
             if self.mode == "A":
@@ -90,21 +95,26 @@ class Fit:
                 poses.append(rot_b(self.n, x[5 + i]))
         return k, poses
 
+    def skew(self) -> float:
+        return float(self._x[1]) if self.skew_cx is not None and self.skew_free else 0.0
+
     def residuals(self, x: np.ndarray, assign: list) -> np.ndarray:
+        self._x = x
         (f, cx, cy, k1, k2), poses = self.unpack(x)
         out = []
         for seg, ln, R, asg in zip(self.segs, self.lens, poses, assign):
-            m = plane_normals(seg, f, cx, cy, k1, k2)
+            m = plane_normals(seg, f, cx, cy, k1, k2, self.skew())
             ok = asg >= 0
             d = R[:, asg[ok]].T
             out.append(np.sqrt(ln[ok] / 100.0) * (m[ok] * d).sum(1))
         return np.concatenate(out)
 
     def assign(self, x: np.ndarray) -> list:
+        self._x = x
         (f, cx, cy, k1, k2), poses = self.unpack(x)
         res = []
         for seg, R in zip(self.segs, poses):
-            m = plane_normals(seg, f, cx, cy, k1, k2)
+            m = plane_normals(seg, f, cx, cy, k1, k2, self.skew())
             s = np.abs(m @ R)
             k = s.argmin(1)
             k[s.min(1) > math.sin(math.radians(ASSIGN_DEG))] = -1
@@ -207,7 +217,7 @@ def report(tag: str, x: np.ndarray, fit: Fit, n: np.ndarray, cost: float, asg: l
     return out
 
 
-def run(eps: list, boot: int, n_rot: tuple = (0.0, 0.0)) -> int:
+def run(eps: list, boot: int, n_rot: tuple = (0.0, 0.0), skew_cx: float = None) -> int:
     n = floor_normal()
     if any(n_rot):   # 灵敏度：n 绕相机 z 轴转 n_rot[0]°（横滚）、绕 x 轴转 n_rot[1]°（俯仰）
         n = Rotation.from_rotvec([math.radians(n_rot[1]), 0.0, 0.0]).apply(Rotation.from_rotvec([0.0, 0.0, math.radians(n_rot[0])]).apply(n))
@@ -241,6 +251,17 @@ def run(eps: list, boot: int, n_rot: tuple = (0.0, 0.0)) -> int:
         lo, hi = q["angle"][0], q["angle"][2]
         verdict = "支持：世界 = 这台相机的坐标系（转动）" if hi < 1.0 else "否定" if lo > 1.5 else "说不清"
         print(f"  判读（A 的竖直方向与 n 的夹角，按视频平均）：{verdict}")
+    if skew_cx is not None:   # 错切检验：cx 固定为方格的值，看加一个错切能不能把代价降回 cx 自由时的水平
+        x0 = xb.copy()
+        x0[1] = 0.0
+        f0s = Fit(segs, "B", n, skew_cx=skew_cx, skew_free=False)
+        x_ns, _, _ = f0s.solve(x0, asg_b)
+        fss = Fit(segs, "B", n, skew_cx=skew_cx, skew_free=True)
+        x_s, _, _ = fss.solve(x0, asg_b)
+        c_free, c_ns, c_s = fb_cost_with(fb, xb, asg_b), fb_cost_with(f0s, x_ns, asg_b), fb_cost_with(fss, x_s, asg_b)
+        print(f"  错切检验（拟合 B，同一套指派）：cx 自由（{xb[1]:.1f}）代价 {c_free:.4f}；cx 固定 {skew_cx} 不加错切 代价 {c_ns:.4f}"
+              f"（f {x_ns[0]:.1f}、cy {x_ns[2]:.1f}）；cx 固定 {skew_cx} 加错切 代价 {c_s:.4f}，错切 {x_s[1]:+.2f} px"
+              f"（{math.degrees(math.atan2(x_s[1], x_s[0])):+.3f}°，f {x_s[0]:.1f}、cy {x_s[2]:.1f}）")
     print("MANHATTAN_CALIB_DONE")
     return 0
 
@@ -317,6 +338,7 @@ if __name__ == "__main__":
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--boot", type=int, default=0)
     ap.add_argument("--n-rot", default="0,0", help="灵敏度：横滚°,俯仰°")
+    ap.add_argument("--skew-cx", type=float, default=None, help="错切检验：cx 固定为这个值，比较加不加错切的拟合 B 代价")
     a = ap.parse_args()
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    sys.exit(selftest() if a.selftest else run(a.eps or [5, 11, 20], a.boot, tuple(float(v) for v in a.n_rot.split(","))))
+    sys.exit(selftest() if a.selftest else run(a.eps or [5, 11, 20], a.boot, tuple(float(v) for v in a.n_rot.split(",")), a.skew_cx))
