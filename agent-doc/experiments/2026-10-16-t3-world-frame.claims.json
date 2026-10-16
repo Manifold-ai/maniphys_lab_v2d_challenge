@@ -1,0 +1,16 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "plane": {"file": "results/t3world/plane_facts.txt", "grep": "组内两两法向最大夹角|^判读"},
+    "hz": {"file": "results/t3world/horizon_check.txt", "grep": "^== |实测地平线|预测地平线|差："}
+  },
+  "claims": [
+    {"id": "plane_same", "evidence": ["plane"], "claim": "主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。"},
+    {"id": "tilt", "evidence": ["hz"], "claim": "预测地平线倾角是 −1.08°；主机位 ep5、ep11、ep20 的实测地平线倾角分别是 −1.09°、−0.42°、−0.85°；第二机位 ep12 的实测倾角是 +1.62°。"},
+    {"id": "rows", "evidence": ["hz"], "claim": "主机位 ep5、ep11、ep20 的实测地平线在中心列第 478.9、490.1、482.5 行，预测地平线在中心列第 528.0、526.2、527.6 行，行差 −49.1、−36.0、−45.1 px。"},
+    {"id": "focal", "evidence": ["hz"], "claim": "按两水平消失点正交算出的焦距，ep5、ep11、ep20 分别是 855、887、861 px。"},
+    {"id": "ctl_true", "evidence": ["hz"], "control": "true", "claim": "ep12 属于 second 机位组。"},
+    {"id": "ctl_false_tilt", "evidence": ["hz"], "control": "false", "claim": "第二机位 ep12 的实测地平线倾角是 −1.08°。"},
+    {"id": "ctl_false_plane", "evidence": ["plane"], "control": "false", "claim": "第二机位组的平均法向与主机位平均法向相差超过 5°。"}
+  ]
+}

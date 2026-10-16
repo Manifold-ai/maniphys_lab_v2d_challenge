@@ -1,0 +1,6 @@
+# command  : bash -c set\ -eo\ pipefail\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \'cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ tar\ cf\ -\ data/challenge/track_2/tier_2_synthetic_noise/ground_plane\'\ \|\ tar\ xf\ -\ -C\ .\ \&\&\ ssh\ -o\ BatchMode=yes\ mf4090\ \'cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ sha256sum\ data/challenge/track_2/tier_2_synthetic_noise/ground_plane/\*.json\'\ \>\ /private/tmp/claude-501/-Users-rongxuanzhou-V2D/c829857b-c70e-4e25-b360-278c1533b028/scratchpad/gp_remote.sha\ \&\&\ shasum\ -a\ 256\ -c\ /private/tmp/claude-501/-Users-rongxuanzhou-V2D/c829857b-c70e-4e25-b360-278c1533b028/scratchpad/gp_remote.sha\ \|\ grep\ -c\ \':\ OK\$\' 
+# source   : 72f959d77939
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:50:16-0600
+# ---------------------------------------------------------------
+30

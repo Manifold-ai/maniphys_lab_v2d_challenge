@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-t3-world-frame.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : d5b3b05d28ef163f152b9008062914ec  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
+# source   : 72f959d77939-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:59:14-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+plane_same           P(supported)=0.97  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
+tilt                 P(supported)=0.99  verified               [hz]  预测地平线倾角是 −1.08°；主机位 ep5、ep11、ep20 的实测地平线倾角分别是 −1.09°、−0.42°、−0.85°；第二机位 ep12 的实测倾角是 +1.62°。
+rows                 P(supported)=0.99  verified               [hz]  主机位 ep5、ep11、ep20 的实测地平线在中心列第 478.9、490.1、482.5 行，预测地平线在中心列第 528.0、526.2、527.6 行，行差 −49.1、−36.0、−45.1 px。
+focal                P(supported)=0.99  verified               [hz]  按两水平消失点正交算出的焦距，ep5、ep11、ep20 分别是 855、887、861 px。
+ctl_true             P(supported)=0.99  control(true) ok       [hz]  ep12 属于 second 机位组。
+ctl_false_tilt       P(supported)=0.01  control(false) ok      [hz]  第二机位 ep12 的实测地平线倾角是 −1.08°。
+ctl_false_plane      P(supported)=0.01  control(false) ok      [plane]  第二机位组的平均法向与主机位平均法向相差超过 5°。
+controls behaved as expected
