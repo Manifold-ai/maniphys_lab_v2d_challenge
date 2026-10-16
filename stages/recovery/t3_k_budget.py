@@ -88,6 +88,13 @@ def budget(ep: dict, kt: tuple) -> dict:
             "d1_all": d1, "d2_all": d2}
 
 
+def budget_x1(ep: dict, kt: tuple) -> np.ndarray:
+    """口径一：深度随焦距成比例（z_t = z_830 · f_t / 830），像素不变。"""
+    f, cx, cy = kt
+    r = np.c_[ep["p"], np.ones(len(ep["p"]))] @ np.linalg.inv(K(f, cx, cy)).T
+    return r * (ep["X830"][:, 2] * f / ep["f830"])[:, None]
+
+
 def budget_x2(ep: dict, kt: tuple) -> np.ndarray:
     f, cx, cy = kt
     r = np.c_[ep["p"], np.ones(len(ep["p"]))] @ np.linalg.inv(K(f, cx, cy)).T
@@ -155,6 +162,11 @@ def main() -> int:
         resid_y = np.linalg.norm(Xw @ Ry.T - Xt, axis=1)
         print(f"  只绕 n 的偏航 ψ* {math.degrees(psi):+.2f}°；只转偏航后剩下的位移中位 {100 * np.median(resid_y):.1f} cm、90% 分位 "
               f"{100 * np.percentile(resid_y, 90):.1f} cm（口径二）")
+        Xt1 = np.concatenate([budget_x1(ep, kt) for ep in eps])   # 口径一：同一个偏航（A/B 交的那个）转完后还剩多少
+        resid_y1 = np.linalg.norm(Xw @ Ry.T - Xt1, axis=1)
+        dz1 = (np.linalg.norm(Xt1, axis=1) - np.linalg.norm(Xw, axis=1))
+        print(f"  口径一下：用同一个偏航转完后剩下的位移中位 {100 * np.median(resid_y1):.1f} cm、90% 分位 {100 * np.percentile(resid_y1, 90):.1f} cm；"
+              f"其中沿视线的距离差（口径一 − 流程）中位 {100 * np.median(dz1):+.1f} cm（相对 {100 * np.median(dz1 / np.linalg.norm(Xw, axis=1)):+.1f}%）")
         if a.write_rotations:
             label = {"方格 G": "gridG", "曼哈顿 B": "manhattanB", "曼哈顿 A": "manhattanA"}[tag.split("（")[0]]
             a.write_rotations.mkdir(parents=True, exist_ok=True)
