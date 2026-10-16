@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo \'== �\230�\226��\234\206�\237��\210v2 �\255�\203�\227��\232\204�\211\' && scripts/dev/incontainer stages/retarget/check_support_alignment.py /repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1 2>&1 | tail -6 && echo \'== �\217��\200�\215�\224��\210�交�\230�\211\210�\232\204�\226��\235\227�\210Tier 3 �\207�己估�\232\204�\211\' && scripts/dev/incontainer stages/retarget/check_support_alignment.py /repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1 /repo/runs/tier3/root_hm/support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda 2>&1 | tail -6' 
+# md5      : afba4a3b963828f3d854d6562dbf897f  scripts/dev/incontainer
+# md5      : 9a70a9155a50301deaee038d4e3b8062  stages/retarget/check_support_alignment.py
+# md5      : afba4a3b963828f3d854d6562dbf897f  scripts/dev/incontainer
+# md5      : 9a70a9155a50301deaee038d4e3b8062  stages/retarget/check_support_alignment.py
+# source   : 6fa7d8923e9d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:04:18-0600
+# ---------------------------------------------------------------
+== 官方圆柱（v2 训练时的）
+物体静置时：网格最低点 z = +0.7756 m，中心 xy = (-0.293, +0.784)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/object_0@+0.797
+最近支撑面 /support_surfaces/object_0 顶面 z = +0.7974 m  →  间隙 = -21.8 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-21.8 surface=support ok=0
+There was an error running python
+== 另一位用户交付版的方块（Tier 3 自己估的）
+
+物体静置时：网格最低点 z = +0.7756 m，中心 xy = (-0.293, +0.784)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/support_0@+0.783
+最近支撑面 /support_surfaces/support_0 顶面 z = +0.7830 m  →  间隙 = -7.4 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-7.4 surface=support ok=1

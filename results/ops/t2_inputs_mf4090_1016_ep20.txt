@@ -1,0 +1,11 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/tier2_inputs_md5.py\ 20 
+# md5      : 41e973c3bcb287eb603e0b00cebb0ce4  stages/recovery/tier2_inputs_md5.py
+# source   : 6fa7d8923e9d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:05:32-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-17 00:05:33 CST 来历 b106c320bae6；Tier 2 目录 /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise
+07813ad4566097b0aa22aed66a9f7b48 mesh/rice_cooker/rice_cooker.glb
+e9526edcd097d15180c4dc2e25aa7d38 ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json
+dcbd8dfbe968f29926f30cc61b15beb8 support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+TIER2_INPUTS_DONE（1 集，3 个文件）
