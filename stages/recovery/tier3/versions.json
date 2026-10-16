@@ -191,7 +191,7 @@
    "status": "candidate",
    "date": "10-16",
    "from": "best_hm",
-   "purpose": "kf2 + rests locked as dyn7 and bridged (889628a)"
+   "purpose": "kf2 + rests locked as dyn7, rests <= 5 frames apart merged, bridged by the filter (9c3bfb2); 1675 violation frames, gate 25/30, ours 30/30"
   }
  },
  "work": {
