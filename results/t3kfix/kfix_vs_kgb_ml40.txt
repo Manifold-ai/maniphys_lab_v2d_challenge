@@ -1,0 +1,32 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ S=\\\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\ \&\&\ docker\ run\ --rm\ --cpus\ 4\ --user\ \\\$\(id\ -u\):\\\$\(id\ -g\)\ --entrypoint\ \\\"\\\"\ --network\ none\ -e\ HOME=/tmp\ -v\ \\\"\\\$S/runs/convert_kgb\\\":/b:ro\ -v\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/runs/convert:/a:ro\ -v\ \\\$PWD/stages/recovery:/k:ro\ v2d_cari4d:latest\ python\ /k/t3_kfix_vs_kgb.py\ /a\ /b\"\ \|\ tools/redact_stdin.sh 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : fa83827c80ea
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T09:49:14-0600
+# ---------------------------------------------------------------
+ep00_tall_bar_stool：778 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.88e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep01_vacuum：747 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.17e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep02_blue_easter_basket：980 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.01e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep03_contigo_coffee_mug：781 帧，物体位置最大差 0.00e+00 m、朝向最大差 3.62e-02°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep04_baseball_bat：803 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.91e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep05_big_black_box：1003 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.76e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep06_monitor：546 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.94e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep07_iron：896 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.06e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep08_skinny_wood_chair：708 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.43e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep09_big_red_bowl：870 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.95e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep10_white_desk：794 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.92e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep11_light_blue_book：901 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.44e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep13_snack_box：922 帧，物体位置最大差 0.00e+00 m、朝向最大差 3.64e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep15_wet_floor_sign：715 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.47e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep17_traffic_cone：440 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.21e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep18_blue_trash_can：858 帧，物体位置最大差 0.00e+00 m、朝向最大差 3.23e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep19_cane：886 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.29e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep20_rice_cooker：553 帧，物体位置最大差 0.00e+00 m、朝向最大差 3.32e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep22_step_ladder：719 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.03e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep23_toy_stroller：946 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.50e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep24_watering_can：748 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.00e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep26_skateboard：669 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.80e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep27_woven_basket：565 帧，物体位置最大差 0.00e+00 m、朝向最大差 2.37e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep29_rolling_luggage：467 帧，物体位置最大差 0.00e+00 m、朝向最大差 1.71e-01°，新内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+24 集；物体位置最大差 0.00e+00 m，朝向最大差 3.64e-01°
+KFIX_VS_KGB_DONE 0.00e+00 3.64e-01

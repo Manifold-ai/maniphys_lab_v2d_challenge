@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix_vs_kgb.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : dad1f4113d381b013cb2aaa367dc019d  stages/recovery/t3_kfix_vs_kgb.py
+# source   : fa83827c80ea
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T09:49:08-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 fa83827c80ea；远端来历 e396fde1b00a
+  ok   dad1f4113d381b013cb2aaa367dc019d  stages/recovery/t3_kfix_vs_kgb.py
+远端来历（放完）e396fde1b00a
+PUSH_OK（1 个文件）
