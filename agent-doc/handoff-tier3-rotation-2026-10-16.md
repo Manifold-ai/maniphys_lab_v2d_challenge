@@ -385,3 +385,14 @@ ep21 做过的测试——「证据不足，但做过检验，不是直接套的
 **回来后**：先看 `gb3_register.log` 末行与 `gb3_summary.txt`（二机位、ep21 落地高度应在 ±3 cm 内；二机位偏航应近 181.4°）。之后是组装与后处理链：
 按 best 选择表换成 `_gb3` 来源组装 → 支撑面（`t3_support.py` 写死 floor_fit_f830，要参数化）→ 物理 → dr2s → 物理 → dyn7 → 门槛 → 自检 → 交付；
 `t3_versions.py` 前缀写死 `tier3_cari4d_f830_`，新版本名待定。
+
+## 待办：CoCoNet 初值不能只靠相邻两个可靠帧（用户 10-17 要求解决；rxzhou 同样提醒）
+
+现状 `t3_fp_init.py`：每段 ≤ 60 帧的不可靠段，在两端相邻可靠帧之间 slerp。问题：`fp_reliable` 只表示与上一确认姿态连续，不表示对；
+两端都可能在错的分支上；> 60 帧的段跳过；FoundationPose 自信地错的帧（ep03 451）不在不可靠段里，插值碰不到。
+事实（10-17 查）：stage-05 pkl 只存了选中候选（`fp_poses_cam`、`fp_selected_candidate_index`、`fp_candidate_count` 约 200），**没存候选本身**；
+带 gt/oracle 字样的字段全空（`fp_oracle_rotation_error_deg` 803 帧全 NaN，metadata `gt_object_pose_available: False`、
+`foundationpose_selection_uses_gt_pose: False`），选择没用真值。
+候选方案（待用户定）：(1) FoundationPose 每帧存前 K 个候选（要改导出、重跑 05，GPU），全时间线 Viterbi 选择：代价 = 掩码 IoU/FP 分数 + 相邻帧
+转角（对称等价按 t3_symmetry 取最小）；(2) 手持段用手腕转动传播朝向，锚定段内所有可靠帧（最小二乘），只用 CPU，松手/换手处失效；
+(3) 二者结合：(2) 作为 (1) 的转移代价先验。建议 (1)+(2)。
