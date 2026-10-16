@@ -15,7 +15,8 @@ untouched. Per episode, in this order:
             when the task names a foot), with gaps shorter than GAP frames closed so a blink of the hand estimate does
             not split a grasp. Only unheld frames where the object rests are locked: those inside the input's
             resting placements (the anchors t3_height_post.py recorded in runs/<version>.height_post.json: static
-            segments on the floor or on a support). Unheld and not resting means in the air, where a still pose would
+            segments on the floor or on a support; for an input made by t3_depth_post.py, its runs/<version>.depth_post.json,
+            same rows, added 10-16 for best_dr2s). Unheld and not resting means in the air, where a still pose would
             float; physically that is free fall, and in this data it is a hand or object estimate that broke for a few
             frames (ep17's cone 66 cm up at 0.8 m/s with the hand 28 cm away, ep19's cane turning 2.4 rad in 13
             frames), so those frames keep their motion and go with the held ones below; the dynamics check still
@@ -145,7 +146,10 @@ def main() -> None:
     win = int(round(WINDOW_S * FPS)) | 1
     anchors = {}
     if states is None:
-        for row in json.loads((rn / f"{version}.height_post.json").read_text()):
+        # the height post-process's anchors, or t3_depth_post.py's (same rows: start, end, kind) for a ray-corrected input
+        rec = rn / f"{version}.height_post.json"
+        rec = rec if rec.exists() else rn / f"{version}.depth_post.json"
+        for row in json.loads(rec.read_text()):
             anchors[row["episode"]] = [(a["start"], a["end"]) for a in row["anchors"]]
     report = []
     for src_v, dst_v in ((version, out_v), (f"{version}_suspect", f"{out_v}_suspect")):
