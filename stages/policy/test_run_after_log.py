@@ -2,7 +2,7 @@
 临时目录里搭最小仓库：真的 run_after_log.sh，假的 scripts/dev/record（记下收到的记录名与命令，退出码按 FAKE_RC）。
   1. 日志一开始不是结束行，过一会儿追加结束行：脚本等到匹配后跑 record，最后一行 RUN_AFTER_DONE 0；
   2. 一直不匹配：等满 V2D_MAX_POLLS 次后 RUN_AFTER_TIMEOUT，退出码 1，没有调 record；
-  3. record 失败（退出码 3）：最后一行 RUN_AFTER_DONE 3；
+  3. record 失败（退出码 3）：最后一行 RUN_AFTER_DONE 3，脚本退出码 3；日志不存在时先打警告；
   4. 记录名带 .. 或以 / 开头：退出码 2，不等。
 用法：python3 stages/policy/test_run_after_log.py；最后一行 ALL_OK。
 """
@@ -63,8 +63,13 @@ if __name__ == "__main__":
         root = Path(t); setup(root)
         (root / "runs/logs/x_eval.log").write_text("DAY2_EVAL_DONE\n")
         rc, text, calls = run(root, "runs/logs/x_eval.log", "DAY2_EVAL_DONE", "r3o/x", "true", FAKE_RC="3", V2D_MAX_POLLS="2")
-        assert rc == 0 and text.strip().splitlines()[-1] == "RUN_AFTER_DONE 3", text
-    print("  3. record 失败：RUN_AFTER_DONE 3")
+        assert rc == 3 and text.strip().splitlines()[-1] == "RUN_AFTER_DONE 3", text
+    print("  3. record 失败：RUN_AFTER_DONE 3，退出码 3")
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        rc, text, calls = run(root, "runs/logs/nope.log", "DONE", "r3o/x", "true", V2D_MAX_POLLS="1")
+        assert rc == 1 and "现在还不存在" in text and not calls, (rc, text)
+    print("  3b. 日志不存在：先打警告，超时退出码 1")
     with tempfile.TemporaryDirectory() as t:
         root = Path(t); setup(root)
         for bad in ("../x", "/abs/x"):
