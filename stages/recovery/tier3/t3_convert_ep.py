@@ -15,10 +15,12 @@ Three steps, each where its dependencies live:
             soma_params.npz the way the downstream reads it (frame-0 identity, per-frame bone flexibles, no
             correctives) and measures it against the MHR target mesh. The two meshes have different topologies
             (SOMA 18056 vs MHR 18439 vertices), so the distance is a symmetric nearest-vertex (chamfer) distance.
-  focal     v2d_cari4d image, CPU. Re-expresses the reconstruction for a chosen focal length (runs/floor/focal.json, per
-            exo camera; null keeps CARI4D's): the image stays, so depth scales by f_new / f_used, lateral position is
-            kept and orientations turn with the viewing ray. Object and human (root and pelvis only, as in world).
-            Writes object_cam_focal.npz, soma_params_focal.npz, focal_calib.json.
+  focal     v2d_cari4d image, CPU. Re-expresses the reconstruction for chosen intrinsics, per exo camera group: the
+            spec's `intrinsics` sets f and the principal point (runs/floor/intrinsics_gb.json, 10-16), the older
+            `focal_px` only f (runs/floor/focal.json); null keeps CARI4D's. The image stays: every point keeps its
+            pixel, depth scales by f_new / f_used (_intrinsics_map), orientations turn with the viewing ray. Object
+            and human (root and pelvis only, as in world). Writes object_cam_focal.npz, soma_params_focal.npz,
+            focal_calib.json.
   world     v2d_cari4d image, CPU, on the focal step's files. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
             origin that puts our floor normal on the released one, then a scale of positions by released / our
             floor offset), applied to the object (position rotated and scaled, orientation rotated, mesh untouched)
@@ -36,7 +38,7 @@ inputs enter (no Tier 2 trajectory; user decision 10/10).
     python t3_convert_ep.py decode   <cari4d episode dir> <weights/cari4d dir> <out dir>
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
     python t3_convert_ep.py residual <out dir> <soma assets dir>
-    python t3_convert_ep.py focal    <out dir> <focal.json> <soma assets dir>
+    python t3_convert_ep.py focal    <out dir> <intrinsics spec .json> <soma assets dir>
     python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir> [camera_register.json]
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
@@ -236,6 +238,41 @@ def _ray_turn(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     return Rotation.from_rotvec(np.where(sin > 1e-12, axis / np.maximum(sin, 1e-12), 0.0) * ang).as_matrix()
 
 
+def _intrinsics_map(k_used: np.ndarray, k_new: np.ndarray) -> np.ndarray:
+    """Camera-frame point map from CARI4D's intrinsics to new ones, M = (f_new / f_used) K_new^-1 K_used: every point
+    keeps its pixel (the image is the observation) and its depth is scaled by f_new / f_used (CARI4D's depth comes from
+    the official mesh's apparent size, which scales with f; the 10-16 floor test also fitted better this way than with
+    the depth kept). With the principal point unchanged M is diag(1, 1, f_new / f_used), the focal-only step this
+    generalises (10-16, for the calibrated main-camera intrinsics)."""
+    return float(k_new[0, 0]) / float(k_used[0, 0]) * np.linalg.inv(k_new) @ k_used
+
+
+def _reexpress_object(t_cam: np.ndarray, m: np.ndarray) -> np.ndarray:
+    """Object poses (n, 4, 4) under the point map m: position mapped, orientation turned with its viewing ray so the
+    object shows the camera the same side."""
+    tf = t_cam.copy()
+    tf[:, :3, 3] = t_cam[:, :3, 3] @ m.T
+    tf[:, :3, :3] = np.einsum("nij,njk->nik", _ray_turn(t_cam[:, :3, 3], tf[:, :3, 3]), t_cam[:, :3, :3])
+    return tf
+
+
+def _new_intrinsics(spec: dict, group: int | None, k_used: np.ndarray) -> np.ndarray:
+    """The intrinsics a spec sets for a camera group: `intrinsics` ({group: {f, cx, cy} or null}) sets all three, the
+    older `focal_px` ({group: f or null}) sets f and keeps CARI4D's principal point; null, or no group, keeps CARI4D's."""
+    if group is None:
+        return k_used.copy()
+    if "intrinsics" in spec:
+        e = spec["intrinsics"].get(str(group))
+        if e is None:
+            return k_used.copy()
+        return np.array([[e["f"], 0.0, e["cx"]], [0.0, e["f"], e["cy"]], [0.0, 0.0, 1.0]])
+    fx = spec["focal_px"].get(str(group))
+    k_new = k_used.copy()
+    if fx is not None:
+        k_new[0, 0] = k_new[1, 1] = float(fx)
+    return k_new
+
+
 def focal(out: Path, focal_json: Path, assets: Path) -> None:
     import hashlib
 
@@ -244,35 +281,34 @@ def focal(out: Path, focal_json: Path, assets: Path) -> None:
     spec = json.loads(spec_bytes)
     group = next((int(g) for g, members in spec["camera_groups"].items() if name in members), None)
     fallback = None
-    if group is None:  # a camera the spec has not seen (new data): keep CARI4D's own focal, say so
-        fallback = f"{name} is in no camera group of {focal_json.name}; CARI4D's focal kept"
+    if group is None:  # a camera the spec has not seen (new data): keep CARI4D's own intrinsics, say so
+        fallback = f"{name} is in no camera group of {focal_json.name}; CARI4D's intrinsics kept"
         print(f"FALLBACK focal: {fallback}", file=sys.stderr)
     oc = dict(np.load(out / "object_cam.npz"))
-    k_used = np.asarray(oc["intrinsics"], np.float64)
+    k_used = np.asarray(oc["intrinsics"], np.float64).reshape(3, 3)
     fx_used = float(k_used[0, 0])
-    fx_new = None if group is None else spec["focal_px"].get(str(group))  # None: keep CARI4D's focal for this camera
-    k = 1.0 if fx_new is None else float(fx_new) / fx_used
+    k_new = _new_intrinsics(spec, group, k_used)
+    k = float(k_new[0, 0]) / fx_used
     if not 0.8 < k < 1.25:
         raise SystemExit(f"{name}: focal ratio {k:.3f} is implausible")
-    depth = np.diag([1.0, 1.0, k])  # same image, focal times k: lateral position kept, depth times k
+    shift = float(np.abs(k_new[:2, 2] - k_used[:2, 2]).max())
+    if shift > 0.15 * fx_used:
+        raise SystemExit(f"{name}: principal point moves {shift:.1f} px, implausible")
+    m = _intrinsics_map(k_used, k_new)
 
-    t = oc["T_cam_glb"].astype(np.float64)
-    tf = t.copy()
-    tf[:, :3, 3] = t[:, :3, 3] @ depth
-    tf[:, :3, :3] = np.einsum("nij,njk->nik", _ray_turn(t[:, :3, 3], tf[:, :3, 3]), t[:, :3, :3])  # same view of the object
-    k_new = k_used.copy()
-    k_new[0, 0] *= k
-    k_new[1, 1] *= k
-    np.savez(out / "object_cam_focal.npz", T_cam_glb=tf, intrinsics=k_new)
+    np.savez(out / "object_cam_focal.npz", T_cam_glb=_reexpress_object(oc["T_cam_glb"].astype(np.float64), m), intrinsics=k_new)
 
     sp = dict(np.load(out / "soma_params.npz", allow_pickle=True))
-    # the root turns with the pelvis's viewing ray, so the pelvis has to be known before the body pass
+    # the root turns with the pelvis's viewing ray, so the pelvis has to be known before the body pass; the rest of the
+    # body follows the pelvis rigidly (once the principal point moves M is not a similarity: first order, about 5 cm
+    # pelvis to feet for a 66 px shift by rxzhou's k-fix estimate)
     pelvis0 = _pelvis_cv(sp, assets)
-    rot = _ray_turn(pelvis0, pelvis0 @ depth)
-    new, err = _move_body(sp, rot, lambda p: p @ depth, assets, name, "focal")
+    rot = _ray_turn(pelvis0, pelvis0 @ m.T)
+    new, err = _move_body(sp, rot, lambda p: p @ m.T, assets, name, "focal")
     np.savez(out / "soma_params_focal.npz", **new)
     calib = {"episode": name, "focal_spec": focal_json.name, "focal_spec_sha256": hashlib.sha256(spec_bytes).hexdigest(),
-             "camera_group": group, "fx_used_by_cari4d": fx_used, "fx_new": fx_used * k, "depth_ratio": k,
+             "camera_group": group, "fx_used_by_cari4d": fx_used, "fx_new": float(k_new[0, 0]), "depth_ratio": k,
+             "principal_point_used": k_used[:2, 2].tolist(), "principal_point_new": k_new[:2, 2].tolist(),
              "source": spec.get("source", {}).get(str(group)), "body_rigid_max_err_mm": round(err * 1000, 4), "fallback": fallback}
     (out / "focal_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))

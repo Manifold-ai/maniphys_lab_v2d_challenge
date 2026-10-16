@@ -317,3 +317,17 @@ CARI4D 位姿取 `runs/convert`。对照（流程焦距步 830）复现 3.83°�
 - **f 地面定不住（深度随 f 口径）**：821–882.5 之间高度只差约 1.3 cm（cy 531：+0.9 → −0.4），小于逐集中位的 p10–p90 宽度（约 3.5 cm）；
   这一口径下横向坐标不随 f 变、只拉深度，地面对 f 天然不敏感。深度不变口径对 f 敏感（821–830 高度约 0，866 为 +4.3 cm），但它的斜率与倾斜
   整体比深度随 f 口径差（2–3 cm/m 对 0.7–1.3），数据更像深度随 f。
+
+## 世界系第 1 步：focal 步骤改成任意内参（10-16 深夜）
+
+用户定（rxzhou 指示）：主机位内参用 GB f 866.3、cx 701.8、cy 531.1（p1-training `stages/recovery/kfix/kt_gb.json`，原始 1536×1152 画面，
+畸变忽略；CARI4D 导出同为 1536×1152，不缩放）。第二、侧机位先不套，套之前要看地面倾斜与地平线是否对得上。
+- `t3_convert_ep.py focal`：spec 新增 `intrinsics`（{组: {f, cx, cy} 或 null}），旧 `focal_px` 照用。点映射 M = (f_new/f_used)·K_new⁻¹·K_used
+  （像素不变、深度随 f），主点不变时退化为原来的 diag(1, 1, k)。`focal_calib.json` 多记新旧主点。
+- `probe_focal_intrinsics.py`：合成位姿上像素不变（4.6e-13 px）、深度比、物体朝相机的一面不变、主点不变时等于旧公式、spec 解析；注入
+  「忽略主点」缺陷时探针 FAILED。真实数据：旧 `focal.json` 在 L40S 全部 54 个转换目录上复现现有 `object_cam_focal.npz`（≤ 1e-6 m；
+  ep19 pivot 目录 5.6e-8 m，因 CARI4D 的 float32 K 有 fy/fx−1 = −7.4e-8，新映射保持像素、旧式忽略了它）。
+- ep04 副本（`$T/dev/kgb/try/`，spec `$T/dev/kgb/intrinsics_gb.json`）完整跑 focal：像素变化 3.4e-13 px、深度比 1.051107、人体刚体误差
+  0.0014 mm；物体相对 f830 结果移动中位 29.7 cm、最大 39.6 cm。
+- 未做：第 2 步地面校正重拟（`t3_support.py` 写死 `floor_fit_f830.json`、`t3_versions.py` 前缀写死 `tier3_cari4d_f830_`，要参数化）；第 3 步
+  新转换目录与整链重跑。另：10-16 post_review 的对照里人体 identity_coeffs 重跑差 0.0056（物体逐位一致），world 步人体重拟不完全可复现。
