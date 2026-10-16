@@ -1,0 +1,104 @@
+# command  : stages/retarget/eps.sh 3 0 18 24 26 29 
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : b106c320bae6
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-16T23:47:35+0800
+# ---------------------------------------------------------------
+来历 b106c320bae6，2026-10-16 23:47:35 CST；目录 runs/motion_src/tier3_kfix、runs/motion/tier3_kfix
+one.sh 3 0 退出码 0（23:49:19）
+one.sh 3 18 退出码 0（23:52:51）
+one.sh 3 24 退出码 0（23:55:24）
+one.sh 3 26 退出码 1（23:57:42）
+one.sh 3 29 退出码 1（23:59:20）
+## 结果行（档位 ep 序列 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态）
+3	0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	30.0	328	437	0.649	-19.6	floor	OK
+3	18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	30.0	327	332	0.882	-13.2	floor	OK
+3	24	2026-05-29_15-43-20_watering_can_pour_right_02	748	30.0	0	486	0.432	-19.6	floor	OK
+3	26	2026-06-05_16-05-08_skateboard_rotate_ground_10	669	30.0	253	216	0.745	-35.6	floor	ALIGN
+3	29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	30.0	0	0	0.55	-29.3	floor	ALIGN+NOCONTACT
+## runs/logs/batch/t3_kfix_ep00.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0009, +0.1046] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/778 frames
+[INFO] Saved robot sole Z range: [+0.0009, +0.1046] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 328/778 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 437/778 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_kfix/whole_body/soma
+Retargeting complete. Processed 778 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet)
+support: 2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0196 m，中心 xy = (-0.133, -0.778)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -19.6 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-19.6 surface=floor ok=1
+## runs/logs/batch/t3_kfix_ep18.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0025, +0.1367] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/858 frames
+[INFO] Saved robot sole Z range: [+0.0025, +0.1367] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 327/858 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 332/858 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_kfix/whole_body/soma
+Retargeting complete. Processed 858 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet)
+support: 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0132 m，中心 xy = (-0.060, -1.127)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -13.2 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-13.2 surface=floor ok=1
+## runs/logs/batch/t3_kfix_ep24.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0005, +0.1707] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/748 frames
+[INFO] Saved robot sole Z range: [+0.0005, +0.1707] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/748 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 486/748 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_kfix/whole_body/soma
+Retargeting complete. Processed 748 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet)
+support: 2026-05-29_15-43-20_watering_can_pour_right_02_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0196 m，中心 xy = (-0.338, +0.373)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -19.6 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-19.6 surface=floor ok=1
+## runs/logs/batch/t3_kfix_ep26.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0007, +0.0588] m
+[INFO] Saved robot sole Z range: [+0.0007, +0.0588] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 253/669 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 216/669 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_kfix/whole_body/soma
+Retargeting complete. Processed 669 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet)
+support: 2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0356 m，中心 xy = (-0.312, +0.653)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -35.6 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-35.6 surface=floor ok=0
+There was an error running python
+## runs/logs/batch/t3_kfix_ep29.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0005, +0.1197] m
+[INFO] Saved robot sole Z range: [+0.0005, +0.1197] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/467 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 0/467 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_kfix/whole_body/soma
+Retargeting complete. Processed 467 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet)
+support: 2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0293 m，中心 xy = (-0.454, -0.972)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -29.3 mm（正=悬空，负=穿入）
+判定: 未对齐 ✗（|间隙| ≥ 20 mm）
+RESULT gap_mm=-29.3 surface=floor ok=0
+There was an error running python
+EPS_DONE
