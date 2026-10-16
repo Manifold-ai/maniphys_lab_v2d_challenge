@@ -1,0 +1,29 @@
+# command  : bash -c for\ m\ in\ auc\ sp-sr\ mp-sr\ mppe\;\ do\ s=v2d-challenge-track2-tier3-\$m\;\ echo\ \"==\ \$s\"\;\ /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle\ competitions\ leaderboard\ \$s\ --show\ 2\>\&1\ \|\ head\ -8\;\ done 
+# source   : be0f066f75d2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:35:35-0600
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier3-auc
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+17040998  Xueyi Wang (FF)                         2026-10-15 06:11:20.770000  0.15606  
+17126972  maniphys.ai                             2026-10-16 10:34:34.880000  0.00690  
+16994352  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:13.670000  0.00226  
+== v2d-challenge-track2-tier3-sp-sr
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+17126979  maniphys.ai                             2026-10-16 10:34:43.726000  0.03333  
+16994349  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:16.266000  0.00000  
+17041000  Xueyi Wang (FF)                         2026-10-15 06:11:23.196000  0.00000  
+== v2d-challenge-track2-tier3-mp-sr
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+16994347  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:19.046000  0.00000  
+17041002  Xueyi Wang (FF)                         2026-10-15 06:11:25.556000  0.00000  
+17126982  maniphys.ai                             2026-10-16 10:34:52.656000  0.00000  
+== v2d-challenge-track2-tier3-mppe
+  teamId  teamName                                submissionDate              score     
+--------  --------------------------------------  --------------------------  --------  
+17126986  maniphys.ai                             2026-10-16 10:35:01.530000  56.87427  
+17041004  Xueyi Wang (FF)                         2026-10-15 06:11:27.943000  67.33010  
+16994345  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:21.900000  70.17205  

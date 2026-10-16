@@ -1,0 +1,26 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier3_ab1016_manhattanB_yaw.csv --track track_2_tier3 -m Tier\ 3\ A/B\ 1016\ B:\ probe1015\ rollouts\,\ frame\ refs\ yaw\ +1.196\ deg\ about\ n\ \(Manhattan-B\ intrinsics\ cx\ 790\) --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 8c8a3b1f8afd041cdfb54af6fd030172  runs/submission/csv/track2_tier3_ab1016_manhattanB_yaw.csv
+# source   : be0f066f75d2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:34:24-0600
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier3_ab1016_manhattanB_yaw.csv: 22,989 rows over 30 episodes, 12,139,694 B - looks valid
+Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction): 4 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier3-auc           4 left today
+  spider_sr        v2d-challenge-track2-tier3-sp-sr         4 left today
+  maniptrans_sr    v2d-challenge-track2-tier3-mp-sr         4 left today
+  mppe_cm          v2d-challenge-track2-tier3-mppe          4 left today
+Receipt: runs/submission/csv/track2_tier3_ab1016_manhattanB_yaw.csv.1ee64ccf25c0.kaggle-receipt.json
+
+  add_auc          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - AUC (submission 57265887)
+  spider_sr        ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - SP-SR (submission 57265893)
+  maniptrans_sr    ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MP-SR (submission 57265896)
+  mppe_cm          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MPPE (cm) (submission 57265899)
+
+Waiting for scores...
+  add_auc          COMPLETE 0.00000 (submission 57265887)
+  spider_sr        COMPLETE 0.00000 (submission 57265893)
+  maniptrans_sr    COMPLETE 0.00000 (submission 57265896)
+  mppe_cm          COMPLETE 63.44727 (submission 57265899)
+Receipt: runs/submission/csv/track2_tier3_ab1016_manhattanB_yaw.csv.1ee64ccf25c0.kaggle-receipt.json
