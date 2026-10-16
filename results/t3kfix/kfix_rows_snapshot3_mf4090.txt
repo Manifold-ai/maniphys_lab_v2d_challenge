@@ -1,0 +1,22 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "快�\205��\232�\207\215�\226��\204�\213�\230�\234��\221�\214�\217�读已�\220��\233\230�\232\204 4096 �\226�\225\214 JSON�\210�\215�\206\231�\223�\236\234表�\211"; python3 stages/evaluate/kfix_reexport_table.py stages/evaluate/exports/kfix_t3_mf4090.tsv' 
+# md5      : 8b2e7dcd76d84cf117ca88146190e580  stages/evaluate/kfix_reexport_table.py
+# md5      : f5831d1e6ee0d3cb1f3ea7f96ba5a083  stages/evaluate/exports/kfix_t3_mf4090.tsv
+# source   : 835f626e573b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:56:15-0600
+# ---------------------------------------------------------------
+快照：重新评测还在跑，只读已落盘的 4096 世界 JSON（不写结果表）
+恒等核对：包装层恒等（t3-ep26-w2048-cap4m-r3a-v2-mf4090，idchk − plain：MP-SR -0.0010、SP-SR -0.0010、ADD-AUC -0.0001、MPPE +0.0067）
+评测器核对：评测器一致（plain − 10/11 的评测：MP-SR +0.0012、SP-SR +0.0010、ADD-AUC -0.0000、MPPE -0.0013）
+t3-ep0-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet）：MP-SR 0.965→0.000，SP-SR 0.992→0.000，ADD-AUC 0.591→0.244，MPPE 2.601→36.536
+  判据 5（MP-SR ≥ 0.915 且 SP-SR ≥ 0.942）：不换
+t3-ep18-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet）：MP-SR 0.862→0.013，SP-SR 0.938→0.134，ADD-AUC 0.537→0.259，MPPE 4.249→32.992
+  判据 5（MP-SR ≥ 0.812 且 SP-SR ≥ 0.887）：不换
+t3-ep24-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet）：MP-SR 0.933→0.902，SP-SR 0.995→0.998，ADD-AUC 0.696→0.683，MPPE 3.025→3.099
+  判据 5（MP-SR ≥ 0.883 且 SP-SR ≥ 0.945）：换
+t3-ep26-w2048-cap4m-r3a-v2-mf4090（旧值取 同一评测器的 plain；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet）：MP-SR 1.000→0.984，SP-SR 1.000→0.992，ADD-AUC 0.445→0.439，MPPE 2.747→2.850
+  判据 5（MP-SR ≥ 0.950 且 SP-SR ≥ 0.950）：换
+t3-ep29-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet）：MP-SR 0.000→0.000，SP-SR 0.713→0.025，ADD-AUC 0.377→0.201，MPPE 8.002→23.883
+  判据 5（旧 MP-SR 为 0，只看 SP-SR ≥ 0.663）：不换
+t3-ep20-w2048-cap4m-r3a-v2-mf4090：缺新的 4096 世界 JSON
+KFIX_TABLE_DONE 2

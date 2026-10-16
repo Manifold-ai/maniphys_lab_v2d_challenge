@@ -1,0 +1,13 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-decisions-1200-ep2629.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a135f8a8dbee770c77cb9a8b30c51fb2  agent-doc/experiments/2026-10-16-decisions-1200-ep2629.claims.json
+# source   : 835f626e573b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:56:47-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+row_ep26             P(supported)=0.83  verified               [rows3]  t3-ep26 这条 run 的 MP-SR 从 1.000 变成新参考的 0.984，判据 5 判换。
+row_ep29             P(supported)=0.98  verified               [rows3]  t3-ep29 这条 run 的 SP-SR 从 0.713 变成新参考的 0.025，旧 MP-SR 为 0，判据 5 判不换。
+ctl_true_second      P(supported)=0.99  control(true) ok       [planes]  二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。
+ctl_false_side       P(supported)=0.01  control(false) ok      [planes]  侧机位 ep21 的发布地面俯仰是 6.06°。
+controls behaved as expected
