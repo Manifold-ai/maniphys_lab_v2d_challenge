@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes ml40 grep\ \"\^\{\"\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/feet_diag_kt.log\;\ sha256sum\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/feet_diag_kt.json\ \|\ cut\ -c1-16 
+# source   : 8fbfed44a01e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:10:47-0600
+# ---------------------------------------------------------------
+{"episode": "ep00_tall_bar_stool", "group": 0, "scale": 0.984, "feet_focal_m": -0.004, "pelvis_focal_m": 0.9101, "feet_world_m": -0.0058, "pelvis_world_m": 0.8937, "feet_world_predicted_m": -0.0186}
+{"episode": "ep18_blue_trash_can", "group": 0, "scale": 0.984, "feet_focal_m": -0.0035, "pelvis_focal_m": 0.9826, "feet_world_m": -0.0016, "pelvis_world_m": 0.9686, "feet_world_predicted_m": -0.0192}
+{"episode": "ep20_rice_cooker", "group": 0, "scale": 0.984, "feet_focal_m": 0.0185, "pelvis_focal_m": 0.9708, "feet_world_m": 0.0155, "pelvis_world_m": 0.953, "feet_world_predicted_m": 0.003}
+{"episode": "ep22_step_ladder", "group": 0, "scale": 0.984, "feet_focal_m": -0.043, "pelvis_focal_m": 0.8886, "feet_world_m": -0.0371, "pelvis_world_m": 0.8819, "feet_world_predicted_m": -0.0572}
+{"episode": "ep24_watering_can", "group": 0, "scale": 0.984, "feet_focal_m": -0.0046, "pelvis_focal_m": 0.5382, "feet_world_m": -0.0047, "pelvis_world_m": 0.5292, "feet_world_predicted_m": -0.0132}
+{"episode": "ep26_skateboard", "group": 0, "scale": 0.984, "feet_focal_m": -0.0259, "pelvis_focal_m": 0.859, "feet_world_m": -0.0289, "pelvis_world_m": 0.842, "feet_world_predicted_m": -0.0396}
+{"episode": "ep29_rolling_luggage", "group": 0, "scale": 0.984, "feet_focal_m": -0.0231, "pelvis_focal_m": 0.8994, "feet_world_m": -0.0255, "pelvis_world_m": 0.8817, "feet_world_predicted_m": -0.0375}
+cd1b59c37565a09a
