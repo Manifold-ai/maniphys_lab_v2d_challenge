@@ -1,0 +1,11 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/t3_kfix_floor_check.py\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/runs/floor/floor_fit_kt.json 
+# md5      : ae5ae5378fdb0f7984a73325cb09ed2e  stages/recovery/t3_kfix_floor_check.py
+# source   : f70a8a0c4cd2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:06:07-0600
+# ---------------------------------------------------------------
+主机位组：714 个事件，方式 contacts；倾斜 1.222°（俯仰分量 -0.263°、横滚分量 -1.195°），离地 d_ours 1.4102 m、d_released 1.3877 m，s′ 0.98400
+  倾斜：目标 1.22 ± 0.1° 且 |横滚| > |俯仰| → 复现
+  s′：目标 0.98401 ± 0.003 → 复现
+  留一验证（她的脚本自带）：13 集，接触点离发布地面的高度中位绝对值 校正前 1.0 cm、校正后 1.5 cm（最大 2.3 cm）
+KFIX_FLOOR_REPRODUCED

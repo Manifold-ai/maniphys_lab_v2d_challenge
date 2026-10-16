@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix_feet.sh stages/recovery/t3_kfix_floor_check.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 0ab2ea8fb5fcf3e68711c8ffb0a78f97  stages/recovery/t3_kfix_feet.sh
+# md5      : ae5ae5378fdb0f7984a73325cb09ed2e  stages/recovery/t3_kfix_floor_check.py
+# source   : f70a8a0c4cd2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:26:20-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 f70a8a0c4cd2；远端来历 e396fde1b00a
+  ok   0ab2ea8fb5fcf3e68711c8ffb0a78f97  stages/recovery/t3_kfix_feet.sh
+  ok   ae5ae5378fdb0f7984a73325cb09ed2e  stages/recovery/t3_kfix_floor_check.py
+远端来历（放完）e396fde1b00a
+PUSH_OK（2 个文件）

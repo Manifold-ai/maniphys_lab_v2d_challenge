@@ -1,0 +1,7 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \|\|\ exit\ 1\;\ T3_SRC=/lab_data/<其他用户>/v2d/tier3\ T3_SOMA_ASSETS=/lab_data/<其他用户>/v2d/soma_assets\ setsid\ nohup\ bash\ -c\ \"stages/recovery/t3_kfix_feet.sh\ \>\ /lab_data/rxzhou/v2d/tier3_kfix_r2/kfix_feet.out\ 2\>\&1\"\ \>\ /dev/null\ 2\>\&1\ \<\ /dev/null\ \&\ sleep\ 5\;\ echo\ launched 
+# md5      : 0ab2ea8fb5fcf3e68711c8ffb0a78f97  stages/recovery/t3_kfix_feet.sh
+# source   : f70a8a0c4cd2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:06:48-0600
+# ---------------------------------------------------------------
+launched
