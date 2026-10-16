@@ -1,0 +1,19 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && scripts/dev/in-flash-chord "python /repo/stages/policy/check_inputs.py /repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet"; echo "check_inputs �\200\200�\207��\201 $?"' 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# source   : 3c8fb6f5eb5d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:09:17-0600
+# ---------------------------------------------------------------
+source b106c320bae6
+== /repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 64aad259b2b1f766…
+  fps = [30.0]
+  列 object_name = '2026-06-08_16-57-34_rice_cooker_clockwise_04_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_v2s/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+check_inputs 退出码 0
