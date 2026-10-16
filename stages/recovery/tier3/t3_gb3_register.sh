@@ -28,6 +28,9 @@ until grep -q GB3_FOCAL_DONE "$T/logs/gb3_focal.out" 2>/dev/null; do sleep 60; d
 [ "$(grep -c 'failed=0' "$T/logs/gb3_focal.out")" = 4 ] || fail "focal: $(cat "$T/logs/gb3_focal.out")"
 log "focal done: $(tr '\n' ' ' < "$T/logs/gb3_focal.out")"
 
+if [ -f "$F/floor_fit_gb3.json" ] && grep -q '"2"' "$F/camera_register_gb3.json" 2>/dev/null; then
+  log "floor fit and both registrations exist (an earlier run of this script), reused"
+else
 for f in floor_fit_gb3.json camera_register_gb3.json; do [ -e "$F/$f" ] && fail "$f exists"; done
 "${D[@]}" -v "$S":/s:ro -v "$T":/t:ro -v "$F":/t/runs/floor v2d_cari4d:latest python /s/t3_floor_fit.py /t /t/runs/floor/floor_fit_gb3.json \
   convert_gb3 scale=1:0.949 horizon=2:/t/runs/floor/ceiling_vp_other.json > "$T/logs/floor_fit_gb3.log" 2>&1 \
@@ -42,10 +45,12 @@ log "second camera: $(grep yaw_deg "$T/logs/mutual_gb3.log" | head -1)"
   --left=A "$F/camera_register_gb3.json" conv=convert_gb3 base="$F/camera_register_gb3.json" pair="$T/dev/kgb/ep21_original_pair.json") \
   > "$T/logs/corner_gb3.log" 2>&1 && grep -q '"2"' "$F/camera_register_gb3.json" || fail "corner (logs/corner_gb3.log)"
 log "ep21: $(head -1 "$T/logs/corner_gb3.log" | cut -c1-400)"
+fi
 
-world_one() {
+world_one() {  # runs in an xargs subshell: bash arrays are not exported, so the docker command is spelled out
   local dir=$1 name=$2
-  "${D[@]}" -v "$S":/s:ro -v "$F":/f:ro -v "$A":/a:ro -v "$T/runs/$dir/$name":/o/"$name" v2d_cari4d:latest \
+  docker run --rm --cpus 4 -e OMP_NUM_THREADS=4 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp \
+    -w /workspace/v2d_cari4d/lib/cari4d -v "$S":/s:ro -v "$F":/f:ro -v "$A":/a:ro -v "$T/runs/$dir/$name":/o/"$name" v2d_cari4d:latest \
     python /s/t3_convert_ep.py world /o/"$name" /f/floor_fit_gb3.json /a /f/camera_register_gb3.json > "$T/logs/world_${dir}_$name.log" 2>&1 \
     && echo "$dir/$name ok" || echo "$dir/$name world FAILED (logs/world_${dir}_$name.log)"
 }
