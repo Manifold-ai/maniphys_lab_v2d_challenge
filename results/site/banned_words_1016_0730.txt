@@ -1,0 +1,24 @@
+# command  : python3 tools/site_banned_words.py docs/site/v2d-track2.html 
+# md5      : a3242da1c2233d3f05999525a2a008ae  tools/site_banned_words.py
+# md5      : 68f3b5887dfbf649e89e4382f82cffe1  docs/site/v2d-track2.html
+# source   : 70dcea05c7fd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:12:46-0600
+# ---------------------------------------------------------------
+词                   HEAD      现在
+jev                    0       0
+Fable                  0       0
+Opus                   0       0
+审查                     0       0
+用户                     0       0
+原文                    12      12
+我们                     0       0
+同组成员                   0       0
+coding agent           0       0
+claim                  1       1
+review                 2       2
+user                   4       4
+teammate               0       0
+we                     0       0
+our                    0       0
+BANNED_SAME

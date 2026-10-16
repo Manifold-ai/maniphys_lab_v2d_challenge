@@ -1,0 +1,241 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "abG": {
+   "file": "results/submission/submit_t3ab1016_gridG_yaw.txt",
+   "grep": "COMPLETE"
+  },
+  "abB": {
+   "file": "results/submission/submit_t3ab1016_manhattanB_yaw.txt",
+   "grep": "COMPLETE"
+  },
+  "lb": {
+   "file": "results/submission/leaderboard_1016_0630.txt",
+   "grep": "^== |maniphys|Xueyi|DAP"
+  },
+  "h1": {
+   "file": "results/r3o/health_t1oa_mf4090.txt",
+   "grep": "DAY2_|EXPORT_CHAIN_DONE|对照|→ 没用|R3O_GATE"
+  },
+  "h2": {
+   "file": "results/r3o/health_t2oa_ml40.txt",
+   "grep": "DAY2_|EXPORT_CHAIN_DONE|对照|→ 没用|R3O_GATE"
+  },
+  "st1": {
+   "file": "results/r3o/status_mf4090_1016_0730.txt",
+   "grep": "^=== .*正式|完成（|MiB|MB free|还没有 policy|写于 2026-10-16"
+  },
+  "st2": {
+   "file": "results/r3o/status_ml40_1016_0730.txt",
+   "grep": "^=== .*正式|完成（|MiB|MB free|还没有 policy|写于 2026-10-16"
+  },
+  "kdiff": {
+   "file": "results/t3world/kfix_ref_diff.txt"
+  },
+  "kcmp": {
+   "file": "results/t3world/kfix_feet_compare.txt"
+  },
+  "kroll": {
+   "file": "results/t3world/feet_roll.txt",
+   "grep": "^[^{]"
+  },
+  "init": {
+   "file": "results/ops/t3_init_pilot_ml40_1016_0730.txt",
+   "grep": "cleared|done|DONE|clock started|running t3_init|exited"
+  },
+  "queue": {
+   "file": "results/ops/t3_queue_ml40_1016_0730.txt",
+   "grep": "dr2s3|^## 脚本类进程|^## GPU|^1313061"
+  },
+  "wf": {
+   "file": "agent-doc/experiments/2026-10-16-t3-world-frame.md",
+   "grep": "^- 第二机位与侧机位|^- 主机位（24 集）|^- 主机位内参|^- 重建流程用的内参"
+  },
+  "lbt3": {
+   "text": "results/submission/leaderboard_1016_0630.txt 里 Tier 3 的四个榜（原文，按名次排列）：\n== v2d-challenge-track2-tier3-auc\n  teamId  teamName                                submissionDate              score    \n--------  --------------------------------------  --------------------------  -------  \n17040998  Xueyi Wang (FF)                         2026-10-15 06:11:20.770000  0.15606  \n17126972  maniphys.ai                             2026-10-16 10:34:34.880000  0.00690  \n16994352  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:13.670000  0.00226  \n== v2d-challenge-track2-tier3-sp-sr\n  teamId  teamName                                submissionDate              score    \n--------  --------------------------------------  --------------------------  -------  \n17126979  maniphys.ai                             2026-10-16 10:34:43.726000  0.03333  \n16994349  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:16.266000  0.00000  \n17041000  Xueyi Wang (FF)                         2026-10-15 06:11:23.196000  0.00000  \n== v2d-challenge-track2-tier3-mp-sr\n  teamId  teamName                                submissionDate              score    \n--------  --------------------------------------  --------------------------  -------  \n16994347  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:19.046000  0.00000  \n17041002  Xueyi Wang (FF)                         2026-10-15 06:11:25.556000  0.00000  \n17126982  maniphys.ai                             2026-10-16 10:34:52.656000  0.00000  \n== v2d-challenge-track2-tier3-mppe\n  teamId  teamName                                submissionDate              score     \n--------  --------------------------------------  --------------------------  --------  \n17126986  maniphys.ai                             2026-10-16 10:35:01.530000  56.87427  \n17041004  Xueyi Wang (FF)                         2026-10-15 06:11:27.943000  67.33010  \n16994345  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:21.900000  70.17205"
+  }
+ },
+ "claims": [
+  {
+   "id": "ab_scores",
+   "evidence": [
+    "abG",
+    "abB"
+   ],
+   "claim": "两次 Tier 3 提交里，方格那版 MPPE 56.87427、SP-SR 0.03333、AUC 0.00690、MP-SR 0；曼哈顿 B 那版 MPPE 63.44727，其余三项 0。"
+  },
+  {
+   "id": "lb_t3_sp",
+   "evidence": [
+    "lbt3"
+   ],
+   "claim": "Tier 3 的 SP-SR 榜（v2d-challenge-track2-tier3-sp-sr）表里第一行是 maniphys.ai，分数 0.03333。"
+  },
+  {
+   "id": "lb_t3_mppe",
+   "evidence": [
+    "lbt3"
+   ],
+   "claim": "Tier 3 的 MPPE 榜（v2d-challenge-track2-tier3-mppe）表里第一行是 maniphys.ai，分数 56.87427，Xueyi Wang (FF) 是 67.33010。"
+  },
+  {
+   "id": "lb_t3_auc",
+   "evidence": [
+    "lbt3"
+   ],
+   "claim": "Tier 3 的 AUC 榜上 Xueyi Wang (FF) 0.15606 排第一，maniphys.ai 0.00690 排第二。"
+  },
+  {
+   "id": "lb_dap",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 MPPE 榜上 DAP 12.65831 排第二，maniphys.ai 16.55939 排第三，Xueyi Wang (FF) 第一。"
+  },
+  {
+   "id": "lb_t1ff",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 的 AUC、SP-SR、MP-SR、MPPE 四个榜排第一的都是 Xueyi Wang (FF)。"
+  },
+  {
+   "id": "lb_t2",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 2 的 AUC、SP-SR、MP-SR、MPPE 四个榜排第一的都是 maniphys.ai。"
+  },
+  {
+   "id": "r3o_t1",
+   "evidence": [
+    "h1"
+   ],
+   "claim": "Tier 1 的 r3o 第一段训练完成 4、失败 0，评测成功 4，导出成功 4；对照 ep20 MP-SR 0.837 过门槛 0.45，ep25、ep28、ep11 的 MP-SR 都是 0.000、判没用，门判继续。"
+  },
+  {
+   "id": "r3o_t2",
+   "evidence": [
+    "h2"
+   ],
+   "claim": "Tier 2 的 r3o 第一段训练完成 4、失败 0，评测成功 4，导出成功 4；对照 ep12 MP-SR 0.735 过门槛 0.5，ep25、ep28、ep1 的 MP-SR 都是 0.000、判没用，门判继续。"
+  },
+  {
+   "id": "seg2_t1",
+   "evidence": [
+    "st1"
+   ],
+   "claim": "mf4090 上 t1-ep4 与 t1-ep9 的 r3o 正式训练已完成，t1-ep1 在训（还没有 DONE），t1-ep2 还没有 policy。"
+  },
+  {
+   "id": "seg2_t2",
+   "evidence": [
+    "st2"
+   ],
+   "claim": "ml40 上 t2-ep4 与 t2-ep17 的 r3o 正式训练已完成，t2-ep9 在训，t2-ep2 与 t2-ep11 还没有 policy。"
+  },
+  {
+   "id": "machines",
+   "evidence": [
+    "st1",
+    "st2"
+   ],
+   "claim": "mf4090 的 GPU 用了 23781 MiB、利用率 97%，可用磁盘 80951 MB；ml40 的 GPU 用了 40271 MiB、利用率 99%。"
+  },
+  {
+   "id": "kfix_diff",
+   "evidence": [
+    "kdiff"
+   ],
+   "claim": "7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位）；人走的路程是旧参考的 1.0307 到 1.0448 倍。"
+  },
+  {
+   "id": "kfix_feet",
+   "evidence": [
+    "kcmp"
+   ],
+   "claim": "第一批新参考 7 集的人脚绝对值中位 1.55 cm，逐集只有 ep22 超过 3 cm（−3.71）；旧链的 ep22 是 −3.76，旧链主机位 24 集里有 7 集超过 3 cm。"
+  },
+  {
+   "id": "kfix_roll",
+   "evidence": [
+    "kroll"
+   ],
+   "claim": "人脚高度对横向的斜率 +0.83 cm/m，95% 区间 [−0.05, +1.91]；物体事件地面隐含 +2.08 cm/m；判读为人脚没有这个横滚。"
+  },
+  {
+   "id": "init_eps",
+   "evidence": [
+    "init"
+   ],
+   "claim": "初始化试点做完了 ep13、ep28、ep04、ep03 四集，之后一行是 INIT PILOT DONE。"
+  },
+  {
+   "id": "init_time",
+   "evidence": [
+    "init"
+   ],
+   "claim": "等待日志记着 14:40:42 卡空闲满 1800 秒后开跑 t3_init_pilot.sh，16:16:01 它以退出码 0 结束。"
+  },
+  {
+   "id": "init_steps",
+   "evidence": [
+    "init"
+   ],
+   "claim": "每一集都先把第 06–08 步清掉再重跑，并且替换了一部分不可靠的帧（replaced_frames）。"
+  },
+  {
+   "id": "dr2s3",
+   "evidence": [
+    "queue"
+   ],
+   "claim": "tier3_cari4d_f830_best_dr2s3 与 tier3_cari4d_f830_best_dr2s3_dyn7 各有 29 个 parquet。"
+  },
+  {
+   "id": "wf_frame",
+   "evidence": [
+    "wf"
+   ],
+   "claim": "主机位 24 集的世界坐标系就是主机位相机的坐标系；第二机位与侧机位的世界坐标系不是它们自己相机的坐标系。"
+  },
+  {
+   "id": "wf_k",
+   "evidence": [
+    "wf"
+   ],
+   "claim": "主机位内参 f 约 866、主点约 (702, 531)；重建流程用的是 fx 830、主点居中，让参考与标定内参下的位置相差约 32 cm（中位）。"
+  },
+  {
+   "id": "ctl_true_auc",
+   "evidence": [
+    "abG"
+   ],
+   "control": "true",
+   "claim": "方格那版的 add_auc 是 0.00690。"
+  },
+  {
+   "id": "ctl_false_dap",
+   "evidence": [
+    "lb"
+   ],
+   "control": "false",
+   "claim": "DAP 在 Tier 1 MPPE 榜上排第一。"
+  },
+  {
+   "id": "ctl_false_r3o",
+   "evidence": [
+    "h1"
+   ],
+   "control": "false",
+   "claim": "Tier 1 的 r3o 第一段里 ep25 修好了，MP-SR 0.837。"
+  },
+  {
+   "id": "ctl_false_kfix",
+   "evidence": [
+    "kdiff"
+   ],
+   "control": "false",
+   "claim": "新参考里物体离相机比旧参考近约 5%。"
+  }
+ ]
+}

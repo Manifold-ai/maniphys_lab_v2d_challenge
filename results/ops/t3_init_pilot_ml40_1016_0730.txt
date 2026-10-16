@@ -1,0 +1,37 @@
+# command  : ssh -o BatchMode=yes ml40 D=\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\;\ cd\ \"\$D/logs\"\ \&\&\ for\ f\ in\ t3_init_pilot.log\ t3_yield_wait.log\;\ do\ echo\ \"##\ \$f\"\;\ tail\ -25\ \"\$f\"\ \|\ cut\ -c1-260\;\ done 
+# source   : 70dcea05c7fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T07:45:54-0600
+# ---------------------------------------------------------------
+## t3_init_pilot.log
+10-16_14:41:29 ep13_snack_box: copied work_fp to work_init, stages 06-08 cleared; episode_000013 {'max_gap': 60, 'frames': 922, 'unreliable': 86, 'replaced_frames': 86, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [37.6, 141.9, 179.
+10-16_15:05:27 ep13_snack_box: done; 06_coconet elapsed_seconds=206.303 07_refinement elapsed_seconds=456.591 08_render elapsed_seconds=758.688 
+10-16_15:06:24 ep28_squeegee: copied work_fp to work_init, stages 06-08 cleared; episode_000028 {'max_gap': 60, 'frames': 988, 'unreliable': 323, 'replaced_frames': 253, 'kept_runs_longer_than_max_gap': [[205, 275]], 'turn_deg_p50_p90_max_on_replaced': [16.5, 
+10-16_15:30:18 ep28_squeegee: done; 06_coconet elapsed_seconds=200.273 07_refinement elapsed_seconds=456.822 08_render elapsed_seconds=773.354 
+10-16_15:31:11 ep04_baseball_bat: copied work_fp to work_init, stages 06-08 cleared; episode_000004 {'max_gap': 60, 'frames': 803, 'unreliable': 218, 'replaced_frames': 218, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [21.5, 120.1,
+10-16_15:53:07 ep04_baseball_bat: done; 06_coconet elapsed_seconds=181.981 07_refinement elapsed_seconds=468.625 08_render elapsed_seconds=661.314 
+10-16_15:54:02 ep03_contigo_coffee_mug: copied work_fp to work_init, stages 06-08 cleared; episode_000003 {'max_gap': 60, 'frames': 781, 'unreliable': 58, 'replaced_frames': 58, 'kept_runs_longer_than_max_gap': [], 'turn_deg_p50_p90_max_on_replaced': [11.8, 36
+10-16_16:16:01 ep03_contigo_coffee_mug: done; 06_coconet elapsed_seconds=176.837 07_refinement elapsed_seconds=467.863 08_render elapsed_seconds=668.479 
+10-16_16:16:01 INIT PILOT DONE
+## t3_yield_wait.log
+10-16_06:35:41 start: t3_init_pilot.sh ep13_snack_box ep28_squeegee ep04_baseball_bat ep03_contigo_coffee_mug
+10-16_06:35:41 waiting: rxzhou chain or card in use (40339 MiB)
+10-16_07:05:41 waiting: rxzhou chain or card in use (40339 MiB)
+10-16_07:35:41 waiting: rxzhou chain or card in use (40339 MiB)
+10-16_08:05:41 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_08:35:41 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_09:05:41 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_09:35:41 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_10:05:41 waiting: rxzhou chain or card in use (40207 MiB)
+10-16_10:35:42 waiting: rxzhou chain or card in use (40207 MiB)
+10-16_11:05:42 waiting: rxzhou chain or card in use (40207 MiB)
+10-16_11:35:42 waiting: rxzhou chain or card in use (40207 MiB)
+10-16_12:05:42 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_12:35:42 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_13:05:42 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_13:35:42 waiting: rxzhou chain or card in use (40209 MiB)
+10-16_14:05:42 waiting: rxzhou chain or card in use (10699 MiB)
+10-16_14:10:42 card idle and no rxzhou chain, clock started
+10-16_14:40:42 idle for 1800 s, running t3_init_pilot.sh
+10-16_16:16:01 t3_init_pilot.sh exited 0
+10-16_16:16:01 WAIT DONE

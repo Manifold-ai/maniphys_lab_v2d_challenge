@@ -1,0 +1,146 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ mf4090\ t1\ t1ob 
+# source   : 70dcea05c7fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T07:32:03-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-16 21:32:04 CST；来历 b106c320bae6
+## t1ob train（runs/logs/t1ob_train_mf4090.log）
+=== 2026-10-16 16:19:16 CST start t1ob_train_mf4090, source b106c320bae6, 期望表 stages/policy/queues/mf4090_t1ob.expect.tsv
+=== 2026-10-16 16:19:18 CST 正向核对：4 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-16 16:19:18 CST 冒烟 smoke-t1-ep4-w2048-cap4m-r3o-mf4090
+SMOKE_OK smoke-t1-ep4-w2048-cap4m-r3o-mf4090
+=== 2026-10-16 16:23:52 CST 冒烟 smoke-t1-ep4-w2048-cap4m-r3o-mf4090 通过：803 帧，不动基线见 results/day2/bar_smoke-t1-ep4-w2048-cap4m-r3o-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-16 16:23:52 CST 冒烟 smoke-t1-ep4-w2048-cap4m-r3o-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-16 16:23:52 CST 冒烟 smoke-t1-ep9-w2048-cap4m-r3o-mf4090
+SMOKE_OK smoke-t1-ep9-w2048-cap4m-r3o-mf4090
+=== 2026-10-16 16:28:47 CST 冒烟 smoke-t1-ep9-w2048-cap4m-r3o-mf4090 通过：870 帧，不动基线见 results/day2/bar_smoke-t1-ep9-w2048-cap4m-r3o-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-16 16:28:47 CST 冒烟 smoke-t1-ep9-w2048-cap4m-r3o-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-16 16:28:47 CST 冒烟 smoke-t1-ep1-w2048-cap4m-r3o-mf4090
+SMOKE_OK smoke-t1-ep1-w2048-cap4m-r3o-mf4090
+=== 2026-10-16 16:33:15 CST 冒烟 smoke-t1-ep1-w2048-cap4m-r3o-mf4090 通过：747 帧，不动基线见 results/day2/bar_smoke-t1-ep1-w2048-cap4m-r3o-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-16 16:33:15 CST 冒烟 smoke-t1-ep1-w2048-cap4m-r3o-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-16 16:33:15 CST 冒烟 smoke-t1-ep2-w2048-cap4m-r3o-mf4090
+SMOKE_OK smoke-t1-ep2-w2048-cap4m-r3o-mf4090
+=== 2026-10-16 16:38:12 CST 冒烟 smoke-t1-ep2-w2048-cap4m-r3o-mf4090 通过：980 帧，不动基线见 results/day2/bar_smoke-t1-ep2-w2048-cap4m-r3o-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-16 16:38:12 CST 冒烟 smoke-t1-ep2-w2048-cap4m-r3o-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-16 16:38:12 CST 正式 t1-ep4-w2048-cap4m-r3o-mf4090
+fc_run_watched: t1-ep4-w2048-cap4m-r3o-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-16 18:46:28 CST t1-ep4-w2048-cap4m-r3o-mf4090 完成（1 段）
+=== 2026-10-16 18:46:28 CST 正式 t1-ep9-w2048-cap4m-r3o-mf4090
+fc_run_watched: t1-ep9-w2048-cap4m-r3o-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-16 20:57:08 CST t1-ep9-w2048-cap4m-r3o-mf4090 完成（1 段）
+=== 2026-10-16 20:57:08 CST 正式 t1-ep1-w2048-cap4m-r3o-mf4090
+## t1ob eval（runs/logs/t1ob_eval_mf4090.log）
+=== 2026-10-16 16:19:18 CST 等 runs/logs/t1ob_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t1-ep0-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep0-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep10-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep11-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+t1-ep13-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep14-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep14-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep15-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep15-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep17-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep18-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep18-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep18-w2048-cap4m-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep19-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep1-w2048-cap4m-p185-mf4090 非有限行 0 结局  扫描 34
+t1-ep1-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 10
+t1-ep20-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep20-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep20-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+t1-ep20-w2048-cap4m-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep21-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep25-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+t1-ep27-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep27-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 35
+t1-ep27-w2048-cap4m-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep28-w2048-cap4m-p185-mf4090 非有限行 0 结局  扫描 34
+t1-ep28-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+t1-ep29-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep29-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep29-w2048-cap4m-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep3-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep4-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+t1-ep5-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep5-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep6-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep6-w2048-cap4m-r3a-s43-mf4090 非有限行 0 结局  扫描 34
+t1-ep6-w2048-cap4m-s43-mf4090 非有限行 0 结局  扫描 35
+t1-ep7-w2048-cap4m-p185g-mf4090 非有限行 0 结局  扫描 34
+t1-ep7-w2048-cap4m-p185-mf4090 非有限行 2 结局 NAN_WATCH_STOPPED 扫描 15
+t1-ep8-w2048-cap4m-r3a-mf4090 非有限行 0 结局  扫描 34
+t1-ep9-w2048-cap4m-r3o-mf4090 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t1-ep0-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 499.85883，平均回报 105.35626，loss_scale —；摘要里 nan 0 项
+t1-ep0-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 556.45361，平均回报 117.94208，loss_scale —；摘要里 nan 0 项
+t1-ep10-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 428.45633，平均回报 71.60108，loss_scale —；摘要里 nan 0 项
+t1-ep11-w2048-cap4m-mf4090.s1.log：平均回合长度 262.37433，平均回报 35.54856，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep11-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 258.30457，平均回报 40.86851，loss_scale —；摘要里 nan 0 项
+t1-ep13-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 293.76758，平均回报 37.63852，loss_scale —；摘要里 nan 0 项
+t1-ep14-w2048-cap4m-mf4090.s1.log：平均回合长度 399.50003，平均回报 65.86761，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep14-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 536.60394，平均回报 90.18758，loss_scale —；摘要里 nan 0 项
+t1-ep14-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 440.71426，平均回报 72.57455，loss_scale —；摘要里 nan 0 项
+t1-ep15-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 496.40814，平均回报 114.39362，loss_scale —；摘要里 nan 0 项
+t1-ep15-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 488.00879，平均回报 107.9216，loss_scale —；摘要里 nan 0 项
+t1-ep16-w2048-cap4m-mf4090.s1.log：平均回合长度 118.65771，平均回报 15.253，loss_scale 2097152.0；摘要里 nan 0 项
+t1-ep17-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 128.19284，平均回报 14.97626，loss_scale —；摘要里 nan 0 项
+t1-ep18-w2048-cap4m-mf4090.s1.log：平均回合长度 552.33698，平均回报 115.71079，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep18-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 611.03705，平均回报 127.8243，loss_scale —；摘要里 nan 0 项
+t1-ep18-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 581.44305，平均回报 118.06248，loss_scale —；摘要里 nan 0 项
+t1-ep18-w2048-cap4m-s43-mf4090.s1.log：平均回合长度 626.41571，平均回报 130.8215，loss_scale —；摘要里 nan 0 项
+t1-ep19-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 326.06964，平均回报 45.21535，loss_scale —；摘要里 nan 0 项
+t1-ep1-w2048-cap4m-mf4090.s1.log：平均回合长度 5.0786，平均回报 nan，loss_scale 0；摘要里 nan 3 项（action_abs_mean_per_env_action、entropy_mean_per_actor_update、return_mean_per_completed_episode）
+t1-ep1-w2048-cap4m-p185-mf4090.s1.log：平均回合长度 140.04439，平均回报 12.84786，loss_scale 1048576.0；摘要里 nan 0 项
+t1-ep20-w2048-cap1m-mf4090.s1.log：平均回合长度 284.54205，平均回报 42.76603，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep20-w2048-cap1m-rt-mf4090.s1.log：平均回合长度 324.10001，平均回报 46.82006，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-mf4090.s1.log：平均回合长度 348.86615，平均回报 63.67233，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 344.27908，平均回报 63.54592，loss_scale —；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 379.26428，平均回报 71.05202，loss_scale —；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-r3o-g1-mf4090.s1.log：平均回合长度 167.58122，平均回报 16.82907，loss_scale —；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 361.25925，平均回报 73.95098，loss_scale —；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-rt-mf4090.s1.log：平均回合长度 457.3587，平均回报 81.99735，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-rt-s43-mf4090.s1.log：平均回合长度 508.29294，平均回报 94.1361，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep20-w2048-cap4m-s43-mf4090.s1.log：平均回合长度 365.15082，平均回报 68.85151，loss_scale —；摘要里 nan 0 项
+t1-ep21-w2048-cap4m-mf4090.s1.log：平均回合长度 375.5603，平均回报 68.76983，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep21-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 431.4649，平均回报 87.5715，loss_scale —；摘要里 nan 0 项
+t1-ep22-w2048-cap4m-mf4090.s1.log：平均回合长度 486.06，平均回报 108.53355，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep24-w2048-cap4m-mf4090.s1.log：平均回合长度 532.75757，平均回报 132.86391，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep25-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 101.99551，平均回报 9.56429，loss_scale —；摘要里 nan 0 项
+t1-ep27-w2048-cap4m-mf4090.s1.log：平均回合长度 343.87332，平均回报 65.29523，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep27-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 336.50314，平均回报 61.58173，loss_scale —；摘要里 nan 0 项
+t1-ep27-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 301.16666，平均回报 53.71655，loss_scale —；摘要里 nan 0 项
+t1-ep27-w2048-cap4m-s43-mf4090.s1.log：平均回合长度 285.31647，平均回报 51.47401，loss_scale —；摘要里 nan 0 项
+t1-ep28-w2048-cap4m-p185-mf4090.s1.log：平均回合长度 230.06772，平均回报 24.54078，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep28-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 206.32487，平均回报 23.50237，loss_scale —；摘要里 nan 0 项
+t1-ep29-w2048-cap4m-mf4090.s1.log：平均回合长度 374.4054，平均回报 68.16907，loss_scale 4194304.0；摘要里 nan 0 项
+t1-ep29-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 315.02255，平均回报 47.74973，loss_scale —；摘要里 nan 0 项
+t1-ep29-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 328.44，平均回报 52.14619，loss_scale —；摘要里 nan 0 项
+t1-ep29-w2048-cap4m-s43-mf4090.s1.log：平均回合长度 339.66425，平均回报 57.96805，loss_scale —；摘要里 nan 0 项
+t1-ep3-w2048-cap4m-mf4090.s1.log：平均回合长度 336.41272，平均回报 64.85664，loss_scale 2097152.0；摘要里 nan 0 项
+t1-ep3-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 340.61194，平均回报 69.0184，loss_scale —；摘要里 nan 0 项
+t1-ep4-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 78.25972，平均回报 8.20933，loss_scale —；摘要里 nan 0 项
+t1-ep5-w2048-cap4m-r3a-mf4090.s2.log：平均回合长度 438.15955，平均回报 68.2841，loss_scale —；摘要里 nan 0 项
+t1-ep5-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 436.72726，平均回报 58.43461，loss_scale —；摘要里 nan 0 项
+t1-ep6-w2048-cap4m-mf4090.s1.log：平均回合长度 375.48306，平均回报 80.12074，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep6-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 378.52756，平均回报 78.659，loss_scale —；摘要里 nan 0 项
+t1-ep6-w2048-cap4m-r3a-s43-mf4090.s1.log：平均回合长度 383.272，平均回报 79.35498，loss_scale —；摘要里 nan 0 项
+t1-ep6-w2048-cap4m-s43-mf4090.s1.log：平均回合长度 385.77603，平均回报 83.24123，loss_scale —；摘要里 nan 0 项
+t1-ep7-w2048-cap4m-p185g-mf4090.s1.log：平均回合长度 614.55554，平均回报 152.71992，loss_scale —；摘要里 nan 0 项
+t1-ep8-w2048-cap4m-mf4090.s1.log：平均回合长度 570.69568，平均回报 119.30626，loss_scale 8388608.0；摘要里 nan 0 项
+t1-ep8-w2048-cap4m-r3a-mf4090.s1.log：平均回合长度 590.10974，平均回报 122.64278，loss_scale —；摘要里 nan 0 项
+t1-ep9-w2048-cap4m-r3o-mf4090.s1.log：平均回合长度 221.07944，平均回报 40.00428，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t1-ep1-w2048-cap4m-r3o-mf4090：100003840 写于 2026-10-16 21:30:20 CST
+t1-ep28-w2048-cap4m-mf4090：60002304 写于 2026-09-30 23:29:36 CST
+t1-ep2-w2048-cap4m-r3o-mf4090：（还没有 policy）
+t1-ep7-w2048-cap4m-p185-mf4090：150005760 写于 2026-10-02 23:51:01 CST
+## 机器
+23781 MiB, 97 %
+80951 MB free
+runs/.chain-active-cand_t1_t1ob_mf4090-gate
+runs/.chain-active-t1ob_eval_mf4090
+runs/.chain-active-t1ob_train_mf4090

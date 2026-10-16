@@ -1,0 +1,34 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-sop-0730.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 83880e43034bf1938c7a4804d294dbd0  agent-doc/experiments/2026-10-16-sop-0730.claims.json
+# source   : 70dcea05c7fd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:11:58-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ab_scores            P(supported)=0.98  verified               [abG, abB]  两次 Tier 3 提交里，方格那版 MPPE 56.87427、SP-SR 0.03333、AUC 0.00690、MP-SR 0；曼哈顿 B 那版 MPPE 63.44727，其余三项 0。
+lb_t3_sp             P(supported)=0.99  verified               [lbt3]  Tier 3 的 SP-SR 榜（v2d-challenge-track2-tier3-sp-sr）表里第一行是 maniphys.ai，分数 0.03333。
+lb_t3_mppe           P(supported)=0.98  verified               [lbt3]  Tier 3 的 MPPE 榜（v2d-challenge-track2-tier3-mppe）表里第一行是 maniphys.ai，分数 56.87427，Xueyi Wang (FF) 是 67.33010。
+lb_t3_auc            P(supported)=0.96  verified               [lbt3]  Tier 3 的 AUC 榜上 Xueyi Wang (FF) 0.15606 排第一，maniphys.ai 0.00690 排第二。
+lb_dap               P(supported)=0.91  verified               [lb]  Tier 1 MPPE 榜上 DAP 12.65831 排第二，maniphys.ai 16.55939 排第三，Xueyi Wang (FF) 第一。
+lb_t1ff              P(supported)=0.91  verified               [lb]  Tier 1 的 AUC、SP-SR、MP-SR、MPPE 四个榜排第一的都是 Xueyi Wang (FF)。
+lb_t2                P(supported)=0.93  verified               [lb]  Tier 2 的 AUC、SP-SR、MP-SR、MPPE 四个榜排第一的都是 maniphys.ai。
+r3o_t1               P(supported)=0.96  verified               [h1]  Tier 1 的 r3o 第一段训练完成 4、失败 0，评测成功 4，导出成功 4；对照 ep20 MP-SR 0.837 过门槛 0.45，ep25、ep28、ep11 的 MP-SR 都是 0.000、判没用，门判继续。
+r3o_t2               P(supported)=0.96  verified               [h2]  Tier 2 的 r3o 第一段训练完成 4、失败 0，评测成功 4，导出成功 4；对照 ep12 MP-SR 0.735 过门槛 0.5，ep25、ep28、ep1 的 MP-SR 都是 0.000、判没用，门判继续。
+seg2_t1              P(supported)=0.87  verified               [st1]  mf4090 上 t1-ep4 与 t1-ep9 的 r3o 正式训练已完成，t1-ep1 在训（还没有 DONE），t1-ep2 还没有 policy。
+seg2_t2              P(supported)=0.93  verified               [st2]  ml40 上 t2-ep4 与 t2-ep17 的 r3o 正式训练已完成，t2-ep9 在训，t2-ep2 与 t2-ep11 还没有 policy。
+machines             P(supported)=0.83  verified               [st1, st2]  mf4090 的 GPU 用了 23781 MiB、利用率 97%，可用磁盘 80951 MB；ml40 的 GPU 用了 40271 MiB、利用率 99%。
+kfix_diff            P(supported)=0.98  verified               [kdiff]  7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位）；人走的路程是旧参考的 1.0307 到 1.0448 倍。
+kfix_feet            P(supported)=0.95  verified               [kcmp]  第一批新参考 7 集的人脚绝对值中位 1.55 cm，逐集只有 ep22 超过 3 cm（−3.71）；旧链的 ep22 是 −3.76，旧链主机位 24 集里有 7 集超过 3 cm。
+kfix_roll            P(supported)=0.98  verified               [kroll]  人脚高度对横向的斜率 +0.83 cm/m，95% 区间 [−0.05, +1.91]；物体事件地面隐含 +2.08 cm/m；判读为人脚没有这个横滚。
+init_eps             P(supported)=0.96  verified               [init]  初始化试点做完了 ep13、ep28、ep04、ep03 四集，之后一行是 INIT PILOT DONE。
+init_time            P(supported)=0.97  verified               [init]  等待日志记着 14:40:42 卡空闲满 1800 秒后开跑 t3_init_pilot.sh，16:16:01 它以退出码 0 结束。
+init_steps           P(supported)=0.89  verified               [init]  每一集都先把第 06–08 步清掉再重跑，并且替换了一部分不可靠的帧（replaced_frames）。
+dr2s3                P(supported)=0.99  verified               [queue]  tier3_cari4d_f830_best_dr2s3 与 tier3_cari4d_f830_best_dr2s3_dyn7 各有 29 个 parquet。
+wf_frame             P(supported)=0.98  verified               [wf]  主机位 24 集的世界坐标系就是主机位相机的坐标系；第二机位与侧机位的世界坐标系不是它们自己相机的坐标系。
+wf_k                 P(supported)=0.97  verified               [wf]  主机位内参 f 约 866、主点约 (702, 531)；重建流程用的是 fx 830、主点居中，让参考与标定内参下的位置相差约 32 cm（中位）。
+ctl_true_auc         P(supported)=0.96  control(true) ok       [abG]  方格那版的 add_auc 是 0.00690。
+ctl_false_dap        P(supported)=0.16  control(false) ok      [lb]  DAP 在 Tier 1 MPPE 榜上排第一。
+ctl_false_r3o        P(supported)=0.02  control(false) ok      [h1]  Tier 1 的 r3o 第一段里 ep25 修好了，MP-SR 0.837。
+ctl_false_kfix       P(supported)=0.21  control(false) ok      [kdiff]  新参考里物体离相机比旧参考近约 5%。
+controls behaved as expected
