@@ -1,0 +1,7 @@
+# command  : bash -c set\ -eo\ pipefail\;\ T=/lab_data/<其他用户>/v2d/tier3\;\ for\ f\ in\ camera_height_main.json\ camera_groups.json\;\ do\ ssh\ -o\ BatchMode=yes\ ml40\ \"cat\ \$T/runs/camera_groups/\$f\"\ \>\ runs/t3world/floor/\$f\;\ r=\$\(ssh\ -o\ BatchMode=yes\ ml40\ \"sha256sum\ \$T/runs/camera_groups/\$f\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ runs/t3world/floor/\$f\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ \$f\ \$\{l:0:16\}\"\ \|\|\ \{\ echo\ MISMATCH\ \$f\;\ exit\ 1\;\ \}\;\ done 
+# source   : 59031dbb73e5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:41:28-0600
+# ---------------------------------------------------------------
+ok camera_height_main.json 9ec50992f3f03639
+ok camera_groups.json a89a1353da2dcfe7

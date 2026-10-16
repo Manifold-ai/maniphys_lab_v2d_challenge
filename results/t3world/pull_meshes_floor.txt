@@ -1,0 +1,18 @@
+# command  : bash -c set\ -eo\ pipefail\;\ R=/home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise/mesh\;\ L=data/challenge/track_2/tier_2_synthetic_noise/mesh\;\ for\ o\ in\ tall_bar_stool\ baseball_bat\ big_black_box\ skinny_wood_chair\ wet_floor_sign\ traffic_cone\ blue_trash_can\ step_ladder\ toy_stroller\ watering_can\ skateboard\ woven_basket\ rolling_luggage\;\ do\ mkdir\ -p\ \$L/\$o\;\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cat\ \$R/\$o/\$o.glb\"\ \>\ \$L/\$o/\$o.glb\;\ r=\$\(ssh\ -o\ BatchMode=yes\ mf4090\ \"sha256sum\ \$R/\$o/\$o.glb\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ \$L/\$o/\$o.glb\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ \$o\ \$\(du\ -h\ \$L/\$o/\$o.glb\ \|\ cut\ -f1\)\ \$\{l:0:16\}\"\ \|\|\ \{\ echo\ MISMATCH\ \$o\;\ exit\ 1\;\ \}\;\ done 
+# source   : 59031dbb73e5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:42:02-0600
+# ---------------------------------------------------------------
+ok tall_bar_stool  14M cc214961423d674d
+ok baseball_bat  10M 5aa2294d698eb370
+ok big_black_box  19M e6d434d16811524b
+ok skinny_wood_chair 3.0M 7982ef074fe2e8b2
+ok wet_floor_sign  13M 7a762ca67b09823c
+ok traffic_cone  11M 2acace9fcb3e53af
+ok blue_trash_can  16M 14c18e9bd96383eb
+ok step_ladder  12M 047a78a75436d9ae
+ok toy_stroller  14M a9c278ea07d4dac5
+ok watering_can 9.1M 6289b834daf9ac45
+ok skateboard  11M 4b011286643070ad
+ok woven_basket  12M 1725abaac462412d
+ok rolling_luggage  25M cd4c9c2b4d80e47b
