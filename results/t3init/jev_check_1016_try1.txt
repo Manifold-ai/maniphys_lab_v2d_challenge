@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-t3-init-pilot-check.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 58a3232ec2ee5a91c9b36ae5f8d3389e  agent-doc/experiments/2026-10-16-t3-init-pilot-check.claims.json
+# source   : f02de773d1c3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:52:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+jump_ep04            P(supported)=0.96  verified               [chk]  ep04_baseball_bat 被替换帧附近大于 90° 的跳变，work_fp 是 26，work_init 是 7。
+jump_ep13            P(supported)=0.86  verified               [chk]  ep13_snack_box 被替换帧附近大于 90° 的跳变，work_fp 是 26，work_init 是 21。
+sil_ep28             P(supported)=0.46  UNVERIFIED             [chk]  ep28_squeegee 被替换帧上剪影 IoU 中位从 work_fp 的 0.231 降到 work_init 的 0.162，逐帧变差 37 帧、变好 13 帧。
+sil_ep04             P(supported)=0.11  UNVERIFIED             [chk]  ep04_baseball_bat 被替换帧上剪影 IoU 中位从 0.670 降到 0.616，逐帧变差 19 帧、变好 7 帧。
+sil_ep13             P(supported)=0.30  UNVERIFIED             [chk]  ep13_snack_box 被替换帧上剪影 IoU 中位从 0.350 升到 0.431，逐帧变好 8 帧、变差 4 帧。
+pos_ep28             P(supported)=0.86  verified               [chk]  ep28_squeegee 被替换帧上两版的位置差中位是 11.93 cm，其余帧的位置差中位是 0.18 cm。
+ctl_true             P(supported)=0.97  control(true) ok       [chk]  ep03_contigo_coffee_mug 被替换帧附近大于 90° 的跳变，work_init 是 0。
+ctl_false            P(supported)=0.01  control(false) ok      [chk]  ep28_squeegee 被替换帧上的剪影 IoU 中位在 work_init 里比 work_fp 高。
+controls behaved as expected

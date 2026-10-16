@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge || exit 1; S=$(ls -d /lab_data/*/v2d/tier3 | grep -v /rxzhou/); [ $(echo "$S" | wc -l) = 1 ] || { echo "T3_SRC ä¸\215å\224¯ä¸\200"; exit 1; }; T3_SRC=$S setsid nohup bash -c "stages/recovery/t3_init_check.sh ep13_snack_box ep28_squeegee ep04_baseball_bat ep03_contigo_coffee_mug > /lab_data/rxzhou/v2d/t3_init_check.out 2>&1" > /dev/null 2>&1 < /dev/null & sleep 5; echo launched; date "+%F %T %Z"' 
+# md5      : e44b09a09b04c7f1b54958577ac4468b  stages/recovery/t3_init_check.sh
+# source   : e3376be2b675-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:48:10-0600
+# ---------------------------------------------------------------
+launched
+2026-10-16 22:48:16 CST

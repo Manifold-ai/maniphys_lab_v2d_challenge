@@ -1,0 +1,86 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "chk": {
+   "file": "results/t3init/check_ml40_1016.txt"
+  },
+  "sil": {
+   "file": "results/t3init/check_ml40_1016.txt",
+   "grep": "两版都查了"
+  }
+ },
+ "claims": [
+  {
+   "id": "jump_ep04",
+   "evidence": [
+    "chk"
+   ],
+   "claim": "ep04_baseball_bat 被替换帧附近大于 90° 的跳变，work_fp 是 26，work_init 是 7。"
+  },
+  {
+   "id": "jump_ep13",
+   "evidence": [
+    "chk"
+   ],
+   "claim": "ep13_snack_box 被替换帧附近大于 90° 的跳变，work_fp 是 26，work_init 是 21。"
+  },
+  {
+   "id": "sil_ep28_med",
+   "evidence": [
+    "sil"
+   ],
+   "claim": "ep28_squeegee 的被替换帧 IoU 中位：work_fp 是 0.231，work_init 是 0.162。"
+  },
+  {
+   "id": "sil_ep28_cnt",
+   "evidence": [
+    "sil"
+   ],
+   "claim": "ep28_squeegee 的被替换帧里，逐帧变差（−0.05 以上）的有 37 帧，变好（+0.05 以上）的有 13 帧。"
+  },
+  {
+   "id": "sil_ep04_med",
+   "evidence": [
+    "sil"
+   ],
+   "claim": "ep04_baseball_bat 的被替换帧 IoU 中位：work_fp 是 0.670，work_init 是 0.616。"
+  },
+  {
+   "id": "sil_ep04_cnt",
+   "evidence": [
+    "sil"
+   ],
+   "claim": "ep04_baseball_bat 的被替换帧里，逐帧变差（−0.05 以上）的有 19 帧，变好（+0.05 以上）的有 7 帧。"
+  },
+  {
+   "id": "sil_ep13_med",
+   "evidence": [
+    "sil"
+   ],
+   "claim": "ep13_snack_box 的被替换帧 IoU 中位：work_fp 是 0.350，work_init 是 0.431。"
+  },
+  {
+   "id": "pos_ep28",
+   "evidence": [
+    "chk"
+   ],
+   "claim": "ep28_squeegee 被替换帧上两版的位置差中位是 11.93 cm，其余帧的位置差中位是 0.18 cm。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "chk"
+   ],
+   "control": "true",
+   "claim": "ep03_contigo_coffee_mug 被替换帧附近大于 90° 的跳变，work_init 是 0。"
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "chk"
+   ],
+   "control": "false",
+   "claim": "ep28_squeegee 被替换帧上的剪影 IoU 中位在 work_init 里比 work_fp 高。"
+  }
+ ]
+}

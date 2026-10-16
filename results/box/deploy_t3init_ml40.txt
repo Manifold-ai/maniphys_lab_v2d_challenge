@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_init_compare.py stages/recovery/t3_init_check.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 770b70ad9587037494bcecf7e68dbe77  stages/recovery/t3_init_compare.py
+# md5      : e44b09a09b04c7f1b54958577ac4468b  stages/recovery/t3_init_check.sh
+# source   : e3376be2b675-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:47:57-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 e3376be2b675；远端来历 e396fde1b00a
+  ok   770b70ad9587037494bcecf7e68dbe77  stages/recovery/t3_init_compare.py
+  ok   e44b09a09b04c7f1b54958577ac4468b  stages/recovery/t3_init_check.sh
+远端来历（放完）e396fde1b00a
+PUSH_OK（2 个文件）
