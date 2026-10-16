@@ -9,6 +9,21 @@
   },
   "kroll": {
    "file": "results/t3world/feet_roll.txt"
+  },
+  "boot": {
+   "file": "results/t3world/floor_roll_boot.txt"
+  },
+  "xchk": {
+   "file": "results/t3kfix/kfix_vs_kgb_ml40.txt",
+   "grep": "集；|KFIX_VS_KGB_DONE|ep00_|ep29_"
+  },
+  "stage": {
+   "file": "results/t3kfix/stage_hf_mf4090.txt",
+   "grep": "HF_PUSH_OK|HF_PULL_OK|TIER3_ROOT_OK|MOVED"
+  },
+  "rt": {
+   "file": "results/t3kfix/retarget_kfix_mf4090.txt",
+   "grep": "^3\t"
   }
  },
  "claims": [
@@ -107,6 +122,64 @@
    ],
    "control": "false",
    "claim": "人脚高度对横向的斜率的 95% 区间不含 0，判读为人脚也有同样的横滚。"
+  },
+  {
+   "id": "boot_ci",
+   "evidence": [
+    "boot"
+   ],
+   "claim": "按集有放回抽样 2000 次，横滚分量的 95% 区间是 [−2.004°, −0.486°]，不含 0，判读为物体横滚各集一致。"
+  },
+  {
+   "id": "boot_loo",
+   "evidence": [
+    "boot"
+   ],
+   "claim": "逐集留一重拟的横滚分量都在 −1.07° 到 −1.38° 之间。"
+  },
+  {
+   "id": "xchk_pos",
+   "evidence": [
+    "xchk"
+   ],
+   "claim": "24 集里，两份重新表达的物体位置最大差是 0，朝向最大差 0.364°。"
+  },
+  {
+   "id": "stage_ok",
+   "evidence": [
+    "stage"
+   ],
+   "claim": "HF 中转拉取了 11 个文件，拼档目录的核对最后打印 TIER3_ROOT_OK。"
+  },
+  {
+   "id": "rt_ep0",
+   "evidence": [
+    "rt"
+   ],
+   "claim": "新参考 ep0 重定向的间隙是 −19.6 mm，状态 OK。"
+  },
+  {
+   "id": "rt_ep26",
+   "evidence": [
+    "rt"
+   ],
+   "claim": "新参考 ep26 重定向的间隙是 −35.6 mm，状态 ALIGN。"
+  },
+  {
+   "id": "ctl_false_boot",
+   "evidence": [
+    "boot"
+   ],
+   "control": "false",
+   "claim": "横滚分量的 95% 区间含 0，判读为物体横滚各集不一致。"
+  },
+  {
+   "id": "ctl_false_xchk",
+   "evidence": [
+    "xchk"
+   ],
+   "control": "false",
+   "claim": "两份重新表达的物体位置最大差超过 1 cm。"
   }
  ]
 }

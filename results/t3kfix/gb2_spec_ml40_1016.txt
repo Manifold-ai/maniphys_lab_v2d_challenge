@@ -1,0 +1,36 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"S=\\\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\;\ cd\ \\\$S\ \&\&\ python3\ -c\ \\\"import\ json\;\ d=json.load\(open\(\\\\\\\"runs/floor/intrinsics_gb2.json\\\\\\\"\)\)\;\ print\(json.dumps\(d\[\\\\\\\"intrinsics\\\\\\\"\]\,\ indent=1\)\)\;\ print\(json.dumps\(d.get\(\\\\\\\"source\\\\\\\"\,\ \{\}\)\,\ ensure_ascii=False\,\ indent=1\)\[:1500\]\)\\\"\;\ echo\;\ sed\ -n\ 1\,25p\ dev/kgb/run_gb2_focal.sh\ 2\>/dev/null\;\ ls\ dev/register_check\ 2\>/dev/null\"\ \|\ tools/redact_stdin.sh 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : ac76abe55f69
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:00:42-0600
+# ---------------------------------------------------------------
+{
+ "0": {
+  "f": 866.3,
+  "cx": 701.8,
+  "cy": 531.1
+ },
+ "1": {
+  "f": 866.3,
+  "cx": 701.8,
+  "cy": 531.1
+ },
+ "2": null
+}
+{
+ "0": "rxzhou ceiling-grid fit GB (p1-training stages/recovery/kfix/kt_gb.json; results/t3world/ceiling_grid_main9.txt), on the original 1536x1152 frames, distortion ignored; reproduced on the Tier 3 input 10-16 as 865.2/700.4/530.7",
+ "1": "same as group 0 (GB): checked 10-17 through the main view, the mutual-range scale 1.054 matches the height scale 1.053 under GB and not under CARI4D own intrinsics (t3_register_check.py, f3b3fca); user decision 10-17",
+ "2": "not calibrated; CARI4D (MoGe) intrinsics kept until the side camera is checked"
+}
+
+#!/usr/bin/env bash
+# 10-17: focal step under intrinsics_gb2.json (main and second camera GB) for the four convert sources best picks from.
+cd /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3
+for src in convert convert_v2 convert_fp convert_pivot; do
+  JOBS=4 ./t3_focal_all.sh $src ${src}_gb2 intrinsics_gb2.json | tail -1 | sed "s/^/$src: /"
+done
+echo GB2_FOCAL_DONE
+code
+libs
+register_check.json
+vp

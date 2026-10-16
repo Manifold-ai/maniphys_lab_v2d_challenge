@@ -1,0 +1,30 @@
+# command  : python3 tools/jev_claims.py agent-doc/plan-t3-kfix-2026-10-16.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7629bae59e9be5b8e1a340e7526f745e  agent-doc/plan-t3-kfix-2026-10-16.claims.json
+# source   : ac76abe55f69-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:02:57-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+feet_delta           P(supported)=0.96  verified               [kcmp]  第一批 7 集里，新参考与旧链世界步之后的支撑脚高度逐集相差 +0.28、+0.06、+0.10、+0.05、+0.43、−0.22、+0.16 cm，都在半厘米以内。
+feet_ep22            P(supported)=0.85  verified               [kcmp]  ep22 的支撑脚在旧链世界步之后低于发布地面 3.76 cm，新参考是 3.71 cm，两者都超过 3 cm。
+feet_old24           P(supported)=0.97  verified               [kcmp]  旧链主机位 24 集里，支撑脚高度的绝对值超过 3 cm 的有 7 集，ep22 是其中之一。
+ref_dist             P(supported)=0.98  verified               [kdiff]  第一批 7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位），即远约 5%。
+ref_walk             P(supported)=0.94  verified               [kdiff]  第一批逐集，新参考里人走的路程是旧参考的 1.0307 到 1.0448 倍。
+ctl_true_pass6       P(supported)=0.99  control(true) ok       [kcmp]  第一批新参考 7 集里，逐集 |·| ≤ 3 cm 的有 6 集。
+ctl_false_all24      P(supported)=0.01  control(false) ok      [kcmp]  旧链主机位 24 集的支撑脚高度都在 3 cm 以内。
+ctl_false_closer     P(supported)=0.20  control(false) ok      [kdiff]  新参考里物体离相机比旧参考近约 5%。
+roll_feet            P(supported)=0.98  verified               [kroll]  24 集人脚高度对横向的斜率是 +0.83 cm/m，95% 区间 [−0.05, +1.91]，区间含 0。
+roll_obj             P(supported)=0.82  verified               [kroll]  物体事件拟出的地面隐含的横向斜率是 +2.08 cm/m，落在人脚斜率的 95% 区间之外。
+roll_abs             P(supported)=0.99  verified               [kroll]  每集人脚高度中位的绝对值再取中位，对发布地面（不校正）是 2.06 cm，对 n_ours、d_ours 是 1.76 cm。
+ctl_true_roll        P(supported)=0.98  control(true) ok       [kroll]  这次检验用了 24 集、18295 帧。
+ctl_false_roll       P(supported)=0.01  control(false) ok      [kroll]  人脚高度对横向的斜率的 95% 区间不含 0，判读为人脚也有同样的横滚。
+boot_ci              P(supported)=0.99  verified               [boot]  按集有放回抽样 2000 次，横滚分量的 95% 区间是 [−2.004°, −0.486°]，不含 0，判读为物体横滚各集一致。
+boot_loo             P(supported)=0.97  verified               [boot]  逐集留一重拟的横滚分量都在 −1.07° 到 −1.38° 之间。
+xchk_pos             P(supported)=0.97  verified               [xchk]  24 集里，两份重新表达的物体位置最大差是 0，朝向最大差 0.364°。
+stage_ok             P(supported)=0.81  verified               [stage]  HF 中转拉取了 11 个文件，拼档目录的核对最后打印 TIER3_ROOT_OK。
+rt_ep0               P(supported)=0.75  verified               [rt]  新参考 ep0 重定向的间隙是 −19.6 mm，状态 OK。
+rt_ep26              P(supported)=0.94  verified               [rt]  新参考 ep26 重定向的间隙是 −35.6 mm，状态 ALIGN。
+ctl_false_boot       P(supported)=0.01  control(false) ok      [boot]  横滚分量的 95% 区间含 0，判读为物体横滚各集不一致。
+ctl_false_xchk       P(supported)=0.01  control(false) ok      [xchk]  两份重新表达的物体位置最大差超过 1 cm。
+controls behaved as expected
