@@ -1,0 +1,17 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/policy/r3o_verdict.py\ P1 
+# md5      : 5d12668cce6fe77e799729ad0a56eba0  stages/policy/r3o_verdict.py
+# source   : d41793623bd8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:12:52-0600
+# ---------------------------------------------------------------
+== P1（Tier 1，步数 349999104，跟丢集 7）
+  对照 t1-ep20-w2048-cap4m-r3o-mf4090：MP-SR 0.837（门槛 0.45）过
+  t1-ep25-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep25-w2048-cap10m-ml40 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t1-ep28-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep28-w2048-cap4m-p185-mf4090 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t1-ep11-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.001、失败_物体 1.000（基线 t1-ep11-w2048-cap4m-mf4090 失败_物体 0.999、SP-SR 0.000）→ 没用
+  t1-ep4-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep4-w2048-cap10m-ml40 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t1-ep9-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep9-w2048-cap10m-ml40 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t1-ep1-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep1-w2048-cap4m-p185-mf4090 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t1-ep2-w2048-cap4m-r3o-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t1-ep2-w2048-cap10m-r3a-ml40 失败_物体 0.988、SP-SR 0.138）→ 没用
+  修好 0、有起色 0、没用 7 → 没用
+R3O_VERDICT 没用
