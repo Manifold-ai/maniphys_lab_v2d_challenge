@@ -24,6 +24,22 @@
   "rt": {
    "file": "results/t3kfix/retarget_kfix_mf4090.txt",
    "grep": "^3\t"
+  },
+  "fit20": {
+   "file": "results/t3kfix/ep20_support_fit_mf4090.txt",
+   "grep": "官方|方块|网格最低点|顶面|RESULT|判定"
+  },
+  "v2s": {
+   "file": "results/t3kfix/stage_hf_v2s_mf4090.txt",
+   "grep": "HF_PULL_OK|TIER3_ROOT_OK|episode_000020.parquet|写 support"
+  },
+  "rt20": {
+   "file": "results/t3kfix/retarget_v2s_mf4090.txt",
+   "grep": "^3\t"
+  },
+  "v2tbl": {
+   "file": "stages/recovery/expect/t3p2_18_1010.tsv",
+   "grep": "episode_000020"
   }
  },
  "claims": [
@@ -180,6 +196,50 @@
    ],
    "control": "false",
    "claim": "两份重新表达的物体位置最大差超过 1 cm。"
+  },
+  {
+   "id": "fit20_off",
+   "evidence": [
+    "fit20"
+   ],
+   "claim": "ep20 的 v2 参考对官方圆柱桌面的间隙是 −21.8 mm，判未对齐。"
+  },
+  {
+   "id": "fit20_hm",
+   "evidence": [
+    "fit20"
+   ],
+   "claim": "ep20 的 v2 参考对交付版方块桌面的间隙是 −7.4 mm，判对齐。"
+  },
+  {
+   "id": "v2s_same",
+   "evidence": [
+    "v2s",
+    "v2tbl"
+   ],
+   "claim": "v2s 拼进去的 ep20 parquet 的 sha256 以 c4fa07bb 开头，与 10/10 拼 v2 时哈希表里的 ep20 parquet 相同。"
+  },
+  {
+   "id": "v2s_root",
+   "evidence": [
+    "v2s"
+   ],
+   "claim": "v2s 的拼档目录核对最后打印 TIER3_ROOT_OK。"
+  },
+  {
+   "id": "rt20_ok",
+   "evidence": [
+    "rt20"
+   ],
+   "claim": "ep20 在 v2s 上重定向的间隙是 −7.4 mm，状态 OK，支撑面类型是 support。"
+  },
+  {
+   "id": "ctl_false_fit20",
+   "evidence": [
+    "fit20"
+   ],
+   "control": "false",
+   "claim": "ep20 的 v2 参考对官方圆柱桌面判对齐。"
   }
  ]
 }
