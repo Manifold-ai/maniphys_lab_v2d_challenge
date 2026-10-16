@@ -1,0 +1,20 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "快�\205��\232results/t3kfix/reexport_mf4090.txt.partial�\210�\207\215�\226��\204�\213�\230�\234��\221�\211"; grep -a -v "^#" results/t3kfix/reexport_mf4090.txt.partial | grep -a -E "^== |^=== 20|�\200\200�\207��\201|�\201\222�\255\211核对|�\204�\213�\231�核对|�\204�\224" | cut -c1-260' 
+# source   : 822c87b0dc6d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:30:37-0600
+# ---------------------------------------------------------------
+快照：results/t3kfix/reexport_mf4090.txt.partial（重新评测还在跑）
+== VM-1-2-ubuntu 2026-10-17 01:21:38 CST 来历 151de5036926；清单 stages/evaluate/exports/kfix_t3_mf4090.tsv（md5 f5831d1e6ee0d3cb1f3ea7f96ba5a083）
+预演全过（每行的每一步）
+=== 2026-10-17 01:21:42 CST t3-ep26-w2048-cap4m-r3a-v2-mf4090 349999104 plain _plain
+=== 2026-10-17 01:21:43 CST fc_export t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy_349999104 episode 26 world_count=4096 traj=0 ===
+== runs/flash_chord/t3-ep26-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w4096_plain/episode_000026.json
+plain 4096 世界评测 退出码 0
+=== 2026-10-17 01:25:50 CST t3-ep26-w2048-cap4m-r3a-v2-mf4090 349999104 idchk _idchk
+=== 2026-10-17 01:25:50 CST fc_export t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy_349999104 episode 26 world_count=4096 traj=0 ===
+== runs/flash_chord/t3-ep26-w2048-cap4m-r3a-v2-mf4090/export_8c778f9/s349999104_w4096_idchk/episode_000026.json
+4096 世界评测 退出码 0
+恒等核对：包装层恒等（t3-ep26-w2048-cap4m-r3a-v2-mf4090，idchk − plain：MP-SR -0.0010、SP-SR -0.0010、ADD-AUC -0.0001、MPPE +0.0067）
+评测器核对：评测器一致（plain − 10/11 的评测：MP-SR +0.0012、SP-SR +0.0010、ADD-AUC -0.0000、MPPE -0.0013）
+=== 2026-10-17 01:29:58 CST t3-ep0-w2048-cap4m-r3a-v2-mf4090 349999104 kfix _kfixgb
+=== 2026-10-17 01:29:58 CST fc_export t3-ep0-w2048-cap4m-r3a-v2-mf4090 policy_349999104 episode 0 world_count=4096 traj=0 ===

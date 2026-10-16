@@ -1,0 +1,12 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-decisions-1200-checks.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 60306fac9404903209af90b93fbc9e7c  agent-doc/experiments/2026-10-16-decisions-1200-checks.claims.json
+# source   : 822c87b0dc6d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:30:46-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+checks_pass          P(supported)=0.94  verified               [checks]  k-fix 重新评测的两道核对都过了：包装层恒等（idchk 与 plain 的 MP-SR、SP-SR 各差 −0.0010），评测器一致（plain 与 10/11 的评测 MP-SR 差 +0.0012）。
+ctl_true_second      P(supported)=0.99  control(true) ok       [planes]  二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。
+ctl_false_side       P(supported)=0.01  control(false) ok      [planes]  侧机位 ep21 的发布地面俯仰是 6.06°。
+controls behaved as expected

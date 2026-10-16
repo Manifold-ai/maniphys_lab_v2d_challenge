@@ -1,0 +1,38 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "checks": {
+      "file": "results/t3kfix/reexport_checks_mf4090.txt",
+      "grep": "恒等核对|评测器核对|退出码"
+    },
+    "planes": {
+      "file": "results/t3kfix/released_planes_by_group.txt",
+      "grep": "主机位|二机位|侧机位"
+    }
+  },
+  "claims": [
+    {
+      "id": "checks_pass",
+      "evidence": [
+        "checks"
+      ],
+      "claim": "k-fix 重新评测的两道核对都过了：包装层恒等（idchk 与 plain 的 MP-SR、SP-SR 各差 −0.0010），评测器一致（plain 与 10/11 的评测 MP-SR 差 +0.0012）。"
+    },
+    {
+      "id": "ctl_true_second",
+      "evidence": [
+        "planes"
+      ],
+      "control": "true",
+      "claim": "二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。"
+    },
+    {
+      "id": "ctl_false_side",
+      "evidence": [
+        "planes"
+      ],
+      "control": "false",
+      "claim": "侧机位 ep21 的发布地面俯仰是 6.06°。"
+    }
+  ]
+}

@@ -40,6 +40,10 @@
     "feet": {
       "file": "results/t3world/feet_roll.txt",
       "grep": "斜率|判读"
+    },
+    "checks": {
+      "file": "results/t3kfix/reexport_checks_mf4090.txt",
+      "grep": "恒等核对|评测器核对|退出码"
     }
   },
   "claims": [
@@ -133,6 +137,13 @@
         "launch"
       ],
       "claim": "k-fix 重新评测在来历 151de5036926 上开跑，预演全过，开跑时 GPU 是空的。"
+    },
+    {
+      "id": "checks_pass",
+      "evidence": [
+        "checks"
+      ],
+      "claim": "k-fix 重新评测的两道核对都过了：包装层恒等（idchk 与 plain 的 MP-SR、SP-SR 各差 −0.0010），评测器一致（plain 与 10/11 的评测 MP-SR 差 +0.0012）。"
     },
     {
       "id": "ctl_true_second",
