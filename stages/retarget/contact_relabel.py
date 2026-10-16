@@ -52,8 +52,12 @@ def rewrite(src: Path, dst: Path, lead: int, gap: int) -> str:
         raise SystemExit(f"{src}：应是单行（按帧存的列表），实际 {t.num_rows} 行")
     i = t.schema.get_field_index(COL)
     old = np.asarray(t.column(COL).to_pylist()[0], dtype=float)
-    if old.ndim != 2 or not np.isin(old, (0.0, 1.0)).all():
-        raise SystemExit(f"{src}：{COL} 不是 手 × 帧 的 0/1")
+    # 形状必须是 手数 × 帧数（10/16 有一次按帧读错了方向；独立复核 MINOR 2）：手数取 hand_sides，帧数取 robot_root_position
+    hands = len(t.column("hand_sides").to_pylist()[0]) if "hand_sides" in t.column_names else None
+    frames = len(t.column("robot_root_position").to_pylist()[0]) if "robot_root_position" in t.column_names else None
+    want = (hands if hands is not None else old.shape[0], frames if frames is not None else old.shape[1])
+    if old.ndim != 2 or old.shape != want or not np.isin(old, (0.0, 1.0)).all():
+        raise SystemExit(f"{src}：{COL} 不是 手 × 帧 的 0/1（形状 {old.shape}，应为 {want}）")
     new = relabel(old, lead, gap).astype(float)
     field = t.schema.field(i)
     t2 = t.set_column(i, field, pa.array([new.tolist()], type=field.type))
@@ -66,7 +70,7 @@ def rewrite(src: Path, dst: Path, lead: int, gap: int) -> str:
     nb = np.asarray(back.column(COL).to_pylist()[0], dtype=float)
     if nb.shape != old.shape or not np.array_equal(nb, new) or ((old > 0.5) & (nb < 0.5)).any():
         raise SystemExit(f"{dst}：{COL} 读回不对（形状、取值，或丢了原来的接触帧）")
-    parts = []
+    parts = [f"形状 {old.shape}（手 × 帧）"]
     for h in range(old.shape[0]):
         so, sn = segments(old[h] > 0.5), segments(new[h] > 0.5)
         parts.append(f"手 {h}：接触帧 {int((old[h] > 0.5).sum())} → {int((new[h] > 0.5).sum())}，段数 {len(so)} → {len(sn)}，"
@@ -90,11 +94,13 @@ def main() -> int:
         if dst.exists():
             raise SystemExit(f"{dst} 已存在，不覆盖")
         print(f"{seq}：{rewrite(src, dst, a.lead, a.gap)}")
-        sup = a.src / "whole_body/reconstructed_stage" / f"{seq}_support.usda"
-        if sup.exists():
+        stage = a.src / "whole_body/reconstructed_stage"
+        sups = sorted(stage.glob(f"{seq}_*support.usda")) if stage.is_dir() else []   # 含 <序列>_g1_support.usda 的写法
+        for sup in sups:
             out = a.dst / "whole_body/reconstructed_stage" / sup.name
             out.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(sup, out)
+        print(f"  支撑面：{'、'.join(x.name for x in sups) if sups else '没有（只有地面）'}")
         meta = a.meta_src / seq / "v2d_meta.json"
         if not meta.exists():
             raise SystemExit(f"没有 {meta}")

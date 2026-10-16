@@ -1,6 +1,6 @@
 """contact_relabel.py 的测试（暂无契约 ID；计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）。要 numpy 与 pyarrow（在 flash_chord 容器里跑）。
   1. relabel：起点提前 lead 帧且不早于 0；不超过 gap 帧的空档补上，更长的不补；只增不减；
-  2. rewrite：临时目录里造一份单行的参考（含 hand_contact_active 与另外两列），改完读回，其余列逐值相同，支撑面与元数据照抄，目标已存在就拒绝。
+  2. rewrite：临时目录里造一份单行的参考，改完读回，其余列逐值相同，支撑面与元数据照抄并打印，目标已存在就拒绝；帧 × 手 的表（方向反了）拒绝。
 用法：python stages/retarget/test_contact_relabel.py；最后一行 ALL_OK。
 """
 import json
@@ -33,6 +33,8 @@ if __name__ == "__main__":
         p = root / "runs/motion/tier1/whole_body/soma" / f"sequence_id={seq}" / "robot_name=g1" / "data.parquet"
         p.parent.mkdir(parents=True)
         tbl = pa.table({"fps": pa.array([30.0], type=pa.float32()),
+                        "hand_sides": pa.array([["left", "right"]], type=pa.list_(pa.string())),
+                        "robot_root_position": pa.array([[[0.0, 0.0, 0.8]] * 60], type=pa.list_(pa.list_(pa.float32(), 3))),
                         "hand_contact_active": pa.array([c.tolist()], type=pa.list_(pa.list_(pa.float32()))),
                         "object_root_position": pa.array([[[0.1, 0.2, 0.3]] * 60], type=pa.list_(pa.list_(pa.float32(), 3)))})
         pq.write_table(tbl, p)
@@ -50,7 +52,16 @@ if __name__ == "__main__":
         assert np.asarray(back.column("hand_contact_active").to_pylist()[0]).tolist() == out.tolist()
         assert (root / "runs/motion/tier1_c10/whole_body/reconstructed_stage" / f"{seq}_support.usda").read_text() == "usda"
         assert json.loads((root / "runs/motion_src/tier1_c10" / seq / "v2d_meta.json").read_text())["episode"] == 7
+        assert "形状 (2, 60)" in r.stdout and f"支撑面：{seq}_support.usda" in r.stdout, r.stdout
         r2 = subprocess.run(args, cwd=root, capture_output=True, text=True, check=False)
         assert r2.returncode != 0 and "不覆盖" in (r2.stdout + r2.stderr), r2.stdout + r2.stderr
+        # 帧 × 手 的表（方向反了）要拒绝
+        bad = root / "runs/motion/tier1/whole_body/soma" / "sequence_id=x" / "robot_name=g1" / "data.parquet"
+        bad.parent.mkdir(parents=True)
+        pq.write_table(tbl.set_column(tbl.schema.get_field_index("hand_contact_active"), "hand_contact_active",
+                                      pa.array([c.T.tolist()], type=pa.list_(pa.list_(pa.float32())))), bad)
+        (root / "runs/motion_src/tier1/x").mkdir(parents=True); (root / "runs/motion_src/tier1/x/v2d_meta.json").write_text("{}")
+        r3 = subprocess.run(args[:-1] + ["x"], cwd=root, capture_output=True, text=True, check=False)
+        assert r3.returncode != 0 and "应为 (2, 60)" in (r3.stdout + r3.stderr), r3.stdout + r3.stderr
     print("  2. 只换一列、其余列逐值相同、支撑面与元数据照抄、目标已存在就拒绝")
     print("ALL_OK")
