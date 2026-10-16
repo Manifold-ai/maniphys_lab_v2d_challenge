@@ -197,7 +197,7 @@
    "status": "candidate",
    "date": "10-16",
    "from": "best_dr2s",
-   "purpose": "dyn7's dynamics post-process (t3_dynamics_post.py, ebad90b; anchors from the depth_post record) on the ray-corrected best_dr2s instead of on best_hm"
+   "purpose": "dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/30 with v2 (ep07). Orientation flips untouched; ep07 iron sinks ~1 cm at the table edge (dr2s made with v2 supports)"
   }
  },
  "work": {
