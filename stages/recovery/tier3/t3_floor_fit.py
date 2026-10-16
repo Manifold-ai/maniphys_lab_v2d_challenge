@@ -19,8 +19,10 @@ Validation without reference: for every episode with events, the correction fitt
 applied to its own contact points; their height above the released plane should be near zero at every depth.
 
     python t3_floor_fit.py <tier3 root> <out .json> [convert dir under runs/, default convert]
+                           [scale=<group>:<value>] [horizon=<group>:<ceiling_vp.json>]
 The convert dir names whose focal step is fitted (10-16: runs/convert_kgb holds the focal step under the calibrated
-main-camera intrinsics, runs/convert the f 830 one).
+main-camera intrinsics, runs/convert the f 830 one). Every episode entry carries shift_m (along n_released, applied by
+the world step after rotation and scale): zero unless scale= sets a camera's scale apart from the released height.
 """
 
 import json
@@ -63,9 +65,26 @@ def correction(n_ours: np.ndarray, d_ours: float, n_rel: np.ndarray, d_rel: floa
     return rot, d_rel / d_ours
 
 
+def horizon_normal(vp_json: Path, name: str, k: np.ndarray) -> np.ndarray:
+    """Floor normal of one camera from its ceiling vanishing line (t3_ceiling_vp.py, k1 = 0, whole image): n = K^T l,
+    up (-y). Follows the intrinsics, which a MoGe normal (fitted under MoGe's own K) does not."""
+    row = next(r for r in json.loads(vp_json.read_text()) if r["episode"] == name)["k1_zero"]["all"]
+    n = k.T @ np.cross([*row["vp1"], 1.0], [*row["vp2"], 1.0])
+    n /= np.linalg.norm(n)
+    return n if n[1] < 0 else -n
+
+
 def main() -> None:
-    root, out = Path(sys.argv[1]), Path(sys.argv[2])
-    conv_dir = root / "runs" / (sys.argv[3] if len(sys.argv) > 3 else "convert")
+    args = [a for a in sys.argv[1:] if "=" not in a]
+    kv = [a.split("=", 1) for a in sys.argv[1:] if "=" in a]
+    root, out = Path(args[0]), Path(args[1])
+    conv_dir = root / "runs" / (args[2] if len(args) > 2 else "convert")
+    # scale=<group>:<value>  a scale measured for a camera that is not the world origin (10-17: the second camera's 1/1.053
+    #                        from t3_register_check.py); the floor is then met by a shift along the released normal
+    # horizon=<group>:<ceiling_vp.json>  the normal of a group whose contacts cannot fix a tilt comes from its ceiling
+    #                        vanishing line under the focal step's intrinsics instead of MoGe's
+    scale_over = {int(v.split(":")[0]): float(v.split(":")[1]) for k, v in kv if k == "scale"}
+    horizon = {int(v.split(":")[0]): Path(v.split(":", 1)[1]) for k, v in kv if k == "horizon"}
     groups = json.loads((root / "runs/camera_groups/camera_groups.json").read_text())["groups"]
     metas = {f"ep{m['episode_index']:02d}_{m['object']}": m for m in
              map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
@@ -112,6 +131,11 @@ def main() -> None:
                 c = (p * w[:, None]).sum(0) / w.sum()
                 span = np.linalg.svd((p - c) * np.sqrt(w)[:, None] / np.sqrt(w.sum()), compute_uv=False)
                 if span[1] < MIN_SPAN_M / 2:  # std along the second floor direction: cannot fix a tilt
+                    if gi in horizon:
+                        hn = [horizon_normal(horizon[gi], nm, np.asarray(np.load(conv_dir / nm / "object_cam_focal.npz")["intrinsics"],
+                                                                         np.float64).reshape(3, 3)) for nm in names]
+                        n, d = fit_plane(*contact_points(names, plane_up(np.mean(hn, 0), 1.0)[0]), plane_up(np.mean(hn, 0), 1.0)[0])
+                        return n, d, "horizon_normal_offset_from_contacts", span
                     mn = [plane_up(np.asarray(moge[metas[nm]["episode_index"]]["n_moge"], np.float64), 1.0)[0] for nm in names
                           if metas[nm]["episode_index"] in moge]
                     normal = plane_up(np.mean(mn, 0), 1.0)[0]
@@ -124,11 +148,15 @@ def main() -> None:
         names_with = sorted(pts_by_ep)
         n_o, d_o, how, span = fit(names_with)
         rot, s = correction(n_o, d_o, n_rel, d_rel)
+        scale_source = "released offset / ours (the camera at the released height)"
+        if gi in scale_over:
+            s, scale_source = scale_over[gi], "given (scale=); the floor is met by shift_m along the released normal"
+        shift = s * d_o - d_rel  # after rotation and scale our floor is s d_o from the camera; this puts it on the released one
         g = {"group": gi, "members": members, "events": len(ev), "episodes_with_events": names_with, "how": how,
              "contact_span_std_m": span.round(3).tolist(), "n_ours": n_o.round(5).tolist(), "d_ours_m": round(d_o, 4),
              "n_released": n_rel.round(5).tolist(), "d_released_m": round(d_rel, 4),
              "tilt_deg": round(float(np.degrees(np.arccos(np.clip(n_o @ n_rel, -1, 1)))), 3), "scale": round(s, 5),
-             "rotation": rot.round(8).tolist()}
+             "scale_source": scale_source, "shift_m": round(float(shift), 5), "rotation": rot.round(8).tolist()}
         # leave-one-episode-out validation on each episode's own contact points
         val = {}
         for nm in names_with:
@@ -156,7 +184,7 @@ def main() -> None:
         report["groups"].append(g)
         for nm in members:
             report["episodes"][nm] = {"group": gi, "rotation": g["rotation"], "scale": g["scale"], "tilt_deg": g["tilt_deg"],
-                                      "how": how, "own_events": nm in pts_by_ep}
+                                      "how": how, "own_events": nm in pts_by_ep, "shift_m": g["shift_m"], "n_released": g["n_released"]}
         print(json.dumps({k: v for k, v in g.items() if k not in ("rotation", "validation_leave_one_out", "members")}), flush=True)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=1))

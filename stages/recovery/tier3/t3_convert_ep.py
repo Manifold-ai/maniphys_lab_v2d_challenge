@@ -437,12 +437,15 @@ def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None
     reg = _camera_register(json.loads(reg_bytes), entry["group"]) if reg_bytes is not None and fallback is None else None
     r_reg, move = reg if reg is not None else (np.eye(3), lambda x: x)
     rot_all = r_reg @ rot
+    # a camera whose scale was measured apart from the released height (floor fit scale=, 10-17) meets the floor by a
+    # shift along the released normal; zero for every fit made by the released height (older fits have no shift_m)
+    lift = float(entry.get("shift_m", 0.0)) * np.asarray(entry.get("n_released", [0.0, 0.0, 0.0]), np.float64)
 
     oc = dict(np.load(out / "object_cam_focal.npz"))
     t_cam = oc["T_cam_glb"].astype(np.float64)
     t_w = t_cam.copy()
     t_w[:, :3, :3] = np.einsum("ij,njk->nik", rot_all, t_cam[:, :3, :3])
-    t_w[:, :3, 3] = move(s * t_cam[:, :3, 3] @ rot.T)
+    t_w[:, :3, 3] = move(s * t_cam[:, :3, 3] @ rot.T + lift)
     np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
 
     sp = dict(np.load(out / "soma_params_focal.npz", allow_pickle=True))
@@ -451,12 +454,13 @@ def world(out: Path, floor_fit: Path, assets: Path, register: Path | None = None
     # 1.4 cm on the main camera, 6.5 cm on the second; t3_feet_diag.py). The person gets s times smaller.
     tol = json.loads((out / "residual_report.json").read_text())["chamfer_cm"]["mean"] / 100.0
     scaled, fit = _scale_body(sp, s, assets, name, tol) if s != 1.0 else (sp, {"scale": 1.0, "skipped": "no scale"})
-    new, err = _move_body(scaled, rot_all, lambda p: move(s * p @ rot.T), assets, name, "world")
+    new, err = _move_body(scaled, rot_all, lambda p: move(s * p @ rot.T + lift), assets, name, "world")
     np.savez(out / "soma_params_world.npz", **new)
     focal_calib = json.loads((out / "focal_calib.json").read_text())
     calib = {"episode": name, "floor_fit": floor_fit.name, "floor_fit_sha256": hashlib.sha256(fit_bytes).hexdigest(),
              "camera_group": entry["group"], "how": entry["how"], "own_floor_events": entry["own_events"],
-             "rotation": rot.tolist(), "scale": s, "tilt_deg": entry["tilt_deg"], "body_rigid_max_err_mm": round(err * 1000, 4),
+             "rotation": rot.tolist(), "scale": s, "shift_m": float(entry.get("shift_m", 0.0)), "tilt_deg": entry["tilt_deg"],
+             "body_rigid_max_err_mm": round(err * 1000, 4),
              "body_scale_fit": fit, "fallback": fallback,
              "camera_register": None if reg is None else {"file": register.name, "sha256": hashlib.sha256(reg_bytes).hexdigest(),
                                                            **json.loads(reg_bytes)["groups"][str(entry["group"])]},

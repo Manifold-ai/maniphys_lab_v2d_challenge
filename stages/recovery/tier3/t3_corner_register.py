@@ -14,7 +14,9 @@ from t3_walls.py plates, plus on 500-px left and right edge crops of it, where t
 Convention as t3_convert_ep.py _camera_register: p_main = Rot(yaw) p + t in the plane basis named in the spec.
 
     python t3_corner_register.py <tier3 root> <floor_fit.json> <det dir> <crop det dir> <episode> <group> \
-        --left=A|C [camera_register.json]
+        --left=A|C [camera_register.json] [conv=<dir>] [base=<camera_register.json holding the second camera>]
+conv= names the convert dir whose focal step holds the intrinsics (default convert); base= the register spec C is read
+from (default runs/floor/camera_register.json). A floor fit with shift_m is met as in t3_mutual_multi.py (10-17).
 """
 import json
 import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
@@ -32,15 +34,17 @@ def rot(a: float) -> np.ndarray:
 
 
 def main() -> None:
-    args = [a for a in sys.argv[1:] if not a.startswith("--left=")]
+    args = [a for a in sys.argv[1:] if not a.startswith(("--left=", "conv=", "base="))]
     left = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--left=")), None)
+    conv = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("conv=")), "convert")
+    base = next((Path(a.split("=", 1)[1]) for a in sys.argv[1:] if a.startswith("base=")), None)
     if left not in ("A", "C") or len(args) < 6:
         raise SystemExit(__doc__)
     root, fit_path, det_dir, crop_dir, ep, group = Path(args[0]), Path(args[1]), Path(args[2]), Path(args[3]), args[4], int(args[5])
     reg_path = Path(args[6]) if len(args) > 6 else None
     meta = {f"ep{m['episode_index']:02d}_{m['object']}": m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     fit = json.loads(fit_path.read_text())["episodes"][ep]
-    reg_all = json.loads((root / "runs/floor/camera_register.json").read_text())
+    reg_all = json.loads((base or root / "runs/floor/camera_register.json").read_text())
     second = reg_all["groups"]["1"]
     A, C = np.zeros(2), np.asarray(second["t_m"], float)
 
@@ -51,16 +55,18 @@ def main() -> None:
     u = np.array([1.0, 0, 0]) - n[0] * n
     u /= np.linalg.norm(u)
     v, o = np.cross(n, u), -d * n
-    R, s = np.asarray(fit["rotation"]), float(fit["scale"])
-    K = np.asarray(np.load(root / "runs/convert" / ep / "object_cam_focal.npz")["intrinsics"], float)
+    R, s, sh = np.asarray(fit["rotation"]), float(fit["scale"]), float(fit.get("shift_m", 0.0))
+    K = np.asarray(np.load(root / "runs" / conv / ep / "object_cam_focal.npz")["intrinsics"], float).reshape(3, 3)
 
     def on_floor(px):
         ray = s * (R @ (np.linalg.inv(K) @ np.array([px[0], px[1], 1.0])))
-        X = (-d / (n @ ray)) * ray
+        X = (-(d + sh) / (n @ ray)) * ray + sh * n
         return np.array([(X - o) @ u, (X - o) @ v])
 
     dets = json.loads((det_dir / f"det_plate_{ep}.json").read_text())
-    width = int(round(2 * K[0, 2]))
+    # image width from CARI4D's own intrinsics, whose principal point is the image centre (the focal step's K need not
+    # be: GB's cx 701.8 would put the right crop 132 px off)
+    width = int(round(2 * float(np.load(root / "runs" / conv / ep / "object_cam.npz")["intrinsics"].reshape(3, 3)[0, 2])))
     boxes = [x["box"] for x in dets if "tripod" in x["label"]]
     for side, off in (("L", 0), ("R", width - CROP_W)):
         f = crop_dir / f"det_{side}_{ep}.json"
