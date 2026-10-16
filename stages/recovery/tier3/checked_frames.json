@@ -218,5 +218,10 @@
  "fourth_pass_dr2s_dyn7": {
   "_doc": "10-16 ~13:30, user on overlays video | hm | dr2s | dr2s_dyn7 (dev/checked_frames/dr2sd7/), all 16 frames",
   "verdict": "dr2s_dyn7 clearly better on the snack box (ep13) and the squeegee (ep28); about the same elsewhere; what was wrong stays wrong (e.g. ep04's bat); nothing got worse"
+ },
+ "fifth_pass_audit_dr2s_dyn7": {
+  "_doc": "10-16 ~13:45, user on the frames the pose audit flagged (largest change dr2s -> dr2s_dyn7; dev/checked_frames/audit_dr2sd7/: video | hm | dr2s | dr2s_dyn7): ep28 640/735, ep19 810/826, ep01 690/698, ep04 283, ep14 978, ep13 206, ep02 395",
+  "verdict": "overall the dyn7 changes are improvements",
+  "ep02_f395": "the basket is upside down in all three versions (orientation from the reconstruction); dr2s_dyn7's position fits the video best"
  }
 }
