@@ -51,7 +51,8 @@ for seq in "${seqs[@]}"; do [ -f "runs/motion_src/tier1/$seq/v2d_meta.json" ] ||
 mapfile -t listed < <(grep -vE '^(#|[[:space:]]*$)' "$LIST" | cut -f3)
 [ "${listed[*]}" = "${runs[*]}" ] || stop "导出清单的 run 与期望表不一致：${listed[*]}"
 for r in "${cfgs[@]}"; do
-  left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null)"
+  # 目录还不存在时 find 退出码非零，set -e 下会不打印就退出（10/16 凌晨 t1ob、t2ob 就停在这里）；不存在就当没有产物，往下核 cfgcheck
+  left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null || true)"
   [ -z "$left" ] || stop "runs/flash_chord/$r 里已有训练产物（$left）"
   [ -f "runs/cfgcheck/$r.yaml" ] || stop "缺 runs/cfgcheck/$r.yaml（先跑 fc_config_check.sh）"
 done

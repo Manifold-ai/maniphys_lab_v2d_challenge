@@ -99,7 +99,8 @@ for i in "${!runs[@]}"; do
     "$m" "$T" "${leps[$i]}" || stop "$m 的档位或 episode 与导出清单（Tier $T ep${leps[$i]}）不一致"
 done
 for r in "${cfgs[@]}"; do
-  left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null)"
+  # 目录还不存在时 find 退出码非零，set -e 下会不打印就退出（10/16 凌晨 t1ob、t2ob 就停在这里）；不存在就当没有产物，往下核 cfgcheck
+  left="$(find "runs/flash_chord/$r" -mindepth 1 ! -name .lock -print -quit 2>/dev/null || true)"
   if [ -n "$left" ]; then
     case "$r" in smoke-*) [ -f "runs/flash_chord/$r/DONE" ] || stop "runs/flash_chord/$r 里有产物但没有 DONE（${left}）" ;;
                  *) stop "runs/flash_chord/$r 里已有训练产物（${left}）" ;; esac
