@@ -1,0 +1,19 @@
+# command  : python3 stages/evaluate/test_eval_playback_override.py 
+# md5      : 3646785e3426cd082719e37d870524eb  stages/evaluate/test_eval_playback_override.py
+# source   : 3d03f52f6243-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:20:52-0600
+# ---------------------------------------------------------------
+ok  换参考：task.parquet（保留引号）、reference.parquet、num_frames 按新帧数重算；非法路径拒绝
+  PASS  恒等覆盖（逐帧 checkpoint）：配置不变、没有改动
+  PASS  恒等覆盖（真实时长 checkpoint）：配置不变、没有改动
+  PASS  逐帧 → 真实时长：只改回放、num_frames 553 → 921、补两个容差键
+  PASS  原配置对象没被改
+  PASS  真实时长 → 逐帧：只改回放与 num_frames 921 → 553
+  PASS  已是真实时长再覆盖成真实时长：不改
+  PASS  已是逐帧再覆盖成逐帧：不改
+  PASS  容差已经更宽（2 mm / 5e-3）时不收窄
+  PASS  922 帧的序列按真实时长是 1536 帧
+  PASS  motion_speed 0.5 时拒绝
+  PASS  非法回放名拒绝
+结果：全部通过

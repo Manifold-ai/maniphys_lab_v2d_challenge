@@ -3,6 +3,7 @@
 配置照两条 ep20 满配 checkpoint 里实际存的结构（task / reference / embodiment.config 这几段，外加几个无关键）：
 恒等覆盖一个键都不改；逐帧 → 真实时长只改回放开关、num_frames（553 → 921）与两个容差键；真实时长 → 逐帧只改回放开关与 num_frames；
 已是目标回放时不改；容差已经更宽时不收窄；motion_speed 不是 1.0 时拒绝；非法回放名拒绝。
+换参考（k-fix）：只动 task.parquet（保留引号）、reference.parquet 与按新帧数重算的 num_frames；新路径不是 /repo/runs/motion/…/data.parquet 时拒绝。
 用法：python3 stages/evaluate/test_eval_playback_override.py
 """
 import copy
@@ -26,6 +27,29 @@ def ckpt(real: bool) -> dict:
             "embodiment": {"_target_": "flash_chord.embodiments.g1_dex3.G1Dex3", "config": emb},
             "training": {"total_environment_steps": 349999104, "replay": {"capacity": 10000000}},
             "scene": {"world_count": 2048, "support": True}}
+
+
+NEWP = "/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=seq0/robot_name=g1/data.parquet"
+
+
+def test_parquet() -> None:
+    """换参考：只动 task.parquet（保留引号）、reference.parquet 与按新帧数重算的 num_frames；非法路径拒绝。"""
+    c = ckpt(False)
+    out, ch = override_config(c, "same", 0.002, 0.005, 553, 30.0, parquet=NEWP)
+    assert out["task"]["parquet"] == f"'{NEWP}'" and out["reference"]["parquet"] == NEWP, out
+    assert set(ch) == {"task.parquet", "reference.parquet"}, ch
+    out, ch = override_config(c, "same", 0.002, 0.005, 560, 30.0, parquet=NEWP)
+    assert out["reference"]["num_frames"] == 560 and set(ch) == {"task.parquet", "reference.parquet", "reference.num_frames"}, ch
+    out, ch = override_config(ckpt(True), "same", 0.002, 0.005, 553, 30.0, parquet=NEWP)
+    assert out["reference"]["num_frames"] == 921, out["reference"]["num_frames"]   # 真实时长：(553 − 1) / 30 × 50 + 1
+    for bad in ("/tmp/x.parquet", "runs/motion/tier3/data.parquet", "/repo/runs/motion/tier3/x.csv"):
+        try:
+            override_config(c, "same", 0.002, 0.005, 553, 30.0, parquet=bad)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"非法的新参考路径没被拒绝：{bad}")
+    print("ok  换参考：task.parquet（保留引号）、reference.parquet、num_frames 按新帧数重算；非法路径拒绝")
 
 
 def main() -> int:
@@ -75,4 +99,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    test_parquet()
     sys.exit(main())
