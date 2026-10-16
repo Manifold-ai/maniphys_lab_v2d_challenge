@@ -1,0 +1,15 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-decisions-1200-rows.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7d3c31a26144d6581a592c6c117c2c49  agent-doc/experiments/2026-10-16-decisions-1200-rows.claims.json
+# source   : 64d35cd0e710-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:43:11-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+row_ep0              P(supported)=0.98  verified               [rows]  t3-ep0 这条 run 的 MP-SR 从旧参考的 0.965 变成新参考的 0.000，SP-SR 从 0.992 变成 0.000，判据 5 判不换。
+row_ep18             P(supported)=0.97  verified               [rows]  ep18 的现有策略对新参考的 MP-SR 是 0.013、SP-SR 0.134，对旧参考是 0.862、0.938，判据 5 判不换。
+mesh_same            P(supported)=0.84  verified               [rows]  ep0 的旧参考（tier3_v2）与新参考（tier3_kfix）用的物体网格与 URDF，sha256 前 16 位都相同。
+refdiff              P(supported)=0.99  verified               [refdiff]  ep0 新旧两份参考的机器人根位置差中位是 0.0379 m，物体相对机器人根的位置差中位是 0.0624 m。
+ctl_true_second      P(supported)=0.99  control(true) ok       [planes]  二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。
+ctl_false_side       P(supported)=0.01  control(false) ok      [planes]  侧机位 ep21 的发布地面俯仰是 6.06°。
+controls behaved as expected

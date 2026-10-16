@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && echo "快�\205��\232�\207\215�\226��\204�\213�\230�\234��\221�\214�\217�读已�\220��\233\230�\232\204 4096 �\226�\225\214 JSON�\210�\215�\206\231�\223�\236\234表�\211"; python3 stages/evaluate/kfix_reexport_table.py stages/evaluate/exports/kfix_t3_mf4090.tsv; echo "== ep0 两份�\217\202�\200\203�\232\204�\221格�\216 URDF�\210sha256 �\211\215 16 �\215�\211"; for s in tier3_v2 tier3_kfix; do d=runs/motion/$s/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/object; echo "$s obj $(sha256sum < $d/textured_mesh.obj | cut -c1-16) urdf $(sha256sum < $d/textured_mesh.urdf | cut -c1-16)"; done' 
+# md5      : 8b2e7dcd76d84cf117ca88146190e580  stages/evaluate/kfix_reexport_table.py
+# source   : 64d35cd0e710
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:42:48-0600
+# ---------------------------------------------------------------
+快照：重新评测还在跑，只读已落盘的 4096 世界 JSON（不写结果表）
+恒等核对：包装层恒等（t3-ep26-w2048-cap4m-r3a-v2-mf4090，idchk − plain：MP-SR -0.0010、SP-SR -0.0010、ADD-AUC -0.0001、MPPE +0.0067）
+评测器核对：评测器一致（plain − 10/11 的评测：MP-SR +0.0012、SP-SR +0.0010、ADD-AUC -0.0000、MPPE -0.0013）
+t3-ep0-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet）：MP-SR 0.965→0.000，SP-SR 0.992→0.000，ADD-AUC 0.591→0.244，MPPE 2.601→36.536
+  判据 5（MP-SR ≥ 0.915 且 SP-SR ≥ 0.942）：不换
+t3-ep18-w2048-cap4m-r3a-v2-mf4090（旧值取 10/11 的评测；新参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet）：MP-SR 0.862→0.013，SP-SR 0.938→0.134，ADD-AUC 0.537→0.259，MPPE 4.249→32.992
+  判据 5（MP-SR ≥ 0.812 且 SP-SR ≥ 0.887）：不换
+t3-ep24-w2048-cap4m-r3a-v2-mf4090：缺新的 4096 世界 JSON
+t3-ep26-w2048-cap4m-r3a-v2-mf4090：缺新的 4096 世界 JSON
+t3-ep29-w2048-cap4m-r3a-v2-mf4090：缺新的 4096 世界 JSON
+t3-ep20-w2048-cap4m-r3a-v2-mf4090：缺新的 4096 世界 JSON
+KFIX_TABLE_DONE 0
+== ep0 两份参考的网格与 URDF（sha256 前 16 位）
+tier3_v2 obj 2292ae1df187bb69 urdf 3ca858449cf9ee7c
+tier3_kfix obj 2292ae1df187bb69 urdf 3ca858449cf9ee7c

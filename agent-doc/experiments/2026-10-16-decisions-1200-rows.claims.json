@@ -1,0 +1,63 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rows": {
+      "file": "results/t3kfix/kfix_rows_snapshot_mf4090.txt",
+      "grep": "t3-ep0-|t3-ep18-|判据 5|tier3_v2 obj|tier3_kfix obj"
+    },
+    "refdiff": {
+      "file": "results/t3kfix/ref_pair_diff_ep0_mf4090.txt",
+      "grep": "机器人根位置差|物体相对机器人根|物体根位置差|网格路径"
+    },
+    "planes": {
+      "file": "results/t3kfix/released_planes_by_group.txt",
+      "grep": "主机位|二机位|侧机位"
+    }
+  },
+  "claims": [
+    {
+      "id": "row_ep0",
+      "evidence": [
+        "rows"
+      ],
+      "claim": "t3-ep0 这条 run 的 MP-SR 从旧参考的 0.965 变成新参考的 0.000，SP-SR 从 0.992 变成 0.000，判据 5 判不换。"
+    },
+    {
+      "id": "row_ep18",
+      "evidence": [
+        "rows"
+      ],
+      "claim": "ep18 的现有策略对新参考的 MP-SR 是 0.013、SP-SR 0.134，对旧参考是 0.862、0.938，判据 5 判不换。"
+    },
+    {
+      "id": "mesh_same",
+      "evidence": [
+        "rows"
+      ],
+      "claim": "ep0 的旧参考（tier3_v2）与新参考（tier3_kfix）用的物体网格与 URDF，sha256 前 16 位都相同。"
+    },
+    {
+      "id": "refdiff",
+      "evidence": [
+        "refdiff"
+      ],
+      "claim": "ep0 新旧两份参考的机器人根位置差中位是 0.0379 m，物体相对机器人根的位置差中位是 0.0624 m。"
+    },
+    {
+      "id": "ctl_true_second",
+      "evidence": [
+        "planes"
+      ],
+      "control": "true",
+      "claim": "二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。"
+    },
+    {
+      "id": "ctl_false_side",
+      "evidence": [
+        "planes"
+      ],
+      "control": "false",
+      "claim": "侧机位 ep21 的发布地面俯仰是 6.06°。"
+    }
+  ]
+}

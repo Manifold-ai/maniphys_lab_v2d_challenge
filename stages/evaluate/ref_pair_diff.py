@@ -18,8 +18,13 @@ def load(p: str) -> dict:
         "root": np.asarray(r["robot_root_position"], float), "wxyz": np.asarray(r["robot_root_wxyz"], float),
         "q": np.asarray(r["robot_joint_positions"], float), "obj": np.asarray(r["object_root_position"], float),
         "eep": np.asarray([[p7[:3] for p7 in fr] for fr in r["ee_pose_w"]], float),
-        "contact": np.asarray(r["hand_contact_active"], float),
+        "contact": contact_by_frame(np.asarray(r["hand_contact_active"], float), len(r["robot_root_position"])),
     }
+
+
+def contact_by_frame(c: np.ndarray, frames: int) -> np.ndarray:
+    # hand_contact_active 按手存（形状 手数 × 帧数）；转成 帧数 × 手数（10/16 第一版按帧读错了方向，ep0 那份记录的接触行作废）
+    return c.T if c.shape[0] != frames else c
 
 
 def yaw(wxyz: np.ndarray) -> np.ndarray:

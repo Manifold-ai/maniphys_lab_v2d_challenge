@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/evaluate/ref_pair_diff.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : fd0ea2ee9b177e2680afb7799fe1b72a  stages/evaluate/ref_pair_diff.py
+# source   : 64d35cd0e710
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:36:11-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 64d35cd0e710；远端来历 151de5036926
+  ok   fd0ea2ee9b177e2680afb7799fe1b72a  stages/evaluate/ref_pair_diff.py
+远端来历（放完）151de5036926
+PUSH_OK（1 个文件）
