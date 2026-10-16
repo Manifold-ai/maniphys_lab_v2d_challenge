@@ -52,6 +52,14 @@
     "refdiff": {
       "file": "results/t3kfix/ref_pair_diff_ep0_mf4090.txt",
       "grep": "机器人根位置差|物体相对机器人根|物体根位置差|网格路径"
+    },
+    "rows2": {
+      "file": "results/t3kfix/kfix_rows_snapshot2_mf4090.txt",
+      "grep": "t3-ep24-|判据 5"
+    },
+    "refdiff24": {
+      "file": "results/t3kfix/ref_pair_diff_ep24_mf4090.txt",
+      "grep": "机器人根位置差|物体相对机器人根"
     }
   },
   "claims": [
@@ -180,6 +188,20 @@
         "refdiff"
       ],
       "claim": "ep0 新旧两份参考的机器人根位置差中位是 0.0379 m，物体相对机器人根的位置差中位是 0.0624 m。"
+    },
+    {
+      "id": "row_ep24",
+      "evidence": [
+        "rows2"
+      ],
+      "claim": "t3-ep24 这条 run 的 MP-SR 从旧参考的 0.933 变成新参考的 0.902，SP-SR 从 0.995 变成 0.998，判据 5 判换。"
+    },
+    {
+      "id": "refdiff24",
+      "evidence": [
+        "refdiff24"
+      ],
+      "claim": "ep24 新旧两份参考的物体相对机器人根的位置差中位是 0.0078 m，机器人根位置差中位是 0.0064 m。"
     },
     {
       "id": "ctl_true_second",

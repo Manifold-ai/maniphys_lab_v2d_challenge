@@ -1,0 +1,49 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "rows2": {
+      "file": "results/t3kfix/kfix_rows_snapshot2_mf4090.txt",
+      "grep": "t3-ep24-|判据 5"
+    },
+    "refdiff24": {
+      "file": "results/t3kfix/ref_pair_diff_ep24_mf4090.txt",
+      "grep": "机器人根位置差|物体相对机器人根"
+    },
+    "planes": {
+      "file": "results/t3kfix/released_planes_by_group.txt",
+      "grep": "主机位|二机位|侧机位"
+    }
+  },
+  "claims": [
+    {
+      "id": "row_ep24",
+      "evidence": [
+        "rows2"
+      ],
+      "claim": "t3-ep24 这条 run 的 MP-SR 从旧参考的 0.933 变成新参考的 0.902，SP-SR 从 0.995 变成 0.998，判据 5 判换。"
+    },
+    {
+      "id": "refdiff24",
+      "evidence": [
+        "refdiff24"
+      ],
+      "claim": "ep24 新旧两份参考的物体相对机器人根的位置差中位是 0.0078 m，机器人根位置差中位是 0.0064 m。"
+    },
+    {
+      "id": "ctl_true_second",
+      "evidence": [
+        "planes"
+      ],
+      "control": "true",
+      "claim": "二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。"
+    },
+    {
+      "id": "ctl_false_side",
+      "evidence": [
+        "planes"
+      ],
+      "control": "false",
+      "claim": "侧机位 ep21 的发布地面俯仰是 6.06°。"
+    }
+  ]
+}
