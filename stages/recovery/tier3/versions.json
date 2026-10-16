@@ -216,6 +216,24 @@
    "date": "10-16",
    "from": "best_dr2s3",
    "purpose": "dyn7's dynamics post-process on best_dr2s3; replaces best_dr2s_dyn7 only if the self-check shows nothing worse"
+  },
+  "tier3_cari4d_gb_best": {
+   "status": "candidate",
+   "date": "10-17",
+   "from": "best",
+   "purpose": "per-episode pick as best (same selection), every convert dir re-expressed under the calibrated intrinsics GB (f 866.3, cx 701.8, cy 531.1, rxzhou ceiling grid) on all three cameras, floor_fit_gb3 (main 1.222 deg / 0.984; second camera scale 0.949 from t3_register_check.py), camera_register_gb3 (second 181.38 deg; ep21 its 10-12 tripod pair, GB on evidence insufficient but tested); made by t3_gb_chain.sh"
+  },
+  "tier3_cari4d_gb_best_dr2s": {
+   "status": "candidate",
+   "date": "10-17",
+   "from": "tier3_cari4d_gb_best",
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb_best with supports runs/support/tier3_cari4d_gb_best"
+  },
+  "tier3_cari4d_gb_best_dr2s_dyn7": {
+   "status": "candidate",
+   "date": "10-17",
+   "from": "tier3_cari4d_gb_best_dr2s",
+   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; delivery waits for the user"
   }
  },
  "work": {

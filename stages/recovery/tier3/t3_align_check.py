@@ -38,6 +38,9 @@ MIN_MASK_PX = 200
 MAX_FACES = 20000
 LOW_IOU = 0.5
 WORK = {"convert": "work", "convert_v2": "work_v2", "convert_fp": "work_fp", "convert_pivot": "work_fp"}
+# convert dirs re-expressed under other intrinsics keep their CARI4D run (10-17: convert_gb3 -> work, ...)
+for _k in list(WORK):
+    WORK[_k + "_gb3"] = WORK[_k]
 
 
 def similarity(conv: Path):

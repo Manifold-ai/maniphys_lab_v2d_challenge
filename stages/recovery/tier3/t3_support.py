@@ -48,7 +48,8 @@ Penetration, per frame, from the physics check's lowest hull point:
   support   object centre over a `support` patch and lowest point between FLOOR_TOL_M and SUP_PEN_BAND_M below it;
             deeper is the object beside or under the table (lowered past the edge, pushed under a desk), not through it.
 
-    python t3_support.py <tier3 root> <version dir name> <physics dir> <walls dir> <out dir>
+    [T3_FLOOR_FIT=<runs/floor file>] [T3_REGISTER=<runs/floor file>] python t3_support.py <tier3 root> <version dir name> \
+        <physics dir> <walls dir> <out dir>
 """
 
 from __future__ import annotations
@@ -62,6 +63,12 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import t3_inputs  # noqa: E402
 
+import os  # noqa: E402
+
+# the world the version was made in (10-17: T3_FLOOR_FIT=floor_fit_gb3.json T3_REGISTER=camera_register_gb3.json for the
+# calibrated-intrinsics versions); defaults are the f 830 world
+FLOOR_FIT = os.environ.get("T3_FLOOR_FIT", "floor_fit_f830.json")
+REGISTER = os.environ.get("T3_REGISTER", "camera_register.json")
 FLOOR_TOL_M = 0.03
 STATIC_WINDOW = 15
 STATIC_RADIUS_M = 0.05
@@ -102,7 +109,7 @@ def static_segments(pos: np.ndarray) -> list[tuple[int, int]]:
 
 def main_basis(root: Path):
     """Floor-plane coordinates of the main camera's world, where registered cameras are moved to (as the patches)."""
-    regs = json.loads((root / "runs/floor/camera_register.json").read_text())["groups"]
+    regs = json.loads((root / "runs/floor" / REGISTER).read_text())["groups"]
     _, _, o, u, v = basis(list(regs["1"]["plane"]["n"]) + [regs["1"]["plane"]["d"]])
     return o, u, v
 
@@ -187,8 +194,8 @@ def main() -> None:
     root, version, phys, wdir, out = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), Path(sys.argv[4]), Path(sys.argv[5])
     out.mkdir(parents=True, exist_ok=True)
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
-    fit = json.loads((root / "runs/floor/floor_fit_f830.json").read_text())["episodes"]
-    regs = json.loads((root / "runs/floor/camera_register.json").read_text())["groups"]
+    fit = json.loads((root / "runs/floor" / FLOOR_FIT).read_text())["episodes"]
+    regs = json.loads((root / "runs/floor" / REGISTER).read_text())["groups"]
     o_m, u_m, v_m = main_basis(root)
     rows = []
     for f in sorted((phys / "npz").glob("episode_*.npz")):
