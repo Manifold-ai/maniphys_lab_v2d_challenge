@@ -1,4 +1,4 @@
-# 计划：Tier 1 跟丢集的接触标记提前（c10），ml40 今夜试 4 集（2026-10-16 14:3x MDT，第 1 版）
+# 计划：Tier 1 跟丢集的接触标记提前（c10），ml40 今夜试 4 集（2026-10-16 14:3x MDT，第 2 版：按独立复核修改）
 
 ## 事实（核过的）
 
@@ -35,10 +35,27 @@
 
 1. 工具（各带测试）：`stages/retarget/contact_relabel.py`（改一列、其余列逐值相同、只许 0/1）；`make_var_queue.py` 让 Tier 1 段也能换参考目录，新段 t1c；
    `arm_var_chain.sh` 认 t1c*（同 t1y*：ml40、Tier 1）；判读用 `r3o_verdict.py` 加一节 C1（无对照，总判按上面）。
-2. ml40 同步（没有链在跑时），容器里生成 tier1_c10（4 集），配置核对、预演、起链；评测链结束后 `run_after_log.sh` 自动跑判读。
-3. 约 4 × 2 小时加评测导出，明早 06:00 前后出判读。
+2. ml40 同步（没有链在跑时），容器里生成 tier1_c10（4 集），配置核对、预演、起链；评测链结束后 `run_after_log.sh` 自动跑判读，命令（仓库根）：
+   `V2D_MAX_POLLS=1440 setsid nohup stages/policy/run_after_log.sh runs/logs/t1c_eval_ml40.log "DAY2_EVAL_(DONE|FAILED)" t1diag/verdict_C1_ml40 python3 stages/policy/r3o_verdict.py C1 > runs/logs/after_verdict_C1_ml40.log 2>&1 < /dev/null &`。
+   人工兜底：有一条评测失败时 `r3o_verdict.py C1` 退出码 2（缺评测文件），导出链也不导（要求失败 0）；那就按日志补评那一条再判，或只判评完的几条并写明。
+3. 约 4 × 2 小时加评测导出，明早 02:00 前后出判读。
 
 ## 风险
 
 - 提前的 10 帧里，参考的手还离物体几厘米，抓握奖励与掌心跟踪会有一点冲突；10 帧按接触前掌心速度约 2–3 cm，量级不大。
 - 单种子；4 集都是 0 起步，修好一集也可能是种子运气（“有用”之后先补 seed 43）。
+
+## 执行记录
+
+- 14:5x 生成 tier1_c10（ml40，容器里，`results/t1diag/c10_relabel_ml40.txt`）：4 集只换 hand_contact_active，首段起点都提前 10 帧，
+  段数 ep25 右手 8 → 4、ep28 12/11 → 6/4、ep11 左手 5 → 1、ep1 左手 12 → 2（原来的接触标记碎成很多段，补空档后抓握奖励不再断断续续）。
+  方向核对：每只手的首段起点与 `results/t1diag/contact_window_mf4090.txt` 的首次接触帧逐一相同（如 ep25 左 218、右 100），表是手 × 帧，没有读反。
+- 配置核对 8 份意外差异都是 0（`results/t1diag/cfgcheck_t1c_ml40.txt`）。预演先停在 precheck_expect.sh：“带后缀的参考目录只许 Tier 3”。
+  放开到 Tier 1、2，保留“目录档位数字等于 run 名档位”和“run 名含 -<后缀>-”两条（precheck_expect.sh、fc_export.sh 与各自测试，cf38fcd），预演 DRYRUN_OK。
+- 独立复核（Fable，15:3x）：GO WITH FIXES，4 MINOR、3 NIT，没有 MAJOR。处理：
+  - 诊断记录拉回仓库（MINOR 1）；`contact_relabel.py` 按 hand_sides 与帧数断言形状、打印抄过去的支撑面（MINOR 2、3）；
+  - 4 集的支撑面在 tier1 都有、已原样抄到 tier1_c10（cmp 相同），队列里没有关支撑面的覆盖；`check_inputs.py` 对 4 份新参考退出码 0
+    （`results/t1diag/check_inputs_c10_ml40.txt`，MINOR 3）；
+  - “评测只看物体”改为实测（MINOR 4）：`eval_parquet_pair.sh` 用现有 ep25 策略、同一评测器对 tier1 与 tier1_c10 各评 4096 世界，
+    在 k-fix 的容差内一致才起链（`results/t1diag/eval_pair_c10_ep25_ml40.txt`）；
+  - NIT 5（判法里骨盆先倒的情形）只报不改判法；NIT 6 段数变化记在上面；NIT 7 起链前核了 ml40 的来历与链标记，C1 的命令与兜底写进第 2 步。
