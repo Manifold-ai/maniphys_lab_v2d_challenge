@@ -2,8 +2,9 @@
 
 Per episode dir (<work>/<ep>/cari4d/episode_NNNNNN): single-frame turns over JUMP_DEG (OMEGA_MAX / fps of
 gate/t3_dynamics_check.py), camera frame, in FoundationPose's output (stage 05), CoCoNet's (06) and the
-post-optimization's (07); and on the frames checked against the video (handoff 10-15: ep03 117/131/345/451 and ep01
-223/238/301 right in best_hm, ep04 313/509/669 head and tail swapped) how far each stage is from the final pose.
+post-optimization's (07); and on the frames checked against the video how far each stage is from the final pose:
+ep03 117/131/345 and ep01 223/238/301 right in best_hm, ep04 313/509/669 head and tail swapped (handoff 10-15), ep03 451
+upside down in best_hm (10-16, seen on a texture render; the 10-15 label "right" came from the coordinate colours).
 10-15 on runs/work_fp: 05 had 3/39/31/13 jumps on ep03/02/28/13, 06 and 07 35/112/88/54 (equal to best_hm's).
 
     docker run ... v2d_cari4d:latest python t3_stage_flips.py <episode dir> ... [--out <json>]

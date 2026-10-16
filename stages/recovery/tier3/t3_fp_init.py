@@ -8,8 +8,8 @@ first-pass candidate lies within 15 deg (+2.5 deg per frame since the object was
 translation step of the last confirmed pose, or when a reacquisition is confirmed over several frames; it is False on
 the relaxed retry path (the last attempt accepts any candidate), on carried frames (the last confirmed pose copied
 forward) and when the object was not visible recently (silhouette rank alone). It says "consistent with the previous
-confirmed pose", not "right": a wrong branch that FoundationPose keeps stays reliable (ep03 frame 451 is the exception
-here, unreliable and 128 deg off the video-checked pose).
+confirmed pose", not "right": a wrong branch that FoundationPose keeps stays reliable (ep03 frame 117 is reliable and
+56 deg off the video-checked pose).
 
 What it does, per run of unreliable frames no longer than MAX_GAP: the rotation is slerped between the reliable frames
 on both sides (held from the one side at the start or end of the episode), about the centre of the mesh bounds so the
