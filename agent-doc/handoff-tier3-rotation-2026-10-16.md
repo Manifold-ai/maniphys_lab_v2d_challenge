@@ -161,6 +161,13 @@ assemble 到 `$T/dev/init_pilot/root/runs/pilot_{ctrl,init}`（`runs/` 只读，
 宿主 venv 缺 h5py，装在 `$T/dev/init_pilot/pydeps`（`PYTHONPATH`），venv 未改。图：`$T/dev/init_pilot/tex_checked/`（ep04 313/509/669）、
 `tex_checked3/`（ep03 117/131/345/451），列为 video | pilot_ctrl | pilot_init | best_dr2s_dyn7；`tex_auto/` 是 ctrl 与 init 差最大的 6 帧加首尾帧。
 
+**用户判（22:10，记入 `checked_frames.json`，版本键 `init`）**：ep04 313/509/669 球棒朝向 init 全对，位置偏差大（拉低 IoU）；ep03 451 init 对
+（坐标色图 `col_ep03/`）。**逐帧 IoU**（`$T/dev/init_pilot/frame_iou.py`，出图同一坐标系，`frame_iou_ep0{3,4}.jsonl`），ctrl / init / dr2s_dyn7：
+ep03 451 0.52 / **0.63** / 0.50，452 0.57 / **0.71** / 0.59，117/131/345/435 三者差 ≤ 0.015；ep04（扣人体可见 IoU）312 0.51 / **0.55** / 0.52，
+313 **0.56** / 0.51 / 0.56，458 0.46 / **0.59** / 0.50，509 0.57 / 0.52 / **0.60**，669 0.33 / **0.43** / 0.36。ctrl 的数与 `pilot_compare` 的 base 一致
+（313 0.557/0.558），两条路径互证。**IoU 判据的盲区**：ep03 持杯帧的掩码几乎全在人体掩码里（可见像素 0–117），扣人体的 IoU 全部跳过，
+`pilot_compare` 的被替换帧统计里持杯翻转帧缺席；球棒头尾翻转轮廓相近，IoU 主要反映位置。
+
 ## 版本整理（10-16 07:00–07:10）
 
 版本的状态与用途只记在 `stages/recovery/tier3/versions.json`，`t3_versions.py` 据此和目录生成 `$T/runs/VERSIONS.md` 并核对

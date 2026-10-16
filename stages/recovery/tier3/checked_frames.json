@@ -1,5 +1,5 @@
 {
- "_doc": "Frames checked against the video by the user (10-16, on the coordinate-colour overlays of t3_pose_overlay.py: video | best_hm | best_dyn7 | best_kf2 | best_kf3, or without kf2 for ep13/28/29). The only answer key for comparing versions; labels from before 10-16 are superseded (ep03 451 was wrongly 'hm right'). Evaluation only: fixes stay automatic (no manual annotation, user 10-15). orientation / position per version: ok | wrong | rough (roughly ok). 10-16 second pass on overlays that add 'best' (before the height post-process; review/pre/): parts judged separately where the user did.",
+ "_doc": "Frames checked against the video by the user (10-16, on the coordinate-colour overlays of t3_pose_overlay.py: video | best_hm | best_dyn7 | best_kf2 | best_kf3, or without kf2 for ep13/28/29). The only answer key for comparing versions; labels from before 10-16 are superseded (ep03 451 was wrongly 'hm right'). Evaluation only: fixes stay automatic (no manual annotation, user 10-15). orientation / position per version: ok | wrong | rough (roughly ok). 10-16 second pass on overlays that add 'best' (before the height post-process; review/pre/): parts judged separately where the user did. 10-16 22:10 third pass on the initialization pilot (dev/init_pilot: texture and coordinate-colour sheets, video | pilot_ctrl | pilot_init | best_dr2s_dyn7): 'init' = pilot_init; ep04 bat orientation right on all three, pose off enough to cost IoU; ep03 451 right.",
  "frames": {
   "ep03_f117": {
    "note": "handle on the left, held",
@@ -34,7 +34,8 @@
     "hm": "wrong",
     "dyn7": "wrong",
     "kf2": "wrong",
-    "kf3": "wrong"
+    "kf3": "wrong",
+    "init": "ok"
    }
   },
   "ep01_f223": {
@@ -88,7 +89,11 @@
     "hm": "wrong",
     "dyn7": "wrong",
     "kf2": "ok",
-    "kf3": "ok"
+    "kf3": "ok",
+    "init": "ok"
+   },
+   "position": {
+    "init": "wrong"
    }
   },
   "ep04_f509": {
@@ -98,14 +103,16 @@
     "dyn7": "wrong",
     "kf2": "ok",
     "kf3": "ok",
-    "best": "wrong"
+    "best": "wrong",
+    "init": "ok"
    },
    "position": {
     "hm": "wrong",
     "dyn7": "wrong",
     "kf2": "wrong",
     "kf3": "wrong",
-    "best": "wrong"
+    "best": "wrong",
+    "init": "wrong"
    }
   },
   "ep04_f669": {
@@ -115,14 +122,16 @@
     "dyn7": "wrong",
     "kf2": "ok",
     "kf3": "ok",
-    "best": "wrong"
+    "best": "wrong",
+    "init": "ok"
    },
    "position": {
     "hm": "wrong",
     "dyn7": "wrong",
     "kf2": "wrong",
     "kf3": "wrong",
-    "best": "wrong"
+    "best": "wrong",
+    "init": "wrong"
    }
   },
   "ep28_f620": {
