@@ -8,7 +8,7 @@
 # 每一步都经 stages/evaluate/fc_export.sh（V2D_EXPORT_PARQUET + V2D_EXPORT_SUFFIX）：它核 checkpoint、NaN 守卫、GPU 占用，并核评测 JSON 里记的
 # parquet 就是给的那份。一行失败不停，记下退出码接着做；最后跑 stages/evaluate/kfix_reexport_table.py 汇总并写结果表
 # runs/exports/kfix_t3_mf4090.tsv（判据 5 判“换”的、导出齐全的集，格式同 export_chain.sh 的结果表，给 pull_submission.sh select 拉）。
-# 最后一行 KFIX_REEXPORT_DONE <失败步数>。
+# idchk 行一评完就判，不恒等就停（最后一行 KFIX_REEXPORT_STOPPED idchk），后面的行不占 GPU。最后一行 KFIX_REEXPORT_DONE <失败步数>。
 # 用法：V2D_FC_SRC=<8c778f9 副本> stages/evaluate/kfix_reexport.sh [清单]
 set -uo pipefail
 cd "$(dirname "$0")/../.."
@@ -22,6 +22,11 @@ while IFS=$'\t' read -r run step pq suf mode <&3; do
   echo "=== $(date '+%F %T %Z') ${run} ${step} ${mode} ${suf}"
   V2D_EXPORT_PARQUET=$pq V2D_EXPORT_SUFFIX=$suf V2D_EXPORT_WORLDS=4096 V2D_EXPORT_TRAJ=0 stages/evaluate/fc_export.sh "$run" "$step" < /dev/null; rc=$?
   echo "4096 世界评测 退出码 ${rc}"; [ "$rc" = 0 ] || fail=$((fail + 1))
+  if [ "$mode" = idchk ]; then   # 恒等核对一出结果就判：不恒等时后面各行的判读都作废，不再占 GPU
+    chk=$(python3 stages/evaluate/kfix_reexport_table.py "$L" 2>&1 | grep -a "恒等核对：" || true)
+    echo "${chk:-恒等核对没有结果}"
+    case "$chk" in *包装层恒等*) ;; *) echo "恒等核对没过，停（后面各行不跑）"; echo "KFIX_REEXPORT_STOPPED idchk"; exit 1 ;; esac
+  fi
   if [ "$mode" = kfix ] && [ "$rc" = 0 ]; then
     V2D_EXPORT_PARQUET=$pq V2D_EXPORT_SUFFIX=$suf stages/evaluate/fc_export.sh "$run" "$step" < /dev/null; rc=$?
     echo "1 世界导出 退出码 ${rc}"; [ "$rc" = 0 ] || fail=$((fail + 1))
