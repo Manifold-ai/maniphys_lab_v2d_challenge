@@ -25,9 +25,7 @@ across the surface: frames whose lowest point stays within SWEEP_TOL_M of the su
 below) in a run that overlaps one of its placements, so the run is connected in time to a rest on that surface and the
 object never left it. Rests alone covered only where the object paused: ep07's iron, ironed across a round table,
 got a patch 0.31 m wide and read as floating 0.75 m above the floor whenever it was pushed past it. A footprint swept
-along the surface cannot be larger than the surface (the object stood on it); the height stays the rests'. Footprints
-are what stands on the surface, the hull's points within CONTACT_M of its lowest point (10-16; the whole hull's shadow
-had a monitor's screen and an iron's handle widen ep06/ep07's patches past the table's edge).
+along the surface cannot be larger than the surface (the object stood on it); the height stays the rests'.
 
 The hand: a segment held on at least HELD_ALL of its frames (physics check: a contact joint within HOLD_M) never saw the
 hand leave, so resting and held in the hand cannot be told apart there. A support needs one placement that was not held
@@ -74,7 +72,6 @@ MERGE_DH_M = 0.03
 MERGE_XY_M = 0.6
 PATCH_MARGIN_M = 0.05
 SWEEP_TOL_M = 0.02
-CONTACT_M = 0.03  # footprints are the hull's points this close to its lowest point: what stands on the surface
 SWEEP_STEP = 3  # frames between swept footprints
 MOGE_NORMAL_DEG = 10.0
 MOGE_MIN_H_M = 0.15
@@ -207,11 +204,6 @@ def main() -> None:
         hull = np.asarray(trimesh.load(root / "input" / m["mesh"], force="mesh").convex_hull.vertices, np.float64)
         held = pz["held"]
         static = static_segments(pos)
-
-        def contact(wv, up):  # the hull's part within CONTACT_M of its lowest point, in plane coordinates
-            hgt = wv @ up
-            wv = wv[hgt <= hgt.min() + CONTACT_M]
-            return np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m]
         rest_on = {"floor": 0, "off_floor": 0, "below_floor": 0}
         segs = []
         for a, b in static:
@@ -221,7 +213,8 @@ def main() -> None:
             if on != "off_floor":
                 continue
             k = a + int(np.argmin(np.linalg.norm(pos[a:b] - np.median(pos[a:b], 0), axis=1)))
-            foot = contact(hull @ rot[k].T + pos[k], n)
+            wv = hull @ rot[k].T + pos[k]
+            foot = np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m]
             segs.append({"start": a, "end": b, "height_m": lo, "footprint": hull2(foot), "centre": xy[k],
                          "held_share": float(held[a:b].mean())})
         group = fit[name]["group"] if name in fit else 0
@@ -280,7 +273,7 @@ def main() -> None:
             e = np.flatnonzero(np.diff(np.r_[0, on.astype(int), 0]))
             fset = set(frames.tolist())
             sweep = [f for a, b in zip(e[::2], e[1::2], strict=True) if any(t in fset for t in range(a, b)) for f in range(a, b)]
-            feet = [contact(hull @ rot[f].T + pos[f], n) for f in sweep[::SWEEP_STEP]]
+            feet = [np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m] for wv in (hull @ rot[f].T + pos[f] for f in sweep[::SWEEP_STEP])]
             poly = hull2(np.concatenate([g["footprint"] for g in gr] + feet))
             area = lambda P: float(0.5 * abs(np.dot(P[:, 0], np.roll(P[:, 1], 1)) - np.dot(P[:, 1], np.roll(P[:, 0], 1)))) if len(P) >= 3 else 0.0
             over = inside(poly, xy, PATCH_MARGIN_M)
