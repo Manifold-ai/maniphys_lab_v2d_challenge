@@ -88,10 +88,10 @@ def main():
         o.append(f"| `{k}` | {sum(e['count'][k] for e in DB.values())} | {sum(e['count'][k] for e in D.values())} |")
     o += [f"| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | {mean(AB, eps29):.3f} | {mean(A, eps29):.3f} |",
           f"| IoU < 0.5 的抽样帧 | {low(AB)} | {low(A)} |",
-          f"| 训练前门槛，只按地面 | {sum(gfb.values())}/{len(gfb)} | {sum(gf.values())}/{len(gf)} |",
           f"| 训练前门槛，用我们的支撑面 | {sum(gob.values())}/{len(gob)} | {sum(go.values())}/{len(go)} |",
           f"| 标了接触但手离物体 > 3 cm | {100 * hbshare:.2f}% | {100 * hshare:.2f}% |", ""]
-    o += ["只按地面判的门槛，不过的都是放在桌上的物体（只拿地面比当然悬空）；以用我们支撑面判的为准。", ""]
+    o += ["门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，"
+          "hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。", ""]
     o += ["## 自检（清单见 10-15 定的 13 项）", "", "| # | 项目 | 结果 |", "|---|---|---|"]
     if contract:
         o.append(f"| 11 | 数据契约（对照 `{contract['base']}`） | {'通过' if not contract['problems'] else '不通过：' + '; '.join(contract['problems'])}；改动的列 {contract['changed_columns']} |")
