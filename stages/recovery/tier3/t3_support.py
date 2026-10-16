@@ -20,7 +20,13 @@ are within MERGE_DH_M and whose footprints are within MERGE_XY_M are one support
 B on one table). Its height is the object's (frame-weighted median of the placements' lowest points), not MoGe's:
 one round table in six episodes reads 0.748-0.789 m from the objects, 0.775-0.845 m from MoGe. Each placement keeps
 its own height and its offset from the support's (the error a post-process anchors away); the patch is the convex
-hull of the footprints grown by PATCH_MARGIN_M.
+hull of the footprints grown by PATCH_MARGIN_M, plus (10-16) where the object's centre of mass went while it slid or was
+pushed across the surface, grown by SWEEP_MARGIN_M: frames whose lowest point stays within SWEEP_TOL_M of the support's
+height (median-filtered as below) in a run that overlaps one of its placements, so the object never left the surface.
+An object standing on a table has its centre of mass over the table, so this stays on the table; the footprints of those
+frames did not (an iron pushed to the edge hangs over it, a book is slid half off before it is picked up; tried and
+reverted 10-16). Rests alone covered only where the object paused: ep07's iron, ironed across a round table, was off its
+patch whenever it was pushed past it. The height stays the rests'.
 
 The hand: a segment held on at least HELD_ALL of its frames (physics check: a contact joint within HOLD_M) never saw the
 hand leave, so resting and held in the hand cannot be told apart there. A support needs one placement that was not held
@@ -66,6 +72,8 @@ LIFT_FILTER = 9
 MERGE_DH_M = 0.03
 MERGE_XY_M = 0.6
 PATCH_MARGIN_M = 0.05
+SWEEP_TOL_M = 0.02
+SWEEP_MARGIN_M = 0.02
 MOGE_NORMAL_DEG = 10.0
 MOGE_MIN_H_M = 0.15
 MOGE_BAND_M = 0.10
@@ -194,7 +202,11 @@ def main() -> None:
         pose = z["object_pose"]
         rot = Rotation.from_quat(np.c_[pose[:, 4:7], pose[:, 3:4]]).as_matrix(); pos = pose[:, :3]
         xy = np.c_[(pos - o_m) @ u_m, (pos - o_m) @ v_m]
-        hull = np.asarray(trimesh.load(root / "input" / m["mesh"], force="mesh").convex_hull.vertices, np.float64)
+        mesh = trimesh.load(root / "input" / m["mesh"], force="mesh")
+        hull = np.asarray(mesh.convex_hull.vertices, np.float64)
+        com_b = np.asarray((mesh if mesh.is_watertight else mesh.convex_hull).center_mass, np.float64)
+        com = pos + rot @ com_b
+        com_xy = np.c_[(com - o_m) @ u_m, (com - o_m) @ v_m]
         held = pz["held"]
         static = static_segments(pos)
         rest_on = {"floor": 0, "off_floor": 0, "below_floor": 0}
@@ -261,7 +273,15 @@ def main() -> None:
                 mp["centre"] = np.median(np.stack([q["centre"] for q in mp["parts"]]), 0)
                 mp["drift_m"] = float(max(np.linalg.norm(q["centre"] - r["centre"]) for q in mp["parts"] for r in mp["parts"]))
                 mp["static_frames"] = int(len(fr))
-            poly = hull2(np.concatenate([g["footprint"] for g in gr]))
+            rest_poly = hull2(np.concatenate([g["footprint"] for g in gr]))
+            on = np.abs(low_f - h) <= SWEEP_TOL_M
+            e = np.flatnonzero(np.diff(np.r_[0, on.astype(int), 0]))
+            fset = set(frames.tolist())
+            sweep = [f for a, b in zip(e[::2], e[1::2], strict=True) if any(t in fset for t in range(a, b)) for f in range(a, b)]
+            ring = SWEEP_MARGIN_M * np.c_[np.cos(np.arange(8) * np.pi / 4), np.sin(np.arange(8) * np.pi / 4)]
+            swept = (com_xy[sweep][:, None] + ring[None]).reshape(-1, 2) if sweep else np.zeros((0, 2))
+            poly = hull2(np.concatenate([rest_poly, swept]))
+            area = lambda P: float(0.5 * abs(np.dot(P[:, 0], np.roll(P[:, 1], 1)) - np.dot(P[:, 1], np.roll(P[:, 0], 1)))) if len(P) >= 3 else 0.0
             over = inside(poly, xy, PATCH_MARGIN_M)
             pen = over & (obj_low < h - FLOOR_TOL_M) & (obj_low > h - SUP_PEN_BAND_M)
             sup_pen_any |= pen; sup_depth = np.maximum(sup_depth, np.where(pen, h - obj_low, 0))
@@ -271,7 +291,8 @@ def main() -> None:
                                             "height_m": round(g["height_m"], 3), "offset_m": round(g["height_m"] - h, 3),
                                             "centre_xy_m": np.round(g["centre"], 3).tolist(), "drift_m": round(g["drift_m"], 3),
                                             "held_share": round(float(held[g["start"]:g["end"]].mean()), 2)} for g in merged],
-                            "patch_area_m2": round(float(0.5 * abs(np.dot(poly[:, 0], np.roll(poly[:, 1], 1)) - np.dot(poly[:, 1], np.roll(poly[:, 0], 1)))), 3) if len(poly) >= 3 else 0.0,
+                            "patch_area_m2": round(area(poly), 3), "rest_patch_area_m2": round(area(rest_poly), 3),
+                            "sweep_frames": len(sweep),
                             "patch_xy_m": poly.round(3).tolist(), "penetration_frames": int(pen.sum()),
                             "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0})
         rejected = [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3), "status": g["status"],
