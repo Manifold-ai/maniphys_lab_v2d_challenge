@@ -1,0 +1,9 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/evaluate/rotate_frefs_t3.py runs/submission/select_t3_probe1015/frame_refs runs/t3world/rot/rot_gridG_yaw.json --out runs/submission/select_t3_probe1015/frame_refs_rot_gridG_yaw 
+# md5      : b19abe57c0a9de48acc91ffa1f014f31  stages/evaluate/rotate_frefs_t3.py
+# md5      : 1b59b9c617f949aa5138e40e41b50122  runs/t3world/rot/rot_gridG_yaw.json
+# source   : 2ca61b4f0c99-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:31:11-0600
+# ---------------------------------------------------------------
+gridG_yaw：绕世界原点转 4.652°（stages/recovery/t3_k_budget.py 只绕 n 的偏航 ψ*（方格 G（ceiling_grid_main3），f 866.2、cx 702.0、cy 533.3；主机位 24 集、口径二）），30 集 → runs/submission/select_t3_probe1015/frame_refs_rot_gridG_yaw
+ROTATE_FREFS_OK 30

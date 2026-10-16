@@ -89,8 +89,8 @@ class GridFit:
     """内参共用；每段视频一个姿态与一套方格。mode G：姿态为相对初值 R0 的旋转向量（3 个参数）并用竖直线；GB：e3 = n，只剩偏航。
     square=False 时两族格距各自独立（只用来定格号）；fix_k=True 时内参不动。"""
 
-    def __init__(self, vids: list, mode: str, n: np.ndarray, R0s: list, asp: bool = False):
-        self.vids, self.mode, self.n, self.R0s, self.asp = vids, mode, n, R0s, asp
+    def __init__(self, vids: list, mode: str, n: np.ndarray, R0s: list, asp: bool = False, fixed_delta: float = None):
+        self.vids, self.mode, self.n, self.R0s, self.asp, self.fixed_delta = vids, mode, n, R0s, asp, fixed_delta
 
     def nk(self) -> int:
         return 5 if self.asp else 4
@@ -110,7 +110,7 @@ class GridFit:
                 R = mc.rot_b(self.n, x[o])
                 o += 1
             if square:
-                da = db = math.exp(x[o])
+                da = db = self.fixed_delta if self.fixed_delta else math.exp(x[o])   # fixed_delta：格距固定（参数留着、不起作用）
                 pa, pb = x[o + 1], x[o + 2]
                 o += 3
             else:
@@ -565,7 +565,7 @@ def pose_from_vps(seg: np.ndarray, f: float, cx: float, cy: float) -> np.ndarray
     return np.c_[e0, np.cross(up, e0), up]
 
 
-def run_second(eps: list, boot: int, want_overlay: bool) -> int:
+def run_second(eps: list, boot: int, want_overlay: bool, fix_delta: float = None) -> int:
     """第二机位、侧机位：发布的地面法向在世界（主机位）坐标系里，不是这台相机的，所以初值取曼哈顿拟合 A（姿态自由），方格只跑拟合 G。
     n（主机位的地面法向）只用来挑哪一列是竖直方向（这些相机也大致水平，−y 朝上），e3 与 n 的夹角对它们没有检验意义。
     另报这台相机自己的俯仰、横滚（由方格估的 e3），以及方格方向 e1、e2、e3 在它坐标系里的表示，供两台相机经方格求相对转动。"""
@@ -580,7 +580,9 @@ def run_second(eps: list, boot: int, want_overlay: bool) -> int:
     poses0 = [pose_from_vps(sg, f0, cx0, cy0) for sg in segs_m]
     print(f"== 视频 {eps}（非主机位）；初值：f {f0:.1f}、主点 ({cx0:.1f}, {cy0:.1f})、k1 0，姿态由消失点算")
     vids = [{"ceil": lsd(bg, MIN_LEN), "vert": s} for bg, s in zip(bgs, segs_m)]
-    fit = GridFit(vids, "G", n, poses0)
+    fit = GridFit(vids, "G", n, poses0, fixed_delta=fix_delta)
+    if fix_delta:
+        print(f"  格距固定为 {fix_delta}（两台相机等高时离吊顶的距离相等，取主机位的值；只用在正方形格阶段）")
     x0 = init_x(fit, (f0, cx0, cy0, k10), poses0)
     for v, e in enumerate(eps):
         da, db, qa, qb, na, nb = vids[v]["init"]
@@ -765,8 +767,9 @@ if __name__ == "__main__":
     ap.add_argument("--asp", action="store_true", help="放开纵横比（只对拟合 G）")
     ap.add_argument("--overlay", action="store_true")
     ap.add_argument("--profile", action="store_true", help="cx 剖面：固定 cx、其余放开的代价曲线")
-    ap.add_argument("--cam", choices=("main", "other"), default="main", help="other：第二机位、侧机位（初值取曼哈顿拟合 A，只跑 G）")
+    ap.add_argument("--cam", choices=("main", "other"), default="main", help="other：第二机位、侧机位（初值取画面中心，只跑 G）")
+    ap.add_argument("--fix-delta", type=float, default=None, help="非主机位：正方形格阶段把格距固定为这个值（以离吊顶的距离为单位）")
     a = ap.parse_args()
     if a.cam == "other" and not a.selftest:
-        sys.exit(run_second(a.eps, a.boot, a.overlay))
+        sys.exit(run_second(a.eps, a.boot, a.overlay, a.fix_delta))
     sys.exit((selftest_debug() if a.debug else selftest()) if a.selftest else run(a.eps or [5, 11, 20], a.boot, a.asp, a.overlay, a.profile))

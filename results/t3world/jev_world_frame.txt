@@ -1,12 +1,12 @@
 # command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-t3-world-frame.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : f36c30d85bf08692d8f3f517ced53042  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
-# source   : 32d2ea11080b-dirty
+# md5      : 7b961b1a983a5c2e304ebc0fd279d491  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
+# source   : 2ca61b4f0c99-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T03:54:06-0600
+# run_at   : 2026-10-16T04:32:00-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-plane_same           P(supported)=0.97  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
+plane_same           P(supported)=0.98  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
 tilt                 P(supported)=0.99  verified               [hz]  预测地平线倾角是 −1.08°；主机位 ep5、ep11、ep20 的实测地平线倾角分别是 −1.09°、−0.42°、−0.85°；第二机位 ep12 的实测倾角是 +1.62°。
 rows                 P(supported)=0.99  verified               [hz]  主机位 ep5、ep11、ep20 的实测地平线在中心列第 478.9、490.1、482.5 行，预测地平线在中心列第 528.0、526.2、527.6 行，行差 −49.1、−36.0、−45.1 px。
 focal                P(supported)=0.99  verified               [hz]  按两水平消失点正交算出的焦距，ep5、ep11、ep20 分别是 855、887、861 px。
@@ -19,8 +19,9 @@ grid_self            P(supported)=0.95  verified               [gself]  吊顶�
 grid9_cx             P(supported)=0.97  verified               [grid9]  9 段视频的吊顶方格标定：拟合 G 的 cx 702.8，拟合 GB 的 cx 701.8；G 的 cx 自助法 95% 区间 [701.331, 704.656]；判读 1 是 cx 定住了，判读 2 是两种补法一致，判读 3 是吊顶竖直方向与 n 不一致或说不清。
 grid9_pervideo       P(supported)=0.98  verified               [grid9]  每段视频单独拟合 G 的 9 个 cx 中，有 8 个在 700.0 到 704.7 之间，另一个是 735.6。
 budget_pipe          P(supported)=0.96  verified               [budget]  交付版流程的内参是 fx 830、主点 (768.0, 576.0)，世界步缩放 0.9856。
-budget_nums          P(supported)=0.98  verified               [budget]  只改内参时，按方格 G 的内参，主机位全部帧的位移中位口径一 32.4 cm、口径二 25.0 cm；按曼哈顿 B 的内参是 20.0 cm 与 9.2 cm；按曼哈顿 B、口径二时位移小于 9 cm 的帧占 39%，按方格 G 时两种口径都是 0%。
-ctl_true_f           P(supported)=0.80  control(true) ok       [grid9]  9 段视频吊顶方格拟合 G 的焦距 f 是 866.3。
+budget_nums          P(supported)=0.98  verified               [budget]  只改内参时，按方格 G 的内参，主机位全部帧的位移中位口径一 32.4 cm、口径二 24.5 cm；按曼哈顿 B 的内参是 20.0 cm 与 8.1 cm；按曼哈顿 B、口径二时位移小于 9 cm 的帧占 75%，按方格 G 时两种口径都是 0%。
+budget_yaw           P(supported)=0.99  verified               [budget]  只绕 n 的偏航 ψ*：方格 G 是 −4.65°，只转偏航后剩下的位移中位 7.0 cm；曼哈顿 B 是 +1.20°，剩下 5.5 cm。
+ctl_true_f           P(supported)=0.83  control(true) ok       [grid9]  9 段视频吊顶方格拟合 G 的焦距 f 是 866.3。
 ctl_false_cx         P(supported)=0.01  control(false) ok      [grid9]  9 段视频吊顶方格拟合 G 的 cx 是 790.0。
 ctl_false_budget     P(supported)=0.01  control(false) ok      [budget]  按方格 G 的内参，位移小于 9 cm 的帧占 39%。
 controls behaved as expected

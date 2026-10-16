@@ -1,95 +1,101 @@
 # command  : uv run --no-project --python 3.12 --with numpy --with pyarrow --with scipy python stages/recovery/t3_k_budget.py --write-rotations runs/t3world/rot 
-# md5      : 7665d0fde494049df701cdeb459be402  stages/recovery/t3_k_budget.py
-# source   : ca3472453e8a-dirty
+# md5      : 921a1a2dd0c1203840733e6166c2a69b  stages/recovery/t3_k_budget.py
+# source   : 2ca61b4f0c99-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T04:10:57-0600
+# run_at   : 2026-10-16T04:30:52-0600
 # ---------------------------------------------------------------
 == 主机位 24 集（/Users/rongxuanzhou/V2D/runs/t3world/budget）；流程内参：fx 830、主点 (768.0, 576.0)；世界步缩放 0.9856–0.9856
 == 真内参取 方格 G（ceiling_grid_main3）：f 866.2、cx 702.0、cy 533.3
 集	可见帧	距离中位(m)	视线夹角中位(°)	位移中位 口径一(cm)	位移中位 口径二(cm)
-ep00_tall_bar_stool	778	2.77	4.88	30.8	24.5
-ep01_vacuum	747	2.97	4.64	33.0	24.6
-ep02_blue_easter_basket	980	3.28	4.30	34.5	25.2
-ep03_contigo_coffee_mug	781	2.69	4.21	28.4	20.3
-ep04_baseball_bat	803	2.84	4.45	30.0	22.6
-ep05_big_black_box	1003	3.03	4.63	34.2	24.4
-ep06_monitor	546	2.60	4.16	26.8	19.4
-ep07_iron	896	3.00	4.66	31.4	25.0
-ep08_skinny_wood_chair	708	2.64	4.70	29.4	22.1
-ep09_big_red_bowl	870	2.96	4.78	30.9	25.4
-ep10_white_desk	794	2.83	4.48	30.3	22.7
-ep11_light_blue_book	901	3.44	4.83	35.6	29.6
-ep13_snack_box	922	3.32	4.61	37.0	27.4
-ep15_wet_floor_sign	715	3.31	4.79	34.9	28.8
-ep17_traffic_cone	440	2.68	4.89	27.2	23.0
-ep18_blue_trash_can	858	2.56	4.42	28.6	19.8
-ep19_cane	886	2.88	4.75	31.0	24.4
-ep20_rice_cooker	553	3.11	4.54	32.3	25.2
-ep22_step_ladder	719	2.94	4.47	32.6	26.4
-ep23_toy_stroller	946	3.20	4.87	34.3	27.3
-ep24_watering_can	748	3.04	4.92	34.1	26.6
-ep26_skateboard	669	3.00	5.08	33.5	27.2
-ep27_woven_basket	565	3.58	4.64	36.4	28.5
-ep29_rolling_luggage	467	2.88	5.01	31.7	25.8
-  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 4.69°，光轴绕 n 的偏航 -4.24°；转完后剩下的位移中位 5.1 cm、90% 分位 6.0 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99692, 0.02714, 0.07351], [-0.0254 , 0.99938,-0.02452], [-0.07413, 0.02257, 0.99699]]
+ep00_tall_bar_stool	778	2.77	4.88	30.8	23.9
+ep01_vacuum	747	2.97	4.64	33.0	24.0
+ep02_blue_easter_basket	980	3.28	4.30	34.5	24.6
+ep03_contigo_coffee_mug	781	2.69	4.21	28.4	19.7
+ep04_baseball_bat	803	2.84	4.45	30.0	22.1
+ep05_big_black_box	1003	3.03	4.63	34.2	23.8
+ep06_monitor	546	2.60	4.16	26.8	18.9
+ep07_iron	896	3.00	4.66	31.4	24.5
+ep08_skinny_wood_chair	708	2.64	4.70	29.4	21.6
+ep09_big_red_bowl	870	2.96	4.78	30.9	24.8
+ep10_white_desk	794	2.83	4.48	30.3	22.1
+ep11_light_blue_book	901	3.44	4.83	35.6	29.0
+ep13_snack_box	922	3.32	4.61	37.0	26.8
+ep15_wet_floor_sign	715	3.31	4.79	34.9	28.2
+ep17_traffic_cone	440	2.68	4.89	27.2	22.4
+ep18_blue_trash_can	858	2.56	4.42	28.6	19.3
+ep19_cane	886	2.88	4.75	31.0	23.8
+ep20_rice_cooker	553	3.11	4.54	32.3	24.6
+ep22_step_ladder	719	2.94	4.47	32.6	25.9
+ep23_toy_stroller	946	3.20	4.87	34.3	26.6
+ep24_watering_can	748	3.04	4.92	34.1	26.0
+ep26_skateboard	669	3.00	5.08	33.5	26.7
+ep27_woven_basket	565	3.58	4.64	36.4	27.9
+ep29_rolling_luggage	467	2.88	5.01	31.7	25.3
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 4.69°，光轴绕 n 的偏航 -4.24°；转完后剩下的位移中位 2.3 cm、90% 分位 3.7 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99692, 0.02714, 0.07351], [-0.0254 , 0.99938,-0.02452], [-0.07413, 0.02257, 0.99699]]
+  只绕 n 的偏航 ψ* -4.65°；只转偏航后剩下的位移中位 7.0 cm、90% 分位 10.1 cm（口径二）
   写 runs/t3world/rot/rot_gridG.json
-  全部帧：口径一位移中位 32.4 cm、90% 分位 38.5 cm；口径二位移中位 25.0 cm、90% 分位 30.3 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
+  写 runs/t3world/rot/rot_gridG_yaw.json
+  全部帧：口径一位移中位 32.4 cm、90% 分位 38.5 cm；口径二位移中位 24.5 cm、90% 分位 29.6 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
 == 真内参取 曼哈顿 B（manhattan_calib_main9）：f 860.8、cx 790.0、cy 527.5
 集	可见帧	距离中位(m)	视线夹角中位(°)	位移中位 口径一(cm)	位移中位 口径二(cm)
-ep00_tall_bar_stool	778	2.77	1.44	20.3	8.1
-ep01_vacuum	747	2.97	1.72	21.0	9.5
-ep02_blue_easter_basket	980	3.28	1.68	20.4	10.9
-ep03_contigo_coffee_mug	781	2.69	1.75	16.9	9.2
-ep04_baseball_bat	803	2.84	1.81	17.6	10.0
-ep05_big_black_box	1003	3.03	1.67	21.6	10.3
-ep06_monitor	546	2.60	1.75	15.7	8.9
-ep07_iron	896	3.00	1.36	19.3	8.4
-ep08_skinny_wood_chair	708	2.64	1.61	18.6	8.3
-ep09_big_red_bowl	870	2.96	1.41	19.9	8.5
-ep10_white_desk	794	2.83	1.59	18.4	9.2
-ep11_light_blue_book	901	3.44	1.27	22.4	9.4
-ep13_snack_box	922	3.32	1.45	23.7	9.7
-ep15_wet_floor_sign	715	3.31	1.36	22.3	9.1
-ep17_traffic_cone	440	2.68	1.63	17.5	8.3
-ep18_blue_trash_can	858	2.56	1.93	18.5	9.3
-ep19_cane	886	2.88	1.52	19.8	8.7
-ep20_rice_cooker	553	3.11	1.47	19.5	9.2
-ep22_step_ladder	719	2.94	1.73	21.4	10.3
-ep23_toy_stroller	946	3.20	1.74	22.8	9.7
-ep24_watering_can	748	3.04	1.62	22.2	9.5
-ep26_skateboard	669	3.00	1.51	22.4	9.1
-ep27_woven_basket	565	3.58	1.33	22.1	10.1
-ep29_rolling_luggage	467	2.88	1.34	20.8	8.1
-  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 1.92°，光轴绕 n 的偏航 +1.39°；转完后剩下的位移中位 4.9 cm、90% 分位 5.7 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99958, 0.01514,-0.02465], [-0.01556, 0.99974,-0.01672], [ 0.02439, 0.01709, 0.99956]]
+ep00_tall_bar_stool	778	2.77	1.44	20.3	6.9
+ep01_vacuum	747	2.97	1.72	21.0	8.5
+ep02_blue_easter_basket	980	3.28	1.68	20.4	9.8
+ep03_contigo_coffee_mug	781	2.69	1.75	16.9	8.2
+ep04_baseball_bat	803	2.84	1.81	17.6	9.1
+ep05_big_black_box	1003	3.03	1.67	21.6	9.0
+ep06_monitor	546	2.60	1.75	15.7	7.9
+ep07_iron	896	3.00	1.36	19.3	7.1
+ep08_skinny_wood_chair	708	2.64	1.61	18.6	7.3
+ep09_big_red_bowl	870	2.96	1.41	19.9	7.2
+ep10_white_desk	794	2.83	1.59	18.4	7.9
+ep11_light_blue_book	901	3.44	1.27	22.4	7.7
+ep13_snack_box	922	3.32	1.45	23.7	8.3
+ep15_wet_floor_sign	715	3.31	1.36	22.3	7.9
+ep17_traffic_cone	440	2.68	1.63	17.5	7.3
+ep18_blue_trash_can	858	2.56	1.93	18.5	8.5
+ep19_cane	886	2.88	1.52	19.8	7.4
+ep20_rice_cooker	553	3.11	1.47	19.5	8.0
+ep22_step_ladder	719	2.94	1.73	21.4	9.6
+ep23_toy_stroller	946	3.20	1.74	22.8	8.4
+ep24_watering_can	748	3.04	1.62	22.2	8.4
+ep26_skateboard	669	3.00	1.51	22.4	7.9
+ep27_woven_basket	565	3.58	1.33	22.1	8.5
+ep29_rolling_luggage	467	2.88	1.34	20.8	6.9
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 1.92°，光轴绕 n 的偏航 +1.39°；转完后剩下的位移中位 2.2 cm、90% 分位 3.4 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99958, 0.01514,-0.02465], [-0.01556, 0.99974,-0.01672], [ 0.02439, 0.01709, 0.99956]]
+  只绕 n 的偏航 ψ* +1.20°；只转偏航后剩下的位移中位 5.5 cm、90% 分位 7.7 cm（口径二）
   写 runs/t3world/rot/rot_manhattanB.json
-  全部帧：口径一位移中位 20.0 cm、90% 分位 24.5 cm；口径二位移中位 9.2 cm、90% 分位 11.4 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 39%
+  写 runs/t3world/rot/rot_manhattanB_yaw.json
+  全部帧：口径一位移中位 20.0 cm、90% 分位 24.5 cm；口径二位移中位 8.1 cm、90% 分位 10.3 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 75%
 == 真内参取 曼哈顿 A（manhattan_calib_main9）：f 862.2、cx 847.1、cy 530.5
 集	可见帧	距离中位(m)	视线夹角中位(°)	位移中位 口径一(cm)	位移中位 口径二(cm)
-ep00_tall_bar_stool	778	2.77	4.74	31.5	23.4
-ep01_vacuum	747	2.97	5.06	33.7	26.5
-ep02_blue_easter_basket	980	3.28	5.34	36.5	31.6
-ep03_contigo_coffee_mug	781	2.69	5.45	29.8	26.0
-ep04_baseball_bat	803	2.84	5.14	30.7	25.7
-ep05_big_black_box	1003	3.03	5.08	33.8	28.1
-ep06_monitor	546	2.60	5.49	28.6	25.2
-ep07_iron	896	3.00	5.02	33.9	26.7
-ep08_skinny_wood_chair	708	2.64	5.01	29.9	23.5
-ep09_big_red_bowl	870	2.96	4.79	33.3	25.1
-ep10_white_desk	794	2.83	5.25	31.8	26.5
-ep11_light_blue_book	901	3.44	4.68	38.9	28.9
-ep13_snack_box	922	3.32	5.08	37.4	29.8
-ep15_wet_floor_sign	715	3.31	4.86	37.5	27.4
-ep17_traffic_cone	440	2.68	4.63	30.2	22.0
-ep18_blue_trash_can	858	2.56	5.24	28.9	23.3
-ep19_cane	886	2.88	4.94	32.6	25.8
-ep20_rice_cooker	553	3.11	5.18	35.0	28.6
-ep22_step_ladder	719	2.94	5.24	33.4	23.4
-ep23_toy_stroller	946	3.20	4.77	36.0	26.8
-ep24_watering_can	748	3.04	4.69	34.4	25.5
-ep26_skateboard	669	3.00	4.39	33.9	23.7
-ep27_woven_basket	565	3.58	5.02	40.1	32.8
-ep29_rolling_luggage	467	2.88	4.50	32.7	22.8
-  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 5.23°，光轴绕 n 的偏航 +5.03°；转完后剩下的位移中位 5.1 cm、90% 分位 6.1 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99608, 0.00764,-0.08817], [-0.00955, 0.99973,-0.02129], [ 0.08799, 0.02205, 0.99588]]
+ep00_tall_bar_stool	778	2.77	4.74	31.5	22.9
+ep01_vacuum	747	2.97	5.06	33.7	26.0
+ep02_blue_easter_basket	980	3.28	5.34	36.5	31.0
+ep03_contigo_coffee_mug	781	2.69	5.45	29.8	25.6
+ep04_baseball_bat	803	2.84	5.14	30.7	25.1
+ep05_big_black_box	1003	3.03	5.08	33.8	27.6
+ep06_monitor	546	2.60	5.49	28.6	24.7
+ep07_iron	896	3.00	5.02	33.9	26.1
+ep08_skinny_wood_chair	708	2.64	5.01	29.9	23.0
+ep09_big_red_bowl	870	2.96	4.79	33.3	24.5
+ep10_white_desk	794	2.83	5.25	31.8	26.0
+ep11_light_blue_book	901	3.44	4.68	38.9	28.3
+ep13_snack_box	922	3.32	5.08	37.4	29.2
+ep15_wet_floor_sign	715	3.31	4.86	37.5	26.7
+ep17_traffic_cone	440	2.68	4.63	30.2	21.5
+ep18_blue_trash_can	858	2.56	5.24	28.9	22.9
+ep19_cane	886	2.88	4.94	32.6	25.2
+ep20_rice_cooker	553	3.11	5.18	35.0	28.1
+ep22_step_ladder	719	2.94	5.24	33.4	22.9
+ep23_toy_stroller	946	3.20	4.77	36.0	26.2
+ep24_watering_can	748	3.04	4.69	34.4	24.9
+ep26_skateboard	669	3.00	4.39	33.9	23.1
+ep27_woven_basket	565	3.58	5.02	40.1	32.1
+ep29_rolling_luggage	467	2.88	4.50	32.7	22.3
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 5.23°，光轴绕 n 的偏航 +5.03°；转完后剩下的位移中位 2.5 cm、90% 分位 4.0 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99608, 0.00764,-0.08817], [-0.00955, 0.99973,-0.02129], [ 0.08799, 0.02205, 0.99588]]
+  只绕 n 的偏航 ψ* +4.96°；只转偏航后剩下的位移中位 7.2 cm、90% 分位 9.9 cm（口径二）
   写 runs/t3world/rot/rot_manhattanA.json
-  全部帧：口径一位移中位 33.6 cm、90% 分位 40.1 cm；口径二位移中位 26.1 cm、90% 分位 31.3 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
+  写 runs/t3world/rot/rot_manhattanA_yaw.json
+  全部帧：口径一位移中位 33.6 cm、90% 分位 40.1 cm；口径二位移中位 25.6 cm、90% 分位 30.7 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
 K_BUDGET_DONE

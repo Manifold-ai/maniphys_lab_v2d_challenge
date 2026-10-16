@@ -1,0 +1,9 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/evaluate/rotate_frefs_t3.py runs/submission/select_t3_probe1015/frame_refs runs/t3world/rot/rot_manhattanB_yaw.json --out runs/submission/select_t3_probe1015/frame_refs_rot_manhattanB_yaw 
+# md5      : b19abe57c0a9de48acc91ffa1f014f31  stages/evaluate/rotate_frefs_t3.py
+# md5      : ff838346d26031d25600fe27e0def12d  runs/t3world/rot/rot_manhattanB_yaw.json
+# source   : 2ca61b4f0c99-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:31:11-0600
+# ---------------------------------------------------------------
+manhattanB_yaw：绕世界原点转 1.196°（stages/recovery/t3_k_budget.py 只绕 n 的偏航 ψ*（曼哈顿 B（manhattan_calib_main9），f 860.8、cx 790.0、cy 527.5；主机位 24 集、口径二）），30 集 → runs/submission/select_t3_probe1015/frame_refs_rot_manhattanB_yaw
+ROTATE_FREFS_OK 30
