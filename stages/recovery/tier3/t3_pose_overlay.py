@@ -10,6 +10,10 @@ Frames: by default the N frames where the versions disagree most (largest distan
 first version's pose and another's, about the centre of mass removed or not), plus the first and the last frame.
 
     python t3_pose_overlay.py <tier3 root> <selection json> <out dir> <version>... only=<ep>[,<ep>] [frames=<f>,<f>] [n=6]
+        [tex=1] [alpha=<0..1>] [cell=<px>]
+tex=1 paints the faces with the mesh's own texture instead (lid, handle and print look as in the video; added 10-16 when the
+coordinate colours left it unclear which end of ep03's mug is the lid); alpha is the render's weight over the frame
+(default 0.5), cell the panel size.
 Writes <out dir>/epNN_<object>.png (rows: frames; columns: the video, then one panel per version). CPU only.
 """
 
@@ -37,7 +41,7 @@ def frame_at(video: Path, f: int):
     return img if ok else None
 
 
-def render(img, V, F, col, Rw, pw, s, rot, t, K):
+def render(img, V, F, col, Rw, pw, s, rot, t, K, alpha=0.5):
     """Faces painted far to near over a copy of img; returns (image, silhouette mask) or None behind the camera."""
     R_c = rot.T @ Rw
     p_c = rot.T @ (pw - t) / s
@@ -55,7 +59,7 @@ def render(img, V, F, col, Rw, pw, s, rot, t, K):
         cv2.fillPoly(sil, [poly], 1)
     out = img.copy()
     m = sil.astype(bool)
-    out[m] = (0.5 * img[m] + 0.5 * layer[m]).astype(np.uint8)
+    out[m] = ((1 - alpha) * img[m] + alpha * layer[m]).astype(np.uint8)
     return out, sil
 
 
@@ -74,12 +78,19 @@ def main() -> None:
         conv = r["convert"]
         s, rot, t, K, _ = similarity(root / "runs" / conv / name)
         mesh = trimesh.load(root / "input" / metas[ep]["mesh"], force="mesh")
+        tex = None
+        if kv.get("tex") == "1":  # texture colours per face of the full mesh, carried to the decimated faces by nearest centre
+            full_fc = np.asarray(mesh.visual.to_color().face_colors)[:, :3].astype(np.uint8)
+            full_c = np.asarray(mesh.triangles_center)
         if len(mesh.faces) > MAX_FACES:
             mesh = mesh.simplify_quadric_decimation(face_count=MAX_FACES)
         V, F = np.asarray(mesh.vertices), np.asarray(mesh.faces)
         lo, hi = V.min(0), V.max(0)
         c = (V[F].mean(1) - lo) / np.maximum(hi - lo, 1e-9)
         col = (40 + 215 * c[:, ::-1]).astype(np.uint8)  # BGR from body z, y, x
+        if kv.get("tex") == "1":
+            from scipy.spatial import cKDTree
+            col = full_fc[cKDTree(full_c).query(V[F].mean(1))[1]][:, ::-1].copy()  # RGB -> BGR
         poses = {v: world_pose(root, v, ep) for v in versions}
         n = min(len(p) for p in poses.values())
         if "frames" in kv:
@@ -111,7 +122,7 @@ def main() -> None:
             panels, box = [], om.copy()
             for v in versions:
                 pw = poses[v][f]
-                res = render(img, V, F, col, pw[:3, :3], pw[:3, 3], s, rot, t, K)
+                res = render(img, V, F, col, pw[:3, :3], pw[:3, 3], s, rot, t, K, float(kv.get("alpha", 0.5)))
                 panels.append(res[0] if res else np.zeros_like(img))
                 if res:
                     box |= res[1].astype(bool)
@@ -127,12 +138,12 @@ def main() -> None:
             cv2.drawContours(raw, cnts, -1, (0, 255, 255), 1)
             cells = []
             for label, im in [(f"video f{f}", raw)] + list(zip(versions, panels)):
-                cell = cv2.resize(im[y0:y1, x0:x1], (CELL, CELL))
+                cell = cv2.resize(im[y0:y1, x0:x1], (int(kv.get("cell", CELL)),) * 2)
                 cv2.putText(cell, label.replace("tier3_cari4d_f830_", ""), (6, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
                 cells.append(cell)
             rows.append(np.hstack(cells))
         if rows:
-            dst = out / f"ep{ep:02d}_{metas[ep]['object']}.png"
+            dst = out / f"ep{ep:02d}_{metas[ep]['object']}{'_tex' if kv.get('tex') == '1' else ''}.png"
             cv2.imwrite(str(dst), np.vstack(rows))
             print(dst, "frames", frames, flush=True)
 
