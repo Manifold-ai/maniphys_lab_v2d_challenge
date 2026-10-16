@@ -1,0 +1,12 @@
+# command  : bash -c set\ -eo\ pipefail\;\ T=/lab_data/rxzhou/v2d/tier3_kfix_r2/F/runs/tier3_kfix_F/data/chunk-000\;\ for\ d\ in\ ep00_tall_bar_stool\ ep18_blue_trash_can\ ep20_rice_cooker\ ep22_step_ladder\ ep24_watering_can\ ep26_skateboard\ ep29_rolling_luggage\;\ do\ e=\$\(\(10#\$\{d:2:2\}\)\)\;\ p=\$\(printf\ \"episode_%06d.parquet\"\ \$e\)\;\ mkdir\ -p\ runs/t3world/kfix_new_F/\$d\;\ ssh\ -o\ BatchMode=yes\ ml40\ \"cat\ \$T/\$p\"\ \>\ runs/t3world/kfix_new_F/\$d/\$p\;\ r=\$\(ssh\ -o\ BatchMode=yes\ ml40\ \"sha256sum\ \$T/\$p\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ runs/t3world/kfix_new_F/\$d/\$p\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ \$d\ \$p\ \$\{l:0:16\}\ \$\(wc\ -c\ \<\ runs/t3world/kfix_new_F/\$d/\$p\)\ B\"\ \|\|\ \{\ echo\ MISMATCH\ \$d\;\ exit\ 1\;\ \}\;\ done 
+# source   : 8d8a469b3fd6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:19:32-0600
+# ---------------------------------------------------------------
+ok ep00_tall_bar_stool episode_000000.parquet 0877251c4b0ac855  1058328 B
+ok ep18_blue_trash_can episode_000018.parquet e88f1feaf1df181f  1166131 B
+ok ep20_rice_cooker episode_000020.parquet 732f49328f3f243d   743613 B
+ok ep22_step_ladder episode_000022.parquet d4a20ed6c63f5071   979428 B
+ok ep24_watering_can episode_000024.parquet c85571adda2ed82b  1017960 B
+ok ep26_skateboard episode_000026.parquet 0171f3c79af58e9d   898143 B
+ok ep29_rolling_luggage episode_000029.parquet aa01552052b737cb   631413 B

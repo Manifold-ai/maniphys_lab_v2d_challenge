@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/plan-t3-kfix-2026-10-16.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a603a4b62b5745c1b1f40c130f020a77  agent-doc/plan-t3-kfix-2026-10-16.claims.json
+# source   : 8d8a469b3fd6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:23:28-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+feet_delta           P(supported)=0.96  verified               [kcmp]  第一批 7 集里，新参考与旧链世界步之后的支撑脚高度逐集相差 +0.28、+0.06、+0.10、+0.05、+0.43、−0.22、+0.16 cm，都在半厘米以内。
+feet_ep22            P(supported)=0.85  verified               [kcmp]  ep22 的支撑脚在旧链世界步之后低于发布地面 3.76 cm，新参考是 3.71 cm，两者都超过 3 cm。
+feet_old24           P(supported)=0.97  verified               [kcmp]  旧链主机位 24 集里，支撑脚高度的绝对值超过 3 cm 的有 7 集，ep22 是其中之一。
+ref_dist             P(supported)=0.98  verified               [kdiff]  第一批 7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位），即远约 5%。
+ref_walk             P(supported)=0.93  verified               [kdiff]  第一批逐集，新参考里人走的路程是旧参考的 1.0307 到 1.0448 倍。
+ctl_true_ep20        P(supported)=0.73  control(true) ok       [kcmp]  ep20 的支撑脚在新参考世界步之后高于发布地面 1.55 cm。
+ctl_false_all24      P(supported)=0.01  control(false) ok      [kcmp]  旧链主机位 24 集的支撑脚高度都在 3 cm 以内。
+ctl_false_closer     P(supported)=0.20  control(false) ok      [kdiff]  新参考里物体离相机比旧参考近约 5%。
+controls behaved as expected

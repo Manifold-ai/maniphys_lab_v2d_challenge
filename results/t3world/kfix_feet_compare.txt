@@ -1,0 +1,22 @@
+# command  : python3 stages/recovery/t3_kfix_feet_compare.py results/t3world/kfix_feet_kt.txt results/t3world/kfix_feet_delivered.txt 
+# md5      : b88571f9b6b37cebb783cd85a5e319ed  stages/recovery/t3_kfix_feet_compare.py
+# md5      : 4ea6252b1fe12bfe704a312d1ec87bd4  results/t3world/kfix_feet_kt.txt
+# md5      : 5a72f9a8a44f4dd4445beec666f8f6fe  results/t3world/kfix_feet_delivered.txt
+# source   : 8d8a469b3fd6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:22:46-0600
+# ---------------------------------------------------------------
+集	新参考 世界步后(cm)	新参考 世界步前(cm)	旧链 世界步后(cm)	旧链 世界步前(cm)	新 − 旧(cm)
+ep00_tall_bar_stool	-0.58	-0.40	-0.86	-0.69	+0.28
+ep18_blue_trash_can	-0.16	-0.35	-0.22	-0.42	+0.06
+ep20_rice_cooker	+1.55	+1.85	+1.45	+1.68	+0.10
+ep22_step_ladder	-3.71	-4.30	-3.76	-4.30	+0.05
+ep24_watering_can	-0.47	-0.46	-0.90	-0.90	+0.43
+ep26_skateboard	-2.89	-2.59	-2.67	-2.44	-0.22
+ep29_rolling_luggage	-2.55	-2.31	-2.71	-2.46	+0.16
+第一批 新参考：7 集，逐集 |·| ≤ 3 cm 的 6 集；绝对值的中位 1.55 cm，带符号的中位 -0.58 cm，最低 -3.71 cm
+第一批 旧链：7 集，逐集 |·| ≤ 3 cm 的 6 集；绝对值的中位 1.45 cm，带符号的中位 -0.90 cm，最低 -3.76 cm
+旧链 主机位全部集：24 集，逐集 |·| ≤ 3 cm 的 17 集；绝对值的中位 1.51 cm，带符号的中位 -0.88 cm，最低 -4.86 cm
+旧链主机位里 |·| > 3 cm 的集：ep03_contigo_coffee_mug -4.86、ep04_baseball_bat -3.74、ep06_monitor -4.25、ep08_skinny_wood_chair -3.24、ep13_snack_box -3.79、ep22_step_ladder -3.76、ep23_toy_stroller -3.85
+旧链里不是主机位（group ≠ 0）的集，不计入上面两行：ep12_black_platform、ep14_round_table、ep16_spray_bottle、ep21_tall_bar_stool、ep25_cyan_water_bottle、ep28_squeegee
+KFIX_FEET_COMPARE_DONE

@@ -1,0 +1,37 @@
+# command  : ssh -o BatchMode=yes ml40 grep\ \"\^\{\"\ /lab_data/rxzhou/v2d/tier3_kfix_r2/feet_diag_delivered.log\;\ sha256sum\ /lab_data/rxzhou/v2d/tier3_kfix_r2/feet_diag_delivered.json\ \|\ cut\ -c1-16\;\ tail\ -1\ /lab_data/rxzhou/v2d/tier3_kfix_r2/kfix_feet.out 
+# source   : 8d8a469b3fd6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:22:42-0600
+# ---------------------------------------------------------------
+{"episode": "ep00_tall_bar_stool", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0069, "pelvis_focal_m": 0.9082, "feet_world_m": -0.0086, "pelvis_world_m": 0.8932, "feet_world_predicted_m": -0.02}
+{"episode": "ep01_vacuum", "group": 0, "scale": 0.9856, "feet_focal_m": -0.01, "pelvis_focal_m": 0.9528, "feet_world_m": -0.0059, "pelvis_world_m": 0.9426, "feet_world_predicted_m": -0.0237}
+{"episode": "ep02_blue_easter_basket", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0075, "pelvis_focal_m": 0.9436, "feet_world_m": -0.0085, "pelvis_world_m": 0.9296, "feet_world_predicted_m": -0.0211}
+{"episode": "ep03_contigo_coffee_mug", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0496, "pelvis_focal_m": 0.889, "feet_world_m": -0.0486, "pelvis_world_m": 0.8763, "feet_world_predicted_m": -0.0624}
+{"episode": "ep04_baseball_bat", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0401, "pelvis_focal_m": 0.8931, "feet_world_m": -0.0374, "pelvis_world_m": 0.8816, "feet_world_predicted_m": -0.053}
+{"episode": "ep05_big_black_box", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0181, "pelvis_focal_m": 0.9501, "feet_world_m": -0.0178, "pelvis_world_m": 0.9372, "feet_world_predicted_m": -0.0318}
+{"episode": "ep06_monitor", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0402, "pelvis_focal_m": 0.9005, "feet_world_m": -0.0425, "pelvis_world_m": 0.885, "feet_world_predicted_m": -0.0532}
+{"episode": "ep07_iron", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0006, "pelvis_focal_m": 0.934, "feet_world_m": -0.0022, "pelvis_world_m": 0.9192, "feet_world_predicted_m": -0.014}
+{"episode": "ep08_skinny_wood_chair", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0331, "pelvis_focal_m": 0.8873, "feet_world_m": -0.0324, "pelvis_world_m": 0.8745, "feet_world_predicted_m": -0.0459}
+{"episode": "ep09_big_red_bowl", "group": 0, "scale": 0.9856, "feet_focal_m": 0.0082, "pelvis_focal_m": 0.9148, "feet_world_m": 0.0071, "pelvis_world_m": 0.9005, "feet_world_predicted_m": -0.005}
+{"episode": "ep10_white_desk", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0067, "pelvis_focal_m": 0.9738, "feet_world_m": -0.0059, "pelvis_world_m": 0.9604, "feet_world_predicted_m": -0.0207}
+{"episode": "ep11_light_blue_book", "group": 0, "scale": 0.9856, "feet_focal_m": -0.018, "pelvis_focal_m": 0.915, "feet_world_m": -0.0157, "pelvis_world_m": 0.9039, "feet_world_predicted_m": -0.0312}
+{"episode": "ep12_black_platform", "group": 1, "scale": 0.93498, "feet_focal_m": -0.0461, "pelvis_focal_m": 0.9165, "feet_world_m": -0.0384, "pelvis_world_m": 0.8599, "feet_world_predicted_m": -0.1057}
+{"episode": "ep13_snack_box", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0378, "pelvis_focal_m": 0.9081, "feet_world_m": -0.0379, "pelvis_world_m": 0.8938, "feet_world_predicted_m": -0.0509}
+{"episode": "ep14_round_table", "group": 1, "scale": 0.93498, "feet_focal_m": -0.0114, "pelvis_focal_m": 0.9284, "feet_world_m": -0.013, "pelvis_world_m": 0.8649, "feet_world_predicted_m": -0.0718}
+{"episode": "ep15_wet_floor_sign", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0007, "pelvis_focal_m": 0.9796, "feet_world_m": 0.0022, "pelvis_world_m": 0.9684, "feet_world_predicted_m": -0.0148}
+{"episode": "ep16_spray_bottle", "group": 1, "scale": 0.93498, "feet_focal_m": -0.0077, "pelvis_focal_m": 0.9417, "feet_world_m": -0.0055, "pelvis_world_m": 0.8813, "feet_world_predicted_m": -0.0689}
+{"episode": "ep17_traffic_cone", "group": 0, "scale": 0.9856, "feet_focal_m": 0.0012, "pelvis_focal_m": 0.9522, "feet_world_m": 0.0012, "pelvis_world_m": 0.938, "feet_world_predicted_m": -0.0125}
+{"episode": "ep18_blue_trash_can", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0042, "pelvis_focal_m": 0.9816, "feet_world_m": -0.0022, "pelvis_world_m": 0.969, "feet_world_predicted_m": -0.0183}
+{"episode": "ep19_cane", "group": 0, "scale": 0.9856, "feet_focal_m": 0.0277, "pelvis_focal_m": 0.9975, "feet_world_m": 0.0298, "pelvis_world_m": 0.9859, "feet_world_predicted_m": 0.0133}
+{"episode": "ep20_rice_cooker", "group": 0, "scale": 0.9856, "feet_focal_m": 0.0168, "pelvis_focal_m": 0.9683, "feet_world_m": 0.0145, "pelvis_world_m": 0.952, "feet_world_predicted_m": 0.0029}
+{"episode": "ep21_tall_bar_stool", "group": 2, "scale": 0.98612, "feet_focal_m": 0.0019, "pelvis_focal_m": 0.9731, "feet_world_m": 0.0022, "pelvis_world_m": 0.96, "feet_world_predicted_m": -0.0116}
+{"episode": "ep22_step_ladder", "group": 0, "scale": 0.9856, "feet_focal_m": -0.043, "pelvis_focal_m": 0.8877, "feet_world_m": -0.0376, "pelvis_world_m": 0.8811, "feet_world_predicted_m": -0.0558}
+{"episode": "ep23_toy_stroller", "group": 0, "scale": 0.9856, "feet_focal_m": -0.038, "pelvis_focal_m": 0.9215, "feet_world_m": -0.0385, "pelvis_world_m": 0.9082, "feet_world_predicted_m": -0.0513}
+{"episode": "ep24_watering_can", "group": 0, "scale": 0.9856, "feet_focal_m": -0.009, "pelvis_focal_m": 0.5388, "feet_world_m": -0.009, "pelvis_world_m": 0.5307, "feet_world_predicted_m": -0.0168}
+{"episode": "ep25_cyan_water_bottle", "group": 1, "scale": 0.93498, "feet_focal_m": 0.0834, "pelvis_focal_m": 1.0887, "feet_world_m": 0.0783, "pelvis_world_m": 1.0186, "feet_world_predicted_m": 0.0126}
+{"episode": "ep26_skateboard", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0244, "pelvis_focal_m": 0.858, "feet_world_m": -0.0267, "pelvis_world_m": 0.8426, "feet_world_predicted_m": -0.0368}
+{"episode": "ep27_woven_basket", "group": 0, "scale": 0.9856, "feet_focal_m": 0.0045, "pelvis_focal_m": 0.9697, "feet_world_m": 0.0056, "pelvis_world_m": 0.9566, "feet_world_predicted_m": -0.0095}
+{"episode": "ep28_squeegee", "group": 1, "scale": 0.93498, "feet_focal_m": 0.0918, "pelvis_focal_m": 1.0618, "feet_world_m": 0.0918, "pelvis_world_m": 0.9998, "feet_world_predicted_m": 0.0228}
+{"episode": "ep29_rolling_luggage", "group": 0, "scale": 0.9856, "feet_focal_m": -0.0246, "pelvis_focal_m": 0.8974, "feet_world_m": -0.0271, "pelvis_world_m": 0.8814, "feet_world_predicted_m": -0.0375}
+9e2688ca211a1f43
+KFIX_FEET_DONE
