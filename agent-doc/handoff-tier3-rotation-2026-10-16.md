@@ -356,3 +356,32 @@ f830 时校正把 15.6 cm 降到 1.4 cm，GB 下校正不再改善留一高度�
   只差约 1.5%（按尺度 1.053 应为 0.949）。
 - 侧机位 ep21：自己的落地点只有 38 个、几乎排成一条线（横向跨度 1.3 cm），拟不出地面（拟出离地 0.66 m、俯仰 +12°，不可信），这条路检验
   不了；主机位画面里也只看到二机位，没看到侧机位。侧机位要换办法（地平线/吊顶消失点定俯仰横滚，或借二机位链条）。
+
+## 三台相机都用 GB：后台流程（10-17 00:16 CST 挂上，用户出门）
+
+**用户定（10-17）**：二机位用 GB、尺度 0.949（= 1/1.053）；ep21 也用 GB，按 10-12 的 A、C 配对（left = A）重做配准；交付记录要写明
+ep21 做过的测试——「证据不足，但做过检验，不是直接套的」。
+
+**ep21 做过的检验（写进交付记录用）**：
+1. 地面接触点拟地面：38 个事件几乎共线（横向跨度 1.3 cm），定不住法向（拟出离地 0.66 m、俯仰 +12°）——此路不通。
+2. 吊顶地平线定法向 + 接触点定高度，量它看到的 A、C 三脚架中心距：GB 6.42 m、CARI4D 自身 804 6.37 m、自身 f + GB 主点 6.43 m
+   （腿偏移 0.29 m），三者差 < 1%，分不出内参；对主机位视角 6.170 m 的比值 1.04–1.10（随腿偏移）。
+3. 同一消失点方法（k1 = 0、主点居中）的焦距：ep21 835.5，二机位 842–852，主机位 ep00 846（该方法在主机位比 GB 866 低约 2%）——同型号的旁证。
+4. GB 下 ep21 地平线横滚 0.02°、俯仰 −1.61°，接触点离地 1.404 m（p10–p90 1.400–1.406），自洽。
+结论：落地/距离检验分不出 GB 与 ep21 自身内参，按同型号旁证采用 GB，属证据不足下的决定。
+
+**产物与流程**（代码 `25affe5`，`t3_gb3_register.sh`，日志 `$T/logs/gb3_register.log`，末行 GB3_REGISTER_DONE 或 GB3_FAILED <步骤>）：
+- 规格 `runs/floor/intrinsics_gb3.json`（三组 GB）；focal 输出 `runs/{convert,convert_v2,convert_fp,convert_pivot}_gb3/`（`logs/gb3_focal.out`）。
+- 地面 `runs/floor/floor_fit_gb3.json`（二机位 scale=1:0.949 → shift_m；ep21 法向取 `runs/floor/ceiling_vp_other.json` 的吊顶地平线）。
+- 配准 `runs/floor/camera_register_gb3.json`：二机位 t3_mutual_multi（conv=convert_gb3）；ep21 t3_corner_register（pair= 固定为
+  `dev/kgb/ep21_original_pair.json` 的两个框：左裁图 [0,752,67,861]、右边缘 [1385,579,1535,821]；旧配置下复现 90.55° 逐位一致）。
+- 四个 `_gb3` 来源全部 world；摘要 `dev/kgb/gb3_summary.txt`（各组落地事件在新世界系的离地高度 vs f830 版；新旧配准对比）。
+- 代码改动：floor fit 的 `scale=`/`horizon=`、`shift_m`（world、mutual、corner 都沿发布法向平移）；corner 的图宽改取 CARI4D 居中 K
+  （原写法 2·cx 在 GB 下会把右裁图错位 132 px）。旧配置回归：floor_fit_kgb 逐字段一致、二机位 181.35°/(−0.3737, 5.8261) 与 ep21
+  90.55°/(3.0119, 2.895) 逐位复现。
+- 已清理：`runs/convert{,_v2,_fp}_gb2`、53 个 gb2 日志（清单 `dev/kgb/gb2_logs_deleted.txt`）、`intrinsics_gb2.json`、`dev/kgb/try`、
+  `dev/init_pilot/post`。保留：`dev/init_pilot/conv_{ctrl,init}`（checked_frames 的 init 判断出自它们）、`runs/convert_kgb`（floor_fit_kgb 的来源）。
+
+**回来后**：先看 `gb3_register.log` 末行与 `gb3_summary.txt`（二机位、ep21 落地高度应在 ±3 cm 内；二机位偏航应近 181.4°）。之后是组装与后处理链：
+按 best 选择表换成 `_gb3` 来源组装 → 支撑面（`t3_support.py` 写死 floor_fit_f830，要参数化）→ 物理 → dr2s → 物理 → dyn7 → 门槛 → 自检 → 交付；
+`t3_versions.py` 前缀写死 `tier3_cari4d_f830_`，新版本名待定。
