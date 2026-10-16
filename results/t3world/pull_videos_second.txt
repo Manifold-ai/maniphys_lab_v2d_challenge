@@ -1,0 +1,10 @@
+# command  : bash -c set\ -eo\ pipefail\;\ for\ e\ in\ 000014\ 000016\ 000021\ 000025\ 000028\;\ do\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cat\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\"\ \>\ data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\;\ r=\$\(ssh\ -o\ BatchMode=yes\ mf4090\ \"sha256sum\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ episode_\$e.mp4\ \$\{l:0:16\}\"\ \|\|\ \{\ echo\ \"MISMATCH\ \$e\"\;\ exit\ 1\;\ \}\;\ done 
+# source   : ca3472453e8a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T03:58:05-0600
+# ---------------------------------------------------------------
+ok episode_000014.mp4 4035b694f5815c45
+ok episode_000016.mp4 36f1b4bb8d66fe67
+ok episode_000021.mp4 7aafd9136f9b08cc
+ok episode_000025.mp4 7b8717e26cff7519
+ok episode_000028.mp4 184dae782cb0dfc5

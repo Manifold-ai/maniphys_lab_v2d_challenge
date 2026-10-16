@@ -1,0 +1,11 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow --with pandas python stages/evaluate/test_rotate_frefs_t3.py 
+# md5      : da2693bbd7ffc8111f38236fe1688dc0  stages/evaluate/test_rotate_frefs_t3.py
+# source   : ca3472453e8a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:10:42-0600
+# ---------------------------------------------------------------
+  1. 正常：位置 = R p、朝向 = R M、manifest 只换 sha256、ROTATION.json 齐全
+  2. 单位阵：位姿不变
+  3. 拒绝：反射、转角 15°、源 npz 被改过、label 带空格、目标目录已存在
+  4. kit 的 convert_track2_frame：frame refs 转 R，换算出的 rollout 位置与朝向都恰好转 R
+ALL_OK

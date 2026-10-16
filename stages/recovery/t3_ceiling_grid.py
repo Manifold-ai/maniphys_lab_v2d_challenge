@@ -535,6 +535,99 @@ def run(eps: list, boot: int, asp: bool, want_overlay: bool, profile: bool = Fal
     return 0
 
 
+def reorder_up(R: np.ndarray, n: np.ndarray) -> np.ndarray:
+    """曼哈顿拟合 A 的姿态（三列次序、符号任意）→ 第 2 列竖直朝上（与 n 同侧），第 0 列取剩下两列的第一列，第 1 列 = e3 × e0，右手系。"""
+    j = int(np.argmax(np.abs(R.T @ n)))
+    up = R[:, j] * np.sign(R[:, j] @ n)
+    e0 = R[:, [k for k in range(3) if k != j][0]]
+    e0 = unit(e0 - (e0 @ up) * up)
+    return np.c_[e0, np.cross(up, e0), up]
+
+
+def pose_from_vps(seg: np.ndarray, f: float, cx: float, cy: float) -> np.ndarray:
+    """RANSAC 消失点（t3_horizon_check.find_vps）里，支持线段最平的两个当水平消失点，它们的连线是地平线 l，朝上方向 ∝ Kᵀl（取朝 −y 的一侧）；
+    两个里支持线段总长大的当第一个水平方向，正交化成 [e0, e3 × e0, e3]。不用竖直消失点：非主机位支持它的线段少（ep12 只有 14 条），
+    估出的位置离谱（第 1832 行，折合俯仰 34°）。"""
+    import t3_horizon_check as hc
+    vps = hc.find_vps(seg, np.random.default_rng(0))
+    for v in vps:
+        q = v["vp"][:2] / v["vp"][2] if abs(v["vp"][2]) > 1e-9 else np.array([np.inf, np.inf])
+        print(f"    消失点：像素 ({q[0]:.0f}, {q[1]:.0f})，支持线段 {v['n']} 条、总长 {v['len']:.0f} px，支持线段相对水平的中位角 {v['steep']:.1f}°")
+    Ki = np.linalg.inv(np.array([[f, 0, cx], [0, f, cy], [0, 0, 1.0]]))
+    ja, jb = sorted(range(len(vps)), key=lambda j: vps[j]["steep"])[:2]
+    Kt = np.array([[f, 0, cx], [0, f, cy], [0, 0, 1.0]])
+    up = unit(Kt.T @ np.cross(vps[ja]["vp"], vps[jb]["vp"]))
+    up = up if up[1] < 0 else -up
+    jh = ja if vps[ja]["len"] >= vps[jb]["len"] else jb
+    e0 = Ki @ vps[jh]["vp"]
+    e0 = unit(e0 - (e0 @ up) * up)
+    print(f"    初值姿态：朝上 {np.array2string(up, precision=4)}、第一水平方向 {np.array2string(e0, precision=4)}")
+    return np.c_[e0, np.cross(up, e0), up]
+
+
+def run_second(eps: list, boot: int, want_overlay: bool) -> int:
+    """第二机位、侧机位：发布的地面法向在世界（主机位）坐标系里，不是这台相机的，所以初值取曼哈顿拟合 A（姿态自由），方格只跑拟合 G。
+    n（主机位的地面法向）只用来挑哪一列是竖直方向（这些相机也大致水平，−y 朝上），e3 与 n 的夹角对它们没有检验意义。
+    另报这台相机自己的俯仰、横滚（由方格估的 e3），以及方格方向 e1、e2、e3 在它坐标系里的表示，供两台相机经方格求相对转动。"""
+    import t3_horizon_check as hc
+    n = mc.floor_normal()
+    bgs = [hc.background(mc.VID / f"episode_{e:06d}.mp4") for e in eps]
+    man = [mc.load_segments(e) for e in eps]
+    segs_m, vps_all = [d[0] for d in man], [d[1] for d in man]
+    # 初值：内参取画面中心与 f 860（不用主机位的结果，免得把它带过去）；姿态由 RANSAC 消失点直接算（单段视频的曼哈顿拟合 A 在 ep12 上
+    # 发散到 f → 0，不能做初值）
+    f0, cx0, cy0, k10 = 860.0, (W - 1) / 2, (H - 1) / 2, 0.0
+    poses0 = [pose_from_vps(sg, f0, cx0, cy0) for sg in segs_m]
+    print(f"== 视频 {eps}（非主机位）；初值：f {f0:.1f}、主点 ({cx0:.1f}, {cy0:.1f})、k1 0，姿态由消失点算")
+    vids = [{"ceil": lsd(bg, MIN_LEN), "vert": s} for bg, s in zip(bgs, segs_m)]
+    fit = GridFit(vids, "G", n, poses0)
+    x0 = init_x(fit, (f0, cx0, cy0, k10), poses0)
+    for v, e in enumerate(eps):
+        da, db, qa, qb, na, nb = vids[v]["init"]
+        print(f"  [G] ep{e} 周期图起步：A 族 {na} 段，格距 {da:.4f}（相干 {qa:.2f}）；B 族 {nb} 段，格距 {db:.4f}（相干 {qb:.2f}）")
+    x, asg, cost, used = fit.solve(x0, verbose=True)
+    summary("拟合 G（姿态自由 + 竖直线；e3 与 n 的夹角对非主机位无检验意义）", fit, x, asg, cost, used)
+    diagnose(fit, x, eps)
+    vertical_tilt(fit, x, eps, "G")
+    k, per = fit.unpack(x, True)
+    for v, e in enumerate(eps):
+        R = per[v][0]
+        up = R[:, 2]
+        print(f"  ep{e} 相机自己的姿态（由方格的 e3）：俯仰 {math.degrees(math.asin(-up[2])):+.2f}°（光轴在水平面下为正），"
+              f"横滚 {math.degrees(math.atan2(up[0], -up[1])):+.2f}°；e1 {np.array2string(R[:, 0], precision=5)}、"
+              f"e2 {np.array2string(R[:, 1], precision=5)}、e3 {np.array2string(up, precision=5)}；格距 {per[v][1]:.4f}、相位 ({per[v][3]:.4f}, {per[v][4]:.4f})")
+    if want_overlay:
+        for v, e in enumerate(eps):
+            overlay(e, bgs[v], fit, x, asg, v)
+            rectify(e, bgs[v], fit, x, v, "G")
+    if len(eps) > 1:
+        cxs = []
+        for v in range(len(eps)):
+            fit1 = GridFit([dict(vids[v])], "G", n, [poses0[v]])
+            cxs.append(fit1.solve(init_x(fit1, (f0, cx0, cy0, k10), [poses0[v]]))[0][1])
+        print(f"  每段视频单独拟合 G 的 cx：{', '.join(f'{c:.1f}' for c in cxs)}；极差 {max(cxs) - min(cxs):.1f} px")
+    if boot:
+        rng = np.random.default_rng(3)
+        st = {"f": [], "cx": [], "cy": []}
+        for _ in range(boot):
+            ba = []
+            for a in asg:
+                na = {}
+                for fam in ("A", "B"):
+                    idx, j = a[fam]
+                    pick = rng.integers(0, len(idx), len(idx)) if len(idx) else np.zeros(0, int)
+                    na[fam] = (idx[pick], j[pick])
+                na["V"] = a["V"][rng.integers(0, len(a["V"]), len(a["V"]))] if len(a["V"]) else a["V"]
+                ba.append(na)
+            xb_ = fit.refit(x, ba)
+            st["f"].append(xb_[0]); st["cx"].append(xb_[1]); st["cy"].append(xb_[2])
+        for kk, vv in st.items():
+            lo, mid, hi = np.percentile(vv, [2.5, 50, 97.5])
+            print(f"  自助法 {boot} 次 [G] {kk}：中位 {mid:.3f}，95% 区间 [{lo:.3f}, {hi:.3f}]，宽 {hi - lo:.3f}")
+    print("CEILING_GRID_DONE")
+    return 0
+
+
 # ---------- 自检：合成吊顶 ----------
 
 def synth(rng, k: tuple, R: np.ndarray, h: float, tile: tuple, phase: tuple, n_out: float = 0.15, edge: float = 0.012,
@@ -672,5 +765,8 @@ if __name__ == "__main__":
     ap.add_argument("--asp", action="store_true", help="放开纵横比（只对拟合 G）")
     ap.add_argument("--overlay", action="store_true")
     ap.add_argument("--profile", action="store_true", help="cx 剖面：固定 cx、其余放开的代价曲线")
+    ap.add_argument("--cam", choices=("main", "other"), default="main", help="other：第二机位、侧机位（初值取曼哈顿拟合 A，只跑 G）")
     a = ap.parse_args()
+    if a.cam == "other" and not a.selftest:
+        sys.exit(run_second(a.eps, a.boot, a.overlay))
     sys.exit((selftest_debug() if a.debug else selftest()) if a.selftest else run(a.eps or [5, 11, 20], a.boot, a.asp, a.overlay, a.profile))

@@ -1,8 +1,8 @@
-# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/recovery/t3_k_budget.py 
-# md5      : f1eadd8a2309f39586a252e7baa345f7  stages/recovery/t3_k_budget.py
-# source   : 32d2ea11080b-dirty
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow --with scipy python stages/recovery/t3_k_budget.py --write-rotations runs/t3world/rot 
+# md5      : 7665d0fde494049df701cdeb459be402  stages/recovery/t3_k_budget.py
+# source   : ca3472453e8a-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T03:51:42-0600
+# run_at   : 2026-10-16T04:10:57-0600
 # ---------------------------------------------------------------
 == 主机位 24 集（/Users/rongxuanzhou/V2D/runs/t3world/budget）；流程内参：fx 830、主点 (768.0, 576.0)；世界步缩放 0.9856–0.9856
 == 真内参取 方格 G（ceiling_grid_main3）：f 866.2、cx 702.0、cy 533.3
@@ -31,6 +31,8 @@ ep24_watering_can	748	3.04	4.92	34.1	26.6
 ep26_skateboard	669	3.00	5.08	33.5	27.2
 ep27_woven_basket	565	3.58	4.64	36.4	28.5
 ep29_rolling_luggage	467	2.88	5.01	31.7	25.8
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 4.69°，光轴绕 n 的偏航 -4.24°；转完后剩下的位移中位 5.1 cm、90% 分位 6.0 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99692, 0.02714, 0.07351], [-0.0254 , 0.99938,-0.02452], [-0.07413, 0.02257, 0.99699]]
+  写 runs/t3world/rot/rot_gridG.json
   全部帧：口径一位移中位 32.4 cm、90% 分位 38.5 cm；口径二位移中位 25.0 cm、90% 分位 30.3 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
 == 真内参取 曼哈顿 B（manhattan_calib_main9）：f 860.8、cx 790.0、cy 527.5
 集	可见帧	距离中位(m)	视线夹角中位(°)	位移中位 口径一(cm)	位移中位 口径二(cm)
@@ -58,6 +60,8 @@ ep24_watering_can	748	3.04	1.62	22.2	9.5
 ep26_skateboard	669	3.00	1.51	22.4	9.1
 ep27_woven_basket	565	3.58	1.33	22.1	10.1
 ep29_rolling_luggage	467	2.88	1.34	20.8	8.1
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 1.92°，光轴绕 n 的偏航 +1.39°；转完后剩下的位移中位 4.9 cm、90% 分位 5.7 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99958, 0.01514,-0.02465], [-0.01556, 0.99974,-0.01672], [ 0.02439, 0.01709, 0.99956]]
+  写 runs/t3world/rot/rot_manhattanB.json
   全部帧：口径一位移中位 20.0 cm、90% 分位 24.5 cm；口径二位移中位 9.2 cm、90% 分位 11.4 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 39%
 == 真内参取 曼哈顿 A（manhattan_calib_main9）：f 862.2、cx 847.1、cy 530.5
 集	可见帧	距离中位(m)	视线夹角中位(°)	位移中位 口径一(cm)	位移中位 口径二(cm)
@@ -85,5 +89,7 @@ ep24_watering_can	748	3.04	4.69	34.4	25.5
 ep26_skateboard	669	3.00	4.39	33.9	23.7
 ep27_woven_basket	565	3.58	5.02	40.1	32.8
 ep29_rolling_luggage	467	2.88	4.50	32.7	22.8
+  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 5.23°，光轴绕 n 的偏航 +5.03°；转完后剩下的位移中位 5.1 cm、90% 分位 6.1 cm（口径二；打包消不掉的非刚体部分）；R* 按行 [[ 0.99608, 0.00764,-0.08817], [-0.00955, 0.99973,-0.02129], [ 0.08799, 0.02205, 0.99588]]
+  写 runs/t3world/rot/rot_manhattanA.json
   全部帧：口径一位移中位 33.6 cm、90% 分位 40.1 cm；口径二位移中位 26.1 cm、90% 分位 31.3 cm；位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 0%、口径二 0%
 K_BUDGET_DONE

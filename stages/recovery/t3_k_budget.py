@@ -16,6 +16,10 @@ K_t⁻¹[p, 1]，深度按两种口径给上下界（看结果之前定）：
 
 理论预期（看结果之前写下）：方格 K 下偏航约 (768 − 702)/866 ≈ 4.4°，即每米距离横向约 7.7 cm；口径一的深度多 866/830 − 1 ≈ 4.3%；
 俯仰：流程转了约 3.7°，真主点比 576 高 (576 − 533)/866 ≈ 2.8°，剩约 0.9° 的俯仰差。
+刚体部分：打包器用“评测器记录的参考 ↔ 我们交的 frame refs”之间的一个刚体变换把仿真里的物体位姿转到发布世界系（官方 kit
+tracks/track_2/README.md“Input references for frame conversion”），所以 frame refs 整体绕相机中心转一个 R，打包出的轨迹也整体转 R，
+不用重训。对每套 K_t 求所有可见帧上使 Σ‖R·X_w − X_t‖² 最小的转动 R*（Kabsch，绕原点，口径二），报 R* 的角度、其中绕 n 的偏航分量，
+以及转完之后剩下的位移（非刚体部分，打包消不掉）。
 只算主机位 24 集（第二机位 ep12、14、16、25、28 与侧机位 ep21 还叠着配准，另算）。
 用法：uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/recovery/t3_k_budget.py [--root runs/t3world/budget]
 最后一行 K_BUDGET_DONE。
@@ -80,9 +84,30 @@ def budget(ep: dict, kt: tuple) -> dict:
             "d1_all": d1, "d2_all": d2}
 
 
+def budget_x2(ep: dict, kt: tuple) -> np.ndarray:
+    f, cx, cy = kt
+    r = np.c_[ep["p"], np.ones(len(ep["p"]))] @ np.linalg.inv(K(f, cx, cy)).T
+    return unit(r) * np.linalg.norm(ep["X830"], axis=1)[:, None]
+
+
+def kabsch(A: np.ndarray, B: np.ndarray) -> np.ndarray:
+    """绕原点的最佳转动 R（使 Σ‖R a − b‖² 最小）。"""
+    U, _, Vt = np.linalg.svd(A.T @ B)
+    D = np.diag([1.0, 1.0, np.sign(np.linalg.det(Vt.T @ U.T))])
+    return Vt.T @ D @ U.T
+
+
+def floor_up() -> np.ndarray:
+    """主机位 24 集发布地面法向的平均（朝上），与 t3_manhattan_calib.floor_normal 相同。"""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import t3_manhattan_calib as mc
+    return mc.floor_normal()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", type=Path, default=ROOT / "runs/t3world/budget")
+    ap.add_argument("--write-rotations", type=Path, help="把每套内参的 R* 按全精度写成 rotate_frefs_t3.py 用的 JSON（rot_<label>.json）")
     a = ap.parse_args()
     eps = [episode(d) for d in sorted(a.root.iterdir()) if d.is_dir()]
     print(f"== 主机位 {len(eps)} 集（{a.root}）；流程内参：fx {eps[0]['f830']:.0f}、主点 {eps[0]['cxcy']}；世界步缩放 "
@@ -97,6 +122,23 @@ def main() -> int:
             all2.append(b["d2_all"])
             print(f"{ep['name']}\t{ep['frames']}\t{b['range']:.2f}\t{b['ang']:.2f}\t{100 * b['d1']:.1f}\t{100 * b['d2']:.1f}")
         a1, a2 = np.concatenate(all1), np.concatenate(all2)
+        Xw = np.concatenate([ep["Xw"] for ep in eps])
+        Xt = np.concatenate([budget_x2(ep, kt) for ep in eps])
+        Rs = kabsch(Xw, Xt)
+        resid = np.linalg.norm(Xw @ Rs.T - Xt, axis=1)
+        n_up = floor_up()
+        yaw = math.degrees(math.atan2((np.cross([0, 0, 1.0], Rs @ [0, 0, 1.0])) @ n_up, (Rs @ [0, 0, 1.0]) @ [0, 0, 1.0]))
+        print(f"  最佳刚体转动 R*（绕相机中心，24 集合拟）：转角 {math.degrees(np.arccos(np.clip((np.trace(Rs) - 1) / 2, -1, 1))):.2f}°，"
+              f"光轴绕 n 的偏航 {yaw:+.2f}°；转完后剩下的位移中位 {100 * np.median(resid):.1f} cm、90% 分位 {100 * np.percentile(resid, 90):.1f} cm"
+              f"（口径二；打包消不掉的非刚体部分）；R* 按行 {np.array2string(Rs, precision=5, separator=',').replace(chr(10), '')}")
+        if a.write_rotations:
+            label = {"方格 G": "gridG", "曼哈顿 B": "manhattanB", "曼哈顿 A": "manhattanA"}[tag.split("（")[0]]
+            a.write_rotations.mkdir(parents=True, exist_ok=True)
+            f = a.write_rotations / f"rot_{label}.json"
+            f.write_text(json.dumps({"rotation": Rs.tolist(), "label": label,
+                                     "source": f"stages/recovery/t3_k_budget.py R*（{tag}，f {kt[0]}、cx {kt[1]}、cy {kt[2]}；主机位 24 集、口径二）"},
+                                    ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+            print(f"  写 {f}")
         print(f"  全部帧：口径一位移中位 {100 * np.median(a1):.1f} cm、90% 分位 {100 * np.percentile(a1, 90):.1f} cm；"
               f"口径二位移中位 {100 * np.median(a2):.1f} cm、90% 分位 {100 * np.percentile(a2, 90):.1f} cm；"
               f"位移 < 9 cm（AUC 最宽的阈值）的帧占 口径一 {100 * np.mean(a1 < 0.09):.0f}%、口径二 {100 * np.mean(a2 < 0.09):.0f}%")
