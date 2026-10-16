@@ -32,6 +32,30 @@
     "budget": {
       "file": "results/t3world/k_budget.txt",
       "grep": "流程内参|== 真内参取|全部帧|只绕 n"
+    },
+    "abG": {
+      "file": "results/submission/submit_t3ab1016_gridG_yaw.txt",
+      "grep": "COMPLETE"
+    },
+    "abB": {
+      "file": "results/submission/submit_t3ab1016_manhattanB_yaw.txt",
+      "grep": "COMPLETE"
+    },
+    "board": {
+      "file": "results/submission/leaderboard_1016_t3ab.txt",
+      "grep": "."
+    },
+    "floor": {
+      "file": "results/t3world/floor_tilt_k.txt",
+      "grep": "^  P |^  G1|^  GB1|^  B1"
+    },
+    "depth": {
+      "file": "results/t3world/k_budget.txt",
+      "grep": "== 真内参取|口径一下"
+    },
+    "split": {
+      "file": "results/t3probe/eval_table_probe1015.txt",
+      "grep": "^run|^t3-ep"
     }
   },
   "claims": [
@@ -167,6 +191,66 @@
       ],
       "control": "false",
       "claim": "按方格 G 的内参，位移小于 9 cm 的帧占 39%。"
+    },
+    {
+      "id": "ab_scores",
+      "evidence": [
+        "abG",
+        "abB"
+      ],
+      "claim": "方格偏航版的四项分数是 AUC 0.00690、SP-SR 0.03333、MP-SR 0.00000、MPPE 60 以下的 56.87427；曼哈顿 B 偏航版是 AUC 0.00000、SP-SR 0.00000、MP-SR 0.00000、MPPE 63.44727。"
+    },
+    {
+      "id": "ab_board",
+      "evidence": [
+        "board"
+      ],
+      "claim": "v2d-challenge-track2-tier3-mppe 榜上 maniphys.ai 的分数是 56.87427，Xueyi Wang (FF) 是 67.33010，CHORD 基线是 70.17205；v2d-challenge-track2-tier3-auc 榜上 Xueyi Wang (FF) 是 0.15606，maniphys.ai 是 0.00690，CHORD 基线是 0.00226；v2d-challenge-track2-tier3-sp-sr 榜上 maniphys.ai 是 0.03333，另两家是 0.00000。"
+    },
+    {
+      "id": "floor_split",
+      "evidence": [
+        "floor"
+      ],
+      "claim": "流程焦距步的地面倾斜 3.83°（俯仰分量 −3.69°、横滚分量 −1.05°）；方格 GB 内参口径一的倾斜 1.22°（俯仰分量 −0.26°、横滚分量 −1.20°），接触点高度中位 −0.5 cm。"
+    },
+    {
+      "id": "depth_resid",
+      "evidence": [
+        "depth"
+      ],
+      "claim": "方格 G 内参、口径一下，同一个偏航转完后剩下的位移中位 21.2 cm，沿视线的距离差中位 +20.0 cm，相对 +6.8%。"
+    },
+    {
+      "id": "split_eps",
+      "evidence": [
+        "split"
+      ],
+      "claim": "探路那批策略对自己参考的本地评测里，ep0 的 MPPE 2.60 cm、ep7 2.11 cm、ep8 2.32 cm、ep26 2.75 cm，ep4 是 120.64 cm、ep25 是 118.60 cm。"
+    },
+    {
+      "id": "ctl_true_abB",
+      "evidence": [
+        "abB"
+      ],
+      "control": "true",
+      "claim": "曼哈顿 B 偏航版的 AUC 是 0.00000。"
+    },
+    {
+      "id": "ctl_false_abG",
+      "evidence": [
+        "abG"
+      ],
+      "control": "false",
+      "claim": "方格偏航版的 MPPE 是 63.44727。"
+    },
+    {
+      "id": "ctl_false_board",
+      "evidence": [
+        "board"
+      ],
+      "control": "false",
+      "claim": "v2d-challenge-track2-tier3-auc 榜上 maniphys.ai 的分数是 0.15606。"
     }
   ]
 }
