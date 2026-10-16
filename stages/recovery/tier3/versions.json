@@ -110,10 +110,10 @@
    "purpose": "unattended depth candidate; failed the replacement criteria (~/v2d/tier3/auto/decision_report.txt), user stopped replacing best_hm"
   },
   "best_dr2s": {
-   "status": "archived",
+   "status": "candidate",
    "date": "10-13",
-   "from": "best_hm",
-   "purpose": "unattended depth candidate with support rule v2; failed the same criteria"
+   "from": "best (confirmed 10-16: its recorded moves equal dr2s minus best)",
+   "purpose": "depth correction along the viewing ray, capped +-5%, rest vertical; support rule v2 (10-13). Failed the 10-13 criteria on pose jumps (73 vs 70) and the gate (29/30) while keeping IoU 0.807 (hm 0.737); restored from the archive 10-16 for re-evaluation"
   },
   "best_dyn1": {
    "status": "archived",
