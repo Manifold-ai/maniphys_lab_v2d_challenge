@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge || exit 1; S=$(ls -d /lab_data/*/v2d/tier3 | grep -v /rxzhou/); [ $(echo "$S" | wc -l) = 1 ] || { echo "T3_SRC ä¸\215å\224¯ä¸\200"; exit 1; }; A=$(dirname "$S")/soma_assets; [ -d "$A" ] || { echo "æ²¡æ\234\211 soma_assets"; exit 1; }; T3_SRC=$S T3_SOMA_ASSETS=$A setsid nohup bash -c "stages/recovery/t3_kfix_feet_roll.sh > /lab_data/rxzhou/v2d/tier3_kfix_r2/feet_roll.out 2>&1" > /dev/null 2>&1 < /dev/null & sleep 5; echo launched; date "+%F %T %Z"' 
+# md5      : 7197df1826adf023bdda422d4391ece4  stages/recovery/t3_kfix_feet_roll.sh
+# source   : fc67e03c017d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:54:05-0600
+# ---------------------------------------------------------------
+launched
+2026-10-16 20:54:10 CST

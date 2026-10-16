@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix_feet_roll.py stages/recovery/t3_kfix_feet_roll.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 6b2e6f95bc0e6a92984e5721c75c36dd  stages/recovery/t3_kfix_feet_roll.py
+# md5      : 86b1d9a97264ba340bb90ff46b3a5fcf  stages/recovery/t3_kfix_feet_roll.sh
+# source   : 8cdda91a24df
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:29:51-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 8cdda91a24df；远端来历 e396fde1b00a
+  ok   6b2e6f95bc0e6a92984e5721c75c36dd  stages/recovery/t3_kfix_feet_roll.py
+  ok   86b1d9a97264ba340bb90ff46b3a5fcf  stages/recovery/t3_kfix_feet_roll.sh
+远端来历（放完）e396fde1b00a
+PUSH_OK（2 个文件）

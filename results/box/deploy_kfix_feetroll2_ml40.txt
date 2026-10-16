@@ -1,0 +1,16 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix_feet_roll.py stages/recovery/t3_kfix_feet_roll.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : a769b53b7b0d7bab8e4dd9288e75cd03  stages/recovery/t3_kfix_feet_roll.py
+# md5      : 7197df1826adf023bdda422d4391ece4  stages/recovery/t3_kfix_feet_roll.sh
+# source   : fc67e03c017d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:53:52-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/recovery/t3_kfix_feet_roll.py：远端是 8cdda91 的版本（6b2e6f95bc0e6a92984e5721c75c36dd）
+  覆盖 stages/recovery/t3_kfix_feet_roll.sh：远端是 8cdda91 的版本（86b1d9a97264ba340bb90ff46b3a5fcf）
+本地提交 fc67e03c017d；远端来历 e396fde1b00a
+  ok   a769b53b7b0d7bab8e4dd9288e75cd03  stages/recovery/t3_kfix_feet_roll.py
+  ok   7197df1826adf023bdda422d4391ece4  stages/recovery/t3_kfix_feet_roll.sh
+远端来历（放完）e396fde1b00a
+PUSH_OK（2 个文件）
