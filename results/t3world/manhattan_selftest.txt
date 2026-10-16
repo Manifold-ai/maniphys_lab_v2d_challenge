@@ -1,0 +1,10 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with scipy --with opencv-python-headless python stages/recovery/t3_manhattan_calib.py --selftest 
+# md5      : d6b0b22fd433a0e49060d29df52b4aac  stages/recovery/t3_manhattan_calib.py
+# source   : 32d2ea11080b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T03:22:22-0600
+# ---------------------------------------------------------------
+  自检 A：f 862.2、cx 778.9、cy 534.6、k1 -0.0815、k2 +0.0103；代价 0.01，用到线段 1199 条；竖直方向与 n 的夹角 0.05°, 0.01°；各视频姿态两两最大夹角 0.06°
+  自检 B：f 862.1、cx 778.2、cy 534.9、k1 -0.0816、k2 +0.0104；代价 0.01，用到线段 1199 条
+  反向对照（n 错 3°）：B 代价 0.03（对的 n 是 0.01），A 的竖直方向与错 n 的夹角 3.05°, 2.99°，B 估的 cy 582.7
+MANHATTAN_SELFTEST_OK

@@ -1,0 +1,11 @@
+# command  : bash -c set\ -eo\ pipefail\;\ for\ e\ in\ 000001\ 000003\ 000007\ 000013\ 000022\ 000026\;\ do\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cat\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\"\ \>\ data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\;\ r=\$\(ssh\ -o\ BatchMode=yes\ mf4090\ \"sha256sum\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ episode_\$e.mp4\ \$\(du\ -h\ data/challenge/track_2/tier_2_synthetic_noise/videos/chunk-000/observation.images.exo_camera/episode_\$e.mp4\ \|\ cut\ -f1\)\ sha256\ \$\{l:0:16\}\"\ \|\|\ \{\ echo\ \"MISMATCH\ \$e\"\;\ exit\ 1\;\ \}\;\ done 
+# source   : 32d2ea11080b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T03:04:21-0600
+# ---------------------------------------------------------------
+ok episode_000001.mp4  21M sha256 6f7926d80ea706cc
+ok episode_000003.mp4  24M sha256 cfe6394ad7586502
+ok episode_000007.mp4  24M sha256 884bd4d4aaecee50
+ok episode_000013.mp4  26M sha256 b2a5fa4d9cb6b669
+ok episode_000022.mp4  20M sha256 5379339cff68b91b
+ok episode_000026.mp4  18M sha256 b46f350754ac45bb

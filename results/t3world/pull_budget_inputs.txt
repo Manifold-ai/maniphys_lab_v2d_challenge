@@ -1,0 +1,30 @@
+# command  : bash -c $'set -eo pipefail\nT=/lab_data/<其他用户>/v2d/tier3/runs\nnames=$(ssh -o BatchMode=yes ml40 "ls $T/convert")\nfor d in $names; do\n  e=$((10#${d:2:2}))\n  case " 12 14 16 21 25 28 " in *" $e "*) continue;; esac\n  mkdir -p runs/t3world/budget/$d\n  for f in world_calib.json focal_calib.json object_cam.npz; do\n    ssh -o BatchMode=yes ml40 "cat $T/convert/$d/$f" > runs/t3world/budget/$d/$f\n  done\n  p=$(printf "episode_%06d.parquet" $e)\n  ssh -o BatchMode=yes ml40 "cat $T/tier3_cari4d_f830_best_dr2s_dyn7/data/chunk-000/$p" > runs/t3world/budget/$d/$p\n  r=$(ssh -o BatchMode=yes ml40 "cd $T && sha256sum convert/$d/world_calib.json convert/$d/focal_calib.json convert/$d/object_cam.npz tier3_cari4d_f830_best_dr2s_dyn7/data/chunk-000/$p" | cut -c1-64 | tr "\\n" " ")\n  l=$(cd runs/t3world/budget/$d && shasum -a 256 world_calib.json focal_calib.json object_cam.npz $p | cut -c1-64 | tr "\\n" " ")\n  [ "$r" = "$l" ] && echo "ok $d ($p) ${l:0:16}" || { echo "MISMATCH $d"; exit 1; }\ndone\necho PULL_DONE' 
+# source   : 32d2ea11080b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T03:49:24-0600
+# ---------------------------------------------------------------
+ok ep00_tall_bar_stool (episode_000000.parquet) f647c9ac76fe7a58
+ok ep01_vacuum (episode_000001.parquet) 0dd45b1a14a61c28
+ok ep02_blue_easter_basket (episode_000002.parquet) 117c002c7ecc62e4
+ok ep03_contigo_coffee_mug (episode_000003.parquet) 494f60ade6ca3ede
+ok ep04_baseball_bat (episode_000004.parquet) b6ed4f3dca7ea3ba
+ok ep05_big_black_box (episode_000005.parquet) 49f7a7d803e13265
+ok ep06_monitor (episode_000006.parquet) 1edd97556f97d218
+ok ep07_iron (episode_000007.parquet) 0eff4ad0f497f3ff
+ok ep08_skinny_wood_chair (episode_000008.parquet) 2b19b03b649eede9
+ok ep09_big_red_bowl (episode_000009.parquet) 70cd7f943f76bf4d
+ok ep10_white_desk (episode_000010.parquet) 151fded3d019ad90
+ok ep11_light_blue_book (episode_000011.parquet) 795f956c35bd3987
+ok ep13_snack_box (episode_000013.parquet) 2d6e512e556f5f17
+ok ep15_wet_floor_sign (episode_000015.parquet) 906f1e85ed2d589a
+ok ep17_traffic_cone (episode_000017.parquet) c2e39d325a9d820d
+ok ep18_blue_trash_can (episode_000018.parquet) 3405fe505fefd2b4
+ok ep19_cane (episode_000019.parquet) 5d22960f9cccbf4f
+ok ep20_rice_cooker (episode_000020.parquet) 3571b9ca7a0322f7
+ok ep22_step_ladder (episode_000022.parquet) 032b66efde0522ac
+ok ep23_toy_stroller (episode_000023.parquet) 3ff2e4314438002d
+ok ep24_watering_can (episode_000024.parquet) 236416d6a101b37e
+ok ep26_skateboard (episode_000026.parquet) 1ecaa148789af760
+ok ep27_woven_basket (episode_000027.parquet) 5f1d42dd64b66b38
+ok ep29_rolling_luggage (episode_000029.parquet) 50b72e2182781a25
+PULL_DONE

@@ -1,9 +1,9 @@
 # command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-t3-world-frame.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : d5b3b05d28ef163f152b9008062914ec  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
-# source   : 72f959d77939-dirty
+# md5      : f36c30d85bf08692d8f3f517ced53042  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
+# source   : 32d2ea11080b-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T02:59:14-0600
+# run_at   : 2026-10-16T03:54:06-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
 plane_same           P(supported)=0.97  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
@@ -13,4 +13,14 @@ focal                P(supported)=0.99  verified               [hz]  按两水�
 ctl_true             P(supported)=0.99  control(true) ok       [hz]  ep12 属于 second 机位组。
 ctl_false_tilt       P(supported)=0.01  control(false) ok      [hz]  第二机位 ep12 的实测地平线倾角是 −1.08°。
 ctl_false_plane      P(supported)=0.01  control(false) ok      [plane]  第二机位组的平均法向与主机位平均法向相差超过 5°。
+manh_verdict         P(supported)=0.94  verified               [manh9]  9 段主机位视频的曼哈顿标定中，拟合 A 的竖直方向与 n 夹角的自助法 95% 区间是 [0.201, 0.500]，判读为支持；拟合 B 的 cx 自助法中位 790.284、95% 区间 [761.840, 833.636]；拟合 A 的 cx 95% 区间 [808.060, 932.828]。
+manh_sens            P(supported)=0.99  verified               [sens, sensm]  把 n 横滚 +0.1° 时拟合 B 的 cx 是 820.9，横滚 −0.1° 时是 762.2。
+grid_self            P(supported)=0.95  verified               [gself]  吊顶方格自检：拟合 G 的 10 个种子 cx 误差都在 −2.8 到 +2.2 px 之间，拟合 GB 的都在 −0.5 到 +2.8 px 之间；方格做成 1:1.03 的长方形时 G 的 cx 误差 −15.5 px；GB 的 n 错 0.1° 横滚时 cx 误差 −3.8 px；自检通过。
+grid9_cx             P(supported)=0.97  verified               [grid9]  9 段视频的吊顶方格标定：拟合 G 的 cx 702.8，拟合 GB 的 cx 701.8；G 的 cx 自助法 95% 区间 [701.331, 704.656]；判读 1 是 cx 定住了，判读 2 是两种补法一致，判读 3 是吊顶竖直方向与 n 不一致或说不清。
+grid9_pervideo       P(supported)=0.98  verified               [grid9]  每段视频单独拟合 G 的 9 个 cx 中，有 8 个在 700.0 到 704.7 之间，另一个是 735.6。
+budget_pipe          P(supported)=0.96  verified               [budget]  交付版流程的内参是 fx 830、主点 (768.0, 576.0)，世界步缩放 0.9856。
+budget_nums          P(supported)=0.98  verified               [budget]  只改内参时，按方格 G 的内参，主机位全部帧的位移中位口径一 32.4 cm、口径二 25.0 cm；按曼哈顿 B 的内参是 20.0 cm 与 9.2 cm；按曼哈顿 B、口径二时位移小于 9 cm 的帧占 39%，按方格 G 时两种口径都是 0%。
+ctl_true_f           P(supported)=0.80  control(true) ok       [grid9]  9 段视频吊顶方格拟合 G 的焦距 f 是 866.3。
+ctl_false_cx         P(supported)=0.01  control(false) ok      [grid9]  9 段视频吊顶方格拟合 G 的 cx 是 790.0。
+ctl_false_budget     P(supported)=0.01  control(false) ok      [budget]  按方格 G 的内参，位移小于 9 cm 的帧占 39%。
 controls behaved as expected

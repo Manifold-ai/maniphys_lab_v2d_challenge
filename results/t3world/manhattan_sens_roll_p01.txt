@@ -1,0 +1,12 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with scipy --with opencv-python-headless python stages/recovery/t3_manhattan_calib.py --n-rot=0.1\,0 1 3 5 7 11 13 20 22 26 
+# md5      : d6b0b22fd433a0e49060d29df52b4aac  stages/recovery/t3_manhattan_calib.py
+# source   : 32d2ea11080b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T03:28:56-0600
+# ---------------------------------------------------------------
+== 灵敏度：n 横滚 +0.100°、俯仰 +0.000°
+== 视频 [1, 3, 5, 7, 11, 13, 20, 22, 26]；线段 [371, 371, 378, 380, 372, 364, 361, 345, 347] 条；发布地面法向 n = (-0.01716, -0.99831, -0.05553)
+  拟合 A（姿态自由）：f 862.2、cx 847.1、cy 530.5、k1 -0.0027、k2 -0.0004；代价 0.03，用到线段 2803 条；竖直方向与 n 的夹角 0.06°, 0.12°, 0.26°, 0.18°, 0.18°, 0.15°, 0.21°, 0.07°, 0.16°；各视频姿态两两最大夹角 0.37°
+  拟合 B（竖直 = n）：f 862.0、cx 820.9、cy 528.3、k1 -0.0005、k2 -0.0020；代价 0.03，用到线段 2798 条
+  同一套指派（A 的）下的代价：A 0.033，B 0.034
+MANHATTAN_CALIB_DONE
