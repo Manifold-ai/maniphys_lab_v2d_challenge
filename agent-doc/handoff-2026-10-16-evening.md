@@ -15,7 +15,7 @@
 - 计划与判据：`agent-doc/plan-t3-kfix-retrain-2026-10-16.md`（独立复核 GO WITH FIXES，已改）。门槛写死在 `stages/evaluate/retrain_switch_t3{pk,ps}.json`。
 - t3pk 有一条失败或发散，arm_after 不起 t3ps（安全方向），次日手动处理。
 
-## ml40（来历 cf38fcd）
+## ml40（来历 4e58a15，链在跑，今晚不再整体同步）
 
 - P2 已判“没用”（`results/r3o/verdict_P2_ml40.txt`），r3o 两档都停。
 - t1c（接触标记提前，ep25、28、11、1）：独立复核 GO WITH FIXES（已改），16:49 起链（来历 4e58a15，tmux v2d-t1c-train / eval / export），
