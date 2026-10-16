@@ -16,6 +16,9 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
  10. V2D_EXPORT_SUFFIX（agent-doc/plan-first-place-2026-10-14.md 选项零）：已有不带后缀的结果时，带后缀照样重新导出到 s<步数>_w1_<名>/、
      日志名与 hydra.run.dir 也带后缀，原来那份不动；预演打印带后缀的路径、不建目录；不带后缀时行为不变；后缀不合格式（没有下划线、大写、
      斜杠、超过 16 个字符）退出码 2，不起容器。
+ 11. V2D_EXPORT_PARQUET（k-fix 换参考，agent-doc/plan-t3-kfix-2026-10-16.md 方案 4）：经 eval_playback_override.py（--playback same --parquet，导出参数
+     经 --extra 透传）导出到带后缀的目录，不再调 scripts/evaluate_policy.py；预演打印新参考；不给后缀、序列不同、路径不合格、新参考的 episode 不同、
+     parquet 不在都拒绝，退出码 2，不起容器。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -48,6 +51,7 @@ for tok in $*; do
   case "$tok" in
     evaluation.metrics_output=*) f="${tok#evaluation.metrics_output=}"; f="$FAKE_ROOT/${f#/repo/}"; mkdir -p "$(dirname "$f")"; echo '{"world_count": 1}' > "$f" ;;
     evaluation.object_trajectories_output=*) f="${tok#evaluation.object_trajectories_output=}"; f="$FAKE_ROOT/${f#/repo/}"; mkdir -p "$(dirname "$f")"; echo PAR1 > "$f" ;;
+    /repo/*/episode_*.json) f="$FAKE_ROOT/${tok#/repo/}"; mkdir -p "$(dirname "$f")"; echo '{"world_count": 1}' > "$f" ;;   # 换参考：包装的位置参数
   esac
 done
 '''
@@ -220,6 +224,47 @@ def test_suffix() -> None:
         for bad in ("rep1", "_REP1", "_a/b", "_" + "a" * 17, "_"):
             rc, text, calls = run(root, V2D_EXPORT_SUFFIX=bad)
             assert rc == 2 and not calls and "V2D_EXPORT_SUFFIX" in text, (bad, rc, text)
+
+
+def test_new_reference() -> None:
+    """V2D_EXPORT_PARQUET（k-fix）：经包装导出到带后缀的目录；不给后缀、序列不同、episode 不同、parquet 不在都拒绝，退出码 2，不起容器。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        r3 = "t3-ep24-w2048-cap4m-r3a-v2-mf4090"
+        d = root / "runs/flash_chord" / r3
+        shutil.copytree(root / f"runs/flash_chord/{RUN}", d)
+        old = f"/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id={SEQ}/robot_name=g1/data.parquet"
+        newp = f"/repo/runs/motion/tier3_kfixf/whole_body/soma/sequence_id={SEQ}/robot_name=g1/data.parquet"
+        (d / "run_record.jsonl").write_text(json.dumps({"event": "start", "parquet": old}) + "\n")
+        for sub in ("tier3_v2", "tier3_kfixf"):
+            (root / f"runs/motion_src/{sub}/{SEQ}").mkdir(parents=True)
+            (root / f"runs/motion_src/{sub}/{SEQ}/v2d_meta.json").write_text(json.dumps({"tier": 3, "episode": 24, "sequence_id": SEQ}))
+        np_ = root / newp[len("/repo/"):]
+        np_.parent.mkdir(parents=True)
+        np_.write_bytes(b"PAR1")
+        rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_kfixf")
+        outj = d / f"export_8c778f9/s{STEP}_w1_kfixf/episode_000024.json"
+        assert rc == 0 and outj.is_file() and outj.with_suffix(".parquet").is_file(), (rc, text)
+        for tok in ("/repo/stages/evaluate/eval_playback_override.py", "--playback same", f"--parquet {newp}",
+                    "--extra evaluation.reset_mode=explicit", "--extra logging.mode=disabled",
+                    f"--extra evaluation.object_trajectories_output=/repo/runs/flash_chord/{r3}/export_8c778f9/s{STEP}_w1_kfixf/episode_000024.parquet"):
+            assert tok in calls, (tok, calls)
+        assert "scripts/evaluate_policy.py" not in calls, calls
+        rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_kfixg", V2D_EXPORT_DRYRUN="1")
+        assert rc == 0 and not calls and "新参考" in text and "eval_playback_override.py" in text, (rc, text)
+        bad_cases = [("不给后缀", dict(V2D_EXPORT_PARQUET=newp)),
+                     ("序列不同", dict(V2D_EXPORT_PARQUET=newp.replace(SEQ, SEQ + "x"), V2D_EXPORT_SUFFIX="_k1")),
+                     ("路径不合格", dict(V2D_EXPORT_PARQUET="/tmp/data.parquet", V2D_EXPORT_SUFFIX="_k2"))]
+        for name, env in bad_cases:
+            rc, text, calls = run(root, run_name=r3, **env)
+            assert rc == 2 and not calls, (name, rc, text)
+        (root / f"runs/motion_src/tier3_kfixf/{SEQ}/v2d_meta.json").write_text(json.dumps({"tier": 3, "episode": 25, "sequence_id": SEQ}))
+        rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_k3")
+        assert rc == 2 and not calls and "episode" in text, ("episode 不同", rc, text)
+        (root / f"runs/motion_src/tier3_kfixf/{SEQ}/v2d_meta.json").write_text(json.dumps({"tier": 3, "episode": 24, "sequence_id": SEQ}))
+        np_.unlink()
+        rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_k4")
+        assert rc == 2 and not calls and "不在" in text, ("parquet 不在", rc, text)
 
 
 if __name__ == "__main__":

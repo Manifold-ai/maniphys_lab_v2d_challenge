@@ -1,0 +1,18 @@
+# command  : python3 stages/evaluate/test_fc_export.py 
+# md5      : 7e260aef3e34a8026ce0412254dfb50a  stages/evaluate/test_fc_export.py
+# source   : a17a1ba5840f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:23:12-0600
+# ---------------------------------------------------------------
+ok test_export_matches_kit_runner
+ok test_rule1_guard
+ok test_rule2_and_failures
+ok test_refusals
+ok test_traj_off
+ok test_rerun_classification
+ok test_dryrun
+ok test_summary_failure_keeps_exit_code
+ok test_t3_set_dir
+ok test_suffix
+ok test_new_reference
+ALL_OK

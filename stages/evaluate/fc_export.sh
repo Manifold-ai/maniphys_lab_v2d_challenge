@@ -15,6 +15,11 @@
 #   就拒绝，退出码 12，不起容器。
 # 规矩二（同上）：提交时某条 episode 报 “evaluation must disable task failure termination”，退到同一条 run 里更早的一份有限 checkpoint。
 #   本脚本只负责把这种失败认出来：评测器退出码非零且这一次追加的日志里有这句话，退出码 13；其他失败退出码 3。回退由调用方按步数往前重试。
+#   V2D_EXPORT_PARQUET=/repo/runs/motion/<目录>/whole_body/soma/sequence_id=<序列>/robot_name=g1/data.parquet
+#                             换参考（k-fix，计划 agent-doc/plan-t3-kfix-2026-10-16.md 方案 4）：用这份 policy 对新参考评测与导出。必须同时给
+#                             V2D_EXPORT_SUFFIX；新参考的档位、序列要与 run 的相同，runs/motion_src/<目录>/<序列>/v2d_meta.json 的 episode 要与原来的
+#                             相同，parquet 要在；容器里改跑 stages/evaluate/eval_playback_override.py（--playback same --parquet <新参考>，导出参数经
+#                             --extra 透传），它会核评测 JSON 里的 parquet 正是新参考。默认空，行为不变。
 # 运行时：V2D_FC_SRC 必须是 make_fc_src_8c778f9.sh 生成的副本（SOURCE_V2D.txt 第一行含 8c778f905c），否则退出码 2。
 # 输出 runs/flash_chord/<run>/export_8c778f9/s<步数>_w<世界数>/episode_<6 位序号>.{json,parquet}；日志 runs/logs/<run>.export_8c778f9_s<步数>_w<世界数>.log。
 #   episode 序号取自 runs/motion_src/<目录>/<序列>/v2d_meta.json：目录与序列取自 run_record.jsonl 第一条 start 记录的 parquet 路径
@@ -61,6 +66,23 @@ assert str(m["tier"]) == sys.argv[2] and m["sequence_id"] == sys.argv[3], (m["ti
 print(int(m["episode"]))
 PY
 )" || die "读不了 ${META}，或其中的档位、序列与 run 不符"
+NEWP=${V2D_EXPORT_PARQUET:-}
+if [ -n "$NEWP" ]; then   # 换参考：先核再用
+  [ -n "$SUF" ] || die "V2D_EXPORT_PARQUET 要和 V2D_EXPORT_SUFFIX 一起用（换参考的导出不能与原来的放在同一个目录）"
+  [[ $NEWP =~ ^/repo/runs/motion/(tier[12]|tier3(_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet$ ]] \
+    || die "V2D_EXPORT_PARQUET 不是 /repo/runs/motion/<目录>/whole_body/soma/sequence_id=<序列>/robot_name=g1/data.parquet：$NEWP"
+  NDN=${BASH_REMATCH[1]}; NSEQ=${BASH_REMATCH[3]}
+  [ "${NDN:4:1}" = "$T" ] && [ "$NSEQ" = "$SEQ" ] || die "新参考的档位或序列（${NDN}、${NSEQ}）与 run 的（t${T}、${SEQ}）不同"
+  NEP="$(python3 - "runs/motion_src/$NDN/$NSEQ/v2d_meta.json" "$T" "$NSEQ" <<'PY'
+import json, sys
+m = json.load(open(sys.argv[1]))
+assert str(m["tier"]) == sys.argv[2] and m["sequence_id"] == sys.argv[3], (m["tier"], m["sequence_id"])
+print(int(m["episode"]))
+PY
+)" || die "读不了 runs/motion_src/${NDN}/${NSEQ}/v2d_meta.json，或其中的档位、序列与 run 不符"
+  [ "$NEP" = "$EP" ] || die "新参考的 episode 是 ${NEP}，原来的是 ${EP}"
+  [ -f "${NEWP#/repo/}" ] || die "新参考的 parquet 不在：${NEWP#/repo/}"
+fi
 OUTD="$O/export_8c778f9/s${STEP}_w${W}${SUF}"
 J="$OUTD/episode_$(printf %06d "$EP").json"; Q="${J%.json}.parquet"
 LOG="runs/logs/$RUN.export_8c778f9_s${STEP}_w${W}${SUF}.log"
@@ -70,8 +92,14 @@ ARGS=("evaluation.checkpoint=/repo/$P" "evaluation.world_count=$W" "evaluation.r
 [ "$TRAJ" = 1 ] && ARGS+=("evaluation.object_trajectories_output=/repo/$Q")
 ARGS+=("hydra.run.dir=/repo/$OUTD/hydra/episode_$(printf %06d "$EP")" "logging.mode=disabled")
 CMD="cd /workspace && python scripts/evaluate_policy.py $(printf '%q ' "${ARGS[@]}")"
+if [ -n "$NEWP" ]; then   # 换参考：经 eval_playback_override.py（恒等回放、只换 parquet），导出参数透传
+  XA=(--extra evaluation.reset_mode=explicit)
+  [ "$TRAJ" = 1 ] && XA+=(--extra "evaluation.object_trajectories_output=/repo/$Q")
+  XA+=(--extra logging.mode=disabled)
+  CMD="cd /workspace && python /repo/stages/evaluate/eval_playback_override.py $(printf '%q ' "/repo/$P" "/repo/$J" --playback same --worlds "$W" --parquet "$NEWP" "${XA[@]}")"
+fi
 if [ "${V2D_EXPORT_DRYRUN:-0}" = 1 ]; then
-  echo "fc_export: DRYRUN $RUN policy_$STEP episode $EP world_count=$W traj=$TRAJ"; echo "  $CMD"; exit 0
+  echo "fc_export: DRYRUN $RUN policy_$STEP episode $EP world_count=$W traj=$TRAJ${NEWP:+ 新参考 $NEWP}"; echo "  $CMD"; exit 0
 fi
 if [ -s "$J" ] && { [ "$TRAJ" = 0 ] || [ -s "$Q" ]; }; then echo "fc_export: 已有结果 $J"; summary; exit 0; fi
 
