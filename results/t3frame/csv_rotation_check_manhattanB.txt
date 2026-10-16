@@ -1,0 +1,11 @@
+# command  : uv run --no-project --python 3.12 --with numpy python stages/evaluate/csv_rotation_check.py runs/submission/csv/track2_tier3_probe1015.csv runs/submission/csv/track2_tier3_ab1016_manhattanB.csv runs/submission/select_t3_probe1015/frame_refs_rot_manhattanB/ROTATION.json 
+# md5      : 0dc2ea9e0dd0f30d174d240698a905e7  stages/evaluate/csv_rotation_check.py
+# md5      : d6415240b099249724ddb45869595a78  runs/submission/csv/track2_tier3_probe1015.csv
+# md5      : dec3ec94d3e108cda75441a5199ef0ee  runs/submission/csv/track2_tier3_ab1016_manhattanB.csv
+# md5      : ad04a7697867b6c898c4ccf04c2ba1a1  runs/submission/select_t3_probe1015/frame_refs_rot_manhattanB/ROTATION.json
+# source   : 17524967f57f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T04:14:25-0600
+# ---------------------------------------------------------------
+22989 行；位置与 R p_原 的最大差 9.98e-07 m，朝向矩阵最大差 2.99e-06；溯源列不同的：无；转动带来的位置变化中位 7.8 cm、90% 分位 9.9 cm
+CSV_ROTATION_OK 22989
