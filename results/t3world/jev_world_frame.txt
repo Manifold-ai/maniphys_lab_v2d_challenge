@@ -1,35 +1,39 @@
 # command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-t3-world-frame.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : e634f114e88c31f77217f4bbdc07227a  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
-# source   : 8ea1f93dc9bf-dirty
+# md5      : ed573e2e9becc9e94f346e1afca78029  agent-doc/experiments/2026-10-16-t3-world-frame.claims.json
+# source   : 26e1faa69a91-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T05:01:35-0600
+# run_at   : 2026-10-16T06:07:34-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-plane_same           P(supported)=0.97  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
+plane_same           P(supported)=0.98  verified               [plane]  主机位 24 集组内两两法向最大夹角 0.38°，第二机位 5 集组内也是 0.38°；第二机位与侧机位的组平均法向与主机位平均法向的夹角分别是 0.02° 与 0.06°；d 在 1.3813 到 1.3961 m 之间；判读是主机位各集平面一致、第二机位与侧机位都与主机位同一平面。
 tilt                 P(supported)=0.99  verified               [hz]  预测地平线倾角是 −1.08°；主机位 ep5、ep11、ep20 的实测地平线倾角分别是 −1.09°、−0.42°、−0.85°；第二机位 ep12 的实测倾角是 +1.62°。
 rows                 P(supported)=0.99  verified               [hz]  主机位 ep5、ep11、ep20 的实测地平线在中心列第 478.9、490.1、482.5 行，预测地平线在中心列第 528.0、526.2、527.6 行，行差 −49.1、−36.0、−45.1 px。
 focal                P(supported)=0.99  verified               [hz]  按两水平消失点正交算出的焦距，ep5、ep11、ep20 分别是 855、887、861 px。
 ctl_true             P(supported)=0.99  control(true) ok       [hz]  ep12 属于 second 机位组。
 ctl_false_tilt       P(supported)=0.01  control(false) ok      [hz]  第二机位 ep12 的实测地平线倾角是 −1.08°。
 ctl_false_plane      P(supported)=0.01  control(false) ok      [plane]  第二机位组的平均法向与主机位平均法向相差超过 5°。
-manh_verdict         P(supported)=0.91  verified               [manh9]  9 段主机位视频的曼哈顿标定中，拟合 A 的竖直方向与 n 夹角的自助法 95% 区间是 [0.201, 0.500]，判读为支持；拟合 B 的 cx 自助法中位 790.284、95% 区间 [761.840, 833.636]；拟合 A 的 cx 95% 区间 [808.060, 932.828]。
+manh_verdict         P(supported)=0.95  verified               [manh9]  9 段主机位视频的曼哈顿标定中，拟合 A 的竖直方向与 n 夹角的自助法 95% 区间是 [0.201, 0.500]，判读为支持；拟合 B 的 cx 自助法中位 790.284、95% 区间 [761.840, 833.636]；拟合 A 的 cx 95% 区间 [808.060, 932.828]。
 manh_sens            P(supported)=0.99  verified               [sens, sensm]  把 n 横滚 +0.1° 时拟合 B 的 cx 是 820.9，横滚 −0.1° 时是 762.2。
-grid_self            P(supported)=0.95  verified               [gself]  吊顶方格自检：拟合 G 的 10 个种子 cx 误差都在 −2.8 到 +2.2 px 之间，拟合 GB 的都在 −0.5 到 +2.8 px 之间；方格做成 1:1.03 的长方形时 G 的 cx 误差 −15.5 px；GB 的 n 错 0.1° 横滚时 cx 误差 −3.8 px；自检通过。
+grid_self            P(supported)=0.96  verified               [gself]  吊顶方格自检：拟合 G 的 10 个种子 cx 误差都在 −2.8 到 +2.2 px 之间，拟合 GB 的都在 −0.5 到 +2.8 px 之间；方格做成 1:1.03 的长方形时 G 的 cx 误差 −15.5 px；GB 的 n 错 0.1° 横滚时 cx 误差 −3.8 px；自检通过。
 grid9_cx             P(supported)=0.97  verified               [grid9]  9 段视频的吊顶方格标定：拟合 G 的 cx 702.8，拟合 GB 的 cx 701.8；G 的 cx 自助法 95% 区间 [701.331, 704.656]；判读 1 是 cx 定住了，判读 2 是两种补法一致，判读 3 是吊顶竖直方向与 n 不一致或说不清。
 grid9_pervideo       P(supported)=0.98  verified               [grid9]  每段视频单独拟合 G 的 9 个 cx 中，有 8 个在 700.0 到 704.7 之间，另一个是 735.6。
 budget_pipe          P(supported)=0.95  verified               [budget]  交付版流程的内参是 fx 830、主点 (768.0, 576.0)，世界步缩放 0.9856。
 budget_nums          P(supported)=0.98  verified               [budget]  只改内参时，按方格 G 的内参，主机位全部帧的位移中位口径一 32.4 cm、口径二 24.5 cm；按曼哈顿 B 的内参是 20.0 cm 与 8.1 cm；按曼哈顿 B、口径二时位移小于 9 cm 的帧占 75%，按方格 G 时两种口径都是 0%。
 budget_yaw           P(supported)=0.99  verified               [budget]  只绕 n 的偏航 ψ*：方格 G 是 −4.65°，只转偏航后剩下的位移中位 7.0 cm；曼哈顿 B 是 +1.20°，剩下 5.5 cm。
-ctl_true_f           P(supported)=0.86  control(true) ok       [grid9]  9 段视频吊顶方格拟合 G 的焦距 f 是 866.3。
+ctl_true_f           P(supported)=0.87  control(true) ok       [grid9]  9 段视频吊顶方格拟合 G 的焦距 f 是 866.3。
 ctl_false_cx         P(supported)=0.01  control(false) ok      [grid9]  9 段视频吊顶方格拟合 G 的 cx 是 790.0。
 ctl_false_budget     P(supported)=0.01  control(false) ok      [budget]  按方格 G 的内参，位移小于 9 cm 的帧占 39%。
 ab_scores            P(supported)=0.98  verified               [abG, abB]  方格偏航版的四项分数是 AUC 0.00690、SP-SR 0.03333、MP-SR 0.00000、MPPE 60 以下的 56.87427；曼哈顿 B 偏航版是 AUC 0.00000、SP-SR 0.00000、MP-SR 0.00000、MPPE 63.44727。
-ab_board             P(supported)=0.99  verified               [board]  v2d-challenge-track2-tier3-mppe 榜上 maniphys.ai 的分数是 56.87427，Xueyi Wang (FF) 是 67.33010，CHORD 基线是 70.17205；v2d-challenge-track2-tier3-auc 榜上 Xueyi Wang (FF) 是 0.15606，maniphys.ai 是 0.00690，CHORD 基线是 0.00226；v2d-challenge-track2-tier3-sp-sr 榜上 maniphys.ai 是 0.03333，另两家是 0.00000。
+ab_board             P(supported)=0.98  verified               [board]  v2d-challenge-track2-tier3-mppe 榜上 maniphys.ai 的分数是 56.87427，Xueyi Wang (FF) 是 67.33010，CHORD 基线是 70.17205；v2d-challenge-track2-tier3-auc 榜上 Xueyi Wang (FF) 是 0.15606，maniphys.ai 是 0.00690，CHORD 基线是 0.00226；v2d-challenge-track2-tier3-sp-sr 榜上 maniphys.ai 是 0.03333，另两家是 0.00000。
 floor_split          P(supported)=0.98  verified               [floor]  流程焦距步的地面倾斜 3.83°（俯仰分量 −3.69°、横滚分量 −1.05°）；方格 GB 内参口径一的倾斜 1.22°（俯仰分量 −0.26°、横滚分量 −1.20°），接触点高度中位 −0.5 cm。
 depth_resid          P(supported)=0.99  verified               [depth]  方格 G 内参、口径一下，同一个偏航转完后剩下的位移中位 21.2 cm，沿视线的距离差中位 +20.0 cm，相对 +6.8%。
 split_eps            P(supported)=0.97  verified               [split]  探路那批策略对自己参考的本地评测里，ep0 的 MPPE 2.60 cm、ep7 2.11 cm、ep8 2.32 cm、ep26 2.75 cm，ep4 是 120.64 cm、ep25 是 118.60 cm。
 ctl_true_abB         P(supported)=0.95  control(true) ok       [abB]  曼哈顿 B 偏航版的 AUC 是 0.00000。
 ctl_false_abG        P(supported)=0.01  control(false) ok      [abG]  方格偏航版的 MPPE 是 63.44727。
 ctl_false_board      P(supported)=0.01  control(false) ok      [board]  v2d-challenge-track2-tier3-auc 榜上 maniphys.ai 的分数是 0.15606。
+kfix_floor           P(supported)=0.97  verified               [kfloor]  另一位用户的地面拟合在新表达上给出倾斜 1.222°，俯仰分量 −0.263°、横滚分量 −1.195°，s′ 0.98400，判为复现；留一验证里接触点离发布地面的高度中位绝对值校正前 1.0 cm、校正后 1.5 cm。
+kfix_source          P(supported)=0.96  verified               [ksrc]  来源核对 7 集全部通过，位置最大差都是 1.19e-07 m。
+kfix_rootv2          P(supported)=0.95  verified               [kv2]  root_v2 这 7 集换成方格 G 内参口径一后，位移中位 32.6 cm；同一个偏航转完后剩 21.4 cm，沿视线的距离差中位 +20.0 cm、相对 +6.7%。
+ctl_false_kfloor     P(supported)=0.01  control(false) ok      [kfloor]  地面拟合在新表达上给出的倾斜是 3.83°。
 controls behaved as expected

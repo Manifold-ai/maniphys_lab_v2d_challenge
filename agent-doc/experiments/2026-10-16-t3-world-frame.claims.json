@@ -56,6 +56,18 @@
     "split": {
       "file": "results/t3probe/eval_table_probe1015.txt",
       "grep": "^run|^t3-ep"
+    },
+    "kfloor": {
+      "file": "results/t3world/kfix_floor_check.txt",
+      "grep": "."
+    },
+    "ksrc": {
+      "file": "results/t3world/kfix_source_check.txt",
+      "grep": "ok|FAIL|KFIX_SOURCE"
+    },
+    "kv2": {
+      "file": "results/t3world/k_budget_rootv2.txt",
+      "grep": "主机位|== 真内参取 方格|口径一下|全部帧"
     }
   },
   "claims": [
@@ -251,6 +263,35 @@
       ],
       "control": "false",
       "claim": "v2d-challenge-track2-tier3-auc 榜上 maniphys.ai 的分数是 0.15606。"
+    },
+    {
+      "id": "kfix_floor",
+      "evidence": [
+        "kfloor"
+      ],
+      "claim": "另一位用户的地面拟合在新表达上给出倾斜 1.222°，俯仰分量 −0.263°、横滚分量 −1.195°，s′ 0.98400，判为复现；留一验证里接触点离发布地面的高度中位绝对值校正前 1.0 cm、校正后 1.5 cm。"
+    },
+    {
+      "id": "kfix_source",
+      "evidence": [
+        "ksrc"
+      ],
+      "claim": "来源核对 7 集全部通过，位置最大差都是 1.19e-07 m。"
+    },
+    {
+      "id": "kfix_rootv2",
+      "evidence": [
+        "kv2"
+      ],
+      "claim": "root_v2 这 7 集换成方格 G 内参口径一后，位移中位 32.6 cm；同一个偏航转完后剩 21.4 cm，沿视线的距离差中位 +20.0 cm、相对 +6.7%。"
+    },
+    {
+      "id": "ctl_false_kfloor",
+      "evidence": [
+        "kfloor"
+      ],
+      "control": "false",
+      "claim": "地面拟合在新表达上给出的倾斜是 3.83°。"
     }
   ]
 }
