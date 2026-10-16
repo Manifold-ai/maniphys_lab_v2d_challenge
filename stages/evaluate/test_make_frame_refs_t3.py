@@ -269,6 +269,67 @@ def test_refusals() -> None:
         assert r.returncode != 0 and "没有 mf4090 的行" in r.stderr and not (root / OUT).exists(), r.stderr
 
 
+def add_kfix(root: Path, eps: tuple, scale: float = 1.067) -> dict:
+    """在 setup 的基础上加一套 tier3_kfix：位置是 hm 的 scale 倍（模仿 k-fix 的整体放大），朝向不变；返回 {ep: 矩阵}。"""
+    out = {}
+    for ep in eps:
+        seq = f"seq{ep}"
+        Mh = np.load(root / f"runs/motion_src/tier3_hm/{seq}/poses.npy")
+        Mk = Mh.copy()
+        Mk[:, :3, 3] *= scale
+        p7 = np.concatenate([Mk[:, :3, 3], np.zeros((len(Mk), 4))], axis=1)
+        q = _generator().mat_to_xyzw(Mk[:, :3, :3])   # xyzw
+        p7[:, 3:] = q[:, [3, 0, 1, 2]]                 # parquet 里是 wxyz
+        sp = root / f"runs/tier3/root_kfix/data/chunk-000/episode_{ep:06d}.parquet"
+        write_parquet(sp, np.arange(len(Mk)), np.full(len(Mk), ep), p7, np.ones(len(Mk), bool))
+        src = root / f"runs/motion_src/tier3_kfix/{seq}"
+        src.mkdir(parents=True, exist_ok=True)
+        np.save(src / "poses.npy", Mk)
+        (src / "v2d_meta.json").write_text(json.dumps({"tier": 3, "episode": ep, "sequence_id": seq, "object_pose_source": {
+            "kind": "tier3_reconstruction", "column": "observation.object.pose",
+            "provenance": {"parquet_sha256": hashlib.sha256(sp.read_bytes()).hexdigest()}}}))
+        out[ep] = Mk
+    return out
+
+
+def export_dir(root: Path, eps: dict) -> Path:
+    """导出结果目录：{ep: (run, 步数, 档位目录)} → episode_XXXXXX.json（只写 checkpoint 与 parquet 两个键）。"""
+    d = root / "export"
+    d.mkdir(exist_ok=True)
+    for ep, (run, step, tdir) in eps.items():
+        (d / f"episode_{ep:06d}.json").write_text(json.dumps({
+            "checkpoint": f"/repo/runs/flash_chord/{run}/policy_{step}.safetensors",
+            "parquet": f"/repo/runs/motion/{tdir}/whole_body/soma/sequence_id=seq{ep}/robot_name=g1/data.parquet"}))
+    return d
+
+
+def test_from_export() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        mk = add_kfix(root, (2, 5))
+        ex = export_dir(root, {2: ("t3-ep2-w2048-cap4m-r3a-hm-mf4090", "4096000", "tier3_kfix"),
+                               5: ("t3-ep5-w2048-cap4m-r3a-hm-mf4090", "4096000", "tier3_kfix")})
+        r = subprocess.run([sys.executable, "stages/evaluate/make_frame_refs_t3.py", "sel.tsv", "mf4090", "--out", OUT, "--from-export", str(ex)],
+                           cwd=root, capture_output=True, text=True, timeout=120)
+        assert r.returncode == 0 and "FRAME_REFS_T3_OK 2" in r.stdout, r.stdout + r.stderr
+        rows = [ln.split("\t") for ln in (root / OUT / "manifest_mf4090.tsv").read_text().splitlines()[1:]]
+        assert all(rw[3] == "tier3_kfix" for rw in rows), rows
+        for ep, M in mk.items():
+            with np.load(root / OUT / f"episode_{ep:06d}.npz") as z:
+                assert np.abs(z["pose_xyzw"][:, 0, :3] - M[:, :3, 3]).max() < 1e-9, ep
+        # 反向对照：导出 JSON 的 checkpoint 步数与清单不同，这一集判失败、不留 npz
+        ex2 = root / "export"
+        (ex2 / "episode_000005.json").write_text(json.dumps({
+            "checkpoint": "/repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-hm-mf4090/policy_9999.safetensors",
+            "parquet": "/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=seq5/robot_name=g1/data.parquet"}))
+        r = subprocess.run([sys.executable, "stages/evaluate/make_frame_refs_t3.py", "sel.tsv", "mf4090", "--out", OUT + "_b", "--from-export", str(ex2)],
+                           cwd=root, capture_output=True, text=True, timeout=120)
+        assert r.returncode == 1 and "FAIL ep5" in r.stdout and "checkpoint" in r.stdout, r.stdout + r.stderr
+        assert not (root / (OUT + "_b") / "episode_000005.npz").exists()
+    print("  5. --from-export：参考取导出 JSON 的 parquet（tier3_kfix），manifest 记新档位目录、位置是新参考的；checkpoint 步数不符的一集判失败、不留 npz")
+
+
 def test_tier1_blocked() -> None:
     with tempfile.TemporaryDirectory() as t:
         root = Path(t)

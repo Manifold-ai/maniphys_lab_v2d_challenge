@@ -1,0 +1,14 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow --with pandas python stages/evaluate/test_make_frame_refs_t3.py 
+# md5      : 2fcd8e19849308733e5f23ac73fecd6c  stages/evaluate/test_make_frame_refs_t3.py
+# source   : c1a5ffccb60b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:19:20-0600
+# ---------------------------------------------------------------
+  kit 的 input_frame_reference、convert_track2_frame 核对通过：矩阵上的刚体变换恰好换回，共轭约定被拦下
+ok  test_normal
+ok  test_row_failures
+ok  test_refusals
+  5. --from-export：参考取导出 JSON 的 parquet（tier3_kfix），manifest 记新档位目录、位置是新参考的；checkpoint 步数不符的一集判失败、不留 npz
+ok  test_from_export
+ok  test_tier1_blocked
+ALL_OK

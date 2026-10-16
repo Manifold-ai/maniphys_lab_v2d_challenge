@@ -19,7 +19,9 @@ episode_XXXXXX.npz，含 episode_index、coordinate_frame=released_track2_world�
   - poses.npy 形状 [T,4,4]、有限、旋转正交（|RᵀR − I| ≤ 1e-6、det > 0）、最后一行 [0,0,0,1]；四元数（w ≥ 0）转回矩阵最大差 ≤ 1e-9；
   - npz 读回再核一遍，不过就删掉这个文件。
 进程开头 forbid_tier1()：此后读 Tier 1 的任何文件都会抛错。
-用法（仓库根）：python3 stages/evaluate/make_frame_refs_t3.py <选择清单> <机器> --out runs/submission/frame_refs_t3_<名字>
+用法（仓库根）：python3 stages/evaluate/make_frame_refs_t3.py <选择清单> <机器> --out runs/submission/frame_refs_t3_<名字> [--from-export <导出结果目录>]
+  --from-export：策略输入取导出 JSON 的 parquet（先核 JSON 的 checkpoint 等于清单这一行的 run 与步数），不取 run 记录；k-fix 用现有 checkpoint
+  对新参考重新导出时用（计划 agent-doc/plan-t3-kfix-2026-10-16.md 方案 4）。
   选择清单每行 tab 分隔：档位 episode run 步数 机器（# 开头为注释，同 pull_submission.sh select）；只做机器一列等于 <机器> 的行，这些行的档位必须是 3。
 输出 <out>/episode_XXXXXX.npz 与 <out>/manifest_<机器>.tsv（episode、run、步数、档位目录、序列、帧数、poses.npy 的 sha256、来源 parquet 的 sha256
 （这里算的，已核等于 v2d_meta 记的）、文件、sha256）；<out> 已存在就拒绝。拉回 Mac 用 pull_submission.sh frefs，打包前 pack_tier.sh 用
@@ -123,14 +125,26 @@ def check_source(path: Path, ep: int, M: np.ndarray, want_sha) -> tuple:
     return got, int((~vis).sum())
 
 
-def one(ep: int, run: str, out: Path, host: str) -> tuple:
+def motion_path(rec: dict, ep: int, run: str, step: str, export: Path | None) -> tuple:
+    """策略输入的 motion parquet 路径与它的出处。默认取 run 记录第一条 start（训练时的参考）；给了 export 时取导出 JSON 的 parquet
+    （k-fix 用现有 checkpoint 对新参考重新导出，计划 agent-doc/plan-t3-kfix-2026-10-16.md 方案 4），先核 JSON 的 checkpoint 正是清单这一行的 run 与步数。"""
+    if export is None:
+        return str(rec.get("parquet", "")), "run 记录第一条 start"
+    j = json.loads((export / f"episode_{ep:06d}.json").read_text())
+    want = f"/repo/runs/flash_chord/{run}/policy_{step}.safetensors"
+    if j.get("checkpoint") != want:
+        raise ValueError(f"导出 JSON 的 checkpoint 是 {j.get('checkpoint')}，清单这一行是 {want}")
+    return str(j.get("parquet", "")), f"导出 JSON {export.name}/episode_{ep:06d}.json"
+
+
+def one(ep: int, run: str, step: str, out: Path, host: str, export: Path | None = None) -> tuple:
     rec = start_record(run)
     if rec.get("host") != host:
         raise ValueError(f"run 记录 start 的主机是 {rec.get('host')}，本机是 {host}：清单里这一行的机器列与执行的机器对不上")
-    p = str(rec.get("parquet", ""))
+    p, where = motion_path(rec, ep, run, step, export)
     m = PARQUET.fullmatch(p)
     if not m:
-        raise ValueError(f"run 记录第一条 start 的 parquet 不是 Tier 3 的 motion parquet：{p or '没有 start 记录'}")
+        raise ValueError(f"{where}的 parquet 不是 Tier 3 的 motion parquet：{p or '没有'}")
     tdir, seq = m.groups()
     src = ROOT / "runs/motion_src" / tdir / seq
     meta = json.loads((src / "v2d_meta.json").read_text())
@@ -177,6 +191,8 @@ def main() -> int:
     ap.add_argument("select", type=Path, help="选择清单：档位 episode run 步数 机器")
     ap.add_argument("machine", choices=("mf4090", "ml40"))
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--from-export", type=Path, default=None,
+                    help="导出结果目录（episode_XXXXXX.json）：参考取导出 JSON 的 parquet，不取 run 记录（k-fix 重新导出用）")
     a = ap.parse_args()
     sys.path.insert(0, str(ROOT / "libs/v2d_infra"))
     from tier_guard import forbid_tier1
@@ -205,7 +221,7 @@ def main() -> int:
     lines, bad = [], 0
     for ep, run, step in rows:
         try:
-            tdir, seq, T, psha, srcsha, f, sha, ortho, back, nfill = one(ep, run, a.out, host)
+            tdir, seq, T, psha, srcsha, f, sha, ortho, back, nfill = one(ep, run, step, a.out, host, a.from_export)
         except Exception as e:   # noqa: BLE001  逐条报
             print(f"  FAIL ep{ep} {run}：{type(e).__name__}: {e}")
             bad += 1
