@@ -198,6 +198,24 @@
    "date": "10-16",
    "from": "best_dr2s",
    "purpose": "dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/30 with v2 (ep07). Orientation flips untouched; ep07 iron sinks ~1 cm at the table edge (dr2s made with v2 supports)"
+  },
+  "best_dr2srepro": {
+   "status": "archived",
+   "date": "10-16",
+   "from": "best",
+   "purpose": "best_dr2s regenerated with the current code (14e2e3b) and the v2 supports, to prove the code reproduces it; moved to the archive after the comparison"
+  },
+  "best_dr2s3": {
+   "status": "candidate",
+   "date": "10-16",
+   "from": "best",
+   "purpose": "best_dr2s's along-ray depth correction (--move-human=3d) with the v3 supports (centre-of-mass sweep), with provenance"
+  },
+  "best_dr2s3_dyn7": {
+   "status": "candidate",
+   "date": "10-16",
+   "from": "best_dr2s3",
+   "purpose": "dyn7's dynamics post-process on best_dr2s3; replaces best_dr2s_dyn7 only if the self-check shows nothing worse"
   }
  },
  "work": {
