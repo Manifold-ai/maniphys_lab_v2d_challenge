@@ -17,6 +17,8 @@ Convention as t3_convert_ep.py _camera_register: p_main = Rot(yaw) p + t in the 
         --left=A|C [camera_register.json] [conv=<dir>] [base=<camera_register.json holding the second camera>]
 conv= names the convert dir whose focal step holds the intrinsics (default convert); base= the register spec C is read
 from (default runs/floor/camera_register.json). A floor fit with shift_m is met as in t3_mutual_multi.py (10-17).
+pair=<json with pair_boxes> keeps the two tripod boxes of an earlier run (matched on x0 and y1 within 2 px) instead of the
+pair whose separation best matches |A - C|.
 """
 import json
 import t3_inputs  # noqa: E402  (same directory: released inputs Tier 3 may read)
@@ -34,7 +36,8 @@ def rot(a: float) -> np.ndarray:
 
 
 def main() -> None:
-    args = [a for a in sys.argv[1:] if not a.startswith(("--left=", "conv=", "base="))]
+    args = [a for a in sys.argv[1:] if not a.startswith(("--left=", "conv=", "base=", "pair="))]
+    pair_file = next((Path(a.split("=", 1)[1]) for a in sys.argv[1:] if a.startswith("pair=")), None)
     left = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--left=")), None)
     conv = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("conv=")), "convert")
     base = next((Path(a.split("=", 1)[1]) for a in sys.argv[1:] if a.startswith("base=")), None)
@@ -88,6 +91,12 @@ def main() -> None:
     if not pairs:
         raise SystemExit(f"{ep}: fewer than two tripods besides the sighted one")
     _, i, j = pairs[0]
+    if pair_file is not None:  # keep a pairing decided before (10-17: the user's 10-12 A/C pair, re-solved under new intrinsics)
+        want = json.loads(pair_file.read_text())["pair_boxes"]
+        hit = [k for k, oi in enumerate(others_idx) if any(abs(feet_box[oi]["x0"] - w["x0"]) <= 2 and abs(feet_box[oi]["y1"] - w["y1"]) <= 2 for w in want)]
+        if len(hit) != 2:
+            raise SystemExit(f"{ep}: the given pair boxes match {len(hit)} feet, want 2")
+        i, j = hit
     pl, pr = sorted((others[i], others[j]), key=lambda p: np.arctan2(p[1], p[0]), reverse=True)  # larger bearing = further left
 
     def solve(left_is_a: bool):
