@@ -6,6 +6,20 @@
 路径：`$T` = L40S `/lab_data/yqchen/v2d/tier3`，`$G` = `/lab_data/yqchen/v2d/gate`。本节诊断脚本在
 `stages/recovery/tier3/gate/diag/`（服务器上的副本与输出在 `$G/diag/`）。
 
+## 交付：best_dr2s_dyn7（10-16 13:48 CST）
+
+**交付版由 best_hm 换成 `tier3_cari4d_f830_best_dr2s_dyn7`**（用户 10-16 下班前授权，按事先登记的规则选定）。交付报告（自检结果与基本数据）：
+版本目录里的 `DELIVERY.md`，仓库副本 `agent-doc/delivery-tier3-best_dr2s_dyn7-2026-10-16.md`。支撑面 usda 由 `runs/support/tier3_cari4d_f830_best_v3`
+生成，放在版本目录的 `support_surface/`（每集元数据 `support_surface` 路径），门槛用它 30/30。best_hm 原样保留。
+**给 rxzhou：** 你的打包脚本按白名单读目录名，需要加入 `tier3_cari4d_f830_best_dr2s_dyn7` 与 `_suspect`；我们不改你的代码。
+**规矩（用户 10-16）：** 以后每个交付版本都带 `DELIVERY.md`，由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各检查的结果文件生成，
+`stages/recovery/tier3/t3_deliver.sh` 放支撑面并写报告。
+
+**为什么不是 best_dr2s3_dyn7：** 用 v3 支撑面重做深度修正（`best_dr2s3`，当前代码 `14e2e3b` 先以 v2 支撑面逐表复现了 dr2s，然后换 v3），
+只改了支撑面扩大的 5 集。交付规则第 1 条（相对 dr2s_dyn7 只许物体位姿变）没过：ep06/07/11 的人体平移也变了（`--move-human=3d`
+让人跟随物体的深度修正，属设计行为，规则写窄了），按规则交付 dr2s_dyn7。dr2s3_dyn7 的其余检查在跑（`$G/dyn/regen_dr2s3.log`），
+ep06 有 105 帧可见改动 > 5 cm（最大 12 cm），要用户看图后再决定是否换上。
+
 ## 用户 10-15 晚的决定
 
 - **人工标注不可用**：Tier 3 的任何修复（包括成段翻转选哪个分支）只能来自自动方法。
