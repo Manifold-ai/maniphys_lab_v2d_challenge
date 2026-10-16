@@ -19,6 +19,7 @@ ep1 用 -p185-ml40 的名字；support 为 true 的不带 scene.support=false）
      t1xb、t1yb（agent-doc/plan-t1-chase-2026-10-13.md）：t1xb 5 条在 mf4090、顺序 ep3、19、13、10、14，一律 400 万、标签 t1xb，
      5 条的行与 t1xa 的同一 run 相同（期望表逐字，正式行只差 W&B 标签，冒烟行相同）；t1yb 5 条在 ml40、顺序 ep16、2、3、19、13，
      没有 buffer 覆盖、标签 t1yb，夹具里奇数号的基线在 mf4090、带的 400 万覆盖要去掉；ep16、ep2 的行与 t1ya 的同样相同
+  6b. t3pk、t3ps（agent-doc/plan-t3-kfix-retrain-2026-10-16.md）：取法同 t3p3，参考目录换成 tier3_kfix、tier3_v2s，run 名带 -kfix-、-v2s-；
   7. t3p4a、t3p4b、t3qa、t3qb（agent-doc/plan-d-t3hm-train-2026-10-12.md）：四段合起来恰好 29 集、不重复；run 名带 -hm-，parquet 在
      /runs/motion/tier3_hm/；mf4090 两段带 400 万覆盖、期望表 4000000，ml40 两段没有 buffer 覆盖、期望表 10000000；支撑面按 best_hm 的 12 集桌面定，
      与基线不同的几种都核：ep1（基线是 p185 run）、ep15（基线开着支撑面、best_hm 只有地面：要加覆盖、列改 false）、ep17（基线关着、best_hm 有桌面：
@@ -228,6 +229,17 @@ def test_t3p3_parts():
                       "mf4090", motion="tier3_v2")
         r = gen(root, "t3p3a", "--episodes", "20")
         assert r.returncode != 0, r.stdout + r.stderr
+
+
+def test_t3pk_t3ps_parts():
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root)
+        for part, eps, run_fmt, motion in (("t3pk", [0, 18, 29], "t3-ep{ep}-w2048-cap4m-r3a-kfix-mf4090", "tier3_kfix"),
+                                           ("t3ps", [20], "t3-ep{ep}-w2048-cap4m-r3a-v2s-mf4090", "tier3_v2s")):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            check_set(root, part, eps, run_fmt, 3, "4000000", "training.replay.capacity=4000000", part, "mf4090", motion=motion)
 
 
 TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]

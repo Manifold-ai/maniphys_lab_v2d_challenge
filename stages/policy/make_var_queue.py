@@ -32,6 +32,9 @@ training.replay.capacity=4000000：出现别的键就报错，因为不知道它
 t1x、t1xb → t1-ep<N>-w2048-cap4m-r3a-mf4090；t1y、t1yb → t1-ep<N>-w2048-cap10m-r3a-ml40。顺序照计划（t2x、t1x、t1y 按基线 4096 世界失败:骨盆从低到高，t1xb、t1yb 见上）。
 输出：stages/policy/queues/<机器>_<段名>{.expect.tsv,_smoke.txt,.txt} 与 stages/evaluate/exports/cand_t<档>_<段名>_<机器>.tsv（export_chain.sh 的清单）。
 W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。任何一条核对不过就退出，什么文件都不写。
+  t3pk、t3ps（计划 agent-doc/plan-t3-kfix-retrain-2026-10-16.md）：取法同 t3p3（基线取 Tier 2 导出清单，支撑面开关沿用），只换参考目录与 run 名：
+       t3pk = ep0、18、29，参考 /runs/motion/tier3_kfix/，run 名 t3-ep<N>-w2048-cap4m-r3a-kfix-mf4090；
+       t3ps = ep20，参考 /runs/motion/tier3_v2s/（v2 参考加交付版方块桌面），run 名 t3-ep<N>-w2048-cap4m-r3a-v2s-mf4090。
   t3p4、t3q Tier 3 最终交付版 best_hm 的 29 集（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md）：参考在 /runs/motion/tier3_hm/，基线同 t3p3 取 Tier 2
        导出清单；t3p4 在 mf4090（400 万 buffer，run 名 t3-ep<N>-w2048-cap4m-r3a-hm-mf4090），t3q 在 ml40（1000 万，t3-ep<N>-w2048-cap10m-r3a-hm-ml40）。
        两份清单都带同一个 29 集的总顺序，段之间挪集只要 --episodes。支撑面按 best_hm 自己的支撑面定（tables 键，计划审查 1）：
@@ -40,7 +43,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
   t1o、t2o（计划 agent-doc/plan-r3o-2026-10-15.md）：r3o 试点 = 变体 A 加物体朝向项。队列行开头多两个环境变量
@@ -83,6 +86,14 @@ SETS = {
              "parts": {"t3p3a": [20, 29, 0, 15], "t3p3b": [18, 21, 22, 23, 26, 17]}, "base": None, "motion": "tier3_v2",
              "run": "t3-ep{ep}-w2048-cap4m-r3a-v2-mf4090",
              "desc": "Tier 3 校正版其余 10 集：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_v2 下校正版重建的那份，基线取 Tier 2 导出清单）"},
+    "t3pk": {"plan": "agent-doc/plan-t3-kfix-retrain-2026-10-16.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+             "episodes": [0, 18, 29], "parts": {"t3pk": [0, 18, 29]}, "base": None, "motion": "tier3_kfix",
+             "run": "t3-ep{ep}-w2048-cap4m-r3a-kfix-mf4090",
+             "desc": "Tier 3 k-fix 重训：现有策略跟不住新参考的 3 集，变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_kfix，取法同 t3p3）"},
+    "t3ps": {"plan": "agent-doc/plan-t3-kfix-retrain-2026-10-16.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+             "episodes": [20], "parts": {"t3ps": [20]}, "base": None, "motion": "tier3_v2s",
+             "run": "t3-ep{ep}-w2048-cap4m-r3a-v2s-mf4090",
+             "desc": "Tier 3 ep20 换成交付版方块桌面重训：参考是 runs/motion/tier3_v2s（v2 的参考加方块桌面），变体 A seed 42（mf4090，buffer 400 万，取法同 t3p3）"},
     "t3p4": {"plan": "agent-doc/plan-d-t3hm-train-2026-10-12.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
              "episodes": ORDER_HM, "parts": {"t3p4a": [15, 17, 1, 2, 3], "t3p4b": [12, 13, 14, 16, 19, 21, 25, 27]},
              "base": None, "motion": "tier3_hm", "tables": TABLES_HM, "run": "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090",
