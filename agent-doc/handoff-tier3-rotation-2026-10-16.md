@@ -130,9 +130,41 @@ d/dw/dc/dr/dr2/dr3/dr2s，高度 h/hchk/hm2，动力学 dyn/dyn1/dyn2/dyn3/dynr/
 各自的 `MOVED.tsv`。rxzhou 工具按名字直接读的 16 个目录（`tier3_pack_remote.sh` 白名单）原地不动，已逐个核对。删除只有
 `runs/work_rot`（55G）。
 
+## 卡尔曼静置锁定（`best_kf3`）
 
+`t3_kalman_post.py` 加静置段锁定（`86ce869`/`889628a`）：静置段按 dyn7 的方式锁定（稳健均值、翻转帧替换、中位质心），滤波器把锁定
+姿态当近乎精确的观测、不设门控；进入锁定段时若与预测差过门槛，就像重置一样切段，反向平滑不跨过去（否则 ep01 第 251 帧被拖了
+153°）。`--no-lock` 与 kf2 逐位相同（4 集验证）。第一轮全量（`$G/dyn/run_kf3.log`，输出留在 `$T/dev/kf3_889628a/`）：
 
-- （已做，见上）试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU）：
+| 项 | dyn7 | kf2 | kf3 第一轮 |
+|---|---|---|---|
+| 违规帧 / 零违规集 | 2162 / 7 | 2080 / 5 | 1896 / 6 |
+| `rot_jump` / `rot_torque` | 541 / 541 | 189 / 259 | 179 / 246 |
+| `rot_drift` / `rest_drift` / `lin_airborne` | 986 / 1332 / 432 | 1122 / 1237 / 542 | 937 / 1349 / 452 |
+
+kf2 的退步收回了（ep01 `rot_drift` 106→25、ep03 50→0、ep06 悬空 91→0），但相对 dyn7 只有被拿着段的两项变好：静置段本来就和
+dyn7 同法。旋转重置 200→173，剩下的是被拿着时的成段翻转。ep02 `rest_drift` 26→150：第 269–272 与 274–393 帧两个静置段隔 2 帧、
+锁定位置差 7.5 cm，检查把它们算成一个支撑段并从段首量漂移（dyn7 锁定相同，只是段首帧没落在过渡帧上）。修正 `9c3bfb2`：相隔
+≤ GAP（5）帧的静置段合并锁定。以原名重生成并跑全套自检（`$G/dyn/regen_kf3.sh`，日志 `regen_kf3.log` 末行 REGEN_KF3_DONE）。
+
+## 违规最多的三集（10-16 诊断，`gate/diag/unheld_runs.py`，在 bdyn7 上；三类漂移/悬空在各版本几乎不变）
+
+kf3 第一轮违规的 79% 在 6 集：ep28 396、ep29 345、ep13 297、ep02 219、ep19 124、ep27 110。
+- **ep13 纸箱（后处理的问题）**：违规在第 461–671 帧，箱子放在地上没人碰（视频第 520 帧人站在半米外）；锁定被切成
+  475–582 与 583–675 两段、只隔 1 帧、位置不同，与 ep02 同因，`9c3bfb2` 应能覆盖（待 kf3 重生成验证）。
+- **ep29 带轮行李箱（重建的接触缺口，原因未定位）**：任务是用左脚推。物体轮廓与视频吻合（IoU 中位 0.80），箱子真的在动。
+  人体层（best_hm）脚掌/脚趾顶点到箱面距离在 5 次推的间隙段最近 6.4/19.0/6.6/7.9/9.8 cm，箱子在动的帧里人脚 ≤ 5 cm 的帧为 0；
+  重定向后机器人再远 5–9 cm（`gate/diag/ep29_human_feet.py`，输出 `$G/diag/ep29_human_feet.npz`）。人脚从未投影回视频验证过，
+  深度由地面间接定出，所以缺口出在物体、人脚、地面还是尺度上分不清。用户 10-16 定：不做接触修正（其前提是人脚和物体都准，
+  现在保证不了），先记下。另有未解释处：箱子在 301/467 帧上速度 > 5 cm/s，而推只有 5 次。
+- **ep28 刮水器（重建失败）**：视频里全程双手握着来回扫（第 620、720 帧），重建里手离物体 20–40 cm、物体离地最高 84 cm；
+  `fp` 版、跟丢 0.68、轮廓 IoU 0.43。后处理修不了，ep28 在初值试点里。
+
+用户 10-16 的原则：重建对了，检查怎么判不重要（检查是自查工具，不是评分）；不为迎合检查改数据。
+
+## 接手怎么做
+
+- （已做，见上）试点跑完后统计 6 集（在 v2d_cari4d 镜像里，CPU；`work_rot` 已删，命令只作记录）：
   ```
   cd $T/runs/work_rot; A=""; P=""; for e in ep03_contigo_coffee_mug ep04_baseball_bat ep01_vacuum ep02_blue_easter_basket ep28_squeegee ep13_snack_box; do s=$(printf episode_%06d $((10#${e:2:2}))); A="$A -v $PWD/$e/cari4d/$s:/w/$e/$s:ro"; P="$P /w/$e/$s"; done
   docker run --rm --network none --user $(id -u):$(id -g) -e HOME=/tmp --entrypoint "" $A -v $T/code/stages/recovery/tier3:/s:ro -v $G/diag:/o v2d_cari4d:latest python /s/t3_stage_flips.py $P --out /o/stage_flips_rot.json
