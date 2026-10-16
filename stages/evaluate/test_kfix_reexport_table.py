@@ -17,7 +17,7 @@ TOOL = Path(__file__).resolve().parent / "kfix_reexport_table.py"
 STEP = "349999104"
 
 
-def wj(p: Path, mp: float, sp: float, auc: float = 0.5, mppe: float = 3.0, parquet: str | None = None) -> None:
+def wj(p: Path, mp: float, sp: float, auc: float = 0.5, mppe: float = 3.0, parquet=None) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     d = {"metrics": {"maniptrans_sr": mp, "spider_sr_uncentered": sp, "add_auc": auc, "mppe_cm": mppe, "world_count": 4096}}
     if parquet:

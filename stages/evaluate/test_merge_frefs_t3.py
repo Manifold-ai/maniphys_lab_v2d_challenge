@@ -25,7 +25,7 @@ def sha256(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def make_src(d: Path, rows: dict, rotation: dict | None = None) -> None:
+def make_src(d: Path, rows: dict, rotation=None) -> None:
     d.mkdir(parents=True)
     for mach, eps in rows.items():
         lines = ["\t".join(COLS)]
