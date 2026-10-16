@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/recovery/expect/t3kfix_5_1016.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 0bd6954347b2ff07fd939bcceb886cfa  stages/recovery/expect/t3kfix_5_1016.tsv
+# source   : 5b62d41cba62
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T09:46:11-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 5b62d41cba62；远端来历 b106c320bae6
+  ok   0bd6954347b2ff07fd939bcceb886cfa  stages/recovery/expect/t3kfix_5_1016.tsv
+远端来历（放完）b106c320bae6
+PUSH_OK（1 个文件）

@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && A=$(df -m --output=avail . | tail -1) && echo "Â\217ØÁ\224® $A MB" && [ "$A" -ge 2500 ] && ! tmux has-session -t v2d-t3kfix-retarget 2>/dev/null && tmux new-session -d -s v2d-t3kfix-retarget "V2D_T3_SET=kfix V2D_RECORD_TRACEBACK_OK=1 scripts/dev/record t3kfix/retarget_kfix_mf4090 stages/retarget/eps.sh 3 0 18 24 26 29" && sleep 20 && tmux ls | cut -d: -f1' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : 5b62d41cba62
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T09:47:34-0600
+# ---------------------------------------------------------------
+ÂèØÁî® 80458 MB
+v2d-t1ob-eval
+v2d-t1ob-export
+v2d-t1ob-train
+v2d-t3kfix-retarget
+v2d-train

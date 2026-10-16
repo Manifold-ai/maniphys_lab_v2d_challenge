@@ -1,0 +1,173 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"bash\ -s\"\ \<\ tools/t3_kgb_remote.sh\ \|\ tools/redact_stdin.sh 
+# md5      : c42439e98f3dc822614038e12b61eb4f  tools/t3_kgb_remote.sh
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 5b62d41cba62-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T09:48:18-0600
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-16 23:48:19 CST
+## runs/floor/intrinsics_gb.json
+{
+ "camera_groups": {
+  "0": [
+   "ep00_tall_bar_stool",
+   "ep01_vacuum",
+   "ep02_blue_easter_basket",
+   "ep03_contigo_coffee_mug",
+   "ep04_baseball_bat",
+   "ep05_big_black_box",
+   "ep06_monitor",
+   "ep07_iron",
+   "ep08_skinny_wood_chair",
+   "ep09_big_red_bowl",
+   "ep10_white_desk",
+   "ep11_light_blue_book",
+   "ep13_snack_box",
+   "ep15_wet_floor_sign",
+   "ep17_traffic_cone",
+   "ep18_blue_trash_can",
+   "ep19_cane",
+   "ep20_rice_cooker",
+   "ep22_step_ladder",
+   "ep23_toy_stroller",
+   "ep24_watering_can",
+   "ep26_skateboard",
+   "ep27_woven_basket",
+   "ep29_rolling_luggage"
+  ],
+  "1": [
+   "ep12_black_platform",
+   "ep14_round_table",
+   "ep16_spray_bottle",
+   "ep25_cyan_water_bottle",
+   "ep28_squeegee"
+  ],
+  "2": [
+   "ep21_tall_bar_stool"
+  ]
+ },
+ "intrinsics": {
+  "0": {
+   "f": 866.3,
+   "cx": 701.8,
+   "cy": 531.1
+  },
+  "1": null,
+  "2": null
+ },
+ "source": {
+  "0": "rxzhou ceiling-grid fit GB (p1-training stages/recovery/kfix/kt_gb.json; results/t3world/ceiling_grid_main9.txt), on the original 1536x1152 frames, distortion ignored; reproduced on the Tier 3 input 10-16 as 865.2/700.4/530.7",
+  "1": "not calibrated; CARI4D (MoGe) intrinsics kept until the second camera is checked",
+  "2": "not calibrated; CARI4D (MoGe) intrinsics kept until the side camera is checked"
+ }
+}
+## dev/kgb
+total 20
+drwxrwsr-x  4 <其他用户> mfshared 4096 Oct 16 23:22 .
+drwxrwsr-x 37 <其他用户> mfshared 4096 Oct 16 23:20 ..
+-rw-rw-r--  1 <其他用户> mfshared 1320 Oct 16 23:22 intrinsics_gb.json
+drwxrwsr-x  3 <其他用户> mfshared 4096 Oct 16 23:20 probe
+drwxrwsr-x  3 <其他用户> mfshared 4096 Oct 16 23:22 try
+## code 的 git 状态与最近 5 个提交
+## t3_convert_ep.py 里 focal 一节（含 intrinsics 字样的行）
+18:  focal     v2d_cari4d image, CPU. Re-expresses the reconstruction for chosen intrinsics, per exo camera group: the
+19:            spec's `intrinsics` sets f and the principal point (runs/floor/intrinsics_gb.json, 10-16), the older
+21:            pixel, depth scales by f_new / f_used (_intrinsics_map), orientations turn with the viewing ray. Object
+41:    python t3_convert_ep.py focal    <out dir> <intrinsics spec .json> <soma assets dir>
+85:    np.savez(out / "object_cam.npz", T_cam_glb=poses, intrinsics=np.asarray(export["intrinsics"], np.float64))
+241:def _intrinsics_map(k_used: np.ndarray, k_new: np.ndarray) -> np.ndarray:
+242:    """Camera-frame point map from CARI4D's intrinsics to new ones, M = (f_new / f_used) K_new^-1 K_used: every point
+245:    the depth kept). With the principal point unchanged M is diag(1, 1, f_new / f_used), the focal-only step this
+246:    generalises (10-16, for the calibrated main-camera intrinsics)."""
+259:def _new_intrinsics(spec: dict, group: int | None, k_used: np.ndarray) -> np.ndarray:
+260:    """The intrinsics a spec sets for a camera group: `intrinsics` ({group: {f, cx, cy} or null}) sets all three, the
+261:    older `focal_px` ({group: f or null}) sets f and keeps CARI4D's principal point; null, or no group, keeps CARI4D's."""
+264:    if "intrinsics" in spec:
+265:        e = spec["intrinsics"].get(str(group))
+268:        return np.array([[e["f"], 0.0, e["cx"]], [0.0, e["f"], e["cy"]], [0.0, 0.0, 1.0]])
+284:    if group is None:  # a camera the spec has not seen (new data): keep CARI4D's own intrinsics, say so
+285:        fallback = f"{name} is in no camera group of {focal_json.name}; CARI4D's intrinsics kept"
+288:    k_used = np.asarray(oc["intrinsics"], np.float64).reshape(3, 3)
+290:    k_new = _new_intrinsics(spec, group, k_used)
+296:        raise SystemExit(f"{name}: principal point moves {shift:.1f} px, implausible")
+297:    m = _intrinsics_map(k_used, k_new)
+299:    np.savez(out / "object_cam_focal.npz", T_cam_glb=_reexpress_object(oc["T_cam_glb"].astype(np.float64), m), intrinsics=k_new)
+303:    # body follows the pelvis rigidly (once the principal point moves M is not a similarity: first order, about 5 cm
+311:             "principal_point_used": k_used[:2, 2].tolist(), "principal_point_new": k_new[:2, 2].tolist(),
+446:    np.savez(out / "object_world.npz", T_world_glb=t_w, intrinsics=oc["intrinsics"])
+## t3_focal_all.sh 头 30 行
+#!/usr/bin/env bash
+# The focal step of t3_convert_ep.py for every episode of one convert dir, under an intrinsics spec, into a new convert dir
+# (10-16: the calibrated main-camera intrinsics). The source dir is only read: per episode the files the focal, world
+# and assemble steps start from are copied (object_cam.npz, soma_params.npz, the decode/residual reports and, for a
+# pivot dir, its pivot records), never the MHR mesh (~200 MB) the steps after soma do not read. CPU, v2d_cari4d image.
+#   t3_focal_all.sh <src convert dir> <dst convert dir> <spec .json under runs/floor/>
+#   e.g. t3_focal_all.sh convert convert_kgb intrinsics_gb.json
+# JOBS (default 4) episodes at a time, each container on 4 CPUs. Logs logs/focal_<dst>_<ep>.log; last line FOCAL_ALL_DONE
+# with the count of episodes that failed.
+set -u
+S=$(cd "$(dirname "$0")" && pwd)
+T=${T3_ROOT:-/lab_data/<其他用户>/v2d/tier3}
+SOMA_ASSETS=${T3_SOMA_ASSETS:-/lab_data/<其他用户>/v2d/soma_assets}
+SRC=${1:?usage: t3_focal_all.sh <src convert dir> <dst convert dir> <spec>}
+DST=${2:?}
+SPEC=${3:?}
+JOBS=${JOBS:-4}
+[ -f "$T/runs/floor/$SPEC" ] || { echo "no runs/floor/$SPEC"; exit 2; }
+[ "$SRC" != "$DST" ] || { echo "source and destination are the same dir"; exit 2; }
+mkdir -p "$T/runs/$DST" "$T/logs"
+one() {
+  local name=$1 src=$T/runs/$SRC/$1 dst=$T/runs/$DST/$1
+  [ -f "$src/soma_params.npz" ] || { echo "$name: no soma_params.npz in $SRC, skipped"; return 0; }
+  mkdir -p "$dst"
+  for f in object_cam.npz soma_params.npz decode_report.json residual_report.json pivot_poses.npz pivot_summary.json; do
+    [ -f "$src/$f" ] && cp -p "$src/$f" "$dst/$f"
+  done
+  docker run --rm --cpus 4 -e OMP_NUM_THREADS=4 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp \
+    -w /workspace/v2d_cari4d/lib/cari4d -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$SOMA_ASSETS":/a:ro -v "$dst":/o/"$name" \
+    v2d_cari4d:latest python /s/t3_convert_ep.py focal /o/"$name" /f/"$SPEC" /a > "$T/logs/focal_${DST}_$name.log" 2>&1 \
+## runs/convert_kgb 每集的文件
+ep00_tall_bar_stool: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep01_vacuum: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep02_blue_easter_basket: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep03_contigo_coffee_mug: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep04_baseball_bat: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep05_big_black_box: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep06_monitor: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep07_iron: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep08_skinny_wood_chair: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep09_big_red_bowl: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep10_white_desk: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep11_light_blue_book: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep12_black_platform: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep13_snack_box: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep14_round_table: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep15_wet_floor_sign: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep16_spray_bottle: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep17_traffic_cone: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep18_blue_trash_can: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep19_cane: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep20_rice_cooker: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep21_tall_bar_stool: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep22_step_ladder: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep23_toy_stroller: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep24_watering_can: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep25_cyan_water_bottle: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep26_skateboard: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep27_woven_basket: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep28_squeegee: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+ep29_rolling_luggage: decode_report.json focal_calib.json object_cam_focal.npz object_cam.npz residual_report.json soma_params_focal.npz soma_params.npz 
+## logs/focal_*kgb* 最近 12 个的尾行
+logs/focal_all_convert_kgb.log：ep28_squeegee: "fx_new": 831.6648559570312 "principal_point_new": [768.0, 576.0] 
+logs/focal_all_run_kgb.out：FOCAL_ALL_DONE failed=0
+logs/focal_convert_kgb_ep28_squeegee.log：{"episode": "ep28_squeegee", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 1, "fx_used_by_cari4d": 831.6648559570312, "fx_new": 831.6648559570312, "depth_r
+logs/focal_convert_kgb_ep29_rolling_luggage.log：{"episode": "ep29_rolling_luggage", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 816.6740112304688, "fx_new": 866.3, "depth_ratio"
+logs/focal_convert_kgb_ep27_woven_basket.log：{"episode": "ep27_woven_basket", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 812.356689453125, "fx_new": 866.3, "depth_ratio": 1.
+logs/focal_convert_kgb_ep25_cyan_water_bottle.log：{"episode": "ep25_cyan_water_bottle", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 1, "fx_used_by_cari4d": 808.9758911132812, "fx_new": 808.9758911132812,
+logs/focal_convert_kgb_ep26_skateboard.log：{"episode": "ep26_skateboard", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 816.459716796875, "fx_new": 866.3, "depth_ratio": 1.06
+logs/focal_convert_kgb_ep24_watering_can.log：{"episode": "ep24_watering_can", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 830.7138671875, "fx_new": 866.3, "depth_ratio": 1.04
+logs/focal_convert_kgb_ep23_toy_stroller.log：{"episode": "ep23_toy_stroller", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 819.5421752929688, "fx_new": 866.3, "depth_ratio": 1
+logs/focal_convert_kgb_ep22_step_ladder.log：{"episode": "ep22_step_ladder", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 816.475830078125, "fx_new": 866.3, "depth_ratio": 1.0
+logs/focal_convert_kgb_ep21_tall_bar_stool.log：{"episode": "ep21_tall_bar_stool", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 2, "fx_used_by_cari4d": 804.1107177734375, "fx_new": 804.1107177734375, "d
+logs/focal_convert_kgb_ep19_cane.log：{"episode": "ep19_cane", "focal_spec": "intrinsics_gb.json", "focal_spec_sha256": "c478ea3e60967bd74375aa1173385603c90b327e8fd26a9ac9cf976c6facb775", "camera_group": 0, "fx_used_by_cari4d": 820.9074096679688, "fx_new": 866.3, "depth_ratio": 1.0552956
+T3_KGB_REMOTE_DONE
