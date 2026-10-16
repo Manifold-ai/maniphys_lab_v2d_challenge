@@ -38,3 +38,10 @@
 
 - 单种子：重训的 run 可能达不到旧 run 的值（10/10 那批是同配方单种子）。不换的集照旧用旧参考与旧 rollout。
 - t3pk 有一条失败或发散，arm_after 不起 t3ps（安全方向），次日手动处理。
+
+## 执行记录
+
+- 13:40 mf4090 同步到 54558b8（`results/ops/sync_mf4090_1016_1340.txt`）。配置核对 8 份（4 集冒烟与正式）意外差异都是 0、`配置核对通过`
+  （mf4090 上 `results/t3kfix/cfgcheck_t3pk_ps_mf4090.txt`）。`V2D_ARM_DRYRUN=1 arm_var_chain.sh t3pk`：3 条 run、6 份配置的 precheck 与配方断言全过，`DRYRUN_OK`。
+- ml40：`run_after_log.sh` 等 t2ob 评测链的结束行，再记录 `r3o_verdict.py P2`（后台，`runs/logs/after_verdict_P2_ml40.log`）；
+  P2 的新项均值报告已在后台跑（`runs/logs/newterm_P2_ml40.log`）。第一次起这两件时 ssh 命令把 `cd` 放进了后台列表，新项报告没起来，已按正确写法重起。
