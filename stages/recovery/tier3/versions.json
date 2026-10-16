@@ -192,6 +192,12 @@
    "date": "10-16",
    "from": "best_hm",
    "purpose": "kf2 + rests locked as dyn7, rests <= 5 frames apart merged, bridged by the filter (9c3bfb2); 1675 violation frames, gate 25/30, ours 30/30"
+  },
+  "best_dr2s_dyn7": {
+   "status": "candidate",
+   "date": "10-16",
+   "from": "best_dr2s",
+   "purpose": "dyn7's dynamics post-process (t3_dynamics_post.py, ebad90b; anchors from the depth_post record) on the ray-corrected best_dr2s instead of on best_hm"
   }
  },
  "work": {
