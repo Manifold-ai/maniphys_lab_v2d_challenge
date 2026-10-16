@@ -1,0 +1,10 @@
+# command  : uv run --no-project --python 3.12 --with numpy python stages/recovery/t3_kfix_feet_roll.py --selftest 
+# md5      : 6b2e6f95bc0e6a92984e5721c75c36dd  stages/recovery/t3_kfix_feet_roll.py
+# source   : 326878ef59c6-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:29:47-0600
+# ---------------------------------------------------------------
+  隐含斜率：绕纵深轴转 1.2° → 横向 -2.095 cm/m（tan 1.2° = 2.095），纵深 -6.9e-16
+  稳健回归：拟出 横向 +2.10、纵深 -0.62 cm/m（真值 +2.10、−0.60）；横向 95% 区间 [+2.08, +2.13]
+  反向对照：无斜率时横向 95% 区间 [-0.01, +0.02] 含 0
+FEET_ROLL_SELFTEST_OK
