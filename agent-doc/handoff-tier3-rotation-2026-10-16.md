@@ -410,3 +410,10 @@ CoCoNet 输出用户判过朝向对）：ep04 313 新=FP（与试点差 120°，
 `-v` 开头），`3751a7d` 修复后重跑，复用已产出的地面拟合与配准，前 3 集 world 已过（主机位 scale 0.984、shift 0）。已产出：二机位 GB 配准偏航
 181.38°、t = (0.0884, 6.1785) m，双向脚点距离差 0.007 m（旧 0.143 m）；ep21 沿用 10-12 那对框，两点距 5.995 m 对 A–C 6.179 m（短 3%）。
 等 `logs/gb3_register.log` 末行 GB3_REGISTER_DONE 与 `dev/kgb/gb3_summary.txt`。
+
+**新内参版本整链（10-17 00:43 CST 挂上，`ca3ecf0`）**：用户定前缀 `tier3_cari4d_gb_`。`t3_gb_chain.sh` 等 `gb3_register.log` 出 GB3_REGISTER_DONE 后：
+组装 `tier3_cari4d_gb_best`（best 的逐集选择，转换目录换成 `_gb3`，主/`_suspect` 划分同 best）→ 物理 → 支撑面 `runs/support/tier3_cari4d_gb_best`
+（`T3_FLOOR_FIT=floor_fit_gb3.json T3_REGISTER=camera_register_gb3.json`）→ dr2s（`--move-human=3d`）→ 物理 → dyn7 → `gate/chain_check.sh`
+（`SEL`/`SUP` 指向 gb，门槛集 `gbdyn7`）。**停在交付之前**（交付改 rxzhou 读的数据，等用户看过）。日志 `logs/gb_chain.log`，末行 GB_CHAIN_DONE 或
+GB_CHAIN_FAILED <步骤>；门槛 `$G/logs/p2_gbdyn7.txt`、我们的支撑面 `$G/logs/oursup_gbdyn7.txt`、画面对齐 `$T/dev/depth_diag/align_gbdyn7.json`。
+三个版本已登记为 candidate。注意：dr2s 用的是当前支撑面代码（v3 规则，含质心扫过），交付版 dr2s 当时用 v2；用户核对时一并看。
