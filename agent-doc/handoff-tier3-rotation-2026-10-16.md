@@ -154,6 +154,13 @@ cd $T/code/stages/recovery/tier3 && setsid nohup ./t3_yield_wait.sh t3_init_pilo
 ep03 117/131/345 差 0°（未被改动），451 差 162°。对照判据逐条：跳变在被替换段内减 12–64%；轮廓 IoU 在 ep28、ep04 的被替换帧上变差
 （坏多于好 2.5–3.3 倍），这一条不满足；朝向要看贴图渲染，但 `t3_pose_overlay.py` 读组装后的版本，试点还没过转换与组装，图未出。
 
+**贴图渲染（22:02，ep04 与 ep03，待用户判）**：只转换物体——`convert_fp` 整份复制，`object_cam.npz` 换成 work_init `refined.pth` 的
+`pose_abs @ S2A`（`$T/dev/init_pilot/decode_object.py`），再跑原 focal（`focal.json`）、world（`floor_fit_f830.json` + `camera_register.json`）、
+assemble 到 `$T/dev/init_pilot/root/runs/pilot_{ctrl,init}`（`runs/` 只读，未登记版本）。对照：`pilot_ctrl` 是同一条链不换物体，
+`object_world.npz` 与 `convert_fp` 逐位相同（max abs diff 0.0）。人体沿用 fp，图里只看物体。构建脚本 `$T/dev/init_pilot/build_review.sh`；
+宿主 venv 缺 h5py，装在 `$T/dev/init_pilot/pydeps`（`PYTHONPATH`），venv 未改。图：`$T/dev/init_pilot/tex_checked/`（ep04 313/509/669）、
+`tex_checked3/`（ep03 117/131/345/451），列为 video | pilot_ctrl | pilot_init | best_dr2s_dyn7；`tex_auto/` 是 ctrl 与 init 差最大的 6 帧加首尾帧。
+
 ## 版本整理（10-16 07:00–07:10）
 
 版本的状态与用途只记在 `stages/recovery/tier3/versions.json`，`t3_versions.py` 据此和目录生成 `$T/runs/VERSIONS.md` 并核对
