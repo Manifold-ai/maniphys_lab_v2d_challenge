@@ -1,10 +1,11 @@
 # command  : uv run --no-project --python 3.12 --with numpy python stages/recovery/test_t3_kfix.py 
-# md5      : d951f50e04bc7e96fa56f2a4b79f652f  stages/recovery/test_t3_kfix.py
-# source   : d035e49f79c0-dirty
+# md5      : 66a10289f78a889b5153952b786d99f4  stages/recovery/test_t3_kfix.py
+# source   : bf17df54252b-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-16T05:04:52-0600
+# run_at   : 2026-10-16T05:14:07-0600
 # ---------------------------------------------------------------
   1. 口径 F、Z：映射后在 K_t 下的像素与原来在 K_c 下的相同
+  1b. fx ≠ fy 时两种口径的映射仍精确（ep03 的 float32 内参就是这种情况）
   2. 口径 F 的 M = (f_t/f_c)·K_t⁻¹K_c；口径 F 深度乘 f_t/f_c，口径 Z 深度不变
   3、4. 反向对照：错的映射被拦下；口径参数错报 ValueError
 ALL_OK

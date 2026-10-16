@@ -3,7 +3,7 @@
 
 沿用另一位用户 `stages/recovery/tier3/t3_convert_ep.py`（分支 track2/tier3-recon，部署在 ml40）的焦距步，只把“深度乘 k、主点不动”推广成一般的
 像素不变线性映射 M（K_c 是 CARI4D 的内参，K_t 是标定内参）：
-  口径 F（深度随焦距成比例）：M = [[1, 0, (cx_c − cx_t)/f_c], [0, 1, (cy_c − cy_t)/f_c], [0, 0, f_t/f_c]]；
+  口径 F（深度随焦距成比例）：M = (f_t/fx_c)·K_t⁻¹ K_c（fx_c = fy_c 时即 [[1, 0, (cx_c − cx_t)/f_c], [0, 1, (cy_c − cy_t)/f_c], [0, 0, f_t/f_c]]）；
   口径 Z（深度不变）：M = K_t⁻¹ K_c。
 任一点 X 换成 M X 后，在 K_t 下的像素与原来在 K_c 下的相同（`pixel_check` 逐帧核物体原点与人体骨盆，差 ≤ 1e-6 px）。物体：位置 M t，
 朝向随视线转（她的 `_ray_turn(t, M t)`）；人体：骨盆到 M·骨盆，根随视线转，其余关节刚体跟随（她的 `_move_body`，逐帧核关节，误差上限 1 mm）。
@@ -34,13 +34,16 @@ def kmat(f: float, cx: float, cy: float) -> np.ndarray:
 
 
 def mapping(kc: np.ndarray, kt: np.ndarray, mode: str) -> np.ndarray:
-    """像素不变的线性映射 M（OpenCV 相机系，作用在列向量上）。"""
+    """像素不变的线性映射 M = k·K_t⁻¹K_c（OpenCV 相机系，作用在列向量上）；口径 F：k = f_t / fx_c，口径 Z：k = 1。
+    用一般形式而不是按 fx = fy 展开的显式式子：CARI4D 的内参按 float32 存，fx 与 fy 末位可能不同（ep03 上显式式子差 6.9e-6 px，被
+    pixel_check 拦下）。"""
     if mode == "Z":
-        return np.linalg.inv(kt) @ kc
-    if mode == "F":
-        fc, fcx, fcy = kc[0, 0], kc[0, 2], kc[1, 2]
-        return np.array([[1.0, 0.0, (fcx - kt[0, 2]) / fc], [0.0, 1.0, (fcy - kt[1, 2]) / fc], [0.0, 0.0, kt[0, 0] / fc]])
-    raise ValueError(f"口径只能是 F 或 Z，收到 {mode!r}")
+        k = 1.0
+    elif mode == "F":
+        k = float(kt[0, 0]) / float(kc[0, 0])
+    else:
+        raise ValueError(f"口径只能是 F 或 Z，收到 {mode!r}")
+    return k * np.linalg.inv(kt) @ kc
 
 
 def project(k: np.ndarray, X: np.ndarray) -> np.ndarray:
