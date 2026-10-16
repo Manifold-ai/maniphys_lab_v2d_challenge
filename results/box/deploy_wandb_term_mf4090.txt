@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/policy/wandb_term_mean.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 83277efe913fb9a2ec3822ea83201a71  stages/policy/wandb_term_mean.py
+# source   : 0fe2277e6337
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:13:30-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 0fe2277e6337；远端来历 b106c320bae6
+  ok   83277efe913fb9a2ec3822ea83201a71  stages/policy/wandb_term_mean.py
+远端来历（放完）b106c320bae6
+PUSH_OK（1 个文件）

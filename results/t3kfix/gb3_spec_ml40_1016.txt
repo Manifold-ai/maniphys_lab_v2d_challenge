@@ -1,0 +1,39 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"S=\\\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\;\ cd\ \\\$S\ \&\&\ python3\ -c\ \\\"import\ json\;\ d=json.load\(open\(\\\\\\\"runs/floor/intrinsics_gb3.json\\\\\\\"\)\)\;\ print\(json.dumps\(d\[\\\\\\\"intrinsics\\\\\\\"\]\,\ indent=1\)\)\;\ print\(json.dumps\(d.get\(\\\\\\\"source\\\\\\\"\,\ \{\}\)\,\ ensure_ascii=False\,\ indent=1\)\[:1800\]\)\\\"\;\ ls\ dev/register_check/\ 2\>/dev/null\;\ ls\ dev/register_check/vp\ 2\>/dev/null\ \|\ head\"\ \|\ tools/redact_stdin.sh 
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : c867c95d487e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:11:37-0600
+# ---------------------------------------------------------------
+{
+ "0": {
+  "f": 866.3,
+  "cx": 701.8,
+  "cy": 531.1
+ },
+ "1": {
+  "f": 866.3,
+  "cx": 701.8,
+  "cy": 531.1
+ },
+ "2": {
+  "f": 866.3,
+  "cx": 701.8,
+  "cy": 531.1
+ }
+}
+{
+ "0": "rxzhou ceiling-grid fit GB (p1-training stages/recovery/kfix/kt_gb.json; results/t3world/ceiling_grid_main9.txt), on the original 1536x1152 frames, distortion ignored; reproduced on the Tier 3 input 10-16 as 865.2/700.4/530.7",
+ "1": "same as group 0 (GB): checked 10-17 through the main view, the mutual-range scale 1.054 matches the height scale 1.053 under GB and not under CARI4D own intrinsics (t3_register_check.py, f3b3fca); user decision 10-17",
+ "2": "same as group 0 (GB), user decision 10-17 on indirect evidence: our ceiling-VP method gives 835.5 for ep21 against 842-852 (second) and 846 (main ep00, GB 866), so likely the same camera model; the floor and A-C distance checks could not tell GB from CARI4D own intrinsics on this camera (A-C 6.42 vs 6.37 m). Evidence insufficient but tested."
+}
+code
+libs
+register_check.json
+vp
+ceiling_vp.json
+ep00_tall_bar_stool_ceiling.jpg
+ep12_black_platform_ceiling.jpg
+ep14_round_table_ceiling.jpg
+ep16_spray_bottle_ceiling.jpg
+ep21_tall_bar_stool_ceiling.jpg
+ep25_cyan_water_bottle_ceiling.jpg
