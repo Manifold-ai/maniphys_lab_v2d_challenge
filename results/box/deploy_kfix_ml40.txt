@@ -1,0 +1,16 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix.py stages/recovery/t3_kfix_run.sh stages/recovery/kfix/kt_gb.json 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 8a882ce21e74c2fec00f8f7624349d61  stages/recovery/t3_kfix.py
+# md5      : 0ed8208216115d3dbb3a20eee352d673  stages/recovery/t3_kfix_run.sh
+# md5      : 1b8b8af19859bb67fa936a4a96e2ad45  stages/recovery/kfix/kt_gb.json
+# source   : 11d38b1c4303
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:06:50-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 11d38b1c4303；远端来历 e396fde1b00a
+  ok   8a882ce21e74c2fec00f8f7624349d61  stages/recovery/t3_kfix.py
+  ok   0ed8208216115d3dbb3a20eee352d673  stages/recovery/t3_kfix_run.sh
+  ok   1b8b8af19859bb67fa936a4a96e2ad45  stages/recovery/kfix/kt_gb.json
+远端来历（放完）e396fde1b00a
+PUSH_OK（3 个文件）

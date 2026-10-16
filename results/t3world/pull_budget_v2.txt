@@ -1,0 +1,12 @@
+# command  : bash -c set\ -eo\ pipefail\;\ T=/lab_data/<其他用户>/v2d/tier3/runs\;\ for\ d\ in\ ep00_tall_bar_stool\ ep18_blue_trash_can\ ep20_rice_cooker\ ep22_step_ladder\ ep24_watering_can\ ep26_skateboard\ ep29_rolling_luggage\;\ do\ e=\$\(\(10#\$\{d:2:2\}\)\)\;\ p=\$\(printf\ \"episode_%06d.parquet\"\ \$e\)\;\ mkdir\ -p\ runs/t3world/budget_v2/\$d\;\ cp\ runs/t3world/budget/\$d/object_cam.npz\ runs/t3world/budget/\$d/world_calib.json\ runs/t3world/budget/\$d/focal_calib.json\ runs/t3world/budget_v2/\$d/\;\ ssh\ -o\ BatchMode=yes\ ml40\ \"cat\ \$T/tier3_cari4d_f830_floor/data/chunk-000/\$p\"\ \>\ runs/t3world/budget_v2/\$d/\$p\;\ r=\$\(ssh\ -o\ BatchMode=yes\ ml40\ \"sha256sum\ \$T/tier3_cari4d_f830_floor/data/chunk-000/\$p\"\ \|\ cut\ -c1-64\)\;\ l=\$\(shasum\ -a\ 256\ runs/t3world/budget_v2/\$d/\$p\ \|\ cut\ -c1-64\)\;\ \[\ \"\$r\"\ =\ \"\$l\"\ \]\ \&\&\ echo\ \"ok\ \$d\ \$p\ \$\{l:0:16\}\"\ \|\|\ \{\ echo\ MISMATCH\ \$d\;\ exit\ 1\;\ \}\;\ done 
+# source   : 4673e22b57fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:11:49-0600
+# ---------------------------------------------------------------
+ok ep00_tall_bar_stool episode_000000.parquet d317b35476395f3a
+ok ep18_blue_trash_can episode_000018.parquet 57fe80b25d9a27a3
+ok ep20_rice_cooker episode_000020.parquet c4fa07bb0fac1bbf
+ok ep22_step_ladder episode_000022.parquet 22d46e2d460db3b7
+ok ep24_watering_can episode_000024.parquet 31a5a65c3bb5eda3
+ok ep26_skateboard episode_000026.parquet 101bb1d5c21f7751
+ok ep29_rolling_luggage episode_000029.parquet d6314f1ddf3c6d2a

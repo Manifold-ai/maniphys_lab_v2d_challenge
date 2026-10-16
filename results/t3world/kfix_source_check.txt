@@ -1,0 +1,14 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/recovery/t3_kfix_source_check.py 
+# md5      : 2f0e01e20bdfc54bbad3c9a5cf3a67cf  stages/recovery/t3_kfix_source_check.py
+# source   : 4673e22b57fd-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:12:34-0600
+# ---------------------------------------------------------------
+  ok   ep00_tall_bar_stool：可见帧 778，焦距比 1.013529，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep18_blue_trash_can：可见帧 858，焦距比 0.984506，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep20_rice_cooker：可见帧 553，焦距比 0.998267，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep22_step_ladder：可见帧 719，焦距比 1.016564，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep24_watering_can：可见帧 748，焦距比 0.999141，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep26_skateboard：可见帧 669，焦距比 1.016584，世界步缩放 0.9856，位置最大差 1.19e-07 m
+  ok   ep29_rolling_luggage：可见帧 467，焦距比 1.016317，世界步缩放 0.9856，位置最大差 1.19e-07 m
+KFIX_SOURCE_OK 7

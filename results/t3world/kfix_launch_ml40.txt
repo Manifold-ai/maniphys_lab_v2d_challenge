@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ test\ -x\ /lab_data/<其他用户>/v2d/venv/bin/python\ \&\&\ test\ -r\ /lab_data/<其他用户>/v2d/soma_assets\ \&\&\ test\ \!\ -e\ /lab_data/rxzhou/v2d/tier3_kfix/F\ \&\&\ T3_SRC=/lab_data/<其他用户>/v2d/tier3\ T3_PY=/lab_data/<其他用户>/v2d/venv/bin/python\ T3_SOMA_ASSETS=/lab_data/<其他用户>/v2d/soma_assets\ setsid\ nohup\ stages/recovery/t3_kfix_run.sh\ \>\ /dev/null\ 2\>\&1\ \<\ /dev/null\ \&\ sleep\ 45\;\ tail\ -6\ /lab_data/rxzhou/v2d/tier3_kfix/kfix_run.log\ \|\ cut\ -c1-260 
+# md5      : 0ed8208216115d3dbb3a20eee352d673  stages/recovery/t3_kfix_run.sh
+# source   : 4673e22b57fd
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:08:11-0600
+# ---------------------------------------------------------------
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== 2026-10-16 19:08:12 CST 开始；仓库 ；她的部署 5e989e2487e252e7720c63e872aafa073c4a71b2 dirty=0 (deploy_l40s.sh: stages/recovery/tier3 libs/v2d_infra) 2026-10-16 13:48:06 CST；KT stages/recovery/kfix/kt_gb.json（sha256 453afc35c41c3b7b）
+主机位 24 集：ep00_tall_bar_stool ep01_vacuum ep02_blue_easter_basket ep03_contigo_coffee_mug ep04_baseball_bat ep05_big_black_box ep06_monitor ep07_iron ep08_skinny_wood_chair ep09_big_red_bowl ep10_white_desk ep11_light_blue_book ep13_snack_box ep15_wet
