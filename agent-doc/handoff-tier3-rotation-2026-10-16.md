@@ -127,6 +127,12 @@ ep13 13→8、ep03 3→2。对照帧：ep04 313/509/669（CoCoNet 头尾颠倒�
 像是落到了正确一侧；ep03 第 451 帧新初值与 CoCoNet 差 162°（原 FP 128°）。原先把 451 当作「CoCoNet 对、会被带坏」的反例，
 10-16 发现 hm/CoCoNet 在 451 本身上下颠倒，这个反例作废；451 的正确朝向要看试点输出的贴图渲染。
 
+**判据（10-16 14:00 登记，试点出结果前定死）**：试点有效要同时满足——ep04 第 313/509/669 帧球棒翻正、ep03 第 117/131/345 帧不被改坏（用户看
+`t3_pose_overlay.py` 坐标色图确认，对照 `checked_frames.json`）；被替换段内 CoCoNet（06）单帧 > 24° 跳变明显减少（`t3_pilot_compare.py`）；
+轮廓 IoU 不变差。有效则对选择表里 `fp` 的 13 集重建初值、从 06 重跑（08 渲染可省，约 4–5 h GPU，与 rxzhou 错开），转换、组装新 best（其余 16 集
+不动），再走 v3 支撑面 → dr2s 方法 → dyn7 → 自检 → `t3_deliver.sh`。修不了：长不可靠段（ep02，> 60 帧跳过）、FoundationPose 自信地错的帧
+（ep03 第 451 帧），要靠每帧留多候选、全时间线选择。
+
 **状态与恢复**：等卡日志 `$T/logs/t3_yield_wait.log`（末行 WAIT DONE），试点日志 `$T/logs/t3_init_pilot.log`（末行 INIT PILOT DONE），
 集顺序 ep13、ep28、ep04、ep03。进程 `pgrep -af t3_yield_wait`。断了重挂（已完成的集跳过）：
 ```
