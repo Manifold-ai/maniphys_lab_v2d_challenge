@@ -72,15 +72,17 @@ def main() -> None:
         f = crop_dir / f"det_{side}_{ep}.json"
         if f.exists():
             boxes += [{k: (b + off if k in ("x0", "x1") else b) for k, b in x["box"].items()} for x in json.loads(f.read_text()) if "tripod" in x["label"]]
-    feet = []
+    feet, feet_box = [], []
     for b in boxes:
         p = on_floor(((b["x0"] + b["x1"]) / 2, b["y1"]))
         if all(np.linalg.norm(p - q) > DUP_M for q in feet):
             feet.append(p)
+            feet_box.append({k: round(float(x)) for k, x in b.items()})
     cam = max((x for x in dets if x["label"].strip() == "camera"), key=lambda x: x["confidence"])
     cx = (cam["box"]["x0"] + cam["box"]["x1"]) / 2
     sighted = on_floor((cx, max(b["y1"] for b in boxes if b["x0"] - 5 <= cx <= b["x1"] + 5)))
-    others = [p for p in feet if np.linalg.norm(p - sighted) > DUP_M]
+    others_idx = [k for k, p in enumerate(feet) if np.linalg.norm(p - sighted) > DUP_M]
+    others = [feet[k] for k in others_idx]
     ac = float(np.linalg.norm(C - A))
     pairs = sorted(((abs(float(np.linalg.norm(p - q)) - ac), i, j) for i, p in enumerate(others) for j, q in enumerate(others) if i < j))
     if not pairs:
@@ -99,6 +101,7 @@ def main() -> None:
 
     chosen, mirrored = solve(left == "A"), solve(left != "A")
     res = {"episode": ep, "group": group, "feet_m": [p.round(3).tolist() for p in feet], "sighted_m": sighted.round(3).tolist(),
+           "pair_boxes": [feet_box[others_idx[i]], feet_box[others_idx[j]]],
            "pair_m": [pl.round(3).tolist(), pr.round(3).tolist()], "pair_separation_m": round(float(np.linalg.norm(pr - pl)), 3),
            "ac_m": round(ac, 3), "chosen": chosen, "mirrored": mirrored}
     print(json.dumps(res))
