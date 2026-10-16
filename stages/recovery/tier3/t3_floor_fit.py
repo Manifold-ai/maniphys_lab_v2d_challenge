@@ -18,7 +18,9 @@ MoGe's floor normal (t3 MoGe ground probe, also Tier 3) and fits only the offset
 Validation without reference: for every episode with events, the correction fitted with that episode left out is
 applied to its own contact points; their height above the released plane should be near zero at every depth.
 
-    python t3_floor_fit.py <tier3 root> <out .json>
+    python t3_floor_fit.py <tier3 root> <out .json> [convert dir under runs/, default convert]
+The convert dir names whose focal step is fitted (10-16: runs/convert_kgb holds the focal step under the calibrated
+main-camera intrinsics, runs/convert the f 830 one).
 """
 
 import json
@@ -63,6 +65,7 @@ def correction(n_ours: np.ndarray, d_ours: float, n_rel: np.ndarray, d_rel: floa
 
 def main() -> None:
     root, out = Path(sys.argv[1]), Path(sys.argv[2])
+    conv_dir = root / "runs" / (sys.argv[3] if len(sys.argv) > 3 else "convert")
     groups = json.loads((root / "runs/camera_groups/camera_groups.json").read_text())["groups"]
     metas = {f"ep{m['episode_index']:02d}_{m['object']}": m for m in
              map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
@@ -85,7 +88,7 @@ def main() -> None:
             name = e["episode"]
             if name not in cache:
                 m = metas[name]
-                cache[name] = (np.load(root / "runs/convert" / name / "object_cam_focal.npz")["T_cam_glb"],
+                cache[name] = (np.load(conv_dir / name / "object_cam_focal.npz")["T_cam_glb"],
                                np.asarray(trimesh.load(root / "input" / m["mesh"], force="mesh").convex_hull.vertices, np.float64))
             poses, hull = cache[name]
             t = poses[e["frame"]]
