@@ -4,6 +4,7 @@
 #   t3p*  Tier 3 试跑，mf4090（计划 agent-doc/plan-t3-pilot-2026-10-09.md；t3p2 是第二轮，计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）
 #   t1x*  Tier 1 补候选，mf4090，同 t3p* 的显存上限、磁盘要求与冒烟后删 state（计划 agent-doc/plan-next-training-2026-10-12.md 第 3 节 A）
 #   t1y*  Tier 1 补候选，ml40，同 t2x*（同计划第 3 节 C）
+#   t1c*  Tier 1 接触标记提前，ml40，同 t1y*；参考目录是 runs/motion/tier1_c10（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）
 #   t1o*、t2o*  r3o 试点（计划 agent-doc/plan-r3o-2026-10-15.md）：t1o* 同 t1x*（mf4090），t2o* 同 t2x*（ml40）；训练挂 v040_p185_nfg_oo、按
 #         third_party/patches/flash_chord-p185-nfg-oo.sha256 核对；冒烟与正式队列每行都要带 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4、run 名带 -r3o-；
 #         其余段一行都不许带 V2D_OBJ_ORI_ 或 -r3o-（训练副本 v040_p185_nfg 不认这两个变量，带了也是白带）
@@ -41,7 +42,8 @@ case "$N" in
   t1o*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # r3o（计划 agent-doc/plan-r3o-2026-10-15.md）
   t2o*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; COPY=v040_p185_nfg_oo ;;
-  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o 或 t2o 开头" >&2; exit 2 ;;
+  t1c*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 接触标记提前（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）
+  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o、t2o 或 t1c 开头" >&2; exit 2 ;;
 esac
 COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
 [ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256

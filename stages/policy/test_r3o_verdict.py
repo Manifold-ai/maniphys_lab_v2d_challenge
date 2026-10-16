@@ -37,6 +37,20 @@ def case(ctl_mp: float, lost: list, drop: bool = False) -> subprocess.CompletedP
                               capture_output=True, text=True, check=False)
 
 
+def case_nc(lost: list) -> subprocess.CompletedProcess:
+    """没有对照的一节（C1 的写法）。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        spec = {"C1": {"tier": 1, "control": None, "lost": {}}}
+        for i, (mp, sp, obj) in enumerate(lost):
+            run = f"lost{i}"
+            spec["C1"]["lost"][run] = {"baseline_run": f"b{i}", "baseline_obj_fail": 1.0, "baseline_sp": 0.0}
+            ev(root, run, mp, sp, obj)
+        (root / "spec.json").write_text(json.dumps(spec))
+        return subprocess.run([sys.executable, str(TOOL), "C1", "--root", str(root), "--spec", str(root / "spec.json")],
+                              capture_output=True, text=True, check=False)
+
+
 def last(r: subprocess.CompletedProcess) -> str:
     return r.stdout.strip().splitlines()[-1]
 
@@ -61,4 +75,15 @@ if __name__ == "__main__":
     r = case(0.84, [none] * 7, drop=True)
     assert r.returncode == 2 and last(r) == "R3O_VERDICT_ERROR", r.stdout
     print("  6. 少一个评测文件 → 退出码 2")
+    r = case_nc([(0.35, 0.4, 0.5), (0.0, 0.0, 1.0), (0.0, 0.0, 1.0), (0.0, 0.0, 1.0)])
+    assert last(r) == "R3O_VERDICT 有用" and "没有对照" in r.stdout, r.stdout
+    r = case_nc([(0.12, 0.0, 1.0), (0.0, 0.35, 1.0), (0.0, 0.0, 1.0), (0.0, 0.0, 1.0)])
+    assert last(r) == "R3O_VERDICT 看不清", r.stdout
+    r = case_nc([(0.12, 0.0, 1.0), (0.0, 0.0, 1.0), (0.0, 0.0, 1.0), (0.0, 0.0, 1.0)])
+    assert last(r) == "R3O_VERDICT 没用", r.stdout
+    print("  C1（没有对照）：修好 1 集有用；有起色 2 集看不清；有起色 1 集没用")
+    import json as _json
+    real = _json.loads((Path(__file__).resolve().parent / "r3o_verdict.json").read_text(encoding="utf-8"))
+    assert real["C1"]["control"] is None and len(real["C1"]["lost"]) == 4
+    assert all(k.endswith("-r3a-c10-ml40") for k in real["C1"]["lost"]), real["C1"]["lost"]
     print("ALL_OK")

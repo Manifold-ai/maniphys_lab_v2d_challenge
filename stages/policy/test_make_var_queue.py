@@ -415,6 +415,18 @@ def test_r3o_parts():
         assert not any("V2D_OBJ_ORI_" in x for x in lines(q / "mf4090_t1xa.txt") + lines(q / "mf4090_t1xa_smoke.txt"))
 
 
+def test_t1c_part():
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        sel = root / "stages" / "evaluate" / "exports" / "t1_select_r3x.tsv"
+        sel.write_text(sel.read_text().replace("t1-ep25-w2048-cap10m-ml40", "t1-ep25-w2048-cap10m-r3a-ml40"))
+        p = gen(root, "t1c")
+        assert p.returncode == 0, p.stdout + p.stderr
+        check_set(root, "t1c", [25, 28, 11, 1], "t1-ep{ep}-w2048-cap10m-r3a-c10-ml40", 1, "10000000", None, "t1c", "ml40", motion="tier1_c10")
+        f = lines(root / "stages" / "policy" / "queues" / "ml40_t1c.txt")
+        assert all("/runs/motion/tier1_c10/" in x and "/runs/motion/tier1/" not in x and "V2D_OBJ_ORI_" not in x for x in f), f
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
