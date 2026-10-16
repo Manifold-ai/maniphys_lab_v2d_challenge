@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg_oo stages/policy/fc_config_check.sh stages/policy/queues/mf4090_t1ob_smoke.txt stages/policy/queues/mf4090_t1ob.txt 2>&1 | grep -vE "^  �\221�令" | grep -E "^== |�\204\217�\226|核对�\200\232�\207|核对�\215�\207|失败" | tail -14' 
+# md5      : 0aa74f6358dcf0101a2333f8de78ed85  stages/policy/fc_config_check.sh
+# md5      : a8ef9bdc32ede697cd2d7600617bef4d  stages/policy/queues/mf4090_t1ob_smoke.txt
+# md5      : bbc9b32b13765087baea7c911889ce97  stages/policy/queues/mf4090_t1ob.txt
+# source   : e1bcfb45c435
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:15:18-0600
+# ---------------------------------------------------------------
+source b106c320bae6
+  共 284 个键；与官方配方不同 16 个，其中意外 0 个
+== smoke-t1-ep1-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 16 个，其中意外 0 个
+== smoke-t1-ep2-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 16 个，其中意外 0 个
+== t1-ep4-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 16 个，其中意外 0 个
+== t1-ep9-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== t1-ep1-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== t1-ep2-w2048-cap4m-r3o-mf4090
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== 配置核对通过

@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd /home/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && nvidia-smi --query-compute-apps=pid --format=csv,noheader | sed "s/^/gpu �\233�\213 /"; stages/policy/arm_var_chain.sh t1ob 2>&1 | tail -6 && sleep 5 && tmux ls | grep t1ob && ls runs/.chain-active-* && tail -2 runs/logs/t1ob_train_mf4090.log | cut -c1-200' 
+# md5      : f9c72698964306179cd0de79601449f1  stages/policy/arm_var_chain.sh
+# source   : e1bcfb45c435
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:19:13-0600
+# ---------------------------------------------------------------
+source b106c320bae6
+t1ob_eval_mf4090：=== 2026-10-16 16:19:18 CST 等 runs/logs/t1ob_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1ob_mf4090：
+runs/.chain-active-cand_t1_t1ob_mf4090-gate
+runs/.chain-active-t1ob_eval_mf4090
+runs/.chain-active-t1ob_train_mf4090
+ARMED
+v2d-t1ob-eval: 1 windows (created Fri Oct 16 16:19:18 2026)
+v2d-t1ob-export: 1 windows (created Fri Oct 16 16:19:20 2026)
+v2d-t1ob-train: 1 windows (created Fri Oct 16 16:19:16 2026)
+runs/.chain-active-cand_t1_t1ob_mf4090-gate
+runs/.chain-active-t1ob_eval_mf4090
+runs/.chain-active-t1ob_train_mf4090
+=== 2026-10-16 16:19:18 CST 正向核对：4 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-16 16:19:18 CST 冒烟 smoke-t1-ep4-w2048-cap4m-r3o-mf4090

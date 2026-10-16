@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ V2D_ARM_DRYRUN=1\ stages/policy/arm_var_chain.sh\ t2ob\ 2\>\&1\ \|\ tail\ -6 
+# md5      : f9c72698964306179cd0de79601449f1  stages/policy/arm_var_chain.sh
+# source   : e1bcfb45c435
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:19:28-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+核对：t2ob 在 ml40，5 条 run，来历 e396fde1b00a，可用 1307259 MB，训练副本 v040_p185_nfg_oo，10 份配置的 precheck 与配方断言全过
+预演，不起会话：
+  train:  V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo V2D_GPU_WAIT_S=21600 stages/policy/day2_train_chain.sh stages/policy/queues/ml40_t2ob.expect.tsv stages/policy/queues/ml40_t2ob_smoke.txt stages/policy/queues/ml40_t2ob.txt 44000 t2ob_train_ml40
+  eval:   V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_GPU_WAIT_S=21600 V2D_EVAL_STEPS=349999104 V2D_WAIT_FOR_LOG=runs/logs/t2ob_train_ml40.log stages/evaluate/day2_eval_chain.sh stages/policy/queues/ml40_t2ob.expect.tsv - t2ob_eval_ml40
+  export: V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9 V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/t2ob_eval_ml40.log stages/evaluate/exports/cand_t2_t2ob_ml40.tsv cand_t2_t2ob_ml40
+DRYRUN_OK

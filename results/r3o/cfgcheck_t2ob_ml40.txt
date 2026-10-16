@@ -1,0 +1,25 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo stages/policy/fc_config_check.sh stages/policy/queues/ml40_t2ob_smoke.txt stages/policy/queues/ml40_t2ob.txt 2>&1 | grep -vE "^  �\221�令" | grep -E "^== |�\204\217�\226|核对�\200\232�\207|核对�\215�\207|失败" | tail -16' 
+# md5      : 0aa74f6358dcf0101a2333f8de78ed85  stages/policy/fc_config_check.sh
+# md5      : 2f5c39964eb97a224fa3e1b6a97b099c  stages/policy/queues/ml40_t2ob_smoke.txt
+# md5      : de99a7e09f786d8e2076a594b71feb00  stages/policy/queues/ml40_t2ob.txt
+# source   : e1bcfb45c435
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:16:46-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== smoke-t2-ep2-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== smoke-t2-ep11-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== t2-ep4-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== t2-ep17-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== t2-ep9-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== t2-ep2-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== t2-ep11-w2048-cap10m-r3o-ml40
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== 配置核对通过

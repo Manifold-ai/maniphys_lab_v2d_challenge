@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && echo source $(cat .v2d-source-commit) && nvidia-smi --query-compute-apps=pid --format=csv,noheader | sed "s/^/gpu �\233�\213 /"; stages/policy/arm_var_chain.sh t2ob 2>&1 | tail -6 && sleep 5 && tmux ls | grep t2ob && ls runs/.chain-active-* && tail -2 runs/logs/t2ob_train_ml40.log | cut -c1-200' 
+# md5      : f9c72698964306179cd0de79601449f1  stages/policy/arm_var_chain.sh
+# source   : e1bcfb45c435
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T02:19:39-0600
+# ---------------------------------------------------------------
+source e396fde1b00a
+t2ob_eval_ml40：=== 2026-10-16 16:19:46 CST 等 runs/logs/t2ob_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t2_t2ob_ml40：
+runs/.chain-active-cand_t2_t2ob_ml40-gate
+runs/.chain-active-t2ob_eval_ml40
+runs/.chain-active-t2ob_train_ml40
+ARMED
+v2d-t2ob-eval: 1 windows (created Fri Oct 16 16:19:46 2026)
+v2d-t2ob-export: 1 windows (created Fri Oct 16 16:19:48 2026)
+v2d-t2ob-train: 1 windows (created Fri Oct 16 16:19:44 2026)
+runs/.chain-active-cand_t2_t2ob_ml40-gate
+runs/.chain-active-t2ob_eval_ml40
+runs/.chain-active-t2ob_train_ml40
+=== 2026-10-16 16:19:48 CST 正向核对：5 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-16 16:19:48 CST 冒烟 smoke-t2-ep4-w2048-cap10m-r3o-ml40
