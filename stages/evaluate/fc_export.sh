@@ -46,14 +46,16 @@ if [ "${V2D_EXPORT_UNGUARDED:-0}" != 1 ]; then
     || die "$RUN 第 ${STEP} 步的 policy 含非有限参数、读不了或还没写完：不导出（$(grep -F ' 步：' <<< "$nf" | head -1 | sed 's/^ *//')）" 12
 fi
 
-read -r PT DN SEQ <<< "$(python3 - "$O/run_record.jsonl" <<'PY'
+read -r PT DN SEQ <<< "$(python3 - "$O/run_record.jsonl" "$RUN" <<'PY'
 import json, re, sys
 for line in open(sys.argv[1]):
     r = json.loads(line)
     if r.get("event") == "start":
-        m = re.fullmatch(r"/repo/runs/motion/(tier[12]|tier3(?:_[a-z0-9]+)?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet",
+        m = re.fullmatch(r"/repo/runs/motion/(tier[123](?:_([a-z0-9]+))?)/whole_body/soma/sequence_id=([^/]+)/robot_name=g1/data\.parquet",
                          r.get("parquet", ""))
-        print(f"{m.group(1)[4]} {m.group(1)} {m.group(2)}" if m else "? ? ?")
+        # 带后缀的目录（tier3_<名>，10/16 起也有 tier1_<名>）：run 名要含 -<名>-，同 precheck_expect.sh
+        ok = m and (not m.group(2) or f"-{m.group(2)}-" in sys.argv[2])
+        print(f"{m.group(1)[4]} {m.group(1)} {m.group(3)}" if ok else "? ? ?")
         break
 PY
 )"

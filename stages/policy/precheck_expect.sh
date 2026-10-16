@@ -6,8 +6,10 @@
 # 档位取自 run 名的 t<档位>- 前缀（冒烟与正式必须一致），parquet 必须在 /repo/runs/motion/tier<档位>/ 下：只核 sequence_id 时，
 # t2 的 run 指到 tier1 的同名序列也会过（计划 agent-doc/plan-t2-batch-2026-10-01.md）。队列行里有 V2D_FC_SRC= 也算不过（除非 V2D_ALLOW_FC_SRC=1）。
 # 档位目录取自队列行的 parquet：tier1、tier2、tier3，或 Tier 3 校正版的 tier3_<名>（libs/v2d_infra/paths.py 的 tier_dirname；
-# 计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）。目录里的档位数字必须与 run 名一致、序列必须与期望表一致；带 _<名> 的只许 Tier 3，
-# 且 run 名里要有 -<名>-（例如 t3-ep8-w2048-cap4m-r3a-v2-mf4090 对 tier3_v2），免得两版参考对错 run。断言用的就是这个目录。
+# 计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md）。目录里的档位数字必须与 run 名一致、序列必须与期望表一致；带 _<名> 的目录
+# run 名里要有 -<名>-（例如 t3-ep8-w2048-cap4m-r3a-v2-mf4090 对 tier3_v2），免得两版参考对错 run。断言用的就是这个目录。
+# 10/16 起 Tier 1、2 也许带后缀的目录（如 tier1_c10：只改训练用的接触标记，计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）；
+# 档位数字相等这一条照旧，Tier 2 的 run 指不到 tier1_*。
 # 训练链 day2_train_chain.sh 的第 1 步就是调用本脚本，两处断言只在这里维护一份。
 # 用法：stages/policy/precheck_expect.sh <期望表> <冒烟队列> <正式队列>；全过退出码 0，最后一行 PRECHECK_OK（n 条 run）。
 set -uo pipefail
@@ -40,8 +42,8 @@ for row in "${ROWS[@]}"; do
     else
       echo "FAIL ${r}：队列行的 parquet 不在 /repo/runs/motion/<档位目录>/ 下：$pq"; bad=$((bad + 1)); continue
     fi
-    if [ "${dir:4:1}" != "$T" ] || [ "$qseq" != "$seq" ] || { [ -n "$tag" ] && { [ "$T" != 3 ] || [[ $run != *"-${tag#_}-"* ]]; }; }; then
-      echo "FAIL ${r}：队列行 parquet 的目录 ${dir}、序列 $qseq 与 run 名的 t${T}、期望表的序列 $seq 不符（带后缀的目录只许 Tier 3，且 run 名要含 -${tag#_}-）"
+    if [ "${dir:4:1}" != "$T" ] || [ "$qseq" != "$seq" ] || { [ -n "$tag" ] && [[ $run != *"-${tag#_}-"* ]]; }; then
+      echo "FAIL ${r}：队列行 parquet 的目录 ${dir}、序列 $qseq 与 run 名的 t${T}、期望表的序列 $seq 不符（目录的档位数字要与 run 名一致；带后缀的目录，run 名要含 -${tag#_}-）"
       bad=$((bad + 1)); continue
     fi
     if [ "$r" = "$run" ] && [ "$steps" != 349999104 ]; then echo "FAIL ${r}：正式步数 $steps"; bad=$((bad + 1)); continue; fi

@@ -3,8 +3,9 @@
 临时目录里放真的 precheck_expect.sh；in-flash-chord 是桩：把收到的命令记进 calls.txt，打印 ASSERT_OK、退出码 0。每种情形一张期望表、一条 run：
   1. t3 第一轮的写法（tier3/）：PRECHECK_OK，断言里的 parquet 是 /repo/runs/motion/tier3/…
   2. t3 校正版（tier3_v2/，run 名含 -v2-）：PRECHECK_OK，断言里的 parquet 是 /repo/runs/motion/tier3_v2/…
-  3. tier3_v2/ 但 run 名不含 -v2-、t2 的 run 指到 tier1/ 或 tier2_v2/、t3 的 run 指到 tier1/、队列行的序列与期望表不同、parquet 不在 runs/motion 下：
-     PRECHECK_FAIL，这条 run 不调 in-flash-chord
+  3. tier3_v2/ 但 run 名不含 -v2-、t2 的 run 指到 tier1/ 或 tier1_c10/、t1 的 run 指到 tier1_c10/ 而 run 名不含 -c10-、t3 的 run 指到 tier1/、队列行的序列与期望表不同、parquet 不在 runs/motion 下：
+     PRECHECK_FAIL，这条 run 不调 in-flash-chord；
+  4. t1 的 run 名含 -c10-、指到 tier1_c10/（10/16 起 Tier 1 也许带后缀的目录）：PRECHECK_OK。
 用法：python3 stages/policy/test_precheck_expect.py
 """
 import shutil
@@ -58,12 +59,18 @@ def test_mismatch_refuses():
     for run, parquet in (("t3-ep8-w2048-cap4m-r3a-mf4090", pq("tier3_v2")),
                          ("t2-ep8-w2048-cap10m-r3a-ml40", pq("tier1")),
                          ("t3-ep8-w2048-cap4m-r3a-mf4090", pq("tier1")),
-                         ("t2-ep8-w2048-cap10m-r3a-v2-ml40", pq("tier2_v2")),
+                         ("t2-ep8-w2048-cap10m-r3a-c10-ml40", pq("tier1_c10")),
+                         ("t1-ep8-w2048-cap10m-r3a-ml40", pq("tier1_c10")),
                          ("t3-ep8-w2048-cap4m-r3a-v2-mf4090", pq("tier3_v2", "2026-05-29_15-43-20_watering_can_pour_right_02")),
                          ("t3-ep8-w2048-cap4m-r3a-v2-mf4090", f"/repo/runs/other/tier3_v2/sequence_id={SEQ}/robot_name=g1/data.parquet")):
         rc, out, calls = check(run, parquet)
         assert rc == 1 and "PRECHECK_FAIL" in out and not calls, (run, parquet, out, calls)
 
+
+def test_tier1_suffix_dir():
+    rc, out, calls = check("t1-ep8-w2048-cap10m-r3a-c10-ml40", pq("tier1_c10"))
+    assert rc == 0 and out.rstrip().endswith("PRECHECK_OK（1 条 run）"), out
+    assert calls.count(f"task.parquet~={pq('tier1_c10')}") == 2, calls
 
 if __name__ == "__main__":
     ver = subprocess.run(["bash", "-c", "echo ${BASH_VERSINFO[0]}"], capture_output=True, text=True).stdout.strip()

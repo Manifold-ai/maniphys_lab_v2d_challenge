@@ -12,7 +12,8 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
   7. V2D_EXPORT_DRYRUN=1：守卫照常（含 NaN 的仍是 12），通过时只打印命令、退出码 0，不起容器、不写文件；
   8. 摘要脚本出错不改变导出的退出码；
   9. Tier 3 校正版（agent-doc/plan-t3-pilot-v2-2026-10-10.md）：parquet 在 runs/motion/tier3_v2/ 下时，v2d_meta.json 到 runs/motion_src/tier3_v2/
-     找（tier3/ 下第一轮那份不读）；目录名大写、空后缀或 Tier 1、2 带后缀都拒绝，退出码 2。
+     找（tier3/ 下第一轮那份不读）；目录名大写、空后缀、档位与 run 名不符、带后缀而 run 名不含 -<名>- 都拒绝，退出码 2；
+     10/16 起 Tier 1 带后缀的目录（tier1_c10，run 名含 -c10-）照常导出（test_tier1_suffix_dir）。
  10. V2D_EXPORT_SUFFIX（agent-doc/plan-first-place-2026-10-14.md 选项零）：已有不带后缀的结果时，带后缀照样重新导出到 s<步数>_w1_<名>/、
      日志名与 hydra.run.dir 也带后缀，原来那份不动；预演打印带后缀的路径、不建目录；不带后缀时行为不变；后缀不合格式（没有下划线、大写、
      斜杠、超过 16 个字符）退出码 2，不起容器。
@@ -199,10 +200,25 @@ def test_t3_set_dir() -> None:
         rc, text, calls = run(root, run_name=r3)
         assert rc == 0 and (d / f"export_8c778f9/s{STEP}_w1/episode_000024.json").is_file(), (rc, text)
         assert not (d / f"export_8c778f9/s{STEP}_w1/episode_000099.json").exists(), text
-        for bad in ("tier3_V2", "tier3_", "tier2_v2"):
+        for bad in ("tier3_V2", "tier3_", "tier2_v2", "tier3_kfix"):
             (d / "run_record.jsonl").write_text(json.dumps({"event": "start", "parquet": pq3.replace("tier3_v2", bad)}) + "\n")
             rc, text, calls = run(root, run_name=r3)
             assert rc == 2 and not calls, (bad, rc, text)
+
+
+def test_tier1_suffix_dir() -> None:
+    """10/16 起 Tier 1 也许带后缀的参考目录（tier1_c10），run 名要含 -c10-；不含就拒绝，退出码 2。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        pq1 = f"/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id={SEQ}/robot_name=g1/data.parquet"
+        (root / f"runs/motion_src/tier1_c10/{SEQ}").mkdir(parents=True)
+        (root / f"runs/motion_src/tier1_c10/{SEQ}/v2d_meta.json").write_text(json.dumps({"tier": 1, "episode": 6, "sequence_id": SEQ}))
+        for name, want in (("t1-ep6-w2048-cap4m-r3a-c10-mf4090", 0), ("t1-ep6-w2048-cap4m-r3a-mf4090", 2)):
+            d = root / "runs/flash_chord" / name
+            shutil.copytree(root / f"runs/flash_chord/{RUN}", d)
+            (d / "run_record.jsonl").write_text(json.dumps({"event": "start", "parquet": pq1}) + "\n")
+            rc, text, calls = run(root, run_name=name)
+            assert rc == want and (bool(calls) == (want == 0)), (name, rc, text)
 
 
 def test_suffix() -> None:
