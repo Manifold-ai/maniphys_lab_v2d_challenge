@@ -1,0 +1,81 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "planes": {
+      "file": "results/t3kfix/released_planes_by_group.txt",
+      "grep": "主机位|二机位|侧机位"
+    },
+    "resid": {
+      "file": "results/t3kfix/floor_group_residual_ml40_1016.txt",
+      "grep": "组 "
+    },
+    "fail": {
+      "file": "results/t3kfix/gb3_world_fail_ml40_1016.txt",
+      "grep": "world_gb3_all|去重计数|command not found|arrays are not exported"
+    },
+    "noise": {
+      "file": "agent-doc/experiments/2026-09-28-day2.md",
+      "grep": "恒等覆盖核对通过|同一 checkpoint 两次评测"
+    }
+  },
+  "claims": [
+    {
+      "id": "planes_same",
+      "evidence": [
+        "planes"
+      ],
+      "claim": "主机位 24 集、二机位 5 集、侧机位 1 集的发布地面，俯仰都在 2.94° 到 3.36° 之间，横滚都在 −1.26° 到 −1.00° 之间，|d| 都在 1.381 m 到 1.396 m 之间。"
+    },
+    {
+      "id": "resid_g0",
+      "evidence": [
+        "resid"
+      ],
+      "claim": "gb3 的地面拟合里，主机位组（组 0）的 tilt 是 1.222°，横滚差是 −1.20°，尺度是 0.984。"
+    },
+    {
+      "id": "resid_g1",
+      "evidence": [
+        "resid"
+      ],
+      "claim": "二机位组（组 1）的 tilt 在 gb3 里是 1.181°、俯仰差 −0.35°，在 kgb 里是 3.137°、俯仰差 +2.86°。"
+    },
+    {
+      "id": "fail_fixed",
+      "evidence": [
+        "fail"
+      ],
+      "claim": "t3_gb3_register.sh 的注释写明 bash 数组不能导出、所以把 docker 命令直接写出；重跑的 world_gb3_all.log 里 FAILED 0 行。"
+    },
+    {
+      "id": "fail_old",
+      "evidence": [
+        "fail"
+      ],
+      "claim": "各失败日志的内容按行去重计数，“environment: line 1: -v: command not found”这一行出现 39 次。"
+    },
+    {
+      "id": "noise",
+      "evidence": [
+        "noise"
+      ],
+      "claim": "同一 checkpoint 评两次，MP-SR 与 SP-SR 各差 0.013，MPPE 差 0.29 cm，add_auc 差 0.0028。"
+    },
+    {
+      "id": "ctl_true_second",
+      "evidence": [
+        "planes"
+      ],
+      "control": "true",
+      "claim": "二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。"
+    },
+    {
+      "id": "ctl_false_side",
+      "evidence": [
+        "planes"
+      ],
+      "control": "false",
+      "claim": "侧机位 ep21 的发布地面俯仰是 6.06°。"
+    }
+  ]
+}
