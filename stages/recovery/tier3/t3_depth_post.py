@@ -135,6 +135,11 @@ def main() -> None:
     runs = root / "runs"
     if (runs / out_v).exists() or (runs / f"{out_v}_suspect").exists():
         raise SystemExit(f"runs/{out_v} exists; pick a new name")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "libs" / "v2d_infra"))
+    from tier_guard import forbid_lower_tiers
+    forbid_lower_tiers()  # Tier 3: nothing from Tier 1 or Tier 2 (Kaggle 2.8.c)
+    import t3_provenance  # 10-16: record the code and inputs, as the other post-processes
+    prov = t3_provenance.stamp([root / "input", runs / version, runs / f"{version}_suspect", sel, sup_dir, phys])
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     convs = {r["episode"]: kv.get(r["episode"], r["convert"]) for r in json.loads(sel.read_text())}
     o_m, u_m, v_m = main_basis(root)
@@ -271,6 +276,8 @@ def main() -> None:
             report.append(row)
             print(json.dumps({kk: v for kk, v in row.items() if kk != "anchors"} | {"anchors": len(anchors)}), flush=True)
     (runs / f"{out_v}.depth_post.json").write_text(json.dumps(report, indent=1))
+    t3_provenance.write(runs / f"{out_v}.provenance.json", prov | {"made_by": "t3_depth_post.py", "from_version": version,
+                                                                     "supports": str(sup_dir), "move_human": human_mode})
 
 
 if __name__ == "__main__":
