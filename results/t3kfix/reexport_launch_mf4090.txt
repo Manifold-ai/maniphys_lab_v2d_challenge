@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && A=$(df -m --output=avail . | tail -1) && echo "�\217��\224� ${A} MB" && [ "$A" -ge 2500 ] && ! tmux has-session -t v2d-t3kfix-reexport 2>/dev/null && [ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] && echo "GPU 空" && tmux new-session -d -s v2d-t3kfix-reexport "V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9 scripts/dev/record t3kfix/reexport_mf4090 stages/evaluate/kfix_reexport.sh" && sleep 45 && tmux ls | cut -d: -f1 && cat results/t3kfix/reexport_mf4090.txt.partial | grep -a -v "^#" | head -20 | cut -c1-180' 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : 5e7e64db0ff93d5399f8e35b84c7f0e2  stages/evaluate/kfix_reexport.sh
+# source   : 151de5036926
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:21:38-0600
+# ---------------------------------------------------------------
+可用 79975 MB
+GPU 空
+v2d-t3kfix-reexport
+v2d-train
+== VM-1-2-ubuntu 2026-10-17 01:21:38 CST 来历 151de5036926；清单 stages/evaluate/exports/kfix_t3_mf4090.tsv（md5 f5831d1e6ee0d3cb1f3ea7f96ba5a083）
+参考 /repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet：sha256 efc4e5cca52dcc41ebaa85da20f1000711
+参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet：sha256 26b0e552eb8f5301171657ee871711c075c
+参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet：sha256 c40fda0c05f6d0ef9e0a5cab129e
+参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet：sha256 652ed5df05f079a860c36331cac759e10
+参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet：sha256 de787a541e25387fb25bb58d237244e6
+参考 /repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet：sha256 0ce297b02b1886ff6a90cf193c
+参考 /repo/runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet：sha256 64aad259b2b1f766288ee75d9bf15820c1c8
+预演全过（每行的每一步）
+=== 2026-10-17 01:21:42 CST t3-ep26-w2048-cap4m-r3a-v2-mf4090 349999104 plain _plain
+stages/evaluate/fc_export.sh: line 111: runs/logs/t3-ep26-w2048-cap4m-r3a-v2-mf4090.export_8c778f9_s349999104_w4096_plain.log: No such file or directory
+=== 2026-10-17 01:21:43 CST fc_export t3-ep26-w2048-cap4m-r3a-v2-mf4090 policy_349999104 episode 26 world_count=4096 traj=0 ===
