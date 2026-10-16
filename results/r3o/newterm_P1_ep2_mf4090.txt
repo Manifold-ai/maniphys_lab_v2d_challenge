@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ fs=\$\(ls\ runs/flash_chord/t1-ep2-w2048-cap4m-r3o-mf4090/wandb/run-\*/run-\*.wandb\ \|\ head\ -1\ \|\ sed\ s\,\^\,/repo/\,\)\;\ V2D_GPU=0\ scripts/dev/in-flash-chord\ \"python\ /repo/stages/policy/wandb_term_mean.py\ --key\ reward_components/object_orientation_weighted_mean_per_env_step\ \$fs\" 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 83277efe913fb9a2ec3822ea83201a71  stages/policy/wandb_term_mean.py
+# source   : d896f1c30b1d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:52:02-0600
+# ---------------------------------------------------------------
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/opt/venv/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+run-20261016_075119-t1-ep2-w2048-cap4m-r3o-mf4090-s1：段 7（stage_index 6）1538 行，均值 0.0165；段 8（stage_index 7）342 行，均值 0.0166；段 9（stage_index 8）855 行，均值 0.0163；合起来 0.0164
+WANDB_TERM_MEAN_DONE

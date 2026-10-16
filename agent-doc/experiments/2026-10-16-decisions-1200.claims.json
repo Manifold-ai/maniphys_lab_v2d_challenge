@@ -16,6 +16,10 @@
     "noise": {
       "file": "agent-doc/experiments/2026-09-28-day2.md",
       "grep": "恒等覆盖核对通过|同一 checkpoint 两次评测"
+    },
+    "world": {
+      "file": "results/t3kfix/kfix_vs_gb3_world_ml40_1016.txt",
+      "grep": "^ep|集；|DONE"
     }
   },
   "claims": [
@@ -60,6 +64,13 @@
         "noise"
       ],
       "claim": "同一 checkpoint 评两次，MP-SR 与 SP-SR 各差 0.013，MPPE 差 0.29 cm，add_auc 差 0.0028。"
+    },
+    {
+      "id": "world_same",
+      "evidence": [
+        "world"
+      ],
+      "claim": "7 集（ep0、18、20、22、24、26、29）的世界系结果里，k-fix 与 gb3 的物体位置最大差是 0，人体 transl 与 poses 的最大差也是 0，物体朝向最大差 0.332°。"
     },
     {
       "id": "ctl_true_second",

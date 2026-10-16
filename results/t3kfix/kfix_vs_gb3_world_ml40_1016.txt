@@ -1,0 +1,16 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ ml40\ \"S=\\\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\;\ docker\ run\ -i\ --rm\ --cpus\ 2\ --user\ \\\$\(id\ -u\):\\\$\(id\ -g\)\ --entrypoint\ \\\"\\\"\ --network\ none\ -e\ HOME=/tmp\ -v\ \\\"\\\$S/runs/convert_gb3\\\":/b:ro\ -v\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/runs/convert:/a:ro\ v2d_cari4d:latest\ python\ -\ --stage\ world\ /a\ /b\"\ \<\ stages/recovery/t3_kfix_vs_kgb.py\ \|\ tools/redact_stdin.sh 
+# md5      : eb1425e21af278490d9d87c5808e423a  stages/recovery/t3_kfix_vs_kgb.py
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : d896f1c30b1d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:57:03-0600
+# ---------------------------------------------------------------
+ep00_tall_bar_stool：778 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 1.95e-01、最大 2.88e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep18_blue_trash_can：858 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 1.98e-01、最大 3.24e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep20_rice_cooker：553 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 2.40e-01、最大 3.32e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep22_step_ladder：719 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 0.00e+00、最大 1.04e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep24_watering_can：748 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 0.00e+00、最大 1.00e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep26_skateboard：669 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 1.73e-01、最大 2.81e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+ep29_rolling_luggage：467 帧，物体位置差中位 0.00e+00、最大 0.00e+00 m，朝向差中位 1.15e-01、最大 1.71e-01°，内参差 0.00e+00；人体 transl 最大差 0.00e+00、poses 最大差 0.00e+00
+7 集；物体位置最大差 0.00e+00 m，朝向最大差 3.32e-01°
+KFIX_VS_KGB_DONE 0.00e+00 3.32e-01
