@@ -4,6 +4,8 @@
 # V2D_T3_SUPPORT=delivery（只许空或 delivery；计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：每集多打一行支撑面文件，格式同 parquet 行
 #   “可读 … sha256 <64 位> support_surface/<文件名>.usda”（路径不合要求或读不了另打一行说明）；另打 support_surface/support_usda.json 的
 #   sha256 与内容，那一行以 “## ” 开头，不会被 tier3_expect.py 当成文件行。不设时输出与以前相同。
+# V2D_T3_OWN=<本用户 /lab_data/<本用户>/v2d/ 下的目录>（同 stages/recovery/tier3_pack_remote.sh）：读 $V2D_T3_OWN/runs/$V2D_T3_SUBDIR（只许 tier3_kfix_*），
+#   输入网格与地面仍按同组成员的 tier3/input 核 md5。不设时行为不变。
 # 用法（Mac，仓库根）：scripts/dev/record ops/<名字> ssh ml40 '[V2D_T3_SUBDIR=<目录>] bash -s -- <episode> ...' < tools/t3_episode_remote.sh
 set -uo pipefail
 me="$(id -un)"
@@ -20,12 +22,20 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
   echo "== $(hostname) $(date '+%F %T %Z')"
   [ ${#roots[@]} = 1 ] || { echo "别的用户的 tier3 目录不是恰好一个：${roots[*]:-无}"; exit 1; }
   SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect) ;;
+  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_kfix_F) ;;
     *) echo "V2D_T3_SUBDIR 不在白名单里：$SUB"; exit 2 ;;
   esac
   SUP="${V2D_T3_SUPPORT:-}"
   case "$SUP" in ""|delivery) ;; *) echo "V2D_T3_SUPPORT 只许空或 delivery：$SUP"; exit 2 ;; esac
-  D="${roots[0]}/runs/$SUB"
+  OWN="${V2D_T3_OWN:-}"
+  if [ -n "$OWN" ]; then
+    [[ $OWN =~ ^/lab_data/$me/v2d/[A-Za-z0-9_/-]+$ && $OWN != *..* ]] || { echo "V2D_T3_OWN 要在本用户的 /lab_data/<本用户>/v2d/ 下"; exit 2; }
+    [[ $SUB == tier3_kfix_* ]] || { echo "本用户目录模式只许 tier3_kfix_*：$SUB"; exit 2; }
+    D="$OWN/runs/$SUB"
+  else
+    [[ $SUB != tier3_kfix_* ]] || { echo "$SUB 在本用户目录里，要设 V2D_T3_OWN"; exit 2; }
+    D="${roots[0]}/runs/$SUB"
+  fi
   echo "## 目录 runs/$SUB"
   echo "## $D 的前两层"
   find "$D" -maxdepth 2 -printf '%M %TF_%TT %s %P\n' | cut -c1-160 | sort -k4 | head -80
