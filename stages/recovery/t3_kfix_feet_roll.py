@@ -159,6 +159,7 @@ def main() -> int:
                      "feet_ours_m": round(float(np.median(ho)), 4), "lat_range_m": round(float(np.ptp(low @ lat)), 2)})
         print(json.dumps(rows[-1]), flush=True)
     h, x, ep = np.concatenate(H), np.concatenate(X), np.concatenate(E)
+    np.savez(a.out.with_suffix(".frames.npz"), h=h, x=x, ep=ep, episodes=np.array([r["episode"] for r in rows]))   # 自助抽样可在别处重做
     n_r0, _ = plane(g0["n_released"], g0["d_released_m"])
     lat0, dep0 = floor_axes(n_r0)
     s_lat, s_dep = implied_slope(n_o, n_r0, lat0), implied_slope(n_o, n_r0, dep0)
