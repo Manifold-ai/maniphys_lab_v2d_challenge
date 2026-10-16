@@ -7,7 +7,7 @@
 
 | 时间（MDT，估） | 事 | 看哪里 |
 |---|---|---|
-| 13:32 起 | t3pk：k-fix 参考上重训 ep0、ep18、ep29（tmux v2d-t3pk-train / eval / export） | `runs/logs/t3pk_{train,eval}_mf4090.log`、`runs/logs/cand_t3_t3pk_mf4090.log` |
+| 13:32 起 | t3pk：k-fix 参考上重训 ep0（15:58 训完）、ep18（约 18:15）、ep29（约 20:20）（tmux v2d-t3pk-train / eval / export） | `runs/logs/t3pk_{train,eval}_mf4090.log`、`runs/logs/cand_t3_t3pk_mf4090.log` |
 | 约 20:50 | t3pk 评测结束 → `run_after_log.sh` 自动跑判据 5 读数 | `results/t3kfix/retrain_switch_t3pk_mf4090.txt`（最后一行 `RETRAIN_SWITCH_DONE <换> <不判>`） |
 | t3pk 全部做完、卡空后 | `runs/tools/arm_after.sh` 自动起 t3ps：方块桌面重训 ep20 | `runs/logs/arm_after_t3ps_mf4090.log`（最后一行 `ARM_AFTER_ARMED` 或 `ARM_AFTER_STOPPED <原因>`） |
 | 约 23:15 | t3ps 评测结束 → 自动读数 | `results/t3kfix/retrain_switch_t3ps_mf4090.txt` |
@@ -18,8 +18,10 @@
 ## ml40（来历 cf38fcd）
 
 - P2 已判“没用”（`results/r3o/verdict_P2_ml40.txt`），r3o 两档都停。
-- t1c（接触标记提前，ep25、28、11、1）：配置核对、预演都过（DRYRUN_OK），等独立复核过了再起；起了之后约 10/17 02:00 训完，
-  评测链结束后由 `run_after_log.sh` 自动跑 `r3o_verdict.py C1`（无对照：修好 ≥ 1 集有用），记录 `results/t1diag/verdict_C1_ml40.txt`。
+- t1c（接触标记提前，ep25、28、11、1）：独立复核 GO WITH FIXES（已改），16:49 起链（来历 4e58a15，tmux v2d-t1c-train / eval / export），
+  约 10/17 01:30 训完；评测链结束后由 `run_after_log.sh` 自动跑 `r3o_verdict.py C1`（无对照：修好 ≥ 1 集有用），记录 `results/t1diag/verdict_C1_ml40.txt`，
+  等待日志 `runs/logs/after_verdict_C1_ml40.log`。起链前实测：同一策略对 tier1 与 tier1_c10 评出来一致（`results/t1diag/eval_pair_c10_ep25_ml40.txt`）。
+  ml40 今晚也不能再整体同步（链在跑）。
   计划 `agent-doc/plan-t1-contact-anticipation-2026-10-16.md`；参考在 `runs/motion/tier1_c10/`（只改了 hand_contact_active，`results/t1diag/c10_relabel_ml40.txt`）。
 
 ## 明早要做
