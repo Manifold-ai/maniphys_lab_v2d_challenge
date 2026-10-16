@@ -1,0 +1,36 @@
+# command  : ssh -o BatchMode=yes ml40 grep\ -a\ -v\ -E\ \"\^\(Warp\|\ \ \ \|/opt\|\ \ self\|\ \ result\|Module\)\"\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/feet_roll.log\ \|\ cut\ -c1-300\;\ sha256sum\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/feet_roll.json\ /lab_data/rxzhou/v2d/tier3_kfix_r2/F/feet_roll.frames.npz\ \|\ cut\ -c1-16 
+# source   : 29ac74f61d23
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T06:58:56-0600
+# ---------------------------------------------------------------
+{"episode": "ep00_tall_bar_stool", "frames": 778, "feet_released_m": -0.0133, "feet_ours_m": -0.0035, "lat_range_m": 1.61}
+{"episode": "ep01_vacuum", "frames": 747, "feet_released_m": -0.0131, "feet_ours_m": -0.0063, "lat_range_m": 1.32}
+{"episode": "ep02_blue_easter_basket", "frames": 980, "feet_released_m": -0.0134, "feet_ours_m": -0.0049, "lat_range_m": 1.19}
+{"episode": "ep03_contigo_coffee_mug", "frames": 781, "feet_released_m": -0.0463, "feet_ours_m": -0.0485, "lat_range_m": 0.57}
+{"episode": "ep04_baseball_bat", "frames": 803, "feet_released_m": -0.0461, "feet_ours_m": -0.0382, "lat_range_m": 1.89}
+{"episode": "ep05_big_black_box", "frames": 1003, "feet_released_m": -0.0203, "feet_ours_m": -0.0167, "lat_range_m": 1.47}
+{"episode": "ep06_monitor", "frames": 546, "feet_released_m": -0.0407, "feet_ours_m": -0.0407, "lat_range_m": 1.53}
+{"episode": "ep07_iron", "frames": 896, "feet_released_m": -0.0153, "feet_ours_m": 0.0025, "lat_range_m": 0.37}
+{"episode": "ep08_skinny_wood_chair", "frames": 708, "feet_released_m": -0.0362, "feet_ours_m": -0.0328, "lat_range_m": 1.26}
+{"episode": "ep09_big_red_bowl", "frames": 870, "feet_released_m": -0.0078, "feet_ours_m": 0.0117, "lat_range_m": 0.59}
+{"episode": "ep10_white_desk", "frames": 794, "feet_released_m": -0.0216, "feet_ours_m": -0.0047, "lat_range_m": 1.08}
+{"episode": "ep11_light_blue_book", "frames": 901, "feet_released_m": -0.0209, "feet_ours_m": -0.0197, "lat_range_m": 0.52}
+{"episode": "ep13_snack_box", "frames": 922, "feet_released_m": -0.048, "feet_ours_m": -0.0364, "lat_range_m": 1.63}
+{"episode": "ep15_wet_floor_sign", "frames": 715, "feet_released_m": -0.0056, "feet_ours_m": 0.0014, "lat_range_m": 1.29}
+{"episode": "ep17_traffic_cone", "frames": 440, "feet_released_m": -0.0036, "feet_ours_m": 0.0022, "lat_range_m": 0.88}
+{"episode": "ep18_blue_trash_can", "frames": 858, "feet_released_m": -0.01, "feet_ours_m": -0.0029, "lat_range_m": 1.49}
+{"episode": "ep19_cane", "frames": 886, "feet_released_m": 0.0272, "feet_ours_m": 0.0291, "lat_range_m": 0.92}
+{"episode": "ep20_rice_cooker", "frames": 553, "feet_released_m": 0.0035, "feet_ours_m": 0.0185, "lat_range_m": 0.57}
+{"episode": "ep22_step_ladder", "frames": 719, "feet_released_m": -0.0445, "feet_ours_m": -0.0426, "lat_range_m": 1.43}
+{"episode": "ep23_toy_stroller", "frames": 946, "feet_released_m": -0.0424, "feet_ours_m": -0.0353, "lat_range_m": 1.56}
+{"episode": "ep24_watering_can", "frames": 748, "feet_released_m": -0.0061, "feet_ours_m": -0.0041, "lat_range_m": 0.87}
+{"episode": "ep26_skateboard", "frames": 669, "feet_released_m": -0.0348, "feet_ours_m": -0.0248, "lat_range_m": 0.94}
+{"episode": "ep27_woven_basket", "frames": 565, "feet_released_m": 0.005, "feet_ours_m": 0.0049, "lat_range_m": 1.68}
+{"episode": "ep29_rolling_luggage", "frames": 467, "feet_released_m": -0.0402, "feet_ours_m": -0.023, "lat_range_m": 1.04}
+24 集 18295 帧。人脚高度斜率：横向 +0.83 cm/m（95% 区间 [-0.05, +1.91]），纵深 -0.93 cm/m（[-1.98, +0.03]）
+物体事件地面隐含的斜率：横向 +2.08 cm/m，纵深 +0.46 cm/m
+每集人脚高度中位的绝对值，再取中位：对发布地面（不校正）2.06 cm，对 n_ours、d_ours 1.76 cm（只报不判）
+判读（横向）：区间含 0，不含 s_横向 → 人脚没有这个横滚
+FEET_ROLL_DONE 人脚没有这个横滚
+c9a5437cace3e985
+1fd5ccaadeb0eff2

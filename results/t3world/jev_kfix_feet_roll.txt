@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/plan-t3-kfix-2026-10-16.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 07da8e7b65e5e6809374fd38573d8633  agent-doc/plan-t3-kfix-2026-10-16.claims.json
+# source   : 29ac74f61d23-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T07:00:14-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+feet_delta           P(supported)=0.97  verified               [kcmp]  第一批 7 集里，新参考与旧链世界步之后的支撑脚高度逐集相差 +0.28、+0.06、+0.10、+0.05、+0.43、−0.22、+0.16 cm，都在半厘米以内。
+feet_ep22            P(supported)=0.84  verified               [kcmp]  ep22 的支撑脚在旧链世界步之后低于发布地面 3.76 cm，新参考是 3.71 cm，两者都超过 3 cm。
+feet_old24           P(supported)=0.97  verified               [kcmp]  旧链主机位 24 集里，支撑脚高度的绝对值超过 3 cm 的有 7 集，ep22 是其中之一。
+ref_dist             P(supported)=0.98  verified               [kdiff]  第一批 7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位），即远约 5%。
+ref_walk             P(supported)=0.93  verified               [kdiff]  第一批逐集，新参考里人走的路程是旧参考的 1.0307 到 1.0448 倍。
+ctl_true_pass6       P(supported)=0.99  control(true) ok       [kcmp]  第一批新参考 7 集里，逐集 |·| ≤ 3 cm 的有 6 集。
+ctl_false_all24      P(supported)=0.01  control(false) ok      [kcmp]  旧链主机位 24 集的支撑脚高度都在 3 cm 以内。
+ctl_false_closer     P(supported)=0.22  control(false) ok      [kdiff]  新参考里物体离相机比旧参考近约 5%。
+roll_feet            P(supported)=0.99  verified               [kroll]  24 集人脚高度对横向的斜率是 +0.83 cm/m，95% 区间 [−0.05, +1.91]，区间含 0。
+roll_obj             P(supported)=0.70  verified               [kroll]  物体事件拟出的地面隐含的横向斜率是 +2.08 cm/m，落在人脚斜率的 95% 区间之外。
+roll_abs             P(supported)=0.99  verified               [kroll]  每集人脚高度中位的绝对值再取中位，对发布地面（不校正）是 2.06 cm，对 n_ours、d_ours 是 1.76 cm。
+ctl_true_roll        P(supported)=0.98  control(true) ok       [kroll]  这次检验用了 24 集、18295 帧。
+ctl_false_roll       P(supported)=0.01  control(false) ok      [kroll]  人脚高度对横向的斜率的 95% 区间不含 0，判读为人脚也有同样的横滚。
+controls behaved as expected

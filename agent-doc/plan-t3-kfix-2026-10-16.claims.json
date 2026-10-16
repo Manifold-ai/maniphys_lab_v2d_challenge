@@ -1,17 +1,112 @@
 {
  "model": "jev-1.13.0",
  "evidence": {
-  "kcmp": {"file": "results/t3world/kfix_feet_compare.txt"},
-  "kdiff": {"file": "results/t3world/kfix_ref_diff.txt"}
+  "kcmp": {
+   "file": "results/t3world/kfix_feet_compare.txt"
+  },
+  "kdiff": {
+   "file": "results/t3world/kfix_ref_diff.txt"
+  },
+  "kroll": {
+   "file": "results/t3world/feet_roll.txt"
+  }
  },
  "claims": [
-  {"id": "feet_delta", "evidence": ["kcmp"], "claim": "第一批 7 集里，新参考与旧链世界步之后的支撑脚高度逐集相差 +0.28、+0.06、+0.10、+0.05、+0.43、−0.22、+0.16 cm，都在半厘米以内。"},
-  {"id": "feet_ep22", "evidence": ["kcmp"], "claim": "ep22 的支撑脚在旧链世界步之后低于发布地面 3.76 cm，新参考是 3.71 cm，两者都超过 3 cm。"},
-  {"id": "feet_old24", "evidence": ["kcmp"], "claim": "旧链主机位 24 集里，支撑脚高度的绝对值超过 3 cm 的有 7 集，ep22 是其中之一。"},
-  {"id": "ref_dist", "evidence": ["kdiff"], "claim": "第一批 7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位），即远约 5%。"},
-  {"id": "ref_walk", "evidence": ["kdiff"], "claim": "第一批逐集，新参考里人走的路程是旧参考的 1.0307 到 1.0448 倍。"},
-  {"id": "ctl_true_ep20", "evidence": ["kcmp"], "control": "true", "claim": "ep20 的支撑脚在新参考世界步之后高于发布地面 1.55 cm。"},
-  {"id": "ctl_false_all24", "evidence": ["kcmp"], "control": "false", "claim": "旧链主机位 24 集的支撑脚高度都在 3 cm 以内。"},
-  {"id": "ctl_false_closer", "evidence": ["kdiff"], "control": "false", "claim": "新参考里物体离相机比旧参考近约 5%。"}
+  {
+   "id": "feet_delta",
+   "evidence": [
+    "kcmp"
+   ],
+   "claim": "第一批 7 集里，新参考与旧链世界步之后的支撑脚高度逐集相差 +0.28、+0.06、+0.10、+0.05、+0.43、−0.22、+0.16 cm，都在半厘米以内。"
+  },
+  {
+   "id": "feet_ep22",
+   "evidence": [
+    "kcmp"
+   ],
+   "claim": "ep22 的支撑脚在旧链世界步之后低于发布地面 3.76 cm，新参考是 3.71 cm，两者都超过 3 cm。"
+  },
+  {
+   "id": "feet_old24",
+   "evidence": [
+    "kcmp"
+   ],
+   "claim": "旧链主机位 24 集里，支撑脚高度的绝对值超过 3 cm 的有 7 集，ep22 是其中之一。"
+  },
+  {
+   "id": "ref_dist",
+   "evidence": [
+    "kdiff"
+   ],
+   "claim": "第一批 7 集合起来，新参考里物体离相机的距离是旧参考的 1.0513 倍（中位），即远约 5%。"
+  },
+  {
+   "id": "ref_walk",
+   "evidence": [
+    "kdiff"
+   ],
+   "claim": "第一批逐集，新参考里人走的路程是旧参考的 1.0307 到 1.0448 倍。"
+  },
+  {
+   "id": "ctl_true_pass6",
+   "evidence": [
+    "kcmp"
+   ],
+   "control": "true",
+   "claim": "第一批新参考 7 集里，逐集 |·| ≤ 3 cm 的有 6 集。"
+  },
+  {
+   "id": "ctl_false_all24",
+   "evidence": [
+    "kcmp"
+   ],
+   "control": "false",
+   "claim": "旧链主机位 24 集的支撑脚高度都在 3 cm 以内。"
+  },
+  {
+   "id": "ctl_false_closer",
+   "evidence": [
+    "kdiff"
+   ],
+   "control": "false",
+   "claim": "新参考里物体离相机比旧参考近约 5%。"
+  },
+  {
+   "id": "roll_feet",
+   "evidence": [
+    "kroll"
+   ],
+   "claim": "24 集人脚高度对横向的斜率是 +0.83 cm/m，95% 区间 [−0.05, +1.91]，区间含 0。"
+  },
+  {
+   "id": "roll_obj",
+   "evidence": [
+    "kroll"
+   ],
+   "claim": "物体事件拟出的地面隐含的横向斜率是 +2.08 cm/m，落在人脚斜率的 95% 区间之外。"
+  },
+  {
+   "id": "roll_abs",
+   "evidence": [
+    "kroll"
+   ],
+   "claim": "每集人脚高度中位的绝对值再取中位，对发布地面（不校正）是 2.06 cm，对 n_ours、d_ours 是 1.76 cm。"
+  },
+  {
+   "id": "ctl_true_roll",
+   "evidence": [
+    "kroll"
+   ],
+   "control": "true",
+   "claim": "这次检验用了 24 集、18295 帧。"
+  },
+  {
+   "id": "ctl_false_roll",
+   "evidence": [
+    "kroll"
+   ],
+   "control": "false",
+   "claim": "人脚高度对横向的斜率的 95% 区间不含 0，判读为人脚也有同样的横滚。"
+  }
  ]
 }
