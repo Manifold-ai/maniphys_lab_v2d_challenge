@@ -1,0 +1,12 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ \!\ tmux\ has-session\ -t\ v2d-t3v2s-retarget\ 2\>/dev/null\ \&\&\ tmux\ new-session\ -d\ -s\ v2d-t3v2s-retarget\ \"V2D_T3_SET=v2s\ V2D_RECORD_TRACEBACK_OK=1\ scripts/dev/record\ t3kfix/retarget_v2s_mf4090\ stages/retarget/eps.sh\ 3\ 20\"\ \&\&\ sleep\ 10\ \&\&\ tmux\ ls\ \|\ cut\ -d:\ -f1 
+# md5      : f0f962d0ec877003f7646671d688a5e5  scripts/dev/record
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : 5d887693736d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:06:30-0600
+# ---------------------------------------------------------------
+v2d-t1ob-eval
+v2d-t1ob-export
+v2d-t1ob-train
+v2d-t3v2s-retarget
+v2d-train

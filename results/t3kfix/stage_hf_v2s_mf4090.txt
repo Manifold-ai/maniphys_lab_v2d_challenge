@@ -1,0 +1,48 @@
+# command  : stages/recovery/tier3_stage_hf.sh t3v2s_20_1016 20 
+# md5      : 971b167a007dbfba4e235f52f8bc0645  stages/recovery/tier3_stage_hf.sh
+# source   : 5d887693736d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:06:00-0600
+# ---------------------------------------------------------------
+== 1. 前置检查
+mf4090_OK
+ml40_OK
+== 2a. ml40 本机打包并解开（数据不经 Mac）
+c4fa07bb0fac1bbf03db1970478c25cfdf616d0f4b2ed95d9ae31102e7325a4f  ./data/chunk-000/episode_000020.parquet
+e18afee12ee33bfd5ac49d5cdd925f07f41896c45cedbe03ed8d6b3056046918  ./DEPLOYED
+ff988a9b609592db8a6a2efc1b8a637dfd927528530b3e53ac50924bd95992d2  ./meta/episode_000020.metadata.json
+== 2b. ml40：v2d_cari4d 容器里推到 Rongxuan-Zhou/v2d-track2-transfer 的 t3v2s_20_1016/
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-transfer", repo_type="model", folder_path="runs/hf_xfer")
+================================================================================
+
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+
+
+
+---------- 2026-10-16 16:06:08 (0:00:00) ----------
+Files:   hashed 1/4 (294.0/744.3K) | pre-uploaded: 0/0 (0.0/744.3K) (+4 unsure) | committed: 0/4 (0.0/744.3K) | ignored: 0
+Workers: hashing: 2 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3v2s_20_1016/pack/data/chunk-000/episode_000020.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+仓库里 t3v2s_20_1016/：清单 4 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 3
+== 2c. mf4090：拉到 runs/tier3/incoming/t3v2s_20_1016.pull 再搬成 runs/tier3/incoming/t3v2s_20_1016.partial
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：3 个文件；开始下载到 runs/tier3/incoming/t3v2s_20_1016.pull
+  3 / 3，0.7 MB
+HF_PULL_OK 3
+MOVED
+== 3. 核对并拼档目录
+== VM-1-2-ubuntu 2026-10-17 00:06:26 CST 来历 b106c320bae6
+c4fa07bb0fac1bbf03db1970478c25cfdf616d0f4b2ed95d9ae31102e7325a4f  ./data/chunk-000/episode_000020.parquet
+e18afee12ee33bfd5ac49d5cdd925f07f41896c45cedbe03ed8d6b3056046918  ./DEPLOYED
+ff988a9b609592db8a6a2efc1b8a637dfd927528530b3e53ac50924bd95992d2  ./meta/episode_000020.metadata.json
+部署版本 16c2b7ff2b4533600619de395c706717398573c6；版本目录 runs/tier3_cari4d_f830_floor；V2D_T3_SET=v2s；经 HF Rongxuan-Zhou/v2d-track2-transfer t3v2s_20_1016/；V2D_T3_SUPPORT_DIR=runs/tier3/root_hm
+写 data/chunk-000/episode_000020.parquet sha256 c4fa07bb0fac1bbf03db1970478c25cfdf616d0f4b2ed95d9ae31102e7325a4f
+写 mesh/rice_cooker/rice_cooker.glb sha256 969ef0080979446b5713d6f3c5c450658998844d7db699c01366d93ed11b6d21 md5 07813ad4566097b0aa22aed66a9f7b48
+写 ground_plane/2026-06-08_16-57-34_rice_cooker_clockwise_04.json sha256 bea0e61fffef9b6c6d5284aec9ce1776abd2e82cf78ff69ff7cb111364433f9f md5 e9526edcd097d15180c4dc2e25aa7d38
+写 support_surface/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda sha256 8f9691f6c956b01e36f06e7ed43e4bc209e176134009e69bb748865fb9c9e248 md5 003cff253fc08ccb14368502872f9715
+写 meta/episodes_metadata.jsonl（1 行：ep20）与 meta/provenance.json
+ep20 来源：parquet 在对方的修改时间 2026-10-16T16:06:23+00:00，转发时对方的部署版本 16c2b7ff2b4533600619de395c706717398573c6（干净 True），parquet sha256 c4fa07bb0fac1bbf03db1970478c25cfdf616d0f4b2ed95d9ae31102e7325a4f
+TIER3_ROOT_OK
