@@ -20,7 +20,12 @@ are within MERGE_DH_M and whose footprints are within MERGE_XY_M are one support
 B on one table). Its height is the object's (frame-weighted median of the placements' lowest points), not MoGe's:
 one round table in six episodes reads 0.748-0.789 m from the objects, 0.775-0.845 m from MoGe. Each placement keeps
 its own height and its offset from the support's (the error a post-process anchors away); the patch is the convex
-hull of the footprints grown by PATCH_MARGIN_M.
+hull of the footprints grown by PATCH_MARGIN_M, plus (10-16) the footprints of every frame the object slides or is pushed
+across the surface: frames whose lowest point stays within SWEEP_TOL_M of the support's height (median-filtered as
+below) in a run that overlaps one of its placements, so the run is connected in time to a rest on that surface and the
+object never left it. Rests alone covered only where the object paused: ep07's iron, ironed across a round table,
+got a patch 0.31 m wide and read as floating 0.75 m above the floor whenever it was pushed past it. A footprint swept
+along the surface cannot be larger than the surface (the object stood on it); the height stays the rests'.
 
 The hand: a segment held on at least HELD_ALL of its frames (physics check: a contact joint within HOLD_M) never saw the
 hand leave, so resting and held in the hand cannot be told apart there. A support needs one placement that was not held
@@ -66,6 +71,8 @@ LIFT_FILTER = 9
 MERGE_DH_M = 0.03
 MERGE_XY_M = 0.6
 PATCH_MARGIN_M = 0.05
+SWEEP_TOL_M = 0.02
+SWEEP_STEP = 3  # frames between swept footprints
 MOGE_NORMAL_DEG = 10.0
 MOGE_MIN_H_M = 0.15
 MOGE_BAND_M = 0.10
@@ -261,7 +268,14 @@ def main() -> None:
                 mp["centre"] = np.median(np.stack([q["centre"] for q in mp["parts"]]), 0)
                 mp["drift_m"] = float(max(np.linalg.norm(q["centre"] - r["centre"]) for q in mp["parts"] for r in mp["parts"]))
                 mp["static_frames"] = int(len(fr))
-            poly = hull2(np.concatenate([g["footprint"] for g in gr]))
+            rest_poly = hull2(np.concatenate([g["footprint"] for g in gr]))
+            on = np.abs(low_f - h) <= SWEEP_TOL_M
+            e = np.flatnonzero(np.diff(np.r_[0, on.astype(int), 0]))
+            fset = set(frames.tolist())
+            sweep = [f for a, b in zip(e[::2], e[1::2], strict=True) if any(t in fset for t in range(a, b)) for f in range(a, b)]
+            feet = [np.c_[(wv - o_m) @ u_m, (wv - o_m) @ v_m] for wv in (hull @ rot[f].T + pos[f] for f in sweep[::SWEEP_STEP])]
+            poly = hull2(np.concatenate([g["footprint"] for g in gr] + feet))
+            area = lambda P: float(0.5 * abs(np.dot(P[:, 0], np.roll(P[:, 1], 1)) - np.dot(P[:, 1], np.roll(P[:, 0], 1)))) if len(P) >= 3 else 0.0
             over = inside(poly, xy, PATCH_MARGIN_M)
             pen = over & (obj_low < h - FLOOR_TOL_M) & (obj_low > h - SUP_PEN_BAND_M)
             sup_pen_any |= pen; sup_depth = np.maximum(sup_depth, np.where(pen, h - obj_low, 0))
@@ -271,7 +285,8 @@ def main() -> None:
                                             "height_m": round(g["height_m"], 3), "offset_m": round(g["height_m"] - h, 3),
                                             "centre_xy_m": np.round(g["centre"], 3).tolist(), "drift_m": round(g["drift_m"], 3),
                                             "held_share": round(float(held[g["start"]:g["end"]].mean()), 2)} for g in merged],
-                            "patch_area_m2": round(float(0.5 * abs(np.dot(poly[:, 0], np.roll(poly[:, 1], 1)) - np.dot(poly[:, 1], np.roll(poly[:, 0], 1)))), 3) if len(poly) >= 3 else 0.0,
+                            "patch_area_m2": round(area(poly), 3), "rest_patch_area_m2": round(area(rest_poly), 3),
+                            "sweep_frames": len(sweep),
                             "patch_xy_m": poly.round(3).tolist(), "penetration_frames": int(pen.sum()),
                             "penetration_max_m": round(float((h - obj_low)[pen].max()), 3) if pen.any() else 0.0})
         rejected = [{"start": g["start"], "end": g["end"], "height_m": round(g["height_m"], 3), "status": g["status"],
