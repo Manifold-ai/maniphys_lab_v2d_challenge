@@ -1,0 +1,11 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with scipy --with trimesh python stages/recovery/t3_released_planes.py 
+# md5      : 8aab64e3450b5d879e5cda5e209b006e  stages/recovery/t3_released_planes.py
+# source   : c3cc6c0eccf5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:33:26-0600
+# ---------------------------------------------------------------
+Installed 3 packages in 39ms
+主机位（24 集：其余各集）：俯仰 2.94–3.32°，横滚 -1.14–-1.00°，|d| 1.381–1.396 m
+二机位（5 集：ep12、ep14、ep16、ep25、ep28）：俯仰 3.04–3.36°，横滚 -1.26–-1.06°，|d| 1.385–1.392 m
+侧机位（1 集：ep21）：俯仰 3.20–3.20°，横滚 -1.03–-1.03°，|d| 1.391–1.391 m
+RELEASED_PLANES_DONE

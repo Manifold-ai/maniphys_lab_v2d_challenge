@@ -1,0 +1,13 @@
+# command  : bash -c for\ v\ in\ kgb\ gb3\;\ do\ ssh\ -o\ BatchMode=yes\ ml40\ \"S=\\\$\(ls\ -d\ /lab_data/\*/v2d/tier3\ \|\ grep\ -v\ /rxzhou/\)\;\ cat\ \\\$S/runs/floor/floor_fit_\$v.json\"\ \|\ python3\ stages/recovery/t3_floor_group_residual.py\ \"\$v=-\"\ \|\ grep\ -v\ FLOOR_GROUP_RESIDUAL_DONE\;\ done\;\ echo\ FLOOR_GROUP_RESIDUAL_DONE 
+# md5      : 27acebdfe131a7ab85f9f8ac45b85a42  stages/recovery/t3_floor_group_residual.py
+# source   : c3cc6c0eccf5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T10:29:49-0600
+# ---------------------------------------------------------------
+kgb 组 0（24 集，contacts）：tilt 1.222°，俯仰差 +0.26°（ours 3.45°、发布 3.18°），横滚差 -1.20°（ours -2.28°、发布 -1.08°），尺度 0.984
+kgb 组 1（5 集，contacts）：tilt 3.137°，俯仰差 +2.86°（ours 6.06°、发布 3.19°），横滚差 +1.28°（ours 0.18°、发布 -1.11°），尺度 0.93498
+kgb 组 2（1 集，moge_normal_offset_from_contacts）：tilt 2.224°，俯仰差 +2.10°（ours 5.30°、发布 3.20°），横滚差 +0.74°（ours -0.29°、发布 -1.03°），尺度 0.98612
+gb3 组 0（24 集，contacts）：tilt 1.222°，俯仰差 +0.26°（ours 3.45°、发布 3.18°），横滚差 -1.20°（ours -2.28°、发布 -1.08°），尺度 0.984
+gb3 组 1（5 集，contacts）：tilt 1.181°，俯仰差 -0.35°（ours 2.84°、发布 3.19°），横滚差 +1.13°（ours 0.02°、发布 -1.11°），尺度 0.949
+gb3 组 2（1 集，horizon_normal_offset_from_contacts）：tilt 1.903°，俯仰差 -1.59°（ours 1.61°、发布 3.20°），横滚差 +1.04°（ours 0.02°、发布 -1.03°），尺度 0.99302
+FLOOR_GROUP_RESIDUAL_DONE
