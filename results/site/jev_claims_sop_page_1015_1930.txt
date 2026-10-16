@@ -1,0 +1,34 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-15-sop-1930.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a4c0422b7729a8a951453b0411a2ea0c  agent-doc/experiments/2026-10-15-sop-1930.claims.json
+# source   : 6f69932e6f48-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-15T19:27:28-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+lb_ff_t1             P(supported)=0.88  verified               [lb1137]  2026-10-15 11:37 的榜上，Tier 1 的 AUC、SP-SR、MP-SR、MPPE 四个榜排第一的都是 Xueyi Wang (FF)，其中 SP-SR 是 0.80000。
+lb_t2                P(supported)=0.89  verified               [lb1137]  同一份榜上，Tier 2 四个榜排第一的都是 maniphys.ai；Tier 2 MPPE 榜 maniphys.ai 是 15.32195，Xueyi Wang (FF) 是 15.34253。
+t3_scores            P(supported)=0.91  verified               [submit]  Tier 3 探路提交在四个榜的分数是 AUC 0.00000、SP-SR 0.00000、MP-SR 0.00000、MPPE 60.70360。
+t3_rank_mppe         P(supported)=0.98  verified               [lbt3]  v2d-challenge-track2-tier3-mppe 榜的第一行是 maniphys.ai 60.70360，第二行 Xueyi Wang (FF) 67.33010，第三行 CHORD Baseline 70.17205。
+t3_rank_auc          P(supported)=0.98  verified               [lbt3]  v2d-challenge-track2-tier3-auc 榜上 maniphys.ai 是 0.00000，排在第三行，前两行是 Xueyi Wang (FF) 0.15606 与 CHORD Baseline 0.00226。
+t3_means             P(supported)=0.93  verified               [evtab]  30 集对照自己重建的 4096 世界等权平均是 MP-SR 0.247、SP-SR 0.353、ADD-AUC 0.289、MPPE 49.34 cm。
+t3_good              P(supported)=0.97  verified               [evtab]  t3-ep7、t3-ep8、t3-ep22 三条 run 的 MPPE_cm 都在 2 到 4 之间。
+auc_thr              P(supported)=0.94  verified               [kit]  ADD-AUC 的阈值从 0.01 m 起、每 0.01 m 一档、小于 0.10 m，也就是 1 cm 到 9 cm。
+onset                P(supported)=0.89  verified               [onset]  在位置 0.03 m、朝向 0.52 rad 的门槛下，ep1、ep11、ep28、ep2、ep25 五条 run 的“只有位置”都多于“只有朝向”与“两者”之和，ep4、ep9 两条则是“只有朝向”更多。
+g1                   P(supported)=0.98  verified               [g1]  r3o 的兼容性检查结论是 R3O_G1_OK：8c778f9 的 4096 世界评测成功，1 局导出成功，评测器读到的配置里 r3o 弄脏的地方是无。
+p1_status            P(supported)=0.98  verified               [stmf]  mf4090 上 t1-ep20-w2048-cap4m-r3o-mf4090 于 2026-10-16 07:14:20 CST 完成，t1-ep25-w2048-cap4m-r3o-mf4090 于 09:09:27 CST 完成，随后开始 t1-ep28-w2048-cap4m-r3o-mf4090 的正式训练。
+p1_smoke             P(supported)=0.96  verified               [stmf]  mf4090 上 ep20、ep25、ep28、ep11 的四条 r3o 冒烟都通过，256 世界 rollout 里非有限世界都是 0 个。
+p2_status            P(supported)=0.96  verified               [stml]  ml40 上 t2-ep12-w2048-cap10m-r3o-ml40 于 2026-10-16 07:59:19 CST 完成，随后开始 t2-ep25-w2048-cap10m-r3o-ml40 的正式训练；ep12、ep25、ep28、ep1 的四条冒烟都通过。
+s43                  P(supported)=0.98  verified               [s43]  t3-ep12-w2048-cap4m-r3a-dyn4-s43-ml40 与 t3-ep12-w2048-cap4m-r3a-dyn4s-s43-ml40 两条的 MP-SR 都是 0.000；t3-ep12-w2048-cap4m-r3a-dyn4-ml40 那条是 0.562。
+yq_rot               P(supported)=0.73  verified               [handoff]  旋转优化试点的 6 集合计：冻结旋转时大于 90° 的翻转 138 帧，打开旋转优化后 128 帧；结论是这条路修不了成段翻转。
+yq_deliv             P(supported)=0.98  verified               [handoff]  交付版仍是 best_hm，dyn7 与 kf2 都是候选。
+gate_comp            P(supported)=0.97  verified               [gate]  Tier 1 第一段（t1oa）的对照是 ep20、门槛 0.45，跟丢集是 ep25、ep28、ep11；Tier 2 第一段（t2oa）的对照是 ep12、门槛 0.5，跟丢集是 ep25、ep28、ep1。
+crit                 P(supported)=0.98  verified               [crit]  P1 记“r3o 有用”的条件是修好至少 2 集且对照 ep20 不低于 0.45；P2 的条件是修好至少 2 集且对照 ep12 不低于 0.5；修好指 MP-SR ≥ 0.3。
+t2s0                 P(supported)=0.86  verified               [t2s0]  Tier 2 第 0 步：8 条里 7 条满足条件，记“Tier 2 也是先丢朝向”，做 P2。
+ph                   P(supported)=0.97  verified               [sel]  选择清单里 ep9、ep10、ep11、ep28 用的是名字带 -ph- 的 run，步数 4096000。
+ctl_true_sp          P(supported)=0.99  control(true) ok       [lbt3]  提交后的 Tier 3 SP-SR 榜上，CHORD Baseline、Xueyi Wang (FF)、maniphys.ai 三个队都是 0.00000。
+ctl_false_mppe       P(supported)=0.02  control(false) ok      [submit]  Tier 3 探路提交的 MPPE 是 67.33010。
+ctl_false_s43        P(supported)=0.14  control(false) ok      [s43]  t3-ep12 的 dyn4-s43 那条 MP-SR 是 0.562。
+ctl_false_lb         P(supported)=0.02  control(false) ok      [lb1137]  2026-10-15 11:37 的榜上，Tier 1 SP-SR 榜排第一的是 maniphys.ai。
+ctl_false_thr        P(supported)=0.05  control(false) ok      [kit]  ADD-AUC 的阈值最大到 20 cm。
+controls behaved as expected
