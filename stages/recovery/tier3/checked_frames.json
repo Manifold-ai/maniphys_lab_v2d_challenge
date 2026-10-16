@@ -1,21 +1,208 @@
 {
- "_doc": "Frames checked against the video by the user (10-16, on the coordinate-colour overlays of t3_pose_overlay.py: video | best_hm | best_dyn7 | best_kf2 | best_kf3, or without kf2 for ep13/28/29). The only answer key for comparing versions; labels from before 10-16 are superseded (ep03 451 was wrongly 'hm right'). Evaluation only: fixes stay automatic (no manual annotation, user 10-15). orientation / position per version: ok | wrong | rough (roughly ok).",
+ "_doc": "Frames checked against the video by the user (10-16, on the coordinate-colour overlays of t3_pose_overlay.py: video | best_hm | best_dyn7 | best_kf2 | best_kf3, or without kf2 for ep13/28/29). The only answer key for comparing versions; labels from before 10-16 are superseded (ep03 451 was wrongly 'hm right'). Evaluation only: fixes stay automatic (no manual annotation, user 10-15). orientation / position per version: ok | wrong | rough (roughly ok). 10-16 second pass on overlays that add 'best' (before the height post-process; review/pre/): parts judged separately where the user did.",
  "frames": {
-  "ep03_f117": {"note": "handle on the left, held", "orientation": {"hm": "ok", "dyn7": "ok", "kf2": "wrong", "kf3": "wrong"}},
-  "ep03_f131": {"note": "handle on the left", "orientation": {"hm": "ok", "dyn7": "ok", "kf2": "wrong", "kf3": "wrong"}},
-  "ep03_f345": {"note": "handle on the left", "orientation": {"hm": "ok", "dyn7": "ok", "kf2": "wrong", "kf3": "wrong"}},
-  "ep03_f451": {"note": "handle top-left; hm/dyn7 upside down (handle bottom-left), kf2/kf3 handle not visible", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf2": "wrong", "kf3": "wrong"}},
-  "ep01_f223": {"note": "handle in hand, head on the floor", "orientation": {"hm": "ok", "dyn7": "ok", "kf2": "ok", "kf3": "ok"}},
-  "ep01_f238": {"note": "the vacuum head points about 90 deg off in all four", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf2": "wrong", "kf3": "wrong"}},
-  "ep01_f301": {"note": "orientation as judged; all four render much larger than the object in the video", "orientation": {"hm": "ok", "dyn7": "ok", "kf2": "wrong", "kf3": "wrong"}, "position": {"hm": "wrong", "dyn7": "wrong", "kf2": "wrong", "kf3": "wrong"}},
-  "ep04_f313": {"note": "thick end top-right", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf2": "ok", "kf3": "ok"}},
-  "ep04_f509": {"note": "orientation as judged; all four sit too high: only the thick end lines up, the tail is above", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf2": "ok", "kf3": "ok"}, "position": {"hm": "wrong", "dyn7": "wrong", "kf2": "wrong", "kf3": "wrong"}},
-  "ep04_f669": {"note": "orientation as judged; all four sit too high", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf2": "ok", "kf3": "ok"}, "position": {"hm": "wrong", "dyn7": "wrong", "kf2": "wrong", "kf3": "wrong"}},
-  "ep28_f620": {"note": "roughly right; the head is offset in all three, least in kf3", "orientation": {"hm": "rough", "dyn7": "rough", "kf3": "rough"}, "position": {"hm": "rough", "dyn7": "rough", "kf3": "rough"}},
-  "ep28_f720": {"note": "all three put the squeegee in the air top-left", "orientation": {"hm": "wrong", "dyn7": "wrong", "kf3": "wrong"}, "position": {"hm": "wrong", "dyn7": "wrong", "kf3": "wrong"}},
-  "ep13_f520": {"note": "box on the floor, untouched", "orientation": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}, "position": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}},
-  "ep13_f600": {"note": "kf3 position about right, hm and dyn7 sit too high", "orientation": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}, "position": {"hm": "wrong", "dyn7": "wrong", "kf3": "ok"}},
-  "ep29_f60": {"note": "side-on, handle out", "orientation": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}, "position": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}},
-  "ep29_f200": {"note": "turned to face the camera, moved in front of the person", "orientation": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}, "position": {"hm": "ok", "dyn7": "ok", "kf3": "ok"}}
+  "ep03_f117": {
+   "note": "handle on the left, held",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep03_f131": {
+   "note": "handle on the left",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep03_f345": {
+   "note": "handle on the left",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep03_f451": {
+   "note": "handle top-left; hm/dyn7 upside down (handle bottom-left), kf2/kf3 handle not visible",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep01_f223": {
+   "note": "handle in hand, head on the floor",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf2": "ok",
+    "kf3": "ok"
+   }
+  },
+  "ep01_f238": {
+   "note": "the vacuum head points about 90 deg off in all four",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep01_f301": {
+   "note": "second pass (best | hm | kf3): kf3 head direction right but the handle near vertical where it should be diagonal in the hand; best and hm head direction wrong; all render larger than the object (first pass)",
+   "head": {
+    "best": "wrong",
+    "hm": "wrong",
+    "kf3": "ok"
+   },
+   "handle": {
+    "best": "ok",
+    "hm": "ok",
+    "kf3": "wrong"
+   },
+   "orientation": {
+    "best": "wrong",
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   },
+   "position": {
+    "best": "wrong",
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep04_f313": {
+   "note": "thick end top-right",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "ok",
+    "kf3": "ok"
+   }
+  },
+  "ep04_f509": {
+   "note": "orientation as judged; all four sit too high: only the thick end lines up, the tail is above; second pass: best also too high and upside down like hm",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "ok",
+    "kf3": "ok",
+    "best": "wrong"
+   },
+   "position": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong",
+    "best": "wrong"
+   }
+  },
+  "ep04_f669": {
+   "note": "orientation as judged; all four sit too high; second pass: best also too high and upside down like hm",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "ok",
+    "kf3": "ok",
+    "best": "wrong"
+   },
+   "position": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf2": "wrong",
+    "kf3": "wrong",
+    "best": "wrong"
+   }
+  },
+  "ep28_f620": {
+   "note": "roughly right; the head is offset in all three, least in kf3",
+   "orientation": {
+    "hm": "rough",
+    "dyn7": "rough",
+    "kf3": "rough"
+   },
+   "position": {
+    "hm": "rough",
+    "dyn7": "rough",
+    "kf3": "rough"
+   }
+  },
+  "ep28_f720": {
+   "note": "all three put the squeegee in the air top-left",
+   "orientation": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf3": "wrong"
+   },
+   "position": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf3": "wrong"
+   }
+  },
+  "ep13_f520": {
+   "note": "box on the floor, untouched",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   },
+   "position": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   }
+  },
+  "ep13_f600": {
+   "note": "best most accurate; kf3 slightly high; hm higher (second pass)",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   },
+   "position": {
+    "hm": "wrong",
+    "dyn7": "wrong",
+    "kf3": "rough",
+    "best": "ok"
+   }
+  },
+  "ep29_f60": {
+   "note": "side-on, handle out",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   },
+   "position": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   }
+  },
+  "ep29_f200": {
+   "note": "turned to face the camera, moved in front of the person",
+   "orientation": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   },
+   "position": {
+    "hm": "ok",
+    "dyn7": "ok",
+    "kf3": "ok"
+   }
+  }
  }
 }
