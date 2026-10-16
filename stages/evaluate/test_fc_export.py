@@ -19,6 +19,7 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
  11. V2D_EXPORT_PARQUET（k-fix 换参考，agent-doc/plan-t3-kfix-2026-10-16.md 方案 4）：经 eval_playback_override.py（--playback same --parquet，导出参数
      经 --extra 透传）导出到带后缀的目录，不再调 scripts/evaluate_policy.py；预演打印新参考；不给后缀、序列不同、路径不合格、新参考的 episode 不同、
      parquet 不在都拒绝，退出码 2，不起容器。
+ 12. 评测器写出 JSON 之后退出码非零（例如包装层判作废）：退出码 3，这一次的 JSON 删掉，再跑一次照常起容器，不当成已有结果。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -46,6 +47,8 @@ case "${FAKE_EVAL:-ok}" in
   term) echo "RuntimeError: evaluation must disable task failure termination before scoring the full reference" >&2; exit 1 ;;
   boom) echo "RuntimeError: something else" >&2; exit 1 ;;
   empty) exit 0 ;;
+  writefail) for tok in $*; do case "$tok" in evaluation.metrics_output=*) f="${tok#evaluation.metrics_output=}"; f="$FAKE_ROOT/${f#/repo/}"; mkdir -p "$(dirname "$f")"; echo '{"world_count": 1}' > "$f" ;; esac; done
+             echo "结果作废" >&2; exit 2 ;;
 esac
 for tok in $*; do
   case "$tok" in
@@ -265,6 +268,14 @@ def test_new_reference() -> None:
         np_.unlink()
         rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_k4")
         assert rc == 2 and not calls and "不在" in text, ("parquet 不在", rc, text)
+
+def test_failed_run_leaves_no_result() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        rc, text, calls = run(root, FAKE_EVAL="writefail")
+        assert rc == 3 and calls and not out(root).with_suffix(".json").exists(), (rc, text)
+        rc2, text2, calls2 = run(root)
+        assert rc2 == 0 and calls2 and "已有结果" not in text2, (rc2, text2)
 
 
 if __name__ == "__main__":

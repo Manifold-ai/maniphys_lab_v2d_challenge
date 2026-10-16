@@ -116,6 +116,8 @@ rc=$?
 NEW="$(tail -n +"$((n0 + 1))" "$LOG")"
 grep -a -F 'in-flash-chord: /workspace ← ' <<< "$NEW" | tail -1   # 这一次挂的是哪份源码
 if [ "$rc" != 0 ]; then
+  # 失败的这一次可能已写出 JSON（例如换参考时包装层核对不过、判作废，返回 2）：删掉，免得下次运行当成“已有结果”跳过
+  rm -f "$J" "$Q"
   grep -q 'must disable task failure termination' <<< "$NEW" \
     && die "评测器报 must disable task failure termination（退出码 ${rc}）：按规矩二退到同一 run 更早的有限 checkpoint。见 $LOG" 13
   die "导出失败（退出码 ${rc}），见 $LOG" 3
