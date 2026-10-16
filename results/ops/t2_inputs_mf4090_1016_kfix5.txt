@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ python3\ stages/recovery/tier2_inputs_md5.py\ 0\ 18\ 24\ 26\ 29 
+# md5      : 41e973c3bcb287eb603e0b00cebb0ce4  stages/recovery/tier2_inputs_md5.py
+# source   : d45a2ab2aa0c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T08:32:56-0600
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-16 22:32:56 CST 来历 b106c320bae6；Tier 2 目录 /home/rxzhou/v2d/maniphys_lab_v2d_challenge/data/challenge/track_2/tier_2_synthetic_noise
+f3e1457400d93c8fb690ffd9d355bd0e mesh/tall_bar_stool/tall_bar_stool.glb
+6431249d30e5d110cb21cfe1b3aa9e8d ground_plane/2026-06-04_14-16-23_tall_bar_stool_tip_up_04.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda
+76337cd9ccd87e34d5a66847a574cc62 mesh/blue_trash_can/blue_trash_can.glb
+4ea6e81e574a6ae768488fd0dbd922ba ground_plane/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda
+27d97417dc0915ecc61c08884ba5449f mesh/watering_can/watering_can.glb
+450419566d821e713e965192d5e73137 ground_plane/2026-05-29_15-43-20_watering_can_pour_right_02.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-05-29_15-43-20_watering_can_pour_right_02_support.usda
+b8ff5c032f60b37ba48b756d54402186 mesh/skateboard/skateboard.glb
+237b672d4e3a1b16aac36e61b4a6d586 ground_plane/2026-06-05_16-05-08_skateboard_rotate_ground_10.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda
+ab758b004e85f86cc877d0fe5a75e618 mesh/rolling_luggage/rolling_luggage.glb
+f858e6b5146f54d9d2c9f7172bfa129e ground_plane/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06.json
+e7b1026ef52ee91c15c1fcd6d216c653 support_surface/2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda
+TIER2_INPUTS_DONE（5 集，15 个文件）
