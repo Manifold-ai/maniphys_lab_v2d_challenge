@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_kfix.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 048df3f1e77e368e27f13ef6c265c8de  stages/recovery/t3_kfix.py
+# source   : 98cf6d98e88f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T05:14:25-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/recovery/t3_kfix.py：远端是 11d38b1 的版本（8a882ce21e74c2fec00f8f7624349d61）
+本地提交 98cf6d98e88f；远端来历 e396fde1b00a
+  ok   048df3f1e77e368e27f13ef6c265c8de  stages/recovery/t3_kfix.py
+远端来历（放完）e396fde1b00a
+PUSH_OK（1 个文件）
