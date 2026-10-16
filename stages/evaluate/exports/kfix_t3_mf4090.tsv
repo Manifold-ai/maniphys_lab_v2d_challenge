@@ -1,4 +1,5 @@
 run	step	parquet	suffix	mode
+t3-ep26-w2048-cap4m-r3a-v2-mf4090	349999104	-	_plain	plain
 t3-ep26-w2048-cap4m-r3a-v2-mf4090	349999104	/repo/runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet	_idchk	idchk
 t3-ep0-w2048-cap4m-r3a-v2-mf4090	349999104	/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet	_kfixgb	kfix
 t3-ep18-w2048-cap4m-r3a-v2-mf4090	349999104	/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet	_kfixgb	kfix
