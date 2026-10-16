@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-decisions-1200.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b59b71a5f33925dd59b5bc24e3e266d6  agent-doc/experiments/2026-10-16-decisions-1200.claims.json
+# source   : 23f2eb8b693d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T11:23:01-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+planes_same          P(supported)=0.96  verified               [planes]  主机位 24 集、二机位 5 集、侧机位 1 集的发布地面，俯仰都在 2.94° 到 3.36° 之间，横滚都在 −1.26° 到 −1.00° 之间，|d| 都在 1.381 m 到 1.396 m 之间。
+resid_g0             P(supported)=0.99  verified               [resid]  gb3 的地面拟合里，主机位组（组 0）的 tilt 是 1.222°，横滚差是 −1.20°，尺度是 0.984。
+resid_g1             P(supported)=0.98  verified               [resid]  二机位组（组 1）的 tilt 在 gb3 里是 1.181°、俯仰差 −0.35°，在 kgb 里是 3.137°、俯仰差 +2.86°。
+fail_fixed           P(supported)=0.91  verified               [fail]  t3_gb3_register.sh 的注释写明 bash 数组不能导出、所以把 docker 命令直接写出；重跑的 world_gb3_all.log 里 FAILED 0 行。
+fail_old             P(supported)=0.92  verified               [fail]  各失败日志的内容按行去重计数，“environment: line 1: -v: command not found”这一行出现 39 次。
+noise                P(supported)=0.94  verified               [noise]  同一 checkpoint 评两次，MP-SR 与 SP-SR 各差 0.013，MPPE 差 0.29 cm，add_auc 差 0.0028。
+world_same           P(supported)=0.97  verified               [world]  7 集（ep0、18、20、22、24、26、29）的世界系结果里，k-fix 与 gb3 的物体位置最大差是 0，人体 transl 与 poses 的最大差也是 0，物体朝向最大差 0.332°。
+p1_verdict           P(supported)=0.96  verified               [p1]  r3o 的 P1 判读是“没用”：修好 0 集、有起色 0 集，对照 ep20 的 MP-SR 0.837 过了 0.45 的门槛。
+p1_ep2               P(supported)=0.98  verified               [p1]  t1-ep2 的 r3o run 的 SP-SR 是 0.000，它的基线 SP-SR 是 0.138。
+loo                  P(supported)=0.96  verified               [loo]  gb3 主机位组的留一验证有 13 集，接触高度中位的绝对值从校正前 1.04 cm 变成校正后 1.53 cm，7 集变好、6 集变差。
+boot_roll            P(supported)=0.98  verified               [boot]  GB1 变体下物体横滚按集抽样的 95% 区间是 [−2.004°, −0.486°]，不含 0；逐集留一的横滚在 −1.07° 到 −1.38° 之间。
+feet_roll            P(supported)=0.97  verified               [feet]  人脚横向坡度是 +0.83 cm/m，95% 区间 [−0.05, +1.91]，不含物体事件隐含的 +2.08 cm/m，判读是人脚没有这个横滚。
+launch               P(supported)=0.94  verified               [launch]  k-fix 重新评测在来历 151de5036926 上开跑，预演全过，开跑时 GPU 是空的。
+ctl_true_second      P(supported)=0.99  control(true) ok       [planes]  二机位的 5 集是 ep12、ep14、ep16、ep25、ep28。
+ctl_false_side       P(supported)=0.01  control(false) ok      [planes]  侧机位 ep21 的发布地面俯仰是 6.06°。
+controls behaved as expected

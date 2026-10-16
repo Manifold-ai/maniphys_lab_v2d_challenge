@@ -20,6 +20,26 @@
     "world": {
       "file": "results/t3kfix/kfix_vs_gb3_world_ml40_1016.txt",
       "grep": "^ep|集；|DONE"
+    },
+    "p1": {
+      "file": "results/r3o/verdict_P1_mf4090.txt",
+      "grep": "对照|修好 |R3O_VERDICT|ep2-"
+    },
+    "loo": {
+      "file": "results/t3kfix/gb3_floor_loo_ml40_1016.txt",
+      "grep": "组 0："
+    },
+    "launch": {
+      "file": "results/t3kfix/reexport_launch_mf4090.txt",
+      "grep": "预演全过|来历|GPU 空|=== "
+    },
+    "boot": {
+      "file": "results/t3world/floor_roll_boot.txt",
+      "grep": "判据 4c|抽样|逐集留一|判读"
+    },
+    "feet": {
+      "file": "results/t3world/feet_roll.txt",
+      "grep": "斜率|判读"
     }
   },
   "claims": [
@@ -71,6 +91,48 @@
         "world"
       ],
       "claim": "7 集（ep0、18、20、22、24、26、29）的世界系结果里，k-fix 与 gb3 的物体位置最大差是 0，人体 transl 与 poses 的最大差也是 0，物体朝向最大差 0.332°。"
+    },
+    {
+      "id": "p1_verdict",
+      "evidence": [
+        "p1"
+      ],
+      "claim": "r3o 的 P1 判读是“没用”：修好 0 集、有起色 0 集，对照 ep20 的 MP-SR 0.837 过了 0.45 的门槛。"
+    },
+    {
+      "id": "p1_ep2",
+      "evidence": [
+        "p1"
+      ],
+      "claim": "t1-ep2 的 r3o run 的 SP-SR 是 0.000，它的基线 SP-SR 是 0.138。"
+    },
+    {
+      "id": "loo",
+      "evidence": [
+        "loo"
+      ],
+      "claim": "gb3 主机位组的留一验证有 13 集，接触高度中位的绝对值从校正前 1.04 cm 变成校正后 1.53 cm，7 集变好、6 集变差。"
+    },
+    {
+      "id": "boot_roll",
+      "evidence": [
+        "boot"
+      ],
+      "claim": "GB1 变体下物体横滚按集抽样的 95% 区间是 [−2.004°, −0.486°]，不含 0；逐集留一的横滚在 −1.07° 到 −1.38° 之间。"
+    },
+    {
+      "id": "feet_roll",
+      "evidence": [
+        "feet"
+      ],
+      "claim": "人脚横向坡度是 +0.83 cm/m，95% 区间 [−0.05, +1.91]，不含物体事件隐含的 +2.08 cm/m，判读是人脚没有这个横滚。"
+    },
+    {
+      "id": "launch",
+      "evidence": [
+        "launch"
+      ],
+      "claim": "k-fix 重新评测在来历 151de5036926 上开跑，预演全过，开跑时 GPU 是空的。"
     },
     {
       "id": "ctl_true_second",
