@@ -214,5 +214,9 @@
   "ep13_all": "dr2s most accurate",
   "ep28_all": "all poor",
   "ep29_all": "all good"
+ },
+ "fourth_pass_dr2s_dyn7": {
+  "_doc": "10-16 ~13:30, user on overlays video | hm | dr2s | dr2s_dyn7 (dev/checked_frames/dr2sd7/), all 16 frames",
+  "verdict": "dr2s_dyn7 clearly better on the snack box (ep13) and the squeegee (ep28); about the same elsewhere; what was wrong stays wrong (e.g. ep04's bat); nothing got worse"
  }
 }
