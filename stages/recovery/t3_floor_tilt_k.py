@@ -17,9 +17,11 @@ GB1（方格拟合 GB 的内参，cy 531.1）是看到 G1 的结果之后加的�
 接触点高度随深度的斜率（cm/m）。
 判读（看结果之前登记于计划）：P 的倾斜在 3.83° ± 0.3° 内记“正对照复现”；G1、G2 的倾斜都 ≤ 1.0° 记“标定内参解释了地面倾斜”，任一 > 1.0° 记
 “标定内参解释不了地面倾斜”；口径按 |高度残差中位| 小的取（相差 < 0.5 cm 取口径一）。
+--boot（k-fix 计划判据 4c，10/16 登记）：只跑 GB1 变体，先不抽样拟一遍（应复现 GB1 行），再逐集留一，再按集有放回抽样 2000 次（种子 0，
+一集抽到 k 次按 k 倍权重）重拟，报横滚、俯仰分量的 95% 区间；横滚区间不含 0 记“物体横滚各集一致”，含 0 记“物体横滚各集不一致”。
 用法：uv run --no-project --python 3.12 --with numpy --with scipy --with trimesh python stages/recovery/t3_floor_tilt_k.py
-     [--events runs/t3world/floor/camera_height_main.json] [--budget runs/t3world/budget]
-最后一行 FLOOR_TILT_K_DONE。
+     [--events runs/t3world/floor/camera_height_main.json] [--budget runs/t3world/budget] [--boot]
+最后一行 FLOOR_TILT_K_DONE（--boot 时 FLOOR_ROLL_BOOT_DONE <判读>）。
 """
 import argparse
 import json
@@ -104,11 +106,85 @@ def fit_plane(p: np.ndarray, w: np.ndarray, up: np.ndarray) -> tuple:
     return n, d
 
 
+def components(up: np.ndarray, n_rel: np.ndarray) -> tuple:
+    """倾斜、俯仰分量、横滚分量（度），定义同 main 里的打印。"""
+    tilt = math.degrees(math.acos(min(1.0, float(up @ n_rel))))
+    pitch = math.degrees(math.atan2(up[2], -up[1]) - math.atan2(n_rel[2], -n_rel[1]))
+    roll = math.degrees(math.atan2(up[0], -up[1]) - math.atan2(n_rel[0], -n_rel[1]))
+    return tilt, pitch, roll
+
+
+def boot(rows: list, data: dict, n_rel: np.ndarray, B: int = 2000, seed: int = 0) -> int:
+    """判据 4c：GB1 变体按集有放回抽样重拟地面。事件的凸包点一次算好（补齐成 E×V×3，掩码标出有效顶点）。"""
+    var = VARIANTS["GB1 方格 GB（口径一，事后加的探索）"]
+    per_ep = {}
+    for r in rows:
+        T, kc, hull = data[r["episode"]]
+        R, t = reexpress(T[r["frame"]], kc, var)
+        per_ep.setdefault(r["episode"], []).append(hull @ R.T + t)
+    eps = sorted(per_ep)
+    E = sum(len(v) for v in per_ep.values())
+    V = max(len(X) for v in per_ep.values() for X in v)
+    Xs = np.zeros((E, V, 3))
+    mask = np.zeros((E, V), bool)
+    ep_of = np.zeros(E, int)
+    base_w = np.zeros(E)
+    k = 0
+    for j, ep in enumerate(eps):
+        for X in per_ep[ep]:
+            Xs[k, :len(X)] = X
+            mask[k, :len(X)] = True
+            ep_of[k] = j
+            base_w[k] = 1.0 / len(per_ep[ep])
+            k += 1
+
+    def fit(mult: np.ndarray) -> np.ndarray:
+        w = base_w * mult[ep_of]
+        keep = w > 0
+        X, m, ww = Xs[keep], mask[keep], w[keep]
+        up = n_rel.copy()
+        for _ in range(3):
+            proj = np.where(m, X @ up, np.inf)
+            pts = X[np.arange(len(X)), proj.argmin(1)]
+            up, _ = fit_plane(pts, ww, n_rel)
+        return up
+
+    t0, p0, r0 = components(fit(np.ones(len(eps))), n_rel)
+    print(f"== 判据 4c：GB1 变体，{E} 个事件，{len(eps)} 集")
+    print(f"  不抽样：倾斜 {t0:.3f}°（俯仰分量 {p0:+.3f}°、横滚分量 {r0:+.3f}°）；应复现 GB1 行（1.22°、−0.26°、−1.20°）")
+    if abs(t0 - 1.22) > 0.02 or abs(r0 + 1.20) > 0.02:
+        print("  没复现 GB1 行，停下查实现")
+        print("FLOOR_ROLL_BOOT_FAILED")
+        return 1
+    loo = []
+    for j, ep in enumerate(eps):
+        mult = np.ones(len(eps))
+        mult[j] = 0
+        loo.append((ep, components(fit(mult), n_rel)[2]))
+    print("  逐集留一的横滚分量（去掉该集重拟，只报不判）：" + "；".join(f"{ep[:4]} {r:+.2f}°" for ep, r in loo))
+    rng = np.random.default_rng(seed)
+    rolls, pitches = [], []
+    for _ in range(B):
+        mult = np.bincount(rng.integers(0, len(eps), len(eps)), minlength=len(eps)).astype(float)
+        _, pb, rb = components(fit(mult), n_rel)
+        rolls.append(rb)
+        pitches.append(pb)
+    rl, rh = np.percentile(rolls, [2.5, 97.5])
+    pl, ph = np.percentile(pitches, [2.5, 97.5])
+    verdict = "物体横滚各集一致" if not (rl <= 0 <= rh) else "物体横滚各集不一致"
+    print(f"  按集有放回抽样 {B} 次（种子 {seed}）：横滚分量中位 {np.median(rolls):+.3f}°，95% 区间 [{rl:+.3f}°, {rh:+.3f}°]；"
+          f"俯仰分量中位 {np.median(pitches):+.3f}°，95% 区间 [{pl:+.3f}°, {ph:+.3f}°]（只报不判）")
+    print(f"  判读（横滚）：区间{'含' if rl <= 0 <= rh else '不含'} 0 → {verdict}")
+    print(f"FLOOR_ROLL_BOOT_DONE {verdict}")
+    return 0
+
+
 def main() -> int:
     import trimesh
     ap = argparse.ArgumentParser()
     ap.add_argument("--events", type=Path, default=ROOT / "runs/t3world/floor/camera_height_main.json")
     ap.add_argument("--budget", type=Path, default=ROOT / "runs/t3world/budget")
+    ap.add_argument("--boot", action="store_true", help="判据 4c：只跑 GB1 变体的按集抽样")
     a = ap.parse_args()
     sys.path.insert(0, str(ROOT / "libs/v2d_infra"))
     from tier_guard import forbid_tier1
@@ -124,6 +200,8 @@ def main() -> int:
         hull = np.asarray(trimesh.load(DS / meta[ep]["mesh"], force="mesh").convex_hull.vertices, np.float64)
         data[ep] = (oc["T_cam_glb"].astype(np.float64), oc["intrinsics"].astype(np.float64), hull)
     print(f"== {len(rows)} 个地面事件，{len(eps)} 集；发布地面 n = ({n_rel[0]:+.5f}, {n_rel[1]:+.5f}, {n_rel[2]:+.5f})，d {d_rel:.4f} m")
+    if a.boot:
+        return boot(rows, data, n_rel)
     for name, var in VARIANTS.items():
         pts, w, epi = [], [], []
         poses = {}
