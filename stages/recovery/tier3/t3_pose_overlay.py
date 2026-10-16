@@ -80,7 +80,9 @@ def main() -> None:
         mesh = trimesh.load(root / "input" / metas[ep]["mesh"], force="mesh")
         tex = None
         if kv.get("tex") == "1":  # texture colours per face of the full mesh, carried to the decimated faces by nearest centre
-            full_fc = np.asarray(mesh.visual.to_color().face_colors)[:, :3].astype(np.uint8)
+            cv = mesh.visual.to_color()
+            cv.mesh = mesh  # to_color() leaves it unset, and face_colors are derived from the vertex colours through it
+            full_fc = np.asarray(cv.face_colors)[:, :3].astype(np.uint8)
             full_c = np.asarray(mesh.triangles_center)
         if len(mesh.faces) > MAX_FACES:
             mesh = mesh.simplify_quadric_decimation(face_count=MAX_FACES)
