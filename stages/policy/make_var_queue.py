@@ -39,11 +39,14 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
        导出清单；t3p4 在 mf4090（400 万 buffer，run 名 t3-ep<N>-w2048-cap4m-r3a-hm-mf4090），t3q 在 ml40（1000 万，t3-ep<N>-w2048-cap10m-r3a-hm-ml40）。
        两份清单都带同一个 29 集的总顺序，段之间挪集只要 --episodes。支撑面按 best_hm 自己的支撑面定（tables 键，计划审查 1）：
        期望表的 support 列与 scene.support=false 覆盖都按它给，不沿用 Tier 2 基线的（ep1 的 Tier 2 基线开着支撑面，best_hm 的 ep1 只有地面）。
+  t3pg、t3qg Tier 3 标定内参的 gb3 交付版（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md）：参考在 /runs/motion/tier3_gb3/，其余取法同 t3p4、t3q
+       （基线取 Tier 2 导出清单；支撑面按 gb3 自己的，有桌面的 12 集与 best_hm 相同，results/t3gb3/inventory_ml40.txt）；
+       t3pg 在 mf4090（ep20、22、21，400 万，run 名 t3-ep<N>-w2048-cap4m-r3a-gb3-mf4090），t3qg 在 ml40（ep6、8、7，1000 万，t3-ep<N>-w2048-cap10m-r3a-gb3-ml40）。
 --seed N（计划 agent-doc/plan-first-place-2026-10-14.md 第 2 节选项甲）：只许用在非预设的段（同时给 --episodes），N 是 1–9999、不是 42 的整数；
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
   t1c（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）：ml40、1000 万，跟丢的 ep25、28、11、1 的变体 A seed 42，基线取法同 t1y，
@@ -71,6 +74,8 @@ from make_trial_queue import HEADER, SMOKE_STEPS, STEPS, VARIANT, baseline  # no
 ALLOWED = {"scene.support=false", "training.replay.capacity=4000000"}
 # best_hm 有桌面的 12 集（results/t3hm/support_kinds_root_mf4090.txt 的 scaled_cube=yes；其余 17 集只有地面）
 TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]
+# gb3 有桌面的集与 best_hm 相同（其余集的支撑面是空的 Xform，results/t3gb3/inventory_ml40.txt）
+TABLES_GB3 = TABLES_HM
 # D 的总顺序：① ep15、17；② 没在 Tier 3 训练过的 18 集与 ep8（10/9 试跑在旧参考上失败），按集号；③ 其余 8 集重训（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md 第 2 节）
 ORDER_HM = [15, 17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 19, 21, 25, 27, 0, 18, 22, 24, 26, 20, 23, 29]
 SETS = {
@@ -108,6 +113,14 @@ SETS = {
             "episodes": ORDER_HM, "parts": {"t3qa": [4, 5, 6, 7, 8, 9, 10, 11], "t3qb": [0, 18, 22, 24, 26, 20, 23, 29]},
             "base": None, "motion": "tier3_hm", "tables": TABLES_HM, "run": "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40",
             "desc": "Tier 3 最终交付版 best_hm：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_hm，基线取 Tier 2 导出清单，支撑面按 best_hm）"},
+    "t3pg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+             "episodes": [20, 22, 21], "parts": {"t3pg": [20, 22, 21]},
+             "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090",
+             "desc": "Tier 3 gb3（标定内参）：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb3，基线取 Tier 2 导出清单，支撑面按 gb3）"},
+    "t3qg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "ml40", "cap": None,
+             "episodes": [6, 8, 7], "parts": {"t3qg": [6, 8, 7]},
+             "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40",
+             "desc": "Tier 3 gb3（标定内参）：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb3，基线取 Tier 2 导出清单，支撑面按 gb3）"},
     "t1x": {"plan": "agent-doc/plan-next-training-2026-10-12.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
             "episodes": [17, 21, 10, 13, 19, 3, 14], "parts": {"t1xa": [17, 21, 10, 13, 19, 3, 14]}, "base": None,
             "run": "t1-ep{ep}-w2048-cap4m-r3a-mf4090",

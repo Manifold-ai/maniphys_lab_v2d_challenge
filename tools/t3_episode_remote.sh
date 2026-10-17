@@ -1,6 +1,6 @@
 # 服务器上的只读核对：同组成员的 Tier 3 重建产物（/lab_data/<目录>/v2d/tier3/runs/tier3_cari4d）里给定几集的文件、本用户能不能读、元数据内容。
 # 经 stdin 送过去执行。只读：不改文件、不进容器。别人的目录名、用户名与 home 目录名一律换成 <其他用户>（同 tools/t3_queue_remote.sh）。
-# V2D_T3_SUBDIR 选目录，默认 tier3_cari4d；白名单与 stages/recovery/tier3_pack_remote.sh 相同（计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md；10/14 加 best_dyn4、best_dyn4s，计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md）。
+# V2D_T3_SUBDIR 选目录，默认 tier3_cari4d；白名单与 stages/recovery/tier3_pack_remote.sh 相同（计划 agent-doc/plan-t3-pilot-v2-2026-10-10.md；10/14 加 best_dyn4、best_dyn4s，计划 agent-doc/plan-t3dyn-pilot-2026-10-14.md；10/17 加 gb3 交付版 tier3_cari4d_gb_best_dr2s_dyn7，计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md）。
 # V2D_T3_SUPPORT=delivery（只许空或 delivery；计划 agent-doc/plan-t3-hm-p2-2026-10-12.md）：每集多打一行支撑面文件，格式同 parquet 行
 #   “可读 … sha256 <64 位> support_surface/<文件名>.usda”（路径不合要求或读不了另打一行说明）；另打 support_surface/support_usda.json 的
 #   sha256 与内容，那一行以 “## ” 开头，不会被 tier3_expect.py 当成文件行。不设时输出与以前相同。
@@ -22,7 +22,7 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
   echo "== $(hostname) $(date '+%F %T %Z')"
   [ ${#roots[@]} = 1 ] || { echo "别的用户的 tier3 目录不是恰好一个：${roots[*]:-无}"; exit 1; }
   SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_kfix_F) ;;
+  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_cari4d_gb_best_dr2s_dyn7|tier3_cari4d_gb_best_dr2s_dyn7_suspect|tier3_kfix_F) ;;
     *) echo "V2D_T3_SUBDIR 不在白名单里：$SUB"; exit 2 ;;
   esac
   SUP="${V2D_T3_SUPPORT:-}"

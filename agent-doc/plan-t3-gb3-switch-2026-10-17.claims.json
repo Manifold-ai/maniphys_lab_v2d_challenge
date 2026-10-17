@@ -1,0 +1,106 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "inv": {
+   "file": "results/t3gb3/inventory_ml40.txt"
+  },
+  "tbl": {
+   "file": "results/t3probe/eval_table_probe1015.txt",
+   "grep": "^run|^t3-ep|平均"
+  },
+  "pk": {
+   "file": "results/t3kfix/retrain_switch_t3pk_mf4090.txt",
+   "grep": "^ep|RETRAIN_SWITCH_DONE"
+  },
+  "sub": {
+   "file": "results/submission/submit_t3_kfix1017.txt",
+   "grep": "COMPLETE|left today"
+  },
+  "dlv": {
+   "file": "results/t3gb3/delivery_md_ml40.txt",
+   "grep": "手物距离|已知问题|修正后以原名"
+  }
+ },
+ "claims": [
+  {
+   "id": "inv_same",
+   "evidence": [
+    "inv"
+   ],
+   "claim": "gb3 每集选的 convert 与 f830_best 选的逐集相同，30 集都相同。"
+  },
+  {
+   "id": "inv_tables",
+   "evidence": [
+    "inv"
+   ],
+   "claim": "gb3 里支撑面 sha256 前 12 位不是 4f9e5e6f2014 的集恰好是 ep2、3、6、7、9、11、13、16、17、20、25、27 这 12 集。"
+  },
+  {
+   "id": "ep28_suspect",
+   "evidence": [
+    "inv"
+   ],
+   "claim": "gb3 的 ep28 在 _suspect 目录里，其余 29 集在交付目录里。"
+  },
+  {
+   "id": "track11",
+   "evidence": [
+    "tbl"
+   ],
+   "claim": "这张 4096 世界的评测表里，ep0、6、7、8、18、20、21、22、24、26、29 这 11 集的 SP-SR 都不低于 0.5，其余 19 集的 SP-SR 都不高于 0.121。"
+  },
+  {
+   "id": "pk_ep0",
+   "evidence": [
+    "pk"
+   ],
+   "claim": "k-fix 重训的 ep0 新 MPPE 5.63 cm、SP-SR 0.8816，旧 run 的 SP-SR 0.992，判据 5 判不换。"
+  },
+  {
+   "id": "pk_ep29",
+   "evidence": [
+    "pk"
+   ],
+   "claim": "k-fix 重训的 ep29 新 MPPE 11.13 cm、SP-SR 0.5305，旧 run 的 SP-SR 0.713，判据 5 判不换。"
+  },
+  {
+   "id": "board",
+   "evidence": [
+    "sub"
+   ],
+   "claim": "kfix1017 在榜上 MPPE 55.76705、AUC 0.04885、SP-SR 0.13333、MP-SR 0，上传前每个榜都报 5 left today。"
+  },
+  {
+   "id": "hand",
+   "evidence": [
+    "dlv"
+   ],
+   "claim": "交付说明写明，换成 GB 后 ep01 手到物体表面的距离中位从 1.9 cm 变成 7.1 cm，ep07 从 0.4 cm 变成 1.5 cm，修正后以原名重生成。"
+  },
+  {
+   "id": "ctl_inv",
+   "evidence": [
+    "inv"
+   ],
+   "claim": "gb3 有 5 集选的 convert 与 f830_best 不同。",
+   "control": true
+  },
+  {
+   "id": "ctl_pk",
+   "evidence": [
+    "pk"
+   ],
+   "claim": "k-fix 重训的 ep29 在 4096 世界上 SP-SR 高于 0.7，按判据 5 判换。",
+   "control": true
+  },
+  {
+   "id": "ctl_board",
+   "evidence": [
+    "sub"
+   ],
+   "claim": "kfix1017 在榜上 AUC 是 0.156。",
+   "control": true
+  }
+ ]
+}

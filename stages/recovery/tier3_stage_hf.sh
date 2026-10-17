@@ -10,9 +10,12 @@
 #   2c. mf4090：hf_transfer.py pull 到空目录 runs/tier3/incoming/<标签>.pull（逐个文件按清单的 sha256 核），把其中的 pack/ 搬成 <标签>.partial，删 .pull。
 #       mf4090 用 .env（不设 V2D_ENV；没有 .env.mf4090，同 pull_submission.sh 的 host_env），ml40 用 .env.ml40
 #   3. 同 tier3_stage.sh：改名为 <标签>/、列出 sha256 与部署版本、V2D_T3_SET=<名> tier3_root.py <incoming> --expect <哈希表>（加 --support-dir 时
-#      支撑面从 mf4090 上已拼好的档目录复制，按哈希表的 sha256 核）
+#      支撑面从 mf4090 上已拼好的档目录复制，按哈希表的 sha256 核；加 --support-from-incoming 时支撑面从转来的目录复制，同样按哈希表核）
 # 环境变量：V2D_T3_SUBDIR（必填，白名单在 tier3_pack_remote.sh）、V2D_T3_OWN（本用户目录模式，见 tier3_pack_remote.sh）、V2D_T3_SET（必填）、
 #   V2D_T3_SUPPORT_DIR（runs/tier3/root_<名>，可空）、V2D_HF_XFER_REPO（默认 Rongxuan-Zhou/v2d-track2-transfer）。
+# V2D_T3_SUPPORT=delivery（只许空或 delivery；计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1b，用法同 tier3_stage.sh）：打包带上交付目录里
+#   每集元数据 support_surface 指向的文件，tier3_root.py 加 --support-from-incoming；哈希表要用 tier3_expect.py --support-from-remote 生成。
+#   与 V2D_T3_SUPPORT_DIR 只能设一个。
 # 任何一步失败就停，已经建的 .partial / .pull 留着给人看（不自动删 HF 上的文件）。
 # V2D_STAGEHF_R、V2D_STAGEHF_R40、V2D_STAGEHF_HF_REMOTE、V2D_STAGEHF_PACK 只给测试用：两台的仓库副本路径、hf_remote 与打包脚本。
 # 用法：scripts/dev/record t3kfix/stage_hf_mf4090 stages/recovery/tier3_stage_hf.sh <标签> <集>...
@@ -28,10 +31,14 @@ SUB=${V2D_T3_SUBDIR:?要设 V2D_T3_SUBDIR}; SET=${V2D_T3_SET:?要设 V2D_T3_SET}
 [[ -z $OWN || $OWN =~ ^/lab_data/[a-z0-9]+/v2d/[A-Za-z0-9_/-]+$ ]] || { echo "tier3_stage_hf: V2D_T3_OWN 非法：${OWN}" >&2; exit 2; }
 SDIR=${V2D_T3_SUPPORT_DIR:-}
 [[ $SDIR =~ ^(runs/tier3/root_[a-z0-9]+)?$ ]] || { echo "tier3_stage_hf: V2D_T3_SUPPORT_DIR 只许空或 runs/tier3/root_<名>：${SDIR}" >&2; exit 2; }
+SUP=${V2D_T3_SUPPORT:-}
+[[ $SUP =~ ^(delivery)?$ ]] || { echo "tier3_stage_hf: V2D_T3_SUPPORT 只许空或 delivery：${SUP}" >&2; exit 2; }
+[ -z "$SDIR" ] || [ "$SUP" != delivery ] || { echo "tier3_stage_hf: V2D_T3_SUPPORT=delivery 与 V2D_T3_SUPPORT_DIR 只能设一个" >&2; exit 2; }
 REPO=${V2D_HF_XFER_REPO:-Rongxuan-Zhou/v2d-track2-transfer}
 [[ $REPO =~ ^[A-Za-z0-9_-]+/[A-Za-z0-9._-]+$ ]] || { echo "tier3_stage_hf: V2D_HF_XFER_REPO 非法：${REPO}" >&2; exit 2; }
 SFLAG=""; SNOTE=""
 if [ -n "$SDIR" ]; then SFLAG=" --support-dir $SDIR"; SNOTE="；V2D_T3_SUPPORT_DIR=${SDIR}"; fi
+if [ "$SUP" = delivery ]; then SFLAG=" --support-from-incoming"; SNOTE="；V2D_T3_SUPPORT=delivery"; fi
 R=${V2D_STAGEHF_R:-'~/v2d/maniphys_lab_v2d_challenge'}; IN="runs/tier3/incoming/$TAG"; EXP="stages/recovery/expect/$TAG.tsv"; HS="runs/hf_src/$TAG"
 HFR=${V2D_STAGEHF_HF_REMOTE:-tools/hf_remote.sh}; PACK=${V2D_STAGEHF_PACK:-stages/recovery/tier3_pack_remote.sh}   # V2D_STAGEHF_* 只给测试用（stages/recovery/test_tier3_stage_hf.py）
 [ -f "$EXP" ] || { echo "tier3_stage_hf: 缺哈希表 ${EXP}（先用 stages/recovery/tier3_expect.py 生成、提交并放到 mf4090）" >&2; exit 1; }
@@ -44,7 +51,7 @@ R40=${V2D_STAGEHF_R40:-$(ROOT=$PWD V2D_ENV=ml40 bash -c '. "$ROOT/scripts/dev/_l
 ssh -o BatchMode=yes ml40 "cd $R40 && [ ! -e $HS ] && mkdir -p $HS/pack && echo ml40_OK" || { echo "tier3_stage_hf: ml40 上 ${HS} 已存在或建不了" >&2; exit 1; }
 
 echo "== 2a. ml40 本机打包并解开（数据不经 Mac）"
-ssh -o BatchMode=yes ml40 "cd $R40 && V2D_T3_SUBDIR=$SUB V2D_T3_OWN=$OWN bash -s -- $* > $HS/pack.tar" < "$PACK" \
+ssh -o BatchMode=yes ml40 "cd $R40 && V2D_T3_SUBDIR=$SUB V2D_T3_OWN=$OWN V2D_T3_SUPPORT=$SUP bash -s -- $* > $HS/pack.tar" < "$PACK" \
   || { echo "tier3_stage_hf: ml40 上打包失败（${HS}/pack.tar 留着）" >&2; exit 1; }
 ssh -o BatchMode=yes ml40 "cd $R40 && tar -xf $HS/pack.tar -C $HS/pack && rm $HS/pack.tar && (cd $HS/pack && find . -type f | sort | xargs sha256sum)" \
   || { echo "tier3_stage_hf: ml40 上解包失败" >&2; exit 1; }

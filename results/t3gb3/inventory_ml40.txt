@@ -1,0 +1,41 @@
+# command  : bash -c ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=15\ -o\ ControlMaster=no\ -o\ ControlPath=none\ ml40\ python3\ -\ \<\ stages/recovery/t3_gb3_inventory.py\ \|\ tools/redact_stdin.sh 
+# md5      : 29fd6044614e48a5caccfcdce9d40330  stages/recovery/t3_gb3_inventory.py
+# md5      : 33a641ecd3e4bf0ac956a82c7351365d  tools/redact_stdin.sh
+# source   : 05d9be5af498-dirty
+# host     : Mac
+# run_at   : 2026-10-17T18:18:04-0400
+# ---------------------------------------------------------------
+版本 runs/tier3_cari4d_gb_best_dr2s_dyn7；选择记录 runs/tier3_cari4d_gb_best.selection.json、runs/tier3_cari4d_f830_best.selection.json
+集	gb_best 选	convert	f830_best 选	相同	目录	parquet	元数据	支撑面文件	支撑面
+ep0	base	convert_gb3	base	是	交付	11ffbf376678	ab333734baa3	2026-06-04_14-16-23_tall_bar_stool_tip_up_04_support.usda	4f9e5e6f2014
+ep1	fp	convert_fp_gb3	fp	是	交付	26d0812d04dd	5787a745d6d1	2026-05-18_17-06-21_vacuum_left_lean_02_support.usda	4f9e5e6f2014
+ep2	fp	convert_fp_gb3	fp	是	交付	896baa703c7d	a0a19639f869	2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda	753db010c39b
+ep3	fp	convert_fp_gb3	fp	是	交付	5e7a2e8b74d4	25263b0927ad	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda	8615e431923d
+ep4	fp	convert_fp_gb3	fp	是	交付	dab7521f667b	399c3bfd5ad9	2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda	4f9e5e6f2014
+ep5	base	convert_gb3	base	是	交付	a00074190682	2266deac9709	2026-03-18_19-36-56_g1_box_rotate_01_support.usda	4f9e5e6f2014
+ep6	v2sel	convert_v2_gb3	v2sel	是	交付	5e5baa85f872	d9ad6fe72894	2026-06-01_11-26-44_monitor_rotate_05_support.usda	f08e69e62fc9
+ep7	v2sel	convert_v2_gb3	v2sel	是	交付	5306b056c0a8	8dbc80e274ab	2026-05-29_15-20-43_iron_round_table_02_support.usda	d7406e611178
+ep8	base	convert_gb3	base	是	交付	ef5b2f0ec12d	d416f026fe7d	2026-06-05_15-08-08_skinny_wood_chair_push_10_support.usda	4f9e5e6f2014
+ep9	fp	convert_fp_gb3	fp	是	交付	4f69b29dc97c	c2d27a5266ea	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda	80011d5a0d4f
+ep10	v2sel	convert_v2_gb3	v2sel	是	交付	40a0c8a91627	3b610b54e2ba	2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda	4f9e5e6f2014
+ep11	fp	convert_fp_gb3	fp	是	交付	220239d16859	c88c7b352e35	2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda	9d35dae71071
+ep12	base	convert_gb3	base	是	交付	c709bb1c2b42	8d63583fa347	2026-04-25_17-20-04_black_platform_turn_05_support.usda	4f9e5e6f2014
+ep13	fp	convert_fp_gb3	fp	是	交付	fe2355cfdf6e	fa0f0a275345	2026-06-09_10-19-09_snack_box_desk_through_06_support.usda	50fa782bc9a2
+ep14	base	convert_gb3	base	是	交付	e381ea7dafee	5738dc3961bc	2026-05-28_14-44-09_round_table_flip_08_support.usda	4f9e5e6f2014
+ep15	fp	convert_fp_gb3	fp	是	交付	f2c54e36b817	4290c6ba32d8	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda	4f9e5e6f2014
+ep16	fp	convert_fp_gb3	fp	是	交付	55dce3da68d3	ae90db183e6a	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda	5449a4fd7e6a
+ep17	fp	convert_fp_gb3	fp	是	交付	bbe5eb62b960	e291bd9dd921	2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda	0ba29122d47d
+ep18	base	convert_gb3	base	是	交付	28e0828f2faf	d7394ac6ac56	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08_support.usda	4f9e5e6f2014
+ep19	override	convert_pivot_gb3	override	是	交付	153296d36e6a	e6073797592b	2026-05-19_10-19-48_cane_swing_05_support.usda	4f9e5e6f2014
+ep20	base	convert_gb3	base	是	交付	cbc43a461862	ff988a9b6095	2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda	a1d335bec472
+ep21	base	convert_gb3	base	是	交付	6096d43528ad	35c858dd87be	2026-04-29_11-53-57_tall_bar_stool_pull_08_support.usda	4f9e5e6f2014
+ep22	v2sel	convert_v2_gb3	v2sel	是	交付	972a68435ea7	77d3c36ad91e	2026-05-22_16-52-36_step_ladder_drag_03_support.usda	4f9e5e6f2014
+ep23	base	convert_gb3	base	是	交付	b57ade5113e5	98feecf2c741	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda	4f9e5e6f2014
+ep24	base	convert_gb3	base	是	交付	4bac9fcf7105	e55665b5ca21	2026-05-29_15-43-20_watering_can_pour_right_02_support.usda	4f9e5e6f2014
+ep25	fp	convert_fp_gb3	fp	是	交付	6619ae89ab8a	3f58e4d7c774	2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda	5172e4a2f293
+ep26	base	convert_gb3	base	是	交付	44b5271fba98	d4d754d84720	2026-06-05_16-05-08_skateboard_rotate_ground_10_support.usda	4f9e5e6f2014
+ep27	fp	convert_fp_gb3	fp	是	交付	c9cfc1eef0f8	576271b758b9	2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda	cfea39a2c80c
+ep28	fp	convert_fp_gb3	fp	是	_suspect	84ebd21670b6	b0dae8b68b23	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda	4f9e5e6f2014
+ep29	base	convert_gb3	base	是	交付	c6dd5d4dd00f	f08921ed97df	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06_support.usda	4f9e5e6f2014
+gb_best 与 f830_best 选的相同：30/30
+T3_GB3_INVENTORY_DONE 30

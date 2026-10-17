@@ -100,6 +100,18 @@ def test_previous_outcome_blocks_arm_not_delete() -> None:
         assert rc == 1 and calls == ["PRE ran"] and want in last(out), (kw, rc, calls, out)
 
 
+def test_independent_ignores_previous_outcome() -> None:
+    # 计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1d：V2D_AFTER_INDEPENDENT=1 时上一段的失败只记录、照起；不设时照旧拦（上一个测试）
+    for kw in (dict(train_last="=== x DAY2_TRAIN_DONE（完成 2、失败 1、跳过 0、发散 2）"), dict(eval_last="=== x DAY2_EVAL_FAILED"),
+               dict(export_last=None), dict(export_last="=== x EXPORT_CHAIN_DONE（成功 4、失败 1）")):
+        rc, calls, out, _ = run(V2D_AFTER_INDEPENDENT="1", **kw)
+        assert rc == 0 and calls == ARMED and last(out).endswith("ARM_AFTER_ARMED") and "只记录、不拦" in out, (kw, rc, calls, out)
+    rc, calls, out, _ = run(V2D_AFTER_INDEPENDENT="1", pre='echo "PRE ran" >> calls.txt; echo 1234567890ab > .v2d-source-commit')
+    assert rc == 1 and calls == ["PRE ran"] and "来历或 t3p4b 的队列在等待期间变了" in last(out), (rc, calls, out)
+    rc, calls, out, _ = run(V2D_AFTER_INDEPENDENT="1", marker_s=0)
+    assert rc == 1 and calls == [] and "等了 8 次还没结束" in out, (rc, calls, out)
+
+
 def test_pre_cmd_fails() -> None:
     rc, calls, out, _ = run(pre='echo "PRE ran" >> calls.txt; exit 3')
     assert rc == 1 and calls == ["PRE ran"] and last(out).endswith("ARM_AFTER_STOPPED 前置命令没过（退出码 3）"), (rc, calls, out)

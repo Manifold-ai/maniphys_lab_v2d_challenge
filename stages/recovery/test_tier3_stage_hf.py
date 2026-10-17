@@ -11,7 +11,10 @@ mf 根的 stages/recovery/tier3_root.py 是假的（按哈希表逐个核 sha256
   3. ml 上 runs/hf_src/<标签> 已存在：停在第 1 步，原有内容不动；
   4. 拉取失败：退出码非 0，mf 上 <标签>.pull 留着，<标签> 不存在；
   5. 拉下来的 .pull 里不只 pack/：停在搬目录那步，.pull 留着；
-  6. 拉下来的文件被改了：假的 tier3_root.py 报 sha256 不符，退出码非 0。
+  6. 拉下来的文件被改了：假的 tier3_root.py 报 sha256 不符，退出码非 0；
+  7. V2D_T3_SUPPORT=delivery（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1b）：打包带上支撑面，tier3_root.py 收到 --support-from-incoming，
+     incoming 里的支撑面与打包的逐字节相同；
+  8. V2D_T3_SUPPORT=delivery 与 V2D_T3_SUPPORT_DIR 同时设：退出码 2，两台上什么也没建。
 用法：python3 stages/recovery/test_tier3_stage_hf.py；最后一行 ALL_OK。
 """
 import hashlib
@@ -49,7 +52,8 @@ printf 'deadbeef00000000000000000000000000000000 dirty=0\n' > "$d/DEPLOYED"
 mkdir -p "$d/data/chunk-000" "$d/meta"
 printf 'parquet-bytes-ep%s' "$1" > "$d/data/chunk-000/episode_000000.parquet"
 printf '{"episode_index": 0}' > "$d/meta/episode_000000.metadata.json"
-tar -cf - -C "$d" DEPLOYED data meta
+if [ "${V2D_T3_SUPPORT:-}" = delivery ]; then mkdir -p "$d/support_surface"; printf 'usda-bytes' > "$d/support_surface/seq_support.usda"; fi
+tar -cf - -C "$d" DEPLOYED data meta $([ "${V2D_T3_SUPPORT:-}" = delivery ] && echo support_surface)
 rm -rf "$d"
 '''
 FAKE_XFER = r'''import os, shutil, sys
@@ -76,6 +80,7 @@ else:
 FAKE_ROOT = r'''import hashlib, sys
 from pathlib import Path
 inc = Path(sys.argv[1]); exp = sys.argv[sys.argv.index("--expect") + 1]
+print("ARGS " + " ".join(sys.argv[2:]))
 for line in Path(exp).read_text().splitlines():
     rel, _, h = line.split("\t")
     if hashlib.sha256((inc / rel).read_bytes()).hexdigest() != h:
@@ -109,6 +114,12 @@ def setup(t: Path) -> dict:
                V2D_STAGEHF_R=str(mf), V2D_STAGEHF_R40=str(ml), V2D_STAGEHF_HF_REMOTE=str(binp / "hfr"), V2D_STAGEHF_PACK=str(t / "pack.sh"),
                V2D_T3_SUBDIR="tier3_kfix_F", V2D_T3_SET="kfix")
     return {"mac": mac, "mf": mf, "ml": ml, "env": env}
+
+
+def add_support_row(c: dict) -> None:
+    for root in (c["mac"], c["mf"]):
+        p = root / f"stages/recovery/expect/{TAG}.tsv"
+        p.write_text(p.read_text() + f"support_surface/seq_support.usda\tsha256\t{sha(b'usda-bytes')}\n")
 
 
 def run(c: dict, **extra) -> subprocess.CompletedProcess:
@@ -164,7 +175,27 @@ def test_refusals() -> None:
     print("  6. 拉下来的文件被改了：拼档目录的核对报 sha256 不符，退出码非 0")
 
 
+def test_delivery_support() -> None:
+    with tempfile.TemporaryDirectory() as t:
+        c = setup(Path(t))
+        add_support_row(c)
+        r = run(c, V2D_T3_SUPPORT="delivery")
+        lines = r.stdout.strip().splitlines()
+        assert r.returncode == 0 and lines[-1] == "ROOT_OK", r.stdout + r.stderr
+        assert any(x.startswith("ARGS ") and "--support-from-incoming" in x and "--support-dir" not in x for x in lines), r.stdout
+        inc = c["mf"] / f"runs/tier3/incoming/{TAG}"
+        assert (inc / "support_surface/seq_support.usda").read_bytes() == b"usda-bytes"
+    print("  7. V2D_T3_SUPPORT=delivery：支撑面随包转来，tier3_root.py 收到 --support-from-incoming，核对通过")
+    with tempfile.TemporaryDirectory() as t:
+        c = setup(Path(t))
+        r = run(c, V2D_T3_SUPPORT="delivery", V2D_T3_SUPPORT_DIR="runs/tier3/root_hm")
+        assert r.returncode == 2 and not (c["ml"] / f"runs/hf_src/{TAG}").exists(), r.stdout + r.stderr
+        assert not (c["mf"] / "runs/tier3/incoming").exists(), r.stdout + r.stderr
+    print("  8. delivery 与 V2D_T3_SUPPORT_DIR 同时设：退出码 2，两台上什么也没建")
+
+
 if __name__ == "__main__":
     test_normal()
     test_refusals()
+    test_delivery_support()
     print("ALL_OK")

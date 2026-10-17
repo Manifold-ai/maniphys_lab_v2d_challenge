@@ -440,6 +440,44 @@ def test_t1c2_part():
         assert gen(root, "t1c3", "--episodes", "4").returncode != 0   # ep4 不在 t1c 清单里
 
 
+def test_t3pg_t3qg_parts():
+    """gb3（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1c）：与 t3p4、t3q 同集的行遮掉 run 名、参考目录、W&B 标签后逐字相同。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        for part, m, eps, ref_part, ref_tag, fmt, ref_fmt in (
+                ("t3pg", "mf4090", [20, 22, 21], "t3p4z", "t3p4", "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090", "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090"),
+                ("t3qg", "ml40", [6, 8, 7], "t3qz", "t3q", "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40", "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40")):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            r = gen(root, ref_part, "--episodes", ",".join(map(str, eps)))
+            assert r.returncode == 0, r.stdout + r.stderr
+            f = lines(q / f"{m}_{part}.txt")
+            assert [x.split()[5] for x in f] == [fmt.format(ep=e) for e in eps], f
+            assert all("/runs/motion/tier3_gb3/" in x and "/runs/motion/tier3_hm/" not in x for x in f), f
+
+            def mask(x, run_fmt, motion, tag, ep):
+                return x.replace(run_fmt.format(ep=ep), "<RUN>").replace(f"/runs/motion/{motion}/", "/runs/motion/<REF>/").replace(f"V2D_WANDB_TAG={tag}", "V2D_WANDB_TAG=<TAG>")
+
+            for suffix in (".txt", "_smoke.txt", ".expect.tsv"):
+                new_l = [x for x in (q / f"{m}_{part}{suffix}").read_text().splitlines() if x and not x.startswith("#")]
+                ref_l = [x for x in (q / f"{m}_{ref_part}{suffix}").read_text().splitlines() if x and not x.startswith("#")]
+                if suffix == ".expect.tsv":
+                    assert new_l[0] == ref_l[0], (new_l[0], ref_l[0])
+                    new_l, ref_l = new_l[1:], ref_l[1:]
+                by_ep = {}
+                for x in ref_l:
+                    for e in eps:
+                        if ref_fmt.format(ep=e) in x:
+                            by_ep[e] = mask(x, ref_fmt, "tier3_hm", ref_tag, e)
+                assert len(new_l) == len(eps) and sorted(by_ep) == sorted(eps), (suffix, new_l, by_ep)
+                for x, e in zip(new_l, eps):
+                    assert mask(x, fmt, "tier3_gb3", part, e) == by_ep[e], (suffix, e, x, by_ep[e])
+            on = [e for e in eps if e in TABLES_HM]
+            assert all(("scene.support=false" in x) == (int(x.split()[5].split("-")[1][2:]) not in on) for x in f), f
+
+
 def test_t2m_part():
     """路 B：Tier 2 段换参考目录 /runs/motion/tier2/ → /runs/motion/tier2_c5/，mf4090、400 万，基线取 Tier 2 导出清单（ep1 的基线在 ml40）。"""
     with tempfile.TemporaryDirectory() as d:

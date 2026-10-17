@@ -12,6 +12,8 @@
 # 4. 跑 V2D_PRE_CMD，输出照抄；超时或退出码非 0 不起。前置命令不看上一段的结局（删除只要求没有链、卡空）。
 # 5. 上一段全部做完才起（D 计划第 4 节“每集”与“停”）：训练日志最后一行 DAY2_TRAIN_DONE（完成 <条数>、失败 0、跳过 0、发散 0），
 #    评测日志 DAY2_EVAL_DONE（成功 N、失败 0）且 N ≥ 1，导出日志 EXPORT_CHAIN_DONE（成功 <条数>、失败 0）。
+#    V2D_AFTER_INDEPENDENT=1（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1d）：下一段与上一段无关时，这一步只把上一段的结局记进日志、不拦；
+#    第 2、3、6、8 步照旧。不设时与以前相同。
 # 6. 来历与 md5 跟第 1 步相同（这段时间没有同步、队列没变）。
 # 7. 从环境里去掉 HF 凭据、代理与前置命令（HF_TOKEN、https_proxy、HTTPS_PROXY、http_proxy、HTTP_PROXY、HF_ENDPOINT、V2D_PRE_CMD）。
 # 8. V2D_ARM_DRYRUN=1 stages/policy/arm_var_chain.sh <段名>：退出码 0、最后一行 DRYRUN_OK 才起；再 stages/policy/arm_var_chain.sh <段名>：
@@ -62,11 +64,15 @@ if [ -n "${V2D_PRE_CMD:-}" ]; then
   [ "$rc" = 0 ] || stop "前置命令没过（退出码 ${rc}$([ "$rc" = 124 ] && echo '，超时')）"
 fi
 
-last "$PT" | grep -qF "DAY2_TRAIN_DONE（完成 ${PN}、失败 0、跳过 0、发散 0）" || stop "上一段训练没有全部完成（要 ${PN} 条完成、失败跳过发散都是 0）"
-last "$PE" | grep -qE 'DAY2_EVAL_DONE（成功 [1-9][0-9]*、失败 0）' || stop "上一段评测有失败或没有正常结束"
-last "$PX" | grep -qF "EXPORT_CHAIN_DONE（成功 ${PN}、失败 0）" || stop "上一段导出没有全部成功（要 ${PN} 条成功、失败 0）"
+if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then
+  say "V2D_AFTER_INDEPENDENT=1：${N} 与上一段无关，上一段的结局只记录、不拦。训练：$(last "$PT" | demark)；评测：$(last "$PE" | demark)；导出：$(last "$PX" | demark)"
+else
+  last "$PT" | grep -qF "DAY2_TRAIN_DONE（完成 ${PN}、失败 0、跳过 0、发散 0）" || stop "上一段训练没有全部完成（要 ${PN} 条完成、失败跳过发散都是 0）"
+  last "$PE" | grep -qE 'DAY2_EVAL_DONE（成功 [1-9][0-9]*、失败 0）' || stop "上一段评测有失败或没有正常结束"
+  last "$PX" | grep -qF "EXPORT_CHAIN_DONE（成功 ${PN}、失败 0）" || stop "上一段导出没有全部成功（要 ${PN} 条成功、失败 0）"
+fi
 [ "$(snap)" = "$S0" ] || stop "来历或 ${N} 的队列在等待期间变了：$(snap | tr '\n' ' ')"
-say "上一段 ${PN} 条训练、评测、导出都做完；来历与队列没变"
+if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then say "来历与队列没变"; else say "上一段 ${PN} 条训练、评测、导出都做完；来历与队列没变"; fi
 
 unset HF_TOKEN https_proxy HTTPS_PROXY http_proxy HTTP_PROXY HF_ENDPOINT V2D_PRE_CMD
 out="$(V2D_ARM_DRYRUN=1 bash stages/policy/arm_var_chain.sh "$N" 2>&1)"; rc=$?

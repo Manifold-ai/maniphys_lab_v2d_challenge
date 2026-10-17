@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/test_gb3_switch.py 
+# md5      : 0cbc8afce34c3147e31ecba33dc3cb63  stages/evaluate/test_gb3_switch.py
+# source   : 05d9be5af498-dirty
+# host     : Mac
+# run_at   : 2026-10-17T18:27:35-0400
+# ---------------------------------------------------------------
+  换、不换（MPPE 超 margin、SP-SR 不够）、不判（参考目录、世界数、缺文件）、只报不计入：都对
+ALL_OK

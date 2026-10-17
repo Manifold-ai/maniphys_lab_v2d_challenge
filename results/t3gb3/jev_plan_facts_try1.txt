@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/plan-t3-gb3-switch-2026-10-17.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f91be5bbc415155d583046f6b12a1d04  agent-doc/plan-t3-gb3-switch-2026-10-17.claims.json
+# source   : 05d9be5af498-dirty
+# host     : Mac
+# run_at   : 2026-10-17T18:29:20-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+inv_same             P(supported)=0.96  verified               [inv]  gb3 每集选的 convert 与 f830_best 选的逐集相同，30 集都相同。
+inv_tables           P(supported)=0.93  verified               [inv]  gb3 里支撑面 sha256 前 12 位不是 4f9e5e6f2014 的集恰好是 ep2、3、6、7、9、11、13、16、17、20、25、27 这 12 集。
+ep28_suspect         P(supported)=0.97  verified               [inv]  gb3 的 ep28 在 _suspect 目录里，其余 29 集在交付目录里。
+track11              P(supported)=0.93  verified               [tbl]  这张 4096 世界的评测表里，ep0、6、7、8、18、20、21、22、24、26、29 这 11 集的 SP-SR 都不低于 0.5，其余 19 集的 SP-SR 都不高于 0.121。
+pk_vals              P(supported)=0.58  UNVERIFIED             [pk]  k-fix 重训的 ep0 在 4096 世界上 MPPE 5.63 cm、SP-SR 0.8816；ep29 MPPE 11.13 cm、SP-SR 0.5305；两集按判据 5 都判不换。
+board                P(supported)=0.96  verified               [sub]  kfix1017 在榜上 MPPE 55.76705、AUC 0.04885、SP-SR 0.13333、MP-SR 0，上传前每个榜都报 5 left today。
+hand                 P(supported)=0.98  verified               [dlv]  交付说明写明，换成 GB 后 ep01 手到物体表面的距离中位从 1.9 cm 变成 7.1 cm，ep07 从 0.4 cm 变成 1.5 cm，修正后以原名重生成。
+ctl_inv              P(supported)=0.04  UNVERIFIED             [inv]  gb3 有 5 集选的 convert 与 f830_best 不同。
+ctl_pk               P(supported)=0.01  UNVERIFIED             [pk]  k-fix 重训的 ep29 在 4096 世界上 SP-SR 高于 0.7，按判据 5 判换。
+ctl_board            P(supported)=0.02  UNVERIFIED             [sub]  kfix1017 在榜上 AUC 是 0.156。
+controls behaved as expected

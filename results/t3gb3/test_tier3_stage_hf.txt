@@ -1,0 +1,15 @@
+# command  : python3 stages/recovery/test_tier3_stage_hf.py 
+# md5      : 25a01281a9fe7e2f1377d84af4426698  stages/recovery/test_tier3_stage_hf.py
+# source   : 05d9be5af498-dirty
+# host     : Mac
+# run_at   : 2026-10-17T18:24:54-0400
+# ---------------------------------------------------------------
+  1. 正常：拼档目录的核对通过，incoming 与打包的逐字节相同，.pull、.partial 不在，ml 上 pack.tar 已删
+  2. mf 上的哈希表与 Mac 不同：停在第 1 步，ml 上什么也没建
+  3. ml 上 runs/hf_src/<标签> 已存在：停在第 1 步，原有内容不动
+  4. 拉取失败：退出码非 0，.pull 留着，incoming/<标签> 不存在
+  5. .pull 里不只 pack/：停在搬目录那步，.pull 留着
+  6. 拉下来的文件被改了：拼档目录的核对报 sha256 不符，退出码非 0
+  7. V2D_T3_SUPPORT=delivery：支撑面随包转来，tier3_root.py 收到 --support-from-incoming，核对通过
+  8. delivery 与 V2D_T3_SUPPORT_DIR 同时设：退出码 2，两台上什么也没建
+ALL_OK
