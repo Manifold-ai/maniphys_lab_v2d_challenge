@@ -18,9 +18,13 @@ Three steps, each where its dependencies live:
   focal     v2d_cari4d image, CPU. Re-expresses the reconstruction for chosen intrinsics, per exo camera group: the
             spec's `intrinsics` sets f and the principal point (runs/floor/intrinsics_gb.json, 10-16), the older
             `focal_px` only f (runs/floor/focal.json); null keeps CARI4D's. The image stays: every point keeps its
-            pixel, depth scales by f_new / f_used (_intrinsics_map), orientations turn with the viewing ray. Object
-            and human (root and pelvis only, as in world). Writes object_cam_focal.npz, soma_params_focal.npz,
-            focal_calib.json.
+            pixel and depth scales by f_new / f_used (the point map M, _intrinsics_map). M is not rigid, so the object
+            and the person are each the rigid body closest to their point-mapped selves: the object fitted to its
+            mapped surface (Kabsch, _fit_object_to_map), the person's pose refitted to the mapped mesh with hands and
+            feet weighted (SOMA PoseInversion, _fit_body_to_map). Until 10-17 the object's centre was mapped and its
+            orientation turned with the viewing ray, and the body moved rigidly with its pelvis: hands drifted 1-6.5 cm
+            from held objects (ep01, ep16) and feet 4.5-6 cm, under the GB intrinsics. Writes object_cam_focal.npz,
+            soma_params_focal.npz, focal_calib.json.
   world     v2d_cari4d image, CPU, on the focal step's files. The floor correction from t3_floor_fit.py (per exo camera; rotation about the camera
             origin that puts our floor normal on the released one, then a scale of positions by released / our
             floor offset), applied to the object (position rotated and scaled, orientation rotated, mesh untouched)
@@ -38,7 +42,7 @@ inputs enter (no Tier 2 trajectory; user decision 10/10).
     python t3_convert_ep.py decode   <cari4d episode dir> <weights/cari4d dir> <out dir>
     python t3_convert_ep.py soma     <out dir> <soma assets dir>
     python t3_convert_ep.py residual <out dir> <soma assets dir>
-    python t3_convert_ep.py focal    <out dir> <intrinsics spec .json> <soma assets dir>
+    python t3_convert_ep.py focal    <out dir> <intrinsics spec .json> <soma assets dir> <official object mesh>
     python t3_convert_ep.py world    <out dir> <floor_fit.json> <soma assets dir> [camera_register.json]
     python t3_convert_ep.py assemble <out dir> <tier3 input dir> <episode index> <tier dir to write>
 """
@@ -56,6 +60,10 @@ SOMA_ARGS = {  # reconstruction/workflows/mv_hoi/osmo/mv_hoi_reconstruction.yaml
     "autograd_hand_weight": 5.0, "autograd_foot_weight": 20.0,
 }
 FPS = 30
+FOCAL_LEAF_WEIGHT = {"hands": 5.0, "feet": 5.0}  # PoseInversion's extremity weights for the focal refit (10-17 pilot, ep16/ep01)
+FOCAL_FIT_CHUNK = 32
+FOCAL_BODY_P90_M = 0.03  # 90th percentile vertex distance from the mapped mesh above which the refit is refused (pilot 1.3 cm)
+FOCAL_SURFACE_POINTS = 5000
 F_CV_TO_SOMA = np.diag([1.0, -1.0, -1.0])
 WORLD_BODY_TOL_M = 1e-3
 SCALE_FIT_FRAMES = 8
@@ -249,7 +257,8 @@ def _intrinsics_map(k_used: np.ndarray, k_new: np.ndarray) -> np.ndarray:
 
 def _reexpress_object(t_cam: np.ndarray, m: np.ndarray) -> np.ndarray:
     """Object poses (n, 4, 4) under the point map m: position mapped, orientation turned with its viewing ray so the
-    object shows the camera the same side."""
+    object shows the camera the same side. The focal step's object map until 10-17 (now _fit_object_to_map); kept for
+    probe_focal_intrinsics.py."""
     tf = t_cam.copy()
     tf[:, :3, 3] = t_cam[:, :3, 3] @ m.T
     tf[:, :3, :3] = np.einsum("nij,njk->nik", _ray_turn(t_cam[:, :3, 3], tf[:, :3, 3]), t_cam[:, :3, :3])
@@ -273,8 +282,91 @@ def _new_intrinsics(spec: dict, group: int | None, k_used: np.ndarray) -> np.nda
     return k_new
 
 
-def focal(out: Path, focal_json: Path, assets: Path) -> None:
+def _fit_object_to_map(t_cam: np.ndarray, m: np.ndarray, surface: np.ndarray) -> tuple[np.ndarray, float]:
+    """Object poses (n, 4, 4) under the point map m: per frame, the rigid pose whose surface points lie closest to the
+    mapped ones (Kabsch). Returns the poses and the largest distance of a surface point from its mapped position (m)."""
+    out, worst = t_cam.copy(), 0.0
+    for t in range(len(t_cam)):
+        x = surface @ t_cam[t, :3, :3].T + t_cam[t, :3, 3]
+        y = x @ m.T
+        cs, cd = surface.mean(0), y.mean(0)
+        u, _, vt = np.linalg.svd((surface - cs).T @ (y - cd))
+        r = vt.T @ np.diag([1.0, 1.0, np.sign(np.linalg.det(vt.T @ u.T))]) @ u.T
+        out[t, :3, :3], out[t, :3, 3] = r, cd - r @ cs
+        worst = max(worst, float(np.linalg.norm(surface @ r.T + out[t, :3, 3] - y, axis=1).max()))
+    return out, worst
+
+
+def _soma_layer(assets: Path):
+    from soma import SOMALayer
+    from soma.units import Unit
+
+    return SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
+                     enable_procedural_transforms=False)
+
+
+def _soma_vertices(layer, sp: dict, poses: np.ndarray | None = None, transl: np.ndarray | None = None) -> np.ndarray:
+    """SOMA vertices in the OpenCV frame the downstream's way (frame-0 identity and scale, per-frame bone flexibles)."""
+    import torch
+
+    n = len(sp["poses"])
+    poses = np.asarray(sp["poses"] if poses is None else poses).reshape(n, 77, 3)
+    transl = np.asarray(sp["transl"] if transl is None else transl)
+    ident = torch.tensor(np.repeat(np.asarray(sp["identity_coeffs"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    scale = torch.tensor(np.repeat(np.asarray(sp["scale_params"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    got = []
+    for a in range(0, n, CHUNK):
+        sl = slice(a, min(n, a + CHUNK))
+        with torch.no_grad():
+            got.append(layer(torch.tensor(poses[sl], dtype=torch.float32), ident[sl], scale_params=scale[sl],
+                             transl=torch.tensor(transl[sl], dtype=torch.float32), apply_correctives=False,
+                             kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"][sl]), dtype=torch.float32)})["vertices"].numpy())
+    return np.concatenate(got).astype(np.float64) @ F_CV_TO_SOMA
+
+
+def _fit_body_to_map(sp: dict, m: np.ndarray, assets: Path, name: str) -> tuple[dict, dict]:
+    """The person's poses and pelvis translation refitted so the SOMA mesh lies on its point-mapped self (m applied to
+    every vertex), identity, scale and bone flexibles unchanged: SOMA PoseInversion (analytical + Lie Gauss-Newton) with
+    hands and feet weighted FOCAL_LEAF_WEIGHT, so contacts and the floor hold first. The result is converted back to
+    the stored convention (relative axis-angle, root dropped), rebuilt the downstream's way and measured against the
+    mapped mesh; refused above FOCAL_BODY_P90_M."""
+    import torch
+    from scipy.spatial.transform import Rotation
+    from soma.geometry.rig_utils import remove_joint_orient_local
+    from soma.pose_inversion import PoseInversion
+
+    layer = _soma_layer(assets)
+    n = len(sp["poses"])
+    target = _soma_vertices(layer, sp) @ m.T
+    ident = torch.tensor(np.repeat(np.asarray(sp["identity_coeffs"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    scale = torch.tensor(np.repeat(np.asarray(sp["scale_params"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
+    inv = PoseInversion(layer, low_lod=False)
+    poses, transl = np.zeros((n, 77, 3)), np.zeros((n, 3))
+    for a in range(0, n, FOCAL_FIT_CHUNK):
+        sl = slice(a, min(n, a + FOCAL_FIT_CHUNK))
+        inv.prepare_identity(ident[sl], scale[sl], repose_to_bind_pose=False,
+                             kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"][sl]), dtype=torch.float32)})
+        res = inv.fit(torch.tensor(target[sl] @ F_CV_TO_SOMA, dtype=torch.float32), leaf_weight=FOCAL_LEAF_WEIGHT)
+        rel = remove_joint_orient_local(res["rotations"], layer._t_pose_orient, layer._t_pose_orient_parent_T)
+        poses[sl] = Rotation.from_matrix(rel[:, 1:].reshape(-1, 3, 3).double().numpy()).as_rotvec().reshape(-1, 77, 3)
+        transl[sl] = res["root_translation"].double().numpy()
+    p0, t0 = np.asarray(sp["poses"]), np.asarray(sp["transl"])
+    new = {**sp, "poses": poses.reshape(p0.shape).astype(p0.dtype), "transl": transl.astype(t0.dtype)}
+    dev = np.linalg.norm(_soma_vertices(layer, new) - target, axis=2)
+    stats = {"vertex_dev_mm_p50_p90_max": [round(float(x) * 1000, 2) for x in (np.median(dev), np.percentile(dev, 90), dev.max())],
+             "leaf_weight": FOCAL_LEAF_WEIGHT}
+    if np.percentile(dev, 90) > FOCAL_BODY_P90_M:
+        raise SystemExit(f"{name}: body refit after the focal step is {np.percentile(dev, 90) * 100:.1f} cm off the mapped mesh (p90)")
+    for key in sp:
+        if key not in ("poses", "transl") and not np.array_equal(np.asarray(sp[key]), np.asarray(new[key])):
+            raise SystemExit(f"{name}: {key} changed in the focal step")
+    return new, stats
+
+
+def focal(out: Path, focal_json: Path, assets: Path, mesh_path: Path) -> None:
     import hashlib
+
+    import trimesh
 
     name = out.name
     spec_bytes = focal_json.read_bytes()
@@ -295,44 +387,24 @@ def focal(out: Path, focal_json: Path, assets: Path) -> None:
     if shift > 0.15 * fx_used:
         raise SystemExit(f"{name}: principal point moves {shift:.1f} px, implausible")
     m = _intrinsics_map(k_used, k_new)
-
-    np.savez(out / "object_cam_focal.npz", T_cam_glb=_reexpress_object(oc["T_cam_glb"].astype(np.float64), m), intrinsics=k_new)
-
     sp = dict(np.load(out / "soma_params.npz", allow_pickle=True))
-    # the root turns with the pelvis's viewing ray, so the pelvis has to be known before the body pass; the rest of the
-    # body follows the pelvis rigidly (once the principal point moves M is not a similarity: first order, about 5 cm
-    # pelvis to feet for a 66 px shift by rxzhou's k-fix estimate)
-    pelvis0 = _pelvis_cv(sp, assets)
-    rot = _ray_turn(pelvis0, pelvis0 @ m.T)
-    new, err = _move_body(sp, rot, lambda p: p @ m.T, assets, name, "focal")
-    np.savez(out / "soma_params_focal.npz", **new)
+    t_cam = oc["T_cam_glb"].astype(np.float64)
+    if np.allclose(m, np.eye(3)):  # nothing to re-express: the refits would only add their own error
+        obj, body, obj_worst, body_fit = t_cam, sp, 0.0, {"skipped": "identity map"}
+    else:
+        mesh = trimesh.load(mesh_path, force="mesh")
+        surface = np.asarray(trimesh.sample.sample_surface_even(mesh, FOCAL_SURFACE_POINTS, seed=0)[0], np.float64)
+        obj, obj_worst = _fit_object_to_map(t_cam, m, surface)
+        body, body_fit = _fit_body_to_map(sp, m, assets, name)
+    np.savez(out / "object_cam_focal.npz", T_cam_glb=obj, intrinsics=k_new)
+    np.savez(out / "soma_params_focal.npz", **body)
     calib = {"episode": name, "focal_spec": focal_json.name, "focal_spec_sha256": hashlib.sha256(spec_bytes).hexdigest(),
              "camera_group": group, "fx_used_by_cari4d": fx_used, "fx_new": float(k_new[0, 0]), "depth_ratio": k,
              "principal_point_used": k_used[:2, 2].tolist(), "principal_point_new": k_new[:2, 2].tolist(),
-             "source": spec.get("source", {}).get(str(group)), "body_rigid_max_err_mm": round(err * 1000, 4), "fallback": fallback}
+             "source": spec.get("source", {}).get(str(group)), "object_fit_worst_point_mm": round(obj_worst * 1000, 2),
+             "body_fit": body_fit, "fallback": fallback}
     (out / "focal_calib.json").write_text(json.dumps(calib, indent=1))
     print(json.dumps(calib))
-
-
-def _pelvis_cv(sp: dict, assets: Path) -> np.ndarray:
-    import torch
-    from soma import SOMALayer
-    from soma.units import Unit
-
-    n = len(sp["poses"])
-    layer = SOMALayer(data_root=str(assets), identity_model_type="mhr", device="cpu", output_unit=Unit.METERS,
-                      enable_procedural_transforms=False)
-    ident = torch.tensor(np.repeat(np.asarray(sp["identity_coeffs"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
-    scale = torch.tensor(np.repeat(np.asarray(sp["scale_params"]).reshape(n, -1)[:1], n, 0), dtype=torch.float32)
-    got = []
-    for a in range(0, n, CHUNK):
-        sl = slice(a, min(n, a + CHUNK))
-        with torch.no_grad():
-            got.append(layer(torch.tensor(np.asarray(sp["poses"][sl]).reshape(-1, 77, 3), dtype=torch.float32), ident[sl],
-                             scale_params=scale[sl], transl=torch.tensor(np.asarray(sp["transl"][sl]), dtype=torch.float32),
-                             apply_correctives=False,
-                             kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"][sl]), dtype=torch.float32)})["joints"].numpy()[:, 0])
-    return np.concatenate(got).astype(np.float64) @ F_CV_TO_SOMA
 
 
 def _scale_body(sp: dict, s: float, assets: Path, name: str, tol_m: float) -> tuple[dict, dict]:

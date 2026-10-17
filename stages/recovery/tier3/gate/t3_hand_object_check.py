@@ -15,7 +15,8 @@ from forward kinematics of the training URDF (t3_dynamics_check.limb_points, spl
 
 Reported per episode and hand: labelled frames; among them dist p50 / p95 and the frames farther than AWAY_M ("label on,
 hand away"); unlabelled frames closer than TOUCH_M ("touching, no label"); labelled frames deeper than DEEP_M inside the
-hull. Plus the retarget's own `ik_error_per_frame` p95 / max, which says how far the robot is from its IK targets.
+hull. The labels are the retarget's, and a hand pulled off the object loses them, so "label on, hand away" cannot see
+it (10-17); the delivery report (gate/t3_delivery_report.py) also compares the labelled frames with the last delivery. Plus the retarget's own `ik_error_per_frame` p95 / max, which says how far the robot is from its IK targets.
 
     T3_GATE=<gate dir> python t3_hand_object_check.py <motion set dir> <episodes_metadata.jsonl> <out.json> [episode,...]
 """

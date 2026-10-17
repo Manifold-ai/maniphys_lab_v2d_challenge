@@ -21,6 +21,10 @@ REUSE_FIT=${REUSE_FIT:-0}
 # EPS="ep12_black_platform ...": only these episodes (default every converted episode)
 REGISTER=${REGISTER:-}
 EPS=${EPS:-}
+mesh_of() {  # the official object mesh of an episode dir name (ep16_spray_bottle -> mesh/spray_bottle/spray_bottle.glb), under input/
+  python3 -c 'import json,sys; ep=int(sys.argv[2][2:4]); print(next(m["mesh"] for m in map(json.loads, open(sys.argv[1]).read().splitlines()) if m and m["episode_index"]==ep))' \
+    "$T/input/meta/episodes_metadata.jsonl" "$1"
+}
 [ -f "$T/runs/floor/$FOCAL_SPEC" ] || { echo "no runs/floor/$FOCAL_SPEC"; exit 2; }
 if [ "$REUSE_FIT" = 1 ]; then
   [ -f "$T/runs/floor/$FIT" ] || { echo "REUSE_FIT=1 but no runs/floor/$FIT"; exit 2; }
@@ -37,8 +41,8 @@ done
 [ -z "$REGISTER" ] || [ -f "$T/runs/floor/$REGISTER" ] || { echo "no runs/floor/$REGISTER"; exit 2; }
 [ "$REUSE_FIT" = 1 ] || for name in "${eps[@]}"; do
   conv=$T/runs/convert/$name
-  "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$SOMA_ASSETS":/a:ro -v "$conv":/o/"$name" v2d_cari4d:latest \
-    python /s/t3_convert_ep.py focal /o/"$name" /f/"$FOCAL_SPEC" /a > "$T/logs/focal_$name.log" 2>&1 \
+  "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$SOMA_ASSETS":/a:ro -v "$T/input":/i:ro -v "$conv":/o/"$name" v2d_cari4d:latest \
+    python /s/t3_convert_ep.py focal /o/"$name" /f/"$FOCAL_SPEC" /a /i/"$(mesh_of "$name")" > "$T/logs/focal_$name.log" 2>&1 \
     && echo "$name: focal $(grep -o '"depth_ratio": [0-9.]*' "$T/logs/focal_$name.log")" || { echo "$name: focal FAILED"; exit 1; }
 done
 if [ "$REUSE_FIT" != 1 ]; then

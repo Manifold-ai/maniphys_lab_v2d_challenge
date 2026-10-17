@@ -18,11 +18,16 @@ import re
 import sys
 from pathlib import Path
 
+LABEL_DROP = 0.10  # an episode whose labelled contact frames fall by more than this against the previous delivery is listed
 KEYS = ["lin_supported", "lin_airborne", "lin_held", "rest_drift", "rot_drift", "rot_jump", "rot_torque"]
 
 
 def dyn(g: Path, s: str):
     return json.loads((g / "dyn" / f"tier3_{s}.json").read_text())["episodes"]
+
+
+def labelled(e: dict) -> int:
+    return sum(e[h]["labelled"] for h in ("left", "right"))
 
 
 def ho(g: Path, s: str):
@@ -58,7 +63,12 @@ def main():
     runs = root / "runs"
     D, DB = dyn(g, s), dyn(g, bs)
     H, hshare = ho(g, s)
-    _, hbshare = ho(g, bs)
+    HB, hbshare = ho(g, bs)
+    # the hand-away share only counts frames the retarget labelled; a hand pulled off the object loses its labels, and
+    # those frames leave the count (10-17: GB lost 60 of ep01's 216, the share stayed 0.45 -> 0.48%), so the labelled
+    # frames themselves are compared to the previous delivery
+    drops = sorted(((k, labelled(HB[k]), labelled(H[k])) for k in H if k in HB and labelled(HB[k]) > 0
+                    and labelled(H[k]) < (1 - LABEL_DROP) * labelled(HB[k])), key=lambda x: x[2] / x[1])
     gf, go = gate(g, s, False), gate(g, s, True)
     gfb, gob = gate(g, bs, False), gate(g, bs, True)
     A, AB = align(Path(spec["align"]), v), align(Path(spec["base_align"]), b)
@@ -89,7 +99,8 @@ def main():
     o += [f"| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | {mean(AB, eps29):.3f} | {mean(A, eps29):.3f} |",
           f"| IoU < 0.5 的抽样帧 | {low(AB)} | {low(A)} |",
           f"| 训练前门槛，用我们的支撑面 | {sum(gob.values())}/{len(gob)} | {sum(go.values())}/{len(go)} |",
-          f"| 标了接触但手离物体 > 3 cm | {100 * hbshare:.2f}% | {100 * hshare:.2f}% |", ""]
+          f"| 标了接触但手离物体 > 3 cm | {100 * hbshare:.2f}% | {100 * hshare:.2f}% |",
+          f"| 标了接触的帧（左右手合计） | {sum(labelled(e) for e in HB.values())} | {sum(labelled(e) for e in H.values())} |", ""]
     o += ["门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，"
           "hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。", ""]
     o += ["## 自检（清单见 10-15 定的 13 项）", "", "| # | 项目 | 结果 |", "|---|---|---|"]
@@ -101,23 +112,25 @@ def main():
         o.append(f"| 2 | 改动审计 | 锁定段外可见改动 > 5 cm 的帧 {n5}；最多的集：" + ", ".join(f"{e['episode']} {e['visible_frames_over_5cm_outside_locked']}" for e in top) + " |")
     o.append(f"| 3 | 逐帧画面对齐 | IoU < 0.5 的抽样帧 {low(A)}（上一交付版 {low(AB)}） |")
     o.append(f"| 5 | 动力学检查 | 违规帧 {viol(D)}，见上表 |")
-    o.append(f"| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 {100 * hshare:.2f}% |")
+    o.append(f"| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 {100 * hshare:.2f}%；接触帧比上一交付版少 {100 * LABEL_DROP:.0f}% 以上的集："
+             + ("、".join(f"{k} {a} → {n}" for k, a, n in drops) if drops else "无") + " |")
     o.append(f"| 12 | 来源 | `{v}.provenance.json`：{'有' if prov else '缺'}；`tier_guard` 拒绝读取低档位数据 |")
     for r in spec.get("reviews", []):
         o.append(f"| {r['item']} | 看图：{r['by']} | {r['result']}" + (f"（图：`{r['images']}`）" if r.get("images") else "") + " |")
     for t in spec.get("not_done", []):
         o.append(f"| - | 未做 | {t} |")
-    o += ["", "## 逐集", "", "| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 |",
-          "|---|---|---|---|---|---|---|"]
+    o += ["", "## 逐集", "", "| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |",
+          "|---|---|---|---|---|---|---|---|"]
     for k in sorted(D):
         e, eb = D[k], DB.get(k, {})
         name = next((n for n in A if n.startswith(k)), k)
         iou = f"{A[name]['iou_p50']:.3f} ({AB[name]['iou_p50']:.3f})" if name in A and name in AB else "-"
         hh = H.get(k)
         away = sum(hh[x]["label_on_hand_away"] for x in ("left", "right")) if hh else "-"
+        lab = f"{labelled(hh)} ({labelled(HB[k]) if k in HB else '-'})" if hh else "-"
         i = int(k[2:])
         o.append(f"| {name} | {e['frames']} | {e['object_any']} ({eb.get('object_any', '-')}) | {e['first']['object_any']} ({eb.get('first', {}).get('object_any', '-')}) | {iou} | "
-                 f"{'过' if gf.get(i) else '不过'} / {'过' if go.get(i) else '不过'} | {away} |")
+                 f"{'过' if gf.get(i) else '不过'} / {'过' if go.get(i) else '不过'} | {away} | {lab} |")
     if spec.get("known_issues"):
         o += ["", "## 已知问题", ""] + [f"- {t}" for t in spec["known_issues"]]
     if spec.get("notes"):
