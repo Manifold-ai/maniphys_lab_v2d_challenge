@@ -1,4 +1,4 @@
-# 计划：接触标记提前的今夜延伸——Tier 1 补两集，Tier 2 按自己的数据试（2026-10-16 18:2x MDT，第 3 版：第 2 版按独立复核修改，第 3 版调 mf4090 的先后）
+# 计划：接触标记提前的今夜延伸——Tier 1 补两集，Tier 2 按自己的数据试（2026-10-16 18:2x MDT，第 4 版：第 2 版按独立复核修改，第 3 版调 mf4090 的先后，第 4 版 Tier 2 续跑其余合格集）
 
 ## 1. 事实
 
@@ -117,3 +117,11 @@
   - 21:36 预演 DRYRUN_OK、起链 ARMED（`results/t2diag/arm_dryrun_t2m_mf4090.txt`、`results/t2diag/arm_t2m_mf4090.txt`，来历 ad7ec00d48d0）；三条冒烟 21:50 前都过，21:50 起正式训 t2-ep25-w2048-cap4m-r3a-c5-mf4090。
   - 22:26 t3ps 挂在 t2m 后面（`runs/tools/arm_after.sh t3ps`，等 t2m 的三条链，V2D_AFTER_MAX_POLLS 960，无前置命令，`runs/logs/arm_after_t3ps_v3_mf4090.log`，`results/t3kfix/arm_after_t3ps_v3_launch_mf4090.txt`）；`runs/.t3ps-skip` 已删；t3ps 的读数等待进程（13:32 起，最多 1440 次）还在。
   - 估计：t2m 三条约 05:00 评完导出，之后 t3ps 约 07:45 出读数。
+
+## 6. 第 4 版（10/17 13:4x MDT）：Tier 2 续跑 ep2、ep11、ep17
+
+- 结果：C1 看不清（ep11、ep28 有起色，ep25、ep1 没用）；C2 有用（ep2 修好：MP-SR 0.575、SP-SR 0.808；ep9 没用）；C3 没用（Tier 2 ep25、9、1 都是 0）（`results/ml40/t1diag/verdict_C1_ml40.txt`、`results/t1diag/verdict_C2_ml40.txt`、`results/t2diag/verdict_C3_mf4090.txt`）。
+- 续跑范围：Tier 2 诊断登记的合格集（0 ≤ delay ≤ 40）是 ep1、2、9、11、17、25，第一晚按 MPPE 取了前三；这里跑其余三集 ep2、11、17，方法、参数（提前 5 帧、补 15 帧）、参考目录与第一晚相同，顺序按导出那一局的 MPPE 从大到小（ep2 26.43、ep11 9.38、ep17 5.43 cm，`results/first/t2_lost_swap.txt`）。
+- 档位隔离（如实写明）：参数与合格集只来自 Tier 2 的数据，换不换候选只按 Tier 2 自己的 4096 世界指标；但决定在 C3 没用之后续跑时，已经知道 Tier 1 的 ep2、ep11 用接触标记提前有效。rxzhou 10/17 13:4x 看过这一点后定下续跑。
+- 判读 C4（`stages/policy/r3o_verdict.json`，训练前登记）：逐集判法同 C1，基线取 P2 登记的同集基线；总判同 C3。
+- 观察（只记录，供后续计划）：Tier 1 里起作用的 ep2、ep11、ep28，首次接触后 30 帧内物体自转 5.1°、7.6°、7.1°；没起作用的 ep25、ep1、ep9 是 16.4°、19.3°、45.8°（`results/t1diag/contact_onset_t1_ml40.txt`）。接触后物体马上大幅转动的集，接触标记提前救不回来。

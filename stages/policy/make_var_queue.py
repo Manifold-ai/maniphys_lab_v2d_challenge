@@ -51,7 +51,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
       清单里还有 ep9、ep2（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 A）：make_var_queue.py t1c2 --episodes 9,2，预设段 t1c 不变。
   t2m（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 B）：Tier 2 接触标记提前，参数只由 Tier 2 的数据定（提前 5 帧、补 15 帧以内的空档），
       mf4090、400 万，跟丢的 ep25、9、1 的变体 A seed 42；基线取 Tier 2 导出清单（同 t2o），parquet 的 /runs/motion/tier2/ 换成 /runs/motion/tier2_c5/，
-      run 名带 -c5-。
+      run 名带 -c5-。清单里还有 Tier 2 诊断登记的其余合格集 ep2、11、17（10/17 续跑）：make_var_queue.py t2m2 --episodes 2,11,17。
   t1o、t2o（计划 agent-doc/plan-r3o-2026-10-15.md）：r3o 试点 = 变体 A 加物体朝向项。队列行开头多两个环境变量
       V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4（训练副本 v040_p185_nfg_oo 读它们，不进 Hydra 配置）；run 名带 -r3o-。
       t1o（mf4090，400 万）：t1oa = 对照 ep20 与 ep25、28、11，t1ob = ep4、9、1、2；t2o（ml40，1000 万）：t2oa = 对照 ep12 与 ep25、28、1，
@@ -129,7 +129,7 @@ SETS = {
             "run": "t1-ep{ep}-w2048-cap10m-r3a-c10-ml40",
             "desc": "Tier 1 接触标记提前：跟丢的 4 条的变体 A seed 42，参考换成 runs/motion/tier1_c10（接触起点提前 10 帧、补 15 帧内的空档，参考轨迹不变；ml40，buffer 1000 万）"},
     "t2m": {"plan": "agent-doc/plan-c10-extend-2026-10-16.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
-            "episodes": [25, 9, 1], "parts": {"t2m": [25, 9, 1]}, "base": None, "motion": "tier2_c5", "strip_r3a": True,
+            "episodes": [25, 9, 1, 2, 11, 17], "parts": {"t2m": [25, 9, 1]}, "base": None, "motion": "tier2_c5", "strip_r3a": True,
             "run": "t2-ep{ep}-w2048-cap4m-r3a-c5-mf4090",
             "desc": "Tier 2 接触标记提前（参数只由 Tier 2 的数据定）：跟丢的 ep25、9、1 的变体 A seed 42，参考换成 runs/motion/tier2_c5（接触起点提前 5 帧、补 15 帧以内的空档，参考轨迹不变；mf4090，buffer 400 万，基线取 Tier 2 导出清单）"},
     "t1o": {"plan": "agent-doc/plan-r3o-2026-10-15.md", "tier": 1, "machine": "mf4090", "cap": "4000000",

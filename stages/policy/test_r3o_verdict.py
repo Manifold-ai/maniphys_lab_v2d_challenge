@@ -92,7 +92,8 @@ if __name__ == "__main__":
     assert all(k.endswith("-r3a-c5-mf4090") for k in real["C3"]["lost"]), real["C3"]["lost"]
     p1 = {k.split("-")[1]: v for k, v in real["P1"]["lost"].items()}
     p2 = {k.split("-")[1]: v for k, v in real["P2"]["lost"].items()}
-    for sec, src in (("C2", p1), ("C3", p2)):
+    assert real["C4"]["tier"] == 2 and sorted(real["C4"]["lost"]) == sorted(f"t2-ep{e}-w2048-cap4m-r3a-c5-mf4090" for e in (2, 11, 17))
+    for sec, src in (("C2", p1), ("C3", p2), ("C4", p2)):
         for k, v in real[sec]["lost"].items():
             assert v == src[k.split("-")[1]], (sec, k, v)
     print("ALL_OK")

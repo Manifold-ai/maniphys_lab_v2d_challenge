@@ -171,5 +171,30 @@
         "baseline_sp": 0.0
       }
     }
+  },
+  "C4": {
+    "tier": 2,
+    "control": null,
+    "_doc": "Tier 2 接触标记提前（tier2_c5）续跑：Tier 2 诊断登记的其余合格集 ep2、11、17，mf4090；基线沿用 P2 登记的同集基线；10/17 13:4x 训练前登记（计划 agent-doc/plan-c10-extend-2026-10-16.md 第 4 版）",
+    "lost": {
+      "t2-ep2-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep2-w2048-cap10m-r3a-ml40",
+        "baseline_obj_fail": 0.736816,
+        "baseline_sp": 0.422119,
+        "baseline_record": "results/ml40/day2/eval_t2-ep2-w2048-cap10m-r3a-ml40_s349999104.txt"
+      },
+      "t2-ep11-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep11-w2048-cap4m-mf4090",
+        "baseline_obj_fail": 0.593018,
+        "baseline_sp": 0.0,
+        "baseline_record": "results/day2/eval_t2-ep11-w2048-cap4m-mf4090_s349999104.txt"
+      },
+      "t2-ep17-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep17-w2048-cap4m-mf4090",
+        "baseline_obj_fail": 0.661865,
+        "baseline_sp": 0.001953,
+        "baseline_record": "results/day2/eval_t2-ep17-w2048-cap4m-mf4090_s349999104.txt"
+      }
+    }
   }
 }
