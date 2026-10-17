@@ -417,3 +417,4 @@ CoCoNet 输出用户判过朝向对）：ep04 313 新=FP（与试点差 120°，
 （`SEL`/`SUP` 指向 gb，门槛集 `gbdyn7`）。**停在交付之前**（交付改 rxzhou 读的数据，等用户看过）。日志 `logs/gb_chain.log`，末行 GB_CHAIN_DONE 或
 GB_CHAIN_FAILED <步骤>；门槛 `$G/logs/p2_gbdyn7.txt`、我们的支撑面 `$G/logs/oursup_gbdyn7.txt`、画面对齐 `$T/dev/depth_diag/align_gbdyn7.json`。
 三个版本已登记为 candidate。注意：dr2s 用的是当前支撑面代码（v3 规则，含质心扫过），交付版 dr2s 当时用 v2；用户核对时一并看。
+**第一次运行失败（10-17 01:13）**：world 54 集全部 ok，但摘要步骤的 docker 调用没带 `-i`，heredoc 没传进容器，`gb3_summary.txt` 为空，于是报 GB3_FAILED，整链随之停下（没组装）。`cd8ba69` 补上 `-i`，11:54 两个脚本重新挂上（地面拟合与配准沿用，world 重跑）；第一次的日志改名为 `logs/gb3_register.run1.log`、`logs/gb_chain.run1.log`。单独试跑过摘要：ep21 配准偏航从 90.55° 变为 85.01°，t 从 (3.01, 2.90) 变为 (3.58, 2.41)；二机位偏航 181.35°→181.38°，t 从 (−0.37, 5.83) 变为 (0.09, 6.18)。地面事件接触高度新旧相近，ep14 中位数从 −3.7 cm 变为 −2.3 cm，ep00 从 −2.1 cm 变为 −1.0 cm。
