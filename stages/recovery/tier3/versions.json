@@ -194,10 +194,10 @@
    "purpose": "kf2 + rests locked as dyn7, rests <= 5 frames apart merged, bridged by the filter (9c3bfb2); 1675 violation frames, gate 25/30, ours 30/30"
   },
   "best_dr2s_dyn7": {
-   "status": "delivered",
+   "status": "kept",
    "date": "10-16",
    "from": "best_dr2s",
-   "purpose": "dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/30 with v2 (ep07). Orientation flips untouched; ep07 iron sinks ~1 cm at the table edge (dr2s made with v2 supports); DELIVERED 10-16 13:48 (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-best_dr2s_dyn7-2026-10-16.md)"
+   "purpose": "dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/30 with v2 (ep07). Orientation flips untouched; ep07 iron sinks ~1 cm at the table edge (dr2s made with v2 supports); DELIVERED 10-16 13:48 (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-best_dr2s_dyn7-2026-10-16.md); delivery until 10-17, replaced by tier3_cari4d_gb_best_dr2s_dyn7; kept in place (rxzhou may train on it or have whitelisted it)"
   },
   "best_dr2srepro": {
    "status": "archived",
@@ -230,10 +230,10 @@
    "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb_best with supports runs/support/tier3_cari4d_gb_best"
   },
   "tier3_cari4d_gb_best_dr2s_dyn7": {
-   "status": "candidate",
+   "status": "delivered",
    "date": "10-17",
    "from": "tier3_cari4d_gb_best_dr2s",
-   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; delivery waits for the user"
+   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; self-check 5 of 6 (ep16 image review failed); DELIVERED 10-17 by user decision with known issues: the focal step moves the body rigidly with the pelvis while the object follows the point map, so hands drift 1-6.5 cm from held objects (ep01, ep16 worst), to be fixed and regenerated under the same name (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md)"
   }
  },
  "work": {

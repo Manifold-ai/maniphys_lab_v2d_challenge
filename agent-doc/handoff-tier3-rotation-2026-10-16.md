@@ -1,12 +1,29 @@
 # Tier 3 物体转动跳变：来源定位与修复试点（2026-10-15 晚 – 10-16，分支 `track2/tier3-recon`）
 
 接 [handoff-tier3-dynamics-2026-10-14.md](handoff-tier3-dynamics-2026-10-14.md)（dyn 系列、自检流程、best_dyn7）。
-写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。
+写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。（10-17 起交付版是 `tier3_cari4d_gb_best_dr2s_dyn7`，见下「交付」节。）
 
 路径：`$T` = L40S `/lab_data/yqchen/v2d/tier3`，`$G` = `/lab_data/yqchen/v2d/gate`。本节诊断脚本在
 `stages/recovery/tier3/gate/diag/`（服务器上的副本与输出在 `$G/diag/`）。
 
-## 交付：best_dr2s_dyn7（10-16 13:48 CST）
+## 交付：gb_best_dr2s_dyn7（10-17 22:49 CST，当前交付版）
+
+**交付版由 `tier3_cari4d_f830_best_dr2s_dyn7` 换成 `tier3_cari4d_gb_best_dr2s_dyn7`**（用户 10-17 决定：先给训练用，已知问题写明，之后修）。
+自检六条第 1–5 条过、第 6 条看图未过（ep16），见 [selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md](selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md)。
+交付报告：版本目录 `DELIVERY.md`，仓库副本 [delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md](delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md)
+（spec `$T/dev/audit/spec_gbdyn7.json`，未交付时的草稿 spec 留在 `spec_gbdyn7.draft.json`）。支撑面 usda 来自 `$G/support_usda_gbdyn7`。
+世界系是标定内参 GB（三台相机），与 rxzhou 的 kfix 主机位逐位相同。旧交付版原地保留（versions.json 标 kept）。
+**给 rxzhou：** 打包白名单需要加入 `tier3_cari4d_gb_best_dr2s_dyn7` 与 `_suspect`。
+
+**已知问题（主要一条，要修）：手物距离。** `t3_convert_ep.py` 的 focal 步里物体按点映射 `M = (f_new/f_used)·K_new⁻¹K_used`，人体只让骨盆按
+`M`、其余部位随骨盆刚体移动。`M` 不是刚体（深度乘 k ≈ 1.04–1.09，主点平移 66 px 带来剪切），手偏 1–6.5 cm（主要沿视线，画面上约 1 px），
+手持物体的集手物拉开：dr2s 层手到物体表面中位 ep01 1.9→7.1 cm、ep16 5.1→10.9 cm，ep02/04/07/09/10/19/25 0.4–1.8 cm；大件不变。
+ep16 的看图失败是它的后果（握住判定 105→129 帧，静置锁定多 23 帧）。拆分（相对理想映射 `M`，握住帧）：接触手 3D 偏 2–5 cm，
+物体最远点小件 ≤ 2 cm、大件 4–8 cm（ep10 书桌 8.1、ep00 吧凳 6.0）。诊断脚本与输出 `$T/dev/focal_hand/`（`focal_hand_diag.py`、`reproj_diag.py`）。
+拟议修法（待用户定）：物体对 `M` 映射后的表面点做刚体最小二乘拟合；握住帧用手臂 IK 把接触手送到 `M·h0`。修后**以原名重生成** gb 系列（用户：不要 gb4）。
+另：自检第 5 条（标接触而手离 > 3 cm）没反映这个偏差，原因未查。
+
+## 交付：best_dr2s_dyn7（10-16 13:48 CST，已被上节取代）
 
 **交付版由 best_hm 换成 `tier3_cari4d_f830_best_dr2s_dyn7`**（用户 10-16 下班前授权，按事先登记的规则选定）。交付报告（自检结果与基本数据）：
 版本目录里的 `DELIVERY.md`，仓库副本 `agent-doc/delivery-tier3-best_dr2s_dyn7-2026-10-16.md`。支撑面 usda 由 `runs/support/tier3_cari4d_f830_best_v3`
