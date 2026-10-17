@@ -1,0 +1,15 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier1_select_c10_1017a.csv --track track_2_tier1 -m dry\ run\,\ not\ submitted --dry-run 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 456d89954fff49fee6cc4b27ecf211d6  runs/submission/csv/track2_tier1_select_c10_1017a.csv
+# source   : c6269ea6c97c
+# host     : Mac
+# run_at   : 2026-10-17T16:39:24-0400
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier1_select_c10_1017a.csv: 22,989 rows over 30 episodes, 12,140,189 B - looks valid
+Track 2 - Robotic Grounding (Tier 1: multi-view input): 4 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier1-auc           5 left today
+  spider_sr        v2d-challenge-track2-tier1-sp-sr         5 left today
+  maniptrans_sr    v2d-challenge-track2-tier1-mp-sr         5 left today
+  mppe_cm          v2d-challenge-track2-tier1-mppe          5 left today
+
+--dry-run: nothing submitted.

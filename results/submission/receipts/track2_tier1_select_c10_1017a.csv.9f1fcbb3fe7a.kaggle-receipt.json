@@ -1,0 +1,39 @@
+{
+  "track": "track_2_tier1",
+  "file": "/Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier1_select_c10_1017a.csv",
+  "message": "Tier 1 per-episode select c10_1017a (contact anticipation on ep1, ep2, ep28)",
+  "submissions": {
+    "add_auc": {
+      "slug": "v2d-challenge-track2-tier1-auc",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - AUC",
+      "ref": 57325217,
+      "public_score": "0.56315",
+      "error": ""
+    },
+    "spider_sr": {
+      "slug": "v2d-challenge-track2-tier1-sp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - SP-SR",
+      "ref": 57325218,
+      "public_score": "0.76666",
+      "error": ""
+    },
+    "maniptrans_sr": {
+      "slug": "v2d-challenge-track2-tier1-mp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MP-SR",
+      "ref": 57325220,
+      "public_score": "0.66666",
+      "error": ""
+    },
+    "mppe_cm": {
+      "slug": "v2d-challenge-track2-tier1-mppe",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 1: multi-view input) - MPPE (cm)",
+      "ref": 57325221,
+      "public_score": "13.92082",
+      "error": ""
+    }
+  }
+}
