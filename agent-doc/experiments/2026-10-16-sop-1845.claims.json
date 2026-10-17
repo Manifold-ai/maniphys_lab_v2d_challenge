@@ -1,0 +1,281 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "lb": {
+      "file": "results/submission/leaderboard_1016_1850.txt",
+      "grep": "^== |maniphys|Xueyi|DAP"
+    },
+    "rx": {
+      "file": "results/t3kfix/reexport_mf4090.txt",
+      "grep": "恒等核对|评测器核对|MP-SR 0\\.|MP-SR 1\\.|判据 5"
+    },
+    "rpd0": {
+      "file": "results/t3kfix/ref_pair_diff_ep0_mf4090.txt",
+      "grep": "物体相对机器人根"
+    },
+    "rpd24": {
+      "file": "results/t3kfix/ref_pair_diff_ep24_mf4090.txt",
+      "grep": "物体相对机器人根"
+    },
+    "stmf": {
+      "file": "results/t3kfix/status_mf4090_1016_1845.txt",
+      "grep": "^== |^=== .*(正式|完成（)"
+    },
+    "gpumf": {
+      "file": "results/ops/gpu_procs_mf4090_1016_1845.txt",
+      "grep": "MiB"
+    },
+    "gpuml": {
+      "file": "results/ops/gpu_procs_ml40_1016_1845.txt",
+      "grep": "MiB"
+    },
+    "h1": {
+      "file": "results/r3o/health_t1ob_mf4090.txt",
+      "grep": "DAY2_|EXPORT_CHAIN_DONE|NONFINITE"
+    },
+    "h2": {
+      "file": "results/r3o/health_t2ob_ml40.txt",
+      "grep": "DAY2_|EXPORT_CHAIN_DONE|NONFINITE"
+    },
+    "v1": {
+      "file": "results/r3o/verdict_P1_mf4090.txt",
+      "grep": "对照|修好|R3O_VERDICT"
+    },
+    "v2": {
+      "file": "results/ml40/r3o/verdict_P2_ml40.txt",
+      "grep": "对照|修好|R3O_VERDICT"
+    },
+    "cw": {
+      "file": "results/t1diag/contact_window_mf4090.txt",
+      "grep": "^跟丢|^其余"
+    },
+    "onset": {
+      "file": "results/t1diag/contact_onset_t1_ml40.txt",
+      "grep": "（跟丢）"
+    },
+    "relab": {
+      "file": "results/ml40/t1diag/c10_relabel_ml40.txt",
+      "grep": "squeegee"
+    },
+    "pair": {
+      "file": "results/ml40/t1diag/eval_pair_c10_ep25_ml40.txt",
+      "grep": "B − A|EVAL_PAIR"
+    },
+    "t2co": {
+      "file": "results/t2diag/contact_onset_t2_ml40.txt",
+      "grep": "^特征|^CONTACT_ONSET"
+    },
+    "t2mb": {
+      "file": "results/t2diag/motion_before_contact_t2_ml40.txt",
+      "grep": "^ep28|^ep4（|^跟丢|^其余"
+    },
+    "gb3": {
+      "file": "results/t3kfix/kfix_vs_gb3_world_ml40_1016.txt",
+      "grep": "^ep"
+    },
+    "gbc": {
+      "file": "results/ops/t3_gb3_chain_ml40_1016_1845.txt",
+      "grep": "GB3_FAILED|GB_CHAIN_FAILED|world: |^## "
+    },
+    "proxy": {
+      "file": "results/first/t2_mppe_proxy.txt",
+      "grep": "^(4|25|28|9|1)\t"
+    },
+    "rx24": {
+      "file": "results/t3kfix/reexport_mf4090.txt",
+      "grep": "t3-ep24-w2048|t3-ep26-w2048|判据 5（MP-SR ≥ 0.883|判据 5（MP-SR ≥ 0.950"
+    },
+    "rx0": {
+      "file": "results/t3kfix/reexport_mf4090.txt",
+      "grep": "t3-ep0-w2048|t3-ep18-w2048|判据 5（MP-SR ≥ 0.915|判据 5（MP-SR ≥ 0.812"
+    },
+    "rx29": {
+      "file": "results/t3kfix/reexport_mf4090.txt",
+      "grep": "t3-ep29-w2048|t3-ep20-w2048|判据 5（旧 MP-SR 为 0"
+    }
+  },
+  "claims": [
+    {
+      "id": "lb_t2_mppe",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "Tier 2 的 MPPE 榜（v2d-challenge-track2-tier2-mppe）第一行是 Xueyi Wang (FF)，提交时间 2026-10-16 15:18:09，分数 14.31296；maniphys.ai 15.32195 排第二。"
+    },
+    {
+      "id": "lb_t2_rest",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "Tier 2 的 AUC、SP-SR、MP-SR 三个榜第一行都是 maniphys.ai（0.51379、0.73333、0.53333）；Xueyi Wang (FF) 的 Tier 2 AUC 是 0.42499。"
+    },
+    {
+      "id": "lb_t1",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "Tier 1 四个榜的第一行都是 Xueyi Wang (FF)；FF 的 Tier 1 MPPE 是 8.03204，提交时间 2026-10-16 20:55:13；maniphys.ai 的 Tier 1 MPPE 16.55939 排第三，DAP 12.65831 排第二。"
+    },
+    {
+      "id": "lb_t3",
+      "evidence": [
+        "lb"
+      ],
+      "claim": "Tier 3 的 MPPE 榜与 SP-SR 榜第一行是 maniphys.ai（56.87427、0.03333），Tier 3 AUC 榜第一行是 Xueyi Wang (FF)（0.15606），maniphys.ai 0.00690 第二。"
+    },
+    {
+      "id": "rx_checks",
+      "evidence": [
+        "rx"
+      ],
+      "claim": "重新评测的两道核对都过：包装层恒等核对的差 MP-SR -0.0010、SP-SR -0.0010、ADD-AUC -0.0001、MPPE +0.0067；评测器核对的差 MP-SR +0.0012、SP-SR +0.0010、ADD-AUC -0.0000、MPPE -0.0013。"
+    },
+    {
+      "id": "rx_switch",
+      "evidence": [
+        "rx24"
+      ],
+      "claim": "新参考上 ep24 的 MP-SR 从 0.933 变为 0.902、ep26 从 1.000 变为 0.984，判据 5 都判换。"
+    },
+    {
+      "id": "rx_keep",
+      "evidence": [
+        "rx0"
+      ],
+      "claim": "新参考上 ep0 的 MP-SR 从 0.965 变为 0.000、ep18 从 0.862 变为 0.013，判据 5 都判不换。"
+    },
+    {
+      "id": "rx_sp",
+      "evidence": [
+        "rx29"
+      ],
+      "claim": "ep29 在新参考上 SP-SR 从 0.713 变为 0.025；ep20 在 tier3_v2s 参考上 SP-SR 从 0.895 变为 0.248；两集旧 MP-SR 都是 0，只看 SP-SR，判据 5 都判不换。"
+    },
+    {
+      "id": "rpd",
+      "evidence": [
+        "rpd0",
+        "rpd24"
+      ],
+      "claim": "物体相对机器人根的位置差中位：ep0 是 0.0624 m，ep24 是 0.0078 m。"
+    },
+    {
+      "id": "t3pk",
+      "evidence": [
+        "stmf"
+      ],
+      "claim": "mf4090 上 t3-ep0-w2048-cap4m-r3a-kfix-mf4090 在 2026-10-17 05:58:38 CST 完成，t3-ep18-w2048-cap4m-r3a-kfix-mf4090 在 08:14:16 CST 完成，之后正式训练 t3-ep29-w2048-cap4m-r3a-kfix-mf4090。"
+    },
+    {
+      "id": "gpu",
+      "evidence": [
+        "gpumf",
+        "gpuml"
+      ],
+      "claim": "快照里 mf4090 的 RTX 4090 用了 23779 MiB、利用率 97%；ml40 的 L40S 用了 40209 MiB、利用率 99%。"
+    },
+    {
+      "id": "health",
+      "evidence": [
+        "h1",
+        "h2"
+      ],
+      "claim": "t1ob 训练链 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0），评测成功 4、失败 0，导出成功 4、失败 0；t2ob 训练完成 5、失败 0，评测成功 5、失败 0，导出成功 5、失败 0；所有 run 的 NONFINITE 都是 0。"
+    },
+    {
+      "id": "verdicts",
+      "evidence": [
+        "v1",
+        "v2"
+      ],
+      "claim": "P1 的对照 MP-SR 0.837 过门槛，修好 0、有起色 0、没用 7，总判没用；P2 的对照 MP-SR 0.735 过门槛，修好 0、有起色 0、没用 8，总判没用。"
+    },
+    {
+      "id": "cw",
+      "evidence": [
+        "cw"
+      ],
+      "claim": "首次接触后 30 帧内物体自转的中位，跟丢的 7 集是 16.4°，其余 22 集是 1.0°。"
+    },
+    {
+      "id": "onset",
+      "evidence": [
+        "onset"
+      ],
+      "claim": "Tier 1 跟丢的 7 集里，越线步减首次接触帧（delay）为 ep1 +25、ep2 +32、ep9 +25、ep11 +9、ep25 +19、ep28 +18，ep4 是 -58。"
+    },
+    {
+      "id": "relab",
+      "evidence": [
+        "relab"
+      ],
+      "claim": "ep28（squeegee）的手 0 接触段数从 12 段变为 6 段，手 1 从 11 段变为 4 段。"
+    },
+    {
+      "id": "pair",
+      "evidence": [
+        "pair"
+      ],
+      "claim": "同一策略对两份参考的评测差：MP-SR +0.0000、SP-SR +0.0000、ADD-AUC -0.0003、MPPE +0.0032，结论 EVAL_PAIR 一致。"
+    },
+    {
+      "id": "t2co",
+      "evidence": [
+        "t2co"
+      ],
+      "claim": "Tier 2 诊断三条特征都过（3/3），提前量 CONTACT_ONSET_LEAD 是 5，选集 CONTACT_ONSET_PICK 是 ep25、ep9、ep1。"
+    },
+    {
+      "id": "t2mb",
+      "evidence": [
+        "t2mb"
+      ],
+      "claim": "Tier 2 参考里 ep28 的接触比物体离开初始位姿晚 285 帧，离开而没有接触标记的帧占 78%；ep4 晚 122 帧，占 43%。"
+    },
+    {
+      "id": "gb3",
+      "evidence": [
+        "gb3"
+      ],
+      "claim": "列出的各集里 gb3 与 k-fix 的物体位置差最大都是 0，人体 transl 与 poses 的最大差都是 0，物体朝向差最大不超过 0.332°。"
+    },
+    {
+      "id": "gbc",
+      "evidence": [
+        "gbc"
+      ],
+      "claim": "gb3 的世界坐标系转换 54 条成功、0 条失败，汇总一步失败（GB3_FAILED summary），链在 01:14:30 记 GB_CHAIN_FAILED；08:46 CST 时 logs 目录里没有 01:15 之后修改的文件。"
+    },
+    {
+      "id": "proxy",
+      "evidence": [
+        "proxy"
+      ],
+      "claim": "对照自己参考的 Tier 2 MPPE：ep4 119.79、ep25 117.09、ep28 58.69、ep9 56.92、ep1 46.70 cm。"
+    },
+    {
+      "id": "ctl_true",
+      "evidence": [
+        "lb"
+      ],
+      "control": "true",
+      "claim": "Tier 2 的 MPPE 榜里 maniphys.ai 的分数是 15.32195。"
+    },
+    {
+      "id": "ctl_false",
+      "evidence": [
+        "lb"
+      ],
+      "control": "false",
+      "claim": "Tier 2 的 MPPE 榜第一行是 maniphys.ai。"
+    },
+    {
+      "id": "ctl_false2",
+      "evidence": [
+        "rx"
+      ],
+      "control": "false",
+      "claim": "新参考上 ep0 的 MP-SR 仍是 0.965，判据 5 判换。"
+    }
+  ]
+}

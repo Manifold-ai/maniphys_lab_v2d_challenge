@@ -1,0 +1,34 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-16-sop-1845.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : edb0e17c6eba5c93c258337f3309de0e  agent-doc/experiments/2026-10-16-sop-1845.claims.json
+# source   : 345da6f82cbe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:48:38-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+lb_t2_mppe           P(supported)=0.97  verified               [lb]  Tier 2 的 MPPE 榜（v2d-challenge-track2-tier2-mppe）第一行是 Xueyi Wang (FF)，提交时间 2026-10-16 15:18:09，分数 14.31296；maniphys.ai 15.32195 排第二。
+lb_t2_rest           P(supported)=0.98  verified               [lb]  Tier 2 的 AUC、SP-SR、MP-SR 三个榜第一行都是 maniphys.ai（0.51379、0.73333、0.53333）；Xueyi Wang (FF) 的 Tier 2 AUC 是 0.42499。
+lb_t1                P(supported)=0.96  verified               [lb]  Tier 1 四个榜的第一行都是 Xueyi Wang (FF)；FF 的 Tier 1 MPPE 是 8.03204，提交时间 2026-10-16 20:55:13；maniphys.ai 的 Tier 1 MPPE 16.55939 排第三，DAP 12.65831 排第二。
+lb_t3                P(supported)=0.93  verified               [lb]  Tier 3 的 MPPE 榜与 SP-SR 榜第一行是 maniphys.ai（56.87427、0.03333），Tier 3 AUC 榜第一行是 Xueyi Wang (FF)（0.15606），maniphys.ai 0.00690 第二。
+rx_checks            P(supported)=0.96  verified               [rx]  重新评测的两道核对都过：包装层恒等核对的差 MP-SR -0.0010、SP-SR -0.0010、ADD-AUC -0.0001、MPPE +0.0067；评测器核对的差 MP-SR +0.0012、SP-SR +0.0010、ADD-AUC -0.0000、MPPE -0.0013。
+rx_switch            P(supported)=0.96  verified               [rx24]  新参考上 ep24 的 MP-SR 从 0.933 变为 0.902、ep26 从 1.000 变为 0.984，判据 5 都判换。
+rx_keep              P(supported)=0.97  verified               [rx0]  新参考上 ep0 的 MP-SR 从 0.965 变为 0.000、ep18 从 0.862 变为 0.013，判据 5 都判不换。
+rx_sp                P(supported)=0.97  verified               [rx29]  ep29 在新参考上 SP-SR 从 0.713 变为 0.025；ep20 在 tier3_v2s 参考上 SP-SR 从 0.895 变为 0.248；两集旧 MP-SR 都是 0，只看 SP-SR，判据 5 都判不换。
+rpd                  P(supported)=0.99  verified               [rpd0, rpd24]  物体相对机器人根的位置差中位：ep0 是 0.0624 m，ep24 是 0.0078 m。
+t3pk                 P(supported)=0.98  verified               [stmf]  mf4090 上 t3-ep0-w2048-cap4m-r3a-kfix-mf4090 在 2026-10-17 05:58:38 CST 完成，t3-ep18-w2048-cap4m-r3a-kfix-mf4090 在 08:14:16 CST 完成，之后正式训练 t3-ep29-w2048-cap4m-r3a-kfix-mf4090。
+gpu                  P(supported)=0.97  verified               [gpumf, gpuml]  快照里 mf4090 的 RTX 4090 用了 23779 MiB、利用率 97%；ml40 的 L40S 用了 40209 MiB、利用率 99%。
+health               P(supported)=0.98  verified               [h1, h2]  t1ob 训练链 DAY2_TRAIN_DONE（完成 4、失败 0、跳过 0、发散 0），评测成功 4、失败 0，导出成功 4、失败 0；t2ob 训练完成 5、失败 0，评测成功 5、失败 0，导出成功 5、失败 0；所有 run 的 NONFINITE 都是 0。
+verdicts             P(supported)=0.98  verified               [v1, v2]  P1 的对照 MP-SR 0.837 过门槛，修好 0、有起色 0、没用 7，总判没用；P2 的对照 MP-SR 0.735 过门槛，修好 0、有起色 0、没用 8，总判没用。
+cw                   P(supported)=0.83  verified               [cw]  首次接触后 30 帧内物体自转的中位，跟丢的 7 集是 16.4°，其余 22 集是 1.0°。
+onset                P(supported)=0.84  verified               [onset]  Tier 1 跟丢的 7 集里，越线步减首次接触帧（delay）为 ep1 +25、ep2 +32、ep9 +25、ep11 +9、ep25 +19、ep28 +18，ep4 是 -58。
+relab                P(supported)=0.92  verified               [relab]  ep28（squeegee）的手 0 接触段数从 12 段变为 6 段，手 1 从 11 段变为 4 段。
+pair                 P(supported)=0.98  verified               [pair]  同一策略对两份参考的评测差：MP-SR +0.0000、SP-SR +0.0000、ADD-AUC -0.0003、MPPE +0.0032，结论 EVAL_PAIR 一致。
+t2co                 P(supported)=0.98  verified               [t2co]  Tier 2 诊断三条特征都过（3/3），提前量 CONTACT_ONSET_LEAD 是 5，选集 CONTACT_ONSET_PICK 是 ep25、ep9、ep1。
+t2mb                 P(supported)=0.99  verified               [t2mb]  Tier 2 参考里 ep28 的接触比物体离开初始位姿晚 285 帧，离开而没有接触标记的帧占 78%；ep4 晚 122 帧，占 43%。
+gb3                  P(supported)=0.97  verified               [gb3]  列出的各集里 gb3 与 k-fix 的物体位置差最大都是 0，人体 transl 与 poses 的最大差都是 0，物体朝向差最大不超过 0.332°。
+gbc                  P(supported)=0.77  verified               [gbc]  gb3 的世界坐标系转换 54 条成功、0 条失败，汇总一步失败（GB3_FAILED summary），链在 01:14:30 记 GB_CHAIN_FAILED；08:46 CST 时 logs 目录里没有 01:15 之后修改的文件。
+proxy                P(supported)=0.98  verified               [proxy]  对照自己参考的 Tier 2 MPPE：ep4 119.79、ep25 117.09、ep28 58.69、ep9 56.92、ep1 46.70 cm。
+ctl_true             P(supported)=0.99  control(true) ok       [lb]  Tier 2 的 MPPE 榜里 maniphys.ai 的分数是 15.32195。
+ctl_false            P(supported)=0.02  control(false) ok      [lb]  Tier 2 的 MPPE 榜第一行是 maniphys.ai。
+ctl_false2           P(supported)=0.01  control(false) ok      [rx]  新参考上 ep0 的 MP-SR 仍是 0.965，判据 5 判换。
+controls behaved as expected

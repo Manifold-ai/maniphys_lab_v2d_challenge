@@ -1,0 +1,16 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ md5sum\ stages/evaluate/contact_onset_table.py\ stages/evaluate/test_contact_onset_table.py\ \&\&\ scripts/dev/in-flash-chord\ \"cd\ /repo\ \&\&\ python\ stages/evaluate/test_contact_onset_table.py\" 
+# md5      : b533faa724513e8585837439fd29262e  stages/evaluate/contact_onset_table.py
+# md5      : a446bdbf8acbf4edea974d4bdea5dee5  stages/evaluate/test_contact_onset_table.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : a446bdbf8acbf4edea974d4bdea5dee5  stages/evaluate/test_contact_onset_table.py
+# source   : 345da6f82cbe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:48:23-0600
+# ---------------------------------------------------------------
+source 4e58a151e73d
+b533faa724513e8585837439fd29262e  stages/evaluate/contact_onset_table.py
+a446bdbf8acbf4edea974d4bdea5dee5  stages/evaluate/test_contact_onset_table.py
+  1. lead 规则
+  2. 分段、空档、delay、三条特征、lead 与选集
+  3. 别的档、带后缀的目录、元数据档位不符、方向反了的表都拒收
+ALL_OK

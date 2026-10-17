@@ -1,0 +1,20 @@
+# command  : ssh -o BatchMode=yes ml40 $'D=$(ls -d /lab_data/*/v2d/tier3 | grep -v /rxzhou/); cd "$D/logs" || exit 1; for f in gb_chain.log gb3_register.log world_gb3_all.log; do echo "## $f"; tail -4 "$f" | cut -c1-220; done; echo "## logs ‰∏\213 11:14 MDTÔº\21001:14 CSTÔº\211‰π\213Â\220\216‰øÆÊ\224πÁ\232\204Ê\226\207‰ª∂"; find . -maxdepth 1 -newermt "2026-10-17 01:15" -printf "%TY-%Tm-%Td %TH:%TM %f\\n" | sort | tail -5; echo "## Á\216∞Â\234® $(date "+%F %T %Z")"' 
+# source   : 345da6f82cbe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:46:50-0600
+# ---------------------------------------------------------------
+## gb_chain.log
+10-17 00:43:30 deployed: ca3ecf0d343487596222b661405a80be527e693c dirty=0 (deploy_l40s.sh: stages/recovery/tier3 libs/v2d_infra) 2026-10-17 00:43:29 CST
+10-17 01:14:30 GB_CHAIN_FAILED t3_gb3_register.sh did not finish: 10-17 01:13:47 GB3_FAILED summary (dev/kgb/gb3_summary.txt)
+## gb3_register.log
+convert_fp_gb3/ep28_squeegee ok
+convert_pivot_gb3/ep19_cane ok
+10-17 01:13:47 world: 54 ok, 0 failed
+10-17 01:13:47 GB3_FAILED summary (dev/kgb/gb3_summary.txt)
+## world_gb3_all.log
+convert_fp_gb3/ep27_woven_basket ok
+convert_fp_gb3/ep29_rolling_luggage ok
+convert_fp_gb3/ep28_squeegee ok
+convert_pivot_gb3/ep19_cane ok
+## logs ‰∏ã 11:14 MDTÔºà01:14 CSTÔºâ‰πãÂêé‰øÆÊîπÁöÑÊñá‰ª∂
+## Áé∞Âú® 2026-10-17 08:46:51 CST
