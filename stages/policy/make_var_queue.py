@@ -41,7 +41,8 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
        期望表的 support 列与 scene.support=false 覆盖都按它给，不沿用 Tier 2 基线的（ep1 的 Tier 2 基线开着支撑面，best_hm 的 ep1 只有地面）。
   t3pg、t3qg Tier 3 标定内参的 gb3 交付版（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md）：参考在 /runs/motion/tier3_gb3/，其余取法同 t3p4、t3q
        （基线取 Tier 2 导出清单；支撑面按 gb3 自己的，有桌面的 12 集与 best_hm 相同，results/t3gb3/inventory_ml40.txt）；
-       t3pg 在 mf4090（ep20、22、21，400 万，run 名 t3-ep<N>-w2048-cap4m-r3a-gb3-mf4090），t3qg 在 ml40（ep6、8、7，1000 万，t3-ep<N>-w2048-cap10m-r3a-gb3-ml40）。
+       t3pg 在 mf4090（ep20、0、22、21，400 万，run 名 t3-ep<N>-w2048-cap4m-r3a-gb3-mf4090），t3qg 在 ml40（ep6、8、7、29，1000 万，
+       t3-ep<N>-w2048-cap10m-r3a-gb3-ml40）。第 2 版按复核：ep0、29 在 gb3 上新训（不拿已有的 k-fix 重训套事后定的规则）。
 --seed N（计划 agent-doc/plan-first-place-2026-10-14.md 第 2 节选项甲）：只许用在非预设的段（同时给 --episodes），N 是 1–9999、不是 42 的整数；
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
@@ -114,11 +115,11 @@ SETS = {
             "base": None, "motion": "tier3_hm", "tables": TABLES_HM, "run": "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40",
             "desc": "Tier 3 最终交付版 best_hm：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_hm，基线取 Tier 2 导出清单，支撑面按 best_hm）"},
     "t3pg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
-             "episodes": [20, 22, 21], "parts": {"t3pg": [20, 22, 21]},
+             "episodes": [20, 0, 22, 21], "parts": {"t3pg": [20, 0, 22, 21]},
              "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090",
              "desc": "Tier 3 gb3（标定内参）：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb3，基线取 Tier 2 导出清单，支撑面按 gb3）"},
     "t3qg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "ml40", "cap": None,
-             "episodes": [6, 8, 7], "parts": {"t3qg": [6, 8, 7]},
+             "episodes": [6, 8, 7, 29], "parts": {"t3qg": [6, 8, 7, 29]},
              "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40",
              "desc": "Tier 3 gb3（标定内参）：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb3，基线取 Tier 2 导出清单，支撑面按 gb3）"},
     "t1x": {"plan": "agent-doc/plan-next-training-2026-10-12.md", "tier": 1, "machine": "mf4090", "cap": "4000000",

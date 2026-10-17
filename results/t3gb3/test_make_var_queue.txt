@@ -1,8 +1,8 @@
 # command  : python3 stages/policy/test_make_var_queue.py 
-# md5      : d6412435563b51ce29f174b2e65e0db9  stages/policy/test_make_var_queue.py
-# source   : 05d9be5af498-dirty
+# md5      : d3c9e68eb7823f5e960f550a4ce43870  stages/policy/test_make_var_queue.py
+# source   : d3b03d387641-dirty
 # host     : Mac
-# run_at   : 2026-10-17T18:26:43-0400
+# run_at   : 2026-10-17T18:37:27-0400
 # ---------------------------------------------------------------
 ok test_t2x_parts
 ok test_resume_part

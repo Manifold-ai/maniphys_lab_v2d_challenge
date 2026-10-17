@@ -447,8 +447,8 @@ def test_t3pg_t3qg_parts():
         setup(root)
         q = root / "stages" / "policy" / "queues"
         for part, m, eps, ref_part, ref_tag, fmt, ref_fmt in (
-                ("t3pg", "mf4090", [20, 22, 21], "t3p4z", "t3p4", "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090", "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090"),
-                ("t3qg", "ml40", [6, 8, 7], "t3qz", "t3q", "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40", "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40")):
+                ("t3pg", "mf4090", [20, 0, 22, 21], "t3p4z", "t3p4", "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090", "t3-ep{ep}-w2048-cap4m-r3a-hm-mf4090"),
+                ("t3qg", "ml40", [6, 8, 7, 29], "t3qz", "t3q", "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40", "t3-ep{ep}-w2048-cap10m-r3a-hm-ml40")):
             r = gen(root, part)
             assert r.returncode == 0, r.stdout + r.stderr
             r = gen(root, ref_part, "--episodes", ",".join(map(str, eps)))

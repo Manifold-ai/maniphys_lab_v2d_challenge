@@ -1,5 +1,5 @@
 {
- "plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md 判据 G2",
+ "plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md 判据 G2（第 2 版）",
  "step": 349999104,
  "margin_cm": 4.0,
  "sp_floor": 0.5,
@@ -16,6 +16,16 @@
    "report_only": false
   },
   {
+   "ep": 0,
+   "new": "t3-ep0-w2048-cap4m-r3a-gb3-mf4090",
+   "ref_dir": "tier3_gb3",
+   "cur": "t3-ep0-w2048-cap4m-r3a-v2-mf4090",
+   "cur_mppe": 2.6,
+   "cur_sp": 0.992,
+   "cur_mp": 0.965,
+   "report_only": false
+  },
+  {
    "ep": 22,
    "new": "t3-ep22-w2048-cap4m-r3a-gb3-mf4090",
    "ref_dir": "tier3_gb3",
@@ -23,7 +33,8 @@
    "cur_mppe": 3.7,
    "cur_sp": 0.98,
    "cur_mp": 0.954,
-   "report_only": false
+   "report_only": false,
+   "note": "10/16 定 ep22 留旧参考；进选集要 rxzhou 点头，并附 gb3 ep22 的人脚检验"
   },
   {
    "ep": 21,

@@ -3,7 +3,7 @@
 且候选 SP-SR ≥ sp_floor，记“换”。现选 run 的值写死在规格里（来源记录逐项注明），出结果前登记。
 规格文件（JSON）：{"step": 349999104, "margin_cm": 4.0, "sp_floor": 0.5, "source": "<现选值的来源>",
   "pairs": [{"ep": 20, "new": <候选 run>, "ref_dir": "tier3_gb3", "cur": <现选 run>, "cur_mppe": 5.77, "cur_sp": 0.8911, "cur_mp": 0.0046,
-             "report_only": false}, ...]}
+             "report_only": false, "note": "<可选：照抄进这一集的输出行>"}, ...]}
 新值取 runs/flash_chord/<候选 run>/eval_<步数>_w4096.json（评测链写的；MPPE = mppe_cm，SP-SR = spider_sr_uncentered，MP-SR = maniptrans_sr），
 要求 world_count 为 4096、没有非有限世界、JSON 里记的参考在 /runs/motion/<ref_dir>/ 下，不合就“不判”。report_only 的集照算、只报，不计入“换”。
 用法：python3 stages/evaluate/gb3_switch.py <规格>；最后一行 GB3_SWITCH_DONE <换的集数> <不判的集数>。
@@ -50,7 +50,7 @@ def main() -> int:
     for p in spec["pairs"]:
         j = Path("runs/flash_chord") / p["new"] / f"eval_{step}_w4096.json"
         head = (f"ep{p['ep']} {p['new']}（现选 {p['cur']}：MPPE {p['cur_mppe']:.2f} cm、SP-SR {p['cur_sp']:.4f}、MP-SR {p['cur_mp']:.4f}）"
-                + ("［只报］" if p.get("report_only") else ""))
+                + ("［只报］" if p.get("report_only") else "") + (f"［{p['note']}］" if p.get("note") else ""))
         if not j.exists():
             print(f"{head}：没有 {j}，不判")
             skipped += 1
