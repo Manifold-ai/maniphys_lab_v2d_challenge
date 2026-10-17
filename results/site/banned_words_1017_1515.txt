@@ -1,0 +1,24 @@
+# command  : python3 tools/site_banned_words.py docs/site/v2d-track2.html 
+# md5      : a3242da1c2233d3f05999525a2a008ae  tools/site_banned_words.py
+# md5      : 649a9cf1e75003ea86bbe708f92bb5b7  docs/site/v2d-track2.html
+# source   : b2fe8639ab12-dirty
+# host     : Mac
+# run_at   : 2026-10-17T16:53:39-0400
+# ---------------------------------------------------------------
+词                   HEAD      现在
+jev                    0       0
+Fable                  0       0
+Opus                   0       0
+审查                     0       0
+用户                     0       0
+原文                    12      12
+我们                     0       0
+同组成员                   0       0
+coding agent           0       0
+claim                  1       1
+review                 2       2
+user                   4       4
+teammate               0       0
+we                     0       0
+our                    0       0
+BANNED_SAME

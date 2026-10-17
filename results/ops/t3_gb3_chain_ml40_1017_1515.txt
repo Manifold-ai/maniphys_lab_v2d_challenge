@@ -1,0 +1,41 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 $'D=$(ls -d /lab_data/*/v2d/tier3 | grep -v /rxzhou/); cd "$D" || exit 1; echo "## gb_chain.log Ê\234\200Â\220\216 8 Ë°\214"; tail -8 logs/gb_chain.log | cut -c1-220; echo "## chain_check_gbdyn7.log"; cat logs/chain_check_gbdyn7.log | cut -c1-160; echo "## ‰∫§‰ª\230Á\233ÆÂΩ\225"; ls -d runs/tier3_cari4d_gb_best*; ls runs/tier3_cari4d_gb_best_dr2s_dyn7; echo "## Á\216∞Â\234® $(date "+%F %T %Z")"' 
+# source   : b2fe8639ab12
+# host     : Mac
+# run_at   : 2026-10-17T16:50:30-0400
+# ---------------------------------------------------------------
+## gb_chain.log ÊúÄÂêé 8 Ë°å
+10-17 12:36:01 2 physics tier3_cari4d_gb_best
+10-17 12:39:46 3 supports: 31 files
+10-17 12:40:01 4 tier3_cari4d_gb_best_dr2s
+10-17 12:42:53 5 physics tier3_cari4d_gb_best_dr2s
+10-17 12:44:06 6 tier3_cari4d_gb_best_dr2s_dyn7
+10-17 13:23:47 7 checks: gate P2_FAIL 5/30Ôºöep3 ep6 ep7 ep20 ep25 RETARGET_FAIL 0/30ÔºöÊó† CONTACT_NA ep29=Ëøá 
+10-17 13:23:47    our supports: 28 RESULT gap_mm=-0.0 surface=floor ok=1 29 RESULT gap_mm=-0.0 surface=floor ok=1 
+10-17 13:23:47 GB_CHAIN_DONE
+## chain_check_gbdyn7.log
+gbdyn7 30 episodes: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+gbdyn7 todo: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+  worker 0: 0 6 12 18 24
+  worker 1: 1 7 13 19 25
+  worker 2: 2 8 14 20 26
+  worker 3: 3 9 15 21 27
+  worker 4: 4 10 16 22 28
+  worker 5: 5 11 17 23 29
+CHAIN_DONE
+## ‰∫§‰ªòÁõÆÂΩï
+runs/tier3_cari4d_gb_best
+runs/tier3_cari4d_gb_best_dr2s
+runs/tier3_cari4d_gb_best_dr2s.depth_post.json
+runs/tier3_cari4d_gb_best_dr2s_dyn7
+runs/tier3_cari4d_gb_best_dr2s_dyn7.dynamics_post.json
+runs/tier3_cari4d_gb_best_dr2s_dyn7.provenance.json
+runs/tier3_cari4d_gb_best_dr2s_dyn7_suspect
+runs/tier3_cari4d_gb_best_dr2s.provenance.json
+runs/tier3_cari4d_gb_best_dr2s_suspect
+runs/tier3_cari4d_gb_best.selection.json
+runs/tier3_cari4d_gb_best_suspect
+data
+DELIVERY.md
+meta
+support_surface
+## Áé∞Âú® 2026-10-18 04:50:33 CST

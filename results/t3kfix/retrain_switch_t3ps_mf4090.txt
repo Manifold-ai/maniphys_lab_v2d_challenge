@@ -1,0 +1,9 @@
+# command  : python3 stages/evaluate/retrain_switch.py stages/evaluate/retrain_switch_t3ps.json 
+# md5      : 16b03cb27736c94ab06ccf31b743237f  stages/evaluate/retrain_switch.py
+# md5      : 858c6c89db06955b0bfadc5ef2744189  stages/evaluate/retrain_switch_t3ps.json
+# source   : ad7ec00d48d0
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T20:16:59+0800
+# ---------------------------------------------------------------
+ep20 t3-ep20-w2048-cap4m-r3a-v2s-mf4090（旧 t3-ep20-w2048-cap4m-r3a-v2-mf4090：MP-SR 0.000、SP-SR 0.895）：新 MP-SR 0.0046、SP-SR 0.8911、ADD-AUC 0.498、MPPE 5.77 cm；判据 5（旧 MP-SR 为 0，只看 SP-SR ≥ 0.8448）：换
+RETRAIN_SWITCH_DONE 1 0

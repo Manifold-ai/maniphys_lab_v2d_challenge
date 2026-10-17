@@ -1,0 +1,13 @@
+# command  : python3 stages/policy/r3o_verdict.py C3 
+# md5      : 52698c440924f263ea56d4ee70fd8ca4  stages/policy/r3o_verdict.py
+# source   : ad7ec00d48d0
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T03:24:44+0800
+# ---------------------------------------------------------------
+== C3（Tier 2，步数 349999104，跟丢集 3）
+  这一节没有对照（总判：修好 ≥ 1 集有用，修好 0 集但有起色 ≥ 2 集看不清，其余没用）
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t2-ep25-w2048-cap4m-mf4090 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t2-ep9-w2048-cap4m-r3a-c5-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t2-ep9-w2048-cap4m-mf4090 失败_物体 1.000、SP-SR 0.000）→ 没用
+  t2-ep1-w2048-cap4m-r3a-c5-mf4090：MP-SR 0.000、SP-SR 0.000、失败_物体 1.000（基线 t2-ep1-w2048-cap10m-r3a-ml40 失败_物体 1.000、SP-SR 0.000）→ 没用
+  修好 0、有起色 0、没用 3 → 没用
+R3O_VERDICT 没用

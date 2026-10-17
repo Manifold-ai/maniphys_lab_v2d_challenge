@@ -1,0 +1,44 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none -o ServerAliveInterval=5 -o ServerAliveCountMax=6 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t1c2_train_ml40\ t1c2_eval_ml40\ cand_t1_t1c2_ml40_gate\ cand_t1_t1c2_ml40\ t1-ep9-w2048-cap10m-r3a-c10-ml40\ t1-ep2-w2048-cap10m-r3a-c10-ml40 
+# source   : b2fe8639ab12
+# host     : Mac
+# run_at   : 2026-10-17T16:49:13-0400
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-18 04:49:16 CST；来历 d27b96fa893b
+## 训练链 t1c2_train_ml40（不含冒烟行）
+=== 2026-10-17 15:36:23 CST start t1c2_train_ml40, source 4e58a151e73d, 期望表 stages/policy/queues/ml40_t1c2.expect.tsv
+=== 2026-10-17 15:47:03 CST 正式 t1-ep9-w2048-cap10m-r3a-c10-ml40
+=== 2026-10-17 17:57:27 CST t1-ep9-w2048-cap10m-r3a-c10-ml40 完成（1 段）
+=== 2026-10-17 17:57:27 CST 正式 t1-ep2-w2048-cap10m-r3a-c10-ml40
+=== 2026-10-17 19:59:17 CST t1-ep2-w2048-cap10m-r3a-c10-ml40 完成（1 段）
+=== 2026-10-17 19:59:17 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+## t1c2_train_ml40 的冒烟行
+=== 2026-10-17 15:36:25 CST 正向核对：2 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-17 15:36:25 CST 冒烟 smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40
+=== 2026-10-17 15:41:41 CST 冒烟 smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40 通过：870 帧，不动基线见 results/day2/bar_smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-17 15:41:41 CST 冒烟 smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40
+=== 2026-10-17 15:47:03 CST 冒烟 smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40 通过：980 帧，不动基线见 results/day2/bar_smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+DIVERGE_IN_CHAIN t1c2_train_ml40 1
+## 各 run
+t1-ep9-w2048-cap10m-r3a-c10-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-17 03:57:14 MDT 349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+t1-ep2-w2048-cap10m-r3a-c10-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-17 05:55:36 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+## t1c2_eval_ml40
+=== 2026-10-17 15:36:25 CST 等 runs/logs/t1c2_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-17 19:59:26 CST 训练链已结束：=== 2026-10-17 19:59:17 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
+=== 2026-10-17 19:59:26 CST start t1c2_eval_ml40, source 4e58a151e73d, 期望表 stages/policy/queues/ml40_t1c2.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-17 20:11:53 CST DAY2_EVAL_DONE（成功 2、失败 0）
+## cand_t1_t1c2_ml40_gate
+=== 2026-10-17 15:36:27 CST 等 runs/logs/t1c2_eval_ml40.log 的最后一行变成评测链的结束行
+=== 2026-10-17 20:12:28 CST 评测链成功 2 条、失败 0，开导出链 cand_t1_t1c2_ml40
+=== 2026-10-17 20:14:39 CST 导出链结束，退出码 0
+## cand_t1_t1c2_ml40
+=== 2026-10-17 20:12:28 CST start cand_t1_t1c2_ml40：清单 stages/evaluate/exports/cand_t1_t1c2_ml40.tsv（2 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 4e58a151e73d
+=== 2026-10-17 20:13:34 CST Tier 1 ep9 t1-ep9-w2048-cap10m-r3a-c10-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 870（导出 870），checkpoint 相同
+=== 2026-10-17 20:14:39 CST Tier 1 ep2 t1-ep2-w2048-cap10m-r3a-c10-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 980（导出 980），checkpoint 相同
+=== 2026-10-17 20:14:39 CST EXPORT_CHAIN_DONE（成功 2、失败 0）
+## 导出结果表 runs/exports/cand_t1_t1c2_ml40.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+1	9	t1-ep9-w2048-cap10m-r3a-c10-ml40	349999104	ok	runs/flash_chord/t1-ep9-w2048-cap10m-r3a-c10-ml40/export_8c778f9/s349999104_w1/episode_000009.json	runs/flash_chord/t1-ep9-w2048-cap10m-r3a-c10-ml40/export_8c778f9/s349999104_w1/episode_000009.parquet	7ddc843a90d7baa5a1e0c85b6ce052a307c51f4d4a9033143934a500c9359a49	2b0ef7cfbf6ae0e05cd2bbac44d0061efa210d1a8ac7f0fb2dcf2eb8d13983bc
+1	2	t1-ep2-w2048-cap10m-r3a-c10-ml40	349999104	ok	runs/flash_chord/t1-ep2-w2048-cap10m-r3a-c10-ml40/export_8c778f9/s349999104_w1/episode_000002.json	runs/flash_chord/t1-ep2-w2048-cap10m-r3a-c10-ml40/export_8c778f9/s349999104_w1/episode_000002.parquet	ca315ce60c7c34e392a62b0a8385919f4baa6f0aee42454769d50b61d42714ce	a4628e9d3da7afa5008ba6ffaa017dce35a13dd6ccb8d9d63747091d5c26a58d
+CHAIN_HEALTH_DONE

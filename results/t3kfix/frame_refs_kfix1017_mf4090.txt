@@ -1,0 +1,14 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/make_frame_refs_t3.py\ stages/evaluate/exports/t3_select_kfix1017.tsv\ mf4090\ --out\ runs/submission/frame_refs_t3_kfix1017\ --from-export\ runs/submission/kfix1017_exports 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e9d30857bace9098eebaec2286aa4926  stages/evaluate/make_frame_refs_t3.py
+# md5      : 3c4010eb3e802e446b8fcfcd35a3d291  stages/evaluate/exports/t3_select_kfix1017.tsv
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T04:45:18+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考：mf4090（VM-1-2-ubuntu）上 4 集（清单另有 0 集在别的机器）→ runs/submission/frame_refs_t3_kfix1017（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep18 t3-ep18-w2048-cap4m-r3a-kfix-mf4090：tier3_kfix/2026-05-06_10-00-19_blue_trash_can_drag_sideways_08，858 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 7.8e-16，四元数转回矩阵最大差 7.8e-16
+  ok   ep20 t3-ep20-w2048-cap4m-r3a-v2s-mf4090：tier3_v2s/2026-06-08_16-57-34_rice_cooker_clockwise_04，553 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep24 t3-ep24-w2048-cap4m-r3a-v2-mf4090：tier3_kfix/2026-05-29_15-43-20_watering_can_pour_right_02，748 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.1e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep26 t3-ep26-w2048-cap4m-r3a-v2-mf4090：tier3_kfix/2026-06-05_16-05-08_skateboard_rotate_ground_10，669 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+FRAME_REFS_T3_OK 4

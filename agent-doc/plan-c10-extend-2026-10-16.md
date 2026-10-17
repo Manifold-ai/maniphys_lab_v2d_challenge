@@ -120,7 +120,7 @@
 
 ## 6. 第 4 版（10/17 13:4x MDT）：Tier 2 续跑 ep2、ep11、ep17
 
-- 结果：C1 看不清（ep11、ep28 有起色，ep25、ep1 没用）；C2 有用（ep2 修好：MP-SR 0.575、SP-SR 0.808；ep9 没用）；C3 没用（Tier 2 ep25、9、1 都是 0）（`results/ml40/t1diag/verdict_C1_ml40.txt`、`results/t1diag/verdict_C2_ml40.txt`、`results/t2diag/verdict_C3_mf4090.txt`）。
+- 结果：C1 看不清（ep11、ep28 有起色，ep25、ep1 没用）；C2 有用（ep2 修好：MP-SR 0.575、SP-SR 0.808；ep9 没用）；C3 没用（Tier 2 ep25、9、1 都是 0）（`results/ml40/t1diag/verdict_C1_ml40.txt`、`results/ml40/t1diag/verdict_C2_ml40.txt`、`results/t2diag/verdict_C3_mf4090.txt`）。
 - 续跑范围：Tier 2 诊断登记的合格集（0 ≤ delay ≤ 40）是 ep1、2、9、11、17、25，第一晚按 MPPE 取了前三；这里跑其余三集 ep2、11、17，方法、参数（提前 5 帧、补 15 帧）、参考目录与第一晚相同，顺序按导出那一局的 MPPE 从大到小（ep2 26.43、ep11 9.38、ep17 5.43 cm，`results/first/t2_lost_swap.txt`）。
 - 档位隔离（如实写明）：参数与合格集只来自 Tier 2 的数据，换不换候选只按 Tier 2 自己的 4096 世界指标；但决定在 C3 没用之后续跑时，已经知道 Tier 1 的 ep2、ep11 用接触标记提前有效。rxzhou 10/17 13:4x 看过这一点后定下续跑。
 - 判读 C4（`stages/policy/r3o_verdict.json`，训练前登记）：逐集判法同 C1，基线取 P2 登记的同集基线；总判同 C3。

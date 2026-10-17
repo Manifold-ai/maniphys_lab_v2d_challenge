@@ -1,0 +1,14 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/retarget/contact_relabel.py\ --src\ runs/motion/tier2\ --dst\ runs/motion/tier2_c5\ --meta-src\ runs/motion_src/tier2\ --meta-dst\ runs/motion_src/tier2_c5\ --lead\ 5\ --gap\ 15\ 2026-06-02_10-04-42_blue_easter_basket_place_10\ 2026-04-24_13-56-58_light_blue_book_pick_place_09\ 2026-05-01_17-04-55_traffic_cone_ground_table_02 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T03:29:56+0800
+# ---------------------------------------------------------------
+2026-06-02_10-04-42_blue_easter_basket_place_10：形状 (2, 980)（手 × 帧）；手 0：接触帧 379 → 387，段数 2 → 1，首段起点 418 → 413；手 1：接触帧 98 → 103，段数 1 → 1，首段起点 94 → 89
+  支撑面：2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+2026-04-24_13-56-58_light_blue_book_pick_place_09：形状 (2, 901)（手 × 帧）；手 0：接触帧 595 → 654，段数 16 → 5，首段起点 58 → 53；手 1：接触帧 805 → 816，段数 3 → 2，首段起点 69 → 64
+  支撑面：2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+2026-05-01_17-04-55_traffic_cone_ground_table_02：形状 (2, 440)（手 × 帧）；手 0：接触帧 155 → 160，段数 1 → 1，首段起点 117 → 112；手 1：接触帧 202 → 229，段数 4 → 1，首段起点 114 → 109
+  支撑面：2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+CONTACT_RELABEL_DONE 3

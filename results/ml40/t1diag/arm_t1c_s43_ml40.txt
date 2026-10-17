@@ -1,0 +1,23 @@
+# command  : stages/policy/arm_var_chain.sh t1c_s43 
+# md5      : 2729e92aa15374d2ae9a5fca86e449ec  stages/policy/arm_var_chain.sh
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T03:26:31+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t1-ep28-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep28-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep11-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep11-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep2-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep2-w2048-cap10m-r3a-c10-s43-ml40.yaml：4 条断言，全过
+核对：t1c_s43 在 ml40，3 条 run，来历 d27b96fa893b，可用 1295714 MB，训练副本 v040_p185_nfg，6 份配置的 precheck 与配方断言全过
+v2d-t1c_s43-eval: 1 windows (created Sun Oct 18 03:26:37 2026)
+v2d-t1c_s43-export: 1 windows (created Sun Oct 18 03:26:39 2026)
+v2d-t1c_s43-train: 1 windows (created Sun Oct 18 03:26:35 2026)
+t1c_s43_train_ml40：=== 2026-10-18 03:26:37 CST 冒烟 smoke-t1-ep28-w2048-cap10m-r3a-c10-s43-ml40
+t1c_s43_eval_ml40：=== 2026-10-18 03:26:37 CST 等 runs/logs/t1c_s43_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1c_s43_ml40：
+runs/.chain-active-cand_t1_t1c_s43_ml40-gate
+runs/.chain-active-t1c_s43_eval_ml40
+runs/.chain-active-t1c_s43_train_ml40
+ARMED

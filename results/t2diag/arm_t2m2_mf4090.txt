@@ -1,0 +1,23 @@
+# command  : stages/policy/arm_var_chain.sh t2m2 
+# md5      : 2729e92aa15374d2ae9a5fca86e449ec  stages/policy/arm_var_chain.sh
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T03:31:05+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t2-ep2-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep11-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t2-ep17-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090.yaml：4 条断言，全过
+核对：t2m2 在 mf4090，3 条 run，来历 a172f14b80bd，可用 77298 MB，训练副本 v040_p185_nfg，6 份配置的 precheck 与配方断言全过
+v2d-t2m2-eval: 1 windows (created Sun Oct 18 03:31:10 2026)
+v2d-t2m2-export: 1 windows (created Sun Oct 18 03:31:12 2026)
+v2d-t2m2-train: 1 windows (created Sun Oct 18 03:31:08 2026)
+t2m2_train_mf4090：=== 2026-10-18 03:31:09 CST 冒烟 smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090
+t2m2_eval_mf4090：=== 2026-10-18 03:31:10 CST 等 runs/logs/t2m2_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t2_t2m2_mf4090：
+runs/.chain-active-cand_t2_t2m2_mf4090-gate
+runs/.chain-active-t2m2_eval_mf4090
+runs/.chain-active-t2m2_train_mf4090
+ARMED

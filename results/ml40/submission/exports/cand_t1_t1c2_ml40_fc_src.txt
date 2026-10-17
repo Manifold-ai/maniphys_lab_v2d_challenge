@@ -1,0 +1,36 @@
+# command  : python3 stages/policy/fc_src_check.py /lab_data/rxzhou/v2d/fc_src/fc_8c778f9 third_party/patches/flash_chord-8c778f9.sha256 
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 2c322fa055182e16a322a0cac3ee0234  third_party/patches/flash_chord-8c778f9.sha256
+# source   : 4e58a151e73d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T20:12:28+0800
+# ---------------------------------------------------------------
+== 副本 /lab_data/rxzhou/v2d/fc_src/fc_8c778f9，清单 third_party/patches/flash_chord-8c778f9.sha256
+  ok   对照 third_party/video_to_data 的 HEAD 33129dd = 33129dd（v0.4.0）
+  ok   对照的已跟踪文件没有改动
+  ok   SOURCE_V2D.txt：flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch）
+  info 对照 862 个文件，副本 863 个，不同 11 个
+       内容不同 scripts/evaluate_policy.py
+       内容不同 src/flash_chord/configs/evaluation/flash_sac.yaml
+       内容不同 src/flash_chord/evaluation/harness.py
+       内容不同 src/flash_chord/evaluation/metrics.py
+       内容不同 src/flash_chord/evaluation/rollout.py
+       内容不同 src/flash_chord/scene/support.py
+       内容不同 src/flash_chord/training/flash_sac/evaluation.py
+       内容不同 tests/evaluation/test_evaluation_harness.py
+       内容不同 tests/evaluation/test_evaluation_metrics.py
+       只在副本 tests/evaluation/test_object_trajectory_export.py
+       内容不同 tests/scene/test_support.py
+  ok   不同的文件正好是清单里的 11 个
+  ok   scripts/evaluate_policy.py sha256 160d24f5fbeb70cc…
+  ok   src/flash_chord/configs/evaluation/flash_sac.yaml sha256 aaec3f1fb90e4988…
+  ok   src/flash_chord/evaluation/harness.py sha256 6e61b092e9aa9d00…
+  ok   src/flash_chord/evaluation/metrics.py sha256 ef641481aaefd279…
+  ok   src/flash_chord/evaluation/rollout.py sha256 7794b59dd52c43fc…
+  ok   src/flash_chord/scene/support.py sha256 8d82f6008f231066…
+  ok   src/flash_chord/training/flash_sac/evaluation.py sha256 93c5cc8e58d1f463…
+  ok   tests/evaluation/test_evaluation_harness.py sha256 506c2fd011d41c36…
+  ok   tests/evaluation/test_evaluation_metrics.py sha256 1f22137ea4ae8ec8…
+  ok   tests/evaluation/test_object_trajectory_export.py sha256 eba81b1cef5f0f02…
+  ok   tests/scene/test_support.py sha256 a26baa57d6bc070a…
+FC_SRC_OK

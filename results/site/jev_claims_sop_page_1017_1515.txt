@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-17-sop-1515.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a89e24340eb3f05b98026af2bf19e07e  agent-doc/experiments/2026-10-17-sop-1515.claims.json
+# source   : b2fe8639ab12-dirty
+# host     : Mac
+# run_at   : 2026-10-17T16:53:34-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+s1                   P(supported)=0.97  verified               [s1]  Tier 1 提交 c10_1017a 的四个榜分数：AUC 0.56315、SP-SR 0.76666、MP-SR 0.66666、MPPE 13.92082。
+s3                   P(supported)=0.98  verified               [s3]  Tier 3 提交 kfix1017 的四个榜分数：AUC 0.04885、SP-SR 0.13333、MP-SR 0.00000、MPPE 55.76705。
+g3                   P(supported)=0.96  verified               [g3]  此前的 Tier 3 G 版（gridG_yaw）MPPE 是 56.87427、SP-SR 0.03333、AUC 0.00690。
+lb_t2                P(supported)=0.97  verified               [lb]  Tier 2 的 MPPE 榜第一行是 Xueyi Wang (FF)，13.87967，提交时间 2026-10-17 19:47:02；maniphys.ai 15.32195 排第二；Tier 2 的 AUC 榜 maniphys.ai 0.51379 第一、FF 0.49763。
+lb_t2_mp             P(supported)=0.97  verified               [lb]  Tier 2 的 MP-SR 榜里 maniphys.ai 与 Xueyi Wang (FF) 都是 0.53333，maniphys.ai 排在前面。
+lb_t1                P(supported)=0.96  verified               [lb]  Tier 1：AUC 榜 FF 0.56422 第一、maniphys.ai 0.56315 第二；SP-SR 榜 FF 0.80000、maniphys.ai 0.76666；MP-SR 榜两家都是 0.66666，FF 排在前面；MPPE 榜 FF 8.03204、DAP 12.65831、maniphys.ai 13.92082 第三。
+lb_t3                P(supported)=0.94  verified               [lb]  Tier 3：MPPE 榜 maniphys.ai 55.76705 第一，SP-SR 榜 maniphys.ai 0.13333 第一，AUC 榜 FF 0.15606 第一、maniphys.ai 0.04885 第二。
+v1                   P(supported)=0.98  verified               [v1]  C1：ep11 的 MP-SR 0.127、SP-SR 0.801 有起色；ep28 SP-SR 0.666 有起色；ep25、ep1 没用；总判看不清。
+v2                   P(supported)=0.98  verified               [v2]  C2：ep2 的 MP-SR 0.575、SP-SR 0.808，修好（基线 SP-SR 0.138）；ep9 没用；总判有用。
+v3                   P(supported)=0.97  verified               [v3]  C3：Tier 2 的 ep25、ep9、ep1 的 MP-SR、SP-SR 都是 0.000，失败_物体 1.000，总判没用。
+rot                  P(supported)=0.97  verified               [rot]  首次接触后 30 帧内物体自转：ep2 5.1°、ep11 7.6°、ep28 7.1°；ep25 16.4°、ep1 19.3°、ep9 45.8°。
+health               P(supported)=0.98  verified               [h, h2, h3, h4, h5]  t3pk、t2m、t3ps、t1c、t1c2 五条链都是训练失败 0、评测失败 0、导出失败 0。
+rp                   P(supported)=0.98  verified               [rp, rs]  t3pk 里 ep18 判换（新 MP-SR 0.8989、SP-SR 0.9243），ep0、ep29 不换；t3ps 的 ep20 判换（新 SP-SR 0.8911，门槛 0.8448）。
+gb                   P(supported)=0.95  verified               [gb]  gb3 的链记 GB_CHAIN_DONE；检查里 P2_FAIL 5/30，是 ep3、ep6、ep7、ep20、ep25，RETARGET_FAIL 0/30。
+arm                  P(supported)=0.97  verified               [arm1, arm2]  ml40 的 t1c_s43 与 mf4090 的 t2m2 都已起链（ARMED）。
+csv                  P(supported)=0.97  verified               [csv]  新旧两份 Tier 3 CSV 都是 22989 行，内容不同的行只在 ep18、ep20、ep24、ep26 四集。
+ctl_t                P(supported)=0.98  control(true) ok       [s3]  Tier 3 提交 kfix1017 的 MPPE 是 55.76705。
+ctl_f1               P(supported)=0.02  control(false) ok      [lb]  Tier 2 的 MPPE 榜第一行是 maniphys.ai。
+ctl_f2               P(supported)=0.01  control(false) ok      [v2]  C2 的 ep2 的 MP-SR 是 0.000，没用。
+controls behaved as expected

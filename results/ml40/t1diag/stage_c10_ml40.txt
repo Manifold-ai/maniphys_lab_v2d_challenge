@@ -1,0 +1,9 @@
+# command  : stages/evaluate/stage_t1_candidates.sh runs/select_t1_c10/cand runs/exports/cand_t1_t1c_ml40.tsv runs/exports/cand_t1_t1c2_ml40.tsv 
+# md5      : 4f1f60e4d999f41283b0869454e8a170  stages/evaluate/stage_t1_candidates.sh
+# md5      : 81ca5dd2ef5cc513d69cf9d8d9734fb4  runs/exports/cand_t1_t1c_ml40.tsv
+# md5      : 2b2907f46ae9b207a8b430e22b9d3b21  runs/exports/cand_t1_t1c2_ml40.tsv
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T03:31:23+0800
+# ---------------------------------------------------------------
+stage_t1_candidates: 抄了 6 个候选到 runs/select_t1_c10/cand（72 个 run 目录）

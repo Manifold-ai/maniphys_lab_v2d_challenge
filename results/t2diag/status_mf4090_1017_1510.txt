@@ -1,0 +1,101 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none -o ServerAliveInterval=5 -o ServerAliveCountMax=6 mf4090 cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ mf4090\ t2\ t2m\ t2m2 
+# source   : b2fe8639ab12
+# host     : Mac
+# run_at   : 2026-10-17T16:48:39-0400
+# ---------------------------------------------------------------
+== VM-1-2-ubuntu 2026-10-18 04:48:42 CST；来历 a172f14b80bd
+## t2m train（runs/logs/t2m_train_mf4090.log）
+=== 2026-10-17 11:36:12 CST start t2m_train_mf4090, source ad7ec00d48d0, 期望表 stages/policy/queues/mf4090_t2m.expect.tsv
+=== 2026-10-17 11:36:14 CST 正向核对：3 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-17 11:36:14 CST 冒烟 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-17 11:40:46 CST 冒烟 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090 通过：859 帧，不动基线见 results/day2/bar_smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-17 11:40:46 CST 冒烟 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-17 11:40:46 CST 冒烟 smoke-t2-ep9-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep9-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-17 11:45:39 CST 冒烟 smoke-t2-ep9-w2048-cap4m-r3a-c5-mf4090 通过：870 帧，不动基线见 results/day2/bar_smoke-t2-ep9-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-17 11:45:39 CST 冒烟 smoke-t2-ep9-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-17 11:45:39 CST 冒烟 smoke-t2-ep1-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep1-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-17 11:50:08 CST 冒烟 smoke-t2-ep1-w2048-cap4m-r3a-c5-mf4090 通过：747 帧，不动基线见 results/day2/bar_smoke-t2-ep1-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-17 11:50:08 CST 冒烟 smoke-t2-ep1-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-17 11:50:08 CST 正式 t2-ep25-w2048-cap4m-r3a-c5-mf4090
+fc_run_watched: t2-ep25-w2048-cap4m-r3a-c5-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-17 13:44:51 CST t2-ep25-w2048-cap4m-r3a-c5-mf4090 完成（1 段）
+=== 2026-10-17 13:44:51 CST 正式 t2-ep9-w2048-cap4m-r3a-c5-mf4090
+fc_run_watched: t2-ep9-w2048-cap4m-r3a-c5-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-17 15:54:29 CST t2-ep9-w2048-cap4m-r3a-c5-mf4090 完成（1 段）
+=== 2026-10-17 15:54:29 CST 正式 t2-ep1-w2048-cap4m-r3a-c5-mf4090
+fc_run_watched: t2-ep1-w2048-cap4m-r3a-c5-mf4090 最新 policy  349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-10-17 17:45:21 CST t2-ep1-w2048-cap4m-r3a-c5-mf4090 完成（1 段）
+=== 2026-10-17 17:45:21 CST DAY2_TRAIN_DONE（完成 3、失败 0、跳过 0、发散 0）
+## t2m eval（runs/logs/t2m_eval_mf4090.log）
+=== 2026-10-17 11:36:14 CST 等 runs/logs/t2m_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-17 17:46:15 CST 训练链已结束：=== 2026-10-17 17:45:21 CST DAY2_TRAIN_DONE（完成 3、失败 0、跳过 0、发散 0）
+=== 2026-10-17 17:46:15 CST start t2m_eval_mf4090, source ad7ec00d48d0, 期望表 stages/policy/queues/mf4090_t2m.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-17 18:00:39 CST DAY2_EVAL_DONE（成功 3、失败 0）
+## t2m2 train（runs/logs/t2m2_train_mf4090.log）
+=== 2026-10-18 03:31:08 CST start t2m2_train_mf4090, source a172f14b80bd, 期望表 stages/policy/queues/mf4090_t2m2.expect.tsv
+=== 2026-10-18 03:31:09 CST 正向核对：3 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-18 03:31:09 CST 冒烟 smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-18 03:36:08 CST 冒烟 smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090 通过：980 帧，不动基线见 results/day2/bar_smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-18 03:36:08 CST 冒烟 smoke-t2-ep2-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-18 03:36:09 CST 冒烟 smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-18 03:40:52 CST 冒烟 smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090 通过：901 帧，不动基线见 results/day2/bar_smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-18 03:40:52 CST 冒烟 smoke-t2-ep11-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-18 03:40:52 CST 冒烟 smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090
+SMOKE_OK smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090
+=== 2026-10-18 03:45:18 CST 冒烟 smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090 通过：440 帧，不动基线见 results/day2/bar_smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+=== 2026-10-18 03:45:18 CST 冒烟 smoke-t2-ep17-w2048-cap4m-r3a-c5-mf4090 的 state 已删（policy 留着，STATE_PRUNED 记 4096000 步）
+=== 2026-10-18 03:45:19 CST 正式 t2-ep2-w2048-cap4m-r3a-c5-mf4090
+## t2m2 eval（runs/logs/t2m2_eval_mf4090.log）
+=== 2026-10-18 03:31:10 CST 等 runs/logs/t2m2_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+## 看守日志：run、含非有限的扫描行数、最后的 NAN_WATCH 结局、扫描份数
+t2-ep11-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep13-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep15-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep17-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep19-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep1-w2048-cap4m-r3a-c5-mf4090 非有限行 0 结局  扫描 34
+t2-ep21-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep23-w2048-cap4m-mf4090 非有限行 0 结局  扫描 35
+t2-ep25-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep25-w2048-cap4m-r3a-c5-mf4090 非有限行 0 结局  扫描 34
+t2-ep27-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep28-w2048-cap4m-p185-mf4090 非有限行 0 结局  扫描 34
+t2-ep2-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep2-w2048-cap4m-r3a-c5-mf4090 非有限行 0 结局  扫描 17
+t2-ep4-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep6-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep9-w2048-cap4m-mf4090 非有限行 0 结局  扫描 34
+t2-ep9-w2048-cap4m-r3a-c5-mf4090 非有限行 0 结局  扫描 34
+## 已完成正式 run 的 W&B 摘要（train_nan_scan.py --log，最后一段日志）
+t2-ep11-w2048-cap4m-mf4090.s1.log：平均回合长度 262.33154，平均回报 35.15567，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep13-w2048-cap4m-mf4090.s1.log：平均回合长度 263.93567，平均回报 34.36037，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep15-w2048-cap4m-mf4090.s1.log：平均回合长度 418.93387，平均回报 75.65047，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep17-w2048-cap4m-mf4090.s1.log：平均回合长度 180.53786，平均回报 16.8769，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep19-w2048-cap4m-mf4090.s1.log：平均回合长度 313.33627，平均回报 38.64756，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep1-w2048-cap4m-r3a-c5-mf4090.s1.log：平均回合长度 133.60818，平均回报 9.25556，loss_scale —；摘要里 nan 0 项
+t2-ep21-w2048-cap4m-mf4090.s1.log：平均回合长度 396.5，平均回报 73.69509，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep23-w2048-cap4m-mf4090.s1.log：平均回合长度 632.96204，平均回报 145.03616，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep25-w2048-cap4m-mf4090.s1.log：平均回合长度 108.84633，平均回报 7.87602，loss_scale 2097152.0；摘要里 nan 0 项
+t2-ep25-w2048-cap4m-r3a-c5-mf4090.s1.log：平均回合长度 102.76704，平均回报 7.84693，loss_scale —；摘要里 nan 0 项
+t2-ep27-w2048-cap4m-mf4090.s1.log：平均回合长度 316.11411，平均回报 57.02654，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep28-w2048-cap4m-p185-mf4090.s1.log：平均回合长度 162.44156，平均回报 9.5292，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep2-w2048-cap4m-mf4090.s1.log：平均回合长度 201.45744，平均回报 22.65985，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep4-w2048-cap4m-mf4090.s1.log：平均回合长度 132.72951，平均回报 12.84976，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep6-w2048-cap4m-mf4090.s1.log：平均回合长度 346.49323，平均回报 70.55251，loss_scale 8388608.0；摘要里 nan 0 项
+t2-ep9-w2048-cap4m-mf4090.s1.log：平均回合长度 271.23077，平均回报 36.55677，loss_scale 4194304.0；摘要里 nan 0 项
+t2-ep9-w2048-cap4m-r3a-c5-mf4090.s1.log：平均回合长度 224.26634，平均回报 35.18624，loss_scale —；摘要里 nan 0 项
+## 没有 DONE 的正式 run：最新完整 policy 的步数与写入时间
+t2-ep11-w2048-cap4m-r3a-c5-mf4090：（还没有 policy）
+t2-ep17-w2048-cap4m-r3a-c5-mf4090：（还没有 policy）
+t2-ep2-w2048-cap4m-r3a-c5-mf4090：180006912 写于 2026-10-18 04:47:53 CST
+## 机器
+23877 MiB, 99 %
+76902 MB free
+runs/.chain-active-cand_t2_t2m2_mf4090-gate
+runs/.chain-active-t2m2_eval_mf4090
+runs/.chain-active-t2m2_train_mf4090
