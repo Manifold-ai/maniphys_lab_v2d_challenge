@@ -1,0 +1,27 @@
+# command  : ssh -o BatchMode=yes ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ md5sum\ stages/retarget/contact_relabel.py\ \&\&\ scripts/dev/in-flash-chord\ \"cd\ /repo\ \&\&\ python\ stages/retarget/contact_relabel.py\ --src\ runs/motion/tier1\ --dst\ runs/motion/tier1_c10\ --meta-src\ runs/motion_src/tier1\ --meta-dst\ runs/motion_src/tier1_c10\ --lead\ 10\ --gap\ 15\ 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03\ 2026-06-02_10-04-42_blue_easter_basket_place_10\"\ \&\&\ ls\ runs/motion/tier1_c10/whole_body/soma/\ \&\&\ ls\ runs/motion/tier1_c10/whole_body/reconstructed_stage/ 
+# md5      : 9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+# source   : fbb1ae215f0b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:34:23-0600
+# ---------------------------------------------------------------
+source 4e58a151e73d
+9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03：形状 (2, 870)（手 × 帧）；手 0：接触帧 610 → 620，段数 1 → 1，首段起点 163 → 153；手 1：接触帧 589 → 619，段数 3 → 1，首段起点 165 → 155
+  支撑面：2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+2026-06-02_10-04-42_blue_easter_basket_place_10：形状 (2, 980)（手 × 帧）；手 0：接触帧 431 → 441，段数 1 → 1，首段起点 417 → 407；手 1：接触帧 169 → 179，段数 1 → 1，首段起点 95 → 85
+  支撑面：2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+CONTACT_RELABEL_DONE 2
+sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01
+sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09
+sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02
+sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_
+sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10
+sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03__support.usda
+2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda

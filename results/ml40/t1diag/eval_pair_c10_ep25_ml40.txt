@@ -1,0 +1,21 @@
+# command  : stages/evaluate/eval_parquet_pair.sh t1-ep25-w2048-cap10m-ml40 349999104 /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet /repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet runs/c10check/ep25 
+# md5      : 42e689c1ce747355fa0eb4fa365bb284  stages/evaluate/eval_parquet_pair.sh
+# md5      : 47f525c56324fc46d4e548245af5ec45  runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# md5      : 42a189b3f9e27845057ddeb4762dff76  runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# source   : 327a2c40e658
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T05:42:46+0800
+# ---------------------------------------------------------------
+=== 2026-10-17 05:42:46 CST A：/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+eval_playback_override: playback=same，替换函数调用 1 次，改动 {}，step_count 859（应为 859）
+  add_auc 0.1264  chord_sr 0.0000  maniptrans_sr 0.0000  spider_sr_uncentered 0.0000  mppe_cm 114.271
+  summary_json {"add_auc": 0.12641698906113577, "checkpoint_sha256": "c1c891ed67d0ea35d2daa5f58325624a69839553d351dc20799a45fd4d69199e", "chord_sr": 0.0, "maniptrans_sr": 0.0, "mppe_cm": 114.27056879114146, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet", "playback": "same", "spider_sr_uncentered": 0.0, "step_count": 859, "world_count": 4096}
+=== 2026-10-17 05:48:03 CST B：/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+eval_playback_override: playback=same，替换函数调用 1 次，改动 {'reference.parquet': ['/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet', '/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet'], 'task.parquet': ['/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet', '/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet']}，step_count 859（应为 859）
+  add_auc 0.1261  chord_sr 0.0000  maniptrans_sr 0.0000  spider_sr_uncentered 0.0000  mppe_cm 114.274
+  summary_json {"add_auc": 0.12609325049226025, "checkpoint_sha256": "c1c891ed67d0ea35d2daa5f58325624a69839553d351dc20799a45fd4d69199e", "chord_sr": 0.0, "maniptrans_sr": 0.0, "mppe_cm": 114.27374536506247, "parquet": "/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet", "playback": "same", "spider_sr_uncentered": 0.0, "step_count": 859, "world_count": 4096}
+  MP-SR：A 0.0000，B 0.0000，B − A +0.0000（容差 0.03）
+  SP-SR：A 0.0000，B 0.0000，B − A +0.0000（容差 0.03）
+  ADD-AUC：A 0.1264，B 0.1261，B − A -0.0003（容差 0.006）
+  MPPE：A 114.2706，B 114.2737，B − A +0.0032（容差 0.6）
+EVAL_PAIR 一致

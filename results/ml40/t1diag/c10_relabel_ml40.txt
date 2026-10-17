@@ -1,0 +1,16 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/retarget/test_contact_relabel.py\ \&\&\ python\ stages/retarget/contact_relabel.py\ --src\ runs/motion/tier1\ --dst\ runs/motion/tier1_c10\ --meta-src\ runs/motion_src/tier1\ --meta-dst\ runs/motion_src/tier1_c10\ --lead\ 10\ --gap\ 15\ 2026-03-20_11-59-57_cyan_water_bottle_rotate_01\ 2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_\ 2026-04-24_13-56-58_light_blue_book_pick_place_09\ 2026-05-18_17-06-21_vacuum_left_lean_02\  
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : bc527699b187c35ee15964f555832dd9  stages/retarget/test_contact_relabel.py
+# md5      : 8d5fd692ecbe94032ffd885c9b6553a4  stages/retarget/contact_relabel.py
+# source   : ad3c15985a6b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T05:15:33+0800
+# ---------------------------------------------------------------
+  1. 起点提前、短空档补上、长空档不补、只增不减
+  2. 只换一列、其余列逐值相同、支撑面与元数据照抄、目标已存在就拒绝
+ALL_OK
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01：手 0：接触帧 380 → 420，段数 4 → 4，首段起点 218 → 208；手 1：接触帧 446 → 496，段数 8 → 4，首段起点 100 → 90
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_：手 0：接触帧 642 → 723，段数 12 → 6，首段起点 99 → 89；手 1：接触帧 678 → 761，段数 11 → 4，首段起点 103 → 93
+2026-04-24_13-56-58_light_blue_book_pick_place_09：手 0：接触帧 825 → 852，段数 5 → 1，首段起点 59 → 49；手 1：接触帧 791 → 821，段数 3 → 3，首段起点 60 → 50
+2026-05-18_17-06-21_vacuum_left_lean_02：手 0：接触帧 452 → 519，段数 12 → 2，首段起点 104 → 94；手 1：接触帧 54 → 64，段数 1 → 1，首段起点 575 → 565
+CONTACT_RELABEL_DONE 4

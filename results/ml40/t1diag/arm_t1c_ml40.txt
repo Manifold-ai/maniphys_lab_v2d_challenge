@@ -1,0 +1,25 @@
+# command  : stages/policy/arm_var_chain.sh t1c 
+# md5      : e640f8781b3c71ffcf5d1a8ae472bcf8  stages/policy/arm_var_chain.sh
+# source   : 4e58a151e73d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T06:49:33+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t1-ep25-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep25-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep28-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep28-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep11-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep11-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t1-ep1-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep1-w2048-cap10m-r3a-c10-ml40.yaml：4 条断言，全过
+核对：t1c 在 ml40，4 条 run，来历 4e58a151e73d，可用 1302592 MB，训练副本 v040_p185_nfg，8 份配置的 precheck 与配方断言全过
+v2d-t1c-eval: 1 windows (created Sat Oct 17 06:49:39 2026)
+v2d-t1c-export: 1 windows (created Sat Oct 17 06:49:41 2026)
+v2d-t1c-train: 1 windows (created Sat Oct 17 06:49:37 2026)
+t1c_train_ml40：=== 2026-10-17 06:49:39 CST 冒烟 smoke-t1-ep25-w2048-cap10m-r3a-c10-ml40
+t1c_eval_ml40：=== 2026-10-17 06:49:39 CST 等 runs/logs/t1c_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t1_t1c_ml40：
+runs/.chain-active-cand_t1_t1c_ml40-gate
+runs/.chain-active-t1c_eval_ml40
+runs/.chain-active-t1c_train_ml40
+ARMED

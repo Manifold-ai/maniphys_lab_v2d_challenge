@@ -1,0 +1,83 @@
+# command  : stages/policy/fc_config_check.sh stages/policy/queues/ml40_t1c2_smoke.txt stages/policy/queues/ml40_t1c2.txt 
+# md5      : 0aa74f6358dcf0101a2333f8de78ed85  stages/policy/fc_config_check.sh
+# md5      : 1bb32736d62b7b7b4785d18a0371b8f0  stages/policy/queues/ml40_t1c2_smoke.txt
+# md5      : 1600a842172e3db39f96c71c66739a74  stages/policy/queues/ml40_t1c2.txt
+# source   : 4e58a151e73d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T08:34:50+0800
+# ---------------------------------------------------------------
+=== 队列 stages/policy/queues/ml40_t1c2_smoke.txt
+== smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_n…
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+== smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.…
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 284 个键；与官方配方不同 15 个，其中意外 0 个
+=== 队列 stages/policy/queues/ml40_t1c2.txt
+== t1-ep9-w2048-cap10m-r3a-c10-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_n…
+  官方配方沿用 runs/cfgcheck/smoke-t1-ep9-w2048-cap10m-r3a-c10-ml40.recipe.yaml（同一 parquet）
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='t1-ep9-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='t1-ep9-w2048-cap10m-r3a-c10-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='t1-ep9-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== t1-ep2-w2048-cap10m-r3a-c10-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.…
+  官方配方沿用 runs/cfgcheck/smoke-t1-ep2-w2048-cap10m-r3a-c10-ml40.recipe.yaml（同一 parquet）
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='t1-ep2-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='t1-ep2-w2048-cap10m-r3a-c10-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='t1-ep2-w2048-cap10m-r3a-c10-ml40-s1'
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  共 284 个键；与官方配方不同 14 个，其中意外 0 个
+== 配置核对通过
