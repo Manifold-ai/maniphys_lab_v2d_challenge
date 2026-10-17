@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/recovery/t3_gb3_feet.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : baf09a63c24f52d44c0e462507f8aeea  stages/recovery/t3_gb3_feet.sh
+# source   : 4fea27f87d67
+# host     : Mac
+# run_at   : 2026-10-17T18:39:57-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 4fea27f87d67；远端来历 d27b96fa893b
+  ok   baf09a63c24f52d44c0e462507f8aeea  stages/recovery/t3_gb3_feet.sh
+远端来历（放完）d27b96fa893b
+PUSH_OK（1 个文件）

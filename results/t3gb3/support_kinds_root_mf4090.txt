@@ -1,0 +1,21 @@
+# command  : scripts/dev/pipe-py stages/policy/support_kinds.py runs/tier3/root_gb3/support_surface 
+# md5      : e0f92b2132b82d6003ea148b2ab7d06d  scripts/dev/pipe-py
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : 4fea27f87d67-dirty
+# host     : Mac
+# run_at   : 2026-10-17T19:09:11-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+sequence_id	shapes	scaled_cube	md5
+2026-04-29_11-53-57_tall_bar_stool_pull_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-22_16-52-36_step_ladder_drag_03	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-29_15-20-43_iron_round_table_02	Cube×1	yes	fc49c53cebbb8eaff27aade75a37b282
+2026-05-29_15-43-20_watering_can_pour_right_02	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-01_11-26-44_monitor_rotate_05	Cube×1	yes	9813931846824068eadafebab52ccb9c
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_15-08-08_skinny_wood_chair_push_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_16-05-08_skateboard_rotate_ground_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-08_16-57-34_rice_cooker_clockwise_04	Cube×1	yes	55199ee7d213b574fd963bccb1174c57
+# 共 11 个：只有地面 8，带 scale 的方盒 3，其他 0

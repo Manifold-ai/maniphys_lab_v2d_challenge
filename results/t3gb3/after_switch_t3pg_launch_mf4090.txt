@@ -1,0 +1,15 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \|\|\ exit\ 1\;\ md5sum\ stages/policy/run_after_log.sh\ stages/evaluate/gb3_switch.py\ stages/evaluate/gb3_switch_t3pg.json\;\ V2D_POLL_S=60\ V2D_MAX_POLLS=1080\ setsid\ nohup\ stages/policy/run_after_log.sh\ runs/logs/t3pg_eval_mf4090.log\ \"DAY2_EVAL_\(DONE\|FAILED\)\"\ t3gb3/switch_t3pg_mf4090\ python3\ stages/evaluate/gb3_switch.py\ stages/evaluate/gb3_switch_t3pg.json\ \>\ runs/logs/after_switch_t3pg_mf4090.log\ 2\>\&1\ \<\ /dev/null\ \&\ sleep\ 3\;\ head\ -3\ runs/logs/after_switch_t3pg_mf4090.log\ \|\ cut\ -c1-200 
+# md5      : 49aa82d257f2f4779763643fb7e047df  stages/policy/run_after_log.sh
+# md5      : ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+# md5      : 49aa82d257f2f4779763643fb7e047df  stages/policy/run_after_log.sh
+# md5      : ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+# md5      : f761cd68f1c3173ecc3710a4cea45ae0  stages/evaluate/gb3_switch_t3pg.json
+# source   : 4fea27f87d67-dirty
+# host     : Mac
+# run_at   : 2026-10-17T19:12:24-0400
+# ---------------------------------------------------------------
+49aa82d257f2f4779763643fb7e047df  stages/policy/run_after_log.sh
+ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+f761cd68f1c3173ecc3710a4cea45ae0  stages/evaluate/gb3_switch_t3pg.json
+=== 2026-10-18 07:12:27 CST 等 runs/logs/t3pg_eval_mf4090.log 的最后一行匹配 /DAY2_EVAL_(DONE|FAILED)/，然后记录 t3gb3/switch_t3pg_mf4090：python3 stages/evaluate/gb3_switch.py stages/ev
+=== 2026-10-18 07:12:27 CST 警告：runs/logs/t3pg_eval_mf4090.log 现在还不存在（路径写错的话会一直等到超时）

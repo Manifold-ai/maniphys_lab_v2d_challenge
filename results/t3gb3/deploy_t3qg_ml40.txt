@@ -1,0 +1,22 @@
+# command  : scripts/dev/push-new-files stages/policy/queues/ml40_t3qg.expect.tsv stages/policy/queues/ml40_t3qg.txt stages/policy/queues/ml40_t3qg_smoke.txt stages/evaluate/exports/cand_t3_t3qg_ml40.tsv stages/evaluate/gb3_switch.py stages/evaluate/gb3_switch_t3qg.json 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 27fdcae9bc4f6a1500165d1951213002  stages/policy/queues/ml40_t3qg.expect.tsv
+# md5      : fc2e9a6452f49126fd79928e79ef161a  stages/policy/queues/ml40_t3qg.txt
+# md5      : 25c91e7560b14b31fb87913fa1b3cc16  stages/policy/queues/ml40_t3qg_smoke.txt
+# md5      : 51305c1d4a3b22c0bd6011fd8c4c6d49  stages/evaluate/exports/cand_t3_t3qg_ml40.tsv
+# md5      : ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+# md5      : 0e349cfb76c96d717170c4ec57008fd9  stages/evaluate/gb3_switch_t3qg.json
+# source   : 4fea27f87d67
+# host     : Mac
+# run_at   : 2026-10-17T18:42:40-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 4fea27f87d67；远端来历 d27b96fa893b
+  ok   27fdcae9bc4f6a1500165d1951213002  stages/policy/queues/ml40_t3qg.expect.tsv
+  ok   fc2e9a6452f49126fd79928e79ef161a  stages/policy/queues/ml40_t3qg.txt
+  ok   25c91e7560b14b31fb87913fa1b3cc16  stages/policy/queues/ml40_t3qg_smoke.txt
+  ok   51305c1d4a3b22c0bd6011fd8c4c6d49  stages/evaluate/exports/cand_t3_t3qg_ml40.tsv
+  ok   ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+  ok   0e349cfb76c96d717170c4ec57008fd9  stages/evaluate/gb3_switch_t3qg.json
+远端来历（放完）d27b96fa893b
+PUSH_OK（6 个文件）

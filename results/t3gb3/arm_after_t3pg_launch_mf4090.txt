@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \|\|\ exit\ 1\;\ md5sum\ runs/tools/arm_after.sh\;\ cat\ .v2d-source-commit\;\ md5sum\ stages/policy/queues/mf4090_t3pg.txt\ stages/policy/queues/mf4090_t3pg_smoke.txt\ stages/policy/queues/mf4090_t3pg.expect.tsv\ stages/evaluate/exports/cand_t3_t3pg_mf4090.tsv\;\ V2D_AFTER_INDEPENDENT=1\ V2D_POLL_S=60\ V2D_AFTER_MAX_POLLS=720\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t3pg\ runs/logs/t2m2_train_mf4090.log\ runs/logs/t2m2_eval_mf4090.log\ runs/logs/cand_t2_t2m2_mf4090.log\ 3\ \>\ runs/logs/arm_after_t3pg_mf4090.log\ 2\>\&1\ \<\ /dev/null\ \&\ sleep\ 4\;\ head\ -3\ runs/logs/arm_after_t3pg_mf4090.log\ \|\ cut\ -c1-260\;\ pgrep\ -f\ \"runs/tools/arm_after.sh\ t3pg\"\ \|\ head\ -2 
+# md5      : 9f5f2426759856e0a768fbd83eab07f1  stages/policy/queues/mf4090_t3pg.txt
+# md5      : 6869d055ace7aed86935637f46f8ca9c  stages/policy/queues/mf4090_t3pg_smoke.txt
+# md5      : 0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv
+# source   : 4fea27f87d67-dirty
+# host     : Mac
+# run_at   : 2026-10-17T19:12:05-0400
+# ---------------------------------------------------------------
+07173c9b1013c1dd46752b861fb5b3e1  runs/tools/arm_after.sh
+a172f14b80bd
+9f5f2426759856e0a768fbd83eab07f1  stages/policy/queues/mf4090_t3pg.txt
+6869d055ace7aed86935637f46f8ca9c  stages/policy/queues/mf4090_t3pg_smoke.txt
+0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv
+30de1b4c4c924f03aceab7046af711eb  stages/evaluate/exports/cand_t3_t3pg_mf4090.tsv
+=== 2026-10-18 07:12:08 CST 等 runs/.chain-active-* 都消失、runs/logs/t2m2_train_mf4090.log 与 runs/logs/t2m2_eval_mf4090.log 写完最后一行，再起 t3pg；前置命令：无；可用 75721 MB
+=== 2026-10-18 07:12:08 CST 来历与 t3pg 的队列：a172f14b80bd 0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv 9f5f2426759856e0a768fbd83eab07f1  stages/policy/queues/mf4090_t3pg.txt 6869d055ace7aed86935637f46f8ca9c  stages/po
+1099377
+1099381

@@ -1,0 +1,200 @@
+# command  : stages/evaluate/t3_refdiff_batch.sh stages/evaluate/exports/t3_gb3_refdiff_pairs.tsv 
+# md5      : 04260680d0efa3f16d3c62dc3656f537  stages/evaluate/t3_refdiff_batch.sh
+# md5      : a1781cf3fd86338f7c76734e9e60edd6  stages/evaluate/exports/t3_gb3_refdiff_pairs.tsv
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T07:11:14+0800
+# ---------------------------------------------------------------
+== ep6 训练参考→gb3：runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet
+帧数 546 / 546，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.009  0.013  0.79 ] → [-0.01   0.012  0.79 ]；物体 [-0.977  0.237  1.04 ] → [-0.982  0.272  1.038]
+  机器人根位置差：中位 0.0377 m、最大 0.0889 m（第 362 帧）
+  机器人根偏航差：中位 0.3470 °、最大 1.8165 °（第 476 帧）
+  物体根位置差：中位 0.0230 m、最大 0.1311 m（第 517 帧）
+  物体相对机器人根的位置差：中位 0.0361 m、最大 0.2040 m（第 516 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0098 m、最大 0.1702 m（第 517 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0116 m、最大 0.1968 m（第 517 帧）
+  关节角差（每帧取各关节最大）：中位 0.0246 rad、最大 0.1995 rad（第 289 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep6 训练参考→gb3 物体相对机器人根 0.0361 机器人根 0.0377
+== ep8 训练参考→gb3：runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet
+帧数 708 / 708，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.002 -0.     0.788] → [-0.005  0.     0.79 ]；物体 [-0.696  0.312  0.501] → [-0.722  0.26   0.5  ]
+  机器人根位置差：中位 0.0338 m、最大 0.0854 m（第 692 帧）
+  机器人根偏航差：中位 0.6012 °、最大 2.0474 °（第 189 帧）
+  物体根位置差：中位 0.0299 m、最大 0.0650 m（第 65 帧）
+  物体相对机器人根的位置差：中位 0.0159 m、最大 0.0980 m（第 188 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0087 m、最大 0.0665 m（第 188 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0071 m、最大 0.0915 m（第 188 帧）
+  关节角差（每帧取各关节最大）：中位 0.0302 rad、最大 0.2776 rad（第 199 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep8 训练参考→gb3 物体相对机器人根 0.0159 机器人根 0.0338
+== ep7 训练参考→gb3：runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet
+帧数 896 / 896，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [0.011 0.01  0.789] → [0.007 0.011 0.792]；物体 [-0.695  0.24   0.823] → [-0.743  0.192  0.813]
+  机器人根位置差：中位 0.0274 m、最大 0.0459 m（第 855 帧）
+  机器人根偏航差：中位 0.0753 °、最大 1.2291 °（第 98 帧）
+  物体根位置差：中位 0.0633 m、最大 0.1210 m（第 90 帧）
+  物体相对机器人根的位置差：中位 0.0415 m、最大 0.1004 m（第 90 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0230 m、最大 0.0535 m（第 89 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0149 m、最大 0.0535 m（第 8 帧）
+  关节角差（每帧取各关节最大）：中位 0.0195 rad、最大 0.2148 rad（第 718 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep7 训练参考→gb3 物体相对机器人根 0.0415 机器人根 0.0274
+== ep20 训练参考→gb3：runs/motion/tier3_v2s/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+帧数 553 / 553，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.003  0.002  0.791] → [-0.004  0.006  0.794]；物体 [-0.258  0.768  0.908] → [-0.29   0.777  0.9  ]
+  机器人根位置差：中位 0.0406 m、最大 0.0567 m（第 126 帧）
+  机器人根偏航差：中位 0.2069 °、最大 1.1567 °（第 469 帧）
+  物体根位置差：中位 0.0705 m、最大 0.1516 m（第 483 帧）
+  物体相对机器人根的位置差：中位 0.0252 m、最大 0.1369 m（第 483 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0244 m、最大 0.0631 m（第 84 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0075 m、最大 0.0475 m（第 491 帧）
+  关节角差（每帧取各关节最大）：中位 0.0365 rad、最大 0.1709 rad（第 459 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep20 训练参考→gb3 物体相对机器人根 0.0252 机器人根 0.0406
+== ep22 训练参考→gb3：runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet
+帧数 719 / 719，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.01   0.001  0.791] → [-0.012  0.003  0.793]；物体 [-0.183  0.911  0.268] → [-0.187  0.903  0.266]
+  机器人根位置差：中位 0.0187 m、最大 0.0932 m（第 193 帧）
+  机器人根偏航差：中位 0.6581 °、最大 3.1757 °（第 438 帧）
+  物体根位置差：中位 0.0548 m、最大 0.1078 m（第 609 帧）
+  物体相对机器人根的位置差：中位 0.0362 m、最大 0.1325 m（第 610 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0154 m、最大 0.1068 m（第 707 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0105 m、最大 0.0840 m（第 707 帧）
+  关节角差（每帧取各关节最大）：中位 0.1126 rad、最大 0.5218 rad（第 263 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep22 训练参考→gb3 物体相对机器人根 0.0362 机器人根 0.0187
+== ep21 训练参考→gb3：runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet
+帧数 678 / 678，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.011  0.004  0.801] → [-0.007  0.002  0.799]；物体 [-0.787 -0.316  0.533] → [-0.779 -0.309  0.541]
+  机器人根位置差：中位 0.0988 m、最大 0.2294 m（第 445 帧）
+  机器人根偏航差：中位 0.5120 °、最大 2.5985 °（第 32 帧）
+  物体根位置差：中位 0.0343 m、最大 0.1851 m（第 444 帧）
+  物体相对机器人根的位置差：中位 0.0626 m、最大 0.0999 m（第 87 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0117 m、最大 0.0379 m（第 464 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0317 m、最大 0.0805 m（第 92 帧）
+  关节角差（每帧取各关节最大）：中位 0.0362 rad、最大 0.1710 rad（第 7 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep21 训练参考→gb3 物体相对机器人根 0.0626 机器人根 0.0988
+== ep0 训练参考→gb3：runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+帧数 778 / 778，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.02   0.004  0.8  ] → [-0.018  0.003  0.8  ]；物体 [-0.536 -0.563  0.282] → [-0.499 -0.569  0.275]
+  机器人根位置差：中位 0.0398 m、最大 0.1048 m（第 767 帧）
+  机器人根偏航差：中位 0.3520 °、最大 2.6917 °（第 460 帧）
+  物体根位置差：中位 0.0260 m、最大 0.0863 m（第 717 帧）
+  物体相对机器人根的位置差：中位 0.0521 m、最大 0.0945 m（第 190 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0093 m、最大 0.0741 m（第 767 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0246 m、最大 0.0863 m（第 261 帧）
+  关节角差（每帧取各关节最大）：中位 0.1027 rad、最大 0.2319 rad（第 491 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep0 训练参考→gb3 物体相对机器人根 0.0521 机器人根 0.0398
+== ep29 训练参考→gb3：runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+帧数 467 / 467，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.013 -0.009  0.788] → [-0.012 -0.008  0.79 ]；物体 [-0.371 -0.512  0.301] → [-0.348 -0.612  0.316]
+  机器人根位置差：中位 0.0513 m、最大 0.1658 m（第 354 帧）
+  机器人根偏航差：中位 0.7232 °、最大 5.4114 °（第 362 帧）
+  物体根位置差：中位 0.0970 m、最大 0.2173 m（第 239 帧）
+  物体相对机器人根的位置差：中位 0.0550 m、最大 0.1688 m（第 239 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0199 m、最大 0.1375 m（第 239 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0246 m、最大 0.1366 m（第 239 帧）
+  关节角差（每帧取各关节最大）：中位 0.0528 rad、最大 0.3958 rad（第 301 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep29 训练参考→gb3 物体相对机器人根 0.0550 机器人根 0.0513
+== ep18 训练参考→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+帧数 858 / 858，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.008 -0.013  0.774] → [-0.008 -0.013  0.774]；物体 [-0.852 -0.786  0.433] → [-0.853 -0.799  0.431]
+  机器人根位置差：中位 0.0184 m、最大 0.0375 m（第 642 帧）
+  机器人根偏航差：中位 0.0225 °、最大 0.9081 °（第 543 帧）
+  物体根位置差：中位 0.0238 m、最大 0.0541 m（第 13 帧）
+  物体相对机器人根的位置差：中位 0.0097 m、最大 0.0541 m（第 13 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0012 m、最大 0.0288 m（第 12 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0026 m、最大 0.0371 m（第 13 帧）
+  关节角差（每帧取各关节最大）：中位 0.0279 rad、最大 0.1374 rad（第 647 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep18 训练参考→gb3 物体相对机器人根 0.0097 机器人根 0.0184
+== ep24 训练参考→gb3：runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+帧数 748 / 748，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.041 -0.003  0.526] → [-0.04  -0.004  0.53 ]；物体 [-0.399  0.432  0.095] → [-0.384  0.417  0.085]
+  机器人根位置差：中位 0.0166 m、最大 0.0389 m（第 714 帧）
+  机器人根偏航差：中位 1.0395 °、最大 2.0180 °（第 620 帧）
+  物体根位置差：中位 0.0204 m、最大 0.0831 m（第 90 帧）
+  物体相对机器人根的位置差：中位 0.0139 m、最大 0.1030 m（第 659 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0057 m、最大 0.0689 m（第 657 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0045 m、最大 0.0327 m（第 659 帧）
+  关节角差（每帧取各关节最大）：中位 0.0328 rad、最大 0.1217 rad（第 647 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep24 训练参考→gb3 物体相对机器人根 0.0139 机器人根 0.0166
+== ep26 训练参考→gb3：runs/motion/tier3_v2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+帧数 669 / 669，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.013 -0.002  0.784] → [-0.012 -0.001  0.784]；物体 [-0.382  0.624  0.064] → [-0.429  0.6    0.083]
+  机器人根位置差：中位 0.0270 m、最大 0.0991 m（第 380 帧）
+  机器人根偏航差：中位 0.4519 °、最大 3.3221 °（第 418 帧）
+  物体根位置差：中位 0.0425 m、最大 0.1218 m（第 381 帧）
+  物体相对机器人根的位置差：中位 0.0165 m、最大 0.0988 m（第 84 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0093 m、最大 0.0576 m（第 68 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0093 m、最大 0.0313 m（第 233 帧）
+  关节角差（每帧取各关节最大）：中位 0.0413 rad、最大 0.4994 rad（第 539 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep26 训练参考→gb3 物体相对机器人根 0.0165 机器人根 0.0270
+== ep0 k-fix→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+帧数 778 / 778，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.018  0.003  0.8  ] → [-0.018  0.003  0.8  ]；物体 [-0.483 -0.557  0.276] → [-0.499 -0.569  0.275]
+  机器人根位置差：中位 0.0281 m、最大 0.1181 m（第 552 帧）
+  机器人根偏航差：中位 0.1786 °、最大 1.7296 °（第 470 帧）
+  物体根位置差：中位 0.0336 m、最大 0.1377 m（第 550 帧）
+  物体相对机器人根的位置差：中位 0.0105 m、最大 0.0756 m（第 767 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0046 m、最大 0.0699 m（第 767 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0057 m、最大 0.0585 m（第 777 帧）
+  关节角差（每帧取各关节最大）：中位 0.0722 rad、最大 0.1883 rad（第 483 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep0 k-fix→gb3 物体相对机器人根 0.0105 机器人根 0.0281
+== ep18 k-fix→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+帧数 858 / 858，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.008 -0.013  0.774] → [-0.008 -0.013  0.774]；物体 [-0.852 -0.786  0.433] → [-0.853 -0.799  0.431]
+  机器人根位置差：中位 0.0184 m、最大 0.0375 m（第 642 帧）
+  机器人根偏航差：中位 0.0225 °、最大 0.9081 °（第 543 帧）
+  物体根位置差：中位 0.0238 m、最大 0.0541 m（第 13 帧）
+  物体相对机器人根的位置差：中位 0.0097 m、最大 0.0541 m（第 13 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0012 m、最大 0.0288 m（第 12 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0026 m、最大 0.0371 m（第 13 帧）
+  关节角差（每帧取各关节最大）：中位 0.0279 rad、最大 0.1374 rad（第 647 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep18 k-fix→gb3 物体相对机器人根 0.0097 机器人根 0.0184
+== ep24 k-fix→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+帧数 748 / 748，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.04  -0.004  0.53 ] → [-0.04  -0.004  0.53 ]；物体 [-0.395  0.427  0.092] → [-0.384  0.417  0.085]
+  机器人根位置差：中位 0.0127 m、最大 0.0349 m（第 167 帧）
+  机器人根偏航差：中位 0.0657 °、最大 3.8612 °（第 652 帧）
+  物体根位置差：中位 0.0211 m、最大 0.0790 m（第 90 帧）
+  物体相对机器人根的位置差：中位 0.0086 m、最大 0.0973 m（第 659 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0031 m、最大 0.0647 m（第 658 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0035 m、最大 0.0347 m（第 659 帧）
+  关节角差（每帧取各关节最大）：中位 0.0031 rad、最大 0.1132 rad（第 638 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep24 k-fix→gb3 物体相对机器人根 0.0086 机器人根 0.0127
+== ep26 k-fix→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+帧数 669 / 669，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.012 -0.001  0.784] → [-0.012 -0.001  0.784]；物体 [-0.386  0.622  0.061] → [-0.429  0.6    0.083]
+  机器人根位置差：中位 0.0014 m、最大 0.0967 m（第 381 帧）
+  机器人根偏航差：中位 0.0609 °、最大 1.2814 °（第 368 帧）
+  物体根位置差：中位 0.0330 m、最大 0.1174 m（第 381 帧）
+  物体相对机器人根的位置差：中位 0.0180 m、最大 0.1169 m（第 83 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0068 m、最大 0.0598 m（第 68 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0065 m、最大 0.0295 m（第 133 帧）
+  关节角差（每帧取各关节最大）：中位 0.0190 rad、最大 0.3144 rad（第 538 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep26 k-fix→gb3 物体相对机器人根 0.0180 机器人根 0.0014
+== ep29 k-fix→gb3：runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet → runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+帧数 467 / 467，fps 30.0 / 30.0，coord_frame robot_base_z_up / robot_base_z_up，网格路径不同，末端 ['left_hand_palm_link', 'right_hand_palm_link']
+第 0 帧：根 [-0.012 -0.008  0.79 ] → [-0.012 -0.008  0.79 ]；物体 [-0.368 -0.524  0.298] → [-0.348 -0.612  0.316]
+  机器人根位置差：中位 0.0001 m、最大 0.0728 m（第 355 帧）
+  机器人根偏航差：中位 0.0203 °、最大 3.8392 °（第 361 帧）
+  物体根位置差：中位 0.0694 m、最大 0.1851 m（第 113 帧）
+  物体相对机器人根的位置差：中位 0.0582 m、最大 0.1798 m（第 239 帧）
+  left_hand_palm_link 到物体根的距离之差：中位 0.0245 m、最大 0.1423 m（第 239 帧）
+  right_hand_palm_link 到物体根的距离之差：中位 0.0281 m、最大 0.1448 m（第 239 帧）
+  关节角差（每帧取各关节最大）：中位 0.0129 rad、最大 0.3256 rad（第 363 帧）
+REF_PAIR_DIFF_DONE
+REFDIFF ep29 k-fix→gb3 物体相对机器人根 0.0582 机器人根 0.0001
+T3_REFDIFF_DONE 16 0

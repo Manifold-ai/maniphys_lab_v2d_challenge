@@ -106,7 +106,7 @@ g. `stages/recovery/t3_gb3_feet.sh`（第 2 版新加）：在 ml40 上用另一
    起完核两份日志的第一行。日志最后一行是 `ARM_AFTER_STOPPED <原因>` 时（例如空档里卡被别人占了，`arm_var_chain.sh` 不重试）：21:10 的检查若 Mac 在线就
    手动处理；否则早上手动起。
 3. 读数：两台各起 `run_after_log.sh`，等评测日志的 `DAY2_EVAL_(DONE|FAILED)`，跑 `python3 stages/evaluate/gb3_switch.py stages/evaluate/gb3_switch_<段>.json`，
-   记录 `results/t3gb3/switch_t3pg_mf4090.txt`、`switch_t3qg_ml40.txt`（V2D_MAX_POLLS 1080，约 18 小时）。
+   记录 `results/t3gb3/switch_t3pg_mf4090.txt`、`results/ml40/t3gb3/switch_t3qg_ml40.txt`（拉回后的路径；V2D_MAX_POLLS 1080，约 18 小时）。
 4. 预计（估计，每条约 2.2 小时）：两台各 4 条，训练约 05:50 写完；评测链随后开始，评测与导出约 06:40 做完，两份读数 07:00 前后出来。
 
 ### 4. 选集与打包（10/18 上午）
@@ -181,3 +181,35 @@ g. `stages/recovery/t3_gb3_feet.sh`（第 2 版新加）：在 ml40 上用另一
 | NIT 10 | 事实 1、2、5、6、7 按复核改 |
 | NIT 11 | HF 中转仓 README 补三个标签（做法 2.8） |
 | NIT 12 | 重定向改为逐集顺序跑 |
+
+## 执行记录（10/17 晚）
+
+- 16:3x 记录与哈希表（做法 2.1、2.2）：`results/ops/t3_episodes_ml40_1017_gb3.txt`、`results/ops/t2_inputs_mf4090_1017_gb3.txt`、
+  `stages/recovery/expect/t3gb3_11_1017.tsv`（54 行）；jev 核了 9 条事实，0.92–0.98，3 道对照题都判不支持（`results/t3gb3/jev_plan_facts.txt`；
+  第一次把 ep0、ep29 合成一条，0.58，拆开重跑，`jev_plan_facts_try1.txt`）。
+- 16:41 拼档目录（`results/t3gb3/stage_hf_mf4090.txt`）：34 个文件经 HF 转到 mf4090，`TIER3_ROOT_OK`。记录里“parquet 在对方的修改时间 22:41 UTC”
+  是 HF 拉取落盘的时间：另一位用户的 gb3 链 10/16 23:23 MDT 跑完后数据目录没再动过，交付说明与支撑面目录的修改时间是 10/17 08:49 MDT；
+  11 个 parquet 的 sha256 与 16:28 的记录相同。
+- 16:42–17:07 重定向（`results/t3gb3/retarget_mf4090.txt`）：11 集 `EPS_DONE`，没有 `FAIL:*`；ep29 `OK+NOCONTACT`（脚推行李箱，两手接触都是 0，
+  v2 参考上也是 NOCONTACT），其余 `OK`；间隙 −0.5 到 0.0 mm（v2、k-fix 参考上 ep26 是 −28.1、−35.6 mm）。
+  `check_inputs.py` 11 份都过（`results/t3gb3/check_inputs_mf4090.txt`；第一次也过了，我判断记录的写法有误把它当成失败重跑了一次，
+  `check_inputs_mf4090_try1.txt`）。支撑面（`support_kinds_{root,stage}_mf4090.txt`）：档目录与训练场景里的 11 份 md5 相同；ep6、7、20 是
+  一块缩放过的 Cube，用训练挂的 p185 导入器建出来是 BOX（`support_import_p185_mf4090.txt`），其余 8 集是空的 Xform。G0 过。
+- G0b 人脚（`results/ml40/t3gb3/feet_gb3_ml40.txt`，世界步之后支撑脚高度中位）：ep22（gb3 用的 convert_v2）−3.77 cm，convert 一族的 ep22 −3.71 cm，
+  10/16 旧链 −3.76 cm，三份基本相同；ep6（convert_v2）−4.35 cm，旧链 −4.25 cm（旧策略在它上面 SP-SR 0.978）。即 ep22 人脚低的问题与参考版本无关。
+- G1 参考差（`results/t3gb3/refdiff_mf4090.txt`，物体相对机器人根的位置差中位）：训练参考 → gb3，ep6 3.61 cm、ep8 1.59 cm、ep7 4.15 cm、ep20 2.52 cm、
+  ep22 3.62 cm、ep21 6.26 cm、ep0 5.21 cm、ep29 5.50 cm；k-fix → gb3，ep0 1.05 cm、ep18 0.97 cm、ep24 0.86 cm、ep26 1.80 cm、ep29 5.82 cm。
+  登记的预期（7 集都超过 2 cm）在 ep8 上不成立：ep8 只差 1.59 cm，原策略对 gb3 重新导出也许够；按登记这一轮仍重训。
+- 17:11 mf4090：`fc_config_check.sh` 8 份配置意外差异 0（`results/t3gb3/cfgcheck_t3pg_mf4090.txt`），`precheck_expect.sh` 4 条全过
+  （`precheck_t3pg_mf4090.txt`；第一次少给了期望表，用法错，`precheck_t3pg_mf4090_badargs.txt.failed`）。
+  17:12 `runs/tools/arm_after.sh`（md5 07173c9b…，新加 `V2D_AFTER_INDEPENDENT`）挂上 t3pg，等 t2m2 的链结束、卡空（`results/t3gb3/arm_after_t3pg_launch_mf4090.txt`，
+  日志 `runs/logs/arm_after_t3pg_mf4090.log`）；读数等待进程挂上（`results/t3gb3/after_switch_t3pg_launch_mf4090.txt`，日志
+  `runs/logs/after_switch_t3pg_mf4090.log`，最多 1080 次）。
+- G0b 补充（同一份记录，gb3 实际用的 convert）：convert 一族 ep0 −0.61、ep8 −3.29、ep18 −0.15、ep20 +1.62、ep21 +0.89、ep24 −0.49、ep26 −2.88、
+  ep29 −2.55 cm；convert_v2 一族 ep6 −4.35、ep7 −0.37、ep22 −3.77 cm。convert 一族的 7 集与 10/16 k-fix 的判据 4 读数相差 0.07 cm 以内。
+- 17:20 转到 ml40（`results/t3gb3/relay_ml40_hf.txt`）：HF 上传 43 秒、下载 496 秒，199 个文件 850.5 MB，两端 sha256 清单逐行相同，`RELAY_OK`。
+  HF 中转仓 README 补了 t3kfix_5_1016、t3v2s_20_1016、t3gb3_11_1017、t3gb3_1017a 四个标签并上传（`results/ops/hf_readme_v2d_track2_transfer_gb3.txt`，
+  `HF_README_OK`，仓库私有）。
+- 17:22 ml40：`fc_config_check.sh` 8 份意外差异 0、`precheck_expect.sh` 4 条全过（`results/ml40/t3gb3/cfgcheck_t3qg_ml40.txt`、`precheck_t3qg_ml40.txt`）。
+  17:23 `runs/tools/arm_after.sh`（md5 07173c9b…）挂上 t3qg，等 t1c_s43 的链结束、卡空（`results/t3gb3/arm_after_t3qg_launch_ml40.txt`，
+  日志 `runs/logs/arm_after_t3qg_ml40.log`）；读数等待进程同时挂上（日志 `runs/logs/after_switch_t3qg_ml40.log`）。

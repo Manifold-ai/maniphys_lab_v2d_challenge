@@ -1,0 +1,26 @@
+# command  : scripts/dev/push-new-files stages/policy/queues/mf4090_t3pg.expect.tsv stages/policy/queues/mf4090_t3pg.txt stages/policy/queues/mf4090_t3pg_smoke.txt stages/evaluate/exports/cand_t3_t3pg_mf4090.tsv stages/evaluate/gb3_switch.py stages/evaluate/gb3_switch_t3pg.json stages/evaluate/t3_refdiff_batch.sh stages/evaluate/exports/t3_gb3_refdiff_pairs.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv
+# md5      : 9f5f2426759856e0a768fbd83eab07f1  stages/policy/queues/mf4090_t3pg.txt
+# md5      : 6869d055ace7aed86935637f46f8ca9c  stages/policy/queues/mf4090_t3pg_smoke.txt
+# md5      : 30de1b4c4c924f03aceab7046af711eb  stages/evaluate/exports/cand_t3_t3pg_mf4090.tsv
+# md5      : ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+# md5      : f761cd68f1c3173ecc3710a4cea45ae0  stages/evaluate/gb3_switch_t3pg.json
+# md5      : 04260680d0efa3f16d3c62dc3656f537  stages/evaluate/t3_refdiff_batch.sh
+# md5      : a1781cf3fd86338f7c76734e9e60edd6  stages/evaluate/exports/t3_gb3_refdiff_pairs.tsv
+# source   : 4fea27f87d67
+# host     : Mac
+# run_at   : 2026-10-17T18:42:36-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 4fea27f87d67；远端来历 a172f14b80bd
+  ok   0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv
+  ok   9f5f2426759856e0a768fbd83eab07f1  stages/policy/queues/mf4090_t3pg.txt
+  ok   6869d055ace7aed86935637f46f8ca9c  stages/policy/queues/mf4090_t3pg_smoke.txt
+  ok   30de1b4c4c924f03aceab7046af711eb  stages/evaluate/exports/cand_t3_t3pg_mf4090.tsv
+  ok   ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+  ok   f761cd68f1c3173ecc3710a4cea45ae0  stages/evaluate/gb3_switch_t3pg.json
+  ok   04260680d0efa3f16d3c62dc3656f537  stages/evaluate/t3_refdiff_batch.sh
+  ok   a1781cf3fd86338f7c76734e9e60edd6  stages/evaluate/exports/t3_gb3_refdiff_pairs.tsv
+远端来历（放完）a172f14b80bd
+PUSH_OK（8 个文件）
