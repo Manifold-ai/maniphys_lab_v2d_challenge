@@ -63,7 +63,7 @@ nf=$(grep -c FAILED "$T/logs/world_gb3_all.log")
 log "world: $(grep -c ' ok$' "$T/logs/world_gb3_all.log") ok, $nf failed"
 [ "$nf" = 0 ] || fail "world ($nf episodes, logs/world_gb3_all.log)"
 
-"${D[@]}" -v "$S":/s:ro -v "$T":/t:ro v2d_cari4d:latest python - > "$T/dev/kgb/gb3_summary.txt" 2>&1 <<'EOF'
+"${D[@]}" -i -v "$S":/s:ro -v "$T":/t:ro v2d_cari4d:latest python - > "$T/dev/kgb/gb3_summary.txt" 2>&1 <<'EOF'
 import json, sys
 import numpy as np, trimesh
 sys.path.insert(0, "/s")
