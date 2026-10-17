@@ -43,11 +43,15 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
   t1c（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）：ml40、1000 万，跟丢的 ep25、28、11、1 的变体 A seed 42，基线取法同 t1y，
       基线若是变体 A 的 run 就取它的基线配方 run（同 t1o）；parquet 的 /runs/motion/tier1/ 换成 /runs/motion/tier1_c10/，run 名带 -c10-。
+      清单里还有 ep9、ep2（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 A）：make_var_queue.py t1c2 --episodes 9,2，预设段 t1c 不变。
+  t2m（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 B）：Tier 2 接触标记提前，参数只由 Tier 2 的数据定（提前 5 帧、补 15 帧以内的空档），
+      mf4090、400 万，跟丢的 ep25、9、1 的变体 A seed 42；基线取 Tier 2 导出清单（同 t2o），parquet 的 /runs/motion/tier2/ 换成 /runs/motion/tier2_c5/，
+      run 名带 -c5-。
   t1o、t2o（计划 agent-doc/plan-r3o-2026-10-15.md）：r3o 试点 = 变体 A 加物体朝向项。队列行开头多两个环境变量
       V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4（训练副本 v040_p185_nfg_oo 读它们，不进 Hydra 配置）；run 名带 -r3o-。
       t1o（mf4090，400 万）：t1oa = 对照 ep20 与 ep25、28、11，t1ob = ep4、9、1、2；t2o（ml40，1000 万）：t2oa = 对照 ep12 与 ep25、28、1，
@@ -121,9 +125,13 @@ SETS = {
              "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
              "desc": "Tier 1 追基线：1 世界 SP-SR 失败、Tier 2 变体 A 的 4096 世界 SP-SR 不低于 0.4 的 5 条的变体 A seed 42（ml40，buffer 1000 万，基线取 10/9 逐条选的清单）"},
     "t1c": {"plan": "agent-doc/plan-t1-contact-anticipation-2026-10-16.md", "tier": 1, "machine": "ml40", "cap": None,
-            "episodes": [25, 28, 11, 1], "parts": {"t1c": [25, 28, 11, 1]}, "base": None, "motion": "tier1_c10", "strip_r3a": True,
+            "episodes": [25, 28, 11, 1, 9, 2], "parts": {"t1c": [25, 28, 11, 1]}, "base": None, "motion": "tier1_c10", "strip_r3a": True,
             "run": "t1-ep{ep}-w2048-cap10m-r3a-c10-ml40",
             "desc": "Tier 1 接触标记提前：跟丢的 4 条的变体 A seed 42，参考换成 runs/motion/tier1_c10（接触起点提前 10 帧、补 15 帧内的空档，参考轨迹不变；ml40，buffer 1000 万）"},
+    "t2m": {"plan": "agent-doc/plan-c10-extend-2026-10-16.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+            "episodes": [25, 9, 1], "parts": {"t2m": [25, 9, 1]}, "base": None, "motion": "tier2_c5", "strip_r3a": True,
+            "run": "t2-ep{ep}-w2048-cap4m-r3a-c5-mf4090",
+            "desc": "Tier 2 接触标记提前（参数只由 Tier 2 的数据定）：跟丢的 ep25、9、1 的变体 A seed 42，参考换成 runs/motion/tier2_c5（接触起点提前 5 帧、补 15 帧以内的空档，参考轨迹不变；mf4090，buffer 400 万，基线取 Tier 2 导出清单）"},
     "t1o": {"plan": "agent-doc/plan-r3o-2026-10-15.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
             "episodes": [20, 25, 28, 11, 4, 9, 1, 2], "parts": {"t1oa": [20, 25, 28, 11], "t1ob": [4, 9, 1, 2]}, "base": None,
             "run": "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
@@ -224,10 +232,13 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
             if parquet.count("/runs/motion/tier2/") != 1:
                 raise SystemExit(f"make_var_queue: {base} 的 parquet 不在 /runs/motion/tier2/ 下：{parquet}")
             parquet = parquet.replace("/runs/motion/tier2/", f"/runs/motion/{s['motion']}/")
-        elif s.get("motion"):   # t1c：Tier 1 段换参考目录（只换接触标记的那份参考，序列名相同）
-            if parquet.count("/runs/motion/tier1/") != 1:
-                raise SystemExit(f"make_var_queue: {base} 的 parquet 不在 /runs/motion/tier1/ 下：{parquet}")
-            parquet = parquet.replace("/runs/motion/tier1/", f"/runs/motion/{s['motion']}/")
+        elif s.get("motion"):   # t1c、t2m：Tier 1、2 段换参考目录（只换接触标记的那份参考，序列名相同；目录名的档位必须与清单相同）
+            src_dir = f"/runs/motion/tier{s['tier']}/"
+            if not re.fullmatch(rf"tier{s['tier']}_[a-z0-9]+", s["motion"]):
+                raise SystemExit(f"make_var_queue: {name} 的参考目录 {s['motion']} 不是 tier{s['tier']}_<后缀>")
+            if parquet.count(src_dir) != 1:
+                raise SystemExit(f"make_var_queue: {base} 的 parquet 不在 {src_dir} 下：{parquet}")
+            parquet = parquet.replace(src_dir, f"/runs/motion/{s['motion']}/")
         run = s["run"].format(ep=ep)
         if seed != 42:
             stem_, mach_ = run.rsplit("-", 1)

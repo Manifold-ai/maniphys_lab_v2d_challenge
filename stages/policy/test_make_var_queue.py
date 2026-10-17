@@ -427,6 +427,31 @@ def test_t1c_part():
         f = lines(root / "stages" / "policy" / "queues" / "ml40_t1c.txt")
         assert all("/runs/motion/tier1_c10/" in x and "/runs/motion/tier1/" not in x and "V2D_OBJ_ORI_" not in x for x in f), f
 
+
+def test_t1c2_part():
+    """路 A（agent-doc/plan-c10-extend-2026-10-16.md）：t1c 清单的 ep9、ep2 用 --episodes 另起一段，预设段 t1c 不变。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        p = gen(root, "t1c2", "--episodes", "2,9")
+        assert p.returncode == 0, p.stdout + p.stderr
+        check_set(root, "t1c2", [9, 2], "t1-ep{ep}-w2048-cap10m-r3a-c10-ml40", 1, "10000000", None, "t1c", "ml40", motion="tier1_c10")
+        assert gen(root, "t1c", "--episodes", "9").returncode != 0
+        assert gen(root, "t1c3", "--episodes", "4").returncode != 0   # ep4 不在 t1c 清单里
+
+
+def test_t2m_part():
+    """路 B：Tier 2 段换参考目录 /runs/motion/tier2/ → /runs/motion/tier2_c5/，mf4090、400 万，基线取 Tier 2 导出清单（ep1 的基线在 ml40）。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        p = gen(root, "t2m")
+        assert p.returncode == 0, p.stdout + p.stderr
+        check_set(root, "t2m", [25, 9, 1], "t2-ep{ep}-w2048-cap4m-r3a-c5-mf4090", 2, "4000000", "training.replay.capacity=4000000", "t2m", "mf4090",
+                  motion="tier2_c5")
+        f = lines(root / "stages" / "policy" / "queues" / "mf4090_t2m.txt")
+        assert all("/runs/motion/tier2_c5/" in x and "/runs/motion/tier2/" not in x and "V2D_OBJ_ORI_" not in x for x in f), f
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

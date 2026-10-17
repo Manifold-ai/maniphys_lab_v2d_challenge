@@ -78,4 +78,17 @@
 
 ## 5. 执行记录
 
-（待填）
+- 19:2x 第 1 版与 `contact_onset_table.py` 先提交（063bd9d），再在 ml40 容器里跑 Tier 2 诊断（只读 runs/motion/tier2 的 30 份参考，装了 Tier 1 禁读；
+  `results/t2diag/contact_onset_t2_ml40.txt`）：
+  - 特征 3/3 过。特征 1：0 ≤ delay ≤ 40 的 6 集（ep1 +26、ep2 +24、ep9 +3、ep11 +3、ep17 +10、ep25 +17）；特征 2：接触后 30 帧内物体自转中位
+    跟丢 20.6°、其余 4.8°（4.3 倍）；特征 3：跟丢集有接触的手 15 只，段数中位 7。
+  - lead_T2 = 5（最小 delay 是 ep9、ep11 的 +3，向上取到 5）。与 Tier 1 的 10 不同，按 Tier 2 自己的数定。gap_T2 按登记取 15，等复核。
+  - 选集：ep25（117.1 cm）、ep9（56.9）、ep1（46.7）。参考目录 tier2_c5，run 名带 -c5-。
+  - 新看到的（只记录，今夜不处理）：ep28 的 delay 是 −288、ep4 是 −82，即 Tier 2 参考里这两集物体先越线、接触标记很晚才开始
+    （ep28 首次接触第 399 帧，越线第 111 步）。这两集正是 MPPE 贡献第 1、3 大的，丢的机理与接触后来不及抓不同，提前 5 帧管不到，明天另写计划。
+- 代码：`make_var_queue.py` 的 t1c 清单加 ep9、ep2（预设段 t1c 不变），新清单 t2m，Tier 1、2 段换参考目录合成一个分支并核对目录名的档位；
+  `arm_var_chain.sh` 加 t2m*；`r3o_verdict.json` 加 C2（基线照抄 P1 的 ep9、ep2）与 C3（照抄 P2 的 ep25、ep9、ep1；ep1 登记的基线是
+  t2-ep1-w2048-cap10m-r3a-ml40，队列取基线配方用的是导出清单里的 t2-ep1-w2048-cap10m-p185-ml40，两者失败_物体都是 1.0、SP-SR 都是 0）。
+  测试：`test_make_var_queue.py`（加 t1c2、t2m 两项）、`test_r3o_verdict.py`（C2、C3 的基线与 P1、P2 一致）都 ALL_OK。
+- 生成的队列：`stages/policy/queues/ml40_t1c2*`、`mf4090_t2m*`，导出清单 `stages/evaluate/exports/cand_t1_t1c2_ml40.tsv`、`cand_t2_t2m_mf4090.tsv`。
+  t2m 三集的期望表 support 列都是 true，支撑面由 `contact_relabel.py` 照抄到 tier2_c5。

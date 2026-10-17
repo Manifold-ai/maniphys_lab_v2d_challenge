@@ -86,4 +86,13 @@ if __name__ == "__main__":
     real = _json.loads((Path(__file__).resolve().parent / "r3o_verdict.json").read_text(encoding="utf-8"))
     assert real["C1"]["control"] is None and len(real["C1"]["lost"]) == 4
     assert all(k.endswith("-r3a-c10-ml40") for k in real["C1"]["lost"]), real["C1"]["lost"]
+    # 路 A、路 B（agent-doc/plan-c10-extend-2026-10-16.md）：基线照抄 P1、P2 登记的同集基线
+    assert real["C2"]["control"] is None and sorted(real["C2"]["lost"]) == ["t1-ep2-w2048-cap10m-r3a-c10-ml40", "t1-ep9-w2048-cap10m-r3a-c10-ml40"]
+    assert real["C3"]["control"] is None and real["C3"]["tier"] == 2 and len(real["C3"]["lost"]) == 3
+    assert all(k.endswith("-r3a-c5-mf4090") for k in real["C3"]["lost"]), real["C3"]["lost"]
+    p1 = {k.split("-")[1]: v for k, v in real["P1"]["lost"].items()}
+    p2 = {k.split("-")[1]: v for k, v in real["P2"]["lost"].items()}
+    for sec, src in (("C2", p1), ("C3", p2)):
+        for k, v in real[sec]["lost"].items():
+            assert v == src[k.split("-")[1]], (sec, k, v)
     print("ALL_OK")

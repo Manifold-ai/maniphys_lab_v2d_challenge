@@ -129,5 +129,47 @@
         "baseline_record": "results/day2/eval_t1-ep1-w2048-cap4m-p185-mf4090_s349999104.txt"
       }
     }
+  },
+  "C2": {
+    "tier": 1,
+    "control": null,
+    "_doc": "路 A：t1c 的 ep9、ep2（同 C1 的配方与判法，tier1_c10），ml40；只在 C1 总判是有用或看不清时起；基线沿用 P1 登记的同集基线；10/16 19:xx 训练前登记（计划 agent-doc/plan-c10-extend-2026-10-16.md）",
+    "lost": {
+      "t1-ep9-w2048-cap10m-r3a-c10-ml40": {
+        "baseline_run": "t1-ep9-w2048-cap10m-ml40",
+        "baseline_obj_fail": 1.0,
+        "baseline_sp": 0.0,
+        "baseline_record": "results/ml40/day2/eval_t1-ep9-w2048-cap10m-ml40_s349999104.txt"
+      },
+      "t1-ep2-w2048-cap10m-r3a-c10-ml40": {
+        "baseline_run": "t1-ep2-w2048-cap10m-r3a-ml40",
+        "baseline_obj_fail": 0.987549,
+        "baseline_sp": 0.138184,
+        "baseline_record": "results/ml40/day2/eval_t1-ep2-w2048-cap10m-r3a-ml40_s349999104.txt"
+      }
+    }
+  },
+  "C3": {
+    "tier": 2,
+    "control": null,
+    "_doc": "路 B：Tier 2 接触标记提前（tier2_c5，参数只由 Tier 2 的数据定），mf4090；基线沿用 P2 登记的同集基线；10/16 19:xx 训练前登记（计划 agent-doc/plan-c10-extend-2026-10-16.md）",
+    "lost": {
+      "t2-ep25-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep25-w2048-cap4m-mf4090",
+        "baseline_obj_fail": 1.0,
+        "baseline_sp": 0.0
+      },
+      "t2-ep9-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep9-w2048-cap4m-mf4090",
+        "baseline_obj_fail": 1.0,
+        "baseline_sp": 0.0,
+        "baseline_record": "results/day2/eval_t2-ep9-w2048-cap4m-mf4090_s349999104.txt"
+      },
+      "t2-ep1-w2048-cap4m-r3a-c5-mf4090": {
+        "baseline_run": "t2-ep1-w2048-cap10m-r3a-ml40",
+        "baseline_obj_fail": 1.0,
+        "baseline_sp": 0.0
+      }
+    }
   }
 }

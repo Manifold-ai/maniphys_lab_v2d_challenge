@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/evaluate/contact_onset_table.py stages/evaluate/test_contact_onset_table.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : b533faa724513e8585837439fd29262e  stages/evaluate/contact_onset_table.py
+# md5      : a446bdbf8acbf4edea974d4bdea5dee5  stages/evaluate/test_contact_onset_table.py
+# source   : 063bd9dcdb94
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:30:43-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 063bd9dcdb94；远端来历 4e58a151e73d
+  ok   b533faa724513e8585837439fd29262e  stages/evaluate/contact_onset_table.py
+  ok   a446bdbf8acbf4edea974d4bdea5dee5  stages/evaluate/test_contact_onset_table.py
+远端来历（放完）4e58a151e73d
+PUSH_OK（2 个文件）
