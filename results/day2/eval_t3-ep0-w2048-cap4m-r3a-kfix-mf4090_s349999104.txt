@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep0-w2048-cap4m-r3a-kfix-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 4fff7bd1d6f8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T10:15:54+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep0-w2048-cap4m-r3a-kfix-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep0-w2048-cap4m-r3a-kfix-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep0-w2048-cap4m-r3a-kfix-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep0-w2048-cap4m-r3a-kfix-mf4090/policy_349999104.safetensors  sha256 44978ce34e3c7952…
+  environment_steps 349999104  world_count 4096  step_count 778  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.6239538903714452
+  chord_sr                                       0.820556640625
+  maniptrans_sr                                  0.844482421875
+  spider_sr_uncentered                           0.881591796875
+  mppe_cm                                        5.625404314792016
+  mean_add_m                                     0.07266146729699034
+  object_position_error_m                        0.055518629962641924
+  object_orientation_error_deg                   12.226842142162736
+  termination_cause_fraction (legacy object-centric) {'object': 0.157470703125, 'wrist': 0.171875}
+  reference_tracking.success_rate (= chord_sr)   0.820556640625
+  reference_tracking.failure_cause_fraction      {'object': 0.157470703125, 'palm': 0.171875, 'pelvis': 0.13525390625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.6239538903714452, "checkpoint": "/repo/runs/flash_chord/t3-ep0-w2048-cap4m-r3a-kfix-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "44978ce34e3c79520fa20ec0673072260b83e48d70b4d45d78cc9022f3c2bbed", "chord_sr": 0.820556640625, "environment_steps": 349999104, "maniptrans_sr": 0.844482421875, "mean_add_m": 0.07266146729699034, "mppe_cm": 5.625404314792016, "object_orientation_error_deg": 12.226842142162736, "object_position_error_m": 0.055518629962641924, "parquet": "/repo/runs/motion/tier3_kfix/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.157470703125, "palm": 0.171875, "pelvis": 0.13525390625}, "reference_end_fraction": 1.0, "success_rate": 0.820556640625}, "spider_sr_uncentered": 0.881591796875, "step_count": 778, "world_count": 4096}

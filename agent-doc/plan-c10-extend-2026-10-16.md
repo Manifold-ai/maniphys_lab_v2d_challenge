@@ -109,3 +109,11 @@
   - NIT 9：t1c2 队列头注沿用 t1c 清单的描述（“跟丢的 4 条”），同一行写着“这一段 t1c2：ep9、ep2”，不改（改了要重推队列、重做配置核对）。
 - 18:52 路 A 挂上（ml40，`results/t1diag/arm_after_t1c2_launch_ml40.txt`，日志 `runs/logs/arm_after_t1c2_ml40.log`）：`runs/tools/arm_after.sh`（md5 与仓库版相同）等 t1c 三条链结束、卡空，前置命令 `gate_verdict.sh results/t1diag/verdict_C1_ml40.txt "有用|看不清"`（限时 2400 秒），t1c 4 条全部做完才起 t1c2。起链前在 ml40 上已做完：ep9、ep2 的 tier1_c10 参考（首段起点与接触窗口记录逐一对上，`results/t1diag/c10_relabel_ep9_ep2_ml40.txt`）、输入核对与配置核对（`results/ml40/t1diag/check_inputs_c10_ep9_ep2_ml40.txt`、`results/ml40/t1diag/cfgcheck_t1c2_ml40.txt`，意外差异 0）；`test_gate_verdict.py` 在 ml40 上 ALL_OK。
 - 19:0x 路 B 的输入预查（`results/t2diag/t2m_inputs_both_1016.txt`）：三集的 Tier 2 参考、支撑面、元数据在 mf4090 与 ml40 上逐字节相同（诊断用的就是这几份），mf4090 可用 78961 MB。
+- 20:42 路 B（第 3 版）：t3pk 的链 20:15 训完（3 条，失败 0）、20:28 评完、20:32 导出完；t3ps 的跳过闸 20:33 开始等，20:42 放标记 `runs/.t3ps-skip`，闸 20:42:57 停（`runs/logs/arm_after_t3ps_v2_mf4090.log` 最后一行 ARM_AFTER_STOPPED），t3ps 这次没起。
+  - t3pk 的判据 5（`results/t3kfix/retrain_switch_t3pk_mf4090.txt`）：ep18 换（MP-SR 0.899、SP-SR 0.924，门槛 0.812、0.888）；ep0 不换（0.845、0.882，门槛 0.915、0.942）；ep29 不换（SP-SR 0.531，门槛 0.663）。连同 ep24、ep26，Tier 3 参考变了的集里判换的有 3 集，满足判据 6 的提议条件（交不交由 rxzhou 定）。
+  - 20:44 整体同步 mf4090（`results/ops/sync_mf4090_1016_2044.txt`，来历 ad7ec00d48d0），可用 78871 MB。
+  - 20:4x tier2_c5（`results/t2diag/c5_relabel_mf4090.txt`）：三集都打印出支撑面；首段起点 ep25 218→213、102→97，ep9 161→156、168→163，ep1 104→99，与 Tier 2 诊断的首次接触帧逐一相同；段数 ep25 5/8 → 4/4，ep9 16/18 → 3/7，ep1 22 → 4。`check_inputs.py` 三集都过（`results/t2diag/check_inputs_c5_mf4090.txt`）。
+  - 配置核对：Mac 侧第一次记录在打印 t2-ep25 那行后断了（ssh 中途断开，`results/t2diag/cfgcheck_t2m_mf4090_mac_try1.txt.failed`），服务器上 6 份配置其实都已生成；改在 mf4090 上 setsid 重跑并记录，6 份意外差异都是 0（`results/t2diag/cfgcheck_t2m_mf4090.txt`）。
+  - 21:36 预演 DRYRUN_OK、起链 ARMED（`results/t2diag/arm_dryrun_t2m_mf4090.txt`、`results/t2diag/arm_t2m_mf4090.txt`，来历 ad7ec00d48d0）；三条冒烟 21:50 前都过，21:50 起正式训 t2-ep25-w2048-cap4m-r3a-c5-mf4090。
+  - 22:26 t3ps 挂在 t2m 后面（`runs/tools/arm_after.sh t3ps`，等 t2m 的三条链，V2D_AFTER_MAX_POLLS 960，无前置命令，`runs/logs/arm_after_t3ps_v3_mf4090.log`，`results/t3kfix/arm_after_t3ps_v3_launch_mf4090.txt`）；`runs/.t3ps-skip` 已删；t3ps 的读数等待进程（13:32 起，最多 1440 次）还在。
+  - 估计：t2m 三条约 05:00 评完导出，之后 t3ps 约 07:45 出读数。

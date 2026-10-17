@@ -1,0 +1,17 @@
+# command  : bash -c export\ V2D_AFTER_MAX_POLLS=960\;\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t3ps\ runs/logs/t2m_train_mf4090.log\ runs/logs/t2m_eval_mf4090.log\ runs/logs/cand_t2_t2m_mf4090.log\ 3\ \>\ runs/logs/arm_after_t3ps_v3_mf4090.log\ 2\>\&1\ \<\ /dev/null\ \&\ disown\;\ sleep\ 4\;\ cat\ runs/logs/arm_after_t3ps_v3_mf4090.log\ \|\ cut\ -c1-220\;\ rm\ -f\ runs/.t3ps-skip\;\ ls\ runs/.t3ps-skip\ 2\>\&1\ \|\ cut\ -c1-80\;\ pgrep\ -af\ \"\[a\]rm_after.sh\ t3ps\|\[r\]un_after_log.sh\ runs/logs/t3ps\"\ \|\ cut\ -c1-150 
+# md5      : b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+# md5      : 16b2360ba9dc271b6a3e877d8fe0073d  runs/logs/t2m_train_mf4090.log
+# md5      : 8194258dcfe62eab2f72d0e6e408b87d  runs/logs/t2m_eval_mf4090.log
+# md5      : d41d8cd98f00b204e9800998ecf8427e  runs/.t3ps-skip
+# source   : ad7ec00d48d0
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T12:26:15+0800
+# ---------------------------------------------------------------
+=== 2026-10-17 12:26:15 CST 等 runs/.chain-active-* 都消失、runs/logs/t2m_train_mf4090.log 与 runs/logs/t2m_eval_mf4090.log 写完最后一行，再起 t3ps；前置命令：无；可用 78503 MB
+=== 2026-10-17 12:26:15 CST 来历与 t3ps 的队列：ad7ec00d48d0 9c5bb4147bea97c88e8629f6ce131c14  stages/policy/queues/mf4090_t3ps.expect.tsv fc907b98cbe3a9d9d81d0e3e2a9789e1  stages/policy/queues/mf4090_t3ps.txt f94
+ls: cannot access 'runs/.t3ps-skip': No such file or directory
+385641 bash stages/policy/run_after_log.sh runs/logs/t3ps_eval_mf4090.log DAY2_EVAL_(DONE|FAILED) t3kfix/retrain_switch_t3ps_mf4090 python3 stages/eva
+642092 bash -c cd ~/v2d/maniphys_lab_v2d_challenge || exit 1; tail -1 results/t2diag/arm_t2m_mf4090.txt; scripts/dev/record t3kfix/arm_after_t3ps_v3_l
+642094 bash scripts/dev/record t3kfix/arm_after_t3ps_v3_launch_mf4090 bash -c export V2D_AFTER_MAX_POLLS=960; setsid nohup bash runs/tools/arm_after.s
+642117 bash -c export V2D_AFTER_MAX_POLLS=960; setsid nohup bash runs/tools/arm_after.sh t3ps runs/logs/t2m_train_mf4090.log runs/logs/t2m_eval_mf4090
+642118 bash runs/tools/arm_after.sh t3ps runs/logs/t2m_train_mf4090.log runs/logs/t2m_eval_mf4090.log runs/logs/cand_t2_t2m_mf4090.log 3

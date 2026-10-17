@@ -1,0 +1,11 @@
+# command  : python3 stages/policy/test_gate_skip_flag.py 
+# md5      : d70f17d579af8e6ac6e6b480293cff22  stages/policy/test_gate_skip_flag.py
+# source   : 4fff7bd1d6f8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T09:14:42+0800
+# ---------------------------------------------------------------
+  1. 一开始就有标记：立刻不放行
+  2. 没有标记：放行
+  3. 等的过程中出现标记：不放行
+  4. 分钟写法非法：退出码 2
+ALL_OK

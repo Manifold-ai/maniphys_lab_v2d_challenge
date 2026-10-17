@@ -1,0 +1,11 @@
+# command  : python3 stages/policy/test_gate_verdict.py 
+# md5      : 970433cb42e9f171a586bfb8bd1c6ee8  stages/policy/test_gate_verdict.py
+# source   : 4e58a151e73d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T08:51:50+0800
+# ---------------------------------------------------------------
+  1. 有用、看不清放行
+  2. 没用不放行，正文里的“有用”不算
+  3. .failed 立刻停；一直没有就等满次数；晚到的等到再判
+  4. 允许的总判写法非法退出码 2
+ALL_OK

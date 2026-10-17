@@ -1,0 +1,21 @@
+# command  : ssh -o BatchMode=yes mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ echo\ source\ \$\(cat\ .v2d-source-commit\)\ \&\&\ md5sum\ stages/retarget/contact_relabel.py\ \&\&\ scripts/dev/in-flash-chord\ \"cd\ /repo\ \&\&\ python\ stages/retarget/test_contact_relabel.py\ \&\&\ python\ stages/retarget/contact_relabel.py\ --src\ runs/motion/tier2\ --dst\ runs/motion/tier2_c5\ --meta-src\ runs/motion_src/tier2\ --meta-dst\ runs/motion_src/tier2_c5\ --lead\ 5\ --gap\ 15\ 2026-03-20_11-59-57_cyan_water_bottle_rotate_01\ 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03\ 2026-05-18_17-06-21_vacuum_left_lean_02\" 
+# md5      : 9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 4c9b2dbf8c83aab16631b109437c706a  stages/retarget/test_contact_relabel.py
+# md5      : 9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+# source   : ad7ec00d48d0
+# host     : Mac
+# run_at   : 2026-10-16T22:43:45-0400
+# ---------------------------------------------------------------
+source ad7ec00d48d0
+9054a8afbba4922de248a2a3f0930473  stages/retarget/contact_relabel.py
+  1. 起点提前、短空档补上、长空档不补、只增不减
+  2. 只换一列、其余列逐值相同、支撑面与元数据照抄、目标已存在就拒绝
+ALL_OK
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01：形状 (2, 859)（手 × 帧）；手 0：接触帧 331 → 353，段数 5 → 4，首段起点 218 → 213；手 1：接触帧 421 → 467，段数 8 → 4，首段起点 102 → 97
+  支撑面：2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03：形状 (2, 870)（手 × 帧）；手 0：接触帧 417 → 470，段数 16 → 3，首段起点 161 → 156；手 1：接触帧 343 → 414，段数 18 → 7，首段起点 168 → 163
+  支撑面：2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+2026-05-18_17-06-21_vacuum_left_lean_02：形状 (2, 747)（手 × 帧）；手 0：接触帧 180 → 256，段数 22 → 4，首段起点 104 → 99；手 1：接触帧 0 → 0，段数 0 → 0，首段起点 None → None
+  支撑面：2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+CONTACT_RELABEL_DONE 3

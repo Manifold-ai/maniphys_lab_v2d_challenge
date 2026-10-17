@@ -1,0 +1,15 @@
+# command  : bash -c export\ V2D_PRE_CMD=\"bash\ stages/policy/gate_verdict.sh\ results/t1diag/verdict_C1_ml40.txt\ \\\"有用\|看不清\\\"\"\;\ export\ V2D_PRE_TIMEOUT_S=2400\;\ echo\ \"V2D_PRE_CMD=\$V2D_PRE_CMD\"\;\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t1c2\ runs/logs/t1c_train_ml40.log\ runs/logs/t1c_eval_ml40.log\ runs/logs/cand_t1_t1c_ml40.log\ 4\ \>\ runs/logs/arm_after_t1c2_ml40.log\ 2\>\&1\ \<\ /dev/null\ \&\ disown\;\ sleep\ 5\;\ cat\ runs/logs/arm_after_t1c2_ml40.log\;\ pgrep\ -af\ \"\[a\]rm_after.sh\ t1c2\" 
+# md5      : c251bb2bf03fb3d4a566bf83a132ffd8  stages/policy/gate_verdict.sh
+# md5      : b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+# md5      : e901139202deedd6030a0f9e2375098e  runs/logs/t1c_train_ml40.log
+# md5      : 2779c9d771c17c3939fcd300cecc0952  runs/logs/t1c_eval_ml40.log
+# source   : 4e58a151e73d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T08:52:12+0800
+# ---------------------------------------------------------------
+V2D_PRE_CMD=bash stages/policy/gate_verdict.sh results/t1diag/verdict_C1_ml40.txt "有用|看不清"
+=== 2026-10-17 08:52:12 CST 等 runs/.chain-active-* 都消失、runs/logs/t1c_train_ml40.log 与 runs/logs/t1c_eval_ml40.log 写完最后一行，再起 t1c2；前置命令：bash stages/policy/gate_verdict.sh results/t1diag/verdict_C1_ml40.txt "有用|看不清"；可用 1301497 MB
+=== 2026-10-17 08:52:12 CST 来历与 t1c2 的队列：4e58a151e73d 425657f03a8b4853064baa07347db3e5  stages/policy/queues/ml40_t1c2.expect.tsv 1600a842172e3db39f96c71c66739a74  stages/policy/queues/ml40_t1c2.txt 1bb32736d62b7b7b4785d18a0371b8f0  stages/policy/queues/ml40_t1c2_smoke.txt 39007d4e8c2474f5d597ee73debe437d  stages/evaluate/exports/cand_t1_t1c2_ml40.tsv 
+1779026 bash -c cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge || exit 1; scripts/dev/record t1diag/arm_after_t1c2_launch_ml40 bash -c 'export V2D_PRE_CMD="bash stages/policy/gate_verdict.sh results/t1diag/verdict_C1_ml40.txt \"有用|看不清\""; export V2D_PRE_TIMEOUT_S=2400; echo "V2D_PRE_CMD=$V2D_PRE_CMD"; setsid nohup bash runs/tools/arm_after.sh t1c2 runs/logs/t1c_train_ml40.log runs/logs/t1c_eval_ml40.log runs/logs/cand_t1_t1c_ml40.log 4 > runs/logs/arm_after_t1c2_ml40.log 2>&1 < /dev/null & disown; sleep 5; cat runs/logs/arm_after_t1c2_ml40.log; pgrep -af "[a]rm_after.sh t1c2"' > /dev/null 2>&1; echo "rc $?"; LC_ALL=C grep -a -v "^#" results/t1diag/arm_after_t1c2_launch_ml40.txt | cut -c1-260
+1779027 bash scripts/dev/record t1diag/arm_after_t1c2_launch_ml40 bash -c export V2D_PRE_CMD="bash stages/policy/gate_verdict.sh results/t1diag/verdict_C1_ml40.txt \"有用|看不清\""; export V2D_PRE_TIMEOUT_S=2400; echo "V2D_PRE_CMD=$V2D_PRE_CMD"; setsid nohup bash runs/tools/arm_after.sh t1c2 runs/logs/t1c_train_ml40.log runs/logs/t1c_eval_ml40.log runs/logs/cand_t1_t1c_ml40.log 4 > runs/logs/arm_after_t1c2_ml40.log 2>&1 < /dev/null & disown; sleep 5; cat runs/logs/arm_after_t1c2_ml40.log; pgrep -af "[a]rm_after.sh t1c2"
+1779053 bash runs/tools/arm_after.sh t1c2 runs/logs/t1c_train_ml40.log runs/logs/t1c_eval_ml40.log runs/logs/cand_t1_t1c_ml40.log 4

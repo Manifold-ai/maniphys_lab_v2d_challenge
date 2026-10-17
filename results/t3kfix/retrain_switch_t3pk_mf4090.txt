@@ -1,0 +1,11 @@
+# command  : python3 stages/evaluate/retrain_switch.py stages/evaluate/retrain_switch_t3pk.json 
+# md5      : 16b03cb27736c94ab06ccf31b743237f  stages/evaluate/retrain_switch.py
+# md5      : 6f921c36860cdcb4ce2ca426a87a816e  stages/evaluate/retrain_switch_t3pk.json
+# source   : 4fff7bd1d6f8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T10:29:59+0800
+# ---------------------------------------------------------------
+ep0 t3-ep0-w2048-cap4m-r3a-kfix-mf4090（旧 t3-ep0-w2048-cap4m-r3a-v2-mf4090：MP-SR 0.965、SP-SR 0.992）：新 MP-SR 0.8445、SP-SR 0.8816、ADD-AUC 0.624、MPPE 5.63 cm；判据 5（MP-SR ≥ 0.9151 且 SP-SR ≥ 0.9422）：不换
+ep18 t3-ep18-w2048-cap4m-r3a-kfix-mf4090（旧 t3-ep18-w2048-cap4m-r3a-v2-mf4090：MP-SR 0.862、SP-SR 0.938）：新 MP-SR 0.8989、SP-SR 0.9243、ADD-AUC 0.613、MPPE 4.63 cm；判据 5（MP-SR ≥ 0.8121 且 SP-SR ≥ 0.8875）：换
+ep29 t3-ep29-w2048-cap4m-r3a-kfix-mf4090（旧 t3-ep29-w2048-cap4m-r3a-v2-mf4090：MP-SR 0.000、SP-SR 0.713）：新 MP-SR 0.0000、SP-SR 0.5305、ADD-AUC 0.375、MPPE 11.13 cm；判据 5（旧 MP-SR 为 0，只看 SP-SR ≥ 0.6631）：不换
+RETRAIN_SWITCH_DONE 1 0

@@ -1,0 +1,14 @@
+# command  : bash -c echo\ \"停掉旧的\ t3ps\ arm_after（本仓自己的进程）：\$\(ps\ -o\ pid\,etime\,cmd\ -p\ 385639\ \|\ tail\ -1\ \|\ cut\ -c1-120\)\"\;\ kill\ 385639\;\ sleep\ 2\;\ ps\ -p\ 385639\ \>\ /dev/null\ \&\&\ echo\ \"还在\"\ \|\|\ echo\ \"已停\"\;\ export\ V2D_PRE_CMD=\"bash\ stages/policy/gate_skip_flag.sh\ runs/.t3ps-skip\ 25\"\;\ export\ V2D_PRE_TIMEOUT_S=2400\;\ echo\ \"V2D_PRE_CMD=\$V2D_PRE_CMD\"\;\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t3ps\ runs/logs/t3pk_train_mf4090.log\ runs/logs/t3pk_eval_mf4090.log\ runs/logs/cand_t3_t3pk_mf4090.log\ 3\ \>\ runs/logs/arm_after_t3ps_v2_mf4090.log\ 2\>\&1\ \<\ /dev/null\ \&\ disown\;\ sleep\ 5\;\ cat\ runs/logs/arm_after_t3ps_v2_mf4090.log\ \|\ cut\ -c1-200 
+# md5      : cbe3efc3e594d57030122735009be548  stages/policy/gate_skip_flag.sh
+# md5      : b631f35b35682e21880fb29e33aadffc  runs/tools/arm_after.sh
+# md5      : 5be91116b5b200db2ef0da1dcd2eb400  runs/logs/t3pk_train_mf4090.log
+# md5      : 6ebf2b25bf3914d8ecf6bb5690737d03  runs/logs/t3pk_eval_mf4090.log
+# source   : 4fff7bd1d6f8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-17T09:14:54+0800
+# ---------------------------------------------------------------
+停掉旧的 t3ps arm_after（本仓自己的进程）： 385639    05:41:56 bash runs/tools/arm_after.sh t3ps runs/logs/t3pk_train_mf4090.log runs/logs/t3pk_eval_mf4090.log run
+已停
+V2D_PRE_CMD=bash stages/policy/gate_skip_flag.sh runs/.t3ps-skip 25
+=== 2026-10-17 09:14:57 CST 等 runs/.chain-active-* 都消失、runs/logs/t3pk_train_mf4090.log 与 runs/logs/t3pk_eval_mf4090.log 写完最后一行，再起 t3ps；前置命令：bash stages/policy
+=== 2026-10-17 09:14:57 CST 来历与 t3ps 的队列：4fff7bd1d6f8 9c5bb4147bea97c88e8629f6ce131c14  stages/policy/queues/mf4090_t3ps.expect.tsv fc907b98cbe3a9d9d81d0e3e2a9789e1  stages/policy/queues
