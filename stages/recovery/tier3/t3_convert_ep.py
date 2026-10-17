@@ -21,7 +21,7 @@ Three steps, each where its dependencies live:
             pixel and depth scales by f_new / f_used (the point map M, _intrinsics_map). M is not rigid, so the object
             and the person are each the rigid body closest to their point-mapped selves: the object fitted to its
             mapped surface (Kabsch, _fit_object_to_map), the person's pose refitted to the mapped mesh with hands and
-            feet weighted (SOMA PoseInversion, _fit_body_to_map). Until 10-17 the object's centre was mapped and its
+            feet weighted (SOMA PoseInversion with autograd refinement, _fit_body_to_map). Until 10-17 the object's centre was mapped and its
             orientation turned with the viewing ray, and the body moved rigidly with its pelvis: hands drifted 1-6.5 cm
             from held objects (ep01, ep16) and feet 4.5-6 cm, under the GB intrinsics. Writes object_cam_focal.npz,
             soma_params_focal.npz, focal_calib.json.
@@ -61,6 +61,8 @@ SOMA_ARGS = {  # reconstruction/workflows/mv_hoi/osmo/mv_hoi_reconstruction.yaml
 }
 FPS = 30
 FOCAL_LEAF_WEIGHT = {"hands": 5.0, "feet": 5.0}  # PoseInversion's extremity weights for the focal refit (10-17 pilot, ep16/ep01)
+FOCAL_AUTOGRAD_ITERS = 20  # Adam steps through FK + LBS after the analytical solve, same extremity weights (10-18: without
+# them ep26/ep11 were 3.6-4.6 cm off at p90 and ep26's hands farther than with the rigid step; with them 1.5-2.3 cm, hands 0.9)
 FOCAL_FIT_CHUNK = 32
 FOCAL_BODY_P90_M = 0.03  # 90th percentile vertex distance from the mapped mesh above which the refit is refused (pilot 1.3 cm)
 FOCAL_SURFACE_POINTS = 5000
@@ -326,8 +328,8 @@ def _soma_vertices(layer, sp: dict, poses: np.ndarray | None = None, transl: np.
 
 def _fit_body_to_map(sp: dict, m: np.ndarray, assets: Path, name: str) -> tuple[dict, dict]:
     """The person's poses and pelvis translation refitted so the SOMA mesh lies on its point-mapped self (m applied to
-    every vertex), identity, scale and bone flexibles unchanged: SOMA PoseInversion (analytical + Lie Gauss-Newton) with
-    hands and feet weighted FOCAL_LEAF_WEIGHT, so contacts and the floor hold first. The result is converted back to
+    every vertex), identity, scale and bone flexibles unchanged: SOMA PoseInversion (analytical + Lie Gauss-Newton, then
+    FOCAL_AUTOGRAD_ITERS autograd steps) with hands and feet weighted FOCAL_LEAF_WEIGHT, so contacts and the floor hold first. The result is converted back to
     the stored convention (relative axis-angle, root dropped), rebuilt the downstream's way and measured against the
     mapped mesh; refused above FOCAL_BODY_P90_M."""
     import torch
@@ -346,7 +348,8 @@ def _fit_body_to_map(sp: dict, m: np.ndarray, assets: Path, name: str) -> tuple[
         sl = slice(a, min(n, a + FOCAL_FIT_CHUNK))
         inv.prepare_identity(ident[sl], scale[sl], repose_to_bind_pose=False,
                              kwargs={"bone_length_flexibles": torch.tensor(np.asarray(sp["bone_length_flexibles"][sl]), dtype=torch.float32)})
-        res = inv.fit(torch.tensor(target[sl] @ F_CV_TO_SOMA, dtype=torch.float32), leaf_weight=FOCAL_LEAF_WEIGHT)
+        res = inv.fit(torch.tensor(target[sl] @ F_CV_TO_SOMA, dtype=torch.float32), leaf_weight=FOCAL_LEAF_WEIGHT,
+                      autograd_iters=FOCAL_AUTOGRAD_ITERS, autograd_leaf_weight=FOCAL_LEAF_WEIGHT)
         rel = remove_joint_orient_local(res["rotations"], layer._t_pose_orient, layer._t_pose_orient_parent_T)
         poses[sl] = Rotation.from_matrix(rel[:, 1:].reshape(-1, 3, 3).double().numpy()).as_rotvec().reshape(-1, 77, 3)
         transl[sl] = res["root_translation"].double().numpy()
@@ -354,7 +357,7 @@ def _fit_body_to_map(sp: dict, m: np.ndarray, assets: Path, name: str) -> tuple[
     new = {**sp, "poses": poses.reshape(p0.shape).astype(p0.dtype), "transl": transl.astype(t0.dtype)}
     dev = np.linalg.norm(_soma_vertices(layer, new) - target, axis=2)
     stats = {"vertex_dev_mm_p50_p90_max": [round(float(x) * 1000, 2) for x in (np.median(dev), np.percentile(dev, 90), dev.max())],
-             "leaf_weight": FOCAL_LEAF_WEIGHT}
+             "leaf_weight": FOCAL_LEAF_WEIGHT, "autograd_iters": FOCAL_AUTOGRAD_ITERS}
     if np.percentile(dev, 90) > FOCAL_BODY_P90_M:
         raise SystemExit(f"{name}: body refit after the focal step is {np.percentile(dev, 90) * 100:.1f} cm off the mapped mesh (p90)")
     for key in sp:
