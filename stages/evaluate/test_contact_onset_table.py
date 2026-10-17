@@ -54,7 +54,7 @@ if __name__ == "__main__":
         r = run(["--tier", "2", "--lost", "1,2", "--onset", "1:29,2:61", "--mppe", "1:10,2:50", *ps], root)
         out = r.stdout
         assert r.returncode == 0 and out.strip().splitlines()[-1] == "CONTACT_ONSET_DONE", out + r.stderr
-        assert "已装 Tier 1 禁读" in out, out
+        assert "已装 Tier 1 原始数据禁读" in out, out
         assert "ep1（跟丢）：left 没有接触；right 首次接触第 20 帧、接触 20 帧、3 段、空档 5、15" in out, out
         assert "delay +9" in out and "delay +41" in out, out
         assert "0 ≤ delay ≤ 40 的 1 集（ep1）" in out and "→ 不过" in out.split("特征 1")[1].splitlines()[0], out

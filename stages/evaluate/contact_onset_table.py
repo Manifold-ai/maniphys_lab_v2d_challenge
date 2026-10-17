@@ -1,6 +1,6 @@
 """一档参考的接触标记分段与越线时刻对照（训练机上经 scripts/dev/in-flash-chord 在容器里跑，只用 CPU；只读这一档的重定向参考）。
 计划 agent-doc/plan-c10-extend-2026-10-16.md 第 3.1 节：Tier 2 的接触标记提前要用 Tier 2 自己的数据定参数（净室规矩），不照搬 Tier 1 的 c10。
---tier 2、3 时只收 runs/motion/tier<档>/ 下的参考（带后缀的目录、别的档都拒收），启动时装 Tier 1 禁读（libs/v2d_infra/tier_guard.forbid_tier1）。
+--tier 2、3 时只收 runs/motion/tier<档>/ 下的参考（带后缀的目录、别的档都拒收），启动时装 Tier 1 原始数据禁读（libs/v2d_infra/tier_guard.forbid_tier1）；tier_guard 只拦原始数据目录 tier_1_multiview_caption，派生参考靠这里的路径检查（独立复核 MINOR 4）。
 每集打印：每只手的首次接触帧、接触段数、段间空档长度；最早接触的那只手接触后 --window 帧内物体自转（各帧相对窗口第一帧的转角取最大，
 物体朝向取 object_body_wxyz 的第 0 个部件）与平移；给了 --onset（集:越线步）的集再报 delay = 越线步 − 最早首次接触帧（逐帧回放下步号就是帧号）。
 汇总按计划第 3.1 节登记的判据（数值在下面的常量里）：
@@ -110,7 +110,7 @@ def main() -> int:
     a = ap.parse_args()
     if a.tier != 1:
         tier_guard.forbid_tier1()
-        print("contact_onset_table：已装 Tier 1 禁读", flush=True)
+        print("contact_onset_table：已装 Tier 1 原始数据禁读；派生参考只收 runs/motion/tier<档>/（路径检查）", flush=True)
     lost = {int(x) for x in a.lost.split(",") if x.strip()}
     onset, mppe = pairs(a.onset, int), pairs(a.mppe, float)
     rows = sorted((read_one(p, a.tier, a.window) for p in a.parquets), key=lambda r: r["ep"])

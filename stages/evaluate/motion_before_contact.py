@@ -4,7 +4,7 @@
   物体离开初始位姿的帧：第一个相对第 0 帧平移超过 --pos-cm 或转角超过 --rot-deg 的帧（物体朝向取 object_body_wxyz 的第 0 个部件）；
   接触标记开始的帧：所有手里最早的首次接触帧（hand_contact_active 是 手 × 帧）；
   另报：物体已离开初始位姿、而没有一只手标了接触的帧数（占全长的比例）。
---tier 2、3 时只收 runs/motion/tier<档>/ 下的参考，启动时装 Tier 1 禁读（同 contact_onset_table.py）。门槛只用于描述，不进任何方法。
+--tier 2、3 时只收 runs/motion/tier<档>/ 下的参考，启动时装 Tier 1 原始数据禁读（同 contact_onset_table.py）；tier_guard 只拦原始数据目录 tier_1_multiview_caption，派生参考靠这里的路径检查（独立复核 MINOR 4）。门槛只用于描述，不进任何方法。
 用法（容器内）：python /repo/stages/evaluate/motion_before_contact.py --tier 2 --lost 1,2,4,9,11,17,25,28 [--pos-cm 3] [--rot-deg 10] <parquet>...；
 最后一行 MOTION_CONTACT_DONE。
 """
@@ -30,7 +30,7 @@ def main() -> int:
     a = ap.parse_args()
     if a.tier != 1:
         tier_guard.forbid_tier1()
-        print("motion_before_contact：已装 Tier 1 禁读", flush=True)
+        print("motion_before_contact：已装 Tier 1 原始数据禁读；派生参考只收 runs/motion/tier<档>/（路径检查）", flush=True)
     lost = {int(x) for x in a.lost.split(",") if x.strip()}
     rows = []
     for p in a.parquets:
