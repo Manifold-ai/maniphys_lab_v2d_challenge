@@ -37,3 +37,14 @@
 - k-fix 重导：两道核对都过；ep24、ep26 判换，ep0、ep18、ep29 跟丢；崩不崩看参考变化大小（`results/t3kfix/ref_pair_diff_ep{0,24}_mf4090.txt`）。
 - gb3 主机位与 k-fix 物体位置、人体参数逐位相同，朝向最多差 0.33°（`results/t3kfix/kfix_vs_gb3_world_ml40_1016.txt`）。
 - Tier 1 跟丢集：接触后 9–32 帧丢；接触后 30 帧物体自转中位 16.4°（其余 1.0°）（`results/t1diag/contact_window_mf4090.txt`）。
+
+## 18:5x 更新
+
+- 榜（`results/submission/leaderboard_1016_1850.txt`）：FF 10/16 09:18 交了新的 Tier 2，MPPE 14.31296，**Tier 2 MPPE 第一丢了**（我们 15.32195）；其余三项 Tier 2 仍是第一。FF 14:55 又交 Tier 1，MPPE 8.03204。
+- 计划 `agent-doc/plan-c10-extend-2026-10-16.md`（第 2 版，独立复核 GO WITH FIXES 已改）：
+  - 路 A（ml40）已挂：t1c 结束、C1 总判是“有用”或“看不清”时自动起 t1c2（Tier 1 ep9、ep2，同 t1c 配方），日志 `runs/logs/arm_after_t1c2_ml40.log`，最后一行 `ARM_AFTER_ARMED` 或 `ARM_AFTER_STOPPED <原因>`；总判“没用”时停在前置命令，属正常。
+  - 路 B（mf4090）：t3ps 的链结束后整体同步 mf4090，生成 tier2_c5（Tier 2 ep25、9、1，提前 5 帧、补 15 帧，参数只由 Tier 2 的数据定），核对后起 t2m。要 Mac 在线；Mac 断了就明早做（步骤见计划 3.2 与本节下一条）。
+  - 路 B 的手工步骤（Mac，仓库根）：`scripts/dev/record ops/sync_mf4090_<时间> scripts/dev/remote` → mf4090 容器里 `contact_relabel.py --src runs/motion/tier2 --dst runs/motion/tier2_c5 --meta-src runs/motion_src/tier2 --meta-dst runs/motion_src/tier2_c5 --lead 5 --gap 15 <三个序列>`（三集都要打印出支撑面文件名）→ `check_inputs.py` → `fc_config_check.sh stages/policy/queues/mf4090_t2m_smoke.txt stages/policy/queues/mf4090_t2m.txt` → `V2D_ARM_DRYRUN=1 stages/policy/arm_var_chain.sh t2m` → `stages/policy/arm_var_chain.sh t2m`。
+- 新发现（明天写计划）：Tier 2 的 ep28、ep4 在参考里物体动了很久都没有接触标记（`results/t2diag/motion_before_contact_t2_ml40.txt`），这是 Tier 2 MPPE 贡献最大的两集。
+- 另一位成员的 gb3：世界坐标系转换 54 条成功，汇总一步失败（11:13），之后没有新文件（`results/ops/t3_gb3_chain_ml40_1016_1845.txt`）。
+- SOP 页 18:45 版已发布（只本地提交，未推送）。

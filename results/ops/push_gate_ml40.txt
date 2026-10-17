@@ -1,0 +1,20 @@
+# command  : scripts/dev/push-new-files stages/policy/gate_verdict.sh stages/policy/test_gate_verdict.py stages/evaluate/contact_onset_table.py stages/evaluate/test_contact_onset_table.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : c251bb2bf03fb3d4a566bf83a132ffd8  stages/policy/gate_verdict.sh
+# md5      : 970433cb42e9f171a586bfb8bd1c6ee8  stages/policy/test_gate_verdict.py
+# md5      : 7c2e3f7c0f682697a0287bb2a946adda  stages/evaluate/contact_onset_table.py
+# md5      : 68928bde3217a733a49c53a41a2f4477  stages/evaluate/test_contact_onset_table.py
+# source   : cf85f062da42
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:51:35-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/contact_onset_table.py：远端是 063bd9d 的版本（b533faa724513e8585837439fd29262e）
+  覆盖 stages/evaluate/test_contact_onset_table.py：远端是 063bd9d 的版本（a446bdbf8acbf4edea974d4bdea5dee5）
+本地提交 cf85f062da42；远端来历 4e58a151e73d
+  ok   c251bb2bf03fb3d4a566bf83a132ffd8  stages/policy/gate_verdict.sh
+  ok   970433cb42e9f171a586bfb8bd1c6ee8  stages/policy/test_gate_verdict.py
+  ok   7c2e3f7c0f682697a0287bb2a946adda  stages/evaluate/contact_onset_table.py
+  ok   68928bde3217a733a49c53a41a2f4477  stages/evaluate/test_contact_onset_table.py
+远端来历（放完）4e58a151e73d
+PUSH_OK（4 个文件）

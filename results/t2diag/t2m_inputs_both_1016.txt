@@ -1,0 +1,27 @@
+# command  : bash -c for\ h\ in\ mf4090\ ml40\;\ do\ if\ \[\ \$h\ =\ mf4090\ \]\;\ then\ R=\"~/v2d/maniphys_lab_v2d_challenge\"\;\ else\ R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ fi\;\ echo\ \"==\ \$h\"\;\ ssh\ -o\ BatchMode=yes\ \$h\ \"cd\ \$R\ \&\&\ df\ -m\ .\ \|\ tail\ -1\ \&\&\ for\ s\ in\ 2026-03-20_11-59-57_cyan_water_bottle_rotate_01\ 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03\ 2026-05-18_17-06-21_vacuum_left_lean_02\;\ do\ md5sum\ runs/motion/tier2/whole_body/soma/sequence_id=\\\$s/robot_name=g1/data.parquet\ runs/motion/tier2/whole_body/reconstructed_stage/\\\$\{s\}_support.usda\ runs/motion_src/tier2/\\\$s/v2d_meta.json\;\ done\"\;\ done 
+# source   : cf85f062da42
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:52:56-0600
+# ---------------------------------------------------------------
+== mf4090
+/dev/vda2         303255 212006     78804  73% /
+5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+55ce75bf14e682de9fc61e20964f8701  runs/motion/tier2/whole_body/reconstructed_stage/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+aae874d3cedc68293652f2bb5876bae9  runs/motion_src/tier2/2026-03-20_11-59-57_cyan_water_bottle_rotate_01/v2d_meta.json
+4d60d1ba9fbc060426957a526fad48e2  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+749adc4a9634f9d1407eac15d04a90a9  runs/motion/tier2/whole_body/reconstructed_stage/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+bf2ab9c9fd19dea28570b52fcbe8be25  runs/motion_src/tier2/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/v2d_meta.json
+0d1db200cb3bced7252d11069d9af49b  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+f2fb02c82e66563378c323b2b2e8ad1f  runs/motion/tier2/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+d72ab3119ff6ca99baf9aaf7eac4612f  runs/motion_src/tier2/2026-05-18_17-06-21_vacuum_left_lean_02/v2d_meta.json
+== ml40
+/dev/vdb         2063132 761624   1301493  37% /lab_data
+5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+55ce75bf14e682de9fc61e20964f8701  runs/motion/tier2/whole_body/reconstructed_stage/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+aae874d3cedc68293652f2bb5876bae9  runs/motion_src/tier2/2026-03-20_11-59-57_cyan_water_bottle_rotate_01/v2d_meta.json
+4d60d1ba9fbc060426957a526fad48e2  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+749adc4a9634f9d1407eac15d04a90a9  runs/motion/tier2/whole_body/reconstructed_stage/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+bf2ab9c9fd19dea28570b52fcbe8be25  runs/motion_src/tier2/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/v2d_meta.json
+0d1db200cb3bced7252d11069d9af49b  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+f2fb02c82e66563378c323b2b2e8ad1f  runs/motion/tier2/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+d72ab3119ff6ca99baf9aaf7eac4612f  runs/motion_src/tier2/2026-05-18_17-06-21_vacuum_left_lean_02/v2d_meta.json

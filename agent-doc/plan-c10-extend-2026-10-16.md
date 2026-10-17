@@ -106,3 +106,5 @@
   - MINOR 5：`test_contact_onset_table.py` 在 ml40 容器里跑并记录（`results/t2diag/test_contact_onset_table_ml40.txt`，ALL_OK）。
   - MINOR 6、7：路 B 起链前加 df 一步，三集的支撑面文件必须在 relabel 输出里打印出来，见 3.2。
   - NIT 9：t1c2 队列头注沿用 t1c 清单的描述（“跟丢的 4 条”），同一行写着“这一段 t1c2：ep9、ep2”，不改（改了要重推队列、重做配置核对）。
+- 18:52 路 A 挂上（ml40，`results/t1diag/arm_after_t1c2_launch_ml40.txt`，日志 `runs/logs/arm_after_t1c2_ml40.log`）：`runs/tools/arm_after.sh`（md5 与仓库版相同）等 t1c 三条链结束、卡空，前置命令 `gate_verdict.sh results/t1diag/verdict_C1_ml40.txt "有用|看不清"`（限时 2400 秒），t1c 4 条全部做完才起 t1c2。起链前在 ml40 上已做完：ep9、ep2 的 tier1_c10 参考（首段起点与接触窗口记录逐一对上，`results/t1diag/c10_relabel_ep9_ep2_ml40.txt`）、输入核对与配置核对（`results/ml40/t1diag/check_inputs_c10_ep9_ep2_ml40.txt`、`results/ml40/t1diag/cfgcheck_t1c2_ml40.txt`，意外差异 0）；`test_gate_verdict.py` 在 ml40 上 ALL_OK。
+- 19:0x 路 B 的输入预查（`results/t2diag/t2m_inputs_both_1016.txt`）：三集的 Tier 2 参考、支撑面、元数据在 mf4090 与 ml40 上逐字节相同（诊断用的就是这几份），mf4090 可用 78961 MB。

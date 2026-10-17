@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/evaluate/motion_before_contact.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 51f7c2ddba417600bed0579a555fe3a2  stages/evaluate/motion_before_contact.py
+# source   : cf85f062da42
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-16T18:51:40-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/motion_before_contact.py：远端是 746ece5 的版本（c86657cefc360711d4af6b2a5cac46ff）
+本地提交 cf85f062da42；远端来历 4e58a151e73d
+  ok   51f7c2ddba417600bed0579a555fe3a2  stages/evaluate/motion_before_contact.py
+远端来历（放完）4e58a151e73d
+PUSH_OK（1 个文件）
