@@ -1,0 +1,43 @@
+# command  : bash -c $'cd runs/submission/kfix1017; echo "## æ\215¢ä¹\213å\211\215ï¼\210G ç\211\210è½¨è¿¹ç\233®å½\225ç\232\204å\211¯æ\234¬ï¼\211"; shasum -a 256 t3/episode_0000{18,20,24,26}.*; for e in 18 20 24 26; do cp -f t3_new/episode_0000$e.json t3_new/episode_0000$e.parquet t3/; done; echo "## æ\215¢ä¹\213å\220\216"; shasum -a 256 t3/episode_0000{18,20,24,26}.*; echo "## ä¸\216 t3_new é\200\220ä¸ªæ¯\224"; for f in t3_new/*; do cmp -s "$f" "t3/$(basename $f)" && echo "same $(basename $f)" || echo "DIFF $(basename $f)"; done; echo "## å\205¶ä½\231 26 é\233\206ä¸\216 G ç\211\210ç\233®å½\225é\200\220ä¸ªæ¯\224"; n=0; for f in ../select_t3_probe1015/t3/episode_*; do b=$(basename $f); case $b in episode_0000{18,20,24,26}.*) continue;; esac; cmp -s "$f" "t3/$b" || echo "DIFF $b"; n=$((n+1)); done; echo "å\205¶ä½\231æ\226\207ä»¶ $n ä¸ªé\200\220å\255\227ç\233¸å\220\214"; ls t3 | wc -l' 
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:45:44-0400
+# ---------------------------------------------------------------
+## æ¢ä¹‹å‰ï¼ˆG ç‰ˆè½¨è¿¹ç›®å½•çš„å‰¯æœ¬ï¼‰
+d5e0564418fa7082ffdbeedad11cab262d7c039b12015699ffba9464331cab4b  t3/episode_000018.json
+1815cbbc86ff93da8eaf379828ae1b73b5a07e8b6664b16354a3c2f7050ffb63  t3/episode_000018.parquet
+4d620aed1ae19115fd239f0f3c88e051ecf9283074082fb8366dbd9b207233b5  t3/episode_000020.json
+f66fe6c2c199750c035ba15e067780da6cfd4a382b1f913b6ffaff3b14229454  t3/episode_000020.parquet
+f954762c4fa33c0848dfaa2fd7e8f18dfc7767adee7f125281ea9a295b79b08d  t3/episode_000024.json
+2965651d65c650563ade7b3c9d8a87be9ebd3ab65a9cb27c939f201699c5a4bc  t3/episode_000024.parquet
+caee707cb3f86a24b30a99c50902180e65037398e9cb344d4fb6fe91b0014c2a  t3/episode_000026.json
+6ffcff00a467a19ce5bd263d82c98b0fc94de92cee992ff83209b74da058d9b2  t3/episode_000026.parquet
+## æ¢ä¹‹å
+551ebf392c5401ac79fb25f6912e23f8959c0d80f3e820f06e22ddee99ee8420  t3/episode_000018.json
+7166c05c8700cf774cd08bb002a40b4d976aa88f5fa69c5a5fedc060f4495b67  t3/episode_000018.parquet
+1082db671099ba6d24c4a43f399b7ec31fda32d9786ba0068638ad1b61ed3889  t3/episode_000020.json
+c2a92bb60938a34c4d9c9df3f1757139cfdbf2e1c4b31eca9b61d4511b13040e  t3/episode_000020.parquet
+96e78165eae2e4fb5deadd7090a80d8002c4001037d303f2b99b163c973aa4ff  t3/episode_000024.json
+75b391a92b1db2c8f540d0072bdf791726e782eceab3f5c8afa99bbc0f9b93cc  t3/episode_000024.parquet
+1c88d9ddc2babf23328198b44fb92d41f04a195869657e174e9d371ab01c4e1c  t3/episode_000026.json
+064d6952fe95d40b7c92c057cc98667038cfc0aa4574e1393c5a9f43e866ff57  t3/episode_000026.parquet
+## ä¸ t3_new é€ä¸ªæ¯”
+same episode_000018.json
+same episode_000018.parquet
+same episode_000020.json
+same episode_000020.parquet
+same episode_000024.json
+same episode_000024.parquet
+same episode_000026.json
+same episode_000026.parquet
+## å…¶ä½™ 26 é›†ä¸ G ç‰ˆç›®å½•é€ä¸ªæ¯”
+DIFF episode_000018.json
+DIFF episode_000018.parquet
+DIFF episode_000020.json
+DIFF episode_000020.parquet
+DIFF episode_000024.json
+DIFF episode_000024.parquet
+DIFF episode_000026.json
+DIFF episode_000026.parquet
+å…¶ä½™æ–‡ä»¶ 60 ä¸ªé€å­—ç›¸åŒ
+      60

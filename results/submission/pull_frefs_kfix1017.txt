@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh frefs mf4090 runs/submission/frame_refs_t3_kfix1017 runs/submission/kfix1017/frefs_new 
+# md5      : 4961cbc5e593ae10209c097fff76a05b  stages/evaluate/pull_submission.sh
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:45:30-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+帧参考 mf4090：4 集 → runs/submission/kfix1017/frefs_new（目录里现有 4 个 npz）
+PULL_OK 5

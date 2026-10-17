@@ -1,0 +1,10 @@
+# command  : stages/evaluate/pull_submission.sh select stages/evaluate/exports/t3_select_kfix1017.tsv runs/submission/kfix1017/tables runs/submission/kfix1017/t3_new 
+# md5      : 4961cbc5e593ae10209c097fff76a05b  stages/evaluate/pull_submission.sh
+# md5      : 3c4010eb3e802e446b8fcfcd35a3d291  stages/evaluate/exports/t3_select_kfix1017.tsv
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:44:52-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+按选择清单拉了 4 条 episode 到 runs/submission/kfix1017/t3_new
+PULL_OK 8

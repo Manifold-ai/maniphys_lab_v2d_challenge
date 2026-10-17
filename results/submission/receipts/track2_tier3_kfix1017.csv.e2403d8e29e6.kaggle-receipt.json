@@ -1,0 +1,39 @@
+{
+  "track": "track_2_tier3",
+  "file": "/Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier3_kfix1017.csv",
+  "message": "Tier 3 kfix1017: ep18, ep24, ep26 on the calibrated-intrinsics reference; ep20 with the box table",
+  "submissions": {
+    "add_auc": {
+      "slug": "v2d-challenge-track2-tier3-auc",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - AUC",
+      "ref": 57325399,
+      "public_score": "0.04885",
+      "error": ""
+    },
+    "spider_sr": {
+      "slug": "v2d-challenge-track2-tier3-sp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - SP-SR",
+      "ref": 57325400,
+      "public_score": "0.13333",
+      "error": ""
+    },
+    "maniptrans_sr": {
+      "slug": "v2d-challenge-track2-tier3-mp-sr",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MP-SR",
+      "ref": 57325402,
+      "public_score": "0.00000",
+      "error": ""
+    },
+    "mppe_cm": {
+      "slug": "v2d-challenge-track2-tier3-mppe",
+      "state": "COMPLETE",
+      "message": "Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MPPE (cm)",
+      "ref": 57325406,
+      "public_score": "55.76705",
+      "error": ""
+    }
+  }
+}

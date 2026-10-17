@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/merge_frefs_t3.py --out runs/submission/kfix1017/frefs --take-plain runs/submission/kfix1017/frefs_new=18\,24\,26 --take runs/submission/kfix1017/frefs_new_rot=20 --take runs/submission/select_t3_probe1015/frame_refs_rot_gridG_yaw=0\,1\,2\,3\,4\,5\,6\,7\,8\,9\,10\,11\,12\,13\,14\,15\,16\,17\,19\,21\,22\,23\,25\,27\,28\,29 
+# md5      : ce3548f36c323cb051b5ae28f02034f9  stages/evaluate/merge_frefs_t3.py
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:45:44-0400
+# ---------------------------------------------------------------
+合并 30 集 → runs/submission/kfix1017/frefs：frefs_new_rot 1 集；frame_refs_rot_gridG_yaw 26 集；frefs_new 3 集
+MERGE_FREFS_OK 30

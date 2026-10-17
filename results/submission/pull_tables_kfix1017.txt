@@ -1,0 +1,13 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/kfix1017/tables mf4090:kfix_t3_mf4090 mf4090:cand_t3_t3pk_mf4090 mf4090:cand_t3_t3ps_mf4090 
+# md5      : 4961cbc5e593ae10209c097fff76a05b  stages/evaluate/pull_submission.sh
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:44:47-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:kfix_t3_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pk_mf4090：ok 3  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3ps_mf4090：ok 1  
+PULL_OK 3

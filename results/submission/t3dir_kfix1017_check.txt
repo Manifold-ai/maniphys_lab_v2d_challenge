@@ -1,0 +1,9 @@
+# command  : python3 - 
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:45:58-0400
+# ---------------------------------------------------------------
+换上的 8 个文件与 t3_new 逐字相同： True
+与 G 版目录不同的文件： ['episode_000018.json', 'episode_000018.parquet', 'episode_000020.json', 'episode_000020.parquet', 'episode_000024.json', 'episode_000024.parquet', 'episode_000026.json', 'episode_000026.parquet']
+恰好是 ep18、20、24、26 的 json 与 parquet： True ；其余 52 个逐字相同
+T3DIR_CHECK OK

@@ -1,0 +1,16 @@
+# command  : uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier3_kfix1017.csv --track track_2_tier3 -m dry\ run\,\ not\ submitted --dry-run 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 3437ffa3e07e7da2e68fbd9096711757  runs/submission/csv/track2_tier3_kfix1017.csv
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:46:28-0400
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier3_kfix1017.csv: 22,989 rows over 30 episodes, 12,130,543 B - looks valid
+Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction): 4 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier3-auc           5 left today
+  spider_sr        v2d-challenge-track2-tier3-sp-sr         5 left today
+  maniptrans_sr    v2d-challenge-track2-tier3-mp-sr         5 left today
+  mppe_cm          v2d-challenge-track2-tier3-mppe          5 left today
+
+--dry-run: nothing submitted.

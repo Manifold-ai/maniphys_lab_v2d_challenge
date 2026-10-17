@@ -1,0 +1,12 @@
+# command  : python3 - 
+# source   : 11196b65d9c6
+# host     : Mac
+# run_at   : 2026-10-17T16:46:51-0400
+# ---------------------------------------------------------------
+表头相同： True ；列： ['row_id', 'pos_x', 'pos_y', 'pos_z', 'quat_x', 'quat_y', 'quat_z', 'quat_w', 'eval_script_sha256', 'eval_code_sha256', 'checkpoint_sha256', 'packer_script_sha256', 'uploader_script_sha256', 'code_commit_url']
+比较时跳过的列（提交链接）： ['code_commit_url']
+行数：G 版 22989 ，新版 22989
+逐行的行号（第一列）都相同： True
+内容不同的行（按 episode：不同行数/该集行数）： {18: '858/858', 20: '553/553', 24: '748/748', 26: '669/669'}
+不同的 episode 恰好是 18、20、24、26： True
+CSVDIFF OK
