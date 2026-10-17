@@ -1,0 +1,7 @@
+# command  : scripts/dev/remote 
+# md5      : 0d7aa6e725f328f5bdaa7895c41e9f18  scripts/dev/remote
+# source   : d27b96fa893b
+# host     : Mac
+# run_at   : 2026-10-17T15:24:19-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
