@@ -48,3 +48,11 @@
 - 新发现（明天写计划）：Tier 2 的 ep28、ep4 在参考里物体动了很久都没有接触标记（`results/t2diag/motion_before_contact_t2_ml40.txt`），这是 Tier 2 MPPE 贡献最大的两集。
 - 另一位成员的 gb3：世界坐标系转换 54 条成功，汇总一步失败（11:13），之后没有新文件（`results/ops/t3_gb3_chain_ml40_1016_1845.txt`）。
 - SOP 页 18:45 版已发布（只本地提交，未推送）。
+
+## 19:2x 更新（计划第 3 版）
+
+- rxzhou 19:1x：“Tier 2 随时可以交”。Tier 2 有按登记的选法更好的候选就打包预演、直接交，不再逐次问；Tier 1、Tier 3 照旧逐次问。
+- mf4090 今夜改为 t2m 在前、t3ps 在后。t3ps 的 arm_after 已换成带跳过闸的一份（`runs/logs/arm_after_t3ps_v2_mf4090.log`，前置命令 `gate_skip_flag.sh runs/.t3ps-skip 25`）。20:41 的定时任务放标记，等 t3pk 的链结束（约 20:55）后整体同步、生成 tier2_c5、核对、起 t2m，再把 t3ps 挂在 t2m 后面（`runs/logs/arm_after_t3ps_v3_mf4090.log`），删掉标记。
+- Mac 断线时没有标记：t3ps 约 21:20 照旧起；t2m 由 23:47 的保底任务做，Mac 还不在就明早按上面“路 B 的手工步骤”做。
+- 预计（估计）：t2m 约 21:00 起，04:30 前后评完导出；t3ps 随后，07:00 前后出读数。
+- 明早：C3 判读（ep9 单列，可能与 ep28、ep4 同一种丢法）；修好的集按 4096 世界优先换进 Tier 2 选集，打包预演后直接提交；ep28、ep4 写新计划。
