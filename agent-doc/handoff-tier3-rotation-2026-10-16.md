@@ -46,6 +46,10 @@ ep26 的手比旧刚体还远（p50 1.89 vs 1.03 cm），加 20 步 autograd 后
 （ep26 小腿 p50 3.5 cm，比刚体 1.2 cm 差）。改为解析 + 20 步 autograd（`e5ab7e5`，已部署），第一轮停掉（日志留 `gbfix_ag0.log`），
 `gbfix.sh e5ab7e5` 在新隔离根从头重跑，预计约 2 小时。**这次换 autograd 是 agent 定的、事先没问用户**，用户回来时要汇报并听意见。
 脚本跑到 GBFIX_DONE（或任一集被拦下时 GBFIX_FAILED）为止，不做任何换入、归档或交付。
+**更正与腿部复核（10-18）**：上面的「ep26 小腿 p50 3.5 cm」其实是**大腿**（SOMA 的 `LeftLeg` 是髋/大腿，`LeftShin` 才是膝，诊断分组按名字分错）。
+按正确关节在 ep26 复量（`$T/dev/gbfix/knee_check.py`）：加 autograd 后膝屈曲角相对原始改变 p50 约 3°、p95 约 9°、最大 9.7°（p95 角 87° → 93–96°）；
+膝离 `M` 目标 p50 1.7–2.2 cm、p95 5.1–5.4 cm（旧刚体 2.8–2.9）；踝 p50 1.3–1.4 cm（旧刚体 2.5–3.9）；站立帧踝每帧位移 p95 4.7–4.9 → 6.0–6.4 mm。
+**用户 10-18 判「还行」，接受 autograd 版。** 未验证：膝角只量了大小、分不出过伸；只测了 ep26；世界系下脚的穿地/悬空等整链物理检查。
 
 **正在跑**：`$T/dev/gbfix/gbfix.sh`（日志 `gbfix.log`，末行 GBFIX_DONE/FAILED），隔离根 `$T/dev/gbfix/root`：四个 convert 源全量 focal →
 `t3_gb3_register.sh`（地面拟合、两次配准、world、汇总 `root/dev/kgb/gb3_summary.txt`）。只读输入是硬链接，会被写的目录是真复制。
