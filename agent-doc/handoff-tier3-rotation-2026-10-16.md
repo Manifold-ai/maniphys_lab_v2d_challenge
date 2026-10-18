@@ -6,7 +6,7 @@
 路径：`$T` = L40S `/lab_data/yqchen/v2d/tier3`，`$G` = `/lab_data/yqchen/v2d/gate`。本节诊断脚本在
 `stages/recovery/tier3/gate/diag/`（服务器上的副本与输出在 `$G/diag/`）。
 
-## 交付：gb4_best_dr2s_dyn7（10-18 14:05 CST，当前交付版）
+## 交付：gb4_best_dr2s_dyn7（10-18 14:01 CST，当前交付版）
 
 **交付版由 `tier3_cari4d_gb_best_dr2s_dyn7` 换成 `tier3_cari4d_gb4_best_dr2s_dyn7`**（用户 10-18 决定）。与 gb3 的唯一区别是 focal 步的修正
 （下文「手物偏差的修复与重生成」，`e5ab7e5`）。**命名改了**：用户 10-18 改为另起名 gb4、不同名换入（rxzhou 已复制 gb3，同名换入要额外解释），
