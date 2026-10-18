@@ -1,0 +1,8 @@
+# command  : bash -c $'R=$(git remote get-url origin | sed -E "s#(git@github.com:|https://github.com/)##; s#\\.git\\$##"); echo "ä»\223åº\223 $R"; gh api "repos/$R" --jq "\\"å\217¯è§\201æ\200§ \\" + .visibility + \\"ï¼\233æ\234¬è´¦å\217· admin æ\235\203é\231\220 \\" + (.permissions.admin|tostring) + \\"ï¼\214maintain æ\235\203é\231\220 \\" + (.permissions.maintain|tostring)"; echo "æ\237¥è¯¢ Nvidia-V2D-Challenge æ\230¯ä¸\215æ\230¯å\215\217ä½\234è\200\205ï¼\210GET repos/$R/collaborators/Nvidia-V2D-Challengeï¼\214204 è¡¨ç¤ºæ\230¯ï¼\214404 è¡¨ç¤ºä¸\215æ\230¯ï¼\211ï¼\232$(gh api "repos/$R/collaborators/Nvidia-V2D-Challenge" -i 2>&1 | head -1)"' 
+# source   : 79d6fa1ef54f-dirty
+# host     : Mac
+# run_at   : 2026-10-17T20:37:23-0400
+# ---------------------------------------------------------------
+ä»“åº“ Manifold-ai/maniphys_lab_v2d_challenge
+å¯è§æ€§ internalï¼›æœ¬è´¦å· admin æƒé™ falseï¼Œmaintain æƒé™ true
+æŸ¥è¯¢ Nvidia-V2D-Challenge æ˜¯ä¸æ˜¯åä½œè€…ï¼ˆGET repos/Manifold-ai/maniphys_lab_v2d_challenge/collaborators/Nvidia-V2D-Challengeï¼Œ204 è¡¨ç¤ºæ˜¯ï¼Œ404 è¡¨ç¤ºä¸æ˜¯ï¼‰ï¼šHTTP/2.0 404 Not Found

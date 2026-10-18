@@ -1,0 +1,46 @@
+# command  : uv run --no-project --python 3.12 --with pypdf python -I tools/challenge_faq_text.py --sentences 
+# md5      : 7df677152b94ffb9540c237533aebdd9  tools/challenge_faq_text.py
+# source   : 79d6fa1ef54f-dirty
+# host     : Mac
+# run_at   : 2026-10-17T20:37:20-0400
+# ---------------------------------------------------------------
+来源 https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_challenge_2026_faqs.pdf
+大小 88947 字节，sha256 6ec86e8e32e817b325fca4c0800932a421b49df951045568d46a91a561d67de8
+---- 全文（空白合并，按问号断行）----
+NVIDIA | PHYSICAL AI Video to Data Challenge FAQs Participation and registration Can teams register after the challenge launch? Yes.
+Teams may register after launch.
+Can a team change members after registration? Yes. Send the requested team-member change to v2d_challenge@nvidia.com.
+Include the team name and the names and email addresses to add or remove.
+Can a team add another track after registration? Yes, send the change requests to v2d_challenge@nvidia.com and do not create duplicate registrations.
+Is there another shortlisting step after registration? Join our Discord channel, browse the submission kit and leaderboard.
+Submissions and leaderboards Where do teams submit results? Teams should use the official leaderboard and submission pages announced by the organizers and package outputs with the participant toolkit. The submission compiler is the authoritative way to create leaderboard artifacts.
+The participant-facing version of this FAQ should include the live portal links before distribution.
+What is required for a valid Track 2 submission? A valid Track 2 submission requires object trajectories from learned policies for all 30 reference trajectories. The submission kit agent skill will walk participants through evaluating their policies, packing the submission and submitting to the leaderboard. Each tier is a separate submission, and participants may modify their approach between tiers. Tiers have different reference trajectories, but all tiers are scored against the clean reference trajectory. Participants should ensure they use the correct reference trajectory for each tier, and top solutions will be required to provide code to reproduce their results at the end of the challenge. Policy checkpoints are not required at this time, but participants also need to include a link to a git commit associated with the submission, as well as hashes of their evaluation and submission scripts, and policy checkpoint for later validation.
+What is required for a valid Track 3 submission? A valid Track 3 submission requires object trajectories from learned policies and reconstructed object meshes for all 20 egocentric videos. While some objects in the eval set have meshes in the public data, participants should reconstruct the objects to generate object trajectories and submit their own reconstructed meshes. The submission kit agent skill will walk participants through submitting their object trajectories and meshes. Policy checkpoints are not required at this time, but participants also need to include a link to a git commit associated with the submission, as well as hashes of their evaluation and submission scripts, and policy checkpoint for later validation.
+How does the five submissions per week limit apply? The limit applies per track and tier, not across the entire challenge.
+Is there a separate participant dashboard? The official challenge site hosts all participant resources. Participants can download challenge data and the submission kit from there and view their status on the leaderboard. For other challenge questions, check out the official Discord or email the organizers at v2d_challenge@nvidia.com .
+How is the final ranking calculated across metrics for each track? We will sum your ranking in each metric and compute final rankings as the lowest sum of metric rankings. For example, for Track 2, if your team placed 1st in AUC, 1st in SP-SR, 2nd in MP-SR and 2nd in MPPE your summed ranking is 1+1+2+2 = 6.
+Track 1 reconstruction How are submitted trajectories aligned for evaluation? The evaluation performs Sim(3) alignment of human pose against the first frame of the reference trajectory.
+What human representation should Track 1 teams submit? Submit human trajectories in MHR representation.
+How are object geometry and motion evaluated? Object Chamfer distance is computed from the posed mesh in the world frame. Acceleration error measures the discrepancy between the second-order temporal differences of predicted and ground-truth trajectories, assessing how faithfully the prediction reproduces changes in motion.
+Should teams output object poses during occlusion? Yes.
+Submit a continuous trajectory for each object, including frames in which the object is occluded.
+May Track 1 teams use Track 2 Tier 1 assets? No. Track 1 teams should reconstruct objects and estimate parameters only from the data provided for Track 1.
+Do not use Track 2 assets to supply meshes or recover camera parameters.
+Track 2 robotic grounding Does Track 2 require whole body control? Yes.
+Track 2 tasks require whole-body control for loco-manipulation.
+Pretrained controllers are allowed!
+Must Track 2 cover every released trajectory? The track expects results for all 30 trajectories. Teams experiencing long runtimes may evaluate the accelerated workflow in FlashCHORD for their implementations.
+Where are the exact evaluation metrics definitions? Implementations of the evaluation metrics can be found in the submission kit.
+Track 3 end to end transfer What does Track 3 evaluate? Track 3 evaluates the final trajectory.
+Intermediate outputs are not assessed or released.
+Which robot embodiment is required? Sharpa Wave is the default embodiment.
+Other embodiments are welcome, including fixed-base arm-and-hand setups and floating hands.
+Are real robot experiments required? No.
+The challenge is simulation-only; real-world deployment is not required.
+Where is eval e2e and how is the Track 3 score calculated? The Track 3 evaluation script can be found in the submission kit. The Track 3 score is calculated using Maniptrans Success Rate (MP-SR), Spider Success Rate (SP-SR), Area Under Curve (AUC), Mean Per-Frame Pose Error (MPPE), Relative Pose Error (RPE), and Object Mesh What configuration reproduces the reported tissue box baseline? The tissue box baseline is intended as a way to verify the workflow and environment setup , and not necessarily an optimized baseline. We have updated the repo to make this example more reproducible.
+Compute code and data policy Who is eligible for compute credits, and when will credits be provided? We will contact teams that requested compute credits and are affiliated with universities and/or nonprofit organizations to confirm eligibility and support details. Approved credits will be provided as reimbursement after an eligible team makes a valid Challenge submission, with a maximum of 100 credits per team.
+Teams approved that do not have a valid submission by November 4 will no longer be eligible to receive credits.
+What code must teams release? Winning submissions will be asked to release their code under an Apache 2.0 license.
+May teams use pretrained models or external datasets? Yes! Pretrained models and external data are allowed for all tracks.
+FAQ_TEXT_DONE 3 8827

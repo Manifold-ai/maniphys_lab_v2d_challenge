@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-17-sop-1830.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 8c554ecea64c7920a61b5a1e89899284  agent-doc/experiments/2026-10-17-sop-1830.claims.json
+# source   : 79d6fa1ef54f-dirty
+# host     : Mac
+# run_at   : 2026-10-17T20:37:45-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+board_same           P(supported)=0.94  verified               [lb_old, lb_new]  两份快照里 maniphys.ai 与 Xueyi Wang (FF) 在 12 个榜上的分数逐个相同。
+firsts               P(supported)=0.87  verified               [rank]  maniphys.ai 在 Tier 2 的 auc、sp-sr、mp-sr 与 Tier 3 的 sp-sr、mppe 上排第 1。
+sum_b                P(supported)=0.99  verified               [rank]  12 个榜名次直接相加，maniphys.ai 20、Xueyi Wang (FF) 17。
+faq_rank             P(supported)=0.97  verified               [faq]  FAQ 写明把各指标的名次相加，名次和最小的排在最前。
+faq_limit            P(supported)=0.97  verified               [faq]  FAQ 写明每周 5 次提交的上限按赛道与档位分别算，不是整个比赛合计。
+collab               P(supported)=0.98  verified               [collab]  查询 Nvidia-V2D-Challenge 是否为协作者返回 404，本账号没有 admin 权限、有 maintain 权限。
+subs                 P(supported)=0.98  verified               [subs]  列表里 Tier 1 有 3 次提交、Tier 2 有 2 次、Tier 3 有 4 次。
+retarget             P(supported)=0.79  verified               [rt]  11 集的状态都是 OK 或 OK+NOCONTACT，间隙在 −0.5 到 0.0 mm 之间。
+relay                P(supported)=0.96  verified               [relay]  转到 ml40 的是 199 个文件、850.5 MB，最后 RELAY_OK。
+refdiff_ep8          P(supported)=0.78  verified               [refdiff]  ep8 训练参考到 gb3 的物体相对机器人根位置差中位是 0.0159 m。
+feet_ep22            P(supported)=0.98  verified               [feet]  convert_v2_gb3 一族里 ep22 的 feet_world_m 是 −0.0377。
+gpu                  P(supported)=0.98  verified               [status]  快照里 mf4090 的 GPU 用了 23813 MiB、利用率 100%，ml40 用了 40305 MiB、利用率 100%。
+ctl_faq              P(supported)=0.01  control(false) ok      [faq]  FAQ 写明总排名按各指标分数的平均值算，不看名次。
+ctl_relay            P(supported)=0.07  control(false) ok      [relay]  转到 ml40 的数据一共 950 MB。
+ctl_ref              P(supported)=0.03  control(false) ok      [refdiff]  ep8 训练参考到 gb3 的物体相对机器人根位置差中位是 0.0361 m。
+controls behaved as expected

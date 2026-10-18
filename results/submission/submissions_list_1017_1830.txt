@@ -1,0 +1,23 @@
+# command  : bash -c for\ t\ in\ 1\ 2\ 3\;\ do\ s=v2d-challenge-track2-tier\$t-auc\;\ echo\ \"==\ \$s\"\;\ /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle\ competitions\ submissions\ \$s\ 2\>\&1\ \|\ awk\ \"NR\<=2\ \|\|\ /20\[0-9\]\[0-9\]-/\"\ \|\ cut\ -c1-110\;\ done 
+# source   : 79d6fa1ef54f-dirty
+# host     : Mac
+# run_at   : 2026-10-17T20:36:22-0400
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier1-auc
+     ref  fileName                           date                        description                          
+--------  ---------------------------------  --------------------------  -------------------------------------
+57325217  track2_tier1_select_c10_1017a.csv  2026-10-17 20:39:37.677000  Tier 1 per-episode select c10_1017a (
+57193855  track2_tier1_select_t1c1014b.csv   2026-10-14 19:53:03.770000  Tier 1 per-episode select t1c1014b   
+57159315  track2_tier1_select_t1x1013.csv    2026-10-13 23:53:19.827000  Tier 1 per-episode select t1x1013    
+== v2d-challenge-track2-tier2-auc
+     ref  fileName                       date                        description                      status  
+--------  -----------------------------  --------------------------  -------------------------------  --------
+57197028  track2_tier2_select_b1014.csv  2026-10-14 22:47:04.167000  Tier 2 per-episode select b1014  Submissi
+57169480  track2_tier2_select_b1013.csv  2026-10-14 06:05:14.487000  Tier 2 per-episode select b1013  Submissi
+== v2d-challenge-track2-tier3-auc
+     ref  fileName                                date                        description                     
+--------  --------------------------------------  --------------------------  --------------------------------
+57325399  track2_tier3_kfix1017.csv               2026-10-17 20:47:04.570000  Tier 3 kfix1017: ep18, ep24, ep2
+57265887  track2_tier3_ab1016_manhattanB_yaw.csv  2026-10-16 10:34:34.880000  Tier 3 A/B 1016 B: probe1015 rol
+57265849  track2_tier3_ab1016_gridG_yaw.csv       2026-10-16 10:33:24.980000  Tier 3 A/B 1016 G: probe1015 rol
+57245294  track2_tier3_probe1015.csv              2026-10-15 22:14:38.660000  Tier 3 probe 1015 (best_hm 18, v

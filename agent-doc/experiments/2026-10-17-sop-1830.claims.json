@@ -1,0 +1,158 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "lb_old": {
+   "file": "results/submission/leaderboard_1017_1515.txt",
+   "grep": "^==|maniphys.ai|Xueyi"
+  },
+  "lb_new": {
+   "file": "results/submission/leaderboard_1017_1815.txt",
+   "grep": "^==|maniphys.ai|Xueyi"
+  },
+  "rank": {
+   "file": "results/submission/rank_sum_1017_1815.txt"
+  },
+  "faq": {
+   "file": "results/ops/challenge_faq_1017_sentences.txt",
+   "grep": "per week limit|final ranking|sha256"
+  },
+  "collab": {
+   "file": "results/ops/collab_check_nvidia_1017_1830b.txt",
+   "grep": "仓库|可见性|协作者"
+  },
+  "subs": {
+   "file": "results/submission/submissions_list_1017_1830.txt"
+  },
+  "rt": {
+   "file": "results/t3gb3/retarget_mf4090.txt",
+   "grep": "^3\t|EPS_DONE"
+  },
+  "relay": {
+   "file": "results/t3gb3/relay_ml40_hf.txt",
+   "grep": "HF_PUSH_OK|HF_PULL_OK|RELAY_OK|/ 199|下载用时|清单与来源"
+  },
+  "refdiff": {
+   "file": "results/t3gb3/refdiff_mf4090.txt",
+   "grep": "^REFDIFF|T3_REFDIFF_DONE"
+  },
+  "feet": {
+   "file": "results/ml40/t3gb3/feet_gb3_ml40.txt",
+   "grep": "^==|ep22_step_ladder|ep06_monitor|GB3_FEET"
+  },
+  "status": {
+   "file": "results/ops/status_both_1017_1830.txt",
+   "grep": "^==|MiB|/dev/"
+  }
+ },
+ "claims": [
+  {
+   "id": "board_same",
+   "evidence": [
+    "lb_old",
+    "lb_new"
+   ],
+   "claim": "两份快照里 maniphys.ai 与 Xueyi Wang (FF) 在 12 个榜上的分数逐个相同。"
+  },
+  {
+   "id": "firsts",
+   "evidence": [
+    "rank"
+   ],
+   "claim": "maniphys.ai 在 Tier 2 的 auc、sp-sr、mp-sr 与 Tier 3 的 sp-sr、mppe 上排第 1。"
+  },
+  {
+   "id": "sum_b",
+   "evidence": [
+    "rank"
+   ],
+   "claim": "12 个榜名次直接相加，maniphys.ai 20、Xueyi Wang (FF) 17。"
+  },
+  {
+   "id": "faq_rank",
+   "evidence": [
+    "faq"
+   ],
+   "claim": "FAQ 写明把各指标的名次相加，名次和最小的排在最前。"
+  },
+  {
+   "id": "faq_limit",
+   "evidence": [
+    "faq"
+   ],
+   "claim": "FAQ 写明每周 5 次提交的上限按赛道与档位分别算，不是整个比赛合计。"
+  },
+  {
+   "id": "collab",
+   "evidence": [
+    "collab"
+   ],
+   "claim": "查询 Nvidia-V2D-Challenge 是否为协作者返回 404，本账号没有 admin 权限、有 maintain 权限。"
+  },
+  {
+   "id": "subs",
+   "evidence": [
+    "subs"
+   ],
+   "claim": "列表里 Tier 1 有 3 次提交、Tier 2 有 2 次、Tier 3 有 4 次。"
+  },
+  {
+   "id": "retarget",
+   "evidence": [
+    "rt"
+   ],
+   "claim": "11 集的状态都是 OK 或 OK+NOCONTACT，间隙在 −0.5 到 0.0 mm 之间。"
+  },
+  {
+   "id": "relay",
+   "evidence": [
+    "relay"
+   ],
+   "claim": "转到 ml40 的是 199 个文件、850.5 MB，最后 RELAY_OK。"
+  },
+  {
+   "id": "refdiff_ep8",
+   "evidence": [
+    "refdiff"
+   ],
+   "claim": "ep8 训练参考到 gb3 的物体相对机器人根位置差中位是 0.0159 m。"
+  },
+  {
+   "id": "feet_ep22",
+   "evidence": [
+    "feet"
+   ],
+   "claim": "convert_v2_gb3 一族里 ep22 的 feet_world_m 是 −0.0377。"
+  },
+  {
+   "id": "gpu",
+   "evidence": [
+    "status"
+   ],
+   "claim": "快照里 mf4090 的 GPU 用了 23813 MiB、利用率 100%，ml40 用了 40305 MiB、利用率 100%。"
+  },
+  {
+   "id": "ctl_faq",
+   "evidence": [
+    "faq"
+   ],
+   "claim": "FAQ 写明总排名按各指标分数的平均值算，不看名次。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_relay",
+   "evidence": [
+    "relay"
+   ],
+   "claim": "转到 ml40 的数据一共 950 MB。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_ref",
+   "evidence": [
+    "refdiff"
+   ],
+   "claim": "ep8 训练参考到 gb3 的物体相对机器人根位置差中位是 0.0361 m。",
+   "control": "false"
+  }
+ ]
+}

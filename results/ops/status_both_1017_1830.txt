@@ -1,0 +1,38 @@
+# command  : bash -c for\ h\ in\ mf4090\ ml40\;\ do\ echo\ \"==\ \$h\"\;\ ssh\ -o\ BatchMode=yes\ -o\ ConnectTimeout=15\ -o\ ControlMaster=no\ -o\ ControlPath=none\ \$h\ \"if\ \[\ -d\ ~/v2d/maniphys_lab_v2d_challenge\ \]\;\ then\ cd\ ~/v2d/maniphys_lab_v2d_challenge\;\ else\ cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ fi\;\ date\ \\\"+%F\ %T\ %Z\\\"\;\ nvidia-smi\ --query-gpu=name\,memory.used\,memory.total\,utilization.gpu\ --format=csv\,noheader\;\ df\ -h\ .\ \|\ tail\ -1\;\ tmux\ ls\ 2\>/dev/null\;\ ls\ runs/.chain-active-\*\ 2\>/dev/null\;\ for\ f\ in\ runs/logs/arm_after_t3pg_mf4090.log\ runs/logs/arm_after_t3qg_ml40.log\;\ do\ \[\ -f\ \\\$f\ \]\ \&\&\ \{\ echo\ \\\"--\ \\\$f\\\"\;\ tail\ -n\ 1\ \\\$f\ \|\ cut\ -c1-160\;\ \}\;\ done\;\ for\ s\ in\ t2m2\ t1c_s43\;\ do\ for\ k\ in\ train\ eval\;\ do\ f=runs/logs/\\\$\{s\}_\\\$\{k\}_\\\$\(hostname\ \|\ grep\ -q\ ubuntu\ \&\&\ echo\ x\)\;\ done\;\ done\;\ ls\ runs/logs\ \|\ grep\ -E\ \\\"\^\(t2m2\|t1c_s43\)_\(train\|eval\)_\\\"\ \|\ while\ read\ f\;\ do\ echo\ \\\"--\ \\\$f\\\"\;\ tail\ -n\ 1\ runs/logs/\\\$f\ \|\ cut\ -c1-160\;\ done\"\;\ done 
+# source   : 79d6fa1ef54f
+# host     : Mac
+# run_at   : 2026-10-17T20:30:34-0400
+# ---------------------------------------------------------------
+== mf4090
+2026-10-18 08:30:37 CST
+NVIDIA GeForce RTX 4090, 23813 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  211G   74G  75% /
+v2d-t2m2-eval: 1 windows (created Sun Oct 18 03:31:10 2026)
+v2d-t2m2-export: 1 windows (created Sun Oct 18 03:31:12 2026)
+v2d-t2m2-train: 1 windows (created Sun Oct 18 03:31:08 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+runs/.chain-active-cand_t2_t2m2_mf4090-gate
+runs/.chain-active-t2m2_eval_mf4090
+runs/.chain-active-t2m2_train_mf4090
+-- runs/logs/arm_after_t3pg_mf4090.log
+=== 2026-10-18 07:12:08 CST 来历与 t3pg 的队列：a172f14b80bd 0d63087f8274219128038b7b9fa98f34  stages/policy/queues/mf4090_t3pg.expect.tsv 9f5f2426759856
+-- t2m2_eval_mf4090.log
+=== 2026-10-18 03:31:10 CST 等 runs/logs/t2m2_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+-- t2m2_train_mf4090.log
+=== 2026-10-18 07:55:03 CST 正式 t2-ep17-w2048-cap4m-r3a-c5-mf4090
+== ml40
+2026-10-18 08:30:40 CST
+NVIDIA L40S, 40305 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  752G  1.3T  38% /lab_data
+v2d-t1c_s43-eval: 1 windows (created Sun Oct 18 03:26:37 2026)
+v2d-t1c_s43-export: 1 windows (created Sun Oct 18 03:26:39 2026)
+v2d-t1c_s43-train: 1 windows (created Sun Oct 18 03:26:35 2026)
+runs/.chain-active-cand_t1_t1c_s43_ml40-gate
+runs/.chain-active-t1c_s43_eval_ml40
+runs/.chain-active-t1c_s43_train_ml40
+-- runs/logs/arm_after_t3qg_ml40.log
+=== 2026-10-18 07:23:09 CST 来历与 t3qg 的队列：d27b96fa893b 27fdcae9bc4f6a1500165d1951213002  stages/policy/queues/ml40_t3qg.expect.tsv fc2e9a6452f49126
+-- t1c_s43_eval_ml40.log
+=== 2026-10-18 03:26:37 CST 等 runs/logs/t1c_s43_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+-- t1c_s43_train_ml40.log
+=== 2026-10-18 07:49:40 CST 正式 t1-ep2-w2048-cap10m-r3a-c10-s43-ml40
