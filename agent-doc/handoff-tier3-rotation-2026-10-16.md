@@ -1,12 +1,38 @@
 # Tier 3 物体转动跳变：来源定位与修复试点（2026-10-15 晚 – 10-16，分支 `track2/tier3-recon`）
 
 接 [handoff-tier3-dynamics-2026-10-14.md](handoff-tier3-dynamics-2026-10-14.md)（dyn 系列、自检流程、best_dyn7）。
-写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。（10-17 起交付版是 `tier3_cari4d_gb_best_dr2s_dyn7`，见下「交付」节。）
+写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。（10-18 起交付版是 `tier3_cari4d_gb4_best_dr2s_dyn7`，见下第一个「交付」节。）
 
 路径：`$T` = L40S `/lab_data/yqchen/v2d/tier3`，`$G` = `/lab_data/yqchen/v2d/gate`。本节诊断脚本在
 `stages/recovery/tier3/gate/diag/`（服务器上的副本与输出在 `$G/diag/`）。
 
-## 交付：gb_best_dr2s_dyn7（10-17 22:49 CST，当前交付版）
+## 交付：gb4_best_dr2s_dyn7（10-18 14:05 CST，当前交付版）
+
+**交付版由 `tier3_cari4d_gb_best_dr2s_dyn7` 换成 `tier3_cari4d_gb4_best_dr2s_dyn7`**（用户 10-18 决定）。与 gb3 的唯一区别是 focal 步的修正
+（下文「手物偏差的修复与重生成」，`e5ab7e5`）。**命名改了**：用户 10-18 改为另起名 gb4、不同名换入（rxzhou 已复制 gb3，同名换入要额外解释），
+gb3 系列原地保留（`tier3_cari4d_gb_best_dr2s_dyn7` 在 versions.json 改标 kept，`gb_best`、`gb_best_dr2s` 仍是 candidate 并注明被取代）。
+交付报告：版本目录 `DELIVERY.md`，仓库副本 [delivery-tier3-gb4_best_dr2s_dyn7-2026-10-18.md](delivery-tier3-gb4_best_dr2s_dyn7-2026-10-18.md)
+（spec `$T/dev/audit/spec_gb4dyn7.json`）。支撑面 usda 来自 `$G/support_usda_gb4dyn7`。
+**给 rxzhou：** 打包白名单需要加入 `tier3_cari4d_gb4_best_dr2s_dyn7` 与 `_suspect`；手持物体的集（ep01/02/04/07/09/16/25 等）接触帧有变化，可能要重训。
+
+**怎么来的**：隔离根 `$T/dev/gbfix/root` 里全量重算（`gbfix.sh e5ab7e5`，focal 54 个转换目录 0 失败，人体顶点 p90 中位 12.5 mm、最大 23.0 mm），
+配准步第一次因隔离根漏了只读输入 `runs/camera_groups`、`runs/moge_ground` 失败，补硬链接后只重跑配准（`gbfix.sh` 已改）。结果以新名移入
+`runs/`：`convert{,_v2,_fp,_pivot}_gb4`（30/8/15/1 集）、`runs/floor/{floor_fit,camera_register}_gb4.json`、`dev/kgb/gb4_summary.txt`，日志 `$T/logs/gb4/`。
+`t3_gb_chain.sh` 加了版本参数（`29a6d97`），`t3_gb_chain.sh gb4` 产出 `tier3_cari4d_gb4_best{,_dr2s,_dr2s_dyn7}`、门槛集 `gb4dyn7`
+（日志 `$T/logs/gb_chain_gb4.log`）；`t3_align_check.py` 的 WORK 映射补了 `_gb4`（`3c021a9`）；自检 `$G/dyn/gb4_selfcheck.sh`（gb_selfcheck.sh 的副本）。
+每集 `world_calib.json` 里地面文件的挂载路径仍写 `floor_fit_gb3.json`（隔离根里生成后改名），`floor_fit_sha256` 与 `floor_fit_gb4.json` 一致。
+
+**结果（对 gb3 / f830）**：门槛 25/30 与 gb3 相同；标了接触的帧 18133（gb3 16496、f830 18263），手持集逐集回到 f830 水平；
+ep16 第 130 帧 IoU 0.549 → 0.824、静置锁定 0–106 + 115–126（gb3 0–128）；动力学违规帧 2105（gb3 2056、f830 2189），变化大的集回到 f830 水平
+（ep01 82/199/85、ep13 321/109/309）；轮廓 IoU 均值 0.806 → 0.805，IoU < 0.5 抽样帧 530 → 568（ep01 跨 0.5 阈值，三版都贴着 0.5）。
+地面校正：主机位 0.964°/0.982（gb3 1.222°/0.984），二机位倾角 2.173°（gb3 1.181°），配准偏航二机位 181.53°、ep21 84.94°。
+
+**已知问题（新）：ep11 的重定向。** 人手贴书（相机系右手到书中位 0.3 cm），但我们的重定向副本（rxzhou 的 eps.sh + 官方 `run_soma_to_g1.py`）在
+右手 39 帧、左手 2 帧让机器人手离书 3.1–4.9 cm（第 551–558、636–693 帧）；gb3 在 655–688 帧机器人手是贴着的。重定向归 rxzhou 一侧，
+推断是手臂姿态变化让 G1 的手落到另一个解，未核实。图 `$T/dev/gbfix/review/ep11_hand_gb3_gb4.png`（脚本同目录 `ep11_hand_render.py`、
+`ep11_robot_extract.py`、`ho_frames.py`、`ep11_hand.py`，未入库）。ep16 第 105–125 帧 CARI4D 原始手离瓶 10 cm 仍在，另立。
+
+## 交付：gb_best_dr2s_dyn7（10-17 22:49 CST，10-18 被上节取代，kept）
 
 **交付版由 `tier3_cari4d_f830_best_dr2s_dyn7` 换成 `tier3_cari4d_gb_best_dr2s_dyn7`**（用户 10-17 决定：先给训练用，已知问题写明，之后修）。
 自检六条第 1–5 条过、第 6 条看图未过（ep16），见 [selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md](selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md)。
@@ -20,10 +46,10 @@
 手持物体的集手物拉开：dr2s 层手到物体表面中位 ep01 1.9→7.1 cm、ep16 5.1→10.9 cm，ep02/04/07/09/10/19/25 0.4–1.8 cm；大件不变。
 ep16 的看图失败是它的后果（握住判定 105→129 帧，静置锁定多 23 帧）。拆分（相对理想映射 `M`，握住帧）：接触手 3D 偏 2–5 cm，
 物体最远点小件 ≤ 2 cm、大件 4–8 cm（ep10 书桌 8.1、ep00 吧凳 6.0）。诊断脚本与输出 `$T/dev/focal_hand/`（`focal_hand_diag.py`、`reproj_diag.py`）。
-拟议修法（待用户定）：物体对 `M` 映射后的表面点做刚体最小二乘拟合；握住帧用手臂 IK 把接触手送到 `M·h0`。修后**以原名重生成** gb 系列（用户：不要 gb4）。
+拟议修法（待用户定）：物体对 `M` 映射后的表面点做刚体最小二乘拟合；握住帧用手臂 IK 把接触手送到 `M·h0`。修后**以原名重生成** gb 系列（用户：不要 gb4）。**10-18 作废：用户改为另起名 gb4，见顶部交付节。**
 另：自检第 5 条（标接触而手离 > 3 cm）没反映这个偏差，原因未查。
 
-## 手物偏差的修复与重生成（10-17 夜，进行中）
+## 手物偏差的修复与重生成（10-17 夜 – 10-18，已完成，产出 gb4，见顶部交付节）
 
 **修法（`f92c6b6`，已部署）**：focal 步不再让人体随骨盆刚体移动、物体绕中心转，改为各自拟合到点映射 `M` 下的自己——物体对映射后的
 表面点做 Kabsch，人体用 SOMA `PoseInversion` 拟合映射后的网格（手、脚权重 5），拟合后按下游方式重建并对映射网格量偏差（p90 > 3 cm 拒绝）。
@@ -54,7 +80,7 @@ ep26 的手比旧刚体还远（p50 1.89 vs 1.03 cm），加 20 步 autograd 后
 **正在跑**：`$T/dev/gbfix/gbfix.sh`（日志 `gbfix.log`，末行 GBFIX_DONE/FAILED），隔离根 `$T/dev/gbfix/root`：四个 convert 源全量 focal →
 `t3_gb3_register.sh`（地面拟合、两次配准、world、汇总 `root/dev/kgb/gb3_summary.txt`）。只读输入是硬链接，会被写的目录是真复制。
 **之后（用户 10-17 同意的计划）**：新地面校正数值先给用户看（旧：主机位 1.222°/0.984，与 rxzhou GB1 一致）→ 旧 gb 系列与 `convert_*_gb3`、
-两份 `_gb3` 地面文件归档进 `runs/archive/`（记 `MOVED.tsv`）→ 新的以原名换入 `runs/` → `t3_gb_chain.sh` → 自检 → 交付。**不起新名字（用户：不要 gb4）。**
+两份 `_gb3` 地面文件归档进 `runs/archive/`（记 `MOVED.tsv`）→ 新的以原名换入 `runs/` → `t3_gb_chain.sh` → 自检 → 交付。**不起新名字（用户：不要 gb4）。** **10-18 作废：改为以 gb4 新名移入、不归档 gb3，已交付，见顶部交付节。**
 
 ## 交付：best_dr2s_dyn7（10-16 13:48 CST，已被上节取代）
 
