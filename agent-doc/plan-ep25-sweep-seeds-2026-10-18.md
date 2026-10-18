@@ -122,7 +122,7 @@ env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=1440
   > runs/logs/arm_after_t1c_s45_ml40.log 2>&1 < /dev/null &
 ```
 
-起之前：用同一串前置命令加 `V2D_SWEEP_DRYRUN=1` 预演（`scripts/dev/record ckpt_sweep/dryrun_<机器> env V2D_SWEEP_DRYRUN=1 bash -c '<前置命令>'`，
+这些命令写在 `stages/evaluate/arm_ckpt25.sh <机器>` 里（`V2D_ARM25_DRYRUN=1` 只核、只打印）。起之前：用同一串前置命令加 `V2D_SWEEP_DRYRUN=1` 预演（`scripts/dev/record ckpt_sweep/dryrun_<机器> env V2D_SWEEP_DRYRUN=1 bash -c '<前置命令>'`，
 要 CKPT_SWEEP_DRYRUN_OK）；两个闸现在各跑一次，s44 还不存在，应当 `SEED_GATE FAIL 读不到…`（核命令写对了）。起完核四份日志的第一行与进程。
 
 | 机器 | 估计 |
