@@ -1,0 +1,42 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/evaluate/t1_static_floor.py data/challenge/track_2/tier_1_multiview_caption third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit results/ml40/select_t1/scores_c10s43_1017.json results/ml40/select_t1/t1_select_c10s43_1017.tsv 
+# md5      : 40bc029a9e0ce9b39abc990d9df249a3  stages/evaluate/t1_static_floor.py
+# md5      : dd927e27e15bfc6e035526c7ede77d47  results/ml40/select_t1/scores_c10s43_1017.json
+# md5      : 4d2f0a874350f2824c0d119896d3d980  results/ml40/select_t1/t1_select_c10s43_1017.tsv
+# source   : aa5755ae7ff7-dirty
+# host     : Mac
+# run_at   : 2026-10-17T23:01:58-0400
+# ---------------------------------------------------------------
+集	现选 run	导出 MPPE	导出 SP/MP	不动 MPPE	不动 SP/MP	不动减导出（cm）
+ep0	t1-ep0-w2048-cap4m-r3a-s43-mf4090	1.02	1/1	32.59	0/0	+31.57
+ep1	t1-ep1-w2048-cap10m-r3a-c10-ml40	34.68	0/0	45.36	0/0	+10.68
+ep2	t1-ep2-w2048-cap10m-r3a-c10-ml40	2.73	1/1	71.58	0/0	+68.85
+ep3	t1-ep3-w2048-cap10m-r3a-ml40	2.09	1/1	9.35	0/0	+7.26
+ep4	t1-ep4-w2048-cap10m-ml40	90.23	0/0	111.86	0/0	+21.63
+ep5	t1-ep5-w2048-cap4m-r3a-mf4090	2.19	1/1	55.31	0/0	+53.12
+ep6	t1-ep6-w2048-cap4m-r3a-s43-mf4090	2.09	1/1	18.58	0/0	+16.49
+ep7	t1-ep7-w2048-cap4m-p185g-mf4090	3.05	1/1	13.11	0/0	+10.06
+ep8	t1-ep8-w2048-cap4m-r3a-mf4090	1.42	1/1	17.72	0/0	+16.31
+ep9	t1-ep9-w2048-cap10m-ml40	40.66	0/0	49.29	0/0	+8.63
+ep10	t1-ep10-w2048-cap4m-r3a-mf4090	3.77	1/0	50.16	0/0	+46.39
+ep11	t1-ep11-w2048-cap10m-r3a-c10-s43-ml40	59.55	0/0	69.04	0/0	+9.49
+ep12	t1-ep12-w2048-cap10m-ml40	2.03	1/1	22.91	0/0	+20.87
+ep13	t1-ep13-w2048-cap10m-r3a-ml40	2.88	1/1	60.06	0/0	+57.18
+ep14	t1-ep14-w2048-cap4m-mf4090	5.89	1/0	80.31	0/0	+74.41
+ep15	t1-ep15-w2048-cap4m-r3a-mf4090	1.83	1/1	63.78	0/0	+61.95
+ep16	t1-ep16-w2048-cap10m-r3a-ml40	1.86	1/1	63.00	0/0	+61.14
+ep17	t1-ep17-w2048-cap10m-ml40	4.98	0/0	92.64	0/0	+87.66
+ep18	t1-ep18-w2048-cap4m-r3a-mf4090	1.53	1/1	43.47	0/0	+41.93
+ep19	t1-ep19-w2048-cap10m-r3a-ml40	3.68	1/0	58.05	0/0	+54.36
+ep20	t1-ep20-w2048-cap4m-r3a-mf4090	1.50	1/1	3.26	0/0	+1.76
+ep21	t1-ep21-w2048-cap4m-r3a-mf4090	2.80	1/1	54.75	0/0	+51.96
+ep22	t1-ep22-w2048-cap4m-mf4090	2.63	1/1	71.71	0/0	+69.08
+ep23	t1-ep23-w2048-cap10m-ml40	2.79	1/1	79.33	0/0	+76.55
+ep24	t1-ep24-w2048-cap4m-mf4090	3.19	1/1	9.16	0/0	+5.97
+ep25	t1-ep25-w2048-cap10m-ml40	117.99	0/0	49.71	0/0	-68.29
+ep26	t1-ep26-w2048-cap10m-ml40	2.59	1/1	7.90	0/0	+5.31
+ep27	t1-ep27-w2048-cap4m-r3a-s43-mf4090	1.67	1/1	86.00	0/0	+84.33
+ep28	t1-ep28-w2048-cap10m-r3a-c10-s43-ml40	8.54	1/0	48.46	0/0	+39.91
+ep29	t1-ep29-w2048-cap4m-r3a-mf4090	2.98	1/1	35.25	0/0	+32.27
+导出比“不动”还差的集：[25]
+现在的 MPPE 合计 414.83 cm（平均 13.8278）；这些集换成“不动”的数后合计 346.55 cm（平均 11.5515）
+T1_STATIC_FLOOR_DONE

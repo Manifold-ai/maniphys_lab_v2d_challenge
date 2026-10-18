@@ -1,0 +1,60 @@
+# command  : tools/site_rank_code.sh 
+# md5      : 0d6250df5e291c5e851d75255700a0f6  tools/site_rank_code.sh
+# source   : aa5755ae7ff7-dirty
+# host     : Mac
+# run_at   : 2026-10-17T23:04:13-0400
+# ---------------------------------------------------------------
+数据仓：MVerghese/v2d-leaderboard-data，private false，最近推送 2026-10-17T00:35:39Z，说明：Leaderboard data for the V2D Challenge page, refreshed from Kaggle every 15 minutes by GitHub Actions.
+sha256 6a5ec7aee58324e4e2ea8e9e473d4746b5c34f182ae0d025d9ebb582a59d5e93  leaderboard.js
+sha256 e437a1ef89b7ae6c07f1c9cba1c71404342d7a27b60ecf2f13f3a23194a12937  leaderboard.json
+sha256 ba7120e867dff658a55c80478b2bda6327349012d0f7639bf031dee0316f2e45  v2d_aggregate.py
+== 官网页面的数据来源
+data-src="https://raw.githubusercontent.com/MVerghese/v2d-leaderboard-data/main/leaderboard.json"
+== leaderboard.js：同分怎么排（compare）与表里的名次（canonicalRanks）
+  function compare(a, b, key, direction) {
+    var x = num(a.scores ? a.scores[key] : null);
+    var y = num(b.scores ? b.scores[key] : null);
+    var xMissing = x === null;
+    var yMissing = y === null;
+    if (xMissing && yMissing) return a.team.toLowerCase() < b.team.toLowerCase() ? -1 : 1;
+    if (xMissing) return 1;
+    if (yMissing) return -1;
+    if (x === y) return a.team.toLowerCase() < b.team.toLowerCase() ? -1 : 1;
+    return direction === "asc" ? x - y : y - x;
+  }
+  function canonicalRanks(track, metric) {
+    var ranks = new Map();
+    if (!metric) return ranks;
+    track.rows.filter(function (row) {
+      return row.is_baseline !== true && num(row.scores[metric.key]) !== null;
+    }).sort(function (a, b) {
+      return compare(a, b, metric.key, metric.higher_is_better === false ? "asc" : "desc");
+    }).forEach(function (row, index) {
+      ranks.set(row, index + 1);
+    });
+    return ranks;
+  }
+== v2d_aggregate.py：数据里的 rank 字段
+    # Default order: best on the track's first configured metric, blanks last. "Best" follows
+    # that metric's direction, because a lower-is-better metric like RPE would otherwise rank
+    # the worst entry first. The site lets the reader re-sort by any column, so this is only
+    # the initial view.
+    primary = metrics[0] if metrics else None
+    sign = 1.0 if primary and not meta[primary]["higher_is_better"] else -1.0
+    rows.sort(
+        key=lambda e: (
+            e["scores"].get(primary) is None,
+            sign * (e["scores"].get(primary) if e["scores"].get(primary) is not None else 0.0),
+            e["team"].lower(),
+        )
+    )
+    position = 0
+    for entry in rows:
+        if entry["is_baseline"]:
+            entry["rank"] = None
+        else:
+            position += 1
+            entry["rank"] = position
+== leaderboard.json 的生成时间
+2026-10-17T00:35:38+00:00 kaggle
+SITE_RANK_CODE_DONE

@@ -1,0 +1,42 @@
+# command  : python3 stages/evaluate/sel_4096_totals.py runs/select_t1_c10/cand results/select_t1/t1_select_c10s43_1017.tsv ep9=t1-ep9-w2048-cap10m-r3a-c10-ml40 ep25=t1-ep25-w2048-cap10m-r3a-c10-ml40 
+# md5      : de1902c9ce49e4acfd3de30e38dc5762  stages/evaluate/sel_4096_totals.py
+# md5      : 4d2f0a874350f2824c0d119896d3d980  results/select_t1/t1_select_c10s43_1017.tsv
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T11:03:47+0800
+# ---------------------------------------------------------------
+  ep0   t1-ep0-w2048-cap4m-r3a-s43-mf4090: AUC 0.8060  SP-SR 0.9170  MP-SR 0.9119  MPPE 3.9761
+  ep1   t1-ep1-w2048-cap10m-r3a-c10-ml40: AUC 0.2083  SP-SR 0.0000  MP-SR 0.0000  MPPE 38.8805
+  ep2   t1-ep2-w2048-cap10m-r3a-c10-ml40: AUC 0.5942  SP-SR 0.8076  MP-SR 0.5747  MPPE 8.8370
+  ep3   t1-ep3-w2048-cap10m-r3a-ml40: AUC 0.6789  SP-SR 0.7881  MP-SR 0.7341  MPPE 17.4876
+  ep4   t1-ep4-w2048-cap10m-ml40: AUC 0.1458  SP-SR 0.0000  MP-SR 0.0000  MPPE 109.9138
+  ep5   t1-ep5-w2048-cap4m-r3a-mf4090: AUC 0.4795  SP-SR 0.3931  MP-SR 0.3076  MPPE 17.9238
+  ep6   t1-ep6-w2048-cap4m-r3a-s43-mf4090: AUC 0.7131  SP-SR 0.9314  MP-SR 0.9175  MPPE 4.2060
+  ep7   t1-ep7-w2048-cap4m-p185g-mf4090: AUC 0.6221  SP-SR 0.9382  MP-SR 0.6526  MPPE 5.6053
+  ep8   t1-ep8-w2048-cap4m-r3a-mf4090: AUC 0.8576  SP-SR 0.9583  MP-SR 0.9546  MPPE 2.4713
+  ep9   t1-ep9-w2048-cap10m-ml40: AUC 0.2013  SP-SR 0.0000  MP-SR 0.0000  MPPE 40.4870
+  ep10  t1-ep10-w2048-cap4m-r3a-mf4090: AUC 0.3780  SP-SR 0.9573  MP-SR 0.0078  MPPE 4.4860
+  ep11  t1-ep11-w2048-cap10m-r3a-c10-s43-ml40: AUC 0.3875  SP-SR 0.6082  MP-SR 0.2244  MPPE 24.4486
+  ep12  t1-ep12-w2048-cap10m-ml40: AUC 0.6968  SP-SR 0.9937  MP-SR 0.9919  MPPE 2.0977
+  ep13  t1-ep13-w2048-cap10m-r3a-ml40: AUC 0.5374  SP-SR 0.7974  MP-SR 0.4514  MPPE 7.9292
+  ep14  t1-ep14-w2048-cap4m-mf4090: AUC 0.3398  SP-SR 0.7112  MP-SR 0.0000  MPPE 15.2817
+  ep15  t1-ep15-w2048-cap4m-r3a-mf4090: AUC 0.7257  SP-SR 0.9592  MP-SR 0.9573  MPPE 4.2191
+  ep16  t1-ep16-w2048-cap10m-r3a-ml40: AUC 0.7191  SP-SR 0.9048  MP-SR 0.9031  MPPE 7.9232
+  ep17  t1-ep17-w2048-cap10m-ml40: AUC 0.3495  SP-SR 0.0000  MP-SR 0.0000  MPPE 9.7521
+  ep18  t1-ep18-w2048-cap4m-r3a-mf4090: AUC 0.6895  SP-SR 0.7820  MP-SR 0.7761  MPPE 8.8902
+  ep19  t1-ep19-w2048-cap10m-r3a-ml40: AUC 0.4035  SP-SR 0.7349  MP-SR 0.2576  MPPE 18.3939
+  ep20  t1-ep20-w2048-cap4m-r3a-mf4090: AUC 0.7703  SP-SR 0.8040  MP-SR 0.7937  MPPE 4.0739
+  ep21  t1-ep21-w2048-cap4m-r3a-mf4090: AUC 0.5560  SP-SR 0.9158  MP-SR 0.8062  MPPE 8.2794
+  ep22  t1-ep22-w2048-cap4m-mf4090: AUC 0.4992  SP-SR 0.9832  MP-SR 0.7639  MPPE 3.8340
+  ep23  t1-ep23-w2048-cap10m-ml40: AUC 0.7109  SP-SR 0.9995  MP-SR 0.9751  MPPE 2.8467
+  ep24  t1-ep24-w2048-cap4m-mf4090: AUC 0.5802  SP-SR 0.9958  MP-SR 0.9622  MPPE 3.2390
+  ep25  t1-ep25-w2048-cap10m-ml40: AUC 0.1263  SP-SR 0.0000  MP-SR 0.0000  MPPE 114.1019
+  ep26  t1-ep26-w2048-cap10m-ml40: AUC 0.4920  SP-SR 0.9463  MP-SR 0.9561  MPPE 2.7291
+  ep27  t1-ep27-w2048-cap4m-r3a-s43-mf4090: AUC 0.7601  SP-SR 0.8574  MP-SR 0.8435  MPPE 11.8243
+  ep28  t1-ep28-w2048-cap10m-r3a-c10-s43-ml40: AUC 0.2284  SP-SR 0.6743  MP-SR 0.0000  MPPE 19.9783
+  ep29  t1-ep29-w2048-cap4m-r3a-mf4090: AUC 0.6079  SP-SR 0.8967  MP-SR 0.1506  MPPE 5.3088
+清单 results/select_t1/t1_select_c10s43_1017.tsv（4096 世界，30 集平均）：AUC 0.528830  SP-SR 0.708504  MP-SR 0.529126  MPPE 17.647526
+  改 ep9: t1-ep9-w2048-cap10m-ml40 → t1-ep9-w2048-cap10m-r3a-c10-ml40  AUC 0.2013→0.2726  SP-SR 0.0000→0.0000  MP-SR 0.0000→0.0000  MPPE 40.4870→61.6043
+  改 ep25: t1-ep25-w2048-cap10m-ml40 → t1-ep25-w2048-cap10m-r3a-c10-ml40  AUC 0.1263→0.1287  SP-SR 0.0000→0.0000  MP-SR 0.0000→0.0000  MPPE 114.1019→127.1044
+改后（4096 世界，30 集平均）：AUC 0.531284  SP-SR 0.708504  MP-SR 0.529126  MPPE 18.784849
+SEL_4096_TOTALS_DONE

@@ -1,0 +1,19 @@
+# command  : python3 stages/evaluate/t1_metric_optimal.py results/ml40/select_t1/scores_c10s43_1017.json results/ml40/select_t1/t1_select_c10s43_1017.tsv 
+# md5      : 7c6d0b72414b1bad2315e4c696a2aa03  stages/evaluate/t1_metric_optimal.py
+# md5      : dd927e27e15bfc6e035526c7ede77d47  results/ml40/select_t1/scores_c10s43_1017.json
+# md5      : 4d2f0a874350f2824c0d119896d3d980  results/ml40/select_t1/t1_select_c10s43_1017.tsv
+# source   : aa5755ae7ff7-dirty
+# host     : Mac
+# run_at   : 2026-10-17T22:58:04-0400
+# ---------------------------------------------------------------
+候选 75 个，30 集；现在的清单：add_auc 0.561770  spider_sr 0.800000  maniptrans_sr 0.666667  mppe_cm 13.827783
+== 按 add_auc 逐条挑最好：add_auc 0.567833  spider_sr 0.766667  maniptrans_sr 0.666667  mppe_cm 15.015980
+   ep9: t1-ep9-w2048-cap10m-ml40 → t1-ep9-w2048-cap10m-r3a-c10-ml40  add_auc 0.2036→0.2774  spider_sr 0.0000→0.0000  maniptrans_sr 0.0000→0.0000  mppe_cm 40.6597→59.4241  4096 世界 MP-SR 0.0→0.0
+   ep25: t1-ep25-w2048-cap10m-ml40 → t1-ep25-w2048-cap10m-r3a-c10-ml40  add_auc 0.0738→0.1322  spider_sr 0.0000→0.0000  maniptrans_sr 0.0000→0.0000  mppe_cm 117.9944→131.5553  4096 世界 MP-SR 0.0→0.0
+   ep28: t1-ep28-w2048-cap10m-r3a-c10-s43-ml40 → t1-ep28-w2048-cap10m-r3a-c10-ml40  add_auc 0.2400→0.2896  spider_sr 1.0000→0.0000  maniptrans_sr 0.0000→0.0000  mppe_cm 8.5444→11.8651  4096 世界 MP-SR 0.0→0.0
+== 按 spider_sr 逐条挑最好：add_auc 0.561770  spider_sr 0.800000  maniptrans_sr 0.666667  mppe_cm 13.827783
+== 按 maniptrans_sr 逐条挑最好：add_auc 0.561770  spider_sr 0.800000  maniptrans_sr 0.666667  mppe_cm 13.827783
+== 按 mppe_cm 逐条挑最好：add_auc 0.561223  spider_sr 0.800000  maniptrans_sr 0.666667  mppe_cm 13.809891
+   ep11: t1-ep11-w2048-cap10m-r3a-c10-s43-ml40 → t1-ep11-w2048-cap4m-mf4090  add_auc 0.0972→0.0891  spider_sr 0.0000→0.0000  maniptrans_sr 0.0000→0.0000  mppe_cm 59.5465→59.0170  4096 世界 MP-SR 0.224365234375→0.0
+   ep29: t1-ep29-w2048-cap4m-r3a-mf4090 → t1-ep29-w2048-cap4m-r3a-s43-mf4090  add_auc 0.7219→0.7136  spider_sr 1.0000→1.0000  maniptrans_sr 1.0000→1.0000  mppe_cm 2.9759→2.9687  4096 世界 MP-SR 0.150634765625→0.499267578125
+T1_METRIC_OPTIMAL_DONE
