@@ -1,0 +1,13 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/make_frame_refs_t3.py\ stages/evaluate/exports/t3_select_gb1018_new.tsv\ mf4090\ --out\ runs/submission/frame_refs_t3_gb1018 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e9d30857bace9098eebaec2286aa4926  stages/evaluate/make_frame_refs_t3.py
+# md5      : 555f5d466fabcedabc04db6ef470ef0f  stages/evaluate/exports/t3_select_gb1018_new.tsv
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T23:38:47+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考：mf4090（VM-1-2-ubuntu）上 3 集（清单另有 3 集在别的机器）→ runs/submission/frame_refs_t3_gb1018（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep0  t3-ep0-w2048-cap4m-r3a-gb3-mf4090：tier3_gb3/2026-06-04_14-16-23_tall_bar_stool_tip_up_04，778 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep20 t3-ep20-w2048-cap4m-r3a-gb3-mf4090：tier3_gb3/2026-06-08_16-57-34_rice_cooker_clockwise_04，553 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.4e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep22 t3-ep22-w2048-cap4m-r3a-gb3-mf4090：tier3_gb3/2026-05-22_16-52-36_step_ladder_drag_03，719 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.7e-15，四元数转回矩阵最大差 1.1e-15
+FRAME_REFS_T3_OK 3

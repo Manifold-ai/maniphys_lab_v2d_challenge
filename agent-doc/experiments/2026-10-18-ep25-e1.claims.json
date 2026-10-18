@@ -1,0 +1,77 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "pick_mf": {
+   "file": "results/ckpt_sweep/ckpt25_mf4090_pick.txt",
+   "grep": "本机选点|导出清单|第 50001920 步|第 60002304 步"
+  },
+  "pick_ml": {
+   "file": "results/ml40/ckpt_sweep/ckpt25_ml40_pick.txt",
+   "grep": "本机选点|导出清单|第 260009984 步"
+  },
+  "h14": {
+   "file": "results/t1diag/health_t1xb_s44_mf4090.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|DONE="
+  },
+  "h11": {
+   "file": "results/t1diag/health_t1c_s44_ml40.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|DONE="
+  }
+ },
+ "claims": [
+  {
+   "id": "mf_pick",
+   "evidence": [
+    "pick_mf"
+   ],
+   "claim": "mf4090 的选点记录里，Tier 1 本机最低 103.13 cm，本机选点是 t1-ep25-w2048-cap4m-r3o-mf4090 第 60002304 步 103.68 cm；Tier 2 本机选点 107.43 cm；导出清单 0 行。"
+  },
+  {
+   "id": "ml_pick",
+   "evidence": [
+    "pick_ml"
+   ],
+   "claim": "ml40 的选点记录里，Tier 1 本机选点 105.96 cm，Tier 2 本机选点是 t2-ep25-w2048-cap10m-r3o-ml40 第 260009984 步 105.16 cm；导出清单 0 行。"
+  },
+  {
+   "id": "e1",
+   "evidence": [
+    "pick_mf",
+    "pick_ml"
+   ],
+   "claim": "两台合起来，Tier 1 的最低 MPPE 是 103.13 cm，Tier 2 的最低是 105.16 cm，两档都没有低于 100 cm 的评测点。"
+  },
+  {
+   "id": "s44",
+   "evidence": [
+    "h14",
+    "h11"
+   ],
+   "claim": "ep14 与 ep11 的 seed 44 两段都是训练完成 1、失败 0、发散 0，评测成功 1，导出成功 1。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "pick_ml"
+   ],
+   "claim": "ml40 的 Tier 1 本机选点是第 30001152 步。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "pick_ml"
+   ],
+   "claim": "ml40 的 Tier 2 本机选点 MPPE 是 95.16 cm，低于 100 cm。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "pick_mf"
+   ],
+   "claim": "mf4090 的导出清单有 2 行。",
+   "control": "false"
+  }
+ ]
+}

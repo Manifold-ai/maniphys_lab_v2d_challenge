@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-18-ep25-e1.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e9646aceec651548c0408a152f0cf333  agent-doc/experiments/2026-10-18-ep25-e1.claims.json
+# source   : f8378d75a975-dirty
+# host     : Mac
+# run_at   : 2026-10-18T14:38:21-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+mf_pick              P(supported)=0.96  verified               [pick_mf]  mf4090 的选点记录里，Tier 1 本机最低 103.13 cm，本机选点是 t1-ep25-w2048-cap4m-r3o-mf4090 第 60002304 步 103.68 cm；Tier 2 本机选点 107.43 cm；导出清单 0 行。
+ml_pick              P(supported)=0.98  verified               [pick_ml]  ml40 的选点记录里，Tier 1 本机选点 105.96 cm，Tier 2 本机选点是 t2-ep25-w2048-cap10m-r3o-ml40 第 260009984 步 105.16 cm；导出清单 0 行。
+e1                   P(supported)=0.84  verified               [pick_mf, pick_ml]  两台合起来，Tier 1 的最低 MPPE 是 103.13 cm，Tier 2 的最低是 105.16 cm，两档都没有低于 100 cm 的评测点。
+s44                  P(supported)=0.98  verified               [h14, h11]  ep14 与 ep11 的 seed 44 两段都是训练完成 1、失败 0、发散 0，评测成功 1，导出成功 1。
+ctl_true             P(supported)=0.98  control(true) ok       [pick_ml]  ml40 的 Tier 1 本机选点是第 30001152 步。
+ctl_false1           P(supported)=0.01  control(false) ok      [pick_ml]  ml40 的 Tier 2 本机选点 MPPE 是 95.16 cm，低于 100 cm。
+ctl_false2           P(supported)=0.01  control(false) ok      [pick_mf]  mf4090 的导出清单有 2 行。
+controls behaved as expected

@@ -1,0 +1,36 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none -o ServerAliveInterval=5 -o ServerAliveCountMax=6 ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ --\ t1c_s44_train_ml40\ t1c_s44_eval_ml40\ cand_t1_t1c_s44_ml40_gate\ cand_t1_t1c_s44_ml40\ t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 
+# source   : f8378d75a975
+# host     : Mac
+# run_at   : 2026-10-18T14:38:04-0400
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-19 02:38:07 CST；来历 d27b96fa893b
+## 训练链 t1c_s44_train_ml40（不含冒烟行）
+=== 2026-10-18 22:28:45 CST start t1c_s44_train_ml40, source d27b96fa893b, 期望表 stages/policy/queues/ml40_t1c_s44.expect.tsv
+=== 2026-10-18 22:33:51 CST 正式 t1-ep11-w2048-cap10m-r3a-c10-s44-ml40
+=== 2026-10-19 00:44:38 CST t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 完成（1 段）
+=== 2026-10-19 00:44:38 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+## t1c_s44_train_ml40 的冒烟行
+=== 2026-10-18 22:28:46 CST 正向核对：1 条 run 的冒烟与正式配置都与期望表一致（含档位目录）
+=== 2026-10-18 22:28:46 CST 冒烟 smoke-t1-ep11-w2048-cap10m-r3a-c10-s44-ml40
+=== 2026-10-18 22:33:51 CST 冒烟 smoke-t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 通过：901 帧，不动基线见 results/day2/bar_smoke-t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.txt；256 世界 rollout 里非有限世界 0 个（只报数）
+DIVERGE_IN_CHAIN t1c_s44_train_ml40 1
+## 各 run
+t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 DONE=1 NONFINITE=0 GUARD_STOP=0 GUARD=0 MB=360 policy=35 state=1
+  看守：含非有限的扫描行 0，最后一行：10-18 10:42:01 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+## t1c_s44_eval_ml40
+=== 2026-10-18 22:28:47 CST 等 runs/logs/t1c_s44_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+=== 2026-10-19 00:44:47 CST 训练链已结束：=== 2026-10-19 00:44:38 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+=== 2026-10-19 00:44:47 CST start t1c_s44_eval_ml40, source d27b96fa893b, 期望表 stages/policy/queues/ml40_t1c_s44.expect.tsv, 附加表 -, 评测步数 349999104
+=== 2026-10-19 00:50:25 CST DAY2_EVAL_DONE（成功 1、失败 0）
+## cand_t1_t1c_s44_ml40_gate
+=== 2026-10-18 22:28:49 CST 等 runs/logs/t1c_s44_eval_ml40.log 的最后一行变成评测链的结束行
+=== 2026-10-19 00:50:49 CST 评测链成功 1 条、失败 0，开导出链 cand_t1_t1c_s44_ml40
+=== 2026-10-19 00:51:55 CST 导出链结束，退出码 0
+## cand_t1_t1c_s44_ml40
+=== 2026-10-19 00:50:49 CST start cand_t1_t1c_s44_ml40：清单 stages/evaluate/exports/cand_t1_t1c_s44_ml40.tsv（1 行），V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 d27b96fa893b
+=== 2026-10-19 00:51:55 CST Tier 1 ep11 t1-ep11-w2048-cap10m-r3a-c10-s44-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 901（导出 901），checkpoint 相同
+=== 2026-10-19 00:51:55 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+## 导出结果表 runs/exports/cand_t1_t1c_s44_ml40.tsv
+tier	episode	run	step	status	json	parquet	json_sha256	parquet_sha256
+1	11	t1-ep11-w2048-cap10m-r3a-c10-s44-ml40	349999104	ok	runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/export_8c778f9/s349999104_w1/episode_000011.json	runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/export_8c778f9/s349999104_w1/episode_000011.parquet	122f90b36c680d80feb4ebc28be6f5d29a8d05ea1c2edb22d5b1610727ee4310	ec26301ae5e4c88f48c0f7b993d6504efae4ee50d34dcec19f1f47d488261a7d
+CHAIN_HEALTH_DONE
