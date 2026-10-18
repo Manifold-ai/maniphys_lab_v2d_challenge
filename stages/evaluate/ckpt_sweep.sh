@@ -2,11 +2,13 @@
 # 一集的 checkpoint 扫描：粗扫、细扫、按 MPPE 选点、导出（训练机上、仓库根执行；由 arm_after.sh 的 V2D_PRE_CMD 调用）。
 # 计划 agent-doc/plan-ep25-sweep-seeds-2026-10-18.md 第 2 节。评测与导出都用现成的链，本脚本只负责先后顺序：
 # 1. 粗扫：day2_eval_chain.sh - <粗扫表> <名字>_c（附加表 eval 行，4096 世界，记录 results/day2/eval_<run>_s<步数>.txt）。
-# 2. 细扫：ckpt_sweep_pick.py refine 写 runs/ckpt_sweep/<名字>_refine.tsv（每条 run 在 MPPE 最低那一步前后各补一份）；不空就
-#    day2_eval_chain.sh - <细扫表> <名字>_r。
-# 3. 选点：ckpt_sweep_pick.py final（经 record 落成 results/ckpt_sweep/<名字>_pick.txt），每档本机 MPPE 最低、低于上限的那一点写进
+# 2. 细扫：ckpt_sweep_pick.py refine 写 runs/ckpt_sweep/<名字>_refine.tsv（每条 run 选一步，前后各补一份）；不空就
+#    day2_eval_chain.sh - <细扫表> <名字>_r。选法：MPPE 不超过最低值 + 1 cm 的点里取步数最大的（ckpt_sweep_pick.py 的 choose）。
+# 3. 选点：ckpt_sweep_pick.py final（经 record 落成 results/ckpt_sweep/<名字>_pick.txt），每档本机按同样的选法选一点，低于上限就写进
 #    runs/ckpt_sweep/<名字>_export.tsv。
 # 4. 导出：清单不空就 export_chain.sh <清单> <名字>_x（1 世界、check_export、候选条件；V2D_FALLBACK_MAX=0）。
+# 5. 只报：清单里每一点再跑一次逐世界 dump（fc_eval_dump.sh，4096 世界，results/ckpt_sweep/dump_<run>_s<步数>.txt），
+#    dump_knock.py 报物体平均位置误差超过 0.8 m 的世界比例（瓶子被带离很远的概率），results/ckpt_sweep/knock_<run>_s<步数>.txt。
 # 用法：V2D_FC_SRC=<8c778f9 副本> stages/evaluate/ckpt_sweep.sh <名字> <粗扫表> <MPPE 上限 cm>
 #   V2D_GPU_WAIT_S（默认 7200）原样交给两条链。V2D_SWEEP_DRYRUN=1：只核参数、表格与副本，打印将要执行的命令，不写任何文件。
 # 从开始到结束写长链标记 runs/.chain-active-<名字>（挡同步）。日志 runs/logs/<名字>.log，最后一行 CKPT_SWEEP_DONE（…）。
@@ -38,6 +40,7 @@ if [ "${V2D_SWEEP_DRYRUN:-0}" = 1 ]; then
   echo "DRYRUN 细扫：ckpt_sweep_pick.py refine $COARSE ${REF}，不空就 day2_eval_chain.sh - $REF ${NAME}_r"
   echo "DRYRUN 选点：ckpt_sweep_pick.py final $COARSE $EXL ${CAP}（记录 results/ckpt_sweep/${NAME}_pick.txt）"
   echo "DRYRUN 导出：清单不空就 V2D_FALLBACK_MAX=0 stages/evaluate/export_chain.sh $EXL ${NAME}_x"
+  echo "DRYRUN 只报：清单里每一点 fc_eval_dump.sh <run> <步数>，再 dump_knock.py"
   echo "CKPT_SWEEP_DRYRUN_OK"; exit 0
 fi
 mkdir -p runs/logs "$D"
@@ -66,11 +69,24 @@ fi
 pick=失败; xs=没导出
 if scripts/dev/record "ckpt_sweep/${NAME}_pick" python3 stages/evaluate/ckpt_sweep_pick.py final "$COARSE" "$EXL" "$CAP" < /dev/null; then
   pick="导出清单 $(grep -c . "$EXL" 2>/dev/null || echo 0) 行"
-  grep -E '^Tier [0-9]+ 本机 MPPE 最低' "results/ckpt_sweep/${NAME}_pick.txt"
+  grep -E '^Tier [0-9]+ 本机选点' "results/ckpt_sweep/${NAME}_pick.txt"
   if [ -s "$EXL" ]; then
     V2D_GPU_WAIT_S="$GW" V2D_FALLBACK_MAX=0 stages/evaluate/export_chain.sh "$EXL" "${NAME}_x" < /dev/null
     xs="$(tail -1 "runs/logs/${NAME}_x.log" 2>/dev/null | demark)"
   fi
 fi
-say "CKPT_SWEEP_DONE（粗扫 $(tail -1 "runs/logs/${NAME}_c.log" 2>/dev/null | demark | sed 's/^=== [^ ]* [^ ]* [^ ]* //')；选点 ${pick}；导出 ${xs:-没导出}）"
+
+nd=0
+if [ -s "$EXL" ]; then
+  while IFS=$'\t' read -r _ _ run step; do
+    [ -n "${run:-}" ] || continue
+    if scripts/dev/record "ckpt_sweep/dump_${run}_s${step}" stages/evaluate/fc_eval_dump.sh "$run" "$step" < /dev/null \
+       && scripts/dev/record "ckpt_sweep/knock_${run}_s${step}" python3 stages/evaluate/dump_knock.py "runs/flash_chord/$run/eval_dump/eval_${step}_w4096.npz" < /dev/null; then
+      nd=$((nd + 1)); say "只报：${run} 第 ${step} 步 $(grep -E '^平均位置误差超过' "results/ckpt_sweep/knock_${run}_s${step}.txt")"
+    else
+      say "只报：${run} 第 ${step} 步的逐世界 dump 没做成（不影响别的）"
+    fi
+  done < "$EXL"
+fi
+say "CKPT_SWEEP_DONE（粗扫 $(tail -1 "runs/logs/${NAME}_c.log" 2>/dev/null | demark | sed 's/^=== [^ ]* [^ ]* [^ ]* //')；选点 ${pick}；导出 ${xs:-没导出}；dump ${nd} 份）"
 exit 0

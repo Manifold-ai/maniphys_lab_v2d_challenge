@@ -6,10 +6,12 @@
 step_count 等于附加表这条 run 的帧数（回放只许 frame），checkpoint 指向这条 run 的这一步，四项指标都是有限的数。
 
 两个子命令：
-  refine <粗扫表> <细扫表输出>：粗扫表里的每条 run，在它全部合格评测里取 MPPE（metrics.mppe_cm）最低的一步，把 checkpoint 序列
+  refine <粗扫表> <细扫表输出>：粗扫表里的每条 run，在它全部合格评测里选一步（选法见下），把 checkpoint 序列
     （policy_<步数>.safetensors 按步数排）里紧挨着它的前后各一份、还没有合格评测的，写成细扫表（同样的格式）。没有要补的就写空表。
-  final <粗扫表> <导出清单输出> <MPPE 上限 cm>：按档位（run 名 t<档>-ep<N>-…）打印全部合格评测点，每档取 MPPE 最低的一点
-    （相同时取步数大的，再按 run 名）；它的 MPPE 低于上限就写进导出清单（档位 episode run 步数，export_chain.sh 的格式），否则这一档不写。
+  final <粗扫表> <导出清单输出> <MPPE 上限 cm>：按档位（run 名 t<档>-ep<N>-…）打印全部合格评测点，每档按同样的选法选一点；
+    它的 MPPE 低于上限就写进导出清单（档位 episode run 步数，export_chain.sh 的格式），否则这一档不写。
+选法（计划第 2.3 节 E1，复核第 4 条）：MPPE（metrics.mppe_cm）不超过最低值 + 1 cm 的点里取步数最大的，再按 MPPE、run 名。
+早期 checkpoint 多半一碰不碰、都落在“物体不动”的 49–50 cm 附近，彼此只差噪声；这时取训练得更久的那一份，不让噪声挑出没学会走路的策略。
 最后一行 CKPT_SWEEP_PICK_DONE。参数或表格不对时退出码 2。
 """
 
@@ -22,6 +24,7 @@ from pathlib import Path
 FC = Path("runs/flash_chord")
 RUN_RE = re.compile(r"^t([123])-ep([0-9]+)-[a-z0-9_-]+$")
 KEYS = (("AUC", "add_auc"), ("SP-SR", "spider_sr_uncentered"), ("MP-SR", "maniptrans_sr"), ("MPPE", "mppe_cm"))
+TOL_CM = 1.0
 
 
 def die(msg: str):
@@ -72,6 +75,13 @@ def qualified(run: str, frames: int) -> dict:
     return out
 
 
+def choose(points: list) -> tuple:
+    """points：[(run, 步数, 指标)]。MPPE 不超过最低值 + TOL_CM 的点里取步数最大的，再按 MPPE、run 名。"""
+    low = min(v["mppe_cm"] for _, _, v in points)
+    near = [p for p in points if p[2]["mppe_cm"] <= low + TOL_CM]
+    return min(near, key=lambda p: (-p[1], p[2]["mppe_cm"], p[0]))
+
+
 def refine(table: str, out: str):
     rows = []
     for run, frames in read_table(table).items():
@@ -79,12 +89,12 @@ def refine(table: str, out: str):
         if not q:
             print(f"{run}：没有合格评测，不细扫")
             continue
-        best = min(q, key=lambda s: (q[s]["mppe_cm"], -s))
+        best = choose([(run, s, q[s]) for s in q])[1]
         add = []
         if best in steps:
             i = steps.index(best)
             add = [s for s in (steps[i - 1] if i > 0 else None, steps[i + 1] if i + 1 < len(steps) else None) if s is not None and s not in q]
-        print(f"{run}：合格评测 {len(q)} 个，MPPE 最低在第 {best} 步（{q[best]['mppe_cm']:.2f} cm）；细扫补 {add if add else '无'}")
+        print(f"{run}：合格评测 {len(q)} 个，选第 {best} 步（{q[best]['mppe_cm']:.2f} cm，最低 {min(v['mppe_cm'] for v in q.values()):.2f} cm）；细扫补 {add if add else '无'}")
         rows += [f"eval\t{run}\t{s}\tframe\t{frames}" for s in add]
     Path(out).write_text("".join(r + "\n" for r in rows))
     print(f"细扫表 {out}：{len(rows)} 行")
@@ -102,9 +112,10 @@ def final(table: str, out: str, cap: float):
         print(f"== Tier {t}：合格评测点 {len(pts)} 个（4096 世界）")
         for run, ep, step, v in pts:
             print(f"  {run} 第 {step} 步：" + "  ".join(f"{n} {v[k]:.4f}" for n, k in KEYS))
-        run, ep, step, v = min(pts, key=lambda p: (p[3]["mppe_cm"], -p[2], p[0]))
+        run, step, v = choose([(p[0], p[2], p[3]) for p in pts])
+        ep = int(RUN_RE.match(run).group(2))
         ok = v["mppe_cm"] < cap
-        print(f"Tier {t} 本机 MPPE 最低：{run} 第 {step} 步，MPPE {v['mppe_cm']:.2f} cm（上限 {cap:g} cm，{'导出' if ok else '不导出'}）")
+        print(f"Tier {t} 本机选点：{run} 第 {step} 步，MPPE {v['mppe_cm']:.2f} cm（本档最低 {min(p[3]['mppe_cm'] for p in pts):.2f} cm，最低 + {TOL_CM:g} cm 内取步数最大；上限 {cap:g} cm，{'导出' if ok else '不导出'}）")
         if ok:
             rows.append(f"{t}\t{ep}\t{run}\t{step}")
     Path(out).write_text("".join(r + "\n" for r in rows))
