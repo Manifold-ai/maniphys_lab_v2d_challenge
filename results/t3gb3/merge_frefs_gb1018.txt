@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/merge_frefs_t3.py --out runs/submission/gb1018/frefs --take-plain runs/submission/gb1018/frefs_new=0\,6\,7\,8\,20 --take runs/submission/kfix1017/frefs=1\,2\,3\,4\,5\,9\,10\,11\,12\,13\,14\,15\,16\,17\,18\,19\,21\,22\,23\,24\,25\,26\,27\,28\,29 
+# md5      : ce3548f36c323cb051b5ae28f02034f9  stages/evaluate/merge_frefs_t3.py
+# source   : 1178467d6fca
+# host     : Mac
+# run_at   : 2026-10-18T11:39:29-0400
+# ---------------------------------------------------------------
+合并 30 集 → runs/submission/gb1018/frefs：frefs 25 集；frefs_new 5 集
+MERGE_FREFS_OK 30

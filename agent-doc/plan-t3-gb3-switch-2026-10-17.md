@@ -213,3 +213,12 @@ g. `stages/recovery/t3_gb3_feet.sh`（第 2 版新加）：在 ml40 上用另一
 - 17:22 ml40：`fc_config_check.sh` 8 份意外差异 0、`precheck_expect.sh` 4 条全过（`results/ml40/t3gb3/cfgcheck_t3qg_ml40.txt`、`precheck_t3qg_ml40.txt`）。
   17:23 `runs/tools/arm_after.sh`（md5 07173c9b…）挂上 t3qg，等 t1c_s43 的链结束、卡空（`results/t3gb3/arm_after_t3qg_launch_ml40.txt`，
   日志 `runs/logs/arm_after_t3qg_ml40.log`）；读数等待进程同时挂上（日志 `runs/logs/after_switch_t3qg_ml40.log`）。
+- 10/18 上午（第 4 节）：规则 S 判换 ep0、6、7、8、20（ep22 达标，要 rxzhou 点头），不换 ep21、29。选择清单 `stages/evaluate/exports/t3_select_gb1018.tsv`
+  （kfix1017 的 30 行换 5 集）与 `t3_select_gb1018e22.tsv`（另换 ep22）；6 集的导出按 sha256 拉回（`results/t3gb3/pull_select_gb1018.txt`），帧参考在各自机器的
+  容器里按 run 记录的 gb3 参考生成（`results/t3gb3/frame_refs_gb1018_{mf4090,ml40}.txt`，FRAME_REFS_T3_OK 3 + 3），与 kfix1017 其余各集的帧参考合并
+  （新的一侧 --take-plain，`results/t3gb3/merge_frefs_gb1018{,e22}.txt`）；轨迹目录只换这几集（`results/t3gb3/t3dir_gb1018{,e22}.txt`）。
+  打包与预演都过：`runs/submission/csv/track2_tier3_gb1018.csv`（sha256 2e7ac77d…）、`track2_tier3_gb1018e22.csv`（dc376a2b…），提交链接 1178467；
+  与 kfix1017 的 CSV 逐行比，内容不同的恰好是换的集（`results/t3gb3/csvdiff_gb1018{,e22}_vs_kfix1017.txt`）。
+- 逐集并列（`results/t3gb3/switch_table_gb1018.txt`，对照各自的重建参考）：ep0 的 gb3 run 导出那 1 局 SP 0、MP 0、MPPE 25.73 cm（现选那条 1 / 1 / 2.25 cm），
+  而它的 4096 世界 SP-SR 0.936、MP-SR 0.916，是导出抽样的坏运气；其余几集导出的成败与现选相同（ep7、8、22 都是 1 / 1，ep6、20 都是 1 / 0）。
+  ep0 这一局若在真值上也偏这么多，单这一集会让 Tier 3 MPPE 高约 0.8 cm（23.5 / 30），与 G3 的 τ = 1.0 cm 同量级，会让读数偏向“看不清”。不提交；交不交、交哪份由 rxzhou 定。

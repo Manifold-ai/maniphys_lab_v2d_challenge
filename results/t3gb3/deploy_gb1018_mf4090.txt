@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/evaluate/exports/t3_select_gb1018_new.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 555f5d466fabcedabc04db6ef470ef0f  stages/evaluate/exports/t3_select_gb1018_new.tsv
+# source   : 1178467d6fca
+# host     : Mac
+# run_at   : 2026-10-18T11:37:01-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 1178467d6fca；远端来历 a172f14b80bd
+  ok   555f5d466fabcedabc04db6ef470ef0f  stages/evaluate/exports/t3_select_gb1018_new.tsv
+远端来历（放完）a172f14b80bd
+PUSH_OK（1 个文件）

@@ -1,0 +1,8 @@
+# command  : stages/evaluate/fc_export.sh t2-ep4-w2048-cap10m-r3o-ml40 349999104 
+# md5      : 535a23264b00285e8f7014ef4cfb3f07  stages/evaluate/fc_export.sh
+# source   : e396fde1b00a
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-17T03:40:54+0800
+# ---------------------------------------------------------------
+stages/evaluate/fc_export.sh: line 83: runs/logs/t2-ep4-w2048-cap10m-r3o-ml40.export_8c778f9_s349999104_w1.log: No such file or directory
+=== 2026-10-17 03:40:54 CST fc_export t2-ep4-w2048-cap10m-r3o-ml40 policy_349999104 episode 4 world_count=1 traj=1 ===

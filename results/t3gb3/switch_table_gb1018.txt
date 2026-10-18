@@ -1,0 +1,18 @@
+# command  : python3 stages/evaluate/t3_switch_table.py runs/submission/kfix1017/t3 runs/submission/gb1018/t3_new results/t3gb3/switch_t3pg_mf4090.txt results/ml40/t3gb3/switch_t3qg_ml40.txt 
+# md5      : d4dc71653f78867b5a9e14e34e1517a4  stages/evaluate/t3_switch_table.py
+# md5      : 63a1e6558ab44228fafbef2a316b39ca  results/t3gb3/switch_t3pg_mf4090.txt
+# md5      : 8db41fb2b2a1d994df9e5d74db467a01  results/ml40/t3gb3/switch_t3qg_ml40.txt
+# source   : 1178467d6fca-dirty
+# host     : Mac
+# run_at   : 2026-10-18T11:41:04-0400
+# ---------------------------------------------------------------
+集	判	现选 run	4096 世界 MPPE / SP-SR / MP-SR	导出 SP / MP / MPPE / AUC	候选 run	4096 世界 MPPE / SP-SR / MP-SR / AUC	导出 SP / MP / MPPE / AUC
+ep0	换	t3-ep0-w2048-cap4m-r3a-v2-mf4090	2.60 / 0.9920 / 0.9650	1 / 1 / 2.25 / 0.604	t3-ep0-w2048-cap4m-r3a-gb3-mf4090	3.98 / 0.9358 / 0.9160 / 0.629	0 / 0 / 25.73 / 0.443
+ep6	换	t3-ep6-w2048-cap10m-r3a-hm-ml40	3.79 / 0.9780 / 0.1980	1 / 0 / 3.34 / 0.634	t3-ep6-w2048-cap10m-r3a-gb3-ml40	3.77 / 0.9758 / 0.0713 / 0.625	1 / 0 / 3.35 / 0.657
+ep7	换	t3-ep7-w2048-cap10m-r3a-hm-ml40	2.11 / 0.9970 / 0.9960	1 / 1 / 2.01 / 0.800	t3-ep7-w2048-cap10m-r3a-gb3-ml40	2.37 / 0.9910 / 0.9902 / 0.752	1 / 1 / 1.93 / 0.763
+ep8	换	t3-ep8-w2048-cap10m-r3a-hm-ml40	2.32 / 0.9990 / 0.9980	1 / 1 / 2.31 / 0.783	t3-ep8-w2048-cap10m-r3a-gb3-ml40	1.61 / 0.9934 / 0.9924 / 0.844	1 / 1 / 1.41 / 0.849
+ep20	换	t3-ep20-w2048-cap4m-r3a-v2s-mf4090	5.77 / 0.8911 / 0.0046	1 / 0 / 3.93 / 0.527	t3-ep20-w2048-cap4m-r3a-gb3-mf4090	4.01 / 0.8923 / 0.8606 / 0.686	1 / 0 / 3.27 / 0.619
+ep21	不换	t3-ep21-w2048-cap4m-r3a-hm-mf4090	8.96 / 0.8760 / 0.5010	1 / 1 / 2.89 / 0.619	t3-ep21-w2048-cap4m-r3a-gb3-mf4090	28.28 / 0.5745 / 0.0000 / 0.350	（没拉回）
+ep22	换	t3-ep22-w2048-cap4m-r3a-v2-mf4090	3.70 / 0.9800 / 0.9540	1 / 1 / 2.70 / 0.565	t3-ep22-w2048-cap4m-r3a-gb3-mf4090	2.03 / 0.9922 / 0.9858 / 0.807	1 / 1 / 1.63 / 0.801
+ep29	不换	t3-ep29-w2048-cap4m-r3a-v2-mf4090	8.00 / 0.7130 / 0.0000	1 / 0 / 5.48 / 0.355	t3-ep29-w2048-cap10m-r3a-gb3-ml40	31.39 / 0.0000 / 0.0000 / 0.214	（没拉回）
+T3_SWITCH_TABLE_DONE

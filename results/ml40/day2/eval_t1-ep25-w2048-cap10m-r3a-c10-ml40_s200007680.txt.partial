@@ -1,0 +1,6 @@
+# command  : stages/policy/fc_eval.sh t1-ep25-w2048-cap10m-r3a-c10-ml40 200007680 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T21:30:11+0800
+# ---------------------------------------------------------------

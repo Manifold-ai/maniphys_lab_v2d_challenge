@@ -182,3 +182,8 @@ env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=1440
 - 现在交的两条 ep25 的逐世界 dump（`dump_knock.py`，只读已有文件）：Tier 2 t2-ep25-w2048-cap4m-mf4090 物体平均位置误差超过 0.8 m 的世界 0.9990
   （中位 1.151 m）；Tier 1 t1-ep25-w2048-cap10m-ml40 0.9998（中位 1.119 m）。碰掉瓶子几乎发生在每个世界（`knock_check_*`）。
 - 时间更正：10/17 晚上的榜单快照实际在 23:35 MDT 拍（Mac 时钟是 EDT），原名 `leaderboard_1018_0215.txt` 改为 `leaderboard_1017_2335.txt`，名次和按新名字重算，数不变。
+- 10/18 07:02（mf4090）、08:28 MDT（ml40）：两台的扫描做完，粗扫与细扫评测全部成功（mf4090 18 份、ml40 28 份粗扫加细扫，`runs/logs/ckpt25_<机器>_{c,r}.log`），
+  两台都没有低于 100 cm 的点、导出清单 0 行；arm_after 随后起了 t1xb_s44（07:02）与 t1c_s44（08:28）。
+- E1（跨两台合并，`results/ckpt_sweep/ckpt25_mf4090_pick.txt`、`results/ml40/ckpt_sweep/ckpt25_ml40_pick.txt`）：Tier 1 最低 103.13 cm（mf4090 r3o 第 50001920 步），
+  1 cm 内取步数最大选到第 60002304 步 103.68 cm；Tier 2 最低 105.16 cm（ml40 r3o 第 260009984 步），1 cm 内只有它。两档都不低于 100 cm，按 E4 判“没用”：
+  ep25 不再在现有 checkpoint 里找。从第 20000768 步到最终，评过的每一份都在 103 cm 以上，说明训练早期的策略就会碰到瓶子；要改善 ep25 得另找原因、另写计划。
