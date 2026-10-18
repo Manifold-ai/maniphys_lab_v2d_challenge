@@ -221,19 +221,37 @@
    "status": "candidate",
    "date": "10-17",
    "from": "best",
-   "purpose": "per-episode pick as best (same selection), every convert dir re-expressed under the calibrated intrinsics GB (f 866.3, cx 701.8, cy 531.1, rxzhou ceiling grid) on all three cameras, floor_fit_gb3 (main 1.222 deg / 0.984; second camera scale 0.949 from t3_register_check.py), camera_register_gb3 (second 181.38 deg; ep21 its 10-12 tripod pair, GB on evidence insufficient but tested); made by t3_gb_chain.sh"
+   "purpose": "per-episode pick as best (same selection), every convert dir re-expressed under the calibrated intrinsics GB (f 866.3, cx 701.8, cy 531.1, rxzhou ceiling grid) on all three cameras, floor_fit_gb3 (main 1.222 deg / 0.984; second camera scale 0.949 from t3_register_check.py), camera_register_gb3 (second 181.38 deg; ep21 its 10-12 tripod pair, GB on evidence insufficient but tested); made by t3_gb_chain.sh Superseded 10-18 by the gb4 regeneration; left in place under its name (user 10-18: rxzhou already copied the gb3 delivery, so the fix took a new name instead of replacing it)."
   },
   "tier3_cari4d_gb_best_dr2s": {
    "status": "candidate",
    "date": "10-17",
    "from": "tier3_cari4d_gb_best",
-   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb_best with supports runs/support/tier3_cari4d_gb_best"
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb_best with supports runs/support/tier3_cari4d_gb_best Superseded 10-18 by the gb4 regeneration; left in place under its name (user 10-18: rxzhou already copied the gb3 delivery, so the fix took a new name instead of replacing it)."
   },
   "tier3_cari4d_gb_best_dr2s_dyn7": {
-   "status": "delivered",
+   "status": "kept",
    "date": "10-17",
    "from": "tier3_cari4d_gb_best_dr2s",
-   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; self-check 5 of 6 (ep16 image review failed); DELIVERED 10-17 by user decision with known issues: the focal step moves the body rigidly with the pelvis while the object follows the point map, so hands drift 1-6.5 cm from held objects (ep01, ep16 worst), to be fixed and regenerated under the same name (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md)"
+   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; self-check 5 of 6 (ep16 image review failed); DELIVERED 10-17 by user decision with known issues: the focal step moves the body rigidly with the pelvis while the object follows the point map, so hands drift 1-6.5 cm from held objects (ep01, ep16 worst), fixed in the gb4 regeneration (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md) Superseded as the delivery by tier3_cari4d_gb4_best_dr2s_dyn7 (10-18); kept in place, rxzhou has a copy."
+  },
+  "tier3_cari4d_gb4_best": {
+   "status": "candidate",
+   "date": "10-18",
+   "from": "best",
+   "purpose": "as gb_best (same selection, same GB intrinsics), with the focal step refitting instead of moving rigidly: the object Kabsch-fitted to its point-mapped surface, the body by SOMA PoseInversion (analytic + 20 autograd steps, hands and feet weight 5) to the point-mapped mesh (t3_convert_ep.py focal, e5ab7e5; body vertex p90 12.5 mm median, 23.0 max over 54 convert dirs); regenerated in an isolated root (dev/gbfix) and moved in as convert_*_gb4; floor_fit_gb4 (main 0.964 deg / 0.982, second camera 2.173 deg, scale 0.949), camera_register_gb4 (second 181.53 deg, ep21 84.94 deg); made by t3_gb_chain.sh gb4"
+  },
+  "tier3_cari4d_gb4_best_dr2s": {
+   "status": "candidate",
+   "date": "10-18",
+   "from": "tier3_cari4d_gb4_best",
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb4_best with supports runs/support/tier3_cari4d_gb4_best"
+  },
+  "tier3_cari4d_gb4_best_dr2s_dyn7": {
+   "status": "delivered",
+   "date": "10-18",
+   "from": "tier3_cari4d_gb4_best_dr2s",
+   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, f830 18263); DELIVERED 10-18 by user decision, known issue ep11: the human hand is on the book but our copy of the retarget leaves the robot right hand 3-5 cm off in 41 frames (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb4_best_dr2s_dyn7-2026-10-18.md)"
   }
  },
  "work": {
