@@ -1,11 +1,11 @@
-# command  : python3 stages/evaluate/track2_rank_sum.py results/submission/leaderboard_1018_0215.txt 
+# command  : python3 stages/evaluate/track2_rank_sum.py results/submission/leaderboard_1017_2335.txt 
 # md5      : 5d97cab1b5c4e35dc4b4ddc0a9f779be  stages/evaluate/track2_rank_sum.py
-# md5      : fd27c5357fb83b2aa3f7706c94a416ee  results/submission/leaderboard_1018_0215.txt
-# source   : bcd3330e1f70-dirty
+# md5      : fd27c5357fb83b2aa3f7706c94a416ee  results/submission/leaderboard_1017_2335.txt
+# source   : e96a0e0864e7
 # host     : Mac
-# run_at   : 2026-10-18T01:35:22-0400
+# run_at   : 2026-10-18T01:56:46-0400
 # ---------------------------------------------------------------
-快照 results/submission/leaderboard_1018_0215.txt；基线不计名次，同分按先提交者在前（Kaggle）
+快照 results/submission/leaderboard_1017_2335.txt；基线不计名次，同分按先提交者在前（Kaggle）
 Tier 1：auc maniphys.ai 3、Xueyi Wang (FF) 2；sp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mppe maniphys.ai 3、Xueyi Wang (FF) 1；名次和 maniphys.ai 10、Xueyi Wang (FF) 5
 Tier 2：auc maniphys.ai 1、Xueyi Wang (FF) 2；sp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mppe maniphys.ai 2、Xueyi Wang (FF) 1；名次和 maniphys.ai 5、Xueyi Wang (FF) 7
 Tier 3：auc maniphys.ai 2、Xueyi Wang (FF) 1；sp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mppe maniphys.ai 1、Xueyi Wang (FF) 2；名次和 maniphys.ai 6、Xueyi Wang (FF) 6

@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/evaluate/arm_ckpt25.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 7790d3ad52162eb847b34ab5a0e66374  stages/evaluate/arm_ckpt25.sh
+# source   : e96a0e0864e7
+# host     : Mac
+# run_at   : 2026-10-18T01:55:16-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 e96a0e0864e7；远端来历 d27b96fa893b
+  ok   7790d3ad52162eb847b34ab5a0e66374  stages/evaluate/arm_ckpt25.sh
+远端来历（放完）d27b96fa893b
+PUSH_OK（1 个文件）

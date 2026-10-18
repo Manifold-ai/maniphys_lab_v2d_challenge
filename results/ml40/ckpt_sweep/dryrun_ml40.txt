@@ -1,0 +1,13 @@
+# command  : env V2D_SWEEP_DRYRUN=1 bash -c V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/fc_8c778f9\ stages/evaluate/ckpt_sweep.sh\ ckpt25_ml40\ stages/evaluate/ckpt25_coarse_ml40.tsv\ 100 
+# md5      : 190c2b9d81957613292f4290074f7cf7  stages/evaluate/ckpt_sweep.sh
+# md5      : 9da966b14fab1add911508a0fcad6642  stages/evaluate/ckpt25_coarse_ml40.tsv
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T13:54:02+0800
+# ---------------------------------------------------------------
+DRYRUN 粗扫 28 份：V2D_GPU_WAIT_S=7200 stages/evaluate/day2_eval_chain.sh - stages/evaluate/ckpt25_coarse_ml40.tsv ckpt25_ml40_c
+DRYRUN 细扫：ckpt_sweep_pick.py refine stages/evaluate/ckpt25_coarse_ml40.tsv runs/ckpt_sweep/ckpt25_ml40_refine.tsv，不空就 day2_eval_chain.sh - runs/ckpt_sweep/ckpt25_ml40_refine.tsv ckpt25_ml40_r
+DRYRUN 选点：ckpt_sweep_pick.py final stages/evaluate/ckpt25_coarse_ml40.tsv runs/ckpt_sweep/ckpt25_ml40_export.tsv 100（记录 results/ckpt_sweep/ckpt25_ml40_pick.txt）
+DRYRUN 导出：清单不空就 V2D_FALLBACK_MAX=0 stages/evaluate/export_chain.sh runs/ckpt_sweep/ckpt25_ml40_export.tsv ckpt25_ml40_x
+DRYRUN 只报：清单里每一点 fc_eval_dump.sh <run> <步数>，再 dump_knock.py
+CKPT_SWEEP_DRYRUN_OK

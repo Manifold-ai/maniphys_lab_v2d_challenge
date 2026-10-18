@@ -1,0 +1,21 @@
+# command  : scripts/dev/push-new-files stages/evaluate/ckpt_sweep.sh stages/evaluate/ckpt_sweep_pick.py stages/evaluate/test_ckpt_sweep_pick.py stages/evaluate/dump_knock.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 190c2b9d81957613292f4290074f7cf7  stages/evaluate/ckpt_sweep.sh
+# md5      : 68eccc13a91870912217fdb8c74ac5bf  stages/evaluate/ckpt_sweep_pick.py
+# md5      : 152ec8d32c63f7be9de45a7435292adf  stages/evaluate/test_ckpt_sweep_pick.py
+# md5      : 73aa37943f47016002ba37ac6fc9a30f  stages/evaluate/dump_knock.py
+# source   : fddec7c1fcfe
+# host     : Mac
+# run_at   : 2026-10-18T01:53:17-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/ckpt_sweep.sh：远端是 bcd3330 的版本（e0ee8fbbf405f7aaead37d354886a940）
+  覆盖 stages/evaluate/ckpt_sweep_pick.py：远端是 bcd3330 的版本（7f0decb06b96a411711f9c002029ea9b）
+  覆盖 stages/evaluate/test_ckpt_sweep_pick.py：远端是 bcd3330 的版本（0e54c89e66639d23a9f8f4f96e2fb440）
+本地提交 fddec7c1fcfe；远端来历 d27b96fa893b
+  ok   190c2b9d81957613292f4290074f7cf7  stages/evaluate/ckpt_sweep.sh
+  ok   68eccc13a91870912217fdb8c74ac5bf  stages/evaluate/ckpt_sweep_pick.py
+  ok   152ec8d32c63f7be9de45a7435292adf  stages/evaluate/test_ckpt_sweep_pick.py
+  ok   73aa37943f47016002ba37ac6fc9a30f  stages/evaluate/dump_knock.py
+远端来历（放完）d27b96fa893b
+PUSH_OK（4 个文件）

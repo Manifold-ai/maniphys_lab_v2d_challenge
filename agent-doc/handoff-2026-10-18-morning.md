@@ -1,4 +1,4 @@
-# 交接：10/18 早上到下午，两台服务器上自己跑的事（2026-10-18 02:xx MDT，分支 track2/p1-training）
+# 交接：10/18 早上到下午，两台服务器上自己跑的事（2026-10-17 23:5x MDT，分支 track2/p1-training）
 
 Mac 可能随时断网：下面这些都在服务器上 setsid 后台跑，记录落在各自服务器的 `results/`，Mac 联网后用 `scripts/dev/pull-results`
 （ml40 加 `V2D_ENV=ml40`）拉回再提交。计划：`agent-doc/plan-ep25-sweep-seeds-2026-10-18.md` 第 2 版（判据已登记；独立复核 GO WITH FIXES，已按意见改，见计划文末）。起链命令原样在计划第 4 节。

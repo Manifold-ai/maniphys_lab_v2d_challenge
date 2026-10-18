@@ -1,6 +1,6 @@
 # 计划：ep25 的 checkpoint 扫描与 Tier 1 补 seed（10/18 白天两台的卡，第 2 版）
 
-2026-10-18 03:xx MDT，分支 track2/p1-training。第 1 版 bcd3330；第 2 版按独立复核（GO WITH FIXES）改，改了什么见文末“复核”。执行在两台训练机上自动接在 Tier 3 gb3 链后面（约 06:40 MDT 起）。
+2026-10-17 23:4x MDT 写定（服务器日志是北京时间，+14 小时），分支 track2/p1-training。第 1 版 bcd3330；第 2 版按独立复核（GO WITH FIXES）改，改了什么见文末“复核”。执行在两台训练机上自动接在 Tier 3 gb3 链后面（约 06:40 MDT 起）。
 判据都在结果出来之前登记在这里；结果出来后只按这里的规则判，规则要改就另起一版、写明原因。
 
 ## 0. 事实（都有记录）
@@ -12,11 +12,11 @@
 2. **物体一直不动时的数。** Tier 1 对真值 49.71 cm（`results/select_t1/t1_static_floor_c10s43.txt`）；Tier 2 对 Tier 2 自己的轨迹
    49.51 cm（`results/t2diag/t2_static_floor.txt`，净室）。现在交的导出：Tier 1 117.99 cm，Tier 2 115.88 cm（b1014 那份，对自己的参考）。
    两档各算各的，不互相比较：Tier 2 的判断只用 Tier 2 的数。
-3. **榜（10/17 20:50 快照 `results/submission/leaderboard_1017_2050.txt`；10/18 02:15 快照 `leaderboard_1018_0215.txt` 里这几个数没变）与要过的线（算术）。**
+3. **榜（10/17 20:50 快照 `results/submission/leaderboard_1017_2050.txt`；10/17 23:35 快照 `leaderboard_1017_2335.txt` 里这几个数没变）与要过的线（算术）。**
    - Tier 1 MPPE：Xueyi Wang (FF) 8.03204，DAP 12.65831，maniphys.ai 13.92082（第 3）。以 c10s43 清单（平均 13.827783，ep25 117.9944）为底，
      ep25 的导出 MPPE 要低于 117.9944 − (13.827783 − 12.65831) × 30 = **82.91 cm** 才能排到第 2。以 auc1017 清单（平均 14.905292，
      ep25 是 c10 那条的 131.5553）为底，要低于 131.5553 − (14.905292 − 12.65831) × 30 = **64.15 cm**；这份同时要保住 AUC 超过 FF 的 0.56422，
-     ep25 的导出 AUC 要高于约 0.073（auc1017 的 ep25 是 0.1322，余量 (0.566180 − 0.56422) × 30 = 0.0588）。10/18 02:15 的快照里一个新队
+     ep25 的导出 AUC 要高于约 0.073（auc1017 的 ep25 是 0.1322，余量 (0.566180 − 0.56422) × 30 = 0.0588）。10/17 23:35 的快照里一个新队
      （Vi Nguyễn Văn）在 Tier 1 AUC 交了 0.96908，只出现在这一个榜；所以超过 FF 现在是这个榜的第 2，我们与 FF 的相对名次照旧。
    - Tier 2 MPPE：FF 13.87967，maniphys.ai 15.32195（b1014，`stages/evaluate/exports/t2_select_b1014.tsv`）。真值合计要减
      (15.32195 − 13.87967) × 30 = **43.27 cm** 以上；按自己参考的代理量算，ep25 的导出要低于 115.88 − 43.27 = **72.61 cm**（代理量，不是真值）。
@@ -173,3 +173,12 @@ env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=1440
 5. （minor）删掉第 6 节拿 Tier 1 真值印证 Tier 2 代理量的那句；第 0 节注明两档各算各的。
 6. （nit）第 0 节补新队的 Tier 1 AUC 0.96908；第 3 节注明闸没过时 arm_after 的结局是预期的；第 2.2 节注明 9/30 那三份评测的运行时不同；
    交接里写明 ep25 的导出用 `pull_submission.sh select` 拉进新目录（`exports` 子命令遇到已有的 episode_000025 会拒绝）。
+
+## 执行记录
+
+- 10/17 23:55（mf4090）、23:56 MDT（ml40）：`arm_ckpt25.sh` 起完核过（ARMED_2），每台两个 arm_after 在等（`results/ckpt_sweep/arm_launch_{mf4090,ml40}.txt`）。
+  起之前：第 2 版测试两台都过（`tests_v2_*`）；原样前置命令的扫描预演 CKPT_SWEEP_DRYRUN_OK（`dryrun_*`）；两个闸现在跑是 `SEED_GATE FAIL 读不到…`（预期）；
+  四个新段冒烟与正式共 8 份 `runs/cfgcheck/<run>.yaml` 都在；配置核对意外差异 0、预检 PRECHECK_OK（`cfgcheck_*`、`precheck_*`）。ml40 的记录在 `results/ml40/ckpt_sweep/`。
+- 现在交的两条 ep25 的逐世界 dump（`dump_knock.py`，只读已有文件）：Tier 2 t2-ep25-w2048-cap4m-mf4090 物体平均位置误差超过 0.8 m 的世界 0.9990
+  （中位 1.151 m）；Tier 1 t1-ep25-w2048-cap10m-ml40 0.9998（中位 1.119 m）。碰掉瓶子几乎发生在每个世界（`knock_check_*`）。
+- 时间更正：10/17 晚上的榜单快照实际在 23:35 MDT 拍（Mac 时钟是 EDT），原名 `leaderboard_1018_0215.txt` 改为 `leaderboard_1017_2335.txt`，名次和按新名字重算，数不变。

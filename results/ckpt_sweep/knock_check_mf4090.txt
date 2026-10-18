@@ -1,0 +1,10 @@
+# command  : python3 stages/evaluate/dump_knock.py runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/eval_dump/eval_349999104_w4096.npz 
+# md5      : 73aa37943f47016002ba37ac6fc9a30f  stages/evaluate/dump_knock.py
+# md5      : 22203367ffb99467334efc37600e5d66  runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/eval_dump/eval_349999104_w4096.npz
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T13:53:44+0800
+# ---------------------------------------------------------------
+runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/eval_dump/eval_349999104_w4096.npz：4096 个世界；物体平均位置误差 中位 1.151 m，四分位 1.112 / 1.203 m，最小 0.673、最大 5.005 m
+平均位置误差超过 0.8 m 的世界 0.9990；SP 成功 0.0000，MP 成功 0.0000
+DUMP_KNOCK_DONE

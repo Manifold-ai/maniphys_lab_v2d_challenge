@@ -1,0 +1,12 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/ml40_t1c_s44.expect.tsv stages/policy/queues/ml40_t1c_s44_smoke.txt stages/policy/queues/ml40_t1c_s44.txt 
+# md5      : 8cb6aaac0eedaa2341f5e4add86fbb2e  stages/policy/precheck_expect.sh
+# md5      : f59ab2cd438c0133f8c71c3f799dd451  stages/policy/queues/ml40_t1c_s44.expect.tsv
+# md5      : 118f36f91925a2c4f320ad06d1a89ce3  stages/policy/queues/ml40_t1c_s44_smoke.txt
+# md5      : c6865cdf012a945025a37a275aaba534  stages/policy/queues/ml40_t1c_s44.txt
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T13:33:57+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.yaml：11 条断言，全过
+PRECHECK_OK（1 条 run）

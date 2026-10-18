@@ -1,0 +1,12 @@
+# command  : python3 stages/evaluate/test_ckpt_sweep_pick.py 
+# md5      : 152ec8d32c63f7be9de45a7435292adf  stages/evaluate/test_ckpt_sweep_pick.py
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T13:53:43+0800
+# ---------------------------------------------------------------
+ok test_refine_and_final
+ok test_bad_table
+ok test_seed_gate
+ok test_dump_knock
+ok test_sweep_chain
+TEST_CKPT_SWEEP_PICK_OK

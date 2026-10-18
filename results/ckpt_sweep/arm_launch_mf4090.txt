@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ stages/evaluate/arm_ckpt25.sh\ stages/evaluate/ckpt_sweep.sh\ stages/evaluate/ckpt_sweep_pick.py\ stages/evaluate/seed_gate.py\ stages/evaluate/dump_knock.py\ \&\&\ bash\ stages/evaluate/arm_ckpt25.sh\ mf4090 
+# md5      : 7790d3ad52162eb847b34ab5a0e66374  stages/evaluate/arm_ckpt25.sh
+# md5      : 190c2b9d81957613292f4290074f7cf7  stages/evaluate/ckpt_sweep.sh
+# md5      : 68eccc13a91870912217fdb8c74ac5bf  stages/evaluate/ckpt_sweep_pick.py
+# md5      : b6360b9b8bb99c2c20018f8add4565da  stages/evaluate/seed_gate.py
+# md5      : 73aa37943f47016002ba37ac6fc9a30f  stages/evaluate/dump_knock.py
+# md5      : 7790d3ad52162eb847b34ab5a0e66374  stages/evaluate/arm_ckpt25.sh
+# source   : e96a0e0864e7
+# host     : Mac
+# run_at   : 2026-10-18T01:55:41-0400
+# ---------------------------------------------------------------
+7790d3ad52162eb847b34ab5a0e66374  stages/evaluate/arm_ckpt25.sh
+190c2b9d81957613292f4290074f7cf7  stages/evaluate/ckpt_sweep.sh
+68eccc13a91870912217fdb8c74ac5bf  stages/evaluate/ckpt_sweep_pick.py
+b6360b9b8bb99c2c20018f8add4565da  stages/evaluate/seed_gate.py
+73aa37943f47016002ba37ac6fc9a30f  stages/evaluate/dump_knock.py
+第一个：env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_AFTER_INDEPENDENT=1 V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=720 V2D_PRE_TIMEOUT_S=28800 V2D_PRE_CMD=V2D_FC_SRC=\$HOME/v2d/fc_src/fc_8c778f9\ stages/evaluate/ckpt_sweep.sh\ ckpt25_mf4090\ stages/evaluate/ckpt25_coarse_mf4090.tsv\ 100 setsid nohup bash runs/tools/arm_after.sh t1xb_s44 runs/logs/t3pg_train_mf4090.log runs/logs/t3pg_eval_mf4090.log runs/logs/cand_t3_t3pg_mf4090.log 4 > runs/logs/arm_after_t1xb_s44_mf4090.log
+第二个：env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=1440 V2D_PRE_CMD=python3\ stages/evaluate/seed_gate.py\ t1-ep14-w2048-cap4m-r3a-s44-mf4090\ 14\ maniptrans_sr\ 0.3 setsid nohup bash runs/tools/arm_after.sh t1xb_s45 runs/logs/t1xb_s44_train_mf4090.log runs/logs/t1xb_s44_eval_mf4090.log runs/logs/cand_t1_t1xb_s44_mf4090.log 1 > runs/logs/arm_after_t1xb_s45_mf4090.log
+=== 2026-10-18 13:55:46 CST 等 runs/.chain-active-* 都消失、runs/logs/t3pg_train_mf4090.log 与 runs/logs/t3pg_eval_mf4090.log 写完最后一行，再起 t1xb_s44；前置命令：V2D_FC_SRC=$HOME/v2d/fc_src/fc_8c778f9 stages/evaluate
+=== 2026-10-18 13:55:46 CST 来历与 t1xb_s44 的队列：a172f14b80bd bfc060a0a566fe9141955e7c14f2c76d  stages/policy/queues/mf4090_t1xb_s44.expect.tsv 74a2df911ba943ea4575f360e4fa2ac1  stages/policy/queues/mf4090_t1xb_s44.txt f49e40b55f3
+=== 2026-10-18 13:55:46 CST 等 runs/.chain-active-* 都消失、runs/logs/t1xb_s44_train_mf4090.log 与 runs/logs/t1xb_s44_eval_mf4090.log 写完最后一行，再起 t1xb_s45；前置命令：python3 stages/evaluate/seed_gate.py t1-ep14-w
+=== 2026-10-18 13:55:46 CST 来历与 t1xb_s45 的队列：a172f14b80bd 53474b855f5d810415f548122a224f69  stages/policy/queues/mf4090_t1xb_s45.expect.tsv 9cb110a10988d1a506cd71dab74d6157  stages/policy/queues/mf4090_t1xb_s45.txt 9c5954e1393
+ARMED_2
