@@ -1,0 +1,26 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier3_gb1018e22.csv --track track_2_tier3 -m Tier\ 3\ gb1018e22:\ ep0\,\ 6\,\ 7\,\ 8\,\ 20\,\ 22\ retrained\ on\ the\ calibrated-intrinsics\ \(gb3\)\ reference --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 5f03711353c03c585d04d92ae37c38b3  runs/submission/csv/track2_tier3_gb1018e22.csv
+# source   : c2dc9fbac355-dirty
+# host     : Mac
+# run_at   : 2026-10-18T12:47:00-0400
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier3_gb1018e22.csv: 22,989 rows over 30 episodes, 12,130,888 B - looks valid
+Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction): 4 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier3-auc           5 left today
+  spider_sr        v2d-challenge-track2-tier3-sp-sr         5 left today
+  maniptrans_sr    v2d-challenge-track2-tier3-mp-sr         5 left today
+  mppe_cm          v2d-challenge-track2-tier3-mppe          5 left today
+Receipt: runs/submission/csv/track2_tier3_gb1018e22.csv.c9d76d8914d0.kaggle-receipt.json
+
+  add_auc          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - AUC (submission 57361899)
+  spider_sr        ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - SP-SR (submission 57361900)
+  maniptrans_sr    ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MP-SR (submission 57361901)
+  mppe_cm          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MPPE (cm) (submission 57361903)
+
+Waiting for scores...
+  add_auc          COMPLETE 0.10649 (submission 57361899)
+  spider_sr        COMPLETE 0.26666 (submission 57361900)
+  mppe_cm          COMPLETE 54.98984 (submission 57361903)
+  maniptrans_sr    COMPLETE 0.00000 (submission 57361901)
+Receipt: runs/submission/csv/track2_tier3_gb1018e22.csv.c9d76d8914d0.kaggle-receipt.json

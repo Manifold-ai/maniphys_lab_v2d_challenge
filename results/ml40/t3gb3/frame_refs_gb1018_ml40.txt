@@ -1,0 +1,13 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/make_frame_refs_t3.py\ stages/evaluate/exports/t3_select_gb1018_new.tsv\ ml40\ --out\ runs/submission/frame_refs_t3_gb1018 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e9d30857bace9098eebaec2286aa4926  stages/evaluate/make_frame_refs_t3.py
+# md5      : 555f5d466fabcedabc04db6ef470ef0f  stages/evaluate/exports/t3_select_gb1018_new.tsv
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T23:38:53+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考：ml40（VM-0-16-ubuntu）上 3 集（清单另有 3 集在别的机器）→ runs/submission/frame_refs_t3_gb1018（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep6  t3-ep6-w2048-cap10m-r3a-gb3-ml40：tier3_gb3/2026-06-01_11-26-44_monitor_rotate_05，546 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep7  t3-ep7-w2048-cap10m-r3a-gb3-ml40：tier3_gb3/2026-05-29_15-20-43_iron_round_table_02，896 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep8  t3-ep8-w2048-cap10m-r3a-gb3-ml40：tier3_gb3/2026-06-05_15-08-08_skinny_wood_chair_push_10，708 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.1e-15，四元数转回矩阵最大差 8.9e-16
+FRAME_REFS_T3_OK 3

@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-18-t3-gb1018e22.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 5aae3f8619fd9cd8fb08e0461850d4b1  agent-doc/experiments/2026-10-18-t3-gb1018e22.claims.json
+# source   : c2dc9fbac355-dirty
+# host     : Mac
+# run_at   : 2026-10-18T12:46:41-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+pack                 P(supported)=0.75  verified               [pack, dry]  gb1018e22 的 CSV 有 22989 行，sha256 以 dc376a2b 开头，帧参考 30 个逐集核对通过，打包 PACK_OK，上传预演 looks valid、没有提交。
+diff                 P(supported)=0.98  verified               [diff]  gb1018e22 与 kfix1017 的 CSV 行号逐行相同，内容不同的恰好是 ep0、6、7、8、20、22。
+ruleS                P(supported)=0.95  verified               [sw_mf, sw_ml]  规则 S 判 ep22 换：新 MPPE 2.03 cm、SP-SR 0.9922，现选 MPPE 3.70 cm；ep0、ep20、ep6、ep8、ep7 也判换。
+ep22_export          P(supported)=0.95  verified               [table]  ep22 的 gb3 run 导出那 1 局 SP 与 MP 都成功、MPPE 1.63 cm，现选那条也都成功、MPPE 2.70 cm。
+ep0_export           P(supported)=0.94  verified               [table]  ep0 的 gb3 run 导出那 1 局 SP 与 MP 都失败、MPPE 25.73 cm，现选那条都成功、MPPE 2.25 cm。
+feet22               P(supported)=0.91  verified               [feet]  人脚记录里 convert_gb3 一族的 ep22 feet_world_m 是 −0.0371，convert_v2_gb3 一族的是 −0.0377，两者相差不到 0.001 m。
+ctl_true             P(supported)=0.99  control(true) ok       [diff]  两份 CSV 都是 22989 行。
+ctl_false            P(supported)=0.01  control(false) ok      [sw_mf]  规则 S 判 ep22 不换。
+ctl_false2           P(supported)=0.02  control(false) ok      [table]  ep0 的 gb3 run 导出那 1 局 SP 与 MP 都成功。
+controls behaved as expected

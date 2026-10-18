@@ -1,0 +1,12 @@
+# command  : stages/evaluate/relay_t1x.sh t1xb_s44 runs/select_t1_c10 
+# md5      : aaf993c4f7e0d908a5008116b3fc2fab  stages/evaluate/relay_t1x.sh
+# source   : c2dc9fbac355-dirty
+# host     : Mac
+# run_at   : 2026-10-18T12:50:20-0400
+# ---------------------------------------------------------------
+stage_t1_candidates: 抄了 1 个候选到 runs/select_t1_t1xb_s44_stage/cand（1 个 run 目录）
+候选 76 个，结果表 13 张
+这一段的新候选（run、导出状态）：
+run	status
+t1-ep14-w2048-cap4m-r3a-s44-mf4090	ok
+RELAY_DONE

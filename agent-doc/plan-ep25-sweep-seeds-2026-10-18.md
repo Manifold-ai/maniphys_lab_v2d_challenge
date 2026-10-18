@@ -187,3 +187,8 @@ env -u V2D_SWEEP_DRYRUN -u V2D_ARM_DRYRUN V2D_POLL_S=60 V2D_AFTER_MAX_POLLS=1440
 - E1（跨两台合并，`results/ckpt_sweep/ckpt25_mf4090_pick.txt`、`results/ml40/ckpt_sweep/ckpt25_ml40_pick.txt`）：Tier 1 最低 103.13 cm（mf4090 r3o 第 50001920 步），
   1 cm 内取步数最大选到第 60002304 步 103.68 cm；Tier 2 最低 105.16 cm（ml40 r3o 第 260009984 步），1 cm 内只有它。两档都不低于 100 cm，按 E4 判“没用”：
   ep25 不再在现有 checkpoint 里找。从第 20000768 步到最终，评过的每一份都在 103 cm 以上，说明训练早期的策略就会碰到瓶子；要改善 ep25 得另找原因、另写计划。
+- 乙的结果：ep14 seed 44 09:40 导出完，导出那 1 局 SP 1、MP 1、MPPE 3.04 cm（4096 世界 MP-SR 0.485），闸判“导出已成功”，不训 s45；
+  ep11 seed 44 10:52 导出完，导出那 1 局 SP 1、MP 0、MPPE 3.56 cm（4096 世界 SP-SR 0.784），闸同样判“导出已成功”。两台的卡 09:40、10:52 起空着。
+- S2：ml40 上按登记的规则（select_t1，现在的清单 c10s43，打分门 c10s43 的合计）在 77 个候选里选，换的正是 ep11、ep14，打包 t1x1018：本地 AUC 0.582582、
+  SP-SR 0.833333、MP-SR 0.700000、MPPE 11.866610（`results/ml40/select_t1/select_t1x1018.txt`）。以 auc1017 为底再换这两集的话 AUC 约高 0.004、
+  MPPE 约 12.94 cm，过不了 DAP 的 12.65831；登记规则选出来的这份四项都更有利，所以交它，auc1017 不再交。

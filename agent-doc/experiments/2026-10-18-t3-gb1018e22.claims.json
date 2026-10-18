@@ -1,0 +1,103 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "pack": {
+   "file": "results/submission/pack/t3_gb1018e22.txt",
+   "grep": "sha256|PACK_OK|帧参考"
+  },
+  "dry": {
+   "file": "results/submission/pack/t3_gb1018e22_dryrun.txt",
+   "grep": "rows over|dry-run"
+  },
+  "diff": {
+   "file": "results/t3gb3/csvdiff_gb1018e22_vs_kfix1017.txt",
+   "grep": "^行数|^逐行|^内容不同|^不同的|CSV_EPISODE"
+  },
+  "sw_mf": {
+   "file": "results/t3gb3/switch_t3pg_mf4090.txt",
+   "grep": "^ep|GB3_SWITCH"
+  },
+  "sw_ml": {
+   "file": "results/ml40/t3gb3/switch_t3qg_ml40.txt",
+   "grep": "^ep|GB3_SWITCH"
+  },
+  "table": {
+   "file": "results/t3gb3/switch_table_gb1018.txt",
+   "grep": "^集|^ep22|^ep0"
+  },
+  "feet": {
+   "file": "results/ml40/t3gb3/feet_gb3_ml40.txt",
+   "grep": "^== |ep22_step_ladder"
+  }
+ },
+ "claims": [
+  {
+   "id": "pack",
+   "evidence": [
+    "pack",
+    "dry"
+   ],
+   "claim": "gb1018e22 的 CSV 有 22989 行，sha256 以 dc376a2b 开头，帧参考 30 个逐集核对通过，打包 PACK_OK，上传预演 looks valid、没有提交。"
+  },
+  {
+   "id": "diff",
+   "evidence": [
+    "diff"
+   ],
+   "claim": "gb1018e22 与 kfix1017 的 CSV 行号逐行相同，内容不同的恰好是 ep0、6、7、8、20、22。"
+  },
+  {
+   "id": "ruleS",
+   "evidence": [
+    "sw_mf",
+    "sw_ml"
+   ],
+   "claim": "规则 S 判 ep22 换：新 MPPE 2.03 cm、SP-SR 0.9922，现选 MPPE 3.70 cm；ep0、ep20、ep6、ep8、ep7 也判换。"
+  },
+  {
+   "id": "ep22_export",
+   "evidence": [
+    "table"
+   ],
+   "claim": "ep22 的 gb3 run 导出那 1 局 SP 与 MP 都成功、MPPE 1.63 cm，现选那条也都成功、MPPE 2.70 cm。"
+  },
+  {
+   "id": "ep0_export",
+   "evidence": [
+    "table"
+   ],
+   "claim": "ep0 的 gb3 run 导出那 1 局 SP 与 MP 都失败、MPPE 25.73 cm，现选那条都成功、MPPE 2.25 cm。"
+  },
+  {
+   "id": "feet22",
+   "evidence": [
+    "feet"
+   ],
+   "claim": "人脚记录里 convert_gb3 一族的 ep22 feet_world_m 是 −0.0371，convert_v2_gb3 一族的是 −0.0377，两者相差不到 0.001 m。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "diff"
+   ],
+   "claim": "两份 CSV 都是 22989 行。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "sw_mf"
+   ],
+   "claim": "规则 S 判 ep22 不换。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "table"
+   ],
+   "claim": "ep0 的 gb3 run 导出那 1 局 SP 与 MP 都成功。",
+   "control": "false"
+  }
+ ]
+}

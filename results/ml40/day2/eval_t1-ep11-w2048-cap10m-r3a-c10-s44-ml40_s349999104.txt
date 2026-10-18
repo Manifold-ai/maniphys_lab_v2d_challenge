@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-19T00:44:47+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep11-w2048-cap10m-r3a-c10-s44-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/policy_349999104.safetensors  sha256 74cb29e654ef13a1…
+  environment_steps 349999104  world_count 4096  step_count 901  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.529628012738667
+  chord_sr                                       0.673095703125
+  maniptrans_sr                                  0.019287109375
+  spider_sr_uncentered                           0.7841796875
+  mppe_cm                                        9.846921772417813
+  mean_add_m                                     0.10590347970198843
+  object_position_error_m                        0.09657690450295472
+  object_orientation_error_deg                   24.815729938346607
+  termination_cause_fraction (legacy object-centric) {'object': 0.324951171875, 'wrist': 0.608154296875}
+  reference_tracking.success_rate (= chord_sr)   0.673095703125
+  reference_tracking.failure_cause_fraction      {'object': 0.321533203125, 'palm': 0.247314453125, 'pelvis': 0.2197265625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.529628012738667, "checkpoint": "/repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/policy_349999104.safetensors", "checkpoint_sha256": "74cb29e654ef13a11e1d98aefbc5fd8f62755903e0dd0843fd052689d8357305", "chord_sr": 0.673095703125, "environment_steps": 349999104, "maniptrans_sr": 0.019287109375, "mean_add_m": 0.10590347970198843, "mppe_cm": 9.846921772417813, "object_orientation_error_deg": 24.815729938346607, "object_position_error_m": 0.09657690450295472, "parquet": "/repo/runs/motion/tier1_c10/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.321533203125, "palm": 0.247314453125, "pelvis": 0.2197265625}, "reference_end_fraction": 1.0, "success_rate": 0.673095703125}, "spider_sr_uncentered": 0.7841796875, "step_count": 901, "world_count": 4096}

@@ -1,0 +1,82 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "sel": {
+   "file": "results/ml40/select_t1/select_t1x1018.txt",
+   "grep": "^# command|^GATE|^CHOSEN ep(11|14):|换了的|^PACKED|locally computed"
+  },
+  "lb": {
+   "file": "results/submission/leaderboard_1018_0730.txt",
+   "grep": "^== v2d-challenge-track2-tier1|Xueyi|DAP|Vi Ngu|maniphys.ai"
+  },
+  "pull": {
+   "file": "results/submission/pull_t1x1018.txt",
+   "grep": "^local|^remote|csv$"
+  },
+  "dry": {
+   "file": "results/submission/dryrun_t1x1018.txt",
+   "grep": "rows over|dry-run"
+  }
+ },
+ "claims": [
+  {
+   "id": "packed",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "这份打包的本地分数是 AUC 0.582582、SP-SR 0.833333、MP-SR 0.700000、MPPE 11.866610，打分门 A 与 B 都是 OK。"
+  },
+  {
+   "id": "changed",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "换了的 episode 是 [11, 14]：ep11 选 t1-ep11-w2048-cap10m-r3a-c10-s44-ml40（spider_sr 1.0），ep14 选 t1-ep14-w2048-cap4m-r3a-s44-mf4090（spider_sr 1.0、maniptrans_sr 1.0）。"
+  },
+  {
+   "id": "board",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 榜上 Xueyi Wang (FF) 的 AUC 0.56422、SP-SR 0.80000、MP-SR 0.66666、MPPE 8.03204；DAP 的 MPPE 12.65831。"
+  },
+  {
+   "id": "pull",
+   "evidence": [
+    "pull"
+   ],
+   "claim": "本地与 ml40 上这份 CSV 的 sha256 相同，以 8aca3bc3 开头，文件 22990 行（含表头）。"
+  },
+  {
+   "id": "dry",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "预演显示这份 CSV 有 22,989 行、30 集，looks valid，没有提交。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 AUC 榜上 maniphys.ai 现在的分数是 0.56315。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "这份打包的本地 SP-SR 是 0.800000。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "换了的 episode 是 [11, 14, 25]。",
+   "control": "false"
+  }
+ ]
+}
