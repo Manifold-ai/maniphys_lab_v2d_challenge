@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t1c_s44 --episodes 11 --seed 44 
+# md5      : 6e4547c95598fa9b49315dfa6e821746  stages/policy/make_var_queue.py
+# source   : 32087eefd91c-dirty
+# host     : Mac
+# run_at   : 2026-10-18T01:27:07-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t1c_s44.expect.tsv（2 行）
+写 stages/policy/queues/ml40_t1c_s44_smoke.txt（2 行）
+写 stages/policy/queues/ml40_t1c_s44.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1c_s44_ml40.tsv（2 行）
