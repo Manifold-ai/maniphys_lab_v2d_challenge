@@ -1,0 +1,26 @@
+# command  : scripts/dev/push-new-files stages/policy/queues/mf4090_t1xb_s44.expect.tsv stages/policy/queues/mf4090_t1xb_s44.txt stages/policy/queues/mf4090_t1xb_s44_smoke.txt stages/policy/queues/mf4090_t1xb_s45.expect.tsv stages/policy/queues/mf4090_t1xb_s45.txt stages/policy/queues/mf4090_t1xb_s45_smoke.txt stages/evaluate/exports/cand_t1_t1xb_s44_mf4090.tsv stages/evaluate/exports/cand_t1_t1xb_s45_mf4090.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : bfc060a0a566fe9141955e7c14f2c76d  stages/policy/queues/mf4090_t1xb_s44.expect.tsv
+# md5      : 74a2df911ba943ea4575f360e4fa2ac1  stages/policy/queues/mf4090_t1xb_s44.txt
+# md5      : f49e40b55f38411687b5214b999bcd74  stages/policy/queues/mf4090_t1xb_s44_smoke.txt
+# md5      : 53474b855f5d810415f548122a224f69  stages/policy/queues/mf4090_t1xb_s45.expect.tsv
+# md5      : 9cb110a10988d1a506cd71dab74d6157  stages/policy/queues/mf4090_t1xb_s45.txt
+# md5      : 9c5954e1393e7638a302cd07dec6a6e5  stages/policy/queues/mf4090_t1xb_s45_smoke.txt
+# md5      : fa468bb9b98345c2cda9063d2d3ca005  stages/evaluate/exports/cand_t1_t1xb_s44_mf4090.tsv
+# md5      : 65622821d310cd2ba88656b171aadb56  stages/evaluate/exports/cand_t1_t1xb_s45_mf4090.tsv
+# source   : bcd3330e1f70
+# host     : Mac
+# run_at   : 2026-10-18T01:32:13-0400
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 bcd3330e1f70；远端来历 a172f14b80bd
+  ok   bfc060a0a566fe9141955e7c14f2c76d  stages/policy/queues/mf4090_t1xb_s44.expect.tsv
+  ok   74a2df911ba943ea4575f360e4fa2ac1  stages/policy/queues/mf4090_t1xb_s44.txt
+  ok   f49e40b55f38411687b5214b999bcd74  stages/policy/queues/mf4090_t1xb_s44_smoke.txt
+  ok   53474b855f5d810415f548122a224f69  stages/policy/queues/mf4090_t1xb_s45.expect.tsv
+  ok   9cb110a10988d1a506cd71dab74d6157  stages/policy/queues/mf4090_t1xb_s45.txt
+  ok   9c5954e1393e7638a302cd07dec6a6e5  stages/policy/queues/mf4090_t1xb_s45_smoke.txt
+  ok   fa468bb9b98345c2cda9063d2d3ca005  stages/evaluate/exports/cand_t1_t1xb_s44_mf4090.tsv
+  ok   65622821d310cd2ba88656b171aadb56  stages/evaluate/exports/cand_t1_t1xb_s45_mf4090.tsv
+远端来历（放完）a172f14b80bd
+PUSH_OK（8 个文件）

@@ -1,0 +1,26 @@
+# command  : scripts/dev/push-new-files stages/policy/queues/ml40_t1c_s44.expect.tsv stages/policy/queues/ml40_t1c_s44.txt stages/policy/queues/ml40_t1c_s44_smoke.txt stages/policy/queues/ml40_t1c_s45.expect.tsv stages/policy/queues/ml40_t1c_s45.txt stages/policy/queues/ml40_t1c_s45_smoke.txt stages/evaluate/exports/cand_t1_t1c_s44_ml40.tsv stages/evaluate/exports/cand_t1_t1c_s45_ml40.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : f59ab2cd438c0133f8c71c3f799dd451  stages/policy/queues/ml40_t1c_s44.expect.tsv
+# md5      : c6865cdf012a945025a37a275aaba534  stages/policy/queues/ml40_t1c_s44.txt
+# md5      : 118f36f91925a2c4f320ad06d1a89ce3  stages/policy/queues/ml40_t1c_s44_smoke.txt
+# md5      : bc849c76b0bb7753b8477ed39cda5304  stages/policy/queues/ml40_t1c_s45.expect.tsv
+# md5      : 2da5b300e3408fbe3910acf98be5dabe  stages/policy/queues/ml40_t1c_s45.txt
+# md5      : 1780e39383497771e2fd39fa3b6ca53f  stages/policy/queues/ml40_t1c_s45_smoke.txt
+# md5      : fdfa2be749aa22085542bb60921aaa41  stages/evaluate/exports/cand_t1_t1c_s44_ml40.tsv
+# md5      : 54c8d4c3014a3a42eea8dcf0c2ef94e2  stages/evaluate/exports/cand_t1_t1c_s45_ml40.tsv
+# source   : bcd3330e1f70
+# host     : Mac
+# run_at   : 2026-10-18T01:32:19-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 bcd3330e1f70；远端来历 d27b96fa893b
+  ok   f59ab2cd438c0133f8c71c3f799dd451  stages/policy/queues/ml40_t1c_s44.expect.tsv
+  ok   c6865cdf012a945025a37a275aaba534  stages/policy/queues/ml40_t1c_s44.txt
+  ok   118f36f91925a2c4f320ad06d1a89ce3  stages/policy/queues/ml40_t1c_s44_smoke.txt
+  ok   bc849c76b0bb7753b8477ed39cda5304  stages/policy/queues/ml40_t1c_s45.expect.tsv
+  ok   2da5b300e3408fbe3910acf98be5dabe  stages/policy/queues/ml40_t1c_s45.txt
+  ok   1780e39383497771e2fd39fa3b6ca53f  stages/policy/queues/ml40_t1c_s45_smoke.txt
+  ok   fdfa2be749aa22085542bb60921aaa41  stages/evaluate/exports/cand_t1_t1c_s44_ml40.tsv
+  ok   54c8d4c3014a3a42eea8dcf0c2ef94e2  stages/evaluate/exports/cand_t1_t1c_s45_ml40.tsv
+远端来历（放完）d27b96fa893b
+PUSH_OK（8 个文件）
