@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-17-t1-auc1017.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 680bcdf80cba06eb003588089ecd81a2  agent-doc/experiments/2026-10-17-t1-auc1017.claims.json
+# source   : 36e63f61ab2c-dirty
+# host     : Mac
+# run_at   : 2026-10-17T23:07:56-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+auc_pack             P(supported)=0.97  verified               [sel]  auc1017 这份打包的本地分数是 AUC 0.566180、SP-SR 0.800000、MP-SR 0.666667、MPPE 14.905292，打分门 A 与 B 都是 OK。
+ff_board             P(supported)=0.99  verified               [lb]  Tier 1 的榜上，Xueyi Wang (FF) 的 AUC 是 0.56422、SP-SR 是 0.80000、MP-SR 是 0.66666。
+s43_swap             P(supported)=0.95  verified               [s43]  这份打分记录里“换了的 episode”是 [11, 28]；CHOSEN ep11 与 CHOSEN ep28 两行选的 run 名字里都带 s43。
+opt_auc              P(supported)=0.97  verified               [opt]  按 add_auc 逐条挑最好时，add_auc 合计是 0.567833，换的集是 ep9、ep25、ep28。
+opt_spmp             P(supported)=0.97  verified               [opt]  按 spider_sr 或 maniptrans_sr 逐条挑最好，结果都与现在的清单相同：spider_sr 0.800000、maniptrans_sr 0.666667。
+s4096                P(supported)=0.99  verified               [s4096]  4096 世界下，改 ep9、ep25 之后 AUC 从 0.528830 变成 0.531284，MPPE 从 17.647526 变成 18.784849，SP-SR 和 MP-SR 不变。
+cal                  P(supported)=0.86  verified               [cal]  75 个候选里，导出那一局成功的个数与 4096 世界成功率之和相差不到一个标准差：SP-SR 的 z 是 +0.54，MP-SR 的 z 是 +0.67。
+site_tie             P(supported)=0.98  verified               [site]  官网 leaderboard.js 的 compare 函数在两队分数相同时，按队名小写的字母顺序排先后。
+site_rank_field      P(supported)=0.96  verified               [site]  数据仓 aggregator 写的 rank 字段只是按第一个指标排出的初始显示顺序。
+rank_kaggle          P(supported)=0.90  verified               [rank_k]  同分按先提交者在前时，12 个榜名次直接相加是 maniphys.ai 20、Xueyi Wang (FF) 17。
+rank_site            P(supported)=0.91  verified               [rank_s]  同分按队名字母序时，12 个榜名次直接相加是 maniphys.ai 18、Xueyi Wang (FF) 19。
+c4                   P(supported)=0.99  verified               [c4]  C4 的三条 run（ep2、ep11、ep17）都判“没用”，失败_物体都是 1.000，总判“没用”。
+dry                  P(supported)=0.96  verified               [dry]  预演显示这份 CSV 有 22,989 行、30 集，looks valid，没有提交。
+best_kept            P(supported)=0.94  verified               [b1013, b1014, lb_t2auc]  submit_b1013 记录里 add_auc 是 0.51379，submit_b1014 记录里 add_auc 是 0.50890；快照的 Tier 2 AUC 榜上 maniphys.ai 那一行分数是 0.51379，时间是 2026-10-14 22:47:04。
+ctl_true             P(supported)=0.99  control(true) ok       [lb]  Tier 1 MPPE 榜上 Xueyi Wang (FF) 的分数是 8.03204。
+ctl_false_site       P(supported)=0.01  control(false) ok      [site]  官网 leaderboard.js 在两队分数相同时，按提交时间先后排。
+ctl_false_pack       P(supported)=0.01  control(false) ok      [sel]  auc1017 这份打包的本地 MP-SR 是 0.700000。
+controls behaved as expected

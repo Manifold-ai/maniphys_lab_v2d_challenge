@@ -1,0 +1,38 @@
+# command  : uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/evaluate/t2_static_floor.py data/challenge/track_2/tier_2_synthetic_noise third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit ep4=111.48 ep25=115.88 ep28=56.14 ep9=38.75 ep1=36.52 ep17=5.43 ep2=26.43 ep11=9.38 
+# md5      : 1f920ed0c9b547201ce1f0dcb686e17b  stages/evaluate/t2_static_floor.py
+# source   : 36e63f61ab2c-dirty
+# host     : Mac
+# run_at   : 2026-10-17T23:09:29-0400
+# ---------------------------------------------------------------
+集	不动 MPPE（cm）	不动 SP/MP	给定的导出 MPPE	不动减导出
+ep0	32.09	0/0	—	—
+ep1	45.90	0/0	36.52	+9.38
+ep2	71.36	0/0	26.43	+44.93
+ep3	10.24	0/0	—	—
+ep4	111.51	0/0	111.48	+0.03
+ep5	56.87	0/0	—	—
+ep6	18.55	0/0	—	—
+ep7	14.17	0/0	—	—
+ep8	18.09	0/0	—	—
+ep9	49.84	0/0	38.75	+11.09
+ep10	51.54	0/0	—	—
+ep11	69.59	0/0	9.38	+60.21
+ep12	23.33	0/0	—	—
+ep13	61.99	0/0	—	—
+ep14	81.13	0/0	—	—
+ep15	64.62	0/0	—	—
+ep16	63.48	0/0	—	—
+ep17	93.38	0/0	5.43	+87.95
+ep18	43.42	0/0	—	—
+ep19	57.39	0/0	—	—
+ep20	4.60	0/0	—	—
+ep21	54.33	0/0	—	—
+ep22	72.15	0/0	—	—
+ep23	78.31	0/0	—	—
+ep24	9.99	0/0	—	—
+ep25	49.51	0/0	115.88	-66.37
+ep26	8.10	0/0	—	—
+ep27	85.53	0/0	—	—
+ep28	48.49	0/0	56.14	-7.65
+ep29	33.80	0/0	—	—
+T2_STATIC_FLOOR_DONE

@@ -1,0 +1,185 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "sel": {
+   "file": "results/ml40/select_t1/select_auc1017.txt",
+   "grep": "^# command|^GATE|^PACKED|locally computed"
+  },
+  "lb": {
+   "file": "results/submission/leaderboard_1017_2050.txt",
+   "grep": "^==|maniphys.ai|Xueyi"
+  },
+  "s43": {
+   "file": "results/ml40/select_t1/select_c10s43_1017.txt",
+   "grep": "^GATE|CHOSEN ep(2|11|28):|换了的"
+  },
+  "opt": {
+   "file": "results/select_t1/t1_metric_optimal_c10s43.txt"
+  },
+  "s4096": {
+   "file": "results/ml40/select_t1/sel4096_c10s43_A2.txt",
+   "grep": "^清单|^改后|改 ep"
+  },
+  "cal": {
+   "file": "results/ml40/select_t1/export_calibration_c10s43.txt",
+   "grep": "^候选|^SP-SR|^MP-SR|^MPPE"
+  },
+  "site": {
+   "file": "results/ops/site_rank_code_1017.txt"
+  },
+  "rank_k": {
+   "file": "results/submission/rank_sum_1017_2050.txt",
+   "grep": "^快照|^读法 B|^读法 A（"
+  },
+  "rank_s": {
+   "file": "results/submission/rank_sum_1017_2050_site.txt",
+   "grep": "^快照|^读法 B|^读法 A（"
+  },
+  "c4": {
+   "file": "results/t2diag/verdict_C4_mf4090.txt",
+   "grep": "^==|→|R3O_VERDICT"
+  },
+  "dry": {
+   "file": "results/submission/dryrun_auc1017.txt",
+   "grep": "rows over|dry-run"
+  },
+  "b1014": {
+   "file": "results/submission/submit_b1014.txt",
+   "grep": "^# run_at|add_auc"
+  },
+  "lb_t2auc": {
+   "file": "results/submission/leaderboard_1017_2050.txt",
+   "grep": "^== v2d-challenge-track2-tier2-auc|maniphys.ai      2026-10-14"
+  },
+  "b1013": {
+   "file": "results/submission/submit_b1013.txt",
+   "grep": "^# run_at|add_auc"
+  }
+ },
+ "claims": [
+  {
+   "id": "auc_pack",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "auc1017 这份打包的本地分数是 AUC 0.566180、SP-SR 0.800000、MP-SR 0.666667、MPPE 14.905292，打分门 A 与 B 都是 OK。"
+  },
+  {
+   "id": "ff_board",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 的榜上，Xueyi Wang (FF) 的 AUC 是 0.56422、SP-SR 是 0.80000、MP-SR 是 0.66666。"
+  },
+  {
+   "id": "s43_swap",
+   "evidence": [
+    "s43"
+   ],
+   "claim": "这份打分记录里“换了的 episode”是 [11, 28]；CHOSEN ep11 与 CHOSEN ep28 两行选的 run 名字里都带 s43。"
+  },
+  {
+   "id": "opt_auc",
+   "evidence": [
+    "opt"
+   ],
+   "claim": "按 add_auc 逐条挑最好时，add_auc 合计是 0.567833，换的集是 ep9、ep25、ep28。"
+  },
+  {
+   "id": "opt_spmp",
+   "evidence": [
+    "opt"
+   ],
+   "claim": "按 spider_sr 或 maniptrans_sr 逐条挑最好，结果都与现在的清单相同：spider_sr 0.800000、maniptrans_sr 0.666667。"
+  },
+  {
+   "id": "s4096",
+   "evidence": [
+    "s4096"
+   ],
+   "claim": "4096 世界下，改 ep9、ep25 之后 AUC 从 0.528830 变成 0.531284，MPPE 从 17.647526 变成 18.784849，SP-SR 和 MP-SR 不变。"
+  },
+  {
+   "id": "cal",
+   "evidence": [
+    "cal"
+   ],
+   "claim": "75 个候选里，导出那一局成功的个数与 4096 世界成功率之和相差不到一个标准差：SP-SR 的 z 是 +0.54，MP-SR 的 z 是 +0.67。"
+  },
+  {
+   "id": "site_tie",
+   "evidence": [
+    "site"
+   ],
+   "claim": "官网 leaderboard.js 的 compare 函数在两队分数相同时，按队名小写的字母顺序排先后。"
+  },
+  {
+   "id": "site_rank_field",
+   "evidence": [
+    "site"
+   ],
+   "claim": "数据仓 aggregator 写的 rank 字段只是按第一个指标排出的初始显示顺序。"
+  },
+  {
+   "id": "rank_kaggle",
+   "evidence": [
+    "rank_k"
+   ],
+   "claim": "同分按先提交者在前时，12 个榜名次直接相加是 maniphys.ai 20、Xueyi Wang (FF) 17。"
+  },
+  {
+   "id": "rank_site",
+   "evidence": [
+    "rank_s"
+   ],
+   "claim": "同分按队名字母序时，12 个榜名次直接相加是 maniphys.ai 18、Xueyi Wang (FF) 19。"
+  },
+  {
+   "id": "c4",
+   "evidence": [
+    "c4"
+   ],
+   "claim": "C4 的三条 run（ep2、ep11、ep17）都判“没用”，失败_物体都是 1.000，总判“没用”。"
+  },
+  {
+   "id": "dry",
+   "evidence": [
+    "dry"
+   ],
+   "claim": "预演显示这份 CSV 有 22,989 行、30 集，looks valid，没有提交。"
+  },
+  {
+   "id": "best_kept",
+   "evidence": [
+    "b1013",
+    "b1014",
+    "lb_t2auc"
+   ],
+   "claim": "submit_b1013 记录里 add_auc 是 0.51379，submit_b1014 记录里 add_auc 是 0.50890；快照的 Tier 2 AUC 榜上 maniphys.ai 那一行分数是 0.51379，时间是 2026-10-14 22:47:04。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 MPPE 榜上 Xueyi Wang (FF) 的分数是 8.03204。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_site",
+   "evidence": [
+    "site"
+   ],
+   "claim": "官网 leaderboard.js 在两队分数相同时，按提交时间先后排。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_pack",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "auc1017 这份打包的本地 MP-SR 是 0.700000。",
+   "control": "false"
+  }
+ ]
+}

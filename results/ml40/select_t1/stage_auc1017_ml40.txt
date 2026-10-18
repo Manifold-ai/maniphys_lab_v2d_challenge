@@ -1,0 +1,7 @@
+# command  : bash -c set\ -e\;\ test\ \!\ -e\ runs/select_t1_auc1017\;\ mkdir\ -p\ runs/select_t1_auc1017/cand\;\ cut\ -f3\ stages/evaluate/exports/t1_select_auc1017.tsv\ \|\ while\ read\ r\;\ do\ test\ -d\ runs/select_t1_c10/cand/\$r\;\ ln\ -s\ ../../select_t1_c10/cand/\$r\ runs/select_t1_auc1017/cand/\$r\;\ done\;\ ls\ runs/select_t1_auc1017/cand\ \|\ wc\ -l 
+# md5      : 8ea5e7a2d6fff80d2c2509ac176c0d4c  stages/evaluate/exports/t1_select_auc1017.tsv
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T11:05:33+0800
+# ---------------------------------------------------------------
+30

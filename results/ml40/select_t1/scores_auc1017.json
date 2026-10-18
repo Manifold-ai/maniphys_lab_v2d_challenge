@@ -1,0 +1,272 @@
+{
+ "t1-ep0-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep0-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 0,
+  "add_auc": 0.8482487146529563,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.0174454125734418,
+  "mp_sr_4096": 0.911865234375
+ },
+ "t1-ep1-w2048-cap10m-r3a-c10-ml40": {
+  "run": "t1-ep1-w2048-cap10m-r3a-c10-ml40",
+  "episode": 1,
+  "add_auc": 0.21828982597054886,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 34.679497879961794,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep10-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep10-w2048-cap4m-r3a-mf4090",
+  "episode": 10,
+  "add_auc": 0.379014483627204,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.7719960494489517,
+  "mp_sr_4096": 0.0078125
+ },
+ "t1-ep11-w2048-cap10m-r3a-c10-s43-ml40": {
+  "run": "t1-ep11-w2048-cap10m-r3a-c10-s43-ml40",
+  "episode": 11,
+  "add_auc": 0.09722222222222222,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 59.5465329496619,
+  "mp_sr_4096": 0.224365234375
+ },
+ "t1-ep12-w2048-cap10m-ml40": {
+  "run": "t1-ep12-w2048-cap10m-ml40",
+  "episode": 12,
+  "add_auc": 0.6711607142857143,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.032498956242503,
+  "mp_sr_4096": 0.991943359375
+ },
+ "t1-ep13-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep13-w2048-cap10m-r3a-ml40",
+  "episode": 13,
+  "add_auc": 0.6382863340563991,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.8768909500324016,
+  "mp_sr_4096": 0.451416015625
+ },
+ "t1-ep14-w2048-cap4m-mf4090": {
+  "run": "t1-ep14-w2048-cap4m-mf4090",
+  "episode": 14,
+  "add_auc": 0.32974572004028196,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 5.891362034408814,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep15-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep15-w2048-cap4m-r3a-mf4090",
+  "episode": 15,
+  "add_auc": 0.7322552447552447,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.8268371840171926,
+  "mp_sr_4096": 0.957275390625
+ },
+ "t1-ep16-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep16-w2048-cap10m-r3a-ml40",
+  "episode": 16,
+  "add_auc": 0.7722746331236897,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.8648722784770058,
+  "mp_sr_4096": 0.903076171875
+ },
+ "t1-ep17-w2048-cap10m-ml40": {
+  "run": "t1-ep17-w2048-cap10m-ml40",
+  "episode": 17,
+  "add_auc": 0.3705965909090909,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 4.9791209202716695,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep18-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep18-w2048-cap4m-r3a-mf4090",
+  "episode": 18,
+  "add_auc": 0.8194201631701632,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.5328263195110892,
+  "mp_sr_4096": 0.776123046875
+ },
+ "t1-ep19-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep19-w2048-cap10m-r3a-ml40",
+  "episode": 19,
+  "add_auc": 0.4301636568848758,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 3.6812776999188834,
+  "mp_sr_4096": 0.257568359375
+ },
+ "t1-ep2-w2048-cap10m-r3a-c10-ml40": {
+  "run": "t1-ep2-w2048-cap10m-r3a-c10-ml40",
+  "episode": 2,
+  "add_auc": 0.6974489795918367,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.730799137844247,
+  "mp_sr_4096": 0.57470703125
+ },
+ "t1-ep20-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep20-w2048-cap4m-r3a-mf4090",
+  "episode": 20,
+  "add_auc": 0.825497287522604,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.496914725111775,
+  "mp_sr_4096": 0.793701171875
+ },
+ "t1-ep21-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep21-w2048-cap4m-r3a-mf4090",
+  "episode": 21,
+  "add_auc": 0.6095132743362832,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.7959144057329666,
+  "mp_sr_4096": 0.80615234375
+ },
+ "t1-ep22-w2048-cap4m-mf4090": {
+  "run": "t1-ep22-w2048-cap4m-mf4090",
+  "episode": 22,
+  "add_auc": 0.5679763560500696,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.629846032937194,
+  "mp_sr_4096": 0.763916015625
+ },
+ "t1-ep23-w2048-cap10m-ml40": {
+  "run": "t1-ep23-w2048-cap10m-ml40",
+  "episode": 23,
+  "add_auc": 0.7074524312896406,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.786477939501086,
+  "mp_sr_4096": 0.97509765625
+ },
+ "t1-ep24-w2048-cap4m-mf4090": {
+  "run": "t1-ep24-w2048-cap4m-mf4090",
+  "episode": 24,
+  "add_auc": 0.5880681818181818,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 3.19287576209323,
+  "mp_sr_4096": 0.962158203125
+ },
+ "t1-ep25-w2048-cap10m-r3a-c10-ml40": {
+  "run": "t1-ep25-w2048-cap10m-r3a-c10-ml40",
+  "episode": 25,
+  "add_auc": 0.1322031431897555,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 131.55528795428583,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep26-w2048-cap10m-ml40": {
+  "run": "t1-ep26-w2048-cap10m-ml40",
+  "episode": 26,
+  "add_auc": 0.5008408071748879,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.592229727678722,
+  "mp_sr_4096": 0.9560546875
+ },
+ "t1-ep27-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep27-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 27,
+  "add_auc": 0.8486725663716814,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.668799539931547,
+  "mp_sr_4096": 0.843505859375
+ },
+ "t1-ep28-w2048-cap10m-r3a-c10-s43-ml40": {
+  "run": "t1-ep28-w2048-cap10m-r3a-c10-s43-ml40",
+  "episode": 28,
+  "add_auc": 0.24000506072874495,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 8.54442404318915,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep29-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep29-w2048-cap4m-r3a-mf4090",
+  "episode": 29,
+  "add_auc": 0.7218950749464668,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.9759410449599373,
+  "mp_sr_4096": 0.150634765625
+ },
+ "t1-ep3-w2048-cap10m-r3a-ml40": {
+  "run": "t1-ep3-w2048-cap10m-r3a-ml40",
+  "episode": 3,
+  "add_auc": 0.8384282970550576,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.08808401635105,
+  "mp_sr_4096": 0.734130859375
+ },
+ "t1-ep4-w2048-cap10m-ml40": {
+  "run": "t1-ep4-w2048-cap10m-ml40",
+  "episode": 4,
+  "add_auc": 0.15076276463262764,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 90.22925234128536,
+  "mp_sr_4096": 0.0
+ },
+ "t1-ep5-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep5-w2048-cap4m-r3a-mf4090",
+  "episode": 5,
+  "add_auc": 0.6799601196410767,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.194150756247241,
+  "mp_sr_4096": 0.3076171875
+ },
+ "t1-ep6-w2048-cap4m-r3a-s43-mf4090": {
+  "run": "t1-ep6-w2048-cap4m-r3a-s43-mf4090",
+  "episode": 6,
+  "add_auc": 0.7487408424908425,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 2.0865236052988063,
+  "mp_sr_4096": 0.91748046875
+ },
+ "t1-ep7-w2048-cap4m-p185g-mf4090": {
+  "run": "t1-ep7-w2048-cap4m-p185g-mf4090",
+  "episode": 7,
+  "add_auc": 0.66650390625,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 3.0479117767889976,
+  "mp_sr_4096": 0.652587890625
+ },
+ "t1-ep8-w2048-cap4m-r3a-mf4090": {
+  "run": "t1-ep8-w2048-cap4m-r3a-mf4090",
+  "episode": 8,
+  "add_auc": 0.877295197740113,
+  "spider_sr": 1.0,
+  "maniptrans_sr": 1.0,
+  "mppe_cm": 1.41810525603504,
+  "mp_sr_4096": 0.95458984375
+ },
+ "t1-ep9-w2048-cap10m-r3a-c10-ml40": {
+  "run": "t1-ep9-w2048-cap10m-r3a-c10-ml40",
+  "episode": 9,
+  "add_auc": 0.2774425287356322,
+  "spider_sr": 0.0,
+  "maniptrans_sr": 0.0,
+  "mppe_cm": 59.42407548772136,
+  "mp_sr_4096": 0.0
+ }
+}

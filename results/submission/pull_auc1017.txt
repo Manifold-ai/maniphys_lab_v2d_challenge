@@ -1,0 +1,8 @@
+# command  : bash -c set\ -eu\;\ R=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\;\ f=runs/submission/csv/track2_tier1_select_auc1017.csv\;\ test\ \!\ -e\ \"\$f\"\;\ rsync\ -a\ --partial\ -e\ \"ssh\ -o\ ControlMaster=no\ -o\ ControlPath=none\ -o\ ServerAliveInterval=5\ -o\ ServerAliveCountMax=6\"\ \"ml40:\$R/\$f\"\ \"\$f\"\;\ echo\ \"local\ \ \$\(shasum\ -a\ 256\ \"\$f\"\ \|\ cut\ -d\"\ \"\ -f1\)\"\;\ echo\ \"remote\ \$\(ssh\ -o\ BatchMode=yes\ ml40\ \"sha256sum\ \$R/\$f\"\ \|\ cut\ -d\"\ \"\ -f1\)\"\;\ wc\ -l\ \"\$f\" 
+# source   : 36e63f61ab2c
+# host     : Mac
+# run_at   : 2026-10-17T23:06:21-0400
+# ---------------------------------------------------------------
+local  e87c70e5b88a320a90f154a786dbd2a03405f7c0540dc0c87d7992104686236c
+remote e87c70e5b88a320a90f154a786dbd2a03405f7c0540dc0c87d7992104686236c
+   22990 runs/submission/csv/track2_tier1_select_auc1017.csv
