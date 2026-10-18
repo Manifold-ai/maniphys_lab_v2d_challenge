@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep8-w2048-cap10m-r3a-gb3-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T18:58:10+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep8-w2048-cap10m-r3a-gb3-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep8-w2048-cap10m-r3a-gb3-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep8-w2048-cap10m-r3a-gb3-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep8-w2048-cap10m-r3a-gb3-ml40/policy_349999104.safetensors  sha256 a10195a2c389c76f…
+  environment_steps 349999104  world_count 4096  step_count 708  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.8443100492833024
+  chord_sr                                       0.989990234375
+  maniptrans_sr                                  0.992431640625
+  spider_sr_uncentered                           0.993408203125
+  mppe_cm                                        1.6055749189037132
+  mean_add_m                                     0.023655662770837974
+  object_position_error_m                        0.015573265730064522
+  object_orientation_error_deg                   4.689314210817332
+  termination_cause_fraction (legacy object-centric) {'object': 0.0078125, 'wrist': 0.010009765625}
+  reference_tracking.success_rate (= chord_sr)   0.989990234375
+  reference_tracking.failure_cause_fraction      {'object': 0.0078125, 'palm': 0.010009765625, 'pelvis': 0.00732421875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.8443100492833024, "checkpoint": "/repo/runs/flash_chord/t3-ep8-w2048-cap10m-r3a-gb3-ml40/policy_349999104.safetensors", "checkpoint_sha256": "a10195a2c389c76f4840787cd8e914802843e70391587914da4a609153c67e66", "chord_sr": 0.989990234375, "environment_steps": 349999104, "maniptrans_sr": 0.992431640625, "mean_add_m": 0.023655662770837974, "mppe_cm": 1.6055749189037132, "object_orientation_error_deg": 4.689314210817332, "object_position_error_m": 0.015573265730064522, "parquet": "/repo/runs/motion/tier3_gb3/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.0078125, "palm": 0.010009765625, "pelvis": 0.00732421875}, "reference_end_fraction": 1.0, "success_rate": 0.989990234375}, "spider_sr_uncentered": 0.993408203125, "step_count": 708, "world_count": 4096}

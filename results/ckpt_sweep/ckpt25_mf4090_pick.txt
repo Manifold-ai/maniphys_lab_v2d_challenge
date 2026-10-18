@@ -1,0 +1,33 @@
+# command  : python3 stages/evaluate/ckpt_sweep_pick.py final stages/evaluate/ckpt25_coarse_mf4090.tsv runs/ckpt_sweep/ckpt25_mf4090_export.tsv 100 
+# md5      : 68eccc13a91870912217fdb8c74ac5bf  stages/evaluate/ckpt_sweep_pick.py
+# md5      : 9afe6bcea42291d47a401d4d21614fb2  stages/evaluate/ckpt25_coarse_mf4090.tsv
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T21:02:22+0800
+# ---------------------------------------------------------------
+== Tier 1：合格评测点 10 个（4096 世界）
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 30001152 步：AUC 0.1095  SP-SR 0.0000  MP-SR 0.0000  MPPE 115.4565
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 50001920 步：AUC 0.1199  SP-SR 0.0000  MP-SR 0.0000  MPPE 103.1308
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 60002304 步：AUC 0.1174  SP-SR 0.0000  MP-SR 0.0000  MPPE 103.6790
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 70002688 步：AUC 0.1127  SP-SR 0.0000  MP-SR 0.0000  MPPE 106.0409
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 100003840 步：AUC 0.1088  SP-SR 0.0000  MP-SR 0.0000  MPPE 111.1851
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 150005760 步：AUC 0.1127  SP-SR 0.0000  MP-SR 0.0000  MPPE 109.4729
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 200007680 步：AUC 0.1145  SP-SR 0.0000  MP-SR 0.0000  MPPE 106.4397
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 250009600 步：AUC 0.1160  SP-SR 0.0000  MP-SR 0.0000  MPPE 109.5246
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 300011520 步：AUC 0.1190  SP-SR 0.0000  MP-SR 0.0000  MPPE 126.0775
+  t1-ep25-w2048-cap4m-r3o-mf4090 第 349999104 步：AUC 0.1262  SP-SR 0.0000  MP-SR 0.0000  MPPE 129.0560
+Tier 1 本机选点：t1-ep25-w2048-cap4m-r3o-mf4090 第 60002304 步，MPPE 103.68 cm（本档最低 103.13 cm，最低 + 1 cm 内取步数最大；上限 100 cm，不导出）
+== Tier 2：合格评测点 10 个（4096 世界）
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 30001152 步：AUC 0.1075  SP-SR 0.0000  MP-SR 0.0000  MPPE 108.9795
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 60002304 步：AUC 0.1043  SP-SR 0.0000  MP-SR 0.0000  MPPE 119.9547
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 90003456 步：AUC 0.0958  SP-SR 0.0000  MP-SR 0.0000  MPPE 118.4145
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 100003840 步：AUC 0.1099  SP-SR 0.0000  MP-SR 0.0000  MPPE 106.4675
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 110004224 步：AUC 0.1100  SP-SR 0.0000  MP-SR 0.0000  MPPE 107.4307
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 150005760 步：AUC 0.0838  SP-SR 0.0000  MP-SR 0.0000  MPPE 117.7876
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 200007680 步：AUC 0.0906  SP-SR 0.0000  MP-SR 0.0000  MPPE 119.5436
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 250009600 步：AUC 0.1021  SP-SR 0.0000  MP-SR 0.0000  MPPE 117.2088
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 300011520 步：AUC 0.1192  SP-SR 0.0000  MP-SR 0.0000  MPPE 122.1432
+  t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 349999104 步：AUC 0.1272  SP-SR 0.0000  MP-SR 0.0000  MPPE 126.5739
+Tier 2 本机选点：t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 110004224 步，MPPE 107.43 cm（本档最低 106.47 cm，最低 + 1 cm 内取步数最大；上限 100 cm，不导出）
+导出清单 runs/ckpt_sweep/ckpt25_mf4090_export.tsv：0 行
+CKPT_SWEEP_PICK_DONE

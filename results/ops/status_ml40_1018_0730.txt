@@ -1,0 +1,26 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s\ ml40 
+# source   : a74d3fd3fa9c-dirty
+# host     : Mac
+# run_at   : 2026-10-18T09:32:26-0400
+# ---------------------------------------------------------------
+== ml40 2026-10-18 21:32:33 CST
+NVIDIA L40S, 13947 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  757G  1.3T  38% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+runs/.chain-active-ckpt25_ml40
+runs/.chain-active-ckpt25_ml40_c
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3qg_ml40.log：=== 2026-10-18 10:16:25 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1c_s45_ml40.log：=== 2026-10-18 13:56:01 CST 来历与 t1c_s45 的队列：d27b96fa893b bc849c76b0bb7753b8477ed39cda5304  stages/policy/queues/ml40_t1c_s45.expect.tsv 2da5b300e3408fbe3910acf98be5dabe  stages/policy/qu
+runs/logs/arm_after_t1c_s44_ml40.log：=== 2026-10-18 19:17:02 CST 前置命令开始（限时 36000 秒）
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep25-w2048-cap10m-r3a-c10-ml40.eval_200007680_w4096.log：evaluation step 859/859
+runs/logs/ckpt25_ml40_c.log：record: → results/day2/eval_t1-ep25-w2048-cap10m-r3a-c10-ml40_s150005760.txt（23 行）
+runs/logs/t1-ep25-w2048-cap10m-r3a-c10-ml40.eval_150005760_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-c10-ml40/eval_150005760_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-r3a-c10-ml40.eval_100003840_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-c10-ml40/eval_100003840_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-r3a-c10-ml40.eval_60002304_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-c10-ml40/eval_60002304_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-r3a-c10-ml40.eval_30001152_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-c10-ml40/eval_30001152_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-ml40.eval_300011520_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-ml40/eval_300011520_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-ml40.eval_250009600_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-ml40/eval_250009600_w4096.json

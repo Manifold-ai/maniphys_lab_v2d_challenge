@@ -1,0 +1,13 @@
+# command  : python3 stages/evaluate/gb3_switch.py stages/evaluate/gb3_switch_t3pg.json 
+# md5      : ea6d7a535c8b434dda1badbe33e2fb5f  stages/evaluate/gb3_switch.py
+# md5      : f761cd68f1c3173ecc3710a4cea45ae0  stages/evaluate/gb3_switch_t3pg.json
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-18T19:31:28+0800
+# ---------------------------------------------------------------
+规则 S：margin 4.0 cm、SP-SR 下限 0.5；现选值来源：现选 run 的 4096 世界值：results/t3probe/eval_table_probe1015.txt（10/11 的评测，10/16 核过与 fc_8c778f9 一致，results/t3kfix/reexport_checks_mf4090.txt）；ep20 取 results/t3kfix/retrain_switch_t3ps_mf4090.txt
+ep20 t3-ep20-w2048-cap4m-r3a-gb3-mf4090（现选 t3-ep20-w2048-cap4m-r3a-v2s-mf4090：MPPE 5.77 cm、SP-SR 0.8911、MP-SR 0.0046）：新 MPPE 4.01 cm、SP-SR 0.8923、MP-SR 0.8606、ADD-AUC 0.686；规则 S（MPPE ≤ 9.77 且 SP-SR ≥ 0.50）：换
+ep0 t3-ep0-w2048-cap4m-r3a-gb3-mf4090（现选 t3-ep0-w2048-cap4m-r3a-v2-mf4090：MPPE 2.60 cm、SP-SR 0.9920、MP-SR 0.9650）：新 MPPE 3.98 cm、SP-SR 0.9358、MP-SR 0.9160、ADD-AUC 0.629；规则 S（MPPE ≤ 6.60 且 SP-SR ≥ 0.50）：换
+ep22 t3-ep22-w2048-cap4m-r3a-gb3-mf4090（现选 t3-ep22-w2048-cap4m-r3a-v2-mf4090：MPPE 3.70 cm、SP-SR 0.9800、MP-SR 0.9540）［10/16 定 ep22 留旧参考；进选集要 rxzhou 点头，并附 gb3 ep22 的人脚检验］：新 MPPE 2.03 cm、SP-SR 0.9922、MP-SR 0.9858、ADD-AUC 0.807；规则 S（MPPE ≤ 7.70 且 SP-SR ≥ 0.50）：换
+ep21 t3-ep21-w2048-cap4m-r3a-gb3-mf4090（现选 t3-ep21-w2048-cap4m-r3a-hm-mf4090：MPPE 8.96 cm、SP-SR 0.8760、MP-SR 0.5010）［只报］：新 MPPE 28.28 cm、SP-SR 0.5745、MP-SR 0.0000、ADD-AUC 0.350；规则 S（MPPE ≤ 12.96 且 SP-SR ≥ 0.50）：不换
+GB3_SWITCH_DONE 3 0

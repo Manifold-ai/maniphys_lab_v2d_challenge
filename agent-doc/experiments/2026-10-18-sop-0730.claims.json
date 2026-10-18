@@ -1,0 +1,270 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "lb": {
+   "file": "results/submission/leaderboard_1018_0730.txt",
+   "grep": "^== v2d-challenge-track2-tier[12]|Vi Ngu|wte09fl|maniphys.ai|Xueyi"
+  },
+  "rank_k": {
+   "file": "results/submission/rank_sum_1018_0730.txt",
+   "grep": "^快照|^读法 B|^读法 A（"
+  },
+  "rank_s": {
+   "file": "results/submission/rank_sum_1018_0730_site.txt",
+   "grep": "^快照|^读法 B|^读法 A（"
+  },
+  "s4096a": {
+   "file": "results/ml40/select_t1/sel4096_c10s43_A2.txt",
+   "grep": "^清单"
+  },
+  "s4096b": {
+   "file": "results/ml40/select_t1/sel4096_c10_1017a.txt",
+   "grep": "^清单"
+  },
+  "opt": {
+   "file": "results/select_t1/t1_metric_optimal_c10s43.txt",
+   "grep": "^候选"
+  },
+  "sel_auc": {
+   "file": "results/ml40/select_t1/select_auc1017.txt",
+   "grep": "^PACKED"
+  },
+  "cal": {
+   "file": "results/ml40/select_t1/export_calibration_c10s43.txt",
+   "grep": "^候选|^SP-SR|^MP-SR"
+  },
+  "w0": {
+   "file": "results/t1diag/export_world0_mf4090.txt",
+   "grep": "^可比的|^导出位置误差"
+  },
+  "knock_mf": {
+   "file": "results/ckpt_sweep/knock_check_mf4090.txt",
+   "grep": "个世界|平均位置误差超过"
+  },
+  "knock_ml": {
+   "file": "results/ml40/ckpt_sweep/knock_check_ml40.txt",
+   "grep": "个世界|平均位置误差超过"
+  },
+  "pick_mf": {
+   "file": "results/ckpt_sweep/ckpt25_mf4090_pick.txt"
+  },
+  "c4": {
+   "file": "results/t2diag/verdict_C4_mf4090.txt",
+   "grep": "→|R3O_VERDICT"
+  },
+  "sw_mf": {
+   "file": "results/t3gb3/switch_t3pg_mf4090.txt",
+   "grep": "^ep|GB3_SWITCH"
+  },
+  "sw_ml": {
+   "file": "results/ml40/t3gb3/switch_t3qg_ml40.txt",
+   "grep": "^ep|GB3_SWITCH"
+  },
+  "h_pg": {
+   "file": "results/t3gb3/health_t3pg_mf4090.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE"
+  },
+  "h_qg": {
+   "file": "results/t3gb3/health_t3qg_ml40.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE"
+  },
+  "h_m2": {
+   "file": "results/t2diag/health_t2m2_mf4090.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE"
+  },
+  "h_s43": {
+   "file": "results/t1diag/health_t1c_s43_ml40.txt",
+   "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE"
+  },
+  "t3q": {
+   "file": "results/ops/t3_queue_ml40_1018_0730.txt",
+   "grep": "gb4"
+  },
+  "st_mf": {
+   "file": "results/ops/status_mf4090_1018_0730.txt",
+   "grep": "^==|NVIDIA|/dev/"
+  },
+  "st_ml": {
+   "file": "results/ops/status_ml40_1018_0730.txt",
+   "grep": "^==|NVIDIA|/dev/"
+  },
+  "collab": {
+   "file": "results/ops/collab_check_nvidia_1018_0730.txt",
+   "grep": "查询"
+  },
+  "floor1": {
+   "file": "results/select_t1/t1_static_floor_c10s43.txt",
+   "grep": "^集|^ep25"
+  },
+  "floor2": {
+   "file": "results/t2diag/t2_static_floor.txt",
+   "grep": "^集|^ep25"
+  }
+ },
+ "claims": [
+  {
+   "id": "vi_auc",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 AUC 榜上 Vi Nguyễn Văn 的分数是 0.96908，Xueyi Wang (FF) 是 0.56422，maniphys.ai 是 0.56315。"
+  },
+  {
+   "id": "wte",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 1 的四个榜上 wte09fl 的分数是 AUC 0.38375、SP-SR 0.46666、MP-SR 0.16666、MPPE 28.77284，maniphys.ai 的是 0.56315、0.76666、0.66666、13.92082；Tier 2 的四个榜上 wte09fl 是 0.32347、0.33333、0.06666、36.60302，maniphys.ai 是 0.51379、0.73333、0.53333、15.32195。"
+  },
+  {
+   "id": "rank_k",
+   "evidence": [
+    "rank_k"
+   ],
+   "claim": "同分按先提交者在前时，12 个榜名次直接相加是 maniphys.ai 21、Xueyi Wang (FF) 18；读法 A 是 maniphys.ai 5、Xueyi Wang (FF) 7。"
+  },
+  {
+   "id": "rank_s",
+   "evidence": [
+    "rank_s"
+   ],
+   "claim": "同分按队名字母序时，12 个榜名次直接相加是 maniphys.ai 19、Xueyi Wang (FF) 20；读法 A 是 maniphys.ai 5、Xueyi Wang (FF) 7。"
+  },
+  {
+   "id": "s4096",
+   "evidence": [
+    "s4096a",
+    "s4096b"
+   ],
+   "claim": "4096 世界下，c10s43 清单的 AUC 0.528830、SP-SR 0.708504、MP-SR 0.529126、MPPE 17.647526；c10_1017a 清单的是 0.523963、0.687956、0.521647、17.721741。"
+  },
+  {
+   "id": "local",
+   "evidence": [
+    "opt"
+   ],
+   "claim": "现在的清单本地 add_auc 0.561770、spider_sr 0.800000、maniptrans_sr 0.666667、mppe_cm 13.827783。"
+  },
+  {
+   "id": "auc_pack",
+   "evidence": [
+    "sel_auc"
+   ],
+   "claim": "auc1017 打包的本地分数是 AUC 0.566180、SP-SR 0.800000、MP-SR 0.666667、MPPE 14.905292。"
+  },
+  {
+   "id": "cal",
+   "evidence": [
+    "cal"
+   ],
+   "claim": "75 个候选上，SP-SR 的 z 是 +0.54，MP-SR 的 z 是 +0.67。"
+  },
+  {
+   "id": "world0",
+   "evidence": [
+    "w0"
+   ],
+   "claim": "30 个可比的 run 里，导出与第 0 个世界逐位相同的有 0 个；导出位置误差的分位排序后最小 0.04、最大 0.95。"
+  },
+  {
+   "id": "knock",
+   "evidence": [
+    "knock_mf",
+    "knock_ml"
+   ],
+   "claim": "t2-ep25-w2048-cap4m-mf4090 的 dump 里平均位置误差超过 0.8 m 的世界比例是 0.9990，t1-ep25-w2048-cap10m-ml40 的是 0.9998。"
+  },
+  {
+   "id": "sweep_mf",
+   "evidence": [
+    "pick_mf"
+   ],
+   "claim": "mf4090 的选点记录里两档的本机选点都不导出，导出清单 0 行；记录里全部评测点的 MPPE 都在 103.13 cm 到 129.06 cm 之间，最低的是 Tier 1 第 50001920 步的 103.1308。"
+  },
+  {
+   "id": "c4",
+   "evidence": [
+    "c4"
+   ],
+   "claim": "C4 的三条 run（ep2、ep11、ep17）都判“没用”，总判“没用”。"
+  },
+  {
+   "id": "gb3",
+   "evidence": [
+    "sw_mf",
+    "sw_ml"
+   ],
+   "claim": "规则 S 判换的是 ep20、ep0、ep22、ep6、ep8、ep7，判不换的是 ep21、ep29；ep20 的新 MP-SR 是 0.8606，现选的是 0.0046。"
+  },
+  {
+   "id": "health_t3",
+   "evidence": [
+    "h_pg",
+    "h_qg"
+   ],
+   "claim": "t3pg 与 t3qg 两段的训练都是完成 4、失败 0、跳过 0、发散 0，评测都是成功 4、失败 0，导出都是成功 4、失败 0。"
+  },
+  {
+   "id": "health_t12",
+   "evidence": [
+    "h_m2",
+    "h_s43"
+   ],
+   "claim": "t2m2 与 t1c_s43 两段的训练都是完成 3、失败 0、跳过 0、发散 0，评测都是成功 3、失败 0，导出都是成功 3、失败 0。"
+  },
+  {
+   "id": "gb4",
+   "evidence": [
+    "t3q"
+   ],
+   "claim": "队列记录里有 tier3_cari4d_gb4_best、tier3_cari4d_gb4_best_dr2s、tier3_cari4d_gb4_best_dr2s_dyn7 三个目录，各有 29 个 parquet，对应的 _suspect 目录各有 1 个 parquet。"
+  },
+  {
+   "id": "gpu",
+   "evidence": [
+    "st_mf",
+    "st_ml"
+   ],
+   "claim": "快照里 mf4090 的 GPU 用了 23875 MiB、利用率 99%，仓库所在盘可用 72G；ml40 的 GPU 用了 13947 MiB、利用率 0%。"
+  },
+  {
+   "id": "collab",
+   "evidence": [
+    "collab"
+   ],
+   "claim": "查询 Nvidia-V2D-Challenge 是不是仓库协作者，返回 404 Not Found。"
+  },
+  {
+   "id": "floors",
+   "evidence": [
+    "floor1",
+    "floor2"
+   ],
+   "claim": "ep25 物体一直不动时的 MPPE：Tier 1 记录里是 49.71，Tier 2 记录里是 49.51。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "Tier 2 MPPE 榜上 maniphys.ai 的分数是 15.32195。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false_rank",
+   "evidence": [
+    "rank_k"
+   ],
+   "claim": "同分按先提交者在前时，12 个榜名次直接相加是 maniphys.ai 18、Xueyi Wang (FF) 21。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false_gb3",
+   "evidence": [
+    "sw_mf"
+   ],
+   "claim": "规则 S 判 ep21 换。",
+   "control": "false"
+  }
+ ]
+}

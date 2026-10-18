@@ -1,0 +1,9 @@
+# command  : tools/collab_check.sh 
+# md5      : e18f467a35278ac46b0d794b8b7f04e4  tools/collab_check.sh
+# source   : a74d3fd3fa9c-dirty
+# host     : Mac
+# run_at   : 2026-10-18T09:35:46-0400
+# ---------------------------------------------------------------
+仓库 Manifold-ai/maniphys_lab_v2d_challenge
+可见性 internal，本账号 admin 权限 false，maintain 权限 true
+查询 Nvidia-V2D-Challenge 是不是协作者（GET repos/Manifold-ai/maniphys_lab_v2d_challenge/collaborators/Nvidia-V2D-Challenge）：HTTP/2.0 404 Not Found

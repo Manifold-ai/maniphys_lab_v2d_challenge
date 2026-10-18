@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep25-w2048-cap10m-ml40 60002304 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : d27b96fa893b
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-18T20:36:56+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep25-w2048-cap10m-ml40 policy_60002304（4096 世界）→ runs/flash_chord/t1-ep25-w2048-cap10m-ml40/eval_60002304_w4096.json
+== runs/flash_chord/t1-ep25-w2048-cap10m-ml40/eval_60002304_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep25-w2048-cap10m-ml40/policy_60002304.safetensors  sha256 1acd11729c02f54f…
+  environment_steps 60002304  world_count 4096  step_count 859  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.11564769456217258
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        112.01014323172755
+  mean_add_m                                     1.1252818079504159
+  object_position_error_m                        1.1188891390142506
+  object_orientation_error_deg                   105.8023010456408
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.11564769456217258, "checkpoint": "/repo/runs/flash_chord/t1-ep25-w2048-cap10m-ml40/policy_60002304.safetensors", "checkpoint_sha256": "1acd11729c02f54fac4cb507bc10a2803d8b6670cb31ce9569d654279c35dd11", "chord_sr": 0.0, "environment_steps": 60002304, "maniptrans_sr": 0.0, "mean_add_m": 1.1252818079504159, "mppe_cm": 112.01014323172755, "object_orientation_error_deg": 105.8023010456408, "object_position_error_m": 1.1188891390142506, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 1.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 859, "world_count": 4096}

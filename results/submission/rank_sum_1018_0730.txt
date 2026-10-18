@@ -1,0 +1,18 @@
+# command  : python3 stages/evaluate/track2_rank_sum.py results/submission/leaderboard_1018_0730.txt 
+# md5      : 5d97cab1b5c4e35dc4b4ddc0a9f779be  stages/evaluate/track2_rank_sum.py
+# md5      : c9913ad4459695f3b71f7230d24a3fe0  results/submission/leaderboard_1018_0730.txt
+# source   : a74d3fd3fa9c-dirty
+# host     : Mac
+# run_at   : 2026-10-18T09:36:15-0400
+# ---------------------------------------------------------------
+快照 results/submission/leaderboard_1018_0730.txt；基线不计名次，同分按先提交者在前（Kaggle）
+Tier 1：auc maniphys.ai 3、Xueyi Wang (FF) 2；sp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mppe maniphys.ai 3、Xueyi Wang (FF) 1；名次和 maniphys.ai 10、Xueyi Wang (FF) 5
+Tier 2：auc maniphys.ai 1、Xueyi Wang (FF) 2；sp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mppe maniphys.ai 2、Xueyi Wang (FF) 1；名次和 maniphys.ai 5、Xueyi Wang (FF) 7
+Tier 3：auc maniphys.ai 2、Xueyi Wang (FF) 1；sp-sr maniphys.ai 1、Xueyi Wang (FF) 2；mp-sr maniphys.ai 2、Xueyi Wang (FF) 1；mppe maniphys.ai 1、Xueyi Wang (FF) 2；名次和 maniphys.ai 6、Xueyi Wang (FF) 6
+读法 B（12 个榜名次直接相加）：maniphys.ai 21、Xueyi Wang (FF) 18
+读法 A auc：maniphys.ai 0.37526（第 2）、Xueyi Wang (FF) 0.40597（第 1）
+读法 A sp-sr：maniphys.ai 0.54444（第 1）、Xueyi Wang (FF) 0.46667（第 2）
+读法 A mp-sr：maniphys.ai 0.40000（第 1）、Xueyi Wang (FF) 0.40000（第 2）；有同分，按各队在这一指标上最早的提交时间排
+读法 A mppe：maniphys.ai 28.33661（第 1）、Xueyi Wang (FF) 29.74727（第 2）
+读法 A（三档平均后 4 个名次相加，只算三档都交了的队伍）：maniphys.ai 5、Xueyi Wang (FF) 7
+RANK_SUM_DONE

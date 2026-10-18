@@ -1,0 +1,30 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 bash\ -s\ mf4090 
+# source   : a74d3fd3fa9c-dirty
+# host     : Mac
+# run_at   : 2026-10-18T09:32:21-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-18 21:32:25 CST
+NVIDIA GeForce RTX 4090, 23875 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  213G   72G  75% /
+-- tmux
+v2d-t1xb_s44-eval: 1 windows (created Sun Oct 18 21:02:27 2026)
+v2d-t1xb_s44-export: 1 windows (created Sun Oct 18 21:02:29 2026)
+v2d-t1xb_s44-train: 1 windows (created Sun Oct 18 21:02:25 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1xb_s44_mf4090-gate
+runs/.chain-active-t1xb_s44_eval_mf4090
+runs/.chain-active-t1xb_s44_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3pg_mf4090.log：=== 2026-10-18 10:15:22 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1xb_s45_mf4090.log：=== 2026-10-18 13:55:46 CST 来历与 t1xb_s45 的队列：a172f14b80bd 53474b855f5d810415f548122a224f69  stages/policy/queues/mf4090_t1xb_s45.expect.tsv 9cb110a10988d1a506cd71dab74d6157  stages/polic
+runs/logs/arm_after_t1xb_s44_mf4090.log：=== 2026-10-18 21:02:32 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.log：training progress: 56,000,512/349,999,104 environment steps (16.0%); 41,245 env steps/s; elapsed 00:22:38; ETA 01:58:48
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.nanwatch.log：10-18 07:31:42 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1xb_s44_train_mf4090.log：=== 2026-10-18 21:07:41 CST 正式 t1-ep14-w2048-cap4m-r3a-s44-mf4090
+runs/logs/smoke-t1-ep14-w2048-cap4m-r3a-s44-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep14-w2048-cap4m-r3a-s44-mf4090
+runs/logs/smoke-t1-ep14-w2048-cap4m-r3a-s44-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep14-w2048-cap4m-r3a-s44-mf4090
+runs/logs/cand_t1_t1xb_s44_mf4090_gate.log：=== 2026-10-18 21:02:29 CST 等 runs/logs/t1xb_s44_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/logs/t1xb_s44_eval_mf4090.log：=== 2026-10-18 21:02:27 CST 等 runs/logs/t1xb_s44_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/ckpt25_mf4090.log：0 行；导出 没导出；dump 0 份）
