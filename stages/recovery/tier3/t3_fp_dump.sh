@@ -66,7 +66,9 @@ for name in "$@"; do
     python prep/run_foundationpose_mhr_export.py /e/export/$seq --depth-root /e/depth/moge2/aligned.h5 --out-file /t/$seq.pkl \
       --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle \
     > "$T/logs/fp_dump_$name.log" 2>&1 || fail "$name: exporter failed (logs/fp_dump_$name.log)"
-  docker run --rm --network none --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$src":/e:ro -v "$dst":/t --entrypoint "" v2d_cari4d:latest \
+  # -i: the check is a heredoc on stdin; without it the container's python reads an empty script, exits 0 and
+  # check.json comes out empty (10-19, both first episodes)
+  docker run --rm -i --network none --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$src":/e:ro -v "$dst":/t --entrypoint "" v2d_cari4d:latest \
     python - "/e/foundationpose/$seq.pkl" "/t/$seq.pkl" "/t/$seq.candidates.npz" > "$dst/check.json" <<'EOF' || fail "$name: check failed"
 import json, pickle, sys
 import numpy as np
@@ -79,6 +81,7 @@ out = {"identical": all(same.values()) and old["frames"] == new["frames"], "diff
        "frames_with_calls": int(len(np.unique(c["call_frame"])))}
 print(json.dumps(out))
 EOF
+  grep -q '"identical"' "$dst/check.json" || fail "$name: the check produced no result ($dst/check.json)"
   say "$name done: $(cat "$dst/check.json")"
   grep -q '"identical": true' "$dst/check.json" || fail "$name: stage-05 output differs from work_fp"
 done
