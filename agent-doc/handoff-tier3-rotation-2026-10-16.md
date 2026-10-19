@@ -553,3 +553,27 @@ gb4 物体链（同上节位置验证）出 ctrl / sel 两版，每 2 帧 iou_vi
 - G3 位置：Y 阶段，sel 相对 ctrl 转角 > 24° 的帧合并，iou_vis 中位差 ≥ −0.01。
 全过则剩余 12 集自动走同一流程到自检，停在交付前（交付等用户看贴图）；不过就停，dump 保留。结果 `$T/dev/sel_pilot/gate.json`，日志 `logs/sel_pilot.log`
 末行 SEL_GATE_PASS / SEL_GATE_FAIL / SEL_PILOT_FAILED。
+
+### 无人值守运行状态（10-19 12:55 CST 写，用户下线；分支 `track2/tier3-recon`，部署 `d5ce9bc`）
+
+用户 10-19 定：版本名 **gb5**；世界系**沿用 gb4**（`floor_fit_gb5.json` / `camera_register_gb5.json` 是 gb4 的逐字节副本，已 cmp）；ep19（pivot）不进本轮。
+L40S 上在跑（都是 setsid 脱钩的确定性脚本，没有 agent）：
+
+| 脚本 | 日志（`$T/logs/`） | 末行 |
+|---|---|---|
+| `t3_fp_dump.sh A`（ep03/02/09/25/16/19）、`B`（ep04/13/28/11/01/27/15/17） | `fp_dump_A.log`、`fp_dump_B.log`，每集 `fp_dump_<ep>.log` | `FP_DUMP_STREAM_DONE` / `FP_DUMP_FAILED` |
+| `t3_sel_pilot.sh ep04 ep03` | `sel_pilot.log`，闸门 `$T/dev/sel_pilot/{gate.log,gate.json}` | `SEL_GATE_PASS` / `SEL_GATE_FAIL` / `SEL_PILOT_FAILED` |
+| `t3_sel_full.sh gb5 <13 集 fp>` | `sel_full.log`，每集转换 `sel_convert_<ep>.log`，链 `gb_chain_gb5.log`，自检 `$G/dyn/gb5_selfcheck.log` | `SEL_FULL_DONE` / `SEL_FULL_SKIPPED`（闸门没过） / `SEL_FULL_FAILED` |
+| `dev/fpdump/convert_test.sh`（转换步试跑，ep04 的 work_init，等 B 路 ep04 dump 完成后跑） | `$T/dev/sel_test/convert_test.log` | `CONVERT_TEST_DONE` |
+
+已验证的衔接：A/B（见上）；试点第 4–5 步与闸门在 `work_init` 上从头跑通（`SEL_WORK=work_init SEL_FROM_STEP=4`，`logs/sel_test.log` 末行 SEL_GATE_PASS——
+只证衔接，sel 即 init，G1 必为 0）；13 集与选择表一致、30 集的 gb4 转换目录都在。**没验证的**：全量的转换步（试跑在等卡）、`t3_gb_chain.sh gb5` 与自检
+（与 gb4 同一份代码，只换名字；自检脚本由 gb4 的 sed 生成，替换结果人工核过）。
+预计（两路并行实测只快 1.4 倍）：闸门 15:00–15:30，dump 全部 23:00–24:00，链 + 自检明早 5–6 点。**停在交付之前**：交付等用户看贴图后再定。
+
+接手怎么查：`tail -n 3 $T/logs/{sel_pilot,sel_full,fp_dump_A,fp_dump_B}.log`；`ls -a $T/runs/work_dump`（`GPU_HOLD` 存在 = 有人在用整卡，
+dump 停在集间等）。让卡：rxzhou 的链回来时所有 GPU 步在集与集之间停下等（10-10 约定）。停 dump：`touch $T/runs/work_dump/STOP`。
+失败后恢复：dump 每集独立（`check.json` identical 即算完成，重跑会跳过）；`t3_sel_full.sh` 已选/已 refine 的集重启后跳过，转换会重做；
+它要求 `runs/tier3_cari4d_gb5_best*` 不存在，链失败后重跑前要先挪走这些目录。
+未办：交付前给 rxzhou 说明 gb5（白名单加 `tier3_cari4d_gb5_best_dr2s_dyn7` 与 `_suspect`，`gb5_best`/`gb5_best_dr2s` 是中间产物别用）；
+gb4 交付报告里 `rest_drift` / `rot_drift` 比 gb3 涨了的原因未查。
