@@ -1,0 +1,15 @@
+# command  : python3 tools/near_miss_table.py t2-ep25-w2048-cap4m-mf4090 smoke-t2-ep25-w2048-cap4m-mf4090@4096000 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090@4096000 t2-ep25-w2048-cap4m-r3a-c5-mf4090@10000384 t2-ep25-w2048-cap4m-r3a-c5-mf4090@20000768 t2-ep28-w2048-cap4m-p185-mf4090 smoke-t2-ep28-w2048-cap4m-p185-mf4090@4096000 
+# md5      : 23e19bdefc8e3534d10341c8d8a2f712  tools/near_miss_table.py
+# source   : fad09e9e0b61
+# host     : Mac
+# run_at   : 2026-10-19T16:39:14-0400
+# ---------------------------------------------------------------
+run	步数	SP-SR	MP-SR	平均位置误差 m（MP 门槛 0.03，SP 0.10）	平均朝向误差 °（MP 门槛 30，SP 28.6）	AUC	MPPE cm	失败原因比例
+t2-ep25-w2048-cap4m-mf4090	349999104	0.000	0.000	1.1695	106.82	0.124	117.09	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+smoke-t2-ep25-w2048-cap4m-mf4090	4096000	0.000	0.000	1.2811	109.10	0.094	128.23	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090	4096000	0.000	0.000	1.0836	105.83	0.108	108.49	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+t2-ep25-w2048-cap4m-r3a-c5-mf4090	10000384	0.000	0.000	1.2243	111.41	0.075	122.56	{'object': 1.0, 'palm': 1.0, 'pelvis': 0.999755859375}
+t2-ep25-w2048-cap4m-r3a-c5-mf4090	20000768	0.000	0.000	1.2425	108.36	0.104	124.37	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+t2-ep28-w2048-cap4m-p185-mf4090	349999104	0.000	0.000	0.6008	108.39	0.077	60.36	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+smoke-t2-ep28-w2048-cap4m-p185-mf4090	4096000	0.000	0.000	0.5777	105.92	0.072	58.02	{'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+NEAR_MISS_TABLE_DONE

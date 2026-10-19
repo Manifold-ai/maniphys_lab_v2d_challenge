@@ -1,0 +1,21 @@
+# command  : bash -c for\ m\ in\ auc\ sp-sr\ mp-sr\ mppe\;\ do\ s=v2d-challenge-track2-tier2-\$m\;\ echo\ \"==\ \$s\"\;\ /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle\ competitions\ submissions\ \$s\ --csv\ 2\>\&1\ \|\ head\ -8\;\ done 
+# source   : c01c4c3b7cca
+# host     : Mac
+# run_at   : 2026-10-19T16:47:53-0400
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier2-auc
+ref,fileName,date,description,status,publicScore,privateScore
+57197028,track2_tier2_select_b1014.csv,2026-10-14 22:47:04.167000,Tier 2 per-episode select b1014,SubmissionStatus.COMPLETE,0.50890,
+57169480,track2_tier2_select_b1013.csv,2026-10-14 06:05:14.487000,Tier 2 per-episode select b1013,SubmissionStatus.COMPLETE,0.51379,
+== v2d-challenge-track2-tier2-sp-sr
+ref,fileName,date,description,status,publicScore,privateScore
+57197030,track2_tier2_select_b1014.csv,2026-10-14 22:47:07.843000,Tier 2 per-episode select b1014,SubmissionStatus.COMPLETE,0.73333,
+57169488,track2_tier2_select_b1013.csv,2026-10-14 06:05:28.313000,Tier 2 per-episode select b1013,SubmissionStatus.COMPLETE,0.73333,
+== v2d-challenge-track2-tier2-mp-sr
+ref,fileName,date,description,status,publicScore,privateScore
+57197033,track2_tier2_select_b1014.csv,2026-10-14 22:47:12.897000,Tier 2 per-episode select b1014,SubmissionStatus.COMPLETE,0.53333,
+57169498,track2_tier2_select_b1013.csv,2026-10-14 06:05:46.463000,Tier 2 per-episode select b1013,SubmissionStatus.COMPLETE,0.53333,
+== v2d-challenge-track2-tier2-mppe
+ref,fileName,date,description,status,publicScore,privateScore
+57197036,track2_tier2_select_b1014.csv,2026-10-14 22:47:16.667000,Tier 2 per-episode select b1014,SubmissionStatus.COMPLETE,15.32195,
+57169505,track2_tier2_select_b1013.csv,2026-10-14 06:05:55.527000,Tier 2 per-episode select b1013,SubmissionStatus.COMPLETE,16.54028,

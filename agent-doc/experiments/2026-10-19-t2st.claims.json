@@ -1,0 +1,25 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "nm": {"file": "results/first/near_miss_t2st_1019.txt", "grep": "^run|^t2-ep|^smoke-t2-ep"},
+    "sw": {"file": "results/first/t2_swap_t2st_1019.txt", "grep": "^S3|^Q3"},
+    "on": {"file": "results/t2st/object_onset_ep25_mf4090.txt", "grep": "：859 帧|：988 帧"},
+    "hl": {"file": "results/t2st/health_mf4090.txt", "grep": "DAY2_EVAL_DONE|EXPORT_CHAIN_DONE"}
+  },
+  "claims": [
+    {"id": "ep25_none", "evidence": ["nm"],
+     "claim": "smoke-t2-ep25-w2048-cap4m-mf4090、smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090 与 t2-ep25-w2048-cap4m-r3a-c5-mf4090 第 10000384、20000768 步的 MPPE 都在 108 cm 以上。"},
+    {"id": "ep28_auc", "evidence": ["nm"],
+     "claim": "smoke-t2-ep28-w2048-cap4m-p185-mf4090 的 MPPE 是 58.02、AUC 是 0.072；t2-ep28-w2048-cap4m-p185-mf4090 的 MPPE 是 60.36、AUC 是 0.077。"},
+    {"id": "s3_fail", "evidence": ["sw"],
+     "claim": "S3 MPPE 分支不过：导出 MPPE 平均 14.999 高于 12.97，4096 世界 MPPE 平均 17.675 高于 16.0。"},
+    {"id": "onset", "evidence": ["on"],
+     "claim": "smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090 导出的这一局里，仿真中的物体在第 76 帧第一次离开初始位姿，参考里的物体在第 119 帧才开始动。"},
+    {"id": "health", "evidence": ["hl"],
+     "claim": "t2st 的评测链成功 5、失败 0，导出链成功 5、失败 0。"},
+    {"id": "ctl_false", "evidence": ["nm"],
+     "claim": "smoke-t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 49.51。", "control": "false"},
+    {"id": "ctl_true", "evidence": ["nm"],
+     "claim": "t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 117.09。", "control": "true"}
+  ]
+}

@@ -1,0 +1,27 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && for L in t2st_eval_mf4090 cand_t2_t2st_mf4090_gate cand_t2_t2st_mf4090; do echo "## $L"; grep -a "^=== " runs/logs/$L.log | tail -n 20; done; echo "## 导�\207��\223�\236\234表"; cat runs/exports/cand_t2_t2st_mf4090.tsv | cut -f1-5' 
+# source   : fad09e9e0b61
+# host     : Mac
+# run_at   : 2026-10-19T16:38:53-0400
+# ---------------------------------------------------------------
+## t2st_eval_mf4090
+=== 2026-10-20 03:14:18 CST start t2st_eval_mf4090, source 27f49b0a7102, 期望表 -, 附加表 stages/evaluate/t2st_mf4090.tsv, 评测步数 330012672 340013056 349999104
+=== 2026-10-20 03:38:49 CST DAY2_EVAL_DONE（成功 5、失败 0）
+## cand_t2_t2st_mf4090_gate
+=== 2026-10-20 03:14:20 CST 等 runs/logs/t2st_eval_mf4090.log 的最后一行变成评测链的结束行
+=== 2026-10-20 03:39:20 CST 评测链成功 5 条、失败 0，开导出链 cand_t2_t2st_mf4090
+=== 2026-10-20 03:44:15 CST 导出链结束，退出码 0
+## cand_t2_t2st_mf4090
+=== 2026-10-20 03:39:20 CST start cand_t2_t2st_mf4090：清单 stages/evaluate/exports/cand_t2_t2st_mf4090.tsv（5 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，回退最多 0 份，GPU 最多等 7200 秒，来历 27f49b0a7102
+=== 2026-10-20 03:40:19 CST Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-mf4090：第 4096000 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 859（导出 859），checkpoint 相同
+=== 2026-10-20 03:41:18 CST Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090：第 4096000 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 859（导出 859），checkpoint 相同
+=== 2026-10-20 03:42:16 CST Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：第 10000384 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 859（导出 859），checkpoint 相同
+=== 2026-10-20 03:43:15 CST Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：第 20000768 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 859（导出 859），checkpoint 相同
+=== 2026-10-20 03:44:15 CST Tier 2 ep28 smoke-t2-ep28-w2048-cap4m-p185-mf4090：第 4096000 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_count 988（导出 988），checkpoint 相同
+=== 2026-10-20 03:44:15 CST EXPORT_CHAIN_DONE（成功 5、失败 0）
+## 导出结果表
+tier	episode	run	step	status
+2	25	smoke-t2-ep25-w2048-cap4m-mf4090	4096000	ok
+2	25	smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090	4096000	ok
+2	25	t2-ep25-w2048-cap4m-r3a-c5-mf4090	10000384	ok
+2	25	t2-ep25-w2048-cap4m-r3a-c5-mf4090	20000768	ok
+2	28	smoke-t2-ep28-w2048-cap4m-p185-mf4090	4096000	ok
