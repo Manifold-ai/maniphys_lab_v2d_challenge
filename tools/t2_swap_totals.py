@@ -6,8 +6,10 @@ results/[ml40/]submission/exports/cand_t2_*_<run>_s<步数>.txt 的 summary_json
 4096 世界都取评测记录 results/[ml40/]day2/eval_<run>_s<步数>.txt 的 summary_json，核对 checkpoint、步数与 world_count。
 Q3 以给定的清单为基准（现在是 b1014）。MP 分支：导出 MP 成功 ≥ 21，新增的成功要导出位置误差 ≤ 0.025 m 才算；不够就要 ≥ 22；
 4096 世界 MP-SR 合计多出 ≥ 3；导出 SP 成功 ≥ 22。AUC 分支：导出 AUC 平均 ≥ 0.530，4096 世界 AUC 平均 ≥ 0.515，导出 MP 成功 ≥ 19，SP 成功 ≥ 22。
-第二次提交的门槛（要比上一次交的强）不在这里算。
-用法：python3 tools/t2_swap_totals.py <清单.tsv> <导出目录> [ep<N>=<run>[@步数] …]   最后一行 T2_SWAP_TOTALS_DONE
+另按 agent-doc/plan-t2st-2026-10-19.md 第 2 节 S3 列 MPPE 分支：导出 MPPE 平均 ≤ 12.97，4096 世界 MPPE 平均 ≤ 16.0，导出 SP、MP 成功与两种 AUC 平均都不低于
+给定的清单，换上的每一集导出 MPPE ≤ 它 4096 世界 MPPE + 10 cm。第二次提交的门槛（要比上一次交的强）不在这里算。
+--write-tsv <新清单>：在给定清单上只改换掉的那几行（run、步数与机器，机器取 run 名最后一段），其余行逐字照抄；目标已存在就拒绝。
+用法：python3 tools/t2_swap_totals.py <清单.tsv> <导出目录> [ep<N>=<run>[@步数] …] [--write-tsv <新清单>]   最后一行 T2_SWAP_TOTALS_DONE
 """
 
 import glob
@@ -84,9 +86,19 @@ def ok(flag: bool) -> str:
 
 
 def main():
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+    out_tsv = None
+    if "--write-tsv" in args:
+        i = args.index("--write-tsv")
+        if i + 1 >= len(args):
+            sys.exit("--write-tsv 后面要给新清单的路径")
+        out_tsv = Path(args[i + 1])
+        del args[i:i + 2]
+        if out_tsv.exists():
+            sys.exit(f"{out_tsv} 已存在")
+    if len(args) < 2:
         sys.exit(__doc__)
-    sel_path, exp = Path(sys.argv[1]), Path(sys.argv[2])
+    sel_path, exp = Path(args[0]), Path(args[1])
     rows = [l.split("\t") for l in sel_path.read_text().splitlines() if l.startswith("2\t")]
     if len(rows) != 30:
         sys.exit(f"清单里 Tier 2 有 {len(rows)} 行")
@@ -95,7 +107,7 @@ def main():
         e = int(ep)
         base[e] = {"run": run, "step": step, "x": base_export(exp, e, run, step), "w": eval_4096(run, step)}
     new = dict(base)
-    for a in sys.argv[3:]:
+    for a in args[2:]:
         k, _, v = a.partition("=")
         if not k.startswith("ep") or not k[2:].isdigit() or not v:
             sys.exit(f"参数 {a} 不是 ep<N>=<run>[@步数]")
@@ -138,6 +150,22 @@ def main():
     print(f"Q3 AUC 分支：导出 AUC 平均 {xa1:.5f} ≥ 0.530 {ok(xa1 >= 0.530)}；4096 世界 AUC 平均 {wa1:.5f} ≥ 0.515 {ok(wa1 >= 0.515)}；"
           f"导出 MP {mp1} ≥ 19 {ok(mp1 >= 19)}；导出 SP {sp1} ≥ 22 {ok(sp1 >= 22)}；分支{ok(auc_branch)}")
     print(f"Q3：{'满足（' + ('MP' if mp_branch else 'AUC') + ' 分支）' if mp_branch or auc_branch else '两条分支都不满足，不交'}")
+    per_ok = all(n["x"]["mppe_cm"] <= n["w"]["mppe_cm"] + 10 for e, n in new.items() if n is not base[e])
+    s3 = [(f"导出 MPPE 平均 {xm1:.3f} ≤ 12.97", xm1 <= 12.97), (f"4096 世界 MPPE 平均 {wm1:.3f} ≤ 16.0", wm1 <= 16.0),
+          (f"导出 SP {sp1} ≥ {sp0}", sp1 >= sp0), (f"导出 MP {mp1} ≥ {mp0}", mp1 >= mp0),
+          (f"导出 AUC 平均 {xa1:.5f} ≥ {xa0:.5f}", xa1 >= xa0), (f"4096 世界 AUC 平均 {wa1:.5f} ≥ {wa0:.5f}", wa1 >= wa0),
+          ("换上的每一集导出 MPPE ≤ 4096 世界 MPPE + 10", per_ok)]
+    print("S3 MPPE 分支（plan-t2st）：" + "；".join(f"{k} {ok(v)}" for k, v in s3) + f"；分支{ok(all(v for _, v in s3))}")
+    if out_tsv is not None:
+        lines = []
+        for line in sel_path.read_text().splitlines():
+            c = line.split("\t")
+            if c[0] == "2" and new[int(c[1])] is not base[int(c[1])]:
+                n = new[int(c[1])]
+                line = "\t".join(["2", c[1], n["run"], n["step"], n["run"].rsplit("-", 1)[1]])
+            lines.append(line)
+        out_tsv.write_text("\n".join(lines) + "\n")
+        print(f"写 {out_tsv}（{len(lines)} 行，改了 {sum(1 for e in new if new[e] is not base[e])} 行）")
     print("T2_SWAP_TOTALS_DONE")
 
 

@@ -31,8 +31,9 @@ die() { echo "fc_export: $*" >&2; exit "${2:-2}"; }
 RUN=${1:?用法：fc_export.sh <run> <步数>}; STEP=${2:?用法：fc_export.sh <run> <步数>}
 W=${V2D_EXPORT_WORLDS:-1}; TRAJ=${V2D_EXPORT_TRAJ:-1}; SUF=${V2D_EXPORT_SUFFIX:-}
 [[ -z $SUF || $SUF =~ ^_[a-z0-9]{1,16}$ ]] || die "V2D_EXPORT_SUFFIX 只许空，或下划线开头、1–16 个小写字母与数字：$SUF"
-[[ $RUN =~ ^t([123])-[a-z0-9_-]{2,56}$ ]] || die "run 名非法或没有 t<档位>- 前缀：$RUN"
-T=${BASH_REMATCH[1]}
+# 冒烟 run（smoke-t<档位>-…）也可以导出：计划 agent-doc/plan-t2st-2026-10-19.md 用训练早期的 checkpoint（复核第 1 条）
+[[ $RUN =~ ^(smoke-)?t([123])-[a-z0-9_-]{2,56}$ ]] || die "run 名非法或没有 [smoke-]t<档位>- 前缀：$RUN"
+T=${BASH_REMATCH[2]}
 [[ $STEP =~ ^[0-9]+$ && $W =~ ^[1-9][0-9]*$ && $TRAJ =~ ^[01]$ ]] || die "步数、世界数必须是正整数，V2D_EXPORT_TRAJ 只能是 0 或 1"
 O="runs/flash_chord/$RUN"; P="$O/policy_${STEP}.safetensors"
 [ -f "$P" ] || die "没有 $P"

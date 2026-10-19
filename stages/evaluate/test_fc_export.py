@@ -21,6 +21,7 @@ PATH 前面放假的 flock 与 nvidia-smi（按 FAKE_GPU 报有没有进程）�
      经 --extra 透传）导出到带后缀的目录，不再调 scripts/evaluate_policy.py；预演打印新参考；不给后缀、序列不同、路径不合格、新参考的 episode 不同、
      parquet 不在都拒绝，退出码 2，不起容器。
  12. 评测器写出 JSON 之后退出码非零（例如包装层判作废）：退出码 3，这一次的 JSON 删掉，再跑一次照常起容器，不当成已有结果。
+ 13. 冒烟 run（smoke-t<档位>-…）照常导出；前缀写错、档位不是 1–3、档位与 run 记录不一致都拒绝（test_smoke_run_name）。
 用法：python3 stages/evaluate/test_fc_export.py
 """
 import json
@@ -284,6 +285,20 @@ def test_new_reference() -> None:
         np_.unlink()
         rc, text, calls = run(root, run_name=r3, V2D_EXPORT_PARQUET=newp, V2D_EXPORT_SUFFIX="_k4")
         assert rc == 2 and not calls and "不在" in text, ("parquet 不在", rc, text)
+
+def test_smoke_run_name() -> None:
+    """13. 冒烟 run（smoke-t<档位>-…，agent-doc/plan-t2st-2026-10-19.md 复核第 1 条）照常导出，档位取 smoke- 后面那一位；
+    前缀写错、档位不是 1–3、档位与 run 记录里的 parquet 不一致都拒绝，退出码 2，不起容器。"""
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root)
+        for name, want in (("smoke-t1-ep6-w2048-cap4m-mf4090", 0), ("smokey-t1-ep6-w2048-cap4m-mf4090", 2),
+                           ("smoke-t4-ep6-w2048-cap4m-mf4090", 2), ("smoke-t2-ep6-w2048-cap4m-mf4090", 2)):
+            shutil.copytree(root / f"runs/flash_chord/{RUN}", root / "runs/flash_chord" / name)
+            rc, text, calls = run(root, run_name=name)
+            assert rc == want and (bool(calls) == (want == 0)), (name, rc, text)
+            if want == 0:
+                assert (root / f"runs/flash_chord/{name}/export_8c778f9/s{STEP}_w1/episode_000006.json").is_file(), text
+
 
 def test_failed_run_leaves_no_result() -> None:
     with tempfile.TemporaryDirectory() as t:
