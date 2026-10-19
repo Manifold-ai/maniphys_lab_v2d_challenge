@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-19-t2mx-q1.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 048063ba1fa8ef8e72e30769bf304eb9  agent-doc/experiments/2026-10-19-t2mx-q1.claims.json
+# source   : a5133e734f53-dirty
+# host     : Mac
+# run_at   : 2026-10-19T15:01:51-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep13                 P(supported)=0.99  verified               [nm]  t2-ep13-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.000、MP-SR 是 0.000；t2-ep13-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.615、MP-SR 是 0.130。
+ep19                 P(supported)=0.98  verified               [nm]  t2-ep19-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000，平均位置误差 0.1705 m，高于 t2-ep19-w2048-cap10m-r3a-ml40 的 0.1439 m。
+ep14                 P(supported)=0.99  verified               [nm]  t2-ep14-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.406、AUC 是 0.394；t2-ep14-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.948、AUC 是 0.432。
+x13                  P(supported)=0.98  verified               [x13]  t2-ep13-w2048-cap4m-r3a-mf4090 导出的这一局 spider_sr_uncentered 与 maniptrans_sr 都是 0.0，object_position_error_m 约为 0.328。
+health               P(supported)=0.98  verified               [hl]  t2mx 的训练链完成 3 条、失败 0、发散 0；评测链成功 3、失败 0；导出链成功 3、失败 0；3 条 run 都有 DONE=1、NONFINITE=0。
+mf_idle              P(supported)=0.97  verified               [smf]  mf4090 在 02:52 CST 的快照里 GPU 显存用量是 0 MiB、利用率 0 %，没有长链标记。
+ctl_false            P(supported)=0.01  control(false) ok      [nm]  t2-ep14-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.948。
+ctl_true             P(supported)=0.99  control(true) ok       [nm]  t2-ep19-w2048-cap10m-r3p-ml40 的 MP-SR 是 0.083。
+controls behaved as expected

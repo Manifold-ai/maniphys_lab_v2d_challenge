@@ -1,0 +1,27 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "nm": {"file": "results/first/near_miss_1019_1255.txt", "grep": "^run|^t2-ep"},
+    "hl": {"file": "results/jia/health_t2mx_mf4090.txt", "grep": "DAY2_TRAIN_DONE|DAY2_EVAL_DONE|EXPORT_CHAIN_DONE|DONE="},
+    "x13": {"file": "results/submission/exports/cand_t2_t2mx_mf4090_t2-ep13-w2048-cap4m-r3a-mf4090_s349999104.txt", "grep": "^# command|^  (add_auc|maniptrans_sr|spider_sr_uncentered|object_position_error_m) "},
+    "smf": {"file": "results/ops/status_mf4090_1019_1252.txt", "grep": "^==|RTX|长链|没有|EXPORT_CHAIN_DONE"}
+  },
+  "claims": [
+    {"id": "ep13", "evidence": ["nm"],
+     "claim": "t2-ep13-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.000、MP-SR 是 0.000；t2-ep13-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.615、MP-SR 是 0.130。"},
+    {"id": "ep19", "evidence": ["nm"],
+     "claim": "t2-ep19-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000，平均位置误差 0.1705 m，高于 t2-ep19-w2048-cap10m-r3a-ml40 的 0.1439 m。"},
+    {"id": "ep14", "evidence": ["nm"],
+     "claim": "t2-ep14-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.406、AUC 是 0.394；t2-ep14-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.948、AUC 是 0.432。"},
+    {"id": "x13", "evidence": ["x13"],
+     "claim": "t2-ep13-w2048-cap4m-r3a-mf4090 导出的这一局 spider_sr_uncentered 与 maniptrans_sr 都是 0.0，object_position_error_m 约为 0.328。"},
+    {"id": "health", "evidence": ["hl"],
+     "claim": "t2mx 的训练链完成 3 条、失败 0、发散 0；评测链成功 3、失败 0；导出链成功 3、失败 0；3 条 run 都有 DONE=1、NONFINITE=0。"},
+    {"id": "mf_idle", "evidence": ["smf"],
+     "claim": "mf4090 在 02:52 CST 的快照里 GPU 显存用量是 0 MiB、利用率 0 %，没有长链标记。"},
+    {"id": "ctl_false", "evidence": ["nm"],
+     "claim": "t2-ep14-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.948。", "control": "false"},
+    {"id": "ctl_true", "evidence": ["nm"],
+     "claim": "t2-ep19-w2048-cap10m-r3p-ml40 的 MP-SR 是 0.083。", "control": "true"}
+  ]
+}
