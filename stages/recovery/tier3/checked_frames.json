@@ -29,13 +29,14 @@
    }
   },
   "ep03_f451": {
-   "note": "handle top-left; hm/dyn7 upside down (handle bottom-left), kf2/kf3 handle not visible",
+   "note": "handle top-left; hm/dyn7 upside down (handle bottom-left), kf2/kf3 handle not visible. 10-20 (user): init (10-16 initialization pilot, judged ok in the 10-16 22:10 pass) has the wrong orientation; both ends of this mug have silver parts, so silver does not mark the lid; sel (10-19 timeline-selection pilot) has the orientation right and fits the position best",
    "orientation": {
     "hm": "wrong",
     "dyn7": "wrong",
     "kf2": "wrong",
     "kf3": "wrong",
-    "init": "ok"
+    "init": "wrong",
+    "sel": "ok"
    }
   },
   "ep01_f223": {
@@ -232,5 +233,9 @@
   "_doc": "10-16 ~13:45, user on the frames the pose audit flagged (largest change dr2s -> dr2s_dyn7; dev/checked_frames/audit_dr2sd7/: video | hm | dr2s | dr2s_dyn7): ep28 640/735, ep19 810/826, ep01 690/698, ep04 283, ep14 978, ep13 206, ep02 395",
   "verdict": "overall the dyn7 changes are improvements",
   "ep02_f395": "the basket is upside down in all three versions (orientation from the reconstruction); dr2s_dyn7's position fits the video best"
+ },
+ "sixth_pass_sel_pilot": {
+  "_doc": "10-20 ~00:30, user on textured renders of ep03 451 (dev/sel_diag/handle/ep03_f451_compare.png: video | init FP layer | init final | sel FP layer | sel final); 'sel' = dev/sel_pilot/conv_sel",
+  "ep03_f451": "sel right (orientation and position closest to the video); init's final has a large position error and the wrong orientation"
  }
 }
