@@ -1,0 +1,41 @@
+# command  : python3 stages/evaluate/board_diff.py results/submission/leaderboard_1018_2057.txt results/board/lb_1019_1236.txt 
+# md5      : 9b7a94c70d5440ab1c533754b5d5532f  stages/evaluate/board_diff.py
+# md5      : 75f25744bfe70829e17fef04c23c0744  results/submission/leaderboard_1018_2057.txt
+# md5      : 731985a576786c3fc467f5535c31aac6  results/board/lb_1019_1236.txt
+# source   : c1a2c703006f-dirty
+# host     : Mac
+# run_at   : 2026-10-19T14:36:40-0400
+# ---------------------------------------------------------------
+上一份 results/submission/leaderboard_1018_2057.txt；这一份 results/board/lb_1019_1236.txt
+## 变了的榜
+tier1-auc：新进 Kelly To the H 0.26633（2026-10-18 19:53）；新进 TheTensorGeek 0.19620（2026-10-14 16:59）；Xueyi Wang (FF) 0.58163 → 0.59530（2026-10-19 05:50）
+tier1-sp-sr：新进 Kelly To the H 0.00000（2026-10-18 19:54）；Xueyi Wang (FF) 0.83333 → 0.86666（2026-10-19 05:50）
+tier1-mp-sr：新进 Kelly To the H 0.00000（2026-10-18 19:55）；Xueyi Wang (FF) 0.76666 → 0.83333（2026-10-19 05:50）
+tier1-mppe：新进 TheTensorGeek 61.97241（2026-10-14 17:05）；Xueyi Wang (FF) 7.54869 → 7.44319（2026-10-19 05:50）
+tier3-auc：Open4D 0.00799 → 0.04880（2026-10-19 18:07）；Xueyi Wang (FF) 重新提交，分数没变（0.15606，2026-10-19 17:49）
+tier3-sp-sr：Open4D 0.00000 → 0.03333（2026-10-19 18:07）；Xueyi Wang (FF) 重新提交，分数没变（0.00000，2026-10-19 17:49）
+tier3-mp-sr：Open4D 0.00000 → 0.03333（2026-10-19 18:07）；Xueyi Wang (FF) 重新提交，分数没变（0.00000，2026-10-19 17:50）
+tier3-mppe：Open4D 93.78111 → 86.65769（2026-10-19 18:07）；Xueyi Wang (FF) 67.33010 → 49.60841（2026-10-19 17:50）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 3（0.58258，第 1 名 Vi Nguyễn Văn 0.96908，差 0.38650）；sp-sr 第 2（0.83333，第 1 名 Xueyi Wang (FF) 0.86666，差 0.03333）；mp-sr 第 2（0.70000，第 1 名 Xueyi Wang (FF) 0.83333，差 0.13333）；mppe 第 2（11.86661，第 1 名 Xueyi Wang (FF) 7.44319，差 4.42342）
+Tier 2：auc 第 2（0.51379，第 1 名 Xueyi Wang (FF) 0.51796，差 0.00417）；sp-sr 第 1（0.73333，第 2 名 Xueyi Wang (FF) 0.60000，差 0.13333）；mp-sr 第 2（0.53333，第 1 名 Xueyi Wang (FF) 0.60000，差 0.06667）；mppe 第 2（15.32195，第 1 名 Xueyi Wang (FF) 13.70456，差 1.61739）
+Tier 3：auc 第 3（0.10649，第 1 名 Kelly To the H 0.26600，差 0.15951）；sp-sr 第 1（0.26666，第 2 名 Open4D 0.03333，差 0.23333）；mp-sr 第 2（0.00000，第 1 名 Open4D 0.03333，差 0.03333）；mppe 第 3（54.98984，第 1 名 Kelly To the H 49.13657，差 5.85327）
+第一的榜（同分 kaggle）：3 → 2 个
+第一的榜（同分 site）：3 → 2 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 22（第 2） → 25（第 2）；前 4：Xueyi Wang (FF) 24、maniphys.ai 25、domoarigato 47、Open4D 58
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 23（第 1） → 27（第 2）；前 4：Xueyi Wang (FF) 24、maniphys.ai 27、domoarigato 44、Open4D 58
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 6（第 1） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 12、Kelly To the H 18
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 6（第 1） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 12、Kelly To the H 18
+ALERT tier1-auc 名次 2 → 3（同分 kaggle）
+ALERT tier1-sp-sr 名次 1 → 2（同分 kaggle）
+ALERT tier3-mppe 名次 2 → 3（同分 kaggle）
+ALERT tier1-auc 名次 2 → 3（同分 site）
+ALERT tier1-sp-sr 名次 1 → 2（同分 site）
+ALERT tier3-mp-sr 名次 3 → 4（同分 site）
+ALERT tier3-mppe 名次 2 → 3（同分 site）
+ALERT 读法 B（12 个榜名次相加）（同分 site）总名次 1 → 2
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 kaggle）总名次 1 → 2
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 site）总名次 1 → 2
+BOARD_CHANGED 8 个榜
+BOARD_DIFF_DONE
