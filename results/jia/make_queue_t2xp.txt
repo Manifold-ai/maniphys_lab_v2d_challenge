@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t2xp 
+# md5      : 86ffa352976b0bf457dffd120f7bc59d  stages/policy/make_var_queue.py
+# source   : 76f617a0787d-dirty
+# host     : Mac
+# run_at   : 2026-10-18T23:33:17-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t2xp.expect.tsv（5 行）
+写 stages/policy/queues/ml40_t2xp_smoke.txt（5 行）
+写 stages/policy/queues/ml40_t2xp.txt（5 行）
+写 stages/evaluate/exports/cand_t2_t2xp_ml40.tsv（5 行）

@@ -490,6 +490,37 @@ def test_t2m_part():
         f = lines(root / "stages" / "policy" / "queues" / "mf4090_t2m.txt")
         assert all("/runs/motion/tier2_c5/" in x and "/runs/motion/tier2/" not in x and "V2D_OBJ_ORI_" not in x for x in f), f
 
+
+def test_precision_parts():
+    """计划 agent-doc/plan-precision-2026-10-18.md 第 1 节：t2mv 是 ep23 的变体 A（mf4090、400 万）；t2xp、t1xp 是 r3p（变体 A 只把 σ 改成 0.03），
+    基线取现在交的 run 去掉 -r3a- 的那条，覆盖以 r3p 两项结尾，run 名带 -r3p-。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        var_p = ["objective.object_position_std=0.03", VAR[1]]
+        cases = [("t2mv", [23], "mf4090", 2, "t2-ep{ep}-w2048-cap4m-r3a-mf4090", "training.replay.capacity=4000000", "t2mv", VAR),
+                 ("t2xp", [14, 13, 19, 16], "ml40", 2, "t2-ep{ep}-w2048-cap10m-r3p-ml40", None, "t2xp", var_p),
+                 ("t1xp", [10, 29, 19], "mf4090", 1, "t1-ep{ep}-w2048-cap4m-r3p-mf4090", "training.replay.capacity=4000000", "t1xp", var_p)]
+        for name, eps, m, tier, fmt, cap, tag, var in cases:
+            p = gen(root, name)
+            assert p.returncode == 0, p.stdout + p.stderr
+            f, s = lines(q / f"{m}_{name}.txt"), lines(q / f"{m}_{name}_smoke.txt")
+            assert len(f) == len(s) == len(eps)
+            for fx, sx, ep in zip(f, s, eps):
+                ft, st = fx.split(), sx.split()
+                assert ft[0] == f"V2D_WANDB_TAG={tag}" and ft[5] == fmt.format(ep=ep) and st[5] == "smoke-" + ft[5], (fx, sx)
+                assert ft[6] == pq(ep, tier) and ft[7:9] == ["2048", "349999104"] and st[6:9] == [pq(ep, tier), "2048", "4096000"], fx
+                over = ft[9:]
+                assert over[-2:] == var and st[9:] == over, fx
+                assert sum(o.startswith("objective.object_position_std=") for o in over) == 1, fx
+                caps = [o for o in over if o.startswith("training.replay.capacity=")]
+                assert caps == ([cap] if cap else []) and (not cap or over[0] == cap), fx
+            head = (q / f"{m}_{name}.txt").read_text().splitlines()[0]
+            assert ("r3p = objective.object_position_std=0.03" in head) == (var == var_p), head
+            cand = lines(root / "stages" / "evaluate" / "exports" / f"cand_t{tier}_{name}_{m}.tsv")
+            assert cand == [f"{tier}\t{ep}\t{fmt.format(ep=ep)}\t349999104" for ep in eps], cand
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

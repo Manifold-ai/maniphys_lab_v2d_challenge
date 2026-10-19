@@ -47,7 +47,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
   t1c（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）：ml40、1000 万，跟丢的 ep25、28、11、1 的变体 A seed 42，基线取法同 t1y，
@@ -154,7 +154,21 @@ SETS = {
             "episodes": [12, 25, 28, 1, 4, 17, 9, 2, 11], "parts": {"t2oa": [12, 25, 28, 1], "t2ob": [4, 17, 9, 2, 11]}, "base": None,
             "run": "t2-ep{ep}-w2048-cap10m-r3o-ml40", "variant": "r3o",
             "desc": "Tier 2 r3o 试点 P2：对照 ep12 与跟丢的 8 集，变体 A 加物体朝向项 seed 42（ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    # 10/18 晚（计划 agent-doc/plan-precision-2026-10-18.md）：SP 过、MP 不过的集卡在位置（时间平均 4–7 cm，MP 门槛 3 cm），朝向都在门槛内
+    "t2mv": {"plan": "agent-doc/plan-precision-2026-10-18.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+             "episodes": [23], "parts": {"t2mv": [23]}, "base": None,
+             "run": "t2-ep{ep}-w2048-cap4m-r3a-mf4090",
+             "desc": "Tier 2 ep23 补变体 A seed 42（10/9 铺开时 ml40 冒烟显存超限没训；mf4090，buffer 400 万，基线取 Tier 2 导出清单）"},
+    "t2xp": {"plan": "agent-doc/plan-precision-2026-10-18.md", "tier": 2, "machine": "ml40", "cap": None,
+             "episodes": [14, 13, 19, 16], "parts": {"t2xp": [14, 13, 19, 16]}, "base": None, "strip_r3a": True,
+             "run": "t2-ep{ep}-w2048-cap10m-r3p-ml40", "variant": "r3p",
+             "desc": "Tier 2 r3p（变体 A 把物体位置奖励的 σ 从 0.05 收到 0.03）：SP 过、MP 不过的 ep14、13、19 与对照 ep16 seed 42（ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    "t1xp": {"plan": "agent-doc/plan-precision-2026-10-18.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+             "episodes": [10, 29, 19], "parts": {"t1xp": [10, 29, 19]}, "base": None, "strip_r3a": True,
+             "run": "t1-ep{ep}-w2048-cap4m-r3p-mf4090", "variant": "r3p",
+             "desc": "Tier 1 r3p（变体 A 把物体位置奖励的 σ 从 0.05 收到 0.03）：SP 过、MP 不过的 ep10、29、19 seed 42（mf4090，buffer 400 万，基线取 10/9 逐条选的清单）"},
 }
+VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
 T1_CURRENT = "t1_select_r3x.tsv"   # Tier 1 现在交的 30 条（10/9 逐条选）；Tier 2 的在 ml40.tsv、mf4090.tsv
 ENV_SMOKE = "V2D_WANDB_PROJECT=v2d-selftest V2D_WANDB_TAG=smoke V2D_MAX_RETRY=0 V2D_GPU_APPS=1 V2D_WANDB_UPLOAD_CKPT=0"
@@ -240,7 +254,7 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
             on = ep in s["tables"]
             cols[3] = "true" if on else "false"
             keep = [o for o in keep if o != "scene.support=false"] + ([] if on else ["scene.support=false"])
-        over = ([f"training.replay.capacity={s['cap']}"] if s["cap"] else []) + keep + seed_over + VARIANT
+        over = ([f"training.replay.capacity={s['cap']}"] if s["cap"] else []) + keep + seed_over + (VARIANT_P if s.get("variant") == "r3p" else VARIANT)
         parquet = formal["parquet"]
         if s["tier"] == 3:
             if parquet.count("/runs/motion/tier2/") != 1:
@@ -265,6 +279,7 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
         cand.append(f"{s['tier']}\t{ep}\t{run}\t{STEPS}")
     head = (f"# {s['desc']}；这一段 {part}：{'、'.join(f'ep{e}' for e in eps)}；计划 {s['plan']}；变体 A = {' '.join(VARIANT)}；"
             + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
+            + (f"r3p = {' '.join(VARIANT_P)}（只改 σ）；" if s.get("variant") == "r3p" else "")
             + (f"r3o = 变体 A 加 {R3O_ENV}；训练挂 v040_p185_nfg_oo" if s.get("variant") == "r3o" else "训练挂 v040_p185_nfg")
             + "（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
     stem = f"{s['machine']}_{part}"

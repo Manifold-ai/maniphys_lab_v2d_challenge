@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t1xp 
+# md5      : 86ffa352976b0bf457dffd120f7bc59d  stages/policy/make_var_queue.py
+# source   : 76f617a0787d-dirty
+# host     : Mac
+# run_at   : 2026-10-18T23:33:17-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/mf4090_t1xp.expect.tsv（4 行）
+写 stages/policy/queues/mf4090_t1xp_smoke.txt（4 行）
+写 stages/policy/queues/mf4090_t1xp.txt（4 行）
+写 stages/evaluate/exports/cand_t1_t1xp_mf4090.tsv（4 行）
