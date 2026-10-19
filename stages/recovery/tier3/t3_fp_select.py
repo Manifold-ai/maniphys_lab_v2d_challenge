@@ -28,7 +28,10 @@ Writes the chosen poses into the stage-05 pkl in place (fp_poses_cam, obj_pose_w
 loader validates them) and updates the stage-05 marker's output identity so the runner reuses stage 05 and reruns 06
 onward, as t3_fp_init.py; the report goes to foundationpose/fp_select.json.
 
-    python t3_fp_select.py <cari4d episode dir> <candidates.npz> <official mesh> [--dry]
+    python t3_fp_select.py <cari4d episode dir> <candidates.npz> <official mesh> [--dry] [--beta=<BETA>]
+
+--beta overrides BETA (10-20 A/B, t3_beta_ab.sh: the value is judged by an automatic metric, the checked frames only
+evaluate). The default 0.316 was bounded by the checked frames themselves (handoff, "停掉"), so it is not a fixed choice.
 """
 
 import json
@@ -107,8 +110,13 @@ def states_of(c, f, calls):
 
 
 def main():
+    global BETA
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dry = "--dry" in sys.argv
+    for a in sys.argv[1:]:
+        if a.startswith("--beta="):
+            BETA = float(a.split("=", 1)[1])
+            PARAMS["BETA"] = BETA
     ep_dir, cand_path, mesh_path = Path(args[0]), Path(args[1]), Path(args[2])
     (pkl,) = sorted((ep_dir / "foundationpose").glob("episode_*.pkl"))
     seq = pkl.stem

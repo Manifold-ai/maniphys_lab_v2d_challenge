@@ -25,6 +25,7 @@ HOLD=$T/runs/work_dump/GPU_HOLD
 # SEL_WORK names the selection's work dir (default work_sel; 10-20 work_anchor for the ctrl-anchored rerun, with SEL_REVIEW);
 # its CARI4D log is logs/cari4d_<ep>_<SEL_WORK without work_>.log. SEL_FROM_STEP=4 skips steps 1-3 (a test of the chain, gate
 # and their hand-offs on an existing work dir, e.g. SEL_WORK=work_init SEL_REVIEW=$T/dev/sel_test).
+# SEL_BETA passes --beta to t3_fp_select.py (10-20 A/B); unset keeps its default.
 SEL_WORK=${SEL_WORK:-work_sel}
 TAG=${SEL_WORK#work_}
 FROM=${SEL_FROM_STEP:-1}
@@ -56,7 +57,7 @@ for name in $EPS; do
     rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
       "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
     r=$("${D[@]}" -v "$c":/c -v "$S":/s:ro -v "$T/runs/work_dump/$name":/d:ro -v "$T/input":/in:ro v2d_cari4d:latest \
-      python /s/t3_fp_select.py /c "/d/$seq.candidates.npz" "/in/$(mesh_of "$ep")" 2>&1) || fail "$name: t3_fp_select.py: $r"
+      python /s/t3_fp_select.py /c "/d/$seq.candidates.npz" "/in/$(mesh_of "$ep")" ${SEL_BETA:+--beta=$SEL_BETA} 2>&1) || fail "$name: t3_fp_select.py: $r"
     log "$name selected: $r"
   fi
 done
