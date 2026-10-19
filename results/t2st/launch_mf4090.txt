@@ -1,0 +1,18 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ nvidia-smi\ --query-gpu=memory.used\,utilization.gpu\ --format=csv\,noheader\ \&\&\ ls\ runs/.chain-active-\*\ 2\>/dev/null\;\ for\ f\ in\ runs/logs/t2st_eval_mf4090.log\ runs/logs/cand_t2_t2st_mf4090.log\ runs/logs/cand_t2_t2st_mf4090_gate.log\ runs/exports/cand_t2_t2st_mf4090.tsv\;\ do\ \[\ -e\ \"\$f\"\ \]\ \&\&\ \{\ echo\ \"EXISTS\ \$f\"\;\ exit\ 1\;\ \}\;\ done\;\ tmux\ new-session\ -d\ -s\ v2d-t2st-eval\ -c\ \"\$PWD\"\ \"V2D_FC_SRC=\$HOME/v2d/fc_src/fc_8c778f9\ V2D_GPU_WAIT_S=7200\ stages/evaluate/day2_eval_chain.sh\ -\ stages/evaluate/t2st_mf4090.tsv\ t2st_eval_mf4090\"\;\ sleep\ 2\;\ tmux\ new-session\ -d\ -s\ v2d-t2st-export\ -c\ \"\$PWD\"\ \"V2D_FC_SRC=\$HOME/v2d/fc_src/fc_8c778f9\ V2D_FALLBACK_MAX=0\ stages/evaluate/export_after_eval.sh\ runs/logs/t2st_eval_mf4090.log\ stages/evaluate/exports/cand_t2_t2st_mf4090.tsv\ cand_t2_t2st_mf4090\"\;\ sleep\ 20\;\ tmux\ ls\ \|\ grep\ t2st\;\ ls\ runs/.chain-active-\*\;\ tail\ -3\ runs/logs/t2st_eval_mf4090.log\;\ tail\ -2\ runs/logs/cand_t2_t2st_mf4090_gate.log\;\ nvidia-smi\ --query-gpu=memory.used\,utilization.gpu\ --format=csv\,noheader\;\ echo\ LAUNCHED 
+# md5      : dd019290e4266569133b68b3521ccfe3  stages/evaluate/day2_eval_chain.sh
+# md5      : 3158346e189f59e6fc31f55ab89e49db  stages/evaluate/t2st_mf4090.tsv
+# md5      : 4d3fad75152c4f1669d35f38745010ef  stages/evaluate/export_after_eval.sh
+# md5      : 324066df338447a846ca622b672758d3  stages/evaluate/exports/cand_t2_t2st_mf4090.tsv
+# source   : 27f49b0a7102
+# host     : Mac
+# run_at   : 2026-10-19T15:14:17-0400
+# ---------------------------------------------------------------
+0 MiB, 0 %
+v2d-t2st-eval: 1 windows (created Tue Oct 20 03:14:18 2026)
+v2d-t2st-export: 1 windows (created Tue Oct 20 03:14:20 2026)
+runs/.chain-active-cand_t2_t2st_mf4090-gate
+runs/.chain-active-t2st_eval_mf4090
+=== 2026-10-20 03:14:18 CST start t2st_eval_mf4090, source 27f49b0a7102, 期望表 -, 附加表 stages/evaluate/t2st_mf4090.tsv, 评测步数 330012672 340013056 349999104
+=== 2026-10-20 03:14:20 CST 等 runs/logs/t2st_eval_mf4090.log 的最后一行变成评测链的结束行
+565 MiB, 0 %
+LAUNCHED

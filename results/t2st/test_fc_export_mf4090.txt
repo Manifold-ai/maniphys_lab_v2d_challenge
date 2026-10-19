@@ -1,0 +1,10 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ cat\ .v2d-source-commit\ \&\&\ python3\ stages/evaluate/test_fc_export.py\ 2\>\&1\ \|\ tail\ -3 
+# md5      : 943a9ff66af8f5251d212b811f40119d  stages/evaluate/test_fc_export.py
+# source   : 27f49b0a7102
+# host     : Mac
+# run_at   : 2026-10-19T15:13:52-0400
+# ---------------------------------------------------------------
+27f49b0a7102
+ok test_smoke_run_name
+ok test_failed_run_leaves_no_result
+ALL_OK

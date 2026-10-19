@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_EXPORT_CHAIN_DRYRUN=1\ V2D_FC_SRC=\$HOME/v2d/fc_src/fc_8c778f9\ V2D_FALLBACK_MAX=0\ stages/evaluate/export_chain.sh\ stages/evaluate/exports/cand_t2_t2st_mf4090.tsv\ cand_t2_t2st_mf4090 
+# md5      : c595c029582b78dd815d4b3e126f0e02  stages/evaluate/export_chain.sh
+# md5      : 324066df338447a846ca622b672758d3  stages/evaluate/exports/cand_t2_t2st_mf4090.tsv
+# source   : 27f49b0a7102
+# host     : Mac
+# run_at   : 2026-10-19T15:14:03-0400
+# ---------------------------------------------------------------
+== 预检 cand_t2_t2st_mf4090：清单 stages/evaluate/exports/cand_t2_t2st_mf4090.tsv（5 行），V2D_FC_SRC=/home/rxzhou/v2d/fc_src/fc_8c778f9，来历 27f49b0a7102
+  ok   runs/logs/cand_t2_t2st_mf4090.log 与 runs/exports/cand_t2_t2st_mf4090.tsv 都不存在
+  ok   check_export 能跑：check_export：宿主机 python3
+  ok   V2D_FC_SRC 是核对过的 8c778f9 副本
+  ok   Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-mf4090：fc_export 预检退出码 0（smoke-t2-ep25-w2048-cap4m-mf4090 policy_4096000 episode 25 world_count=1 traj=1）
+  --   Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-mf4090：还没有干净的 4096 世界评测 runs/flash_chord/smoke-t2-ep25-w2048-cap4m-mf4090/eval_4096000_w4096.json，开跑时若仍没有就记 no_eval
+  ok   Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090：fc_export 预检退出码 0（smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090 policy_4096000 episode 25 world_count=1 traj=1）
+  --   Tier 2 ep25 smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090：还没有干净的 4096 世界评测 runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-c5-mf4090/eval_4096000_w4096.json，开跑时若仍没有就记 no_eval
+  ok   Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：fc_export 预检退出码 0（t2-ep25-w2048-cap4m-r3a-c5-mf4090 policy_10000384 episode 25 world_count=1 traj=1）
+  --   Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：还没有干净的 4096 世界评测 runs/flash_chord/t2-ep25-w2048-cap4m-r3a-c5-mf4090/eval_10000384_w4096.json，开跑时若仍没有就记 no_eval
+  ok   Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：fc_export 预检退出码 0（t2-ep25-w2048-cap4m-r3a-c5-mf4090 policy_20000768 episode 25 world_count=1 traj=1）
+  --   Tier 2 ep25 t2-ep25-w2048-cap4m-r3a-c5-mf4090：还没有干净的 4096 世界评测 runs/flash_chord/t2-ep25-w2048-cap4m-r3a-c5-mf4090/eval_20000768_w4096.json，开跑时若仍没有就记 no_eval
+  ok   Tier 2 ep28 smoke-t2-ep28-w2048-cap4m-p185-mf4090：fc_export 预检退出码 0（smoke-t2-ep28-w2048-cap4m-p185-mf4090 policy_4096000 episode 28 world_count=1 traj=1）
+  --   Tier 2 ep28 smoke-t2-ep28-w2048-cap4m-p185-mf4090：还没有干净的 4096 世界评测 runs/flash_chord/smoke-t2-ep28-w2048-cap4m-p185-mf4090/eval_4096000_w4096.json，开跑时若仍没有就记 no_eval
+  --   还没训完、有 NONFINITE 或 policy 非有限的 0 行，开跑时按 no_done / nonfinite 记
+EXPORT_DRYRUN_OK
