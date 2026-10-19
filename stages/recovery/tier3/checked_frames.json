@@ -235,7 +235,9 @@
   "ep02_f395": "the basket is upside down in all three versions (orientation from the reconstruction); dr2s_dyn7's position fits the video best"
  },
  "sixth_pass_sel_pilot": {
-  "_doc": "10-20 ~00:30, user on textured renders of ep03 451 (dev/sel_diag/handle/ep03_f451_compare.png: video | init FP layer | init final | sel FP layer | sel final); 'sel' = dev/sel_pilot/conv_sel",
-  "ep03_f451": "sel right (orientation and position closest to the video); init's final has a large position error and the wrong orientation"
+  "_doc": "10-20 ~00:30, user on textured renders of ep03 451 (dev/sel_diag/handle/ep03_f451_compare.png: video | init FP layer | init final | sel FP layer | sel final); 'sel' = dev/sel_pilot/conv_sel; 10-20 ~02:00 on dev/sel_diag/handle/ep03_f131_compare.png (rows f131, f117: video | ctrl FP layer | ctrl final | sel FP layer | sel final), 'ctrl' = dev/sel_pilot/conv_ctrl",
+  "ep03_f451": "sel right (orientation and position closest to the video); init's final has a large position error and the wrong orientation",
+  "ep03_f131": "ctrl right (handle on the left, in the hand); sel wrong (handle turned to the right side)",
+  "ep03_f117": "ctrl right (orientation); sel wrong (handle not visible)"
  }
 }
