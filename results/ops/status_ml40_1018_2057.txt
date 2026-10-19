@@ -1,0 +1,24 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s\ ml40 
+# source   : c3142d84832d
+# host     : Mac
+# run_at   : 2026-10-18T22:57:11-0400
+# ---------------------------------------------------------------
+== ml40 2026-10-19 10:57:14 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  760G  1.3T  38% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1c_s44_ml40.log：=== 2026-10-18 22:28:52 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1c_s45_ml40.log：=== 2026-10-19 00:52:03 CST ARM_AFTER_STOPPED 前置命令没过（退出码 1）
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1c_s44_ml40_gate.log：=== 2026-10-19 00:51:55 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1c_s44_ml40.log：=== 2026-10-19 00:51:55 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/export_8c778f9/s349999104_w1/episode_000011.parquet
+runs/logs/t1c_s44_eval_ml40.log：=== 2026-10-19 00:50:25 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/eval_349999104_w4096.json
+runs/logs/t1c_s44_train_ml40.log：=== 2026-10-19 00:44:38 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40
+runs/logs/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40

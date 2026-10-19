@@ -1,0 +1,24 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 bash\ -s\ mf4090 
+# source   : c3142d84832d
+# host     : Mac
+# run_at   : 2026-10-18T22:57:07-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-19 10:57:10 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  213G   72G  75% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1xb_s44_mf4090.log：=== 2026-10-18 21:02:32 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1xb_s45_mf4090.log：=== 2026-10-18 23:40:48 CST ARM_AFTER_STOPPED 前置命令没过（退出码 1）
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1xb_s44_mf4090_gate.log：=== 2026-10-18 23:40:27 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1xb_s44_mf4090.log：=== 2026-10-18 23:40:27 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep14-w2048-cap4m-r3a-s44-mf4090/export_8c778f9/s349999104_w1/episode_000014.parquet
+runs/logs/t1xb_s44_eval_mf4090.log：=== 2026-10-18 23:38:36 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep14-w2048-cap4m-r3a-s44-mf4090/eval_349999104_w4096.json
+runs/logs/t1xb_s44_train_mf4090.log：=== 2026-10-18 23:32:03 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep14-w2048-cap4m-r3a-s44-mf4090
+runs/logs/t1-ep14-w2048-cap4m-r3a-s44-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep14-w2048-cap4m-r3a-s44-mf4090
