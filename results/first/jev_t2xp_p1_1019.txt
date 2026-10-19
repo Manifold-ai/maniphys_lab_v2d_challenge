@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-19-t2xp-p1.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 633696045c7261af76b8194ae965f22e  agent-doc/experiments/2026-10-19-t2xp-p1.claims.json
+# source   : 3f1a02a4e2cc-dirty
+# host     : Mac
+# run_at   : 2026-10-19T13:17:25-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep14_r3p             P(supported)=0.99  verified               [nm]  t2-ep14-w2048-cap10m-r3p-ml40 的 SP-SR 是 0.044，t2-ep14-w2048-cap10m-r3a-ml40 的 SP-SR 是 0.948；两者的 MP-SR 都是 0.000。
+ep13_r3p             P(supported)=0.99  verified               [nm]  t2-ep13-w2048-cap10m-r3p-ml40 的 MP-SR 是 0.094，低于 t2-ep13-w2048-cap10m-r3a-ml40 的 0.130；平均位置误差从 0.1261 m 降到 0.1142 m。
+ep19_r3p             P(supported)=0.98  verified               [nm]  t2-ep19-w2048-cap10m-r3p-ml40 的平均位置误差是 0.0613 m，t2-ep19-w2048-cap10m-r3a-ml40 是 0.1439 m；SP-SR 从 0.634 升到 0.900，MP-SR 从 0.000 升到 0.083。
+ep16_ctl             P(supported)=0.99  verified               [nm]  t2-ep16-w2048-cap10m-r3p-ml40 的 MP-SR 是 0.825，t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938。
+q3_no                P(supported)=0.94  verified               [sw]  换上 ep23 与 ep19 的新 run 之后，导出世界 MP 成功 19/30、AUC 平均 0.51268，4096 世界 AUC 平均 0.50010、MP-SR 合计多出 1.074；Q3 的 MP 分支与 AUC 分支都不过，结论是不交。
+health               P(supported)=0.98  verified               [hl]  t2xp 的训练链完成 4 条、失败 0、发散 0；评测链成功 4、失败 0；导出链成功 4、失败 0；4 条 run 都有 DONE=1、NONFINITE=0。
+ml40_busy            P(supported)=0.91  verified               [gp]  ml40 的 GPU 上有两个属于其他用户的 run_foundationpose_mhr_export.py 进程（episode_000002 与 episode_000028），两者显存合计约 40 GB。
+mf_t2mx              P(supported)=0.98  verified               [smf]  mf4090 在 01:12 CST 的快照里，t2-ep13 与 t2-ep19 的 cap4m r3a run 已完成 349999104 步，t2-ep14-w2048-cap4m-r3a-mf4090 的训练进度是 58.0%。
+ctl_false            P(supported)=0.01  control(false) ok      [nm]  t2-ep14-w2048-cap10m-r3p-ml40 的 SP-SR 是 0.948。
+ctl_true             P(supported)=0.99  control(true) ok       [nm]  t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938。
+controls behaved as expected

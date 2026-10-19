@@ -1,0 +1,28 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 bash\ -s\ mf4090 
+# source   : 3f1a02a4e2cc
+# host     : Mac
+# run_at   : 2026-10-19T13:12:19-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-20 01:12:22 CST
+NVIDIA GeForce RTX 4090, 23879 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  215G   70G  76% /
+-- tmux
+v2d-t2mx-eval: 1 windows (created Mon Oct 19 19:32:39 2026)
+v2d-t2mx-export: 1 windows (created Mon Oct 19 19:32:41 2026)
+v2d-t2mx-train: 1 windows (created Mon Oct 19 19:32:37 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2mx_mf4090-gate
+runs/.chain-active-t2mx_eval_mf4090
+runs/.chain-active-t2mx_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1xp2_mf4090.log：=== 2026-10-19 14:30:53 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep14-w2048-cap4m-r3a-mf4090.nanwatch.log：10-19 11:12:22 MDT 200,007,680 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2-ep14-w2048-cap4m-r3a-mf4090.log：training progress: 202,999,808/349,999,104 environment steps (58.0%); 42,447 env steps/s; elapsed 01:19:42; ETA 00:57:43
+runs/logs/t2mx_train_mf4090.log：=== 2026-10-19 23:50:16 CST 正式 t2-ep14-w2048-cap4m-r3a-mf4090
+runs/logs/t2-ep19-w2048-cap4m-r3a-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep19-w2048-cap4m-r3a-mf4090
+runs/logs/t2-ep19-w2048-cap4m-r3a-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep19-w2048-cap4m-r3a-mf4090
+runs/logs/t2-ep19-w2048-cap4m-r3a-mf4090.nanwatch.log：10-19 09:48:05 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2-ep13-w2048-cap4m-r3a-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep13-w2048-cap4m-r3a-mf4090
+runs/logs/t2-ep13-w2048-cap4m-r3a-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep13-w2048-cap4m-r3a-mf4090

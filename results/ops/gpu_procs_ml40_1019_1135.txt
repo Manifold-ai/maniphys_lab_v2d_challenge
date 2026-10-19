@@ -1,0 +1,41 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s 
+# source   : 3f1a02a4e2cc-dirty
+# host     : Mac
+# run_at   : 2026-10-19T13:16:31-0400
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-20 01:16:34 CST
+NVIDIA L40S, 40778 MiB, 46068 MiB, 100 %
+3590779, 19736 MiB
+3624021, 21028 MiB
+## GPU 进程 3590779：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3590779 其他用户 01:59:38 [Mon Oct 19 23:16:55 2026] python prep/run_foundationpose_mhr_export.py /e/export/episode_000002 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000002.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+  3590749 root 01:59:38 [Mon Oct 19 23:16:55 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id d4e6bb84f52e08bbd174f0c84da6c4a55903e420cecc90ed91fac1e79c7bf5fb -address /run/containerd/containerd.sock
+## GPU 进程 3624021：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3624021 其他用户 27:17 [Tue Oct 20 00:49:16 2026] python prep/run_foundationpose_mhr_export.py /e/export/episode_000028 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000028.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+  3623987 root 27:17 [Tue Oct 20 00:49:16 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 45a326b8b9a0ba83fde8c3946ec4fbe08acebb2d75f9e65bc4ca738f07ec72eb -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /eager_ganguly
+image v2d_cari4d:latest
+created 2026-10-19T16:49:17.38067962Z  started 2026-10-19T16:49:17.431099858Z
+entrypoint null
+cmd ["python","prep/run_foundationpose_mhr_export.py","/e/export/episode_000028","--depth-root","/e/depth/moge2/aligned.h5","--out-file","/t/episode_000028.pkl","--camera-id","0","--iteration","5","--max-attempts","5","--register-every-frame","--no-first-usable-frame-gt-rotation-oracle"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep28_squeegee/cari4d/episode_000028 -> /e; /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep28_squeegee -> /t; /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules -> /workspace; /lab_data/<其他用户>/v2d/weights/cari4d -> /data/weights_path; /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py -> /workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py; 
+name /friendly_turing
+image v2d_cari4d:latest
+created 2026-10-19T15:16:56.766097385Z  started 2026-10-19T15:16:56.82522731Z
+entrypoint null
+cmd ["python","prep/run_foundationpose_mhr_export.py","/e/export/episode_000002","--depth-root","/e/depth/moge2/aligned.h5","--out-file","/t/episode_000002.pkl","--camera-id","0","--iteration","5","--max-attempts","5","--register-every-frame","--no-first-usable-frame-gt-rotation-oracle"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep02_blue_easter_basket/cari4d/episode_000002 -> /e; /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep02_blue_easter_basket -> /t; /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules -> /workspace; /lab_data/<其他用户>/v2d/weights/cari4d -> /data/weights_path; /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py -> /workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py; 
+## 运行中的容器（列表）
+45a326b8b9a0 v2d_cari4d:latest 27 minutes ago Up 27 minutes eager_ganguly
+d4e6bb84f52e v2d_cari4d:latest 2 hours ago Up 2 hours friendly_turing
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
+3316381    11:30:40 Mon Oct 19 13:45:53 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_fp_dump.sh A ep03_contigo_coffee_mug ep02_blue_easter_basket ep09_big_red_bowl ep25_cyan_water_bottle ep16_spray_bottle ep19_cane
+3316480    11:30:37 Mon Oct 19 13:45:56 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_fp_dump.sh B ep04_baseball_bat ep13_snack_box ep28_squeegee ep11_light_blue_book ep01_vacuum ep27_woven_basket ep15_wet_floor_sign ep17_traffic_cone
+3590725    01:59:38 Mon Oct 19 23:16:55 2026 docker run --rm --runtime=nvidia --gpus all --network none --user 1001:1003 -e HOME=/tmp -v /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules:/workspace -v /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py:/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py:ro -v /lab_data/<其他用户>/v2d/weights/cari4d:/data/weights_path:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep02_blue_easter_basket/cari4d/episode_000002:/e:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep02_blue_easter_basket:/t -e PYTHONPATH=/workspace/v2d_cari4d/lib/cari4d:/workspace/v2d_sam3d_body/lib:/workspace/v2d_foundation_pose/lib/FoundationPose -e FOUNDATIONPOSE_WEIGHTS_DIR=/data/weights_path/foundationpose/nvlabs_pytorch -e PYOPENGL_PLATFORM=egl -e HDF5_USE_FILE_LOCKING=FALSE -e PYTHONUNBUFFERED=1 -w /workspace/v2d_cari4d/lib/cari4d --entrypoint  v2d_cari4d:latest python prep/run_foundationpose_mhr_export.py /e/export/episode_000002 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000002.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3590779    01:59:38 Mon Oct 19 23:16:55 2026 python prep/run_foundationpose_mhr_export.py /e/export/episode_000002 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000002.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3605925    01:24:27 Mon Oct 19 23:52:06 2026 /bin/bash /lab_data/<其他用户>/v2d/tier3/dev/speed/sample.sh
+3623964       27:17 Tue Oct 20 00:49:16 2026 docker run --rm --runtime=nvidia --gpus all --network none --user 1001:1003 -e HOME=/tmp -v /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules:/workspace -v /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py:/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py:ro -v /lab_data/<其他用户>/v2d/weights/cari4d:/data/weights_path:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep28_squeegee/cari4d/episode_000028:/e:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep28_squeegee:/t -e PYTHONPATH=/workspace/v2d_cari4d/lib/cari4d:/workspace/v2d_sam3d_body/lib:/workspace/v2d_foundation_pose/lib/FoundationPose -e FOUNDATIONPOSE_WEIGHTS_DIR=/data/weights_path/foundationpose/nvlabs_pytorch -e PYOPENGL_PLATFORM=egl -e HDF5_USE_FILE_LOCKING=FALSE -e PYTHONUNBUFFERED=1 -w /workspace/v2d_cari4d/lib/cari4d --entrypoint  v2d_cari4d:latest python prep/run_foundationpose_mhr_export.py /e/export/episode_000028 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000028.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3624021       27:17 Tue Oct 20 00:49:16 2026 python prep/run_foundationpose_mhr_export.py /e/export/episode_000028 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000028.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
