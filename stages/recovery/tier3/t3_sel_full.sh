@@ -72,7 +72,10 @@ while :; do
     [ -n "${selected[$name]:-}" ] && continue
     c=$(cdir "$name")
     if [ -f "$c/foundationpose/fp_select.json" ]; then selected[$name]=1; continue; fi
-    [ -f "$T/runs/work_dump/$name/check.json" ] || continue
+    if [ ! -f "$T/runs/work_dump/$name/check.json" ]; then
+      [ "$(streams_left)" -eq 0 ] && [ ! -f "$T/runs/work_dump/$name/check.json" ] && fail "$name: no dump stream left and no dump"
+      continue
+    fi
     grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: dump check not identical"
     rm -rf "$T/runs/work_sel/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/work_sel/$name" || fail "$name: copy"
     rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
@@ -89,6 +92,7 @@ while :; do
     if [ -f "$(cdir "$name")/inference/refined.pth" ]; then refined[$name]=1; else waiting+=("$name"); fi
   done
   if [ ${#waiting[@]} -gt 0 ] && { [ ${#waiting[@]} -ge "$MIN_BATCH" ] || [ "$(streams_left)" -eq 0 ]; }; then
+    wait  # background converts first: their soma step is on the GPU and stage 07 peaks near 44 GB
     touch "$HOLD"
     log "GPU hold for ${waiting[*]}"
     while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done

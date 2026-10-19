@@ -22,6 +22,10 @@ GPY=/lab_data/yqchen/v2d/gate/venv/bin/python
 A=/lab_data/yqchen/v2d/soma_assets
 RX_RUNS=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs
 HOLD=$T/runs/work_dump/GPU_HOLD
+# SEL_WORK names the selection's work dir (default work_sel); SEL_FROM_STEP=4 skips steps 1-3 (a test of the chain, gate
+# and their hand-offs on an existing work dir, e.g. SEL_WORK=work_init SEL_REVIEW=$T/dev/sel_test).
+SEL_WORK=${SEL_WORK:-work_sel}
+FROM=${SEL_FROM_STEP:-1}
 EPS="$*"
 KINDS="ctrl sel"
 D=(docker run --rm --cpus 8 -e OMP_NUM_THREADS=8 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
@@ -33,13 +37,17 @@ free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | 
 mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
 log "deployed: $(cat "$T/code/DEPLOYED" 2>/dev/null)"
 mkdir -p "$M/logs" "$M/report" "$T/runs/work_sel"
+if [ "$FROM" -le 3 ]; then
 touch "$HOLD"
 log "GPU hold set: the dump streams stop before their next episode"
 
 # 1-2. selection on copies
 for name in $EPS; do
   ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); c=$T/runs/work_sel/$name/cari4d/$seq
-  until [ -f "$T/runs/work_dump/$name/check.json" ]; do sleep 60; done
+  until [ -f "$T/runs/work_dump/$name/check.json" ]; do
+    pgrep -f "[t]3_fp_dump.sh" > /dev/null || [ -f "$T/runs/work_dump/$name/check.json" ] || fail "$name: no dump stream left and no dump"
+    sleep 60
+  done
   grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: dump check not identical"
   if [ ! -f "$c/foundationpose/fp_select.json" ]; then
     rm -rf "$T/runs/work_sel/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/work_sel/$name" || fail "$name: copy"
@@ -65,6 +73,7 @@ for name in $EPS; do
 done
 rm -f "$HOLD"
 log "GPU hold released"
+fi
 
 # 4. object-only chain, ctrl and sel
 mkdir -p "$P/runs/physics"
@@ -76,7 +85,7 @@ for name in $EPS; do
     c=$M/conv_$kind/$name
     rm -rf "$c"; mkdir -p "$(dirname "$c")"; cp -a "$T/runs/convert_fp/$name" "$c"
     if [ "$kind" = sel ]; then
-      "${D[@]}" -v "$S":/s:ro -v "$T/runs/work_sel/$name/cari4d/$seq":/e:ro -v "$c":/o v2d_cari4d:latest \
+      "${D[@]}" -v "$S":/s:ro -v "$T/runs/$SEL_WORK/$name/cari4d/$seq":/e:ro -v "$c":/o v2d_cari4d:latest \
         python /s/t3_sel_decode_object.py /e /o > "$M/logs/decode_$name.log" 2>&1 || fail "$name decode"
     fi
     "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$A":/a:ro -v "$T/input":/in:ro -v "$c":/o/"$name" v2d_cari4d:latest \
@@ -122,4 +131,5 @@ for name in $EPS; do
   log "iou $name done"
 done
 docker run --rm --cpus 8 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -v "$T":"$T" -v "$S":"$S":ro \
-  v2d_cari4d:latest python "$S/t3_sel_gate.py" "$T" "$M" $EPS 2>&1 | tee "$M/gate.log" || fail "gate"
+  v2d_cari4d:latest python "$S/t3_sel_gate.py" "$T" "$M" "$SEL_WORK" $EPS 2>&1 | tee "$M/gate.log"
+grep -q -E "^SEL_GATE_(PASS|FAIL)" "$M/gate.log" || fail "gate did not finish ($M/gate.log)"

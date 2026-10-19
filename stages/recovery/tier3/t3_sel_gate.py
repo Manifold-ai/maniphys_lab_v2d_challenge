@@ -1,6 +1,6 @@
 """Gate of the timeline-selection pilot (t3_sel_pilot.sh, 10-19; criteria registered in the Tier 3 handoff before the run).
 
-    python t3_sel_gate.py <tier3 root> <review dir> <episode>...      (in the v2d_cari4d image: reads refined.pth)
+    python t3_sel_gate.py <tier3 root> <review dir> <selection work dir, e.g. work_sel> <episode>...   (v2d_cari4d image)
 
 Versions: ctrl = runs/work_fp (FoundationPose's own pick), sel = runs/work_sel (t3_fp_select.py), init = runs/work_init
 (the 10-16 slerp pilot, the reference on the frames the user judged it right). Rotations are CoCoNet's output after
@@ -40,7 +40,7 @@ def rotations(ep_dir: Path) -> np.ndarray:
 
 
 def main():
-    root, review, eps = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3:]
+    root, review, sel_work, eps = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4:]
     meta = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
     out, fails, pooled = {}, [], []
     for name in eps:
@@ -49,8 +49,8 @@ def main():
         mesh = trimesh.load(root / "input" / meta[ep]["mesh"], force="mesh")
         body = mesh if mesh.is_watertight else mesh.convex_hull
         G, axis = symmetries(Shape(mesh, np.asarray(body.center_mass)), body.moment_inertia)
-        R = {v: rotations(root / "runs" / f"work_{w}" / name / "cari4d" / seq) for v, w in (("ctrl", "fp"), ("sel", "sel"), ("init", "init"))
-             if (root / "runs" / f"work_{w}" / name / "cari4d" / seq / "inference" / "refined.pth").exists()}
+        R = {v: rotations(root / "runs" / w / name / "cari4d" / seq) for v, w in (("ctrl", "work_fp"), ("sel", sel_work), ("init", "work_init"))
+             if (root / "runs" / w / name / "cari4d" / seq / "inference" / "refined.pth").exists()}
         ang = lambda a, b, f: float(sym_angle_deg(R[a][f:f + 1], R[b][f:f + 1], G, axis)[0, 0])
         g1 = {}
         for ref, frames in CHECKS.get(name, {}).items():
