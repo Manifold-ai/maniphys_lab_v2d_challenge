@@ -7,6 +7,7 @@
 # third_party/patches/cari4d-fp-sequence-mode.patch over the inference entry and runs FoundationPose registering every
 # frame (re-acquires a lost object) instead of registering once and tracking.
 # T3_CARI4D_EXTRA adds wrapper flags as they are (e.g. --optimize_object_rotation for t3_rot_pilot.sh).
+# T3_SKIP_RENDER=1 (with T3_FP_MODE) drops stage 08, which only renders review videos (third_party/patches/cari4d-skip-render.patch).
 # Log: $T3_ROOT/logs/cari4d_<name><T3_LOG_TAG>.log; the last line carries rc.
 set -u
 name=$1
@@ -43,10 +44,20 @@ LOG=$T/logs/cari4d_$name${T3_LOG_TAG:-}.log
       patch -s -o "$pdir/run_inference.py" "$pdir/upstream_run_inference.py" < "$S/../../../third_party/patches/cari4d-fp-sequence-mode.patch" || exit 2
       [ "$(md5sum < "$pdir/run_inference.py" | cut -c1-32)" = 45d83632944176002d5bba81bfdc87ae ] || { echo "patched run_inference.py md5 mismatch"; exit 2; }
     fi
-    T3_EXTRA_MOUNTS="$T3_EXTRA_MOUNTS;$pdir/run_inference.py:$ri:ro"
+    mount=$pdir/run_inference.py
+    if [ "${T3_SKIP_RENDER:-0}" = 1 ]; then
+      # third_party/patches/cari4d-skip-render.patch over the sequence-mode file: no stage 08 (review videos only)
+      if [ "$(md5sum < "$pdir/run_inference_norender.py" 2>/dev/null | cut -c1-32)" != 9dd956923d66839dc07ccea0981b5de9 ]; then
+        patch -s -o "$pdir/run_inference_norender.py" "$pdir/run_inference.py" < "$S/../../../third_party/patches/cari4d-skip-render.patch" || exit 2
+        [ "$(md5sum < "$pdir/run_inference_norender.py" | cut -c1-32)" = 9dd956923d66839dc07ccea0981b5de9 ] || { echo "skip-render file md5 mismatch"; exit 2; }
+      fi
+      mount=$pdir/run_inference_norender.py
+    fi
+    T3_EXTRA_MOUNTS="$T3_EXTRA_MOUNTS;$mount:$ri:ro"
     export V2D_FP_SEQUENCE_MODE=$FP_MODE
   fi
-  echo "foundationpose mode: $FP_MODE${T3_CARI4D_EXTRA:+, extra: $T3_CARI4D_EXTRA}"
+  [ "${T3_SKIP_RENDER:-0}" != 1 ] || [ "$FP_MODE" != register-first-then-track ] || { echo "T3_SKIP_RENDER needs a sequence mode"; exit 2; }
+  echo "foundationpose mode: $FP_MODE${T3_CARI4D_EXTRA:+, extra: $T3_CARI4D_EXTRA}${T3_SKIP_RENDER:+, skip render: $T3_SKIP_RENDER}"
   source ~/proxy.sh >/dev/null
   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
   export T3_FORWARD_ENV=PYTORCH_CUDA_ALLOC_CONF${V2D_FP_SEQUENCE_MODE:+,V2D_FP_SEQUENCE_MODE}

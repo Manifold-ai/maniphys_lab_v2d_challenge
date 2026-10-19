@@ -3,8 +3,11 @@
 # before the run; the checked frames only evaluate afterwards). Unattended:
 #   1. per BETA and episode, runs/work_<tag> = copy of runs/work_fp with stages 06-08 cleared and the selection written
 #      (t3_fp_select.py --beta); BETA 0 reuses runs/work_sel (the 10-19 pilot, the same selection) where it has 06-08;
-#   2. one GPU hold for all CARI4D 06-08 runs (runs/work_dump/GPU_HOLD: the dump streams stop after their current
-#      episode), each started only when rxzhou's chain is idle (10-10 rule) and >= 44 GB are free;
+#   2. one GPU hold for all CARI4D 06-07 runs (runs/work_dump/GPU_HOLD: the dump streams stop after their current
+#      episode), each started only when rxzhou's chain is idle (10-10 rule) and >= 44 GB are free; stage 08 (review
+#      videos, read by nothing downstream) is skipped (T3_SKIP_RENDER=1), and a BETA whose stage-05 poses equal an earlier
+#      BETA's for that episode bit for bit takes that run's work dir instead of a GPU run (REUSED_FROM names it; assumes
+#      06-07 give the same output for the same input, not checked);
 #   3. per BETA, t3_sel_pilot.sh from step 4 (object chain, IoU, gate) into $T/dev/beta_ab/<tag>;
 #   4. t3_beta_ab_summary.py: the registered judge and the evaluation on the checked frames.
 #   setsid nohup stages/recovery/tier3/t3_beta_ab.sh > $T/logs/beta_ab.log 2>&1 &
@@ -24,6 +27,7 @@ rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --for
 dumps_running() { docker ps --filter ancestor=v2d_cari4d:latest --format '{{.Command}}' --no-trunc | grep -c run_foundationpose_mhr_export; }
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
 tag() { printf 'b%03d' "$(awk "BEGIN{printf \"%d\", $1 * 100 + 0.5}")"; }
+poses_md5() { /lab_data/yqchen/v2d/venv/bin/python -c "import pickle, hashlib, numpy as np; d = pickle.load(open('$1', 'rb')); print(hashlib.md5(np.ascontiguousarray(np.asarray(d['fp_poses_cam'], np.float64)).tobytes()).hexdigest())"; }
 mesh_of() { /lab_data/yqchen/v2d/venv/bin/python -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
 log "deployed: $(cat "$T/code/DEPLOYED" 2>/dev/null)"
 mkdir -p "$R"
@@ -58,9 +62,22 @@ for b in $BETAS; do
   for name in $EPS; do
     ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep")
     [ -f "$T/runs/work_$tg/$name/cari4d/$seq/inference/refined.pth" ] && { log "$tg $name: refined already"; continue; }
+    h=$(poses_md5 "$T/runs/work_$tg/$name/cari4d/$seq/foundationpose/$seq.pkl") || fail "$tg $name: hash"
+    same=""
+    for p in $BETAS; do
+      pt=$(tag "$p"); [ "$pt" = "$tg" ] && break
+      q=$T/runs/work_$pt/$name/cari4d/$seq
+      [ -f "$q/inference/refined.pth" ] && [ "$(poses_md5 "$q/foundationpose/$seq.pkl")" = "$h" ] && { same=$pt; break; }
+    done
+    if [ -n "$same" ]; then
+      rm -rf "$T/runs/work_$tg/$name"; cp -a "$T/runs/work_$same/$name" "$T/runs/work_$tg/$name" || fail "$tg $name: reuse copy"
+      echo "$same" > "$T/runs/work_$tg/$name/REUSED_FROM"
+      log "$tg $name: stage-05 poses identical to $same, its 06-07 reused"
+      continue
+    fi
     while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done
     log "$tg $name: CARI4D 06-08"
-    T3_WORK=runs/work_$tg T3_FP_MODE=register-every-frame T3_LOG_TAG=_$tg "$S/t3_cari4d_ep.sh" "$name" || fail "$tg $name: CARI4D (logs/cari4d_${name}_$tg.log)"
+    T3_WORK=runs/work_$tg T3_FP_MODE=register-every-frame T3_SKIP_RENDER=1 T3_LOG_TAG=_$tg "$S/t3_cari4d_ep.sh" "$name" || fail "$tg $name: CARI4D (logs/cari4d_${name}_$tg.log)"
     rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$tg.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
     [ -z "$rerun" ] || fail "$tg $name: CARI4D re-ran earlier stages ($rerun)"
     log "$tg $name: $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$tg.log" | tr '\n' ' ')"
