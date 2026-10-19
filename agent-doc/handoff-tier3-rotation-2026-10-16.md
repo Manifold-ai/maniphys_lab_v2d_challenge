@@ -497,3 +497,34 @@ GB_CHAIN_FAILED <步骤>；门槛 `$G/logs/p2_gbdyn7.txt`、我们的支撑面 `
 **交付规则（用户 10-17 中午授权「通过自检就交付」，条件在看结果前登记；随后用户改为 10-18 自己看结果再定，授权收回，以下六条作为看结果时的判据，agent 不自行交付）**：自检脚本 `$G/dyn/gb_selfcheck.sh`（日志 `$G/dyn/gb_selfcheck.log`，末行 SELFCHECK_DONE）在整链后跑动力学检查（支撑面用 `$G/support_usda_gbdyn7`）、手-物、逐帧对齐、契约、改动审计。六条全过才把交付版换成 `tier3_cari4d_gb_best_dr2s_dyn7`，否则保留 `best_dr2s_dyn7` 等用户：1 整链完成、30 集、代码 `cd8ba69` dirty=0，契约 gb_dr2s → gb_dr2s_dyn7 只改物体位姿；2 我们的支撑面门槛 30/30；3 逐帧 IoU < 0.5 的帧 ≤ 554（交付版 528 × 1.05）；4 动力学违规帧 ≤ 2408（2189 × 1.1）；5 标了接触而手离物体 > 3 cm 的帧占比 ≤ 交付版 + 0.2 个百分点；6 agent 看贴图渲染（审计改动最大的帧、ep21、ep12/14），明显变差或判不了就不交付。世界系整体变了，交付版 → 新版的改动审计只用来挑看图的帧，不作条件。
 **10-17 13:1x 状态与接手**：整链到第 7 步（地面门槛 25/30，失败 ep3/6/7/20/25 与交付版逐条相同，重定向 0 失败），我们的支撑面复检在跑；之后 `gb_selfcheck.sh` 自动开跑。用户要的报告：按上面六条逐条对照交付版，写 `agent-doc/selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md`，交付报告草稿用 `t3_delivery_report.py` 写到 `$T/dev/audit/`（不进版本目录、不交付），事实过 jev。看图注意：`t3_pose_overlay.py` 对所有版本只用一个选择表的相似变换与内参，f830 与 GB 两个世界不能放进同一次调用；两版各用自己的选择表（`tier3_cari4d_f830_best.selection.json` / `tier3_cari4d_gb_best.selection.json`）、同一组 `frames=` 分别渲染再并排。
 **自检结果（10-17 13:48 跑完）**：六条中前五条过，第 6 条看图未过（ep16 第 130 帧明显变差，dyn7 在 GB 世界把第一段静置锁定延到第 128 帧，交付版到第 105 帧）；未交付，交付版仍是 `best_dr2s_dyn7`。报告 [selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md](selfcheck-tier3-gb_best_dr2s_dyn7-2026-10-17.md)，交付报告草稿 `$T/dev/audit/DELIVERY_draft_gbdyn7.md`。
+
+## 初值试点的位置问题：后处理与「旋转取新、中心取旧」都修不了（10-19，用户要求先验再做方案 (1)）
+
+用户 10-19 选方案 (1)（FoundationPose 每帧存全部候选 + 全时间线选择），先验证试点里的位置偏差能否靠后处理或拼接修掉。判据跑之前登记在
+`$T/dev/init_pilot/mix/PLAN.md`。三个版本只换物体，四集 ep04/03/13/28，走 **gb4 链**（focal `intrinsics_gb3.json` 带人体重拟合，world
+`floor_fit_gb4` + `camera_register_gb4`，支撑面 `runs/support/tier3_cari4d_gb4_best`，dr2s `--move-human=3d`，dyn7）：ctrl = convert_fp 原样，
+init = work_init 的 `refined.pth`，mix = init 的旋转 + ctrl 的网格包围盒中心（`mix_object.py`，断言旋转逐位等于 init、中心逐位等于 ctrl）。
+阶段 A（组装后）与 Y（dr2s + dyn7 后）；「变化帧」= init 相对 ctrl 转角 > 24°；轮廓 IoU 每 2 帧一次（`mix_iou.py`，在 v2d_cari4d 容器里跑，
+宿主 venv 缺 h5py/torch）。对照：ctrl 的物体列与 gb4_best/_dr2s/_dr2s_dyn7 逐列一致；人体列有差（姿态 ≤ 0.03 rad、平移 ≤ 4 mm，ep28 最大），
+focal 步人体重拟合不逐位复现（推断），不影响物体轮廓的比较。结果 `$T/dev/init_pilot/mix/report/summary.txt`。
+
+**位置偏差的形状**（init − ctrl 的物体中心，CARI4D 相机系，变化帧 p50/p90）：ep04 沿视线 3.4/11.1 cm、横向 3.2/7.1 cm（8/20 px）；ep03 0.6/1.5、
+0.5/0.7 cm（1.4/2.0 px，变化帧只有 12）；ep13 1.4/5.3、2.4/6.6 cm（6/16 px）；ep28 14/42、14/29 cm（40/86 px，ep28 重建本身失败）。横向分量与沿视线
+同量级，dr2s 只沿视线改，碰不到横向那一半。
+
+**IoU（iou_vis，变化帧合并四集；差 = 版本 − 同阶段 ctrl，好/坏 = 差 > +0.05 / < −0.05）**：
+
+| 版本 | n | 中位差 | 好 / 坏 | 登记的判据 |
+|---|---|---|---|---|
+| A_init | 139 | −0.012 | 28 / 53 | 不过 |
+| Y_init | 141 | +0.000 | 37 / 43 | 不过（Q1：后处理修好 init？否） |
+| A_mix | 140 | −0.004 | 32 / 47 | 不过 |
+| Y_mix | 140 | −0.000 | 39 / 39 | 过；但 Q2 要求 A、Y 都过，记「否」 |
+
+逐集：ep04 是损失的主体，A_init −0.013（8/21）、Y_init −0.001（9/21），**mix 反而更差**（A −0.031，4/19）；ep13 init 本来就更好（A +0.023，10/4）；
+ep28 A_init 10/28，到 Y 打平（18/17）；ep03 变化帧可用的 iou_vis 只有 2 帧，说不了什么。整集中位 iou_vis 三版相差 ≤ 0.008（ep04 0.804/0.809/0.807）。
+
+**结论**：(a) dr2s + dyn7 把合并后的中位差从 −0.012 拉到 0，坏帧从 53 降到 43，但仍多于好帧，ep04 基本没变；(b) 沿用旧中心修不了，ep04 上更差——
+旧中心是为错误朝向摆的位置，不是独立于朝向的「对的位置」（推断）；(c) 损失只在变化帧上，整集 IoU 不受影响。方案 (1) 不另加位置补丁：判版本看 Y 阶段，
+朝向仍以用户看贴图为准。盲区同 10-16：球棒头尾翻转的轮廓相近，IoU 主要量位置；ep03 手持帧掩码几乎全在人体内。
+脚本（未入库，同试点其他脚本）：`$T/dev/init_pilot/mix/{PLAN.md,mix_object.py,mix_review.sh,iou_tail.sh,mix_iou.py,mix_summary.py}`。
