@@ -522,6 +522,24 @@ def test_precision_parts():
             cand = lines(root / "stages" / "evaluate" / "exports" / f"cand_t{tier}_{name}_{m}.tsv")
             assert cand == [f"{tier}\t{ep}\t{fmt.format(ep=ep)}\t349999104" for ep in eps], cand
 
+def test_smoke_extra():
+    """计划 agent-doc/plan-t2sd-2026-10-19.md：t2msd 是 ep25 的变体 A（mf4090、400 万），冒烟行比正式行多一项
+    training.checkpoint.save_interval_environment_steps=409600，正式行不加；别的段的冒烟行与正式行覆盖相同（见 test_precision_parts）。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        p = gen(root, "t2msd")
+        assert p.returncode == 0, p.stdout + p.stderr
+        f, s = lines(q / "mf4090_t2msd.txt"), lines(q / "mf4090_t2msd_smoke.txt")
+        assert len(f) == len(s) == 1
+        ft, st = f[0].split(), s[0].split()
+        assert ft[5] == "t2-ep25-w2048-cap4m-r3a-sd-mf4090" and st[5] == "smoke-" + ft[5], (f, s)
+        assert st[9:] == ft[9:] + ["training.checkpoint.save_interval_environment_steps=409600"], (f, s)
+        assert ft[9:][-2:] == VAR and not any(o.startswith("training.checkpoint.") for o in ft[9:]), f
+        assert "冒烟另加 training.checkpoint.save_interval_environment_steps=409600" in (q / "mf4090_t2msd.txt").read_text().splitlines()[0]
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

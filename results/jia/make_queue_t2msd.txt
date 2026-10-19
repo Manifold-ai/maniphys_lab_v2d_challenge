@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t2msd 
+# md5      : 8d1f72c8b1ecb8d253e7164a5d966b3a  stages/policy/make_var_queue.py
+# source   : 23da7db690b5-dirty
+# host     : Mac
+# run_at   : 2026-10-19T18:19:07-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/mf4090_t2msd.expect.tsv（2 行）
+写 stages/policy/queues/mf4090_t2msd_smoke.txt（2 行）
+写 stages/policy/queues/mf4090_t2msd.txt（2 行）
+写 stages/evaluate/exports/cand_t2_t2msd_mf4090.tsv（2 行）

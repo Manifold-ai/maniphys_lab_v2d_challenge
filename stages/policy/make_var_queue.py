@@ -172,6 +172,11 @@ SETS = {
              "episodes": [13, 19, 14], "parts": {"t2mx": [13, 19, 14]}, "base": None, "strip_r3a": True,   # ep14 放最后：正式训练显存不足（退出码 4）会跳过其后所有 run（复核 2）
              "run": "t2-ep{ep}-w2048-cap4m-r3a-mf4090",
              "desc": "Tier 2 变体 A 换到 mf4090、buffer 400 万：SP 过、MP 不过的 ep13、19、14 seed 42（ml40、1000 万的变体 A 没修好 MP；基线取 Tier 2 导出清单）"},
+    # 10/19 下午（计划 agent-doc/plan-t2sd-2026-10-19.md）：409.6 万步的冒烟策略已经会走到瓶子跟前；冒烟改成每 409600 步存一份，评更早的 checkpoint
+    "t2msd": {"plan": "agent-doc/plan-t2sd-2026-10-19.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+              "episodes": [25], "parts": {"t2msd": [25]}, "base": None, "strip_r3a": True,
+              "run": "t2-ep{ep}-w2048-cap4m-r3a-sd-mf4090", "smoke_extra": ["training.checkpoint.save_interval_environment_steps=409600"],
+              "desc": "Tier 2 ep25 冒烟密存档：变体 A seed 42（mf4090，buffer 400 万），冒烟每 409600 步存一份 checkpoint；正式训练用停链标记挡住"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
@@ -280,11 +285,12 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
         tail = f"{parquet} {formal['worlds']}"
         r3o = f"{R3O_ENV} " if s.get("variant") == "r3o" else ""
         formal_lines.append(f"{env_formal(name)} {r3o}{run} {tail} {STEPS} {' '.join(over)}")
-        smoke.append(f"{ENV_SMOKE} {r3o}smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over)}")
+        smoke.append(f"{ENV_SMOKE} {r3o}smoke-{run} {tail} {SMOKE_STEPS} {' '.join(over + s.get('smoke_extra', []))}")
         cand.append(f"{s['tier']}\t{ep}\t{run}\t{STEPS}")
     head = (f"# {s['desc']}；这一段 {part}：{'、'.join(f'ep{e}' for e in eps)}；计划 {s['plan']}；变体 A = {' '.join(VARIANT)}；"
             + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
             + (f"r3p = {' '.join(VARIANT_P)}（只改 σ）；" if s.get("variant") == "r3p" else "")
+            + (f"冒烟另加 {' '.join(s['smoke_extra'])}（只加在冒烟行）；" if s.get("smoke_extra") else "")
             + (f"r3o = 变体 A 加 {R3O_ENV}；训练挂 v040_p185_nfg_oo" if s.get("variant") == "r3o" else "训练挂 v040_p185_nfg")
             + "（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
     stem = f"{s['machine']}_{part}"
