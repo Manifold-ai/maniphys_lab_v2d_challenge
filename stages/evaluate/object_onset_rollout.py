@@ -2,7 +2,8 @@
 起因：agent-doc/plan-t2st-2026-10-19.md 执行记录：Tier 2 ep25 只训了 409.6 万步的冒烟策略，也把瓶子带离了 1.1–1.3 m。
 机器人还没学会走到桌边，瓶子是不是自己先掉了？这里量导出轨迹里物体相对第 0 帧的平移与转角随帧的变化：
 第一次平移超过 --pos-cm 或转角超过 --rot-deg 的帧，以及若干帧上的平移、转角与高度变化。门槛只用于描述，不进任何方法。
-导出 parquet 的列：pos_x/pos_y/pos_z 与 quat_x/quat_y/quat_z/quat_w（同提交 CSV）；有 world 列时只取第 0 个世界，有 body 列时只取第一个部件。
+导出 parquet 的列：achieved_position_*、achieved_quaternion_*（仿真里物体的位姿）与 reference_position_*（参考），按 step 排序，
+只取最小的 environment_id 与第一个 object_body_id。参考的物体相对它自己第 0 帧的平移一起报：仿真里的物体比参考先动，就是被碰了或自己掉了。
 用法（容器内）：python /repo/stages/evaluate/object_onset_rollout.py [--pos-cm 3] [--rot-deg 10] <导出 parquet>...   最后一行 OBJECT_ONSET_DONE
 """
 import argparse
@@ -11,8 +12,9 @@ import sys
 import numpy as np
 import pyarrow.parquet as pq
 
-POS = ("pos_x", "pos_y", "pos_z")
-QUAT = ("quat_x", "quat_y", "quat_z", "quat_w")
+POS = ("achieved_position_x", "achieved_position_y", "achieved_position_z")
+QUAT = ("achieved_quaternion_x", "achieved_quaternion_y", "achieved_quaternion_z", "achieved_quaternion_w")
+REF = ("reference_position_x", "reference_position_y", "reference_position_z")
 MARKS = (0, 5, 10, 25, 50, 100, 150, 200, 300, 400, 600, 800)
 
 
@@ -24,35 +26,34 @@ def angle_deg(q0: np.ndarray, q: np.ndarray) -> np.ndarray:
 def one(path: str, pos_cm: float, rot_deg: float) -> None:
     t = pq.read_table(path)
     cols = t.column_names
-    if not all(c in cols for c in POS + QUAT):
+    if not all(c in cols for c in POS + QUAT + REF + ("step",)):
         print(f"{path}：列不对，有 {cols}")
         sys.exit(2)
     d = t.to_pydict()
     keep = np.ones(t.num_rows, dtype=bool)
-    for c in ("world", "world_index", "env"):
-        if c in d:
-            keep &= np.asarray(d[c]) == min(d[c])
-    for c in ("body", "body_index", "part"):
-        if c in d:
-            keep &= np.asarray(d[c]) == d[c][0]
-    order = np.arange(t.num_rows)
-    for c in ("frame", "step", "frame_index"):
-        if c in d:
-            order = np.argsort(np.asarray(d[c]), kind="stable")
-            break
+    if "environment_id" in d:
+        keep &= np.asarray(d["environment_id"]) == min(d["environment_id"])
+    if "object_body_id" in d:
+        keep &= np.asarray(d["object_body_id"]) == d["object_body_id"][0]
+    order = np.argsort(np.asarray(d["step"]), kind="stable")
     order = order[keep[order]]
     p = np.stack([np.asarray(d[c], dtype=float)[order] for c in POS], axis=1)
     q = np.stack([np.asarray(d[c], dtype=float)[order] for c in QUAT], axis=1)
+    r = np.stack([np.asarray(d[c], dtype=float)[order] for c in REF], axis=1)
     disp = np.linalg.norm(p - p[0], axis=1)
     rot = angle_deg(q[0], q)
+    rdisp = np.linalg.norm(r - r[0], axis=1)
     moved = np.flatnonzero((disp > pos_cm / 100.0) | (rot > rot_deg))
     first = int(moved[0]) if moved.size else -1
-    print(f"{path}：{len(p)} 帧；第一次离开（平移 > {pos_cm} cm 或转角 > {rot_deg}°）在第 {first} 帧；"
-          f"最终平移 {disp[-1]:.3f} m、转角 {rot[-1]:.1f}°、高度变化 {p[-1, 2] - p[0, 2]:+.3f} m")
-    print("  帧\t平移 m\t转角 °\t高度变化 m")
+    rmoved = np.flatnonzero(rdisp > pos_cm / 100.0)
+    rfirst = int(rmoved[0]) if rmoved.size else -1
+    print(f"{path}：{len(p)} 帧；仿真里物体第一次离开（平移 > {pos_cm} cm 或转角 > {rot_deg}°）在第 {first} 帧，"
+          f"参考里物体第一次平移 > {pos_cm} cm 在第 {rfirst} 帧；最终平移 {disp[-1]:.3f} m、转角 {rot[-1]:.1f}°、高度变化 {p[-1, 2] - p[0, 2]:+.3f} m；"
+          f"第 0 帧仿真与参考的位置差 {np.linalg.norm(p[0] - r[0]):.3f} m")
+    print("  帧\t仿真平移 m\t仿真转角 °\t仿真高度变化 m\t参考平移 m")
     for f in MARKS:
         if f < len(p):
-            print(f"  {f}\t{disp[f]:.3f}\t{rot[f]:.1f}\t{p[f, 2] - p[0, 2]:+.3f}")
+            print(f"  {f}\t{disp[f]:.3f}\t{rot[f]:.1f}\t{p[f, 2] - p[0, 2]:+.3f}\t{rdisp[f]:.3f}")
 
 
 def main() -> int:
