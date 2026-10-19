@@ -683,3 +683,7 @@ init 对。思路：默认保留 FoundationPose 自己的选择，只有整段�
 - 用户说先看趋势；胜出值定下后再看 7 个答案帧与 ep13 的 8 帧（只评估，不回头改值）。自动裁判不一定选中 0.3，选哪个报哪个。
 - 运行：`t3_beta_ab.sh`，`runs/work_b{000,010,020,030,050}`，评审目录 `$T/dev/beta_ab/<tag>`，日志 `$T/logs/beta_ab.log`。
   GPU 约 13 次 06–08（每次约 22 分钟），一次性 `GPU_HOLD`，dump 跑完手上这一集后让路。
+- **省时（10-20 03:24 重启，用户同意，`e3fdeae`）**：08 只渲染核对视频、下游不读，A/B 里跳过（`T3_SKIP_RENDER=1`，补丁
+  `third_party/patches/cari4d-skip-render.patch` 叠在每帧配准补丁之上，md5 钉住，`pipeline_report.json` 记 `render: skipped`）；第 05 步位姿与较小
+  `BETA` 逐位相同时复用其 06–07（`REUSED_FROM`；假设同输入同输出，未核）。去重后：ep04 0.3 = 0.2，ep13 0.1 = 0.2 = 0.3，ep03 五个取值互不相同；
+  GPU 实跑 10 次（ep03 4、ep04 3、ep13 3），每次约 11 分钟（ep04 的 06+07）。仍等两路 dump 做完当前集（B 路 ep11 约 04:40）。
