@@ -91,7 +91,10 @@ while :; do
     [ -n "${selected[$name]:-}" ] || continue
     if [ -f "$(cdir "$name")/inference/refined.pth" ]; then refined[$name]=1; else waiting+=("$name"); fi
   done
-  if [ ${#waiting[@]} -gt 0 ] && { [ ${#waiting[@]} -ge "$MIN_BATCH" ] || [ "$(streams_left)" -eq 0 ]; }; then
+  n_sel=0; for name in $EPS; do [ -n "${selected[$name]:-}" ] && n_sel=$((n_sel + 1)); done
+  # a batch once MIN_BATCH wait, or when nothing more will land for these episodes (every one selected, or no stream left;
+  # stream A ends on ep19, which is not in this run, so "every one selected" keeps the last batch from waiting for it)
+  if [ ${#waiting[@]} -gt 0 ] && { [ ${#waiting[@]} -ge "$MIN_BATCH" ] || [ "$n_sel" -eq "$(echo $EPS | wc -w)" ] || [ "$(streams_left)" -eq 0 ]; }; then
     wait  # background converts first: their soma step is on the GPU and stage 07 peaks near 44 GB
     touch "$HOLD"
     log "GPU hold for ${waiting[*]}"
@@ -106,6 +109,10 @@ while :; do
     rm -f "$HOLD"
     log "GPU hold released"
   fi
+  # fail fast on a finished convert that failed (the dumps keep running; they do not depend on this script)
+  for name in $EPS; do
+    [ -n "${converting[$name]:-}" ] && tail -1 "$T/logs/sel_convert_$name.log" 2>/dev/null | grep -q CONVERT_FAILED && fail "$name: convert (logs/sel_convert_$name.log)"
+  done
   # 3. convert in the background
   for name in $EPS; do
     [ -n "${refined[$name]:-}" ] && [ -z "${converting[$name]:-}" ] || continue
