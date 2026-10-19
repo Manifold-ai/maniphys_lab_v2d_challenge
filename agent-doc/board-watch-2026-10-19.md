@@ -47,7 +47,9 @@
 - 12:36 MDT：第一次快照与比较（`results/board/lb_1019_1236.txt`、`results/board/diff_1019_1236.txt`），结果见事实 4；ALERT 10 条（Tier 1 AUC 第 2 → 3、SP-SR 第 1 → 2，
   Tier 3 MPPE 第 2 → 3，三种总名次由第 1 变第 2 等）。`track2_rank_sum.py` 对同一份快照给出相同的名次和。
 
-## 附：两个循环任务的提示词（10/19 12:4x MDT 建，续期时照抄；改了要同时改续期任务）
+## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
+
+这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。
 
 看榜（`10 2,5,8,11,14,17,20,23 * * *`）：
 
@@ -59,7 +61,7 @@ V2D board watch. User request 10/19: "定时每天每间隔三小时查看一次
 4. If boards changed, report which team moved on which board, our gap on each board, and the rank sums for readings A and B under both tie rules. Decide if the strategy must change: which boards we can regain soonest, with which runs, and with which submission slot. Write the decision and the reasons into the execution record of the active plan, or into a new short plan.
 5. If a GPU is idle and no reviewed plan waits for it, write a short plan for its next work. Give priority to the smallest board gaps that we can close soonest.
 6. Keep the standing rules. New GPU work needs a short plan and an independent Fable review. Start it only after GO, or after GO WITH FIXES with the fixes in. Upload Tier 2 only when the registered criteria give confidence of first place on a board. Each Tier 1 or Tier 3 upload needs the explicit consent of the user, so ask. Never stop a process of another user. Do not use Tier 1 numbers in Tier 2 or Tier 3 methods.
-7. When boards changed or new plans or records exist, run tools/name_leak_check.sh on the new files (V2D_EXTRA_NAMES="yqchen", under bash -c). Then commit and push.
+7. When boards changed or new plans or records exist, run tools/name_leak_check.sh on the new files (V2D_EXTRA_NAMES="<另一位成员>", under bash -c). Then commit and push.
 ```
 
 SOP 更新（`0 7,18 * * *`）：
@@ -67,7 +69,7 @@ SOP 更新（`0 7,18 * * *`）：
 ```text
 Scheduled task the user asked for ("现在定时每天早上7点晚上6点更新一次SOP网站", 10/9 15:00 MDT; 10/19: "定时一直截止到比赛结束"): update the SOP site now with the latest state. Report all times in Denver time (MDT, UTC-6; MST, UTC-7, from 11/01). Server logs use CST (UTC+8). Cron times are Denver time. The shell clock shows New York time.
 Page rule (user, 10/9 20:50 MDT, "关于sop中的一些ai agent使用细节不用透露 团队leader会查看"): the team leader reads the page. The page must not show AI-agent process details. Do not write jev scores, claim records or control questions on the page. Do not write model reviews (Fable, Opus, GO WITH FIXES, MAJOR). Do not write 用户 or "the user", and do not quote chat instructions. Write an open decision as 待定 / "to be decided". Write a past decision with its date and no subject.
-Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是yqchen 第三人称撰写进度"): on the page, write progress in the third person. rxzhou is the page owner and runs this work (training, retargeting, evaluation, submission). yqchen is the other team member (the Tier 3 CARI4D reconstruction on ml40). Do not write 我们, 同组成员, 同事, "we", "our" or "the teammate" on the page. This rule is for the page only: records in results/, agent-doc/ files and commit messages still write <其他用户> or "the teammate" and never the teammate's name or user name.
+Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是<另一位成员> 第三人称撰写进度"): on the page, write progress in the third person. rxzhou is the page owner and runs this work (training, retargeting, evaluation, submission). <另一位成员> is the other team member (the Tier 3 CARI4D reconstruction on ml40). Do not write 我们, 同组成员, 同事, "we", "our" or "the teammate" on the page. This rule is for the page only: records in results/, agent-doc/ files and commit messages still write <其他用户> or "the teammate" and never the teammate's name or user name.
 1. Check both machines read-only. Record a snapshot with scripts/dev/record: running chains, GPU state, mf4090 disk, and the Tier 3 queue on ml40 (tools/status_remote.sh, tools/gpu_procs_remote.sh, tools/t3_queue_remote.sh). Run bash tools/board_watch.sh for a fresh snapshot of the 12 Kaggle boards. Check that no record contains another user's name. Do not sync, stop or start any chain.
 2. Add every result that finished since the last SOP update to docs/site/v2d-track2.html, in both languages. Find them in the execution records of the plans that changed since the last SOP update (git log). Update the leaderboard part with the newest snapshot under results/board/: the place on each board, the gaps, and the rank sums for readings A and B. Describe running tasks honestly. Do not invent results. Mark every open decision as 待定 / "to be decided".
 3. If a chain ended since the last update, pull its results and write the health record that its plan registers. Do not arm a new chain in this task. Tell the user the next step instead.
