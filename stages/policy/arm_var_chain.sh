@@ -19,7 +19,7 @@
 #   - 正式 run 的目录里没有训练产物（目录不存在，或只有 fc_config_check.sh 经 fc_run.sh 打印模式建的空 .lock；不续训、不覆盖）；
 #     冒烟的目录要么也没有产物，要么已有 DONE（续跑、补跑时冒烟已经过了，训练链会重判），有产物没 DONE 的就停
 #   - 全部配置的 runs/cfgcheck/<run>.yaml 都在（fc_config_check.sh 先生成），precheck_expect.sh 全过；
-#     配方断言：objective.object_position_std 与 termination.object_orientation_threshold（顶层与 env 下各一份）都是变体 A 的 0.05、0.6
+#     配方断言：objective.object_position_std 与 termination.object_orientation_threshold（顶层与 env 下各一份）都是变体 A 的 0.05、0.6；r3p 段的 σ 是 0.03
 # 起三个会话（<段名> 如 t2xa）：
 #   v2d-<段名>-train   训练链（环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>/v040_p185_nfg；t3p 另加冒烟判过后删 state、可用不到 1200 MB 就停）；
 #                      V2D_GPU_WAIT_S=21600：GPU 被别人占着时每分钟看一次，最多等 6 小时（审查 M3）；要让卡时建 runs/.chain-stop-<段名>_train_<机器>
@@ -112,7 +112,15 @@ for r in "${cfgs[@]}"; do
   [ -f "runs/cfgcheck/$r.yaml" ] || stop "缺 runs/cfgcheck/$r.yaml（先跑 fc_config_check.sh）"
 done
 stages/policy/precheck_expect.sh "$Q.expect.tsv" "${Q}_smoke.txt" "$Q.txt" | tail -1 | grep -q '^PRECHECK_OK' || stop "precheck_expect.sh 不过"
-VAR="objective.object_position_std=0.05 env.objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
+# σ 跟着段走（计划 agent-doc/plan-precision-2026-10-18.md）：每一行都是 r3p（run 名带 -r3p-、覆盖里 object_position_std=0.03）就断言 0.03；
+# 一行都不是就断言变体 A 的 0.05；混在一起就停
+nq="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c . || true)"
+np="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c -- '-r3p-' || true)"
+ns="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'objective.object_position_std=0.03' || true)"
+if [ "$np" = 0 ] && [ "$ns" = 0 ]; then SIG=0.05
+elif [ "$np" = "$nq" ] && [ "$ns" = "$nq" ]; then SIG=0.03
+else stop "队列里 r3p 的行与变体 A 的行混在一起（${nq} 行里 -r3p- ${np} 行、σ 0.03 ${ns} 行）"; fi
+VAR="objective.object_position_std=$SIG env.objective.object_position_std=$SIG termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"

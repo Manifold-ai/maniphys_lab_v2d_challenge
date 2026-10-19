@@ -1,0 +1,16 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/mf4090_t1xp.expect.tsv stages/policy/queues/mf4090_t1xp_smoke.txt stages/policy/queues/mf4090_t1xp.txt 
+# md5      : 8cb6aaac0eedaa2341f5e4add86fbb2e  stages/policy/precheck_expect.sh
+# md5      : e5e856f410cb38708aaa424c20e4a2c0  stages/policy/queues/mf4090_t1xp.expect.tsv
+# md5      : a0e61b334d736f185232e04a1bd490fa  stages/policy/queues/mf4090_t1xp_smoke.txt
+# md5      : 34f1fec1552a0eba69387d29b07187f9  stages/policy/queues/mf4090_t1xp.txt
+# source   : a172f14b80bd
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-19T11:37:30+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t1-ep10-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep10-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep29-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep29-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t1-ep19-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep19-w2048-cap4m-r3p-mf4090.yaml：11 条断言，全过
+PRECHECK_OK（3 条 run）
