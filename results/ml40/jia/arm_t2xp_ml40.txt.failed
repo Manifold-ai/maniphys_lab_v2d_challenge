@@ -1,0 +1,8 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && out=$(V2D_ARM_DRYRUN=1 bash stages/policy/arm_var_chain.sh t2xp 2>&1); echo "$out" | grep -E "核对�\232|DRYRUN_OK|�\201\234"; echo "$out" | tail -1 | grep -q "^DRYRUN_OK$" && bash stages/policy/arm_var_chain.sh t2xp < /dev/null 2>&1 | tail -4' 
+# md5      : f52d353a85b80b94875aa7e81e98453b  stages/policy/arm_var_chain.sh
+# md5      : f52d353a85b80b94875aa7e81e98453b  stages/policy/arm_var_chain.sh
+# source   : e85efdcdfe4f
+# host     : Mac
+# run_at   : 2026-10-18T23:50:52-0400
+# ---------------------------------------------------------------
+arm_var_chain: GPU 上有别的进程（3251244,3251606），停

@@ -73,3 +73,12 @@ Tier 1 今晚到不了第一：ep29 在交上去的 t1x1018 里导出已经 MP �
    7.4 cm 处 0.4 对 6.6，所以对误差大的集 r3p 可能更难推（奖励的确切形状仍没查源码）。
 5. （minor）Tier 2 的 MP 分支收紧：新增成功要导出位置 ≤ 2.5 cm 才算进 21，否则要 22/30；加“导出 SP 成功不少于 22/30”；对照 ep16 不进候选。
 6. （minor）P1 的“修好”“变好”加“SP-SR 不低于现在的减 0.1”。
+
+## 执行记录
+
+- 21:3x–21:4x MDT：两台整仓同步到 e85efdc（两台都空着，只删了 `__pycache__`）；`arm_var_chain.sh` 两边 md5 f52d353a85b8；t1xp2 的配置核对意外差异 0、预检
+  PRECHECK_OK；mf4090 上 t1xp2 与 t2mv 的预演都打印 DRYRUN_OK（r3p 的 σ 0.03 断言过了）。
+- 21:48 MDT：mf4090 起 t2mv（ep23 冒烟先跑，`results/jia/arm_t2mv_mf4090.txt`）；t1xp2 的 arm_after（独立模式）在等 t2mv 的链结束（`results/jia/arm_after_t1xp2_launch_mf4090.txt`）。
+- 21:50 MDT：ml40 预演停在“GPU 上有别的进程”：另一位用户 21:37 起在 ml40 上跑 Tier 3 的 FoundationPose 导出（ep3、ep4 两个进程，共约 39.7 GB 显存，
+  `results/ops/gpu_procs_ml40_1018_2152.txt`）。不碰别人的进程；21:52 挂了 t2xp 的 arm_after（独立模式，上一段的条件已满足，只等卡空，最多 12 小时，
+  `results/ml40/jia/arm_after_t2xp_launch_ml40.txt`）。卡空出来之前 Tier 2 的 r3p 没有结果；早上看情况再定要不要把 t2xp 挪到 mf4090。

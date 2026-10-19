@@ -1,0 +1,14 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ runs/tools/arm_after.sh\ stages/policy/arm_after.sh\ \|\ cut\ -c1-12\,33-\ \&\&\ \[\ \!\ -e\ runs/logs/arm_after_t1xp2_mf4090.log\ \]\ \&\&\ \(env\ -u\ V2D_ARM_DRYRUN\ V2D_AFTER_INDEPENDENT=1\ V2D_POLL_S=60\ V2D_AFTER_MAX_POLLS=900\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t1xp2\ runs/logs/t2mv_train_mf4090.log\ runs/logs/t2mv_eval_mf4090.log\ runs/logs/cand_t2_t2mv_mf4090.log\ 1\ \>\ runs/logs/arm_after_t1xp2_mf4090.log\ 2\>\&1\ \<\ /dev/null\ \&\)\ \;\ sleep\ 3\;\ head\ -2\ runs/logs/arm_after_t1xp2_mf4090.log\ \|\ cut\ -c1-200\;\ tmux\ ls 
+# md5      : 07173c9b1013c1dd46752b861fb5b3e1  stages/policy/arm_after.sh
+# source   : e85efdcdfe4f
+# host     : Mac
+# run_at   : 2026-10-18T23:48:39-0400
+# ---------------------------------------------------------------
+07173c9b1013  runs/tools/arm_after.sh
+07173c9b1013  stages/policy/arm_after.sh
+=== 2026-10-19 11:48:41 CST 等 runs/.chain-active-* 都消失、runs/logs/t2mv_train_mf4090.log 与 runs/logs/t2mv_eval_mf4090.log 写完最后一行，再起 t1xp2；前置命令：无；可用 7344
+=== 2026-10-19 11:48:41 CST 来历与 t1xp2 的队列：e85efdcdfe4f ff0dcf9f8d153106ab05d42b59dee45b  stages/policy/queues/mf4090_t1xp2.expect.tsv 2caf339915d281de6a6cdcef79af7bea  stages/policy/queu
+v2d-t2mv-eval: 1 windows (created Mon Oct 19 11:48:33 2026)
+v2d-t2mv-export: 1 windows (created Mon Oct 19 11:48:35 2026)
+v2d-t2mv-train: 1 windows (created Mon Oct 19 11:48:31 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)

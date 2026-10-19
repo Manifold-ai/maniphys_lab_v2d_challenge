@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ md5sum\ runs/tools/arm_after.sh\ \|\ cut\ -c1-12\;\ tail\ -n\ 1\ runs/logs/t1c_s44_train_ml40.log\ \|\ cut\ -c1-80\;\ tail\ -n\ 1\ runs/logs/t1c_s44_eval_ml40.log\ \|\ cut\ -c1-80\;\ \[\ \!\ -e\ runs/logs/arm_after_t2xp_ml40.log\ \]\ \&\&\ \(env\ -u\ V2D_ARM_DRYRUN\ V2D_AFTER_INDEPENDENT=1\ V2D_POLL_S=60\ V2D_AFTER_MAX_POLLS=60\ V2D_GPU_MAX_POLLS=720\ setsid\ nohup\ bash\ runs/tools/arm_after.sh\ t2xp\ runs/logs/t1c_s44_train_ml40.log\ runs/logs/t1c_s44_eval_ml40.log\ runs/logs/cand_t1_t1c_s44_ml40.log\ 1\ \>\ runs/logs/arm_after_t2xp_ml40.log\ 2\>\&1\ \<\ /dev/null\ \&\)\;\ sleep\ 4\;\ cat\ runs/logs/arm_after_t2xp_ml40.log\ \|\ cut\ -c1-200\;\ pgrep\ -af\ \"\[a\]rm_after.sh\"\ \|\ cut\ -c1-120 
+# source   : e85efdcdfe4f
+# host     : Mac
+# run_at   : 2026-10-18T23:52:03-0400
+# ---------------------------------------------------------------
+07173c9b1013
+=== 2026-10-19 00:44:38 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、�
+=== 2026-10-19 00:50:25 CST DAY2_EVAL_DONE（成功 1、失败 0）
+=== 2026-10-19 11:52:07 CST 等 runs/.chain-active-* 都消失、runs/logs/t1c_s44_train_ml40.log 与 runs/logs/t1c_s44_eval_ml40.log 写完最后一行，再起 t2xp；前置命令：无；可用 128
+=== 2026-10-19 11:52:07 CST 来历与 t2xp 的队列：e85efdcdfe4f a36856d6147e12dc4881d9a682925c2a  stages/policy/queues/ml40_t2xp.expect.tsv da93a8e3145f3dd5edfc32c70627fee0  stages/policy/queues/m
+=== 2026-10-19 11:52:07 CST 上一段的链都结束了。训练：=== 2026-10-19 00:44:38 CST 训练链结束（DONE）（完成 1、失败 0、跳过 0、发散 0）；评测：=== 2026-10-19 00:50:
+3258159 bash -c cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && md5sum runs/tools/arm_after.sh | cut -c1-12; tail 
+3258167 bash runs/tools/arm_after.sh t2xp runs/logs/t1c_s44_train_ml40.log runs/logs/t1c_s44_eval_ml40.log runs/logs/can
