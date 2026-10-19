@@ -1,0 +1,31 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/select_t2_b1019a/tables ml40:export2_ml40 ml40:cand_t2_r3t2_ml40 ml40:cand_t2_t2xa_ml40 ml40:cand_t2_t2xb_ml40 ml40:cand_t2_t2oa_ml40 ml40:cand_t2_t2ob_ml40 ml40:cand_t2_t2xp_ml40 mf4090:export2_mf4090 mf4090:cand_t2_t2m_mf4090 mf4090:cand_t2_t2m2_mf4090 mf4090:cand_t2_t2mv_mf4090 mf4090:cand_t2_t2mx_mf4090 
+# md5      : 4961cbc5e593ae10209c097fff76a05b  stages/evaluate/pull_submission.sh
+# source   : 5f0736d03f0c
+# host     : Mac
+# run_at   : 2026-10-19T17:01:22-0400
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:export2_ml40：ok 30  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_r3t2_ml40：ok 16  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2xa_ml40：no_done 1  ok 14  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2xb_ml40：ok 9  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2oa_ml40：ok 4  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2ob_ml40：ok 5  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2xp_ml40：ok 4  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:export2_mf4090：ok 30  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t2_t2m_mf4090：ok 3  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t2_t2m2_mf4090：ok 3  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t2_t2mv_mf4090：ok 1  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t2_t2mx_mf4090：ok 3  
+PULL_OK 12
