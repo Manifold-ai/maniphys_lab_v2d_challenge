@@ -1,0 +1,13 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && for s in smoke-t2-ep23-w2048-cap4m-r3a-mf4090 smoke-t3-ep14-w2048-cap4m-r3a-hm-mf4090; do echo "== $s"; grep -h "runs/logs/$s.s1.log" runs/logs/*_train_mf4090.log | grep -o "æ\230¾å\255\230å³°å\200¼ [0-9]* MiB" | sort -u; grep -h "å\206\222ç\203\237 $s é\200\232è¿\207" runs/logs/*_train_mf4090.log | grep -o "[0-9]* å¸§" | sort -u; done; ls results/day2/eval_t3-ep14-w2048-cap4m-r3a-hm-mf4090_s349999104.txt' 
+# md5      : d60ff0ff4a7e4dac942e1ea02705124a  results/day2/eval_t3-ep14-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+# source   : 1203256fdce5-dirty
+# host     : Mac
+# run_at   : 2026-10-19T07:28:04-0400
+# ---------------------------------------------------------------
+== smoke-t2-ep23-w2048-cap4m-r3a-mf4090
+æ˜¾å­˜å³°å€¼ 23873 MiB
+946 å¸§
+== smoke-t3-ep14-w2048-cap4m-r3a-hm-mf4090
+æ˜¾å­˜å³°å€¼ 23873 MiB
+993 å¸§
+results/day2/eval_t3-ep14-w2048-cap4m-r3a-hm-mf4090_s349999104.txt

@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-19-precision-p1.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f298a1aeb663536f009790228f6cc9be  agent-doc/experiments/2026-10-19-precision-p1.claims.json
+# source   : 1203256fdce5-dirty
+# host     : Mac
+# run_at   : 2026-10-19T07:20:03-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep23_fixed           P(supported)=0.99  verified               [nm]  t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.992，t2-ep23-w2048-cap4m-mf4090 的 MP-SR 是 0.000；两者的 SP-SR 是 0.998 与 0.997。
+ep23_export          P(supported)=0.99  verified               [e23]  t2-ep23-w2048-cap4m-r3a-mf4090 导出的这一局 maniptrans_sr 是 1.0、spider_sr_uncentered 是 1.0，object_position_error_m 约为 0.0227。
+t1_ep10              P(supported)=0.99  verified               [nm]  t1-ep10-w2048-cap4m-r3p-mf4090 的 SP-SR 是 0.589，t1-ep10-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.957。
+t1_ep29              P(supported)=0.99  verified               [nm]  t1-ep29-w2048-cap4m-r3p-mf4090 的 MP-SR 是 0.032，t1-ep29-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.151。
+t2_rest              P(supported)=0.99  verified               [nm]  t2-ep14-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.000，t2-ep13-w2048-cap10m-r3a-ml40 是 0.130，t2-ep19-w2048-cap10m-r3a-ml40 是 0.000。
+mf_idle              P(supported)=0.98  verified               [smf]  mf4090 在 19:12 CST 的快照里 GPU 显存用量是 0 MiB、利用率 0 %，没有长链标记。
+ml_busy              P(supported)=0.98  verified               [sml]  ml40 在 19:12 CST 的快照里正在训练 t2-ep19-w2048-cap10m-r3p-ml40，进度 55.0%；t2-ep13 与 t2-ep14 的 r3p run 已完成 349999104 步。
+ctl_false            P(supported)=0.01  control(false) ok      [nm]  t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000。
+ctl_true             P(supported)=0.99  control(true) ok       [nm]  t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938。
+controls behaved as expected

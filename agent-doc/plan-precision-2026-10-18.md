@@ -82,3 +82,14 @@ Tier 1 今晚到不了第一：ep29 在交上去的 t1x1018 里导出已经 MP �
 - 21:50 MDT：ml40 预演停在“GPU 上有别的进程”：另一位用户 21:37 起在 ml40 上跑 Tier 3 的 FoundationPose 导出（ep3、ep4 两个进程，共约 39.7 GB 显存，
   `results/ops/gpu_procs_ml40_1018_2152.txt`）。不碰别人的进程；21:52 挂了 t2xp 的 arm_after（独立模式，上一段的条件已满足，只等卡空，最多 12 小时，
   `results/ml40/jia/arm_after_t2xp_launch_ml40.txt`）。卡空出来之前 Tier 2 的 r3p 没有结果；早上看情况再定要不要把 t2xp 挪到 mf4090。
+- 23:23 MDT：另一位用户在 ml40 上的两个进程结束，t2xp 的 arm_after 起链（`runs/logs/arm_after_t2xp_ml40.log` 13:23:26 CST）；4 条冒烟都过，ep14 23:44–02:05、ep13 02:05–04:00 MDT 训完，
+  ep19 04:00 起训（05:12 时 55%），之后是对照 ep16；ml40 的评测链等整段训练结束再评，约 08:50 MDT 出结果（`results/ops/status_ml40_1019_0512.txt`）。
+- 05:07 MDT：mf4090 的 t2mv、t1xp2 都跑完（t1xp2 训练 04:56、评测 05:04、导出 05:07 结束，导出 3 条都 EXPORT_OK），卡空出来（`results/ops/status_mf4090_1019_0512.txt`）。
+  P1 判读（4096 世界，`results/first/near_miss_1019_0515.txt`）：
+  - Tier 2 ep23（t2mv）：SP-SR 0.997 → 0.998、MP-SR 0.000 → 0.992、平均位置误差 4.36 → 2.34 cm、AUC 0.500 → 0.760、MPPE 4.43 → 2.44 cm，**修好**。
+    导出那 1 局 SP 1、MP 1、AUC 0.729、MPPE 2.38 cm、位置误差 2.27 cm（≤ 2.5 cm）。
+  - Tier 1 ep10（r3p）：SP-SR 0.957 → 0.589（低于现在的减 0.1）、MP-SR 0.008 → 0.407、平均位置误差 4.39 → 12.22 cm，**没用**；导出那 1 局 SP 0、MP 0、位置误差 47.7 cm。
+  - Tier 1 ep29（r3p）：SP-SR 0.897 → 0.968、MP-SR 0.151 → 0.032、平均位置误差 5.27 → 4.39 cm（降 17%，不到 30%），**没用**；导出那 1 局 SP 1、MP 0、位置误差 3.79 cm。
+    r3p 在 Tier 1 上的表现与第 4 节第 1 条风险一致：ep10 有 41% 的世界 SP 不过（时间平均位置或朝向超出 SP 门槛），平均位置误差翻了将近 3 倍。
+  P3：Tier 1 不交。Tier 2 只换 ep23 时，导出世界对自己参考 MP 19/30、AUC 平均约 0.511，两条分支都不满足，等 t2xp。
+- 05:3x MDT：mf4090 空着，另写 `agent-doc/plan-t2mx-2026-10-19.md`（Tier 2 ep13、19、14 的变体 A 换到 mf4090、400 万），复核 GO WITH FIXES 后改成第 2 版。从这时起 Tier 2 交不交按那份计划的 Q3：P3 的 MP 分支不变，AUC 分支加 4096 世界 AUC 平均 ≥ 0.515 与导出世界 MP ≥ 19/30、SP ≥ 22/30，第二次提交要比上一次强。

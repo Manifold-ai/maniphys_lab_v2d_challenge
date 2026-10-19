@@ -1,0 +1,20 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "nm": {"file": "results/first/near_miss_1019_0515.txt", "grep": "^run|^t[12]-ep"},
+  "e23": {"file": "results/submission/exports/cand_t2_t2mv_mf4090_t2-ep23-w2048-cap4m-r3a-mf4090_s349999104.txt", "grep": "^# command|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm|object_position_error_m) "},
+  "smf": {"file": "results/ops/status_mf4090_1019_0512.txt", "grep": "^==|RTX|长链|没有|t1xp2|t2mv"},
+  "sml": {"file": "results/ops/status_ml40_1019_0512.txt", "grep": "^==|L40S|chain-active|t2-ep1[349]-w2048-cap10m-r3p-ml40\\.log"}
+ },
+ "claims": [
+  {"id": "ep23_fixed", "evidence": ["nm"], "claim": "t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.992，t2-ep23-w2048-cap4m-mf4090 的 MP-SR 是 0.000；两者的 SP-SR 是 0.998 与 0.997。"},
+  {"id": "ep23_export", "evidence": ["e23"], "claim": "t2-ep23-w2048-cap4m-r3a-mf4090 导出的这一局 maniptrans_sr 是 1.0、spider_sr_uncentered 是 1.0，object_position_error_m 约为 0.0227。"},
+  {"id": "t1_ep10", "evidence": ["nm"], "claim": "t1-ep10-w2048-cap4m-r3p-mf4090 的 SP-SR 是 0.589，t1-ep10-w2048-cap4m-r3a-mf4090 的 SP-SR 是 0.957。"},
+  {"id": "t1_ep29", "evidence": ["nm"], "claim": "t1-ep29-w2048-cap4m-r3p-mf4090 的 MP-SR 是 0.032，t1-ep29-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.151。"},
+  {"id": "t2_rest", "evidence": ["nm"], "claim": "t2-ep14-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.000，t2-ep13-w2048-cap10m-r3a-ml40 是 0.130，t2-ep19-w2048-cap10m-r3a-ml40 是 0.000。"},
+  {"id": "mf_idle", "evidence": ["smf"], "claim": "mf4090 在 19:12 CST 的快照里 GPU 显存用量是 0 MiB、利用率 0 %，没有长链标记。"},
+  {"id": "ml_busy", "evidence": ["sml"], "claim": "ml40 在 19:12 CST 的快照里正在训练 t2-ep19-w2048-cap10m-r3p-ml40，进度 55.0%；t2-ep13 与 t2-ep14 的 r3p run 已完成 349999104 步。"},
+  {"id": "ctl_false", "evidence": ["nm"], "claim": "t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.000。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["nm"], "claim": "t2-ep16-w2048-cap10m-r3a-ml40 的 MP-SR 是 0.938。", "control": "true"}
+ ]
+}

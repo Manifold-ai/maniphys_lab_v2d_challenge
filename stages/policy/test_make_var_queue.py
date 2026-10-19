@@ -493,7 +493,7 @@ def test_t2m_part():
 
 def test_precision_parts():
     """计划 agent-doc/plan-precision-2026-10-18.md 第 1 节：t2mv 是 ep23 的变体 A（mf4090、400 万）；t2xp、t1xp 是 r3p（变体 A 只把 σ 改成 0.03），
-    基线取现在交的 run 去掉 -r3a- 的那条，覆盖以 r3p 两项结尾，run 名带 -r3p-。"""
+    基线取现在交的 run 去掉 -r3a- 的那条，覆盖以 r3p 两项结尾，run 名带 -r3p-。计划 agent-doc/plan-t2mx-2026-10-19.md：t2mx 是 ep13、19、14 的变体 A（mf4090、400 万）。"""
     with tempfile.TemporaryDirectory() as d:
         root = Path(d)
         setup(root)
@@ -501,7 +501,8 @@ def test_precision_parts():
         var_p = ["objective.object_position_std=0.03", VAR[1]]
         cases = [("t2mv", [23], "mf4090", 2, "t2-ep{ep}-w2048-cap4m-r3a-mf4090", "training.replay.capacity=4000000", "t2mv", VAR),
                  ("t2xp", [14, 13, 19, 16], "ml40", 2, "t2-ep{ep}-w2048-cap10m-r3p-ml40", None, "t2xp", var_p),
-                 ("t1xp", [10, 29, 19], "mf4090", 1, "t1-ep{ep}-w2048-cap4m-r3p-mf4090", "training.replay.capacity=4000000", "t1xp", var_p)]
+                 ("t1xp", [10, 29, 19], "mf4090", 1, "t1-ep{ep}-w2048-cap4m-r3p-mf4090", "training.replay.capacity=4000000", "t1xp", var_p),
+                 ("t2mx", [13, 19, 14], "mf4090", 2, "t2-ep{ep}-w2048-cap4m-r3a-mf4090", "training.replay.capacity=4000000", "t2mx", VAR)]
         for name, eps, m, tier, fmt, cap, tag, var in cases:
             p = gen(root, name)
             assert p.returncode == 0, p.stdout + p.stderr
