@@ -528,3 +528,28 @@ ep28 A_init 10/28，到 Y 打平（18/17）；ep03 变化帧可用的 iou_vis �
 旧中心是为错误朝向摆的位置，不是独立于朝向的「对的位置」（推断）；(c) 损失只在变化帧上，整集 IoU 不受影响。方案 (1) 不另加位置补丁：判版本看 Y 阶段，
 朝向仍以用户看贴图为准。盲区同 10-16：球棒头尾翻转的轮廓相近，IoU 主要量位置；ep03 手持帧掩码几乎全在人体内。
 脚本（未入库，同试点其他脚本）：`$T/dev/init_pilot/mix/{PLAN.md,mix_object.py,mix_review.sh,iou_tail.sh,mix_iou.py,mix_summary.py}`。
+
+## 方案 (1)：全时间线选择 FoundationPose 候选（10-19 开工，用户定；闸门判据在看结果前登记于此）
+
+**为什么**：10-16 初值试点证明 CoCoNet 跟着初值走（ep04 第 313/509/669、ep03 第 451 帧换初值后朝向对了），但它的插值依据 `fp_reliable` 只表示
+「与上一确认姿态连续」不表示「对」，两端都可能在错分支上，长段跳过，自信地错的帧碰不到。方案 (1) 不预设哪帧可信：每帧在自己的候选里选，
+与相邻帧联合求最优（Viterbi），选出的序列作 CoCoNet 初值，后面照原链走。
+
+**05 步 dump**（`a9b5854`）：`third_party/patches/cari4d-fp-candidate-dump.patch` 在已部署的补丁文件上再加一层，每次配准调用把完整排序候选池
+（约 200 个位姿、FP 分数、短名单的全图掩码指标）写进 pkl 旁的 `<seq>.candidates.npz`，选择与 pkl 不变。A/B（ep03 第 440–460 帧）：原版两次逐位相同，
+dump 版 pkl 与原版逐位相同；17 帧输出位姿在本帧候选里原样找到，另 4 帧是窗口切入造成的 FIRST_CONFIRMED_BACKFILL。`t3_fp_dump.sh` 只重跑 05、
+对照 work_fp 逐位核对，输出 `runs/work_dump/<ep>/`；10-19 11:37 起两路（A：ep03/02/09/25/16/19，B：ep04/13/28/11/01/27/15/17），日志 `logs/fp_dump_{A,B}.log`。
+让卡：集与集之间查 rxzhou 的链（10-10 约定）、`runs/work_dump/GPU_HOLD`、空闲显存；`touch runs/work_dump/STOP` 停在集间。
+
+**选择器** `t3_fp_select.py`（参数 10-19 在任何试点结果前定死，不在对照帧上调）：状态 = 本帧各次调用的短名单候选（无短名单时每次调用取 FP 分数前 8，
+IoU 项中性）；单帧代价 −(调用内 log-softmax 分数 + 5·IoU)；相邻代价 转角/(10°·间隔) + 平移/(5 cm·间隔)，转角按 `gate/t3_symmetry.py` 的对称组取最小
+（与 `nearest_equivalent` 对拍最大差 2e-11°）。无调用的帧沿用上一选中位姿。在 A/B 的 21 帧上干跑：21 帧都相对原选择转约 176°（含原本上下颠倒的第 451 帧），
+帧间跳变前后都是 0。
+
+**试点与闸门**（`t3_sel_pilot.sh ep04 ep03` → `t3_sel_gate.py`，用户 10-19 同意判据）：work_fp 复制到 `runs/work_sel/`，写入选择，CARI4D 只重跑 06–08；
+gb4 物体链（同上节位置验证）出 ctrl / sel 两版，每 2 帧 iou_vis。
+- G1 朝向（答案取 `checked_frames.json`，只作评估）：sel 与 init 试点相差 < 30°：ep04 第 313/509/669、ep03 第 451 帧；与 ctrl 相差 < 30°：ep03 第 117/131/345 帧。
+- G2 跳变：CoCoNet 输出里帧间转角 > 24° 的帧数，两集都是 sel < ctrl。
+- G3 位置：Y 阶段，sel 相对 ctrl 转角 > 24° 的帧合并，iou_vis 中位差 ≥ −0.01。
+全过则剩余 12 集自动走同一流程到自检，停在交付前（交付等用户看贴图）；不过就停，dump 保留。结果 `$T/dev/sel_pilot/gate.json`，日志 `logs/sel_pilot.log`
+末行 SEL_GATE_PASS / SEL_GATE_FAIL / SEL_PILOT_FAILED。
