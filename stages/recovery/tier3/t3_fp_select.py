@@ -105,7 +105,10 @@ def main():
     (pkl,) = sorted((ep_dir / "foundationpose").glob("episode_*.pkl"))
     seq = pkl.stem
     d = pickle.load(open(pkl, "rb"))
-    c = np.load(cand_path)
+    # read every array once: an NpzFile decompresses the whole array on each c[key], and the loops below index it per
+    # frame and per candidate (10-19: the first ep04 run did not finish in 11 minutes)
+    with np.load(cand_path) as z:
+        c = {k: z[k] for k in z.files}
     if list(c["frames"]) != list(d["frames"]):
         raise SystemExit("candidates and pkl cover different frames")
     export = json.loads((ep_dir / "export" / seq / "wild_export.json").read_text())
