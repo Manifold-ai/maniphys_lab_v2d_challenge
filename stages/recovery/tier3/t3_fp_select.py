@@ -17,6 +17,12 @@ Pairwise between consecutive states (g = frames between them, >= 1): angle / (RO
 the angle taken over the object's symmetry rotations (gate/t3_symmetry.py, from the official mesh as t3_dynamics_post.py).
 The parameters were fixed on 10-19 before any pilot result and are not tuned on the checked frames, which the gate
 uses as its answer key (stages/recovery/tier3/checked_frames.json, evaluation only).
+Anchor (10-20): unary - BETA * [state within ANCHOR_DEG of FoundationPose's own pose of its frame], so the exporter's
+pick is kept unless the timeline clearly prefers another orientation. The 10-19 pilot (BETA = 0) turned ep03's opening
+rest, where FoundationPose was right, on unary margins of 0.02-0.22. Unlike the parameters above, BETA was chosen on the
+checked frames: offline at the stage-05 layer all seven of ep03/ep04 are right for BETA 0.2-0.5, the registered pick is
+the geometric midpoint 0.316; ep13 was held out (user 10-20: 5 of 8 frames right where FoundationPose is wrong, 2 both
+wrong, 1 FoundationPose closer). Handoff section "以 ctrl 为锚的离线试验".
 
 Writes the chosen poses into the stage-05 pkl in place (fp_poses_cam, obj_pose_world; other keys kept, the stage-06
 loader validates them) and updates the stage-05 marker's output identity so the runner reuses stage 05 and reruns 06
@@ -41,7 +47,9 @@ W_IOU = 5.0
 ROT_DEG = 10.0
 TRANS_M = 0.05
 TOP_K = 8
-PARAMS = {"W_IOU": W_IOU, "ROT_DEG": ROT_DEG, "TRANS_M": TRANS_M, "TOP_K": TOP_K}
+BETA = 0.316
+ANCHOR_DEG = 24.0
+PARAMS = {"W_IOU": W_IOU, "ROT_DEG": ROT_DEG, "TRANS_M": TRANS_M, "TOP_K": TOP_K, "BETA": BETA, "ANCHOR_DEG": ANCHOR_DEG}
 
 
 def log_softmax(s):
@@ -127,7 +135,8 @@ def main():
     for f in frames:
         P, u, tag, sl = states_of(c, f, np.flatnonzero(c["call_frame"] == f))
         Ps = P @ s2a  # source mesh frame, where the symmetry rotations live
-        S.append({"f": f, "P": P, "R": Ps[:, :3, :3], "t": P[:, :3, 3], "u": u, "tag": tag, "shortlisted": sl})
+        near = sym_angle_deg(Ps[:, :3, :3], (C0[f] @ s2a)[None, :3, :3], G, axis)[:, 0] < ANCHOR_DEG
+        S.append({"f": f, "P": P, "R": Ps[:, :3, :3], "t": P[:, :3, 3], "u": u - BETA * near, "tag": tag, "shortlisted": sl})
 
     # Viterbi
     cost = S[0]["u"].copy()

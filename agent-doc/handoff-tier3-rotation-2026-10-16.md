@@ -640,3 +640,13 @@ init 对。思路：默认保留 FoundationPose 自己的选择，只有整段�
 - **ep13 留出（10-20 ~03:00，用户判，FP 层）**：`BETA=0.316` 在 ep13 与 ctrl 不同的帧 383（`BETA=0` 为 390），两段在开头 0–232、结尾
   774–921。8 帧里锚定版对、ctrl 错 5 帧（40/120/800/860/915，静止段）；两者都错 2 帧（196/766，遮挡严重）；ctrl 较近 1 帧（226，位姿稍偏）。
   记入 `checked_frames.json`（`ep13_f*`，版本名 `ctrl`/`anchor`）。锚定在 ep13 上几乎不拦截时间线选择的改动，ctrl 在这集的静止段本身是错的。
+
+**锚定版 GPU 重跑（10-20 用户定：闸门选 b，ep13 一起跑，插队）**：
+- `t3_fp_select.py` 默认 `BETA=0.316`、`ANCHOR_DEG=24`（锚是被改写前 pkl 里 FoundationPose 自己的位姿）；在 ep03/ep13 的副本上与离线
+  `sel_margin.py` 逐位一致（最大差 0.0）。
+- `t3_sel_pilot.sh` 的工作目录随 `SEL_WORK` 走（之前第 1–3 步写死 `work_sel`），CARI4D 日志 `logs/cari4d_<ep>_anchor.log`。
+- `t3_sel_gate.py`：G1 按 10-20 答案（ep03 451 对 `pilot`=runs/work_sel，ep13 40/120/800/860/915 对本次运行的第 05 阶段位姿、226 对 ctrl）；
+  G3 判定不变，另报全轮廓 IoU（`G3_all_info`，不入判定）。在旧 sel 试点上复跑复现原数（G3 −0.0786、117 109.7°、131 79.8°），
+  全轮廓参考 +0.0075（n=230）。第 05 阶段与 CoCoNet 输出同一坐标系：ep03 夹角中位数约 10°（p90 25.6°），ep13 1.7°。
+- 运行：`SEL_WORK=work_anchor SEL_REVIEW=$T/dev/anchor_pilot t3_sel_pilot.sh ep03_contigo_coffee_mug ep04_baseball_bat ep13_snack_box`，
+  日志 `$T/logs/anchor_pilot.log`。插队靠 `GPU_HOLD`：两路 dump 做完手上这一集就停，06–08 跑完释放，不杀正在跑的集；仍等 rxzhou 的链空闲。

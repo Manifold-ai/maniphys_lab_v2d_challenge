@@ -22,9 +22,11 @@ GPY=/lab_data/yqchen/v2d/gate/venv/bin/python
 A=/lab_data/yqchen/v2d/soma_assets
 RX_RUNS=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs
 HOLD=$T/runs/work_dump/GPU_HOLD
-# SEL_WORK names the selection's work dir (default work_sel); SEL_FROM_STEP=4 skips steps 1-3 (a test of the chain, gate
+# SEL_WORK names the selection's work dir (default work_sel; 10-20 work_anchor for the ctrl-anchored rerun, with SEL_REVIEW);
+# its CARI4D log is logs/cari4d_<ep>_<SEL_WORK without work_>.log. SEL_FROM_STEP=4 skips steps 1-3 (a test of the chain, gate
 # and their hand-offs on an existing work dir, e.g. SEL_WORK=work_init SEL_REVIEW=$T/dev/sel_test).
 SEL_WORK=${SEL_WORK:-work_sel}
+TAG=${SEL_WORK#work_}
 FROM=${SEL_FROM_STEP:-1}
 EPS="$*"
 KINDS="ctrl sel"
@@ -36,21 +38,21 @@ dumps_running() { docker ps --filter ancestor=v2d_cari4d:latest --format '{{.Com
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
 mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
 log "deployed: $(cat "$T/code/DEPLOYED" 2>/dev/null)"
-mkdir -p "$M/logs" "$M/report" "$T/runs/work_sel"
+mkdir -p "$M/logs" "$M/report" "$T/runs/$SEL_WORK"
 if [ "$FROM" -le 3 ]; then
 touch "$HOLD"
 log "GPU hold set: the dump streams stop before their next episode"
 
 # 1-2. selection on copies
 for name in $EPS; do
-  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); c=$T/runs/work_sel/$name/cari4d/$seq
+  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); c=$T/runs/$SEL_WORK/$name/cari4d/$seq
   until [ -f "$T/runs/work_dump/$name/check.json" ]; do
     pgrep -f "[t]3_fp_dump.sh" > /dev/null || [ -f "$T/runs/work_dump/$name/check.json" ] || fail "$name: no dump stream left and no dump"
     sleep 60
   done
   grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: dump check not identical"
   if [ ! -f "$c/foundationpose/fp_select.json" ]; then
-    rm -rf "$T/runs/work_sel/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/work_sel/$name" || fail "$name: copy"
+    rm -rf "$T/runs/$SEL_WORK/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/$SEL_WORK/$name" || fail "$name: copy"
     rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
       "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
     r=$("${D[@]}" -v "$c":/c -v "$S":/s:ro -v "$T/runs/work_dump/$name":/d:ro -v "$T/input":/in:ro v2d_cari4d:latest \
@@ -64,12 +66,12 @@ log "waiting for the dump streams to finish their current episodes"
 while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done
 for name in $EPS; do
   ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep")
-  [ -f "$T/runs/work_sel/$name/cari4d/$seq/inference/refined.pth" ] && { log "$name: refined already"; continue; }
+  [ -f "$T/runs/$SEL_WORK/$name/cari4d/$seq/inference/refined.pth" ] && { log "$name: refined already"; continue; }
   log "$name: CARI4D 06-08"
-  T3_WORK=runs/work_sel T3_FP_MODE=register-every-frame T3_LOG_TAG=_sel "$S/t3_cari4d_ep.sh" "$name" || fail "$name: CARI4D (logs/cari4d_${name}_sel.log)"
-  rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_sel.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
+  T3_WORK=runs/$SEL_WORK T3_FP_MODE=register-every-frame T3_LOG_TAG=_$TAG "$S/t3_cari4d_ep.sh" "$name" || fail "$name: CARI4D (logs/cari4d_${name}_$TAG.log)"
+  rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$TAG.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
   [ -z "$rerun" ] || fail "$name: CARI4D re-ran earlier stages ($rerun), the selection was overwritten"
-  log "$name: $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_sel.log" | tr '\n' ' ')"
+  log "$name: $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$TAG.log" | tr '\n' ' ')"
 done
 rm -f "$HOLD"
 log "GPU hold released"
