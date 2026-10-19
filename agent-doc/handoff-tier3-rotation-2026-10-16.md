@@ -650,3 +650,7 @@ init 对。思路：默认保留 FoundationPose 自己的选择，只有整段�
   全轮廓参考 +0.0075（n=230）。第 05 阶段与 CoCoNet 输出同一坐标系：ep03 夹角中位数约 10°（p90 25.6°），ep13 1.7°。
 - 运行：`SEL_WORK=work_anchor SEL_REVIEW=$T/dev/anchor_pilot t3_sel_pilot.sh ep03_contigo_coffee_mug ep04_baseball_bat ep13_snack_box`，
   日志 `$T/logs/anchor_pilot.log`。插队靠 `GPU_HOLD`：两路 dump 做完手上这一集就停，06–08 跑完释放，不杀正在跑的集；仍等 rxzhou 的链空闲。
+- **停掉（10-20 02:55，用户定）**：`BETA=0.316` 的上下界由用户核对过的答案帧定出（下界 ep03 117/131，上界 ep04 313），等于用测试视频上的
+  人工判断调参，违反 10-15「修复只能来自自动方法」与 `checked_frames.json` 的 evaluation only。锚定版重跑在 06–08 之前终止（进程组 kill，
+  `GPU_HOLD` 已删，B 路 02:56 接着跑 ep11）；`runs/work_anchor` 只有第 05 步改写，不作任何依据。`t3_fp_select.py` 里的 0.316 待换成
+  不依赖答案帧的取值（方案 a：由候选池的打分噪声定，规则先登记再算），答案帧只做评估。
