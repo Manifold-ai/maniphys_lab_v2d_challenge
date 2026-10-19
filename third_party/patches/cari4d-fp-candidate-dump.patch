@@ -1,0 +1,95 @@
+CARI4D FoundationPose export: also write every registration call's full candidate pool beside the pickle.
+Applies on top of cari4d-fp-no-observation-nan.patch (input md5 556a32239f14f8b87a137f1edec26514); output md5 b54ca7dd78a90b9d61e1193e006bdc7f.
+Why: the per-frame pick follows the previously confirmed pose, so a branch picked wrongly is followed for whole segments,
+and CoCoNet (stage 06) follows that initialization (Tier 3 handoff, 10-16/10-17). Choosing over the whole timeline needs
+the ~200 ranked candidates of every call, which the exporter computes and drops. The selection and the pickle are
+untouched (A/B 10-19 on ep03 frames 440-460: pickle identical to the unpatched run, which is itself reproducible).
+Output: <out>.candidates.npz, revision maniphys-tier3-fp-candidates-v1, written before the pickle.
+--- a/run_foundationpose_mhr_export.py
++++ b/run_foundationpose_mhr_export.py
+@@ -77,6 +77,50 @@
+     return Path(out_file).parent / "debug" if debug_dir is None else Path(debug_dir)
+ 
+ 
++CANDIDATE_DUMP_REVISION = "maniphys-tier3-fp-candidates-v1"
++
++
++def _write_candidate_dump(out_file: Path, calls: list[dict], names: list[str]) -> Path:
++    # maniphys tier3 patch (candidate dump): one row per FoundationPose registration call, its full ranked candidate pool
++    # in call order (call_offsets slices poses/scores/source_ids) and the full-image shortlist metrics the selector saw
++    # (shortlist_offsets slices those). Written before the pickle, so a valid pickle always has its candidates beside it.
++    path = out_file.with_suffix(".candidates.npz")
++
++    def cat(key: str, dtype, empty_shape: tuple[int, ...]) -> np.ndarray:
++        parts = [np.asarray(c[key], dtype=dtype) for c in calls]
++        return np.concatenate(parts).astype(dtype, copy=False) if parts else np.empty(empty_shape, dtype=dtype)
++
++    def offsets(key: str) -> np.ndarray:
++        return np.concatenate([[0], np.cumsum([len(c[key]) for c in calls])]).astype(np.int64)
++
++    arrays = {
++        "revision": np.asarray(CANDIDATE_DUMP_REVISION),
++        "frames": np.asarray(names),
++        "call_frame": np.asarray([c["frame"] for c in calls], dtype=np.int32),
++        "call_seed": np.asarray([c["seed"] for c in calls], dtype=np.int64),
++        "call_rgb_only": np.asarray([c["rgb_only"] for c in calls], dtype=bool),
++        "call_screen_all": np.asarray([c["screen_all"] for c in calls], dtype=bool),
++        "call_cluster_angle_deg": np.asarray([c["cluster_angle_deg"] for c in calls], dtype=np.float32),
++        "call_observed_visible_pixels": np.asarray([c["observed_visible_pixels"] for c in calls], dtype=np.int64),
++        "call_transform_to_centered": np.asarray([c["transform_to_centered"] for c in calls], dtype=np.float32).reshape(-1, 4, 4),
++        "call_offsets": offsets("scores"),
++        "poses_centered": cat("poses_centered", np.float32, (0, 4, 4)),
++        "scores": cat("scores", np.float32, (0,)),
++        "source_ids": cat("source_ids", np.int64, (0,)),
++        "shortlist_offsets": offsets("shortlist_source_ids"),
++        "shortlist_source_ids": cat("shortlist_source_ids", np.int64, (0,)),
++    }
++    for key in SHORTLIST_METRIC_FIELDS:
++        arrays[f"shortlist_{key}"] = cat(f"shortlist_{key}", np.float32, (0,))
++    tmp = path.with_name(f".{path.stem}.{os.getpid()}.tmp.npz")
++    np.savez_compressed(tmp, **arrays)
++    os.replace(tmp, path)
++    return path
++
++
++SHORTLIST_METRIC_FIELDS = ("iou", "precision", "recall", "rendered_visibility", "rendered_visible_pixels", "centroid_distance")
++
++
+ def load_export_object_mesh(export_seq: str | Path) -> trimesh.Trimesh:
+     path = resolve_object_mesh_path(export_seq)
+     mesh = concatenate_object_mesh_parts(load_object_mesh_parts(path))
+@@ -535,6 +579,9 @@
+     oracle_applied = False
+     oracle_frame_index = -1
+     mesh_transform_to_centered = validate_rigid_transform(_tensor_to_numpy(estimator.get_tf_to_centered_mesh()), "FoundationPose transform_to_centered_mesh")
++    # maniphys tier3 patch (candidate dump): every registration's full candidate pool, kept so the branch can be chosen
++    # over the whole timeline afterwards. Only appended to; the selection below reads nothing from it.
++    candidate_dump: list[dict] = []
+ 
+     def append_frame_record(*, pose_cam, pose_world, fallback_reason: str, candidate_count: int, selected_candidate_index: int, selected_iou: float, selected_visibility: float, retry_count: int, reliable_frame: bool, translation_threshold_m: float, translation_distance_m: float, metric_values: dict[str, float | int], state: TrackingState, pending_source: PoseSource, emitted_source: PoseSource, gap_length: int, confirmation_count: int, rejection_mask: int, reacquisition_latency: int, oracle_rotation_error_deg: float = float("nan")) -> None:
+         poses_cam.append(None if pose_cam is None else np.asarray(pose_cam, dtype=np.float32).copy())
+@@ -664,6 +711,16 @@
+             candidate_transform_to_centered = validate_rigid_transform(_tensor_to_numpy(estimator.get_tf_to_centered_mesh()), "FoundationPose transform_to_centered_mesh")
+             candidate_indices = np.arange(len(clustered_candidates), dtype=np.int64) if screen_all else _screen_candidate_indices(estimator, clustered_candidates, K_frame, mask_h, mask_o, reacquisition_thresholds, max_side=candidate_screen_max_side)
+             native_candidates, native_source_ids, native_masks, native_metrics = _full_candidate_data(estimator, clustered_candidates, clustered_source_ids, candidate_indices, K_frame, mask_h, mask_o)
++            call_scores = _tensor_to_numpy(estimator.scores).astype(np.float32).reshape(-1)
++            if call_scores.shape != (len(all_candidates),):
++                raise ValueError(f"FoundationPose scores {call_scores.shape} do not match its {len(all_candidates)} candidates at frame {frame_name}")
++            call = {"frame": idx, "seed": int(seed), "rgb_only": bool(rgb_only_current), "screen_all": bool(screen_all), "cluster_angle_deg": float(cluster_angle_deg),
++                    "observed_visible_pixels": observed_visible_pixels, "transform_to_centered": candidate_transform_to_centered,
++                    "poses_centered": np.array(all_candidates, dtype=np.float32), "scores": call_scores, "source_ids": np.array(all_candidate_source_ids, dtype=np.int64),
++                    "shortlist_source_ids": np.array(native_source_ids, dtype=np.int64)}
++            for key in SHORTLIST_METRIC_FIELDS:
++                call[f"shortlist_{key}"] = np.empty((0,), np.float32) if native_metrics is None else np.array(getattr(native_metrics, key), dtype=np.float32).reshape(-1)
++            candidate_dump.append(call)
+             return all_candidates, all_candidate_source_ids, clustered_candidates, candidate_transform_to_centered, native_candidates, native_source_ids, native_masks, native_metrics
+ 
+         rgb_only_current = bool(rgb_only_score)
+@@ -976,6 +1033,7 @@
+     validate_foundationpose_selection_metadata(result["metadata"], "generated FoundationPose output")
+     validate_foundationpose_selection_arrays(result, (len(names),), "generated FoundationPose output")
+     report_progress(len(names), force=True)
++    _write_candidate_dump(out_file, candidate_dump, names)
+     _atomic_pickle_dump(out_file, result)
+     failure_diagnostics_file.unlink(missing_ok=True)
+     print(f"saved FoundationPose init to {out_file}")
