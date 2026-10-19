@@ -577,3 +577,11 @@ dump 停在集间等）。让卡：rxzhou 的链回来时所有 GPU 步在集与
 它要求 `runs/tier3_cari4d_gb5_best*` 不存在，链失败后重跑前要先挪走这些目录。
 未办：交付前给 rxzhou 说明 gb5（白名单加 `tier3_cari4d_gb5_best_dr2s_dyn7` 与 `_suspect`，`gb5_best`/`gb5_best_dr2s` 是中间产物别用）；
 gb4 交付报告里 `rest_drift` / `rot_drift` 比 gb3 涨了的原因未查。
+
+**14:05 更新（部署 `623a398`）**：13:15/13:20 两路各跑完第一集后都报「stage-05 output differs」退出，试点随之失败、全量 SKIPPED。原因是 dump 脚本的核对
+heredoc 进 docker 没加 `-i`，容器里的 python 读到空脚本、exit 0，`check.json` 为空（`14212ba` 修，并把「核对无结果」单列为失败）。手动重核：
+ep03（781 帧、854 次调用、215208 个候选）、ep04（803 帧、1199 次调用、302148 个候选）与 work_fp **逐位相同**。选择器读 npz 时每次索引都整数组解压，
+ep04 跑 11 分钟没完（`623a398` 改为一次读入，整集 13 s）。已重启四个脚本；转换步试跑 13:21–13:31 全部通过（`$T/dev/sel_test/convert_test.log`）。
+试点选择结果：ep04 163 帧转 > 24°，FoundationPose 层帧间跳变 38 → 16；ep03 374 帧转 > 24°，跳变 3 → 7（闸门看 CoCoNet 输出，不在这一层判）。
+**现在卡在 rxzhou**：他 13:23 起在 ml40 跑 t2xp（Tier 2 ep14 正式训练 13:43 开始，显存约 40 GB），按 10-10 约定我们所有 GPU 步在集间等他的链结束，
+时长未知；dump、试点 06–08、全量都会顺延。
