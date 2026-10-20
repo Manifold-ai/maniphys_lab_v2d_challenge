@@ -46,7 +46,19 @@ def main() -> int:
         assert "参考不在 tier3_gb3 下" in by["ep3"] and by["ep3"].endswith("不判"), by["ep3"]
         assert "世界数不是 4096" in by["ep4"] and "没有 runs/flash_chord/f/" in by["ep5"], (by["ep4"], by["ep5"])
         assert "［只报］" in by["ep6"] and by["ep6"].endswith("：换"), by["ep6"]
-    print("  换、不换（MPPE 超 margin、SP-SR 不够）、不判（参考目录、世界数、缺文件）、只报不计入：都对")
+    with tempfile.TemporaryDirectory() as t:   # sp_drop_max（计划 agent-doc/plan-t3g4-2026-10-19.md 第 2 版 G2）：现选 SP-SR 0.99，下限 0.94
+        root = Path(t)
+        ev(root, "h", 3.0, 0.95)           # 0.95 ≥ 0.94 → 换
+        ev(root, "i", 3.0, 0.93)           # 0.93 < 0.94（虽然 ≥ 0.5）→ 不换
+        spec = {"step": 349999104, "margin_cm": 1.0, "sp_floor": 0.5, "sp_drop_max": 0.05, "source": "测试",
+                "pairs": [pair(0, "h", 2.6), pair(1, "i", 2.6)]}
+        (root / "spec.json").write_text(json.dumps(spec))
+        r = subprocess.run([sys.executable, str(HERE / "gb3_switch.py"), "spec.json"], cwd=root, capture_output=True, text=True)
+        out = r.stdout.splitlines()
+        assert r.returncode == 0 and out[-1] == "GB3_SWITCH_DONE 1 0" and "不低于现选减 0.05" in out[0], r.stdout + r.stderr
+        by = {ln.split()[0]: ln for ln in out[1:-1]}
+        assert by["ep0"].endswith("：换") and by["ep1"].endswith("：不换") and "SP-SR ≥ 0.9400" in by["ep1"], (by["ep0"], by["ep1"])
+    print("  换、不换（MPPE 超 margin、SP-SR 不够）、不判（参考目录、世界数、缺文件）、只报不计入、sp_drop_max：都对")
     print("ALL_OK")
     return 0
 

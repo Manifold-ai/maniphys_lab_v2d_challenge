@@ -6,6 +6,7 @@
              "report_only": false, "note": "<可选：照抄进这一集的输出行>"}, ...]}
 新值取 runs/flash_chord/<候选 run>/eval_<步数>_w4096.json（评测链写的；MPPE = mppe_cm，SP-SR = spider_sr_uncentered，MP-SR = maniptrans_sr），
 要求 world_count 为 4096、没有非有限世界、JSON 里记的参考在 /runs/motion/<ref_dir>/ 下，不合就“不判”。report_only 的集照算、只报，不计入“换”。
+规格可选 "sp_drop_max"（计划 agent-doc/plan-t3g4-2026-10-19.md 第 2 版 G2）：另要求候选 SP-SR ≥ 现选 SP-SR − sp_drop_max；不给时行为同以前。
 用法：python3 stages/evaluate/gb3_switch.py <规格>；最后一行 GB3_SWITCH_DONE <换的集数> <不判的集数>。
 测试：stages/evaluate/test_gb3_switch.py。
 """
@@ -15,7 +16,7 @@ import sys
 from pathlib import Path
 
 
-def judge(p: dict, d: dict, step: int, margin: float, floor: float) -> tuple:
+def judge(p: dict, d: dict, step: int, margin: float, floor: float, drop=None) -> tuple:
     """返回 (结论, 说明)；结论是 换、不换、不判 之一。"""
     m = d.get("metrics", d)
     bad = []
@@ -36,16 +37,18 @@ def judge(p: dict, d: dict, step: int, margin: float, floor: float) -> tuple:
     if bad:
         return "不判", "；".join(bad)
     mppe, sp = vals["mppe_cm"], vals["spider_sr_uncentered"]
-    ok = mppe <= p["cur_mppe"] + margin and sp >= floor
+    lo = floor if drop is None else max(floor, p["cur_sp"] - drop)
+    ok = mppe <= p["cur_mppe"] + margin and sp >= lo
     note = (f"新 MPPE {mppe:.2f} cm、SP-SR {sp:.4f}、MP-SR {vals['maniptrans_sr']:.4f}、ADD-AUC {vals['add_auc']:.3f}；"
-            f"规则 S（MPPE ≤ {p['cur_mppe'] + margin:.2f} 且 SP-SR ≥ {floor:.2f}）：{'换' if ok else '不换'}")
+            f"规则 S（MPPE ≤ {p['cur_mppe'] + margin:.2f} 且 SP-SR ≥ {lo:.4f}）：{'换' if ok else '不换'}")
     return ("换" if ok else "不换"), note
 
 
 def main() -> int:
     spec = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     step, margin, floor = spec["step"], float(spec["margin_cm"]), float(spec["sp_floor"])
-    print(f"规则 S：margin {margin} cm、SP-SR 下限 {floor}；现选值来源：{spec.get('source', '')}")
+    drop = float(spec["sp_drop_max"]) if "sp_drop_max" in spec else None
+    print(f"规则 S：margin {margin} cm、SP-SR 下限 {floor}" + (f"、且不低于现选减 {drop}" if drop is not None else "") + f"；现选值来源：{spec.get('source', '')}")
     switched, skipped = 0, 0
     for p in spec["pairs"]:
         j = Path("runs/flash_chord") / p["new"] / f"eval_{step}_w4096.json"
@@ -55,7 +58,7 @@ def main() -> int:
             print(f"{head}：没有 {j}，不判")
             skipped += 1
             continue
-        verdict, note = judge(p, json.loads(j.read_text()), step, margin, floor)
+        verdict, note = judge(p, json.loads(j.read_text()), step, margin, floor, drop)
         print(f"{head}：{note}" if verdict != "不判" else f"{head}：{note}，不判")
         if verdict == "不判":
             skipped += 1

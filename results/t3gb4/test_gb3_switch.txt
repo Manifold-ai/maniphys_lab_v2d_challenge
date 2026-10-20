@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/test_gb3_switch.py 
+# md5      : 1d06bc8ab0154400642a92e7ac14ec7d  stages/evaluate/test_gb3_switch.py
+# source   : bc5abdfb9e17-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T22:43:49-0400
+# ---------------------------------------------------------------
+  换、不换（MPPE 超 margin、SP-SR 不够）、不判（参考目录、世界数、缺文件）、只报不计入、sp_drop_max：都对
+ALL_OK

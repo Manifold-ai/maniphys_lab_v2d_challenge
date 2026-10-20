@@ -1,7 +1,7 @@
 {
- "plan": "agent-doc/plan-t3g4-2026-10-19.md 判据 G2",
+ "plan": "agent-doc/plan-t3g4-2026-10-19.md 判据 G2（第 2 版：margin 1.0 cm，SP-SR 不低于现选减 0.05）",
  "step": 349999104,
- "margin_cm": 4.0,
+ "margin_cm": 1.0,
  "sp_floor": 0.5,
  "source": "现选 run（gb1018e22，stages/evaluate/exports/t3_select_gb1018e22.tsv）的 4096 世界值：ep0、6、7、8、20、22、21、29 取 results/t3gb3/switch_table_gb1018.txt；ep18 取 results/t3kfix/retrain_switch_t3pk_mf4090.txt；ep24、ep26 取 results/t3kfix/reexport_mf4090.txt（k-fix 参考上 4096 世界的重新导出）",
  "pairs": [
@@ -115,5 +115,6 @@
    "cur_mp": 0.501,
    "report_only": true
   }
- ]
+ ],
+ "sp_drop_max": 0.05
 }
