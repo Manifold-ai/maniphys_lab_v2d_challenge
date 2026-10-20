@@ -13,9 +13,12 @@
      α = 1 也碰不到就取 --free-alpha（不贴物体的手指只半合，免得握空拳）。α = 0 时已经 ≤ margin（手指本来就贴着或穿进物体）就记 0。
   3b. --mode fixed（计划 agent-doc/plan-t2fc-2026-10-20.md）：不做几何搜索，接触帧的 α 一律取 --alpha。PD 的目标落在物体表面以内，手指才会往里压、有握力；
      “碰到表面就停”的目标只够贴上，不出力。第 3 步的 touch 模式照旧（--mode touch，默认）。
-  4. 时间上：只在接触帧有 α；每段接触前后各 --ramp 帧线性渐入、渐出（取渐入渐出端点的 α），再做 --smooth 帧滑动平均。
+  4. 时间上：只在接触帧有 α；每段接触前后各 --ramp 帧线性渐入、渐出（取渐入渐出端点的 α），再做 --smooth 帧滑动平均（居中，不移时刻；
+     渐入渐出段外侧再多 2 帧会带上很小的 α，约 0.02–0.09）。
   5. 写出：新 motion 根 <out_root>/whole_body/soma/sequence_id=<seq>/robot_name=g1/data.parquet 只改 robot_joint_positions 的 14 个手指列，
-     其余列、object 目录（网格、URDF）与 reconstructed_stage 里这一集的支撑面照抄。目标已存在就拒绝。
+     其余列、object 目录（网格、URDF）与 reconstructed_stage 里这一集的支撑面照抄；parquet 里的网格与 URDF 路径换到新目录，一条都没换到就报错。
+     给了 --meta-src/--meta-dst（runs/motion_src 下的档位目录）时，把 <meta-src>/<序列>/v2d_meta.json 照抄到 <meta-dst>/<序列>/（导出与起链从这里取档位与 episode）。
+     目标已存在就拒绝。
 报告：自检结果、各手各指 α 的分布、接触帧里“碰到表面”的比例、合手后手指点的最小有向距离（穿进物体多深）、拇指尖与食指尖距离的变化。只报不判。
 用法（容器内）：python /repo/stages/retarget/finger_close.py <motion parquet> <out_root> [--urdf …] [--close-frac 0.9] [--margin-m 0.003] [--step 0.02]
   [--free-alpha 0.5] [--ramp 8] [--smooth 5] [--surf 20000] [--dry-run]   最后一行 FINGER_CLOSE_DONE
@@ -156,6 +159,8 @@ def main() -> int:
     ap.add_argument("--fk-tol-m", type=float, default=0.002)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--mode", choices=("touch", "fixed"), default="touch")
+    ap.add_argument("--meta-src")
+    ap.add_argument("--meta-dst")
     ap.add_argument("--alpha", type=float, default=0.8, help="--mode fixed 时接触帧的合手量")
     a = ap.parse_args()
     motion = Path(a.motion)
@@ -165,6 +170,17 @@ def main() -> int:
     out_seq = Path(a.out_root) / "whole_body" / "soma" / seq_dir.name
     if out_seq.exists() and not a.dry_run:
         print(f"{out_seq} 已存在，拒绝")
+        return 2
+    if bool(a.meta_src) != bool(a.meta_dst):
+        print("--meta-src 与 --meta-dst 要一起给")
+        return 2
+    meta_src = Path(a.meta_src) / seq / "v2d_meta.json" if a.meta_src else None
+    meta_dst = Path(a.meta_dst) / seq / "v2d_meta.json" if a.meta_dst else None
+    if meta_src and not meta_src.is_file():
+        print(f"没有 {meta_src}")
+        return 2
+    if meta_dst and meta_dst.exists() and not a.dry_run:
+        print(f"{meta_dst} 已存在，拒绝")
         return 2
     t = pq.read_table(motion)
     row = t.to_pylist()[0]
@@ -318,10 +334,18 @@ def main() -> int:
     arr = pa.array([new_q.tolist()], type=old.type)
     t2 = t.set_column(t.schema.get_field_index("robot_joint_positions"), t.schema.field("robot_joint_positions"), arr)
     # 网格路径换成新目录（只换前缀，其余照抄）
+    swapped = 0
     for col in ("object_mesh_paths", "object_urdf_paths"):
         if col in t2.column_names:
-            vals = [[p.replace(str(seq_dir), str(out_seq)) for p in t2.column(col).to_pylist()[0]]]
+            old_paths = t2.column(col).to_pylist()[0]
+            vals = [[p.replace(str(seq_dir), str(out_seq)) for p in old_paths]]
+            swapped += sum(n != o for n, o in zip(vals[0], old_paths))
             t2 = t2.set_column(t2.schema.get_field_index(col), t2.schema.field(col), pa.array(vals, type=t2.schema.field(col).type))
+    if swapped == 0:
+        shutil.rmtree(out_seq)
+        print(f"MESH_PATH_FAIL：parquet 里的网格、URDF 路径没有一条以 {seq_dir} 开头，新目录已撤回")
+        return 3
+    print(f"网格与 URDF 路径换到新目录 {swapped} 条：{t2.column('object_mesh_paths').to_pylist()[0]}")
     pq.write_table(t2, out_seq / "robot_name=g1" / "data.parquet")
     st_src = whole / "reconstructed_stage"
     st_dst = Path(a.out_root) / "whole_body" / "reconstructed_stage"
@@ -329,6 +353,10 @@ def main() -> int:
     for f in st_src.glob(f"{seq}_*"):
         shutil.copy2(f, st_dst / f.name)
     print(f"写出 {out_seq}（parquet、object/）与 {st_dst} 里这一集的 {len(list(st_src.glob(f'{seq}_*')))} 个支撑面文件")
+    if meta_src:
+        meta_dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(meta_src, meta_dst)
+        print(f"元数据 {meta_src} → {meta_dst}")
     print("FINGER_CLOSE_DONE")
     return 0
 
