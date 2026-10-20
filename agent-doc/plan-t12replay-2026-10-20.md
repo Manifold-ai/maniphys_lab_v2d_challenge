@@ -54,4 +54,8 @@
 
 ## 执行记录
 
-（空）
+- 17:4x MDT：mf4090 上三个 policy 复制进 `runs/t12replay_stage/`，推到 `Rongxuan-Zhou/v2d-track2-transfer` 的 `t12replay_1020/`（HF_PUSH_OK 3，清单缺 0、不符 0、多出 0，
+  `results/t12replay/hf_push_mf4090.txt`）；README 补一行并上传（HF_README_OK，`results/ops/hf_readme_v2d_track2_transfer_t12replay.txt`）；ml40 上拉到 `runs/hf_pull/t12replay_1020`
+  （HF_PULL_OK 3，14.6 MB，`results/t12replay/hf_pull_ml40.txt`），挪进 `runs/flash_chord/<run>/`，三个 sha256 与 mf4090 上逐字节相同（`results/t12replay/sha256_ml40.txt`）。
+- 17:5x MDT：ml40 上的 `fall_mechanism.py` 与仓库任何一版的 md5 都不同，`push-new-files` 拒绝覆盖；ml40 没有链在跑，按 `scripts/dev/remote` 整体同步（先空跑：只删 7 个 `__pycache__` 与一个锁文件，
+  `results/box/sync_ml40_1020_t12replay.txt`），来历 ee177b46。17:51 MDT tmux `v2d-t12replay` 起 `t12replay_chain.sh`（ep4、ep25、ep1 的第 409600 步，日志 `runs/logs/t12replay_ml40.log`）。
