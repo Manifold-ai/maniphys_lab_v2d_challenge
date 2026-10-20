@@ -1,0 +1,19 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "e25": {"file": "results/ml40/day2/eval_t2-ep25-w2048-cap10m-r3a-ho-ml40_s349999104.txt", "grep": "mppe_cm|add_auc"},
+  "e28": {"file": "results/ml40/day2/eval_t2-ep28-w2048-cap10m-r3a-ho-ml40_s349999104.txt", "grep": "mppe_cm|add_auc"},
+  "t1": {"file": "results/ml40/day2/eval_t1-ep25-w2048-cap10m-r3a-ho-ml40_s349999104.txt", "grep": "mppe_cm|add_auc"},
+  "m4": {"file": "results/ml40/t12fall/mech_ep4_w1024.txt", "grep": "摔倒（"},
+  "m0": {"file": "results/ml40/t12fall/mech_ep0_w1024.txt", "grep": "摔倒（"},
+  "cw": {"file": "results/ml40/t12lift/contact_window_ho_ml40.txt", "grep": "^名|保底"}
+ },
+ "claims": [
+  {"id": "ho25", "evidence": ["e25"], "claim": "t2-ep25-w2048-cap10m-r3a-ho-ml40 的 4096 世界 MPPE 是 93.54 cm，ADD-AUC 0.1297。"},
+  {"id": "ho28", "evidence": ["e28"], "claim": "t2-ep28-w2048-cap10m-r3a-ho-ml40 的 MPPE 是 55.38 cm。"},
+  {"id": "t1ho", "evidence": ["t1"], "claim": "t1-ep25-w2048-cap10m-r3a-ho-ml40 的 MPPE 是 92.27 cm，ADD-AUC 约 0.130。"},
+  {"id": "ep4fall", "evidence": ["m4"], "claim": "ep4 的 1024 个世界全部摔倒，摔倒帧分位 10/90 是 92 与 96。"},
+  {"id": "ep0fall", "evidence": ["m0"], "claim": "ep0 只有 1.1% 的世界摔倒。"},
+  {"id": "hofall", "evidence": ["cw"], "claim": "ep25保底 的摔倒帧是 195，ep28保底 是 204。"},
+  {"id": "ctl_false", "evidence": ["e25"], "claim": "t2-ep25-w2048-cap10m-r3a-ho-ml40 的 MPPE 低于 60 cm。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["m0"], "claim": "ep0 摔倒的世界是 11 个（1024 个里）。", "control": "true"}
+ ]}

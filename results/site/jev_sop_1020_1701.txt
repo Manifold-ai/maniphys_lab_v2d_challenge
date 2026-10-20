@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-1701.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7b400bf7babc2035cc618a5b04f42a07  agent-doc/experiments/2026-10-20-sop-1701.claims.json
+# source   : 574a400dd3de-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:02:28-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ho25                 P(supported)=0.96  verified               [e25]  t2-ep25-w2048-cap10m-r3a-ho-ml40 的 4096 世界 MPPE 是 93.54 cm，ADD-AUC 0.1297。
+ho28                 P(supported)=0.98  verified               [e28]  t2-ep28-w2048-cap10m-r3a-ho-ml40 的 MPPE 是 55.38 cm。
+t1ho                 P(supported)=0.97  verified               [t1]  t1-ep25-w2048-cap10m-r3a-ho-ml40 的 MPPE 是 92.27 cm，ADD-AUC 约 0.130。
+ep4fall              P(supported)=0.97  verified               [m4]  ep4 的 1024 个世界全部摔倒，摔倒帧分位 10/90 是 92 与 96。
+ep0fall              P(supported)=0.94  verified               [m0]  ep0 只有 1.1% 的世界摔倒。
+hofall               P(supported)=0.99  verified               [cw]  ep25保底 的摔倒帧是 195，ep28保底 是 204。
+ctl_false            P(supported)=0.14  control(false) ok      [e25]  t2-ep25-w2048-cap10m-r3a-ho-ml40 的 MPPE 低于 60 cm。
+ctl_true             P(supported)=0.97  control(true) ok       [m0]  ep0 摔倒的世界是 11 个（1024 个里）。
+controls behaved as expected
