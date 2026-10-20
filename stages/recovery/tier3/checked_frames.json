@@ -496,6 +496,25 @@
   "ep13_f921": {
    "verdict": "both_wrong",
    "note": "orientation wrong in both (final layer; the 10-20 FP-layer answer on f915 had the anchored pose right)"
+  },
+  "ep15_f494": {
+   "verdict": "gb5_only",
+   "note": "fully occluded frame; inferred from the body motion and how the sign is held"
+  },
+  "ep15_f0": {
+   "verdict": "both_ok"
+  },
+  "ep15_f368": {
+   "verdict": "both_ok"
+  },
+  "ep15_f476": {
+   "verdict": "both_ok"
+  },
+  "ep15_f569": {
+   "verdict": "both_ok"
+  },
+  "ep15_f714": {
+   "verdict": "both_ok"
   }
  }
 }
