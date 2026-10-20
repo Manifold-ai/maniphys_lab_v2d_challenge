@@ -1,0 +1,12 @@
+# command  : scripts/dev/push-new-files stages/retarget/ref_limits.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : a1b781db05b9dfeb7fe3655895a488a8  stages/retarget/ref_limits.py
+# source   : a7fd33871a0d
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:36:26-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+本地提交 a7fd33871a0d；远端来历 1496e3878f77
+  ok   a1b781db05b9dfeb7fe3655895a488a8  stages/retarget/ref_limits.py
+远端来历（放完）1496e3878f77
+PUSH_OK（1 个文件）

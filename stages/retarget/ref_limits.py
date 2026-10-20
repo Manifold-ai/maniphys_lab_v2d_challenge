@@ -15,7 +15,7 @@ import numpy as np
 import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot  # noqa: E402
+from finger_close import URDF, Robot
 
 KEYS = ("hip", "knee", "ankle", "waist")
 
