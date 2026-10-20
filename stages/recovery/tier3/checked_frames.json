@@ -390,23 +390,23 @@
   },
   "ep03_f117": {
    "verdict": "gb4_better",
-   "note": "gb4 a little better"
+   "note": "gb4 a little better; kept after the tinted render"
   },
   "ep03_f437": {
    "verdict": "gb5_only",
-   "note": "user: gb5 right (grey texture on the grey mug is hard to read; a tinted render was requested)"
+   "note": "user: gb5 right; kept after the tinted render (review_gb5/tint/)"
   },
   "ep03_f452": {
    "verdict": "gb5_only",
-   "note": "as f437"
+   "note": "user: gb5 right; kept after the tinted render (review_gb5/tint/)"
   },
   "ep03_f563": {
-   "verdict": "gb5_only",
-   "note": "as f437"
+   "verdict": "both_wrong",
+   "note": "re-checked on the tinted render (review_gb5/tint/, tint=255,0,255): the handle is turned the wrong way in both"
   },
   "ep03_f780": {
    "verdict": "gb5_only",
-   "note": "as f437"
+   "note": "user: gb5 right; kept after the tinted render (review_gb5/tint/)"
   }
  }
 }
