@@ -1,0 +1,27 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/finger_close.py\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2_fc8\ --mode\ fixed\ --alpha\ 0.8\ --dry-run 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 4019b3f5fc34e1a31940a6ee67a7a4ce  stages/retarget/finger_close.py
+# md5      : 260072f4a28dc4038a9d5398e0a1e8cb  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T15:06:31+0800
+# ---------------------------------------------------------------
+参考 /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet：803 帧，43 个关节；URDF /workspace/src/flash_chord/assets/urdfs/g1/main_with_hand.urdf（根 pelvis）；模式 fixed，α 0.8
+  自检 left_hand_palm_link：位置最大差 0.00 mm；朝向最大差 xyzw 179.980°、wxyz 0.000°
+  自检 right_hand_palm_link：位置最大差 0.00 mm；朝向最大差 xyzw 179.999°、wxyz 0.000°
+  自检通过：ee_pose_w 的四元数是 wxyz
+  合手方向自检 left 手：拇指 2 节到 index_1 原点 123.9 → 37.9 mm
+  合手方向自检 left 手：拇指 2 节到 middle_1 原点 123.9 → 37.9 mm
+  合手方向自检 right 手：拇指 2 节到 index_1 原点 123.9 → 37.9 mm
+  合手方向自检 right 手：拇指 2 节到 middle_1 原点 123.9 → 37.9 mm
+  left 手 thumb：接触 364 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  left 手 index：接触 364 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  left 手 middle：接触 364 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  left 手：合手后接触帧手指点最小有向距离 分位 10/50/90 -38.7 / -22.6 / -0.9 mm（负 = 穿进物体）；拇指 2 节与食指 1 节原点距离中位 123.9 → 53.0 mm
+  right 手 thumb：接触 301 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  right 手 index：接触 301 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  right 手 middle：接触 301 帧，碰到表面 0 帧（0.0%）；接触帧 α 分位 10/50/90 0.80 / 0.80 / 0.80
+  right 手：合手后接触帧手指点最小有向距离 分位 10/50/90 -38.7 / -20.7 / 6.5 mm（负 = 穿进物体）；拇指 2 节与食指 1 节原点距离中位 123.9 → 53.0 mm
+改了 566/803 帧的手指关节；手指以外的关节最大改动 0 rad
+dry-run：不写文件
+FINGER_CLOSE_DONE

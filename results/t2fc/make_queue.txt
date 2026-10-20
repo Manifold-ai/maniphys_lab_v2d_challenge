@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t2fc 
+# md5      : 21c9c9de4f48c31669a64741a33dc59e  stages/policy/make_var_queue.py
+# source   : 33cb572e6418-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T01:07:52-0600
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t2fc.expect.tsv（3 行）
+写 stages/policy/queues/ml40_t2fc_smoke.txt（3 行）
+写 stages/policy/queues/ml40_t2fc.txt（3 行）
+写 stages/evaluate/exports/cand_t2_t2fc_ml40.tsv（3 行）

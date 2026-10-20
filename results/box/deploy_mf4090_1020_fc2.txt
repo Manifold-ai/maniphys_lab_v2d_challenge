@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/retarget/finger_close.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 4019b3f5fc34e1a31940a6ee67a7a4ce  stages/retarget/finger_close.py
+# source   : 33cb572e6418
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T01:06:12-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+  覆盖 stages/retarget/finger_close.py：远端是 f41abb4 的版本（2dc216096d577f77634e5418f3fb64fa）
+本地提交 33cb572e6418；远端来历 1496e3878f77
+  ok   4019b3f5fc34e1a31940a6ee67a7a4ce  stages/retarget/finger_close.py
+远端来历（放完）1496e3878f77
+PUSH_OK（1 个文件）

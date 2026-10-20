@@ -188,6 +188,11 @@ SETS = {
               "episodes": [4, 28, 1, 9, 2, 11, 17], "parts": {"t2mrp": [4, 28, 1, 9, 2, 11, 17]}, "base": None, "strip_r3a": True,
               "run": "t2-ep{ep}-w2048-cap4m-r3a-sd-mf4090", "smoke_extra": ["training.checkpoint.save_interval_environment_steps=409600"],
               "desc": "Tier 2 全失败的 ep4、28、1、9、2、11、17 冒烟密存档：变体 A seed 42（mf4090，buffer 400 万），冒烟每 409600 步存一份 checkpoint；正式训练用停链标记挡住"},
+    # 10/20 凌晨（计划 agent-doc/plan-t2fc-2026-10-20.md）：参考的 Dex3 手指全程张开；接触段合到行程的 0.8（stages/retarget/finger_close.py --mode fixed）
+    "t2fc": {"plan": "agent-doc/plan-t2fc-2026-10-20.md", "tier": 2, "machine": "ml40", "cap": None,
+             "episodes": [25, 4], "parts": {"t2fc": [25, 4]}, "base": None, "motion": "tier2_fc8", "strip_r3a": True,
+             "run": "t2-ep{ep}-w2048-cap10m-r3a-fc8-ml40",
+             "desc": "Tier 2 参考合手：举起物体全失败的 ep25、ep4 的变体 A seed 42，参考换成 runs/motion/tier2_fc8（只改接触段的 14 个 Dex3 手指关节，合到行程的 0.8；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
