@@ -14,7 +14,7 @@ import numpy as np
 import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
 
 
 def stats(v: np.ndarray, stance_pairs: np.ndarray, both_off: np.ndarray, fast: float) -> str:
