@@ -1,0 +1,34 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/contact_window_errors.py\ --label\ ep0成功\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet\ --npz\ /repo/runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.npz\ --label\ ep25\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz\ --label\ ep4\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz\ --label\ ep1\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz\ --label\ ep2\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz\ --label\ ep17\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet\ --npz\ /repo/runs/diag2/t2-ep17-w2048-cap10m-r3a-ml40/rollout_w4096.npz\ --label\ ep9\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet\ --npz\ /repo/runs/diag2/t2-ep9-w2048-cap10m-r3a-ml40/rollout_w4096.npz\ --label\ ep28\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet\ --npz\ /repo/runs/diag2/t2-ep28-w2048-cap10m-r3a-ml40/rollout_w4096.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : cff58805231fb6755275ab39a2ff41f0  stages/evaluate/contact_window_errors.py
+# md5      : a47ccf191a9c546e900f06d79c94cde4  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+# md5      : 80c257f7cd07410b40d8736f594b5191  runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# md5      : 5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# md5      : 81ce2f8bed02cb5efbb6107a7e818f17  runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz
+# md5      : 260072f4a28dc4038a9d5398e0a1e8cb  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : 423b1555bf4fbc96a425b177bf799e38  runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz
+# md5      : 0d1db200cb3bced7252d11069d9af49b  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+# md5      : ddce0604949b28f802d8ffc6f89b0855  runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz
+# md5      : d1c575a2738276777ac10d6cd47ac1ed  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet
+# md5      : cf00792339b9a341ede73c481d439adb  runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz
+# md5      : 6cc1b4f8fbdbf7bda7fe5de85eae6bf5  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+# md5      : 89085e8beb30f6bf443fa91f309ddbc7  runs/diag2/t2-ep17-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# md5      : 4d60d1ba9fbc060426957a526fad48e2  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+# md5      : 727d914c86a6d83ff431826231b04150  runs/diag2/t2-ep9-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# md5      : 105f1baff61e5d85054101231951f661  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+# md5      : 221112d1750cd778054b8444bcb5baf2  runs/diag2/t2-ep28-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T22:29:37+0800
+# ---------------------------------------------------------------
+窗口 30 帧，摔倒门槛 0.5 rad（骨盆朝向误差的世界中位）
+名	帧	t_c	接触前 手掌误差 10/50/90 m	接触前 骨盆误差	接触后 手掌误差	接触后 骨盆误差	摔倒帧	摔倒帧 − t_c	骨盆朝向误差中位最大 rad
+ep0成功	778	203	0.064 / 0.068 / 0.073	0.024 / 0.028 / 0.033	0.047 / 0.052 / 0.056	0.024 / 0.026 / 0.030	—	—	0.235
+ep25	859	102	0.062 / 0.088 / 0.128	0.031 / 0.059 / 0.135	0.090 / 0.109 / 0.811	0.073 / 0.116 / 0.690	173	+71	2.225
+ep4	803	133	0.550 / 0.746 / 0.910	0.816 / 0.970 / 1.108	1.193 / 1.350 / 1.711	0.887 / 1.048 / 1.287	99	-34	2.816
+ep1	747	104	0.089 / 0.100 / 0.117	0.060 / 0.074 / 0.096	0.115 / 0.129 / 0.138	0.079 / 0.099 / 0.133	27	-77	2.330
+ep2	980	94	0.121 / 0.125 / 0.127	0.051 / 0.062 / 0.070	0.052 / 0.066 / 0.083	0.054 / 0.080 / 0.100	471	+377	1.851
+ep17	440	114	0.040 / 0.049 / 0.065	0.036 / 0.049 / 0.066	0.069 / 0.078 / 0.092	0.074 / 0.085 / 0.099	153	+39	2.477
+ep9	870	161	0.051 / 0.055 / 0.063	0.039 / 0.049 / 0.062	0.034 / 0.038 / 0.044	0.024 / 0.033 / 0.046	352	+191	2.562
+ep28	988	399	0.538 / 0.802 / 1.729	0.271 / 0.521 / 1.524	0.546 / 1.225 / 2.189	0.333 / 0.824 / 1.797	306	-93	2.355
+CONTACT_WINDOW_DONE
