@@ -1,0 +1,6 @@
+# command  : bash stages/policy/arm_t12lift.sh t1 
+# md5      : 4b8a09d143b4207ed05f8eaa5918a757  stages/policy/arm_t12lift.sh
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T02:57:32+0800
+# ---------------------------------------------------------------
