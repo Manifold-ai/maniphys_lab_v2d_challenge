@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/retarget/hands_off.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : f84f9a5de994ddf6921b69e7f5f8b9fc  stages/retarget/hands_off.py
+# source   : 59723aa1d020
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:47:21-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+  覆盖 stages/retarget/hands_off.py：远端是 ee2b9d1 的版本（6cf8a5c8d3ed0d1bc0e8dfdcebbc5d8d）
+本地提交 59723aa1d020；远端来历 1496e3878f77
+  ok   f84f9a5de994ddf6921b69e7f5f8b9fc  stages/retarget/hands_off.py
+远端来历（放完）1496e3878f77
+PUSH_OK（1 个文件）
