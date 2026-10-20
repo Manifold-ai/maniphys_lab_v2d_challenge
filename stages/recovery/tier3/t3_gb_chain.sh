@@ -74,7 +74,8 @@ log "5 physics ${B}_dr2s"
 log "6 ${B}_dr2s_dyn7"
 
 # 7. checks
-SEL=$B.selection.json SUP=$B bash "$S/gate/chain_check.sh" ${B}_dr2s_dyn7 $SET > logs/chain_check_$SET.log 2>&1
+SEL=$B.selection.json SUP=$B T3_FLOOR_FIT=floor_fit_$V.json T3_REGISTER=camera_register_$V.json \
+  bash "$S/gate/chain_check.sh" ${B}_dr2s_dyn7 $SET > logs/chain_check_$SET.log 2>&1
 grep -q CHAIN_DONE logs/chain_check_$SET.log || fail "chain check (logs/chain_check_$SET.log)"
 log "7 checks: gate $(tail -3 /lab_data/yqchen/v2d/gate/logs/p2_$SET.txt | tr '\n' ' ' | cut -c1-300)"
 log "   our supports: $(tail -2 /lab_data/yqchen/v2d/gate/logs/oursup_$SET.txt | tr '\n' ' ' | cut -c1-300)"

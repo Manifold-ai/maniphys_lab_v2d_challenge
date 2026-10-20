@@ -19,6 +19,11 @@ bash $C/mkrecord.sh $S > $G/logs/rec_$S.txt
 $G/venv/bin/python $G/repo/stages/retarget/p2_table.py $G/logs/rec_$S.txt --no-contact 29 > $G/logs/p2_$S.txt 2>&1
 PYTHONPATH=$G/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding OMP_NUM_THREADS=4 nice -n 10 \
   $G/venv/bin/python $C/t3_support_usda.py $G/repo $S $T/runs/support/$SUP $T $G/support_usda_$S > $G/logs/support_usda_$S.txt 2>&1
+# 10-21: what unheld objects lean on (ep01's vacuum, ep28's squeegee on a stool), appended to the same usda; the floor
+# fit and registration are the ones the supports were made with (T3_FLOOR_FIT / T3_REGISTER, as for t3_support.py)
+PYTHONPATH=$G/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding OMP_NUM_THREADS=2 nice -n 10 \
+  $G/venv/bin/python $C/t3_lean_support.py $G/repo $S $T $G/support_usda_$S > $G/logs/lean_support_$S.txt 2>&1
+grep -q LEAN_SUPPORT_DONE $G/logs/lean_support_$S.txt || { echo "CHAIN_FAILED lean support: $(tail -1 $G/logs/lean_support_$S.txt)"; exit 1; }
 OMP_NUM_THREADS=2 nice -n 10 bash $C/support_recheck.sh $S $G/support_usda_$S > $G/logs/oursup_$S.txt 2>&1
 # 10-20: a bare `wait` returns 0 whatever the background job did, so the alignment crashed for gb4 and gb5 (KeyError on the
 # convert dir) and the chain still said CHAIN_DONE; check its status and output instead.
