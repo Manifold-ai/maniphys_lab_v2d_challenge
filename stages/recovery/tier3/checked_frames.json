@@ -364,6 +364,26 @@
   },
   "ep01_f746": {
    "verdict": "gb5_only"
+  },
+  "ep02_f0": {
+   "verdict": "gb4_only",
+   "note": "gb5 seems off in translation along the line of sight, clearly closer to the camera"
+  },
+  "ep02_f880": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "basket already on the floor; as the user's attribution verdict (seventh_pass_gb5_attr ep02_f880/after_880): both wrong, gb5 closer to the ground but tipped over"
+  },
+  "ep02_f909": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "basket already on the floor; as the user's attribution verdict (seventh_pass_gb5_attr ep02_f880/after_880): both wrong, gb5 closer to the ground but tipped over"
+  },
+  "ep02_f956": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "basket already on the floor; as the user's attribution verdict (seventh_pass_gb5_attr ep02_f880/after_880): both wrong, gb5 closer to the ground but tipped over"
+  },
+  "ep02_f979": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "basket already on the floor; as the user's attribution verdict (seventh_pass_gb5_attr ep02_f880/after_880): both wrong, gb5 closer to the ground but tipped over"
   }
  }
 }
