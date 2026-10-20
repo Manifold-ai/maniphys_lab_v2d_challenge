@@ -13,7 +13,7 @@ for m in ("pyarrow", "pyarrow.parquet"):
     sys.modules.setdefault(m, type(sys)(m))
 for k in ("URDF", "Robot", "quat_mat"):
     setattr(sys.modules["finger_close"], k, None)
-import fall_mechanism as fm  # noqa: E402
+import fall_mechanism as fm
 
 
 def test_first_over() -> None:
