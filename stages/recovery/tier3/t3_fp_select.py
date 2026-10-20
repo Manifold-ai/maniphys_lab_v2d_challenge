@@ -19,10 +19,11 @@ The parameters were fixed on 10-19 before any pilot result and are not tuned on 
 uses as its answer key (stages/recovery/tier3/checked_frames.json, evaluation only).
 Anchor (10-20): unary - BETA * [state within ANCHOR_DEG of FoundationPose's own pose of its frame], so the exporter's
 pick is kept unless the timeline clearly prefers another orientation. The 10-19 pilot (BETA = 0) turned ep03's opening
-rest, where FoundationPose was right, on unary margins of 0.02-0.22. Unlike the parameters above, BETA was chosen on the
-checked frames: offline at the stage-05 layer all seven of ep03/ep04 are right for BETA 0.2-0.5, the registered pick is
-the geometric midpoint 0.316; ep13 was held out (user 10-20: 5 of 8 frames right where FoundationPose is wrong, 2 both
-wrong, 1 FoundationPose closer). Handoff section "以 ctrl 为锚的离线试验".
+rest, where FoundationPose was right, on unary margins of 0.02-0.22. BETA = 0.5 is the winner of the 10-20 A/B over
+{0, 0.1, 0.2, 0.3, 0.5} (t3_beta_ab.sh) under the judge registered before the run (mean Y-stage silhouette IoU, ties
+within 0.005 to the fewest jumps): 0.2, 0.3 and 0.5 tied, 0.5 had the fewest jumps; the checked frames only evaluated it
+(handoff "BETA 的 A/B"). The judge measures position, not orientation. The earlier 0.316 was bounded by the checked
+frames themselves and was dropped (handoff "停掉").
 
 Writes the chosen poses into the stage-05 pkl in place (fp_poses_cam, obj_pose_world; other keys kept, the stage-06
 loader validates them) and updates the stage-05 marker's output identity so the runner reuses stage 05 and reruns 06
@@ -39,7 +40,7 @@ only makes the relative turn large, so the min falls back to the static term. Ha
         [--poses-out=<npz>]
 
 --beta overrides BETA (10-20 A/B, t3_beta_ab.sh: the value is judged by an automatic metric, the checked frames only
-evaluate). The default 0.316 was bounded by the checked frames themselves (handoff, "停掉"), so it is not a fixed choice.
+evaluate).
 --poses-out writes the chosen camera poses (and s2a) to an npz, also with --dry (offline trials).
 """
 
@@ -59,7 +60,7 @@ W_IOU = 5.0
 ROT_DEG = 10.0
 TRANS_M = 0.05
 TOP_K = 8
-BETA = 0.316
+BETA = 0.5
 ANCHOR_DEG = 24.0
 CARRY = False
 HOLD_M = 0.10  # as gate/t3_dynamics_check.py
