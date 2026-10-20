@@ -344,7 +344,7 @@
   "ep17_f300": "both right"
  },
  "batch_review_gb4_gb5": {
-  "_doc": "10-21 (user), whole-batch gb4 vs gb5 review sheets dev/sel_diag/review_gb5/ep*_tex.png (t3_pose_overlay.py n=4 tex=1: per episode the 4 frames where the versions differ most, >= 15 apart, plus first and last; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7). verdict: both_ok | gb4_only (old right, new wrong) | gb5_only (new right, old wrong) | both_wrong | both_wrong_gb4_better | both_wrong_gb5_better | gb4_better (user said only that gb4 is a little better). Release rule (10-20): gb4_only share <= 10% for the whole batch to take gb5.",
+  "_doc": "10-21 (user), whole-batch gb4 vs gb5 review sheets dev/sel_diag/review_gb5/ep*_tex.png (t3_pose_overlay.py n=4 tex=1: per episode the 4 frames where the versions differ most, >= 15 apart, plus first and last; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7). verdict: both_ok | gb4_only (old right, new wrong) | gb5_only (new right, old wrong) | both_wrong | both_wrong_gb4_better | both_wrong_gb5_better | gb4_better (user said only that gb4 is a little better) | not_judgeable (fully occluded, no verdict; left out of the share). Release rule (10-20): gb4_only share <= 10% for the whole batch to take gb5.",
   "ep01_f0": {
    "verdict": "both_ok"
   },
@@ -515,6 +515,28 @@
   },
   "ep15_f714": {
    "verdict": "both_ok"
+  },
+  "ep16_f264": {
+   "verdict": "gb5_only"
+  },
+  "ep16_f320": {
+   "verdict": "gb5_only"
+  },
+  "ep16_f335": {
+   "verdict": "not_judgeable",
+   "note": "fully occluded"
+  },
+  "ep16_f0": {
+   "verdict": "gb5_only",
+   "note": "user: on the other frames gb5 is right overall"
+  },
+  "ep16_f352": {
+   "verdict": "gb5_only",
+   "note": "as f0"
+  },
+  "ep16_f476": {
+   "verdict": "gb5_only",
+   "note": "as f0"
   }
  }
 }
