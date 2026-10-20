@@ -557,6 +557,24 @@
   "ep17_f439": {
    "verdict": "gb5_only",
    "note": "user: gb5 better"
+  },
+  "ep25_f0": {
+   "verdict": "gb5_only"
+  },
+  "ep25_f125": {
+   "verdict": "gb5_only"
+  },
+  "ep25_f518": {
+   "verdict": "gb5_only"
+  },
+  "ep25_f656": {
+   "verdict": "both_wrong"
+  },
+  "ep25_f751": {
+   "verdict": "both_ok"
+  },
+  "ep25_f858": {
+   "verdict": "both_ok"
   }
  }
 }
