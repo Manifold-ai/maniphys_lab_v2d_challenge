@@ -1,0 +1,14 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-19-t2sd.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 161e99c9f3fdcaa34353574e3f1abb94  agent-doc/experiments/2026-10-19-t2sd.claims.json
+# source   : f9c21e0dc0f9-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T20:07:17-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+s409600              P(supported)=0.99  verified               [nm]  smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 409600 步的 MPPE 是 72.65、AUC 是 0.120；t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 117.09、AUC 是 0.124。
+later                P(supported)=0.84  verified               [nm]  smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 819200、1228800、1638400、2048000 步的 MPPE 都在 100 cm 以上。
+s3                   P(supported)=0.94  verified               [sw]  即使换上第 409600 步，4096 世界 MPPE 平均是 16.193，高于门槛 16.0，S3 MPPE 分支不过。
+ctl_false            P(supported)=0.01  control(false) ok      [nm]  smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 409600 步的 MPPE 是 49.51。
+ctl_true             P(supported)=0.99  control(true) ok       [nm]  t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 117.09。
+controls behaved as expected

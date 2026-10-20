@@ -1,0 +1,15 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "nm": {"file": "results/t2sd/near_miss_mf4090.txt", "grep": "^run|^t2-ep|^smoke-t2-ep"},
+    "sw": {"file": "results/t2sd/swap_hypothetical_s409600.txt", "grep": "^S3|^4096"},
+    "ar": {"file": "results/t2sd/near_miss_mf4090.txt", "grep": "^# command"}
+  },
+  "claims": [
+    {"id": "s409600", "evidence": ["nm"], "claim": "smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 409600 步的 MPPE 是 72.65、AUC 是 0.120；t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 117.09、AUC 是 0.124。"},
+    {"id": "later", "evidence": ["nm"], "claim": "smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 819200、1228800、1638400、2048000 步的 MPPE 都在 100 cm 以上。"},
+    {"id": "s3", "evidence": ["sw"], "claim": "即使换上第 409600 步，4096 世界 MPPE 平均是 16.193，高于门槛 16.0，S3 MPPE 分支不过。"},
+    {"id": "ctl_false", "evidence": ["nm"], "claim": "smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090 第 409600 步的 MPPE 是 49.51。", "control": "false"},
+    {"id": "ctl_true", "evidence": ["nm"], "claim": "t2-ep25-w2048-cap4m-mf4090 的 MPPE 是 117.09。", "control": "true"}
+  ]
+}

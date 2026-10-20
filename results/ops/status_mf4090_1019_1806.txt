@@ -1,0 +1,23 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 mf4090 bash\ -s\ mf4090 
+# source   : f9c21e0dc0f9
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T20:06:39-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-20 08:06:40 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  215G   70G  76% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1xp2_mf4090.log：=== 2026-10-19 14:30:53 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/cand_t2_t2sd_mf4090_gate.log：=== 2026-10-20 07:00:57 CST 导出链结束，退出码 0
+runs/logs/cand_t2_t2sd_mf4090.log：=== 2026-10-20 07:00:57 CST EXPORT_CHAIN_DONE（成功 5、失败 0）
+runs/logs/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090.export_8c778f9_s2048000_w1.log：object trajectories: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/export_8c778f9/s2048000_w1/episode_000025.parquet
+runs/logs/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090.export_8c778f9_s1638400_w1.log：object trajectories: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/export_8c778f9/s1638400_w1/episode_000025.parquet
+runs/logs/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090.export_8c778f9_s1228800_w1.log：object trajectories: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/export_8c778f9/s1228800_w1/episode_000025.parquet
+runs/logs/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090.export_8c778f9_s819200_w1.log：object trajectories: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/export_8c778f9/s819200_w1/episode_000025.parquet
+runs/logs/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090.export_8c778f9_s409600_w1.log：object trajectories: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/export_8c778f9/s409600_w1/episode_000025.parquet
+runs/logs/t2sd_eval_mf4090.log：=== 2026-10-20 06:55:58 CST DAY2_EVAL_DONE（成功 5、失败 0）
