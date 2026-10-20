@@ -1,0 +1,25 @@
+# command  : env V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg scripts/dev/in-flash-chord python\ /repo/stages/policy/support_import_check.py\ /repo/runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-06-01_11-26-44_monitor_rotate_05_support.usda\ /repo/runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-05-29_15-20-43_iron_round_table_02_support.usda\ /repo/runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 11872de968dc4ece0b3f7ef5fa8e0b22  stages/policy/support_import_check.py
+# md5      : fc85e5dff9bf6233a79386d888bb592b  runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-06-01_11-26-44_monitor_rotate_05_support.usda
+# md5      : 6d53746481ec961b918849d5cf8de713  runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-05-29_15-20-43_iron_round_table_02_support.usda
+# md5      : 99270b9c51d5be093000fc485207a463  runs/motion/tier3_gb4/whole_body/reconstructed_stage/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T11:06:58+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+== 2026-06-01_11-26-44_monitor_rotate_05_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.28485, 0.1912, 0.01)，位置 (-1.1029, 0.2802, 0.755)
+== 2026-05-29_15-20-43_iron_round_table_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.31465, 0.087, 0.01)，位置 (-0.7475, 0.2102, 0.75)
+== 2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1201, 0.1227, 0.01)，位置 (-0.2378, 0.8111, 0.773)

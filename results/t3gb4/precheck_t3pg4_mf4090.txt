@@ -1,0 +1,32 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/mf4090_t3pg4.expect.tsv stages/policy/queues/mf4090_t3pg4_smoke.txt stages/policy/queues/mf4090_t3pg4.txt 
+# md5      : 8cb6aaac0eedaa2341f5e4add86fbb2e  stages/policy/precheck_expect.sh
+# md5      : e9f7ff378c4d1556a29afab1bbe18469  stages/policy/queues/mf4090_t3pg4.expect.tsv
+# md5      : 8e838235cf4354547eba38d03309f43d  stages/policy/queues/mf4090_t3pg4_smoke.txt
+# md5      : 19dc86135c58c03b2a14d5050bc8862b  stages/policy/queues/mf4090_t3pg4.txt
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T11:11:10+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t3-ep0-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep0-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep6-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep6-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep7-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep7-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep8-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep8-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep20-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep20-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep22-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep22-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep18-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep18-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep24-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep24-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep26-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep26-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep29-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep29-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep21-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep21-w2048-cap4m-r3a-gb4-mf4090.yaml：11 条断言，全过
+PRECHECK_OK（11 条 run）

@@ -1,0 +1,19 @@
+# command  : python3 stages/policy/support_kinds.py runs/tier3/root_gb4/support_surface 
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T11:06:58+0800
+# ---------------------------------------------------------------
+sequence_id	shapes	scaled_cube	md5
+2026-04-29_11-53-57_tall_bar_stool_pull_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-22_16-52-36_step_ladder_drag_03	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-29_15-20-43_iron_round_table_02	Cube×1	yes	6d53746481ec961b918849d5cf8de713
+2026-05-29_15-43-20_watering_can_pour_right_02	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-01_11-26-44_monitor_rotate_05	Cube×1	yes	fc85e5dff9bf6233a79386d888bb592b
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_15-08-08_skinny_wood_chair_push_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_16-05-08_skateboard_rotate_ground_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-08_16-57-34_rice_cooker_clockwise_04	Cube×1	yes	99270b9c51d5be093000fc485207a463
+# 共 11 个：只有地面 8，带 scale 的方盒 3，其他 0
