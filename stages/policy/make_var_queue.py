@@ -177,6 +177,11 @@ SETS = {
               "episodes": [25], "parts": {"t2msd": [25]}, "base": None, "strip_r3a": True,
               "run": "t2-ep{ep}-w2048-cap4m-r3a-sd-mf4090", "smoke_extra": ["training.checkpoint.save_interval_environment_steps=409600"],
               "desc": "Tier 2 ep25 冒烟密存档：变体 A seed 42（mf4090，buffer 400 万），冒烟每 409600 步存一份 checkpoint；正式训练用停链标记挡住"},
+    # 10/19 晚（计划 agent-doc/plan-t2rp-2026-10-19.md）：ep25 的参考回放 checkpoint（第 409600 步）比训好的少碰物体；其余全失败的集照样量一遍
+    "t2mrp": {"plan": "agent-doc/plan-t2rp-2026-10-19.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+              "episodes": [4, 28, 1, 9, 2, 11, 17], "parts": {"t2mrp": [4, 28, 1, 9, 2, 11, 17]}, "base": None, "strip_r3a": True,
+              "run": "t2-ep{ep}-w2048-cap4m-r3a-sd-mf4090", "smoke_extra": ["training.checkpoint.save_interval_environment_steps=409600"],
+              "desc": "Tier 2 全失败的 ep4、28、1、9、2、11、17 冒烟密存档：变体 A seed 42（mf4090，buffer 400 万），冒烟每 409600 步存一份 checkpoint；正式训练用停链标记挡住"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）

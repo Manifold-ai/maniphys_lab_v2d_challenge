@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t2mrp 
+# md5      : 9c901708a33509f0b60278df344d79e3  stages/policy/make_var_queue.py
+# source   : b8d252374bff-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T20:08:11-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/mf4090_t2mrp.expect.tsv（8 行）
+写 stages/policy/queues/mf4090_t2mrp_smoke.txt（8 行）
+写 stages/policy/queues/mf4090_t2mrp.txt（8 行）
+写 stages/evaluate/exports/cand_t2_t2mrp_mf4090.tsv（8 行）
