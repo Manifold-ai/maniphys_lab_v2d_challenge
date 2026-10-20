@@ -313,7 +313,7 @@
   }
  },
  "seventh_pass_gb5_attr": {
-  "_doc": "10-21 ~01:30 (user), textured overlays dev/sel_diag/attr/review/ep01_vacuum_tex.png and ep02_blue_easter_basket_tex.png (t3_pose_overlay.py tex=1; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7, the final delivered layer); attribution of the gb5 gate's worse episodes (handoff-tier3-rotation-2026-10-21-attr.md)",
+  "_doc": "10-21 ~01:30 (user), textured overlays dev/sel_diag/attr/review/ep01_vacuum_tex.png, ep02_blue_easter_basket_tex.png and ep17_traffic_cone_tex.png (t3_pose_overlay.py tex=1; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7, the final delivered layer); attribution of the gb5 gate's worse episodes (handoff-tier3-rotation-2026-10-21-attr.md)",
   "ep01_f223": "about the same",
   "ep01_f258": "gb5 better",
   "ep01_f310": "both wrong: gb5 has left the hand, gb4's orientation is wrong",
@@ -333,6 +333,14 @@
   "ep02_f760": "fully occluded, nothing visible in the video",
   "ep02_f815": "fully occluded; gb5 perhaps a little better but still far off: from the body pose and the left hand the basket should be about to land or already on the floor",
   "ep02_f880": "both wrong: the basket is already on the floor; gb5 closer (nearer the ground) but tipped over",
-  "ep02_after_880": "all later frames (920/950/975) have the same problem as 880"
+  "ep02_after_880": "all later frames (920/950/975) have the same problem as 880",
+  "ep17_f100": "orientation right in both; gb5's pose a little better",
+  "ep17_f104": "as f100",
+  "ep17_f150": "orientation wrong in both",
+  "ep17_f200": "almost fully occluded; gb4's orientation relatively better, gb5 tilted a lot",
+  "ep17_f220_f236_f237": "fully occluded, not judgeable by eye; from the video and the body motion the cone is carried level (translated, not flipped) while picked up and walked, so gb4 is closer on all three (inferred)",
+  "ep17_f245": "position: gb5 better; orientation: gb4 better",
+  "ep17_f260": "gb5 right; it fixes gb4 losing track",
+  "ep17_f300": "both right"
  }
 }
