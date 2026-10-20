@@ -17,7 +17,7 @@ import numpy as np
 import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "stages" / "retarget"))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
 
 NAMES = ("pelvis", "torso_link", "left_ankle_roll_link", "right_ankle_roll_link")
 ITEMS = ("躯干先歪", "骨盆偏", "脚踩偏", "双脚离地")
@@ -77,7 +77,7 @@ def main() -> int:
     gaps = {n: float(np.median(np.linalg.norm(pos[n][0] - ref[n][0], axis=-1))) for n in NAMES}
     rot0 = float(np.median(np.arccos(np.clip((np.einsum("wij,ij->w", Rt[0], Rref_t[0]) - 1) / 2, -1, 1))))
     ok = all(v < 0.02 for v in gaps.values()) and rot0 < 0.1
-    print(f"  G0 第 0 步：位置差（世界中位）" + "，".join(f"{n} {v * 100:.2f} cm" for n, v in gaps.items()) + f"；躯干朝向差 {rot0:.3f} rad → {'PASS' if ok else 'FAIL'}")
+    print("  G0 第 0 步：位置差（世界中位）" + "，".join(f"{n} {v * 100:.2f} cm" for n, v in gaps.items()) + f"；躯干朝向差 {rot0:.3f} rad → {'PASS' if ok else 'FAIL'}")
     if not ok:
         print("G0 不过：刚体对不上参考（名字、四元数顺序、左右或帧号），不判")
         return 3
@@ -101,7 +101,7 @@ def main() -> int:
         mixed = (second - best) <= 3
         win = np.where(early & ~mixed, order[:, 0], -1)
         nf = int(fell.sum())
-        print(f"  摔了的世界里“先坏”的一项（早于摔倒 ≥ 10 帧、领先第二早 > 3 帧）：" + "，".join(f"{k} {(win == i).mean():.1%}" for i, k in enumerate(ITEMS))
+        print("  摔了的世界里“先坏”的一项（早于摔倒 ≥ 10 帧、领先第二早 > 3 帧）：" + "，".join(f"{k} {(win == i).mean():.1%}" for i, k in enumerate(ITEMS))
               + f"；混合 {(early & mixed).mean():.1%}；没有一项早于摔倒 10 帧 {(~early).mean():.1%}（共 {nf} 个）")
         for i, k in enumerate(ITEMS):
             f = firsts[k][fell]
