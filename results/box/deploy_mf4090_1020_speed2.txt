@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/retarget/ref_root_speed.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : c749974250b4429597ff3d7fa0fdce65  stages/retarget/ref_root_speed.py
+# source   : 3e52482e4d33
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:27:20-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+  覆盖 stages/retarget/ref_root_speed.py：远端是 d0e5d2a 的版本（35e1d9f77066b9438c7b0e2aaa94d3d6）
+本地提交 3e52482e4d33；远端来历 1496e3878f77
+  ok   c749974250b4429597ff3d7fa0fdce65  stages/retarget/ref_root_speed.py
+远端来历（放完）1496e3878f77
+PUSH_OK（1 个文件）
