@@ -10,7 +10,9 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 （robot_palm_pos，(T,W,H,3)，H 按 robot_palm_sides），同时抄下物体位置与评测器记的 achieved_pose_w 逐位比（palm_object_sync_max_abs_m，
 不含非有限的世界）；参考位姿改存 float64，供 diag_phase.py 逐位重算评测器的成功判据。不加 --palms 时与原来完全相同。
 
-用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms]   （容器内路径）
+--bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：另经 diag_palms.BodyRecorder 抄骨盆、躯干、两只脚踝的逐帧位姿（robot_body_pose，(T,W,4,7)，位置 + 四元数 xyzw，
+与 robot_body_names）。不加 --bodies 时与原来完全相同。
+用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies]   （容器内路径）
 输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
 import argparse
@@ -42,6 +44,7 @@ def main() -> int:
     ap.add_argument("out_prefix")
     ap.add_argument("--worlds", type=int, default=4096)
     ap.add_argument("--palms", action="store_true", help="另抄机器人两只手掌的逐帧位置，见文件头")
+    ap.add_argument("--bodies", action="store_true", help="另抄骨盆、躯干、两只脚踝的逐帧位姿（diag_palms.BodyRecorder，计划 agent-doc/plan-t12fall-2026-10-20.md）")
     a = ap.parse_args()
     out = a.out_prefix
     for suffix in (".npz", ".json"):
@@ -66,6 +69,15 @@ def main() -> int:
                 args[1] = cap["palms"].wrap(args[1])
             else:
                 kwargs["jax_env"] = cap["palms"].wrap(kwargs["jax_env"])
+        if a.bodies:   # 同一时机再抄一组刚体位姿；套在 --palms 的包装外面
+            import diag_palms
+            args = list(args)
+            env = args[0] if args else kwargs["env"]
+            cap["bodies"] = diag_palms.BodyRecorder(env, kwargs["step_count"])
+            if len(args) > 1:
+                args[1] = cap["bodies"].wrap(args[1])
+            else:
+                kwargs["jax_env"] = cap["bodies"].wrap(kwargs["jax_env"])
         cap["rollout"] = record(*args, **kwargs)
         cap["reference"] = kwargs.get("reference")
         return cap["rollout"]
@@ -141,6 +153,12 @@ def main() -> int:
         arrays["robot_palm_pos"] = palms.astype(np.float64)
         extra = {"robot_palm_sides": np.array(cap["palms"].sides), "palm_object_sync_max_abs_m": np.float64(sync)}
         keep64.add("reference_pose_w")   # 评测器用 float64 的参考位姿算成功判据；逐位重算要同一精度
+    if a.bodies:
+        bodies = cap["bodies"].arrays()
+        okb = np.ones(W, bool); okb[list(r.non_finite_worlds)] = False
+        bodies[:, ~okb] = 0.0
+        arrays["robot_body_pose"] = bodies.astype(np.float64)
+        extra = {**extra, "robot_body_names": np.array(cap["bodies"].names)}
     bad = [k for k, v in arrays.items() if not np.isfinite(v).all()]
     if bad:
         print(f"非有限值：{bad}", file=sys.stderr)
