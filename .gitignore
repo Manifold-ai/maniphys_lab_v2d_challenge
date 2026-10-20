@@ -31,3 +31,6 @@ third_party/v2d_submission_kit/
 
 # SOP 页面的视频素材（数据集派生，不进 git；发布时从 runs/site_media 经 Artifact files 上传）
 docs/site/media/
+
+# scripts/dev/record 写到一半的记录（跑完会改名成 .txt 或 .txt.failed）
+results/**/*.partial
