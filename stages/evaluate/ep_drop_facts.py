@@ -112,6 +112,8 @@ def rollout(path: str, ev: dict, every: int, drop_m: float) -> None:
     first = np.where(low.any(axis=0), low.argmax(axis=0), -1)
     hit = first[first >= 0]
     print(f"rollout {path}：{T} 帧、{W} 个世界、策略 {z['policy']}")
+    disp_all = np.linalg.norm(ach - ach[0:1], axis=-1)        # (T,W) 相对各自第 0 帧
+    print(f"  仿真物体相对第 0 帧的最大位移（全部 {T} 帧、全部 {W} 个世界）：{disp_all.max():.4f} m；最大高度变化 {dz.max():+.4f} / 最小 {dz.min():+.4f} m")
     print(f"  物体比第 0 帧低 {drop_m} m 以上：{hit.size}/{W} 个世界出现过；第一次出现的帧 分位 10/25/50/75/90 {q(hit.astype(float), (10, 25, 50, 75, 90))}")
     print("  帧\t参考高度变化 m\t实际高度变化 10/50/90 m\t低于门槛的世界比例\t实际与参考水平距离 10/50/90 m")
     for t in sorted(set(list(range(0, T, every)) + [T - 1])):
