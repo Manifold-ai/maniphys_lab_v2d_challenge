@@ -7,6 +7,8 @@
 #    本日志里不出现任何链结束标记的原文（抄进来的行把标记换成中文）。
 # 2. GPU 上有进程就每分钟看一次，最多等 V2D_GPU_WAIT_S 秒（默认 7200），等不到就停；每次用 GPU（试跑、每行的诊断 rollout）之前都这样等一次（第 2 版）。
 #    诊断与已有评测用同一运行时：默认挂的上游 v0.4.0，本脚本开头 unset V2D_FC_SRC。
+#    例外（计划 agent-doc/plan-t2dg-2026-10-20.md）：设了 V2D_DIAG_FC_SRC=<源码副本的绝对路径> 时，诊断与试跑都挂这份副本，
+#    且只做那份 4096 世界评测日志的挂载说明行正好指向同一份副本（“/workspace ← <路径>（”）的行；没有挂载行或指向别的副本就跳过、记出错。
 # 3. 第一行先试跑 16 个世界（diag_rollout.py --palms），再用 diag2_sync.py 看同步闸；不过就停（DIAG2_FAILED），后面的行都不跑。
 # 4. 逐行：policy、本机已有的 eval_<步数>_w4096.json 与它的本机日志都要在（同卡比对靠它），且那份日志里没有 in-flash-chord 的挂载说明行
 #    （只有设了 V2D_FC_SRC 才打这行；没有就说明是默认的 v0.4.0 算的，与这次诊断同一运行时）；diag_rollout.py --palms 4096 世界
@@ -17,6 +19,8 @@
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 unset V2D_FC_SRC
+DIAG_SRC="${V2D_DIAG_FC_SRC:-}"
+[ -z "$DIAG_SRC" ] || [[ $DIAG_SRC == /* ]] || { echo "diag2_chain: V2D_DIAG_FC_SRC 必须是绝对路径：$DIAG_SRC" >&2; exit 2; }
 TABLE=${1:?用法见文件头}; NAME=${2:?用法见文件头}
 LOG="runs/logs/$NAME.log"; MARK="runs/.chain-active-$NAME"; GPU_WAIT_S="${V2D_GPU_WAIT_S:-7200}"
 [ ! -e "$LOG" ] || { echo "diag2_chain: $LOG 已存在，拒绝（确认后改名或删掉再起）" >&2; exit 2; }
@@ -24,7 +28,7 @@ LOG="runs/logs/$NAME.log"; MARK="runs/.chain-active-$NAME"; GPU_WAIT_S="${V2D_GP
 rows=0
 while IFS=$'\t' read -r run step role _; do
   case "$run" in ''|'#'*) continue ;; esac
-  [[ $run =~ ^t1-[a-z0-9_-]+$ && $step =~ ^[0-9]+$ && $role =~ ^(control|main)$ ]] || { echo "diag2_chain: 运行表的行不对：$run $step $role" >&2; exit 2; }
+  [[ $run =~ ^t[12]-[a-z0-9_-]+$ && $step =~ ^[0-9]+$ && $role =~ ^(control|main)$ ]] || { echo "diag2_chain: 运行表的行不对：$run $step $role" >&2; exit 2; }
   rows=$((rows + 1))
 done < "$TABLE"
 [ "$rows" -gt 0 ] || { echo "diag2_chain: 运行表 $TABLE 没有行" >&2; exit 2; }
@@ -35,7 +39,7 @@ say() { echo "=== $(date '+%F %T %Z') $*" | tee -a "$LOG"; }
 stop() { say "$*"; say "DIAG2_FAILED"; exit 1; }
 demark() { sed -E 's/EXPORT_CHAIN_DONE/导出链完成/g; s/EXPORT_CHAIN_FAILED/导出链失败/g; s/DAY2_(EVAL|TRAIN)_(DONE|FAILED)/上一段链结束/g; s/DIAG2_(DONE|FAILED)/诊断链结束/g'; }
 gpu_pids() { nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | tr -d ' ' | paste -sd, -; }
-say "start ${NAME}：运行表 ${TABLE}（${rows} 行），运行时为默认的上游 v0.4.0，GPU 最多等 ${GPU_WAIT_S} 秒，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
+say "start ${NAME}：运行表 ${TABLE}（${rows} 行），运行时为${DIAG_SRC:+源码副本 }${DIAG_SRC:-默认的上游 v0.4.0}，GPU 最多等 ${GPU_WAIT_S} 秒，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 if [ -n "${V2D_WAIT_FOR_LOG:-}" ]; then
   say "等 $V2D_WAIT_FOR_LOG 结束（它的最后一行变成导出链的结束行）"
   until grep -qE "EXPORT_CHAIN_(DONE|FAILED)" < <(tail -1 "$V2D_WAIT_FOR_LOG" 2>/dev/null); do sleep "${V2D_POLL_S:-60}"; done
@@ -53,14 +57,22 @@ wait_gpu() {  # GPU 上有进程就每分钟看一次，最多 GPU_WAIT_S 秒；
 }
 wait_gpu
 fc() {  # fc <record 名> <GPU 0|1> <容器名> <命令>
-  V2D_GPU="$2" V2D_CONTAINER_NAME="$3" scripts/dev/record "diag2/$1" scripts/dev/in-flash-chord "$4" >> "$LOG" 2>&1 < /dev/null
+  if [ -n "$DIAG_SRC" ]; then
+    V2D_FC_SRC="$DIAG_SRC" V2D_GPU="$2" V2D_CONTAINER_NAME="$3" scripts/dev/record "diag2/$1" scripts/dev/in-flash-chord "$4" >> "$LOG" 2>&1 < /dev/null
+  else
+    V2D_GPU="$2" V2D_CONTAINER_NAME="$3" scripts/dev/record "diag2/$1" scripts/dev/in-flash-chord "$4" >> "$LOG" 2>&1 < /dev/null
+  fi
 }
 done_n=0; gate_n=0; ctl_n=0; err_n=0; first=1
 while IFS=$'\t' read -r run step role _; do
   case "$run" in ''|'#'*) continue ;; esac
   P="runs/flash_chord/$run/policy_$step.safetensors"; E="runs/flash_chord/$run/eval_${step}_w4096.json"; D="runs/diag2/$run"
-  if grep -aq "in-flash-chord: /workspace ← " "runs/logs/$run.eval_${step}_w4096.log" 2>/dev/null; then
+  mline="$(grep -a -m1 "in-flash-chord: /workspace ← " "runs/logs/$run.eval_${step}_w4096.log" 2>/dev/null)"
+  if [ -z "$DIAG_SRC" ] && [ -n "$mline" ]; then
     err_n=$((err_n + 1)); say "${run}：本机那份 4096 世界评测挂的是源码副本（日志里有挂载说明行），不是默认的 v0.4.0，同卡比对不成立，跳过"; continue
+  fi
+  if [ -n "$DIAG_SRC" ] && [[ $mline != *"/workspace ← ${DIAG_SRC}（"* ]]; then
+    err_n=$((err_n + 1)); say "${run}：本机那份 4096 世界评测挂的不是 ${DIAG_SRC}（挂载行：${mline:-没有}），同卡比对不成立，跳过"; continue
   fi
   if [ ! -f "$P" ] || [ ! -f "$E" ] || [ ! -f "runs/logs/$run.eval_${step}_w4096.log" ]; then
     err_n=$((err_n + 1)); say "${run}：缺 policy、本机的 4096 世界评测 JSON 或它的本机日志，跳过"; continue

@@ -10,6 +10,8 @@
   5. 等导出链日志结束才开始，本日志里没有结束标记的原文；GPU 先被占、后空出来；一直被占则 DIAG2_FAILED；
      做完一行后 GPU 被占，下一行用 GPU 前会等它空出来（第 2 版）
   6. 本机评测日志里有 in-flash-chord 的挂载说明行（那份评测挂的是源码副本）：这一行跳过、记出错（第 2 版）
+  7. 设了 V2D_DIAG_FC_SRC（plan-t2dg）：挂载行指向同一份副本的行照做，容器拿到的 V2D_FC_SRC 就是它；没有挂载行、指向别的副本（含前缀相同的路径）的行跳过；
+     相对路径拒绝；Tier 2 的 run 名可以进运行表
 用法：python3 stages/evaluate/test_diag2_chain.py
 """
 import os
@@ -26,7 +28,7 @@ ROLES = ["control", "main", "main"]
 FAKE_FC = r'''#!/usr/bin/env bash
 cmd="$*"
 echo "${V2D_GPU:-}|${V2D_CONTAINER_NAME:-}|${V2D_FC_SRC-unset}|$cmd" >> runs/fake_calls.txt
-[ -n "${V2D_FC_SRC:-}" ] && { echo "fake: V2D_FC_SRC 不该设" >&2; exit 9; }
+[ "${V2D_FC_SRC:-}" = "${FAKE_EXPECT_SRC:-}" ] || { echo "fake: V2D_FC_SRC 不对" >&2; exit 9; }
 case "$cmd" in
   *diag_rollout.py*)
     run=$(sed -E 's|.*/runs/flash_chord/([^/]+)/policy.*|\1|' <<< "$cmd"); key="FAKE_ROLLOUT_RC_${run//-/_}"; rc="${!key:-0}"
@@ -50,7 +52,7 @@ exit 0
 '''
 
 
-def setup(root: Path, table=None, missing_log=(), mounted_log=()) -> None:
+def setup(root: Path, table=None, missing_log=(), mounted_log=(), mount_src="/x/fc_src/v040_p185", runs=RUNS) -> None:
     for d in ("stages/evaluate/diag2", "scripts/dev", "bin", "runs/logs"):
         (root / d).mkdir(parents=True, exist_ok=True)
     for f in ("stages/evaluate/diag2_chain.sh", "scripts/dev/record"):
@@ -58,14 +60,15 @@ def setup(root: Path, table=None, missing_log=(), mounted_log=()) -> None:
     (root / "scripts/dev/in-flash-chord").write_text(FAKE_FC); (root / "scripts/dev/in-flash-chord").chmod(0o755)
     (root / "bin/nvidia-smi").write_text(FAKE_GPU); (root / "bin/nvidia-smi").chmod(0o755)
     (root / ".v2d-source-commit").write_text("deadbeef\n")
-    rows = table if table is not None else "".join(f"{r}\t349999104\t{role}\n" for r, role in zip(RUNS, ROLES))
+    rows = table if table is not None else "".join(f"{r}\t349999104\t{role}\n" for r, role in zip(runs, ROLES))
     (root / "stages/evaluate/diag2/mf.tsv").write_text("# 注释\n" + rows)
-    for r in RUNS:
+    for r in runs:
         (root / f"runs/flash_chord/{r}").mkdir(parents=True, exist_ok=True)
         (root / f"runs/flash_chord/{r}/policy_349999104.safetensors").write_text("")
         (root / f"runs/flash_chord/{r}/eval_349999104_w4096.json").write_text("{}")
         if r not in missing_log:
-            body = "in-flash-chord: /workspace ← /x/fc_src/v040_p185\n" if r in mounted_log else "x\n"
+            src = mount_src.get(r) if isinstance(mount_src, dict) else mount_src
+            body = f"in-flash-chord: /workspace ← {src}（flash_chord x）\n" if r in mounted_log else "x\n"
             (root / f"runs/logs/{r}.eval_349999104_w4096.log").write_text(body)
 
 
@@ -143,7 +146,7 @@ def test_refusals() -> None:
         (root / "runs/logs/diag2_mf.log").write_text("old\n")
         r = chain(root)
         assert r.returncode == 2 and (root / "runs/logs/diag2_mf.log").read_text() == "old\n" and calls(root) == [], r.stderr
-    for bad in (f"{RUNS[0]}\t349999104\tboss\n", f"t2-ep1-x\t349999104\tmain\n", "# 只有注释\n"):
+    for bad in (f"{RUNS[0]}\t349999104\tboss\n", f"t3-ep1-x\t349999104\tmain\n", "# 只有注释\n"):
         with tempfile.TemporaryDirectory() as t:
             root = Path(t); setup(root, table=bad)
             r = chain(root)
@@ -186,6 +189,29 @@ def test_mid_chain_gpu_and_mounted_log() -> None:
         lg = log(root)
         assert r.returncode == 0 and "挂的是源码副本" in lg and lg.rstrip().endswith("DIAG2_DONE（完成 2、闸不过 0、对照不过 0、出错 1）"), lg
         assert not any(RUNS[1] in c for c in calls(root)), calls(root)
+
+
+def test_diag_src() -> None:
+    src = "/lab/fc_src/fc_8c778f9"
+    t2 = ["t2-ep0-w2048-cap10m-r3a-ml40", "t2-ep25-w2048-cap10m-r3a-ml40", "t2-ep4-w2048-cap10m-r3a-ml40"]
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root, runs=t2, mounted_log=tuple(t2), mount_src=src)
+        r = chain(root, V2D_DIAG_FC_SRC=src, FAKE_EXPECT_SRC=src)
+        lg = log(root); cs = calls(root)
+        assert r.returncode == 0 and lg.rstrip().endswith("DIAG2_DONE（完成 3、闸不过 0、对照不过 0、出错 0）"), lg
+        assert cs and all(c.split("|")[2] == src for c in cs) and f"运行时为源码副本 {src}" in lg, (cs, lg)
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t)
+        setup(root, runs=t2, mounted_log=(t2[0], t2[2]), mount_src={t2[0]: src, t2[2]: src + "_x"})
+        r = chain(root, V2D_DIAG_FC_SRC=src, FAKE_EXPECT_SRC=src)
+        lg = log(root); cs = calls(root)
+        assert r.returncode == 0 and lg.rstrip().endswith("DIAG2_DONE（完成 1、闸不过 0、对照不过 0、出错 2）"), lg
+        assert "挂载行：没有" in lg and f"挂载行：in-flash-chord: /workspace ← {src}_x" in lg, lg
+        assert not any(t2[1] in c or t2[2] in c for c in cs), cs
+    with tempfile.TemporaryDirectory() as t:
+        root = Path(t); setup(root, runs=t2)
+        r = chain(root, V2D_DIAG_FC_SRC="lab/fc_src")
+        assert r.returncode == 2 and not (root / "runs/logs/diag2_mf.log").exists(), r.stderr
 
 
 if __name__ == "__main__":
