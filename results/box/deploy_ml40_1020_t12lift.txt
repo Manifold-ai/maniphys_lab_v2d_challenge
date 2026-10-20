@@ -1,0 +1,33 @@
+# command  : scripts/dev/push-new-files stages/policy/arm_var_chain.sh stages/retarget/hands_off.py stages/policy/arm_t12lift.sh stages/policy/queues/ml40_t2ho.txt stages/policy/queues/ml40_t2ho_smoke.txt stages/policy/queues/ml40_t2ho.expect.tsv stages/policy/queues/ml40_t1ho.txt stages/policy/queues/ml40_t1ho_smoke.txt stages/policy/queues/ml40_t1ho.expect.tsv stages/evaluate/exports/cand_t2_t2ho_ml40.tsv stages/evaluate/exports/cand_t1_t1ho_ml40.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 3ebf8755951a84ff5cf23dab7060118d  stages/policy/arm_var_chain.sh
+# md5      : f84f9a5de994ddf6921b69e7f5f8b9fc  stages/retarget/hands_off.py
+# md5      : 4b8a09d143b4207ed05f8eaa5918a757  stages/policy/arm_t12lift.sh
+# md5      : 5ea7e0aaef2ff0ce0a1bf3367d99d5bc  stages/policy/queues/ml40_t2ho.txt
+# md5      : 06cbee5b200aac41687390e02aa5d6a1  stages/policy/queues/ml40_t2ho_smoke.txt
+# md5      : a9590349e0c8f89c786e20254e3700bf  stages/policy/queues/ml40_t2ho.expect.tsv
+# md5      : 1ae80dc78a51d3cf84e98a3129256d66  stages/policy/queues/ml40_t1ho.txt
+# md5      : 4166211d7d842603b1ea9be34492b315  stages/policy/queues/ml40_t1ho_smoke.txt
+# md5      : d9e717557c33b4feeed76439fb66ff17  stages/policy/queues/ml40_t1ho.expect.tsv
+# md5      : 6639a3154b42fe8501bd94a4fd9e2593  stages/evaluate/exports/cand_t2_t2ho_ml40.tsv
+# md5      : 94c0b52e1e2eda16e724c6cad770dc03  stages/evaluate/exports/cand_t1_t1ho_ml40.tsv
+# source   : bd4a8327b21c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:51:38-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/policy/arm_var_chain.sh：远端是 675b188 的版本（b0da2d3b710b5f7c901a15e27126a9e0）
+本地提交 bd4a8327b21c；远端来历 e85efdcdfe4f
+  ok   3ebf8755951a84ff5cf23dab7060118d  stages/policy/arm_var_chain.sh
+  ok   f84f9a5de994ddf6921b69e7f5f8b9fc  stages/retarget/hands_off.py
+  ok   4b8a09d143b4207ed05f8eaa5918a757  stages/policy/arm_t12lift.sh
+  ok   5ea7e0aaef2ff0ce0a1bf3367d99d5bc  stages/policy/queues/ml40_t2ho.txt
+  ok   06cbee5b200aac41687390e02aa5d6a1  stages/policy/queues/ml40_t2ho_smoke.txt
+  ok   a9590349e0c8f89c786e20254e3700bf  stages/policy/queues/ml40_t2ho.expect.tsv
+  ok   1ae80dc78a51d3cf84e98a3129256d66  stages/policy/queues/ml40_t1ho.txt
+  ok   4166211d7d842603b1ea9be34492b315  stages/policy/queues/ml40_t1ho_smoke.txt
+  ok   d9e717557c33b4feeed76439fb66ff17  stages/policy/queues/ml40_t1ho.expect.tsv
+  ok   6639a3154b42fe8501bd94a4fd9e2593  stages/evaluate/exports/cand_t2_t2ho_ml40.tsv
+  ok   94c0b52e1e2eda16e724c6cad770dc03  stages/evaluate/exports/cand_t1_t1ho_ml40.tsv
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（11 个文件）
