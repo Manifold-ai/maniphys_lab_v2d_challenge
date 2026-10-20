@@ -1,0 +1,387 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s\ --\ dev/sel_diag/carry/carry_eval_corrected.json\ dev/beta_ab/b050.log\ code/stages/recovery/tier3/t3_beta_ab.sh\ code/stages/recovery/tier3/t3_sel_pilot.sh\ logs/t3_sel_pilot.log\ dev/sel_diag/carry/carry_offline.log 
+# source   : f1eb42b72942-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T22:26:11-0400
+# ---------------------------------------------------------------
+### dev/sel_diag/carry/carry_eval_corrected.json
+{
+ "rows": {
+  "b000": {
+   "beta": 0.0,
+   "base": {
+    "right": 10,
+    "jumps": 44,
+    "wrong": [
+     "ep03:117(68)",
+     "ep03:131(84)",
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 7,
+     "ep04": 16,
+     "ep13": 21
+    }
+   },
+   "carry": {
+    "right": 10,
+    "jumps": 44,
+    "wrong": [
+     "ep03:117(68)",
+     "ep03:131(84)",
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 8,
+     "ep04": 15,
+     "ep13": 21
+    }
+   }
+  },
+  "b010": {
+   "beta": 0.1,
+   "base": {
+    "right": 10,
+    "jumps": 44,
+    "wrong": [
+     "ep03:117(68)",
+     "ep03:131(84)",
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 8,
+     "ep04": 15,
+     "ep13": 21
+    }
+   },
+   "carry": {
+    "right": 10,
+    "jumps": 44,
+    "wrong": [
+     "ep03:117(68)",
+     "ep03:131(84)",
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 9,
+     "ep04": 14,
+     "ep13": 21
+    }
+   }
+  },
+  "b020": {
+   "beta": 0.2,
+   "base": {
+    "right": 12,
+    "jumps": 46,
+    "wrong": [
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 8,
+     "ep04": 17,
+     "ep13": 21
+    }
+   },
+   "carry": {
+    "right": 12,
+    "jumps": 43,
+    "wrong": [
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 8,
+     "ep04": 14,
+     "ep13": 21
+    }
+   }
+  },
+  "b030": {
+   "beta": 0.3,
+   "base": {
+    "right": 12,
+    "jumps": 45,
+    "wrong": [
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 7,
+     "ep04": 17,
+     "ep13": 21
+    }
+   },
+   "carry": {
+    "right": 12,
+    "jumps": 44,
+    "wrong": [
+     "ep13:226(86)"
+    ],
+    "jumps_per_ep": {
+     "ep03": 7,
+     "ep04": 16,
+     "ep13": 21
+    }
+   }
+  },
+  "b050": {
+   "beta": 0.5,
+### dev/beta_ab/b050.log
+10-20 09:47:26 deployed: e3fdeaeb541fba7b54638c9ac07274709e2e7d96 dirty=0 (deploy_l40s.sh: stages/recovery/tier3 libs/v2d_infra third_party/patches) 2026-10-20 03:24:14 CST
+10-20 10:01:10 ep03_contigo_coffee_mug converted
+10-20 10:15:29 ep04_baseball_bat converted
+### code/stages/recovery/tier3/t3_beta_ab.sh
+#!/usr/bin/env bash
+# 10-20: A/B of t3_fp_select.py's anchor weight BETA, judged by an automatic metric (registered in the Tier 3 handoff
+# before the run; the checked frames only evaluate afterwards). Unattended:
+#   1. per BETA and episode, runs/work_<tag> = copy of runs/work_fp with stages 06-08 cleared and the selection written
+#      (t3_fp_select.py --beta); BETA 0 reuses runs/work_sel (the 10-19 pilot, the same selection) where it has 06-08;
+#   2. one GPU hold for all CARI4D 06-07 runs (runs/work_dump/GPU_HOLD: the dump streams stop after their current
+#      episode), each started only when rxzhou's chain is idle (10-10 rule) and >= 44 GB are free; stage 08 (review
+#      videos, read by nothing downstream) is skipped (T3_SKIP_RENDER=1), and a BETA whose stage-05 poses equal an earlier
+#      BETA's for that episode bit for bit takes that run's work dir instead of a GPU run (REUSED_FROM names it; assumes
+#      06-07 give the same output for the same input, not checked);
+#   3. per BETA, t3_sel_pilot.sh from step 4 (object chain, IoU, gate) into $T/dev/beta_ab/<tag>;
+#   4. t3_beta_ab_summary.py: the registered judge and the evaluation on the checked frames.
+#   setsid nohup stages/recovery/tier3/t3_beta_ab.sh > $T/logs/beta_ab.log 2>&1 &
+# Last line: BETA_AB_DONE or BETA_AB_FAILED <step>.
+set -u
+S=$(cd "$(dirname "$0")" && pwd)
+T=${T3_ROOT:-/lab_data/<其他用户>/v2d/tier3}
+R=$T/dev/beta_ab
+HOLD=$T/runs/work_dump/GPU_HOLD
+RX_RUNS=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs
+BETAS=${BETAS:-"0 0.1 0.2 0.3 0.5"}
+EPS=${EPS:-"ep03_contigo_coffee_mug ep04_baseball_bat ep13_snack_box"}
+D=(docker run --rm --cpus 8 -e OMP_NUM_THREADS=8 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
+log() { echo "$(date '+%m-%d %T') $*"; }
+fail() { rm -f "$HOLD"; log "BETA_AB_FAILED $*"; exit 1; }
+rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
+dumps_running() { docker ps --filter ancestor=v2d_cari4d:latest --format '{{.Command}}' --no-trunc | grep -c run_foundationpose_mhr_export; }
+free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
+tag() { printf 'b%03d' "$(awk "BEGIN{printf \"%d\", $1 * 100 + 0.5}")"; }
+poses_md5() { /lab_data/<其他用户>/v2d/venv/bin/python -c "import pickle, hashlib, numpy as np; d = pickle.load(open('$1', 'rb')); print(hashlib.md5(np.ascontiguousarray(np.asarray(d['fp_poses_cam'], np.float64)).tobytes()).hexdigest())"; }
+mesh_of() { /lab_data/<其他用户>/v2d/venv/bin/python -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
+log "deployed: $(cat "$T/code/DEPLOYED" 2>/dev/null)"
+mkdir -p "$R"
+touch "$HOLD"
+log "GPU hold set"
+
+# 1. selections
+for b in $BETAS; do
+  tg=$(tag "$b"); W=$T/runs/work_$tg; mkdir -p "$W"
+  for name in $EPS; do
+    ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); c=$W/$name/cari4d/$seq
+    [ -f "$c/foundationpose/fp_select.json" ] && { log "$tg $name: selected already"; continue; }
+    if [ "$tg" = b000 ] && [ -f "$T/runs/work_sel/$name/cari4d/$seq/inference/refined.pth" ]; then
+      cp -a "$T/runs/work_sel/$name" "$W/$name" || fail "$tg $name: copy work_sel"
+      log "$tg $name: from work_sel (10-19 pilot)"
+      continue
+    fi
+    [ -f "$T/runs/work_dump/$name/check.json" ] && grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: no checked dump"
+    rm -rf "$W/$name"; cp -a "$T/runs/work_fp/$name" "$W/$name" || fail "$tg $name: copy"
+    rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
+      "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
+    r=$("${D[@]}" -v "$c":/c -v "$S":/s:ro -v "$T/runs/work_dump/$name":/d:ro -v "$T/input":/in:ro v2d_cari4d:latest \
+      python /s/t3_fp_select.py /c "/d/$seq.candidates.npz" "/in/$(mesh_of "$ep")" "--beta=$b" 2>&1) || fail "$tg $name: select: $r"
+    log "$tg $name selected: $(echo "$r" | tail -1 | cut -c1-300)"
+  done
+done
+
+# 2. CARI4D 06-08
+log "waiting for the dump streams to finish their current episodes"
+for b in $BETAS; do
+  tg=$(tag "$b")
+  for name in $EPS; do
+    ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep")
+    [ -f "$T/runs/work_$tg/$name/cari4d/$seq/inference/refined.pth" ] && { log "$tg $name: refined already"; continue; }
+    h=$(poses_md5 "$T/runs/work_$tg/$name/cari4d/$seq/foundationpose/$seq.pkl") || fail "$tg $name: hash"
+    same=""
+    for p in $BETAS; do
+      pt=$(tag "$p"); [ "$pt" = "$tg" ] && break
+      q=$T/runs/work_$pt/$name/cari4d/$seq
+      [ -f "$q/inference/refined.pth" ] && [ "$(poses_md5 "$q/foundationpose/$seq.pkl")" = "$h" ] && { same=$pt; break; }
+    done
+    if [ -n "$same" ]; then
+      rm -rf "$T/runs/work_$tg/$name"; cp -a "$T/runs/work_$same/$name" "$T/runs/work_$tg/$name" || fail "$tg $name: reuse copy"
+      echo "$same" > "$T/runs/work_$tg/$name/REUSED_FROM"
+      log "$tg $name: stage-05 poses identical to $same, its 06-07 reused"
+      continue
+    fi
+    while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done
+    log "$tg $name: CARI4D 06-08"
+    T3_WORK=runs/work_$tg T3_FP_MODE=register-every-frame T3_SKIP_RENDER=1 T3_LOG_TAG=_$tg "$S/t3_cari4d_ep.sh" "$name" || fail "$tg $name: CARI4D (logs/cari4d_${name}_$tg.log)"
+    rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$tg.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
+    [ -z "$rerun" ] || fail "$tg $name: CARI4D re-ran earlier stages ($rerun)"
+    log "$tg $name: $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$tg.log" | tr '\n' ' ')"
+  done
+done
+rm -f "$HOLD"
+log "GPU hold released"
+
+# 3. object chain, IoU, gate per BETA
+for b in $BETAS; do
+  tg=$(tag "$b")
+  SEL_FROM_STEP=4 SEL_WORK=work_$tg SEL_REVIEW=$R/$tg "$S/t3_sel_pilot.sh" $EPS > "$R/$tg.log" 2>&1
+  grep -q -E "^SEL_GATE_(PASS|FAIL)" "$R/$tg/gate.log" 2>/dev/null || fail "$tg: chain or gate ($R/$tg.log)"
+  log "$tg: $(tail -1 "$R/$tg/gate.log")"
+done
+
+# 4. judge and evaluation
+docker run --rm --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -v "$T":"$T" -v "$S":/s:ro v2d_cari4d:latest \
+  python /s/t3_beta_ab_summary.py "$R" $(for b in $BETAS; do echo "$b=$(tag "$b")"; done) > "$R/summary.txt" 2>&1 || fail "summary"
+cat "$R/summary.txt"
+log "BETA_AB_DONE"
+### code/stages/recovery/tier3/t3_sel_pilot.sh
+#!/usr/bin/env bash
+# 10-19: pilot of the timeline selection (t3_fp_select.py) on episodes with checked frames, ending in an automatic gate
+# (t3_sel_gate.py; criteria registered in the Tier 3 handoff before the run). Unattended:
+#   1. waits for each episode's stage-05 dump (runs/work_dump/<ep>/check.json identical, from t3_fp_dump.sh);
+#   2. copies runs/work_fp/<ep> to runs/work_sel/<ep> (the source is not touched), clears stages 06-08, rewrites the
+#      stage-05 pkl with the selection (stage 05 itself is reused, checked in the CARI4D log);
+#   3. holds the GPU (runs/work_dump/GPU_HOLD, set at the start so the dump streams stop right after the pilot
+#      episodes' dumps instead of starting their next ~1-2 h episode; stage 07 peaks near 44 GB), waits until no dump container runs, >= 44 GB are free and rxzhou's chain is idle (10-10 rule), runs CARI4D
+#      06-08 for all pilot episodes, releases the hold;
+#   4. object-only chain for ctrl (convert_fp) and sel as the 10-19 position check (gb4: intrinsics_gb3 focal with the
+#      body refit, floor_fit_gb4 + camera_register_gb4, gb4_best supports, dr2s --move-human=3d, dyn7), under $M;
+#   5. silhouette IoU every 2nd frame, then the gate.
+#   setsid nohup stages/recovery/tier3/t3_sel_pilot.sh ep04_baseball_bat ep03_contigo_coffee_mug > $T/logs/sel_pilot.log 2>&1 &
+# Last line: SEL_GATE_PASS, SEL_GATE_FAIL <criteria> or SEL_PILOT_FAILED <step>.
+set -u
+S=$(cd "$(dirname "$0")" && pwd)
+T=${T3_ROOT:-/lab_data/<其他用户>/v2d/tier3}
+M=${SEL_REVIEW:-$T/dev/sel_pilot}
+P=$M/root
+PY=/lab_data/<其他用户>/v2d/venv/bin/python
+GPY=/lab_data/<其他用户>/v2d/gate/venv/bin/python
+A=/lab_data/<其他用户>/v2d/soma_assets
+RX_RUNS=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs
+HOLD=$T/runs/work_dump/GPU_HOLD
+# SEL_WORK names the selection's work dir (default work_sel; 10-20 work_anchor for the ctrl-anchored rerun, with SEL_REVIEW);
+# its CARI4D log is logs/cari4d_<ep>_<SEL_WORK without work_>.log. SEL_FROM_STEP=4 skips steps 1-3 (a test of the chain, gate
+# and their hand-offs on an existing work dir, e.g. SEL_WORK=work_init SEL_REVIEW=$T/dev/sel_test).
+# SEL_BETA passes --beta to t3_fp_select.py (10-20 A/B); unset keeps its default.
+SEL_WORK=${SEL_WORK:-work_sel}
+TAG=${SEL_WORK#work_}
+FROM=${SEL_FROM_STEP:-1}
+EPS="$*"
+KINDS="ctrl sel"
+D=(docker run --rm --cpus 8 -e OMP_NUM_THREADS=8 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
+log() { echo "$(date '+%m-%d %T') $*"; }
+fail() { rm -f "$HOLD"; log "SEL_PILOT_FAILED $*"; exit 1; }
+rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
+dumps_running() { docker ps --filter ancestor=v2d_cari4d:latest --format '{{.Command}}' --no-trunc | grep -c run_foundationpose_mhr_export; }
+free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
+mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
+log "deployed: $(cat "$T/code/DEPLOYED" 2>/dev/null)"
+mkdir -p "$M/logs" "$M/report" "$T/runs/$SEL_WORK"
+if [ "$FROM" -le 3 ]; then
+touch "$HOLD"
+log "GPU hold set: the dump streams stop before their next episode"
+
+# 1-2. selection on copies
+for name in $EPS; do
+  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); c=$T/runs/$SEL_WORK/$name/cari4d/$seq
+  until [ -f "$T/runs/work_dump/$name/check.json" ]; do
+    pgrep -f "[t]3_fp_dump.sh" > /dev/null || [ -f "$T/runs/work_dump/$name/check.json" ] || fail "$name: no dump stream left and no dump"
+    sleep 60
+  done
+  grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: dump check not identical"
+  if [ ! -f "$c/foundationpose/fp_select.json" ]; then
+    rm -rf "$T/runs/$SEL_WORK/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/$SEL_WORK/$name" || fail "$name: copy"
+    rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
+      "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
+    r=$("${D[@]}" -v "$c":/c -v "$S":/s:ro -v "$T/runs/work_dump/$name":/d:ro -v "$T/input":/in:ro v2d_cari4d:latest \
+      python /s/t3_fp_select.py /c "/d/$seq.candidates.npz" "/in/$(mesh_of "$ep")" ${SEL_BETA:+--beta=$SEL_BETA} 2>&1) || fail "$name: t3_fp_select.py: $r"
+    log "$name selected: $r"
+  fi
+done
+
+# 3. CARI4D 06-08 with the whole GPU
+log "waiting for the dump streams to finish their current episodes"
+while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done
+for name in $EPS; do
+  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep")
+  [ -f "$T/runs/$SEL_WORK/$name/cari4d/$seq/inference/refined.pth" ] && { log "$name: refined already"; continue; }
+  log "$name: CARI4D 06-08"
+  T3_WORK=runs/$SEL_WORK T3_FP_MODE=register-every-frame T3_LOG_TAG=_$TAG "$S/t3_cari4d_ep.sh" "$name" || fail "$name: CARI4D (logs/cari4d_${name}_$TAG.log)"
+  rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$TAG.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
+  [ -z "$rerun" ] || fail "$name: CARI4D re-ran earlier stages ($rerun), the selection was overwritten"
+  log "$name: $(grep -h -o '0[678]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$TAG.log" | tr '\n' ' ')"
+done
+rm -f "$HOLD"
+log "GPU hold released"
+fi
+
+# 4. object-only chain, ctrl and sel
+mkdir -p "$P/runs/physics"
+ln -sfn "$T/input" "$P/input"
+for e in "$T"/runs/*; do b=$(basename "$e"); [ "$b" = physics ] && continue; [ -e "$P/runs/$b" ] || ln -s "$e" "$P/runs/$b"; done
+for name in $EPS; do
+  ep=$((10#${name:2:2})); seq=$(printf episode_%06d "$ep"); mesh=$(mesh_of "$ep")
+  for kind in $KINDS; do
+    c=$M/conv_$kind/$name
+    rm -rf "$c"; mkdir -p "$(dirname "$c")"; cp -a "$T/runs/convert_fp/$name" "$c"
+    if [ "$kind" = sel ]; then
+      "${D[@]}" -v "$S":/s:ro -v "$T/runs/$SEL_WORK/$name/cari4d/$seq":/e:ro -v "$c":/o v2d_cari4d:latest \
+        python /s/t3_sel_decode_object.py /e /o > "$M/logs/decode_$name.log" 2>&1 || fail "$name decode"
+    fi
+    "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$A":/a:ro -v "$T/input":/in:ro -v "$c":/o/"$name" v2d_cari4d:latest \
+      python /s/t3_convert_ep.py focal /o/"$name" /f/intrinsics_gb3.json /a "/in/$mesh" > "$M/logs/focal_${kind}_$name.log" 2>&1 || fail "$name $kind focal"
+    "${D[@]}" -v "$S":/s:ro -v "$T/runs/floor":/f:ro -v "$A":/a:ro -v "$c":/o/"$name" v2d_cari4d:latest \
+      python /s/t3_convert_ep.py world /o/"$name" /f/floor_fit_gb4.json /a /f/camera_register_gb4.json > "$M/logs/world_${kind}_$name.log" 2>&1 || fail "$name $kind world"
+    "$PY" "$S/t3_convert_ep.py" assemble "$c" "$T/input" "$ep" "$P/runs/A_$kind" > "$M/logs/assemble_${kind}_$name.log" 2>&1 || fail "$name $kind assemble"
+  done
+  log "$name converted"
+done
+for kind in $KINDS; do
+  ln -sfn "$M/conv_$kind" "$P/runs/conv_$kind"
+  "$PY" - "$T/runs/tier3_cari4d_gb4_best.selection.json" "$M/sel_$kind.json" "conv_$kind" $EPS <<'EOF' || fail "selection json"
+import json, sys
+src, dst, conv, eps = sys.argv[1], sys.argv[2], sys.argv[3], set(sys.argv[4:])
+rows = [r | {"convert": conv} for r in json.load(open(src)) if r["episode"] in eps]
+assert len(rows) == len(eps), rows
+json.dump(rows, open(dst, "w"), indent=1)
+EOF
+done
+physics() {
+  local v=$1 out=$P/runs/physics/$1
+  mkdir -p "$out"
+  "$PY" "$S/t3_physics_check.py" extract "$P" "$P/runs/$v" "$out/npz" > "$M/logs/physics_$v.log" 2>&1 || return 1
+  "${D[@]}" -v "$S":/s:ro -v "$T":"$T":ro -v "$P":"$P" -v "$A":/a:ro v2d_cari4d:latest \
+    python /s/t3_physics_check.py check "$P" "$out/npz" /a "$out/out" >> "$M/logs/physics_$v.log" 2>&1
+}
+for kind in $KINDS; do
+  physics "A_$kind" || fail "physics A_$kind"
+### logs/t3_sel_pilot.log
+（不在，或超过 200 KB）
+### dev/sel_diag/carry/carry_offline.log
+10-20 10:09:37 deployed code + carry: 1a2ab08ae54efc329e568f785cc4ca4d  /lab_data/<其他用户>/v2d/tier3/dev/sel_diag/carry/code/t3_fp_select.py
+10-20 10:09:55 repro ep03_contigo_coffee_mug max abs vs work_b000: 0.0
+10-20 10:10:07 repro ep04_baseball_bat max abs vs work_b000: 0.0
+10-20 10:10:24 repro ep13_snack_box max abs vs work_b000: 0.0
+10-20 10:10:48 b000 ep03_contigo_coffee_mug: "jumps_gt24_before_after": [3, 8] "carry": {"holding_frames_left_right": [0, 428], "hand_terms": 396} 
+10-20 10:11:06 b000 ep04_baseball_bat: "jumps_gt24_before_after": [38, 15] "carry": {"holding_frames_left_right": [269, 359], "hand_terms": 539} 
+10-20 10:11:24 b000 ep13_snack_box: "jumps_gt24_before_after": [12, 21] "carry": {"holding_frames_left_right": [136, 171], "hand_terms": 267} 
+10-20 10:11:48 b010 ep03_contigo_coffee_mug: "jumps_gt24_before_after": [3, 9] "carry": {"holding_frames_left_right": [0, 428], "hand_terms": 396} 
+10-20 10:12:06 b010 ep04_baseball_bat: "jumps_gt24_before_after": [38, 14] "carry": {"holding_frames_left_right": [269, 359], "hand_terms": 539} 
+10-20 10:12:24 b010 ep13_snack_box: "jumps_gt24_before_after": [12, 21] "carry": {"holding_frames_left_right": [136, 171], "hand_terms": 267} 
+10-20 10:12:48 b020 ep03_contigo_coffee_mug: "jumps_gt24_before_after": [3, 8] "carry": {"holding_frames_left_right": [0, 428], "hand_terms": 396} 
+10-20 10:13:06 b020 ep04_baseball_bat: "jumps_gt24_before_after": [38, 14] "carry": {"holding_frames_left_right": [269, 359], "hand_terms": 539} 
+10-20 10:13:24 b020 ep13_snack_box: "jumps_gt24_before_after": [12, 21] "carry": {"holding_frames_left_right": [136, 171], "hand_terms": 267} 
+10-20 10:13:48 b030 ep03_contigo_coffee_mug: "jumps_gt24_before_after": [3, 7] "carry": {"holding_frames_left_right": [0, 428], "hand_terms": 396} 
+10-20 10:14:06 b030 ep04_baseball_bat: "jumps_gt24_before_after": [38, 16] "carry": {"holding_frames_left_right": [269, 359], "hand_terms": 539} 
+10-20 10:14:24 b030 ep13_snack_box: "jumps_gt24_before_after": [12, 21] "carry": {"holding_frames_left_right": [136, 171], "hand_terms": 267} 
+10-20 10:14:48 b050 ep03_contigo_coffee_mug: "jumps_gt24_before_after": [3, 9] "carry": {"holding_frames_left_right": [0, 428], "hand_terms": 396} 
+10-20 10:15:06 b050 ep04_baseball_bat: "jumps_gt24_before_after": [38, 14] "carry": {"holding_frames_left_right": [269, 359], "hand_terms": 539} 
+10-20 10:15:24 b050 ep13_snack_box: "jumps_gt24_before_after": [12, 21] "carry": {"holding_frames_left_right": [136, 171], "hand_terms": 267} 
+BETA 0.0  base right  5/13 jumps   44 {'ep03': 7, 'ep04': 16, 'ep13': 21} wrong ['ep03:117(68)', 'ep03:131(84)', 'ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+          carry right  5/13 jumps   44 {'ep03': 8, 'ep04': 15, 'ep13': 21} wrong ['ep03:117(68)', 'ep03:131(84)', 'ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+BETA 0.1  base right  5/13 jumps   44 {'ep03': 8, 'ep04': 15, 'ep13': 21} wrong ['ep03:117(68)', 'ep03:131(84)', 'ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+          carry right  5/13 jumps   44 {'ep03': 9, 'ep04': 14, 'ep13': 21} wrong ['ep03:117(68)', 'ep03:131(84)', 'ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+BETA 0.2  base right  7/13 jumps   46 {'ep03': 8, 'ep04': 17, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+          carry right  7/13 jumps   43 {'ep03': 8, 'ep04': 14, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+BETA 0.3  base right  7/13 jumps   45 {'ep03': 7, 'ep04': 17, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+          carry right  7/13 jumps   44 {'ep03': 7, 'ep04': 16, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+BETA 0.5  base right  7/13 jumps   45 {'ep03': 9, 'ep04': 15, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+          carry right  7/13 jumps   44 {'ep03': 9, 'ep04': 14, 'ep13': 21} wrong ['ep13:40(178)', 'ep13:120(177)', 'ep13:800(178)', 'ep13:860(172)', 'ep13:915(180)', 'ep13:226(82)']
+CARRY_OFFLINE PASS
+T3_RECON_SURVEY_DONE

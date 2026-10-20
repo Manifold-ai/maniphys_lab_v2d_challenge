@@ -1,0 +1,1980 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s 
+# source   : f1eb42b72942-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T22:24:04-0400
+# ---------------------------------------------------------------
+== VM-0-16-ubuntu 2026-10-20 10:24:22 CST
+## 目录 /lab_data/<其他用户>/v2d/tier3：顶层（名字、大小、修改时间）
+  aug  2.1G  2026-10-10 06:12:32
+  code  1.9M  2026-10-15 10:52:21
+  dev  446G  2026-10-20 03:12:34
+  input  999M  2026-10-09 06:51:21
+  libs_link  0  2026-10-09 06:08:49
+  logs  20M  2026-10-20 09:54:09
+  patched  332K  2026-10-20 04:24:20
+  runs  632G  2026-10-20 03:21:52
+  scripts  376K  2026-10-10 10:37:55
+  tools  2.0G  2026-10-10 10:04:22
+  viz  400K  2026-10-10 22:30:34
+## runs/ 下的子目录（名字、条目数、修改时间）
+  archive  59  2026-10-16 14:41:19
+  camera_groups  38  2026-10-12 02:32:34
+  checks  33  2026-10-10 01:48:56
+  checks_fp  15  2026-10-12 19:54:50
+  checks_v2  32  2026-10-11 22:26:28
+  checks_v3  1  2026-10-10 04:58:57
+  convert  30  2026-10-12 02:43:33
+  convert_fp  15  2026-10-12 19:54:50
+  convert_fp_gb3  15  2026-10-17 00:18:20
+  convert_fp_gb4  15  2026-10-18 02:43:38
+  convert_fp_world_unreg_backup  1  2026-10-12 00:45:43
+  convert_gb3  30  2026-10-17 00:13:19
+  convert_gb4  30  2026-10-18 02:00:55
+  convert_kgb  30  2026-10-16 23:34:26
+  convert_pivot  1  2026-10-13 01:09:24
+  convert_pivot_gb3  1  2026-10-17 00:18:59
+  convert_pivot_gb4  1  2026-10-18 02:52:37
+  convert_v2  8  2026-10-12 02:43:21
+  convert_v2_gb3  8  2026-10-17 00:14:52
+  convert_v2_gb4  8  2026-10-18 02:16:08
+  convert_world_rigid_backup  29  2026-10-11 05:25:55
+  diag  24  2026-10-10 05:00:27
+  ep21_register_backup_1012  4  2026-10-12 02:32:34
+  floor  16  2026-10-19 11:51:26
+  moge_ground  1  2026-10-09 02:12:55
+  physics  23  2026-10-18 12:37:48
+  physics_backup_1013_joints  10  2026-10-13 00:22:24
+  probe_rx  1  2026-10-09 08:51:01
+  rawiou_backup_1012  6  2026-10-12 05:08:11
+  support  8  2026-10-18 12:29:45
+  tier3_cari4d  2  2026-10-09 08:49:54
+  tier3_cari4d_f830_best  2  2026-10-13 01:14:18
+  tier3_cari4d_f830_best_dr2s  2  2026-10-13 10:44:02
+  tier3_cari4d_f830_best_dr2s3  2  2026-10-16 13:37:12
+  tier3_cari4d_f830_best_dr2s3_dyn7  2  2026-10-16 13:40:53
+  tier3_cari4d_f830_best_dr2s3_dyn7_suspect  2  2026-10-16 13:42:03
+  tier3_cari4d_f830_best_dr2s3_suspect  2  2026-10-16 13:37:26
+  tier3_cari4d_f830_best_dr2s_dyn7  4  2026-10-16 13:47:39
+  tier3_cari4d_f830_best_dr2s_dyn7_suspect  4  2026-10-16 13:47:39
+  tier3_cari4d_f830_best_dr2s_suspect  2  2026-10-13 10:44:17
+  tier3_cari4d_f830_best_dyn4  2  2026-10-14 12:12:31
+  tier3_cari4d_f830_best_dyn4s  2  2026-10-14 13:19:10
+  tier3_cari4d_f830_best_dyn4s_suspect  2  2026-10-14 13:19:16
+  tier3_cari4d_f830_best_dyn4_suspect  2  2026-10-14 12:12:55
+  tier3_cari4d_f830_best_dyn7  2  2026-10-15 11:56:32
+  tier3_cari4d_f830_best_dyn7_suspect  2  2026-10-15 11:57:42
+  tier3_cari4d_f830_best_hm  3  2026-10-13 05:08:31
+  tier3_cari4d_f830_best_hm_suspect  3  2026-10-13 05:08:32
+  tier3_cari4d_f830_best_kf2  2  2026-10-15 23:34:11
+  tier3_cari4d_f830_best_kf2_suspect  2  2026-10-15 23:35:28
+  tier3_cari4d_f830_best_kf3  2  2026-10-16 07:40:20
+  tier3_cari4d_f830_best_kf3_suspect  2  2026-10-16 07:41:40
+  tier3_cari4d_f830_best_suspect  2  2026-10-13 01:14:29
+  tier3_cari4d_f830_floor  2  2026-10-10 11:59:36
+  tier3_cari4d_f830_floor_suspect  2  2026-10-10 12:00:21
+  tier3_cari4d_f830_simreg  2  2026-10-11 05:29:35
+  tier3_cari4d_f830_simreg_suspect  2  2026-10-11 05:33:20
+  tier3_cari4d_floor  2  2026-10-10 10:31:34
+  tier3_cari4d_floor_suspect  2  2026-10-10 10:32:22
+  tier3_cari4d_gb4_best  2  2026-10-18 12:26:38
+  tier3_cari4d_gb4_best_dr2s  2  2026-10-18 12:33:27
+  tier3_cari4d_gb4_best_dr2s_dyn7  4  2026-10-18 14:00:35
+  tier3_cari4d_gb4_best_dr2s_dyn7_suspect  4  2026-10-18 14:00:35
+  tier3_cari4d_gb4_best_dr2s_suspect  2  2026-10-18 12:33:40
+  tier3_cari4d_gb4_best_suspect  2  2026-10-18 12:26:49
+  tier3_cari4d_gb_best  2  2026-10-17 12:32:55
+  tier3_cari4d_gb_best_dr2s  2  2026-10-17 12:39:47
+  tier3_cari4d_gb_best_dr2s_dyn7  4  2026-10-17 22:49:39
+  tier3_cari4d_gb_best_dr2s_dyn7_suspect  4  2026-10-17 22:49:39
+  tier3_cari4d_gb_best_dr2s_suspect  2  2026-10-17 12:40:01
+  tier3_cari4d_gb_best_suspect  2  2026-10-17 12:33:06
+  tier3_cari4d_suspect  2  2026-10-09 12:15:24
+  track_check  58  2026-10-10 09:22:45
+  trackcheck_backup_1012_joints  4  2026-10-12 23:22:21
+  track_check_fp  30  2026-10-12 19:59:53
+  track_check_v2sel  16  2026-10-12 02:50:30
+  work  31  2026-10-09 05:00:14
+  work_anchor  3  2026-10-20 02:28:15
+  work_b000  3  2026-10-20 03:13:21
+  work_b010  3  2026-10-20 03:16:28
+  work_b020  3  2026-10-20 05:30:27
+  work_b030  3  2026-10-20 05:42:27
+  work_b050  3  2026-10-20 03:23:16
+  work_dump  14  2026-10-20 09:54:09
+  work_fp  15  2026-10-12 19:06:38
+  work_init  4  2026-10-16 15:53:07
+  work_sel  2  2026-10-19 14:02:18
+  work_v2  9  2026-10-12 02:03:27
+## 最近 3 天改过的文件（最多 80 个，按时间倒序；不含 .pkl/.npz/.h5/.mp4/.png 之外也列，只列路径）
+2026-10-20 10:24  47253  logs/fp_dump_ep19_cane.log
+2026-10-20 10:24  29777  logs/fp_dump_ep17_traffic_cone.log
+2026-10-20 10:23  963  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/world_calib.json
+2026-10-20 10:23  692  dev/beta_ab/b050/root/runs/A_ctrl/meta/episode_000013.metadata.json
+2026-10-20 10:23  62  dev/beta_ab/b050/logs/decode_ep13_snack_box.log
+2026-10-20 10:23  2471  dev/beta_ab/b050/logs/world_ctrl_ep13_snack_box.log
+2026-10-20 10:23  152  dev/beta_ab/b050/logs/assemble_ctrl_ep13_snack_box.log
+2026-10-20 10:23  1437077  dev/beta_ab/b050/root/runs/A_ctrl/data/chunk-000/episode_000013.parquet
+2026-10-20 10:23  1322  dev/beta_ab/b050/logs/focal_sel_ep13_snack_box.log
+2026-10-20 10:23  1313621  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/soma_params_world.npz
+2026-10-20 10:23  118612  dev/beta_ab/b050/conv_sel/ep13_snack_box/object_cam.npz
+2026-10-20 10:21  829  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/focal_calib.json
+2026-10-20 10:21  2091  dev/beta_ab/b050/logs/focal_ctrl_ep13_snack_box.log
+2026-10-20 10:21  1313621  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/soma_params_focal.npz
+2026-10-20 10:21  118616  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/object_world.npz
+2026-10-20 10:21  118612  dev/beta_ab/b050/conv_ctrl/ep13_snack_box/object_cam_focal.npz
+2026-10-20 10:17  2089  dev/sel_diag/carry/carry_eval_corrected.json
+2026-10-20 10:16  5133  dev/sel_diag/carry/code/carry_eval.py
+2026-10-20 10:15  964  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/world_calib.json
+2026-10-20 10:15  708  dev/beta_ab/b050/root/runs/A_sel/meta/episode_000004.metadata.json
+2026-10-20 10:15  539  dev/sel_diag/carry/out/b050_ep04_baseball_bat.log
+2026-10-20 10:15  516  dev/sel_diag/carry/out/b050_ep13_snack_box.log
+2026-10-20 10:15  4484  dev/sel_diag/carry/carry_offline.log
+2026-10-20 10:15  3169  dev/sel_diag/carry/carry_eval.json
+2026-10-20 10:15  265  dev/beta_ab/b050.log
+2026-10-20 10:15  2472  dev/beta_ab/b050/logs/world_sel_ep04_baseball_bat.log
+2026-10-20 10:15  150  dev/beta_ab/b050/logs/assemble_sel_ep04_baseball_bat.log
+2026-10-20 10:15  1252605  dev/beta_ab/b050/root/runs/A_sel/data/chunk-000/episode_000004.parquet
+2026-10-20 10:15  118654  dev/sel_diag/carry/out/b050_ep13_snack_box.npz
+2026-10-20 10:15  1145593  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/soma_params_world.npz
+2026-10-20 10:15  103422  dev/sel_diag/carry/out/b050_ep04_baseball_bat.npz
+2026-10-20 10:14  539  dev/sel_diag/carry/out/b030_ep04_baseball_bat.log
+2026-10-20 10:14  516  dev/sel_diag/carry/out/b030_ep13_snack_box.log
+2026-10-20 10:14  511  dev/sel_diag/carry/out/b050_ep03_contigo_coffee_mug.log
+2026-10-20 10:14  118654  dev/sel_diag/carry/out/b030_ep13_snack_box.npz
+2026-10-20 10:14  103422  dev/sel_diag/carry/out/b030_ep04_baseball_bat.npz
+2026-10-20 10:14  103384  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/object_world.npz
+2026-10-20 10:14  100606  dev/sel_diag/carry/out/b050_ep03_contigo_coffee_mug.npz
+2026-10-20 10:13  832  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/focal_calib.json
+2026-10-20 10:13  539  dev/sel_diag/carry/out/b020_ep04_baseball_bat.log
+2026-10-20 10:13  516  dev/sel_diag/carry/out/b020_ep13_snack_box.log
+2026-10-20 10:13  511  dev/sel_diag/carry/out/b030_ep03_contigo_coffee_mug.log
+2026-10-20 10:13  2094  dev/beta_ab/b050/logs/focal_sel_ep04_baseball_bat.log
+2026-10-20 10:13  118654  dev/sel_diag/carry/out/b020_ep13_snack_box.npz
+2026-10-20 10:13  1145593  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/soma_params_focal.npz
+2026-10-20 10:13  103422  dev/sel_diag/carry/out/b020_ep04_baseball_bat.npz
+2026-10-20 10:13  103380  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/object_cam_focal.npz
+2026-10-20 10:13  100606  dev/sel_diag/carry/out/b030_ep03_contigo_coffee_mug.npz
+2026-10-20 10:12  539  dev/sel_diag/carry/out/b010_ep04_baseball_bat.log
+2026-10-20 10:12  516  dev/sel_diag/carry/out/b010_ep13_snack_box.log
+2026-10-20 10:12  512  dev/sel_diag/carry/out/b020_ep03_contigo_coffee_mug.log
+2026-10-20 10:12  118654  dev/sel_diag/carry/out/b010_ep13_snack_box.npz
+2026-10-20 10:12  103422  dev/sel_diag/carry/out/b010_ep04_baseball_bat.npz
+2026-10-20 10:12  100606  dev/sel_diag/carry/out/b020_ep03_contigo_coffee_mug.npz
+2026-10-20 10:11  539  dev/sel_diag/carry/out/b000_ep04_baseball_bat.log
+2026-10-20 10:11  516  dev/sel_diag/carry/out/b010_ep03_contigo_coffee_mug.log
+2026-10-20 10:11  516  dev/sel_diag/carry/out/b000_ep13_snack_box.log
+2026-10-20 10:11  118654  dev/sel_diag/carry/out/b000_ep13_snack_box.npz
+2026-10-20 10:11  103422  dev/sel_diag/carry/out/b000_ep04_baseball_bat.npz
+2026-10-20 10:11  100606  dev/sel_diag/carry/out/b010_ep03_contigo_coffee_mug.npz
+2026-10-20 10:10  516  dev/sel_diag/carry/out/b000_ep03_contigo_coffee_mug.log
+2026-10-20 10:10  469  dev/sel_diag/carry/out/repro_ep04_baseball_bat.log
+2026-10-20 10:10  446  dev/sel_diag/carry/out/repro_ep13_snack_box.log
+2026-10-20 10:10  118654  dev/sel_diag/carry/out/repro_ep13_snack_box.npz
+2026-10-20 10:10  103422  dev/sel_diag/carry/out/repro_ep04_baseball_bat.npz
+2026-10-20 10:10  100606  dev/sel_diag/carry/out/b000_ep03_contigo_coffee_mug.npz
+2026-10-20 10:09  448  dev/sel_diag/carry/out/repro_ep03_contigo_coffee_mug.log
+2026-10-20 10:09  2513  dev/sel_diag/carry/carry_offline.sh
+2026-10-20 10:09  14020  dev/sel_diag/carry/code/t3_fp_select.py
+2026-10-20 10:09  100606  dev/sel_diag/carry/out/repro_ep03_contigo_coffee_mug.npz
+2026-10-20 10:08  964  dev/beta_ab/b050/conv_ctrl/ep04_baseball_bat/world_calib.json
+2026-10-20 10:08  708  dev/beta_ab/b050/root/runs/A_ctrl/meta/episode_000004.metadata.json
+2026-10-20 10:08  62  dev/beta_ab/b050/logs/decode_ep04_baseball_bat.log
+2026-10-20 10:08  2472  dev/beta_ab/b050/logs/world_ctrl_ep04_baseball_bat.log
+2026-10-20 10:08  151  dev/beta_ab/b050/logs/assemble_ctrl_ep04_baseball_bat.log
+2026-10-20 10:08  1252605  dev/beta_ab/b050/root/runs/A_ctrl/data/chunk-000/episode_000004.parquet
+2026-10-20 10:08  1145593  dev/beta_ab/b050/conv_ctrl/ep04_baseball_bat/soma_params_world.npz
+2026-10-20 10:08  103380  dev/beta_ab/b050/conv_sel/ep04_baseball_bat/object_cam.npz
+2026-10-20 10:06  832  dev/beta_ab/b050/conv_ctrl/ep04_baseball_bat/focal_calib.json
+2026-10-20 10:06  2094  dev/beta_ab/b050/logs/focal_ctrl_ep04_baseball_bat.log
+## 报告与说明（*.md、*README*、*report*.txt、*summary*，最近 7 天，最多 15 个，各取前 60 行）
+### runs/tier3_cari4d_gb4_best_dr2s_dyn7/DELIVERY.md
+# Tier 3 交付：`tier3_cari4d_gb4_best_dr2s_dyn7`
+
+由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各项检查的结果文件生成，数字不经手抄。上一个交付版：`tier3_cari4d_gb_best_dr2s_dyn7`。
+
+## 这是什么
+
+- 用途：dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, f830 18263); DELIVERED 10-18 by user decision, known issue ep11: the hu
+- 由 `t3_dynamics_post.py` from `tier3_cari4d_gb4_best_dr2s` 生成；代码 29a6d97b6a2340c23d63ea5e64b28670cece725e dirty=0 (deploy_l40
+- 支撑面：`runs/support/tier3_cari4d_gb4_best`，写成 usda 放在本版本的 `support_surface/` 下（路径见每集元数据的 `support_surface`）。
+- 集数：30（其中 1 集在 `tier3_cari4d_gb4_best_dr2s_dyn7_suspect`）。
+
+## 与上一个交付版对比
+
+| 项目 | `tier3_cari4d_gb_best_dr2s_dyn7` | `tier3_cari4d_gb4_best_dr2s_dyn7` |
+|---|---|---|
+| 物体动力学违规帧（占比） | 2056 (8.9%) | 2105 (9.2%) |
+| 零违规的集 | 5 | 7 |
+| 前 30 帧内就违规的集 | 3 | 3 |
+| `lin_supported` | 447 | 445 |
+| `lin_airborne` | 337 | 291 |
+| `lin_held` | 10 | 15 |
+| `rest_drift` | 1068 | 1229 |
+| `rot_drift` | 917 | 1191 |
+| `rot_jump` | 539 | 552 |
+| `rot_torque` | 563 | 552 |
+| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | 0.806 | 0.805 |
+| IoU < 0.5 的抽样帧 | 530 | 568 |
+| 训练前门槛，用我们的支撑面 | 30/30 | 30/30 |
+| 标了接触但手离物体 > 3 cm | 0.48% | 0.92% |
+| 标了接触的帧（左右手合计） | 16496 | 18133 |
+
+门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。
+
+## 自检（清单见 10-15 定的 13 项）
+
+| # | 项目 | 结果 |
+|---|---|---|
+| 11 | 数据契约（对照 `tier3_cari4d_gb4_best_dr2s`） | 通过；改动的列 ['observation.object.pose'] |
+| 2 | 改动审计 | 锁定段外可见改动 > 5 cm 的帧 548；最多的集：ep28_squeegee 274, ep19_cane 124, ep04_baseball_bat 28 |
+| 3 | 逐帧画面对齐 | IoU < 0.5 的抽样帧 568（上一交付版 530） |
+| 5 | 动力学检查 | 违规帧 2105，见上表 |
+| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 0.92%；接触帧比上一交付版少 10% 以上的集：ep23 787 → 689 |
+| 12 | 来源 | `tier3_cari4d_gb4_best_dr2s_dyn7.provenance.json`：有；`tier_guard` 拒绝读取低档位数据 |
+| 4 | 看图：agent（10-18） | 两版各用自己的选择表、同一组帧分别渲染贴图叠图。ep16 第 120/125/130/135 帧：gb3 第 130 帧瓶子偏右下、与视频成重影，本版本贴合画面，IoU 0.549 → 0.824（f830 版 0.865），第 135 帧 0.763 → 0.922；静置锁定�
+| 4 | 看图：user（10-18） | 看过 ep11 右手与书的近景对照（书的体坐标系，人体、书、机器人右手碰撞点，gb3 / gb4 并排），决定交付本版本，ep11 写进已知问题（图：`dev/gbfix/review/ep11_hand_gb3_gb4.png`） |
+| - | 未做 | 6 合成轨迹空跑与幂等性（工具未写） |
+| - | 未做 | 13 每帧可信度（工具未写） |
+
+## 逐集
+
+| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |
+|---|---|---|---|---|---|---|---|
+| ep00_tall_bar_stool | 778 | 7 (6) | 704 (661) | 0.837 (0.845) | 过 / 过 | 3 | 749 (758) |
+| ep01_vacuum | 747 | 85 (199) | 128 (83) | 0.511 (0.525) | 过 / 过 | 13 | 211 (156) |
+| ep02_blue_easter_basket | 980 | 157 (159) | 171 (171) | 0.788 (0.785) | 过 / 过 | 0 | 428 (359) |
+| ep03_contigo_coffee_mug | 781 | 33 (32) | 88 (88) | 0.854 (0.856) | 不过 / 过 | 0 | 514 (444) |
+| ep04_baseball_bat | 803 | 53 (52) | 102 (206) | 0.769 (0.762) | 过 / 过 | 2 | 816 (631) |
+| ep05_big_black_box | 1003 | 7 (8) | 589 (590) | 0.923 (0.919) | 过 / 过 | 5 | 1058 (1048) |
+| ep06_monitor | 546 | 0 (2) | None (455) | 0.739 (0.765) | 不过 / 过 | 3 | 511 (479) |
+| ep07_iron | 896 | 0 (0) | None (None) | 0.893 (0.889) | 不过 / 过 | 0 | 694 (580) |
+### runs/support/tier3_cari4d_f830_best_v3/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_f830_best",
+  "frames": 778,
+  "group": 0,
+  "rest_frames": {
+   "floor": 778,
+   "off_floor": 0,
+   "below_floor": 0
+  },
+  "floor_penetration_frames": 60,
+  "floor_penetration_max_m": 0.043,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_f830_best",
+  "frames": 747,
+  "group": 0,
+  "rest_frames": {
+   "floor": 371,
+   "off_floor": 0,
+   "below_floor": 69
+  },
+  "floor_penetration_frames": 283,
+  "floor_penetration_max_m": 0.129,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_f830_best",
+  "frames": 980,
+  "group": 0,
+  "rest_frames": {
+   "floor": 45,
+   "off_floor": 391,
+   "below_floor": 119
+  },
+  "floor_penetration_frames": 203,
+  "floor_penetration_max_m": 0.115,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [
+   {
+    "support": 0,
+    "height_m": 0.772,
+    "frames_at_rest": 137,
+    "moge_surface_heights_m": [
+     0.795
+    ],
+    "placements": [
+     {
+      "start": 0,
+### runs/support/tier3_cari4d_gb4_best/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb4_best",
+  "frames": 778,
+  "group": 0,
+  "rest_frames": {
+   "floor": 778,
+   "off_floor": 0,
+   "below_floor": 0
+  },
+  "floor_penetration_frames": 20,
+  "floor_penetration_max_m": 0.038,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb4_best",
+  "frames": 747,
+  "group": 0,
+  "rest_frames": {
+   "floor": 372,
+   "off_floor": 0,
+   "below_floor": 54
+  },
+  "floor_penetration_frames": 301,
+  "floor_penetration_max_m": 0.128,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb4_best",
+  "frames": 980,
+  "group": 0,
+  "rest_frames": {
+   "floor": 45,
+   "off_floor": 389,
+   "below_floor": 119
+  },
+  "floor_penetration_frames": 206,
+  "floor_penetration_max_m": 0.118,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [
+   {
+    "support": 0,
+    "height_m": 0.77,
+    "frames_at_rest": 137,
+    "moge_surface_heights_m": [
+     0.785
+    ],
+    "placements": [
+     {
+      "start": 0,
+### runs/support/tier3_cari4d_gb_best/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb_best",
+  "frames": 778,
+  "group": 0,
+  "rest_frames": {
+   "floor": 778,
+   "off_floor": 0,
+   "below_floor": 0
+  },
+  "floor_penetration_frames": 9,
+  "floor_penetration_max_m": 0.036,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb_best",
+  "frames": 747,
+  "group": 0,
+  "rest_frames": {
+   "floor": 371,
+   "off_floor": 0,
+   "below_floor": 54
+  },
+  "floor_penetration_frames": 305,
+  "floor_penetration_max_m": 0.132,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [],
+  "rejected": []
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb_best",
+  "frames": 980,
+  "group": 0,
+  "rest_frames": {
+   "floor": 45,
+   "off_floor": 389,
+   "below_floor": 119
+  },
+  "floor_penetration_frames": 204,
+  "floor_penetration_max_m": 0.117,
+  "support_penetration_frames": 0,
+  "support_penetration_max_m": 0.0,
+  "supports": [
+   {
+    "support": 0,
+    "height_m": 0.77,
+    "frames_at_rest": 137,
+    "moge_surface_heights_m": [
+     0.795
+    ],
+    "placements": [
+     {
+      "start": 0,
+### runs/tier3_cari4d_f830_best_dr2s_dyn7/DELIVERY.md
+# Tier 3 交付：`tier3_cari4d_f830_best_dr2s_dyn7`
+
+由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各项检查的结果文件生成，数字不经手抄。上一个交付版：`tier3_cari4d_f830_best_hm`。
+
+## 这是什么
+
+- 用途：dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/30 with v2 (ep07). Orientation flips u
+- 由 `t3_dynamics_post.py` from `tier3_cari4d_f830_best_dr2s` 生成；代码 3e46ecd6b62b3b3ebc6e6f901c1b20a77119ceb4 dirty=0 (deploy_l40
+- 支撑面：`runs/support/tier3_cari4d_f830_best_v3`，写成 usda 放在本版本的 `support_surface/` 下（路径见每集元数据的 `support_surface`）。
+- 集数：30（其中 1 集在 `tier3_cari4d_f830_best_dr2s_dyn7_suspect`）。
+
+## 与上一个交付版对比
+
+| 项目 | `tier3_cari4d_f830_best_hm` | `tier3_cari4d_f830_best_dr2s_dyn7` |
+|---|---|---|
+| 物体动力学违规帧（占比） | 6207 (27.0%) | 2189 (9.5%) |
+| 零违规的集 | 0 | 7 |
+| 前 30 帧内就违规的集 | 30 | 3 |
+| `lin_supported` | 4357 | 398 |
+| `lin_airborne` | 496 | 274 |
+| `lin_held` | 29 | 12 |
+| `rest_drift` | 2853 | 1308 |
+| `rot_drift` | 1503 | 1201 |
+| `rot_jump` | 696 | 545 |
+| `rot_torque` | 924 | 552 |
+| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | 0.738 | 0.810 |
+| IoU < 0.5 的抽样帧 | 810 | 528 |
+| 训练前门槛，用我们的支撑面 | 30/30 | 30/30 |
+| 标了接触但手离物体 > 3 cm | 0.44% | 0.45% |
+
+门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。
+
+## 自检（清单见 10-15 定的 13 项）
+
+| # | 项目 | 结果 |
+|---|---|---|
+| 11 | 数据契约（对照 `tier3_cari4d_f830_best_dr2s`） | 通过；改动的列 ['observation.object.pose'] |
+| 2 | 改动审计 | 锁定段外可见改动 > 5 cm 的帧 537；最多的集：ep28_squeegee 263, ep19_cane 117, ep04_baseball_bat 29 |
+| 3 | 逐帧画面对齐 | IoU < 0.5 的抽样帧 528（上一交付版 810） |
+| 5 | 动力学检查 | 违规帧 2189，见上表 |
+| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 0.45% |
+| 12 | 来源 | `tier3_cari4d_f830_best_dr2s_dyn7.provenance.json`：有；`tier_guard` 拒绝读取低档位数据 |
+| 4 | 看图：用户（10-16） | 16 个对照帧：纸箱、刮水器明显变好，其余差不多，原来错的仍错（如球棒头尾），没有变差（图：`dev/checked_frames/dr2sd7/`） |
+| 2 | 看图：用户（10-16） | 改动最大的帧（ep28/19/01/04/14/13/02）整体是变好；ep02 第 395 帧篮子三版都倒置（重建朝向）（图：`dev/checked_frames/audit_dr2sd7/`） |
+| - | 未做 | 6 合成轨迹空跑与幂等性（工具未写） |
+| - | 未做 | 13 每帧可信度（工具未写） |
+| - | 未做 | dr2s 本身由 10-13 的代码 5752307 生成，10-16 用当前代码逐表复现一致 |
+
+## 逐集
+
+| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 |
+|---|---|---|---|---|---|---|
+| ep00_tall_bar_stool | 778 | 6 (126) | 704 (0) | 0.845 (0.776) | 过 / 过 | 2 |
+| ep01_vacuum | 747 | 82 (261) | 128 (0) | 0.518 (0.506) | 过 / 过 | 8 |
+| ep02_blue_easter_basket | 980 | 272 (320) | 171 (7) | 0.790 (0.471) | 过 / 过 | 0 |
+| ep03_contigo_coffee_mug | 781 | 30 (165) | 89 (0) | 0.853 (0.802) | 不过 / 过 | 0 |
+| ep04_baseball_bat | 803 | 51 (228) | 102 (0) | 0.762 (0.550) | 过 / 过 | 3 |
+| ep05_big_black_box | 1003 | 4 (102) | 591 (0) | 0.929 (0.914) | 过 / 过 | 4 |
+| ep06_monitor | 546 | 0 (157) | None (4) | 0.770 (0.747) | 不过 / 过 | 1 |
+| ep07_iron | 896 | 0 (146) | None (0) | 0.886 (0.871) | 不过 / 过 | 0 |
+### runs/tier3_cari4d_gb4_best_dr2s_dyn7_suspect/DELIVERY.md
+# Tier 3 交付：`tier3_cari4d_gb4_best_dr2s_dyn7`
+
+由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各项检查的结果文件生成，数字不经手抄。上一个交付版：`tier3_cari4d_gb_best_dr2s_dyn7`。
+
+## 这是什么
+
+- 用途：dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, f830 18263); DELIVERED 10-18 by user decision, known issue ep11: the hu
+- 由 `t3_dynamics_post.py` from `tier3_cari4d_gb4_best_dr2s` 生成；代码 29a6d97b6a2340c23d63ea5e64b28670cece725e dirty=0 (deploy_l40
+- 支撑面：`runs/support/tier3_cari4d_gb4_best`，写成 usda 放在本版本的 `support_surface/` 下（路径见每集元数据的 `support_surface`）。
+- 集数：30（其中 1 集在 `tier3_cari4d_gb4_best_dr2s_dyn7_suspect`）。
+
+## 与上一个交付版对比
+
+| 项目 | `tier3_cari4d_gb_best_dr2s_dyn7` | `tier3_cari4d_gb4_best_dr2s_dyn7` |
+|---|---|---|
+| 物体动力学违规帧（占比） | 2056 (8.9%) | 2105 (9.2%) |
+| 零违规的集 | 5 | 7 |
+| 前 30 帧内就违规的集 | 3 | 3 |
+| `lin_supported` | 447 | 445 |
+| `lin_airborne` | 337 | 291 |
+| `lin_held` | 10 | 15 |
+| `rest_drift` | 1068 | 1229 |
+| `rot_drift` | 917 | 1191 |
+| `rot_jump` | 539 | 552 |
+| `rot_torque` | 563 | 552 |
+| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | 0.806 | 0.805 |
+| IoU < 0.5 的抽样帧 | 530 | 568 |
+| 训练前门槛，用我们的支撑面 | 30/30 | 30/30 |
+| 标了接触但手离物体 > 3 cm | 0.48% | 0.92% |
+| 标了接触的帧（左右手合计） | 16496 | 18133 |
+
+门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。
+
+## 自检（清单见 10-15 定的 13 项）
+
+| # | 项目 | 结果 |
+|---|---|---|
+| 11 | 数据契约（对照 `tier3_cari4d_gb4_best_dr2s`） | 通过；改动的列 ['observation.object.pose'] |
+| 2 | 改动审计 | 锁定段外可见改动 > 5 cm 的帧 548；最多的集：ep28_squeegee 274, ep19_cane 124, ep04_baseball_bat 28 |
+| 3 | 逐帧画面对齐 | IoU < 0.5 的抽样帧 568（上一交付版 530） |
+| 5 | 动力学检查 | 违规帧 2105，见上表 |
+| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 0.92%；接触帧比上一交付版少 10% 以上的集：ep23 787 → 689 |
+| 12 | 来源 | `tier3_cari4d_gb4_best_dr2s_dyn7.provenance.json`：有；`tier_guard` 拒绝读取低档位数据 |
+| 4 | 看图：agent（10-18） | 两版各用自己的选择表、同一组帧分别渲染贴图叠图。ep16 第 120/125/130/135 帧：gb3 第 130 帧瓶子偏右下、与视频成重影，本版本贴合画面，IoU 0.549 → 0.824（f830 版 0.865），第 135 帧 0.763 → 0.922；静置锁定�
+| 4 | 看图：user（10-18） | 看过 ep11 右手与书的近景对照（书的体坐标系，人体、书、机器人右手碰撞点，gb3 / gb4 并排），决定交付本版本，ep11 写进已知问题（图：`dev/gbfix/review/ep11_hand_gb3_gb4.png`） |
+| - | 未做 | 6 合成轨迹空跑与幂等性（工具未写） |
+| - | 未做 | 13 每帧可信度（工具未写） |
+
+## 逐集
+
+| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |
+|---|---|---|---|---|---|---|---|
+| ep00_tall_bar_stool | 778 | 7 (6) | 704 (661) | 0.837 (0.845) | 过 / 过 | 3 | 749 (758) |
+| ep01_vacuum | 747 | 85 (199) | 128 (83) | 0.511 (0.525) | 过 / 过 | 13 | 211 (156) |
+| ep02_blue_easter_basket | 980 | 157 (159) | 171 (171) | 0.788 (0.785) | 过 / 过 | 0 | 428 (359) |
+| ep03_contigo_coffee_mug | 781 | 33 (32) | 88 (88) | 0.854 (0.856) | 不过 / 过 | 0 | 514 (444) |
+| ep04_baseball_bat | 803 | 53 (52) | 102 (206) | 0.769 (0.762) | 过 / 过 | 2 | 816 (631) |
+| ep05_big_black_box | 1003 | 7 (8) | 589 (590) | 0.923 (0.919) | 过 / 过 | 5 | 1058 (1048) |
+| ep06_monitor | 546 | 0 (2) | None (455) | 0.739 (0.765) | 不过 / 过 | 3 | 511 (479) |
+| ep07_iron | 896 | 0 (0) | None (None) | 0.893 (0.889) | 不过 / 过 | 0 | 694 (580) |
+### runs/VERSIONS.md
+# Tier 3 versions
+
+Generated by `stages/recovery/tier3/t3_versions.py` from `versions.json` (the one place statuses and purposes are written) and the version dirs. Names drop `tier3_cari4d_f830_` where it applies. Episodes = main + `_suspect`. Archived versions are under `runs/archive/` (their gate copies under `gate/
+
+## delivered (1)
+
+| version | date | episodes | from | purpose | made by @ deployed | records |
+|---|---|---|---|---|---|---|
+| `tier3_cari4d_gb4_best_dr2s_dyn7` | 10-18 | 29+1 | tier3_cari4d_gb4_best_dr2s | dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, 
+
+## candidate (10)
+
+| version | date | episodes | from | purpose | made by @ deployed | records |
+|---|---|---|---|---|---|---|
+| `best_dr2s` | 10-13 | 29+1 | best (confirmed 10-16: its recorded moves equal dr2s minus best) | depth correction along the viewing ray, capped +-5%, rest vertical; support rule v2 (10-13). Failed the 10-13 criteria on pose jumps (73 vs 70) and the gate (29/30) while keeping IoU 0.807 (hm 0.737); r
+| `best_dyn7` | 10-15 | 29+1 | best_hm | new symmetry rule + robust step 3 + tapered offsets (037ae97); 2162 violation frames | t3_dynamics_post.py @ 52542c8 | dynamics_post.json, provenance.json |
+| `best_kf2` | 10-15 | 29+1 | best_hm | contact-switched Kalman/RTS (t3_kalman_post.py, 52542c8); 2080 violation frames; rests creep (rot_drift 1122) | t3_kalman_post.py @ 52542c8 | kalman_post.json, provenance.json |
+| `best_kf3` | 10-16 | 29+1 | best_hm | kf2 + rests locked as dyn7, rests <= 5 frames apart merged, bridged by the filter (9c3bfb2); 1675 violation frames, gate 25/30, ours 30/30 | t3_kalman_post.py @ 9c3bfb2 | kalman_post.json, provenance.json |
+| `best_dr2s3` | 10-16 | 29+1 | best | best_dr2s's along-ray depth correction (--move-human=3d) with the v3 supports (centre-of-mass sweep), with provenance | t3_depth_post.py @ 3da0ab1 | depth_post.json, provenance.json |
+| `best_dr2s3_dyn7` | 10-16 | 29+1 | best_dr2s3 | dyn7's dynamics post-process on best_dr2s3; replaces best_dr2s_dyn7 only if the self-check shows nothing worse | t3_dynamics_post.py @ 3da0ab1 | dynamics_post.json, provenance.json |
+| `tier3_cari4d_gb_best` | 10-17 | 29+1 | best | per-episode pick as best (same selection), every convert dir re-expressed under the calibrated intrinsics GB (f 866.3, cx 701.8, cy 531.1, rxzhou ceiling grid) on all three cameras, floor_fit_gb3 (main 1.222 deg / 0.984; second camera scale 0.949 from
+| `tier3_cari4d_gb_best_dr2s` | 10-17 | 29+1 | tier3_cari4d_gb_best | depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb_best with supports runs/support/tier3_cari4d_gb_best Superseded 10-18 by the gb4 regeneration; left in place under its name (user 10-18: rxzhou already c
+| `tier3_cari4d_gb4_best` | 10-18 | 29+1 | best | as gb_best (same selection, same GB intrinsics), with the focal step refitting instead of moving rigidly: the object Kabsch-fitted to its point-mapped surface, the body by SOMA PoseInversion (analytic + 20 autograd steps, hands and feet weight 5) to 
+| `tier3_cari4d_gb4_best_dr2s` | 10-18 | 29+1 | tier3_cari4d_gb4_best | depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb4_best with supports runs/support/tier3_cari4d_gb4_best | t3_depth_post.py @ 29a6d97 | depth_post.json, provenance.json |
+
+## kept (10)
+
+| version | date | episodes | from | purpose | made by @ deployed | records |
+|---|---|---|---|---|---|---|
+| `tier3_cari4d` | 10-09 | 20+9 | CARI4D on the official meshes (runs/work) | first batch; 20 pass the silhouette check, 9 in _suspect |  |  |
+| `tier3_cari4d_floor` | 10-10 | 20+9 | tier3_cari4d conversion (inferred) | floor correction |  |  |
+| `floor` | 10-10 | 20+9 | tier3_cari4d conversion (inferred) | focal 830 + floor correction (rxzhou's 10-10 training choice) |  |  |
+| `simreg` | 10-11 | 21+9 | sim | f830_sim + the 5 second-camera episodes registered to the main camera |  |  |
+| `best` | 10-12 | 29+1 | convert, convert_v2, convert_fp, convert_pivot | per-episode pick of the version with the least lost tracking (best.selection.json) |  | selection.json |
+| `best_hm` | 10-13 | 29+1 | best | height post-process + the human follows the object over held runs; delivered 10-13, rxzhou trains on it; delivery until 10-16, replaced by best_dr2s_dyn7; kept in place (rxzhou trains on it, whitelisted) |  | height_post.json |
+| `best_dyn4` | 10-14 | 29+1 | best_hm | dynamics post-process (7a4bf37); its symmetry rule was wrong (turned objects into wrong poses); rxzhou evaluated it on ep12 |  | dynamics_post.json |
+| `best_dyn4s` | 10-14 | 29+1 | best_dyn4 | dyn4 + human temporal smoothing (t3_human_smooth.py) |  | human_smooth.json |
+| `best_dr2s_dyn7` | 10-16 | 29+1 | best_dr2s | dyn7's dynamics post-process (ebad90b) on the ray-corrected best_dr2s; IoU 0.810 (best 0.810, hm 0.738), 2189 violation frames, 7 clean, airborne 274; gate 30/30 with supports runs/support/tier3_cari4d_f830_best_v3 (centre-of-mass sweep, 1723b15), 29/3
+| `tier3_cari4d_gb_best_dr2s_dyn7` | 10-17 | 29+1 | tier3_cari4d_gb_best_dr2s | dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; self-check 5 of 6 (ep16 image review failed); DELIVERED 10-17 by user decision with known issues: the focal step m
+
+## archived (21)
+
+| version | date | episodes | from | purpose | made by @ deployed | records |
+|---|---|---|---|---|---|---|
+| `sim` | 10-11 | 20+9 | f830_floor (inferred) | human scaled with the scene; superseded by f830_simreg |  |  |
+| `tier3_cari4d_fp_pilot_f830` | 10-11 | 15+0 | runs/work_fp (FoundationPose register-every-frame) | every-frame registration pilot, 15 episodes; its episodes enter best through convert_fp |  |  |
+| `tier3_cari4d_v2sel_f830` | 10-11 | 4+4 | runs/work_v2 | re-selection pilot (t3_reselect.sh); its episodes enter best through convert_v2 |  |  |
+| `best_h` | 10-13 | 29+1 | best (inferred) | object height post-process only (t3_height_post.py) |  | height_post.json |
+| `best_hchk` | 10-13 | 29+1 | best (inferred) | height post-process variant; what differs from best_h was not recorded |  | height_post.json |
+| `best_hm2` | 10-13 | 29+1 | best (inferred) | height post-process variant after best_hm; what differs was not recorded |  | height_post.json |
+| `best_d` | 10-13 | 29+1 | best_hm (inferred: made after it, as replacement candidates) | depth post-process (t3_depth_post.py), first run; variants d/dw/dc/dr/dr2 differ in settings that were not recorded |  | depth_post.json |
+| `best_dw` | 10-13 | 29+1 | best_hm (inferred: made after it, as replacement candidates) | depth post-process variant (see best_d) |  | depth_post.json |
+| `best_dc` | 10-13 | 29+1 | best_hm (inferred: made after it, as replacement candidates) | depth post-process variant (see best_d) |  | depth_post.json |
+| `best_dr` | 10-13 | 29+1 | best_hm (inferred: made after it, as replacement candidates) | depth post-process variant (see best_d) |  | depth_post.json |
+| `best_dr2` | 10-13 | 29+1 | best_hm (inferred: made after it, as replacement candidates) | depth post-process variant (see best_d) |  | depth_post.json |
+| `best_dr3` | 10-13 | 29+1 | best_hm | unattended depth candidate; failed the replacement criteria (~/v2d/tier3/auto/decision_report.txt), user stopped replacing best_hm |  | depth_post.json |
+| `best_dyn1` | 10-14 | 4+0 | best_hm | dynamics post-process v1, 4 pilot episodes; superseded by dyn4 (handoff-tier3-dynamics-2026-10-14.md) |  | dynamics_post.json |
+| `best_dyn2` | 10-14 | 4+0 | best_hm | held state from the robot layer; discarded |  | dynamics_post.json |
+| `best_dyn3` | 10-14 | 4+0 | best_hm | held runs trimmed by the robot layer; discarded |  | dynamics_post.json |
+| `best_dyn` | 10-14 | 29+1 | best_hm | dyn1 rules on all 30; exposed three wrong rules; discarded |  | dynamics_post.json |
+### runs/tier3_cari4d_gb_best_dr2s_dyn7/DELIVERY.md
+# Tier 3 交付：`tier3_cari4d_gb_best_dr2s_dyn7`
+
+由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各项检查的结果文件生成，数字不经手抄。上一个交付版：`tier3_cari4d_f830_best_dr2s_dyn7`。
+
+## 这是什么
+
+- 用途：dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; delivery waits for the user
+- 由 `t3_dynamics_post.py` from `tier3_cari4d_gb_best_dr2s` 生成；代码 cd8ba69c55dd99ed54f6563e5e8a5d605b676988 dirty=0 (deploy_l40
+- 支撑面：`runs/support/tier3_cari4d_gb_best`，写成 usda 放在本版本的 `support_surface/` 下（路径见每集元数据的 `support_surface`）。
+- 集数：30（其中 1 集在 `tier3_cari4d_gb_best_dr2s_dyn7_suspect`）。
+
+## 与上一个交付版对比
+
+| 项目 | `tier3_cari4d_f830_best_dr2s_dyn7` | `tier3_cari4d_gb_best_dr2s_dyn7` |
+|---|---|---|
+| 物体动力学违规帧（占比） | 2189 (9.5%) | 2056 (8.9%) |
+| 零违规的集 | 7 | 5 |
+| 前 30 帧内就违规的集 | 3 | 3 |
+| `lin_supported` | 398 | 447 |
+| `lin_airborne` | 274 | 337 |
+| `lin_held` | 12 | 10 |
+| `rest_drift` | 1308 | 1068 |
+| `rot_drift` | 1201 | 917 |
+| `rot_jump` | 545 | 539 |
+| `rot_torque` | 552 | 563 |
+| 轮廓 IoU（各集中位数的均值，29 集，不含 ep28） | 0.810 | 0.806 |
+| IoU < 0.5 的抽样帧 | 528 | 530 |
+| 训练前门槛，用我们的支撑面 | 30/30 | 30/30 |
+| 标了接触但手离物体 > 3 cm | 0.45% | 0.48% |
+
+门槛只列用我们支撑面判的结果：Tier 3 不能用官方支撑面；只按地面判时，放在桌上的物体必然算悬空。逐集表里的「地面」一列只作参考，hm 那套门槛数据是 10-13 建的、集目录里带着官方支撑面，口径不同。
+
+## 自检（清单见 10-15 定的 13 项）
+
+| # | 项目 | 结果 |
+|---|---|---|
+| 11 | 数据契约（对照 `tier3_cari4d_gb_best_dr2s`） | 通过；改动的列 ['observation.object.pose'] |
+| 2 | 改动审计 | 锁定段外可见改动 > 5 cm 的帧 574；最多的集：ep28_squeegee 274, ep19_cane 123, ep04_baseball_bat 33 |
+| 3 | 逐帧画面对齐 | IoU < 0.5 的抽样帧 530（上一交付版 528） |
+| 5 | 动力学检查 | 违规帧 2056，见上表 |
+| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 0.48% |
+| 12 | 来源 | `tier3_cari4d_gb_best_dr2s_dyn7.provenance.json`：有；`tier_guard` 拒绝读取低档位数据 |
+| 4 | 看图：agent（10-17，用户不在） | 按逐帧 IoU 降幅选帧，两版各用自己的选择表、同一组帧分别渲染：ep16 第 130 帧新版明显变差（瓶子偏右下，与视频成重影，IoU 0.865 → 0.549），第 125 帧瓶身贴图对不上；原因是 dyn7 在 GB 世�
+| 4 | 看图：user（10-17） | 看过 ep16 第 125/130/135 帧两版对照（同一组图），同意 ep16 变差；决定先交付本版本供训练使用，手物距离问题写进已知问题，之后修正后以原名重生成（图：`dev/checked_frames/gbdyn7/{base,new}/`） |
+| - | 未做 | 6 合成轨迹空跑与幂等性（工具未写） |
+| - | 未做 | 13 每帧可信度（工具未写） |
+
+## 逐集
+
+| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 |
+|---|---|---|---|---|---|---|
+| ep00_tall_bar_stool | 778 | 6 (6) | 661 (704) | 0.845 (0.845) | 过 / 过 | 0 |
+| ep01_vacuum | 747 | 199 (82) | 83 (128) | 0.525 (0.518) | 过 / 过 | 3 |
+| ep02_blue_easter_basket | 980 | 159 (272) | 171 (171) | 0.785 (0.790) | 过 / 过 | 1 |
+| ep03_contigo_coffee_mug | 781 | 32 (30) | 88 (89) | 0.856 (0.853) | 不过 / 过 | 0 |
+| ep04_baseball_bat | 803 | 52 (51) | 206 (102) | 0.762 (0.762) | 过 / 过 | 3 |
+| ep05_big_black_box | 1003 | 8 (4) | 590 (591) | 0.919 (0.929) | 过 / 过 | 5 |
+| ep06_monitor | 546 | 2 (0) | 455 (None) | 0.765 (0.770) | 不过 / 过 | 2 |
+| ep07_iron | 896 | 0 (0) | None (None) | 0.889 (0.886) | 不过 / 过 | 2 |
+| ep08_skinny_wood_chair | 708 | 30 (62) | 143 (133) | 0.796 (0.832) | 过 / 过 | 0 |
+### runs/physics/tier3_cari4d_gb4_best_dr2s_dyn7/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "feet_penetration": 36,
+  "feet_p50": 0.0014,
+  "obj_low_p50": 0.0004,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "unheld_motion": 22,
+  "feet_floating": 72,
+  "feet_p50": 0.0242,
+  "obj_low_p50": 0.0062,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "unheld_motion": 12,
+  "feet_penetration": 10,
+  "feet_floating": 21,
+  "feet_p50": -0.0068,
+  "obj_low_p50": 0.6381,
+  "rest_off_floor": 1
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "feet_penetration": 766,
+  "feet_p50": -0.0504,
+  "obj_low_p50": 0.7578,
+  "rest_off_floor": 2
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "feet_penetration": 469,
+  "feet_p50": -0.0358,
+  "obj_low_p50": 1.1213,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "feet_penetration": 222,
+  "feet_floating": 13,
+  "feet_p50": -0.0103,
+  "obj_low_p50": 0.0028,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+  "tier": "tier3_cari4d_gb4_best_dr2s_dyn7",
+  "feet_penetration": 404,
+  "feet_p50": -0.0409,
+  "obj_low_p50": 0.7652,
+  "rest_off_floor": 2
+### runs/physics/tier3_cari4d_f830_best_dr2s3/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "feet_penetration": 33,
+  "feet_p50": 0.0037,
+  "obj_low_p50": 0.0,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "unheld_motion": 19,
+  "feet_floating": 68,
+  "feet_p50": 0.0237,
+  "obj_low_p50": 0.007,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "unheld_motion": 25,
+  "pose_jump": 8,
+  "feet_penetration": 9,
+  "feet_floating": 33,
+  "feet_p50": -0.0049,
+  "obj_low_p50": 0.6392,
+  "rest_off_floor": 3
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "feet_penetration": 781,
+  "feet_p50": -0.0555,
+  "obj_low_p50": 0.7585,
+  "rest_off_floor": 4
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "pose_jump": 9,
+  "feet_penetration": 479,
+  "feet_p50": -0.0351,
+  "obj_low_p50": 1.1222,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "feet_penetration": 250,
+  "feet_floating": 13,
+  "feet_p50": -0.0134,
+  "obj_low_p50": 0.0005,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+  "tier": "tier3_cari4d_f830_best_dr2s3",
+  "feet_penetration": 394,
+  "feet_p50": -0.0415,
+### runs/physics/tier3_cari4d_gb4_best/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb4_best",
+  "object_floor_penetration": 20,
+  "feet_penetration": 100,
+  "feet_p50": -0.0093,
+  "obj_low_p50": -0.0124,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb4_best",
+  "object_floor_penetration": 301,
+  "unheld_motion": 27,
+  "feet_p50": -0.0048,
+  "obj_low_p50": -0.0258,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb4_best",
+  "object_floor_penetration": 206,
+  "unheld_motion": 35,
+  "pose_jump": 7,
+  "feet_penetration": 22,
+  "feet_p50": -0.0111,
+  "obj_low_p50": 0.6384,
+  "rest_off_floor": 1
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_gb4_best",
+  "feet_penetration": 766,
+  "feet_p50": -0.0532,
+  "obj_low_p50": 0.7606,
+  "rest_off_floor": 4
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_gb4_best",
+  "object_floor_penetration": 94,
+  "pose_jump": 10,
+  "feet_penetration": 532,
+  "feet_p50": -0.0397,
+  "obj_low_p50": 1.1238,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_gb4_best",
+  "object_floor_penetration": 63,
+  "feet_penetration": 281,
+  "feet_floating": 8,
+  "feet_p50": -0.0179,
+  "obj_low_p50": -0.0071,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+### runs/physics/tier3_cari4d_gb_best_dr2s_dyn7/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "feet_penetration": 31,
+  "feet_p50": 0.0036,
+  "obj_low_p50": 0.0017,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "unheld_motion": 39,
+  "feet_floating": 71,
+  "feet_p50": 0.0268,
+  "obj_low_p50": 0.0066,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "unheld_motion": 18,
+  "feet_penetration": 9,
+  "feet_floating": 36,
+  "feet_p50": -0.0028,
+  "obj_low_p50": 0.6379,
+  "rest_off_floor": 1
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "feet_penetration": 781,
+  "feet_p50": -0.0546,
+  "obj_low_p50": 0.7561,
+  "rest_off_floor": 3
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "feet_penetration": 398,
+  "feet_p50": -0.0333,
+  "obj_low_p50": 1.1235,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "feet_penetration": 228,
+  "feet_floating": 28,
+  "feet_p50": -0.0076,
+  "obj_low_p50": 0.0027,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+  "tier": "tier3_cari4d_gb_best_dr2s_dyn7",
+  "feet_penetration": 394,
+  "feet_p50": -0.0428,
+  "obj_low_p50": 0.7643,
+  "rest_off_floor": 2
+### runs/physics/tier3_cari4d_f830_best_dr2s/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "feet_penetration": 33,
+  "feet_p50": 0.0037,
+  "obj_low_p50": 0.0,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "unheld_motion": 19,
+  "feet_floating": 68,
+  "feet_p50": 0.0237,
+  "obj_low_p50": 0.007,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "unheld_motion": 25,
+  "pose_jump": 8,
+  "feet_penetration": 9,
+  "feet_floating": 33,
+  "feet_p50": -0.0049,
+  "obj_low_p50": 0.6392,
+  "rest_off_floor": 3
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "feet_penetration": 781,
+  "feet_p50": -0.0555,
+  "obj_low_p50": 0.7585,
+  "rest_off_floor": 4
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "pose_jump": 9,
+  "feet_penetration": 479,
+  "feet_p50": -0.0351,
+  "obj_low_p50": 1.1222,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "feet_penetration": 250,
+  "feet_floating": 13,
+  "feet_p50": -0.0134,
+  "obj_low_p50": 0.0005,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+  "tier": "tier3_cari4d_f830_best_dr2s",
+  "unheld_motion": 18,
+  "pose_jump": 2,
+### runs/physics/tier3_cari4d_gb4_best_dr2s/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "feet_penetration": 36,
+  "feet_p50": 0.0014,
+  "obj_low_p50": 0.0001,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "unheld_motion": 32,
+  "feet_floating": 72,
+  "feet_p50": 0.0242,
+  "obj_low_p50": 0.0072,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "unheld_motion": 24,
+  "pose_jump": 8,
+  "feet_penetration": 10,
+  "feet_floating": 21,
+  "feet_p50": -0.0068,
+  "obj_low_p50": 0.6393,
+  "rest_off_floor": 2
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "feet_penetration": 766,
+  "feet_p50": -0.0504,
+  "obj_low_p50": 0.7578,
+  "rest_off_floor": 4
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "pose_jump": 11,
+  "feet_penetration": 469,
+  "feet_p50": -0.0358,
+  "obj_low_p50": 1.124,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "feet_penetration": 222,
+  "feet_floating": 13,
+  "feet_p50": -0.0103,
+  "obj_low_p50": 0.0006,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+  "tier": "tier3_cari4d_gb4_best_dr2s",
+  "unheld_motion": 18,
+  "feet_penetration": 404,
+### runs/physics/tier3_cari4d_gb_best/out/summary.json
+[
+ {
+  "episode": "ep00_tall_bar_stool",
+  "tier": "tier3_cari4d_gb_best",
+  "object_floor_penetration": 9,
+  "feet_penetration": 74,
+  "feet_p50": -0.0061,
+  "obj_low_p50": -0.0099,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep01_vacuum",
+  "tier": "tier3_cari4d_gb_best",
+  "object_floor_penetration": 305,
+  "unheld_motion": 53,
+  "feet_p50": -0.002,
+  "obj_low_p50": -0.0252,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep02_blue_easter_basket",
+  "tier": "tier3_cari4d_gb_best",
+  "object_floor_penetration": 204,
+  "unheld_motion": 39,
+  "pose_jump": 7,
+  "feet_penetration": 21,
+  "feet_p50": -0.0072,
+  "obj_low_p50": 0.6362,
+  "rest_off_floor": 1
+ },
+ {
+  "episode": "ep03_contigo_coffee_mug",
+  "tier": "tier3_cari4d_gb_best",
+  "feet_penetration": 781,
+  "feet_p50": -0.0573,
+  "obj_low_p50": 0.7593,
+  "rest_off_floor": 4
+ },
+ {
+  "episode": "ep04_baseball_bat",
+  "tier": "tier3_cari4d_gb_best",
+  "object_floor_penetration": 119,
+  "pose_jump": 10,
+  "feet_penetration": 496,
+  "feet_p50": -0.0365,
+  "obj_low_p50": 1.1241,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep05_big_black_box",
+  "tier": "tier3_cari4d_gb_best",
+  "object_floor_penetration": 67,
+  "feet_penetration": 306,
+  "feet_floating": 13,
+  "feet_p50": -0.0166,
+  "obj_low_p50": -0.0094,
+  "rest_off_floor": 0
+ },
+ {
+  "episode": "ep06_monitor",
+## 报告类 JSON（*summary*.json、*report*.json、*metrics*.json、*eval*.json，最近 7 天，最多 25 个：顶层键与数值）
+### runs/work_b010/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+  inputs.video.path = /data/video_path/episode_000013.0.color.mp4
+  inputs.video.size = 26883933
+### runs/work_b010/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+  inputs.video.path = /data/video_path/episode_000004.0.color.mp4
+  inputs.video.size = 23743749
+### runs/work_b010/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+  inputs.video.path = /data/video_path/episode_000003.0.color.mp4
+  inputs.video.size = 24694371
+### runs/support/tier3_cari4d_f830_best_v3/summary.json
+### runs/support/tier3_cari4d_gb4_best/summary.json
+### runs/support/tier3_cari4d_gb_best/summary.json
+### runs/work_init/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792134325205891876
+  comparison_video.path = /data/video_path/cari4d/episode_000013/inference/episode_000013_step200000_before_after.mp4
+  comparison_video.size = 67577358
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+### runs/work_init/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792137185819663266
+  comparison_video.path = /data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4
+  comparison_video.size = 57534132
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+### runs/work_init/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792138559781953515
+  comparison_video.path = /data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4
+  comparison_video.size = 58818835
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+### runs/work_init/ep28_squeegee/cari4d/episode_000028/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792135816485324568
+  comparison_video.path = /data/video_path/cari4d/episode_000028/inference/episode_000028_step200000_before_after.mp4
+  comparison_video.size = 70743180
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791520722506014977
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 56238676
+  inputs.object_mesh.mtime_ns = 1790291335111233754
+  inputs.object_mesh.path = /data/object_mesh_path/squeegee.glb
+  inputs.object_mesh.size = 10939880
+  inputs.video.mtime_ns = 1790291553050035753
+### runs/work_b030/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+  inputs.video.path = /data/video_path/episode_000013.0.color.mp4
+  inputs.video.size = 26883933
+### runs/work_b030/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+  inputs.video.path = /data/video_path/episode_000004.0.color.mp4
+  inputs.video.size = 23743749
+### runs/work_b030/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+  inputs.video.path = /data/video_path/episode_000003.0.color.mp4
+  inputs.video.size = 24694371
+### runs/work_b020/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+  inputs.video.path = /data/video_path/episode_000013.0.color.mp4
+  inputs.video.size = 26883933
+### runs/work_b020/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+  inputs.video.path = /data/video_path/episode_000004.0.color.mp4
+  inputs.video.size = 23743749
+### runs/work_b020/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+  inputs.video.path = /data/video_path/episode_000003.0.color.mp4
+  inputs.video.size = 24694371
+### runs/work_b050/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+  inputs.video.path = /data/video_path/episode_000013.0.color.mp4
+  inputs.video.size = 26883933
+### runs/work_b050/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+  inputs.video.path = /data/video_path/episode_000004.0.color.mp4
+  inputs.video.size = 23743749
+### runs/work_b050/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+  inputs.video.path = /data/video_path/episode_000003.0.color.mp4
+  inputs.video.size = 24694371
+### runs/work_sel/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792421694049645346
+  comparison_video.path = /data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4
+  comparison_video.size = 57599723
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+### runs/work_sel/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792423005004071312
+  comparison_video.path = /data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4
+  comparison_video.size = 58780792
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+### runs/work_b000/ep13_snack_box/cari4d/episode_000013/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video = None
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791739150801915046
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 50837849
+  inputs.object_mesh.mtime_ns = 1790291329191374934
+  inputs.object_mesh.path = /data/object_mesh_path/snack_box.glb
+  inputs.object_mesh.size = 16079288
+  inputs.video.mtime_ns = 1790291476379864495
+  inputs.video.path = /data/video_path/episode_000013.0.color.mp4
+  inputs.video.size = 26883933
+### runs/work_b000/ep04_baseball_bat/cari4d/episode_000004/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792421694049645346
+  comparison_video.path = /data/video_path/cari4d/episode_000004/inference/episode_000004_step200000_before_after.mp4
+  comparison_video.size = 57599723
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791519373203155782
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42926107
+  inputs.object_mesh.mtime_ns = 1790291267036857190
+  inputs.object_mesh.path = /data/object_mesh_path/baseball_bat.glb
+  inputs.object_mesh.size = 10231524
+  inputs.video.mtime_ns = 1790291424413103948
+### runs/work_b000/ep03_contigo_coffee_mug/cari4d/episode_000003/pipeline_report.json
+  checkpoint.mtime_ns = 1790312995638388297
+  checkpoint.path = /data/weights_path/cari4d/cari4d/2026-08-25-09-35-57/step200000.pth
+  checkpoint.repository = 1f7287ac6fd5f72c30ce2222fb345a3e7d779fc9
+  checkpoint.sha256 = 78ff5cb874dd012a272382e3f2d8bc11226d5b7d0ecc739a60fbb4a97a5a5ba3
+  checkpoint.size = 2084484133
+  checkpoint.step = 200000
+  comparison_video.mtime_ns = 1792423005004071312
+  comparison_video.path = /data/video_path/cari4d/episode_000003/inference/episode_000003_step200000_before_after.mp4
+  comparison_video.size = 58780792
+  defaults.coconet_supervision = checkpoint_embedded_offline
+  defaults.depth = moge2
+  defaults.foundationpose = register_every_frame
+  defaults.human_prompt = sam2_bbox_mask
+  defaults.postopt_contact_activation_distance_m = 0.05
+  defaults.postopt_frames = 128
+  defaults.postopt_human_pose_prior_weight = 200.0
+  defaults.postopt_steps = 300
+  defaults.postopt_temporal_weight = 100.0
+  inputs.masks.mtime_ns = 1791512597275568546
+  inputs.masks.path = /data/video_path/masks_k0.h5
+  inputs.masks.size = 42311215
+  inputs.object_mesh.mtime_ns = 1790291293300230872
+  inputs.object_mesh.path = /data/object_mesh_path/contigo_coffee_mug.glb
+  inputs.object_mesh.size = 8663920
+  inputs.video.mtime_ns = 1790291418633241799
+### runs/physics/tier3_cari4d_gb4_best_dr2s_dyn7/out/summary.json
+## logs 下最近改过的 12 个日志（各取最后 25 行）
+### logs/fp_dump_ep17_traffic_cone.log（2026-10-20 10:24:31）
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+[__init__()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2024-01-11-20-02-45/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:141: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary co
+  ckpt = torch.load(ckpt_dir)
+[__init__()] init done
+[__init__()] welcome
+[init_model()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2023-10-28-18-33-37/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitr
+  ckpt = torch.load(ckpt_dir)
+[init_model()] init done
+[reset_object()] self.diameter:0.41114424054015264, vox_size:0.02055721202700763
+[reset_object()] self.pts:torch.Size([550, 3])
+vertex colors first 3: tensor([[0.7176, 0.1686, 0.0627],
+        [0.7176, 0.1686, 0.0627],
+        [0.7176, 0.1686, 0.0627]], device='cuda:0')
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/440 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 771.05 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/440 [00:07<51:42,  7.07s/it]FoundationPose MHR export:   0%|          | 2/440 [00:12<45:01,  6.17s/it]FoundationPose MHR export:   1%|          | 3/440 [00:18<44:05,  6.05s/it]FoundationPose MHR export:   1%|          | 4/440 [00:24<43:01,  5.92s/it]
+### logs/fp_dump_ep19_cane.log（2026-10-20 10:24:27）
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/886 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 759.45 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/886 [00:06<1:29:57,  6.10s/it]FoundationPose MHR export:   0%|          | 2/886 [00:11<1:26:51,  5.90s/it]FoundationPose MHR export:   0%|          | 3/886 [00:17<1:22:33,  5.61s/it]FoundationPose MHR export:   0%|          | 4/886 [00:21<1:14:50,  5
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  19%|█▉        | 168/886 [14:01<1:37:24,  8.14s/it]FoundationPose MHR export:  19%|█▉        | 169/886 [14:13<1:51:47,  9.35s/it]FoundationPose MHR export:  19%|█▉        | 170/886 [14:18<1:36:42,  8.10s/it]FoundationPose MHR export:  19%|█▉        | 17
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+[guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  29%|██▉       | 256/886 [38:21<5:14:29, 29.95s/it]FoundationPose MHR export:  29%|██▉       | 257/886 [38:31<4:13:23, 24.17s/it]FoundationPose MHR export:  29%|██▉       | 258/886 [38:44<3:35:47, 20.62s/it]FoundationPose MHR export:  29%|██▉   
+### logs/fp_dump_B.log（2026-10-20 09:54:09）
+10-19 13:45:57 [B] ep04_baseball_bat: done before, skipped
+10-19 13:45:57 [B] ep13_snack_box waits: rxzhou's chain
+10-19 22:32:58 [B] ep13_snack_box waits: GPU_HOLD
+10-19 23:16:59 [B] ep13_snack_box start (45458 MiB free)
+10-20 00:49:17 [B] ep13_snack_box done: {"identical": true, "differing": [], "frames": 922, "calls": 1104, "candidates": 278208, "frames_with_calls": 922}
+10-20 00:49:17 [B] ep28_squeegee start (25674 MiB free)
+10-20 02:44:17 [B] ep28_squeegee done: {"identical": true, "differing": [], "frames": 988, "calls": 1513, "candidates": 381276, "frames_with_calls": 978}
+10-20 02:44:17 [B] ep11_light_blue_book waits: GPU_HOLD
+10-20 02:56:17 [B] ep11_light_blue_book start (24012 MiB free)
+10-20 04:23:27 [B] ep11_light_blue_book done: {"identical": true, "differing": [], "frames": 901, "calls": 1084, "candidates": 273168, "frames_with_calls": 880}
+10-20 04:23:27 [B] ep01_vacuum waits: GPU_HOLD
+10-20 06:16:31 [B] ep01_vacuum start (45458 MiB free)
+10-20 07:39:19 [B] ep01_vacuum done: {"identical": true, "differing": [], "frames": 747, "calls": 956, "candidates": 240912, "frames_with_calls": 747}
+10-20 07:39:19 [B] ep27_woven_basket start (24078 MiB free)
+10-20 08:46:07 [B] ep27_woven_basket done: {"identical": true, "differing": [], "frames": 565, "calls": 692, "candidates": 174384, "frames_with_calls": 565}
+10-20 08:46:07 [B] ep15_wet_floor_sign start (25596 MiB free)
+10-20 09:54:09 [B] ep15_wet_floor_sign done: {"identical": true, "differing": [], "frames": 715, "calls": 729, "candidates": 183708, "frames_with_calls": 708}
+10-20 09:54:09 [B] ep17_traffic_cone start (28386 MiB free)
+### logs/fp_dump_ep15_wet_floor_sign.log（2026-10-20 09:54:07）
+[__init__()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2024-01-11-20-02-45/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:141: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary co
+  ckpt = torch.load(ckpt_dir)
+[__init__()] init done
+[__init__()] welcome
+[init_model()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2023-10-28-18-33-37/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitr
+  ckpt = torch.load(ckpt_dir)
+[init_model()] init done
+[reset_object()] self.diameter:0.6913649728554575, vox_size:0.03456824864277287
+[reset_object()] self.pts:torch.Size([483, 3])
+vertex colors first 3: tensor([[0.7020, 0.5765, 0.0471],
+        [0.7020, 0.5765, 0.0471],
+        [0.7020, 0.5765, 0.0471]], device='cuda:0')
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/715 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 775.55 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/715 [00:06<1:15:18,  6.33s/it]FoundationPose MHR export:   0%|          | 2/715 [00:12<1:11:54,  6.05s/it]FoundationPose MHR export:   0%|          | 3/715 [00:18<1:11:58,  6.07s/it]FoundationPose MHR export:   1%|          | 4/715 [00:24<1:12:14,  6
+saved FoundationPose init to /t/episode_000015.pkl
+MHR_PIPELINE_TIMING {"component":"foundationpose_initialization","metadata":{"frame_cache":true,"frames":715,"iteration":5,"max_attempts":5,"prefetch":true,"tensor_residency":true},"phases":{"frame_registration_and_selection":{"calls":1,"seconds":4065.822277},"output_finalize":{"calls":1,"seconds":0
+### logs/beta_ab.log（2026-10-20 09:47:26）
+10-20 04:47:03 b010 ep03_contigo_coffee_mug: 06_coconet elapsed_seconds=174.515 07_refinement elapsed_seconds=467.122 
+10-20 04:47:03 b010 ep04_baseball_bat: CARI4D 06-08
+10-20 04:57:53 b010 ep04_baseball_bat: 06_coconet elapsed_seconds=178.127 07_refinement elapsed_seconds=467.016 
+10-20 04:57:53 b010 ep13_snack_box: CARI4D 06-08
+10-20 05:08:50 b010 ep13_snack_box: 06_coconet elapsed_seconds=194.598 07_refinement elapsed_seconds=457.619 
+10-20 05:08:50 b020 ep03_contigo_coffee_mug: CARI4D 06-08
+10-20 05:19:36 b020 ep03_contigo_coffee_mug: 06_coconet elapsed_seconds=173.603 07_refinement elapsed_seconds=467.936 
+10-20 05:19:36 b020 ep04_baseball_bat: CARI4D 06-08
+10-20 05:30:27 b020 ep04_baseball_bat: 06_coconet elapsed_seconds=177.900 07_refinement elapsed_seconds=468.604 
+10-20 05:30:53 b020 ep13_snack_box: stage-05 poses identical to b010, its 06-07 reused
+10-20 05:30:54 b030 ep03_contigo_coffee_mug: CARI4D 06-08
+10-20 05:42:02 b030 ep03_contigo_coffee_mug: 06_coconet elapsed_seconds=176.983 07_refinement elapsed_seconds=468.270 
+10-20 05:42:26 b030 ep04_baseball_bat: stage-05 poses identical to b020, its 06-07 reused
+10-20 05:42:49 b030 ep13_snack_box: stage-05 poses identical to b010, its 06-07 reused
+10-20 05:42:50 b050 ep03_contigo_coffee_mug: CARI4D 06-08
+10-20 05:54:19 b050 ep03_contigo_coffee_mug: 06_coconet elapsed_seconds=179.758 07_refinement elapsed_seconds=469.543 
+10-20 05:54:20 b050 ep04_baseball_bat: CARI4D 06-08
+10-20 06:05:12 b050 ep04_baseball_bat: 06_coconet elapsed_seconds=177.573 07_refinement elapsed_seconds=467.302 
+10-20 06:05:13 b050 ep13_snack_box: CARI4D 06-08
+10-20 06:16:08 b050 ep13_snack_box: 06_coconet elapsed_seconds=193.032 07_refinement elapsed_seconds=457.877 
+10-20 06:16:08 GPU hold released
+10-20 07:09:27 b000: SEL_GATE_FAIL G1:ep03_contigo_coffee_mug G1:ep13_snack_box G2:ep13_snack_box G3
+10-20 08:02:13 b010: SEL_GATE_FAIL G1:ep03_contigo_coffee_mug G1:ep13_snack_box G2:ep13_snack_box G3
+10-20 08:55:18 b020: SEL_GATE_FAIL G1:ep03_contigo_coffee_mug G1:ep13_snack_box G2:ep13_snack_box G3
+10-20 09:47:26 b030: SEL_GATE_FAIL G1:ep03_contigo_coffee_mug G1:ep13_snack_box G2:ep13_snack_box G3
+### logs/fp_dump_A.log（2026-10-20 09:08:08）
+10-19 13:45:54 [A] ep03_contigo_coffee_mug: done before, skipped
+10-19 13:45:54 [A] ep02_blue_easter_basket waits: rxzhou's chain
+10-19 22:32:55 [A] ep02_blue_easter_basket waits: GPU_HOLD
+10-19 23:16:56 [A] ep02_blue_easter_basket start (45458 MiB free)
+10-20 02:07:58 [A] ep02_blue_easter_basket done: {"identical": true, "differing": [], "frames": 980, "calls": 1511, "candidates": 380772, "frames_with_calls": 801}
+10-20 02:07:58 [A] ep09_big_red_bowl start (24422 MiB free)
+10-20 04:03:45 [A] ep09_big_red_bowl done: {"identical": true, "differing": [], "frames": 870, "calls": 1140, "candidates": 287280, "frames_with_calls": 870}
+10-20 04:03:45 [A] ep25_cyan_water_bottle waits: GPU_HOLD
+10-20 06:16:50 [A] ep25_cyan_water_bottle start (44638 MiB free)
+10-20 08:15:50 [A] ep25_cyan_water_bottle done: {"identical": true, "differing": [], "frames": 859, "calls": 1115, "candidates": 280980, "frames_with_calls": 859}
+10-20 08:15:50 [A] ep16_spray_bottle start (24078 MiB free)
+10-20 09:08:08 [A] ep16_spray_bottle done: {"identical": true, "differing": [], "frames": 477, "calls": 523, "candidates": 131796, "frames_with_calls": 458}
+10-20 09:08:08 [A] ep19_cane start (26690 MiB free)
+### logs/fp_dump_ep16_spray_bottle.log（2026-10-20 09:08:06）
+[__init__()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2024-01-11-20-02-45/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:141: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary co
+  ckpt = torch.load(ckpt_dir)
+[__init__()] init done
+[__init__()] welcome
+[init_model()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2023-10-28-18-33-37/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitr
+  ckpt = torch.load(ckpt_dir)
+[init_model()] init done
+[reset_object()] self.diameter:0.3060465643992182, vox_size:0.01530232821996091
+[reset_object()] self.pts:torch.Size([438, 3])
+vertex colors first 3: tensor([[0.7843, 0.7882, 0.7647],
+        [0.7843, 0.7882, 0.7647],
+        [0.7882, 0.7882, 0.7569]], device='cuda:0')
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/477 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 761.76 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/477 [00:06<49:52,  6.29s/it]FoundationPose MHR export:   0%|          | 2/477 [00:11<44:02,  5.56s/it]FoundationPose MHR export:   1%|          | 3/477 [00:16<41:02,  5.20s/it]FoundationPose MHR export:   1%|          | 4/477 [00:22<43:19,  5.50s/it]
+saved FoundationPose init to /t/episode_000016.pkl
+MHR_PIPELINE_TIMING {"component":"foundationpose_initialization","metadata":{"frame_cache":true,"frames":477,"iteration":5,"max_attempts":5,"prefetch":true,"tensor_residency":true},"phases":{"frame_registration_and_selection":{"calls":1,"seconds":3121.248489},"output_finalize":{"calls":1,"seconds":0
+### logs/fp_dump_ep27_woven_basket.log（2026-10-20 08:46:05）
+FoundationPose MHR export:  38%|███▊      | 214/565 [25:15<32:12,  5.51s/it]FoundationPose MHR export:  38%|███▊      | 215/565 [25:22<33:39,  5.77s/it]FoundationPose MHR export:  38%|███▊      | 216/565 [25:28<34:55,  6.01s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  38%|███▊      | 217/565 [25:34<33:45,  5.82s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  39%|███▊      | 218/565 [25:38<31:29,  5.45s/it]FoundationPose MHR export:  39%|███▉      | 219/565 [25:43<30:35,  5.30s/it]FoundationPose MHR export:  39%|███▉      | 220/565 [25:50<33:21,  5.80s/it]FoundationPose MHR export:  39%|███▉
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  39%|███▉      | 223/565 [26:06<30:30,  5.35s/it]FoundationPose MHR export:  40%|███▉      | 224/565 [26:11<29:52,  5.26s/it]FoundationPose MHR export:  40%|███▉      | 225/565 [26:17<31:20,  5.53s/it]FoundationPose MHR export:  40%|████
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  40%|████      | 228/565 [26:36<33:04,  5.89s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  41%|████      | 229/565 [26:40<29:59,  5.36s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  41%|████      | 230/565 [26:45<28:30,  5.11s/it]FoundationPose MHR export:  41%|████      | 231/565 [26:50<29:27,  5.29s/it]FoundationPose MHR export:  41%|████      | 232/565 [26:56<29:56,  5.39s/it]FoundationPose MHR export:  41%|████
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  43%|████▎     | 242/565 [27:47<27:41,  5.14s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  43%|████▎     | 243/565 [27:52<26:30,  4.94s/it]FoundationPose MHR export:  43%|████▎     | 244/565 [28:05<39:58,  7.47s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  43%|████▎     | 245/565 [28:12<38:29,  7.22s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  44%|████▎     | 246/565 [28:18<37:23,  7.03s/it][guess_translation()] valid is empty
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  44%|████▎     | 247/565 [28:25<36:23,  6.87s/it]FoundationPose MHR export:  44%|████▍     | 248/565 [28:36<44:03,  8.34s/it]FoundationPose MHR export:  44%|████▍     | 249/565 [28:48<48:44,  9.26s/it]FoundationPose MHR export:  44%|██
+saved FoundationPose init to /t/episode_000027.pkl
+MHR_PIPELINE_TIMING {"component":"foundationpose_initialization","metadata":{"frame_cache":true,"frames":565,"iteration":5,"max_attempts":5,"prefetch":true,"tensor_residency":true},"phases":{"frame_registration_and_selection":{"calls":1,"seconds":3984.832457},"output_finalize":{"calls":1,"seconds":0
+### logs/fp_dump_ep25_cyan_water_bottle.log（2026-10-20 08:15:47）
+  ckpt = torch.load(ckpt_dir)
+[__init__()] init done
+[__init__()] welcome
+[init_model()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2023-10-28-18-33-37/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitr
+  ckpt = torch.load(ckpt_dir)
+[init_model()] init done
+[reset_object()] self.diameter:0.2902047924949344, vox_size:0.01451023962474672
+[reset_object()] self.pts:torch.Size([522, 3])
+vertex colors first 3: tensor([[0.1216, 0.1216, 0.1137],
+        [0.1216, 0.1216, 0.1137],
+        [0.1216, 0.1216, 0.1137]], device='cuda:0')
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/859 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 775.74 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/859 [00:08<2:02:06,  8.54s/it]FoundationPose MHR export:   0%|          | 2/859 [00:14<1:41:09,  7.08s/it]FoundationPose MHR export:   0%|          | 3/859 [00:21<1:40:10,  7.02s/it]FoundationPose MHR export:   0%|          | 4/859 [00:28<1:39:13,  6
+[register()] center is all zero, use previous center
+FoundationPose MHR export:  75%|███████▍  | 640/859 [1:27:28<26:31,  7.27s/it]FoundationPose MHR export:  75%|███████▍  | 641/859 [1:27:41<32:14,  8.88s/it]FoundationPose MHR export:  75%|███████▍  | 642/859 [1:27:52<35:02,  9.69s/it]FoundationPose
+saved FoundationPose init to /t/episode_000025.pkl
+MHR_PIPELINE_TIMING {"component":"foundationpose_initialization","metadata":{"frame_cache":true,"frames":859,"iteration":5,"max_attempts":5,"prefetch":true,"tensor_residency":true},"phases":{"frame_registration_and_selection":{"calls":1,"seconds":7116.684454},"output_finalize":{"calls":1,"seconds":1
+### logs/fp_dump_ep01_vacuum.log（2026-10-20 07:39:17）
+[__init__()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2024-01-11-20-02-45/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:141: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary co
+  ckpt = torch.load(ckpt_dir)
+[__init__()] init done
+[__init__()] welcome
+[init_model()] Using pretrained model from /data/weights_path/foundationpose/nvlabs_pytorch/2023-10-28-18-33-37/model_best.pth
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitr
+  ckpt = torch.load(ckpt_dir)
+[init_model()] init done
+[reset_object()] self.diameter:1.0562895546641509, vox_size:0.05281447773320754
+[reset_object()] self.pts:torch.Size([151, 3])
+vertex colors first 3: tensor([[0.1529, 0.1333, 0.1216],
+        [0.1529, 0.1333, 0.1216],
+        [0.1529, 0.1333, 0.1216]], device='cuda:0')
+[reset_object()] reset done
+FoundationPose MHR export:   0%|          | 0/747 [00:00<?, ?it/s]Module Utils 65dffc6 load on device 'cuda:0' took 1058.56 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/torch/__init__.py:1144: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:432.)
+  _C._set_default_tensor_type(t)
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_pose_refine.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+/workspace/v2d_cari4d/lib/cari4d/learning/training/predict_score.py:181: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.amp):
+FoundationPose MHR export:   0%|          | 1/747 [00:05<1:08:21,  5.50s/it]FoundationPose MHR export:   0%|          | 2/747 [00:09<54:57,  4.43s/it]  FoundationPose MHR export:   0%|          | 3/747 [00:13<54:35,  4.40s/it]FoundationPose MHR export:   1%|          | 4/747 [00:18<55:20,  4.47s
+saved FoundationPose init to /t/episode_000001.pkl
+MHR_PIPELINE_TIMING {"component":"foundationpose_initialization","metadata":{"frame_cache":true,"frames":747,"iteration":5,"max_attempts":5,"prefetch":true,"tensor_residency":true},"phases":{"frame_registration_and_selection":{"calls":1,"seconds":4947.038034},"output_finalize":{"calls":1,"seconds":0
+### logs/cari4d_ep13_snack_box_b050.log（2026-10-20 06:16:08）
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 457.8766784397885,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792448165670927405,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refined.pth",
+          "size": 705193760
+        },
+        {
+          "mtime_ns": 1792448163454915919,
+          "path": "/data/video_path/cari4d/episode_000013/inference/refinement_checkpoint.pth",
+          "size": 2909474
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+06:16:08 cari4d rc=0
+### logs/cari4d_ep04_baseball_bat_b050.log（2026-10-20 06:05:12）
+        }
+      ],
+      "reused": false
+    },
+    {
+      "elapsed_seconds": 467.3015119759366,
+      "name": "07_refinement",
+      "outputs": [
+        {
+          "mtime_ns": 1792447509623540542,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refined.pth",
+          "size": 614237216
+        },
+        {
+          "mtime_ns": 1792447507719531150,
+          "path": "/data/video_path/cari4d/episode_000004/inference/refinement_checkpoint.pth",
+          "size": 2535330
+        }
+      ],
+      "reused": false
+    }
+  ],
+  "verdict": "PASS"
+}
+06:05:12 cari4d rc=0
+## 逐集产物数量（runs/work_dump/*、runs/work_fp/* 下每集的文件数与最新修改时间）
+  work_dump/ep01_vacuum  文件 3  最新 2026-10-20 07:39
+  work_dump/ep02_blue_easter_basket  文件 3  最新 2026-10-20 02:07
+  work_dump/ep03_contigo_coffee_mug  文件 3  最新 2026-10-19 13:45
+  work_dump/ep04_baseball_bat  文件 3  最新 2026-10-19 13:45
+  work_dump/ep09_big_red_bowl  文件 3  最新 2026-10-20 04:03
+  work_dump/ep11_light_blue_book  文件 3  最新 2026-10-20 04:23
+  work_dump/ep13_snack_box  文件 3  最新 2026-10-20 00:49
+  work_dump/ep15_wet_floor_sign  文件 3  最新 2026-10-20 09:54
+  work_dump/ep16_spray_bottle  文件 3  最新 2026-10-20 09:08
+  work_dump/ep17_traffic_cone  文件 0  最新 
+  work_dump/ep19_cane  文件 0  最新 
+  work_dump/ep25_cyan_water_bottle  文件 3  最新 2026-10-20 08:15
+  work_dump/ep27_woven_basket  文件 3  最新 2026-10-20 08:46
+  work_dump/ep28_squeegee  文件 3  最新 2026-10-20 02:44
+  work_fp/ep01_vacuum  文件 2318  最新 2026-10-12 11:37
+  work_fp/ep02_blue_easter_basket  文件 4995  最新 2026-10-12 14:08
+  work_fp/ep03_contigo_coffee_mug  文件 2420  最新 2026-10-11 20:40
+  work_fp/ep04_baseball_bat  文件 2486  最新 2026-10-12 06:41
+  work_fp/ep09_big_red_bowl  文件 2687  最新 2026-10-12 17:49
+  work_fp/ep11_light_blue_book  文件 2780  最新 2026-10-12 08:16
+  work_fp/ep13_snack_box  文件 2833  最新 2026-10-12 04:53
+  work_fp/ep15_wet_floor_sign  文件 2222  最新 2026-10-12 19:00
+  work_fp/ep16_spray_bottle  文件 1518  最新 2026-10-12 15:56
+  work_fp/ep17_traffic_cone  文件 1407  最新 2026-10-12 14:57
+  work_fp/ep19_cane  文件 2735  最新 2026-10-11 19:01
+  work_fp/ep25_cyan_water_bottle  文件 2654  最新 2026-10-12 10:10
+  work_fp/ep27_woven_basket  文件 1772  最新 2026-10-11 17:00
+  work_fp/ep28_squeegee  文件 3041  最新 2026-10-11 15:46
+  work_fp/ep29_rolling_luggage  文件 1478  最新 2026-10-12 19:54
+T3_RECON_SURVEY_DONE
