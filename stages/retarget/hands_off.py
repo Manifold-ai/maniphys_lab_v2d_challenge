@@ -4,8 +4,15 @@ Tier 1 ep25 同样（114.10 对 49.71，`results/select_t1/t1_static_floor_c10s4
 做法：两条手臂（shoulder_pitch/roll/yaw、elbow、wrist_roll/pitch/yaw）与 14 个 Dex3 手指关节在全部帧都换成 --arm-frame 那一帧的值（默认第 0 帧：参考开头人还没伸手），
 腿、腰、根照抄；ee_pose_w（两只手掌）按 URDF 正向运动学重算（四元数 wxyz，与原 parquet 一致；先自检原关节角下算出的手掌与原 ee_pose_w 最大差 ≤ 2 mm，不过就退出）；
 hand_contact_active 全部置 0（没有接触段，force_closure 不计）。其余列、object 目录、支撑面、v2d_meta.json 照抄（同 finger_close.py 的写法）。
-报告：手臂关节的最大改动、新参考里两只手掌到物体表面采样点的最近距离的分位（全部帧，判断会不会碰到物体）、原参考的同一数（对照）。
-用法（容器内）：python /repo/stages/retarget/hands_off.py <motion parquet> <out_root> --meta-src <motion_src 档位目录> --meta-dst <新档位目录> [--arm-frame 0] [--dry-run]
+报告：手臂关节的最大改动；新、原参考里“手臂点”（两只手各连杆碰撞网格的顶点，加肩、肘、腕连杆原点与上臂、前臂连线上的点）到物体表面采样点的最近距离，
+与到支撑面方盒（用挂载的 flash_chord 导入器建 reconstructed_stage 里这一集的支撑面，只取 BOX）的最近有向距离（全部帧的最小值与出现的帧）。
+--arm-frame-scan（计划 agent-doc/plan-t12lift-2026-10-20.md 第 2 版，复核 MAJOR 3）：在 [0, 参考第一次接触) 里每 50 帧取一个候选帧（含第 0 帧），
+选“全部帧里手臂点到物体与到支撑面的最近距离两者的较小值”最大的那一帧；并列取较早的帧。不给时用 --arm-frame。
+说明：ik_error_per_frame 是重定向时的诊断量，本工具不改，新 parquet 里它已过期；ee_pose_w 的四元数取 w ≥ 0，可能与原来的符号相反（同一旋转）；
+hand_object_contact_positions/normals/part_ids 不改：FlashCHORD 只在可视化与接触标记为 1 的帧的 force_closure 里用到它们，接触标记已全部置 0；
+hand_frames_w 不为空时拒绝（G1 的参考里它是空的）。
+用法（容器内）：python /repo/stages/retarget/hands_off.py <motion parquet> <out_root> --meta-src <motion_src 档位目录> --meta-dst <新档位目录>
+  [--arm-frame 0 | --arm-frame-scan] [--dry-run]
 最后一行 HANDS_OFF_DONE
 """
 import argparse
@@ -53,6 +60,7 @@ def main() -> int:
     ap.add_argument("--meta-src", required=True)
     ap.add_argument("--meta-dst", required=True)
     ap.add_argument("--arm-frame", type=int, default=0)
+    ap.add_argument("--arm-frame-scan", action="store_true")
     ap.add_argument("--urdf", default=URDF)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
@@ -89,29 +97,93 @@ def main() -> int:
         if dp > 0.002 or ang > 1.0:
             print("FK_SELFCHECK_FAIL，不写文件")
             return 3
-    idx = [i for i, n in enumerate(names) if any(n == f"{s}_{j}_joint" for s in ("left", "right") for j in ARM) or "_hand_" in n]
-    if len(idx) != 28:
-        print(f"手臂与手指关节应为 28 个，找到 {len(idx)} 个：{[names[i] for i in idx]}")
+    arm_idx = [i for i, n in enumerate(names) if any(n == f"{s}_{j}_joint" for s in ("left", "right") for j in ARM)]
+    hand_idx = [i for i, n in enumerate(names) if "_hand_" in n]
+    if len(arm_idx) != 14 or len(hand_idx) != 14:
+        print(f"手臂关节应为 14 个、手指 14 个，找到 {len(arm_idx)}、{len(hand_idx)} 个")
         return 3
+    if any(len(x) for x in (row.get("hand_frames_w") or [])):
+        print("hand_frames_w 不为空，本工具没处理它，拒绝")
+        return 3
+    idx = arm_idx + hand_idx
+    c_all = np.asarray(row["hand_contact_active"], dtype=bool)
+    t_c = min((int(np.flatnonzero(x)[0]) for x in c_all if x.any()), default=T)
+    # 手臂点：手的网格顶点，加肩、肘、腕原点与上臂、前臂连线上的点
+    mesh_links = [f"{s}_hand_{p}_link" for s in ("left", "right") for p in ("palm", "thumb_0", "thumb_1", "thumb_2", "index_0", "index_1", "middle_0", "middle_1")]
+    lpts = {ln: rob.link_points(ln, 80) for ln in mesh_links}
+    chain = [f"{s}_{p}_link" for s in ("left", "right") for p in ("shoulder_yaw", "elbow", "wrist_roll", "wrist_yaw")]
+    want = set(mesh_links) | set(chain)
+    mesh = trimesh.load(row["object_mesh_paths"][0], force="mesh")
+    sp_obj, _ = trimesh.sample.sample_surface(mesh, 20000, seed=0)
+    tree = cKDTree(sp_obj)
+    op = np.asarray(row["object_body_position"], dtype=float)[:, 0]
+    oR = quat_mat(np.asarray(row["object_body_wxyz"], dtype=float)[:, 0], "wxyz")
+    boxes = []   # (center, R, half)
+    usd = sorted((whole / "reconstructed_stage").glob(f"{seq}_*support.usda"))
+    try:
+        import newton
+        from flash_chord.scene import support as fsup
+        for u in usd:
+            b = newton.ModelBuilder()
+            fsup.add_support_surfaces(b, str(u))
+            for i in range(b.shape_count):
+                if newton.GeoType(b.shape_type[i]).name != "BOX":
+                    continue
+                tr = np.asarray(b.shape_transform[i], dtype=float)          # p(3) + q(4, xyzw)
+                boxes.append((tr[:3], quat_mat(tr[3:], "xyzw"), np.asarray(b.shape_scale[i], dtype=float)[:3]))
+    except ImportError as e:
+        print(f"  读不了支撑面（{e}），只报物体距离")
+    print(f"  支撑面文件 {[u.name for u in usd]}；方盒 {len(boxes)} 个：" + "；".join(f"中心 {np.round(c, 3).tolist()} 半尺寸 {np.round(h, 3).tolist()}" for c, _, h in boxes))
+    frames = np.arange(0, T, 2)
+
+    def clearance(q_new: np.ndarray) -> tuple:
+        L = rob.fk(root_p[frames], root_R[frames], {n: q_new[frames, i] for i, n in enumerate(names)}, want)
+        pts = []
+        for ln in mesh_links:
+            p, R = L[ln]
+            pts.append(p[:, None, :] + np.einsum("nij,vj->nvi", R, lpts[ln]))
+        for s in ("left", "right"):
+            o = [L[f"{s}_{p}_link"][0] for p in ("shoulder_yaw", "elbow", "wrist_roll", "wrist_yaw")]
+            for a_, b_ in ((o[0], o[1]), (o[1], o[2]), (o[2], o[3])):
+                pts.append(np.stack([a_ + (b_ - a_) * w for w in np.linspace(0, 1, 6)], 1))
+        P = np.concatenate(pts, 1)                                             # (F,V,3)
+        F = frames
+        po = np.einsum("fvj,fjk->fvk", P - op[F][:, None, :], oR[F])
+        d_obj = tree.query(po.reshape(-1, 3))[0].reshape(po.shape[:2]).min(1)
+        d_sup = np.full(len(F), np.inf)
+        for c, R, h in boxes:
+            loc = np.abs((P - c) @ R)                                          # (F,V,3)
+            out = np.linalg.norm(np.maximum(loc - h, 0.0), axis=-1)
+            ins = (loc - h).max(-1)
+            d_sup = np.minimum(d_sup, np.where(ins > 0, out, ins).min(1))
+        return d_obj, d_sup
+
+    cands = [a.arm_frame] if not a.arm_frame_scan else list(range(0, max(t_c, 1), 50))
+    if any(not 0 <= f < T for f in cands):
+        print(f"--arm-frame 越界：{cands}（共 {T} 帧）")
+        return 2
+    best = None
+    for f in cands:
+        q_try = qj.copy()
+        q_try[:, idx] = qj[f, idx][None, :]
+        d_obj, d_sup = clearance(q_try)
+        score = min(d_obj.min(), d_sup.min())
+        print(f"  候选第 {f} 帧：手臂点到物体最近 {d_obj.min():.3f} m（第 {int(frames[d_obj.argmin()])} 帧），到支撑面方盒最近 {d_sup.min():.3f} m"
+              + (f"（第 {int(frames[d_sup.argmin()])} 帧）" if np.isfinite(d_sup.min()) else "") + f"；两者较小值 {score:.3f} m")
+        if best is None or score > best[1]:
+            best = (f, score)
+    arm_frame = best[0]
+    d0_obj, d0_sup = clearance(qj)
+    print(f"  原参考：手臂点到物体最近 {d0_obj.min():.3f} m（第 {int(frames[d0_obj.argmin()])} 帧），到支撑面方盒最近 {d0_sup.min():.3f} m；参考第一次接触 t_c {t_c}")
     new_q = qj.copy()
-    new_q[:, idx] = qj[a.arm_frame, idx][None, :]
-    print(f"参考 {motion}：{T} 帧；手臂与手指 28 个关节固定为第 {a.arm_frame} 帧的值；关节最大改动 {np.abs(new_q - qj).max():.3f} rad；"
-          f"其余关节改动 {np.abs(np.delete(new_q - qj, idx, axis=1)).max():.3g} rad")
+    new_q[:, idx] = qj[arm_frame, idx][None, :]
+    print(f"参考 {motion}：{T} 帧；手臂与手指 28 个关节固定为第 {arm_frame} 帧的值" + ("（扫描选出）" if a.arm_frame_scan else "")
+          + f"；关节最大改动 {np.abs(new_q - qj).max():.3f} rad；其余关节改动 {np.abs(np.delete(new_q - qj, idx, axis=1)).max():.3g} rad")
     fk1 = rob.fk(root_p, root_R, {n: new_q[:, i] for i, n in enumerate(names)}, palms)
     new_ee = ee.copy()
     for k, ln in enumerate(ee_names):
         new_ee[:, k, :3] = fk1[ln][0]
         new_ee[:, k, 3:] = mat_to_wxyz(fk1[ln][1])
-    # 手掌到物体表面的最近距离（原参考对新参考）
-    mesh = trimesh.load(row["object_mesh_paths"][0], force="mesh")
-    sp, _ = trimesh.sample.sample_surface(mesh, 20000, seed=0)
-    tree = cKDTree(sp)
-    op = np.asarray(row["object_body_position"], dtype=float)[:, 0]
-    oR = quat_mat(np.asarray(row["object_body_wxyz"], dtype=float)[:, 0], "wxyz")
-    for tag, e_ in (("原参考", ee), ("新参考", new_ee)):
-        d = np.stack([tree.query((e_[:, k, :3] - op)[:, None, :] @ oR)[0][:, 0] for k in range(len(ee_names))], 1).min(1)
-        print(f"  {tag}：两只手掌到物体表面的最近距离 全部帧分位 1/10/50 = {np.percentile(d, 1):.3f} / {np.percentile(d, 10):.3f} / {np.percentile(d, 50):.3f} m，"
-              f"最小 {d.min():.3f} m（第 {int(d.argmin())} 帧）")
     if a.dry_run:
         print("dry-run：不写文件")
         print("HANDS_OFF_DONE")
