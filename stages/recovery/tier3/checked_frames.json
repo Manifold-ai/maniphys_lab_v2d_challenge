@@ -455,6 +455,24 @@
   "ep09_f869": {
    "verdict": "both_ok",
    "note": "user: basically both right"
+  },
+  "ep11_f355": {
+   "verdict": "both_wrong",
+   "note": "gb4: size and line-of-sight distance right, pose off; gb5: pose a little better, but too close to the camera along the line of sight"
+  },
+  "ep11_f437": {
+   "verdict": "gb5_only"
+  },
+  "ep11_f461": {
+   "verdict": "gb5_only"
+  },
+  "ep11_f889": {
+   "verdict": "both_wrong_gb4_better",
+   "note": "neither tracks the book"
+  },
+  "ep11_f900": {
+   "verdict": "both_wrong",
+   "note": "both lost the book"
   }
  }
 }
