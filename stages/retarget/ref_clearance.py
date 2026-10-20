@@ -41,7 +41,7 @@ def main() -> int:
     for ln in links:
         try:
             pts[ln] = rob.link_points(ln, a.pts)
-        except Exception as e:   # 个别网格读不了就跳过并报出来
+        except (OSError, ValueError) as e:   # 个别网格读不了就跳过并报出来
             print(f"  跳过 {ln}：{e}")
     links = list(pts)
     root_p = np.asarray(row["robot_root_position"], dtype=float)
