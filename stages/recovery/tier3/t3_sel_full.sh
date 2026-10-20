@@ -13,6 +13,10 @@
 #      (assemble, physics, supports, dr2s, dyn7, checks), then the self-check ($G/dyn/<V>_selfcheck.sh, generated from
 #      gb4's with the names swapped).
 #   setsid nohup stages/recovery/tier3/t3_sel_full.sh gb5 ep01_vacuum ... > $T/logs/sel_full.log 2>&1 &
+# 10-20 (gb5 rollout, handoff "gb5 推广"): SEL_FULL_GATE=0 skips the wait for the 10-19 pilot gate (replaced by the gb5
+# machine gate after the chain); SEL_WORK names the work dir (default work_sel; the rollout uses work_b050, where the A/B
+# already selected and refined ep03/04/13 with the same BETA); SEL_BETA passes --beta to t3_fp_select.py; SEL_SKIP_RENDER=1
+# skips stage 08 (T3_SKIP_RENDER, review videos only). The CARI4D log tag is the work dir without "work_".
 # Last line: SEL_FULL_DONE, SEL_FULL_SKIPPED (gate failed) or SEL_FULL_FAILED <step>.
 set -u
 S=$(cd "$(dirname "$0")" && pwd)
@@ -27,6 +31,8 @@ MIN_BATCH=${MIN_BATCH:-4}
 V=${1:?usage: t3_sel_full.sh <version> <episode>...}; shift
 EPS="$*"
 CONV=convert_fp_$V
+SEL_WORK=${SEL_WORK:-work_sel}
+TAG=${SEL_WORK#work_}
 D=(docker run --rm --cpus 6 -e OMP_NUM_THREADS=6 --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
 log() { echo "$(date '+%m-%d %T') $*"; }
 fail() { rm -f "$HOLD"; log "SEL_FULL_FAILED $*"; exit 1; }
@@ -36,13 +42,16 @@ streams_left() { pgrep -f "[t]3_fp_dump.sh" | wc -l; }
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
 mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads, open('$T/input/meta/episodes_metadata.jsonl')) if m['episode_index']==$1))"; }
 seq_of() { printf episode_%06d "$((10#${1:2:2}))"; }
-cdir() { echo "$T/runs/work_sel/$1/cari4d/$(seq_of "$1")"; }
+cdir() { echo "$T/runs/$SEL_WORK/$1/cari4d/$(seq_of "$1")"; }
 log "deployed: $(cat "$T/code/DEPLOYED")"
+log "work dir $SEL_WORK, beta ${SEL_BETA:-default}, skip render ${SEL_SKIP_RENDER:-0}, pilot gate ${SEL_FULL_GATE:-1}"
 for v in tier3_cari4d_${V}_best tier3_cari4d_${V}_best_dr2s tier3_cari4d_${V}_best_dr2s_dyn7; do [ -e "$T/runs/$v" ] && fail "runs/$v exists"; done
 
-until grep -q -E "SEL_GATE_PASS|SEL_GATE_FAIL|SEL_PILOT_FAILED" "$T/logs/sel_pilot.log" 2>/dev/null; do sleep 60; done
-grep -q SEL_GATE_PASS "$T/logs/sel_pilot.log" || { log "gate: $(grep -E 'SEL_GATE_FAIL|SEL_PILOT_FAILED' "$T/logs/sel_pilot.log")"; log SEL_FULL_SKIPPED; exit 0; }
-log "gate passed"
+if [ "${SEL_FULL_GATE:-1}" = 1 ]; then
+  until grep -q -E "SEL_GATE_PASS|SEL_GATE_FAIL|SEL_PILOT_FAILED" "$T/logs/sel_pilot.log" 2>/dev/null; do sleep 60; done
+  grep -q SEL_GATE_PASS "$T/logs/sel_pilot.log" || { log "gate: $(grep -E 'SEL_GATE_FAIL|SEL_PILOT_FAILED' "$T/logs/sel_pilot.log")"; log SEL_FULL_SKIPPED; exit 0; }
+  log "gate passed"
+fi
 
 convert_one() {  # decode .. world of one episode into runs/$CONV (background; its own log)
   local name=$1 ep=$((10#${1:2:2})) c; c=$(cdir "$1")
@@ -63,7 +72,7 @@ cp -n "$T/runs/floor/floor_fit_gb4.json" "$T/runs/floor/floor_fit_$V.json"
 cp -n "$T/runs/floor/camera_register_gb4.json" "$T/runs/floor/camera_register_$V.json"
 cmp -s "$T/runs/floor/floor_fit_gb4.json" "$T/runs/floor/floor_fit_$V.json" || fail "floor_fit_$V.json differs from gb4's"
 cmp -s "$T/runs/floor/camera_register_gb4.json" "$T/runs/floor/camera_register_$V.json" || fail "camera_register_$V.json differs from gb4's"
-mkdir -p "$T/runs/$CONV" "$T/runs/work_sel"
+mkdir -p "$T/runs/$CONV" "$T/runs/$SEL_WORK"
 
 declare -A selected refined converting
 while :; do
@@ -77,11 +86,11 @@ while :; do
       continue
     fi
     grep -q '"identical": true' "$T/runs/work_dump/$name/check.json" || fail "$name: dump check not identical"
-    rm -rf "$T/runs/work_sel/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/work_sel/$name" || fail "$name: copy"
+    rm -rf "$T/runs/$SEL_WORK/$name"; cp -a "$T/runs/work_fp/$name" "$T/runs/$SEL_WORK/$name" || fail "$name: copy"
     rm -f "$c"/.stages/0[678]_*.json "$c"/inference/coconet.pth "$c"/inference/materialized_inputs.h5 \
       "$c"/inference/refined.pth "$c"/inference/refinement_checkpoint.pth "$c"/inference/*.mp4 "$c"/pipeline_report.json
     r=$("${D[@]}" -v "$c":/c -v "$S":/s:ro -v "$T/runs/work_dump/$name":/d:ro -v "$T/input":/in:ro v2d_cari4d:latest \
-      python /s/t3_fp_select.py /c "/d/$(seq_of "$name").candidates.npz" "/in/$(mesh_of "$((10#${name:2:2}))")" 2>&1) || fail "$name: select: $r"
+      python /s/t3_fp_select.py /c "/d/$(seq_of "$name").candidates.npz" "/in/$(mesh_of "$((10#${name:2:2}))")" ${SEL_BETA:+--beta=$SEL_BETA} 2>&1) || fail "$name: select: $r"
     selected[$name]=1
     log "$name selected: $r"
   done
@@ -101,8 +110,9 @@ while :; do
     while [ "$(dumps_running)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ] || rx_busy; do sleep 60; done
     for name in "${waiting[@]}"; do
       log "$name: CARI4D 06-08"
-      T3_WORK=runs/work_sel T3_FP_MODE=register-every-frame T3_LOG_TAG=_sel "$S/t3_cari4d_ep.sh" "$name" || fail "$name: CARI4D (logs/cari4d_${name}_sel.log)"
-      rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_sel.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
+      T3_WORK=runs/$SEL_WORK T3_FP_MODE=register-every-frame T3_SKIP_RENDER=${SEL_SKIP_RENDER:-0} T3_LOG_TAG=_$TAG "$S/t3_cari4d_ep.sh" "$name" \
+        || fail "$name: CARI4D (logs/cari4d_${name}_$TAG.log)"
+      rerun=$(grep -h -o '0[1-5]_[a-z_]* elapsed_seconds=[0-9.]*' "$T/logs/cari4d_${name}_$TAG.log" | grep -v 'elapsed_seconds=0\.0$' | tr '\n' ' ')
       [ -z "$rerun" ] || fail "$name: CARI4D re-ran earlier stages ($rerun)"
       refined[$name]=1
     done
