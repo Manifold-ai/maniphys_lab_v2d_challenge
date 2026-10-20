@@ -96,7 +96,7 @@ def _gather_bodies(body_q: wp.array(dtype=wp.transform), body_ids: wp.array(dtyp
 
 class BodyRecorder:
     """--bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：每一步之后抄下指定刚体（默认骨盆、躯干、两只脚踝）的完整位姿（位置 + 四元数 xyzw），
-    时机同 PalmRecorder。刚体编号按 env.model.body_label 在第 0 个世界里的末段名字找（标签可能带前缀，取最后一个 “/” 之后的部分）；
+    时机同 PalmRecorder。刚体编号按 env.model.body_label（没有就用 body_key）在第 0 个世界里的末段名字找（标签可能带前缀，取最后一个 “/” 之后的部分）；
     每个名字必须恰好找到一个，否则报错并打印前 80 个标签。"""
 
     NAMES = ("pelvis", "torso_link", "left_ankle_roll_link", "right_ankle_roll_link")
@@ -106,7 +106,10 @@ class BodyRecorder:
         self.env, self.device = env, env.device
         self.world_count = int(term.world_count)
         self.bodies_per_world = int(term.bodies_per_world)
-        labels = [str(x) for x in env.model.body_label]
+        raw = getattr(env.model, "body_label", None) or getattr(env.model, "body_key", None)
+        if not raw:
+            raise RuntimeError("env.model 既没有 body_label 也没有 body_key（或为空），找不到刚体名")
+        labels = [str(x) for x in raw]
         first = [lab.rsplit("/", 1)[-1] for lab in labels[: self.bodies_per_world]]
         ids = []
         for n in names:
