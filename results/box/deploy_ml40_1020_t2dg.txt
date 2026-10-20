@@ -1,0 +1,22 @@
+# command  : scripts/dev/push-new-files stages/evaluate/diag2_chain.sh stages/evaluate/test_diag2_chain.py stages/evaluate/diag2/ml40_t2dg.tsv stages/evaluate/diag_onset.py stages/evaluate/test_diag_onset.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 9224679779aa9085349ffe56094a7649  stages/evaluate/diag2_chain.sh
+# md5      : 3ce11443aff83e21a7d7acf679584adc  stages/evaluate/test_diag2_chain.py
+# md5      : a97fb8ec5a888625898c0598043fc637  stages/evaluate/diag2/ml40_t2dg.tsv
+# md5      : 978c026a61c407454c461d7cdb469bcb  stages/evaluate/diag_onset.py
+# md5      : 4ca47167970b948151abfa17315978ea  stages/evaluate/test_diag_onset.py
+# source   : 70161832c5c2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T00:45:54-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/diag2_chain.sh：远端是 b788899~1 的版本（fd3a07229dc9dd79aa7df69cfea07962）
+  覆盖 stages/evaluate/test_diag2_chain.py：远端是 b788899~1 的版本（136114fc532f9fa9d68c76a8dd341878）
+本地提交 70161832c5c2；远端来历 e85efdcdfe4f
+  ok   9224679779aa9085349ffe56094a7649  stages/evaluate/diag2_chain.sh
+  ok   3ce11443aff83e21a7d7acf679584adc  stages/evaluate/test_diag2_chain.py
+  ok   a97fb8ec5a888625898c0598043fc637  stages/evaluate/diag2/ml40_t2dg.tsv
+  ok   978c026a61c407454c461d7cdb469bcb  stages/evaluate/diag_onset.py
+  ok   4ca47167970b948151abfa17315978ea  stages/evaluate/test_diag_onset.py
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（5 个文件）
