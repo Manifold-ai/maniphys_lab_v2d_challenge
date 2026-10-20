@@ -45,7 +45,11 @@ def reference(path: str, every: int) -> dict:
     contact = np.asarray(row["hand_contact_active"], dtype=bool)                  # (H,T)
     ee = np.asarray(row["ee_pose_w"], dtype=float)                                # (T,E,7)
     ee_names = row["ee_link_names"]
-    fingers = [np.abs(np.asarray(f, dtype=float)).sum(axis=1) for f in row["hand_finger_joints"]]  # 每手 (T,)
+    # 手指张合取机器人关节里的 Dex3 手指（<side>_hand_*_joint）；hand_finger_joints 列在 G1 的 parquet 里是空的
+    jn = list(row["robot_joint_names"])
+    q_rob = np.asarray(row["robot_joint_positions"], dtype=float)                 # (T,J)
+    fidx = [[i for i, n in enumerate(jn) if n.startswith(f"{s}_hand_")] for s in sides]
+    fingers = [np.abs(q_rob[:, ix]).sum(axis=1) if ix else np.full(T, np.nan) for ix in fidx]  # 每手 (T,)
     ik = np.asarray(row["ik_error_per_frame"], dtype=float)
     dz = obj[:, 2] - obj[0, 2]
     disp = np.linalg.norm(obj - obj[0], axis=1)
@@ -56,6 +60,7 @@ def reference(path: str, every: int) -> dict:
     print(f"  {T} 帧、fps {row['fps']}、物体 {row['object_name']}、网格半径 {row['object_mesh_radius']}；第 0 帧物体中心 {np.round(obj[0], 3).tolist()}")
     lift = np.flatnonzero(dz > 0.02)
     ev = {"T": T, "lift": int(lift[0]) if lift.size else -1, "top": int(np.argmax(dz))}
+    print(f"  手指关节：{[[jn[i] for i in ix] for ix in fidx]}")
     print(f"  物体第一次抬高 > 2 cm：第 {ev['lift']} 帧；最高在第 {ev['top']} 帧（+{dz.max():.3f} m）；最后一帧高度变化 {dz[-1]:+.3f} m、位移 {disp[-1]:.3f} m")
     for h, s in enumerate(sides):
         segs = segments(contact[h])
