@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-0701.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1e755f7b810b959e82c5ba871d2d837a  agent-doc/experiments/2026-10-20-sop-0701.claims.json
+# source   : e6f1ad3636a3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T07:04:54-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+dap                  P(supported)=0.95  verified               [bd]  DAP 的 Tier 1 AUC 从 0.48807 升到 0.60030，maniphys.ai 的 Tier 1 AUC 名次从 3 降到 4。
+rank                 P(supported)=0.97  verified               [bd]  按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 21、maniphys.ai 26；按官网的规则 maniphys.ai 28。
+fc25                 P(supported)=0.98  verified               [fc25, c25]  t2-ep25-w2048-cap10m-r3a-fc8-ml40 的 MPPE 是 128.77 cm，t2-ep25-w2048-cap10m-r3a-ml40 是 123.93 cm。
+fc4                  P(supported)=0.97  verified               [fc4, c4]  t2-ep4-w2048-cap10m-r3a-fc8-ml40 的 MPPE 是 112.44 cm，t2-ep4-w2048-cap10m-r3a-ml40 是 111.49 cm。
+ep28                 P(supported)=0.96  verified               [on28]  ep28 的物体离开帧中位是 256，参考第一次接触 t_c 是 399，失败世界全部是参考无接触时离开。
+fingers              P(supported)=0.95  verified               [hs]  30 条序列的左右手手指关节最大值都是 0.000 rad。
+ctl_false            P(supported)=0.02  control(false) ok      [fc25, c25]  t2-ep25-w2048-cap10m-r3a-fc8-ml40 的 MPPE 比 t2-ep25-w2048-cap10m-r3a-ml40 低 20 cm 以上。
+ctl_true             P(supported)=0.98  control(true) ok       [bd]  DAP 的 Tier 1 SP-SR 从 0.66666 升到 0.80000。
+controls behaved as expected

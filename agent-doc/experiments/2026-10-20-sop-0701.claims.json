@@ -1,0 +1,20 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "bd": {"file": "results/board/diff_1020_0240.txt", "grep": "^读法|^tier1|^Tier 1|ALERT"},
+  "fc25": {"file": "results/ml40/day2/eval_t2-ep25-w2048-cap10m-r3a-fc8-ml40_s349999104.txt", "grep": "mppe_cm|add_auc"},
+  "c25": {"file": "results/ml40/day2/eval_t2-ep25-w2048-cap10m-r3a-ml40_s349999104.txt", "grep": "mppe_cm|add_auc"},
+  "fc4": {"file": "results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-fc8-ml40_s349999104.txt", "grep": "mppe_cm"},
+  "c4": {"file": "results/ml40/day2/eval_t2-ep4-w2048-cap10m-r3a-ml40_s349999104.txt", "grep": "mppe_cm"},
+  "on28": {"file": "results/ml40/diag2/onset_t2-ep28-w2048-cap10m-r3a-ml40.txt", "grep": "参考：|离开帧|参考无接触"},
+  "hs": {"file": "results/t2dg/ref_hand_survey_tier2_mf4090.txt", "grep": "^20|^序列"}
+ },
+ "claims": [
+  {"id": "dap", "evidence": ["bd"], "claim": "DAP 的 Tier 1 AUC 从 0.48807 升到 0.60030，maniphys.ai 的 Tier 1 AUC 名次从 3 降到 4。"},
+  {"id": "rank", "evidence": ["bd"], "claim": "按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 21、maniphys.ai 26；按官网的规则 maniphys.ai 28。"},
+  {"id": "fc25", "evidence": ["fc25", "c25"], "claim": "t2-ep25-w2048-cap10m-r3a-fc8-ml40 的 MPPE 是 128.77 cm，t2-ep25-w2048-cap10m-r3a-ml40 是 123.93 cm。"},
+  {"id": "fc4", "evidence": ["fc4", "c4"], "claim": "t2-ep4-w2048-cap10m-r3a-fc8-ml40 的 MPPE 是 112.44 cm，t2-ep4-w2048-cap10m-r3a-ml40 是 111.49 cm。"},
+  {"id": "ep28", "evidence": ["on28"], "claim": "ep28 的物体离开帧中位是 256，参考第一次接触 t_c 是 399，失败世界全部是参考无接触时离开。"},
+  {"id": "fingers", "evidence": ["hs"], "claim": "30 条序列的左右手手指关节最大值都是 0.000 rad。"},
+  {"id": "ctl_false", "evidence": ["fc25", "c25"], "claim": "t2-ep25-w2048-cap10m-r3a-fc8-ml40 的 MPPE 比 t2-ep25-w2048-cap10m-r3a-ml40 低 20 cm 以上。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["bd"], "claim": "DAP 的 Tier 1 SP-SR 从 0.66666 升到 0.80000。", "control": "true"}
+ ]}
