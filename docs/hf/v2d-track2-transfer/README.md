@@ -22,6 +22,7 @@ NVIDIA V2D Challenge Track 2（G1 + Dex3，FlashCHORD FlashSAC 训练）训练�
 | `t3v2s_20_1016` | 2026-10-16 | ml40 → mf4090 | ep20 的 v2 参考加交付版方块桌面（`<标签>/pack/`），拼进 `runs/tier3/root_v2s`。状态：已传、已核对（3/3） | 3 | 0.7 MB |
 | `t3gb3_11_1017` | 2026-10-17 | ml40 → mf4090 | 另一位用户的 gb3 交付版（标定内参，`tier3_cari4d_gb_best_dr2s_dyn7`）ep0、6、7、8、18、20、21、22、24、26、29 的 parquet、元数据、支撑面与部署版本（`<标签>/pack/`），拼进 `runs/tier3/root_gb3`。状态：已传、已核对（34/34） | 34 | 10.2 MB |
 | `t3gb4_11_1019` | 2026-10-19 | ml40 → mf4090 | 另一位成员的 gb4 交付版（标定内参、人体按 PoseInversion 重解，`tier3_cari4d_gb4_best_dr2s_dyn7`）ep0、6、7、8、18、20、21、22、24、26、29 的 parquet、元数据、支撑面与部署版本（`<标签>/pack/`），拼进 `runs/tier3/root_gb4`。状态：已传、已核对（34/34） | 34 | 11.8 MB |
+| `t12replay_1020` | 2026-10-20 | mf4090 → ml40 | Tier 2 ep4、ep25、ep1 的参考回放 checkpoint（`smoke-t2-ep{4,25,1}-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors`，零残差），在 ml40 上做摔倒诊断（计划 `agent-doc/plan-t12replay-2026-10-20.md`）。状态：待传 | 3 | 约 15 MB |
 | `t3gb3_1017a` | 2026-10-17 | mf4090 → ml40 | gb3 的档目录 `runs/tier3/root_gb3`、转换结果 `runs/motion_src/tier3_gb3`、重定向结果 `runs/motion/tier3_gb3`；11 集（ep0、6、7、8、18、20、21、22、24、26、29）。状态：已传、已核对（ml40 收到 199/199，两端 sha256 逐行相同，已挪到位） | 199 | 850.5 MB |
 
 ## 目录结构

@@ -90,6 +90,12 @@ def main() -> int:
     t_f = first_over(tilt, a.fall_rad)
     fell = t_f >= 0
     print(f"  摔倒（躯干倾斜误差 > {a.fall_rad} rad）的世界 {int(fell.sum())}/{W}（{fell.mean():.1%}），摔倒帧分位 10/25/50/75/90 {q5(t_f[fell].astype(float))}")
+    if fell.any() and "achieved_pose_w" in z.files:   # 计划 agent-doc/plan-t12replay-2026-10-20.md 第 2 版 R1(a)：摔倒那一帧物体离起点多远
+        obj = z["achieved_pose_w"][:, keep, 0, :3].astype(float)
+        wf = np.flatnonzero(fell)
+        d = np.linalg.norm(obj[t_f[wf], wf] - obj[0, wf], axis=-1)
+        print(f"  摔倒那一帧物体离起点 < 0.05 m 的世界（摔了的世界里）{(d < 0.05).mean():.1%}；离起点分位 10/50/90 "
+              + " / ".join(f"{np.percentile(d, p):.3f}" for p in (10, 50, 90)) + " m")
     firsts = {"躯干先歪": first_over(tilt, 0.3), "骨盆偏": first_over(pel_d, 0.15), "脚踩偏": first_over(foot_d, 0.15), "双脚离地": first_over(foot_lift, 0.05, 3)}
     print("  各项在全部世界里越过门槛的比例（对照集用作 F1 的闸）：" + "，".join(f"{k} {(v >= 0).mean():.1%}" for k, v in firsts.items()))
     if fell.any():
