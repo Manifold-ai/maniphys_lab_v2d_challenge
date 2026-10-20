@@ -1,0 +1,14 @@
+# command  : scripts/dev/push-new-files stages/evaluate/t2fc_readout.sh stages/policy/arm_t2fc.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : e6d72f7d07c3b2b205617f55eb4e8cdc  stages/evaluate/t2fc_readout.sh
+# md5      : ab0ab96b710585c76713b67e7dd9c71e  stages/policy/arm_t2fc.sh
+# source   : 711fe5668d84
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T01:17:27-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+本地提交 711fe5668d84；远端来历 e85efdcdfe4f
+  ok   e6d72f7d07c3b2b205617f55eb4e8cdc  stages/evaluate/t2fc_readout.sh
+  ok   ab0ab96b710585c76713b67e7dd9c71e  stages/policy/arm_t2fc.sh
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（2 个文件）
