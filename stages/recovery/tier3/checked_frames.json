@@ -537,6 +537,26 @@
   "ep16_f476": {
    "verdict": "gb5_only",
    "note": "as f0"
+  },
+  "ep17_f199": {
+   "verdict": "both_wrong",
+   "note": "user wrote 119; the sheet's rows are 0/199/224/247/262/439, read as 199"
+  },
+  "ep17_f224": {
+   "verdict": "not_judgeable",
+   "note": "fully occluded"
+  },
+  "ep17_f247": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better"
+  },
+  "ep17_f262": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better"
+  },
+  "ep17_f439": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better"
   }
  }
 }
