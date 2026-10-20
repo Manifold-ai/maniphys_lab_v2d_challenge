@@ -878,3 +878,24 @@ CoCoNet 平移召回 0.04–0.34、精确度 0.79–1.00。**照搬物理检查�
 
 **用户 10-20 定（静置段朝向保护）**：先暂停，等 gb5 按登记的机器闸门与整批看图出结果。gb5 不比 gb4 好，就起新实验（dr2s 之后、dyn7 之前，
 静置段内离第 05 步朝向 > 24° 的帧退回第 05 步朝向），可沿用并覆盖 gb5 的名字；gb5 效果还可以就先停在 gb5。
+
+## 无人值守运行状态（10-20 11:45 CST 写，用户下线；分支 `track2/tier3-recon`，部署 `af4cf06`）
+
+L40S 上在跑（都是 setsid 脱钩的确定性脚本，没有 agent）：
+
+| 脚本 | 日志 | 末行 |
+|---|---|---|
+| `t3_sel_full.sh gb5 <13 集>`（`SEL_FULL_GATE=0 SEL_WORK=work_b050 SEL_BETA=0.5 SEL_SKIP_RENDER=1 MAX_CONVERT=3`，11:23 由 `dev/sel_diag/relaunch_gb5.sh` 重启） | `$T/logs/sel_full_gb5.log`；每集转换 `sel_convert_<ep>.log`；链 `gb_chain_gb5.log`；自检 `$G/dyn/gb5_selfcheck.log` | `SEL_FULL_DONE` / `SEL_FULL_FAILED` |
+| `dev/sel_diag/gb5_gate_after_chain.sh`：等上一行结束后跑登记的机器闸门（`dev/sel_diag/gb5gate/gate/t3_gb5_gate.py`，与 `9995a34` 同 md5） | `$T/logs/gb5_gate.log`，结果 `$T/dev/sel_diag/gb5_gate.json` | `GB5_GATE PASS / ATTRIBUTE / FAIL / REVERT` 或 `GB5_GATE_NOT_RUN` |
+
+- 进度（11:38）：GPU 06–07 批次 9 集（ep01 已在重启前完成并补查过没重跑 01–05），每集约 11 分钟，预计 13:00 前后完；之后转换（同时 ≤ 3 集）、
+  `t3_gb_chain.sh gb5`、自检。没实测过全量转换耗时，结果估计傍晚。两路 dump 已于 10:34 / 11:09 全部完成（14 集 `identical: true`）。
+- **接手要做的**：
+  1. 读 `gb5_gate.log` 末行。`ATTRIBUTE` 要逐集逐项归因（`gb5_gate.json` 的 `per_episode`）后交用户；`REVERT` 即整批不换；`FAIL` 查 M1/M4。
+  2. 闸门过了（或归因经用户放行）再出整批看图：13 集各取 gb5 与 gb4 朝向差最大的 4 帧（间隔 ≥ 15）+ 首末帧，加 13 个答案帧，
+     `t3_pose_overlay.py tex=1` 视频 | gb4 | gb5（选帧脚本未写）。用户判「旧对新错」占比 ≤ 10% 才整批交付，交付与否用户定。
+  3. 再把 `t3_gb5_gate.py` 正式部署（链跑完后 `deploy_l40s.sh`）。
+  4. 按用户 10-20 的决定：gb5 不比 gb4 好就起「静置段朝向保护」新实验（上节），可覆盖 gb5 的名字；还可以就停在 gb5。
+- 交付前给 rxzhou 说明 gb5（白名单加 `tier3_cari4d_gb5_best_dr2s_dyn7` 与 `_suspect`）；训练是 rxzhou 的事（用户 10-20），我们只交数据。
+- 已知/未做：比赛仓流程总览 `overview-tier3-pipeline-2026-10-20.md` 里 BETA 0.316 的说法过时，等用户指令再改；`t3_fp_select.py` 默认 BETA
+  仍是 0.316（gb5 用 `--beta=0.5` 传入），改不改默认待用户定；ep19 选择器对握点解法未比；ep13 第 226 帧、ep03 第 117 帧仍错。
