@@ -8,6 +8,7 @@ T=/lab_data/yqchen/v2d/tier3; G=/lab_data/yqchen/v2d/gate; C=$T/code/stages/reco
 SEL=${SEL:-tier3_cari4d_f830_best.selection.json}; SUP=${SUP:-tier3_cari4d_f830_best_v2}
 cd $T
 nice -n 10 $G/venv/bin/python code/stages/recovery/tier3/t3_align_check.py $T runs/$SEL dev/depth_diag/align_$S.json "$@" $V > dev/depth_diag/align_$S.log 2>&1 &
+ALIGN=$!
 nice -n 10 code/stages/recovery/tier3/t3_physics_all.sh $V
 export T3_GATE=$G
 cd $G && venv/bin/python $C/mkroot.py $G/repo $S - $T/runs/$V,$T/runs/${V}_suspect | tail -1
@@ -19,5 +20,9 @@ $G/venv/bin/python $G/repo/stages/retarget/p2_table.py $G/logs/rec_$S.txt --no-c
 PYTHONPATH=$G/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding OMP_NUM_THREADS=4 nice -n 10 \
   $G/venv/bin/python $C/t3_support_usda.py $G/repo $S $T/runs/support/$SUP $T $G/support_usda_$S > $G/logs/support_usda_$S.txt 2>&1
 OMP_NUM_THREADS=2 nice -n 10 bash $C/support_recheck.sh $S $G/support_usda_$S > $G/logs/oursup_$S.txt 2>&1
+# 10-20: a bare `wait` returns 0 whatever the background job did, so the alignment crashed for gb4 and gb5 (KeyError on the
+# convert dir) and the chain still said CHAIN_DONE; check its status and output instead.
+wait $ALIGN; rc=$?
 wait
+[ $rc -eq 0 ] && [ -s $T/dev/depth_diag/align_$S.json ] || { echo "CHAIN_FAILED alignment rc=$rc: $(tail -1 $T/dev/depth_diag/align_$S.log)"; exit 1; }
 echo CHAIN_DONE

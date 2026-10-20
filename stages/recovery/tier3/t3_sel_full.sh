@@ -175,4 +175,10 @@ sed -e "s/tier3_cari4d_gb4_best/tier3_cari4d_${V}_best/g" -e "s/gb4dyn7/${V}dyn7
     "$G/dyn/gb4_selfcheck.sh" > "$G/dyn/${V}_selfcheck.sh"
 bash "$G/dyn/${V}_selfcheck.sh" > "$G/dyn/${V}_selfcheck.log" 2>&1
 grep -q SELFCHECK_DONE "$G/dyn/${V}_selfcheck.log" || fail "selfcheck: $(tail -1 "$G/dyn/${V}_selfcheck.log")"
+# the self-check backgrounds its audits and alignment and says SELFCHECK_DONE whatever they did (10-20: gb5's alignment crashed,
+# align=0, and the machine gate found no input hours later); every output it promises must be there
+for f in "$T/dev/audit/align_${V}dyn7.json" "$T/dev/audit/audit_gb4dyn7_to_${V}dyn7.json" "$T/dev/audit/audit_${V}dr2s_to_${V}dyn7.json" \
+         "$T/dev/audit/contract_${V}dyn7.json" "$G/dyn/ho_${V}dyn7.json" "$G/dyn/tier3_${V}dyn7.json"; do
+  [ -s "$f" ] || fail "selfcheck: no $f ($(grep -E '^=== .{14} ho=' "$G/dyn/${V}_selfcheck.log" | tail -1))"
+done
 log SEL_FULL_DONE

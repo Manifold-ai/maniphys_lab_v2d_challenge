@@ -39,9 +39,10 @@ MAX_FACES = 20000
 LOW_IOU = 0.5
 WORK = {"convert": "work", "convert_v2": "work_v2", "convert_fp": "work_fp", "convert_pivot": "work_fp"}
 # convert dirs re-expressed under other intrinsics keep their CARI4D run (10-17: convert_gb3 -> work, ...; 10-18: gb4, the
-# same intrinsics with the body refit in the focal step)
+# same intrinsics with the body refit in the focal step; 10-20: gb5, gb4 with the fp episodes re-selected in work_b050, whose
+# masks_k0.h5 are byte-identical to work_fp's for all 13)
 for _k in list(WORK):
-    for _v in ("_gb3", "_gb4"):
+    for _v in ("_gb3", "_gb4", "_gb5"):
         WORK[_k + _v] = WORK[_k]
 
 
