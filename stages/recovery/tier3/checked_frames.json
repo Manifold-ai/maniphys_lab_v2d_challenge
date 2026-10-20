@@ -313,7 +313,7 @@
   }
  },
  "seventh_pass_gb5_attr": {
-  "_doc": "10-21 ~01:30 (user), textured overlays dev/sel_diag/attr/review/ep01_vacuum_tex.png (t3_pose_overlay.py tex=1; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7, the final delivered layer); attribution of the gb5 gate's worse episodes (handoff-tier3-rotation-2026-10-21-attr.md)",
+  "_doc": "10-21 ~01:30 (user), textured overlays dev/sel_diag/attr/review/ep01_vacuum_tex.png and ep02_blue_easter_basket_tex.png (t3_pose_overlay.py tex=1; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7, the final delivered layer); attribution of the gb5 gate's worse episodes (handoff-tier3-rotation-2026-10-21-attr.md)",
   "ep01_f223": "about the same",
   "ep01_f258": "gb5 better",
   "ep01_f310": "both wrong: gb5 has left the hand, gb4's orientation is wrong",
@@ -324,6 +324,15 @@
   "ep01_f690": "gb5 right",
   "ep01_f698": "gb5 right",
   "ep01_f730": "gb5 right",
-  "ep01_summary": "gb5 does well in the segment after the release where the vacuum leans on the chair"
+  "ep01_summary": "gb5 does well in the segment after the release where the vacuum leans on the chair",
+  "ep02_f20": "gb4 right; gb5's orientation is turned wrong (see the handle's direction)",
+  "ep02_f50": "gb4 right",
+  "ep02_f250": "gb5 right; it corrects gb4's basket lying on its side",
+  "ep02_f395": "gb5 right",
+  "ep02_f500": "both wrong, large position offset",
+  "ep02_f760": "fully occluded, nothing visible in the video",
+  "ep02_f815": "fully occluded; gb5 perhaps a little better but still far off: from the body pose and the left hand the basket should be about to land or already on the floor",
+  "ep02_f880": "both wrong: the basket is already on the floor; gb5 closer (nearer the ground) but tipped over",
+  "ep02_after_880": "all later frames (920/950/975) have the same problem as 880"
  }
 }
