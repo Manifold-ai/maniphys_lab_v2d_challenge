@@ -28,10 +28,19 @@ Writes the chosen poses into the stage-05 pkl in place (fp_poses_cam, obj_pose_w
 loader validates them) and updates the stage-05 marker's output identity so the runner reuses stage 05 and reruns 06
 onward, as t3_fp_init.py; the report goes to foundationpose/fp_select.json.
 
-    python t3_fp_select.py <cari4d episode dir> <candidates.npz> <official mesh> [--dry] [--beta=<BETA>]
+Carry (10-20, --carry, off by default until decided): the rotation part of the pairwise term becomes
+min(object turn, object turn relative to a holding hand) / (ROT_DEG * g), so a held object may turn with the hand at no
+cost while a resting one still pays for turning. The hand turn H between the two frames is the Kabsch rotation of the
+palm keypoints (wrist and the four knuckles, MHR70 of stage 03's mhr_init, same camera frame as stage 05); a hand holds
+on a frame when a palm point is within HOLD_M of the object surface at FoundationPose's own pose. A wrong hand estimate
+only makes the relative turn large, so the min falls back to the static term. Handoff "做法 1".
+
+    python t3_fp_select.py <cari4d episode dir> <candidates.npz> <official mesh> [--dry] [--beta=<BETA>] [--carry]
+        [--poses-out=<npz>]
 
 --beta overrides BETA (10-20 A/B, t3_beta_ab.sh: the value is judged by an automatic metric, the checked frames only
 evaluate). The default 0.316 was bounded by the checked frames themselves (handoff, "停掉"), so it is not a fixed choice.
+--poses-out writes the chosen camera poses (and s2a) to an npz, also with --dry (offline trials).
 """
 
 import json
@@ -52,7 +61,10 @@ TRANS_M = 0.05
 TOP_K = 8
 BETA = 0.316
 ANCHOR_DEG = 24.0
-PARAMS = {"W_IOU": W_IOU, "ROT_DEG": ROT_DEG, "TRANS_M": TRANS_M, "TOP_K": TOP_K, "BETA": BETA, "ANCHOR_DEG": ANCHOR_DEG}
+CARRY = False
+HOLD_M = 0.10  # as gate/t3_dynamics_check.py
+PALM = ([62, 49, 53, 57, 61], [41, 28, 32, 36, 40])  # MHR70 left, right: wrist, index/middle/ring/pinky third joint
+PARAMS = {"W_IOU": W_IOU, "ROT_DEG": ROT_DEG, "TRANS_M": TRANS_M, "TOP_K": TOP_K, "BETA": BETA, "ANCHOR_DEG": ANCHOR_DEG, "CARRY": CARRY}
 
 
 def log_softmax(s):
@@ -109,14 +121,46 @@ def states_of(c, f, calls):
     return np.asarray(poses, np.float64), np.asarray(unary), tag, shortlisted
 
 
+def kabsch(a, b):
+    """R with b - mean(b) ~ R (a - mean(a))."""
+    a, b = a - a.mean(0), b - b.mean(0)
+    u, _, vt = np.linalg.svd(b.T @ a)
+    return u @ np.diag([1, 1, np.sign(np.linalg.det(u @ vt))]) @ vt
+
+
+def holding_hands(ep_dir, seq, mesh, C0, s2a):
+    """(palm points (n, 2, 5, 3), holds (n, 2) bool): stage 03's MHR70 palm keypoints, camera frame, and whether a palm
+    point is within HOLD_M of the object surface at FoundationPose's own pose."""
+    kp = np.asarray(pickle.load(open(ep_dir / "mhr_init" / f"{seq}.pkl", "rb"))["mhr_keypoints"], np.float64)
+    if len(kp) != len(C0):
+        raise SystemExit("mhr_init and the stage-05 pkl cover different frames")
+    palm = np.stack([kp[:, idx] for idx in PALM], 1)
+    surf = np.asarray(trimesh.sample.sample_surface_even(mesh, 2000, seed=0)[0], np.float64)
+    holds = np.zeros((len(C0), 2), bool)
+    for f in range(len(C0)):
+        if not np.isfinite(palm[f]).all():
+            continue
+        M = C0[f] @ s2a
+        X = surf @ M[:3, :3].T + M[:3, 3]
+        for s in range(2):
+            holds[f, s] = np.sqrt(((palm[f, s][:, None] - X[None]) ** 2).sum(-1)).min() < HOLD_M
+    return palm, holds
+
+
 def main():
-    global BETA
+    global BETA, CARRY
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dry = "--dry" in sys.argv
+    poses_out = None
     for a in sys.argv[1:]:
         if a.startswith("--beta="):
             BETA = float(a.split("=", 1)[1])
             PARAMS["BETA"] = BETA
+        elif a == "--carry":
+            CARRY = True
+            PARAMS["CARRY"] = CARRY
+        elif a.startswith("--poses-out="):
+            poses_out = Path(a.split("=", 1)[1])
     ep_dir, cand_path, mesh_path = Path(args[0]), Path(args[1]), Path(args[2])
     (pkl,) = sorted((ep_dir / "foundationpose").glob("episode_*.pkl"))
     seq = pkl.stem
@@ -146,6 +190,10 @@ def main():
         near = sym_angle_deg(Ps[:, :3, :3], (C0[f] @ s2a)[None, :3, :3], G, axis)[:, 0] < ANCHOR_DEG
         S.append({"f": f, "P": P, "R": Ps[:, :3, :3], "t": P[:, :3, 3], "u": u - BETA * near, "tag": tag, "shortlisted": sl})
 
+    if CARRY:
+        palm, holds = holding_hands(ep_dir, seq, mesh, C0, s2a)
+    carried = 0
+
     # Viterbi
     cost = S[0]["u"].copy()
     back = []
@@ -153,6 +201,12 @@ def main():
         a, b = S[k - 1], S[k]
         gap = b["f"] - a["f"]
         ang = sym_angle_deg(a["R"], b["R"], G, axis)
+        if CARRY:
+            for s in range(2):
+                if holds[a["f"], s] and holds[b["f"], s]:
+                    H = kabsch(palm[a["f"], s], palm[b["f"], s])
+                    ang = np.minimum(ang, sym_angle_deg(H @ a["R"], b["R"], G, axis))
+                    carried += 1
         dt = np.linalg.norm(a["t"][:, None] - b["t"][None], axis=2)
         tot = cost[:, None] + ang / (ROT_DEG * gap) + dt / (TRANS_M * gap)
         back.append(tot.argmin(0))
@@ -190,7 +244,11 @@ def main():
               "moved_m_p50_p90_max": [round(float(v), 4) for v in np.percentile(moved, [50, 90, 100])],
               "jumps_gt24_before_after": [int((jump(R0s) > 24).sum()), int((jump(R1s) > 24).sum())],
               "turn_deg": [round(float(v), 2) for v in turn]}
+    if CARRY:
+        report["carry"] = {"holding_frames_left_right": [int(v) for v in holds.sum(0)], "hand_terms": carried}
     print(seq, json.dumps({k: v for k, v in report.items() if k != "turn_deg"}), flush=True)
+    if poses_out is not None:
+        np.savez(poses_out, poses_cam=newC, s2a=s2a)
     if dry:
         return
     d["obj_pose_world"] = newW.astype(np.asarray(d["obj_pose_world"]).dtype)
