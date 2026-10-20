@@ -431,6 +431,30 @@
   "ep04_f802": {
    "verdict": "gb5_only",
    "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep09_f577": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "gb5's orientation right but its position still off"
+  },
+  "ep09_f0": {
+   "verdict": "both_ok",
+   "note": "user: basically both right"
+  },
+  "ep09_f615": {
+   "verdict": "both_ok",
+   "note": "user: basically both right"
+  },
+  "ep09_f698": {
+   "verdict": "both_ok",
+   "note": "user: basically both right"
+  },
+  "ep09_f719": {
+   "verdict": "both_ok",
+   "note": "user: basically both right"
+  },
+  "ep09_f869": {
+   "verdict": "both_ok",
+   "note": "user: basically both right"
   }
  }
 }
