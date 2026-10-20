@@ -575,6 +575,26 @@
   },
   "ep25_f858": {
    "verdict": "both_ok"
+  },
+  "ep27_f0": {
+   "verdict": "gb5_only"
+  },
+  "ep27_f246": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "gb5's orientation right but its pose off; gb4's orientation and pose both off"
+  },
+  "ep27_f276": {
+   "verdict": "gb5_only",
+   "note": "gb5 right but still slightly off"
+  },
+  "ep27_f298": {
+   "verdict": "gb5_only"
+  },
+  "ep27_f313": {
+   "verdict": "gb5_only"
+  },
+  "ep27_f564": {
+   "verdict": "gb5_only"
   }
  }
 }
