@@ -301,13 +301,15 @@
    "ctrl_05": "ok (handle at the left edge)",
    "ctrl_CoCoNet": "ok",
    "sel0.5_05": "wrong (handle not visible)",
-   "sel0.5_CoCoNet": "wrong (handle not visible; back or right, unclear)"
+   "sel0.5_CoCoNet": "wrong (handle not visible; back or right, unclear)",
+   "best": "ctrl_05"
   },
   "ep03_f131_layers": {
    "ctrl_05": "ok",
    "ctrl_CoCoNet": "ok",
    "sel0.5_05": "ok",
-   "sel0.5_CoCoNet": "wrong (handle not visible)"
+   "sel0.5_CoCoNet": "wrong (handle not visible)",
+   "best": "sel0.5_05"
   }
  }
 }
