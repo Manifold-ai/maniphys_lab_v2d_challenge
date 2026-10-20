@@ -595,6 +595,29 @@
   },
   "ep27_f564": {
    "verdict": "gb5_only"
+  },
+  "ep28_f0": {
+   "verdict": "both_ok"
+  },
+  "ep28_f537": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "gb5's orientation right, its pose slightly off"
+  },
+  "ep28_f643": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "gb5's orientation right, its pose slightly off"
+  },
+  "ep28_f725": {
+   "verdict": "both_wrong",
+   "note": "both lost the squeegee"
+  },
+  "ep28_f747": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "both basically lost it, gb5 a little better"
+  },
+  "ep28_f987": {
+   "verdict": "both_wrong_gb5_better",
+   "note": "both basically lost it, gb5 a little better"
   }
  }
 }
