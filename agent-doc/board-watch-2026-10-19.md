@@ -56,6 +56,7 @@
 - 10/20 00:3x MDT：SOP 更新改为每天 07:00、12:00、17:00、23:00 MDT（rxzhou 10/20：“现在更新时间改为MDT早上七点晚上五点晚上十一点以及中午十二点更新SOP”）。调度器给这个任务固定加约 30 分钟的延迟，所以 cron 写成纽约时间 `31 0,8,13,18 * * *`，CronCreate 报的下次触发是 09:01 纽约（= 07:01 MDT）。两个续期任务（10/26、11/02 08:20 纽约）按新的 SOP 提示词与 cron 重建，并要求续期时核对报出的触发时刻；去掉了“shell 的 date 应显示纽约时间”这一条（shell 显示的是 Denver 时间）。看榜任务的 23:10 与 SOP 的 23:00 相隔约 10–40 分钟，两者都自己取快照，排队也不影响结果。
 - 10/20 02:40 MDT（`results/board/diff_1020_0240.txt`）：DAP 在 Tier 1 交了一次：AUC 0.48807 → 0.60030（超过我们的 0.58258 与 FF 的 0.595），SP-SR 0.66666 → 0.80000（仍低于我们的 0.83333），MP-SR、MPPE 没变。我们 Tier 1 AUC 第 3 → 第 4（两种同分规则都是）；读法 B：FF 21、我们 26（Kaggle 规则）/ FF 21、我们 28（官网规则）；读法 A 不变（FF 5、我们 7）。决定：按 `agent-doc/strategy-2026-10-19.md` 第 1 节不交——夺回第 3 不是“遥遥领先拿第一”，且 Tier 1 每次要 rxzhou 点头。两台卡都在跑登记过的计划（mf4090 t3pg4，ml40 t2fc），不改。待定：只为少丢一个名次（不拿第一）的提交要不要另定一档规矩（rxzhou 定）。
 - 10/20 11:40 MDT（`results/board/diff_1020_1140.txt`）：新队 Team OPS 在 12 个榜里交了 11 个、Javier Medel, MSc. 交了 Tier 1，分数都在 maniphys.ai 之后；Team OPS 的 Tier 3 SP-SR 0.16666 排到第 2（maniphys.ai 0.26666 仍第一），把 FF 挤到第 3；Open4D 的 Tier 3 MPPE 86.66 → 79.79。maniphys.ai 各榜名次不变。读法 B：FF 22、maniphys.ai 26（Kaggle 规则）/ 23、28（官网规则）；读法 A 不变（5、7）。决定：不改，不交；两台卡在跑登记过的计划（mf4090 t3pg4，ml40 t2ho）。
+- 10/20 14:41 MDT（`results/board/diff_1020_1441.txt`）：新队 Chivatam 交了 Tier 1 四个榜，都在 maniphys.ai 之后；名次和不变（FF 22、maniphys.ai 26，Kaggle 规则）。不改、不交；两台卡在跑登记过的计划（mf4090 t3pg4，ml40 t1ho）。
 
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 

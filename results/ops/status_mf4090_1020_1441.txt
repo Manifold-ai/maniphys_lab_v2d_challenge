@@ -1,0 +1,27 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : e9d3150d4515
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T14:41:15-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-21 04:41:18 CST
+NVIDIA GeForce RTX 4090, 23909 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  219G   66G  77% /
+-- tmux
+v2d-t3pg4-eval: 1 windows (created Tue Oct 20 11:11:32 2026)
+v2d-t3pg4-export: 1 windows (created Tue Oct 20 11:11:34 2026)
+v2d-t3pg4-train: 1 windows (created Tue Oct 20 11:11:30 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pg4_mf4090-gate
+runs/.chain-active-t3pg4_eval_mf4090
+runs/.chain-active-t3pg4_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep24-w2048-cap4m-r3a-gb4-mf4090.log：training progress: 245,000,192/349,999,104 environment steps (70.0%); 42,872 env steps/s; elapsed 01:35:15; ETA 00:40:49
+runs/logs/t3-ep24-w2048-cap4m-r3a-gb4-mf4090.nanwatch.log：10-20 14:40:23 MDT 240,009,216 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3pg4_train_mf4090.log：=== 2026-10-21 03:04:17 CST 正式 t3-ep24-w2048-cap4m-r3a-gb4-mf4090
+runs/logs/t3-ep18-w2048-cap4m-r3a-gb4-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep18-w2048-cap4m-r3a-gb4-mf4090
+runs/logs/t3-ep18-w2048-cap4m-r3a-gb4-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep18-w2048-cap4m-r3a-gb4-mf4090
+runs/logs/t3-ep18-w2048-cap4m-r3a-gb4-mf4090.nanwatch.log：10-20 13:01:58 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3-ep22-w2048-cap4m-r3a-gb4-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep22-w2048-cap4m-r3a-gb4-mf4090
+runs/logs/t3-ep22-w2048-cap4m-r3a-gb4-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep22-w2048-cap4m-r3a-gb4-mf4090
