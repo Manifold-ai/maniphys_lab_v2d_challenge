@@ -1,0 +1,15 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "bd": {"file": "results/board/diff_1020_1201.txt", "grep": "^读法|^Tier 3|tier3-mppe|tier2-sp-sr"},
+  "cw": {"file": "results/ml40/t2dg/contact_window_tier2_ml40.txt", "grep": "^名|^ep"},
+  "st": {"file": "results/ops/status_ml40_1020_1201.txt", "grep": "chain-active|MiB"}
+ },
+ "claims": [
+  {"id": "rank", "evidence": ["bd"], "claim": "按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 22、maniphys.ai 26；按官网的规则 FF 23、maniphys.ai 28。"},
+  {"id": "t3sp", "evidence": ["bd"], "claim": "Tier 3 SP-SR 上 maniphys.ai 0.26666 第 1，第 2 名是 Team OPS 0.16666。"},
+  {"id": "open4d", "evidence": ["bd"], "claim": "Open4D 的 Tier 3 MPPE 从 79.78755 降到 72.80583。"},
+  {"id": "falls", "evidence": ["cw"], "claim": "ep4 的摔倒帧是 99、ep1 是 27，ep0成功 没有摔倒帧，骨盆朝向误差中位最大 0.235 rad。"},
+  {"id": "ml40", "evidence": ["st"], "claim": "ml40 上 t2ho 的训练链在跑（有 t2ho_train 的长链标记），显存约 40 GB。"},
+  {"id": "ctl_false", "evidence": ["cw"], "claim": "ep0成功 的摔倒帧是第 99 帧。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["cw"], "claim": "ep25 的摔倒帧是第 173 帧。", "control": "true"}
+ ]}

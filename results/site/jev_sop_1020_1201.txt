@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-1201.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 96f2a1fb438d2246584d5d46f2d3c8d7  agent-doc/experiments/2026-10-20-sop-1201.claims.json
+# source   : bf3c95c23969-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T12:05:30-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank                 P(supported)=0.97  verified               [bd]  按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 22、maniphys.ai 26；按官网的规则 FF 23、maniphys.ai 28。
+t3sp                 P(supported)=0.85  verified               [bd]  Tier 3 SP-SR 上 maniphys.ai 0.26666 第 1，第 2 名是 Team OPS 0.16666。
+open4d               P(supported)=0.98  verified               [bd]  Open4D 的 Tier 3 MPPE 从 79.78755 降到 72.80583。
+falls                P(supported)=0.98  verified               [cw]  ep4 的摔倒帧是 99、ep1 是 27，ep0成功 没有摔倒帧，骨盆朝向误差中位最大 0.235 rad。
+ml40                 P(supported)=0.88  verified               [st]  ml40 上 t2ho 的训练链在跑（有 t2ho_train 的长链标记），显存约 40 GB。
+ctl_false            P(supported)=0.01  control(false) ok      [cw]  ep0成功 的摔倒帧是第 99 帧。
+ctl_true             P(supported)=0.97  control(true) ok       [cw]  ep25 的摔倒帧是第 173 帧。
+controls behaved as expected
