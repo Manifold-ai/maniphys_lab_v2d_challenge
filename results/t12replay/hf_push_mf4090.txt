@@ -1,0 +1,27 @@
+# command  : tools/hf_remote.sh python3\ runs/tools/hf_transfer.py\ push\ --repo\ Rongxuan-Zhou/v2d-track2-transfer\ --tag\ t12replay_1020\ --dirs\ runs/t12replay_stage 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 8c53852219b0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:48:20-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：3 个文件，14.6 MB；仓库里已有 0 个；暂存 runs/hf_xfer/t12replay_1020；开始上传
+/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/tools/hf_transfer.py:138: FutureWarning: 
+================================================================================
+`upload_large_folder` is DEPRECATED and will be removed in a future release.
+
+Use `upload_folder` instead:
+
+    api.upload_folder(repo_id="Rongxuan-Zhou/v2d-track2-transfer", repo_type="model", folder_path="runs/hf_xfer")
+================================================================================
+
+  api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+
+
+
+---------- 2026-10-21 07:48:24 (0:00:00) ----------
+Files:   hashed 1/4 (457.0/14.6M) | pre-uploaded: 0/0 (0.0/14.6M) (+4 unsure) | committed: 0/4 (0.0/14.6M) | ignored: 0
+Workers: hashing: 2 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+仓库里 t12replay_1020/：清单 4 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 3

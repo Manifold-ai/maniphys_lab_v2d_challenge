@@ -1,0 +1,10 @@
+# command  : tools/hf_remote.sh python3\ runs/tools/hf_transfer.py\ pull\ --repo\ Rongxuan-Zhou/v2d-track2-transfer\ --tag\ t12replay_1020\ --dest\ runs/hf_pull/t12replay_1020 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 8c53852219b0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:49:11-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+清单：3 个文件；开始下载到 runs/hf_pull/t12replay_1020
+  3 / 3，14.6 MB
+HF_PULL_OK 3

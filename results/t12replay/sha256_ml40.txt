@@ -1,0 +1,8 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ sha256sum\ runs/flash_chord/smoke-t2-ep\{4\,25\,1\}-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors 
+# source   : 8c53852219b0
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:50:15-0600
+# ---------------------------------------------------------------
+5bd05987930a97d773a8a82fe976968c5703b033d6625361deb03a60742ef3f3  runs/flash_chord/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors
+d23006339db0862054f1a36d98ff9f48230076896eb48ec121e1083a59c2a766  runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors
+084097413b4334e330ba8d500fd3687dccd7d49026999bbb0b1590e559faf614  runs/flash_chord/smoke-t2-ep1-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors
