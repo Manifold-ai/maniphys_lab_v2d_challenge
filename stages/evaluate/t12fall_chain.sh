@@ -4,6 +4,7 @@
 # 2. 每次用 GPU 前等卡上没有进程（每分钟看一次，最多 2 小时；不停任何进程）；
 # 3. 试跑：ep4 的 16 个世界（--palms --bodies），diag2_sync.py 看手掌与物体的同步闸，fall_mechanism.py 看 G0；任一不过就停；
 # 4. 五条 run 各 1024 个世界（--palms --bodies），各跑一次 fall_mechanism.py。诊断挂 fc_8c778f9 副本（同那几份评测）。
+#    rollout 给 V2D_GPU=1（in-flash-chord 只在这时挂 GPU，同 diag2_chain.sh 的 fc），同步与分析给 V2D_GPU=0。
 # 日志 runs/logs/t12fall_ml40.log，最后一行 T12FALL_DONE（成功 a、失败 b）或 T12FALL_FAILED <原因>。记录在 results/t12fall/。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
@@ -27,14 +28,14 @@ roll() {  # roll <ep> <世界数> <前缀名>
   local run="t2-ep$1-w2048-cap10m-r3a-ml40" out="runs/t12fall/$3"
   mkdir -p runs/t12fall
   wait_gpu || return 1
-  V2D_FC_SRC=$SRC scripts/dev/record "t12fall/rollout_$3" scripts/dev/in-flash-chord \
+  V2D_GPU=1 V2D_FC_SRC=$SRC scripts/dev/record "t12fall/rollout_$3" scripts/dev/in-flash-chord \
     "cd /workspace && python /repo/stages/evaluate/diag_rollout.py /repo/runs/flash_chord/$run/policy_349999104.safetensors /repo/$out --worlds $2 --palms --bodies" > /dev/null 2>&1 || return 1
   rm -rf "${out}_hydra"
-  scripts/dev/record "t12fall/mech_$3" scripts/dev/in-flash-chord \
+  V2D_GPU=0 scripts/dev/record "t12fall/mech_$3" scripts/dev/in-flash-chord \
     "python /repo/stages/evaluate/fall_mechanism.py --npz /repo/$out.npz --motion $M/sequence_id=${SEQ[$1]}/robot_name=g1/data.parquet --label ep$1" > /dev/null 2>&1
 }
 roll 4 16 smoke_ep4 || fail "试跑 ep4 没成（results/t12fall/rollout_smoke_ep4.txt.failed 或 mech_smoke_ep4.txt.failed）"
-V2D_FC_SRC=$SRC scripts/dev/record t12fall/sync_smoke_ep4 scripts/dev/in-flash-chord "python /repo/stages/evaluate/diag2_sync.py /repo/runs/t12fall/smoke_ep4.npz" > /dev/null 2>&1 \
+V2D_GPU=0 V2D_FC_SRC=$SRC scripts/dev/record t12fall/sync_smoke_ep4 scripts/dev/in-flash-chord "python /repo/stages/evaluate/diag2_sync.py /repo/runs/t12fall/smoke_ep4.npz" > /dev/null 2>&1 \
   || fail "试跑的同步闸不过（results/t12fall/sync_smoke_ep4.txt.failed）"
 grep -q "G0 第 0 步.*PASS" results/t12fall/mech_smoke_ep4.txt || fail "试跑的 G0 不过"
 say "试跑通过：$(grep -h 'G0 第 0 步' results/t12fall/mech_smoke_ep4.txt | cut -c1-160)"
