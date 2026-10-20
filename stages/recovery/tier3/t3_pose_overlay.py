@@ -10,10 +10,11 @@ Frames: by default the N frames where the versions disagree most (largest distan
 first version's pose and another's, about the centre of mass removed or not), plus the first and the last frame.
 
     python t3_pose_overlay.py <tier3 root> <selection json> <out dir> <version>... only=<ep>[,<ep>] [frames=<f>,<f>] [n=6]
-        [tex=1] [alpha=<0..1>] [cell=<px>]
+        [tex=1 [tint=<B>,<G>,<R>]] [alpha=<0..1>] [cell=<px>]
 tex=1 paints the faces with the mesh's own texture instead (lid, handle and print look as in the video; added 10-16 when the
-coordinate colours left it unclear which end of ep03's mug is the lid); alpha is the render's weight over the frame
-(default 0.5), cell the panel size.
+coordinate colours left it unclear which end of ep03's mug is the lid); tint keeps the texture's pattern but recolours its
+brightness, stretched to its own range, in one colour (10-21: ep03's grey texture vanished over the grey mug in the video);
+alpha is the render's weight over the frame (default 0.5), cell the panel size.
 Writes <out dir>/epNN_<object>.png (rows: frames; columns: the video, then one panel per version). CPU only.
 """
 
@@ -93,6 +94,11 @@ def main() -> None:
         if kv.get("tex") == "1":
             from scipy.spatial import cKDTree
             col = full_fc[cKDTree(full_c).query(V[F].mean(1))[1]][:, ::-1].copy()  # RGB -> BGR
+            if "tint" in kv:  # the texture's brightness, stretched to its own range, in one colour
+                lum = col.astype(float).mean(1)
+                lum = (lum - lum.min()) / max(np.ptp(lum), 1e-9)
+                tint = np.array([float(x) for x in kv["tint"].split(",")])
+                col = (30 + lum[:, None] * (tint - 30)).clip(0, 255).astype(np.uint8)
         poses = {v: world_pose(root, v, ep) for v in versions}
         n = min(len(p) for p in poses.values())
         if "frames" in kv:

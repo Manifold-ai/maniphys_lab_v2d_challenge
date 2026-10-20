@@ -344,7 +344,7 @@
   "ep17_f300": "both right"
  },
  "batch_review_gb4_gb5": {
-  "_doc": "10-21 (user), whole-batch gb4 vs gb5 review sheets dev/sel_diag/review_gb5/ep*_tex.png (t3_pose_overlay.py n=4 tex=1: per episode the 4 frames where the versions differ most, >= 15 apart, plus first and last; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7). verdict: both_ok | gb4_only (old right, new wrong) | gb5_only (new right, old wrong) | both_wrong | both_wrong_gb4_better | both_wrong_gb5_better. Release rule (10-20): gb4_only share <= 10% for the whole batch to take gb5.",
+  "_doc": "10-21 (user), whole-batch gb4 vs gb5 review sheets dev/sel_diag/review_gb5/ep*_tex.png (t3_pose_overlay.py n=4 tex=1: per episode the 4 frames where the versions differ most, >= 15 apart, plus first and last; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7). verdict: both_ok | gb4_only (old right, new wrong) | gb5_only (new right, old wrong) | both_wrong | both_wrong_gb4_better | both_wrong_gb5_better | gb4_better (user said only that gb4 is a little better). Release rule (10-20): gb4_only share <= 10% for the whole batch to take gb5.",
   "ep01_f0": {
    "verdict": "both_ok"
   },
@@ -384,6 +384,29 @@
   "ep02_f979": {
    "verdict": "both_wrong_gb5_better",
    "note": "basket already on the floor; as the user's attribution verdict (seventh_pass_gb5_attr ep02_f880/after_880): both wrong, gb5 closer to the ground but tipped over"
+  },
+  "ep03_f0": {
+   "verdict": "both_ok"
+  },
+  "ep03_f117": {
+   "verdict": "gb4_better",
+   "note": "gb4 a little better"
+  },
+  "ep03_f437": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 right (grey texture on the grey mug is hard to read; a tinted render was requested)"
+  },
+  "ep03_f452": {
+   "verdict": "gb5_only",
+   "note": "as f437"
+  },
+  "ep03_f563": {
+   "verdict": "gb5_only",
+   "note": "as f437"
+  },
+  "ep03_f780": {
+   "verdict": "gb5_only",
+   "note": "as f437"
   }
  }
 }
