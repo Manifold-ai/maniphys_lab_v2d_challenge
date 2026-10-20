@@ -1,0 +1,20 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag_onset.py\ /repo/runs/diag2/t2-ep25-w2048-cap10m-r3a-ml40/rollout_w4096.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 978c026a61c407454c461d7cdb469bcb  stages/evaluate/diag_onset.py
+# md5      : 7582df1aa4ba1d5df8714a23d60083d7  runs/diag2/t2-ep25-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T16:00:22+0800
+# ---------------------------------------------------------------
+npz /repo/runs/diag2/t2-ep25-w2048-cap10m-r3a-ml40/rollout_w4096.npz；policy /repo/runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/policy_349999104.safetensors；世界 4096、帧 859；upstream_md5 {"harness.py": "229cba2a88b93115383a1ab89af46e0f", "rollout.py": "558384f9b0147e732acaa4ff61e99ab2", "metrics.py": "6eeadf96a86cce636774933393030255", "evaluate_policy.py": "53e9b79918bf39d1ba56ad6b0dedb026"}
+参考：主动手 ['left', 'right']，t_c 102，开动帧 t_m 112，最后接触帧 t_last 791
+MP-SR 成功 0/4096；失败 4096
+  参考无接触时离开：740（失败世界的 18.1%）
+  没贴住：2996（失败世界的 73.1%）
+  贴住后掉：360（失败世界的 8.8%）
+  没离开：0（失败世界的 0.0%）
+  离开帧 t_o 分位 10/25/50/75/90：82 / 127 / 136 / 140 / 142
+  t_o − t_m 分位：-30 / 15 / 24 / 28 / 30；t_o 早于 t_m 的 804、晚于 t_last 的 0
+  D1b（登记的读法，三类里占比最大且领先第二名 10 个百分点以上）：没贴住
+  只报：G 窗 [t_m, t_m+30) 内实际位移投到参考位移方向上 ÷ 参考位移，失败世界分位 10/50/90：-0.31 / 0.95 / 1.13
+DIAG_ONSET_DONE
