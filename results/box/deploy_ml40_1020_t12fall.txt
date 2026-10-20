@@ -1,0 +1,22 @@
+# command  : scripts/dev/push-new-files stages/evaluate/diag_palms.py stages/evaluate/diag_rollout.py stages/evaluate/fall_mechanism.py stages/evaluate/test_fall_mechanism.py stages/evaluate/t12fall_chain.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 9d20e04c26c414bea6a6d1fc63488ab1  stages/evaluate/diag_palms.py
+# md5      : 9a0ce6decb66b050607530188a1bab66  stages/evaluate/diag_rollout.py
+# md5      : af3e589ed1ef52044272fdce2a178b39  stages/evaluate/fall_mechanism.py
+# md5      : 674bd74795c1c462cdce22b2d8b86121  stages/evaluate/test_fall_mechanism.py
+# md5      : 1a9e006d43307a3762cff48bb12c82b4  stages/evaluate/t12fall_chain.sh
+# source   : a31414f1f524
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T09:31:30-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/diag_palms.py：远端是 9123625~1 的版本（88c07ed924fcf19ad3aec6125ff9c2b6）
+  覆盖 stages/evaluate/diag_rollout.py：远端是 9123625~1 的版本（c5ea13a60d40a3bd11cdde7a0d944de4）
+本地提交 a31414f1f524；远端来历 e85efdcdfe4f
+  ok   9d20e04c26c414bea6a6d1fc63488ab1  stages/evaluate/diag_palms.py
+  ok   9a0ce6decb66b050607530188a1bab66  stages/evaluate/diag_rollout.py
+  ok   af3e589ed1ef52044272fdce2a178b39  stages/evaluate/fall_mechanism.py
+  ok   674bd74795c1c462cdce22b2d8b86121  stages/evaluate/test_fall_mechanism.py
+  ok   1a9e006d43307a3762cff48bb12c82b4  stages/evaluate/t12fall_chain.sh
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（5 个文件）
