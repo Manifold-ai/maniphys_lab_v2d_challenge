@@ -1,0 +1,17 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier2_select_b1019a.csv --track track_2_tier2 --only add_auc -m Tier\ 2\ per-episode\ select\ b1019a\ \(AUC\ only\) --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : c63fa97ba8fca7f3d9a407c718455251  runs/submission/csv/track2_tier2_select_b1019a.csv
+# source   : 43454bb65b3a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:06:00-0600
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier2_select_b1019a.csv: 22,989 rows over 30 episodes, 12,139,036 B - looks valid
+Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input): 1 leaderboard(s)
+  add_auc          v2d-challenge-track2-tier2-auc           5 left today
+Receipt: runs/submission/csv/track2_tier2_select_b1019a.csv.e27ea3dff3c6.kaggle-receipt.json
+
+  add_auc          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 2: synthetically corrupted input) - AUC (submission 57455514)
+
+Waiting for scores...
+  add_auc          COMPLETE 0.51091 (submission 57455514)
+Receipt: runs/submission/csv/track2_tier2_select_b1019a.csv.e27ea3dff3c6.kaggle-receipt.json
