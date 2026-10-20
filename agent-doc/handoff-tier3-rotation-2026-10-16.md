@@ -899,3 +899,16 @@ L40S 上在跑（都是 setsid 脱钩的确定性脚本，没有 agent）：
 - 交付前给 rxzhou 说明 gb5（白名单加 `tier3_cari4d_gb5_best_dr2s_dyn7` 与 `_suspect`）；训练是 rxzhou 的事（用户 10-20），我们只交数据。
 - 已知/未做：比赛仓流程总览 `overview-tier3-pipeline-2026-10-20.md` 里 BETA 0.316 的说法过时，等用户指令再改；`t3_fp_select.py` 默认 BETA
   用户 10-20 定改为 0.5（A/B 胜者；代码已改并推送，链跑完后随 `t3_gb5_gate.py` 一起部署，gb5 本身用 `--beta=0.5` 传入，不受影响）；ep19 选择器对握点解法未比；ep13 第 226 帧、ep03 第 117 帧仍错。
+
+## gb5 闸门补跑（10-21 00:45 CST，部署 `e909298`）
+
+10-20 的链与自检跑完（`SEL_FULL_DONE` 15:05），但闸门 `GB5_GATE_NOT_RUN`：`t3_align_check.py` 的 `WORK` 只认 `_gb3/_gb4`，
+`convert_gb5` 抛 `KeyError`，`align_gb5dyn7.json` 没产出；`chain_check.sh` 的裸 `wait` 和自检的无条件 `SELFCHECK_DONE` 把它吞了
+（gb4 10-18 的链内对齐 `dev/depth_diag/align_gb4dyn7` 也同样崩过）。`e909298` 修了映射（13 个 fp 集 `work_b050` 与 `work_fp` 的
+`masks_k0.h5` md5 相同）并让两处在对齐没落地时失败。`dev/sel_diag/rerun_gb5_align_gate.sh` 补跑对齐（30/30，rc=0）后跑登记闸门：
+
+**`GB5_GATE ATTRIBUTE M5 M6`**（`$T/dev/sel_diag/gb5_gate.json`）。M1、M4 过；M2 违规帧 2105→1779、M3 IoU<0.5 帧 568→502 变好；
+M5 接触帧手 > 3 cm 占比 0.921%→0.939%；M6 跳变总数 530→425，但 ep02 112→129、ep13 50→56、ep17 22→40。worse 4/13
+（ep01 违规 85→108，ep02 违规+跳变，ep13 违规+跳变，ep17 跳变），退回线 1/3，差一集即 REVERT。
+
+下一步按上节第 1 步：M5（逐集）与 M6、worse 四集逐项归因后交用户。`dev/depth_diag/align_gb{4,5}dyn7.json` 未补（闸门不读）。
