@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t1ho 
+# md5      : 62a4623aba85d5b89c4c5b422921e1e8  stages/policy/make_var_queue.py
+# source   : 7265ffe13676-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:33:18-0600
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t1ho.expect.tsv（2 行）
+写 stages/policy/queues/ml40_t1ho_smoke.txt（2 行）
+写 stages/policy/queues/ml40_t1ho.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1ho_ml40.tsv（2 行）

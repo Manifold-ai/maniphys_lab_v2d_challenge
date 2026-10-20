@@ -46,7 +46,9 @@ case "$N" in
   t2m*) M=mf4090; T=2; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;   # Tier 2 接触标记提前（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 B）
   t2f*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 参考合手（计划 agent-doc/plan-t2fc-2026-10-20.md）
-  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o、t2o、t1c、t2m 或 t2f 开头" >&2; exit 2 ;;
+  t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
+  t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
+  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h 或 t1h 开头" >&2; exit 2 ;;
 esac
 COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
 [ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256

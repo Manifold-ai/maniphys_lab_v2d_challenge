@@ -20,7 +20,7 @@ import trimesh
 from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
 
 ARM = ("shoulder_pitch", "shoulder_roll", "shoulder_yaw", "elbow", "wrist_roll", "wrist_pitch", "wrist_yaw")
 

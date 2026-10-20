@@ -193,6 +193,16 @@ SETS = {
              "episodes": [25, 4], "parts": {"t2fc": [25, 4]}, "base": None, "motion": "tier2_fc8", "strip_r3a": True,
              "run": "t2-ep{ep}-w2048-cap10m-r3a-fc8-ml40",
              "desc": "Tier 2 参考合手：举起物体全失败的 ep25、ep4 的变体 A seed 42，参考换成 runs/motion/tier2_fc8（只改接触段的 14 个 Dex3 手指关节，合到行程的 0.8；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    # 10/20 上午（计划 agent-doc/plan-t12lift-2026-10-20.md）：ep25 训好的策略把瓶子弄到地上（Tier 2 117.09、Tier 1 114.10 cm），物体不动时约 49.5 cm；
+    # 参考的两条手臂与手指固定为第 0 帧（stages/retarget/hands_off.py），训一条不去够物体的保底策略
+    "t2ho": {"plan": "agent-doc/plan-t12lift-2026-10-20.md", "tier": 2, "machine": "ml40", "cap": None,
+             "episodes": [25, 28], "parts": {"t2ho": [25, 28]}, "base": None, "motion": "tier2_ho", "strip_r3a": True,
+             "run": "t2-ep{ep}-w2048-cap10m-r3a-ho-ml40",
+             "desc": "Tier 2 保底：ep25、ep28 的变体 A seed 42，参考换成 runs/motion/tier2_ho（两条手臂与手指固定为第 0 帧、接触标记清零，腿与根照抄；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    "t1ho": {"plan": "agent-doc/plan-t12lift-2026-10-20.md", "tier": 1, "machine": "ml40", "cap": None,
+             "episodes": [25], "parts": {"t1ho": [25]}, "base": None, "motion": "tier1_ho", "strip_r3a": True,
+             "run": "t1-ep{ep}-w2048-cap10m-r3a-ho-ml40",
+             "desc": "Tier 1 保底：ep25 的变体 A seed 42，参考换成 runs/motion/tier1_ho（同 t2ho 的做法，只用 Tier 1 自己的参考；ml40，buffer 1000 万，基线取 Tier 1 现在交的清单）"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
