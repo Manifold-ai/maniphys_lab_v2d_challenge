@@ -1,0 +1,14 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-0701-fix.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4d60adda574c7b4391a678701c56e85b  agent-doc/experiments/2026-10-20-sop-0701-fix.claims.json
+# source   : dcc86ee62336-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T07:36:57-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep4_static           P(supported)=0.74  verified               [s4]  ep4 的仿真物体在所有世界里高度变化都是 0.000，没有一个世界比第 0 帧低 0.05 m 以上。
+ep4_pelvis           P(supported)=0.92  verified               [p4]  ep4 的骨盆位置误差中位在第 100 帧是 0.561 m，第 120 帧是 1.018 m。
+ep28_lift            P(supported)=0.95  verified               [s28]  ep28 第 160 帧仿真物体高度变化中位 +0.304 m，参考 +0.291 m；第 400 帧仿真物体比第 0 帧低约 0.51 m。
+ctl_false            P(supported)=0.91  CONTROL(false) FAILED  [s4]  ep4 的仿真物体在第 140 帧被抬高了 0.4 m。
+ctl_true             P(supported)=0.99  control(true) ok       [s28]  ep28 有 4085 个世界的仿真物体曾比第 0 帧低 0.05 m 以上。
+CONTROLS MISBEHAVED: do not rely on this batch

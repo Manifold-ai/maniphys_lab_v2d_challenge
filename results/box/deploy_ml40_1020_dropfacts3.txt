@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/evaluate/ep_drop_facts.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : eb37b752d03ea62ec6e770df69735e30  stages/evaluate/ep_drop_facts.py
+# source   : 09d63f530af5-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T08:23:18-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/ep_drop_facts.py：远端是 3449f59 的版本（8b0faa38bde847b1a50bff4baad1446b）
+本地提交 09d63f530af5；远端来历 e85efdcdfe4f
+  ok   eb37b752d03ea62ec6e770df69735e30  stages/evaluate/ep_drop_facts.py
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（1 个文件）

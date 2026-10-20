@@ -1,0 +1,56 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "s4": {
+   "file": "results/ml40/t2dg/sim_object_ep4_ml40.txt",
+   "grep": "最大位移|离开起点"
+  },
+  "s28": {
+   "file": "results/ml40/t2dg/sim_object_ep28_ml40.txt",
+   "grep": "离开起点|^  帧\t参考|^  (160|300|400)\t"
+  },
+  "p4": {
+   "file": "results/ml40/t2fc/drop_facts_t2-ep4-w2048-cap10m-r3a-ml40.txt",
+   "grep": "^  帧\tpelvis|^  (60|100|120)\t0\\."
+  }
+ },
+ "claims": [
+  {
+   "id": "ep4_static",
+   "evidence": [
+    "s4"
+   ],
+   "claim": "ep4 的仿真物体离开起点超过 0.05 m 的世界只有 129 个（4096 个里），第一次出现的帧中位是 454。"
+  },
+  {
+   "id": "ep4_pelvis",
+   "evidence": [
+    "p4"
+   ],
+   "claim": "ep4 的骨盆位置误差中位在第 100 帧是 0.561 m，第 120 帧是 1.018 m。"
+  },
+  {
+   "id": "ep28_lift",
+   "evidence": [
+    "s28"
+   ],
+   "claim": "ep28 的仿真物体在全部 4096 个世界里都离开过起点 0.05 m 以上，第一次出现的帧中位是 123；第 160 帧仿真高度变化中位 +0.304 m。"
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "s4"
+   ],
+   "claim": "ep4 的仿真物体在全部 4096 个世界里都离开过起点 0.05 m 以上。",
+   "control": "false"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "s4"
+   ],
+   "claim": "ep4 的仿真物体相对第 0 帧的最大位移是 0.9371 m。",
+   "control": "true"
+  }
+ ]
+}
