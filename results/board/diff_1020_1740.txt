@@ -1,0 +1,24 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1020_1706.txt results/board/lb_1020_1740.txt 
+# md5      : 9b7a94c70d5440ab1c533754b5d5532f  stages/evaluate/board_diff.py
+# md5      : c9bdc9570cde363a85021579997bea7a  results/board/lb_1020_1706.txt
+# md5      : 36e5acb27179b423b24c412ace76a20d  results/board/lb_1020_1740.txt
+# source   : 05d125e67a84
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T17:40:20-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1020_1706.txt；这一份 results/board/lb_1020_1740.txt
+## 变了的榜
+（没有）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 4（0.58258，第 1 名 Vi Nguyễn Văn 0.96908，差 0.38650）；sp-sr 第 2（0.83333，第 1 名 Xueyi Wang (FF) 0.86666，差 0.03333）；mp-sr 第 2（0.70000，第 1 名 Xueyi Wang (FF) 0.83333，差 0.13333）；mppe 第 2（11.86661，第 1 名 Xueyi Wang (FF) 7.44319，差 4.42342）
+Tier 2：auc 第 2（0.51379，第 1 名 Xueyi Wang (FF) 0.51796，差 0.00417）；sp-sr 第 1（0.73333，第 2 名 Xueyi Wang (FF) 0.60000，差 0.13333）；mp-sr 第 2（0.53333，第 1 名 Xueyi Wang (FF) 0.60000，差 0.06667）；mppe 第 2（15.32195，第 1 名 Xueyi Wang (FF) 13.70456，差 1.61739）
+Tier 3：auc 第 3（0.10649，第 1 名 Kelly To the H 0.26600，差 0.15951）；sp-sr 第 1（0.26666，第 2 名 Team OPS 0.16666，差 0.10000）；mp-sr 第 2（0.00000，第 1 名 Open4D 0.03333，差 0.03333）；mppe 第 3（54.98984，第 1 名 Xueyi Wang (FF) 46.64900，差 8.34084）
+第一的榜（同分 kaggle）：2 → 2 个
+第一的榜（同分 site）：2 → 2 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 26（第 2） → 26（第 2）；前 4：Xueyi Wang (FF) 22、maniphys.ai 26、domoarigato 57、Team OPS 59
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 28（第 2） → 28（第 2）；前 4：Xueyi Wang (FF) 23、maniphys.ai 28、domoarigato 54、Team OPS 58
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 7（第 2） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 13、Team OPS 15
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 7（第 2） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 13、Team OPS 15
+BOARD_NO_CHANGE
+BOARD_DIFF_DONE
