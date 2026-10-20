@@ -1,0 +1,11 @@
+# command  : stages/evaluate/t2fc_readout.sh t2-ep25-w2048-cap10m-r3a-fc8-ml40:runs/motion/tier2_fc8/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet t2-ep4-w2048-cap10m-r3a-fc8-ml40:runs/motion/tier2_fc8/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet 
+# md5      : e6d72f7d07c3b2b205617f55eb4e8cdc  stages/evaluate/t2fc_readout.sh
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T20:30:23+0800
+# ---------------------------------------------------------------
+=== 2026-10-20 20:30:23 CST t2-ep25-w2048-cap10m-r3a-fc8-ml40：评测 dump
+=== t2-ep25-w2048-cap10m-r3a-fc8-ml40：物体位置误差第一次 > 0.1 m 的帧：4096/4096 个世界有；分位 10/25/50/75/90 125.000 / 137.000 / 140.000 / 142.000 / 144.000
+=== 2026-10-20 20:35:50 CST t2-ep4-w2048-cap10m-r3a-fc8-ml40：评测 dump
+=== t2-ep4-w2048-cap10m-r3a-fc8-ml40：物体位置误差第一次 > 0.1 m 的帧：4096/4096 个世界有；分位 10/25/50/75/90 128.000 / 128.000 / 128.000 / 128.000 / 128.000
+T2FC_READOUT_DONE（成功 2、失败 0）
