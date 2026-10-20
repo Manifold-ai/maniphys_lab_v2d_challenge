@@ -687,3 +687,8 @@ init 对。思路：默认保留 FoundationPose 自己的选择，只有整段�
   `third_party/patches/cari4d-skip-render.patch` 叠在每帧配准补丁之上，md5 钉住，`pipeline_report.json` 记 `render: skipped`）；第 05 步位姿与较小
   `BETA` 逐位相同时复用其 06–07（`REUSED_FROM`；假设同输入同输出，未核）。去重后：ep04 0.3 = 0.2，ep13 0.1 = 0.2 = 0.3，ep03 五个取值互不相同；
   GPU 实跑 10 次（ep03 4、ep04 3、ep13 3），每次约 11 分钟（ep04 的 06+07）。仍等两路 dump 做完当前集（B 路 ep11 约 04:40）。
+- **运行状态（10-20 08:45 CST）**：GPU 10 次于 06:16 跑完、`GPU_HOLD` 已释放；CPU 链每个取值约 53 分钟，b000 07:09、b010 08:02 已出
+  （闸门均 FAIL：ep03 G1、ep13 G1/G2、G3；闸门只评估，不是裁判），预计约 10:40 全部完成。结果看 `$T/logs/beta_ab.log` 末行
+  （`BETA_AB_DONE` / `BETA_AB_FAILED`）与 `$T/dev/beta_ab/summary.txt`（`WINNER` 行）。两路 dump 已续跑：A 在 ep16（剩 ep19），B 在 ep27（剩 ep15）。
+- **`ANCHOR_DEG = 24°` 的来历**：沿用 `gate/t3_dynamics_check.py` 的 `OMEGA_MAX = 4π rad/s` ÷ 30 fps（闸门 G2/G3 同一门槛），没有单独检验它作为
+  「同一朝向分支」半径是否合适（候选与原选夹角分布未统计）。用户 10-20 判断不是关键、暂不查；结果对它敏感时再回来。
