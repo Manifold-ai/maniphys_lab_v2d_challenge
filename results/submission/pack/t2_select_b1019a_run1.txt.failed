@@ -1,0 +1,16 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/select_t2_b1019a/t2 runs/submission/csv/track2_tier2_select_b1019a.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c2789cf5cfbebb727560b5d7d70e11e758b50ed8 '' 
+# md5      : 4563fbc15e44eb1c4d248382afea4302  stages/evaluate/pack_tier.sh
+# source   : c2789cf5cfbe
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T16:52:04-0600
+# ---------------------------------------------------------------
+error: Request failed after 3 retries in 8.9s
+  cause: Failed to fetch: `https://mirror.nju.edu.cn/pypi/web/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl.metadata`
+  cause: error sending request for url (https://files.pythonhosted.org/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl.metadata)
+  cause: client error (Connect)
+  cause: Connection reset by peer (os error 54)
+error: Request failed after 3 retries in 8.5s
+  cause: Failed to fetch: `https://mirror.nju.edu.cn/pypi/web/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl.metadata`
+  cause: error sending request for url (https://files.pythonhosted.org/packages/c4/51/29046e48f693c54e5b7412216d447a1d8362c9653148d98c02cdf65fa733/certifi-2026.10.19-py3-none-any.whl.metadata)
+  cause: client error (Connect)
+  cause: Connection reset by peer (os error 54)
