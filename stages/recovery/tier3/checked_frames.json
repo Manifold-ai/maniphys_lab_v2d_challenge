@@ -311,5 +311,19 @@
    "sel0.5_CoCoNet": "wrong (handle not visible)",
    "best": "sel0.5_05"
   }
+ },
+ "seventh_pass_gb5_attr": {
+  "_doc": "10-21 ~01:30 (user), textured overlays dev/sel_diag/attr/review/ep01_vacuum_tex.png (t3_pose_overlay.py tex=1; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7, the final delivered layer); attribution of the gb5 gate's worse episodes (handoff-tier3-rotation-2026-10-21-attr.md)",
+  "ep01_f223": "about the same",
+  "ep01_f258": "gb5 better",
+  "ep01_f310": "both wrong: gb5 has left the hand, gb4's orientation is wrong",
+  "ep01_f345": "gb4 better",
+  "ep01_f355": "about the same, gb4 a little better",
+  "ep01_f600": "gb5 right",
+  "ep01_f650": "gb5 right",
+  "ep01_f690": "gb5 right",
+  "ep01_f698": "gb5 right",
+  "ep01_f730": "gb5 right",
+  "ep01_summary": "gb5 does well in the segment after the release where the vacuum leans on the chair"
  }
 }
