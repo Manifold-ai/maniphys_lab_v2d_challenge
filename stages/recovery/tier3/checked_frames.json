@@ -473,6 +473,29 @@
   "ep11_f900": {
    "verdict": "both_wrong",
    "note": "both lost the book"
+  },
+  "ep13_f0": {
+   "verdict": "gb5_only"
+  },
+  "ep13_f189": {
+   "verdict": "both_wrong",
+   "note": "both lost the box"
+  },
+  "ep13_f209": {
+   "verdict": "both_wrong",
+   "note": "both lost the box"
+  },
+  "ep13_f720": {
+   "verdict": "gb4_only",
+   "note": "gb5's orientation wrong"
+  },
+  "ep13_f769": {
+   "verdict": "both_wrong",
+   "note": "both lost the box"
+  },
+  "ep13_f921": {
+   "verdict": "both_wrong",
+   "note": "orientation wrong in both (final layer; the 10-20 FP-layer answer on f915 had the anchored pose right)"
   }
  }
 }
