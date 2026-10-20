@@ -1,0 +1,16 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/contact_window_errors.py\ --label\ ep25保底\ --motion\ /repo/runs/motion/tier2_ho/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ho-ml40/eval_dump/eval_349999104_w4096.npz\ --label\ ep28保底\ --motion\ /repo/runs/motion/tier2_ho/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet\ --npz\ /repo/runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ho-ml40/eval_dump/eval_349999104_w4096.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : cff58805231fb6755275ab39a2ff41f0  stages/evaluate/contact_window_errors.py
+# md5      : 7e0e39e040e05d10feab80ba47bad50d  runs/motion/tier2_ho/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# md5      : 6eca0c85b349ff59158274f6cf5d27c4  runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ho-ml40/eval_dump/eval_349999104_w4096.npz
+# md5      : 981a6e7d62d404f19f916f371c300739  runs/motion/tier2_ho/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+# md5      : b570d9d64703e43df6eb30b6e745b808  runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ho-ml40/eval_dump/eval_349999104_w4096.npz
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T06:59:30+0800
+# ---------------------------------------------------------------
+窗口 30 帧，摔倒门槛 0.5 rad（骨盆朝向误差的世界中位）
+名	帧	t_c	接触前 手掌误差 10/50/90 m	接触前 骨盆误差	接触后 手掌误差	接触后 骨盆误差	摔倒帧	摔倒帧 − t_c	骨盆朝向误差中位最大 rad
+ep25保底	859	-1	（无）	（无）	（无）	（无）	195	—	2.370
+ep28保底	988	-1	（无）	（无）	（无）	（无）	204	—	2.846
+CONTACT_WINDOW_DONE
