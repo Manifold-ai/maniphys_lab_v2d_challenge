@@ -236,28 +236,54 @@
    "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb_best_dr2s; checked by gate/chain_check.sh set gbdyn7; self-check 5 of 6 (ep16 image review failed); DELIVERED 10-17 by user decision with known issues: the focal step moves the body rigidly with the pelvis while the object follows the point map, so hands drift 1-6.5 cm from held objects (ep01, ep16 worst), fixed in the gb4 regeneration (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb_best_dr2s_dyn7-2026-10-17.md) Superseded as the delivery by tier3_cari4d_gb4_best_dr2s_dyn7 (10-18); kept in place, rxzhou has a copy."
   },
   "tier3_cari4d_gb4_best": {
-   "status": "candidate",
+   "status": "archived",
    "date": "10-18",
    "from": "best",
-   "purpose": "as gb_best (same selection, same GB intrinsics), with the focal step refitting instead of moving rigidly: the object Kabsch-fitted to its point-mapped surface, the body by SOMA PoseInversion (analytic + 20 autograd steps, hands and feet weight 5) to the point-mapped mesh (t3_convert_ep.py focal, e5ab7e5; body vertex p90 12.5 mm median, 23.0 max over 54 convert dirs); regenerated in an isolated root (dev/gbfix) and moved in as convert_*_gb4; floor_fit_gb4 (main 0.964 deg / 0.982, second camera 2.173 deg, scale 0.949), camera_register_gb4 (second 181.53 deg, ep21 84.94 deg); made by t3_gb_chain.sh gb4"
+   "purpose": "as gb_best (same selection, same GB intrinsics), with the focal step refitting instead of moving rigidly: the object Kabsch-fitted to its point-mapped surface, the body by SOMA PoseInversion (analytic + 20 autograd steps, hands and feet weight 5) to the point-mapped mesh (t3_convert_ep.py focal, e5ab7e5; body vertex p90 12.5 mm median, 23.0 max over 54 convert dirs); regenerated in an isolated root (dev/gbfix) and moved in as convert_*_gb4; floor_fit_gb4 (main 0.964 deg / 0.982, second camera 2.173 deg, scale 0.949), camera_register_gb4 (second 181.53 deg, ep21 84.94 deg); made by t3_gb_chain.sh gb4 Superseded 10-21 by tier3_cari4d_gb5_best (same chain, 13 FP episodes re-selected); archived."
   },
   "tier3_cari4d_gb4_best_dr2s": {
-   "status": "candidate",
+   "status": "archived",
    "date": "10-18",
    "from": "tier3_cari4d_gb4_best",
-   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb4_best with supports runs/support/tier3_cari4d_gb4_best"
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb4_best with supports runs/support/tier3_cari4d_gb4_best Superseded 10-21 by tier3_cari4d_gb5_best_dr2s; archived."
   },
   "tier3_cari4d_gb4_best_dr2s_dyn7": {
-   "status": "delivered",
+   "status": "kept",
    "date": "10-18",
    "from": "tier3_cari4d_gb4_best_dr2s",
-   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, f830 18263); DELIVERED 10-18 by user decision, known issue ep11: the human hand is on the book but our copy of the retarget leaves the robot right hand 3-5 cm off in 41 frames (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb4_best_dr2s_dyn7-2026-10-18.md)"
+   "purpose": "dyn7 dynamics post-process as best_dr2s_dyn7, on gb4_best_dr2s; checked by gate/chain_check.sh set gb4dyn7; self-check 6 of 6 (ep16 frame 130 fixed); labelled contact frames back to the f830 level (18133 vs gb3 16496, f830 18263); DELIVERED 10-18 by user decision, known issue ep11: the human hand is on the book but our copy of the retarget leaves the robot right hand 3-5 cm off in 41 frames (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb4_best_dr2s_dyn7-2026-10-18.md) Superseded as the delivery by tier3_cari4d_gb5_best_dr2s_dyn7 (10-21); kept in place: rxzhou's packing whitelist reads it by name and he trains on it."
+  },
+  "tier3_cari4d_gb5_best": {
+   "status": "candidate",
+   "date": "10-20",
+   "from": "tier3_cari4d_gb4_best",
+   "purpose": "gb4_best with the 13 episodes whose pick is FoundationPose's (convert_fp) re-initialized by the timeline selector (t3_fp_select.py, BETA 0.5, A/B winner 10-20) on the dumped candidates and CoCoNet 06-08 re-run (runs/work_b050), converted into convert_fp_gb5; the other 17 episodes' convert dirs hard-linked from gb4; gb4's floor fit and camera registration (same world frame); made by t3_sel_full.sh gb5 (ep19 not included)"
+  },
+  "tier3_cari4d_gb5_best_dr2s": {
+   "status": "candidate",
+   "date": "10-20",
+   "from": "tier3_cari4d_gb5_best",
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb5_best with supports runs/support/tier3_cari4d_gb5_best"
+  },
+  "tier3_cari4d_gb5_best_dr2s_dyn7": {
+   "status": "delivered",
+   "date": "10-21",
+   "from": "tier3_cari4d_gb5_best_dr2s",
+   "purpose": "dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md)"
   }
  },
  "work": {
   "work": "CARI4D register-first-then-track runs, all 30 episodes (input to convert)",
   "work_fp": "FoundationPose register-every-frame runs (input to convert_fp; base of the stage pilots)",
   "work_v2": "re-selection runs (input to convert_v2)",
-  "work_init": "pending: initialization pilot (t3_init_pilot.sh, 10-16); created when the pilot starts"
+  "work_init": "pending: initialization pilot (t3_init_pilot.sh, 10-16); created when the pilot starts",
+  "work_b050": "timeline-selection runs (t3_fp_select.py BETA 0.5) of the 13 FP episodes, CARI4D 05-08 (08 render skipped); input to convert_fp_gb5 (gb5)",
+  "work_dump": "FoundationPose candidate dumps (t3_fp_dump.sh) of 14 episodes, input to t3_fp_select.py",
+  "work_b000": "archived 10-21 (runs/archive/work_b000): BETA 0 run of the 10-20 A/B (ep03/04/13); superseded by work_b050",
+  "work_b010": "archived 10-21 (runs/archive/work_b010): BETA 0.1 run of the 10-20 A/B; superseded by work_b050",
+  "work_b020": "archived 10-21 (runs/archive/work_b020): BETA 0.2 run of the 10-20 A/B; superseded by work_b050",
+  "work_b030": "archived 10-21 (runs/archive/work_b030): BETA 0.3 run of the 10-20 A/B; superseded by work_b050",
+  "work_sel": "archived 10-21 (runs/archive/work_sel): 10-19 timeline-selection pilot (BETA 0, ep03/04); superseded by work_b050",
+  "work_anchor": "archived 10-21 (runs/archive/work_anchor): 10-20 anchored-selection re-run with BETA 0.316 from the answer frames, stopped before 06 (stage 05 only; no evidence); superseded by work_b050"
  }
 }
