@@ -1,0 +1,25 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/hands_off.py\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet\ /repo/runs/motion/tier2_ho\ --meta-src\ /repo/runs/motion_src/tier2\ --meta-dst\ /repo/runs/motion_src/tier2_ho\ --arm-frame-scan\ --dry-run 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e648e7dbec0502192afc2f14a5967967  stages/retarget/hands_off.py
+# md5      : 5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T22:42:08+0800
+# ---------------------------------------------------------------
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+  自检 left_hand_palm_link：原关节角下位置最大差 0.00 mm、朝向最大差 0.000°
+  自检 right_hand_palm_link：原关节角下位置最大差 0.00 mm、朝向最大差 0.000°
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+  支撑面文件 ['2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda']；方盒 0 个：
+  候选第 0 帧：手臂点到物体最近 0.282 m（第 662 帧），到支撑面方盒最近 inf m；两者较小值 0.282 m
+  候选第 50 帧：手臂点到物体最近 0.232 m（第 662 帧），到支撑面方盒最近 inf m；两者较小值 0.232 m
+  候选第 100 帧：手臂点到物体最近 0.000 m（第 108 帧），到支撑面方盒最近 inf m；两者较小值 0.000 m
+  原参考：手臂点到物体最近 0.000 m（第 508 帧），到支撑面方盒最近 inf m；参考第一次接触 t_c 102
+参考 /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet：859 帧；手臂与手指 28 个关节固定为第 0 帧的值（扫描选出）；关节最大改动 3.212 rad；其余关节改动 0 rad
+dry-run：不写文件
+HANDS_OFF_DONE

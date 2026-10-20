@@ -5,7 +5,7 @@ Tier 1 ep25 同样（114.10 对 49.71，`results/select_t1/t1_static_floor_c10s4
 腿、腰、根照抄；ee_pose_w（两只手掌）按 URDF 正向运动学重算（四元数 wxyz，与原 parquet 一致；先自检原关节角下算出的手掌与原 ee_pose_w 最大差 ≤ 2 mm，不过就退出）；
 hand_contact_active 全部置 0（没有接触段，force_closure 不计）。其余列、object 目录、支撑面、v2d_meta.json 照抄（同 finger_close.py 的写法）。
 报告：手臂关节的最大改动；新、原参考里“手臂点”（两只手各连杆碰撞网格的顶点，加肩、肘、腕连杆原点与上臂、前臂连线上的点）到物体表面采样点的最近距离，
-与到支撑面方盒（用挂载的 flash_chord 导入器建 reconstructed_stage 里这一集的支撑面，只取 BOX）的最近有向距离（全部帧的最小值与出现的帧）。
+与到支撑面方盒（用挂载的 flash_chord 导入器建 reconstructed_stage 里这一集的支撑面，只取 BOX；要挂训练用的那份副本，v0.4.0 原版不读方盒的 scale）的最近有向距离（全部帧的最小值与出现的帧）。
 --arm-frame-scan（计划 agent-doc/plan-t12lift-2026-10-20.md 第 2 版，复核 MAJOR 3）：在 [0, 参考第一次接触) 里每 50 帧取一个候选帧（含第 0 帧），
 选“全部帧里手臂点到物体与到支撑面的最近距离两者的较小值”最大的那一帧；并列取较早的帧。不给时用 --arm-frame。
 说明：ik_error_per_frame 是重定向时的诊断量，本工具不改，新 parquet 里它已过期；ee_pose_w 的四元数取 w ≥ 0，可能与原来的符号相反（同一旋转）；
@@ -127,7 +127,9 @@ def main() -> int:
             b = newton.ModelBuilder()
             fsup.add_support_surfaces(b, str(u))
             for i in range(b.shape_count):
-                if newton.GeoType(b.shape_type[i]).name != "BOX":
+                kind = newton.GeoType(b.shape_type[i]).name
+                if kind != "BOX":
+                    print(f"  支撑面 {u.name} 第 {i} 个形状是 {kind}，不是方盒，没算进距离")
                     continue
                 tr = np.asarray(b.shape_transform[i], dtype=float)          # p(3) + q(4, xyzw)
                 boxes.append((tr[:3], quat_mat(tr[3:], "xyzw"), np.asarray(b.shape_scale[i], dtype=float)[:3]))
