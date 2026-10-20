@@ -618,6 +618,13 @@
   "ep28_f987": {
    "verdict": "both_wrong_gb5_better",
    "note": "both basically lost it, gb5 a little better"
+  },
+  "ep11_f0": {
+   "verdict": "both_ok"
+  },
+  "ep17_f0": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better"
   }
  }
 }
