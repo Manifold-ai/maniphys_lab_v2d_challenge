@@ -844,3 +844,11 @@ dr2s `anchors`（物体落在支撑面/地面上的段，下称「放着」）�
 - **M7 取消角度判对数**（30° 容差在杯子上判不准，见上）：13 个答案帧并入人工看图，与 78 帧抽查一起判。
 - **人工整批放行**：全部看图帧中「旧对新错」≤ 10% 则交付整批 gb5，否则整批不交付。
 - 已知问题（本轮不修）：CoCoNet 会把第 05 步的好朝向转走（ep03 第 131 帧）；要修需在 06 之后加「偏离初值过大则退回」，另行试验。
+
+**gb5 推广启动与闸门工具（10-20 11:02 起）**：
+- `t3_sel_full.sh`（`5e28bc6`，加了 `SEL_WORK`/`SEL_BETA`/`SEL_SKIP_RENDER`/`SEL_FULL_GATE`）以 `SEL_FULL_GATE=0 SEL_WORK=work_b050 SEL_BETA=0.5
+  SEL_SKIP_RENDER=1 t3_sel_full.sh gb5 <13 集>` 在跑，日志 `$T/logs/sel_full_gb5.log`，末行 `SEL_FULL_DONE` / `SEL_FULL_FAILED`。GPU 06–07 等 A 路 ep19 dump 结束。
+- **M1 改正（看结果前）**：登记写的「13 集契约上只改物体位姿」不对——这 13 集重跑了 CoCoNet，它与物体一起重新优化人体，人体列必然变。
+  改为：30 集 schema、帧数、数值有限、四元数单位长度与 gb4 一致；未改的 17 集所有列与 gb4 完全相同；13 集允许变（变了哪些列照报）。
+- 闸门脚本 `gate/t3_gb5_gate.py`（M1–M6 与「≥ 1/3 集变差整批退回」，末行 `GB5_GATE PASS|ATTRIBUTE|FAIL|REVERT`）。验证：gb4 对自身
+  复现交付报告的 2105 / 568 / 30/30 / 0.921%，判 PASS；注入 4 集违规 +1 判 `ATTRIBUTE M2`，5 集判 `REVERT 5/13 worse`。链跑完后再部署它，免得改链中途的部署戳。
