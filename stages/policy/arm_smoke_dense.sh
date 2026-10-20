@@ -14,6 +14,7 @@ mkdir -p runs/logs
 exec >> "$LOG" 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "ARM_DENSE_FAILED $*"; exit 1; }
+stop_fail() { touch "runs/.chain-stop-${SEG}_train_mf4090"; say "建了停链标记（失败分支，正式训练不开）"; fail "$@"; }
 Q="stages/policy/queues/mf4090_${SEG}"
 T="runs/logs/${SEG}_train_mf4090.log"
 SRC="$HOME/v2d/fc_src/fc_8c778f9"
@@ -21,6 +22,10 @@ EXTRA="stages/evaluate/${NM}_mf4090.tsv"; LIST="stages/evaluate/exports/cand_t2_
 for f in "${Q}_smoke.txt" "${Q}.txt" "${Q}.expect.tsv" "$EXTRA" "$LIST"; do [ -s "$f" ] || fail "没有 $f"; done
 LAST="$(grep -v '^#' "${Q}_smoke.txt" | awk '{for (i = 1; i <= NF; i++) if ($i ~ /^smoke-t2-/) { r = $i } } END { print r }')"
 [ -n "$LAST" ] || fail "冒烟队列里找不到 smoke-t2- 开头的 run"
+# 复核第 1 条：已有 run 目录时冒烟会被跳过、开始行不出现，标记就建不上；这种情况一律不起
+for r in $(cut -f1,2 "${Q}.expect.tsv" | tail -n +2 | tr '\t' ' '); do
+  [ ! -e "runs/flash_chord/$r" ] || fail "runs/flash_chord/$r 已存在，不起（冒烟会被跳过，停链标记建不上）"
+done
 say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)；最后一条冒烟 ${LAST}"
 scripts/dev/record "${NM}/cfgcheck_mf4090" stages/policy/fc_config_check.sh "${Q}_smoke.txt" "${Q}.txt" > /dev/null 2>&1 || fail "配置核对没过（results/${NM}/cfgcheck_mf4090.txt.failed）"
 scripts/dev/record "${NM}/precheck_mf4090" stages/policy/precheck_expect.sh "${Q}.expect.tsv" "${Q}_smoke.txt" "${Q}.txt" > /dev/null 2>&1 || fail "预检没过（results/${NM}/precheck_mf4090.txt.failed）"
@@ -30,10 +35,10 @@ arm="$(bash stages/policy/arm_var_chain.sh "$SEG" 2>&1)"; tail -n 3 <<< "$arm"
 [ "$(tail -n 1 <<< "$arm")" = ARMED ] || fail "起链没成"
 for _ in $(seq 1 720); do
   grep -qE "冒烟 ${LAST}\$" "$T" 2>/dev/null && break
-  tail -n 1 "$T" 2>/dev/null | grep -qE "DAY2_TRAIN_(DONE|FAILED)" && fail "最后一条冒烟开始之前训练链就结束了：$(tail -n 1 "$T")"
+  tail -n 1 "$T" 2>/dev/null | grep -qE "DAY2_TRAIN_(DONE|FAILED)" && stop_fail "最后一条冒烟开始之前训练链就结束了"
   sleep 5
 done
-grep -qE "冒烟 ${LAST}\$" "$T" || fail "60 分钟内没等到最后一条冒烟开始"
+grep -qE "冒烟 ${LAST}\$" "$T" || stop_fail "60 分钟内没等到最后一条冒烟开始"
 touch "runs/.chain-stop-${SEG}_train_mf4090"
 say "最后一条冒烟已开始，建了停链标记 runs/.chain-stop-${SEG}_train_mf4090"
 for _ in $(seq 1 360); do tail -n 1 "$T" | grep -qE "DAY2_TRAIN_(DONE|FAILED)" && break; sleep 10; done
