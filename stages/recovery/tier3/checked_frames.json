@@ -407,6 +407,30 @@
   "ep03_f780": {
    "verdict": "gb5_only",
    "note": "user: gb5 right; kept after the tinted render (review_gb5/tint/)"
+  },
+  "ep04_f0": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep04_f312": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep04_f458": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep04_f480": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep04_f669": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
+  },
+  "ep04_f802": {
+   "verdict": "gb5_only",
+   "note": "user: gb5 better throughout the sheet, its orientation is corrected"
   }
  }
 }
