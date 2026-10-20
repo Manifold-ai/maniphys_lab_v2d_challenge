@@ -1,7 +1,6 @@
 """gb6: per part, the stage-05 initialization of gb4 (runs/work_fp) or of gb5 (runs/work_b050), whichever gives the lower
 cost of the stitched sequence, with resting frames fixed to gb5; then CoCoNet 06-08 and the chain re-run on the stitched
-initialization (10-21, user; registered in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md "gb6 登记 v2", which
-supersedes v1 before any GPU run: v1 left resting frames to the physics cost, which cannot tell an orientation there).
+initialization (10-21, user; registered in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md "gb6 登记").
 
 Why: gb5's timeline selection is right on some segments and wrong on others (attribution of the gb5 gate, user's
 verdicts on ep01/02/17), so taking or keeping gb5 per batch loses right segments either way. Only the initialization is
@@ -13,7 +12,7 @@ Rule (registered):
      JUMP_DEG apart, symmetry-aware; runs merged across gaps shorter than MERGE frames.
   2. cuts: in each gap between consecutive changed runs, the frame c where the two stage-05 initializations are closest
      (symmetry-aware); the cut lies between c and c+1. An episode without a changed run takes gb5 whole.
-     Resting frames (v2): unheld in both versions (the dynamics check's held is false) and the centre of mass slower than
+     Resting frames: unheld in both versions (the dynamics check's held is false) and the centre of mass slower than
      REST_MPS in both (the check's local quadratic fit on each version's own reference), in runs of at least MERGE
      frames. Each resting run is a part fixed to gb5 (the selector's evidence there is appearance accumulated along the
      timeline; physics has none). The other frames form parts between the resting runs, cut again at the cuts above.
@@ -81,7 +80,7 @@ def stage05(ep_dir):
 
 
 def partition(n, segs, init_ang, rest):
-    """Parts (rule 2): resting runs (fixed to gb5), the frames between them cut at the v1 cuts. Returns [(a, b, fixed)]."""
+    """Parts (rule 2): resting runs (fixed to gb5), the frames between them cut at the cuts. Returns [(a, b, fixed)]."""
     cuts = []
     for (_, e0), (s1, _) in zip(segs, segs[1:]):
         gap = np.arange(e0 + 1, s1)
@@ -144,7 +143,7 @@ def main():
     write = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--write=")), None)
     T, G, out, eps = Path(args[0]), Path(args[1]), Path(args[2]), args[3:]
     metas = {m["episode_index"]: m for m in map(json.loads, (T / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
-    res = {"rule": "agent-doc/handoff-tier3-rotation-2026-10-21-attr.md, gb6 登记 v2", "JUMP_DEG": JUMP_DEG, "MERGE": MERGE, "episodes": {}}
+    res = {"rule": "agent-doc/handoff-tier3-rotation-2026-10-21-attr.md, gb6 登记", "JUMP_DEG": JUMP_DEG, "MERGE": MERGE, "episodes": {}}
     for name in eps:
         ep = int(name[2:4])
         mesh = trimesh.load(T / "input" / metas[ep]["mesh"], force="mesh")
