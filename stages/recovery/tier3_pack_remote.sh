@@ -24,7 +24,7 @@ me="$(id -un)"
 mapfile -t roots < <(ls -d /lab_data/*/v2d/tier3 2>/dev/null | grep -v "^/lab_data/$me/")
 [ ${#roots[@]} = 1 ] || { echo "tier3_pack_remote: 别的用户的 tier3 目录有 ${#roots[@]} 个，应当恰好一个" >&2; exit 1; }
 SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_cari4d_gb_best_dr2s_dyn7|tier3_cari4d_gb_best_dr2s_dyn7_suspect|tier3_kfix_F) ;;
+case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_cari4d_gb_best_dr2s_dyn7|tier3_cari4d_gb_best_dr2s_dyn7_suspect|tier3_cari4d_gb4_best_dr2s_dyn7|tier3_cari4d_gb4_best_dr2s_dyn7_suspect|tier3_kfix_F) ;;
   *) echo "tier3_pack_remote: V2D_T3_SUBDIR 不在白名单里：$SUB" >&2; exit 2 ;;
 esac
 SUP="${V2D_T3_SUPPORT:-}"

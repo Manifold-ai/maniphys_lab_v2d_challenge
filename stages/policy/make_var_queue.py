@@ -77,6 +77,7 @@ ALLOWED = {"scene.support=false", "training.replay.capacity=4000000"}
 TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]
 # gb3 有桌面的集与 best_hm 相同（其余集的支撑面是空的 Xform，results/t3gb3/inventory_ml40.txt）
 TABLES_GB3 = TABLES_HM
+TABLES_GB4 = TABLES_HM   # gb4 的支撑面：有桌面的仍是这 12 集（计划 agent-doc/plan-t3g4-2026-10-19.md 事实 2）
 # D 的总顺序：① ep15、17；② 没在 Tier 3 训练过的 18 集与 ep8（10/9 试跑在旧参考上失败），按集号；③ 其余 8 集重训（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md 第 2 节）
 ORDER_HM = [15, 17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 19, 21, 25, 27, 0, 18, 22, 24, 26, 20, 23, 29]
 SETS = {
@@ -118,6 +119,11 @@ SETS = {
              "episodes": [20, 0, 22, 21], "parts": {"t3pg": [20, 0, 22, 21]},
              "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap4m-r3a-gb3-mf4090",
              "desc": "Tier 3 gb3（标定内参）：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb3，基线取 Tier 2 导出清单，支撑面按 gb3）"},
+    # 10/19 晚（计划 agent-doc/plan-t3g4-2026-10-19.md）：gb4 交付（人体按 PoseInversion 重解、物体 Kabsch、地面与配准重算），跟得住的 11 集重训
+    "t3pg4": {"plan": "agent-doc/plan-t3g4-2026-10-19.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
+              "episodes": [0, 6, 7, 8, 20, 22, 18, 24, 26, 29, 21], "parts": {"t3pg4": [0, 6, 7, 8, 20, 22, 18, 24, 26, 29, 21]},
+              "base": None, "motion": "tier3_gb4", "tables": TABLES_GB4, "run": "t3-ep{ep}-w2048-cap4m-r3a-gb4-mf4090",
+              "desc": "Tier 3 gb4（标定内参、人体重解）：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb4，基线取 Tier 2 导出清单，支撑面按 gb4）"},
     "t3qg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "ml40", "cap": None,
              "episodes": [6, 8, 7, 29], "parts": {"t3qg": [6, 8, 7, 29]},
              "base": None, "motion": "tier3_gb3", "tables": TABLES_GB3, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb3-ml40",

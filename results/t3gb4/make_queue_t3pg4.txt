@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t3pg4 
+# md5      : ef7db07682ffe00a35dcdf5972402073  stages/policy/make_var_queue.py
+# source   : 974431c0ac2d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T22:37:02-0400
+# ---------------------------------------------------------------
+写 stages/policy/queues/mf4090_t3pg4.expect.tsv（12 行）
+写 stages/policy/queues/mf4090_t3pg4_smoke.txt（12 行）
+写 stages/policy/queues/mf4090_t3pg4.txt（12 行）
+写 stages/evaluate/exports/cand_t3_t3pg4_mf4090.tsv（12 行）
