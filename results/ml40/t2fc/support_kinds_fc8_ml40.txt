@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/support_kinds.py runs/motion/tier2_fc8/whole_body/reconstructed_stage 
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T15:15:30+0800
+# ---------------------------------------------------------------
+sequence_id	shapes	scaled_cube	md5
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	Cylinder×2	no	55ce75bf14e682de9fc61e20964f8701
+2026-04-24_11-40-52_baseball_bat_rotate_05	empty	no	e7b1026ef52ee91c15c1fcd6d216c653
+# 共 2 个：只有地面 1，带 scale 的方盒 0，其他 1

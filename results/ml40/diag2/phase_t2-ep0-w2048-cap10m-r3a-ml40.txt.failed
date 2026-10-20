@@ -1,0 +1,53 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag_phase.py\ /repo/runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.npz\ --diag-json\ /repo/runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.json\ --same-card-json\ /repo/runs/flash_chord/t2-ep0-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json\ --role\ control 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 78ac3940792d2ce3423f07e000adcc0b  stages/evaluate/diag_phase.py
+# md5      : 80c257f7cd07410b40d8736f594b5191  runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.npz
+# md5      : 445375a37ce02cb308cc219739a12a8b  runs/diag2/t2-ep0-w2048-cap10m-r3a-ml40/rollout_w4096.json
+# md5      : 0adc54dc0a589d1160e6fd9d53b2a311  runs/flash_chord/t2-ep0-w2048-cap10m-r3a-ml40/eval_349999104_w4096.json
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T14:56:17+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+policy /repo/runs/flash_chord/t2-ep0-w2048-cap10m-r3a-ml40/policy_349999104.safetensors；世界 4096，帧 778；角色 control
+== 闸
+  PASS  V0 形状与同步：T 778/778，W 4096/4096，B 1，非有限世界 0，手掌 ['left', 'right']，参考接触 ['left', 'right']，参考手掌 ['left_hand_palm_link', 'right_hand_palm_link']，同步最大差 0 m，参考位姿 float64；手掌坐标帧闸：与评测器 palm_position_m 最大差 5.48e-07 m（错一帧时 +1 0.0523、−1 0.0523，只报）
+  PASS  V1 同卡：不逐位相同；chord_sr 0.9832 vs 0.9771（|z| 1.98），ADD-AUC 差 +0.00024
+  PASS  V2 重算：MP-SR 0.989258 vs 0.989258，SP-SR 0.993652 vs 0.993652，ADD-AUC 0.400112 vs 0.400112
+  VALIDITY PASS
+== 参考分段（只用参考）
+  主动手 left：接触 221 帧，第 203–647 帧
+  主动手 right：接触 431 帧，第 203–645 帧
+  t_c 203，t_last 647，开动帧 t_m 271；段：接近 0–202，接触 203–647，之后 648–777
+== 逐世界分类（MP-SR 成功的先归成功；失败的按 A1 → A2 → G1 → G2 → K 先中先停）
+  S   4052（98.9%）
+  A1     0（0.0%）
+  A2     2（0.0%）
+  G1    42（1.0%）
+  G2     0（0.0%）
+  K      0（0.0%）
+  失败世界 44 个，各组占比：接近 4.5%，抓取 95.5%，跟踪 0.0%
+  主要失败环节（第 4 节的规则）：抓取
+  G1 的窗口第 271–300 帧，其中有手在接触、实际数了 26 帧
+== 读分类时要分清的几件事（第 2 版加，只报）
+  失败世界 44 个：只有位置不过 21，只有朝向不过 0，两样都不过 23（对称物体的朝向项要单独看）
+  A2 世界 2 个：手到位（d_rob ≤ d_ref + 3 cm）相对 t_c 的帧数四分位 [55.2, 77.5, 99.8]；30 帧内到位 0，更晚才到 2，到第 647 帧都没到 0
+== 各段对时间平均误差的贡献（失败世界的中位；贡献 = 段内误差之和 / 总帧数，各段相加即全程平均）
+  接近（203 帧）：位置 0.24 cm（占全程 1%），朝向 0.5°
+  接触（445 帧）：位置 2.03 cm（占全程 31%），朝向 11.8°
+  之后（130 帧）：位置 7.94 cm（占全程 64%），朝向 16.2°
+== 接触段里手贴着物体的帧比例（d_rob ≤ d_ref + 3 cm，只数参考里这只手在接触的帧；世界中位，成功 / 失败）
+  left：成功 13%，失败 11%（第 203–647 帧里的 221 帧）
+  right：成功 61%，失败 57%（第 203–647 帧里的 431 帧）
+== 灵敏度（只报，不改结论的门限）
+  A2 2.5 cm：接近 100.0%，抓取 0.0%，跟踪 0.0%
+  A2 10 cm：接近 0.0%，抓取 100.0%，跟踪 0.0%
+  G1 1.5 cm：接近 4.5%，抓取 95.5%，跟踪 0.0%
+  G1 6 cm：接近 4.5%，抓取 4.5%，跟踪 90.9%
+== 每类挑 3 个世界（世界平均位置误差最接近这一类的中位）
+  S：世界 [180, 1539, 2250]（平均位置误差 1.4 cm, 1.4 cm, 1.4 cm）
+  A2：世界 [1180, 1320]（平均位置误差 28.7 cm, 50.5 cm）
+  G1：世界 [1034, 1234, 2324]（平均位置误差 11.4 cm, 15.2 cm, 10.3 cm）
+== 对照：成功世界 4052 个，其中带接近或抓取标记 4052 个（100.0%，上限 10%）
+CONTROL_FAIL
+summary_json {"worlds": 4096, "frames": 778, "role": "control", "valid": true, "t_c": 203, "t_m": 271, "t_last": 647, "active": ["left", "right"], "counts": {"S": 4052, "A1": 0, "A2": 2, "G1": 42, "G2": 0, "K": 0}, "fail_worlds": 44, "group_shares": {"接近": 0.045454545454545456, "抓取": 0.9545454545454546, "跟踪": 0.0}, "verdict": "抓取", "sensitivity": {"A2 2.5 cm": {"接近": 1.0, "抓取": 0.0, "跟踪": 0.0}, "A2 10 cm": {"接近": 0.0, "抓取": 1.0, "跟踪": 0.0}, "G1 1.5 cm": {"接近": 0.045454545454545456, "抓取": 0.9545454545454546, "跟踪": 0.0}, "G1 6 cm": {"接近": 0.045454545454545456, "抓取": 0.045454545454545456, "跟踪": 0.9090909090909091}}, "picks": {"S": [180, 1539, 2250], "A2": [1180, 1320], "G1": [1034, 1234, 2324]}, "control_false_rate": 1.0, "mp_sr": 0.9892578125, "sp_sr": 0.99365234375, "add_auc": 0.4001124953242991}
