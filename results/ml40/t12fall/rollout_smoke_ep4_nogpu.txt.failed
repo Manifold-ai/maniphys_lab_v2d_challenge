@@ -1,0 +1,54 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ /repo/stages/evaluate/diag_rollout.py\ /repo/runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/policy_349999104.safetensors\ /repo/runs/t12fall/smoke_ep4\ --worlds\ 16\ --palms\ --bodies 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9a0ce6decb66b050607530188a1bab66  stages/evaluate/diag_rollout.py
+# md5      : 03a96e48b327246842db928db6dd05b6  runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T04:58:45+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+[2026-10-20 20:58:53,360][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda13.initialize()
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.11/site-packages/jax_plugins/xla_cuda13/__init__.py", line 201, in _version_check
+    version = get_version()
+              ^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:52: operation cuptiGetVersion(&version) failed: Unknown CUPTI error 999. This probably means that JAX was unable to load cupti.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 508, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/opt/venv/lib/python3.11/site-packages/jax_plugins/xla_cuda13/__init__.py", line 370, in initialize
+    _check_cuda_versions(raise_on_first_error = True)
+  File "/opt/venv/lib/python3.11/site-packages/jax_plugins/xla_cuda13/__init__.py", line 258, in _check_cuda_versions
+    _version_check("cuPTI", cuda_versions.cupti_get_version,
+  File "/opt/venv/lib/python3.11/site-packages/jax_plugins/xla_cuda13/__init__.py", line 205, in _version_check
+    raise RuntimeError(err_msg) from e
+RuntimeError: Unable to load cuPTI. Is it installed?
+[2026-10-20 20:58:53,373][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Error executing job with overrides: ['evaluation.checkpoint=/repo/runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/policy_349999104.safetensors', 'evaluation.world_count=16', 'evaluation.metrics_output=/repo/runs/t12fall/smoke_ep4.json']
+Traceback (most recent call last):
+  File "/workspace/scripts/evaluate_policy.py", line 54, in main
+    outcome = evaluate_checkpoint(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/evaluation/harness.py", line 401, in evaluate_checkpoint
+    device = resolve_jax_device(training.device)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/training/flash_sac/runner.py", line 56, in resolve_jax_device
+    devices = jax.devices(platform)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 1039, in devices
+    return get_backend(backend).devices()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 973, in get_backend
+    return _get_backend_uncached(platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 954, in _get_backend_uncached
+    platform = canonicalize_platform(platform)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 758, in canonicalize_platform
+    raise RuntimeError(f"Unknown backend: '{platform}' requested, but no "
+RuntimeError: Unknown backend: 'gpu' requested, but no platforms that are instances of gpu are present. Platforms present are: cpu
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
