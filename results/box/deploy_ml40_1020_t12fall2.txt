@@ -1,0 +1,13 @@
+# command  : scripts/dev/push-new-files stages/evaluate/t12fall_chain.sh 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 8d1881c88ead505692990ff20e6e8086  stages/evaluate/t12fall_chain.sh
+# source   : 8f4f9640a5fc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T16:13:20-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/t12fall_chain.sh：远端是 c1a0a03 的版本（1a9e006d43307a3762cff48bb12c82b4）
+本地提交 8f4f9640a5fc；远端来历 e85efdcdfe4f
+  ok   8d1881c88ead505692990ff20e6e8086  stages/evaluate/t12fall_chain.sh
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（1 个文件）
