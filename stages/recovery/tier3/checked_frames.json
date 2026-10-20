@@ -342,5 +342,28 @@
   "ep17_f245": "position: gb5 better; orientation: gb4 better",
   "ep17_f260": "gb5 right; it fixes gb4 losing track",
   "ep17_f300": "both right"
+ },
+ "batch_review_gb4_gb5": {
+  "_doc": "10-21 (user), whole-batch gb4 vs gb5 review sheets dev/sel_diag/review_gb5/ep*_tex.png (t3_pose_overlay.py n=4 tex=1: per episode the 4 frames where the versions differ most, >= 15 apart, plus first and last; video | tier3_cari4d_gb4_best_dr2s_dyn7 | tier3_cari4d_gb5_best_dr2s_dyn7). verdict: both_ok | gb4_only (old right, new wrong) | gb5_only (new right, old wrong) | both_wrong | both_wrong_gb4_better | both_wrong_gb5_better. Release rule (10-20): gb4_only share <= 10% for the whole batch to take gb5.",
+  "ep01_f0": {
+   "verdict": "both_ok"
+  },
+  "ep01_f245": {
+   "verdict": "both_wrong_gb4_better",
+   "note": "gb5's hand-object contact is wrong"
+  },
+  "ep01_f306": {
+   "verdict": "both_wrong_gb4_better",
+   "note": "both have the handle not held in the hand"
+  },
+  "ep01_f343": {
+   "verdict": "gb4_only"
+  },
+  "ep01_f586": {
+   "verdict": "gb5_only"
+  },
+  "ep01_f746": {
+   "verdict": "gb5_only"
+  }
  }
 }
