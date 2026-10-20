@@ -295,6 +295,19 @@
   "ep03_f451": "sel right (orientation and position closest to the video); init's final has a large position error and the wrong orientation",
   "ep03_f131": "ctrl right (handle on the left, in the hand); sel wrong (handle turned to the right side)",
   "ep03_f117": "ctrl right (orientation); sel wrong (handle not visible)",
-  "ep13_holdout": "10-20 ~03:00 (user), FP layer (stage-05 pose) on dev/sel_diag/margin/ep13_holdout.png: video | ctrl (work_fp) | anchor (ctrl-anchored selection, BETA=0.316); held-out check of the anchored rule"
+  "ep13_holdout": "10-20 ~03:00 (user), FP layer (stage-05 pose) on dev/sel_diag/margin/ep13_holdout.png: video | ctrl (work_fp) | anchor (ctrl-anchored selection, BETA=0.316); held-out check of the anchored rule",
+  "ep03_layers_doc": "10-20 ~11:20 (user), dev/sel_diag/handle/ep03_f117_layers.png: video | ctrl_05 (work_fp stage 05) | ctrl_CoCoNet | sel0.5_05 (work_b050 stage 05) | sel0.5_CoCoNet; handle on the left (in the hand) is right",
+  "ep03_f117_layers": {
+   "ctrl_05": "ok (handle at the left edge)",
+   "ctrl_CoCoNet": "ok",
+   "sel0.5_05": "wrong (handle not visible)",
+   "sel0.5_CoCoNet": "wrong (handle not visible; back or right, unclear)"
+  },
+  "ep03_f131_layers": {
+   "ctrl_05": "ok",
+   "ctrl_CoCoNet": "ok",
+   "sel0.5_05": "ok",
+   "sel0.5_CoCoNet": "wrong (handle not visible)"
+  }
  }
 }
