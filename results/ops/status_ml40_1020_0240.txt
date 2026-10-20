@@ -1,0 +1,26 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : fcbc6f22bce1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T02:40:22-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-20 16:40:27 CST
+NVIDIA L40S, 40209 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T 1015G 1000G  51% /lab_data
+-- tmux
+v2d-t2fc-eval: 1 windows (created Tue Oct 20 16:06:17 2026)
+v2d-t2fc-export: 1 windows (created Tue Oct 20 16:06:19 2026)
+v2d-t2fc-train: 1 windows (created Tue Oct 20 16:06:15 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2fc_ml40-gate
+runs/.chain-active-t2fc_eval_ml40
+runs/.chain-active-t2fc_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep25-w2048-cap10m-r3a-fc8-ml40.log：training progress: 70,000,640/349,999,104 environment steps (20.0%); 51,765 env steps/s; elapsed 00:22:32; ETA 01:30:09
+runs/logs/t2-ep25-w2048-cap10m-r3a-fc8-ml40.nanwatch.log：10-20 02:38:09 MDT 60,002,304 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2fc_train_ml40.log：=== 2026-10-20 16:16:08 CST 正式 t2-ep25-w2048-cap10m-r3a-fc8-ml40
+runs/logs/smoke-t2-ep4-w2048-cap10m-r3a-fc8-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep4-w2048-cap10m-r3a-fc8-ml40
+runs/logs/smoke-t2-ep4-w2048-cap10m-r3a-fc8-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep4-w2048-cap10m-r3a-fc8-ml40
+runs/logs/smoke-t2-ep25-w2048-cap10m-r3a-fc8-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap10m-r3a-fc8-ml40
+runs/logs/smoke-t2-ep25-w2048-cap10m-r3a-fc8-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap10m-r3a-fc8-ml40
+runs/logs/arm_t2fc_ml40.log：=== 2026-10-20 16:06:25 CST ARM_T2FC_DONE
