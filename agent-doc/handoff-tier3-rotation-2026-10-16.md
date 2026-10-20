@@ -1,12 +1,30 @@
 # Tier 3 物体转动跳变：来源定位与修复试点（2026-10-15 晚 – 10-16，分支 `track2/tier3-recon`）
 
 接 [handoff-tier3-dynamics-2026-10-14.md](handoff-tier3-dynamics-2026-10-14.md)（dyn 系列、自检流程、best_dyn7）。
-写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。（10-18 起交付版是 `tier3_cari4d_gb4_best_dr2s_dyn7`，见下第一个「交付」节。）
+写于 10-16 00:45 CST，代码提交 `0539247`（已部署 L40S），本文随后一次提交。**交付版仍是 best_hm**，dyn7、kf2 都是候选。（10-21 起交付版是 `tier3_cari4d_gb5_best_dr2s_dyn7`，见下第一个「交付」节。）
 
 路径：`$T` = L40S `/lab_data/yqchen/v2d/tier3`，`$G` = `/lab_data/yqchen/v2d/gate`。本节诊断脚本在
 `stages/recovery/tier3/gate/diag/`（服务器上的副本与输出在 `$G/diag/`）。
 
-## 交付：gb4_best_dr2s_dyn7（10-18 14:01 CST，当前交付版）
+## 交付：gb5_best_dr2s_dyn7（10-21 03:05 CST，当前交付版）
+
+**交付版由 `tier3_cari4d_gb4_best_dr2s_dyn7` 换成 `tier3_cari4d_gb5_best_dr2s_dyn7`**（用户 10-21 决定）。与 gb4 的唯一区别：13 个
+FoundationPose 集（ep01/02/03/04/09/11/13/15/16/17/25/27/28）的第 05 阶段初始朝向改由时间线选择器（`t3_fp_select.py`，BETA 0.5）挑，
+重跑 CoCoNet 06–08 与整条链；其余 17 集逐列相同，世界系相同。放行依据：登记闸门 `ATTRIBUTE M5 M6` 已逐项归因，用户整批看图旧对新错
+3/75（连同 gb4 好一些 7/75），在 10% 线内。归因、gb6 的尝试与整批看图见 [handoff-tier3-rotation-2026-10-21-attr.md](handoff-tier3-rotation-2026-10-21-attr.md)。
+交付报告：版本目录 `DELIVERY.md`，仓库副本 [delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md](delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md)
+（spec `$T/dev/audit/spec_gb5dyn7.json`）。支撑面 usda 来自 `$G/support_usda_gb5dyn7`。
+**给 rxzhou：** 打包白名单需要加入 `tier3_cari4d_gb5_best_dr2s_dyn7` 与 `_suspect`。gb4 交付版原地保留（versions.json 标 kept），不影响正在用
+gb4 的训练。变化只在上面 13 集，其中物体朝向改动最大的是 ep02、ep28、ep11、ep13、ep01、ep27；人体列在这 13 集也会变（CoCoNet 联合优化）。
+gb5 是分段对错，gb4 更好的段与两版都错的段写在报告的「已知问题」里，训练时可参考。
+
+**版本整理（10-21）**：gb4 的中间产物 `tier3_cari4d_gb4_best`、`_dr2s`（连同 `_suspect` 与旁注文件）被 gb5 对应目录取代，移入
+`runs/archive/`；选择器的过程工作目录 `work_b000/010/020/030`（A/B 落选）、`work_sel`（10-19 试点）、`work_anchor`（停掉的锚定重跑）
+也移入 `runs/archive/`。共 13 项，每项一行记在 `runs/archive/MOVED.tsv`（10-21 03:02）。`work_b050`（gb5 的 CARI4D 结果）与 `work_dump`
+（候选 dump）登记在 versions.json 的 `work`。`t3_versions.py` 认归档的工作目录后（`badccaf`），`runs/VERSIONS.md` 无不一致。
+未跑的 gb6 只留了代码（`t3_seg_mix.py`、`t3_gb6_gate.py`）与 `dev/sel_diag/attr/` 下的预测，没有生成任何版本目录。
+
+## 交付：gb4_best_dr2s_dyn7（10-18 14:01 CST，10-21 被 gb5 取代，原地保留）
 
 **交付版由 `tier3_cari4d_gb_best_dr2s_dyn7` 换成 `tier3_cari4d_gb4_best_dr2s_dyn7`**（用户 10-18 决定）。与 gb3 的唯一区别是 focal 步的修正
 （下文「手物偏差的修复与重生成」，`e5ab7e5`）。**命名改了**：用户 10-18 改为另起名 gb4、不同名换入（rxzhou 已复制 gb3，同名换入要额外解释），
