@@ -17,6 +17,7 @@
 # machine gate after the chain); SEL_WORK names the work dir (default work_sel; the rollout uses work_b050, where the A/B
 # already selected and refined ep03/04/13 with the same BETA); SEL_BETA passes --beta to t3_fp_select.py; SEL_SKIP_RENDER=1
 # skips stage 08 (T3_SKIP_RENDER, review videos only). The CARI4D log tag is the work dir without "work_".
+# MAX_CONVERT (default 3) caps the episodes converting at once (each docker step takes 6 CPUs; 13 at once on 28 cores, user 10-20).
 # Last line: SEL_FULL_DONE, SEL_FULL_SKIPPED (gate failed) or SEL_FULL_FAILED <step>.
 set -u
 S=$(cd "$(dirname "$0")" && pwd)
@@ -74,7 +75,24 @@ cmp -s "$T/runs/floor/floor_fit_gb4.json" "$T/runs/floor/floor_fit_$V.json" || f
 cmp -s "$T/runs/floor/camera_register_gb4.json" "$T/runs/floor/camera_register_$V.json" || fail "camera_register_$V.json differs from gb4's"
 mkdir -p "$T/runs/$CONV" "$T/runs/$SEL_WORK"
 
-declare -A selected refined converting
+declare -A selected refined converting conv_pid
+MAX_CONVERT=${MAX_CONVERT:-3}
+start_converts() {  # start refined, not yet started episodes while fewer than MAX_CONVERT convert
+  local name running=0
+  for name in $EPS; do [ -n "${conv_pid[$name]:-}" ] && kill -0 "${conv_pid[$name]}" 2>/dev/null && running=$((running + 1)); done
+  for name in $EPS; do
+    [ "$running" -lt "$MAX_CONVERT" ] || break
+    [ -n "${refined[$name]:-}" ] && [ -z "${converting[$name]:-}" ] || continue
+    convert_one "$name" & conv_pid[$name]=$!; converting[$name]=1; running=$((running + 1))
+    log "$name: converting (logs/sel_convert_$name.log)"
+  done
+}
+convert_failed() {
+  local name
+  for name in $EPS; do
+    [ -n "${converting[$name]:-}" ] && tail -1 "$T/logs/sel_convert_$name.log" 2>/dev/null | grep -q CONVERT_FAILED && fail "$name: convert (logs/sel_convert_$name.log)"
+  done
+}
 while :; do
   # 1. select what has landed
   for name in $EPS; do
@@ -120,18 +138,20 @@ while :; do
     log "GPU hold released"
   fi
   # fail fast on a finished convert that failed (the dumps keep running; they do not depend on this script)
-  for name in $EPS; do
-    [ -n "${converting[$name]:-}" ] && tail -1 "$T/logs/sel_convert_$name.log" 2>/dev/null | grep -q CONVERT_FAILED && fail "$name: convert (logs/sel_convert_$name.log)"
-  done
-  # 3. convert in the background
-  for name in $EPS; do
-    [ -n "${refined[$name]:-}" ] && [ -z "${converting[$name]:-}" ] || continue
-    convert_one "$name" & converting[$name]=1
-    log "$name: converting (logs/sel_convert_$name.log)"
-  done
+  convert_failed
+  # 3. convert in the background, at most MAX_CONVERT at once
+  start_converts
   n_ref=0; for name in $EPS; do [ -n "${refined[$name]:-}" ] && n_ref=$((n_ref + 1)); done
   [ "$n_ref" -eq "$(echo $EPS | wc -w)" ] && break
   sleep 60
+done
+n_all=$(echo $EPS | wc -w)
+while :; do  # the rest of the converts, still at most MAX_CONVERT at once
+  convert_failed
+  start_converts
+  n_started=0; for name in $EPS; do [ -n "${converting[$name]:-}" ] && n_started=$((n_started + 1)); done
+  [ "$n_started" -eq "$n_all" ] && break
+  sleep 30
 done
 wait
 for name in $EPS; do tail -1 "$T/logs/sel_convert_$name.log" | grep -q CONVERT_OK || fail "$name: convert (logs/sel_convert_$name.log)"; done
