@@ -1,0 +1,23 @@
+# command  : scripts/dev/push-new-files stages/policy/arm_var_chain.sh stages/retarget/finger_close.py stages/policy/queues/ml40_t2fc.txt stages/policy/queues/ml40_t2fc_smoke.txt stages/policy/queues/ml40_t2fc.expect.tsv stages/evaluate/exports/cand_t2_t2fc_ml40.tsv 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : b0da2d3b710b5f7c901a15e27126a9e0  stages/policy/arm_var_chain.sh
+# md5      : af843a31288b8d58de5eeeb2951cabea  stages/retarget/finger_close.py
+# md5      : 808999eec02e133bb263d25f0db790b0  stages/policy/queues/ml40_t2fc.txt
+# md5      : 5a0db9ec801f8f76ad1c3604a344293f  stages/policy/queues/ml40_t2fc_smoke.txt
+# md5      : 23c980ec963ee99d646d6df4d31b39de  stages/policy/queues/ml40_t2fc.expect.tsv
+# md5      : 4c3ba6eb200d9e39bd1dbf39283e58ea  stages/evaluate/exports/cand_t2_t2fc_ml40.tsv
+# source   : 675b18834669
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T01:14:58-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/policy/arm_var_chain.sh：远端是 3def11b 的版本（f52d353a85b80b94875aa7e81e98453b）
+本地提交 675b18834669；远端来历 e85efdcdfe4f
+  ok   b0da2d3b710b5f7c901a15e27126a9e0  stages/policy/arm_var_chain.sh
+  ok   af843a31288b8d58de5eeeb2951cabea  stages/retarget/finger_close.py
+  ok   808999eec02e133bb263d25f0db790b0  stages/policy/queues/ml40_t2fc.txt
+  ok   5a0db9ec801f8f76ad1c3604a344293f  stages/policy/queues/ml40_t2fc_smoke.txt
+  ok   23c980ec963ee99d646d6df4d31b39de  stages/policy/queues/ml40_t2fc.expect.tsv
+  ok   4c3ba6eb200d9e39bd1dbf39283e58ea  stages/evaluate/exports/cand_t2_t2fc_ml40.tsv
+远端来历（放完）e85efdcdfe4f
+PUSH_OK（6 个文件）
