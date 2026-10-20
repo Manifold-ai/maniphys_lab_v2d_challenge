@@ -1,6 +1,7 @@
 """gb6: per part, the stage-05 initialization of gb4 (runs/work_fp) or of gb5 (runs/work_b050), whichever gives the lower
-cost of the stitched sequence; then CoCoNet 06-08 and the chain re-run on the stitched initialization (10-21, user;
-registered in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md "gb6 登记" before any part was computed).
+cost of the stitched sequence, with resting frames fixed to gb5; then CoCoNet 06-08 and the chain re-run on the stitched
+initialization (10-21, user; registered in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md "gb6 登记 v2", which
+supersedes v1 before any GPU run: v1 left resting frames to the physics cost, which cannot tell an orientation there).
 
 Why: gb5's timeline selection is right on some segments and wrong on others (attribution of the gb5 gate, user's
 verdicts on ep01/02/17), so taking or keeping gb5 per batch loses right segments either way. Only the initialization is
@@ -11,13 +12,16 @@ Rule (registered):
   1. changed frames: the delivered layer's (<version>_dr2s_dyn7, world) object orientations of gb4 and gb5 more than
      JUMP_DEG apart, symmetry-aware; runs merged across gaps shorter than MERGE frames.
   2. cuts: in each gap between consecutive changed runs, the frame c where the two stage-05 initializations are closest
-     (symmetry-aware); the cut lies between c and c+1. Parts: episode start .. first cut, .., last cut + 1 .. end.
-     An episode without a changed run takes gb5 whole.
+     (symmetry-aware); the cut lies between c and c+1. An episode without a changed run takes gb5 whole.
+     Resting frames (v2): unheld in both versions (the dynamics check's held is false) and the centre of mass slower than
+     REST_MPS in both (the check's local quadratic fit on each version's own reference), in runs of at least MERGE
+     frames. Each resting run is a part fixed to gb5 (the selector's evidence there is appearance accumulated along the
+     timeline; physics has none). The other frames form parts between the resting runs, cut again at the cuts above.
   3. cost of part p under version v: sum over its frames of V_v (the dynamics check's object_any, as the gb5 gate's M2,
      each version on its own gate set and supports) plus J_v (CoCoNet's step f -> f+1 turns more than JUMP_DEG,
      symmetry-aware, counted at f, as M6).
-  4. junction: neighbouring parts on different versions whose stitched initialization turns more than JUMP_DEG across
-     the cut cost P = 1 + round(WINDOW_S * fps): the jump itself, and the dynamics check's local quadratic fit spreads
+  4. junction: neighbouring parts (resting ones included) on different versions whose stitched initialization turns
+     more than JUMP_DEG across their boundary cost P = 1 + round(WINDOW_S * fps): the jump itself, and the dynamics check's local quadratic fit spreads
      it over up to WINDOW_S * fps frames of violations.
   5. per episode the least total cost over the part choices (dynamic programming along the chain); ties go to the
      combination with the most gb5 frames (the selector has appearance evidence; the physics check cannot tell an
@@ -44,7 +48,9 @@ import trimesh
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent / "gate"))
 from t3_align_check import world_pose  # noqa: E402
-from t3_dynamics_check import FOOT_TASK, WINDOW_S, check, supports_of  # noqa: E402
+import pyarrow.parquet as pq  # noqa: E402
+from scipy.signal import savgol_filter  # noqa: E402
+from t3_dynamics_check import FOOT_TASK, REST_MPS, WINDOW_S, check, quat_R, supports_of  # noqa: E402
 from t3_fp_select import sym_angle_deg  # noqa: E402
 from t3_sel_gate import rotations  # noqa: E402
 from t3_symmetry import Shape, symmetries  # noqa: E402
@@ -74,37 +80,62 @@ def stage05(ep_dir):
     return pkl, d, s2a
 
 
-def decide(n, segs, init_ang, cost, junction):
-    """Parts and the least-cost choice. cost[v] per frame (V + J); junction(c, a, b) -> stitched turn across cut c."""
+def partition(n, segs, init_ang, rest):
+    """Parts (rule 2): resting runs (fixed to gb5), the frames between them cut at the v1 cuts. Returns [(a, b, fixed)]."""
     cuts = []
     for (_, e0), (s1, _) in zip(segs, segs[1:]):
         gap = np.arange(e0 + 1, s1)
         cuts.append(int(gap[np.argmin(init_ang[gap])]))
-    bounds = [0] + [c + 1 for c in cuts] + [n]
-    parts = [[bounds[i], bounds[i + 1] - 1] for i in range(len(bounds) - 1)]
+    starts = {0} | {c + 1 for c in cuts}
+    for s, e in rest:
+        starts |= {s, e + 1}
+    starts = sorted(x for x in starts if x < n)
+    bounds = starts + [n]
+    in_rest = np.zeros(n, bool)
+    for s, e in rest:
+        in_rest[s:e + 1] = True
+    return [(a, b - 1, "gb5" if in_rest[a] else None) for a, b in zip(bounds, bounds[1:])]
+
+
+def decide(parts, cost, junction):
+    """Least-cost choice per part. cost[v] per frame (V + J); junction(s, a, b) -> stitched turn from a's frame s-1 to
+    b's frame s."""
     P = 1 + round(WINDOW_S * FPS)
     vs = ("gb4", "gb5")
-    pc = [{v: int(cost[v][a:b + 1].sum()) for v in vs} for a, b in parts]
+    pc = [{v: int(cost[v][a:b + 1].sum()) for v in vs} for a, b, _ in parts]
+    allowed = [(fx,) if fx else vs for _, _, fx in parts]
+    size = [b - a + 1 for a, b, _ in parts]
     # DP over parts; key (total cost, -gb5 frames) minimised lexicographically
-    best = {v: ((pc[0][v], -(parts[0][1] - parts[0][0] + 1) * (v == "gb5")), [v]) for v in vs}
-    junc = []
+    best = {v: ((pc[0][v], -size[0] * (v == "gb5")), [v]) for v in allowed[0]}
     for i in range(1, len(parts)):
-        c = cuts[i - 1]
+        s = parts[i][0]
         nxt = {}
-        for b in vs:
+        for b in allowed[i]:
             cand = []
-            for a in vs:
-                (k0, k1), path = best[a]
-                pen = P if a != b and junction(c, a, b) > JUMP_DEG else 0
-                cand.append(((k0 + pen + pc[i][b], k1 - (parts[i][1] - parts[i][0] + 1) * (b == "gb5")), path + [b]))
+            for a, ((k0, k1), path) in best.items():
+                pen = P if a != b and junction(s, a, b) > JUMP_DEG else 0
+                cand.append(((k0 + pen + pc[i][b], k1 - size[i] * (b == "gb5")), path + [b]))
             nxt[b] = min(cand, key=lambda x: x[0])
         best = nxt
     (total, neg5), choice = min(best.values(), key=lambda x: x[0])
+    junc = []
     for i in range(1, len(parts)):
         a, b = choice[i - 1], choice[i]
         if a != b:
-            junc.append({"cut": cuts[i - 1], "from": a, "to": b, "turn_deg": round(float(junction(cuts[i - 1], a, b)), 1)})
-    return parts, pc, choice, int(total), -neg5, junc
+            s = parts[i][0]
+            junc.append({"at": s, "from": a, "to": b, "turn_deg": round(float(junction(s, a, b)), 1)})
+    return pc, choice, int(total), -neg5, junc
+
+
+def com_speed(part):
+    """|v| of the object's centre of mass per frame, as t3_dynamics_check.check (local quadratic fit over WINDOW_S)."""
+    r = pq.read_table(part / "data.parquet", columns=["fps", "object_body_position", "object_body_wxyz"]).to_pylist()[0]
+    mesh = trimesh.load(part.parent / "object" / "textured_mesh.obj", force="mesh", process=False)
+    body = mesh if mesh.is_watertight else mesh.convex_hull
+    pos = np.array([b[0] for b in r["object_body_position"]])
+    com = pos + quat_R(np.array([b[0] for b in r["object_body_wxyz"]])) @ np.asarray(body.center_mass)
+    win = int(round(WINDOW_S * r["fps"])) | 1
+    return np.linalg.norm(savgol_filter(com, win, 2, deriv=1, delta=1 / r["fps"], axis=0, mode="interp"), axis=1)
 
 
 def main():
@@ -113,13 +144,13 @@ def main():
     write = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--write=")), None)
     T, G, out, eps = Path(args[0]), Path(args[1]), Path(args[2]), args[3:]
     metas = {m["episode_index"]: m for m in map(json.loads, (T / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
-    res = {"rule": "agent-doc/handoff-tier3-rotation-2026-10-21-attr.md, gb6 登记", "JUMP_DEG": JUMP_DEG, "MERGE": MERGE, "episodes": {}}
+    res = {"rule": "agent-doc/handoff-tier3-rotation-2026-10-21-attr.md, gb6 登记 v2", "JUMP_DEG": JUMP_DEG, "MERGE": MERGE, "episodes": {}}
     for name in eps:
         ep = int(name[2:4])
         mesh = trimesh.load(T / "input" / metas[ep]["mesh"], force="mesh")
         body = mesh if mesh.is_watertight else mesh.convex_hull
         Gs, axis = symmetries(Shape(mesh, np.asarray(body.center_mass)), body.moment_inertia)
-        final, init, cost, src = {}, {}, {}, {}
+        final, init, cost, src, resting = {}, {}, {}, {}, {}
         for v, (ver, gset, work) in VERSIONS.items():
             final[v] = world_pose(T, ver, ep)[:, :3, :3]
             cdir = T / "runs" / work / name / "cari4d" / f"episode_{ep:06d}"
@@ -135,9 +166,11 @@ def main():
             J = np.zeros(len(R), int)
             J[:-1] = [sym_angle_deg(R[f:f + 1], R[f + 1:f + 2], Gs, axis)[0, 0] > JUMP_DEG for f in range(len(R) - 1)]
             cost[v] = np.asarray(dyn["per_frame"]["object_any"], int) + J
+            resting[v] = ~np.asarray(dyn["per_frame"]["held"], bool) & (com_speed(part) < REST_MPS)
         n = len(final["gb4"])
         lens = {k: len(x) for k, x in [("final4", final["gb4"]), ("final5", final["gb5"]), ("init4", init["gb4"]),
-                                      ("init5", init["gb5"]), ("cost4", cost["gb4"]), ("cost5", cost["gb5"])]}
+                                      ("init5", init["gb5"]), ("cost4", cost["gb4"]), ("cost5", cost["gb5"]),
+                                      ("rest4", resting["gb4"]), ("rest5", resting["gb5"])]}
         if len(set(lens.values())) != 1:
             raise SystemExit(f"{name}: frame counts differ {lens}")
         if list(src["gb4"][2]["frames"]) != list(src["gb5"][2]["frames"]):
@@ -150,19 +183,22 @@ def main():
             else:
                 segs.append([s, e])
         init_ang = per_frame_angle(init["gb4"], init["gb5"], Gs, axis)
+        rest = [r for r in runs(resting["gb4"] & resting["gb5"]) if r[1] - r[0] + 1 >= MERGE]
         if not segs:
-            parts, pc, choice, total, n5, junc = [[0, n - 1]], [{v: int(cost[v].sum()) for v in ("gb4", "gb5")}], ["gb5"], int(cost["gb5"].sum()), n, []
+            parts, pc, choice, total, n5, junc = [(0, n - 1, "gb5")], [{v: int(cost[v].sum()) for v in ("gb4", "gb5")}], ["gb5"], int(cost["gb5"].sum()), n, []
         else:
-            parts, pc, choice, total, n5, junc = decide(n, segs, init_ang, cost,
-                                                        lambda c, a, b: sym_angle_deg(init[a][c:c + 1], init[b][c + 1:c + 2], Gs, axis)[0, 0])
-        e = {"frames": n, "segments": segs,
-             "parts": [{"frames": p, "cost_gb4_gb5": [c["gb4"], c["gb5"]], "choice": ch} for p, c, ch in zip(parts, pc, choice)],
+            parts = partition(n, segs, init_ang, rest)
+            pc, choice, total, n5, junc = decide(parts, cost, lambda s, a, b: sym_angle_deg(init[a][s - 1:s], init[b][s:s + 1], Gs, axis)[0, 0])
+        e = {"frames": n, "segments": segs, "resting_runs": rest,
+             "parts": [{"frames": [a, b], "resting": fx is not None, "cost_gb4_gb5": [c["gb4"], c["gb5"]], "choice": ch}
+                       for (a, b, fx), c, ch in zip(parts, pc, choice)],
              "junctions": junc, "total_cost": total, "gb5_frames": n5,
              "all_gb4_cost": int(cost["gb4"].sum()), "all_gb5_cost": int(cost["gb5"].sum())}
         res["episodes"][name] = e
         print(name, "segments", len(segs), "choice", "".join("4" if c == "gb4" else "5" for c in choice),
               "cost", total, "| all gb4", e["all_gb4_cost"], "all gb5", e["all_gb5_cost"], "| gb5 frames", n5, "/", n,
-              "| junctions", [(j["cut"], j["turn_deg"]) for j in junc], flush=True)
+              "| resting frames", sum(r[1] - r[0] + 1 for r in rest),
+              "| junctions", [(j["at"], j["turn_deg"]) for j in junc], flush=True)
         if write:
             dst = T / "runs" / write / name
             if dst.exists():
@@ -188,7 +224,7 @@ def main():
                 c2w4 = np.asarray(W4, np.float64) @ np.linalg.inv(np.asarray(C4, np.float64)[:, 0])
                 if not np.allclose(c2w4, c2w5, atol=1e-5):
                     raise SystemExit(f"{name}: gb4 and gb5 stage-05 camera-to-world differ")
-                for (a, b), ch in zip(parts, choice):
+                for (a, b, _), ch in zip(parts, choice):
                     if ch == "gb4":
                         W[a:b + 1], C[a:b + 1] = W4[a:b + 1], C4[a:b + 1]
                 d["obj_pose_world"], d["fp_poses_cam"] = W, C
@@ -202,7 +238,7 @@ def main():
                 hit[0].update(size=int(st.st_size), mtime_ns=int(st.st_mtime_ns))
                 json.dump(m, open(marker, "w"))
                 chk = (np.asarray(pickle.load(open(pkl, "rb"))["fp_poses_cam"], np.float64)[:, 0])
-                n4 = sum(b - a + 1 for (a, b), ch in zip(parts, choice) if ch == "gb4")
+                n4 = sum(b - a + 1 for (a, b, _), ch in zip(parts, choice) if ch == "gb4")
                 same4 = sum(np.allclose(chk[f], np.asarray(C4, np.float64)[f, 0]) for f in range(n))
                 if same4 < n4:
                     raise SystemExit(f"{name}: stitched pkl holds gb4's pose on {same4} frames, expected at least {n4}")
