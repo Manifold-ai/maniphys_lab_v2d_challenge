@@ -1,0 +1,17 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "bd": {"file": "results/board/diff_1019_1853.txt", "grep": "^读法|^Tier|^tier3"},
+    "sub": {"file": "results/submission/submissions_t2_1019.txt", "grep": "tier2-auc|b101"},
+    "t2sd": {"file": "results/t2sd/near_miss_mf4090.txt", "grep": "^run|409600|t2-ep25-w2048-cap4m-mf4090"},
+    "nm": {"file": "results/first/near_miss_1019_0515.txt", "grep": "^run|t2-ep23"}
+  },
+  "claims": [
+    {"id": "rank", "evidence": ["bd"], "claim": "按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 20、maniphys.ai 25；按官网的规则 maniphys.ai 27。"},
+    {"id": "t3", "evidence": ["bd"], "claim": "Xueyi Wang (FF) 的 Tier 3 SP-SR 从 0.00000 升到 0.13333，MPPE 从 48.39227 降到 46.64900。"},
+    {"id": "ep23", "evidence": ["nm"], "claim": "t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.992，t2-ep23-w2048-cap4m-mf4090 是 0.000。"},
+    {"id": "replay", "evidence": ["t2sd"], "claim": "第 409600 步的 MPPE 是 72.65，t2-ep25-w2048-cap4m-mf4090 是 117.09。"},
+    {"id": "ctl_false", "evidence": ["bd"], "claim": "按 Kaggle 的同分规则，maniphys.ai 的 12 个榜名次之和是 20。", "control": "false"},
+    {"id": "ctl_true", "evidence": ["t2sd"], "claim": "t2-ep25-w2048-cap4m-mf4090 的 AUC 是 0.124。", "control": "true"}
+  ]
+}

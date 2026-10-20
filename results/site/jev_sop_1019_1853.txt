@@ -1,0 +1,15 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-19-sop-1853.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7164fa35d8b6c99384b76234a73c1a41  agent-doc/experiments/2026-10-19-sop-1853.claims.json
+# source   : d435888c71af-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T21:00:27-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank                 P(supported)=0.97  verified               [bd]  按 Kaggle 的同分规则，12 个榜名次相加 Xueyi Wang (FF) 20、maniphys.ai 25；按官网的规则 maniphys.ai 27。
+t3                   P(supported)=0.99  verified               [bd]  Xueyi Wang (FF) 的 Tier 3 SP-SR 从 0.00000 升到 0.13333，MPPE 从 48.39227 降到 46.64900。
+ep23                 P(supported)=0.99  verified               [nm]  t2-ep23-w2048-cap4m-r3a-mf4090 的 MP-SR 是 0.992，t2-ep23-w2048-cap4m-mf4090 是 0.000。
+replay               P(supported)=0.99  verified               [t2sd]  第 409600 步的 MPPE 是 72.65，t2-ep25-w2048-cap4m-mf4090 是 117.09。
+ctl_false            P(supported)=0.01  control(false) ok      [bd]  按 Kaggle 的同分规则，maniphys.ai 的 12 个榜名次之和是 20。
+ctl_true             P(supported)=0.99  control(true) ok       [t2sd]  t2-ep25-w2048-cap4m-mf4090 的 AUC 是 0.124。
+controls behaved as expected

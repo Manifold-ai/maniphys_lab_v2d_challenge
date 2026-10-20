@@ -1,0 +1,52 @@
+# command  : ssh -o BatchMode=yes -o ConnectTimeout=15 -o ControlMaster=no -o ControlPath=none ml40 bash\ -s 
+# source   : d435888c71af
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-19T20:42:24-0400
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-20 08:42:32 CST
+NVIDIA L40S, 38456 MiB, 46068 MiB, 100 %
+3767819, 18588 MiB
+3780711, 19854 MiB
+## GPU 进程 3767819：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3767819 其他用户 01:03:14 [Tue Oct 20 07:39:18 2026] python prep/run_foundationpose_mhr_export.py /e/export/episode_000027 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000027.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+  3767788 root 01:03:14 [Tue Oct 20 07:39:18 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 4c8a1a01d46f99b8b9b3058d73a87f046e8a0fb284fea80223cdae402d7e3fc6 -address /run/containerd/containerd.sock
+## GPU 进程 3780711：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3780711 其他用户 26:43 [Tue Oct 20 08:15:49 2026] python prep/run_foundationpose_mhr_export.py /e/export/episode_000016 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000016.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+  3780679 root 26:43 [Tue Oct 20 08:15:49 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 3ce3ed86d105c3110aa4e59b2059944e09d91508e553e38de84149c4b60128ac -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /competent_aryabhata
+image v2d_cari4d:latest
+created 2026-10-20T00:37:31.773962076Z  started 2026-10-20T00:37:31.823625575Z
+entrypoint null
+cmd ["python","/s/t3_convert_ep.py","focal","/o/ep13_snack_box","/f/intrinsics_gb3.json","/a","/in/mesh/snack_box/snack_box.glb"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/soma_assets -> /a; /lab_data/<其他用户>/v2d/tier3/runs/floor -> /f; /lab_data/<其他用户>/v2d/tier3/input -> /in; /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3 -> /s; /lab_data/<其他用户>/v2d/tier3/dev/beta_ab/b020/conv_sel/ep13_snack_box -> /o/ep13_snack_box; 
+name /peaceful_galileo
+image v2d_cari4d:latest
+created 2026-10-20T00:15:50.149626559Z  started 2026-10-20T00:15:50.200590073Z
+entrypoint null
+cmd ["python","prep/run_foundationpose_mhr_export.py","/e/export/episode_000016","--depth-root","/e/depth/moge2/aligned.h5","--out-file","/t/episode_000016.pkl","--camera-id","0","--iteration","5","--max-attempts","5","--register-every-frame","--no-first-usable-frame-gt-rotation-oracle"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep16_spray_bottle/cari4d/episode_000016 -> /e; /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep16_spray_bottle -> /t; /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules -> /workspace; /lab_data/<其他用户>/v2d/weights/cari4d -> /data/weights_path; /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py -> /workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py; 
+name /peaceful_brattain
+image v2d_cari4d:latest
+created 2026-10-19T23:39:19.240530106Z  started 2026-10-19T23:39:19.291360114Z
+entrypoint null
+cmd ["python","prep/run_foundationpose_mhr_export.py","/e/export/episode_000027","--depth-root","/e/depth/moge2/aligned.h5","--out-file","/t/episode_000027.pkl","--camera-id","0","--iteration","5","--max-attempts","5","--register-every-frame","--no-first-usable-frame-gt-rotation-oracle"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep27_woven_basket/cari4d/episode_000027 -> /e; /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep27_woven_basket -> /t; /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules -> /workspace; /lab_data/<其他用户>/v2d/weights/cari4d -> /data/weights_path; /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py -> /workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py; 
+## 运行中的容器（列表）
+e97062009b1c v2d_cari4d:latest 5 minutes ago Up 5 minutes competent_aryabhata
+3ce3ed86d105 v2d_cari4d:latest 26 minutes ago Up 26 minutes peaceful_galileo
+4c8a1a01d46f v2d_cari4d:latest About an hour ago Up About an hour peaceful_brattain
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
+3316381    18:56:39 Mon Oct 19 13:45:53 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_fp_dump.sh A ep03_contigo_coffee_mug ep02_blue_easter_basket ep09_big_red_bowl ep25_cyan_water_bottle ep16_spray_bottle ep19_cane
+3316480    18:56:36 Mon Oct 19 13:45:56 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_fp_dump.sh B ep04_baseball_bat ep13_snack_box ep28_squeegee ep11_light_blue_book ep01_vacuum ep27_woven_basket ep15_wet_floor_sign ep17_traffic_cone
+3676784    05:18:18 Tue Oct 20 03:24:14 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_beta_ab.sh
+3767763    01:03:14 Tue Oct 20 07:39:18 2026 docker run --rm --runtime=nvidia --gpus all --network none --user 1001:1003 -e HOME=/tmp -v /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules:/workspace -v /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py:/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py:ro -v /lab_data/<其他用户>/v2d/weights/cari4d:/data/weights_path:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep27_woven_basket/cari4d/episode_000027:/e:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep27_woven_basket:/t -e PYTHONPATH=/workspace/v2d_cari4d/lib/cari4d:/workspace/v2d_sam3d_body/lib:/workspace/v2d_foundation_pose/lib/FoundationPose -e FOUNDATIONPOSE_WEIGHTS_DIR=/data/weights_path/foundationpose/nvlabs_pytorch -e PYOPENGL_PLATFORM=egl -e HDF5_USE_FILE_LOCKING=FALSE -e PYTHONUNBUFFERED=1 -w /workspace/v2d_cari4d/lib/cari4d --entrypoint  v2d_cari4d:latest python prep/run_foundationpose_mhr_export.py /e/export/episode_000027 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000027.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3767819    01:03:14 Tue Oct 20 07:39:18 2026 python prep/run_foundationpose_mhr_export.py /e/export/episode_000027 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000027.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3775822       40:20 Tue Oct 20 08:02:12 2026 bash /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3/t3_sel_pilot.sh ep03_contigo_coffee_mug ep04_baseball_bat ep13_snack_box
+3780656       26:43 Tue Oct 20 08:15:49 2026 docker run --rm --runtime=nvidia --gpus all --network none --user 1001:1003 -e HOME=/tmp -v /lab_data/<其他用户>/v2d/video_to_data/reconstruction/modules:/workspace -v /lab_data/<其他用户>/v2d/tier3/patched/run_foundationpose_mhr_export_dump.py:/workspace/v2d_cari4d/lib/cari4d/prep/run_foundationpose_mhr_export.py:ro -v /lab_data/<其他用户>/v2d/weights/cari4d:/data/weights_path:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_fp/ep16_spray_bottle/cari4d/episode_000016:/e:ro -v /lab_data/<其他用户>/v2d/tier3/runs/work_dump/ep16_spray_bottle:/t -e PYTHONPATH=/workspace/v2d_cari4d/lib/cari4d:/workspace/v2d_sam3d_body/lib:/workspace/v2d_foundation_pose/lib/FoundationPose -e FOUNDATIONPOSE_WEIGHTS_DIR=/data/weights_path/foundationpose/nvlabs_pytorch -e PYOPENGL_PLATFORM=egl -e HDF5_USE_FILE_LOCKING=FALSE -e PYTHONUNBUFFERED=1 -w /workspace/v2d_cari4d/lib/cari4d --entrypoint  v2d_cari4d:latest python prep/run_foundationpose_mhr_export.py /e/export/episode_000016 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000016.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3780711       26:43 Tue Oct 20 08:15:49 2026 python prep/run_foundationpose_mhr_export.py /e/export/episode_000016 --depth-root /e/depth/moge2/aligned.h5 --out-file /t/episode_000016.pkl --camera-id 0 --iteration 5 --max-attempts 5 --register-every-frame --no-first-usable-frame-gt-rotation-oracle
+3787413       05:02 Tue Oct 20 08:37:30 2026 docker run --rm --cpus 8 -e OMP_NUM_THREADS=8 --user 1001:1003 --entrypoint  --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d -v /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3:/s:ro -v /lab_data/<其他用户>/v2d/tier3/runs/floor:/f:ro -v /lab_data/<其他用户>/v2d/soma_assets:/a:ro -v /lab_data/<其他用户>/v2d/tier3/input:/in:ro -v /lab_data/<其他用户>/v2d/tier3/dev/beta_ab/b020/conv_sel/ep13_snack_box:/o/ep13_snack_box v2d_cari4d:latest python /s/t3_convert_ep.py focal /o/ep13_snack_box /f/intrinsics_gb3.json /a /in/mesh/snack_box/snack_box.glb
+3787461       05:02 Tue Oct 20 08:37:30 2026 python /s/t3_convert_ep.py focal /o/ep13_snack_box /f/intrinsics_gb3.json /a /in/mesh/snack_box/snack_box.glb
