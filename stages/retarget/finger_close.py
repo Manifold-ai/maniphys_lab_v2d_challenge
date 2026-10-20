@@ -11,6 +11,8 @@
      关节角 = 参考值 + α ×（合手端 × --close-frac − 参考值）；合手端取该关节限位里绝对值较大的那一端（index/middle 左负右正，thumb_1/2 左正右负，
      与 Dex3 左右镜像一致）。该手在参考里接触的帧上，α 从 0 起按 --step 增大，手指各节碰撞网格的点里有向距离第一次 ≤ --margin-m 时停在上一步；
      α = 1 也碰不到就取 --free-alpha（不贴物体的手指只半合，免得握空拳）。α = 0 时已经 ≤ margin（手指本来就贴着或穿进物体）就记 0。
+  3b. --mode fixed（计划 agent-doc/plan-t2fc-2026-10-20.md）：不做几何搜索，接触帧的 α 一律取 --alpha。PD 的目标落在物体表面以内，手指才会往里压、有握力；
+     “碰到表面就停”的目标只够贴上，不出力。第 3 步的 touch 模式照旧（--mode touch，默认）。
   4. 时间上：只在接触帧有 α；每段接触前后各 --ramp 帧线性渐入、渐出（取渐入渐出端点的 α），再做 --smooth 帧滑动平均。
   5. 写出：新 motion 根 <out_root>/whole_body/soma/sequence_id=<seq>/robot_name=g1/data.parquet 只改 robot_joint_positions 的 14 个手指列，
      其余列、object 目录（网格、URDF）与 reconstructed_stage 里这一集的支撑面照抄。目标已存在就拒绝。
@@ -153,6 +155,8 @@ def main() -> int:
     ap.add_argument("--surf", type=int, default=20000)
     ap.add_argument("--fk-tol-m", type=float, default=0.002)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--mode", choices=("touch", "fixed"), default="touch")
+    ap.add_argument("--alpha", type=float, default=0.8, help="--mode fixed 时接触帧的合手量")
     a = ap.parse_args()
     motion = Path(a.motion)
     seq_dir = motion.parents[1]
@@ -175,7 +179,7 @@ def main() -> int:
     contact = {s: np.asarray(c, dtype=bool) for s, c in zip(sides, row["hand_contact_active"])}
     ee = np.asarray(row["ee_pose_w"], dtype=float)                          # (T,E,7)
     ee_names = list(row["ee_link_names"])
-    print(f"参考 {motion}：{T} 帧，{len(names)} 个关节；URDF {a.urdf}（根 {rob.root}）")
+    print(f"参考 {motion}：{T} 帧，{len(names)} 个关节；URDF {a.urdf}（根 {rob.root}）；模式 {a.mode}" + (f"，α {a.alpha}" if a.mode == "fixed" else ""))
 
     # 1. 正向运动学自检
     palms = {f"{s}_hand_palm_link" for s in sides}
@@ -229,10 +233,26 @@ def main() -> int:
         lp = {f: [(f"{s}_hand_{ln}_link", rob.link_points(f"{s}_hand_{ln}_link")) for ln in LINKS[f]] for f in FINGERS}
         want = {ln for f in lp for ln, _ in lp[f]}
         frames = np.flatnonzero(c)
+        # 合手方向自检：第一个接触帧上手指全部合到 jclose，拇指末节到食指、中指末节的距离都要变小
+        t0 = frames[:1]
+        q_open = {n: qj[t0, i] for i, n in enumerate(names)}
+        q_shut = dict(q_open)
+        for full, end in jclose.items():
+            q_shut[full] = np.array([end])
+        Lo = rob.fk(root_p[t0], root_R[t0], q_open, want)
+        Ls = rob.fk(root_p[t0], root_R[t0], q_shut, want)
+        for other in ("index_1", "middle_1"):
+            a_, b_ = f"{s}_hand_thumb_2_link", f"{s}_hand_{other}_link"
+            d_open = float(np.linalg.norm(Lo[a_][0] - Lo[b_][0]))
+            d_shut = float(np.linalg.norm(Ls[a_][0] - Ls[b_][0]))
+            print(f"  合手方向自检 {s} 手：拇指 2 节到 {other} 原点 {d_open * 1000:.1f} → {d_shut * 1000:.1f} mm")
+            if not d_shut < d_open:
+                print(f"CLOSE_DIRECTION_FAIL：{s} 手合到底时拇指与 {other} 没有靠近，不写文件")
+                return 3
         alpha = {f: np.zeros(T) for f in FINGERS}
         touched = {f: 0 for f in FINGERS}
         steps = np.arange(0.0, 1.0 + 1e-9, a.step)
-        for t_ in frames:
+        for t_ in (frames if a.mode == "touch" else []):
             for f, js in FINGERS.items():
                 # 一次算完这一帧这根手指所有 α 档位（N = 档位数）
                 N = len(steps)
@@ -253,6 +273,9 @@ def main() -> int:
                 else:
                     touched[f] += 1
                     alpha[f][t_] = steps[max(hit[0] - 1, 0)] if hit[0] > 0 else 0.0
+        if a.mode == "fixed":
+            for f in FINGERS:
+                alpha[f][frames] = a.alpha
         for f, js in FINGERS.items():
             al = ramp_alpha(alpha[f], c, a.ramp, a.smooth)
             for jn in js:

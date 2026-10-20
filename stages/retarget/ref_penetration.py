@@ -18,7 +18,7 @@ import trimesh
 from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
 
 PARTS = {"palm": ("palm",), "fingers": ("thumb_0", "thumb_1", "thumb_2", "index_0", "index_1", "middle_0", "middle_1")}
 

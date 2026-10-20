@@ -1,0 +1,90 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_penetration.py\ --every\ 5\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 3d44acfa999935c059ae98c4198aa212  stages/retarget/ref_penetration.py
+# md5      : a47ccf191a9c546e900f06d79c94cde4  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet
+# md5      : 0d1db200cb3bced7252d11069d9af49b  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+# md5      : d1c575a2738276777ac10d6cd47ac1ed  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet
+# md5      : e26df07f202815d005a80293106dce33  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet
+# md5      : 260072f4a28dc4038a9d5398e0a1e8cb  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : 3ef1a5bf50c46f8527b7d147ebc3b194  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+# md5      : cfe51e21c93708de9400e201c5dd5309  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-01_11-26-44_monitor_rotate_05/robot_name=g1/data.parquet
+# md5      : 385bd46d9dc5fbec04f515f1ffc7fbfc  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-20-43_iron_round_table_02/robot_name=g1/data.parquet
+# md5      : 2c23a87d3fa23e767966d6544ecd4689  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_15-08-08_skinny_wood_chair_push_10/robot_name=g1/data.parquet
+# md5      : 4d60d1ba9fbc060426957a526fad48e2  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+# md5      : 3905ae097f9db32ec47e0c0cb45dc05b  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+# md5      : f745f0f0e04859a3c13ea28e61e2a21c  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet
+# md5      : da26e8d5a1ad72d7ce24294fffef34e4  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+# md5      : d70ab1b4f0d751ea939c968c6f8da40a  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+# md5      : 1f55162574bfe2598d3e4095074171af  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet
+# md5      : 57222c32074313e8cdbc78b9170945cc  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# md5      : a9f8499d2c412731e246aea746652610  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+# md5      : 6cc1b4f8fbdbf7bda7fe5de85eae6bf5  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+# md5      : ebee6b10b90a119384c399446c73fcb8  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet
+# md5      : 26fe471df4df7c9cef243b97f883c63e  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+# md5      : 810f8b65664171438d397ef0b5ebefcf  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-08_16-57-34_rice_cooker_clockwise_04/robot_name=g1/data.parquet
+# md5      : 440bb9165d1c28f84b681fd8f47c1c6d  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-29_11-53-57_tall_bar_stool_pull_08/robot_name=g1/data.parquet
+# md5      : b7564736ddd3e3ecde8e0320616abd12  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-22_16-52-36_step_ladder_drag_03/robot_name=g1/data.parquet
+# md5      : 34a81b510062de76613c97ae977ca12a  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet
+# md5      : 6cac4b4c82704e6b85e7294663f62c34  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet
+# md5      : 5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# md5      : e214a67948ee21ddb0e429722f3c4db6  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_16-05-08_skateboard_rotate_ground_10/robot_name=g1/data.parquet
+# md5      : 14862c080fd3afd4e671104caabd5f11  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+# md5      : 105f1baff61e5d85054101231951f661  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+# md5      : c31bbdb2b86d0abc7d7fc1873fd34b86  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T15:03:39+0800
+# ---------------------------------------------------------------
+序列	帧	水密	符号	手	接触帧	手掌最小有向距离 10/50/90 mm	手指最小有向距离 10/50/90 mm	手掌有点在里面的帧比例
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	False	法向	left	221	-24.9 / -13.6 / 2.3	-27.6 / -0.1 / 19.8	0.82
+2026-06-04_14-16-23_tall_bar_stool_tip_up_04	778	False	法向	right	431	-24.1 / -15.1 / 1.5	-29.1 / -24.7 / -4.9	0.89
+2026-05-18_17-06-21_vacuum_left_lean_02	747	False	法向	—	符号自检不过（质心 +0.010 m、外点 +1.797 m），这一集不报
+2026-06-02_10-04-42_blue_easter_basket_place_10	980	False	法向	left	379	-50.6 / -33.1 / -16.2	-48.5 / -34.7 / -19.8	1.00
+2026-06-02_10-04-42_blue_easter_basket_place_10	980	False	法向	right	98	-79.6 / -63.8 / -36.4	-100.3 / -93.9 / -81.5	1.00
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	left	0	—	—	—
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	right	471	-25.0 / -8.6 / 9.2	-34.3 / -18.8 / -1.4	0.68
+2026-04-24_11-40-52_baseball_bat_rotate_05	803	False	法向	left	364	-38.6 / -14.4 / 38.5	-38.9 / -23.2 / -1.0	0.64
+2026-04-24_11-40-52_baseball_bat_rotate_05	803	False	法向	right	301	-24.2 / 5.9 / 37.3	-38.7 / -12.3 / 6.5	0.39
+2026-03-18_19-36-56_g1_box_rotate_01	1003	False	法向	left	587	-64.4 / -25.2 / 2.9	-55.9 / -31.9 / -10.0	0.87
+2026-03-18_19-36-56_g1_box_rotate_01	1003	False	法向	right	525	-50.8 / -19.4 / 6.9	-78.6 / -48.7 / -12.8	0.83
+2026-06-01_11-26-44_monitor_rotate_05	546	False	法向	—	符号自检不过（质心 +0.008 m、外点 +1.707 m），这一集不报
+2026-05-29_15-20-43_iron_round_table_02	896	False	法向	left	0	—	—	—
+2026-05-29_15-20-43_iron_round_table_02	896	False	法向	right	693	-14.5 / -9.2 / -4.4	-24.4 / -16.1 / -9.6	0.94
+2026-06-05_15-08-08_skinny_wood_chair_push_10	708	False	法向	—	符号自检不过（质心 +0.027 m、外点 +0.676 m），这一集不报
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	870	False	法向	—	符号自检不过（质心 +0.059 m、外点 +1.745 m），这一集不报
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	794	False	法向	—	符号自检不过（质心 +0.131 m、外点 +0.719 m），这一集不报
+2026-04-24_13-56-58_light_blue_book_pick_place_09	901	False	法向	left	595	-28.6 / -9.7 / 18.6	-28.8 / -26.5 / 0.5	0.66
+2026-04-24_13-56-58_light_blue_book_pick_place_09	901	False	法向	right	805	-28.7 / -19.0 / 11.3	-28.8 / -27.9 / -5.7	0.76
+2026-04-25_17-20-04_black_platform_turn_05	700	False	法向	left	316	-20.4 / -9.9 / -6.2	-27.0 / -10.1 / -5.4	0.94
+2026-04-25_17-20-04_black_platform_turn_05	700	False	法向	right	339	-30.7 / -8.3 / 11.0	-28.4 / -12.0 / -9.0	0.87
+2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	left	353	-54.6 / -19.6 / 0.6	-98.1 / -67.2 / -17.7	0.86
+2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	right	252	-19.9 / 0.4 / 14.2	-47.0 / -31.9 / -13.9	0.49
+2026-05-28_14-44-09_round_table_flip_08	993	False	法向	left	235	-31.7 / -1.9 / 27.5	-28.1 / -12.3 / 10.1	0.51
+2026-05-28_14-44-09_round_table_flip_08	993	False	法向	right	575	-19.7 / -11.2 / 3.2	-46.3 / -13.0 / 8.0	0.85
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	False	法向	—	符号自检不过（质心 +0.078 m、外点 +1.540 m），这一集不报
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	False	法向	left	102	-30.1 / -13.3 / -0.5	-25.3 / -15.1 / 12.0	0.90
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	False	法向	right	0	—	—	—
+2026-05-01_17-04-55_traffic_cone_ground_table_02	440	False	法向	left	155	-28.6 / 10.6 / 32.5	-36.7 / -12.9 / 14.0	0.35
+2026-05-01_17-04-55_traffic_cone_ground_table_02	440	False	法向	right	202	-36.6 / 10.1 / 34.6	-32.2 / -22.9 / 2.1	0.34
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	False	法向	left	344	-46.7 / -10.9 / -2.8	-59.1 / -12.5 / -8.7	0.96
+2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	858	False	法向	right	346	-30.9 / -9.2 / -2.6	-64.3 / -39.0 / -12.3	0.96
+2026-05-19_10-19-48_cane_swing_05	886	False	法向	left	99	-11.4 / 0.8 / 35.3	-10.0 / 3.8 / 29.1	0.50
+2026-05-19_10-19-48_cane_swing_05	886	False	法向	right	135	-12.0 / -3.3 / 13.6	-13.2 / -8.0 / 4.1	0.52
+2026-06-08_16-57-34_rice_cooker_clockwise_04	553	False	法向	left	0	—	—	—
+2026-06-08_16-57-34_rice_cooker_clockwise_04	553	False	法向	right	327	-49.7 / -4.0 / 26.5	-73.2 / -44.9 / -17.8	0.58
+2026-04-29_11-53-57_tall_bar_stool_pull_08	678	False	法向	left	417	-26.5 / -23.2 / -6.9	-27.3 / -23.5 / -16.8	0.93
+2026-04-29_11-53-57_tall_bar_stool_pull_08	678	False	法向	right	404	-26.7 / -23.9 / -15.8	-27.7 / -22.7 / -15.3	0.93
+2026-05-22_16-52-36_step_ladder_drag_03	719	False	法向	left	0	—	—	—
+2026-05-22_16-52-36_step_ladder_drag_03	719	False	法向	right	180	-81.4 / -42.9 / -26.3	-122.1 / -100.0 / -62.7	1.00
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	False	法向	—	符号自检不过（质心 +0.047 m、外点 +1.177 m），这一集不报
+2026-05-29_15-43-20_watering_can_pour_right_02	748	False	法向	left	0	—	—	—
+2026-05-29_15-43-20_watering_can_pour_right_02	748	False	法向	right	511	-7.1 / 10.6 / 48.0	-34.2 / -21.9 / 21.0	0.27
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	False	法向	left	331	-39.9 / -2.6 / 24.3	-42.8 / -31.5 / 1.8	0.58
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	False	法向	right	421	-38.4 / -8.2 / 24.6	-41.7 / -24.4 / 7.6	0.56
+2026-06-05_16-05-08_skateboard_rotate_ground_10	669	False	法向	—	符号自检不过（质心 +0.001 m、外点 +1.820 m），这一集不报
+2026-05-01_11-15-05_woven_basket_ground_desk_10	565	False	法向	—	符号自检不过（质心 +0.010 m、外点 +1.772 m），这一集不报
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	False	法向	left	56	0.6 / 6.1 / 29.0	-9.7 / -7.8 / -3.7	0.08
+2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	988	False	法向	right	92	-8.6 / -4.1 / 10.7	-14.3 / -2.9 / 14.5	0.68
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	False	法向	left	0	—	—	—
+2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	467	False	法向	right	0	—	—	—
+REF_PENETRATION_DONE
