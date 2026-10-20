@@ -1,0 +1,7 @@
+# command  : stages/evaluate/fc_eval_dump.sh t2-ep25-w2048-cap10m-r3a-ml40 349999104 
+# md5      : 80b317ca935e61f6d5aae66eeb1f929c  stages/evaluate/fc_eval_dump.sh
+# source   : e85efdcdfe4f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-20T16:00:33+0800
+# ---------------------------------------------------------------
+fc_eval_dump: t2-ep25-w2048-cap10m-r3a-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.json runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ml40/eval_dump/eval_349999104_w4096.npz
