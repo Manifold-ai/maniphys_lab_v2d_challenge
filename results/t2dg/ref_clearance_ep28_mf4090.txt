@@ -1,0 +1,49 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_clearance.py\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet\ --from\ 150\ --after\ 10\ --every\ 10\ --focus\ 256 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : c7a7d9fe05eeedabd51ea627aa1889b5  stages/retarget/ref_clearance.py
+# md5      : 105f1baff61e5d85054101231951f661  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-20T16:07:47+0800
+# ---------------------------------------------------------------
+参考 /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_/robot_name=g1/data.parquet：988 帧；物体网格水密 False（符号按面法向）；带碰撞网格的连杆 18 个；参考第一次接触 t_c 399
+  帧	全身最近的连杆	有向距离 mm	左手掌 mm	右手掌 mm
+  150	left_hand_palm_link	6.6	6.6	50.6
+  160	left_hand_palm_link	24.6	24.6	35.7
+  170	left_hand_index_0_link	2.5	12.1	42.3
+  180	left_hand_index_0_link	-8.8	12.4	71.0
+  190	left_hand_middle_1_link	-2.8	59.3	71.4
+  200	left_hand_middle_1_link	-10.5	31.2	39.6
+  210	right_hand_middle_1_link	6.2	57.3	35.9
+  220	right_hand_middle_1_link	-0.7	70.7	21.2
+  230	left_hand_middle_1_link	1.0	68.3	20.7
+  240	left_hand_index_1_link	4.4	81.9	54.7
+  250	left_hand_index_1_link	18.9	98.9	73.8
+  251	left_hand_index_1_link	25.0	104.3	75.5
+  252	left_hand_index_1_link	27.1	105.3	76.4
+  253	left_hand_index_1_link	31.7	109.9	82.6
+  254	left_hand_middle_1_link	33.1	116.6	89.5
+  255	left_hand_middle_1_link	29.9	116.3	86.2
+  256	left_hand_middle_1_link	32.1	115.7	85.8 ←
+  257	left_hand_middle_1_link	30.4	112.0	79.1
+  258	left_hand_middle_1_link	33.8	117.5	85.1
+  259	left_hand_middle_1_link	34.8	114.9	78.8
+  260	left_hand_middle_1_link	39.7	117.5	87.7
+  261	left_hand_middle_1_link	40.4	115.0	87.5
+  270	right_hand_middle_1_link	25.1	119.5	66.8
+  280	right_hand_middle_1_link	34.3	115.6	61.8
+  290	left_hand_middle_1_link	9.8	91.3	78.6
+  300	left_hand_middle_1_link	19.5	67.8	84.6
+  310	left_hand_middle_1_link	18.7	109.8	143.6
+  320	left_hand_middle_1_link	6.3	45.0	166.2
+  330	left_hand_middle_1_link	11.9	121.3	155.7
+  340	left_hand_index_1_link	17.7	94.1	133.4
+  350	left_hand_index_1_link	51.4	131.4	140.1
+  360	left_hand_index_1_link	48.5	131.3	90.0
+  370	left_hand_index_1_link	53.2	125.3	86.1
+  380	left_hand_index_1_link	26.7	104.5	93.1
+  390	left_hand_middle_1_link	12.6	83.3	104.4
+  400	left_hand_middle_1_link	5.5	42.0	41.4
+  [150, 409) 里算了 36 帧；全身最小有向距离 < 0 的 4 帧，第一帧 180
+  离物体最近的 5 个连杆（这段里的最小有向距离）：left_hand_middle_1_link -10.5 mm，left_hand_index_0_link -8.8 mm，right_hand_middle_1_link -0.7 mm，left_hand_index_1_link 2.6 mm，right_hand_middle_0_link 5.2 mm
+REF_CLEARANCE_DONE

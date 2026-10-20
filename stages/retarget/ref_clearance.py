@@ -18,7 +18,7 @@ import trimesh
 from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
 
 
 def main() -> int:
