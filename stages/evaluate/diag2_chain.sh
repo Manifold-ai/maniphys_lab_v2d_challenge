@@ -21,6 +21,9 @@ cd "$(dirname "$0")/../.."
 unset V2D_FC_SRC
 DIAG_SRC="${V2D_DIAG_FC_SRC:-}"
 [ -z "$DIAG_SRC" ] || [[ $DIAG_SRC == /* ]] || { echo "diag2_chain: V2D_DIAG_FC_SRC 必须是绝对路径：$DIAG_SRC" >&2; exit 2; }
+if [ -n "$DIAG_SRC" ]; then   # 与 in-flash-chord 打印的挂载路径同样解析（pwd -P），末尾斜杠、软链接都不影响匹配
+  DIAG_SRC="$(cd "$DIAG_SRC" 2>/dev/null && pwd -P)" || { echo "diag2_chain: V2D_DIAG_FC_SRC 不是目录：$V2D_DIAG_FC_SRC" >&2; exit 2; }
+fi
 TABLE=${1:?用法见文件头}; NAME=${2:?用法见文件头}
 LOG="runs/logs/$NAME.log"; MARK="runs/.chain-active-$NAME"; GPU_WAIT_S="${V2D_GPU_WAIT_S:-7200}"
 [ ! -e "$LOG" ] || { echo "diag2_chain: $LOG 已存在，拒绝（确认后改名或删掉再起）" >&2; exit 2; }
