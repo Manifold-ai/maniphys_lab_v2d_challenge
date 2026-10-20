@@ -4,7 +4,8 @@ Tier 1 ep25 同样（114.10 对 49.71，`results/select_t1/t1_static_floor_c10s4
 做法：两条手臂（shoulder_pitch/roll/yaw、elbow、wrist_roll/pitch/yaw）与 14 个 Dex3 手指关节在全部帧都换成 --arm-frame 那一帧的值（默认第 0 帧：参考开头人还没伸手），
 腿、腰、根照抄；ee_pose_w（两只手掌）按 URDF 正向运动学重算（四元数 wxyz，与原 parquet 一致；先自检原关节角下算出的手掌与原 ee_pose_w 最大差 ≤ 2 mm，不过就退出）；
 hand_contact_active 全部置 0（没有接触段，force_closure 不计）。其余列、object 目录、支撑面、v2d_meta.json 照抄（同 finger_close.py 的写法）。
-报告：手臂关节的最大改动；新、原参考里“手臂点”（两只手各连杆碰撞网格的顶点，加肩、肘、腕连杆原点与上臂、前臂连线上的点）到物体表面采样点的最近距离，
+报告：手臂关节的最大改动；新、原参考里“手臂点”（两只手各连杆碰撞网格的顶点，加肩、肘、腕连杆原点与上臂、前臂连线上的点）到停在第 0 帧位姿的物体表面采样点的最近距离
+（不去够物体时仿真里它就停在那里），
 与到支撑面方盒（用挂载的 flash_chord 导入器建 reconstructed_stage 里这一集的支撑面，只取 BOX；要挂训练用的那份副本，v0.4.0 原版不读方盒的 scale）的最近有向距离（全部帧的最小值与出现的帧）。
 --arm-frame-scan（计划 agent-doc/plan-t12lift-2026-10-20.md 第 2 版，复核 MAJOR 3）：在 [0, 参考第一次接触) 里每 50 帧取一个候选帧（含第 0 帧），
 选“全部帧里手臂点到物体与到支撑面的最近距离两者的较小值”最大的那一帧；并列取较早的帧。不给时用 --arm-frame。
@@ -128,14 +129,14 @@ def main() -> int:
             fsup.add_support_surfaces(b, str(u))
             for i in range(b.shape_count):
                 kind = newton.GeoType(b.shape_type[i]).name
-                if kind != "BOX":
-                    print(f"  支撑面 {u.name} 第 {i} 个形状是 {kind}，不是方盒，没算进距离")
+                if kind not in ("BOX", "CYLINDER"):
+                    print(f"  支撑面 {u.name} 第 {i} 个形状是 {kind}，没算进距离")
                     continue
                 tr = np.asarray(b.shape_transform[i], dtype=float)          # p(3) + q(4, xyzw)
-                boxes.append((tr[:3], quat_mat(tr[3:], "xyzw"), np.asarray(b.shape_scale[i], dtype=float)[:3]))
+                boxes.append((kind, tr[:3], quat_mat(tr[3:], "xyzw"), np.asarray(b.shape_scale[i], dtype=float)[:3]))
     except ImportError as e:
         print(f"  读不了支撑面（{e}），只报物体距离")
-    print(f"  支撑面文件 {[u.name for u in usd]}；方盒 {len(boxes)} 个：" + "；".join(f"中心 {np.round(c, 3).tolist()} 半尺寸 {np.round(h, 3).tolist()}" for c, _, h in boxes))
+    print(f"  支撑面文件 {[u.name for u in usd]}；形状 {len(boxes)} 个：" + "；".join(f"{k} 中心 {np.round(c, 3).tolist()} 尺寸 {np.round(h, 3).tolist()}" for k, c, _, h in boxes))
     frames = np.arange(0, T, 2)
 
     def clearance(q_new: np.ndarray) -> tuple:
@@ -150,13 +151,17 @@ def main() -> int:
                 pts.append(np.stack([a_ + (b_ - a_) * w for w in np.linspace(0, 1, 6)], 1))
         P = np.concatenate(pts, 1)                                             # (F,V,3)
         F = frames
-        po = np.einsum("fvj,fjk->fvk", P - op[F][:, None, :], oR[F])
+        po = (P - op[0]) @ oR[0]          # 物体停在第 0 帧的位姿（不去够它时仿真里它就停在那里）
         d_obj = tree.query(po.reshape(-1, 3))[0].reshape(po.shape[:2]).min(1)
         d_sup = np.full(len(F), np.inf)
-        for c, R, h in boxes:
-            loc = np.abs((P - c) @ R)                                          # (F,V,3)
-            out = np.linalg.norm(np.maximum(loc - h, 0.0), axis=-1)
-            ins = (loc - h).max(-1)
+        for kind, c, R, h in boxes:
+            loc = (P - c) @ R                                                  # (F,V,3)，形状的局部系
+            if kind == "BOX":
+                ex = np.abs(loc) - h
+            else:                                                              # CYLINDER：轴向为局部 z，h = (半径, 半高, 0)
+                ex = np.stack([np.linalg.norm(loc[..., :2], axis=-1) - h[0], np.abs(loc[..., 2]) - h[1]], -1)
+            out = np.linalg.norm(np.maximum(ex, 0.0), axis=-1)
+            ins = ex.max(-1)
             d_sup = np.minimum(d_sup, np.where(ins > 0, out, ins).min(1))
         return d_obj, d_sup
 
