@@ -89,3 +89,20 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
   宿主机解释器的真实文件属 root、gate 解释器的真实文件属路径里的那个用户，都对其他用户不可写，sha256 记进日志。实测：v2d 目录本身是机器管理账户建的（不是她），
   gate 解释器属她、权限 rwxrwxr-x（组可写）。**残余风险**：mfshared 组里的成员能改 gate 解释器，这一点只有第 1b 级换成我们自己的环境才消除。
   正在跑的第 1 级 A 部分用的是改动前的脚本（bash 边跑边读，跑的时候不换文件），跑完再换；比较驱动已换。
+- 05:13 MDT 第 1 级 A 部分跑完（`runs/logs/t3r_level1_t3.log` 末行 T3R_LEVEL1_DONE，三集 decode → dyn7 共 28 分钟）；换上安全修复后的 `t3r_level1.sh`。
+- 05:2x **K1 第一轮比较**（`stages/recovery/t3r_level1_compare.sh t3`，记录 `results/t3recon/t3_vs_ref_cmp_*.txt`）：负对照 3/3 不同（pose 最大差 0.215）、已知相同对 4/4 逐字节相同、
+  门槛自检都过；正对照（t3_rep）还没跑。
+  - ep14、ep20：decode、focal、world、assemble、三版物理检查（npz 与 out）、support、dr2s、dyn7 全部**逐字节相同**；
+  - ep27：decode、focal（含身体重拟合）逐字节相同，`object_world.npz` 逐字节相同；**第一处不同在 world 的 `soma_params_world.npz`**：identity_coeffs 最大差 8.24e-3；
+    `world_calib.json` 的缩放拟合 joint_err_mm_max 1.03 对参照 0.85、vertex_err_mm_mean 0.52 对 0.48、vertex_err_mm_p99 1.55 对 1.58、body_rigid_max_err_mm 0.0013 对 0.0015。
+    往后跟着不同：三版 parquet（gb5_best 的 identity_coeffs、dyn7 的 human.translation 最大差 6.1e-4 m）、物理 npz 与 out（feet 最大差 6.3e-4 m），metadata json 逐字节相同；
+  - summary、depth_post、dynamics_post 三份 json 报“长度 3 对 30”：顶层是“每集一条”的列表，比较器的 --subset 只认字典，是比较器的缺口。
+    `t3r_compare.py` 补上按 episode 配对（K1 原文“按集逐行比”）与 `--all`（列出全部不同处），测试见 `test_t3r_compare.py`，修好后重比这三份。
+- **按 K2 处理 ep27 world**（先查环境与线程，查清前不在我们的副本上改）。已知事实：镜像同一个（ca1774d94cd9，9/25 建；她的 `t3_sel_full.sh` 用 `:latest`，指向同一 ID）；
+  她的 world 也是 `--cpus 6 -e OMP_NUM_THREADS=6`（`t3_sel_full.sh` 37 行），当时最多 3 集的转换并行（MAX_CONVERT）；我们跑时 ml40 上有训练链。
+  s≠1 的集 world 步用 torch Adam 在 CPU 上走 400 步拟合 frame-0 身份（`_scale_body`，float32、8 帧、种子 0）。
+  **登记（重跑之前）**：用 `stages/recovery/t3r_world_repeat.sh` 只重跑 world 步，输入取 t3 根里 focal 之后的文件（与参照逐字节相同）：
+  1. ep27 同配置（6 线程）跑两遍 a、b；ep14 同配置（4 线程）跑一遍当对照，应与 t3、参照都逐字节相同，否则这套重跑本身有问题，整轮不判。
+  2. a、b、t3 三者两两逐字节相同 → world 步在固定配置下确定，参照的差来自她当时的环境，接着按线程与 BLAS 设置逐项试（不改代码），找不到就如实记“ep27 world 不能逐位复现，差值如上”；
+     三者之间有不同 → world 步本身不确定：按复核第 2 条，噪声底取三者两两之差的最大值（逐键），参照的差逐键不超过噪声底才记“在噪声底内复现”，超过就记不成立。
+  3. 不论哪种结果，下游 ep27 的段（assemble 往后）另用参照的 world 产物当输入跑一遍（复核第 4 条“一处不同不遮住后面的”），逐字节比。

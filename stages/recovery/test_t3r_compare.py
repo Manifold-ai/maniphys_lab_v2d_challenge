@@ -14,7 +14,7 @@ from t3r_compare import IGNORE_KEY, compare, self_test
 
 
 def _args(**kw):
-    a = argparse.Namespace(tol=1e-6, tol_rad=1e-6, subset=False, ignore_key=IGNORE_KEY, quat_col=["observation.object.pose"])
+    a = argparse.Namespace(tol=1e-6, tol_rad=1e-6, subset=False, all=False, ignore_key=IGNORE_KEY, quat_col=["observation.object.pose"])
     for k, v in kw.items():
         setattr(a, k, v)
     return a
@@ -83,3 +83,48 @@ def test_other_suffix_bytes_only():
         (p / "c.usda").write_text("x 1.00\n")
         assert compare(p / "a.usda", p / "b.usda", _args())[0] == "BYTES_EQUAL"
         assert compare(p / "a.usda", p / "c.usda", _args())[0] == "DIFFERENT"
+
+
+def test_json_subset_matches_episode_lists():
+    """K1“按集逐行比”：每集一条的列表按 episode 配对，参照多出来、顺序不同都不算；值不同、参照缺集算不同。"""
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d)
+        ours = [{"episode": "ep14", "k": 1.0, "tier": "t"}, {"episode": "ep27", "k": 2.0, "tier": "t"}]
+        ref = [{"episode": "ep27", "k": 2.0, "tier": "t"}, {"episode": "ep05", "k": 9.0, "tier": "t"}, {"episode": "ep14", "k": 1.0, "tier": "t"}]
+        (p / "o.json").write_text(json.dumps(ours, indent=1))
+        (p / "r.json").write_text(json.dumps(ref))
+        assert compare(p / "o.json", p / "r.json", _args(subset=True))[0] == "NUMBERS_EQUAL"
+        assert compare(p / "o.json", p / "r.json", _args(subset=False))[0] == "DIFFERENT"
+        ours[1]["k"] = 2.1
+        (p / "o.json").write_text(json.dumps(ours))
+        v, msg = compare(p / "o.json", p / "r.json", _args(subset=True))
+        assert v == "DIFFERENT" and "ep27" in msg, msg
+        ours[1] = {"episode": "ep99", "k": 2.0, "tier": "t"}
+        (p / "o.json").write_text(json.dumps(ours))
+        v, msg = compare(p / "o.json", p / "r.json", _args(subset=True))
+        assert v == "DIFFERENT" and "ep99" in msg, msg
+
+
+def test_all_lists_every_difference():
+    """K2 排查：--all 列出所有不同的键与 JSON 路径，不带时只报第一处；结论两种情况相同。"""
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d)
+        np.savez(p / "a.npz", x=np.zeros(3), y=np.zeros(3), z=np.zeros(3))
+        np.savez(p / "b.npz", x=np.ones(3), y=np.zeros(3), z=np.ones(3))
+        v1, m1 = compare(p / "a.npz", p / "b.npz", _args())
+        v2, m2 = compare(p / "a.npz", p / "b.npz", _args(all=True))
+        assert v1 == v2 == "DIFFERENT"
+        assert "键 x" in m1 and "键 z" not in m1, m1
+        assert "键 x" in m2 and "键 z" in m2 and "键 y" not in m2, m2
+        (p / "o.json").write_text(json.dumps({"a": 1.0, "b": {"c": 2.0}, "d": 3.0}))
+        (p / "r.json").write_text(json.dumps({"a": 1.5, "b": {"c": 2.5}, "d": 3.0}))
+        v, m = compare(p / "o.json", p / "r.json", _args(all=True))
+        assert v == "DIFFERENT" and "$.a" in m and "$.b.c" in m and "$.d" not in m, m
+
+
+if __name__ == "__main__":
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            fn()
+            print(f"  {name} 过")
+    print("T3R_COMPARE_TESTS_OK")
