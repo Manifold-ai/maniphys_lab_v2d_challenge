@@ -117,3 +117,17 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
 4. Run jev on the new claims, with controls. Keep the jev records in results/ only, not on the page. Before you publish, search the page text for jev, claim, Fable, Opus, review, 审查, 用户, user, coding agent, 原文, 我们, 同组成员, teammate, we and our. Fix every hit that the page rule or the person rule covers. Commit, push, and republish to https://claude.ai/artifact/Y3bxcJt4oMMMrBKAr4fkhj. Pass new media files through files, and only new ones.
 5. Report to the user in Chinese, briefly.
 ```
+
+- 10/21 13:40 MDT（`results/board/diff_1021_1340.txt`；不计 solidSF.com 的比较 `results/board/diff_1021_1340_ex_solidSF.txt`，`board_diff.py` 新加 `--exclude`）：
+  solidSF.com 在 13:14–13:25 MDT 交了其余 10 个榜（Tier 1 MP-SR 不在第一页）：三档 AUC 都是 0.99998，SP-SR、MP-SR 1.00000，MPPE Tier 1 与 Tier 3 都是 0.07244、Tier 2 0.07628。
+  NVSimranPatil 交了 Tier 1（11:13 MDT）：AUC 0.87916、SP-SR 1.00000、MP-SR 0.93333、MPPE 0.98418；Haoran Zhang233 交了 Tier 1（13:17 MDT）：AUC 0.82959、SP-SR 0.90000、MP-SR 0.83333；
+  MBZUAI-RCL Group 交了 Tier 1 MPPE 9.43744；nima arki 的 Tier 1、Tier 2 涨了，仍在 maniphys.ai 之后（Tier 1 AUC 0.57840 只差 0.004）。
+  计 solidSF.com：maniphys.ai 12 个榜都后移，没有第一的榜；读法 B Kaggle 规则 solidSF.com 31、FF 43、NVSimranPatil 49、maniphys.ai 50（第 4），官网规则第 4（53）；读法 A FF 8、maniphys.ai 10。
+  不计 solidSF.com：Tier 1 第 6/4/5/5，Tier 2 第 2/2/3/3，Tier 3 第 3/1/2/3（AUC/SP-SR/MP-SR/MPPE）；读法 B Kaggle 规则 FF 32、NVSimranPatil 39、maniphys.ai 39（同分，提交更早者在前），官网规则 FF 34、NVSimranPatil 39、maniphys.ai 42；读法 A FF 5、maniphys.ai 7。
+  解读（未核实）：solidSF.com 的 Tier 3 MPPE 与 Tier 1 逐位相同（0.07244），没有标定的 Tier 3 要做到这一点，看来用了 Tier 1 第 0 帧以外的数据；按 10/21 官方答复，Tier 3 只许用 Tier 1 第 0 帧算对齐。
+  毫米级的 MPPE 也不像物理仿真里的策略 rollout。组委会封榜后用留出数据评，这样的提交能不能留在榜上要看组委会。要不要写信问组委会，由 rxzhou 决定。
+  NVSimranPatil 的 Tier 1 MPPE 0.98 cm、Tier 2 2.77 cm，SP-SR 1.00 和 0.93，说明它几乎没有失败的集。maniphys.ai 的 MPPE 主要亏在少数失败集（Tier 2 的 ep25、ep4、ep28 约 290 cm），
+  t2mtr 攻的正是这几集；即使三集都降到 3 cm 左右，按策略第 2 节的约 290 cm 粗算，Tier 2 MPPE 也只到约 6 cm，追不上 2.77。
+  决定：不交（没有榜满足 `agent-doc/strategy-2026-10-19.md` 第 1 节的领先余量）。两台卡都在跑复核过的计划（mf4090 t2mtr ep25 68%，ml40 t3qg5b ep2 4%），不改。
+  离第一最近的是 Tier 2 AUC（FF 0.51796，差 0.00417，余量要 0.010）和 Tier 3（对齐后的 CSV 已打包，等 rxzhou 决定是否上传，最早的名额 10/22 16:14 MDT）。
+  NVSimranPatil 还没交 Tier 3，交了就会在名次和上超过 maniphys.ai。按“失败集决定 MPPE 与 SR”重排算力的策略改动，等 t2mtr ep25 读数（约 15:00 MDT）后另写计划。

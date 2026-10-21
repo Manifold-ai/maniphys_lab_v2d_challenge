@@ -3,7 +3,8 @@
 读法、名次与同分规则照 track2_rank_sum.py：基线不计名次；同分 kaggle = 先提交者在前（快照里的 submissionDate），site = 队名小写的字母序。
 读法 B 把 12 个榜的名次相加，缺榜的队按那个榜的最后一名再加 1 计（只为排总名次；官方没写缺榜怎么算）。读法 A 只算三档都交了的队。
 有下列情况就打印 ALERT 行：我们在某个榜的名次变差（任一同分规则）；任一读法、任一同分规则下我们的总名次变差。
-用法：python3 stages/evaluate/board_diff.py <上一份快照> <这一份快照> [--us maniphys.ai]   最后一行 BOARD_DIFF_DONE
+--exclude 队名（可重复）：两份快照里都去掉这些队再比（看“不计某队”时的名次；默认不去掉任何队）。
+用法：python3 stages/evaluate/board_diff.py <上一份快照> <这一份快照> [--us maniphys.ai] [--exclude 队名 ...]   最后一行 BOARD_DIFF_DONE
 """
 import argparse
 import sys
@@ -80,8 +81,14 @@ def main() -> int:
     ap.add_argument("old")
     ap.add_argument("new")
     ap.add_argument("--us", default="maniphys.ai")
+    ap.add_argument("--exclude", action="append", default=[])
     a = ap.parse_args()
     old, new = load(a.old), load(a.new)
+    for b in (old, new):
+        for k in KEYS:
+            b[k] = [r for r in b[k] if r[0] not in a.exclude]
+    if a.exclude:
+        print(f"不计：{'、'.join(a.exclude)}")
     ot, nt = table(old), table(new)
     print(f"上一份 {a.old}；这一份 {a.new}")
     alerts, changed = [], 0
