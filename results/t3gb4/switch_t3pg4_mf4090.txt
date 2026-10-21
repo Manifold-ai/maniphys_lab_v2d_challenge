@@ -1,0 +1,20 @@
+# command  : python3 stages/evaluate/gb3_switch.py stages/evaluate/gb4_switch_t3pg4.json 
+# md5      : 44cc2329bf48fc3026811bb577f53b4b  stages/evaluate/gb3_switch.py
+# md5      : a661c102f8dd4156a01bc6bcfac3dafe  stages/evaluate/gb4_switch_t3pg4.json
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T12:36:40+0800
+# ---------------------------------------------------------------
+规则 S：margin 1.0 cm、SP-SR 下限 0.5、且不低于现选减 0.05；现选值来源：现选 run（gb1018e22，stages/evaluate/exports/t3_select_gb1018e22.tsv）的 4096 世界值：ep0、6、7、8、20、22、21、29 取 results/t3gb3/switch_table_gb1018.txt；ep18 取 results/t3kfix/retrain_switch_t3pk_mf4090.txt；ep24、ep26 取 results/t3kfix/reexport_mf4090.txt（k-fix 参考上 4096 世界的重新导出）
+ep0 t3-ep0-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep0-w2048-cap4m-r3a-gb3-mf4090：MPPE 3.98 cm、SP-SR 0.9358、MP-SR 0.9160）：新 MPPE 3.80 cm、SP-SR 0.9482、MP-SR 0.9348、ADD-AUC 0.528；规则 S（MPPE ≤ 4.98 且 SP-SR ≥ 0.8858）：换
+ep6 t3-ep6-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep6-w2048-cap10m-r3a-gb3-ml40：MPPE 3.77 cm、SP-SR 0.9758、MP-SR 0.0713）：新 MPPE 3.97 cm、SP-SR 0.9775、MP-SR 0.0740、ADD-AUC 0.604；规则 S（MPPE ≤ 4.77 且 SP-SR ≥ 0.9258）：换
+ep7 t3-ep7-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep7-w2048-cap10m-r3a-gb3-ml40：MPPE 2.37 cm、SP-SR 0.9910、MP-SR 0.9902）：新 MPPE 3.29 cm、SP-SR 0.9673、MP-SR 0.9626、ADD-AUC 0.756；规则 S（MPPE ≤ 3.37 且 SP-SR ≥ 0.9410）：换
+ep8 t3-ep8-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep8-w2048-cap10m-r3a-gb3-ml40：MPPE 1.61 cm、SP-SR 0.9934、MP-SR 0.9924）：新 MPPE 2.17 cm、SP-SR 0.9790、MP-SR 0.9775、ADD-AUC 0.816；规则 S（MPPE ≤ 2.61 且 SP-SR ≥ 0.9434）：换
+ep20 t3-ep20-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep20-w2048-cap4m-r3a-gb3-mf4090：MPPE 4.01 cm、SP-SR 0.8923、MP-SR 0.8606）：新 MPPE 4.98 cm、SP-SR 0.8440、MP-SR 0.8137、ADD-AUC 0.687；规则 S（MPPE ≤ 5.01 且 SP-SR ≥ 0.8423）：换
+ep22 t3-ep22-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep22-w2048-cap4m-r3a-gb3-mf4090：MPPE 2.03 cm、SP-SR 0.9922、MP-SR 0.9858）：新 MPPE 6.53 cm、SP-SR 0.9365、MP-SR 0.9331、ADD-AUC 0.706；规则 S（MPPE ≤ 3.03 且 SP-SR ≥ 0.9422）：不换
+ep18 t3-ep18-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep18-w2048-cap4m-r3a-kfix-mf4090：MPPE 4.63 cm、SP-SR 0.9243、MP-SR 0.8989）：新 MPPE 3.66 cm、SP-SR 0.9448、MP-SR 0.9243、ADD-AUC 0.626；规则 S（MPPE ≤ 5.63 且 SP-SR ≥ 0.8743）：换
+ep24 t3-ep24-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep24-w2048-cap4m-r3a-v2-mf4090：MPPE 3.10 cm、SP-SR 0.9978、MP-SR 0.9019）：新 MPPE 2.40 cm、SP-SR 0.9854、MP-SR 0.9802、ADD-AUC 0.731；规则 S（MPPE ≤ 4.10 且 SP-SR ≥ 0.9478）：换
+ep26 t3-ep26-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep26-w2048-cap4m-r3a-v2-mf4090：MPPE 2.85 cm、SP-SR 0.9922、MP-SR 0.9836）：新 MPPE 1.55 cm、SP-SR 0.9934、MP-SR 0.9924、ADD-AUC 0.579；规则 S（MPPE ≤ 3.85 且 SP-SR ≥ 0.9422）：换
+ep29 t3-ep29-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep29-w2048-cap4m-r3a-v2-mf4090：MPPE 8.00 cm、SP-SR 0.7130、MP-SR 0.0000）：新 MPPE 34.75 cm、SP-SR 0.0000、MP-SR 0.0000、ADD-AUC 0.197；规则 S（MPPE ≤ 9.00 且 SP-SR ≥ 0.6630）：不换
+ep21 t3-ep21-w2048-cap4m-r3a-gb4-mf4090（现选 t3-ep21-w2048-cap4m-r3a-hm-mf4090：MPPE 8.96 cm、SP-SR 0.8760、MP-SR 0.5010）［只报］：新 MPPE 23.47 cm、SP-SR 0.6831、MP-SR 0.0002、ADD-AUC 0.414；规则 S（MPPE ≤ 9.96 且 SP-SR ≥ 0.8260）：不换
+GB3_SWITCH_DONE 8 0

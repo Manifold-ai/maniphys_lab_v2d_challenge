@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep29-w2048-cap4m-r3a-gb4-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T12:28:09+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep29-w2048-cap4m-r3a-gb4-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep29-w2048-cap4m-r3a-gb4-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep29-w2048-cap4m-r3a-gb4-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep29-w2048-cap4m-r3a-gb4-mf4090/policy_349999104.safetensors  sha256 f3d2dafc1fbe7282…
+  environment_steps 349999104  world_count 4096  step_count 467  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.19742180703794165
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        34.74571218674791
+  mean_add_m                                     0.3910857671821798
+  object_position_error_m                        0.3457329883141359
+  object_orientation_error_deg                   64.18480041950576
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.19742180703794165, "checkpoint": "/repo/runs/flash_chord/t3-ep29-w2048-cap4m-r3a-gb4-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "f3d2dafc1fbe728265e278e73102e64ff35307730b5726e2b35d4f59dd3b30b3", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.3910857671821798, "mppe_cm": 34.74571218674791, "object_orientation_error_deg": 64.18480041950576, "object_position_error_m": 0.3457329883141359, "parquet": "/repo/runs/motion/tier3_gb4/whole_body/soma/sequence_id=2026-06-05_18-27-40_rolling_luggage_left_foot_push_06/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 1.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 467, "world_count": 4096}

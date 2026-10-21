@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep24-w2048-cap4m-r3a-gb4-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : 1496e3878f77
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T12:18:38+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep24-w2048-cap4m-r3a-gb4-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep24-w2048-cap4m-r3a-gb4-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep24-w2048-cap4m-r3a-gb4-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep24-w2048-cap4m-r3a-gb4-mf4090/policy_349999104.safetensors  sha256 b5741425f342f519…
+  environment_steps 349999104  world_count 4096  step_count 748  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.7307726202164104
+  chord_sr                                       0.949462890625
+  maniptrans_sr                                  0.980224609375
+  spider_sr_uncentered                           0.9853515625
+  mppe_cm                                        2.3955787762570195
+  mean_add_m                                     0.03164615104587204
+  object_position_error_m                        0.01870911599057886
+  object_orientation_error_deg                   18.811967257998255
+  termination_cause_fraction (legacy object-centric) {'object': 0.026123046875, 'wrist': 0.04638671875}
+  reference_tracking.success_rate (= chord_sr)   0.949462890625
+  reference_tracking.failure_cause_fraction      {'object': 0.026123046875, 'palm': 0.04638671875, 'pelvis': 0.02197265625}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.7307726202164104, "checkpoint": "/repo/runs/flash_chord/t3-ep24-w2048-cap4m-r3a-gb4-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "b5741425f342f5195581aecd22881b99f07cc100cf581470a138771a394c3f15", "chord_sr": 0.949462890625, "environment_steps": 349999104, "maniptrans_sr": 0.980224609375, "mean_add_m": 0.03164615104587204, "mppe_cm": 2.3955787762570195, "object_orientation_error_deg": 18.811967257998255, "object_position_error_m": 0.01870911599057886, "parquet": "/repo/runs/motion/tier3_gb4/whole_body/soma/sequence_id=2026-05-29_15-43-20_watering_can_pour_right_02/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.026123046875, "palm": 0.04638671875, "pelvis": 0.02197265625}, "reference_end_fraction": 1.0, "success_rate": 0.949462890625}, "spider_sr_uncentered": 0.9853515625, "step_count": 748, "world_count": 4096}
