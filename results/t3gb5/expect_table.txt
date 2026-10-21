@@ -1,0 +1,9 @@
+# command  : bash -c python3\ stages/recovery/tier3_expect.py\ results/ops/t3_episodes_ml40_1021_gb5.txt\ results/ops/t2_inputs_mf4090_1021_gb5.txt\ --support-from-remote\ \>\ stages/recovery/expect/t3gb5_18_1021.tsv 
+# md5      : f4c44b1c71fbf2693846ede308af9c8d  stages/recovery/tier3_expect.py
+# md5      : dd11feaef1d53ff19ee6b477b61fef2f  results/ops/t3_episodes_ml40_1021_gb5.txt
+# md5      : cd64bb1d941e2723ce70cf6dabecea80  results/ops/t2_inputs_mf4090_1021_gb5.txt
+# md5      : f89c526db4596797db70ef698b46dca6  stages/recovery/expect/t3gb5_18_1021.tsv
+# source   : b2fcf629e68e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:34:16-0600
+# ---------------------------------------------------------------
