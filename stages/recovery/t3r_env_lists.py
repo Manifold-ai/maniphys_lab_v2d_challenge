@@ -7,6 +7,8 @@
   python3 t3r_env_lists.py <venv>                              每个发行版一行：名字 版本 INSTALLER direct_url 文件数 摘要
   python3 t3r_env_lists.py <venv> --req <文件> [--skip-direct-url]   另写一份“名字==版本”清单（版本照 METADATA 原样）
   python3 t3r_env_lists.py <我们的 venv> --compare <参照 venv> [--skip-direct-url]   逐个发行版比版本与摘要，有不同退出码 1
+  python3 t3r_env_lists.py <我们的 venv> --compare-list <参照清单> [--skip-direct-url]    参照是本工具第一种用法存下的输出（记录文件，# 开头的行与末行不算），
+                                                                                  比的时候不用再读参照的 venv（1b 建环境时她的 venv 被盖住）
 测试：stages/recovery/test_t3r_env_lists.py。
 """
 import argparse
@@ -78,11 +80,26 @@ def scan(venv: Path) -> dict[str, dict]:
     return out
 
 
+def load_list(path: Path) -> dict[str, dict]:
+    """读第一种用法的输出（scripts/dev/record 的记录也行：跳过 # 开头的行与 T3R_ 开头的末行）。"""
+    out = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#") or line.startswith("T3R_"):
+            continue
+        k, version, installer, du, files, digest = line.split("\t")
+        out[k] = {"name": k, "version": version, "installer": installer, "direct_url": du == "direct_url",
+                  "files": int(files), "digest": digest}
+    if not out:
+        raise SystemExit(f"{path}：一个发行版都没读到")
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("venv")
     ap.add_argument("--req")
     ap.add_argument("--compare")
+    ap.add_argument("--compare-list")
     ap.add_argument("--skip-direct-url", action="store_true")
     a = ap.parse_args()
     ours = scan(Path(a.venv))
@@ -90,12 +107,12 @@ def main() -> int:
         ours = {k: v for k, v in ours.items() if not v["direct_url"]}
     if a.req:
         Path(a.req).write_text("".join(f"{v['name']}=={v['version']}\n" for _, v in sorted(ours.items())))
-    if not a.compare:
+    if not a.compare and not a.compare_list:
         for k, v in sorted(ours.items()):
             print(f"{k}\t{v['version']}\t{v['installer']}\t{'direct_url' if v['direct_url'] else '-'}\t{v['files']}\t{v['digest']}")
         print(f"T3R_ENV_LIST_DONE {len(ours)} 个发行版")
         return 0
-    ref = scan(Path(a.compare))
+    ref = scan(Path(a.compare)) if a.compare else load_list(Path(a.compare_list))
     if a.skip_direct_url:
         ref = {k: v for k, v in ref.items() if not v["direct_url"]}
     bad = 0

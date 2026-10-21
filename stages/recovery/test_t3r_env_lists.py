@@ -55,6 +55,22 @@ def test_compare_flags_content_version_and_missing():
         assert "内容不同\tnumpy" in p.stdout and "缺\tscipy\t我们没有" in p.stdout and "缺\ttorch\t参照没有" in p.stdout, p.stdout
 
 
+def test_compare_list_matches_compare():
+    """E0：拿存下的清单比（--compare-list，记录文件的 # 头与末行跳过），结论与直接读参照 venv 比（--compare）相同。"""
+    with tempfile.TemporaryDirectory() as d:
+        ref, ours = Path(d) / "ref", Path(d) / "ours"
+        _dist(ref, "numpy", "2.3.5", {"numpy/core.so": "h1"})
+        _dist(ours, "numpy", "2.3.5", {"numpy/core.so": "h1"})
+        listing = subprocess.run([sys.executable, str(TOOL), str(ref)], capture_output=True, text=True, check=True).stdout
+        saved = Path(d) / "list.txt"
+        saved.write_text("# command  : x\n# ---\n" + listing)
+        p = subprocess.run([sys.executable, str(TOOL), str(ours), "--compare-list", str(saved)], capture_output=True, text=True, check=False)
+        assert p.returncode == 0 and "不同 0 个" in p.stdout, p.stdout
+        _dist(ours, "numpy", "2.3.5", {"numpy/core.so": "CHANGED"})
+        p = subprocess.run([sys.executable, str(TOOL), str(ours), "--compare-list", str(saved)], capture_output=True, text=True, check=False)
+        assert p.returncode == 1 and "内容不同\tnumpy" in p.stdout, p.stdout
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_") and callable(fn):
