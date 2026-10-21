@@ -143,3 +143,5 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
   所以 K1 原文“三集都过”不满足，不记“第 1 级接管成立”；记为“ep14、ep20 成立，ep27 除 world 一步外成立”。
 - 第 1b 级的事实（只读核对，10/21 06:0x MDT）：ml40 能直连腾讯云与阿里云的 PyPI 镜像（pypi.org 超时）；她的宿主机 venv 以 `/usr/bin/python3.10`（3.10.12）为底，82 个发行版；
   gate venv 以 uv 管理的 CPython 3.11.17 为底，93 个发行版。1b 另写计划。
+- 06:1x 报警检查（第 1 级全部跑完之后）：`find <她的 v2d> -user rxzhou` 仍只有已知的 `gate/repo/third_party/video_to_data/.git/index`，修改时间 10/21 13:33:28.66（CST）没变；
+  t3recon 下的链接全部解析在我们自己的目录里。
