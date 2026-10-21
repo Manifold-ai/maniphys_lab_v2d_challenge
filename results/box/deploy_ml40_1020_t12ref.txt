@@ -1,0 +1,15 @@
+# command  : scripts/dev/push-new-files stages/evaluate/diag_rollout.py stages/retarget/waist_cap.py 
+# md5      : 26d570a31979f7d2f7545517a1783656  scripts/dev/push-new-files
+# md5      : 68a674306f5cb0e461f9a0eec20c345d  stages/evaluate/diag_rollout.py
+# md5      : e0d0f0ba21fcaa31e87b29a9359a7940  stages/retarget/waist_cap.py
+# source   : fe29d457d09c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T18:02:56-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+  覆盖 stages/evaluate/diag_rollout.py：远端是 9123625 的版本（9a0ce6decb66b050607530188a1bab66）
+本地提交 fe29d457d09c；远端来历 ee177b464ca1
+  ok   68a674306f5cb0e461f9a0eec20c345d  stages/evaluate/diag_rollout.py
+  ok   e0d0f0ba21fcaa31e87b29a9359a7940  stages/retarget/waist_cap.py
+远端来历（放完）ee177b464ca1
+PUSH_OK（2 个文件）
