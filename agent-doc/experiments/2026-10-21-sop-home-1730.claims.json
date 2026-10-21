@@ -1,0 +1,21 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "b_us": {"file": "results/board/diff_1021_1640.txt", "grep": "^Tier |^读法 B|^第一的榜"},
+  "b_gone": {"file": "results/board/diff_1021_1640.txt", "grep": "^tier1-auc|^tier2-auc"},
+  "mtr": {"file": "agent-doc/plan-t2mtr-2026-10-21.md", "grep": "降 13.66|VOC 课程，另写计划"},
+  "pilot": {"file": "agent-doc/plan-t3static-2026-10-21.md", "grep": "试点 2 集不过|自己掉了|\\| ep23（地上）"},
+  "align": {"file": "agent-doc/plan-t3align-2026-10-21.md", "grep": "降到 0.01–0.77|没有上传"},
+  "t3g5": {"file": "agent-doc/plan-t3g5-2026-10-21.md", "grep": "R1：mf4090 的 A 段 0/4 跟上|两台合计 A 段 7 集里跟上 1 集|ml40 B 段进度"}
+ },
+ "claims": [
+  {"id": "places", "evidence": ["b_us"], "claim": "maniphys.ai 在 Tier 2 SP-SR 与 Tier 3 SP-SR 排第 1，Tier 2 AUC、MP-SR、MPPE 与 Tier 3 AUC、MP-SR、MPPE 都排第 2，Tier 1 四个榜是第 4、3、4、4。"},
+  {"id": "sums", "evidence": ["b_us"], "claim": "12 个榜名次相加，Kaggle 同分规则 FF 22、maniphys.ai 29，官网规则 FF 24、maniphys.ai 31。"},
+  {"id": "gaps", "evidence": ["b_us"], "claim": "Tier 2 MPPE 差 FF 1.62 cm，Tier 3 AUC 差 0.050，Tier 3 MPPE 差 9.0 cm，Tier 3 MP-SR 差第 1 名 0.03333。"},
+  {"id": "gone", "evidence": ["b_gone"], "claim": "solidSF.com 与 NVSimranPatil 不在新的 Tier 1 AUC 榜上了。"},
+  {"id": "mtr", "evidence": ["mtr"], "claim": "t2mtr 的 ep25 MPPE 降了约 13.7 cm，只记信号，下一个候选是 VOC 课程。"},
+  {"id": "pilot", "evidence": ["pilot"], "claim": "站立保底试点 3 集里有 2 集不过，物体在开局自己掉了，ep23 过。"},
+  {"id": "align", "evidence": ["align"], "claim": "对齐后第 0 帧物体位置差在 1 cm 以内，清单没有上传。"},
+  {"id": "t3g5", "evidence": ["t3g5"], "claim": "t3g5 A 段 7 集里跟上 1 集，ml40 的 B 段其后还有 ep4、11、25。"},
+  {"id": "ctl_true", "evidence": ["b_us"], "claim": "maniphys.ai 在 Tier 3 SP-SR 的分数是 0.26666。", "control": "true"},
+  {"id": "ctl_false", "evidence": ["b_us"], "claim": "maniphys.ai 在 Tier 1 AUC 榜排第 1。", "control": "false"}
+ ]}
