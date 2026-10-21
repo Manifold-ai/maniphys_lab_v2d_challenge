@@ -12,7 +12,8 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 
 --bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：另经 diag_palms.BodyRecorder 抄骨盆、躯干、两只脚踝的逐帧位姿（robot_body_pose，(T,W,4,7)，位置 + 四元数 xyzw，
 与 robot_body_names）。不加 --bodies 时与原来完全相同。
-用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies]   （容器内路径）
+--parquet <容器内路径>（计划 agent-doc/plan-t12ref-2026-10-20.md）：把 checkpoint 配置里的参考 parquet 换成这一份（包一层 harness._resolve_parquet），用零残差回放试改过的参考。
+用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies] [--parquet <p>]   （容器内路径）
 输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
 import argparse
@@ -44,6 +45,7 @@ def main() -> int:
     ap.add_argument("out_prefix")
     ap.add_argument("--worlds", type=int, default=4096)
     ap.add_argument("--palms", action="store_true", help="另抄机器人两只手掌的逐帧位置，见文件头")
+    ap.add_argument("--parquet", help="换掉 checkpoint 配置里的参考 parquet（容器内绝对路径；计划 agent-doc/plan-t12ref-2026-10-20.md：用零残差回放试改过的参考）")
     ap.add_argument("--bodies", action="store_true", help="另抄骨盆、躯干、两只脚踝的逐帧位姿（diag_palms.BodyRecorder，计划 agent-doc/plan-t12fall-2026-10-20.md）")
     a = ap.parse_args()
     out = a.out_prefix
@@ -88,6 +90,11 @@ def main() -> int:
         cap["tracking"] = score(*args, **kwargs)
         return cap["tracking"]
 
+    if a.parquet:   # 评测器按 checkpoint 自带配置解析参考路径（harness._resolve_parquet），这里换成给定的那份；官方源码不改
+        if not Path(a.parquet).is_file():
+            print(f"没有 {a.parquet}", file=sys.stderr)
+            return 2
+        harness._resolve_parquet = lambda config, source_root: str(Path(a.parquet).resolve())
     harness.record_object_pose_rollout = record_wrapper
     harness.score_reference_tracking = score_wrapper
     sys.argv = [EVAL_SCRIPT, f"evaluation.checkpoint={a.policy}", f"evaluation.world_count={a.worlds}",
