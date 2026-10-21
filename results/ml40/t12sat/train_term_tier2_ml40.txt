@@ -1,0 +1,38 @@
+# command  : python3 stages/evaluate/train_term_table.py 0:t2-ep0-w2048-cap10m-r3a-ml40 1:t2-ep1-w2048-cap10m-r3a-ml40 2:t2-ep2-w2048-cap10m-r3a-ml40 3:t2-ep3-w2048-cap10m-r3a-ml40 4:t2-ep4-w2048-cap10m-r3a-ml40 5:t2-ep5-w2048-cap10m-r3a-ml40 6:t2-ep6-w2048-cap10m-r3a-ml40 7:t2-ep7-w2048-cap10m-r3a-ml40 8:t2-ep8-w2048-cap10m-r3a-ml40 9:t2-ep9-w2048-cap4m-mf4090 10:t2-ep10-w2048-cap10m-r3a-ml40 11:t2-ep11-w2048-cap4m-mf4090 12:t2-ep12-w2048-cap10m-r3a-ml40 13:t2-ep13-w2048-cap10m-r3a-ml40 14:t2-ep14-w2048-cap10m-r3a-ml40 15:t2-ep15-w2048-cap10m-r3a-ml40 16:t2-ep16-w2048-cap10m-r3a-ml40 17:t2-ep17-w2048-cap4m-mf4090 18:t2-ep18-w2048-cap10m-r3a-ml40 19:t2-ep19-w2048-cap10m-r3a-ml40 20:t2-ep20-w2048-cap10m-r3a-ml40 21:t2-ep21-w2048-cap10m-r3a-ml40 22:t2-ep22-w2048-cap10m-r3a-ml40 23:t2-ep23-w2048-cap4m-mf4090 24:t2-ep24-w2048-cap10m-r3a-ml40 25:t2-ep25-w2048-cap4m-mf4090 26:t2-ep26-w2048-cap10m-r3a-s43-ml40 27:t2-ep27-w2048-cap10m-r3a-ml40 28:t2-ep28-w2048-cap4m-p185-mf4090 29:t2-ep29-w2048-cap10m-r3a-ml40 
+# md5      : 5caefd5d0f326abb914a277841838974  stages/evaluate/train_term_table.py
+# source   : f959461da054
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T10:23:24+0800
+# ---------------------------------------------------------------
+ep	run	长度	进度	物体终止	手掌终止	骨盆终止	走到结尾	|动作|	记录步
+0	t2-ep0-w2048-cap10m-r3a-ml40	575.500	0.923	0.037	0.113	0	0.850	6.183	349999104
+1	t2-ep1-w2048-cap10m-r3a-ml40	154.282	0.287	0.729	0.175	0	0.096	6.628	349999104
+2	t2-ep2-w2048-cap10m-r3a-ml40	350.365	0.458	0.556	0.270	0.016	0.159	6.855	349999104
+3	t2-ep3-w2048-cap10m-r3a-ml40	504.061	0.824	0.296	0.071	0	0.633	6.434	349999104
+4	t2-ep4-w2048-cap10m-r3a-ml40	69.185	0.144	0.869	0.062	0	0.068	6.321	349999104
+5	t2-ep5-w2048-cap10m-r3a-ml40	530.950	0.612	0.250	0.312	0	0.438	6.588	349999104
+6	t2-ep6-w2048-cap10m-r3a-ml40	389.776	0.863	0.122	0.092	0	0.786	6.448	349999104
+7	t2-ep7-w2048-cap10m-r3a-ml40	628.132	0.910	0.026	0.105	0	0.868	6.011	349999104
+8	t2-ep8-w2048-cap10m-r3a-ml40	580.843	0.971	0.012	0.024	0	0.964	6.211	349999104
+9	t2-ep9-w2048-cap4m-mf4090	（没有 runs/flash_chord/t2-ep9-w2048-cap4m-mf4090/wandb/latest-run/files/wandb-summary.json）
+10	t2-ep10-w2048-cap10m-r3a-ml40	518.962	0.741	0.269	0.154	0	0.577	6.330	349999104
+11	t2-ep11-w2048-cap4m-mf4090	（没有 runs/flash_chord/t2-ep11-w2048-cap4m-mf4090/wandb/latest-run/files/wandb-summary.json）
+12	t2-ep12-w2048-cap10m-r3a-ml40	487.210	0.793	0.124	0.152	0	0.724	6.620	349999104
+13	t2-ep13-w2048-cap10m-r3a-ml40	433.266	0.559	0.468	0.234	0	0.298	6.125	349999104
+14	t2-ep14-w2048-cap10m-r3a-ml40	586.374	0.625	0.769	0.220	0	0.011	6.529	349999104
+15	t2-ep15-w2048-cap10m-r3a-ml40	436.879	0.773	0.198	0.088	0	0.714	6.080	349999104
+16	t2-ep16-w2048-cap10m-r3a-ml40	299.759	0.771	0.222	0.095	0	0.684	6.244	349999104
+17	t2-ep17-w2048-cap4m-mf4090	（没有 runs/flash_chord/t2-ep17-w2048-cap4m-mf4090/wandb/latest-run/files/wandb-summary.json）
+18	t2-ep18-w2048-cap10m-r3a-ml40	650.123	0.878	0.088	0.053	0	0.860	6.111	349999104
+19	t2-ep19-w2048-cap10m-r3a-ml40	438.364	0.562	0.606	0.141	0	0.253	6.429	349999104
+20	t2-ep20-w2048-cap10m-r3a-ml40	423.727	0.888	0.132	0.107	0	0.760	6.351	349999104
+21	t2-ep21-w2048-cap10m-r3a-ml40	475.791	0.891	0.077	0.088	0	0.835	6.173	349999104
+22	t2-ep22-w2048-cap10m-r3a-ml40	556.202	0.949	0.032	0.043	0	0.926	6.140	349999104
+23	t2-ep23-w2048-cap4m-mf4090	（没有 runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/wandb/latest-run/files/wandb-summary.json）
+24	t2-ep24-w2048-cap10m-r3a-ml40	526.404	0.934	0.115	0.010	0	0.875	6.529	349999104
+25	t2-ep25-w2048-cap4m-mf4090	（没有 runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/wandb/latest-run/files/wandb-summary.json）
+26	t2-ep26-w2048-cap10m-r3a-s43-ml40	498.384	0.964	0.055	0	0	0.945	6.605	349999104
+27	t2-ep27-w2048-cap10m-r3a-ml40	351.746	0.866	0.063	0.111	0	0.825	6.232	349999104
+28	t2-ep28-w2048-cap4m-p185-mf4090	（没有 runs/flash_chord/t2-ep28-w2048-cap4m-p185-mf4090/wandb/latest-run/files/wandb-summary.json）
+29	t2-ep29-w2048-cap10m-r3a-ml40	336.836	0.932	0.112	0	0	0.888	5.815	349999104
+TRAIN_TERM_TABLE_DONE
