@@ -134,3 +134,16 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
 - 10/21 14:3x MDT：SOP 页面临时改发到当前组织下的新页面 https://claude.ai/artifact/4D4PjMQTqsirvJX97CZfvh（14:01 版已发，私有，要 rxzhou 从 Share 菜单给组长开权限）。
   原页面 Y3bxcJt4oMMMrBKAr4fkhj 在 rxzhou 的另一个组织下，那个账号暂时没有额度，登录不了（rxzhou 10/21：“那个账号暂时没有额度了无法使用”）。SOP 任务重建为 924931c9（cron 不变 `31 0,8,13,18 * * *`），
   提示词改为发到新页面，发完再跑 `tools/site_preview.sh` 留一份本机预览；10/26、11/02 的续期任务提示词里仍是旧链接，续期时改用新链接，等 rxzhou 说换回再换。
+
+- 10/21 16:40 MDT（`results/board/diff_1021_1640.txt`）：**5 个队从 12 个榜上全部消失**：solidSF.com、NVSimranPatil、Kelly To the H、Vincent_WANG_541、Vi Nguyễn Văn（Izus_systems 回到 Tier 1 AUC）。
+  核过不是抓榜的问题：各榜队数 Tier 1 20 → 16、Tier 2 13 → 10、Tier 3 8 → 6，快照里没有翻页标记。原因没有核实：组委会的 GitHub 10/19–10/20 只改了榜的排序与同分、FAQ PDF、网页；
+  Kaggle 讨论区要登录看不到；官网榜单的文字里没有队名。读法（推测，未核实）：被拿掉的是满分、近满分与“物体不动”（Kelly、Vincent 两队 Tier 1 AUC 都是 0.26633、MPPE 都是 49.12326）的提交。
+  maniphys.ai：Tier 1 第 4/3/4/4，Tier 2 第 2/**1**/2/2，Tier 3 第 2/**1**/2/2（AUC/SP-SR/MP-SR/MPPE）；第一的榜 2 个（Tier 2 SP-SR、Tier 3 SP-SR）。
+  读法 B：Kaggle 规则 FF 22、maniphys.ai 29（第 2）、DAP 57；官网规则 FF 24、maniphys.ai 31；读法 A：FF 5、maniphys.ai 7。
+  差距（对 FF）：Tier 2 AUC 0.00417、MP-SR 2 集、MPPE 1.62 cm；Tier 3 AUC 0.0496、MPPE 9.00 cm，Tier 3 MP-SR 差 Open4D 1 集；Tier 1 AUC 差 MBZUAI-RCL 0.247。
+  **决定**：
+  1. 站立保底（`agent-doc/plan-t3static-2026-10-21.md`）有被判无效的风险：被拿掉的队里有交“物体不动”的（推测）。试点照跑（只评测、导出，不上传），但站立保底在问清楚之前不进任何要上传的清单；
+     要不要写信问组委会（“机器人原地站、不去碰物体的策略是否有效”“这几队为什么被拿掉”）由 rxzhou 定。
+  2. Tier 3 先考虑只对齐、不保底的 t3m1022aa（只用官方 10/21 答复允许的 Tier 1 第 0 帧）：差 FF 的 AUC 0.05、MPPE 9 cm 有一部分是世界系偏差，对齐不重训就能去掉。上传要 rxzhou 点头，最早 10/22 16:14 MDT。
+  3. Tier 2 MPPE 差 FF 1.62 cm：ep25、ep28 换“不动”能降约 2.47 cm（领先 0.85 cm，不够 1.0 cm 的余量），而且同样是保底，先不做。
+  两台卡：mf4090 在跑 t3static 试点（16:38 起），ml40 在训 t3g5 B 段 ep4（47%）。

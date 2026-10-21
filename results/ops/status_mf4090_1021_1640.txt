@@ -1,0 +1,28 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 8b4870503b5f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T16:40:14-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-22 06:40:14 CST
+NVIDIA GeForce RTX 4090, 23785 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  225G   60G  80% /
+-- tmux
+v2d-arm-t3sta: 1 windows (created Thu Oct 22 06:36:48 2026)
+v2d-t3psta-eval: 1 windows (created Thu Oct 22 06:38:02 2026)
+v2d-t3psta-export: 1 windows (created Thu Oct 22 06:38:04 2026)
+v2d-t3psta-train: 1 windows (created Thu Oct 22 06:38:00 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3psta_mf4090-gate
+runs/.chain-active-t3psta_eval_mf4090
+runs/.chain-active-t3psta_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090.log：training progress: 2,252,800/4,096,000 environment steps (55.0%); 41,479 env steps/s; elapsed 00:00:54; ETA 00:00:44
+runs/logs/arm_t3sta_mf4090.log：ARMED
+runs/logs/cand_t3_t3psta_mf4090_gate.log：=== 2026-10-22 06:38:04 CST 等 runs/logs/t3psta_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/logs/t3psta_eval_mf4090.log：=== 2026-10-22 06:38:02 CST 等 runs/logs/t3psta_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/t3psta_train_mf4090.log：=== 2026-10-22 06:38:01 CST 冒烟 smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090
+runs/logs/t3-ep1-w2048-cap4m-r3a-st-mf4090.log：
+runs/logs/t3-ep23-w2048-cap4m-r3a-st-mf4090.log：
+runs/logs/t3-ep16-w2048-cap4m-r3a-st-mf4090.log：
