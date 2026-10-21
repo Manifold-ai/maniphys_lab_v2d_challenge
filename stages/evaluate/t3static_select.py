@@ -29,6 +29,7 @@ def run_eval(run, step):
             line = line.strip()
             if line.startswith("summary_json "):
                 d = json.loads(line[len("summary_json "):])
+                d = {**d, **d.get("metrics", {})}   # 原始评测 JSON 把指标放在 metrics 下（eval_json_record.py 的记录）
                 if d.get("world_count", 4096) == 4096:
                     key = "spider_sr" if "spider_sr" in d else "spider_sr_uncentered"
                     return {"mppe": d["mppe_cm"], "sp": d[key], "key": key, "auc": d["add_auc"], "file": str(h.relative_to(REPO))}
