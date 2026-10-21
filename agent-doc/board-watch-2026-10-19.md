@@ -131,3 +131,6 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   决定：不交（没有榜满足 `agent-doc/strategy-2026-10-19.md` 第 1 节的领先余量）。两台卡都在跑复核过的计划（mf4090 t2mtr ep25 68%，ml40 t3qg5b ep2 4%），不改。
   离第一最近的是 Tier 2 AUC（FF 0.51796，差 0.00417，余量要 0.010）和 Tier 3（对齐后的 CSV 已打包，等 rxzhou 决定是否上传，最早的名额 10/22 16:14 MDT）。
   NVSimranPatil 还没交 Tier 3，交了就会在名次和上超过 maniphys.ai。按“失败集决定 MPPE 与 SR”重排算力的策略改动，等 t2mtr ep25 读数（约 15:00 MDT）后另写计划。
+- 10/21 14:3x MDT：SOP 页面临时改发到当前组织下的新页面 https://claude.ai/artifact/4D4PjMQTqsirvJX97CZfvh（14:01 版已发，私有，要 rxzhou 从 Share 菜单给组长开权限）。
+  原页面 Y3bxcJt4oMMMrBKAr4fkhj 在 rxzhou 的另一个组织下，那个账号暂时没有额度，登录不了（rxzhou 10/21：“那个账号暂时没有额度了无法使用”）。SOP 任务重建为 924931c9（cron 不变 `31 0,8,13,18 * * *`），
+  提示词改为发到新页面，发完再跑 `tools/site_preview.sh` 留一份本机预览；10/26、11/02 的续期任务提示词里仍是旧链接，续期时改用新链接，等 rxzhou 说换回再换。
