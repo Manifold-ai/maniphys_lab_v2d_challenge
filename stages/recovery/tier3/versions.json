@@ -269,7 +269,7 @@
    "status": "delivered",
    "date": "10-21",
    "from": "tier3_cari4d_gb5_best_dr2s",
-   "purpose": "dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md)"
+   "purpose": "dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md); support_surface updated in place 10-21 (user decision): ep01 gains two lean boxes from gate/t3_lean_support.py (bc1d566), parquet and the other 29 usda unchanged, our-support gate 30/30 identical line by line; the previous usda dir is $G/archive/support_usda_gb5dyn7_before_lean_1021"
   }
  },
  "work": {
