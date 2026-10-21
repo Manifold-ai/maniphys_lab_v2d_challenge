@@ -1,0 +1,55 @@
+# command  : python3 stages/recovery/t3r_env_lists.py /lab_data/<其他用户>/v2d/venv --req stages/recovery/env/t3r_host.txt --skip-direct-url 
+# md5      : 0799297aeb3d2e540ec9fb5917ba9166  stages/recovery/t3r_env_lists.py
+# md5      : abce854f29b45103b9c8442c371181c0  stages/recovery/env/t3r_host.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:47:51+0800
+# ---------------------------------------------------------------
+annotated-types	0.8.0	pip	-	6	e8643c4479969c68
+antlr4-python3-runtime	4.9.3	pip	-	59	5a3abec3754ab30f
+anyio	4.15.1	pip	-	52	78bf013d78f1c9d2
+blinker	1.9.0	pip	-	7	c30fd8cb8eef288b
+boto3	1.43.102	pip	-	61	b9ab725bb286800d
+botocore	1.43.102	pip	-	2012	da51b31cb310696a
+click	8.5.0	pip	-	21	f8cda04874b955ba
+exceptiongroup	1.3.1	pip	-	10	3a73e4bc98e3e1a7
+fast-simplification	0.2.0	pip	-	19	5f3ed384ef30742c
+filelock	4.0.3	pip	-	27	df78bdc90b8f9553
+flask	3.1.3	pip	-	30	251be8426577a0dd
+fsspec	2026.9.0	pip	-	61	fe27f7981e602fdf
+h11	0.16.0	pip	-	16	23a58c7d585a3442
+hf-xet	1.6.0	pip	-	6	6d2c9efab6c11f9e
+httpcore2	2.13.1	pip	-	35	e5dc2c7fc35debb9
+httpx2	2.13.1	pip	-	35	0fb023c6c791461a
+huggingface-hub	2.0.0	pip	-	189	6dae0fcfbed8e66a
+idna	3.20	pip	-	15	95f87b1398425e06
+itsdangerous	2.2.0	pip	-	12	4a34b2262a74f247
+jinja2	3.1.6	pip	-	30	ee8fdf41808bcd0d
+jmespath	1.1.0	pip	-	12	cddc70ead9c25e67
+markupsafe	3.0.3	pip	-	10	c7ca91f0f68d1961
+numpy	2.2.6	pip	-	1002	9dcf23ec0bcbc0bb
+omegaconf	2.3.1	pip	-	30	bb596274d86fc946
+opencv-python	5.0.0.93	pip	-	86	10e5b27e3b097a65
+openexr	3.5.0	pip	-	5	78867f09af208342
+packaging	26.3	pip	-	28	7daa66467849af07
+pillow	12.3.0	pip	-	139	813f53f0dc0548b7
+pip	26.2.1	pip	-	475	ece7efc1d1b667ca
+pyarrow	25.0.1	pip	-	752	e3a976ada436ec54
+pydantic	2.13.5	pip	-	110	560981411795bb33
+pydantic-core	2.46.5	pip	-	9	c5725ade3bafc721
+python-dateutil	2.9.0.post0	pip	-	24	0f6d209f559f1f60
+pyyaml	6.0.3	pip	-	23	8aab7c9b01e82db7
+rtree	1.4.1	pip	-	42	6c41465bfc9bc54e
+s3transfer	0.19.2	pip	-	21	5dd6c306ca7d943f
+scipy	1.15.3	pip	-	1423	8363afa074e6039a
+setuptools	59.6.0	pip	-	156	aa5a1b8276e909b5
+six	1.17.0	pip	-	5	6e16c3aa7a307ee2
+tomli	2.4.1	pip	-	8	073144c38084dffd
+tqdm	4.70.1	pip	-	38	fc5159adeb837036
+trimesh	5.1.0	pip	-	143	5e9e01df16114e48
+truststore	0.10.4	pip	-	10	26530d5a915a794f
+typing-extensions	4.16.0	pip	-	4	ab0a23978fe35311
+typing-inspection	0.4.4	pip	-	8	c53a7e53bdde92f7
+urllib3	2.8.0	pip	-	41	75e3657ebf070e69
+werkzeug	3.1.8	pip	-	62	c23fc6a1c5a502d0
+T3R_ENV_LIST_DONE 47 个发行版

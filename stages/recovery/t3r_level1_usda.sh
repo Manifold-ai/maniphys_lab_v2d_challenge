@@ -14,7 +14,7 @@ set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}
-R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; C="$R/code/stages/recovery/tier3/gate"; G="$R/gate"; GR="$G/repo"; SET=gb5dyn7
+R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; C="$R/code/stages/recovery/tier3/gate"; SET=gb5dyn7
 IGN=(); [ "$NAME" = t3 ] || { SET="gb5dyn7${NAME#t3_}"; IGN=(--ignore-key "(path|dir|file|root|time|date|stamp|argv|host|cwd|user|from|created|deployed|code_files|^set$)"); }
 shift; EPS=("$@"); [ ${#EPS[@]} -gt 0 ] || EPS=(14 20 27)
 LOG="$REPO/runs/logs/t3r_level1_usda_${NAME}.log"
@@ -22,11 +22,13 @@ mkdir -p "$REPO/runs/logs"
 exec >> "$LOG" 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "T3R_USDA_FAILED $*"; exit 1; }
-H="$("$REPO/stages/recovery/t3r_other.sh")" || fail "另一位成员的目录或解释器没过核对"
-GPY="$H/gate/venv/bin/python"
-export T3R_HER="$(dirname "$H")" T3R_ROOT="$R" T3R_ALLOW="$GPY" T3R_GATE_VENV_BIN="$H/gate/venv/bin"
+. "$REPO/stages/recovery/t3r_env.sh"   # T3R_ENV=hers：gate 目录 t3recon/gate；ours：t3recon/gate_e、我们的环境、她的解释器被盖住（1b）
+t3r_env "$REPO" || fail "另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-hers}）"
+G="$GDIR"; GR="$G/repo"
+export T3R_ROOT="$R" T3R_ALLOW="$GPY" T3R_GATE_VENV_BIN="$GATE_VENV_BIN"
 GUARD="$REPO/stages/recovery/t3r_run.sh"
-rec() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_usda_$n" "$@" > /dev/null 2>&1 || fail "$n（results/t3recon/${NAME}_usda_$n.txt.failed）"; say "$n 过"; }
+TG="${T3R_TAG:+_$T3R_TAG}"
+rec() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_usda${TG}_$n" "$@" > /dev/null 2>&1 || fail "$n（results/t3recon/${NAME}_usda${TG}_$n.txt.failed）"; say "$n 过"; }
 
 [ -d "$GR" ] || fail "没有 $GR（先跑 t3r_gate_setup.sh）"
 [ -e "$GR/runs/tier3/root_$SET" ] && fail "$GR/runs/tier3/root_$SET 已存在"
@@ -42,18 +44,17 @@ rec support_usda bash "$GUARD" env "PYTHONPATH=$GR/third_party/video_to_data/rob
   "$GPY" "$C/t3_support_usda.py" "$GR" "$SET" "$SUP" "$T3" "$G/support_usda_$SET"
 
 # 比较：usda 逐字节、support_usda.json 按集比（t3r_compare.py --subset），比较器用她的宿主机解释器（只读）
-HPY="$H/venv/bin/python"
 REF="$R/ref/gate/support_usda_gb5dyn7"
 p=(); for f in "$G/support_usda_$SET"/*.usda; do p+=("$f" "$REF/$(basename "$f")"); done
-"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp_usda" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" "${p[@]}" > /dev/null 2>&1
+"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp${TG}_usda" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" "${p[@]}" > /dev/null 2>&1
 say "usda 比较退出码 $?"
-"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp_usda_json" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" --subset "${IGN[@]}" \
+"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp${TG}_usda_json" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" --subset "${IGN[@]}" \
   "$G/support_usda_$SET/support_usda.json" "$REF/support_usda.json" > /dev/null 2>&1
 say "support_usda.json 比较退出码 $?"
-# 重定向结果行与她的记录逐字段比
+# 重定向结果行逐字段比：参照是第 1 级在 t3_refw 上重出的 t3_gb5dyn7refw_ep*.tsv（已与她 rec_gb5dyn7.txt 的同集行逐字段相同；1b 复核改动第 7 条，不再读她仍在用的文件）
 for e in "${EPS[@]}"; do
   ours="$(cat "$GR/runs/logs/batch/t3_${SET}_ep$(printf %02d "$e").tsv" 2>/dev/null)"
-  hers="$(awk -F'\t' -v e="$e" '$1 == 3 && $2 == e' "$H/gate/logs/rec_gb5dyn7.txt")"
-  [ "$ours" = "$hers" ] && say "ep$e 重定向结果行相同：$ours" || say "ep$e 重定向结果行不同：我们 [$ours] 她 [$hers]"
+  want="$(cat "$R/gate/repo/runs/logs/batch/t3_gb5dyn7refw_ep$(printf %02d "$e").tsv" 2>/dev/null)"
+  [ -n "$want" ] && [ "$ours" = "$want" ] && say "ep$e 重定向结果行相同：$ours" || say "ep$e 重定向结果行不同：本次 [$ours] 参照 [$want]"
 done
 say "T3R_USDA_DONE"

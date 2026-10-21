@@ -20,9 +20,9 @@ mkdir -p "$REPO/runs/logs"
 exec >> "$LOG" 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "T3R_LEVEL1_FAILED $*"; exit 1; }
-H="$("$REPO/stages/recovery/t3r_other.sh" 2>> "$LOG")" || fail "另一位成员的目录或解释器没过核对（见日志里的 T3R_OTHER_REFUSED）"
-HPY="$H/venv/bin/python"; GPY="$H/gate/venv/bin/python"
-export T3R_HER="$(dirname "$H")" T3R_ROOT="$T3" T3R_ALLOW="$GPY:$HPY"
+. "$REPO/stages/recovery/t3r_env.sh"   # T3R_ENV=hers（第 1 级）或 ours（第 1b 级）：定 HPY、GPY，ours 时盖住她的解释器
+t3r_env "$REPO" 2>> "$LOG" || fail "另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-hers}，见日志）"
+export T3R_ROOT="$T3" T3R_ALLOW="$GPY:$HPY"
 GUARD="$REPO/stages/recovery/t3r_run.sh"
 DK=(docker run --rm --user 1003:1005 --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
 rec() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_$n" "$@" > /dev/null 2>&1 || fail "$n（results/t3recon/${NAME}_$n.txt.failed）"; say "$n 过"; }
@@ -30,7 +30,7 @@ rec() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_$n" "$@" 
 [ -d "$T3" ] || fail "没有 $T3"
 case $FROM in decode|assemble) ;; *) fail "T3R_FROM 只认 decode、assemble" ;; esac
 docker image inspect "$IMG" > /dev/null 2>&1 || fail "没有镜像 $IMG"
-say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)，根 $T3，镜像 $IMG，从 $FROM 起"
+say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)，根 $T3，镜像 $IMG，从 $FROM 起，环境 ${T3R_ENV:-hers}"
 # ep14、ep20 的 world 当时用的文件名
 mkdir -p "$T3/runs/floor_gbfix"
 cp -n "$T3/runs/floor/floor_fit_gb5.json" "$T3/runs/floor_gbfix/floor_fit_gb3.json"

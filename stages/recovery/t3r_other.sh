@@ -9,6 +9,8 @@
 #   4. 两个解释器真实文件的 sha256 打到 stderr（来历）。
 # 残余风险（记在计划里）：她的文件对整组可写，组里其他成员能改 gate 解释器；第 1b 级换成我们自己的环境后消除。
 # 用法：H="$(stages/recovery/t3r_other.sh)" || exit 2
+# 第 1b 级（agent-doc/plan-t3takeover-1b-2026-10-21.md 复核改动第 8 条）：T3R_OTHER_DIR_ONLY=1 只做第 1、2 条（她的目录），不核她的解释器——1b 不调用它们，
+# 她那边换了解释器也不该挡住 1b。
 set -euo pipefail
 refuse() { echo "T3R_OTHER_REFUSED $1" >&2; exit 2; }
 mapfile -t C < <(ls -d /lab_data/*/v2d 2>/dev/null | grep -v '^/lab_data/rxzhou/')
@@ -28,6 +30,8 @@ check_exe() {   # check_exe <路径> <期望属主>
   [ "${a:8:1}" != w ] || refuse "解释器真实文件对其他用户可写"
   echo "解释器 $(basename "$p") → sha256 $(sha256sum "$r" | cut -c1-16)…" >&2
 }
-check_exe "$H/venv/bin/python" root
-check_exe "$H/gate/venv/bin/python" "$user"
+if [ "${T3R_OTHER_DIR_ONLY:-0}" != 1 ]; then
+  check_exe "$H/venv/bin/python" root
+  check_exe "$H/gate/venv/bin/python" "$user"
+fi
 printf '%s\n' "$H"

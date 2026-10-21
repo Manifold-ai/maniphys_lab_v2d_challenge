@@ -6,18 +6,19 @@
 #   已知相同对：ctl/eq 里 ep14、ep20 的 gb4 物理 out npz 对 ref 的 gb5 同版，必须 BYTES_EQUAL。
 # 再按段落比我们的产物与参照（decode、focal、world、assemble、物理、support、dr2s、dyn7；多集的 json 用 --subset），每段一份记录。
 # 用法：stages/recovery/t3r_level1_compare.sh <根名，t3 或 t3_rep> [<对照根名>]   不给对照根名时与 ref 比；给了就两个根互比（正对照：同步骤跑两遍）。
-# 记录 results/t3recon/<根名>_cmp_<段>.txt，最后一行 T3R_L1_COMPARE_DONE（各段的结论计数）。
+# 记录 results/t3recon/<根名>_vs_<对照根名>_cmp[_<T3R_TAG>]_<段>.txt，最后一行 T3R_L1_COMPARE_DONE（各段的结论计数）。
+# T3R_ENV=ours：比较器用我们的宿主机环境、她的解释器被盖住（第 1b 级）；T3R_TAG 给记录名加后缀，回归与 1b 的比较不覆盖第 1 级的记录（1b 复核改动第 2 条）。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}; OTHER=${2:-ref}
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; REF="$R/$OTHER"; CTL="$R/ctl"
-H="$("$REPO/stages/recovery/t3r_other.sh")" || { echo "T3R_L1_COMPARE_FAILED 另一位成员的目录或解释器没过核对"; exit 2; }
-HPY="$H/venv/bin/python"
-export T3R_HER="$(dirname "$H")" T3R_ROOT="$R" T3R_ALLOW="$HPY"
+. "$REPO/stages/recovery/t3r_env.sh"
+t3r_env "$REPO" || { echo "T3R_L1_COMPARE_FAILED 另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-hers}）"; exit 2; }
+export T3R_ROOT="$R" T3R_ALLOW="$HPY"
 GUARD="$REPO/stages/recovery/t3r_run.sh"
 CMP="$REPO/stages/recovery/t3r_compare.py"
-run() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_vs_${OTHER}_cmp_$n" bash "$GUARD" "$HPY" "$CMP" "$@" > /dev/null 2>&1; echo "$n 退出码 $?"; }
+run() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_vs_${OTHER}_cmp${T3R_TAG:+_$T3R_TAG}_$n" bash "$GUARD" "$HPY" "$CMP" "$@" > /dev/null 2>&1; echo "$n 退出码 $?"; }
 V=(tier3_cari4d_gb5_best tier3_cari4d_gb5_best_dr2s tier3_cari4d_gb5_best_dr2s_dyn7)
 EPS=("14 ep14_round_table convert_gb5" "20 ep20_rice_cooker convert_gb5" "27 ep27_woven_basket convert_fp_gb5")
 if [ "$OTHER" = ref ]; then
@@ -51,4 +52,4 @@ p=(); for e in "${EPS[@]}"; do read -r ep name conv <<< "$e"; p+=("$T3/runs/supp
 run support "${p[@]}"
 run post_json --subset "$T3/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json" "$REF/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json" \
   "$T3/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json" "$REF/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json"
-echo "T3R_L1_COMPARE_DONE（各段结论见 results/t3recon/${NAME}_vs_${OTHER}_cmp_*.txt）"
+echo "T3R_L1_COMPARE_DONE（各段结论见 results/t3recon/${NAME}_vs_${OTHER}_cmp${T3R_TAG:+_$T3R_TAG}_*.txt）"

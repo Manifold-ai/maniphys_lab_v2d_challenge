@@ -1,0 +1,13 @@
+# command  : python3 stages/recovery/test_t3r_run.py 
+# md5      : 8e9e01b25277df0f48a585606e7d645d  stages/recovery/test_t3r_run.py
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:44:20+0800
+# ---------------------------------------------------------------
+  test_allowlisted_exe_is_logged 过
+  test_allowlisted_interpreter_runs 过
+  test_arguments_into_her_are_refused 过
+  test_mask_hides_her_dirs 过
+  test_root_under_her_is_refused 过
+  test_write_into_her_fails_inside_and_works_outside 过
+T3R_RUN_TESTS_OK
