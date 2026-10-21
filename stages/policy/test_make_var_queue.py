@@ -519,6 +519,22 @@ def test_ho_parts():
             assert all(f"/runs/motion/tier{tier}_ho/" in x and f"/runs/motion/tier{tier}/" not in x and "training.replay.capacity=" not in x for x in f), f
 
 
+
+def test_t2tm_part():
+    """计划 agent-doc/plan-t2term-2026-10-20.md：t2tm 是 ep25、ep28 的变体 A 加 termination.object_position_threshold=0.3，冒烟与正式都加，ml40、1000 万，run 名带 -ot3-。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        p = gen(root, "t2tm")
+        assert p.returncode == 0, p.stdout + p.stderr
+        q = root / "stages" / "policy" / "queues"
+        f, sm = lines(q / "ml40_t2tm.txt"), lines(q / "ml40_t2tm_smoke.txt")
+        assert [x.split()[5] for x in f] == [f"t2-ep{e}-w2048-cap10m-r3a-ot3-ml40" for e in (25, 28)], f
+        for x in f + sm:
+            assert x.split().count("termination.object_position_threshold=0.3") == 1, x
+            assert "training.replay.capacity=" not in x, x
+
+
 def test_precision_parts():
     """计划 agent-doc/plan-precision-2026-10-18.md 第 1 节：t2mv 是 ep23 的变体 A（mf4090、400 万）；t2xp、t1xp 是 r3p（变体 A 只把 σ 改成 0.03），
     基线取现在交的 run 去掉 -r3a- 的那条，覆盖以 r3p 两项结尾，run 名带 -r3p-。计划 agent-doc/plan-t2mx-2026-10-19.md：t2mx 是 ep13、19、14 的变体 A（mf4090、400 万）。"""

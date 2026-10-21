@@ -199,6 +199,11 @@ SETS = {
              "episodes": [25, 28], "parts": {"t2ho": [25, 28]}, "base": None, "motion": "tier2_ho", "strip_r3a": True,
              "run": "t2-ep{ep}-w2048-cap10m-r3a-ho-ml40",
              "desc": "Tier 2 保底：ep25、ep28 的变体 A seed 42，参考换成 runs/motion/tier2_ho（两条手臂与手指固定为第 0 帧、接触标记清零，腿与根照抄；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    # 10/20 晚（计划 agent-doc/plan-t2term-2026-10-20.md）：举起类全失败集的训练回合多数因物体终止结束（ep25 0.736、ep28 0.737），放宽物体位置终止 0.1 → 0.3 m
+    "t2tm": {"plan": "agent-doc/plan-t2term-2026-10-20.md", "tier": 2, "machine": "ml40", "cap": None,
+             "episodes": [25, 28], "parts": {"t2tm": [25, 28]}, "base": None, "strip_r3a": True,
+             "run": "t2-ep{ep}-w2048-cap10m-r3a-ot3-ml40", "extra": ["termination.object_position_threshold=0.3"],
+             "desc": "Tier 2 放宽物体位置终止：ep25、ep28 的变体 A seed 42 加 termination.object_position_threshold=0.3（原 0.1；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
     "t1ho": {"plan": "agent-doc/plan-t12lift-2026-10-20.md", "tier": 1, "machine": "ml40", "cap": None,
              "episodes": [25], "parts": {"t1ho": [25]}, "base": None, "motion": "tier1_ho", "strip_r3a": True,
              "run": "t1-ep{ep}-w2048-cap10m-r3a-ho-ml40",
@@ -291,6 +296,10 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
             cols[3] = "true" if on else "false"
             keep = [o for o in keep if o != "scene.support=false"] + ([] if on else ["scene.support=false"])
         over = ([f"training.replay.capacity={s['cap']}"] if s["cap"] else []) + keep + seed_over + (VARIANT_P if s.get("variant") == "r3p" else VARIANT)
+        over += s.get("extra", [])   # t2tm：冒烟与正式都加（计划 agent-doc/plan-t2term-2026-10-20.md）
+        dup = sorted({o.split("=", 1)[0] for o in over if sum(x.split("=", 1)[0] == o.split("=", 1)[0] for x in over) > 1})
+        if dup:
+            raise SystemExit(f"make_var_queue: {name} ep{ep} 的覆盖里有重复的键：{dup}")
         parquet = formal["parquet"]
         if s["tier"] == 3:
             if parquet.count("/runs/motion/tier2/") != 1:
@@ -317,6 +326,7 @@ def make(part: str, root: Path, episodes=None, seed=None) -> dict:
             + (f"本段改种子：种子 {seed}（{' '.join(seed_over)}）；" if seed_over else "")
             + (f"r3p = {' '.join(VARIANT_P)}（只改 σ）；" if s.get("variant") == "r3p" else "")
             + (f"冒烟另加 {' '.join(s['smoke_extra'])}（只加在冒烟行）；" if s.get("smoke_extra") else "")
+            + (f"另加 {' '.join(s['extra'])}（冒烟与正式都加）；" if s.get("extra") else "")
             + (f"r3o = 变体 A 加 {R3O_ENV}；训练挂 v040_p185_nfg_oo" if s.get("variant") == "r3o" else "训练挂 v040_p185_nfg")
             + "（链的环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>，不写进队列行）。make_var_queue.py 生成，不要手改。")
     stem = f"{s['machine']}_{part}"
