@@ -214,6 +214,11 @@ SETS = {
              "episodes": [25, 28], "parts": {"t2tm": [25, 28]}, "base": None, "strip_r3a": True,
              "run": "t2-ep{ep}-w2048-cap10m-r3a-ot3-ml40", "extra": ["termination.object_position_threshold=0.3"],
              "desc": "Tier 2 放宽物体位置终止：ep25、ep28 的变体 A seed 42 加 termination.object_position_threshold=0.3（原 0.1；ml40，buffer 1000 万，基线取 Tier 2 导出清单）"},
+    # 10/21 午（计划 agent-doc/plan-t2mtr-2026-10-21.md）：t2term 在 ml40 上 ep25、ep28 的 MPPE 降了 52、20 cm，单个种子；换到 mf4090、400 万重复，加外推 ep4，ep28 放最后（复核 5）
+    "t2mtr": {"plan": "agent-doc/plan-t2mtr-2026-10-21.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+              "episodes": [25, 4, 28], "parts": {"t2mtr": [25, 4, 28]}, "base": None, "strip_r3a": True,
+              "run": "t2-ep{ep}-w2048-cap4m-r3a-ot3-mf4090", "extra": ["termination.object_position_threshold=0.3"],
+              "desc": "Tier 2 放宽物体位置终止的重复：ep25、外推 ep4 与 ep28 的变体 A seed 42 加 termination.object_position_threshold=0.3（原 0.1；mf4090，buffer 400 万，基线取 Tier 2 导出清单）"},
     "t1ho": {"plan": "agent-doc/plan-t12lift-2026-10-20.md", "tier": 1, "machine": "ml40", "cap": None,
              "episodes": [25], "parts": {"t1ho": [25]}, "base": None, "motion": "tier1_ho", "strip_r3a": True,
              "run": "t1-ep{ep}-w2048-cap10m-r3a-ho-ml40",
