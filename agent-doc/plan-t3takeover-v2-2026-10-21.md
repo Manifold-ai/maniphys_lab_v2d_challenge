@@ -55,6 +55,24 @@ ep14（二机位，base；它没有支撑面，usda 是空的，所以二机位�
 - gate 仓库 3.7 GB、video_to_data 要 LFS；我们 ml40 上已有 video_to_data v0.4.0 的副本（训练用），先核它是不是同一版。
 - CPU 与训练链共用：每步限 4 核。预计复制 30 分钟、环境 1 小时、三集复现 1 小时。
 
+## 复核（10/21 02:1x MDT，Opus）
+
+结论 GO WITH FIXES，要改出第 3 版再执行（排到 10/21 白天，不影响 10/22 的额度）：
+- **BLOCKER 1**：只查命令行与环境里的路径防不住写入——相对路径按当前目录解析、她的 `root_gb5dyn7` 里有指向她目录的软链接、她的 parquet 组可写且目录没有粘滞位；
+  覆盖、删除、改名不会产生属于 rxzhou 的文件，`find -user rxzhou` 看不出来。改法：宿主机上的每一步在私有挂载命名空间里跑（`unshare -rm`，ml40 开着 unprivileged_userns_clone），
+  把她的目录以只读方式重新绑定挂载；docker 步只挂我们的目录、`--user` 用我们的 uid/gid；包装先 `cd` 进我们的目录，参数与当前目录的 realpath 落在她的目录下就拒绝；
+  K0 加两个探针：包装里 `[ -w <她的 tier3> ]` 为假、我们目录里没有链接指出去；`find` 只当报警，另记 `.git/index` 的修改时间。
+- MAJOR 2：usda 那步要 `root_gb5dyn7/meta/episodes_metadata.jsonl`、gate 的 `motion_src/…/{soma_params.npz,poses.npy}`、`motion/…/data.parquet` 与 `logs/batch/…`；
+  用 `mkroot.py` 在我们的根里建自己的 root，不复制她的；dr2s 要 `object_cam_focal.npz`，转换目录整个复制（除了 `mhr_*.pt`）；gb4 的负对照目录已挪到 `runs/archive/`。
+- MAJOR 3：usda 那步加载官方 `soma_to_g1.py`（viser、pink、pinocchio）与 py_soma_x 0.2.1，钉 6 个包不够；照她 gate venv 的约 95 个发行版逐个钉版本、`--no-deps` 装在 Python 3.11.17 上，
+  再比 RECORD 的哈希；宿主机那套建在 `/usr/bin/python3` 3.10.12 上；ml40 没有 uv，要写清楚从哪来（经 HF 中转仓送一个 wheelhouse 是比只读调用她的解释器更好的退路）。
+- MAJOR 4：`*.provenance.json`（时间、argv、路径）与 `support_usda.json`（绝对路径，且 10/21 07:52 起多了 lean）不能整份逐字节比；参照用 `gate/archive/support_usda_gb5dyn7_before_lean_1021/`；
+  `summary.json`、`depth_post.json`、`dynamics_post.json` 她的是 30 行、我们的是 3 行，按集逐行比、去掉路径与时间；来历只比 `code_files_sha256`。parquet、npz、支撑面 json、usda 可以逐字节比。
+- MAJOR 5：榜上的差距在 dr2s 之前：focal、world 也在 CPU 上、同一个镜像，第 1 级把它们加进来（OMP 4/6）。复核的推测（未核实）：最值的改动是“手里拿着的物体的深度要跟手对上”这类只用 Tier 3 的约束。
+- MINOR 6：环境照她的：T3_FLOOR_FIT、T3_REGISTER 只给 support 与 usda，那两步 OMP 4，dr2s、dyn7 不设 OMP；限 CPU 用 nice 或 cgroup 配额，不用 CPU 亲和或全局 OMP。
+- MINOR 7：对照加一对已知相同的（ep14、ep20 的物理 out，gb4 对 gb5）；加门槛自检（挪 2e-6 m、取反一个四元数）；重复跑要第二个根（dr2s、dyn7 拒绝覆盖已有输出）。
+- NIT：42f01f0 的 lean 采样有种子；我们自己的 video_to_data 副本（33129dd）的 SOMA 文件与她的 soma_assets sha256 相同，用我们的。
+
 ## 执行记录
 
-（空）
+- 10/21 02:2x MDT：按复核不执行第 2 版；第 3 版排到 10/21 白天。
