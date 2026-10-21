@@ -48,6 +48,29 @@
 - 对称物体：Tier 1 与重建的第 0 帧朝向可能差一个对称角；obj 方案会让第 0 帧完全对上（指标不认对称，这对得分是对的），但同时转动了世界；A2 把这类集标出来。
 - Tier 1 第 0 帧物体不可见的集（全数据集只有 1 帧不可见，未核是不是第 0 帧）：obj 变换不可用，照报，该集保持原帧参考。
 
-## 复核
+## 复核（10/21 11:3x MDT，Opus；Fable 本周额度到 10/23 才恢复）与改动
 
-待做（Fable 本周额度到 10/23 13:00 纽约时间才恢复，这次用独立的 Opus 复核）。
+结论 GO WITH FIXES（1 BLOCKER、5 MAJOR、3 MINOR）。复核读了 kit 打包器：它用两份参考的第 0 个计分帧算一个刚体变换（`rotation_quat = q_rel0 ⊗ conj(q_eval0)`，
+`offset = p_rel0 − R p_eval0`，pack_submission.py 97–105 行），在所有帧上核到 1e-3 m / 1e-3 rad，再左乘到 rollout 上（123–127 行）；帧参考换成 T·F，计分轨迹就跟着乘 T，不用重训——机制确认。
+第 0 个计分帧是干净参考第一个可见帧（kit trajectory.py 92 行），不是按定义的 frame_index 0。事实 6 部分不对：重建里有的集物体在接触前就动了（ep16、ep4、ep2）。
+尺度：0.982 出自 plan-t3g4，0.949 没在那个文件里找到出处（管线总览有）。改动（都写进实现，不另出版本）：
+1. （BLOCKER）判据测不出读错：Tier 1 存的是 `[x,y,z,qw,qx,qy,qz]`；四元数顺序读错，A1 拿同一个错值自比照样过，打包器的刚体核对对任何常量左变换也照样过。
+   改：加**端到端核对**——打包后的 CSV 逐集第 0 帧对 P1₀：位置 ≤ 2 cm，选了 obj 的集朝向 ≤ 5°，且位置误差比原 CSV 小；加**负对照**——故意按 xyzw 读 Tier 1 四元数，端到端核对必须不过；
+   核 Tier 1 `episodes_metadata` 的 sequence_id 与帧参考清单的 `sequence` 一致。
+2. （MAJOR）A0 改写：kit 打包器对 Tier 3 照旧整段读 Tier 1 当干净参考并算本地分（dataset.py 20–26、pack_submission.py 540–560），这是官方工具的校验，照旧，分数那一行照旧滤掉；
+   **我们的数字与选择只来自 `tier1_frame0.py` 的输出**；CSV 只与 CSV 比。
+3. （MAJOR）一帧 F₀ 定整集的偏移太脆：F 改用我们自己 Tier 3 开头静止的若干帧的稳健估计 F̂（只用 Tier 3 数据，合规）：窗口取第 0 帧起、物体相对第 0 帧位移 ≤ 1 cm 且转角 ≤ 2° 的帧，最多 30 帧；
+   位置取中位数、朝向取弦均值；报 F₀ 与 F̂ 的差；A1 的第 0 帧容差相应放宽为“新帧参考第 0 帧对 P1₀ 的差等于 F₀ 对 F̂ 的差（≤ 1e-6）”。
+4. （MAJOR）偏航的“竖直”没定义（Tier 1 是 OpenCV 世界系）：取我们 Tier 3 根里这一集 `ground_plane` 的 `plane` 法向（管线一直用的那份；不读 Tier 1 的地面文件），绕它做 swing–twist 分解。
+5. （MAJOR）打包器的锚点是第一个可见计分帧：逐集断言 Tier 1 第 0 帧可见（不可见的集保持原帧参考）；报 Tier 3 第 0 帧是不是补出来的（challenge_to_soma 用第一个可见帧往前补）。
+6. （MAJOR）新目录要有清单：每集一行，`sha256` 换成新 npz 的，另写 ALIGN.json（方案、每集的 T、Tier 1 文件 sha256、选择理由）。
+7. （MINOR）数学写明：位姿是 World_T_object，左乘；p′ = R_T p + t_T，q′ = q_T ⊗ q（Hamilton、xyzw）；Tier 1 的 float32 四元数先归一。
+8. （MINOR）人体交叉核对弱：`human.translation` 是体型相关的模型参数，两档身份不同，几 cm 的偏差正常；只用根节点的偏航，当粗核对。
+9. （MINOR）尺度刚体去不掉；obj、pos 把尺度误差的支点从相机挪到物体，会变小。
+
+**主方案改成按第 0 帧的量逐集自动选**（登记，结果出来之前）。记 R_full = R₁ R̂ᵀ，tilt = R_full 绕地面法向的 swing 角，yaw_obj = 它的 twist 角，
+yaw_hum = 人体根“Tier 1 对我们”的旋转的 twist 角（我们的人体根取同一份 Tier 3 根 parquet 第 0 帧，sha256 与清单的来源 parquet 对得上才用）：
+- 人体可用且 |yaw_obj − yaw_hum| ≤ 15°（物体与人对世界偏航的看法一致）：tilt ≤ 3° 用 **obj**（地面校正后的残余倾斜是 1–2°），否则 **yaw_obj**；
+- 人体可用但两者不一致（对称物体、朝向翻错）：**yaw_hum**；
+- 人体不可用：**pos**。
+平移一律取 t_T = p₁ − R_T p̂，第 0 帧物体位置对上真值。四个方案（obj、yaw_obj、yaw_hum、pos）全部算、全部报，交 rxzhou 时以自动选的为主。
