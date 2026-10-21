@@ -26,15 +26,19 @@
    `swap_viz.py`（并排参考视频）。候选由 `fetch_objaverse.py` 取，只留 CC0 与 CC BY（Kaggle 2.7.a）。
 2. 10/09 的结果（ep00 倒地高脚凳扶正，候选 Barstool Round `b221…`，按高度缩放）：指尖误差 5.5/3.2 cm → 中位 0.01 cm、最大 0.15 cm，
    肩臂旋转最多改 12°；左手接触保持 0.34 → 0.996，右掌穿入 10.7% → 3.9%；网格细分到 1 cm 边后，按官方重定向的 2 cm 规则接触帧
-   304/450（官方网格 283/460）。有抓握位置的 3 个候选里 2 个过 `palm_resolve` 的门槛。产物在 L40S `$T/aug/`（`pilot_v2`–`v5`、
-   `palm_v1`/`v2`、`arm_v1/ep00_b221_height`），本机副本 `~/v2d/tier3/viz/`。
+   304/450（官方网格 283/460）。**按现行直立轴放置（`pilot_v5` → `palm_v2`）只有 `b221_height` 一个候选过 `palm_resolve`**；
+   「3 个里 2 个过」是修直立轴之前的 `palm_v1`（按首帧定 up），不再算数（S0 核实）。产物在 L40S `$T/aug/`（`pilot_v2`–`v5`、
+   `palm_v1`/`v2`、`arm_v1/ep00_b221_height_gpu`；同级的 `ep00_b221_height` 那次 CPU 运行被杀，只剩日志），本机副本 `~/v2d/tier3/viz/`。
 3. 当时没做的：用新网格跑官方重定向 `soma_to_g1`；换资产之后的后处理与闸门一步都没跑；`palm_resolve` 只解平移、不解手的旋转。
 4. 当时的输入是 convert 目录里的 `soma_params.npz`，位于 focal、world、assemble、dr2s、dyn7 之前。gb5 里 ep00 取 `base`，convert 目录是
    `$T/runs/convert_gb5/ep00_tall_bar_stool/`（有 `soma_params{,_focal,_world}.npz`、`object_{cam,cam_focal,world}.npz`、`focal_calib.json`、
    `world_calib.json`）。
-5. 后处理各步读网格的方式：`t3_physics_check.py`、`t3_support.py`、`t3_post_verify.py` 与 gate 里的检查读 `$T3_ROOT/input/<meta.mesh>`；
-   gate 的根由 `gate/mkroot.py` 把 `mesh` 链到 `$T/input/mesh`；`t3_lean_support.py`、`t3_dynamics_check.py`、`t3_hand_object_check.py`
-   读 gate 产物旁边的 `object/textured_mesh.obj`。换网格要在这几处一起换，漏一处的表现是那一步照旧拿官方网格判、不报错。
+5. 后处理各步读网格的方式（S0 逐个调用点核实，见执行记录）：`t3_physics_check.py`、`t3_support.py`、`t3_depth_post.py`、
+   `t3_dynamics_post.py`、`t3_align_check.py` 与自检读 `<root>/input/<meta.mesh>`；gate 的根由 `gate/mkroot.py` 把 `mesh` 链到
+   `$T3_ROOT/input/mesh`，`challenge_to_soma.py` 从那里复制 glb；官方 `soma_to_g1.py` 再把它转成 `textured_mesh.obj`，写到
+   `motion_src/…/object/` 和 `runs/motion/tier3_<集合>/whole_body/soma/sequence_id=<序列>/object/`，`t3_lean_support.py`、
+   `t3_dynamics_check.py`、`t3_hand_object_check.py` 读后者。**`soma_to_g1.py` 的 `_convert_glb_to_obj` 只要 obj 已存在就直接返回**，
+   同一个集合名换网格重跑会静默沿用旧网格。换网格漏一处的表现都是那一步照旧拿官方网格判、不报错。
 6. 物体直立轴现在由 `stages/augment/official_up.json` 给（凳子 `-z`），条目写着「checked by eye」。依据本来就是 Tier 3 自己的重建：
    ep21 拉凳子全程、ep00 结尾时世界的上方在物体系里都落在 `-z`。
 
@@ -50,15 +54,27 @@
 不再默认 glTF 的 `+Y`。`official_up.json` 退出链路，只留作测试里的对照（自动结果与它不一致时测试红，再查原因）。
 
 **S2 换资产接到 world 之后。** 换资产在 world 的产物上做（`soma_params_world.npz` + `object_world.npz`），之后接 assemble → 物理检查与
-支撑面 → dr2s → dyn7 → `chain_check`。放在 world 之后，是因为 focal 步带人体重拟合，放在前面会把手的修改重新拟掉（S0 核实；若 S0 发现
-focal 不动手部，再按最少改动的位置定）。每个变体建一个自己的根 `$T/aug/variants/<集>_<候选uid前8位>/`：`input/` 除了 `mesh/<obj>/` 换成
-候选网格（文件名沿用官方的，脚本不用改）其余链接到 `$T/input`，gate 根用同一个 `input`；第 1 节第 5 条的 `textured_mesh.obj` 在 gate 的
-`runs/motion_src/tier<T>/<序列>/object/` 下，由 motion_src 生成步（`challenge_to_soma.py`）写出，S0 核实它从变体根取网格。所有 `T3_*` 路径指向变体根；`runs/floor/*_gb5.json` 只读链接。
+支撑面 → dr2s → dyn7 → `chain_check`。S0 核实：focal 逐帧重解全部 77 个关节（手、脚加权），放在前面会把手的修改重新拟掉；world 只做
+相似变换加整体缩放、不动关节旋转；assemble、dyn7 不动人体；dr2s 会在 held 帧上把整个人按物体的修正量平移（held 按新网格判），这一步
+由 R3 看住。
+
+每个变体建一个自己的根 `$T/aug/variants/<集合名>/`，集合名只用小写字母和数字（gate 的 `paths.py` 拒绝别的字符），每次重跑用新名，
+避开上面的 obj 缓存。根里放：`input/`（`mesh/tall_bar_stool/` 换成候选网格、文件名沿用官方的，其余链接 `$T/input`，只放 ep00，ep21 与它
+共用这个网格目录）；`runs/floor/{floor_fit_gb5,camera_register_gb5,camera_register}.json` 只读链接（世界系属于相机，换资产不该改它）；
+`runs/convert_gb5/ep00_tall_bar_stool/`（world 产物换成 `arm_refit` 的输出，其余链接）；`runs/tier3_cari4d_gb5_best.selection.json`；
+`dev/walls` 链接。所有 `T3_*` 路径指向变体根。
+
+要改的代码（S0 清单）：`stages/augment` 的 `swap_pilot`、`palm_resolve`、`arm_refit`、`swap_viz` 改读写 world 产物（`swap_pilot` 现在读
+`mhr_mesh.pt`，改用 SOMA 前向后 R1 的数值会变，见 R1）；`palm_resolve` 的凸包缓存键加网格 sha256；`gate/chain_check.sh` 写死了
+`T`、`G` 且假定 30 集（第 16 行等 30 个 tsv 会一直等下去，`mkrecord.sh` 与 `t3_gb_chain.sh` 同样假定 30 集），改成参数；
+`deploy_l40s.sh` 加上 `stages/augment` 并清掉 `$T/code/stages/augment` 里 10/09 的旧副本；变体的真实网格与许可证记进
+`$T/aug/variants.json`（assemble 写进 parquet 元数据的仍是官方文件名）。
 
 **S3 对照：拿官方网格当候选。** 同一套变体根机制、候选就是官方网格本身，从 world 产物跑到 dyn7 与 `chain_check`，结果必须与 gb5 交付的
-ep00 逐字节相同（rxzhou 10/21 的复现已证明 assemble 之后各步在相同输入下逐字节确定）。不相同就停，先找出变体根漏换或多换了什么。
+ep00 逐字节相同（rxzhou 10/21 的复现已证明 assemble 之后各步在相同输入下逐字节确定）。dr2s、dyn7 会把版本名写进 parquet 元数据，所以
+变体根里沿用 `tier3_cari4d_gb5_best*` 这些名字；gb5 的 ep00 没有依靠方块，lean 那一步对它不起作用。不相同就停，先找出变体根漏换或多换了什么。
 
-**S4 ep00 跑两个过了 `palm_resolve` 的候选。** 每个变体：`swap_pilot` → `hull_check` → `palm_resolve` → `arm_refit` → S2 的后处理链 →
+**S4 ep00 跑过了 `palm_resolve` 的候选。** 现行放置下只有 `b221_height` 一个（待定第 4 条）。每个变体：`swap_pilot` → `hull_check` → `palm_resolve` → `arm_refit` → S2 的后处理链 →
 官方重定向 `soma_to_g1`（新网格）→ `swap_viz`（画最终产物，不画中间产物）→ `t3_delivery_report.py` 出一份变体自己的报告。
 
 **S5 推广。** ep00 两个变体都过 R1–R3 之后，再上 10/09 试点过的 ep05（箱子）与 ep20（电饭煲），另写执行记录；不过就停在 ep00，先归因。
@@ -69,8 +85,10 @@ ep00 逐字节相同（rxzhou 10/21 的复现已证明 assemble 之后各步在�
 
 - R0（对照）：S3 逐字节相同。
 - R1（换资产本身）：沿用 10/09 登记的门槛，不改数——`swap_pilot` 与 `hull_check` 的接触保持与穿入、`palm_resolve` 的 KEEP_SHARE /
-  PEN_SHARE / MAX_OFFSET_M、`arm_refit` 的断言（未动关节逐位不变）。
+  PEN_SHARE / MAX_OFFSET_M、`arm_refit` 的断言（未动关节逐位不变）。`swap_pilot` 的门槛当时是在 MHR 顶点上登记的，改用 SOMA 顶点后
+  先在官方网格上跑一遍：官方网格必须照旧通过，不通过就停下报告，不调门槛。
 - R2（后处理与闸门）：`chain_check` 与 gb5 交付同一套检查、同一组阈值；每项报告变体对 S3 对照的差值。阈值一个都不为变体放宽。
+  例外待定（待定第 5 条）：`t3_align_check` 拿网格投影和视频里原物体的掩码比 IoU，换了网格按定义就会变差。
 - R3（端到端）：在最终 parquet 上重算接触，左右手在原接触帧上的保持比例都不低于 R1 的 KEEP_SHARE——后处理不能把换资产对上的手又拉开。
 - R4（自动化）：从 convert 产物到报告由一条命令跑完，链路里没有任何人工判定的输入；`auto_up.py` 在凳子上给出 `-z`。
 - 人看并排视频只作监看，不作通过或选择的依据（同 rxzhou 10/20 的合规口径）。
@@ -96,7 +114,20 @@ ep00 逐字节相同（rxzhou 10/21 的复现已证明 assemble 之后各步在�
 1. S2 的位置（world 之后）以 S0 的结果为准，S0 若发现别的步也会改手，再拿方案来问。
 2. 自动直立轴两路不一致时，是停下报告还是回退到稳定姿态——计划写的是回退并标出，可以改成停。
 3. S5 要不要等 ep00 的并排视频你看过再推广（视频只作监看，但推广与否由你定）。
+4. S4 现行放置下只有一个候选：只跑 `b221_height`，还是先在现行放置上重新筛一轮候选（`objaverse_stool/` 里有 83 项）。
+5. `t3_align_check` 的 IoU 对变体：从 R2 里排除、只报告不判，还是另定口径（例如只在没被手挡住、物体轮廓与官方网格接近的帧上比）。
+6. 目标的读法（10/21 重读官方材料后）：官方要泛化的更可能是方法，即每条新演示重新训一个 policy，换资产对它的作用是方法的测试台，
+   而不是训练数据增强。第 0 节是否据此改写，等你定。
 
 ## 执行记录
 
-（空）
+**S0 盘点（10/21，只读，子任务执行，主会话抽查了候选通过情况与 `soma_to_g1` 的 obj 缓存）**：
+- gb5 没有重算 ep00：`convert_gb5/ep00` 硬链 `convert_gb4/ep00`（10/18 gbfix 隔离根，focal 带人体重拟合 `e5ab7e5`），起点 `soma_params.npz`、
+  `object_cam.npz` 与 10/09 试点用的 `runs/convert/ep00` sha256 相同。gb5 链跑在 `af4cf06`，L40S 部署是 `42f01f0`（`DEPLOYED dirty=0`），
+  两者之间核心后处理代码不变，`chain_check` 多了 lean。
+- 动人体的步：focal（逐帧重解 77 个关节）、world（相似变换与缩放 0.98187）、dr2s（held 帧平移整个人，ep00 p50 4.0 cm、最大 11.2 cm）；
+  assemble、dyn7、lean、usda、各项检查不动人体。
+- 读网格的调用点与缓存：见第 1 节第 5 条与 S2；`floor_fit_gb5.json` 由官方网格凸包拟合，变体只读复用（世界系属于相机）。
+- 10/09 的候选与中间产物都在 `$T/aug/`；`b221` 原件 `objaverse_stool/stool_b221ad482e084c449408c229cab380d6.glb`（CC BY，作者 TabbieCat），
+  放置后 `pilot_v5/ep00_tall_bar_stool/…_height.glb`，细分版 `…_height_sub1cm.glb`。
+- `$T/code` 里有 22 个 git 外的残留（rsync 不带 `--delete`），其中 `stages/augment` 三个脚本是修直立轴之前的 10/09 版。
