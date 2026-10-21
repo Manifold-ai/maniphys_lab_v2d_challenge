@@ -2,7 +2,8 @@
 
 Every delivered version carries one (user, 10-16), so whoever trains on it knows what it is and how it was checked.
 Reads the checks' own result files, never retyped numbers, and a small spec json for what only a person states (who
-reviewed which images, known issues, notes). Writes Markdown to stdout.
+reviewed which images, known issues, notes). Self-check 13 (per-frame confidence) comes from the version dir's
+confidence/summary.json when t3_frame_confidence.py has run there. Writes Markdown to stdout.
 
 Spec json:
   {"version": "<dir name under runs/>", "set": "<gate set>", "base": "<previous delivery>", "base_set": "<its gate set>",
@@ -57,6 +58,16 @@ def align(path: Path, version: str):
     return rows
 
 
+def confidence(runs: Path, v: str) -> dict:
+    """Per episode name -> t3_frame_confidence.py's summary row, from the version dir and its _suspect; {} when not run."""
+    out = {}
+    for sub in ("", "_suspect"):
+        f = runs / (v + sub) / "confidence" / "summary.json"
+        if f.exists():
+            out |= json.loads(f.read_text())["episodes"]
+    return out
+
+
 def main():
     root, g, spec = Path(sys.argv[1]), Path(sys.argv[2]), json.loads(Path(sys.argv[3]).read_text())
     v, s, b, bs = spec["version"], spec["set"], spec["base"], spec["base_set"]
@@ -83,6 +94,7 @@ def main():
     key = v.replace("tier3_cari4d_f830_", "")
     contract = json.loads(Path(spec["contract"]).read_text()) if spec.get("contract") else None
     audit = json.loads(Path(spec["audit"]).read_text()) if spec.get("audit") else None
+    C = confidence(runs, v)
 
     o = [f"# Tier 3 交付：`{v}`", ""]
     o += [f"由 `stages/recovery/tier3/gate/t3_delivery_report.py` 从各项检查的结果文件生成，数字不经手抄。上一个交付版：`{b}`。", ""]
@@ -115,12 +127,19 @@ def main():
     o.append(f"| 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 {100 * hshare:.2f}%；接触帧比上一交付版少 {100 * LABEL_DROP:.0f}% 以上的集："
              + ("、".join(f"{k} {a} → {n}" for k, a, n in drops) if drops else "无") + " |")
     o.append(f"| 12 | 来源 | `{v}.provenance.json`：{'有' if prov else '缺'}；`tier_guard` 拒绝读取低档位数据 |")
+    if C:
+        nf = sum(e["frames"] for e in C.values())
+        share = lambda x: sum(e[f"{x}_share"] * e["frames"] for e in C.values()) / nf
+        lost = sum(e["lost_fraction"] * e["frames"] for e in C.values()) / nf
+        o.append(f"| 13 | 每帧可信度 | {len(C)} 集 {nf} 帧：ok {100 * share('ok'):.1f}%、unverified {100 * share('unverified'):.1f}%、"
+                 f"bad {100 * share('bad'):.1f}%，连成跟丢段的帧 {100 * lost:.1f}%。逐帧结果在版本目录的 `confidence/episode_*.parquet`"
+                 "（`t3_frame_confidence.py`）。ok 只说明剪影与掩码吻合，朝向翻转在剪影上看不出来 |")
     for r in spec.get("reviews", []):
         o.append(f"| {r['item']} | 看图：{r['by']} | {r['result']}" + (f"（图：`{r['images']}`）" if r.get("images") else "") + " |")
     for t in spec.get("not_done", []):
         o.append(f"| - | 未做 | {t} |")
-    o += ["", "## 逐集", "", "| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |",
-          "|---|---|---|---|---|---|---|---|"]
+    o += ["", "## 逐集", "", "| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |"
+          + (" 可信 ok / unverified / bad |" if C else ""), "|---|---|---|---|---|---|---|---|" + ("---|" if C else "")]
     for k in sorted(D):
         e, eb = D[k], DB.get(k, {})
         name = next((n for n in A if n.startswith(k)), k)
@@ -130,7 +149,9 @@ def main():
         lab = f"{labelled(hh)} ({labelled(HB[k]) if k in HB else '-'})" if hh else "-"
         i = int(k[2:])
         o.append(f"| {name} | {e['frames']} | {e['object_any']} ({eb.get('object_any', '-')}) | {e['first']['object_any']} ({eb.get('first', {}).get('object_any', '-')}) | {iou} | "
-                 f"{'过' if gf.get(i) else '不过'} / {'过' if go.get(i) else '不过'} | {away} | {lab} |")
+                 f"{'过' if gf.get(i) else '不过'} / {'过' if go.get(i) else '不过'} | {away} | {lab} |"
+                 + (" " + " / ".join(f"{100 * C[name][x + '_share']:.0f}%" for x in ("ok", "unverified", "bad")) + " |" if name in C
+                    else " - |" if C else ""))
     if spec.get("known_issues"):
         o += ["", "## 已知问题", ""] + [f"- {t}" for t in spec["known_issues"]]
     if spec.get("notes"):
