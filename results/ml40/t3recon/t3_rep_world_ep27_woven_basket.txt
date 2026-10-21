@@ -1,0 +1,25 @@
+# command  : docker run --rm --user 1003:1005 --entrypoint '' --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d --cpus 6 -e OMP_NUM_THREADS=6 -v /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3:/s:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/work_b050/ep27_woven_basket/cari4d/episode_000027:/e:ro -v /lab_data/rxzhou/v2d/t3recon/w:/w:ro -v /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma:/a:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/floor:/f:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/input:/in:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket:/o/ep27_woven_basket ca1774d94cd9 python /s/t3_convert_ep.py world /o/ep27_woven_basket /f/floor_fit_gb5.json /a /f/camera_register_gb5.json 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:53:34+0800
+# ---------------------------------------------------------------
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 6047.64 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 428.76 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+{"episode": "ep27_woven_basket", "floor_fit": "floor_fit_gb5.json", "floor_fit_sha256": "2b58531f28d9d02dabd94fa326a7349c797315530304274a52a83dfe79cdded0", "camera_group": 0, "how": "contacts", "own_floor_events": true, "rotation": [[0.99987402, -0.01585123, -0.00082051], [0.01585555, 0.99985879, 0.00556844], [0.00073213, -0.00558074, 0.99998416]], "scale": 0.98187, "shift_m": 0.0, "tilt_deg": 0.964, "body_rigid_max_err_mm": 0.0012, "body_scale_fit": {"scale": 0.98187, "fit_frames": 8, "check_frames": 57, "tol_mm": 4.52, "joint_err_mm_max": 0.96, "joint_err_mm_mean": 0.37, "vertex_err_mm_mean": 0.48, "vertex_err_mm_p99": 1.59}, "fallback": null, "camera_register": null, "focal": {"fx_used_by_cari4d": 812.356689453125, "fx_new": 866.3, "depth_ratio": 1.0664034792194417, "focal_spec_sha256": "61a290a9289f32f070fe0e310fcfd19d182c996b65729c8a929c2e0186de8d75"}}

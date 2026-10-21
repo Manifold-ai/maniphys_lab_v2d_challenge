@@ -1,0 +1,41 @@
+# command  : stages/recovery/t3r_world_repeat.sh 14 6 h 
+# md5      : 91b67eaca3b1b982142f46a85ce1d766  stages/recovery/t3r_world_repeat.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:40:36+0800
+# ---------------------------------------------------------------
+解释器 python → sha256 a2f33a6e00698927…
+解释器 python → sha256 08ad3f0a96b53608…
+=== 2026-10-21 19:40:37 CST world ep14_round_table，--cpus 6、OMP_NUM_THREADS=6，标签 h，额外参数：无
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 6196.65 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 446.09 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+{"episode": "ep14_round_table", "floor_fit": "floor_fit_gb3.json", "floor_fit_sha256": "2b58531f28d9d02dabd94fa326a7349c797315530304274a52a83dfe79cdded0", "camera_group": 1, "how": "contacts", "own_floor_events": true, "rotation": [[0.99935028, 0.0360078, 0.00157], [-0.03598683, 0.99928267, -0.01179397], [-0.00199355, 0.01172981, 0.99992922]], "scale": 0.949, "shift_m": 0.00298, "tilt_deg": 2.173, "body_rigid_max_err_mm": 0.0019, "body_scale_fit": {"scale": 0.949, "fit_frames": 8, "check_frames": 100, "tol_mm": 5.12, "joint_err_mm_max": 2.78, "joint_err_mm_mean": 0.69, "vertex_err_mm_mean": 1.21, "vertex_err_mm_p99": 4.53}, "fallback": null, "camera_register": {"file": "camera_register_gb3.json", "sha256": "27766318d079340c249f87adb33c87f5f082a0c624910b37b1cbf14b8a8990c7", "to_group": 0, "yaw_deg": 181.53, "t_m": [0.0964, 6.2065], "plane": {"from": "ep00_tall_bar_stool ground_plane", "n": [-0.018894743976819357, -0.9982818037796316, -0.0554655649257773], "d": 1.385635087317278}, "how": "t3_mutual_multi.py: mutual tripod-camera sightings on people-free plates", "sightings": {"0": {"n": 23, "n_good": 18, "range_median_m": 5.739, "spread_median_m": 0.976, "bearing_median_deg": 89.11, "bearing_std_deg": 0.37}, "1": {"n": 5, "n_good": 4, "range_median_m": 5.83, "spread_median_m": 0.977, "bearing_median_deg": 87.58, "bearing_std_deg": 0.15}}, "range_interval_m": [6.112, 6.302], "uncertainty": {"yaw_deg": 0.4, "range_m": 0.095}}, "focal": {"fx_used_by_cari4d": 830.8843994140625, "fx_new": 866.3, "depth_ratio": 1.0426239806775919, "focal_spec_sha256": "61a290a9289f32f070fe0e310fcfd19d182c996b65729c8a929c2e0186de8d75"}}
+=== 2026-10-21 19:42:13 CST world 跑完
+--- 对 t3
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/object_world.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/object_world.npz
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/soma_params_world.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/soma_params_world.npz	键 identity_coeffs：最大差 4.967e-03；键 scale_params：最大差 4.591e-03
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/world_calib.json	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/world_calib.json	$.body_rigid_max_err_mm：差 3.000e-04（0.0019 对 0.0016）；$.body_scale_fit.joint_err_mm_max：差 1.800e-01（2.78 对 2.96）；$.body_scale_fit.joint_err_mm_mean：差 3.000e-02（0.69 对 0.72）；$.body_scale_fit.vertex_err_mm_mean：差 1.000e-02（1.21 对 1.22）；$.body_scale_fit.vertex_err_mm_p99：差 2.000e-02（4.53 对 4.51）
+T3R_COMPARE_DONE 相同字节 1、数值相同 0、不同 2
+--- 对 ref
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/object_world.npz	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_gb5/ep14_round_table/object_world.npz
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/soma_params_world.npz	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_gb5/ep14_round_table/soma_params_world.npz	键 identity_coeffs：最大差 4.967e-03；键 scale_params：最大差 4.591e-03
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/h/ep14_round_table/world_calib.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_gb5/ep14_round_table/world_calib.json	$.body_rigid_max_err_mm：差 3.000e-04（0.0019 对 0.0016）；$.body_scale_fit.joint_err_mm_max：差 1.800e-01（2.78 对 2.96）；$.body_scale_fit.joint_err_mm_mean：差 3.000e-02（0.69 对 0.72）；$.body_scale_fit.vertex_err_mm_mean：差 1.000e-02（1.21 对 1.22）；$.body_scale_fit.vertex_err_mm_p99：差 2.000e-02（4.53 对 4.51）
+T3R_COMPARE_DONE 相同字节 1、数值相同 0、不同 2
+T3R_WORLD_REPEAT_DONE

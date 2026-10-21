@@ -1,0 +1,8 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3/t3_physics_check.py extract /lab_data/rxzhou/v2d/t3recon/t3_refw /lab_data/rxzhou/v2d/t3recon/t3_refw/runs/tier3_cari4d_gb5_best /lab_data/rxzhou/v2d/t3recon/t3_refw/runs/physics/tier3_cari4d_gb5_best/npz 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:27:04+0800
+# ---------------------------------------------------------------
+episode_000014 993
+episode_000020 553
+episode_000027 565

@@ -1,0 +1,10 @@
+# command  : docker run --rm --user 1003:1005 --entrypoint '' --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d --cpus 6 -e OMP_NUM_THREADS=6 -v /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3:/s:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/work_b050/ep27_woven_basket/cari4d/episode_000027:/e:ro -v /lab_data/rxzhou/v2d/t3recon/w:/w:ro -v /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma:/a:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/floor:/f:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/input:/in:ro -v /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket:/o/ep27_woven_basket ca1774d94cd9 python /s/t3_convert_ep.py decode /e /w /o/ep27_woven_basket 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:48:52+0800
+# ---------------------------------------------------------------
+/workspace/v2d_sam3d_body/lib/sam_3d_body/models/heads/mhr_head.py:29: UserWarning: Momentum is not enabled
+  warnings.warn("Momentum is not enabled")
+/workspace/v2d_sam3d_body/lib/sam_3d_body/models/heads/mhr_head.py:33: UserWarning: Momentum is not enabled
+  warnings.warn("Momentum is not enabled")
+{"frames": 565, "object_orthogonality_error": 6.30715279004157e-07, "identity_shift_cm": {"mean": 0.462, "p99": 1.968, "max": 3.146}, "shape_std_max": 0.1292, "scale_std_max": 0.4731}

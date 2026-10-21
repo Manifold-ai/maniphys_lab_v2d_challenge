@@ -1,0 +1,12 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_compare.py /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep14_round_table/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep14_round_table/decode_report.json /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/decode_report.json /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep20_rice_cooker/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep20_rice_cooker/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep20_rice_cooker/decode_report.json /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep20_rice_cooker/decode_report.json /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/object_cam.npz /lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket/decode_report.json /lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/decode_report.json 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:57:11+0800
+# ---------------------------------------------------------------
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep14_round_table/object_cam.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/object_cam.npz
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep14_round_table/decode_report.json	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep14_round_table/decode_report.json
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep20_rice_cooker/object_cam.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep20_rice_cooker/object_cam.npz
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_gb5/ep20_rice_cooker/decode_report.json	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_gb5/ep20_rice_cooker/decode_report.json
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket/object_cam.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/object_cam.npz
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_rep/runs/convert_fp_gb5/ep27_woven_basket/decode_report.json	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/decode_report.json
+T3R_COMPARE_DONE 相同字节 6、数值相同 0、不同 0

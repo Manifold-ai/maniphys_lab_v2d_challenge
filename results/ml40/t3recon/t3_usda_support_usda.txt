@@ -1,0 +1,19 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh env PYTHONPATH=/lab_data/rxzhou/v2d/t3recon/gate/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding OMP_NUM_THREADS=4 /lab_data/<其他用户>/v2d/gate/venv/bin/python /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3/gate/t3_support_usda.py /lab_data/rxzhou/v2d/t3recon/gate/repo gb5dyn7 /lab_data/rxzhou/v2d/t3recon/t3/runs/support/tier3_cari4d_gb5_best /lab_data/rxzhou/v2d/t3recon/t3 /lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:54:40+0800
+# ---------------------------------------------------------------
+/lab_data/<其他用户>/v2d/gate/venv/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+Warp 1.18.0 initialized:
+   CUDA Toolkit 13.4, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA L40S" (44 GiB, sm_89, mempool supported)
+   Kernel cache:
+     /home/rxzhou/.cache/warp/1.18.0
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 1.76 ms  (cached)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 0.40 ms  (cached)
+{"episode": "ep14_round_table", "sequence_id": "2026-05-28_14-44-09_round_table_flip_08", "check_m": 0.0, "supports": []}
+{"episode": "ep20_rice_cooker", "sequence_id": "2026-06-08_16-57-34_rice_cooker_clockwise_04", "check_m": 0.0, "supports": [{"support": 0, "height_m": 0.783, "top_z_m": 0.783, "xy_min_m": [-0.3579, 0.6884], "xy_max_m": [-0.1177, 0.9338]}]}
+{"episode": "ep27_woven_basket", "sequence_id": "2026-05-01_11-15-05_woven_basket_ground_desk_10", "check_m": 0.0, "supports": [{"support": 0, "height_m": 0.878, "top_z_m": 0.878, "xy_min_m": [0.0473, -1.129], "xy_max_m": [0.3653, -0.807]}]}

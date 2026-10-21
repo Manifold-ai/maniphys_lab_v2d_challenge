@@ -1,0 +1,9 @@
+# command  : env T3R_ALLOW=/lab_data/<其他用户>/v2d/venv/bin/python bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_compare.py /lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda /lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda /lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-05-28_14-44-09_round_table_flip_08_support.usda /lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-05-28_14-44-09_round_table_flip_08_support.usda /lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda /lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:07:18+0800
+# ---------------------------------------------------------------
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda	/lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-05-28_14-44-09_round_table_flip_08_support.usda	/lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-05-28_14-44-09_round_table_flip_08_support.usda
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/gate/support_usda_gb5dyn7refw/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda	/lab_data/rxzhou/v2d/t3recon/ref/gate/support_usda_gb5dyn7/2026-06-08_16-57-34_rice_cooker_clockwise_04_support.usda
+T3R_COMPARE_DONE 相同字节 3、数值相同 0、不同 0

@@ -1,0 +1,41 @@
+# command  : stages/recovery/t3r_world_repeat.sh 27 1 d 
+# md5      : 91b67eaca3b1b982142f46a85ce1d766  stages/recovery/t3r_world_repeat.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:31:58+0800
+# ---------------------------------------------------------------
+解释器 python → sha256 a2f33a6e00698927…
+解释器 python → sha256 08ad3f0a96b53608…
+=== 2026-10-21 19:31:58 CST world ep27_woven_basket，--cpus 1、OMP_NUM_THREADS=1，标签 d，额外参数：无
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 5968.88 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 429.31 ms  (compiled)
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+{"episode": "ep27_woven_basket", "floor_fit": "floor_fit_gb5.json", "floor_fit_sha256": "2b58531f28d9d02dabd94fa326a7349c797315530304274a52a83dfe79cdded0", "camera_group": 0, "how": "contacts", "own_floor_events": true, "rotation": [[0.99987402, -0.01585123, -0.00082051], [0.01585555, 0.99985879, 0.00556844], [0.00073213, -0.00558074, 0.99998416]], "scale": 0.98187, "shift_m": 0.0, "tilt_deg": 0.964, "body_rigid_max_err_mm": 0.0014, "body_scale_fit": {"scale": 0.98187, "fit_frames": 8, "check_frames": 57, "tol_mm": 4.52, "joint_err_mm_max": 0.84, "joint_err_mm_mean": 0.33, "vertex_err_mm_mean": 0.48, "vertex_err_mm_p99": 1.58}, "fallback": null, "camera_register": null, "focal": {"fx_used_by_cari4d": 812.356689453125, "fx_new": 866.3, "depth_ratio": 1.0664034792194417, "focal_spec_sha256": "61a290a9289f32f070fe0e310fcfd19d182c996b65729c8a929c2e0186de8d75"}}
+=== 2026-10-21 19:35:14 CST world 跑完
+--- 对 t3
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/object_world.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/object_world.npz
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/soma_params_world.npz	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/soma_params_world.npz	键 identity_coeffs：最大差 4.365e-03；键 scale_params：最大差 2.320e-03
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/world_calib.json	/lab_data/rxzhou/v2d/t3recon/t3/runs/convert_fp_gb5/ep27_woven_basket/world_calib.json	$.body_rigid_max_err_mm：差 1.000e-04（0.0014 对 0.0013）；$.body_scale_fit.joint_err_mm_max：差 1.900e-01（0.84 对 1.03）；$.body_scale_fit.joint_err_mm_mean：差 1.000e-01（0.33 对 0.43）；$.body_scale_fit.vertex_err_mm_mean：差 4.000e-02（0.48 对 0.52）；$.body_scale_fit.vertex_err_mm_p99：差 3.000e-02（1.58 对 1.55）
+T3R_COMPARE_DONE 相同字节 1、数值相同 0、不同 2
+--- 对 ref
+BYTES_EQUAL	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/object_world.npz	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_fp_gb5/ep27_woven_basket/object_world.npz
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/soma_params_world.npz	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_fp_gb5/ep27_woven_basket/soma_params_world.npz	键 identity_coeffs：最大差 5.964e-03；键 scale_params：最大差 6.557e-04
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/rep_world/d/ep27_woven_basket/world_calib.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/convert_fp_gb5/ep27_woven_basket/world_calib.json	$.body_rigid_max_err_mm：差 1.000e-04（0.0014 对 0.0015）；$.body_scale_fit.joint_err_mm_max：差 1.000e-02（0.84 对 0.85）；$.body_scale_fit.joint_err_mm_mean：差 1.000e-02（0.33 对 0.34）
+T3R_COMPARE_DONE 相同字节 1、数值相同 0、不同 2
+T3R_WORLD_REPEAT_DONE

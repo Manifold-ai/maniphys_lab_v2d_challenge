@@ -1,0 +1,7 @@
+# command  : stages/recovery/t3r_seed_root.sh t3_rep inputs 
+# md5      : b42ca3f2c050f890f739f665b64b5c8f  stages/recovery/t3r_seed_root.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:29:15+0800
+# ---------------------------------------------------------------
+T3R_SEED_DONE 30

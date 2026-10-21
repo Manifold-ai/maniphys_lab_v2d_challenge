@@ -1,0 +1,30 @@
+# command  : stages/recovery/t3r_gate_setup.sh f0ac98f 
+# md5      : 68c4a74db6769143913f75f1e3979361  stages/recovery/t3r_gate_setup.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:43:25+0800
+# ---------------------------------------------------------------
+解释器 python → sha256 a2f33a6e00698927…
+解释器 python → sha256 08ad3f0a96b53608…
+替身 incontainer sha256 3b39d5ff07b6dc42330d0c9dd2e1c86838848a0a5a17369cd0b1085a297cd175
+SOMA 7bf31cbc0897670d Anny/base_body.obj
+SOMA 0e9caa78848b27c3 Anny/SOMA_wrap.obj
+SOMA 067237a235f626ee correctives_model.pt
+SOMA f424385dae312827 example_animation.npy
+SOMA 4536d92bc379e818 GarmentMeasurements/mean.obj
+SOMA 6ae75a1ab7a8ae4f GarmentMeasurements/point.npz
+SOMA c1871742042290cb GarmentMeasurements/SOMA_wrap.obj
+SOMA a689bc024d301fe7 .gitignore
+SOMA e8bbb3f3681d7673 MHR/base_body_lod1.obj
+SOMA cd46620ec46e9686 MHR/base_body_lod6.obj
+SOMA 93f1b6d7fbcfb10e MHR/mhr_model_lod1.pt
+SOMA 8072ec25449c95ea MHR/mhr_model_lod6.pt
+SOMA 9ab7a2328d5b026c MHR/SOMA_wrap_lod1.obj
+SOMA 08996c762b0adfe4 SMPL/base_body.obj
+SOMA 1126c0b377f00b26 SMPL/smpl_anim.npy
+SOMA d56c7d1452a57b3f SMPL/SOMA_wrap.obj
+SOMA f03f95e5e303c8dc SMPLX/base_body.obj
+SOMA 7498e3a7873d7b4d SMPLX/SOMA_wrap.obj
+SOMA 515f7d5bb74be4e3 SOMA_neutral.npz
+/lab_data/rxzhou/v2d/t3recon/gate/repo/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/urdfs/meshes -> ../meshes
+T3R_GATE_SETUP_DONE

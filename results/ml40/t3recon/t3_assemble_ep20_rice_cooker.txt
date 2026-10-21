@@ -1,0 +1,6 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3/t3_convert_ep.py assemble runs/convert_gb5/ep20_rice_cooker input 20 runs/tier3_cari4d_gb5_best 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T19:04:51+0800
+# ---------------------------------------------------------------
+{"written": "runs/tier3_cari4d_gb5_best/data/chunk-000/episode_000020.parquet", "frames": 553, "index_offset": 15798}

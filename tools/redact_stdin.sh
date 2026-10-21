@@ -5,6 +5,7 @@
 # 用途：把同组成员分支上的文档等材料记进 results/ 作证据之前去掉名字（记录要进 git，脱敏约定同 tools/gpu_procs_remote.sh）。
 # 取名字的 ssh 用 -n，不吃掉要脱敏的 stdin。取名字失败时退出码 2，不输出原文。Mac 自带 bash 3.2 可跑。
 # 用法：<命令> | tools/redact_stdin.sh
+#       tools/redact_stdin.sh <文件>...   就地改写这些文件（名字只取一次；10/21 回流第 1 级接管的 119 份记录时加）
 set -uo pipefail
 all=""
 for h in mf4090 ml40; do
@@ -20,8 +21,19 @@ NAMES="$(printf '%s\n' "$all" | grep -v -x -e '' -e ubuntu | sort -u)"
 NAMES="$NAMES" python3 -c '
 import os, sys
 names = sorted({n for n in os.environ["NAMES"].split("\n") if n}, key=len, reverse=True)
-text = sys.stdin.read()
-for n in names:
-    text = text.replace(n, "<其他用户>")
-sys.stdout.write(text)
-'
+def scrub(text):
+    for n in names:
+        text = text.replace(n, "<其他用户>")
+    return text
+if len(sys.argv) > 1:
+    for f in sys.argv[1:]:
+        with open(f, encoding="utf-8") as fh:
+            text = fh.read()
+        new = scrub(text)
+        if new != text:
+            with open(f, "w", encoding="utf-8") as fh:
+                fh.write(new)
+            print(f"改写 {f}", file=sys.stderr)
+else:
+    sys.stdout.write(scrub(sys.stdin.read()))
+' "$@"
