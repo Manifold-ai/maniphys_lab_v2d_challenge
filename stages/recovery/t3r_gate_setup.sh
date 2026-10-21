@@ -3,7 +3,7 @@
 # 1. 代码从 stdin 收我们仓库 f0ac98f 的 tar（Mac 上 `git archive f0ac98f libs stages scripts tools third_party`），解到 /lab_data/rxzhou/v2d/t3recon/gate/repo，记 .v2d-source-commit；
 # 2. third_party/video_to_data 用我们自己训练用的那份 v0.4.0（33129dd，核 HEAD），rsync 工作树（不带 .git）；
 # 3. scripts/dev/incontainer 换成她 gate 里的替身（不进 git、解释器写死成她 gate venv 里的 python，只读调用；复核第 1 条），核 sha256 等于登记值，原文件留作 incontainer.orig；
-# 4. 打出 SOMA 资源与替身的 sha256（来历）。已存在就拒绝（退出码 2）。最后一行 T3R_GATE_SETUP_DONE。
+# 4. 打出 SOMA 资源与替身的 sha256（来历）。gate/repo 已存在就拒绝（退出码 2）。最后一行 T3R_GATE_SETUP_DONE。
 # 用法：git archive f0ac98f libs stages scripts tools third_party | ssh ml40 "<仓库>/stages/recovery/t3r_gate_setup.sh f0ac98f"
 set -euo pipefail
 cd "$(dirname "$0")/../.."
@@ -11,7 +11,7 @@ REPO="$(pwd)"
 COMMIT=${1:?提交号}
 G=/lab_data/rxzhou/v2d/t3recon/gate; V="$REPO/third_party/video_to_data"
 STANDIN_SHA=3b39d5ff07b6   # 她 gate/incontainer 与她 gate/repo/scripts/dev/incontainer 的 sha256 前 12 位（10/21 05:4x MDT 只读核对）
-[ -e "$G" ] && { echo "T3R_GATE_SETUP_FAILED $G 已存在"; exit 2; }
+[ -e "$G/repo" ] && { echo "T3R_GATE_SETUP_FAILED $G/repo 已存在"; exit 2; }   # $G 本身已有 dyn7 要导入的 4 个 gate 模块（部署代码时放的），同她的布局
 H="$("$REPO/stages/recovery/t3r_other.sh")" || { echo "T3R_GATE_SETUP_FAILED 另一位成员的目录或解释器没过核对"; exit 2; }
 [ "$(git -C "$V" --no-optional-locks rev-parse --short=7 HEAD)" = 33129dd ] || { echo "T3R_GATE_SETUP_FAILED 我们的 video_to_data 不是 33129dd"; exit 2; }
 mkdir -p "$G/repo" "$G/logs"
