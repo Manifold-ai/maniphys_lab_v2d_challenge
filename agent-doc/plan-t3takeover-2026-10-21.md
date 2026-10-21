@@ -62,3 +62,7 @@
 ## 执行记录
 
 - 10/21 00:1x MDT：按复核不执行第 1 版；排到 10/21 白天写第 2 版、再复核（不影响 10/22 那次额度）。到目前对她目录的操作都是只读（ls、cat、sha256sum、git show）。
+- 10/21 00:2x MDT：按复核的 BLOCKER 只读查了一遍 `find /lab_data/<她>/v2d -user rxzhou`：只有一个文件，`gate/repo/third_party/video_to_data/.git/index`，
+  修改时间 10/21 13:33:28 CST（MDT 10/20 23:33），正是今晚只读盘点代理在跑的时候——它在那个仓库里跑的 `git status` 刷新了索引的状态缓存，文件因此变成我们的（664、组 mfshared）。
+  内容在语义上等价（不改仓库内容、HEAD、暂存区），她仍可读写；没有备份、属主改不回去，保留现状。以后在别人的仓库里一律 `git --no-optional-locks`（或 `GIT_OPTIONAL_LOCKS=0`），
+  交给代理的提示里写明；第 2 版的包装里加这条。
