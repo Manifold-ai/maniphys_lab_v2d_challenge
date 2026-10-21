@@ -7,6 +7,7 @@ h 的顺序是 termination.config.sides。物体：body_q[env.command.body_ids_w
 diag_rollout.py 用抄下的物体位置与评测器自己记的 achieved_pose_w 逐位比，作为同步闸。
 用法（diag_rollout.py --palms 内部）：rec = PalmRecorder(env, step_count)；把 jax_env 换成 rec.wrap(jax_env)；跑完 palms, objects = rec.arrays()
 """
+import numpy as np
 import warp as wp
 
 
@@ -139,3 +140,41 @@ class BodyRecorder:
         if self.step != self.steps:
             raise RuntimeError(f"jax_env.step 被调用 {self.step} 次，应为 {self.steps} 次")
         return self.poses.numpy().reshape(self.steps, self.world_count, self.n, 7)
+
+
+class _ActionProxy:
+    """只截 step：先把传进来的动作交给 record，再原样转给被包的 jax_env；其余属性原样转给被包的 jax_env。"""
+
+    def __init__(self, inner, record):
+        self._inner = inner
+        self._record = record
+
+    def step(self, action):
+        self._record(action)
+        return self._inner.step(action)
+
+    def __getattr__(self, name):
+        return getattr(self._inner, name)
+
+
+class ActionRecorder:
+    """--actions N（计划 agent-doc/plan-t12sat-2026-10-20.md）：抄策略交给 jax_env.step 的动作（FlashSAC 的确定性动作 = action_scale · tanh(均值)，
+    还没乘 residual_scale），只抄前 N 步、前 --action-worlds 个世界，存 float32 (N, W', A)。步数不足 N 时只存实际跑到的步数。"""
+
+    def __init__(self, max_steps: int, worlds: int):
+        self.max_steps, self.worlds = int(max_steps), int(worlds)
+        self.rows = []
+        self.step = 0
+
+    def _record(self, action):
+        if self.step < self.max_steps:
+            self.rows.append(np.asarray(action[: self.worlds], dtype=np.float32))
+        self.step += 1
+
+    def wrap(self, jax_env):
+        return _ActionProxy(jax_env, self._record)
+
+    def arrays(self):
+        if not self.rows:
+            raise RuntimeError("一步动作也没抄到")
+        return np.stack(self.rows)

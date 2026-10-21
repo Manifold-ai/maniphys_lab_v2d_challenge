@@ -10,6 +10,8 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 （robot_palm_pos，(T,W,H,3)，H 按 robot_palm_sides），同时抄下物体位置与评测器记的 achieved_pose_w 逐位比（palm_object_sync_max_abs_m，
 不含非有限的世界）；参考位姿改存 float64，供 diag_phase.py 逐位重算评测器的成功判据。不加 --palms 时与原来完全相同。
 
+--actions N [--action-worlds 256]（计划 agent-doc/plan-t12sat-2026-10-20.md）：另经 diag_palms.ActionRecorder 抄前 N 步、前若干个世界的策略动作（policy_action，(N,W',A)，
+还没乘 residual_scale；剔除非有限世界后的编号在 policy_action_worlds）。不加时与原来完全相同。
 --bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：另经 diag_palms.BodyRecorder 抄骨盆、躯干、两只脚踝的逐帧位姿（robot_body_pose，(T,W,4,7)，位置 + 四元数 xyzw，
 与 robot_body_names）。不加 --bodies 时与原来完全相同。
 --parquet <容器内路径>（计划 agent-doc/plan-t12ref-2026-10-20.md）：把 checkpoint 配置里的参考 parquet 换成这一份（包一层 harness._resolve_parquet），用零残差回放试改过的参考；
@@ -47,6 +49,8 @@ def main() -> int:
     ap.add_argument("--worlds", type=int, default=4096)
     ap.add_argument("--palms", action="store_true", help="另抄机器人两只手掌的逐帧位置，见文件头")
     ap.add_argument("--parquet", help="换掉 checkpoint 配置里的参考 parquet（容器内绝对路径；计划 agent-doc/plan-t12ref-2026-10-20.md：用零残差回放试改过的参考）")
+    ap.add_argument("--actions", type=int, default=0, help="另抄前 N 步策略动作（diag_palms.ActionRecorder，计划 agent-doc/plan-t12sat-2026-10-20.md）")
+    ap.add_argument("--action-worlds", type=int, default=256)
     ap.add_argument("--bodies", action="store_true", help="另抄骨盆、躯干、两只脚踝的逐帧位姿（diag_palms.BodyRecorder，计划 agent-doc/plan-t12fall-2026-10-20.md）")
     a = ap.parse_args()
     out = a.out_prefix
@@ -81,6 +85,14 @@ def main() -> int:
                 args[1] = cap["bodies"].wrap(args[1])
             else:
                 kwargs["jax_env"] = cap["bodies"].wrap(kwargs["jax_env"])
+        if a.actions > 0:   # 最外层：抄的是策略交给 step 的动作
+            import diag_palms
+            args = list(args)
+            cap["actions"] = diag_palms.ActionRecorder(a.actions, a.action_worlds)
+            if len(args) > 1:
+                args[1] = cap["actions"].wrap(args[1])
+            else:
+                kwargs["jax_env"] = cap["actions"].wrap(kwargs["jax_env"])
         cap["rollout"] = record(*args, **kwargs)
         cap["reference"] = kwargs.get("reference")
         return cap["rollout"]
@@ -175,6 +187,11 @@ def main() -> int:
         bodies[:, ~okb] = 0.0
         arrays["robot_body_pose"] = bodies.astype(np.float64)
         extra = {**extra, "robot_body_names": np.array(cap["bodies"].names)}
+    if a.actions > 0:
+        acts = cap["actions"].arrays()
+        okw = [w for w in range(min(acts.shape[1], W)) if w not in set(r.non_finite_worlds)]
+        arrays["policy_action"] = acts[:, okw]
+        extra = {**extra, "policy_action_worlds": np.array(okw, dtype=np.int64)}
     bad = [k for k, v in arrays.items() if not np.isfinite(v).all()]
     if bad:
         print(f"非有限值：{bad}", file=sys.stderr)
