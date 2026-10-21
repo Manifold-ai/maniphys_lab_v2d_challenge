@@ -126,3 +126,20 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
   按登记的判读：**不确定与线程数有关**——world 的缩放拟合在 1、4 线程下逐位确定，6 线程下不确定（ep14、ep27 都是）；ep14、ep20 当初用 4 线程，所以能逐字节复现，
   ep27 当初用 6 线程（`t3_sel_full.sh` 37 行），参照只是不确定分布里的一次抽样，逐位复现不了。机制（例如 BLAS 在线程数除不尽时按动态分工）没有验证，只记现象。
   对我们的管线：world 步固定用 4 线程（或 1 线程）就能逐位复现；这条写进第 2 级计划，不改第 1 级的判定。
+- 05:57 MDT **正对照**（`t3r_level1_controls.sh` 第 2 项：`t3r_seed_root.sh t3_rep inputs` 后 `t3r_level1.sh t3_rep`、`t3r_level1_compare.sh t3_rep t3`，记录 `results/t3recon/t3_rep_vs_t3_cmp_*`）：
+  decode 6/6、focal 9/9、support 3/3 逐字节相同；world 7/9（不同的两份是 ep27 的 soma_params_world.npz 与 world_calib.json）；三版数据每版 11/15，不同的 4 份都是 ep27；
+  dynamics_post 逐字节相同，depth_post 与三份 summary 只在 ep27 的条目不同。**ep14、ep20 的正对照成立；ep27 从 world 往后重复跑不相同，与线程测试一致。**
+- 05:4x–06:07 **B 部分：支撑面 usda**（`stages/recovery/t3r_gate_setup.sh`、`t3r_gate_eps.sh`、`t3r_level1_usda.sh`；记录 `results/t3recon/gate_setup.txt`、`t3_usda_*`、`t3_vs_ref_cmp_usda*`、
+  `t3_refw_usda_*`、`t3_refw_vs_ref_cmp_usda*`）：
+  - gate 仓库 = 我们的 f0ac98f（git archive，Mac 与 ml40 两端 tar 的 sha256 相同）+ 我们的 video_to_data v0.4.0（33129dd，工作树）；SOMA 资源 19 个文件与她 gate 里的逐个 sha256 相同；
+    incontainer 替身照她的（sha256 3b39d5ff07b6…，她 gate 与她 gate 仓库里的同一份）。她的链用的 mkroot、run_parallel、t3_support_usda 是 `$T/code` 下的 git 版（d7aae27 后没改），
+    t3_inputs.py、t3_support.py 10/17 后没改，所以我们部署的 42f01f0 副本就是她当时跑的版本；她 gate 目录里另有 4 个旧草稿与 git 版不同，链里不用。
+  - t3 根（我们 A 部分的 dyn7）：三份 usda **逐字节相同**，support_usda.json 数值相同；重定向结果行 ep14、ep20 与她 `rec_gb5dyn7.txt` 逐字段相同，
+    ep27 不同（左手接触 290 对 287 帧、IK 中位 0.922 对 0.923）——输入的 dyn7 parquet 本来就带着 world 的不同。
+  - t3_refw 根（与参照逐字节相同的 dyn7，集名 gb5dyn7refw）：三集的重定向结果行**全部与她的相同**（ep27 287 帧、0.923），usda 逐字节相同，support_usda.json 数值相同。
+    重定向与 usda 两步在相同输入下确定。第一次试跑把集名写成 gb5dyn7_refw，被 `paths.py`（只许小写字母与数字）拒在 eps 步，留下一个空的 `root_gb5dyn7_refw`（我们自己的目录，未删）。
+- **第 1 级的判定（按 K1 登记）**：ep14、ep20 全部成立（decode → dyn7、物理检查、support、usda、重定向结果行，三项对照与门槛自检都对）。
+  ep27 除 world 的缩放拟合外都成立：world 在她当时的 6 线程下不确定，逐位复现不了，按登记记“不成立”；给它参照的 world 产物，往后各步（含重定向与 usda）都逐字节重出。
+  所以 K1 原文“三集都过”不满足，不记“第 1 级接管成立”；记为“ep14、ep20 成立，ep27 除 world 一步外成立”。
+- 第 1b 级的事实（只读核对，10/21 06:0x MDT）：ml40 能直连腾讯云与阿里云的 PyPI 镜像（pypi.org 超时）；她的宿主机 venv 以 `/usr/bin/python3.10`（3.10.12）为底，82 个发行版；
+  gate venv 以 uv 管理的 CPython 3.11.17 为底，93 个发行版。1b 另写计划。
