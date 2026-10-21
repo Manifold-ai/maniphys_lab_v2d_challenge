@@ -1,0 +1,54 @@
+# command  : scripts/dev/in-flash-chord python /repo/stages/retarget/parquet_columns.py /repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : d81a4b67278b09b44571bc37acfbb034  stages/retarget/parquet_columns.py
+# md5      : d1ff120cdcd153a1d26983a6d35cf69a  runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+# source   : 19f2a4d2850b
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T05:25:40+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier3_hm/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet：1 行，477 帧
+schema_version	string	motion_v1
+motion_kind	string	single_robot
+source_dataset	string	soma
+raw_motion_file	string	/repo/runs/motion_src/tier3_hm/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/soma_params.npz
+fps	float	shape ()	
+coord_frame	string	robot_base_z_up
+robot_joint_names	list<element: string>	43
+robot_root_position	list<element: fixed_size_list<element: float>[3]>	shape (477, 3)	随帧变
+robot_root_wxyz	list<element: fixed_size_list<element: float>[4]>	shape (477, 4)	随帧变
+robot_joint_positions	list<element: list<element: float>>	shape (477, 43)	随帧变
+ee_link_names	list<element: string>	2
+ee_pose_w	list<element: list<element: fixed_size_list<element: float>[7]>>	shape (477, 2, 7)	随帧变
+hand_sides	list<element: string>	2
+hand_frame_names	list<element: list<element: string>>	shape (0,)	
+hand_frames_w	list<element: list<element: list<element: fixed_size_list<element: float>[7]>>>	shape (2, 0)	
+hand_finger_joint_names	list<element: list<element: string>>	shape (0,)	
+hand_finger_joints	list<element: list<element: list<element: float>>>	shape (2, 0)	
+object_name	string	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_object
+safe_object_name	string	obj_2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_object
+object_body_names	list<element: string>	1
+safe_object_body_names	list<element: string>	1
+object_mesh_paths	list<element: string>	1
+object_urdf_paths	list<element: string>	1
+object_mesh_radius	list<element: float>	shape (1,)	
+object_articulation	list<element: float>	shape (477,)	
+object_root_axis_angle	list<element: fixed_size_list<element: float>[3]>	shape (477, 3)	随帧变
+object_root_position	list<element: fixed_size_list<element: float>[3]>	shape (477, 3)	随帧变
+object_body_position	list<element: list<element: fixed_size_list<element: float>[3]>>	shape (477, 1, 3)	随帧变
+object_body_wxyz	list<element: list<element: fixed_size_list<element: float>[4]>>	shape (477, 1, 4)	随帧变
+hand_contact_link_names	list<element: list<element: string>>	shape (0,)	
+hand_link_contact_positions	list<element: list<element: list<element: fixed_size_list<element: float>[3]>>>	shape (2, 0)	
+hand_link_contact_normals	list<element: list<element: list<element: fixed_size_list<element: float>[3]>>>	shape (2, 0)	
+hand_object_contact_positions	list<element: list<element: list<element: fixed_size_list<element: float>[3]>>>	shape (2, 0)	
+hand_object_contact_normals	list<element: list<element: list<element: fixed_size_list<element: float>[3]>>>	shape (2, 0)	
+hand_object_contact_part_ids	list<element: list<element: list<element: int32>>>	shape (2, 0)	
+hand_contact_active	list<element: list<element: float>>	shape (2, 477)	
+source_kind	string	soma
+source_payload	binary	2681882
+source_joint_names	list<element: string>	shape (0,)	
+ik_error_per_frame	list<element: float>	shape (477,)	随帧变
+ik_num_iterations	list<element: int32>	shape (477,)	随帧变
+frame_task_errors	list<element: list<element: float>>	shape (477, 10)	随帧变
+sequence_id	dictionary<values=string, indices=int32, ordered=0>	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02
+robot_name	dictionary<values=string, indices=int32, ordered=0>	g1
+PARQUET_COLUMNS_DONE

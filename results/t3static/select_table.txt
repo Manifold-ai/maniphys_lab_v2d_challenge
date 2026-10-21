@@ -1,0 +1,43 @@
+# command  : python3 stages/evaluate/t3static_select.py stages/evaluate/exports/t3_select_t3m1022a.tsv results/t3static/floor_mf4090.txt results/ml40/t3static/floor_ml40.txt 
+# md5      : 2deb513e37359e16cae43bdacfe7c39e  stages/evaluate/t3static_select.py
+# md5      : 3f338f33acc3d71e6f0948b34673fcc3  stages/evaluate/exports/t3_select_t3m1022a.tsv
+# md5      : 1cb6cf278a3b5d73fd67ad6a5c76ac3f  results/t3static/floor_mf4090.txt
+# md5      : 1d25c4f9a6ad0fd16ad56bf325f36a1b  results/ml40/t3static/floor_ml40.txt
+# source   : 56e19e3f1969-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T15:31:11-0600
+# ---------------------------------------------------------------
+集	run	原 MPPE	不动 MPPE	原 SP-SR（键）	不动 SP-SR	原 AUC	不动 AUC（近似）	（a）	（b）	结论	评测记录
+ep0	t3-ep0-w2048-cap4m-r3a-gb4-mf4090	3.80	31.94	0.948（spider_sr_uncentered）	0.000	0.528	0.354	否	否	留原 run	results/day2/eval_t3-ep0-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep1	t3-ep1-w2048-cap4m-r3a-hm-mf4090	66.36	43.60	0.000（spider_sr_uncentered）	0.000	0.011	0.116	是	是	换成站立保底	results/day2/eval_t3-ep1-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep2	t3-ep2-w2048-cap4m-r3a-hm-mf4090	93.74	65.38	0.000（spider_sr_uncentered）	0.000	0.137	0.104	是	是	换成站立保底	results/day2/eval_t3-ep2-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep3	t3-ep3-w2048-cap4m-r3a-hm-mf4090	76.42	11.44	0.000（spider_sr_uncentered）	0.000	0.117	0.341	是	是	换成站立保底	results/day2/eval_t3-ep3-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep4	t3-ep4-w2048-cap10m-r3a-hm-ml40	120.64	115.93	0.000（spider_sr_uncentered）	0.000	0.101	0.091	是	是	换成站立保底	results/ml40/day2/eval_t3-ep4-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+ep5	t3-ep5-w2048-cap10m-r3a-hm-ml40	55.93	55.06	0.116（spider_sr_uncentered）	0.000	0.084	0.104	是	否	留原 run	results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3a-hm-ml40_s349999104.txt
+ep6	t3-ep6-w2048-cap4m-r3a-gb4-mf4090	3.97	17.87	0.978（spider_sr_uncentered）	0.000	0.604	0.370	否	否	留原 run	results/day2/eval_t3-ep6-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep7	t3-ep7-w2048-cap4m-r3a-gb4-mf4090	3.29	13.53	0.967（spider_sr_uncentered）	0.000	0.756	0.224	否	否	留原 run	results/day2/eval_t3-ep7-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep8	t3-ep8-w2048-cap4m-r3a-gb4-mf4090	2.17	18.16	0.979（spider_sr_uncentered）	0.000	0.816	0.550	否	否	留原 run	results/day2/eval_t3-ep8-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep9	t3-ep9-w2048-cap10m-r3a-hm-ph-ml40	54.43	47.03	0.000（spider_sr_uncentered）	0.000	0.020	0.019	是	是	换成站立保底	results/ml40/t3static/eval_t3-ep9-w2048-cap10m-r3a-hm-ph-ml40_s4096000.txt
+ep10	t3-ep10-w2048-cap10m-r3a-hm-ph-ml40	102.37	51.95	0.000（spider_sr_uncentered）	0.000	0.087	0.337	是	否	留原 run	results/ml40/t3static/eval_t3-ep10-w2048-cap10m-r3a-hm-ph-ml40_s4096000.txt
+ep11	t3-ep11-w2048-cap10m-r3a-hm-ph-ml40	76.29	73.26	0.000（spider_sr_uncentered）	0.000	0.060	0.069	是	是	换成站立保底	results/ml40/t3static/eval_t3-ep11-w2048-cap10m-r3a-hm-ph-ml40_s4096000.txt
+ep12	t3-ep12-w2048-cap4m-r3a-hm-mf4090	27.18	23.90	0.000（spider_sr_uncentered）	0.000	0.159	0.164	是	是	换成站立保底	results/day2/eval_t3-ep12-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep13	t3-ep13-w2048-cap4m-r3a-hm-mf4090	81.38	60.05	0.000（spider_sr_uncentered）	0.000	0.138	0.099	是	是	换成站立保底	results/day2/eval_t3-ep13-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep14	t3-ep14-w2048-cap4m-r3a-hm-mf4090	21.51	78.03	0.121（spider_sr_uncentered）	0.000	0.333	0.092	否	否	留原 run	results/day2/eval_t3-ep14-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep15	t3-ep15-w2048-cap4m-r3a-hm-mf4090	22.19	63.54	0.000（spider_sr_uncentered）	0.000	0.310	0.151	否	否	留原 run	results/day2/eval_t3-ep15-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep16	t3-ep16-w2048-cap4m-r3a-hm-mf4090	87.04	64.76	0.000（spider_sr_uncentered）	0.000	0.009	0.050	是	是	换成站立保底	results/day2/eval_t3-ep16-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep17	t3-ep17-w2048-cap4m-r3a-hm-mf4090	92.48	90.50	0.000（spider_sr_uncentered）	0.000	0.247	0.241	是	是	换成站立保底	results/day2/eval_t3-ep17-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep18	t3-ep18-w2048-cap4m-r3a-gb4-mf4090	3.66	42.42	0.945（spider_sr_uncentered）	0.000	0.626	0.323	否	否	留原 run	results/day2/eval_t3-ep18-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep19	t3-ep19-w2048-cap4m-r3a-hm-mf4090	67.65	52.42	0.000（spider_sr_uncentered）	0.000	0.144	0.114	是	是	换成站立保底	results/day2/eval_t3-ep19-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep20	t3-ep20-w2048-cap4m-r3a-gb4-mf4090	4.98	4.01	0.844（spider_sr_uncentered）	0.000	0.687	0.427	是	否	留原 run	results/day2/eval_t3-ep20-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep21	t3-ep21-w2048-cap4m-r3a-hm-mf4090	8.96	52.58	0.876（spider_sr_uncentered）	0.000	0.558	0.177	否	否	留原 run	results/day2/eval_t3-ep21-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep22	t3-ep22-w2048-cap4m-r3a-gb3-mf4090	2.03	70.61	0.992（spider_sr_uncentered）	0.000	0.807	0.280	否	否	留原 run	results/day2/eval_t3-ep22-w2048-cap4m-r3a-gb3-mf4090_s349999104.txt
+ep23	t3-ep23-w2048-cap4m-r3a-v2-mf4090	95.73	78.29	0.000（spider_sr_uncentered）	0.000	0.164	0.139	是	是	换成站立保底	results/day2/eval_t3-ep23-w2048-cap4m-r3a-v2-mf4090_s349999104.txt
+ep24	t3-ep24-w2048-cap4m-r3a-gb4-mf4090	2.40	10.28	0.985（spider_sr_uncentered）	0.000	0.731	0.292	否	否	留原 run	results/day2/eval_t3-ep24-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep25	t3-ep25-w2048-cap4m-r3a-hm-mf4090	118.60	42.63	0.000（spider_sr_uncentered）	0.000	0.010	0.026	是	是	换成站立保底	results/day2/eval_t3-ep25-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep26	t3-ep26-w2048-cap4m-r3a-gb4-mf4090	1.55	7.65	0.993（spider_sr_uncentered）	0.000	0.579	0.434	否	否	留原 run	results/day2/eval_t3-ep26-w2048-cap4m-r3a-gb4-mf4090_s349999104.txt
+ep27	t3-ep27-w2048-cap4m-r3a-hm-mf4090	86.81	83.67	0.000（spider_sr_uncentered）	0.000	0.002	0.002	是	是	换成站立保底	results/day2/eval_t3-ep27-w2048-cap4m-r3a-hm-mf4090_s349999104.txt
+ep28	t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090	85.54	53.09	0.000（spider_sr_uncentered）	0.000	0.004	0.067	是	是	换成站立保底	results/t3static/eval_t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090_s4096000.txt
+ep29	t3-ep29-w2048-cap4m-r3a-v2-mf4090	8.00	34.11	0.713（spider_sr_uncentered）	0.000	0.377	0.188	否	否	留原 run	results/day2/eval_t3-ep29-w2048-cap4m-r3a-v2-mf4090_s349999104.txt
+换成站立保底的集（15）：[1, 2, 3, 4, 9, 11, 12, 13, 16, 17, 19, 23, 25, 27, 28]
+缺读数、不判的集（0）：[]
+T3STATIC_SELECT_DONE

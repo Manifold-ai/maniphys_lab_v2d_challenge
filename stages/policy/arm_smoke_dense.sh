@@ -8,7 +8,9 @@
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 SEG=${1:?段名}; NM=${2:?名}
-[[ $SEG =~ ^t2m[a-z0-9]+$ && $NM =~ ^t2[a-z0-9]+$ ]] || { echo "arm_smoke_dense: 段名要以 t2m 开头（落 mf4090），名要以 t2 开头" >&2; exit 2; }
+# 10/21 推广到 Tier 3（计划 agent-doc/plan-t3static-2026-10-21.md）：段名 t3p 开头也落 mf4090；名的档位与段名一致，冒烟前缀、导出清单跟着档位走
+[[ ( $SEG =~ ^t2m[a-z0-9]+$ && $NM =~ ^t2[a-z0-9]+$ ) || ( $SEG =~ ^t3p[a-z0-9]+$ && $NM =~ ^t3[a-z0-9]+$ ) ]] || { echo "arm_smoke_dense: 段名要以 t2m 或 t3p 开头（落 mf4090），名的档位要与段名相同" >&2; exit 2; }
+TIER=${SEG:1:1}
 LOG="runs/logs/arm_${NM}_mf4090.log"
 mkdir -p runs/logs
 exec >> "$LOG" 2>&1
@@ -18,10 +20,10 @@ stop_fail() { touch "runs/.chain-stop-${SEG}_train_mf4090"; say "建了停链标
 Q="stages/policy/queues/mf4090_${SEG}"
 T="runs/logs/${SEG}_train_mf4090.log"
 SRC="$HOME/v2d/fc_src/fc_8c778f9"
-EXTRA="stages/evaluate/${NM}_mf4090.tsv"; LIST="stages/evaluate/exports/cand_t2_${NM}_mf4090.tsv"
+EXTRA="stages/evaluate/${NM}_mf4090.tsv"; LIST="stages/evaluate/exports/cand_t${TIER}_${NM}_mf4090.tsv"
 for f in "${Q}_smoke.txt" "${Q}.txt" "${Q}.expect.tsv" "$EXTRA" "$LIST"; do [ -s "$f" ] || fail "没有 $f"; done
-LAST="$(grep -v '^#' "${Q}_smoke.txt" | awk '{for (i = 1; i <= NF; i++) if ($i ~ /^smoke-t2-/) { r = $i } } END { print r }')"
-[ -n "$LAST" ] || fail "冒烟队列里找不到 smoke-t2- 开头的 run"
+LAST="$(grep -v '^#' "${Q}_smoke.txt" | awk '{for (i = 1; i <= NF; i++) if ($i ~ /^smoke-t[0-9]-/) { r = $i } } END { print r }')"
+[ -n "$LAST" ] || fail "冒烟队列里找不到 smoke-t${TIER}- 开头的 run"
 # 复核第 1 条：已有 run 目录时冒烟会被跳过、开始行不出现，标记就建不上；这种情况一律不起
 for r in $(cut -f1,2 "${Q}.expect.tsv" | tail -n +2 | tr '\t' ' '); do
   [ ! -e "runs/flash_chord/$r" ] || fail "runs/flash_chord/$r 已存在，不起（冒烟会被跳过，停链标记建不上）"
@@ -45,7 +47,7 @@ for _ in $(seq 1 360); do tail -n 1 "$T" | grep -qE "DAY2_TRAIN_(DONE|FAILED)" &
 say "训练链最后一行：$(tail -n 1 "$T" | sed 's/DAY2_TRAIN_/训练链结束：/')"
 TMUX= tmux new-session -d -s "v2d-${NM}-eval" -c "$PWD" "V2D_FC_SRC=$SRC V2D_GPU_WAIT_S=7200 stages/evaluate/day2_eval_chain.sh - $EXTRA ${NM}_eval_mf4090"
 sleep 2
-TMUX= tmux new-session -d -s "v2d-${NM}-export" -c "$PWD" "V2D_FC_SRC=$SRC V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/${NM}_eval_mf4090.log $LIST cand_t2_${NM}_mf4090"
+TMUX= tmux new-session -d -s "v2d-${NM}-export" -c "$PWD" "V2D_FC_SRC=$SRC V2D_FALLBACK_MAX=0 stages/evaluate/export_after_eval.sh runs/logs/${NM}_eval_mf4090.log $LIST cand_t${TIER}_${NM}_mf4090"
 sleep 5
 tmux ls 2>/dev/null | grep "$NM"
 say ARM_DENSE_DONE

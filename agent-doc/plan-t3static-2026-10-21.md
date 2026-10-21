@@ -81,4 +81,16 @@ MINOR 8 事实 5（现事实 6）kit 副本改成 update_0f2f9f4b、事实 4 改
 
 ## 执行记录
 
-（待写）
+- 15:2x–16:0x MDT（CPU；两台的训练链在跑、不能同步，按已提交的版本只拷新脚本过去跑，记录里有 md5）：
+  - 机器人随帧变的列只有 `robot_root_position`、`robot_root_wxyz`、`robot_joint_positions`、`ee_pose_w`，没有速度列（`results/t3static/parquet_columns_hm_ep16.txt`）；`--stand` 写成单独的 `stages/retarget/stand_still.py`（21f6bfe）。
+  - 规则与脚本先提交（21f6bfe、之后 eval_json_record.py），再出表。“不动”分：mf4090 25 集、ml40 5 集（`results/t3static/floor_mf4090.txt`、`results/ml40/t3static/floor_ml40.txt`；工具包只有 Mac 上有，
+    把 `update_0f2f9f4b/v2dlb/object_pose.py` 拷到两台的同一路径，md5 32481d0c… 与 Mac 相同）。ep9、10、11、28 的原 run 是第 4096000 步的占位策略，评测只在 JSON 里，用 `eval_json_record.py` 记下。
+  - **S3 选集**（`results/t3static/select_table.txt`）：换成站立保底的 15 集 = ep1、2、3、4、9、11、12、13、16、17、19、23、25、27、28；缺读数 0 集。
+    ep10（a）成立、（b）不成立（原 run 4096 世界里 1 个成功，SP-SR 0.000244 > 0），按规则留原 run；ep5、ep20 同样因（b）留原 run。
+  - ep4、9、11 的 hm 参考在两台上逐字节相同（sha256 前 16 位 ee185f3c…、0d4500f2…、411b706a…），15 集全放 mf4090 做（cap4m；原 run 是 cap10m 的 3 集只有 buffer 不同，零残差的第 409600 步与 buffer 无关）。
+  - 第 0 帧机器人离物体最近（`results/t3static/stand_dryrun_mf4090.txt`、`results/ml40/t3static/stand_dryrun_ml40.txt`）：ep1 0.295 m、ep12 0.363、ep23 0.408、ep13 0.533、ep28 0.535、ep19 0.538，其余 0.62–1.19 m。
+  - **试点改动**：第 2 版定的 ep15 不在换集名单里（原 run 22.19 cm 好于“不动”63.54），改用换集里只有地面的 ep23；最近的一集是 ep1。试点 = ep16、ep23、ep1。
+  - 站立参考 15 份写到 mf4090 的 `runs/motion/tier3_st`（`results/t3static/stand_batch_mf4090.txt`，STAND_BATCH_DONE，每份写后自检过）。**偏离第 2 版的地方**：15 集放在一个目录里，每集从它原 run 的参考版本（hm 13 集、v2 ep23、hm28 ep28）生成，
+    而不是每种版本一个目录；配置照抄原 run 的支撑面开关（`TABLES_ST`，原 run 没有 `scene.support=false` 的 10 集），队列生成的覆盖与原 run 只差 parquet 路径、存档间隔、冒烟步数（与第 2 版的意图相同）。
+  - 队列：`make_var_queue.py` 加 `t3pst`（`t3psta` = 试点 ep16、23、1；`t3pstb` = 其余 12 集），测试 ALL_OK；附加表 `stages/evaluate/t3st{a,b}_mf4090.tsv`、手写导出清单 `stages/evaluate/exports/cand_t3_t3st{a,b}_mf4090.tsv`；
+    `arm_smoke_dense.sh` 推广到 `t3p` 段（Tier 2 的行为不变）。冒烟步数没截短（NIT 9 没做，一集多约 1.5 分钟）。等 mf4090 的 t2mtr 链结束、整仓同步后起 `arm_smoke_dense.sh t3psta t3sta`。
