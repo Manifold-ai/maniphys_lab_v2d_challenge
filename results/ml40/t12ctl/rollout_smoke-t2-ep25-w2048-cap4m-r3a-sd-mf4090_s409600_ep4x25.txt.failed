@@ -1,0 +1,42 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ /repo/stages/evaluate/diag_rollout.py\ /repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors\ /repo/runs/t12ctl/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090_s409600_ep4x25\ --worlds\ 1024\ --palms\ --bodies\ --parquet\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 16ec6ffa9a8be088bc39550feab7d729  stages/evaluate/diag_rollout.py
+# md5      : 58e3a9066558606269f510c332e1493f  runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors
+# md5      : 260072f4a28dc4038a9d5398e0a1e8cb  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# source   : a3ab335f3430
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T08:56:46+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+[2026-10-21 00:56:54,294][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA L40S" (44 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 373.73 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.60 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.28 ms  (cached)
+Error executing job with overrides: ['evaluation.checkpoint=/repo/runs/flash_chord/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors', 'evaluation.world_count=1024', 'evaluation.metrics_output=/repo/runs/t12ctl/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090_s409600_ep4x25.json']
+Traceback (most recent call last):
+  File "/workspace/scripts/evaluate_policy.py", line 54, in main
+    outcome = evaluate_checkpoint(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/evaluation/harness.py", line 403, in evaluate_checkpoint
+    setup = setup_scene(
+            ^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/setup.py", line 85, in setup_scene
+    scene = build_scene(embodiment, reference, **scene_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/builder.py", line 461, in build_scene
+    support = add_support_surfaces(copy, support_usda) if support_usda is not None else None
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/src/flash_chord/scene/support.py", line 94, in add_support_surfaces
+    raise ValueError(f"support surface contains no Cylinder or Cube collision shapes: {path}")
+ValueError: support surface contains no Cylinder or Cube collision shapes: /repo/runs/motion/tier2/whole_body/reconstructed_stage/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

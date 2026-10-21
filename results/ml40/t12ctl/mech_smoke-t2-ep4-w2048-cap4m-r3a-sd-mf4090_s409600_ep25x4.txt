@@ -1,0 +1,28 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/fall_mechanism.py\ --npz\ /repo/runs/t12ctl/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_ep25x4.npz\ --motion\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet\ --label\ ep25x4\ --before\ 102 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 8f8370aea9de7d694a85e0780451f67f  stages/evaluate/fall_mechanism.py
+# md5      : 8981d97607919460e3b74c368b437941  runs/t12ctl/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_ep25x4.npz
+# md5      : 5804f39c008b67d0d57dfdc2013107c0  runs/motion/tier2/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet
+# source   : a3ab335f3430
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T09:34:41+0800
+# ---------------------------------------------------------------
+ep25x4 /repo/runs/t12ctl/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_ep25x4.npz：859 帧、1024 个世界（剔除非有限世界 0 个）；参考起始帧 0
+  G0 第 0 步：位置差（世界中位）pelvis 0.20 cm，torso_link 0.18 cm，left_ankle_roll_link 0.24 cm，right_ankle_roll_link 1.25 cm；躯干朝向差 0.015 rad → PASS
+  摔倒（躯干倾斜误差 > 0.6 rad）的世界 0/1024（0.0%），摔倒帧分位 10/25/50/75/90 （无）
+  第 102 帧之前摔倒的世界 0/1024（0.0%）；第 102 帧及以后摔倒 0/1024（0.0%），摔倒帧分位 10/25/50/75/90 （无）
+FALL_BEFORE 102 0.000000
+  其中摔时物体离起点 < 0.05 m 的 0/1024（0.0%）
+FALL_BEFORE_STILL 102 0.000000
+  各项在全部世界里越过门槛的比例（对照集用作 F1 的闸）：躯干先歪 100.0%，骨盆偏 100.0%，脚踩偏 100.0%，双脚离地 0.1%
+  帧	躯干倾斜误差 rad（绝对倾角）	骨盆高 m（参考）	骨盆偏 m	脚踩偏 m	较低的脚离地 m（世界中位）
+  0	0.001（0.011）	0.791（0.793）	0.001	0.012	0.015
+  25	0.064（0.063）	0.774（0.798）	0.322	0.409	0.009
+  50	0.086（0.097）	0.774（0.813）	0.609	0.510	0.011
+  75	0.166（0.102）	0.781（0.798）	0.799	0.665	0.009
+  100	0.252（0.138）	0.777（0.810）	0.846	0.692	0.009
+  125	0.273（0.176）	0.774（0.812）	0.794	0.716	0.009
+  150	0.059（0.146）	0.784（0.795）	0.674	0.773	0.010
+  200	0.113（0.143）	0.790（0.787）	0.674	0.601	0.008
+  300	0.113（0.084）	0.780（0.788）	0.710	0.592	0.009
+FALL_MECHANISM_DONE
