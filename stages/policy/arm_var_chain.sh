@@ -127,7 +127,7 @@ else stop "队列里 r3p 的行与变体 A 的行混在一起（${nq} 行里 -r3
 VAR="objective.object_position_std=$SIG env.objective.object_position_std=$SIG termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
 # 物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md 复核 MINOR 4）：队列里每一行都写了同一个值就正向断言它，混在一起就停
 no="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'termination.object_position_threshold=' || true)"
-ov="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_position_threshold=[0-9.]*' | sort -u)"
+ov="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_position_threshold=[0-9.]*' | sort -u || true)"   # 没有这一项时 grep 返回 1，set -e 下要接住（10/21 t3pg5a 预演因此静默退出）
 if [ "$no" = "$nq" ] && [ "$(grep -c . <<< "$ov")" = 1 ]; then VAR="$VAR $ov env.$ov"
 elif [ "$no" != 0 ]; then stop "队列里物体位置终止的覆盖不一致（${nq} 行里 ${no} 行写了：${ov//$'\n'/ }）"; fi
 cmds=""
