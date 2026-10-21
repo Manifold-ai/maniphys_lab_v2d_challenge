@@ -1,0 +1,19 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep3-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep12-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep16-w2048-cap10m-r3a-gb5-ml40_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : ed858dd8897870504efc0d433729ed98  results/day2/eval_t3-ep3-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : a0181a36ba67197d7b41956c1d7982ff  results/day2/eval_t3-ep12-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : 7dae84d6fb52330ce1e70fcb8bafd329  results/day2/eval_t3-ep16-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T22:07:49+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep3-w2048-cap10m-r3a-gb5-ml40	349999104	4096	781	0.239	0.715	0.517	24.58	24.36	41.3	0.337	0.250	0.628	0.526	8746340d8def
+t3-ep12-w2048-cap10m-r3a-gb5-ml40	349999104	4096	700	0.880	0.932	0.559	4.39	4.33	11.7	0.827	0.069	0.085	0.165	769d7f2123f4
+t3-ep16-w2048-cap10m-r3a-gb5-ml40	349999104	4096	477	0.000	0.000	0.342	51.92	51.73	69.9	0.000	0.981	1.000	1.000	7805a5543a6a
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep3-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.715、MPPE 24.58 cm、MP-SR 0.239、ADD-AUC 0.517 → 仍跟丢
+  t3-ep12-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.932、MPPE 4.39 cm、MP-SR 0.880、ADD-AUC 0.559 → 跟上
+  t3-ep16-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.000、MPPE 51.92 cm、MP-SR 0.000、ADD-AUC 0.342 → 仍跟丢
+T3G5_R1_DONE 跟上 1 / 共 3
