@@ -1,0 +1,29 @@
+# command  : scripts/dev/in-flash-chord python /repo/stages/evaluate/residual_head_norm.py /repo/runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors /repo/runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors /repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : ae251f4a33a5a494b28da957a7712ea3  stages/evaluate/residual_head_norm.py
+# md5      : a27d8f3fbf2f1caf8e4a230828896d50  runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+# md5      : 788364c2a9d494f50487f4f582f8b502  runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+# md5      : a8883fc237cdc3985092555a0db06f27  runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+# source   : 5203f1e7b13f
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T07:09:06+0800
+# ---------------------------------------------------------------
+== /repo/runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+  state.0015	(43,)	max|.| 0.000e+00	rms 0.000e+00
+  state.0016	(256, 43)	max|.| 2.406e-01	rms 6.250e-02
+  state.0017	(43,)	max|.| 6.200e-01	rms 6.200e-01
+  state.0018	(256, 43)	max|.| 0.000e+00	rms 0.000e+00
+  state.0019	(43,)	max|.| 0.000e+00	rms 0.000e+00
+== /repo/runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+  state.0015	(43,)	max|.| 0.000e+00	rms 0.000e+00
+  state.0016	(256, 43)	max|.| 2.406e-01	rms 6.250e-02
+  state.0017	(43,)	max|.| 6.200e-01	rms 6.200e-01
+  state.0018	(256, 43)	max|.| 0.000e+00	rms 0.000e+00
+  state.0019	(43,)	max|.| 0.000e+00	rms 0.000e+00
+== /repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors
+  state.0015	(43,)	max|.| 0.000e+00	rms 0.000e+00
+  state.0016	(256, 43)	max|.| 2.406e-01	rms 6.250e-02
+  state.0017	(43,)	max|.| 6.200e-01	rms 6.200e-01
+  state.0018	(256, 43)	max|.| 0.000e+00	rms 0.000e+00
+  state.0019	(43,)	max|.| 0.000e+00	rms 0.000e+00
+RESIDUAL_HEAD_DONE

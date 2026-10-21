@@ -1,0 +1,50 @@
+# command  : scripts/dev/in-flash-chord python /repo/stages/evaluate/object_onset_rollout.py --pos-cm 2 --rot-deg 5 /repo/runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000016.parquet /repo/runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000023.parquet /repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9588bdb71f1ade0a8c95b2346fb60821  stages/evaluate/object_onset_rollout.py
+# md5      : a97ad5e687d26fdcedc3ba4a1ee86229  runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000016.parquet
+# md5      : a860cbdec073217c6b0dec7e602444ce  runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000023.parquet
+# md5      : b7e61a5519d1fddfc369f937d40c9ef9  runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.parquet
+# source   : 5203f1e7b13f
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T07:09:06+0800
+# ---------------------------------------------------------------
+/repo/runs/flash_chord/smoke-t3-ep16-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000016.parquet：477 帧；仿真里物体第一次离开（平移 > 2.0 cm 或转角 > 5.0°）在第 3 帧，参考里物体第一次平移 > 2.0 cm 在第 9 帧；最终平移 0.971 m、转角 91.5°、高度变化 -0.954 m；第 0 帧仿真与参考的位置差 0.002 m
+  帧	仿真平移 m	仿真转角 °	仿真高度变化 m	参考平移 m
+  0	0.000	0.0	+0.000	0.000
+  5	0.071	0.0	-0.071	0.007
+  10	0.240	0.0	-0.240	0.037
+  25	0.870	21.4	-0.869	0.062
+  50	0.971	90.9	-0.954	0.137
+  100	0.971	91.5	-0.954	0.116
+  150	0.971	91.5	-0.954	0.495
+  200	0.971	91.5	-0.954	1.008
+  300	0.971	91.5	-0.954	0.836
+  400	0.971	91.5	-0.954	0.898
+/repo/runs/flash_chord/smoke-t3-ep23-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000023.parquet：946 帧；仿真里物体第一次离开（平移 > 2.0 cm 或转角 > 5.0°）在第 -1 帧，参考里物体第一次平移 > 2.0 cm 在第 34 帧；最终平移 0.016 m、转角 3.7°、高度变化 +0.002 m；第 0 帧仿真与参考的位置差 0.003 m
+  帧	仿真平移 m	仿真转角 °	仿真高度变化 m	参考平移 m
+  0	0.000	0.0	+0.000	0.000
+  5	0.017	3.9	+0.002	0.015
+  10	0.016	3.7	+0.002	0.008
+  25	0.016	3.7	+0.002	0.008
+  50	0.016	3.7	+0.002	0.010
+  100	0.016	3.7	+0.002	0.019
+  150	0.016	3.7	+0.002	0.103
+  200	0.016	3.7	+0.002	0.287
+  300	0.016	3.7	+0.002	0.674
+  400	0.016	3.7	+0.002	0.834
+  600	0.016	3.7	+0.002	1.336
+  800	0.016	3.7	+0.002	0.979
+/repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.parquet：747 帧；仿真里物体第一次离开（平移 > 2.0 cm 或转角 > 5.0°）在第 8 帧，参考里物体第一次平移 > 2.0 cm 在第 5 帧；最终平移 0.492 m、转角 80.3°、高度变化 -0.311 m；第 0 帧仿真与参考的位置差 0.001 m
+  帧	仿真平移 m	仿真转角 °	仿真高度变化 m	参考平移 m
+  0	0.000	0.0	+0.000	0.000
+  5	0.009	1.4	+0.001	0.023
+  10	0.033	4.9	-0.003	0.025
+  25	0.218	32.9	-0.077	0.013
+  50	0.492	80.7	-0.310	0.023
+  100	0.492	80.3	-0.311	0.012
+  150	0.492	80.3	-0.311	0.530
+  200	0.492	80.3	-0.311	0.849
+  300	0.492	80.3	-0.311	0.755
+  400	0.492	80.3	-0.311	0.524
+  600	0.492	80.3	-0.311	0.103
+OBJECT_ONSET_DONE
