@@ -1,0 +1,23 @@
+# command  : docker run --rm --user 1003:1005 --entrypoint '' --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d --cpus 8 -v /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3:/s:ro -v /lab_data/rxzhou/v2d/t3recon/t3_e:/t:ro -v /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma:/a:ro -v /lab_data/rxzhou/v2d/t3recon/t3_e/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7:/o ca1774d94cd9 python /s/t3_physics_check.py check /t /o/npz /a /o/out 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T21:22:42+0800
+# ---------------------------------------------------------------
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 6043.18 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 430.09 ms  (compiled)
+{"episode": "ep14_round_table", "tier": "tier3_cari4d_gb5_best_dr2s_dyn7", "feet_floating": 180, "feet_p50": 0.0212, "obj_low_p50": 0.0026, "rest_off_floor": 0}
+{"episode": "ep20_rice_cooker", "tier": "tier3_cari4d_gb5_best_dr2s_dyn7", "feet_p50": 0.0138, "obj_low_p50": 0.7833, "rest_off_floor": 2}
+{"episode": "ep27_woven_basket", "tier": "tier3_cari4d_gb5_best_dr2s_dyn7", "feet_p50": 0.0044, "obj_low_p50": 0.8389, "rest_off_floor": 1}

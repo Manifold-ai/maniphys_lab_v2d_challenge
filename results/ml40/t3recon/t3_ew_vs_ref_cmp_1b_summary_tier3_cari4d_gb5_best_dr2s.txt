@@ -1,0 +1,8 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/rxzhou/v2d/t3recon/env/host/bin/python /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_compare.py --subset /lab_data/rxzhou/v2d/t3recon/t3_ew/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json /lab_data/rxzhou/v2d/t3recon/ref/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T21:25:46+0800
+# ---------------------------------------------------------------
+T3R_EXE /usr/bin/python3.10 sha256 a2f33a6e00698927
+NUMBERS_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3_ew/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json
+T3R_COMPARE_DONE 相同字节 0、数值相同 1、不同 0

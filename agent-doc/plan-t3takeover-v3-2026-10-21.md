@@ -145,3 +145,5 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
   gate venv 以 uv 管理的 CPython 3.11.17 为底，93 个发行版。1b 另写计划。
 - 06:1x 报警检查（第 1 级全部跑完之后）：`find <她的 v2d> -user rxzhou` 仍只有已知的 `gate/repo/third_party/video_to_data/.git/index`，修改时间 10/21 13:33:28.66（CST）没变；
   t3recon 下的链接全部解析在我们自己的目录里。
+- 10/21 07:4x MDT：第 1b 级成立（`agent-doc/plan-t3takeover-1b-2026-10-21.md` 执行记录，判据 E1 全过），t3takeover 的脚本默认改用我们自己的环境、她的解释器在命名空间里被盖住；
+  上面记的残余风险（她的 gate 解释器与 site-packages 对 mfshared 组可写）消除。

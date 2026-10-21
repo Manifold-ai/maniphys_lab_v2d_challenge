@@ -14,7 +14,7 @@ REPO="$(pwd)"
 NAME=${1:?根名}; OTHER=${2:-ref}
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; REF="$R/$OTHER"; CTL="$R/ctl"
 . "$REPO/stages/recovery/t3r_env.sh"
-t3r_env "$REPO" || { echo "T3R_L1_COMPARE_FAILED 另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-hers}）"; exit 2; }
+t3r_env "$REPO" || { echo "T3R_L1_COMPARE_FAILED 另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-ours}）"; exit 2; }
 export T3R_ROOT="$R" T3R_ALLOW="$HPY"
 GUARD="$REPO/stages/recovery/t3r_run.sh"
 CMP="$REPO/stages/recovery/t3r_compare.py"

@@ -93,3 +93,15 @@
   PIP_CONSTRAINT 管不到构建依赖，第二次没生效）重构建后 **host 47/47、gate 93/93 全部相同，T3R_ENV_BUILD_DONE**。E0 过。
 - 06:56 起 **E1**（`stages/recovery/t3r_1b_e1.sh`，tmux t3r1b，日志 `runs/logs/t3r_1b_e1.log`）：部署前逐个核对 14 个脚本在 ml40 上的 md5 与仓库相同（发现 5 个旧版、1 个没拷，补齐后才启动）。
   第 0 步回归（她的解释器、记录名 `_reg`）各段判定行与第 1 级的记录逐行相同；gate_e、t3_e、t3_ew、usda 在跑。
+- 07:37 MDT **E1**（`runs/logs/t3r_1b_e1.log`；记录 `results/t3recon/t3_vs_ref_cmp_reg_*`、`t3_e_vs_t3_cmp_1b_*`、`t3_ew_vs_ref_cmp_1b_*`、`t3_ew_usda_1b_*`、`gate_e_setup.txt`）：
+  - 回归（她的解释器，记录名 `_reg`）：14 段的判定行与第 1 级的记录逐行相同；
+  - gate_e（我们的环境、我们的 incontainer 替身）搭好；t3_e 在我们的环境里从 decode 整条重跑 26 分钟，t3_ew 从 assemble 起；
+  - t3_e 对 t3：decode 6/6、focal 9/9、support 3/3 逐字节相同；world 7/9、三版数据各 11/15，不同的都是 ep27 的文件（world 的缩放拟合在 6 线程下不确定，第 1 级已查清）；
+    三份 summary 与 depth_post 只在 ep27 的条目不同，dynamics_post 逐字节相同；
+  - t3_ew 对参照：负对照 3/3 不同、已知相同对 4/4、门槛自检过；world 9/9、三版数据各 15/15、support 3/3 逐字节相同，三份 summary、depth_post 与 dynamics_post 数值相同；
+    usda 3/3 逐字节相同、support_usda.json 数值相同，三集重定向结果行与第 1 级的 refw 结果行（即她的）逐字段相同；
+  - 记录里打出的解释器只有 `t3recon/env/.py/cpython-3.11.17…/python3.11`（sha256 08ad3f0a96b53608…，21 次）与系统 `/usr/bin/python3.10`（a2f33a6e00698927…，45 次；宿主机 venv 的基础解释器，与她的同一个），她的 venv 在命名空间里被盖住；
+  - 报警检查：她目录下属于我们的文件仍只有已知的 `.git/index`，修改时间 13:33:28.66 没变；t3recon 下报了 6 条“外链”，都是我们 venv 的基础解释器链到系统 `/usr/bin/python3.10`，
+    不是指向她的目录（检查已改成放行 /usr/bin）。
+  **E1 全过，记“第 1b 级成立：不再调用她的解释器”。** 07:4x 起 t3takeover 脚本的默认环境改成我们的（`t3r_env.sh`：不设 `T3R_ENV` 时是 ours，hers 只在明确设了时用），
+  `t3r_world_repeat.sh` 的比较器也改由 `t3r_env.sh` 定；部署后在 ml40 上核对 7 个脚本的 md5 与仓库相同。第 1 级计划里的残余风险（她的解释器与 site-packages 对组可写）记为消除。

@@ -17,7 +17,7 @@ step() { local n=$1; shift; say "开始 $n"; "$@"; say "$n 退出码 $?"; }
 verdicts() { grep -h -E '^(BYTES_EQUAL|NUMBERS_EQUAL|DIFFERENT|门槛自检|T3R_COMPARE_DONE)' "$1" 2>/dev/null; }   # 整行比：同样的根、同样的比较器
 
 say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
-step regression env T3R_TAG=reg nice -n 10 stages/recovery/t3r_level1_compare.sh t3
+step regression env T3R_ENV=hers T3R_TAG=reg nice -n 10 stages/recovery/t3r_level1_compare.sh t3   # 回归照第 1 级：她的解释器（默认已改成 ours）
 for f in results/t3recon/t3_vs_ref_cmp_reg_*.txt*; do
   n="${f#results/t3recon/t3_vs_ref_cmp_reg_}"; old="results/t3recon/t3_vs_ref_cmp_$n"
   [ -e "$old" ] || old="${old%.failed}"; [ -e "$old" ] || old="$old.failed"
@@ -33,5 +33,5 @@ step compare_t3_ew env T3R_ENV=ours T3R_TAG=1b nice -n 10 stages/recovery/t3r_le
 step usda_t3_ew env T3R_ENV=ours T3R_TAG=1b stages/recovery/t3r_level1_usda.sh t3_ew
 say "报警检查"
 find "$(T3R_OTHER_DIR_ONLY=1 stages/recovery/t3r_other.sh)" -user rxzhou -printf '%p %TY-%Tm-%Td %TH:%TM:%TS\n' 2>/dev/null | sed -e 's#^/lab_data/[^/]*/#/lab_data/<其他用户>/#'
-find "$R" -type l | while read -r l; do r="$(readlink -f "$l")"; case "$r" in /lab_data/rxzhou/*) ;; *) echo "外链 $l";; esac; done
+find "$R" -type l | while read -r l; do r="$(readlink -f "$l")"; case "$r" in /lab_data/rxzhou/*|/usr/bin/*) ;; *) echo "外链 $l";; esac; done   # venv 的基础解释器链到系统的 /usr/bin/python3.10，不算外链（10/21 第一次跑时报过 6 条这样的）
 say "T3R_1B_E1_DONE"

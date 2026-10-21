@@ -5,7 +5,7 @@
 # 前三个与参照逐字节相同，第四个是复制来的参照）；镜像、挂载与文件名照 stages/recovery/t3r_level1.sh（ep14、ep20 用 floor_gbfix 下的 *_gb3 名字，
 # ep27 用 floor 下的 gb5 名字）。docker 只挂我们的目录、--user 1003:1005、--network none。
 # 输出 /lab_data/rxzhou/v2d/t3recon/rep_world/<标签>/<集名>/，已存在就拒绝；跑完用 t3r_compare.py --all 把 world 的三个产物与 t3 根、参照各比一次
-# （比较器经 stages/recovery/t3r_run.sh 只读地用她的宿主机解释器）。比较有不同不算失败，最后一行 T3R_WORLD_REPEAT_DONE。
+# （比较器经 stages/recovery/t3r_run.sh 跑，解释器由 t3r_env.sh 定：默认我们的宿主机环境）。比较有不同不算失败，最后一行 T3R_WORLD_REPEAT_DONE。
 # 用法：stages/recovery/t3r_world_repeat.sh <14|20|27> <线程数> <标签> [额外的 docker 参数…]
 #   例：… 27 6 a；… 27 6 b；… 14 4 a；… 27 6 c -e MKL_NUM_THREADS=1
 set -uo pipefail
@@ -23,7 +23,8 @@ case $EP in
 esac
 O="$R/rep_world/$TAG/$name"
 [ -e "$O" ] && { echo "T3R_WORLD_REPEAT_FAILED $O 已存在"; exit 2; }
-H="$("$REPO/stages/recovery/t3r_other.sh")" || { echo "T3R_WORLD_REPEAT_FAILED 另一位成员的目录或解释器没过核对"; exit 2; }
+. "$REPO/stages/recovery/t3r_env.sh"   # 比较器的解释器：默认我们的环境（1b 之后），T3R_ENV=hers 时是她的
+t3r_env "$REPO" || { echo "T3R_WORLD_REPEAT_FAILED 另一位成员的目录、解释器或我们的环境没过核对"; exit 2; }
 mkdir -p "$O"
 for f in object_cam_focal.npz soma_params_focal.npz focal_calib.json residual_report.json; do
   cp "$T3/runs/$conv/$name/$f" "$O/" || { echo "T3R_WORLD_REPEAT_FAILED 缺 $f"; exit 2; }
@@ -34,10 +35,10 @@ docker run --rm --user 1003:1005 --entrypoint "" --network none -e HOME=/tmp -w 
   -v "$S:/s:ro" -v "$SOMA:/a:ro" -v "$F:/f:ro" -v "$O:/o/$name" "$IMG" \
   python /s/t3_convert_ep.py world "/o/$name" "/f/$ff" /a "/f/$rg" || { echo "T3R_WORLD_REPEAT_FAILED world 步"; exit 1; }
 echo "=== $(date '+%F %T %Z') world 跑完"
-export T3R_HER="$(dirname "$H")" T3R_ROOT="$R" T3R_ALLOW="$H/venv/bin/python"
+export T3R_ROOT="$R" T3R_ALLOW="$HPY"
 for ref in t3 ref; do
   p=(); for f in object_world.npz soma_params_world.npz world_calib.json; do p+=("$O/$f" "$R/$ref/runs/$conv/$name/$f"); done
   echo "--- 对 $ref"
-  bash "$REPO/stages/recovery/t3r_run.sh" "$H/venv/bin/python" "$REPO/stages/recovery/t3r_compare.py" --all "${p[@]}"
+  bash "$REPO/stages/recovery/t3r_run.sh" "$HPY" "$REPO/stages/recovery/t3r_compare.py" --all "${p[@]}"
 done
 echo "T3R_WORLD_REPEAT_DONE"

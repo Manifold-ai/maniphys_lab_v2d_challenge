@@ -11,11 +11,11 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 COMMIT=${1:?提交号}
-case "${T3R_ENV:-hers}" in hers) G=/lab_data/rxzhou/v2d/t3recon/gate ;; ours) G=/lab_data/rxzhou/v2d/t3recon/gate_e ;; *) echo "T3R_GATE_SETUP_FAILED T3R_ENV 只认 hers、ours"; exit 2 ;; esac
+case "${T3R_ENV:-ours}" in hers) G=/lab_data/rxzhou/v2d/t3recon/gate ;; ours) G=/lab_data/rxzhou/v2d/t3recon/gate_e ;; *) echo "T3R_GATE_SETUP_FAILED T3R_ENV 只认 hers、ours"; exit 2 ;; esac
 V="$REPO/third_party/video_to_data"
 STANDIN_SHA=3b39d5ff07b6   # 她 gate/incontainer 与她 gate/repo/scripts/dev/incontainer 的 sha256 前 12 位（10/21 05:4x MDT 只读核对）
 [ -e "$G/repo" ] && { echo "T3R_GATE_SETUP_FAILED $G/repo 已存在"; exit 2; }   # $G 本身已有 dyn7 要导入的 4 个 gate 模块（部署代码时放的），同她的布局
-if [ "${T3R_ENV:-hers}" = hers ]; then
+if [ "${T3R_ENV:-ours}" = hers ]; then
   H="$("$REPO/stages/recovery/t3r_other.sh")" || { echo "T3R_GATE_SETUP_FAILED 另一位成员的目录或解释器没过核对"; exit 2; }
 fi
 [ "$(git -C "$V" --no-optional-locks rev-parse --short=7 HEAD)" = 33129dd ] || { echo "T3R_GATE_SETUP_FAILED 我们的 video_to_data 不是 33129dd"; exit 2; }
@@ -24,7 +24,7 @@ tar -x -C "$G/repo"
 echo "$COMMIT" > "$G/repo/.v2d-source-commit"
 rsync -a --exclude .git "$V/" "$G/repo/third_party/video_to_data/"
 cp "$G/repo/scripts/dev/incontainer" "$G/incontainer.orig"
-if [ "${T3R_ENV:-hers}" = hers ]; then
+if [ "${T3R_ENV:-ours}" = hers ]; then
   cp --no-preserve=all "$H/gate/incontainer" "$G/repo/scripts/dev/incontainer"
   got="$(sha256sum < "$G/repo/scripts/dev/incontainer" | cut -c1-12)"
   [ "$got" = "$STANDIN_SHA" ] || { echo "T3R_GATE_SETUP_FAILED 替身的 sha256 是 $got，不是登记的 $STANDIN_SHA"; exit 3; }

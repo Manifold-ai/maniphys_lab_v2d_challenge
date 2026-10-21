@@ -1,0 +1,22 @@
+# command  : docker run --rm --user 1003:1005 --entrypoint '' --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d --cpus 4 -e OMP_NUM_THREADS=4 -v /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3:/s:ro -v /lab_data/rxzhou/v2d/t3recon/t3_e/runs/floor_gbfix:/f:ro -v /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma:/a:ro -v /lab_data/rxzhou/v2d/t3recon/t3_e/input:/i:ro -v /lab_data/rxzhou/v2d/t3recon/t3_e/runs/convert_gb5/ep20_rice_cooker:/o/ep20_rice_cooker ca1774d94cd9 python /s/t3_convert_ep.py focal /o/ep20_rice_cooker /f/intrinsics_gb3.json /a /i/mesh/rice_cooker/rice_cooker.glb 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T21:08:31+0800
+# ---------------------------------------------------------------
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 6022.92 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 433.19 ms  (compiled)
+Module soma.geometry.lbs_warp 6edc344 load on device 'cpu' took 616.56 ms  (compiled)
+{"episode": "ep20_rice_cooker", "focal_spec": "intrinsics_gb3.json", "focal_spec_sha256": "61a290a9289f32f070fe0e310fcfd19d182c996b65729c8a929c2e0186de8d75", "camera_group": 0, "fx_used_by_cari4d": 831.44091796875, "fx_new": 866.3, "depth_ratio": 1.0419261083714912, "principal_point_used": [768.0, 576.0], "principal_point_new": [701.8, 531.1], "source": "rxzhou ceiling-grid fit GB (p1-training stages/recovery/kfix/kt_gb.json; results/t3world/ceiling_grid_main9.txt), on the original 1536x1152 frames, distortion ignored; reproduced on the Tier 3 input 10-16 as 865.2/700.4/530.7", "object_fit_worst_point_mm": 10.81, "body_fit": {"vertex_dev_mm_p50_p90_max": [6.22, 10.59, 28.69], "leaf_weight": {"hands": 5.0, "feet": 5.0}, "autograd_iters": 20}, "fallback": null}

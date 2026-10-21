@@ -23,7 +23,7 @@ exec >> "$LOG" 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "T3R_USDA_FAILED $*"; exit 1; }
 . "$REPO/stages/recovery/t3r_env.sh"   # T3R_ENV=hers：gate 目录 t3recon/gate；ours：t3recon/gate_e、我们的环境、她的解释器被盖住（1b）
-t3r_env "$REPO" || fail "另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-hers}）"
+t3r_env "$REPO" || fail "另一位成员的目录、解释器或我们的环境没过核对（T3R_ENV=${T3R_ENV:-ours}）"
 G="$GDIR"; GR="$G/repo"
 export T3R_ROOT="$R" T3R_ALLOW="$GPY" T3R_GATE_VENV_BIN="$GATE_VENV_BIN"
 GUARD="$REPO/stages/recovery/t3r_run.sh"

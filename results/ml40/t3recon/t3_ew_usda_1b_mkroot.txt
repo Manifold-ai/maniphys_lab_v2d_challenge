@@ -1,0 +1,7 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh env T3_ROOT=/lab_data/rxzhou/v2d/t3recon/t3_ew /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3/gate/mkroot.py /lab_data/rxzhou/v2d/t3recon/gate_e/repo gb5dyn7ew - /lab_data/rxzhou/v2d/t3recon/t3_ew/runs/tier3_cari4d_gb5_best_dr2s_dyn7 14 20 27 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T21:25:48+0800
+# ---------------------------------------------------------------
+T3R_EXE /lab_data/rxzhou/v2d/t3recon/env/.py/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11 sha256 08ad3f0a96b53608
+gb5dyn7ew 3 episodes: 14 20 27
