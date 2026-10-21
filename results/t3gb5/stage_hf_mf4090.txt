@@ -1,0 +1,238 @@
+# command  : stages/recovery/tier3_stage_hf.sh t3gb5_18_1021 3 12 16 14 23 2 4 11 25 5 10 15 27 13 19 1 9 17 
+# md5      : fb485ddd60a684b1836ae849efa3a741  stages/recovery/tier3_stage_hf.sh
+# source   : b25cb94335c2
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:41:54-0600
+# ---------------------------------------------------------------
+== 1. 前置检查
+mf4090_OK
+ml40_OK
+== 2a. ml40 本机打包并解开（数据不经 Mac）
+6e4fbf528e7cb4190aadb0b69a733fcca2065338a82b4e8de5f9f5377a7a55a8  ./data/chunk-000/episode_000001.parquet
+0d62bfcff99f3f8b84af11d5748ab85ce4d8df60dfc606ad88e6e8b076a09100  ./data/chunk-000/episode_000002.parquet
+2cb2f7245a4adf38c073a73cb4bd45133b6d666cf6d9ccd133ba7e1bdc30db59  ./data/chunk-000/episode_000003.parquet
+c99df50812304ae95f426cdf1a36a98708bd90fbc9f3479c6536ec3aa9fe0351  ./data/chunk-000/episode_000004.parquet
+fccb0dffdb37937e708a1d29c75bb9b70658791ab3edacc4e28b0548cc70f89a  ./data/chunk-000/episode_000005.parquet
+da245fc17f5766840e94e526c2bf5c277956e27d664a0730a489247b7910f202  ./data/chunk-000/episode_000009.parquet
+cdac55a3f1e19122572ddd31d52377cbef89d4845c15f7bf9226e19565a6c0a0  ./data/chunk-000/episode_000010.parquet
+8cb3fc80cceb2ec86c61ddb30093e07786f35280f094d86fe0754fac8f902f4c  ./data/chunk-000/episode_000011.parquet
+a71590439c3904af496fd6276d3fb38a96ab25fd8ae26cc0ac81565338536ddf  ./data/chunk-000/episode_000012.parquet
+42361fc9102fcfc5c39edecc40ba73758d48b3d04691377ba8a5ff51d61871f3  ./data/chunk-000/episode_000013.parquet
+917db76dd1b4332612461d0de551345de52a3e7ac01f4aa346cd6c3989bd5032  ./data/chunk-000/episode_000014.parquet
+35011aa3a4d837b79f41e4e68784ec87b911fb79564d98cfbc2ea3dc028a95e6  ./data/chunk-000/episode_000015.parquet
+bf26e13dfd97e212549d97791edbc803a197ce2ea5767e864972c78456f9fe04  ./data/chunk-000/episode_000016.parquet
+21b98fa0d3cdc976e43ff4c20ab39bfef281cc459305d5d63e002020f4637a44  ./data/chunk-000/episode_000017.parquet
+c6ba4d010087995c1de538a05662df559f480495933bcea6133b207ff04a1fcd  ./data/chunk-000/episode_000019.parquet
+0638513b43b97827adbde5a536b62d8355630349ea3dda508978e59829e4a2b7  ./data/chunk-000/episode_000023.parquet
+edc2c33516660a9beb5888f1f56b79358d13283e627b131e989323f124845072  ./data/chunk-000/episode_000025.parquet
+ef9ea4c8e4e841fb2615121d25ea748f1a67cde06ebd5b2638076be916ab2437  ./data/chunk-000/episode_000027.parquet
+ddef77a483d70fc5e2aecd79c56e865e5adc034d34f13aada5c72951ba53023e  ./DEPLOYED
+5787a745d6d151c14833bbc23468b8ab420bdb231dc5ba58407f44fb81255a7e  ./meta/episode_000001.metadata.json
+a0a19639f869bcf9fae431b23f17b7439f432b3d827d034e5cb407b5ff988e84  ./meta/episode_000002.metadata.json
+25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3  ./meta/episode_000003.metadata.json
+399c3bfd5ad95ce988145ad95eb450f8000c60869b373969e5ef5cb0df946472  ./meta/episode_000004.metadata.json
+2266deac9709baf3d61eb50a47af3c954dcb58d42418d5c3a05e931b35b3ed2b  ./meta/episode_000005.metadata.json
+c2d27a5266eafc26add387901111848823b27650279e64885d7f20737fa47b63  ./meta/episode_000009.metadata.json
+3b610b54e2bad0639fcf7eb04b250cfe2fd456ba211dd2de18c79c4e919ffd05  ./meta/episode_000010.metadata.json
+c88c7b352e3593c14be0dccefc0cb30b1dc24a11cda5c660a19ac4ac5799c066  ./meta/episode_000011.metadata.json
+8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00  ./meta/episode_000012.metadata.json
+fa0f0a275345f3ee25e9134f659e12c6ec9377f900dbab79a07760e8579c329b  ./meta/episode_000013.metadata.json
+5738dc3961bc02c2f3eba1b4266e8ebc97bb3f9eb670eb5ee9ceb82e829a3457  ./meta/episode_000014.metadata.json
+4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7  ./meta/episode_000015.metadata.json
+ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344  ./meta/episode_000016.metadata.json
+e291bd9dd921f56f4c41d88269bfab900ae749180a58cfcd92565e39ae4d6b58  ./meta/episode_000017.metadata.json
+e6073797592b4e2463e5c397d2beceabb273e565f6d59ce338f642a3bf5c78cf  ./meta/episode_000019.metadata.json
+98feecf2c7416bf8af2c093bd0bd4b0e38e6abd341b2398292c2d5f9e7ba3a43  ./meta/episode_000023.metadata.json
+3f58e4d7c774310e4dfc8d80fc0700073747b7eecbc9870a5c1fbf7108a7c3bc  ./meta/episode_000025.metadata.json
+576271b758b9e73c21d2d5db384369e87b79ead22deb588d7126226ec8d3aaa9  ./meta/episode_000027.metadata.json
+55c0e1132512e47d0282eabf1987055256fa5c2e92c44f35efe983fada2b0361  ./support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+63b05b7cd2c639b77b4425c24baa54255427ef498a37d517310be2891d6d5d7f  ./support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+fedd2e879afa45a6e1a5e90ed9bac7d81cdc8cc30dabf9cb4dd2e5e87cfa682d  ./support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+825f6ed6e5f5e5f30f126e43e7d619e1df583c2474a07d3d4bf0f995124a4882  ./support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+a9031a9b77b24f5111edb993ebdde522bb40f1c3d9161687fc81232fd5b1a5e8  ./support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+9d1ac0f294494dfd0dd31affd90c3147735c2e8fe9b268427bf064ad2da6a0f9  ./support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+761fa3be4b06fc27a5f7499617b95bd2c45805d1dcad654e77e3ec1317e3ad41  ./support_surface/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-19_10-19-48_cane_swing_05_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda
+91fbfb90d680a9fd563e92ce74e6a8b7322b0aa7f805dc8736a5ba35568c06fe  ./support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+1bcdc5b7dc9eb83667ead947acbd99ca393c0927422545188a8f3046aaa58edf  ./support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+cefc32ca7746b35760791a2850c0ab8fa1a8aefab5c4af3fe17ddd42234b7464  ./support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+== 2b. ml40：v2d_cari4d 容器里推到 Rongxuan-Zhou/v2d-track2-transfer 的 t3gb5_18_1021/
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000027.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000012.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000002.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000016.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000003.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+/opt/conda/lib/python3.11/site-packages/huggingface_hub/hf_api.py:5250: UserWarning: It seems that you are about to commit a data file (t3gb5_18_1021/pack/data/chunk-000/episode_000010.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.
+  warnings.warn(
+仓库里 t3gb5_18_1021/：清单 56 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 55
+== 2c. mf4090：拉到 runs/tier3/incoming/t3gb5_18_1021.pull 再搬成 runs/tier3/incoming/t3gb5_18_1021.partial
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：55 个文件；开始下载到 runs/tier3/incoming/t3gb5_18_1021.pull
+  50 / 55，22.3 MB
+  55 / 55，22.3 MB
+HF_PULL_OK 55
+MOVED
+== 3. 核对并拼档目录
+== VM-1-2-ubuntu 2026-10-21 13:43:15 CST 来历 b25cb94335c2
+6e4fbf528e7cb4190aadb0b69a733fcca2065338a82b4e8de5f9f5377a7a55a8  ./data/chunk-000/episode_000001.parquet
+0d62bfcff99f3f8b84af11d5748ab85ce4d8df60dfc606ad88e6e8b076a09100  ./data/chunk-000/episode_000002.parquet
+2cb2f7245a4adf38c073a73cb4bd45133b6d666cf6d9ccd133ba7e1bdc30db59  ./data/chunk-000/episode_000003.parquet
+c99df50812304ae95f426cdf1a36a98708bd90fbc9f3479c6536ec3aa9fe0351  ./data/chunk-000/episode_000004.parquet
+fccb0dffdb37937e708a1d29c75bb9b70658791ab3edacc4e28b0548cc70f89a  ./data/chunk-000/episode_000005.parquet
+da245fc17f5766840e94e526c2bf5c277956e27d664a0730a489247b7910f202  ./data/chunk-000/episode_000009.parquet
+cdac55a3f1e19122572ddd31d52377cbef89d4845c15f7bf9226e19565a6c0a0  ./data/chunk-000/episode_000010.parquet
+8cb3fc80cceb2ec86c61ddb30093e07786f35280f094d86fe0754fac8f902f4c  ./data/chunk-000/episode_000011.parquet
+a71590439c3904af496fd6276d3fb38a96ab25fd8ae26cc0ac81565338536ddf  ./data/chunk-000/episode_000012.parquet
+42361fc9102fcfc5c39edecc40ba73758d48b3d04691377ba8a5ff51d61871f3  ./data/chunk-000/episode_000013.parquet
+917db76dd1b4332612461d0de551345de52a3e7ac01f4aa346cd6c3989bd5032  ./data/chunk-000/episode_000014.parquet
+35011aa3a4d837b79f41e4e68784ec87b911fb79564d98cfbc2ea3dc028a95e6  ./data/chunk-000/episode_000015.parquet
+bf26e13dfd97e212549d97791edbc803a197ce2ea5767e864972c78456f9fe04  ./data/chunk-000/episode_000016.parquet
+21b98fa0d3cdc976e43ff4c20ab39bfef281cc459305d5d63e002020f4637a44  ./data/chunk-000/episode_000017.parquet
+c6ba4d010087995c1de538a05662df559f480495933bcea6133b207ff04a1fcd  ./data/chunk-000/episode_000019.parquet
+0638513b43b97827adbde5a536b62d8355630349ea3dda508978e59829e4a2b7  ./data/chunk-000/episode_000023.parquet
+edc2c33516660a9beb5888f1f56b79358d13283e627b131e989323f124845072  ./data/chunk-000/episode_000025.parquet
+ef9ea4c8e4e841fb2615121d25ea748f1a67cde06ebd5b2638076be916ab2437  ./data/chunk-000/episode_000027.parquet
+ddef77a483d70fc5e2aecd79c56e865e5adc034d34f13aada5c72951ba53023e  ./DEPLOYED
+5787a745d6d151c14833bbc23468b8ab420bdb231dc5ba58407f44fb81255a7e  ./meta/episode_000001.metadata.json
+a0a19639f869bcf9fae431b23f17b7439f432b3d827d034e5cb407b5ff988e84  ./meta/episode_000002.metadata.json
+25263b0927ad95e99868479e67740efd5494654849aa514ef6cb99e278f809c3  ./meta/episode_000003.metadata.json
+399c3bfd5ad95ce988145ad95eb450f8000c60869b373969e5ef5cb0df946472  ./meta/episode_000004.metadata.json
+2266deac9709baf3d61eb50a47af3c954dcb58d42418d5c3a05e931b35b3ed2b  ./meta/episode_000005.metadata.json
+c2d27a5266eafc26add387901111848823b27650279e64885d7f20737fa47b63  ./meta/episode_000009.metadata.json
+3b610b54e2bad0639fcf7eb04b250cfe2fd456ba211dd2de18c79c4e919ffd05  ./meta/episode_000010.metadata.json
+c88c7b352e3593c14be0dccefc0cb30b1dc24a11cda5c660a19ac4ac5799c066  ./meta/episode_000011.metadata.json
+8d63583fa3479662e0dcd43f762cb7ad0cc24f64f9af150fcbd4dae6209a7c00  ./meta/episode_000012.metadata.json
+fa0f0a275345f3ee25e9134f659e12c6ec9377f900dbab79a07760e8579c329b  ./meta/episode_000013.metadata.json
+5738dc3961bc02c2f3eba1b4266e8ebc97bb3f9eb670eb5ee9ceb82e829a3457  ./meta/episode_000014.metadata.json
+4290c6ba32d8e35db343656535df6c88771a42c63735b8ea6aa07f1f84879ef7  ./meta/episode_000015.metadata.json
+ae90db183e6a8d197f1bfb6800dc45bcdabccd31d885386c4ddcc14b2792a344  ./meta/episode_000016.metadata.json
+e291bd9dd921f56f4c41d88269bfab900ae749180a58cfcd92565e39ae4d6b58  ./meta/episode_000017.metadata.json
+e6073797592b4e2463e5c397d2beceabb273e565f6d59ce338f642a3bf5c78cf  ./meta/episode_000019.metadata.json
+98feecf2c7416bf8af2c093bd0bd4b0e38e6abd341b2398292c2d5f9e7ba3a43  ./meta/episode_000023.metadata.json
+3f58e4d7c774310e4dfc8d80fc0700073747b7eecbc9870a5c1fbf7108a7c3bc  ./meta/episode_000025.metadata.json
+576271b758b9e73c21d2d5db384369e87b79ead22deb588d7126226ec8d3aaa9  ./meta/episode_000027.metadata.json
+55c0e1132512e47d0282eabf1987055256fa5c2e92c44f35efe983fada2b0361  ./support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+63b05b7cd2c639b77b4425c24baa54255427ef498a37d517310be2891d6d5d7f  ./support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+fedd2e879afa45a6e1a5e90ed9bac7d81cdc8cc30dabf9cb4dd2e5e87cfa682d  ./support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda
+825f6ed6e5f5e5f30f126e43e7d619e1df583c2474a07d3d4bf0f995124a4882  ./support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+a9031a9b77b24f5111edb993ebdde522bb40f1c3d9161687fc81232fd5b1a5e8  ./support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+9d1ac0f294494dfd0dd31affd90c3147735c2e8fe9b268427bf064ad2da6a0f9  ./support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+761fa3be4b06fc27a5f7499617b95bd2c45805d1dcad654e77e3ec1317e3ad41  ./support_surface/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-19_10-19-48_cane_swing_05_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda
+91fbfb90d680a9fd563e92ce74e6a8b7322b0aa7f805dc8736a5ba35568c06fe  ./support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  ./support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda
+1bcdc5b7dc9eb83667ead947acbd99ca393c0927422545188a8f3046aaa58edf  ./support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+cefc32ca7746b35760791a2850c0ab8fa1a8aefab5c4af3fe17ddd42234b7464  ./support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779；版本目录 runs/tier3_cari4d_gb5_best_dr2s_dyn7；V2D_T3_SET=gb5；经 HF Rongxuan-Zhou/v2d-track2-transfer t3gb5_18_1021/；V2D_T3_SUPPORT=delivery
+写 data/chunk-000/episode_000001.parquet sha256 6e4fbf528e7cb4190aadb0b69a733fcca2065338a82b4e8de5f9f5377a7a55a8
+写 mesh/vacuum/vacuum.glb sha256 fc017067c2783cd29cf7536988d7f662c7c1fbd49e6b1336a3f32fbdd47cebee md5 476304d61a7dd94bf271fcd71bba1333
+写 ground_plane/2026-05-18_17-06-21_vacuum_left_lean_02.json sha256 d19ecbb803d769063fe296f8075e895d1c8830496f8095e01531c5a9bf13f4c2 md5 48f1e361f0dd4411dcc3697a28e6082a
+写 support_surface/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda sha256 761fa3be4b06fc27a5f7499617b95bd2c45805d1dcad654e77e3ec1317e3ad41 md5 9e60f6ab5c12b5e6820f56dd89eebffc
+写 data/chunk-000/episode_000002.parquet sha256 0d62bfcff99f3f8b84af11d5748ab85ce4d8df60dfc606ad88e6e8b076a09100
+写 mesh/blue_easter_basket/blue_easter_basket.glb sha256 802e074320c9b516bf2b66d26630584a74124e30dc2f479e05de1fb9c16344c4 md5 1fa4dcacd910c9727e3db7a84c82999d
+写 ground_plane/2026-06-02_10-04-42_blue_easter_basket_place_10.json sha256 2b4ea9ce46bb055739f2943a9f8261b3a355b8ca9b07999d569291227e835165 md5 77688223a77d6f8014680d1a1a5316a8
+写 support_surface/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda sha256 91fbfb90d680a9fd563e92ce74e6a8b7322b0aa7f805dc8736a5ba35568c06fe md5 a8e996591d87a4879826b8a92e00b0e6
+写 data/chunk-000/episode_000003.parquet sha256 2cb2f7245a4adf38c073a73cb4bd45133b6d666cf6d9ccd133ba7e1bdc30db59
+写 mesh/contigo_coffee_mug/contigo_coffee_mug.glb sha256 6ac9976cc09e5dfb8b068672d91a00fafa73a774035e96cad4faa7e50aec283f md5 5d1c0769b2e731f2de49d107ec8fa9eb
+写 ground_plane/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05.json sha256 edee94f6e18f17bca636511710ff0d6e4a7f912683b44f32ab64828c421e3fc6 md5 ac17f82e8b8b9399b16ae1f1e458c470
+写 support_surface/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda sha256 825f6ed6e5f5e5f30f126e43e7d619e1df583c2474a07d3d4bf0f995124a4882 md5 06cc3b8055359158b640ed7ac13973a4
+写 data/chunk-000/episode_000004.parquet sha256 c99df50812304ae95f426cdf1a36a98708bd90fbc9f3479c6536ec3aa9fe0351
+写 mesh/baseball_bat/baseball_bat.glb sha256 5aa2294d698eb370d0d1435963e42022cc1064faa355b547e492ffe893e51cd7 md5 237ee9fc368b8a7b6610a2a8c6e5c1ae
+写 ground_plane/2026-04-24_11-40-52_baseball_bat_rotate_05.json sha256 90a0a9e68820ab7f79790cfc921dd6ac6dc5959c475d8924efd8ccae68d47e4c md5 0d118466855d320f1782b74f1c598771
+写 support_surface/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000005.parquet sha256 fccb0dffdb37937e708a1d29c75bb9b70658791ab3edacc4e28b0548cc70f89a
+写 mesh/big_black_box/big_black_box.glb sha256 e6d434d16811524b8b3725e32c9ba2781bb878c47962f2e6a25b22e0cc2e4427 md5 5b836735b51043283f03f1be07ee384a
+写 ground_plane/2026-03-18_19-36-56_g1_box_rotate_01.json sha256 4d0e30bd89205874ecabeaf1b402aa12df861b1888b18b7a8aa9a224d4222207 md5 72cdb5619f450fd2eb2658693d4f766d
+写 support_surface/2026-03-18_19-36-56_g1_box_rotate_01_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000009.parquet sha256 da245fc17f5766840e94e526c2bf5c277956e27d664a0730a489247b7910f202
+写 mesh/big_red_bowl/big_red_bowl.glb sha256 473b0466c0a05c3f2e586e793c4dc81f4c1281534d1402809f32e94e7e6e915d md5 f293d9eafcbc4b0654953ad2ef47de1b
+写 ground_plane/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03.json sha256 47bf9516d299dc2a6b7190f74bfd46058d11d611587e2995abc6d05c11f84282 md5 191c7e647fa581314b2c60423da983db
+写 support_surface/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda sha256 1bcdc5b7dc9eb83667ead947acbd99ca393c0927422545188a8f3046aaa58edf md5 2be7c0749fd3850bf647084e977df747
+写 data/chunk-000/episode_000010.parquet sha256 cdac55a3f1e19122572ddd31d52377cbef89d4845c15f7bf9226e19565a6c0a0
+写 mesh/white_desk/white_desk.glb sha256 20bc239794adf00df9089347eef7bb72c9540ab03379d1fb3762c9d156a4fefd md5 da717d2a6ac2833f82c003f69f745818
+写 ground_plane/2026-05-01_11-36-40_white_desk_lower_to_ground_10.json sha256 dabe43e74a47b01d94c7b34096d402a7fb4e03a6d0da417231d6d45c9a069926 md5 169d33287aa66df26ec5713863ecee89
+写 support_surface/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000011.parquet sha256 8cb3fc80cceb2ec86c61ddb30093e07786f35280f094d86fe0754fac8f902f4c
+写 mesh/light_blue_book/light_blue_book.glb sha256 4c797e20fe013f3376efb41d140e4663ee5b2bd00e55708575f536343503d0b7 md5 8d95a043a364254f8e77626c03c773f2
+写 ground_plane/2026-04-24_13-56-58_light_blue_book_pick_place_09.json sha256 7dccbbd3948706dae8686200433928d6905ecc972033ef6bb76c0140a19b3c4a md5 89332371827de29bd6ede8a96f8e0926
+写 support_surface/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda sha256 fedd2e879afa45a6e1a5e90ed9bac7d81cdc8cc30dabf9cb4dd2e5e87cfa682d md5 e88c992f2d71c09849d082faa56352f2
+写 data/chunk-000/episode_000012.parquet sha256 a71590439c3904af496fd6276d3fb38a96ab25fd8ae26cc0ac81565338536ddf
+写 mesh/black_platform/black_platform.glb sha256 5c27db3c4896bbc494c3d68721b97cf130b15e4fd4e6110e2f2a6e92beecea4a md5 6b75c129d641b22d7eeed4f4f7041163
+写 ground_plane/2026-04-25_17-20-04_black_platform_turn_05.json sha256 50eba8f29dd2f1ea30657dfcb7aad72956b0b7770c1570a58cf444a8bc0edc1e md5 dcf25842d8a4dce616f5da968ad7a5ea
+写 support_surface/2026-04-25_17-20-04_black_platform_turn_05_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000013.parquet sha256 42361fc9102fcfc5c39edecc40ba73758d48b3d04691377ba8a5ff51d61871f3
+写 mesh/snack_box/snack_box.glb sha256 6a3c61c171534be9226a383db02a00b4d951569a7b228c60fc0a2f56e06cd441 md5 778a3ed147b3444c36072894e059c591
+写 ground_plane/2026-06-09_10-19-09_snack_box_desk_through_06.json sha256 a81074aec2ce6f52c5e3002195c43dca4501cc7f6202e2e35586502fb822198f md5 99ed83c1bd198c20b22ad2b408aaf026
+写 support_surface/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda sha256 cefc32ca7746b35760791a2850c0ab8fa1a8aefab5c4af3fe17ddd42234b7464 md5 cd841a03f6f064fbc0719848f0f53c7b
+写 data/chunk-000/episode_000014.parquet sha256 917db76dd1b4332612461d0de551345de52a3e7ac01f4aa346cd6c3989bd5032
+写 mesh/round_table/round_table.glb sha256 e53b35a958f513728d52db9303a86ee23bdb4fe796d25f5b1560d3df9e402546 md5 6cde48a5002185c6b99c1c61733f2ff4
+写 ground_plane/2026-05-28_14-44-09_round_table_flip_08.json sha256 26869d9aafe1b9e945e8b006058da3628e0421dac05452bff005d0c9b289757a md5 6073a44eef120e783ce549fb2076d249
+写 support_surface/2026-05-28_14-44-09_round_table_flip_08_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000015.parquet sha256 35011aa3a4d837b79f41e4e68784ec87b911fb79564d98cfbc2ea3dc028a95e6
+写 mesh/wet_floor_sign/wet_floor_sign.glb sha256 7a762ca67b09823ce9476441cd3a2396a7fc135d2dcb74533067952360dac1f5 md5 090f16c81ce7a69f7f75fd3a19f84717
+写 ground_plane/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08.json sha256 2eb28c6af4ea9f597e48e47db8d2f87ddcca9730c7d4825ed43d89d4be93390c md5 4f778f37e24522e162de1392a4e3d9a0
+写 support_surface/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000016.parquet sha256 bf26e13dfd97e212549d97791edbc803a197ce2ea5767e864972c78456f9fe04
+写 mesh/spray_bottle/spray_bottle.glb sha256 e5063cd7014d97475b1fed361e6c2383579ab7d3e48e589f1c43d0040f61f372 md5 d424da632926a017fccf9aa51fcd4ce8
+写 ground_plane/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02.json sha256 c2aa033a12ed0081c8b8d06bcb83be766ca0bfd650db4bc713aa9d71055eba5f md5 8eddd909e08e40f8bcf27c6d814e9f27
+写 support_surface/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda sha256 55c0e1132512e47d0282eabf1987055256fa5c2e92c44f35efe983fada2b0361 md5 6b239b696b7fec52cfa45fc7e24709c5
+写 data/chunk-000/episode_000017.parquet sha256 21b98fa0d3cdc976e43ff4c20ab39bfef281cc459305d5d63e002020f4637a44
+写 mesh/traffic_cone/traffic_cone.glb sha256 2acace9fcb3e53afcb6665db7b4717710e5cfc3a17c0ed5196a36df5ec340a16 md5 d62471ba31f677cc2dbd0d3ca8401094
+写 ground_plane/2026-05-01_17-04-55_traffic_cone_ground_table_02.json sha256 c562daeef17dc786416e5d64d7de7bddec32f421de7718ce558c62bc306dd801 md5 ae6e062ad9041bedfd3ce8edda8c467c
+写 support_surface/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda sha256 9d1ac0f294494dfd0dd31affd90c3147735c2e8fe9b268427bf064ad2da6a0f9 md5 e2ef060cdf6842f2f52e30ee28228e38
+写 data/chunk-000/episode_000019.parquet sha256 c6ba4d010087995c1de538a05662df559f480495933bcea6133b207ff04a1fcd
+写 mesh/cane/cane.glb sha256 33a74ed590f246417efd58260ec1083966195c669a4ee02a9eb6b8a5b9c3e737 md5 b5358e0349bae5dcd69381007b7a76a9
+写 ground_plane/2026-05-19_10-19-48_cane_swing_05.json sha256 cf0b612cfa15ede4ae33f2ed4d46ab28257d840ee274fa75a69da80bd1e66856 md5 892ca67dfda866bb3afc31a4d95f5c07
+写 support_surface/2026-05-19_10-19-48_cane_swing_05_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000023.parquet sha256 0638513b43b97827adbde5a536b62d8355630349ea3dda508978e59829e4a2b7
+写 mesh/toy_stroller/toy_stroller.glb sha256 a9c278ea07d4dac5157210c4e67819fcfaf3254a6afc801c988a3e66b83b9636 md5 6a9bf1918458a12aa251e8fb80b13b94
+写 ground_plane/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04.json sha256 5c693e01593f88a582037a02da0a237112db8aec24ed1aa76b1cfa3a00ce0156 md5 dd8c0594fbe936ad21c98664193e73d8
+写 support_surface/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda sha256 4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216 md5 43a55b4aa4ec1c590b68eb07492da29c
+写 data/chunk-000/episode_000025.parquet sha256 edc2c33516660a9beb5888f1f56b79358d13283e627b131e989323f124845072
+写 mesh/cyan_water_bottle/cyan_water_bottle.glb sha256 ebc656d5de2c6fb0075acd136503ac936b6c821fbfe05b21286efbc9af7225d6 md5 1a620f1c665c58dec020814dba3241ac
+写 ground_plane/2026-03-20_11-59-57_cyan_water_bottle_rotate_01.json sha256 ae70886b882558cba4b9dc2be7884a02e7df41edded8e1dcf67fadd84f21ae94 md5 6e5e81f07d347ea92ca3ee750b306242
+写 support_surface/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda sha256 63b05b7cd2c639b77b4425c24baa54255427ef498a37d517310be2891d6d5d7f md5 38afc429d9d713a4a0992f8462ba3a57
+写 data/chunk-000/episode_000027.parquet sha256 ef9ea4c8e4e841fb2615121d25ea748f1a67cde06ebd5b2638076be916ab2437
+写 mesh/woven_basket/woven_basket.glb sha256 1725abaac462412da58bc35c772aa0c6ae6449c5471c220811cb895243ce6822 md5 6ff7ad2c4dbbe8898879beed0762cf62
+写 ground_plane/2026-05-01_11-15-05_woven_basket_ground_desk_10.json sha256 14377eadb8889d353c6db760ffbbd843823e37c9d5cebf8fecff3588f4751c28 md5 0ccc2f3493217d78a4540a198428b70c
+写 support_surface/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda sha256 a9031a9b77b24f5111edb993ebdde522bb40f1c3d9161687fc81232fd5b1a5e8 md5 ec561b6a3c319233d7d682144f7ebf00
+写 meta/episodes_metadata.jsonl（18 行：ep1, ep2, ep3, ep4, ep5, ep9, ep10, ep11, ep12, ep13, ep14, ep15, ep16, ep17, ep19, ep23, ep25, ep27）与 meta/provenance.json
+ep1 来源：parquet 在对方的修改时间 2026-10-21T05:42:30+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 6e4fbf528e7cb4190aadb0b69a733fcca2065338a82b4e8de5f9f5377a7a55a8
+ep2 来源：parquet 在对方的修改时间 2026-10-21T05:42:32+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 0d62bfcff99f3f8b84af11d5748ab85ce4d8df60dfc606ad88e6e8b076a09100
+ep3 来源：parquet 在对方的修改时间 2026-10-21T05:42:33+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 2cb2f7245a4adf38c073a73cb4bd45133b6d666cf6d9ccd133ba7e1bdc30db59
+ep4 来源：parquet 在对方的修改时间 2026-10-21T05:42:35+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 c99df50812304ae95f426cdf1a36a98708bd90fbc9f3479c6536ec3aa9fe0351
+ep5 来源：parquet 在对方的修改时间 2026-10-21T05:42:37+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 fccb0dffdb37937e708a1d29c75bb9b70658791ab3edacc4e28b0548cc70f89a
+ep9 来源：parquet 在对方的修改时间 2026-10-21T05:42:39+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 da245fc17f5766840e94e526c2bf5c277956e27d664a0730a489247b7910f202
+ep10 来源：parquet 在对方的修改时间 2026-10-21T05:42:40+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 cdac55a3f1e19122572ddd31d52377cbef89d4845c15f7bf9226e19565a6c0a0
+ep11 来源：parquet 在对方的修改时间 2026-10-21T05:42:42+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 8cb3fc80cceb2ec86c61ddb30093e07786f35280f094d86fe0754fac8f902f4c
+ep12 来源：parquet 在对方的修改时间 2026-10-21T05:42:44+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 a71590439c3904af496fd6276d3fb38a96ab25fd8ae26cc0ac81565338536ddf
+ep13 来源：parquet 在对方的修改时间 2026-10-21T05:42:45+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 42361fc9102fcfc5c39edecc40ba73758d48b3d04691377ba8a5ff51d61871f3
+ep14 来源：parquet 在对方的修改时间 2026-10-21T05:42:47+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 917db76dd1b4332612461d0de551345de52a3e7ac01f4aa346cd6c3989bd5032
+ep15 来源：parquet 在对方的修改时间 2026-10-21T05:42:48+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 35011aa3a4d837b79f41e4e68784ec87b911fb79564d98cfbc2ea3dc028a95e6
+ep16 来源：parquet 在对方的修改时间 2026-10-21T05:42:50+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 bf26e13dfd97e212549d97791edbc803a197ce2ea5767e864972c78456f9fe04
+ep17 来源：parquet 在对方的修改时间 2026-10-21T05:42:52+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 21b98fa0d3cdc976e43ff4c20ab39bfef281cc459305d5d63e002020f4637a44
+ep19 来源：parquet 在对方的修改时间 2026-10-21T05:42:53+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 c6ba4d010087995c1de538a05662df559f480495933bcea6133b207ff04a1fcd
+ep23 来源：parquet 在对方的修改时间 2026-10-21T05:42:55+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 0638513b43b97827adbde5a536b62d8355630349ea3dda508978e59829e4a2b7
+ep25 来源：parquet 在对方的修改时间 2026-10-21T05:42:56+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 edc2c33516660a9beb5888f1f56b79358d13283e627b131e989323f124845072
+ep27 来源：parquet 在对方的修改时间 2026-10-21T05:42:58+00:00，转发时对方的部署版本 42f01f0c4397eb67ecb9f5042270e7a1ae25b779（干净 True），parquet sha256 ef9ea4c8e4e841fb2615121d25ea748f1a67cde06ebd5b2638076be916ab2437
+TIER3_ROOT_OK
