@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/merge_frefs_t3.py --out runs/submission/t3m1022a/frefs --take-plain runs/submission/t3m1022a/frefs_new=0\,6\,7\,8\,18\,20\,24\,26 --take runs/submission/gb1018e22/frefs=1\,2\,3\,4\,5\,9\,10\,11\,12\,13\,14\,15\,16\,17\,19\,21\,22\,23\,25\,27\,28\,29 
+# md5      : ce3548f36c323cb051b5ae28f02034f9  stages/evaluate/merge_frefs_t3.py
+# source   : b9a5cc2bf8fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T08:44:04-0600
+# ---------------------------------------------------------------
+合并 30 集 → runs/submission/t3m1022a/frefs：frefs 22 集；frefs_new 8 集
+MERGE_FREFS_OK 30

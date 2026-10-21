@@ -1,0 +1,29 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : b9a5cc2bf8fe
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T08:40:26-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-21 22:40:27 CST
+NVIDIA GeForce RTX 4090, 23847 MiB, 24564 MiB, 97 %
+/dev/vda2       297G  223G   62G  79% /
+-- tmux
+t3g5r2: 1 windows (created Wed Oct 21 22:25:05 2026)
+v2d-t3pg5a-eval: 1 windows (created Wed Oct 21 14:58:32 2026)
+v2d-t3pg5a-export: 1 windows (created Wed Oct 21 14:58:34 2026)
+v2d-t3pg5a-train: 1 windows (created Wed Oct 21 14:58:30 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pg5a_mf4090-gate
+runs/.chain-active-t3g5r2-t3pg5b
+runs/.chain-active-t3pg5a_eval_mf4090
+runs/.chain-active-t3pg5a_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5-mf4090.log：training progress: 91,000,832/349,999,104 environment steps (26.0%); 46,211 env steps/s; elapsed 00:32:49; ETA 01:33:25
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5-mf4090.nanwatch.log：10-21 08:37:44 MDT 80,003,072 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3g5_r2_gate_mf4090.log：=== 2026-10-21 22:25:05 CST 放闸 runs/.chain-active-t3g5r2-t3pg5b；等 results/t3g5/eval_t3pg5a_mf4090.txt；另一台已知没跟上 2 集，门槛 5
+runs/logs/t3pg5a_train_mf4090.log：=== 2026-10-21 22:05:41 CST 正式 t3-ep27-w2048-cap4m-r3a-gb5-mf4090
+runs/logs/t3-ep15-w2048-cap4m-r3a-gb5-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep15-w2048-cap4m-r3a-gb5-mf4090
+runs/logs/t3-ep15-w2048-cap4m-r3a-gb5-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep15-w2048-cap4m-r3a-gb5-mf4090
+runs/logs/t3-ep15-w2048-cap4m-r3a-gb5-mf4090.nanwatch.log：10-21 08:03:17 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3-ep10-w2048-cap4m-r3a-gb5-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep10-w2048-cap4m-r3a-gb5-mf4090

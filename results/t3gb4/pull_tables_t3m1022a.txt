@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/t3m1022a/tables mf4090:cand_t3_t3pg4_mf4090 
+# md5      : 4961cbc5e593ae10209c097fff76a05b  stages/evaluate/pull_submission.sh
+# source   : b9a5cc2bf8fe-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T08:43:30-0600
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pg4_mf4090：ok 11  
+PULL_OK 1
