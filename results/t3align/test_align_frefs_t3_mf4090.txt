@@ -1,0 +1,13 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/test_align_frefs_t3.py 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : b8f6570b21769dfd28f3c50268fd8b24  stages/evaluate/test_align_frefs_t3.py
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T01:14:34+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep0 episode_000000.parquet sha256 0ba663b17b5421cf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+  test_auto_obj_recovers_every_frame 过
+  test_reader_frame0_only_and_row_count 过
+  test_swapped_quaternion_is_caught 过
+  test_symmetric_object_falls_back_to_human_yaw 过
+ALIGN_FREFS_TESTS_OK
