@@ -50,3 +50,28 @@
 - CPython 3.11.17 的构建若与她的不同，只要 E1 过就接受；不过时先换成与她相同的构建（npmmirror 上找同一发布日期）。
 - 磁盘：两个环境约 3 GB（torch CPU 约 0.8 GB），`/lab_data` 空 987 GB。
 - 预计：清单与环境 30–40 分钟，脚本改动与回归 20 分钟，对照重跑约 45 分钟（t3_e 整条 30 分钟，t3_ew 与 usda 15 分钟）。
+
+## 复核（10/21 06:3x MDT，Opus；Fable 本周额度用完）与改动
+
+结论 GO WITH FIXES（4 条 MAJOR、4 条 MINOR），复核没写她的目录、没跑她的东西。**事实更正两处**：
+- 第 0 节第 2 条：gate venv 的 93 个不全来自 PyPI。她的 `setup.sh` 23–24 行用 `--index-strategy unsafe-best-match` 加 PyTorch 索引，uv 缓存里 8 个
+  （jinja2、mpmath、networkx、numpy、pillow、sympy、torch、typing-extensions）取自 PyTorch 索引、85 个取自 PyPI；numpy、pillow 两边 sha256 相同。
+  宿主机步骤的 import 清单核过是全的（assemble：numpy、pyarrow、scipy，scipy 在 `_quat_wxyz` 里；extract：numpy、pyarrow、t3_inputs；比较器：numpy、pyarrow），trimesh 用不到。
+- 第 0 节第 3 条：pypi.org 不是超时，是慢（HEAD `/simple/` 200，GET `/simple/uv/` 0.59 MB 用 20 s）；我那次 curl 设了 10 s 上限。
+
+改动（都写进实现，不另出版本）：
+1. （MAJOR）**1b 模式不留默认、她的解释器跑不起来**：`t3r_run.sh` 加 `T3R_MASK`，在命名空间里用空的只读 tmpfs 盖住她的 `venv`、`gate/venv`、`gate/.py`；
+   `T3R_ALLOW` 只放我们的解释器；每条记录打出实际执行的解释器 realpath 与 sha256；gate 目录改成变量（1b 用 `gate_e`），incontainer 替身另写我们自己的。
+2. （MAJOR）**第 1 级的记录先保住**：已回流、脱敏、提交（`results/ml40/t3recon/`，cbcb2be；`tools/redact_stdin.sh` 加了就地改写）。之后的回归跑与 1b 的比较用新的记录名
+   （`T3R_TAG` 后缀），拿判定行与第 1 级的逐行比，不覆盖第 1 级的记录。
+3. （MAJOR）`t3r_gate_eps.sh` 改查 `[ ! -w "$T3R_HER" ]`；`T3R_GATE_VENV_BIN` 的 realpath 必须在 `t3recon/env` 下（1b）或她的目录下（第 1 级），否则拒绝。
+4. （MAJOR）**torch 的来源**：默认索引用腾讯云，加 `-f https://mirrors.aliyun.com/pytorch-wheels/cpu/`（平铺页，只能当 find-links），不加额外索引
+   （uv 默认“先到先用”，PyTorch 索引放进去会挡住 PyPI 上的 11 个钉住的版本）；gate 清单带 `--require-hashes`，哈希取她 uv 缓存里的 `.http` 记录（只读）。
+   复核实测：torch 2.7.0+cpu（cp311、linux x86_64）两处都在（175969026 字节），PyTorch 列出的 sha256 与她缓存里的相同。
+5. （MINOR）E0 改为逐个发行版比 RECORD 里的（路径，sha256）集合，去掉 `../../../bin/*`、pyc、INSTALLER、REQUESTED、`direct_url.json`。
+   CPython：uv 0.13.0 把 3.11.17 解析到构建 20261009（install_only_stripped，uv 自己核 sha256），npmmirror 有这个文件；装完与她的 `python3.11` 比 sha256。
+6. （MINOR）uv：`UV_PYTHON_INSTALL_DIR` 用绝对路径、建 venv 时再设一次；`uv python install --no-bin`（不往 `~/.local/bin` 放链接）；建 venv 时加 `--managed-python`、
+   `UV_PYTHON_DOWNLOADS=never`；`uv pip install --python <我们的 env>/bin/python`；两个环境都经 `t3r_run.sh` 建（建错了也写不进她的目录）。
+7. （MINOR）E1 的重定向结果行改与我们的 `gate/repo/runs/logs/batch/t3_gb5dyn7refw_ep*.tsv` 比（它们已与她的逐字段相同），不读她仍在用的 `rec_gb5dyn7.txt`。
+8. （MINOR）1b 模式里 `t3r_other.sh` 只核她的目录，不核她的解释器。1b 的对照：负对照、已知相同对、门槛自检照常，比较器用我们的宿主机环境跑；
+   正对照：E1 出现不同时，对那一步用我们的环境重复两遍查确定性，再按 E2 查版本。
