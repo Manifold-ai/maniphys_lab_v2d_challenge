@@ -1,0 +1,41 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1020_2044.txt results/board/lb_1020_2301.txt 
+# md5      : 9b7a94c70d5440ab1c533754b5d5532f  stages/evaluate/board_diff.py
+# md5      : ae3e1f337d490e1d6ea16b5a3785bc05  results/board/lb_1020_2044.txt
+# md5      : 013e2c01bf92af0d4f4647db24549c35  results/board/lb_1020_2301.txt
+# source   : 9264f4a6c07c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:01:30-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1020_2044.txt；这一份 results/board/lb_1020_2301.txt
+## 变了的榜
+tier1-auc：新进 Rohit Pardeshi 0.22268（2026-10-21 03:39）
+tier1-sp-sr：新进 Rohit Pardeshi 0.00000（2026-10-21 03:39）
+tier1-mp-sr：新进 Rohit Pardeshi 0.00000（2026-10-21 03:39）
+tier1-mppe：新进 Rohit Pardeshi 57.89455（2026-10-21 03:40）
+tier2-auc：新进 NVSimranPatil 0.49505（2026-10-21 03:12）
+tier2-sp-sr：新进 NVSimranPatil 0.93333（2026-10-21 03:12）
+tier2-mp-sr：新进 NVSimranPatil 0.76666（2026-10-21 03:12）
+tier2-mppe：新进 NVSimranPatil 2.76526（2026-10-21 03:12）
+tier3-auc：Xueyi Wang (FF) 重新提交，分数没变（0.15606，2026-10-21 04:49）
+tier3-sp-sr：Xueyi Wang (FF) 0.13333 → 0.16666（2026-10-21 04:49）
+tier3-mp-sr：Xueyi Wang (FF) 重新提交，分数没变（0.00000，2026-10-21 04:49）
+tier3-mppe：Xueyi Wang (FF) 46.64900 → 45.98603（2026-10-21 04:49）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 4（0.58258，第 1 名 Vi Nguyễn Văn 0.96908，差 0.38650）；sp-sr 第 2（0.83333，第 1 名 Xueyi Wang (FF) 0.86666，差 0.03333）；mp-sr 第 3（0.70000，第 1 名 Xueyi Wang (FF) 0.83333，差 0.13333）；mppe 第 2（11.86661，第 1 名 Xueyi Wang (FF) 7.44319，差 4.42342）
+Tier 2：auc 第 2（0.51379，第 1 名 Xueyi Wang (FF) 0.51796，差 0.00417）；sp-sr 第 2（0.73333，第 1 名 NVSimranPatil 0.93333，差 0.20000）；mp-sr 第 3（0.53333，第 1 名 NVSimranPatil 0.76666，差 0.23333）；mppe 第 3（15.32195，第 1 名 NVSimranPatil 2.76526，差 12.55669）
+Tier 3：auc 第 3（0.10649，第 1 名 Kelly To the H 0.26600，差 0.15951）；sp-sr 第 1（0.26666，第 2 名 Team OPS 0.16666，差 0.10000）；mp-sr 第 2（0.00000，第 1 名 Open4D 0.03333，差 0.03333）；mppe 第 3（54.98984，第 1 名 Xueyi Wang (FF) 45.98603，差 9.00381）
+第一的榜（同分 kaggle）：2 → 1 个
+第一的榜（同分 site）：2 → 1 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 27（第 2） → 30（第 2）；前 4：Xueyi Wang (FF) 26、maniphys.ai 30、domoarigato 62、Team OPS 63
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 30（第 2） → 33（第 2）；前 4：Xueyi Wang (FF) 26、maniphys.ai 33、domoarigato 59、Team OPS 64
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 7（第 2） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 13、Team OPS 15
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 7（第 2） → 7（第 2）；前 4：Xueyi Wang (FF) 5、maniphys.ai 7、domoarigato 13、Team OPS 15
+ALERT tier2-sp-sr 名次 1 → 2（同分 kaggle）
+ALERT tier2-mp-sr 名次 2 → 3（同分 kaggle）
+ALERT tier2-mppe 名次 2 → 3（同分 kaggle）
+ALERT tier2-sp-sr 名次 1 → 2（同分 site）
+ALERT tier2-mp-sr 名次 2 → 3（同分 site）
+ALERT tier2-mppe 名次 2 → 3（同分 site）
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE

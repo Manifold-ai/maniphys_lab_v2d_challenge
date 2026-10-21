@@ -1,0 +1,31 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "b23": {"file": "results/board/diff_1020_2301.txt", "grep": "NVSimranPatil|Tier 2：|Tier 3：|读法 B|FF\\) 0.13333"},
+  "b20": {"file": "results/board/diff_1020_2044.txt", "grep": "DAP|Tier 1："},
+  "sub": {"file": "results/submission/submit_b1019a_auc.txt", "grep": "0.51091|score"},
+  "r4": {"file": "results/ml40/t12replay/mech_smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600.txt", "grep": "摔倒（|离起点"},
+  "wc35": {"file": "results/ml40/t12ref/mech_smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc35.txt", "grep": "摔倒（|第 133 帧"},
+  "c16": {"file": "results/ml40/t12ctl/mech_smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090_s409600_ep16.txt", "grep": "第 109 帧之前|FALL_BEFORE"},
+  "c21": {"file": "results/ml40/t12ctl/mech_smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_ep21.txt", "grep": "摔倒（|FALL_BEFORE"},
+  "o0": {"file": "results/ml40/t12own/mech_ep0.txt", "grep": "摔倒（|FALL_BEFORE"},
+  "tt": {"file": "results/ml40/t12sat/train_term_tier2_ml40.txt", "grep": "^ep\\t|^4\\t|^0\\t|^14\\t|^1\\t"},
+  "sf": {"file": "results/t2diag/t2_static_floor.txt", "grep": "^集|^ep4\\t"},
+  "e25": {"file": "results/ml40/t2term/train_term_ep25_ml40.txt", "grep": "^ep|^25"},
+  "sw": {"file": "results/t3gb4/switch_t3pg4_mf4090.txt", "grep": "：换$|：不换$|GB3_SWITCH_DONE"}
+ },
+ "claims": [
+  {"id": "nv", "evidence": ["b23"], "claim": "NVSimranPatil 在 Tier 2 交了：SP-SR 0.93333、MP-SR 0.76666、MPPE 2.76526、AUC 0.49505；maniphys.ai 的 Tier 2 SP-SR 现在第 2、MP-SR 第 3、MPPE 第 3。"},
+  {"id": "sum", "evidence": ["b23"], "claim": "按 Kaggle 同分规则的读法 B，FF 26、maniphys.ai 30；按官网规则 FF 26、maniphys.ai 33。"},
+  {"id": "dap", "evidence": ["b20"], "claim": "DAP 的 Tier 1 MP-SR 从 0.43333 涨到 0.76666，maniphys.ai 的 Tier 1 MP-SR 是第 3。"},
+  {"id": "b1019a", "evidence": ["sub"], "claim": "b1019a 在 Tier 2 AUC 比赛上得 0.51091。"},
+  {"id": "rep4", "evidence": ["r4"], "claim": "ep4 的零残差回放 1024 个世界全部摔倒，摔倒帧中位 88，摔时物体离起点中位 0.001 m。"},
+  {"id": "wc35", "evidence": ["wc35"], "claim": "限腰 0.35 rad 的版本 1024 个世界全部在第 133 帧之前摔倒。"},
+  {"id": "ctl", "evidence": ["c16", "c21"], "claim": "ep16 与 ep21 的回放在接触前摔倒的世界都是 0。"},
+  {"id": "own0", "evidence": ["o0"], "claim": "ep0 用自己的零残差 checkpoint 回放，1024 个世界都在第 203 帧之前摔倒，摔倒帧都是 169。"},
+  {"id": "term", "evidence": ["tt"], "claim": "t2-ep4-w2048-cap10m-r3a-ml40 的物体终止比例 0.869、回合平均长度 69.185；t2-ep0-w2048-cap10m-r3a-ml40 的物体终止比例 0.037。"},
+  {"id": "floor4", "evidence": ["sf"], "claim": "ep4 物体不动时的 MPPE 是 111.51 cm，导出的是 111.48 cm。"},
+  {"id": "ot25", "evidence": ["e25"], "claim": "t2-ep25-w2048-cap10m-r3a-ot3-ml40 的回合平均长度 190.794、物体终止 0.679、手掌终止 0.275；对照 t2-ep25-w2048-cap10m-r3a-ml40 是 109.547、0.804、0.143。"},
+  {"id": "sw8", "evidence": ["sw"], "claim": "按规则 S，ep0、6、7、8、20、18、24、26 判换，ep22、29、21 判不换。"},
+  {"id": "ctl_false", "evidence": ["c21"], "claim": "ep21 的回放在接触前摔倒的世界超过一半。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["sw"], "claim": "ep22 判不换。", "control": "true"}
+ ]}

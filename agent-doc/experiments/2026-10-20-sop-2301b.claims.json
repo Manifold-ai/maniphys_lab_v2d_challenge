@@ -1,0 +1,11 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "d1": {"file": "results/board/diff_1020_2044.txt", "grep": "^tier1-mp-sr"},
+  "d2": {"file": "results/board/diff_1020_2044.txt", "grep": "^Tier 1："}
+ },
+ "claims": [
+  {"id": "dap_mp", "evidence": ["d1"], "claim": "在 tier1-mp-sr 榜上，DAP 的分数从 0.43333 变成 0.76666。"},
+  {"id": "our_mp", "evidence": ["d2"], "claim": "maniphys.ai 在 Tier 1 的 mp-sr 榜上排第 3，分数 0.70000。"},
+  {"id": "ctl_false", "evidence": ["d1"], "claim": "在 tier1-mp-sr 榜上，DAP 的分数变成了 0.90000。", "control": "false"},
+  {"id": "ctl_true", "evidence": ["d2"], "claim": "maniphys.ai 在 Tier 1 的 auc 榜上排第 4。", "control": "true"}
+ ]}

@@ -65,6 +65,12 @@
   决定：不改、不交。Tier 1 MP-SR 要比 FF（25/30）领先 2 集才交，现在 21/30；守第 2 不在提交规矩之内（`agent-doc/strategy-2026-10-19.md` 第 1 节）。Tier 1 MPPE 的第 2 只领先 DAP 0.13 cm，
   记为风险，不为守它提交。两台卡都在跑登记过的计划（ml40 t2tm，`agent-doc/plan-t2term-2026-10-20.md`；mf4090 t3pg4），不另写计划。
 
+- 10/20 23:01 MDT（SOP 更新时看的，`results/board/diff_1020_2301.txt`）：新队 NVSimranPatil 只交了 Tier 2（10/20 21:12 MDT）：SP-SR 0.93333、MP-SR 0.76666、MPPE 2.76526、AUC 0.49505。
+  maniphys.ai 的 Tier 2 SP-SR 第 1 → 第 2、MP-SR 第 2 → 第 3、MPPE 第 2 → 第 3，AUC 仍第 2。FF 交了 Tier 3：SP-SR 0.13333 → 0.16666、MPPE 46.649 → 45.986。新队 Rohit Pardeshi（Tier 1）在后面。
+  读法 B：Kaggle 规则 FF 26、maniphys.ai 30；官网规则 FF 26、maniphys.ai 33；读法 A 5 比 7。第一的榜只剩 Tier 3 SP-SR。
+  决定：不交。NVSimranPatil 的 Tier 2 SP-SR、MP-SR、MPPE 离 maniphys.ai 的期望很远（0.200、0.233、12.6 cm），这三个榜的第一近期拿不回；它没交 Tier 1、Tier 3，名次和上它不是对手，
+  名次和的对手仍是 FF（差 4）。mf4090 22:46 起空着（t3pg4 链结束），下一项工作另写计划。
+
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 
 这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。

@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-2301.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : cb310f529a4b30c53ad4c1e78127c651  agent-doc/experiments/2026-10-20-sop-2301.claims.json
+# source   : c35f86ce0c47-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:04:29-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+nv                   P(supported)=0.87  verified               [b23]  NVSimranPatil 在 Tier 2 交了：SP-SR 0.93333、MP-SR 0.76666、MPPE 2.76526、AUC 0.49505；maniphys.ai 的 Tier 2 SP-SR 现在第 2、MP-SR 第 3、MPPE 第 3。
+sum                  P(supported)=0.96  verified               [b23]  按 Kaggle 同分规则的读法 B，FF 26、maniphys.ai 30；按官网规则 FF 26、maniphys.ai 33。
+dap                  P(supported)=0.48  UNVERIFIED             [b20]  DAP 的 Tier 1 MP-SR 从 0.43333 涨到 0.76666，maniphys.ai 的 Tier 1 MP-SR 是第 3。
+b1019a               P(supported)=0.70  verified               [sub]  b1019a 在 Tier 2 AUC 比赛上得 0.51091。
+rep4                 P(supported)=0.94  verified               [r4]  ep4 的零残差回放 1024 个世界全部摔倒，摔倒帧中位 88，摔时物体离起点中位 0.001 m。
+wc35                 P(supported)=0.81  verified               [wc35]  限腰 0.35 rad 的版本 1024 个世界全部在第 133 帧之前摔倒。
+ctl                  P(supported)=0.90  verified               [c16, c21]  ep16 与 ep21 的回放在接触前摔倒的世界都是 0。
+own0                 P(supported)=0.81  verified               [o0]  ep0 用自己的零残差 checkpoint 回放，1024 个世界都在第 203 帧之前摔倒，摔倒帧都是 169。
+term                 P(supported)=0.98  verified               [tt]  t2-ep4-w2048-cap10m-r3a-ml40 的物体终止比例 0.869、回合平均长度 69.185；t2-ep0-w2048-cap10m-r3a-ml40 的物体终止比例 0.037。
+floor4               P(supported)=0.98  verified               [sf]  ep4 物体不动时的 MPPE 是 111.51 cm，导出的是 111.48 cm。
+ot25                 P(supported)=0.98  verified               [e25]  t2-ep25-w2048-cap10m-r3a-ot3-ml40 的回合平均长度 190.794、物体终止 0.679、手掌终止 0.275；对照 t2-ep25-w2048-cap10m-r3a-ml40 是 109.547、0.804、0.143。
+sw8                  P(supported)=0.97  verified               [sw]  按规则 S，ep0、6、7、8、20、18、24、26 判换，ep22、29、21 判不换。
+ctl_false            P(supported)=0.01  control(false) ok      [c21]  ep21 的回放在接触前摔倒的世界超过一半。
+ctl_true             P(supported)=0.99  control(true) ok       [sw]  ep22 判不换。
+controls behaved as expected

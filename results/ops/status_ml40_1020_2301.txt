@@ -1,0 +1,26 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 9264f4a6c07c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:01:10-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-21 13:01:10 CST
+NVIDIA L40S, 40211 MiB, 46068 MiB, 99 %
+/dev/vdb        2.0T 1021G  994G  51% /lab_data
+-- tmux
+v2d-t2tm-eval: 1 windows (created Wed Oct 21 10:42:13 2026)
+v2d-t2tm-export: 1 windows (created Wed Oct 21 10:42:15 2026)
+v2d-t2tm-train: 1 windows (created Wed Oct 21 10:42:11 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2tm_ml40-gate
+runs/.chain-active-t2tm_eval_ml40
+runs/.chain-active-t2tm_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep28-w2048-cap10m-r3a-ot3-ml40.log：training progress: 42,000,384/349,999,104 environment steps (12.0%); 53,009 env steps/s; elapsed 00:13:12; ETA 01:36:50
+runs/logs/t2-ep28-w2048-cap10m-r3a-ot3-ml40.nanwatch.log：10-20 22:58:25 MDT 30,001,152 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2tm_train_ml40.log：=== 2026-10-21 12:46:25 CST 正式 t2-ep28-w2048-cap10m-r3a-ot3-ml40
+runs/logs/t2-ep25-w2048-cap10m-r3a-ot3-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ot3-ml40
+runs/logs/t2-ep25-w2048-cap10m-r3a-ot3-ml40.nanwatch.log：10-20 22:46:10 MDT 349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2-ep25-w2048-cap10m-r3a-ot3-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap10m-r3a-ot3-ml40
+runs/logs/smoke-t2-ep28-w2048-cap10m-r3a-ot3-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep28-w2048-cap10m-r3a-ot3-ml40
+runs/logs/smoke-t2-ep28-w2048-cap10m-r3a-ot3-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep28-w2048-cap10m-r3a-ot3-ml40

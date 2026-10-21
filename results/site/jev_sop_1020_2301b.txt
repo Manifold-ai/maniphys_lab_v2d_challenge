@@ -1,0 +1,13 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-20-sop-2301b.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 8347540677adca9713ee05eb397b5f64  agent-doc/experiments/2026-10-20-sop-2301b.claims.json
+# source   : c35f86ce0c47-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T23:04:43-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+dap_mp               P(supported)=0.99  verified               [d1]  在 tier1-mp-sr 榜上，DAP 的分数从 0.43333 变成 0.76666。
+our_mp               P(supported)=0.90  verified               [d2]  maniphys.ai 在 Tier 1 的 mp-sr 榜上排第 3，分数 0.70000。
+ctl_false            P(supported)=0.01  control(false) ok      [d1]  在 tier1-mp-sr 榜上，DAP 的分数变成了 0.90000。
+ctl_true             P(supported)=0.82  control(true) ok       [d2]  maniphys.ai 在 Tier 1 的 auc 榜上排第 4。
+controls behaved as expected
