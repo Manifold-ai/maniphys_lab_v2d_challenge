@@ -117,3 +117,7 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
 - **K2 继续查线程（登记，跑之前）**：`t3r_world_repeat.sh` 再跑 ep27 的 1 线程两遍（c、d）、4 线程两遍（e、f），ep14 的 6 线程两遍（g、h）。某个配置两遍逐字节相同记“该配置确定”。
   判读：ep27 的 1 线程确定而 6 线程不确定 → 不确定来自多线程；ep27 的 4 线程也不确定、ep14 的 6 线程确定 → 与集有关；ep14 的 6 线程也不确定 → 与线程数有关（4 线程碰巧确定）。
   这一步只定来源，不改代码；我们自己的管线怎么定 world 的线程，等来源清楚后另写进第 2 级计划。
+- 05:29 MDT **K2 登记第 3 条的结果**（`stages/recovery/t3r_level1_controls.sh`：`t3r_seed_root.sh t3_refw world-from-ref` 种根，`T3R_FROM=assemble t3r_level1.sh t3_refw`，
+  `t3r_level1_compare.sh t3_refw`；记录 `results/t3recon/t3_refw_vs_ref_cmp_*.txt`）：对照照常（负对照 3/3 不同、已知相同对 4/4、自检过）；用参照的 world 产物当输入，
+  assemble、三版物理检查、support、dr2s、dyn7 对三集**全部逐字节相同**（每版 15/15），三份 summary 与 depth_post、dynamics_post 数值相同（只差路径、时间字段）。
+  **结论：第 1 级 CPU 段里复现不了的只有 ep27 world 的缩放拟合这一步（不确定）；它下游的各步是确定的，给同样的输入就逐字节重出参照。**
