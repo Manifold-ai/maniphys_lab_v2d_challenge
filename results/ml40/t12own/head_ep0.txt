@@ -1,0 +1,15 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/residual_head_norm.py\ /repo/runs/flash_chord/smoke-t2-ep0-w2048-cap4m-r3a-sd-ml40/policy_409600.safetensors 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : ae251f4a33a5a494b28da957a7712ea3  stages/evaluate/residual_head_norm.py
+# md5      : 3097158a383c03b0aab954912f03ca12  runs/flash_chord/smoke-t2-ep0-w2048-cap4m-r3a-sd-ml40/policy_409600.safetensors
+# source   : ce6e4a4d1a3d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T09:45:55+0800
+# ---------------------------------------------------------------
+== /repo/runs/flash_chord/smoke-t2-ep0-w2048-cap4m-r3a-sd-ml40/policy_409600.safetensors
+  state.0015	(43,)	max|.| 0.000e+00	rms 0.000e+00
+  state.0016	(256, 43)	max|.| 2.406e-01	rms 6.250e-02
+  state.0017	(43,)	max|.| 6.200e-01	rms 6.200e-01
+  state.0018	(256, 43)	max|.| 0.000e+00	rms 0.000e+00
+  state.0019	(43,)	max|.| 0.000e+00	rms 0.000e+00
+RESIDUAL_HEAD_DONE
