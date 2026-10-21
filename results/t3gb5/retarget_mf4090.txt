@@ -1,0 +1,351 @@
+# command  : stages/retarget/eps.sh 3 3 12 16 14 23 2 4 11 25 5 10 15 27 13 19 1 9 17 
+# md5      : babecf931d9b5c5e741723312b08b057  stages/retarget/eps.sh
+# source   : b25cb94335c2
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T13:43:27+0800
+# ---------------------------------------------------------------
+来历 b25cb94335c2，2026-10-21 13:43:27 CST；目录 runs/motion_src/tier3_gb5、runs/motion/tier3_gb5
+one.sh 3 3 退出码 0（13:45:39）
+one.sh 3 12 退出码 0（13:48:10）
+one.sh 3 16 退出码 0（13:50:08）
+one.sh 3 14 退出码 0（13:53:50）
+one.sh 3 23 退出码 0（13:57:43）
+one.sh 3 2 退出码 0（14:01:08）
+one.sh 3 4 退出码 0（14:03:45）
+one.sh 3 11 退出码 0（14:08:00）
+one.sh 3 25 退出码 0（14:12:05）
+one.sh 3 5 退出码 0（14:16:26）
+one.sh 3 10 退出码 0（14:20:05）
+one.sh 3 15 退出码 0（14:22:45）
+one.sh 3 27 退出码 0（14:25:16）
+one.sh 3 13 退出码 0（14:28:18）
+one.sh 3 19 退出码 0（14:32:24）
+one.sh 3 1 退出码 0（14:35:50）
+one.sh 3 9 退出码 0（14:38:49）
+one.sh 3 17 退出码 0（14:40:44）
+## 结果行（档位 ep 序列 帧数 fps 左手接触 右手接触 IK中位 间隙mm 支撑面 状态）
+3	3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	30.0	0	515	0.473	-0.3	support	OK
+3	12	2026-04-25_17-20-04_black_platform_turn_05	700	30.0	367	343	0.787	-0.0	floor	OK
+3	16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	30.0	197	0	0.689	0.0	floor	OK
+3	14	2026-05-28_14-44-09_round_table_flip_08	993	30.0	532	603	0.896	-0.0	floor	OK
+3	23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	30.0	403	286	1.091	-0.0	floor	OK
+3	2	2026-06-02_10-04-42_blue_easter_basket_place_10	980	30.0	318	107	0.735	0.0	floor	OK
+3	4	2026-04-24_11-40-52_baseball_bat_rotate_05	803	30.0	399	453	0.633	-0.0	floor	OK
+3	11	2026-04-24_13-56-58_light_blue_book_pick_place_09	901	30.0	800	824	1.057	-0.0	floor	OK
+3	25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	859	30.0	381	422	1.187	0.3	support	OK
+3	5	2026-03-18_19-36-56_g1_box_rotate_01	1003	30.0	457	601	1.082	-0.0	floor	OK
+3	10	2026-05-01_11-36-40_white_desk_lower_to_ground_10	794	30.0	119	395	0.984	-0.0	floor	OK
+3	15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	30.0	0	389	0.85	-0.0	floor	OK
+3	27	2026-05-01_11-15-05_woven_basket_ground_desk_10	565	30.0	287	309	0.923	0.0	floor	OK
+3	13	2026-06-09_10-19-09_snack_box_desk_through_06	922	30.0	287	299	0.62	0.6	floor	OK
+3	19	2026-05-19_10-19-48_cane_swing_05	886	30.0	226	169	0.979	-0.0	floor	OK
+3	1	2026-05-18_17-06-21_vacuum_left_lean_02	747	30.0	187	48	0.975	-0.0	floor	OK
+3	9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	870	30.0	511	545	0.755	1.0	floor	OK
+3	17	2026-05-01_17-04-55_traffic_cone_ground_table_02	440	30.0	151	166	0.943	0.0	floor	OK
+## runs/logs/batch/t3_gb5_ep03.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0009, +0.1098] m
+[INFO] Saved robot sole Z range: [+0.0009, +0.1098] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/781 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 515/781 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 781 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet)
+support: 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.464,-1.267] y[-0.178,-0.037] z[+0.734,+0.754]
+
+物体静置时：网格最低点 z = +0.7537 m，中心 xy = (-1.374, -0.105)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/support_0@+0.754
+最近支撑面 /support_surfaces/support_0 顶面 z = +0.7540 m  →  间隙 = -0.3 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.3 surface=support ok=1
+## runs/logs/batch/t3_gb5_ep12.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0007, +0.1517] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/700 frames
+[INFO] Saved robot sole Z range: [+0.0007, +0.1517] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 367/700 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 343/700 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 700 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet)
+support: 2026-04-25_17-20-04_black_platform_turn_05_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.419, +0.523)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep16.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0014, +0.1171] m
+[INFO] Saved robot sole Z range: [+0.0014, +0.1171] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 197/477 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 0/477 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 477 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet)
+support: 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-0.768,-0.562] y[+0.783,+1.007] z[+0.862,+0.882]
+
+物体静置时：网格最低点 z = +0.0000 m，中心 xy = (-0.653, +0.720)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep14.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0023, +0.0974] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/993 frames
+[INFO] Saved robot sole Z range: [+0.0023, +0.0974] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 532/993 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 603/993 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 993 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-28_14-44-09_round_table_flip_08/robot_name=g1/data.parquet)
+support: 2026-05-28_14-44-09_round_table_flip_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.988, -0.056)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep23.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0027, +0.0961] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/946 frames
+[INFO] Saved robot sole Z range: [+0.0027, +0.0961] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 403/946 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 286/946 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 946 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet)
+support: 2026-06-03_15-08-03_toy_stroller_back_forth_ground_04_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.684, -0.215)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep02.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0023, +0.1314] m
+[INFO] Saved robot sole Z range: [+0.0023, +0.1314] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 318/980 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 107/980 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 980 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-02_10-04-42_blue_easter_basket_place_10/robot_name=g1/data.parquet)
+support: 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.127,-0.808] y[-0.223,+0.077] z[+0.739,+0.759]
+
+物体静置时：网格最低点 z = +0.0000 m，中心 xy = (-1.048, -0.560)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep04.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0012, +0.1075] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/803 frames
+[INFO] Saved robot sole Z range: [+0.0012, +0.1075] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 399/803 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 453/803 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 803 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet)
+support: 2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-1.223, +0.450)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep11.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0014, +0.1344] m
+[INFO] Saved robot sole Z range: [+0.0014, +0.1344] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 800/901 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 824/901 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 901 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-24_13-56-58_light_blue_book_pick_place_09/robot_name=g1/data.parquet)
+support: 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.160,-0.574] y[-0.071,+0.147] z[+0.830,+0.850]
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.362, +0.476)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep25.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0060, +0.1133] m
+[INFO] Saved robot sole Z range: [+0.0060, +0.1133] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 381/859 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 422/859 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 859 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet)
+support: 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.220,-0.997] y[+0.662,+0.868] z[+0.777,+0.797]
+
+物体静置时：网格最低点 z = +0.7973 m，中心 xy = (-1.126, +0.779)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/support_0@+0.797
+最近支撑面 /support_surfaces/support_0 顶面 z = +0.7970 m  →  间隙 = +0.3 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.3 surface=support ok=1
+## runs/logs/batch/t3_gb5_ep05.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0005, +0.1073] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/1003 frames
+[INFO] Saved robot sole Z range: [+0.0005, +0.1073] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 457/1003 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 601/1003 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 1003 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet)
+support: 2026-03-18_19-36-56_g1_box_rotate_01_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.320, -0.707)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep10.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0036, +0.1522] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/794 frames
+[INFO] Saved robot sole Z range: [+0.0036, +0.1522] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 119/794 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 395/794 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 794 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet)
+support: 2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.832, +0.064)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep15.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0026, +0.1431] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/715 frames
+[INFO] Saved robot sole Z range: [+0.0026, +0.1431] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 0/715 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 389/715 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 715 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet)
+support: 2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.503, -0.270)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep27.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0025, +0.1425] m
+[INFO] Saved robot sole Z range: [+0.0025, +0.1425] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 287/565 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 309/565 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 565 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet)
+support: 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda，1 个几何体
+  /support_surfaces/support_0              x[+0.047,+0.365] y[-1.129,-0.807] z[+0.858,+0.878]
+
+物体静置时：网格最低点 z = +0.0000 m，中心 xy = (-0.922, -0.600)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep13.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0006, +0.1526] m
+[INFO] Saved robot sole Z range: [+0.0006, +0.1526] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 287/922 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 299/922 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 922 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet)
+support: 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.187,-0.665] y[-0.392,+0.206] z[+0.853,+0.873]
+
+物体静置时：网格最低点 z = +0.0006 m，中心 xy = (-0.998, +0.070)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/support_0@+0.873
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +0.6 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.6 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep19.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0046, +0.1256] m
+[INFO] Same-frame robot-only anti-penetration lift: [+0.0000, +0.0000] m; 0/886 frames
+[INFO] Saved robot sole Z range: [+0.0046, +0.1256] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 226/886 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 169/886 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 886 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet)
+support: 2026-05-19_10-19-48_cane_swing_05_support.usda，0 个几何体
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.303, +0.852)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep01.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0023, +0.1286] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 187/747 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 48/747 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 747 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet)
+support: 2026-05-18_17-06-21_vacuum_left_lean_02_support.usda，2 个几何体
+  /support_surfaces/support_lean_0         x[-0.534,-0.361] y[-0.796,-0.574] z[+0.582,+0.622]
+  /support_surfaces/support_lean_1         x[-0.704,-0.546] y[-0.585,-0.398] z[+0.580,+0.620]
+
+物体静置时：网格最低点 z = -0.0000 m，中心 xy = (-0.490, -0.152)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = -0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=-0.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep09.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0018, +0.0941] m
+[INFO] Saved robot sole Z range: [+0.0018, +0.0941] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 511/870 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 545/870 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 870 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet)
+support: 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-1.112,-0.815] y[-0.165,+0.132] z[+0.451,+0.471]
+
+物体静置时：网格最低点 z = +0.0010 m，中心 xy = (-0.976, +0.090)
+候选支撑面: 地面 z=0@+0.000, /support_surfaces/support_0@+0.471
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +1.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=1.0 surface=floor ok=1
+## runs/logs/batch/t3_gb5_ep17.log（脚底高度与最后 15 行）
+[INFO] Saved robot sole Z range: [+0.0028, +0.1403] m
+[INFO] Saved robot sole Z range: [+0.0028, +0.1403] m
+[INFO] Object trajectory: constant ground lift applied to plane-leveled raw poses; no contact-mask rewrite
+[INFO] left_hand_contact_active: 151/440 frames (threshold=0.02 m)
+[INFO] right_hand_contact_active: 166/440 frames (threshold=0.02 m)
+Saved to /repo/runs/motion/tier3_gb5/whole_body/soma
+Retargeting complete. Processed 440 frames.
+[v2d] fps 修正: 30.0 -> 30.0  (/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet)
+support: 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda，1 个几何体
+  /support_surfaces/support_0              x[-0.314,-0.091] y[+0.556,+0.779] z[+0.758,+0.778]
+
+物体静置时：网格最低点 z = +0.0000 m，中心 xy = (-1.106, +0.897)
+候选支撑面: 地面 z=0@+0.000
+最近支撑面 地面 z=0 顶面 z = +0.0000 m  →  间隙 = +0.0 mm（正=悬空，负=穿入）
+判定: 对齐 ✓
+RESULT gap_mm=0.0 surface=floor ok=1
+EPS_DONE
