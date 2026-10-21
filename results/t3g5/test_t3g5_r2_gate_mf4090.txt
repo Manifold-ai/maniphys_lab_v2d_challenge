@@ -1,0 +1,10 @@
+# command  : python3 stages/evaluate/test_t3g5_r2_gate.py 
+# md5      : d5460096107dcdec3e2359e4c1349443  stages/evaluate/test_t3g5_r2_gate.py
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T22:24:40+0800
+# ---------------------------------------------------------------
+  test_below_threshold_releases_hold_and_keeps_waiter 过
+  test_readout_without_r1_keeps_hold 过
+  test_threshold_stops_only_the_named_waiter 过
+T3G5_R2_GATE_TESTS_OK

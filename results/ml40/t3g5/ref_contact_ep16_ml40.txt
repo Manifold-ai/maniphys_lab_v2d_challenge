@@ -1,0 +1,30 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_contact_window.py\ --frames\ 80:160:5\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 50f1c30cf682df4ac580fa20c2b972a7  stages/evaluate/ref_contact_window.py
+# md5      : f0e47ddf0aa1ef89b2fc884443e7c49e  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T22:27:48+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet：477 帧；手 ['left', 'right']
+  left 的接触段：137–161 164–301 309–309 316–317 324–327 332–337 339–340 363–381
+  right 的接触段：无
+  参考物体第一次平移 > 3 cm：第 129 帧
+  帧	left接触	right接触	物体平移 m	高度变化 m
+  80	0	0	0.000	+0.000
+  85	0	0	0.000	+0.000
+  90	0	0	0.000	+0.000
+  95	0	0	0.000	+0.000
+  100	0	0	0.000	+0.000
+  105	0	0	0.000	+0.000
+  110	0	0	0.002	+0.001
+  115	0	0	0.012	+0.004
+  120	0	0	0.012	+0.004
+  125	0	0	0.012	+0.004
+  130	0	0	0.061	+0.013
+  135	0	0	0.173	+0.024
+  140	1	0	0.277	+0.032
+  145	1	0	0.381	+0.044
+  150	1	0	0.488	+0.036
+  155	1	0	0.588	+0.025
+REF_CONTACT_WINDOW_DONE
