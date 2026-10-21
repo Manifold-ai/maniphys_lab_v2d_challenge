@@ -17,8 +17,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from finger_close import URDF, Robot, quat_mat  # noqa: E402
-from hands_off import mat_to_wxyz  # noqa: E402
+from finger_close import URDF, Robot, quat_mat
+from hands_off import mat_to_wxyz
 
 
 def main() -> int:
