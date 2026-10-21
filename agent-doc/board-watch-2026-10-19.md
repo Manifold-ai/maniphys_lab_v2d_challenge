@@ -75,6 +75,10 @@
   maniphys.ai 30，官网规则 26、33；读法 A 5 比 7。不改、不交。ml40 在训 t2tm（`agent-doc/plan-t2term-2026-10-20.md`）；mf4090 的卡空着、CPU 在做 gb5 的重定向，
   复核过的 `agent-doc/plan-t3g5-2026-10-21.md`（第 2 版）重定向一完就起，不另写计划。
 
+- 10/21 04:31 MDT（`results/board/diff_1021_0431.txt`；02:10 那次因额度用完没跑）：Chivatam 与 Rohit Pardeshi 在 Tier 1 各交了一次（Chivatam AUC 0.42、SP-SR 0.600、MP-SR 0.133、
+  MPPE 16.95；Rohit Pardeshi MPPE 44.56），都在 maniphys.ai 之后；各榜名次不变。读法 B：Kaggle 规则 FF 26、maniphys.ai 30，官网规则 26、33；读法 A 5 比 7。不改、不交。
+  两台卡在训 `agent-doc/plan-t3g5-2026-10-21.md` 的 A 段（mf4090 ep5 03:39 训完、在训 ep10；ml40 ep3 03:25 训完、在训 ep12）。
+
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 
 这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。

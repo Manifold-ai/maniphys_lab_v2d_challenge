@@ -1,0 +1,26 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : bfda5c7189b1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T04:31:42-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-21 18:31:44 CST
+NVIDIA L40S, 40337 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.0T  992G  51% /lab_data
+-- tmux
+v2d-t3qg5a-eval: 1 windows (created Wed Oct 21 15:06:40 2026)
+v2d-t3qg5a-export: 1 windows (created Wed Oct 21 15:06:42 2026)
+v2d-t3qg5a-train: 1 windows (created Wed Oct 21 15:06:38 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qg5a_ml40-gate
+runs/.chain-active-t3qg5a_eval_ml40
+runs/.chain-active-t3qg5a_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep12-w2048-cap10m-r3a-gb5-ml40.log：nefc overflow - please increase njmax to 1046
+runs/logs/t3-ep12-w2048-cap10m-r3a-gb5-ml40.nanwatch.log：10-21 04:31:23 MDT 150,005,760 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qg5a_train_ml40.log：=== 2026-10-21 17:25:18 CST 正式 t3-ep12-w2048-cap10m-r3a-gb5-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-ml40.nanwatch.log：10-21 03:22:11 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40
+runs/logs/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40
