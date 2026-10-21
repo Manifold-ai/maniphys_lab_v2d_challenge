@@ -34,7 +34,7 @@ def main(argv=None) -> int:
     ap.add_argument("--steps", type=int, default=349999104)
     ap.add_argument("--root", default=".")
     a = ap.parse_args(argv)
-    tiers = {r.split("-", 1)[0] for r in a.runs}
+    tiers = {r.removeprefix("smoke-").split("-", 1)[0] for r in a.runs}   # 冒烟 run 也收（计划 agent-doc/plan-t3g5-2026-10-21.md：用冒烟的 policy 提前看参考开头）
     if len(tiers) != 1 or not tiers <= {"t1", "t2", "t3"}:
         print(f"ref_start_height: 一次只收同一档的 run，这次是 {sorted(tiers)}", file=sys.stderr)
         return 2
