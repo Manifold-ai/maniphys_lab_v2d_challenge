@@ -126,7 +126,11 @@ def main() -> int:
         from flash_chord.scene import support as fsup
         for u in usd:
             b = newton.ModelBuilder()
-            fsup.add_support_surfaces(b, str(u))
+            try:
+                fsup.add_support_surfaces(b, str(u))
+            except ValueError as e:   # 支撑面文件里没有方盒或圆柱（如 Tier 2 ep4 的空 Xform；计划 agent-doc/plan-t12arm-2026-10-20.md 复核 BLOCKER 1）
+                print(f"  支撑面 {u.name} 读不出形状（{e}），没算进距离")
+                continue
             for i in range(b.shape_count):
                 kind = newton.GeoType(b.shape_type[i]).name
                 if kind not in ("BOX", "CYLINDER"):
