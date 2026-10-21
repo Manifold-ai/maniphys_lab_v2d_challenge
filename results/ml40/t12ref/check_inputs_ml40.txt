@@ -1,0 +1,51 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/check_inputs.py\ \ /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# md5      : 834e7bf53c4082116fe6de04d28c7e16  runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : 29494fed31f97115516425894087bedd  runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : 317c224f6ddeb494c5e38410bf1e1b57  runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : d1f37ebca53c27121d66ab643b00f156  runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# source   : 6eba44d7cbf5
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T08:12:46+0800
+# ---------------------------------------------------------------
+== /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 60b4c0f7536b3677…
+  fps = [30.0]
+  列 object_name = '2026-04-24_11-40-52_baseball_bat_rotate_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier2_wc15/whole_body/reconstructed_stage/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+== /repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 0e2bd8cc4859969c…
+  fps = [30.0]
+  列 object_name = '2026-04-24_11-40-52_baseball_bat_rotate_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier2_wc25/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier2_wc25/whole_body/reconstructed_stage/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+== /repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 e6118a6c77783b3e…
+  fps = [30.0]
+  列 object_name = '2026-04-24_11-40-52_baseball_bat_rotate_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier2_wc35/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier2_wc35/whole_body/reconstructed_stage/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda
+== /repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 5ecf7d4903b0af80…
+  fps = [30.0]
+  列 object_name = '2026-04-24_11-40-52_baseball_bat_rotate_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier2_wc25b40/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier2_wc25b40/whole_body/reconstructed_stage/2026-04-24_11-40-52_baseball_bat_rotate_05_support.usda

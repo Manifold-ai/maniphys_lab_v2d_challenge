@@ -1,0 +1,17 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/replay_diff.py\ --npz-a\ /repo/runs/t12replay/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600.npz\ --motion-a\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet\ --npz-b\ /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.npz\ --motion-b\ /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e0c9cc8e4c84d77e6facad85a4805e36  stages/evaluate/replay_diff.py
+# md5      : c8eeb71193da94df0711b21d0d8760f1  runs/t12replay/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600.npz
+# md5      : 260072f4a28dc4038a9d5398e0a1e8cb  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# md5      : dbac58a35f500f35c600ecbe8e559c9b  runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.npz
+# md5      : 834e7bf53c4082116fe6de04d28c7e16  runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# source   : 6eba44d7cbf5
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T08:15:45+0800
+# ---------------------------------------------------------------
+A /repo/runs/t12replay/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600.npz
+B /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.npz
+  参考第一次不同的帧 t0 = 43（起始帧 0）；比了 1024 个世界（剔除非有限 0 个）
+  躯干朝向夹角（世界中位）：对照段 [0, 43) 最大 0.00403 rad；检验段 [43, 63) 最大 0.01247 rad，门槛 0.02014 → FAIL（改动没到仿真）
+  t0 之后第 0、10、20、40、60 帧：0.0050、0.0102、0.0149、0.0585、0.2779 rad
+REPLAY_DIFF FAIL

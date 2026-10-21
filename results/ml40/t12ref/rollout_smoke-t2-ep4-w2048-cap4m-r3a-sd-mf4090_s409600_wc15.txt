@@ -1,0 +1,123 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ /repo/stages/evaluate/diag_rollout.py\ /repo/runs/flash_chord/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors\ /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15\ --worlds\ 1024\ --palms\ --bodies\ --parquet\ /repo/runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 16ec6ffa9a8be088bc39550feab7d729  stages/evaluate/diag_rollout.py
+# md5      : c3a5a32158fdda7cbc7d6c946603f5e9  runs/flash_chord/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090/policy_409600.safetensors
+# md5      : 834e7bf53c4082116fe6de04d28c7e16  runs/motion/tier2_wc15/whole_body/soma/sequence_id=2026-04-24_11-40-52_baseball_bat_rotate_05/robot_name=g1/data.parquet
+# source   : 6eba44d7cbf5
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T08:12:47+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+[2026-10-21 00:12:55,014][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 2048 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+[0;93m2026-10-21 00:13:16.894225923 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+[0;93m2026-10-21 00:13:16.922257980 [W:onnxruntime:, inference_session.cc:2647 Initialize] This model has shape massaging nodes that will execute on CPU. Use the graph capture feature with caution. As long as the intermediate shapes produced in the model using the representative input used to capture the graph, will match the shapes produced in the model for other inputs of the same shape as the representative input (common case), it is safe to use the graph capture feature.[m
+[0;93m2026-10-21 00:13:17.027801272 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA L40S" (44 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 372.03 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.63 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.28 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 53.65 ms  (cached)
+Module newton._src.sim.graph_coloring 8071a9f load on device 'cpu' took 0.30 ms  (cached)
+Module newton._src.solvers.mujoco.kernels 618b13f load on device 'cuda:0' took 3309.06 ms  (cached)
+Module repeat_array_kernel_2767062b bae2300 load on device 'cuda:0' took 18.19 ms  (cached)
+Module repeat_array_kernel_2767062b 122cd4b load on device 'cuda:0' took 27.46 ms  (cached)
+Module repeat_array_kernel_2767062b 70fd208 load on device 'cuda:0' took 37.31 ms  (cached)
+Module repeat_array_kernel_2767062b ad5e920 load on device 'cuda:0' took 47.14 ms  (cached)
+Module repeat_array_kernel_2767062b 4770c98 load on device 'cuda:0' took 57.36 ms  (cached)
+Module repeat_array_kernel_2767062b 4d9e605 load on device 'cuda:0' took 68.44 ms  (cached)
+Module repeat_array_kernel_2767062b beb7dd7 load on device 'cuda:0' took 78.60 ms  (cached)
+Module mujoco_warp._src.io 2f253d2 load on device 'cuda:0' took 1339.43 ms  (cached)
+Module mujoco_warp._src.smooth cf7a289 load on device 'cuda:0' took 1596.52 ms  (cached)
+Module _solve_LD_sparse_fused__locals__kernel_13fa3396 abc6df3 load on device 'cuda:0' took 30.14 ms  (cached)
+Module flash_chord.lifecycle.reset cab254d load on device 'cuda:0' took 691.23 ms  (cached)
+Module newton._src.sim.articulation 24ff67e load on device 'cuda:0' took 3292.02 ms  (cached)
+Module flash_chord.runtime.actions.sonic 9ac4ca7 load on device 'cuda:0' took 3763.55 ms  (cached)
+Module flash_chord.runtime.delay 49f6340 load on device 'cuda:0' took 132.99 ms  (cached)
+Module flash_chord.envs.base 7bb0f78 load on device 'cuda:0' took 48.94 ms  (cached)
+Module flash_chord.envs.rl 4c4513a load on device 'cuda:0' took 152.76 ms  (cached)
+Module flash_chord.envs.recon_body 6b7f5a5 load on device 'cuda:0' took 1685.32 ms  (cached)
+Module flash_chord.runtime.command 768bb56 load on device 'cuda:0' took 121.43 ms  (cached)
+Module flash_chord.runtime.object_control c5f9b6d load on device 'cuda:0' took 167.76 ms  (cached)
+Module mujoco_warp._src.collision_driver 621a3f9 load on device 'cuda:0' took 20.96 ms  (cached)
+Module _nxn_broadphase__locals__kernel_a24e5586 a24e558 load on device 'cuda:0' took 37.45 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_f8e1da98 f8e1da9 load on device 'cuda:0' took 1906.18 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_702804f0 702804f load on device 'cuda:0' took 1959.50 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_6090cf8f 6090cf8 load on device 'cuda:0' took 1602.92 ms  (cached)
+Module _primitive_narrowphase__locals__primitive_narrowphase_70e69a29 70e69a2 load on device 'cuda:0' took 537.53 ms  (cached)
+Module mujoco_warp._src.constraint e56f243 load on device 'cuda:0' took 1117.78 ms  (cached)
+Module _efc_contact_init__locals__kernel_7561548c 7561548 load on device 'cuda:0' took 46.59 ms  (cached)
+Module _efc_contact_jac_sparse__locals__kernel_a4c07dfc a4c07df load on device 'cuda:0' took 47.70 ms  (cached)
+Module _efc_contact_update__locals__kernel_c8073923 c807392 load on device 'cuda:0' took 75.41 ms  (cached)
+Module mujoco_warp._src.forward f5bfed4 load on device 'cuda:0' took 580.39 ms  (cached)
+Module mujoco_warp._src.passive cc48b2a load on device 'cuda:0' took 371.22 ms  (cached)
+Module mujoco_warp._src.forward 46b3f78 load on device 'cuda:0' took 580.84 ms  (cached)
+Module mujoco_warp._src.support d1e71d9 load on device 'cuda:0' took 60.58 ms  (cached)
+Module mujoco_warp._src.solver d53b47b load on device 'cuda:0' took 642.37 ms  (cached)
+Module solve_init_jaref__locals__kernel_8f289606 8f28960 load on device 'cuda:0' took 49.67 ms  (cached)
+Module mul_m_sparse__locals___mul_m_sparse_57bd8101 57bd810 load on device 'cuda:0' took 73.71 ms  (cached)
+Module update_constraint_efc__locals__kernel_e7fd7693 e7fd769 load on device 'cuda:0' took 55.39 ms  (cached)
+Module update_constraint_gauss_cost__locals__kernel_5f9e4daa 5f9e4da load on device 'cuda:0' took 38.82 ms  (cached)
+Module update_gradient_cholesky_blocked__locals__kernel_ff24a874 22c536e load on device 'cuda:0' took 1205.96 ms  (cached)
+Module linesearch_jv_fused__locals__kernel_caac7c12 caac7c1 load on device 'cuda:0' took 50.27 ms  (cached)
+Module linesearch_iterative__locals__kernel_6637ae6e d82a261 load on device 'cuda:0' took 216.81 ms  (cached)
+Module update_constraint_efc__locals__kernel_565f38f0 565f38f load on device 'cuda:0' took 57.12 ms  (cached)
+Module update_gradient_cholesky_blocked_skip_unchanged__locals__kernel_e9533037 d389bb6 load on device 'cuda:0' took 1164.78 ms  (cached)
+Module mujoco_warp._src.sensor a993087 load on device 'cuda:0' took 1255.73 ms  (cached)
+Module mujoco_warp._src.derivative 212adeb load on device 'cuda:0' took 253.44 ms  (cached)
+Module flash_chord.runtime.joint_drive 1a1ab2a load on device 'cuda:0' took 207.17 ms  (cached)
+Module flash_chord.runtime.contact 6b5b079 load on device 'cuda:0' took 248.29 ms  (cached)
+Module flash_chord.lifecycle.termination 3e3f704 load on device 'cuda:0' took 353.34 ms  (cached)
+Module flash_chord.objectives.wrench 8e5d34b load on device 'cuda:0' took 285.42 ms  (cached)
+Module flash_chord.objectives.recon_body 0a954a1 load on device 'cuda:0' took 451.48 ms  (cached)
+Module diag_palms af918ad load on device 'cuda:0' took 102.59 ms  (cached)
+Module flash_chord.evaluation.rollout 43be27a load on device 'cuda:0' took 146.83 ms  (cached)
+evaluation step 1/803
+evaluation step 51/803
+evaluation step 101/803
+evaluation step 151/803
+evaluation step 201/803
+evaluation step 251/803
+evaluation step 301/803
+evaluation step 351/803
+evaluation step 401/803
+evaluation step 451/803
+evaluation step 501/803
+evaluation step 551/803
+evaluation step 601/803
+evaluation step 651/803
+evaluation step 701/803
+evaluation step 751/803
+evaluation step 801/803
+evaluation step 803/803
+{
+  "evaluation/add_auc": 0.1135585305105853,
+  "evaluation/add_std_m": 0.6700444764130244,
+  "evaluation/cause_fraction/object": 1.0,
+  "evaluation/cause_fraction/wrist": 1.0,
+  "evaluation/chord_sr": 0.0,
+  "evaluation/environment_steps": 409600.0,
+  "evaluation/maniptrans_sr": 0.0,
+  "evaluation/mean_add_m": 1.1236456164329618,
+  "evaluation/mean_per_point_error_cm": 111.46507274452482,
+  "evaluation/mppe_cm": 111.46507274452482,
+  "evaluation/object_orientation_error_deg": 117.91995941547042,
+  "evaluation/object_orientation_error_std_deg": 0.32899647001142185,
+  "evaluation/object_position_error_m": 1.1092535719570749,
+  "evaluation/object_position_error_std_m": 0.0025528301867880966,
+  "evaluation/relative_position_error_cm": 0.0,
+  "evaluation/spider_position_error_centered_m": 0.806250599410518,
+  "evaluation/spider_sr_uncentered": 0.0,
+  "evaluation/world_count": 1024.0
+}
+report: /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.json
+rollout: /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.npz（T=803 W=1024，包装调用 {'record': 1, 'score': 1}；trimesh 顶点与评测器一致 True；手掌 ['left', 'right']，物体位置同步最大差 0 m）  report: /repo/runs/t12ref/smoke-t2-ep4-w2048-cap4m-r3a-sd-mf4090_s409600_wc15.json

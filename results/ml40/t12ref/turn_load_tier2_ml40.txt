@@ -1,0 +1,41 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_turn_load.py\ /repo/runs/motion/tier2\ --summary\ /repo/runs/t12ref/batch_summary_v040.tsv\ --tier\ 2 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : d617653a31072b2229015b01ccd1d655  stages/retarget/ref_turn_load.py
+# md5      : 51879b6a59964b1174d753b426b07fd0  runs/t12ref/batch_summary_v040.tsv
+# source   : 31e71307323c
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T08:48:48+0800
+# ---------------------------------------------------------------
+回放速率 50 帧/秒，窗口 10 帧，门槛 1.0 m/s²
+ep	序列	第一次接触帧	接触前 v·|ω| 最大 m/s²	出现在第几帧	那一帧 v m/s	那一帧 |ω| rad/s	接触前 |dv/dt| 最大 m/s²	接触前 v·|ω| > 门槛的帧数
+0	2026-06-04_14-16-23_tall_bar_stool_tip_up_04	203	1.04	83	0.43	2.43	1.59	5
+1	2026-05-18_17-06-21_vacuum_left_lean_02	104	4.52	39	1.00	4.52	4.62	63
+2	2026-06-02_10-04-42_blue_easter_basket_place_10	94	2.47	75	0.70	3.54	2.01	17
+3	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	98	0.56	36	0.34	1.64	2.27	0
+4	2026-04-24_11-40-52_baseball_bat_rotate_05	133	1.98	66	0.80	2.48	2.72	16
+5	2026-03-18_19-36-56_g1_box_rotate_01	101	2.41	99	0.52	4.66	3.16	33
+6	2026-06-01_11-26-44_monitor_rotate_05	104	0.16	46	0.32	0.50	1.39	0
+7	2026-05-29_15-20-43_iron_round_table_02	104	0.37	48	0.35	1.06	1.41	0
+8	2026-06-05_15-08-08_skinny_wood_chair_push_10	363	0.82	55	0.35	2.34	2.26	0
+9	2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	161	0.83	87	0.42	1.96	1.73	0
+10	2026-05-01_11-36-40_white_desk_lower_to_ground_10	150	1.82	88	0.52	3.53	2.20	18
+11	2026-04-24_13-56-58_light_blue_book_pick_place_09	58	0.68	38	0.54	1.27	1.76	0
+12	2026-04-25_17-20-04_black_platform_turn_05	165	2.20	61	0.56	3.95	4.94	24
+13	2026-06-09_10-19-09_snack_box_desk_through_06	103	0.21	33	0.16	1.30	0.99	0
+14	2026-05-28_14-44-09_round_table_flip_08	96	1.41	87	0.57	2.46	2.56	11
+15	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	126	3.31	60	0.78	4.22	4.20	47
+16	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	109	4.75	66	0.81	5.84	4.00	58
+17	2026-05-01_17-04-55_traffic_cone_ground_table_02	114	4.20	13	0.95	4.43	5.83	58
+18	2026-05-06_10-00-19_blue_trash_can_drag_sideways_08	209	1.58	100	0.46	3.41	3.95	28
+19	2026-05-19_10-19-48_cane_swing_05	92	2.46	19	0.59	4.17	3.90	17
+20	2026-06-08_16-57-34_rice_cooker_clockwise_04	130	2.33	33	0.60	3.92	2.44	19
+21	2026-04-29_11-53-57_tall_bar_stool_pull_08	95	5.64	47	0.93	6.08	3.65	61
+22	2026-05-22_16-52-36_step_ladder_drag_03	181	1.52	58	0.55	2.78	1.96	23
+23	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	98	0.50	39	0.29	1.70	1.26	0
+24	2026-05-29_15-43-20_watering_can_pour_right_02	104	0.20	6	0.22	0.87	1.35	0
+25	2026-03-20_11-59-57_cyan_water_bottle_rotate_01	102	2.22	19	0.58	3.81	3.67	22
+26	2026-06-05_16-05-08_skateboard_rotate_ground_10	262	0.85	24	0.31	2.73	2.10	0
+27	2026-05-01_11-15-05_woven_basket_ground_desk_10	141	2.11	52	0.61	3.47	3.57	19
+28	2026-05-19_11-27-07_squeegee_sweep_away_from_you_03_	399	2.46	54	0.54	4.56	2.37	32
+29	2026-06-05_18-27-40_rolling_luggage_left_foot_push_06	466	1.00	289	0.50	2.01	2.20	1
+REF_TURN_LOAD_DONE
