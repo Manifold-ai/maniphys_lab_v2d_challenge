@@ -22,7 +22,7 @@ red() { local s; s="$(cat)"; for u in "${names[@]}"; do s="${s//$u/<其他用户
   echo "== $(hostname) $(date '+%F %T %Z')"
   [ ${#roots[@]} = 1 ] || { echo "别的用户的 tier3 目录不是恰好一个：${roots[*]:-无}"; exit 1; }
   SUB="${V2D_T3_SUBDIR:-tier3_cari4d}"
-  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_cari4d_gb_best_dr2s_dyn7|tier3_cari4d_gb_best_dr2s_dyn7_suspect|tier3_cari4d_gb4_best_dr2s_dyn7|tier3_cari4d_gb4_best_dr2s_dyn7_suspect|tier3_kfix_F) ;;
+  case "$SUB" in tier3_cari4d|tier3_cari4d_suspect|tier3_cari4d_floor|tier3_cari4d_floor_suspect|tier3_cari4d_f830_floor|tier3_cari4d_f830_floor_suspect|tier3_cari4d_f830_simreg|tier3_cari4d_f830_simreg_suspect|tier3_cari4d_f830_best|tier3_cari4d_f830_best_suspect|tier3_cari4d_f830_best_hm|tier3_cari4d_f830_best_hm_suspect|tier3_cari4d_f830_best_dyn4|tier3_cari4d_f830_best_dyn4_suspect|tier3_cari4d_f830_best_dyn4s|tier3_cari4d_f830_best_dyn4s_suspect|tier3_cari4d_gb_best_dr2s_dyn7|tier3_cari4d_gb_best_dr2s_dyn7_suspect|tier3_cari4d_gb4_best_dr2s_dyn7|tier3_cari4d_gb4_best_dr2s_dyn7_suspect|tier3_cari4d_gb5_best_dr2s_dyn7|tier3_cari4d_gb5_best_dr2s_dyn7_suspect|tier3_kfix_F) ;;
     *) echo "V2D_T3_SUBDIR 不在白名单里：$SUB"; exit 2 ;;
   esac
   SUP="${V2D_T3_SUPPORT:-}"
