@@ -58,6 +58,24 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
 - 第 1 级依赖她的解释器（只读调用）；她改或删了 venv，第 1 级就跑不了，第 1b 级解决。
 - CPU 与训练链共用；预计复制 30 分钟、防护与测试 1 小时、三集 1–2 小时。10/22 的额度不依赖这份计划。
 
+## 复核（10/21 04:3x MDT，Opus；中途撞上会话额度，恢复后续完）与改动
+
+结论 GO WITH FIXES，没有 BLOCKER；复核确认第 3 版改到了第 2 版复核的全部条目，并在只读命名空间里实测：直接路径与 `/proc/self/root` 都写不进她的目录，`/proc/<宿主进程>/root` 被拒，
+我们的目录没有外来文件、没有指向她的硬链接或软链接，已知 `.git/index` 的修改时间没变。执行前按下面改（都写进实现，不另出版本）：
+1. **usda 前的 gate 重定向**：用她 gate 里的替身 `gate/incontainer` 覆盖我们 gate 副本的 `scripts/dev/incontainer`（f0ac98f 原版要 `robotic-grounding:latest`，ml40 上没有）；
+   PATH 把她的 gate venv 放最前，`T3_GATE=<我们的 gate 目录>`、`V2D_T3_SET=gb5dyn7`、`OMP_NUM_THREADS=3`、`MKL_NUM_THREADS=3`（同她的 `run_parallel.sh` 23 行）；
+   mkroot：`T3_ROOT=<我们的根> <gate python> mkroot.py <我们的 gate 仓库> gb5dyn7 - <我们的 dyn7 目录>`；命名空间里把 `/dev/null` 绑定到 `/var/run/docker.sock` 上，不让任何步骤在里面起容器。
+2. **K1 用两个比较器**：字节比较（自检：改一个字节要判“不同”）与数值比较（位置 ≤ 1e-6 m、四元数 q ≡ −q、≤ 1e-6 rad；自检：挪 2e-6 m 判“不同”、取反四元数判“相同”）。
+   结论分三种：字节相同、字节不同但数值相同、数值不同。重复跑若不逐位相同，以两次之差作为噪声底，数值比较的门槛取它与 1e-6 的较大者。
+3. **防护补缝**：每步在嵌套的 `unshare -U` 里跑（或 `setpriv --bounding-set=-all`），让外层命名空间里的 root 也不能把只读挂载改回可写；K0 加 `find <我们的根> -type f -links +1` 为空；
+   解释器白名单按 realpath 比（她的 gate python 实际在 `gate/.py/…`）。
+4. **ep20 的参照 decode** 写于 10/09 08:07:29（+0800），比提交 7bae0c1（08:08:18）早 49 秒：ep20 的 decode 不一致只报、不停，后面接着从参照的 object_cam.npz 跑；
+   每一段都另用参照输入跑一遍，一处不同不遮住后面的。
+5. ep20、ep14 的 world_calib.json 里记的文件名是 `*_gb3.json`、sha256 却是 gb5 那两份：calib 与 report 的 json 按字段比、去掉文件名字段；parquet 只记 sha256，不受影响。
+6. decode 的目录布局：`/e/inference/refined.pth`、`/e/export/<恰好一个目录>/wild_export.json`、`/w/sam3d_body/checkpoints/sam-3d-body-dinov3/{model.ckpt,assets/mhr_model.pt}`；
+   `/a` 挂我们 33129dd 的 SOMA 目录；镜像按 ID ca1774d94cd9 钉，不用 `:latest`。
+7. 已知相同对只对物理 out 的 npz 成立（out 的 json 差 tier 字段）；gb4 的 dyn7 在 `runs/` 下，不在 `runs/archive/`；align 不进第 1 级（从运行顺序与 K1 里拿掉，它的输入与参照不复制）。
+
 ## 执行记录
 
 （空）
