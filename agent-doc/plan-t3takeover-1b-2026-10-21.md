@@ -8,7 +8,7 @@
 1. 第 1 级用她的两个解释器（只读命名空间里调用）：宿主机 venv（`/usr/bin/python3.10` 为底，3.10.12，82 个发行版）跑 assemble、物理提取、比较器；
    gate venv（uv 0.13.0 管理的 CPython 3.11.17，93 个发行版）跑 support、dr2s、dyn7、mkroot、重定向（经 incontainer 替身）、usda。
    **残余风险**：gate 解释器与两个 venv 的 site-packages 对 mfshared 组可写，组里任何人都能改我们执行的代码（第 1 级计划的执行记录，05:0x 安全复核）。
-2. 宿主机 venv 里 35 个发行版是 `v2d-*` 本地包装（`direct_url`，video_to_data 重建模块的 docker 包装），其余 47 个来自 PyPI（06:3x 用命令数过；初稿写成 39、43，是目测数错）；第 1 级用到的宿主机步骤
+2. 宿主机 venv 里 35 个发行版是 `v2d-*` 本地包装（`direct_url`，video_to_data 重建模块的 docker 包装），其余 47 个来自 PyPI（06:1x 用命令数过；初稿写成 39、43，是目测数错）；第 1 级用到的宿主机步骤
    （`t3_convert_ep.py assemble`、`t3_physics_check.py extract`、`t3r_compare.py`）只 import numpy、pyarrow、scipy、trimesh 与仓内模块（42f01f0 的 import 行）。
    gate venv 的 93 个全来自 PyPI，torch 是 `2.7.0+cpu`（PyTorch CPU 索引）。
 3. ml40 能直连腾讯云、阿里云的 PyPI 镜像（200，0.2–0.3 s），pypi.org 超时；`download.pytorch.org/whl/cpu`（2.3 s）与阿里云 `pytorch-wheels/cpu` 可达；
