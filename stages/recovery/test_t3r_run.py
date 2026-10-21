@@ -17,8 +17,8 @@ def _skip() -> bool:
     return sys.platform != "linux" or shutil.which("unshare") is None or shutil.which("setpriv") is None
 
 
-def _run(her: Path, root: Path, *cmd: str, allow: str = "") -> subprocess.CompletedProcess:
-    env = dict(os.environ, T3R_HER=str(her), T3R_ROOT=str(root), T3R_ALLOW=allow)
+def _run(her: Path, root: Path, *cmd: str, allow: str = "", mask: str = "") -> subprocess.CompletedProcess:
+    env = dict(os.environ, T3R_HER=str(her), T3R_ROOT=str(root), T3R_ALLOW=allow, T3R_MASK=mask)
     return subprocess.run(["bash", str(RUN), *cmd], env=env, capture_output=True, text=True, check=False)
 
 
@@ -82,6 +82,39 @@ def test_root_under_her_is_refused():
         inner.mkdir()
         p = _run(her, inner, "true")
         assert p.returncode == 2 and "根在她的目录下" in p.stdout, (p.stdout, p.stderr)
+
+
+
+def test_mask_hides_her_dirs():
+    """1b 复核改动第 1 条：T3R_MASK 盖住的她的子目录在命名空间里是空的（里面的解释器跑不起来）；不盖时同一个脚本看得见（对照）；
+    盖她目录以外的东西要拒绝。"""
+    if _skip():
+        return
+    with tempfile.TemporaryDirectory() as d:
+        her, root = _dirs(d)
+        sub = her / "venv" / "bin"
+        sub.mkdir(parents=True)
+        shutil.copy2(shutil.which("true"), sub / "python")
+        script = root / "c.sh"   # 路径写在脚本里，不出现在命令行上
+        script.write_text(f"test -x '{sub}/python' && '{sub}/python'\n")
+        p = _run(her, root, "bash", "c.sh", mask=str(her / "venv"))
+        assert p.returncode != 0, (p.stdout, p.stderr)
+        p = _run(her, root, "bash", "c.sh")
+        assert p.returncode == 0, (p.stdout, p.stderr)
+        p = _run(her, root, "true", mask=str(root))
+        assert p.returncode == 2 and "T3R_MASK" in p.stdout, (p.stdout, p.stderr)
+
+
+def test_allowlisted_exe_is_logged():
+    """1b 复核改动第 1 条：白名单里的程序在第 2 级打出 realpath 与 sha256，记录里看得到实际用的是谁。"""
+    if _skip():
+        return
+    with tempfile.TemporaryDirectory() as d:
+        her, root = _dirs(d)
+        exe = root / "mytrue"
+        shutil.copy2(shutil.which("true"), exe)
+        p = _run(her, root, str(exe), allow=str(exe))
+        assert p.returncode == 0 and f"T3R_EXE {exe.resolve()} sha256 " in p.stderr, (p.stdout, p.stderr)
 
 
 if __name__ == "__main__":
