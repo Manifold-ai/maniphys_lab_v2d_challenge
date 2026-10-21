@@ -78,4 +78,10 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
 
 ## 执行记录
 
-（空）
+- 10/21 04:5x MDT 防护实测（ml40，只用 access() 与 /proc 读）：只读绑定 + 盖住 /run/docker.sock + `setpriv --bounding-set=-all` 之后，她的目录不可写、我们的可写、docker socket 不是 socket、
+  把挂载改回可写被拒、改完仍只读、CapPrm/CapEff 全 0。
+- 05:0x `stages/recovery/t3r_run.sh` 与 `test_t3r_run.py`（99e9550）：4 个测试在 ml40、mf4090 都过（`results/ml40/t3recon/test_t3r_run_ml40.txt`、`results/t3recon/test_t3r_run_mf4090.txt`），
+  含对照：同一个写入脚本在命名空间里失败、在外面成功。
+- 05:1x 复制（`stages/recovery/t3r_copy.sh` 读 `t3r_level1_files.tsv`，经 t3r_run.sh 在只读命名空间里跑）：第一次先查拦下 3 处（物理检查的 summary.json 在 `out/` 下），一个没复制；
+  改清单后 `T3R_COPY_DONE 122 4611083846`，每个文件源与目标 sha256 相同（`results/ml40/t3recon/copy_manifest_ml40.txt`）。
+- 复制之后的报警检查：`find <她的 v2d> -user rxzhou` 只有已知的 `gate/repo/third_party/video_to_data/.git/index`，修改时间仍是 10/21 13:33:28.66（CST），没变。
