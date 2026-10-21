@@ -12,7 +12,7 @@ cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}; OTHER=${2:-ref}
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; REF="$R/$OTHER"; CTL="$R/ctl"
-H="$(ls -d /lab_data/*/v2d | grep -v '^/lab_data/rxzhou/' | head -1)"
+H="$("$REPO/stages/recovery/t3r_other.sh")" || { echo "T3R_L1_COMPARE_FAILED 另一位成员的目录或解释器没过核对"; exit 2; }
 HPY="$H/venv/bin/python"
 export T3R_HER="$(dirname "$H")" T3R_ROOT="$R" T3R_ALLOW="$HPY"
 GUARD="$REPO/stages/recovery/t3r_run.sh"

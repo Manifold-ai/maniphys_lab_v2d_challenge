@@ -18,8 +18,7 @@ mkdir -p "$REPO/runs/logs"
 exec >> "$LOG" 2>&1
 say() { echo "=== $(date '+%F %T %Z') $*"; }
 fail() { say "T3R_LEVEL1_FAILED $*"; exit 1; }
-H="$(ls -d /lab_data/*/v2d | grep -v '^/lab_data/rxzhou/' | head -1)"
-[ -n "$H" ] || fail "找不到另一位成员的目录"
+H="$("$REPO/stages/recovery/t3r_other.sh" 2>> "$LOG")" || fail "另一位成员的目录或解释器没过核对（见日志里的 T3R_OTHER_REFUSED）"
 HPY="$H/venv/bin/python"; GPY="$H/gate/venv/bin/python"
 export T3R_HER="$(dirname "$H")" T3R_ROOT="$T3" T3R_ALLOW="$GPY:$HPY"
 GUARD="$REPO/stages/recovery/t3r_run.sh"

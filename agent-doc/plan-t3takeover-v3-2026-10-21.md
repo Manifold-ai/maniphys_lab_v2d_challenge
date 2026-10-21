@@ -85,3 +85,7 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
 - 05:1x 复制（`stages/recovery/t3r_copy.sh` 读 `t3r_level1_files.tsv`，经 t3r_run.sh 在只读命名空间里跑）：第一次先查拦下 3 处（物理检查的 summary.json 在 `out/` 下），一个没复制；
   改清单后 `T3R_COPY_DONE 122 4611083846`，每个文件源与目标 sha256 相同（`results/ml40/t3recon/copy_manifest_ml40.txt`）。
 - 复制之后的报警检查：`find <她的 v2d> -user rxzhou` 只有已知的 `gate/repo/third_party/video_to_data/.git/index`，修改时间仍是 10/21 13:33:28.66（CST），没变。
+- 05:0x 自动安全复核（MEDIUM，不可信解释器的选择）：原先用通配符猜她的目录、不核解释器。改为 `stages/recovery/t3r_other.sh`：候选必须恰好一个、不是软链接、不属我们、对其他用户不可写；
+  宿主机解释器的真实文件属 root、gate 解释器的真实文件属路径里的那个用户，都对其他用户不可写，sha256 记进日志。实测：v2d 目录本身是机器管理账户建的（不是她），
+  gate 解释器属她、权限 rwxrwxr-x（组可写）。**残余风险**：mfshared 组里的成员能改 gate 解释器，这一点只有第 1b 级换成我们自己的环境才消除。
+  正在跑的第 1 级 A 部分用的是改动前的脚本（bash 边跑边读，跑的时候不换文件），跑完再换；比较驱动已换。
