@@ -12,7 +12,8 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 
 --bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：另经 diag_palms.BodyRecorder 抄骨盆、躯干、两只脚踝的逐帧位姿（robot_body_pose，(T,W,4,7)，位置 + 四元数 xyzw，
 与 robot_body_names）。不加 --bodies 时与原来完全相同。
---parquet <容器内路径>（计划 agent-doc/plan-t12ref-2026-10-20.md）：把 checkpoint 配置里的参考 parquet 换成这一份（包一层 harness._resolve_parquet），用零残差回放试改过的参考。
+--parquet <容器内路径>（计划 agent-doc/plan-t12ref-2026-10-20.md）：把 checkpoint 配置里的参考 parquet 换成这一份（包一层 harness._resolve_parquet），用零残差回放试改过的参考；
+评测 JSON 里的 parquet 不是它就作废；网格按它解析；npz 记 reference_parquet（不加时记 checkpoint 配置里那份）。
 用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies] [--parquet <p>]   （容器内路径）
 输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
@@ -105,6 +106,11 @@ def main() -> int:
     except SystemExit as e:  # 上游若以 sys.exit(...) 结束：成功就继续存 npz，失败原样抛出
         if e.code not in (0, None):
             raise
+    if a.parquet:   # 换参考时，评测器写进 JSON 的 parquet 必须正是新参考，否则作废（同 eval_playback_override.py）
+        report = json.loads(Path(out + ".json").read_text()) if Path(out + ".json").exists() else {}
+        if str(report.get("parquet", "")).strip("'") != str(Path(a.parquet).resolve()):
+            print(f"评测 JSON 的 parquet 是 {report.get('parquet')}，要换成的是 {a.parquet}：换参考没有生效，结果作废", file=sys.stderr)
+            return 2
 
     if calls != {"record": 1, "score": 1} or cap.get("reference") is None:
         print(f"包装调用次数不对或拿不到参考：{calls}；上游可能改了 evaluate_checkpoint 的调用方式", file=sys.stderr)
@@ -124,9 +130,12 @@ def main() -> int:
     names = list(attr(ref, "robot_frame_names"))
     fpos = np.asarray(attr(ref, "robot_frame_pos_w"), np.float64)[s0:s0 + T]                     # (T,F,3)
     palm_idx = [i for i, n in enumerate(names) if "palm" in n]
-    with open(a.policy, "rb") as f:  # 参考 parquet 取自 policy 内嵌的配置（与评测器重建环境用的是同一份）
-        n = struct.unpack("<Q", f.read(8))[0]
-        parquet = json.loads(json.loads(f.read(n))["__metadata__"]["user.resolved_config_json"])["task"]["parquet"].strip("'")
+    if a.parquet:   # 换过参考：网格按新参考解析
+        parquet = str(Path(a.parquet).resolve())
+    else:
+        with open(a.policy, "rb") as f:  # 参考 parquet 取自 policy 内嵌的配置（与评测器重建环境用的是同一份）
+            n = struct.unpack("<Q", f.read(8))[0]
+            parquet = json.loads(json.loads(f.read(n))["__metadata__"]["user.resolved_config_json"])["task"]["parquet"].strip("'")
     mesh_paths = list(attr(ref, "object_mesh_paths"))
     mesh = np.asarray(trimesh.load(resolve_asset_path(str(mesh_paths[0]), reference_path=parquet), force="mesh").vertices,
                       np.float64)
@@ -185,7 +194,7 @@ def main() -> int:
         criteria_json=np.array(json.dumps(criteria)),
         reported_success_rate=np.float64(cap["tracking"].success_rate),
         control_fps=np.float64(r.control_fps), start_frame=np.int64(s0), step_count=np.int64(T), world_count=np.int64(W),
-        policy=np.array(str(a.policy)), wrapper_calls=np.array(json.dumps(calls)),
+        policy=np.array(str(a.policy)), reference_parquet=np.array(parquet), wrapper_calls=np.array(json.dumps(calls)),
         upstream_md5=np.array(json.dumps({Path(p).name: md5(p) for p in
                                           (harness.__file__, rollout.__file__, metrics.__file__, EVAL_SCRIPT)})),
         mesh_vertex_count=np.int64(len(mesh)),

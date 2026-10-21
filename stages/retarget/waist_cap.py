@@ -2,7 +2,7 @@
 计划 agent-doc/plan-t12ref-2026-10-20.md：Tier 2 ep4 的零残差回放在 1024 个世界里都在第 88 帧摔（`results/ml40/t12replay/mech_*ep4*`），那一段参考一边以 0.9 m/s 走、
 一边把 waist_pitch 从 0.1 加到 0.52 rad（顶在限位上）。这里把 [0, t_end) 里的 waist_pitch 限在 --cap 以下，[t_end − --blend, t_end) 线性过渡回原值（t_end 默认 =
 参考第一次接触的帧，可用 --until 改），之后不改；其余关节、根照抄；ee_pose_w 按 URDF 正向运动学重算（原关节角下先自检 ≤ 2 mm、≤ 1°）。
-其余列、object 目录、支撑面、v2d_meta.json 照抄（同 stages/retarget/hands_off.py 的写法）；目标已存在就拒绝。
+其余列、object 目录、支撑面、v2d_meta.json 照抄（同 stages/retarget/hands_off.py 的写法；ik_error_per_frame 因此不再对应新关节角）；hand_frames_w 不为空就拒绝；目标已存在就拒绝。
 报告：改了多少帧、waist_pitch 最大改动、手掌位置的最大改动。
 用法（容器内）：python /repo/stages/retarget/waist_cap.py <motion parquet> <out_root> --meta-src <motion_src 档位目录> --meta-dst <新档位目录> --cap 0.25 [--blend 20] [--until 帧] [--dry-run]
 最后一行 WAIST_CAP_DONE
@@ -65,6 +65,9 @@ def main() -> int:
         if dp > 0.002 or ang > 1.0:
             print("FK_SELFCHECK_FAIL，不写文件")
             return 3
+    if any(len(x) for x in (row.get("hand_frames_w") or [])):
+        print("hand_frames_w 不为空，本工具没处理它，拒绝")
+        return 3
     c = np.asarray(row["hand_contact_active"], dtype=bool)
     t_c = min((int(np.flatnonzero(x)[0]) for x in c if x.any()), default=T)
     t_end = min(T, a.until if a.until is not None else t_c)

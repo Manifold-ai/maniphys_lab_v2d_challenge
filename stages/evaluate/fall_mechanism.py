@@ -7,7 +7,8 @@
 摔倒帧 t_f = 躯干倾斜误差第一次 > --fall-rad（默认 0.6 rad）。四项门槛：躯干先歪（倾斜误差 > 0.3 rad）、骨盆偏（> 0.15 m）、脚踩偏（> 0.15 m）、
 双脚离地（较低的脚离地 > 0.05 m 连续 3 帧，取起始帧）。每个摔了的世界里比四项第一次越过门槛的帧：最早的一项“先坏”（与第二早的相差 ≤ 3 帧记混合），
 并且要早于 t_f 至少 10 帧才算。报各项在摔了的世界里“先坏”的比例；另报各项在全部世界里越过门槛的比例（对照集用它做 F1 的闸）。
-用法（容器内）：python /repo/stages/evaluate/fall_mechanism.py --npz <npz> --motion <parquet> [--label 名] [--marks 0 50 100 ...]   最后一行 FALL_MECHANISM_DONE
+--before N：另报摔倒帧早于参考第 N 帧的世界比例（机读行 FALL_BEFORE N 比例）。
+用法（容器内）：python /repo/stages/evaluate/fall_mechanism.py --npz <npz> --motion <parquet> [--label 名] [--marks 0 50 100 ...] [--before N]   最后一行 FALL_MECHANISM_DONE
 """
 import argparse
 import sys
@@ -46,6 +47,7 @@ def main() -> int:
     ap.add_argument("--label", default="")
     ap.add_argument("--fall-rad", type=float, default=0.6)
     ap.add_argument("--marks", type=int, nargs="*", default=[0, 25, 50, 75, 100, 125, 150, 200, 300])
+    ap.add_argument("--before", type=int, help="另报摔倒帧早于这一帧（参考帧号）与不早于它的世界比例（计划 agent-doc/plan-t12ref-2026-10-20.md 的 Q1）")
     ap.add_argument("--urdf", default=URDF)
     a = ap.parse_args()
     z = np.load(a.npz)
@@ -90,6 +92,12 @@ def main() -> int:
     t_f = first_over(tilt, a.fall_rad)
     fell = t_f >= 0
     print(f"  摔倒（躯干倾斜误差 > {a.fall_rad} rad）的世界 {int(fell.sum())}/{W}（{fell.mean():.1%}），摔倒帧分位 10/25/50/75/90 {q5(t_f[fell].astype(float))}")
+    if a.before is not None:   # t_f 是 rollout 的步号，参考帧号 = s0 + t_f
+        early = fell & (s0 + t_f < a.before)
+        late = fell & ~early
+        print(f"  第 {a.before} 帧之前摔倒的世界 {int(early.sum())}/{W}（{early.mean():.1%}）；第 {a.before} 帧及以后摔倒 {int(late.sum())}/{W}（{late.mean():.1%}），"
+              f"摔倒帧分位 10/25/50/75/90 {q5((s0 + t_f[late]).astype(float))}")
+        print(f"FALL_BEFORE {a.before} {early.mean():.6f}")
     if fell.any() and "achieved_pose_w" in z.files:   # 计划 agent-doc/plan-t12replay-2026-10-20.md 第 2 版 R1(a)：摔倒那一帧物体离起点多远
         obj = z["achieved_pose_w"][:, keep, 0, :3].astype(float)
         wf = np.flatnonzero(fell)
