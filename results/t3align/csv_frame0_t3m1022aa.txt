@@ -1,0 +1,72 @@
+# command  : uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python stages/evaluate/csv_frame0_check.py runs/submission/csv/track2_tier3_t3m1022a.csv runs/submission/csv/track2_tier3_t3m1022aa.csv runs/submission/t3m1022aa/frefs/ALIGN.json --tier1 data/challenge/track_2/tier_1_multiview_caption 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 3ca92313481f3ae0d0c024b28c9ac69c  stages/evaluate/csv_frame0_check.py
+# md5      : 6d3b6977c1d81ed48fde1772b6b9addb  runs/submission/csv/track2_tier3_t3m1022a.csv
+# md5      : fff0dd72933b0c37da7f026f4e6ce70b  runs/submission/csv/track2_tier3_t3m1022aa.csv
+# md5      : 5d0d2aeed7093f2d41bd4441d528eb91  runs/submission/t3m1022aa/frefs/ALIGN.json
+# source   : 79350ca32461
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T11:20:51-0600
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep0 episode_000000.parquet sha256 718952f41703d670 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep1 episode_000001.parquet sha256 bca2d29dbc37c0e9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep2 episode_000002.parquet sha256 ac7063548bde13b4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep3 episode_000003.parquet sha256 d5f9412f0c46b20d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep4 episode_000004.parquet sha256 9b5796e50133f90a 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep6 episode_000006.parquet sha256 7e472b98cc8dd6e4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep7 episode_000007.parquet sha256 6232ec336f31fa42 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep8 episode_000008.parquet sha256 df6f722ea8fb413d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep9 episode_000009.parquet sha256 7838c26d6dbe7efb 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep10 episode_000010.parquet sha256 d4ea82c39e922978 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep11 episode_000011.parquet sha256 e2a9f15075069267 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep13 episode_000013.parquet sha256 f77a64ae12c4abe0 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep14 episode_000014.parquet sha256 3a94f6e897cdf569 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep15 episode_000015.parquet sha256 decef969180f0fdf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep16 episode_000016.parquet sha256 8128ab328b44dfc2 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep17 episode_000017.parquet sha256 ebc23d6052c823a3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep18 episode_000018.parquet sha256 913ec5f8f80bbd94 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep19 episode_000019.parquet sha256 f6a92df4aff1fad7 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep20 episode_000020.parquet sha256 5d24335b44fe18c7 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep21 episode_000021.parquet sha256 6cc8d0b209ee2647 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep22 episode_000022.parquet sha256 e25cc44536d8d9b9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep23 episode_000023.parquet sha256 2a3388abb6251772 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep24 episode_000024.parquet sha256 ee42ecc73402d67d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep25 episode_000025.parquet sha256 78a5dd5b82bb8465 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep26 episode_000026.parquet sha256 38750aa5a90389b1 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep28 episode_000028.parquet sha256 e05489ffd6cf6d7a 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep29 episode_000029.parquet sha256 10dcc0044722477e 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	旧位置差cm	新位置差cm	旧朝向差°	新朝向差°	结论
+0	yaw_obj	7.13	0.22	4.0	3.5	过
+1	yaw_obj	15.50	0.09	5.1	5.0	过
+2	obj	24.11	0.08	3.2	0.5	过
+3	yaw_hum	15.33	0.26	46.4	45.0	过
+4	yaw_obj	13.27	0.19	67.6	67.4	过
+5	yaw_obj	15.55	0.16	3.5	3.5	过
+6	obj	4.48	0.10	1.4	0.2	过
+7	obj	9.80	0.06	2.0	0.3	过
+8	obj	4.17	0.12	1.0	0.1	过
+9	yaw_hum	14.98	0.01	82.6	83.1	过
+10	yaw_obj	21.03	0.27	4.4	3.3	过
+11	yaw_hum	13.87	0.77	179.7	179.8	过
+12	yaw_hum	7.51	0.17	178.2	179.6	过
+13	yaw_hum	12.32	0.30	177.7	177.7	过
+14	yaw_hum	6.75	0.11	143.0	140.6	过
+15	obj	16.91	0.09	4.9	0.2	过
+16	obj	10.22	0.42	3.5	0.7	过
+17	yaw_hum	18.46	0.26	87.7	95.0	过
+18	obj	3.95	0.08	1.4	0.1	过
+19	obj	18.50	0.17	4.0	0.4	过
+20	obj	6.07	0.25	1.4	0.0	过
+21	obj	50.09	0.08	2.4	0.1	过
+22	obj	4.07	0.14	1.1	0.3	过
+23	yaw_obj	10.24	0.24	4.6	3.7	过
+24	obj	3.67	0.05	4.0	0.3	过
+25	yaw_hum	7.91	0.10	98.9	102.4	过
+26	obj	3.19	0.03	0.8	0.2	过
+27	yaw_hum	19.35	0.12	65.3	67.0	过
+28	obj	9.98	0.21	7.2	0.1	过
+29	obj	14.16	0.48	6.3	0.7	过
+CSV_FRAME0_OK

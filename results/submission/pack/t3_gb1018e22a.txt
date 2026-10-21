@@ -1,0 +1,17 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 3 runs/submission/gb1018e22/t3 runs/submission/csv/track2_tier3_gb1018e22a.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/79350ca32461364b0b5bad38b60b524858b45b75 '' 0 runs/submission/gb1018e22a/frefs 
+# md5      : 4563fbc15e44eb1c4d248382afea4302  stages/evaluate/pack_tier.sh
+# source   : 79350ca32461
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T11:19:50-0600
+# ---------------------------------------------------------------
+# python 3.12.14 numpy=2.5.4 pandas=2.3.3 pyarrow=26.0.0 trimesh=5.1.1 kaggle=2.2.4
+frame conversion reference: runs/submission/gb1018e22a/frefs
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+note: 30 distinct checkpoints across the episodes, which is expected for per-sequence policies
+input reference check: one rigid frame transform per episode; maximum residual 1.29e-07 m, 1.49e-07 rad
+converted 30 Track 2 episode(s) into the released frame
+note: evaluator metrics use the policy input; local leaderboard scores use the clean reference
+
+wrote runs/submission/csv/track2_tier3_gb1018e22a.csv (22,989 rows, 12,132,330 B)
+upload with: python submit/v2d_submit.py runs/submission/csv/track2_tier3_gb1018e22a.csv --track track_2_tier3 -m '<message>'
+CSV runs/submission/csv/track2_tier3_gb1018e22a.csv：22989 行，sha256 f442e487a6cf9dfcb7f9f46cdf43865cd04edb841b60af7a02584682dd0f3c24
