@@ -106,9 +106,9 @@ ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/out/ep27_woven_basket.jso
 ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/out/ep27_woven_basket.npz	ref/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/out/ep27_woven_basket.npz
 ref	tier3/runs/support/tier3_cari4d_gb5_best/ep27_woven_basket.json	ref/runs/support/tier3_cari4d_gb5_best/ep27_woven_basket.json
 ref	gate/archive/support_usda_gb5dyn7_before_lean_1021/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda	ref/gate/support_usda_gb5dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
-ref	tier3/runs/physics/tier3_cari4d_gb5_best/summary.json	ref/runs/physics/tier3_cari4d_gb5_best/summary.json
-ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s/summary.json	ref/runs/physics/tier3_cari4d_gb5_best_dr2s/summary.json
-ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/summary.json	ref/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/summary.json
+ref	tier3/runs/physics/tier3_cari4d_gb5_best/out/summary.json	ref/runs/physics/tier3_cari4d_gb5_best/out/summary.json
+ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json	ref/runs/physics/tier3_cari4d_gb5_best_dr2s/out/summary.json
+ref	tier3/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/out/summary.json	ref/runs/physics/tier3_cari4d_gb5_best_dr2s_dyn7/out/summary.json
 ref	tier3/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json	ref/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json
 ref	tier3/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json	ref/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json
 ref	tier3/runs/tier3_cari4d_gb5_best_dr2s.provenance.json	ref/runs/tier3_cari4d_gb5_best_dr2s.provenance.json
