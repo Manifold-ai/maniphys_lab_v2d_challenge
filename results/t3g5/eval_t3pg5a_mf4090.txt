@@ -1,0 +1,22 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep5-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt results/day2/eval_t3-ep10-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt results/day2/eval_t3-ep15-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt results/day2/eval_t3-ep27-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : 95db19248c3bd1e7e6c9209cde71503d  results/day2/eval_t3-ep5-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt
+# md5      : d4464d4d631529d6c2ff2c06d5cc6ec3  results/day2/eval_t3-ep10-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt
+# md5      : aaf3948fecbf445c99047e8a17afa930  results/day2/eval_t3-ep15-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt
+# md5      : 04d9d6973e94aee31527f3f32872993d  results/day2/eval_t3-ep27-w2048-cap4m-r3a-gb5-mf4090_s349999104.txt
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T00:36:41+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep5-w2048-cap4m-r3a-gb5-mf4090	349999104	4096	1003	0.089	0.673	0.431	10.65	10.58	17.8	0.232	0.360	0.558	0.735	c5548093c41b
+t3-ep10-w2048-cap4m-r3a-gb5-mf4090	349999104	4096	794	0.000	0.665	0.265	13.01	12.94	18.3	0.148	0.523	0.706	0.793	e8b86e4d2e77
+t3-ep15-w2048-cap4m-r3a-gb5-mf4090	349999104	4096	715	0.000	0.000	0.383	29.02	28.73	45.0	0.000	1.000	1.000	1.000	4289967dded5
+t3-ep27-w2048-cap4m-r3a-gb5-mf4090	349999104	4096	565	0.000	0.000	0.299	74.27	74.12	95.4	0.000	1.000	1.000	1.000	10ea295e80df
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep5-w2048-cap4m-r3a-gb5-mf4090：SP-SR 0.673、MPPE 10.65 cm、MP-SR 0.089、ADD-AUC 0.431 → 仍跟丢
+  t3-ep10-w2048-cap4m-r3a-gb5-mf4090：SP-SR 0.665、MPPE 13.01 cm、MP-SR 0.000、ADD-AUC 0.265 → 仍跟丢
+  t3-ep15-w2048-cap4m-r3a-gb5-mf4090：SP-SR 0.000、MPPE 29.02 cm、MP-SR 0.000、ADD-AUC 0.383 → 仍跟丢
+  t3-ep27-w2048-cap4m-r3a-gb5-mf4090：SP-SR 0.000、MPPE 74.27 cm、MP-SR 0.000、ADD-AUC 0.299 → 仍跟丢
+T3G5_R1_DONE 跟上 0 / 共 4

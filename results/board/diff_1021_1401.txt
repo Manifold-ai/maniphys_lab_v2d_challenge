@@ -1,0 +1,25 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1021_1340.txt results/board/lb_1021_1401.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 8f310a43c13194b3d744ccde9a1ffe59  results/board/lb_1021_1340.txt
+# md5      : 0990f2d2be9b79b6a7928e8a1866263c  results/board/lb_1021_1401.txt
+# source   : 2a7616c3c8dc
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T14:02:11-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1021_1340.txt；这一份 results/board/lb_1021_1401.txt
+## 变了的榜
+tier1-auc：不见了 Haoran Zhang233（原 0.82959）；新进 MBZUAI-RCL Group 0.82959（2026-10-21 19:17）
+tier1-sp-sr：不见了 Haoran Zhang233（原 0.90000）；新进 MBZUAI-RCL Group 0.90000（2026-10-21 19:17）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 7（0.58258，第 1 名 solidSF.com 0.99998，差 0.41740）；sp-sr 第 5（0.83333，第 1 名 NVSimranPatil 1.00000，差 0.16667）；mp-sr 第 5（0.70000，第 1 名 NVSimranPatil 0.93333，差 0.23333）；mppe 第 6（11.86661，第 1 名 solidSF.com 0.07244，差 11.79417）
+Tier 2：auc 第 3（0.51379，第 1 名 solidSF.com 0.99998，差 0.48619）；sp-sr 第 3（0.73333，第 1 名 solidSF.com 1.00000，差 0.26667）；mp-sr 第 4（0.53333，第 1 名 solidSF.com 1.00000，差 0.46667）；mppe 第 4（15.32195，第 1 名 solidSF.com 0.07628，差 15.24567）
+Tier 3：auc 第 4（0.10649，第 1 名 solidSF.com 0.99998，差 0.89349）；sp-sr 第 2（0.26666，第 1 名 solidSF.com 1.00000，差 0.73334）；mp-sr 第 3（0.00000，第 1 名 solidSF.com 1.00000，差 1.00000）；mppe 第 4（54.98984，第 1 名 solidSF.com 0.07244，差 54.91740）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 50（第 4） → 50（第 4）；前 4：solidSF.com 31、Xueyi Wang (FF) 43、NVSimranPatil 49、maniphys.ai 50
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 53（第 4） → 53（第 4）；前 4：solidSF.com 31、Xueyi Wang (FF) 45、NVSimranPatil 49、maniphys.ai 53
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 10（第 2） → 10（第 2）；前 4：Xueyi Wang (FF) 8、maniphys.ai 10、domoarigato 16、Team OPS 18
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 10（第 2） → 10（第 2）；前 4：Xueyi Wang (FF) 8、maniphys.ai 10、domoarigato 16、Team OPS 18
+BOARD_CHANGED 2 个榜
+BOARD_DIFF_DONE

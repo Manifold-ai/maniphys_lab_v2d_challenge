@@ -1,0 +1,156 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "b_new": {
+   "file": "results/board/diff_1021_1340.txt",
+   "grep": "solidSF|NVSimranPatil|Haoran|MBZUAI|nima arki"
+  },
+  "b_us": {
+   "file": "results/board/diff_1021_1340.txt",
+   "grep": "^Tier |^读法"
+  },
+  "b_ex": {
+   "file": "results/board/diff_1021_1401_ex_solidSF.txt",
+   "grep": "^Tier 3：|^读法|^不计"
+  },
+  "b_1401": {
+   "file": "results/board/diff_1021_1401.txt",
+   "grep": "^tier1|^读法"
+  },
+  "pg5a": {
+   "file": "results/t3g5/eval_t3pg5a_mf4090.txt",
+   "grep": "→|T3G5_R1_DONE"
+  },
+  "t3g5rec": {
+   "file": "agent-doc/plan-t3g5-2026-10-21.md",
+   "grep": "R2 成立|\\| ep12 \\| 0.932|ep14 10/21 11:09|DAY2_TRAIN_DONE：完成 4|首次接触时物体已平移|第 93 帧就被碰动"
+  },
+  "align": {
+   "file": "agent-doc/plan-t3align-2026-10-21.md",
+   "grep": "降到 0.01–0.77|CSV_FRAME0_FAIL 30|仍 > 30° 的有 10 集|没有上传|交 rxzhou 定"
+  },
+  "mtr": {
+   "file": "agent-doc/plan-t2mtr-2026-10-21.md",
+   "grep": "94.09|ARM_SEG_DONE|这一轮不提交"
+  },
+  "mtrlog": {
+   "file": "results/ops/status_mf4090_1021_1401.txt",
+   "grep": "t2-ep25-w2048-cap4m-r3a-ot3-mf4090.log|smoke-t2"
+  },
+  "e1": {
+   "file": "agent-doc/plan-t3takeover-1b-2026-10-21.md",
+   "grep": "07:37 MDT \\*\\*E1|E1 全过|默认环境改成我们的"
+  },
+  "r2rec": {
+   "file": "agent-doc/plan-t3g5-2026-10-21.md",
+   "grep": "R2 成立|B 段（ep13、19、1、9、17）没起"
+  },
+  "ep12": {
+   "file": "agent-doc/plan-t3g5-2026-10-21.md",
+   "grep": "\\| ep12 \\| 0.932"
+  }
+ },
+ "claims": [
+  {
+   "id": "solid",
+   "evidence": [
+    "b_new"
+   ],
+   "claim": "solidSF.com 在三档 AUC 榜都是 0.99998，Tier 1 与 Tier 3 的 MPPE 都是 0.07244，Tier 2 MPPE 0.07628。"
+  },
+  {
+   "id": "nvsim",
+   "evidence": [
+    "b_new"
+   ],
+   "claim": "NVSimranPatil 新进 Tier 1：AUC 0.87916、SP-SR 1.00000、MP-SR 0.93333、MPPE 0.98418。"
+  },
+  {
+   "id": "mbz",
+   "evidence": [
+    "b_1401"
+   ],
+   "claim": "MBZUAI-RCL Group 在 Tier 1 AUC 榜的分数是 0.82959，SP-SR 榜 0.90000。"
+  },
+  {
+   "id": "us_in",
+   "evidence": [
+    "b_us"
+   ],
+   "claim": "计入 solidSF.com 时，按 Kaggle 同分规则 12 个榜名次相加 maniphys.ai 50、排第 4，solidSF.com 31、FF 43、NVSimranPatil 49；读法 A FF 8、maniphys.ai 10。"
+  },
+  {
+   "id": "us_ex",
+   "evidence": [
+    "b_ex"
+   ],
+   "claim": "不计 solidSF.com 时，maniphys.ai 在 Tier 3 SP-SR 排第 1；名次相加 Kaggle 规则 FF 32、NVSimranPatil 39、maniphys.ai 39，官网规则 34、39、42；读法 A 5 比 7。"
+  },
+  {
+   "id": "pg5a",
+   "evidence": [
+    "pg5a"
+   ],
+   "claim": "mf4090 A 段 ep5、ep10、ep15、ep27 都仍跟丢，跟上 0 / 4；ep5 SP-SR 0.673、MPPE 10.65 cm。"
+  },
+  {
+   "id": "r2a",
+   "evidence": [
+    "r2rec"
+   ],
+   "claim": "没跟上合计 6 集，R2 成立，mf4090 的 B 段（ep13、19、1、9、17）没有起。"
+  },
+  {
+   "id": "r2b",
+   "evidence": [
+    "ep12"
+   ],
+   "claim": "ep12 的 SP-SR 是 0.932、MPPE 4.39 cm，判为跟上。"
+  },
+  {
+   "id": "onset",
+   "evidence": [
+    "t3g5rec"
+   ],
+   "claim": "ep16 仿真里瓶子第 93 帧被碰动；首次接触时物体已平移 ep4 0.370 m、ep16 0.213 m、ep2 0.135 m。"
+  },
+  {
+   "id": "align",
+   "evidence": [
+    "align"
+   ],
+   "claim": "对齐后 CSV 第 0 帧位置差降到 0.01–0.77 cm，四元数读错的负对照 30 集都不过，仍有 10 集朝向差大于 30°，CSV 没有上传。"
+  },
+  {
+   "id": "mtr",
+   "evidence": [
+    "mtr",
+    "mtrlog"
+   ],
+   "claim": "t2mtr 的 ep25 判据是 MPPE ≤ 94.09 cm；这一轮不提交；14:01 时正式 ep25 训到 87%，三集冒烟都完成了 4096000 步。"
+  },
+  {
+   "id": "e1",
+   "evidence": [
+    "e1"
+   ],
+   "claim": "第 1b 级的 E1 全过，t3takeover 脚本的默认环境改成了我们自己的。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "pg5a"
+   ],
+   "claim": "ep27 的 MPPE 是 74.27 cm。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "pg5a"
+   ],
+   "claim": "mf4090 A 段有 3 集跟上。",
+   "control": "false"
+  }
+ ]
+}
