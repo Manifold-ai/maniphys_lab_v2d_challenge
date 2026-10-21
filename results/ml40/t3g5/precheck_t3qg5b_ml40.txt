@@ -1,0 +1,22 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/ml40_t3qg5b.expect.tsv stages/policy/queues/ml40_t3qg5b_smoke.txt stages/policy/queues/ml40_t3qg5b.txt 
+# md5      : 8cb6aaac0eedaa2341f5e4add86fbb2e  stages/policy/precheck_expect.sh
+# md5      : a87157ab25b52b0180e42a05b0000322  stages/policy/queues/ml40_t3qg5b.expect.tsv
+# md5      : dff2f753b9d725a26887140b7e2c3efa  stages/policy/queues/ml40_t3qg5b_smoke.txt
+# md5      : 6d52afc15f5599de811234d92e04b237  stages/policy/queues/ml40_t3qg5b.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T15:06:27+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t3-ep14-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep14-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep23-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep23-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep2-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep2-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep4-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep4-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep11-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep11-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep25-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t3-ep25-w2048-cap10m-r3a-gb5-ml40.yaml：11 条断言，全过
+PRECHECK_OK（6 条 run）

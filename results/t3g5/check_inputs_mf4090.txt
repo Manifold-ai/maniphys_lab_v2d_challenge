@@ -1,0 +1,106 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/check_inputs.py\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet\  
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# md5      : 08ad552c63ca27a5f45fb859057a1613  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+# md5      : 79b816e292a93b8a892a6721777fdd17  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+# md5      : 43db5955c906882cad190c3cd366169b  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# md5      : a29df3f016866c41b207dc9754d57c29  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+# md5      : 3df791327d17b49fd96ddc6e89c8fe07  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+# md5      : 9f373f0c84d105b43eb34d39eaecbf5f  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+# md5      : 89b425d8dd06cb495d25aa989dedc875  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+# md5      : 4659b8260b9985fd4d0d432fdcc6eb69  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+# md5      : 5402d052583a356a2027ae0cc3463884  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T14:54:59+0800
+# ---------------------------------------------------------------
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 b62221eca2a16d79…
+  fps = [30.0]
+  列 object_name = '2026-03-18_19-36-56_g1_box_rotate_01_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-03-18_19-36-56_g1_box_rotate_01_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 6787dc0d246884d5…
+  fps = [30.0]
+  列 object_name = '2026-05-01_11-36-40_white_desk_lower_to_ground_10_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-36-40_white_desk_lower_to_ground_10/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_11-36-40_white_desk_lower_to_ground_10_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 840d64834b187bfd…
+  fps = [30.0]
+  列 object_name = '2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 40bebc086cc252c8…
+  fps = [30.0]
+  列 object_name = '2026-05-01_11-15-05_woven_basket_ground_desk_10_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 2012b51ac4770fcb…
+  fps = [30.0]
+  列 object_name = '2026-06-09_10-19-09_snack_box_desk_through_06_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 d722d03ecdeacbf5…
+  fps = [30.0]
+  列 object_name = '2026-05-19_10-19-48_cane_swing_05_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-19_10-19-48_cane_swing_05_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 cdc2f5e55f34c2ea…
+  fps = [30.0]
+  列 object_name = '2026-05-18_17-06-21_vacuum_left_lean_02_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 431ce44256901cc0…
+  fps = [30.0]
+  列 object_name = '2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+== /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 7faf300eb87f5f6c…
+  fps = [30.0]
+  列 object_name = '2026-05-01_17-04-55_traffic_cone_ground_table_02_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_17-04-55_traffic_cone_ground_table_02/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda

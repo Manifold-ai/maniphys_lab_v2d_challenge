@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_early_motion.py\ smoke-t3-ep3-w2048-cap10m-r3a-gb5-ml40\ smoke-t3-ep12-w2048-cap10m-r3a-gb5-ml40\ smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40\ --steps\ 4096000\ --root\ /repo 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 0520f4dbf1036ffec89ef37fdfdb78a3  stages/evaluate/ref_early_motion.py
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T15:20:50+0800
+# ---------------------------------------------------------------
+== smoke-t3-ep3-w2048-cap10m-r3a-gb5-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 1.1 cm、10.5°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 100 帧
+== smoke-t3-ep12-w2048-cap10m-r3a-gb5-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 0.0 cm、0.0°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 168 帧
+== smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 0.0 cm、0.0°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 137 帧
+REF_EARLY_MOTION_DONE

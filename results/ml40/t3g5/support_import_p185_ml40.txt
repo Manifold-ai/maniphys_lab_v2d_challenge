@@ -1,0 +1,31 @@
+# command  : env V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg scripts/dev/in-flash-chord python\ /repo/stages/policy/support_import_check.py\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 11872de968dc4ece0b3f7ef5fa8e0b22  stages/policy/support_import_check.py
+# md5      : 06cc3b8055359158b640ed7ac13973a4  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+# md5      : 6b239b696b7fec52cfa45fc7e24709c5  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+# md5      : a8e996591d87a4879826b8a92e00b0e6  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+# md5      : e88c992f2d71c09849d082faa56352f2  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+# md5      : 38afc429d9d713a4a0992f8462ba3a57  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T15:02:25+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+== 2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.09835, 0.0706, 0.01)，位置 (-1.3658, -0.1077, 0.744)
+== 2026-03-12_15-06-36_spray_bottle_left_desk_ground_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1029, 0.11165, 0.01)，位置 (-0.6648, 0.8951, 0.872)
+== 2026-06-02_10-04-42_blue_easter_basket_place_10_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1593, 0.14975, 0.01)，位置 (-0.9677, -0.0728, 0.749)
+== 2026-04-24_13-56-58_light_blue_book_pick_place_09_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.2928, 0.10895, 0.01)，位置 (-0.8668, 0.0377, 0.84)
+== 2026-03-20_11-59-57_cyan_water_bottle_rotate_01_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1116, 0.10265, 0.01)，位置 (-1.1081, 0.7649, 0.787)

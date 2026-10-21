@@ -1,0 +1,36 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/rollout_object_start.py\ /repo/runs/diag/smoke-t3-ep5-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz\ /repo/runs/diag/smoke-t3-ep10-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz\ /repo/runs/diag/smoke-t3-ep15-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz\ /repo/runs/diag/smoke-t3-ep27-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : f53925ae180215f1bd2f55787622e524  stages/evaluate/rollout_object_start.py
+# md5      : 7a1478a8d2a606444dac1f28ce2304a5  runs/diag/smoke-t3-ep5-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz
+# md5      : b3fda959817915ae5a70ce5727220d50  runs/diag/smoke-t3-ep10-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz
+# md5      : beac9d170143eb39288354f70282805d  runs/diag/smoke-t3-ep15-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz
+# md5      : 12c6d0cb665984fd731c4450fba48d8e  runs/diag/smoke-t3-ep27-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T15:22:22+0800
+# ---------------------------------------------------------------
+/repo/runs/diag/smoke-t3-ep5-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz：1003 帧、256 个世界（剔除非有限 0 个）；参考起始帧 0；参考第一次接触在第 104 帧
+  第 25 帧：仿真物体平移中位 1.3 cm、p90 1.3 cm；高度变化中位 -0.4 cm、p10 -0.4 cm；参考物体平移 0.0 cm
+  第 51 帧：仿真物体平移中位 2.4 cm、p90 2.4 cm；高度变化中位 -0.4 cm、p10 -0.4 cm；参考物体平移 0.0 cm
+  第 100 帧：仿真物体平移中位 2.4 cm、p90 2.4 cm；高度变化中位 -0.4 cm、p10 -0.4 cm；参考物体平移 0.2 cm
+  第 103 帧：仿真物体平移中位 2.4 cm、p90 2.4 cm；高度变化中位 -0.4 cm、p10 -0.4 cm；参考物体平移 1.1 cm
+  接触之前仿真物体平移超过 5 cm 的世界 0/256（0.0%）
+/repo/runs/diag/smoke-t3-ep10-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz：794 帧、256 个世界（剔除非有限 0 个）；参考起始帧 0；参考第一次接触在第 156 帧
+  第 25 帧：仿真物体平移中位 1.7 cm、p90 1.7 cm；高度变化中位 -0.9 cm、p10 -0.9 cm；参考物体平移 0.0 cm
+  第 51 帧：仿真物体平移中位 1.7 cm、p90 1.7 cm；高度变化中位 -0.9 cm、p10 -0.9 cm；参考物体平移 0.0 cm
+  第 100 帧：仿真物体平移中位 1.7 cm、p90 1.7 cm；高度变化中位 -0.9 cm、p10 -0.9 cm；参考物体平移 1.7 cm
+  第 155 帧：仿真物体平移中位 5.1 cm、p90 28.8 cm；高度变化中位 +0.5 cm、p10 -0.8 cm；参考物体平移 2.7 cm
+  接触之前仿真物体平移超过 5 cm 的世界 151/256（59.0%）
+/repo/runs/diag/smoke-t3-ep15-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz：715 帧、256 个世界（剔除非有限 0 个）；参考起始帧 0；参考第一次接触在第 127 帧
+  第 25 帧：仿真物体平移中位 0.5 cm、p90 0.5 cm；高度变化中位 -0.0 cm、p10 -0.0 cm；参考物体平移 0.0 cm
+  第 51 帧：仿真物体平移中位 0.5 cm、p90 0.5 cm；高度变化中位 -0.0 cm、p10 -0.0 cm；参考物体平移 0.0 cm
+  第 100 帧：仿真物体平移中位 0.5 cm、p90 0.5 cm；高度变化中位 -0.0 cm、p10 -0.0 cm；参考物体平移 0.0 cm
+  第 126 帧：仿真物体平移中位 0.5 cm、p90 0.5 cm；高度变化中位 -0.0 cm、p10 -0.0 cm；参考物体平移 1.7 cm
+  接触之前仿真物体平移超过 5 cm 的世界 0/256（0.0%）
+/repo/runs/diag/smoke-t3-ep27-w2048-cap4m-r3a-gb5-mf4090/rollout_w256.npz：565 帧、256 个世界（剔除非有限 0 个）；参考起始帧 0；参考第一次接触在第 142 帧
+  第 25 帧：仿真物体平移中位 0.3 cm、p90 0.4 cm；高度变化中位 -0.2 cm、p10 -0.4 cm；参考物体平移 0.0 cm
+  第 51 帧：仿真物体平移中位 0.3 cm、p90 0.4 cm；高度变化中位 -0.2 cm、p10 -0.2 cm；参考物体平移 0.0 cm
+  第 100 帧：仿真物体平移中位 0.3 cm、p90 0.4 cm；高度变化中位 -0.2 cm、p10 -0.2 cm；参考物体平移 0.0 cm
+  第 141 帧：仿真物体平移中位 0.3 cm、p90 0.5 cm；高度变化中位 -0.2 cm、p10 -0.2 cm；参考物体平移 0.6 cm
+  接触之前仿真物体平移超过 5 cm 的世界 10/256（3.9%）
+ROLLOUT_OBJECT_START_DONE

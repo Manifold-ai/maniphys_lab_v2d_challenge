@@ -1,0 +1,15 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/rollout_object_start.py\ /repo/runs/diag/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40/rollout_w256.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : f53925ae180215f1bd2f55787622e524  stages/evaluate/rollout_object_start.py
+# md5      : bf51e02f00c312a019bc2c50d8e69baf  runs/diag/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40/rollout_w256.npz
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T15:22:22+0800
+# ---------------------------------------------------------------
+/repo/runs/diag/smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40/rollout_w256.npz：477 帧、256 个世界（剔除非有限 0 个）；参考起始帧 0；参考第一次接触在第 137 帧
+  第 25 帧：仿真物体平移中位 0.6 cm、p90 1.1 cm；高度变化中位 -0.3 cm、p10 -0.4 cm；参考物体平移 0.0 cm
+  第 51 帧：仿真物体平移中位 0.9 cm、p90 1.9 cm；高度变化中位 -0.3 cm、p10 -0.5 cm；参考物体平移 0.0 cm
+  第 100 帧：仿真物体平移中位 1.2 cm、p90 2.4 cm；高度变化中位 -0.2 cm、p10 -0.4 cm；参考物体平移 0.0 cm
+  第 136 帧：仿真物体平移中位 1.2 cm、p90 2.7 cm；高度变化中位 -0.2 cm、p10 -0.5 cm；参考物体平移 19.3 cm
+  接触之前仿真物体平移超过 5 cm 的世界 18/256（7.0%）
+ROLLOUT_OBJECT_START_DONE

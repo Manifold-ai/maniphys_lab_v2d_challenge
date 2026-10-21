@@ -1,0 +1,26 @@
+# command  : python3 stages/policy/support_kinds.py runs/motion/tier3_gb5/whole_body/reconstructed_stage 
+# md5      : e74fd54e3644f7d406a963af8eeda122  stages/policy/support_kinds.py
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T15:02:30+0800
+# ---------------------------------------------------------------
+sequence_id	shapes	scaled_cube	md5
+2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	Cube×1	yes	6b239b696b7fec52cfa45fc7e24709c5
+2026-03-18_19-36-56_g1_box_rotate_01	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-03-20_11-59-57_cyan_water_bottle_rotate_01	Cube×1	yes	38afc429d9d713a4a0992f8462ba3a57
+2026-04-24_11-40-52_baseball_bat_rotate_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-04-24_13-56-58_light_blue_book_pick_place_09	Cube×1	yes	e88c992f2d71c09849d082faa56352f2
+2026-04-25_17-20-04_black_platform_turn_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	Cube×1	yes	06cc3b8055359158b640ed7ac13973a4
+2026-05-01_11-15-05_woven_basket_ground_desk_10	Cube×1	yes	ec561b6a3c319233d7d682144f7ebf00
+2026-05-01_11-36-40_white_desk_lower_to_ground_10	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-01_17-04-55_traffic_cone_ground_table_02	Cube×1	yes	e2ef060cdf6842f2f52e30ee28228e38
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-18_17-06-21_vacuum_left_lean_02	Cube×2	yes	9e60f6ab5c12b5e6820f56dd89eebffc
+2026-05-19_10-19-48_cane_swing_05	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-05-28_14-44-09_round_table_flip_08	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-02_10-04-42_blue_easter_basket_place_10	Cube×1	yes	a8e996591d87a4879826b8a92e00b0e6
+2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	empty	no	43a55b4aa4ec1c590b68eb07492da29c
+2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03	Cube×1	yes	2be7c0749fd3850bf647084e977df747
+2026-06-09_10-19-09_snack_box_desk_through_06	Cube×1	yes	cd841a03f6f064fbc0719848f0f53c7b
+# 共 18 个：只有地面 8，带 scale 的方盒 10，其他 0

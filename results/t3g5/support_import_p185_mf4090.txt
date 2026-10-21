@@ -1,0 +1,32 @@
+# command  : env V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=/home/rxzhou/v2d/fc_src/v040_p185_nfg scripts/dev/in-flash-chord python\ /repo/stages/policy/support_import_check.py\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda\ /repo/runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 11872de968dc4ece0b3f7ef5fa8e0b22  stages/policy/support_import_check.py
+# md5      : ec561b6a3c319233d7d682144f7ebf00  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+# md5      : cd841a03f6f064fbc0719848f0f53c7b  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+# md5      : 9e60f6ab5c12b5e6820f56dd89eebffc  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+# md5      : 2be7c0749fd3850bf647084e977df747  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+# md5      : e2ef060cdf6842f2f52e30ee28228e38  runs/motion/tier3_gb5/whole_body/reconstructed_stage/2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+# source   : e6a94ffabdee
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-21T14:55:00+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/v040_p185_nfg（flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch）
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+导入器 /workspace/src/flash_chord/scene/support.py  md5 4d6eab112a442bb2b533dfb11bc7160c
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /warp-cache/1.14.0
+== 2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.159, 0.161, 0.01)，位置 (0.2063, -0.968, 0.868)
+== 2026-06-09_10-19-09_snack_box_desk_through_06_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.2612, 0.2989, 0.01)，位置 (-0.9258, -0.0931, 0.863)
+== 2026-05-18_17-06-21_vacuum_left_lean_02_support.usda
+  support_lean_0：类型 BOX，shape_scale（Box 为半尺寸）(0.0865, 0.11085, 0.02)，位置 (-0.4479, -0.6853, 0.6017)
+  support_lean_1：类型 BOX，shape_scale（Box 为半尺寸）(0.07875, 0.09365, 0.02)，位置 (-0.625, -0.4916, 0.6001)
+== 2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.14855, 0.1484, 0.01)，位置 (-0.9639, -0.0166, 0.461)
+== 2026-05-01_17-04-55_traffic_cone_ground_table_02_support.usda
+  support_0：类型 BOX，shape_scale（Box 为半尺寸）(0.1118, 0.11155, 0.01)，位置 (-0.2026, 0.6677, 0.768)
