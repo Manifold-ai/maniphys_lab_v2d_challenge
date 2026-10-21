@@ -125,6 +125,11 @@ if [ "$np" = 0 ] && [ "$ns" = 0 ]; then SIG=0.05
 elif [ "$np" = "$nq" ] && [ "$ns" = "$nq" ]; then SIG=0.03
 else stop "队列里 r3p 的行与变体 A 的行混在一起（${nq} 行里 -r3p- ${np} 行、σ 0.03 ${ns} 行）"; fi
 VAR="objective.object_position_std=$SIG env.objective.object_position_std=$SIG termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
+# 物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md 复核 MINOR 4）：队列里每一行都写了同一个值就正向断言它，混在一起就停
+no="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'termination.object_position_threshold=' || true)"
+ov="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_position_threshold=[0-9.]*' | sort -u)"
+if [ "$no" = "$nq" ] && [ "$(grep -c . <<< "$ov")" = 1 ]; then VAR="$VAR $ov env.$ov"
+elif [ "$no" != 0 ]; then stop "队列里物体位置终止的覆盖不一致（${nq} 行里 ${no} 行写了：${ov//$'\n'/ }）"; fi
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"
