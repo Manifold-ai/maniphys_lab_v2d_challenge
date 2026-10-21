@@ -9,13 +9,13 @@
 # 每步经 stages/recovery/t3r_run.sh（她的目录只读、能力全丢、docker socket 盖住）。前提：stages/recovery/t3r_gate_setup.sh 搭好的 gate；根里有 A 部分的 dyn7 与 support。
 # 重定向的结果行（帧数、接触、IK 中位、间隙、支撑面、状态）另与她的 gate/logs/rec_gb5dyn7.txt 里同集的行逐字段比（只读）。
 # 用法：stages/recovery/t3r_level1_usda.sh <根名，t3 或 t3_refw> [<ep>...]   日志 runs/logs/t3r_level1_usda_<根名>.log，最后一行 T3R_USDA_DONE 或 T3R_USDA_FAILED <步>。
-# 根名不是 t3 时集名是 gb5dyn7_<后缀>（同一个 gate 仓库里另起 root，不碰 gb5dyn7），support_usda.json 的比较另把 set 字段算进忽略的键；不给 ep 就跑 14 20 27。
+# 根名不是 t3 时集名是 gb5dyn7<后缀>（paths.py 只许小写字母与数字；同一个 gate 仓库里另起 root，不碰 gb5dyn7），support_usda.json 的比较另把 set 字段算进忽略的键；不给 ep 就跑 14 20 27。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; C="$R/code/stages/recovery/tier3/gate"; G="$R/gate"; GR="$G/repo"; SET=gb5dyn7
-IGN=(); [ "$NAME" = t3 ] || { SET="gb5dyn7_${NAME#t3_}"; IGN=(--ignore-key "(path|dir|file|root|time|date|stamp|argv|host|cwd|user|from|created|deployed|code_files|^set$)"); }
+IGN=(); [ "$NAME" = t3 ] || { SET="gb5dyn7${NAME#t3_}"; IGN=(--ignore-key "(path|dir|file|root|time|date|stamp|argv|host|cwd|user|from|created|deployed|code_files|^set$)"); }
 shift; EPS=("$@"); [ ${#EPS[@]} -gt 0 ] || EPS=(14 20 27)
 LOG="$REPO/runs/logs/t3r_level1_usda_${NAME}.log"
 mkdir -p "$REPO/runs/logs"
