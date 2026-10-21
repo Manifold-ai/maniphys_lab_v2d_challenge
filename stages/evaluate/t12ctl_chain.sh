@@ -33,9 +33,11 @@ for spec in "$@"; do
   rm -rf "${out}_hydra"
   V2D_GPU=0 V2D_FC_SRC=$SRC scripts/dev/record "t12ctl/sync_$name" scripts/dev/in-flash-chord "python /repo/stages/evaluate/diag2_sync.py /repo/$out.npz" > /dev/null 2>&1 \
     || say "${tag}：同步闸不过"
-  V2D_GPU=0 scripts/dev/record "t12ctl/mech_$name" scripts/dev/in-flash-chord \
-    "python /repo/stages/evaluate/fall_mechanism.py --npz /repo/$out.npz --motion /repo/$Q --label $tag --before $tc" > /dev/null 2>&1
+  if ! V2D_GPU=0 scripts/dev/record "t12ctl/mech_$name" scripts/dev/in-flash-chord \
+      "python /repo/stages/evaluate/fall_mechanism.py --npz /repo/$out.npz --motion /repo/$Q --label $tag --before $tc" > /dev/null 2>&1; then
+    say "${tag}：fall_mechanism 没成"; bad=$((bad + 1)); continue
+  fi
   ok=$((ok + 1))
-  say "${tag}：$(grep -h '^FALL_BEFORE' "results/t12ctl/mech_$name.txt"* 2>/dev/null | head -1)；$(grep -h '摔倒帧分位' "results/t12ctl/mech_$name.txt"* 2>/dev/null | head -1 | cut -c1-90)"
+  say "${tag}：$(grep -h '^FALL_BEFORE' "results/t12ctl/mech_$name.txt" | tr '\n' ' ')；$(grep -h '摔倒帧分位' "results/t12ctl/mech_$name.txt" | head -1 | cut -c1-90)"
 done
 say "T12CTL_DONE（成功 ${ok}、失败 ${bad}）"
