@@ -71,6 +71,10 @@
   决定：不交。NVSimranPatil 的 Tier 2 SP-SR、MP-SR、MPPE 离 maniphys.ai 的期望很远（0.200、0.233、12.6 cm），这三个榜的第一近期拿不回；它没交 Tier 1、Tier 3，名次和上它不是对手，
   名次和的对手仍是 FF（差 4）。mf4090 22:46 起空着（t3pg4 链结束），下一项工作另写计划。
 
+- 10/20 23:50 MDT（`results/board/diff_1020_2350.txt`）：只有新队 Andrew Norris 进了 Tier 1 AUC（0.00000），在 maniphys.ai 之后；各榜名次不变。读法 B：Kaggle 规则 FF 26、
+  maniphys.ai 30，官网规则 26、33；读法 A 5 比 7。不改、不交。ml40 在训 t2tm（`agent-doc/plan-t2term-2026-10-20.md`）；mf4090 的卡空着、CPU 在做 gb5 的重定向，
+  复核过的 `agent-doc/plan-t3g5-2026-10-21.md`（第 2 版）重定向一完就起，不另写计划。
+
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 
 这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。
