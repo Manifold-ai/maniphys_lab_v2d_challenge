@@ -1,4 +1,4 @@
-# 计划：接管 Tier 3 重建——先在自己的目录里复现 gb5（t3takeover，10/21 凌晨，第 1 版）
+# 计划：接管 Tier 3 重建——先在自己的目录里复现 gb5（t3takeover，10/21 凌晨，第 1 版；复核要求大改，第 2 版待写，不执行）
 
 2026-10-20 23:5x MDT 写定第 1 版，分支 track2/p1-training。rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出来之前登记在这里。
 只读另一位成员的目录，不写、不删、不停她的进程；改动只在我们自己的目录与分支里。不读 Tier 1；Tier 2 只用网格与地面平面的 `plane`（同她的管线与 t3g4）。
@@ -40,6 +40,25 @@
 - 随机性：dyn7、dr2s 若有随机数，K1 的 1e-6 可能过严；先查脚本里有没有随机数，有就按她的种子。
 - ml40 的 CPU 与训练链共用：复现限 `--cpus 4`。
 
+## 复核（10/21 00:1x MDT，Opus；Fable 本周额度用完）与第 2 版要改的
+
+结论 GO WITH FIXES，改动大到要重写，第 2 版写好再复核一次才执行。要点：
+- **BLOCKER：她的目录对我们可写**（同属 mfshared 组，gb5 的物理检查 npz 是 -rw-rw-r--），她的脚本默认路径指向她的目录（`t3_physics_all.sh` 7–9 行、`gate/chain_check.sh` 7 行、
+  `t3_sel_full.sh` 25–28 行写死）。所以：不跑她的链脚本（chain_check.sh、t3_gb_chain.sh、t3_sel_full.sh）；自写包装，导出全部 T3_* 路径指向我们的目录，遇到她目录下的路径就拒绝；
+  `PYTHONDONTWRITEBYTECODE=1`、不用硬链接；每跑一步后 `find /lab_data/<她的目录> -user rxzhou` 必须为空。
+- 环境逐步不同：soma 只能在 GPU 上跑且不可逐位复现，复用她的 soma_params.npz 与 residual_report.json，K1 只从 soma 之后算；组装与物理提取要宿主机 venv（pyarrow）；
+  支撑面、dr2s、dyn7 在 gate venv。第 2 版写逐步的环境表，两份 venv 与 gate 的 python 怎么用（复制或只读调用）要定。
+- 漏的输入：ep27 的 CARI4D 结果在 `runs/work_b050/ep27_woven_basket/`（不是 `work/`），decode 只读 `inference/refined.pth`、`export/*/wild_export.json` 与 sam3d_body 权重；
+  她的 `runs/convert_gb5/ep05_*`、`runs/convert_fp_gb5/ep27_*`；`runs/floor/intrinsics_gb3.json`、`camera_register.json`；`dev/walls/moge_ep*.npz`（没有它 `t3_support.py`
+  154–156 行静默返回 None，ep27 会丢掉桌面）；两步物理检查；写 usda 要 gate 仓库（rxzhou f0ac98f + video_to_data v0.4.0）、root_<名> 与 motion_src/<序列>。
+- 数值复现靠线程不靠随机数：focal（20 步 Adam）与 world（400 步）在 CPU 上跑 torch，她用 OMP_NUM_THREADS=4（ep05）、6（ep27）；镜像钉 ca1774d94cd9；
+  `gate/t3_lean_support.py` 154 行的 trimesh 采样没有种子。
+- K1 改成逐段比、第一处不同就停：decode、focal、world 的 npz（array_equal）、组装后的 parquet、物理、支撑面 json、dr2s、dyn7；四元数按转角比（q ≡ −q）；usda 逐字节；
+  加正对照（同一步跑两遍）与负对照（ep27 的 gb4 对 gb5 必须不同）；参照放单独的 ref/ 目录。
+- 选集：ep5 太弱（没有支撑面、usda 是空的、主机位），换 ep20（base，一个支撑面）；ep27 留着；加一个二机位的集（ep14 或 ep25），覆盖 camera_register。
+- 部署：从 git 出（我们的分支 `track2/t3recon-rx`，`deploy_l40s.sh` 的目标路径改成环境变量、用 git archive），数据仍按 sha256 复制。她的 code 目录里另有 22 个不在 git 里的文件与她的 DEPLOYED 戳。
+- decode 读第 07 阶段的产物（ep27 没跑 08）；`t3_gb_chain.sh` 要 30 份 parquet，单集复现直接调各步脚本。
+
 ## 执行记录
 
-（空）
+- 10/21 00:1x MDT：按复核不执行第 1 版；排到 10/21 白天写第 2 版、再复核（不影响 10/22 那次额度）。到目前对她目录的操作都是只读（ls、cat、sha256sum、git show）。
