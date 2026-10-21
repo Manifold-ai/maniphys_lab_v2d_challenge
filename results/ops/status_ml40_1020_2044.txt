@@ -1,0 +1,26 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 300587723d00
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-20T20:44:09-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-21 10:44:10 CST
+NVIDIA L40S, 40209 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T 1020G  995G  51% /lab_data
+-- tmux
+v2d-t2tm-eval: 1 windows (created Wed Oct 21 10:42:13 2026)
+v2d-t2tm-export: 1 windows (created Wed Oct 21 10:42:15 2026)
+v2d-t2tm-train: 1 windows (created Wed Oct 21 10:42:11 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2tm_ml40-gate
+runs/.chain-active-t2tm_eval_ml40
+runs/.chain-active-t2tm_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/smoke-t2-ep25-w2048-cap10m-r3a-ot3-ml40.log：training progress: 532,480/4,096,000 environment steps (13.0%); 21,043 env steps/s; elapsed 00:00:25; ETA 00:02:49
+runs/logs/arm_t2tm_ml40.log：=== 2026-10-21 10:42:18 CST ARM_SEG_DONE
+runs/logs/cand_t2_t2tm_ml40_gate.log：=== 2026-10-21 10:42:15 CST 等 runs/logs/t2tm_eval_ml40.log 的最后一行变成评测链的结束行
+runs/logs/t2tm_eval_ml40.log：=== 2026-10-21 10:42:13 CST 等 runs/logs/t2tm_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/t2tm_train_ml40.log：=== 2026-10-21 10:42:13 CST 冒烟 smoke-t2-ep25-w2048-cap10m-r3a-ot3-ml40
+runs/logs/t2-ep28-w2048-cap10m-r3a-ot3-ml40.log：
+runs/logs/t2-ep25-w2048-cap10m-r3a-ot3-ml40.log：
+runs/logs/smoke-t2-ep28-w2048-cap10m-r3a-ot3-ml40.log：

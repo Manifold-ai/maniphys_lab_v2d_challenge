@@ -58,6 +58,13 @@
 - 10/20 11:40 MDT（`results/board/diff_1020_1140.txt`）：新队 Team OPS 在 12 个榜里交了 11 个、Javier Medel, MSc. 交了 Tier 1，分数都在 maniphys.ai 之后；Team OPS 的 Tier 3 SP-SR 0.16666 排到第 2（maniphys.ai 0.26666 仍第一），把 FF 挤到第 3；Open4D 的 Tier 3 MPPE 86.66 → 79.79。maniphys.ai 各榜名次不变。读法 B：FF 22、maniphys.ai 26（Kaggle 规则）/ 23、28（官网规则）；读法 A 不变（5、7）。决定：不改，不交；两台卡在跑登记过的计划（mf4090 t3pg4，ml40 t2ho）。
 - 10/20 14:41 MDT（`results/board/diff_1020_1441.txt`）：新队 Chivatam 交了 Tier 1 四个榜，都在 maniphys.ai 之后；名次和不变（FF 22、maniphys.ai 26，Kaggle 规则）。不改、不交；两台卡在跑登记过的计划（mf4090 t3pg4，ml40 t1ho）。
 
+- 10/20 20:44 MDT（`results/board/diff_1020_2044.txt`）：DAP 在 Tier 1 交了一次（10/20 19:00 MDT）：AUC 0.60030 → 0.73467、SP-SR 0.80000 → 0.83333（与 maniphys.ai 同分）、
+  MP-SR 0.43333 → 0.76666（超过 maniphys.ai 的 0.70000）、MPPE 12.65831 → 11.99700（仍在 maniphys.ai 的 11.86661 之后，差 0.13 cm）。新队 nima arki（Tier 1、Tier 2）与
+  Izus_systems（Tier 1）都在 maniphys.ai 之后。maniphys.ai 名次：Tier 1 MP-SR 第 2 → 第 3（两种同分规则）；Tier 1 SP-SR 按 Kaggle 规则仍第 2（提交更早），按官网规则第 2 → 第 3（字母序）。
+  读法 B：Kaggle 规则 FF 22、maniphys.ai 27（原 26）；官网规则 FF 23、maniphys.ai 30（原 28）。读法 A 两种规则都是 FF 5、maniphys.ai 7，不变。
+  决定：不改、不交。Tier 1 MP-SR 要比 FF（25/30）领先 2 集才交，现在 21/30；守第 2 不在提交规矩之内（`agent-doc/strategy-2026-10-19.md` 第 1 节）。Tier 1 MPPE 的第 2 只领先 DAP 0.13 cm，
+  记为风险，不为守它提交。两台卡都在跑登记过的计划（ml40 t2tm，`agent-doc/plan-t2term-2026-10-20.md`；mf4090 t3pg4），不另写计划。
+
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 
 这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。
