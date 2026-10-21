@@ -1,9 +1,10 @@
 # command  : python3 stages/recovery/test_t3r_env_lists.py 
-# md5      : ccb5407f03a1ad64520877b41ce95aa4  stages/recovery/test_t3r_env_lists.py
+# md5      : e2b4ec5233ea84825d8788a984f488d1  stages/recovery/test_t3r_env_lists.py
 # source   : d138826fb9e3
 # host     : VM-0-16-ubuntu
-# run_at   : 2026-10-21T20:47:51+0800
+# run_at   : 2026-10-21T20:50:09+0800
 # ---------------------------------------------------------------
   test_compare_flags_content_version_and_missing 过
+  test_compare_list_matches_compare 过
   test_digest_ignores_install_side_files 过
 T3R_ENV_LISTS_TESTS_OK

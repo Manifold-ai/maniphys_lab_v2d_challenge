@@ -75,3 +75,21 @@
 7. （MINOR）E1 的重定向结果行改与我们的 `gate/repo/runs/logs/batch/t3_gb5dyn7refw_ep*.tsv` 比（它们已与她的逐字段相同），不读她仍在用的 `rec_gb5dyn7.txt`。
 8. （MINOR）1b 模式里 `t3r_other.sh` 只核她的目录，不核她的解释器。1b 的对照：负对照、已知相同对、门槛自检照常，比较器用我们的宿主机环境跑；
    正对照：E1 出现不同时，对那一步用我们的环境重复两遍查确定性，再按 E2 查版本。
+
+## 执行记录
+
+- 06:4x 改动 2 先做：第 1 级的 119 份记录回流、脱敏、提交（cbcb2be）。
+- 06:4x–06:5x 改动 1、3、7、8 与选环境（a07e8c2、b335004）：`t3r_run.sh` 的 `T3R_MASK`（空的只读 tmpfs）与白名单程序的 realpath、sha256 记录（6 个测试在 ml40、mf4090 都过，
+  `results/{ml40/,}t3recon/test_t3r_run_*_mask.txt`）；`stages/recovery/t3r_env.sh`（`T3R_ENV=hers|ours` 一处定解释器、遮挡与 gate 目录，ours 不留默认）；
+  `t3r_other.sh` 只核目录的模式；`t3r_gate_eps.sh` 改查她的目录与 venv 的位置；`t3r_gate_setup.sh` 的 ours 模式（gate_e、我们的替身 `t3r_incontainer_ours`）；
+  记录名后缀 `T3R_TAG`；重定向结果行改与第 1 级的 refw 结果行比。
+- 第 1 节第 1 条：`stages/recovery/t3r_env_lists.py`（RECORD 摘要，3 个测试过）读她两个 venv，存成 `results/ml40/t3recon/env_list_hers_{host,gate}.txt`，
+  钉版本清单 `stages/recovery/env/t3r_host.txt`（47 行）、`t3r_gate.txt`（93 行）。
+- 改动 4 的偏离：没加 `--require-hashes`——她 uv 缓存里的 `.http` 是 uv 的二进制序列化，取哈希要另写解析；改由 E0 的 RECORD 逐文件比对兜底（比对的是装进去的每个文件）。
+- 06:50–06:56 **E0**（`stages/recovery/t3r_env_build.sh`，全程在盖住她解释器的命名空间里建；记录 `results/t3recon/env_build.txt.failed`、`env_build_fix_antlr4{,b,c}.txt*`）：
+  第一次 gate 93/93 与她的 RECORD 摘要相同、CPython 3.11.17 解释器 sha256 相同（08ad3f0a96b53608…，构建 20261009）、import 冒烟都过；host 47 个里差 antlr4-python3-runtime——
+  venv 自带的 pip 22.0.2 没有 wheel 包，把这个只有源码包的发行版装成了 egg-info。改成先装清单里的 pip 26.2.1 再装其余（已写进脚本），就地重装后文件数 59 对 59、
+  只差 dist-info/WHEEL 的 Generator 行（setuptools 84.2.1 对她的 84.0.0）；用 pip 26 的 `--build-constraint`（`stages/recovery/env/t3r_host_build.txt`：setuptools==84.0.0；
+  PIP_CONSTRAINT 管不到构建依赖，第二次没生效）重构建后 **host 47/47、gate 93/93 全部相同，T3R_ENV_BUILD_DONE**。E0 过。
+- 06:56 起 **E1**（`stages/recovery/t3r_1b_e1.sh`，tmux t3r1b，日志 `runs/logs/t3r_1b_e1.log`）：部署前逐个核对 14 个脚本在 ml40 上的 md5 与仓库相同（发现 5 个旧版、1 个没拷，补齐后才启动）。
+  第 0 步回归（她的解释器、记录名 `_reg`）各段判定行与第 1 级的记录逐行相同；gate_e、t3_e、t3_ew、usda 在跑。

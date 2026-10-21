@@ -1,0 +1,16 @@
+# command  : stages/recovery/t3r_env_build.sh results/t3recon/env_list_hers_host.txt results/t3recon/env_list_hers_gate.txt --host-pip install -q --no-cache-dir --no-deps --force-reinstall -i https://mirrors.cloud.tencent.com/pypi/simple antlr4-python3-runtime==4.9.3 
+# md5      : f43a0e43712696e51d8acc33f6fa14f0  stages/recovery/t3r_env_build.sh
+# md5      : 86ee11b2fa54035e0f95ecc83b89a61e  results/t3recon/env_list_hers_host.txt
+# md5      : a862e9f0c0aaa844aabc17b7f610918c  results/t3recon/env_list_hers_gate.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:52:21+0800
+# ---------------------------------------------------------------
+--- host 对她的清单（去掉 35 个本地包装）
+内容不同	antlr4-python3-runtime	4.9.3	文件 59 对 59	摘要 9243d0360e754ee5 对 5a3abec3754ab30f
+T3R_ENV_COMPARE_DONE 发行版 47 个（参照），不同 1 个
+--- gate 对她的清单
+T3R_ENV_COMPARE_DONE 发行版 93 个（参照），不同 0 个
+--- CPython 3.11.17 解释器
+我们 08ad3f0a96b53608… 她 08ad3f0a96b53608… 相同
+T3R_ENV_BUILD_FAILED 环境与她的清单有不同（见上）

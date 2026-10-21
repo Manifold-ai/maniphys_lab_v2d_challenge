@@ -1,0 +1,9 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_compare.py --subset /lab_data/rxzhou/v2d/t3recon/t3/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json /lab_data/rxzhou/v2d/t3recon/ref/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json /lab_data/rxzhou/v2d/t3recon/t3/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json /lab_data/rxzhou/v2d/t3recon/ref/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:56:32+0800
+# ---------------------------------------------------------------
+T3R_EXE /usr/bin/python3.10 sha256 a2f33a6e00698927
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/t3/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/tier3_cari4d_gb5_best_dr2s.depth_post.json	$[ep27_woven_basket].human_feet_cut_frames：差 5.000e+00（185 对 180）
+NUMBERS_EQUAL	/lab_data/rxzhou/v2d/t3recon/t3/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/tier3_cari4d_gb5_best_dr2s_dyn7.dynamics_post.json
+T3R_COMPARE_DONE 相同字节 0、数值相同 1、不同 1

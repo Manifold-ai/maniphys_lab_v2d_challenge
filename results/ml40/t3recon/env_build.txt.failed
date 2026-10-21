@@ -1,0 +1,189 @@
+# command  : stages/recovery/t3r_env_build.sh results/t3recon/env_list_hers_host.txt results/t3recon/env_list_hers_gate.txt 
+# md5      : b296392457eee0a06daafc115a68f182  stages/recovery/t3r_env_build.sh
+# md5      : 86ee11b2fa54035e0f95ecc83b89a61e  results/t3recon/env_list_hers_host.txt
+# md5      : a862e9f0c0aaa844aabc17b7f610918c  results/t3recon/env_list_hers_gate.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:50:19+0800
+# ---------------------------------------------------------------
+=== 2026-10-21 20:50:19 CST boot venv 与 uv
+uv 0.13.0 (x86_64-unknown-linux-gnu)
+=== 2026-10-21 20:50:23 CST CPython 3.11.17
+Downloading cpython-3.11.17-linux-x86_64-gnu (download) (29.4MiB)
+ Downloaded cpython-3.11.17-linux-x86_64-gnu (download)
+Installed Python 3.11.17 in 1.72s
+ + cpython-3.11.17-linux-x86_64-gnu
+=== 2026-10-21 20:50:25 CST gate 环境
+Using CPython 3.11.17
+Creating virtual environment at: /lab_data/rxzhou/v2d/t3recon/env/gate
+Activate with: source /lab_data/rxzhou/v2d/t3recon/env/gate/bin/activate
+Using Python 3.11.17 environment at: /lab_data/rxzhou/v2d/t3recon/env/gate
+Resolved 93 packages in 268ms
+Downloading sympy (6.0MiB)
+Downloading shapely (2.2MiB)
+Downloading proxsuite (1.4MiB)
+Downloading pin (17.4MiB)
+Downloading manifold3d (1.4MiB)
+Downloading opencv-python-headless (58.4MiB)
+Downloading scipy (35.9MiB)
+Downloading hf-xet (4.0MiB)
+ Downloaded shapely
+Downloading clarabel (1.1MiB)
+Downloading cmeel-qhull (3.1MiB)
+Downloading pyarrow (47.7MiB)
+Downloading embreex (13.8MiB)
+Downloading pygments (1.2MiB)
+Downloading h5py (4.8MiB)
+Downloading viser (27.7MiB)
+Downloading warp-lang (141.9MiB)
+Downloading cholespy (5.4MiB)
+Downloading torch (167.8MiB)
+ Downloaded proxsuite
+ Downloaded manifold3d
+Downloading cmeel-zlib (1.0MiB)
+Downloading chardet (1.4MiB)
+Downloading cmeel-boost (34.3MiB)
+Downloading pillow (6.6MiB)
+Downloading numpy (16.1MiB)
+Downloading eigenpy (4.7MiB)
+Downloading cmeel-octomap (1.1MiB)
+Downloading lxml (5.0MiB)
+ Downloaded pygments
+ Downloaded clarabel
+Downloading usd-core (28.2MiB)
+Downloading coal (6.1MiB)
+ Downloaded cmeel-zlib
+ Downloaded hf-xet
+Downloading cmeel-assimp (13.8MiB)
+ Downloaded chardet
+ Downloaded cmeel-octomap
+ Downloaded h5py
+ Downloaded cmeel-qhull
+ Downloaded sympy
+ Downloaded cholespy
+ Downloaded eigenpy
+ Downloaded pillow
+ Downloaded lxml
+ Downloaded coal
+ Downloaded pin
+ Downloaded numpy
+ Downloaded cmeel-assimp
+ Downloaded viser
+ Downloaded scipy
+ Downloaded usd-core
+ Downloaded pyarrow
+ Downloaded embreex
+ Downloaded opencv-python-headless
+ Downloaded cmeel-boost
+ Downloaded warp-lang
+Downloading networkx (2.0MiB)
+ Downloaded networkx
+ Downloaded torch
+Prepared 93 packages in 10.43s
+Installed 93 packages in 296ms
+ + anyio==4.15.1
+ + attrs==26.1.0
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + chardet==7.6.0
+ + charset-normalizer==3.5.2
+ + cholespy==2.2.0
+ + clarabel==0.11.1
+ + click==8.5.0
+ + cloudpickle==3.1.2
+ + cmeel==0.61.0
+ + cmeel-assimp==5.4.3.1
+ + cmeel-boost==1.87.0.1
+ + cmeel-console-bridge==1.0.2.3
+ + cmeel-octomap==1.10.0
+ + cmeel-qhull==8.0.2.1
+ + cmeel-tinyxml2==10.0.0
+ + cmeel-urdfdom==4.0.1
+ + cmeel-zlib==1.3.2
+ + coal==3.0.1
+ + colorlog==6.12.0
+ + daqp==0.7.2
+ + eigenpy==3.10.3
+ + embreex==4.4.0
+ + fast-simplification==0.2.0
+ + filelock==4.1.1
+ + fsspec==2026.9.0
+ + h11==0.16.0
+ + h5py==3.16.0
+ + hf-xet==1.7.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + huggingface-hub==2.2.0
+ + idna==3.20
+ + imageio==2.38.1
+ + jinja2==3.1.6
+ + joblib==1.6.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + loop-rate-limiters==1.2.0
+ + lxml==6.1.3
+ + manifold3d==3.5.4
+ + mapbox-earcut==2.1.0
+ + markdown-it-py==4.2.0
+ + markupsafe==3.0.4
+ + mdurl==0.1.2
+ + mpmath==1.3.0
+ + msgspec==0.22.0
+ + networkx==3.6.1
+ + nodeenv==1.11.0
+ + numpy==2.3.5
+ + opencv-python-headless==5.0.0.93
+ + osqp==1.1.3
+ + packaging==26.3
+ + pillow==12.3.0
+ + pin==3.7.0
+ + pin-pink==4.2.0
+ + proxsuite==0.7.3
+ + py-soma-x==0.2.1
+ + pyarrow==25.0.1
+ + pycollada==0.9.3
+ + pycparser==3.11
+ + pygments==2.21.0
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + qpsolvers==4.9.0
+ + referencing==0.37.0
+ + requests==2.34.2
+ + rich==14.3.4
+ + rpds-py==2026.9.1
+ + rtree==1.4.1
+ + scipy==1.15.3
+ + setuptools==84.0.0
+ + shapely==2.2.0
+ + six==1.17.0
+ + svg-path==7.1
+ + sympy==1.14.0
+ + torch==2.7.0+cpu
+ + tqdm==4.70.1
+ + trimesh==4.5.1
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+ + usd-core==26.8
+ + vhacdx==0.1.0
+ + viser==1.0.15
+ + warp-lang==1.18.0
+ + websockets==15.0.1
+ + xatlas==0.0.11
+ + xxhash==4.0.1
+ + yourdfpy==0.0.60
+=== 2026-10-21 20:50:36 CST host 环境
+=== 2026-10-21 20:51:05 CST import 冒烟
+host 3.10.12 2.2.6 25.0.1 1.15.3 5.1.0
+gate 3.11.17 2.3.5 2.7.0+cpu 3.7.0 1.18.0
+=== 2026-10-21 20:51:10 CST T3R_ENV_INNER_DONE
+--- host 对她的清单（去掉 35 个本地包装）
+缺	antlr4-python3-runtime	我们没有
+T3R_ENV_COMPARE_DONE 发行版 47 个（参照），不同 1 个
+--- gate 对她的清单
+T3R_ENV_COMPARE_DONE 发行版 93 个（参照），不同 0 个
+--- CPython 3.11.17 解释器
+我们 08ad3f0a96b53608… 她 08ad3f0a96b53608… 相同
+T3R_ENV_BUILD_FAILED 环境与她的清单有不同（见上）

@@ -1,0 +1,8 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/<其他用户>/v2d/venv/bin/python /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_compare.py --subset /lab_data/rxzhou/v2d/t3recon/t3/runs/physics/tier3_cari4d_gb5_best/out/summary.json /lab_data/rxzhou/v2d/t3recon/ref/runs/physics/tier3_cari4d_gb5_best/out/summary.json 
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T20:56:30+0800
+# ---------------------------------------------------------------
+T3R_EXE /usr/bin/python3.10 sha256 a2f33a6e00698927
+DIFFERENT	/lab_data/rxzhou/v2d/t3recon/t3/runs/physics/tier3_cari4d_gb5_best/out/summary.json	/lab_data/rxzhou/v2d/t3recon/ref/runs/physics/tier3_cari4d_gb5_best/out/summary.json	$[ep27_woven_basket].feet_p50：差 5.000e-04（0.0045 对 0.005）
+T3R_COMPARE_DONE 相同字节 0、数值相同 0、不同 1
