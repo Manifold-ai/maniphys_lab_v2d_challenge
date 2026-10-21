@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/diag2_sync.py\ /repo/runs/t12replay/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090_s409600.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : ad54e8f2f9637d54dcb5ab95a7c718f1  stages/evaluate/diag2_sync.py
+# md5      : 2f6df0515ba074d8f8f83d43843a6a58  runs/t12replay/smoke-t2-ep25-w2048-cap4m-r3a-sd-mf4090_s409600.npz
+# source   : ee177b464ca1
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-21T07:57:34+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+robot_palm_pos (859, 1024, 2, 3)，手 ['left', 'right']，参考手掌 ['left_hand_palm_link', 'right_hand_palm_link']，同步最大差 0 m，手掌坐标帧闸 1.21e-06 m（错一帧 +1 0.0466、−1 0.046）；第 0 帧世界 0 两只手掌 [[-0.10300000011920929, -0.25, 0.8140000104904175], [-0.0989999994635582, 0.25, 0.800000011920929]]
+SYNC_OK

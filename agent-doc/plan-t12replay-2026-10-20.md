@@ -59,3 +59,9 @@
   （HF_PULL_OK 3，14.6 MB，`results/t12replay/hf_pull_ml40.txt`），挪进 `runs/flash_chord/<run>/`，三个 sha256 与 mf4090 上逐字节相同（`results/t12replay/sha256_ml40.txt`）。
 - 17:5x MDT：ml40 上的 `fall_mechanism.py` 与仓库任何一版的 md5 都不同，`push-new-files` 拒绝覆盖；ml40 没有链在跑，按 `scripts/dev/remote` 整体同步（先空跑：只删 7 个 `__pycache__` 与一个锁文件，
   `results/box/sync_ml40_1020_t12replay.txt`），来历 ee177b46。17:51 MDT tmux `v2d-t12replay` 起 `t12replay_chain.sh`（ep4、ep25、ep1 的第 409600 步，日志 `runs/logs/t12replay_ml40.log`）。
+- 18:0x MDT 读数（`results/ml40/t12replay/mech_*_s409600.txt`、`sync_*`）：R0 三条 G0 都过（第 0 步位置差 0.2–1.3 cm、躯干朝向差 0.006–0.016 rad），同步闸都 SYNC_OK；R0b 见事实 2。
+  - **ep4：R1 成立。** 回放摔倒的世界 1024/1024，摔倒帧分位 10/50/90 = 88 / 88 / 89（≤ 133）；(a) 摔倒那一帧物体离起点 < 5 cm 的 100%（中位 0.001 m）；(b) 与训好的 94 相差 6 帧。
+    SONIC 照参考走就在同一处摔，训出的残差没救回来；下一步改参考的走路段（另写计划）。回放第 50、75、100 帧：脚离参考 0.101、0.180、0.184 m，骨盆 0.081、0.165、0.459 m，躯干倾斜误差 0.191、0.292、1.143 rad。
+  - ep25（只报）：回放摔倒的世界 22.7%，摔倒帧中位 467；训好的 100%、中位 183：ep25 是训练带偏的，与 MPPE 72.65 → 117.09 一致（预期之内）。
+  - ep1（只报）：回放摔倒的世界 85.8%，摔倒帧中位 274。
+
