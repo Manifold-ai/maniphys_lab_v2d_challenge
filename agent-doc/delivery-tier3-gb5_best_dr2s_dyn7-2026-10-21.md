@@ -4,7 +4,7 @@
 
 ## 这是什么
 
-- 用途：dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md)
+- 用途：dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md); support_surface updated in place 10-21 (user decision): ep01 gains two lean boxes from gate/t3_lean_support.py (bc1d566), parquet and the other 29 usda unchanged, our-support gate 30/30 identical line by line; the previous usda dir is $G/archive/support_usda_gb5dyn7_before_lean_1021
 - 由 `t3_dynamics_post.py` from `tier3_cari4d_gb5_best_dr2s` 生成；代码 af4cf064081d221a7538004e5829136dd0584c8a dirty=0 (deploy_l40
 - 支撑面：`runs/support/tier3_cari4d_gb5_best`，写成 usda 放在本版本的 `support_surface/` 下（路径见每集元数据的 `support_surface`）。
 - 集数：30（其中 1 集在 `tier3_cari4d_gb5_best_dr2s_dyn7_suspect`）。
@@ -41,46 +41,46 @@
 | 5 | 动力学检查 | 违规帧 1779，见上表 |
 | 9 | 手和物体 | 标了接触但手离物体 > 3 cm 的占 0.94%；接触帧比上一交付版少 10% 以上的集：无 |
 | 12 | 来源 | `tier3_cari4d_gb5_best_dr2s_dyn7.provenance.json`：有；`tier_guard` 拒绝读取低档位数据 |
+| 13 | 每帧可信度 | 30 集 22990 帧：ok 94.1%、unverified 1.2%、bad 4.7%，连成跟丢段的帧 5.5%。逐帧结果在版本目录的 `confidence/episode_*.parquet`（`t3_frame_confidence.py`）。ok 只说明剪影与掩码吻合，朝向翻转在剪影上看不出来 |
 | 4 | 看图：user（10-21，归因） | 闸门超出 gb4 的 ep01/02/17 逐帧看贴图叠图：gb5 分段对错。ep01 离手后靠椅子段与 258 帧 gb5 对，331–370 帧 gb4 对；ep02 中段 250/395 帧 gb5 纠正了放倒，开头 20/50 帧 gb4 对，结尾遮挡段两版都错；ep17 260 帧 gb5 修复了跟丢，196–245 遮挡段按人体动作推断 gb4 近。判定记在 checked_frames.json 的 seventh_pass_gb5_attr（图：`dev/sel_diag/attr/review/`） |
 | 4 | 看图：user（10-21，整批看图） | 13 集各取两版差别最大的 4 帧加首末帧，共 77 帧，2 帧全遮挡判不了。gb5 对 32、两版都错 gb5 好 10、两版都对 16、两版都错 10；gb4 对 gb5 错 3（ep01 343、ep02 0、ep13 720），两版都错 gb4 好 3（ep01 245/306、ep11 889），只说 gb4 好一点 1（ep03 117）。旧对新错 3/75 = 4.0%（连同 gb4 好一些 7/75 = 9.3%），在 10% 放行线内；ep03 杯子另出了染色贴图复核（tint/）。判定记在 checked_frames.json 的 batch_review_gb4_gb5（图：`dev/sel_diag/review_gb5/`） |
 | - | 看图：agent（10-21，机器闸门归因） | 登记闸门 gb5 对 gb4：GB5_GATE ATTRIBUTE M5 M6（dev/sel_diag/gb5_gate.json）。新增与消失的违规帧几乎全在两版朝向差 > 24° 的帧 ±15 帧内，指标随选择器改的朝向段走；M5 的增量几乎全来自 ep11 右手 634–693 帧，gb4 同段已有，与选择器无关；M6 超出的 ep17 静止段跳变是绕锥桶长轴的自旋（表面位移约 3 cm，看图朝向都对）。worse 4/13，退回线 1/3（图：`dev/sel_diag/attr/`） |
 | - | 未做 | 6 合成轨迹空跑与幂等性（工具未写） |
-| - | 未做 | 13 每帧可信度（工具未写） |
 
 ## 逐集
 
-| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） |
-|---|---|---|---|---|---|---|---|
-| ep00_tall_bar_stool | 778 | 7 (7) | 704 (704) | 0.837 (0.837) | 过 / 过 | 3 | 749 (749) |
-| ep01_vacuum | 747 | 108 (85) | 128 (128) | 0.587 (0.511) | 过 / 过 | 14 | 235 (211) |
-| ep02_blue_easter_basket | 980 | 206 (157) | 87 (171) | 0.726 (0.788) | 过 / 过 | 0 | 425 (428) |
-| ep03_contigo_coffee_mug | 781 | 19 (33) | 99 (88) | 0.860 (0.854) | 不过 / 过 | 0 | 515 (514) |
-| ep04_baseball_bat | 803 | 24 (53) | 102 (102) | 0.777 (0.769) | 过 / 过 | 2 | 852 (816) |
-| ep05_big_black_box | 1003 | 7 (7) | 589 (589) | 0.923 (0.923) | 过 / 过 | 5 | 1058 (1058) |
-| ep06_monitor | 546 | 0 (0) | None (None) | 0.739 (0.739) | 不过 / 过 | 3 | 511 (511) |
-| ep07_iron | 896 | 0 (0) | None (None) | 0.893 (0.893) | 不过 / 过 | 0 | 694 (694) |
-| ep08_skinny_wood_chair | 708 | 56 (56) | 144 (144) | 0.813 (0.813) | 过 / 过 | 0 | 483 (483) |
-| ep09_big_red_bowl | 870 | 22 (37) | 509 (233) | 0.816 (0.813) | 过 / 过 | 0 | 1056 (1084) |
-| ep10_white_desk | 794 | 13 (13) | 90 (90) | 0.725 (0.725) | 过 / 过 | 6 | 514 (514) |
-| ep11_light_blue_book | 901 | 39 (52) | 51 (134) | 0.811 (0.765) | 过 / 过 | 52 | 1624 (1608) |
-| ep12_black_platform | 700 | 1 (1) | 158 (158) | 0.900 (0.900) | 过 / 过 | 0 | 710 (710) |
-| ep13_snack_box | 922 | 314 (309) | 182 (80) | 0.854 (0.854) | 过 / 过 | 28 | 586 (587) |
-| ep14_round_table | 993 | 4 (4) | 300 (300) | 0.792 (0.792) | 过 / 过 | 47 | 1135 (1135) |
-| ep15_wet_floor_sign | 715 | 3 (6) | 497 (489) | 0.832 (0.832) | 过 / 过 | 1 | 389 (390) |
-| ep16_spray_bottle | 477 | 78 (85) | 341 (264) | 0.869 (0.863) | 过 / 过 | 0 | 197 (183) |
-| ep17_traffic_cone | 440 | 26 (39) | 126 (126) | 0.827 (0.802) | 过 / 过 | 0 | 317 (280) |
-| ep18_blue_trash_can | 858 | 0 (0) | None (None) | 0.921 (0.921) | 过 / 过 | 2 | 702 (702) |
-| ep19_cane | 886 | 140 (140) | 88 (88) | 0.447 (0.447) | 过 / 过 | 2 | 395 (395) |
-| ep20_rice_cooker | 553 | 0 (0) | None (None) | 0.908 (0.908) | 不过 / 过 | 0 | 326 (326) |
-| ep21_tall_bar_stool | 678 | 0 (0) | None (None) | 0.828 (0.828) | 过 / 过 | 2 | 888 (888) |
-| ep22_step_ladder | 719 | 4 (4) | 602 (602) | 0.835 (0.835) | 过 / 过 | 0 | 412 (412) |
-| ep23_toy_stroller | 946 | 0 (0) | None (None) | 0.810 (0.810) | 过 / 过 | 0 | 689 (689) |
-| ep24_watering_can | 748 | 13 (13) | 0 (0) | 0.797 (0.797) | 过 / 过 | 0 | 473 (473) |
-| ep25_cyan_water_bottle | 859 | 25 (33) | 0 (0) | 0.824 (0.821) | 不过 / 过 | 5 | 803 (808) |
-| ep26_skateboard | 669 | 0 (0) | None (None) | 0.899 (0.899) | 过 / 过 | 0 | 485 (485) |
-| ep27_woven_basket | 565 | 13 (129) | 181 (23) | 0.829 (0.825) | 过 / 过 | 0 | 596 (545) |
-| ep28_squeegee | 988 | 283 (468) | 146 (144) | 0.446 (0.392) | 过 / 过 | 0 | 502 (455) |
-| ep29_rolling_luggage | 467 | 374 (374) | 93 (93) | 0.787 (0.787) | 过 / 过 | 0 | 0 (0) |
+| 集 | 帧数 | 违规帧（上一版） | 首次违规帧（上一版） | IoU 中位（上一版） | 门槛 地面 / 我们的支撑面 | 手 > 3 cm 帧 | 接触帧（上一版） | 可信 ok / unverified / bad |
+|---|---|---|---|---|---|---|---|---|
+| ep00_tall_bar_stool | 778 | 7 (7) | 704 (704) | 0.837 (0.837) | 过 / 过 | 3 | 749 (749) | 100% / 0% / 0% |
+| ep01_vacuum | 747 | 108 (85) | 128 (128) | 0.587 (0.511) | 过 / 过 | 14 | 235 (211) | 85% / 0% / 15% |
+| ep02_blue_easter_basket | 980 | 206 (157) | 87 (171) | 0.726 (0.788) | 过 / 过 | 0 | 425 (428) | 69% / 18% / 13% |
+| ep03_contigo_coffee_mug | 781 | 19 (33) | 99 (88) | 0.860 (0.854) | 不过 / 过 | 0 | 515 (514) | 100% / 0% / 0% |
+| ep04_baseball_bat | 803 | 24 (53) | 102 (102) | 0.777 (0.769) | 过 / 过 | 2 | 852 (816) | 96% / 0% / 4% |
+| ep05_big_black_box | 1003 | 7 (7) | 589 (589) | 0.923 (0.923) | 过 / 过 | 5 | 1058 (1058) | 100% / 0% / 0% |
+| ep06_monitor | 546 | 0 (0) | None (None) | 0.739 (0.739) | 不过 / 过 | 3 | 511 (511) | 100% / 0% / 0% |
+| ep07_iron | 896 | 0 (0) | None (None) | 0.893 (0.893) | 不过 / 过 | 0 | 694 (694) | 100% / 0% / 0% |
+| ep08_skinny_wood_chair | 708 | 56 (56) | 144 (144) | 0.813 (0.813) | 过 / 过 | 0 | 483 (483) | 100% / 0% / 0% |
+| ep09_big_red_bowl | 870 | 22 (37) | 509 (233) | 0.816 (0.813) | 过 / 过 | 0 | 1056 (1084) | 96% / 0% / 4% |
+| ep10_white_desk | 794 | 13 (13) | 90 (90) | 0.725 (0.725) | 过 / 过 | 6 | 514 (514) | 100% / 0% / 0% |
+| ep11_light_blue_book | 901 | 39 (52) | 51 (134) | 0.811 (0.765) | 过 / 过 | 52 | 1624 (1608) | 95% / 2% / 3% |
+| ep12_black_platform | 700 | 1 (1) | 158 (158) | 0.900 (0.900) | 过 / 过 | 0 | 710 (710) | 100% / 0% / 0% |
+| ep13_snack_box | 922 | 314 (309) | 182 (80) | 0.854 (0.854) | 过 / 过 | 28 | 586 (587) | 96% / 0% / 4% |
+| ep14_round_table | 993 | 4 (4) | 300 (300) | 0.792 (0.792) | 过 / 过 | 47 | 1135 (1135) | 100% / 0% / 0% |
+| ep15_wet_floor_sign | 715 | 3 (6) | 497 (489) | 0.832 (0.832) | 过 / 过 | 1 | 389 (390) | 99% / 1% / 0% |
+| ep16_spray_bottle | 477 | 78 (85) | 341 (264) | 0.869 (0.863) | 过 / 过 | 0 | 197 (183) | 95% / 4% / 1% |
+| ep17_traffic_cone | 440 | 26 (39) | 126 (126) | 0.827 (0.802) | 过 / 过 | 0 | 317 (280) | 91% / 9% / 0% |
+| ep18_blue_trash_can | 858 | 0 (0) | None (None) | 0.921 (0.921) | 过 / 过 | 2 | 702 (702) | 100% / 0% / 0% |
+| ep19_cane | 886 | 140 (140) | 88 (88) | 0.447 (0.447) | 过 / 过 | 2 | 395 (395) | 82% / 0% / 18% |
+| ep20_rice_cooker | 553 | 0 (0) | None (None) | 0.908 (0.908) | 不过 / 过 | 0 | 326 (326) | 100% / 0% / 0% |
+| ep21_tall_bar_stool | 678 | 0 (0) | None (None) | 0.828 (0.828) | 过 / 过 | 2 | 888 (888) | 100% / 0% / 0% |
+| ep22_step_ladder | 719 | 4 (4) | 602 (602) | 0.835 (0.835) | 过 / 过 | 0 | 412 (412) | 100% / 0% / 0% |
+| ep23_toy_stroller | 946 | 0 (0) | None (None) | 0.810 (0.810) | 过 / 过 | 0 | 689 (689) | 100% / 0% / 0% |
+| ep24_watering_can | 748 | 13 (13) | 0 (0) | 0.797 (0.797) | 过 / 过 | 0 | 473 (473) | 99% / 0% / 1% |
+| ep25_cyan_water_bottle | 859 | 25 (33) | 0 (0) | 0.824 (0.821) | 不过 / 过 | 5 | 803 (808) | 100% / 0% / 0% |
+| ep26_skateboard | 669 | 0 (0) | None (None) | 0.899 (0.899) | 过 / 过 | 0 | 485 (485) | 100% / 0% / 0% |
+| ep27_woven_basket | 565 | 13 (129) | 181 (23) | 0.829 (0.825) | 过 / 过 | 0 | 596 (545) | 98% / 1% / 1% |
+| ep28_squeegee | 988 | 283 (468) | 146 (144) | 0.446 (0.392) | 过 / 过 | 0 | 502 (455) | 46% / 1% / 53% |
+| ep29_rolling_luggage | 467 | 374 (374) | 93 (93) | 0.787 (0.787) | 过 / 过 | 0 | 0 (0) | 97% / 0% / 3% |
 
 ## 已知问题
 
@@ -99,3 +99,4 @@
 - 试过按段从 gb4/gb5 取初值拼成新版本（gb6），预测在答案帧上只比 gb5 多对 2 帧且会在 ep13 拼出静止中的翻转，用户定不跑。现有自动证据分不出静止时的朝向，所以两版的长处合不起来
 - 改动审计列的是 gb4 交付版 → 本版本（13 集的初始朝向改动加 CoCoNet 重优化），跨了版本，所以 > 5 cm 的帧远多于 gb4 报告里同一版本内 dyn7 前后的口径；ep02、ep28、ep11 改动最多，与归因里朝向改动最大的集一致
 - 10-21 支撑面原地更新（依靠方块）：ep01 的吸尘器斜靠在吧凳上，原支撑面没有凳子，仿真开局即倒；t3_lean_support.py（bc1d566）在 MoGe 看到的凳面高度上贴着吸尘器加了 support_lean_0、support_lean_1 两个碰撞方块。只换了 ep01 的 usda，parquet 与其余 29 个 usda 不变；ep28 的三个候选方块在别的帧被刮水器穿入 2 cm，按规则未写入。我们的支撑面门槛复检 30/30，与更新前逐行相同
+- 10-22 补每帧可信度（自检第 13 项，用户 10-22 定，原地补，数据不变）：t3_frame_confidence.py（76e0b4e）在交付层上逐帧判剪影与掩码（去掉人体像素）、跳动、无人碰却在动，写到版本目录 confidence/episode_*.parquet；数据 parquet、visible 列与 usda 都不变（rxzhou 的 challenge_to_soma.py 把 visible 为假的帧换成上一可见帧的位姿，所以不写进 visible）。阈值沿用 t3_track_check.py，没有调。对照用户 10-21 整批看图里有对错判定的 74 帧：gb5 对的 48 帧判 ok 47、unverified 1、bad 0；gb5 错的 26 帧判 bad 10、unverified 6、ok 10。漏掉的 10 帧是剪影对得上的错误：朝向（ep13 720/921、ep03 563 杯把）、沿视线的距离（ep02 第 0 帧），以及 IoU 落在 0.3–0.5 之间的半跟丢（ep11 889/900、ep13 209）

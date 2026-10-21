@@ -49,6 +49,17 @@ gb5 只有 ep01 写了方块；ep28（suspect 集，重建失败）三个候选�
 DELIVERY.md（末条说明记了这次更新）。你那边已经导入过 gb5 支撑面的话，只需换 ep01 一个文件。脚本与结果在 L40S `$T/dev/`（`t3_unheld_turn.py` / `unheld_turn.json`、
 `t3_support_fit.py`、`t3_jitter_sets.py` / `jitter_sets.txt`、`t3_fail_vs_jump.py`、`t3_err_split.py`）。
 
+**gb5 补每帧可信度（10-22 EDT，用户定，原地补，数据不变）**：给 rxzhou 的数据原来没有逐帧可信度——`observation.object.visible` 全为真
+（`t3_convert_ep.py` 写死），而 rxzhou 的 `challenge_to_soma.py` 会把 `visible` 为假的帧换成上一可见帧的位姿，所以可信度不写进 `visible`，
+另写旁注：`t3_frame_confidence.py`（`76e0b4e`）在交付层上逐帧判剪影与 SAM2 掩码（去掉人体像素）、跳动、无人碰却在动，给 `ok` / `unverified` /
+`bad` 三档和跟丢段，写到版本目录 `confidence/episode_*.parquet`（ep28 在 `_suspect` 下），另有 `summary.json`、`provenance.json`。判据与阈值沿用
+`t3_track_check.py`，没有调。数据 parquet、usda 不变；`t3_deliver.sh` 重写了 DELIVERY.md（自检第 13 项、逐集一列、末条说明）。
+全部 22990 帧：ok 94.1%、unverified 1.2%、bad 4.7%。对照用户 10-21 整批看图里有对错判定的 74 帧（评估，不回头调）：gb5 对的 48 帧判 bad 0；
+gb5 错的 26 帧判 bad 10、unverified 6、ok 10。漏掉的是剪影对得上的错误（朝向：ep13 720/921、ep03 563；沿视线的距离：ep02 第 0 帧；IoU 0.3–0.5 的
+半跟丢：ep11 889/900、ep13 209），所以 `ok` 不等于朝向对。逐帧 42–128 s/集（CPU 4 线程），30 集串行约 39 分钟；日志 `$T/logs/frame_conf_gb5dyn7.log`，
+评估脚本与输出 `$T/dev/frame_conf/`（`fc_eval.py`，未入库），spec 改前备份 `$T/dev/audit/spec_gb5dyn7.before_conf_1022.json`。
+**给 rxzhou**：可信度只是旁注，你的链不读它就没有任何变化；要用的话按 `label` / `lost` 过滤或加权。
+
 **版本整理（10-21）**：gb4 的中间产物 `tier3_cari4d_gb4_best`、`_dr2s`（连同 `_suspect` 与旁注文件）被 gb5 对应目录取代，移入
 `runs/archive/`；选择器的过程工作目录 `work_b000/010/020/030`（A/B 落选）、`work_sel`（10-19 试点）、`work_anchor`（停掉的锚定重跑）
 也移入 `runs/archive/`。共 13 项，每项一行记在 `runs/archive/MOVED.tsv`（10-21 03:02）。`work_b050`（gb5 的 CARI4D 结果）与 `work_dump`
