@@ -121,3 +121,8 @@ rxzhou 10/21 00:3x：“现在重建我们全权接管”。判据在结果出�
   `t3r_level1_compare.sh t3_refw`；记录 `results/t3recon/t3_refw_vs_ref_cmp_*.txt`）：对照照常（负对照 3/3 不同、已知相同对 4/4、自检过）；用参照的 world 产物当输入，
   assemble、三版物理检查、support、dr2s、dyn7 对三集**全部逐字节相同**（每版 15/15），三份 summary 与 depth_post、dynamics_post 数值相同（只差路径、时间字段）。
   **结论：第 1 级 CPU 段里复现不了的只有 ep27 world 的缩放拟合这一步（不确定）；它下游的各步是确定的，给同样的输入就逐字节重出参照。**
+- 05:4x **K2 线程测试的结果**（`results/t3recon/world_repeat_ep27_{c,d,e,f}.txt`、`world_repeat_ep14_{g,h}.txt`、`world_pairs_threads.txt.failed`）：
+  ep27 的 1 线程 c、d 逐字节相同，4 线程 e、f 逐字节相同；ep14 的 6 线程 g、h 互不相同，也都与 t3、参照（4 线程做的）不同（identity_coeffs 差 2.6e-3–5.0e-3，joint_err_mm_max 2.78–2.87 对参照 2.96）。
+  按登记的判读：**不确定与线程数有关**——world 的缩放拟合在 1、4 线程下逐位确定，6 线程下不确定（ep14、ep27 都是）；ep14、ep20 当初用 4 线程，所以能逐字节复现，
+  ep27 当初用 6 线程（`t3_sel_full.sh` 37 行），参照只是不确定分布里的一次抽样，逐位复现不了。机制（例如 BLAS 在线程数除不尽时按动态分工）没有验证，只记现象。
+  对我们的管线：world 步固定用 4 线程（或 1 线程）就能逐位复现；这条写进第 2 级计划，不改第 1 级的判定。
