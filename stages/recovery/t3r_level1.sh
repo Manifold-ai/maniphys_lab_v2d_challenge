@@ -5,10 +5,12 @@
 # 线程照她当时的：decode 固定 8 线程（ep27 另给 --cpus 6、OMP 6）；focal、world 在 ep14、ep20 是 --cpus 4、OMP 4，ep27 是 --cpus 6、OMP 6；物理检查 --cpus 8；
 # support 设 T3_FLOOR_FIT、T3_REGISTER 与 OMP 4；dr2s、dyn7 不设。ep14、ep20 的 world 用她当时的文件名（floor_fit_gb3.json、camera_register_gb3.json，内容是 gb5 那两份）。
 # 用法：stages/recovery/t3r_level1.sh <根名，t3 或 t3_rep>   日志 runs/logs/t3r_level1_<根名>.log，最后一行 T3R_LEVEL1_DONE 或 T3R_LEVEL1_FAILED <步>。
+# T3R_FROM=assemble：跳过 decode、focal、world，转换目录里要已有 world 的三个产物（stages/recovery/t3r_seed_root.sh world-from-ref 种的根；K2 登记第 3 条）。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}
+FROM=${T3R_FROM:-decode}
 R=/lab_data/rxzhou/v2d/t3recon
 T3="$R/$NAME"; CODE="$R/code"; S="$CODE/stages/recovery/tier3"; W="$R/w"
 SOMA="$REPO/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma"
@@ -26,8 +28,9 @@ DK=(docker run --rm --user 1003:1005 --entrypoint "" --network none -e HOME=/tmp
 rec() { local n=$1; shift; "$REPO/scripts/dev/record" "t3recon/${NAME}_$n" "$@" > /dev/null 2>&1 || fail "$n（results/t3recon/${NAME}_$n.txt.failed）"; say "$n 过"; }
 
 [ -d "$T3" ] || fail "没有 $T3"
+case $FROM in decode|assemble) ;; *) fail "T3R_FROM 只认 decode、assemble" ;; esac
 docker image inspect "$IMG" > /dev/null 2>&1 || fail "没有镜像 $IMG"
-say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)，根 $T3，镜像 $IMG"
+say "开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)，根 $T3，镜像 $IMG，从 $FROM 起"
 # ep14、ep20 的 world 当时用的文件名
 mkdir -p "$T3/runs/floor_gbfix"
 cp -n "$T3/runs/floor/floor_fit_gb5.json" "$T3/runs/floor_gbfix/floor_fit_gb3.json"
@@ -38,7 +41,9 @@ for spec in "14 ep14_round_table work convert_gb5 round_table 4" "20 ep20_rice_c
   read -r ep name work conv obj thr <<< "$spec"
   e6="episode_$(printf %06d "$ep")"
   E="$T3/runs/$work/$name/cari4d/$e6"; O="$T3/runs/$conv/$name"
-  if [ "$ep" = 27 ]; then   # 她在 t3_sel_full.sh 里的写法：输出挂成 /o/<集名>，另挂地面目录与输入
+  if [ "$FROM" = assemble ]; then
+    for f in object_world.npz soma_params_world.npz world_calib.json; do [ -f "$O/$f" ] || fail "从 assemble 起要已有 $O/$f"; done
+  elif [ "$ep" = 27 ]; then   # 她在 t3_sel_full.sh 里的写法：输出挂成 /o/<集名>，另挂地面目录与输入
     M=(-v "$S:/s:ro" -v "$E:/e:ro" -v "$W:/w:ro" -v "$SOMA:/a:ro" -v "$T3/runs/floor:/f:ro" -v "$T3/input:/in:ro" -v "$O:/o/$name")
     rec "decode_$name" "${DK[@]}" --cpus 6 -e OMP_NUM_THREADS=6 "${M[@]}" "$IMG" python /s/t3_convert_ep.py decode /e /w "/o/$name"
     rec "focal_$name" "${DK[@]}" --cpus 6 -e OMP_NUM_THREADS=6 "${M[@]}" "$IMG" python /s/t3_convert_ep.py focal "/o/$name" /f/intrinsics_gb3.json /a "/in/mesh/$obj/$obj.glb"
