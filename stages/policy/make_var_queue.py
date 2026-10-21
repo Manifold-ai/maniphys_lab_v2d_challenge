@@ -78,7 +78,7 @@ TABLES_HM = [2, 3, 6, 7, 9, 11, 13, 16, 17, 20, 25, 27]
 # gb3 有桌面的集与 best_hm 相同（其余集的支撑面是空的 Xform，results/t3gb3/inventory_ml40.txt）
 TABLES_GB3 = TABLES_HM
 TABLES_GB4 = TABLES_HM   # gb4 的支撑面：有桌面的仍是这 12 集（计划 agent-doc/plan-t3g4-2026-10-19.md 事实 2）
-TABLES_GB5 = TABLES_HM   # gb5 只在 gb4 上重选 13 个 FoundationPose 集的物体位姿，支撑面同 gb4（计划 agent-doc/plan-t3g5-2026-10-21.md 事实 3）
+TABLES_GB5 = sorted(set(TABLES_HM) | {1})   # gb5：有桌面的 12 集，加 ep1（10/21 给吸尘器补了两个倚靠用的方盒；计划 agent-doc/plan-t3g5-2026-10-21.md 第 2 版事实 3、复核 MAJOR 2）
 # D 的总顺序：① ep15、17；② 没在 Tier 3 训练过的 18 集与 ep8（10/9 试跑在旧参考上失败），按集号；③ 其余 8 集重训（计划 agent-doc/plan-d-t3hm-train-2026-10-12.md 第 2 节）
 ORDER_HM = [15, 17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 19, 21, 25, 27, 0, 18, 22, 24, 26, 20, 23, 29]
 SETS = {
@@ -127,11 +127,11 @@ SETS = {
               "desc": "Tier 3 gb4（标定内参、人体重解）：变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb4，基线取 Tier 2 导出清单，支撑面按 gb4）"},
     # 10/21（计划 agent-doc/plan-t3g5-2026-10-21.md）：跟丢的 18 集在 gb5 上训，A 批是 Tier 2 训得成的 7 集，B 批其余 11 集
     "t3pg5": {"plan": "agent-doc/plan-t3g5-2026-10-21.md", "tier": 3, "machine": "mf4090", "cap": "4000000",
-              "episodes": [5, 10, 15, 27, 13, 19, 1, 9, 17], "parts": {"t3pg5": [5, 10, 15, 27, 13, 19, 1, 9, 17]},
+              "episodes": [5, 10, 15, 27, 13, 19, 1, 9, 17], "parts": {"t3pg5a": [5, 10, 15, 27], "t3pg5b": [13, 19, 1, 9, 17]},
               "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5, "run": "t3-ep{ep}-w2048-cap4m-r3a-gb5-mf4090",
               "desc": "Tier 3 gb5（gb4 上重选 FoundationPose 集的物体位姿）：跟丢集的变体 A seed 42（mf4090，buffer 400 万，参考是 runs/motion/tier3_gb5，基线取 Tier 2 导出清单，支撑面按 gb5）"},
     "t3qg5": {"plan": "agent-doc/plan-t3g5-2026-10-21.md", "tier": 3, "machine": "ml40", "cap": None,
-              "episodes": [3, 12, 16, 14, 23, 2, 4, 11, 25], "parts": {"t3qg5": [3, 12, 16, 14, 23, 2, 4, 11, 25]},
+              "episodes": [3, 12, 16, 14, 23, 2, 4, 11, 25], "parts": {"t3qg5a": [3, 12, 16], "t3qg5b": [14, 23, 2, 4, 11, 25]},
               "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",
               "desc": "Tier 3 gb5（gb4 上重选 FoundationPose 集的物体位姿）：跟丢集的变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb5，基线取 Tier 2 导出清单，支撑面按 gb5）"},
     "t3qg": {"plan": "agent-doc/plan-t3-gb3-switch-2026-10-17.md", "tier": 3, "machine": "ml40", "cap": None,
