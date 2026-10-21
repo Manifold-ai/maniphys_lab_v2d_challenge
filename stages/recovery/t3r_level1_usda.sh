@@ -8,13 +8,15 @@
 # t3_support_usda.py 从 <根>/code/stages/recovery/tier3 导入 t3_inputs、t3_support，所以在根里放相对链接 code → ../code（链到我们自己的副本，不出 t3recon）。
 # 每步经 stages/recovery/t3r_run.sh（她的目录只读、能力全丢、docker socket 盖住）。前提：stages/recovery/t3r_gate_setup.sh 搭好的 gate；根里有 A 部分的 dyn7 与 support。
 # 重定向的结果行（帧数、接触、IK 中位、间隙、支撑面、状态）另与她的 gate/logs/rec_gb5dyn7.txt 里同集的行逐字段比（只读）。
-# 用法：stages/recovery/t3r_level1_usda.sh <根名，t3>   日志 runs/logs/t3r_level1_usda_<根名>.log，最后一行 T3R_USDA_DONE 或 T3R_USDA_FAILED <步>。
+# 用法：stages/recovery/t3r_level1_usda.sh <根名，t3 或 t3_refw> [<ep>...]   日志 runs/logs/t3r_level1_usda_<根名>.log，最后一行 T3R_USDA_DONE 或 T3R_USDA_FAILED <步>。
+# 根名不是 t3 时集名是 gb5dyn7_<后缀>（同一个 gate 仓库里另起 root，不碰 gb5dyn7），support_usda.json 的比较另把 set 字段算进忽略的键；不给 ep 就跑 14 20 27。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
 NAME=${1:?根名}
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/$NAME"; C="$R/code/stages/recovery/tier3/gate"; G="$R/gate"; GR="$G/repo"; SET=gb5dyn7
-EPS=(14 20 27)
+IGN=(); [ "$NAME" = t3 ] || { SET="gb5dyn7_${NAME#t3_}"; IGN=(--ignore-key "(path|dir|file|root|time|date|stamp|argv|host|cwd|user|from|created|deployed|code_files|^set$)"); }
+shift; EPS=("$@"); [ ${#EPS[@]} -gt 0 ] || EPS=(14 20 27)
 LOG="$REPO/runs/logs/t3r_level1_usda_${NAME}.log"
 mkdir -p "$REPO/runs/logs"
 exec >> "$LOG" 2>&1
@@ -42,16 +44,16 @@ rec support_usda bash "$GUARD" env "PYTHONPATH=$GR/third_party/video_to_data/rob
 # 比较：usda 逐字节、support_usda.json 按集比（t3r_compare.py --subset），比较器用她的宿主机解释器（只读）
 HPY="$H/venv/bin/python"
 REF="$R/ref/gate/support_usda_gb5dyn7"
-p=(); for f in "$REF"/*.usda; do p+=("$G/support_usda_$SET/$(basename "$f")" "$f"); done
+p=(); for f in "$G/support_usda_$SET"/*.usda; do p+=("$f" "$REF/$(basename "$f")"); done
 "$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp_usda" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" "${p[@]}" > /dev/null 2>&1
 say "usda 比较退出码 $?"
-"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp_usda_json" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" --subset \
+"$REPO/scripts/dev/record" "t3recon/${NAME}_vs_ref_cmp_usda_json" env T3R_ALLOW="$HPY" bash "$GUARD" "$HPY" "$REPO/stages/recovery/t3r_compare.py" --subset "${IGN[@]}" \
   "$G/support_usda_$SET/support_usda.json" "$REF/support_usda.json" > /dev/null 2>&1
 say "support_usda.json 比较退出码 $?"
 # 重定向结果行与她的记录逐字段比
 for e in "${EPS[@]}"; do
   ours="$(cat "$GR/runs/logs/batch/t3_${SET}_ep$(printf %02d "$e").tsv" 2>/dev/null)"
-  hers="$(awk -F'\t' -v e="$e" '$1 == 3 && $2 == e' "$H/gate/logs/rec_$SET.txt")"
+  hers="$(awk -F'\t' -v e="$e" '$1 == 3 && $2 == e' "$H/gate/logs/rec_gb5dyn7.txt")"
   [ "$ours" = "$hers" ] && say "ep$e 重定向结果行相同：$ours" || say "ep$e 重定向结果行不同：我们 [$ours] 她 [$hers]"
 done
 say "T3R_USDA_DONE"
