@@ -1,0 +1,15 @@
+# command  : ssh ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/logs && grep -h -E \'�\255��\217 |�\214�\210\220\' t3qg5a_train_ml40.log' 
+# source   : 9242e45ebc08-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T07:05:19-0600
+# ---------------------------------------------------------------
+fc_run: smoke-t3-ep3-w2048-cap10m-r3a-gb5-ml40 完成
+fc_run: smoke-t3-ep12-w2048-cap10m-r3a-gb5-ml40 完成
+fc_run: smoke-t3-ep16-w2048-cap10m-r3a-gb5-ml40 完成
+=== 2026-10-21 15:22:01 CST 正式 t3-ep3-w2048-cap10m-r3a-gb5-ml40
+fc_run: t3-ep3-w2048-cap10m-r3a-gb5-ml40 完成
+=== 2026-10-21 17:25:18 CST t3-ep3-w2048-cap10m-r3a-gb5-ml40 完成（1 段）
+=== 2026-10-21 17:25:18 CST 正式 t3-ep12-w2048-cap10m-r3a-gb5-ml40
+fc_run: t3-ep12-w2048-cap10m-r3a-gb5-ml40 完成
+=== 2026-10-21 19:57:16 CST t3-ep12-w2048-cap10m-r3a-gb5-ml40 完成（1 段）
+=== 2026-10-21 19:57:16 CST 正式 t3-ep16-w2048-cap10m-r3a-gb5-ml40

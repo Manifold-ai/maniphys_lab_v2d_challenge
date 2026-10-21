@@ -79,6 +79,12 @@
   MPPE 16.95；Rohit Pardeshi MPPE 44.56），都在 maniphys.ai 之后；各榜名次不变。读法 B：Kaggle 规则 FF 26、maniphys.ai 30，官网规则 26、33；读法 A 5 比 7。不改、不交。
   两台卡在训 `agent-doc/plan-t3g5-2026-10-21.md` 的 A 段（mf4090 ep5 03:39 训完、在训 ep10；ml40 ep3 03:25 训完、在训 ep12）。
 
+- 10/21 06:12 MDT（`results/board/diff_1021_0612.txt`）：没有变化。
+- 10/21 07:01 MDT（SOP 更新时看的，`results/board/diff_1021_0701.txt`）：新队 solidSF.com 只交了 Tier 1 AUC（0.99998，10/21 06:13 MDT），Andrew Norris（0.00000）不在榜上了。
+  maniphys.ai 的 Tier 1 AUC 第 4 → 第 5，FF 也后移一名，两队之间不变。读法 B：Kaggle 规则 FF 27、maniphys.ai 31，官网规则 27、34；读法 A 5 比 7。
+  不改、不交：这个榜第一名 0.99998、第二名 0.96908，maniphys.ai 0.58258，差 0.39 以上，现有路线追不上；名次和的变化只来自这一个榜，FF 同样后移。
+  两台卡在训 `agent-doc/plan-t3g5-2026-10-21.md` 的 A 段（mf4090 ep5、ep10 训完、在训 ep15；ml40 ep3、ep12 训完、在训 ep16）。
+
 ## 附：两个循环任务的提示词（10/19 12:4x MDT 建；改了要同时改续期任务）
 
 这里另一位成员的名字写成 <另一位成员>，完整原文在 10/26、11/02 两个续期任务里。

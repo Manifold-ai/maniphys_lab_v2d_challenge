@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-21-sop-0701.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 0921c8bf4ae8b3d6a6fb9e992eabd72f  agent-doc/experiments/2026-10-21-sop-0701.claims.json
+# source   : 9242e45ebc08-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T07:07:22-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+solid_a              P(supported)=0.98  verified               [b_t1]  solidSF.com 新进 Tier 1 AUC 榜，分数 0.99998，排第 1。
+solid_b              P(supported)=0.99  verified               [b_t1]  maniphys.ai 在 Tier 1 AUC 榜排第 5，分数 0.58258。
+solid_c              P(supported)=0.98  verified               [b_prev]  上一份比较（diff_1021_0612）里，maniphys.ai 在 Tier 1 AUC 榜排第 4，分数 0.58258。
+sum                  P(supported)=0.95  verified               [b_sum]  读法 B 按 Kaggle 同分规则 FF 27、maniphys.ai 31，按官网规则 FF 27、maniphys.ai 34；读法 A 是 5 比 7。
+t2_25                P(supported)=0.97  verified               [e25, c25, cfg]  run t2-ep25-w2048-cap10m-r3a-ot3-ml40（物体位置终止阈值从 0.1 改成 0.3）在 4096 个世界的评测里 MPPE 72.25 cm、ADD-AUC 0.152、SP-SR 0；对照 run t2-ep25-w2048-cap10m-r3a-ml40 的 MPPE 123.93 cm、ADD-AUC 0.116。
+t2_28                P(supported)=0.95  verified               [e28, c28, cfg]  run t2-ep28-w2048-cap10m-r3a-ot3-ml40（物体位置终止阈值从 0.1 改成 0.3）在 4096 个世界的评测里 MPPE 38.69 cm、ADD-AUC 0.076；对照 run t2-ep28-w2048-cap10m-r3a-ml40 的 MPPE 58.69 cm、ADD-AUC 0.105。
+t2_x                 P(supported)=0.97  verified               [x25, x28]  1 个世界的导出里，ep25 的 add_auc 是 0.185、mppe_cm 是 55.86，ep28 的 add_auc 是 0.085、mppe_cm 是 27.95，两集的 spider_sr_uncentered 与 maniptrans_sr 都是 0。
+g5                   P(supported)=0.91  verified               [pmf, pml]  t3g5 的 A 段里，mf4090 已训完 ep5、ep10，在训 ep15；ml40 已训完 ep3、ep12，在训 ep16。
+l1                   P(supported)=0.90  verified               [l1, l1w, ctl]  t3 根的 dyn7 版与参照比，有 4 份文件不同，都是 ep27 的；t3_refw 根（输入加参照的 decode、focal、world 产物，从 assemble 往后跑）的 dyn7 版与参照比，15 份文件全部逐字节相同。
+thr                  P(supported)=0.93  verified               [thr, rc, rd, re, rf, rg, rh]  world 步的缩放拟合在 1 线程和 4 线程下两遍逐字节相同，在 6 线程下两遍不同。
+usda                 P(supported)=0.88  verified               [usda]  三集的支撑面 usda 与参照逐字节相同。
+env                  P(supported)=0.88  verified               [env]  rxzhou 自己建的两个 Python 环境与原环境逐个发行版比较都相同（宿主机 47 个、gate 93 个），CPython 3.11.17 解释器相同。
+ctl_true             P(supported)=0.83  control(true) ok       [b_t3]  maniphys.ai 在 Tier 3 SP-SR 榜排第 1，分数 0.26666。
+ctl_false            P(supported)=0.01  control(false) ok      [b_t1]  solidSF.com 在 Tier 1 AUC 榜的分数是 0.89998。
+controls behaved as expected

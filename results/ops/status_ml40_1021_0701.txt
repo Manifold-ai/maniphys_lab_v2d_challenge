@@ -1,0 +1,27 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 9242e45ebc08
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T07:01:23-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-21 21:01:24 CST
+NVIDIA L40S, 40213 MiB, 46068 MiB, 99 %
+/dev/vdb        2.0T  1.1T  972G  52% /lab_data
+-- tmux
+t3r1b: 1 windows (created Wed Oct 21 20:56:28 2026)
+v2d-t3qg5a-eval: 1 windows (created Wed Oct 21 15:06:40 2026)
+v2d-t3qg5a-export: 1 windows (created Wed Oct 21 15:06:42 2026)
+v2d-t3qg5a-train: 1 windows (created Wed Oct 21 15:06:38 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qg5a_ml40-gate
+runs/.chain-active-t3qg5a_eval_ml40
+runs/.chain-active-t3qg5a_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep16-w2048-cap10m-r3a-gb5-ml40.nanwatch.log：10-21 07:01:21 MDT 190,007,296 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3-ep16-w2048-cap10m-r3a-gb5-ml40.log：training progress: 192,499,712/349,999,104 environment steps (55.0%); 51,494 env steps/s; elapsed 01:02:18; ETA 00:50:59
+runs/logs/t3r_level1_t3_e.log：=== 2026-10-21 20:57:37 CST decode_ep14_round_table 过
+runs/logs/t3r_1b_e1.log：=== 2026-10-21 20:57:07 CST 开始 level1_t3_e
+runs/logs/t3env_ml40.log：T3R_ENV_BUILD_FAILED 环境与她的清单有不同（见上）
+runs/logs/t3r_level1_usda_t3_refw.log：=== 2026-10-21 20:07:18 CST T3R_USDA_DONE
+runs/logs/t3qg5a_train_ml40.log：=== 2026-10-21 19:57:16 CST 正式 t3-ep16-w2048-cap10m-r3a-gb5-ml40
+runs/logs/t3r_level1_controls.log：=== 2026-10-21 19:57:14 CST T3R_CONTROLS_DONE

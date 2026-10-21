@@ -1,0 +1,16 @@
+# command  : ssh mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge/runs/logs && grep -h -E \'�\255��\217 |�\214�\210\220\' t3pg5a_train_mf4090.log' 
+# source   : 9242e45ebc08-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T07:05:18-0600
+# ---------------------------------------------------------------
+fc_run: smoke-t3-ep5-w2048-cap4m-r3a-gb5-mf4090 完成
+fc_run: smoke-t3-ep10-w2048-cap4m-r3a-gb5-mf4090 完成
+fc_run: smoke-t3-ep15-w2048-cap4m-r3a-gb5-mf4090 完成
+fc_run: smoke-t3-ep27-w2048-cap4m-r3a-gb5-mf4090 完成
+=== 2026-10-21 15:17:33 CST 正式 t3-ep5-w2048-cap4m-r3a-gb5-mf4090
+fc_run: t3-ep5-w2048-cap4m-r3a-gb5-mf4090 完成
+=== 2026-10-21 17:39:23 CST t3-ep5-w2048-cap4m-r3a-gb5-mf4090 完成（1 段）
+=== 2026-10-21 17:39:23 CST 正式 t3-ep10-w2048-cap4m-r3a-gb5-mf4090
+fc_run: t3-ep10-w2048-cap4m-r3a-gb5-mf4090 完成
+=== 2026-10-21 19:51:08 CST t3-ep10-w2048-cap4m-r3a-gb5-mf4090 完成（1 段）
+=== 2026-10-21 19:51:08 CST 正式 t3-ep15-w2048-cap4m-r3a-gb5-mf4090
