@@ -1,9 +1,14 @@
-"""Accept an object-pose candidate only when silhouette scores tell it apart from current."""
+"""Accept an object-pose candidate only when silhouette scores tell it apart from current.
+
+Contract RECOVERY-C001.
+"""
 import numpy as np
 
 MIN_MEDIAN = 0.5
 MIN_GAIN = 0.05
 MIN_GAP = 0.05
+# 0.70 - 0.65 is slightly under 0.05 in binary float. Minima are inclusive.
+_SCORE_TOL = 1e-9
 
 
 def _refuse(reason, med):
@@ -26,10 +31,10 @@ def choose_pose(candidates: dict[str, list[float]]) -> dict:
     best = med[best_name]
     if best < MIN_MEDIAN:
         return _refuse("below-gate", med)
-    if best - current < MIN_GAIN:
+    if best - current + _SCORE_TOL < MIN_GAIN:
         return _refuse("gain", med)
     others = [med[name] for name in alternatives if name != best_name]
-    if others and best - max(others) < MIN_GAP:
+    if others and best - max(others) + _SCORE_TOL < MIN_GAP:
         return _refuse("tie", med)
     return {"decision": "accept", "name": best_name, "reason": "accept", "median": med}
 

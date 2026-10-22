@@ -1,5 +1,7 @@
 """choose_pose: accept an object-pose candidate only when the silhouette scores tell it apart.
 
+Contract RECOVERY-C001.
+
 Runs without pytest: python test_t3_sil_choose.py
 """
 import numpy as np
@@ -51,6 +53,16 @@ def test_no_alternative_refuses():
 def test_tied_low_scores_are_below_gate_not_tie():
     out = choose_pose({"current": [0.10, 0.10, 0.10], "a": [0.49, 0.49, 0.49], "b": [0.49, 0.49, 0.49]})
     assert out["reason"] == "below-gate"
+
+
+def test_minimum_gain_boundary_accepts():
+    out = choose_pose({"current": [0.65, 0.65, 0.65], "yaw180": [0.70, 0.70, 0.70]})
+    assert out["decision"] == "accept" and out["name"] == "yaw180" and out["reason"] == "accept"
+
+
+def test_near_tie_gap_refuses():
+    out = choose_pose({"current": [0.50, 0.50, 0.50], "a": [0.70, 0.70, 0.70], "b": [0.66, 0.66, 0.66]})
+    assert out["decision"] == "refuse" and out["reason"] == "tie"
 
 
 def test_right_multiply_keeps_translation_and_is_not_a_left_multiply():
