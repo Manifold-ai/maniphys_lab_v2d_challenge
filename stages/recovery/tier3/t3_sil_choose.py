@@ -32,3 +32,11 @@ def choose_pose(candidates: dict[str, list[float]]) -> dict:
     if others and best - max(others) < MIN_GAP:
         return _refuse("tie", med)
     return {"decision": "accept", "name": best_name, "reason": "accept", "median": med}
+
+
+def right_multiply(poses: np.ndarray, rotation: np.ndarray) -> np.ndarray:
+    r4 = np.eye(4)
+    r4[:3, :3] = rotation
+    out = poses @ r4
+    out[:, :3, 3] = poses[:, :3, 3]
+    return out

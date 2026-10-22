@@ -2,7 +2,9 @@
 
 Runs without pytest: python test_t3_sil_choose.py
 """
-from t3_sil_choose import choose_pose
+import numpy as np
+
+from t3_sil_choose import choose_pose, right_multiply
 
 
 def test_accepts_a_clearly_better_yaw():
@@ -49,6 +51,18 @@ def test_no_alternative_refuses():
 def test_tied_low_scores_are_below_gate_not_tie():
     out = choose_pose({"current": [0.10, 0.10, 0.10], "a": [0.49, 0.49, 0.49], "b": [0.49, 0.49, 0.49]})
     assert out["reason"] == "below-gate"
+
+
+def test_right_multiply_keeps_translation_and_is_not_a_left_multiply():
+    poses = np.tile(np.eye(4), (2, 1, 1))
+    poses[:, :3, 3] = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+    rotation = np.array([[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
+    out = right_multiply(poses, rotation)
+    assert np.allclose(out[:, :3, 3], poses[:, :3, 3])
+    r4 = np.eye(4)
+    r4[:3, :3] = rotation
+    assert np.allclose(out, poses @ r4)
+    assert not np.allclose(out, r4 @ poses)
 
 
 if __name__ == "__main__":
