@@ -147,3 +147,6 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   2. Tier 3 先考虑只对齐、不保底的 t3m1022aa（只用官方 10/21 答复允许的 Tier 1 第 0 帧）：差 FF 的 AUC 0.05、MPPE 9 cm 有一部分是世界系偏差，对齐不重训就能去掉。上传要 rxzhou 点头，最早 10/22 16:14 MDT。
   3. Tier 2 MPPE 差 FF 1.62 cm：ep25、ep28 换“不动”能降约 2.47 cm（领先 0.85 cm，不够 1.0 cm 的余量），而且同样是保底，先不做。
   两台卡：mf4090 在跑 t3static 试点（16:38 起），ml40 在训 t3g5 B 段 ep4（47%）。
+- 10/21 19:03 MDT（SOP 更新时看的，`results/board/diff_1021_1903.txt`）：nima arki 交了 Tier 1、Tier 2（17:40 MDT）：Tier 1 AUC 0.72140、SP-SR 0.83333、MP-SR 0.73333、MPPE 7.47978；Tier 2 MPPE 10.84276（拿到第一）、MP-SR 0.30000。
+  Chivatam 的 Tier 1 也涨了，仍在后面。maniphys.ai：Tier 1 第 5/3/5/5，Tier 2 第 2/1/2/3，Tier 3 第 2/1/2/2；读法 B：Kaggle 规则 FF 25、maniphys.ai 33，官网规则 26、35；读法 A 5 比 7。
+  不交：Tier 2 MPPE 差 nima arki 4.48 cm，现有候选追不上；mf4090 空着，下一项（Tier 3 gb5 B 段的接续或 Tier 2 VOC 课程）待写计划。

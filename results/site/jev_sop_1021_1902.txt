@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-21-sop-1902.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a88d997658a2a1a69e84cb431eefb325  agent-doc/experiments/2026-10-21-sop-1902.claims.json
+# source   : 4fb5b7b9ff81-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-21T19:04:21-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+nima_a               P(supported)=0.99  verified               [b]  nima arki 的 Tier 2 MPPE 从 16.88408 变成 10.84276。
+nima_b               P(supported)=0.82  verified               [b]  Tier 2 MPPE 榜上 maniphys.ai 排第 3，第 1 名是 nima arki。
+t1                   P(supported)=0.96  verified               [b]  maniphys.ai 在 Tier 1 的 AUC、SP-SR、MP-SR、MPPE 分别排第 5、3、5、5。
+sums                 P(supported)=0.97  verified               [b]  按 Kaggle 同分规则 12 个榜名次相加 FF 25、maniphys.ai 33；按官网规则 26、35。
+ml40                 P(supported)=0.97  verified               [ml40]  ml40 在训 t3-ep11 的 gb5 run，进度 56%。
+mtr                  P(supported)=0.97  verified               [mtr]  t2mtr 的 ep25 MPPE 103.43 cm，只记信号、不成立；ep4 的 M 不过，不判。
+ctl_true             P(supported)=0.88  control(true) ok       [b]  maniphys.ai 在 Tier 3 SP-SR 排第 1。
+ctl_false            P(supported)=0.04  control(false) ok      [b]  maniphys.ai 在 Tier 2 MPPE 排第 1。
+controls behaved as expected

@@ -1,0 +1,77 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "b": {
+   "file": "results/board/diff_1021_1903.txt",
+   "grep": "^tier2-mppe|^Tier |^读法 B"
+  },
+  "ml40": {
+   "file": "results/ops/status_ml40_1021_1902.txt",
+   "grep": "t3-ep11-w2048-cap10m-r3a-gb5-ml40.log"
+  },
+  "mtr": {
+   "file": "agent-doc/plan-t2mtr-2026-10-21.md",
+   "grep": "\\| ep25 \\| 138.9|\\| ep4 \\| 65.8"
+  }
+ },
+ "claims": [
+  {
+   "id": "nima_a",
+   "evidence": [
+    "b"
+   ],
+   "claim": "nima arki 的 Tier 2 MPPE 从 16.88408 变成 10.84276。"
+  },
+  {
+   "id": "nima_b",
+   "evidence": [
+    "b"
+   ],
+   "claim": "Tier 2 MPPE 榜上 maniphys.ai 排第 3，第 1 名是 nima arki。"
+  },
+  {
+   "id": "t1",
+   "evidence": [
+    "b"
+   ],
+   "claim": "maniphys.ai 在 Tier 1 的 AUC、SP-SR、MP-SR、MPPE 分别排第 5、3、5、5。"
+  },
+  {
+   "id": "sums",
+   "evidence": [
+    "b"
+   ],
+   "claim": "按 Kaggle 同分规则 12 个榜名次相加 FF 25、maniphys.ai 33；按官网规则 26、35。"
+  },
+  {
+   "id": "ml40",
+   "evidence": [
+    "ml40"
+   ],
+   "claim": "ml40 在训 t3-ep11 的 gb5 run，进度 56%。"
+  },
+  {
+   "id": "mtr",
+   "evidence": [
+    "mtr"
+   ],
+   "claim": "t2mtr 的 ep25 MPPE 103.43 cm，只记信号、不成立；ep4 的 M 不过，不判。"
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "b"
+   ],
+   "claim": "maniphys.ai 在 Tier 3 SP-SR 排第 1。",
+   "control": "true"
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "b"
+   ],
+   "claim": "maniphys.ai 在 Tier 2 MPPE 排第 1。",
+   "control": "false"
+  }
+ ]
+}
