@@ -1,5 +1,5 @@
 """Accept an object-pose candidate only when silhouette scores tell it apart from current."""
-from statistics import median
+import numpy as np
 
 MIN_MEDIAN = 0.5
 MIN_GAIN = 0.05
@@ -14,11 +14,11 @@ def choose_pose(candidates: dict[str, list[float]]) -> dict:
     if "current" not in candidates:
         return _refuse("no-current", {})
     if any(len(scores) == 0 for scores in candidates.values()):
-        return _refuse("empty", {name: median(scores) for name, scores in candidates.items() if scores})
+        return _refuse("empty", {name: np.median(scores) for name, scores in candidates.items() if scores})
     alternatives = [name for name in candidates if name != "current"]
     if not alternatives:
         return _refuse("no-alternative", {})
-    med = {name: median(scores) for name, scores in candidates.items()}
+    med = {name: np.median(scores) for name, scores in candidates.items()}
     current = med["current"]
     if current > max(med[name] for name in alternatives):
         return _refuse("current-best", med)
