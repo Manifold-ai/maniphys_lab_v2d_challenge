@@ -150,3 +150,8 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
 - 10/21 19:03 MDT（SOP 更新时看的，`results/board/diff_1021_1903.txt`）：nima arki 交了 Tier 1、Tier 2（17:40 MDT）：Tier 1 AUC 0.72140、SP-SR 0.83333、MP-SR 0.73333、MPPE 7.47978；Tier 2 MPPE 10.84276（拿到第一）、MP-SR 0.30000。
   Chivatam 的 Tier 1 也涨了，仍在后面。maniphys.ai：Tier 1 第 5/3/5/5，Tier 2 第 2/1/2/3，Tier 3 第 2/1/2/2；读法 B：Kaggle 规则 FF 25、maniphys.ai 33，官网规则 26、35；读法 A 5 比 7。
   不交：Tier 2 MPPE 差 nima arki 4.48 cm，现有候选追不上；mf4090 空着，下一项（Tier 3 gb5 B 段的接续或 Tier 2 VOC 课程）待写计划。
+
+- 10/26 08:4x MDT（`results/board/diff_1026_*.txt`）：10/21 19:49 之后这个会话离线，看榜与 SOP 定时任务都没有跑；两台卡分别从 10/21 17:08（mf4090）、22:40（ml40，t3qg5b 训评导出完）起空着。
+  这几天别队大量提交：NVSimranPatil 回到榜上（Tier 1 近满分，Tier 2 SR 与 MPPE 领先），nima arki 交了 Tier 3 并拿下 Tier 3 四个榜，MBZUAI-RCL、Chivatam、Izus_systems 等 Tier 1 大涨。
+  maniphys.ai 没有第一的榜；读法 B 第 4（Kaggle 规则 59、官网规则 61），读法 A 第 4。ml40 B 段读数：6 集里 ep23 跟上，其余仍跟丢（`results/ml40/t3g5/eval_t3qg5b_ml40.txt`）。
+  不交、不起链：先向 rxzhou 报告，等定提交规矩与下一步的 GPU 工作。
