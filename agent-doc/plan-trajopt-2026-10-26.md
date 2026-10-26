@@ -107,3 +107,9 @@ MAJOR 3 因果方向 → 加 pre60 窗口与“先于 0.3 rad”的世界比例�
   **更正一处前提**：“训练长度以内”的占比按“回合从第 0 帧开始”算，但 ReconBody 的训练重置是随机帧（`configs/reset/recon_body.yaml`：`always_reset_to_first_frame: false`、`reset_to_first_frame_probability: 0.0`），
   训练回合不从第 0 帧开始，所以这一列不代表“训练没见过这些帧”，不进结论。可以确定的是：评测总从第 0 帧连续跑到底，训练里回合平均只有一百多步、从不从第 0 帧起跑，
   策略从没练过“从头连续跑完一整集”；ep25、ep28 都摔在开局后两三百帧，读法（推测）：误差一路累积进了训练少见的状态。下一步另写计划。
+- 10/26 13:5x MDT **更正 C 段读法的后半句**（写 E 段计划前核源码时发现）：`configs/reset/recon_body.yaml` 的 `immediate_first_frame_probability: 0.0` 只是初值，
+  课程 `configs/curriculum/recon_body_flash_sac.yaml` 在第 8、9 段（288749568 步起，即 82.5%；306249728 步起 87.5%）把它设成 0.25、0.50：这部分重置直接从第 0 帧起跑，没有 50 步冻结、没有肩部与手指偏移、VOC 取课程值 0，
+  源码注释称之为 “deployment-exact starts”（`lifecycle/reset.py` 的 `sample_recon_body_reset`）。我们的 run 用的就是这套课程（`runs/cfgcheck/t2-ep25-w2048-cap4m-r3a-ot3-mf4090.recipe.yaml` 第 416、432 行；
+  W&B 汇总 `curriculum/immediate_first_frame_probability` 0.5、`stage_index` 8）。所以“策略从没练过从第 0 帧起跑”不对；训练最后 17.5% 的步数里，最多一半回合按评测的起法从第 0 帧开始。
+  站得住的只剩：训练有终止（物体偏 0.1 m 就结束），从第 0 帧起跑的回合一偏就停，评测不停，策略很少练到“已经偏了之后接着跑”的状态；这正是 t2term / t2mtr 放宽物体终止要试的事。
+  原拟的 E 段（调大从第 0 帧起跑的比例）不写。
