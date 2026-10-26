@@ -59,13 +59,18 @@ say "配置核对与配方断言全过"
 
 # 3. 冒烟
 SM="$(runs_of "$SQ")"
-has_output "$SM" && die "runs/flash_chord/$SM 里已有产物（不重跑，复核 5）"
-read -r -a tok <<< "$(qline "$SQ" "$SM")"; envs=(); i=0
-while [[ ${tok[$i]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do envs+=("${tok[$i]}"); i=$((i + 1)); done
-env "${envs[@]}" V2D_ALLOW_FC_SRC=1 V2D_FC_SRC="$TRAIN_SRC" stages/policy/fc_run_watched.sh "${tok[@]:$i}" || die "冒烟 $SM 训练退出码非零"
+# 冒烟已训完（有 DONE）就不再训，只重做下面的检查（10/26 14:05 第一次的检查把整数 1 当成不等于 "1.0"）；有产物没 DONE 就停
+if [ -f "runs/flash_chord/$SM/DONE" ]; then say "冒烟 $SM 已 DONE：不重训，只做检查"
+else
+  has_output "$SM" && die "runs/flash_chord/$SM 里已有产物但没有 DONE（不重跑，复核 5）"
+  read -r -a tok <<< "$(qline "$SQ" "$SM")"; envs=(); i=0
+  while [[ ${tok[$i]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do envs+=("${tok[$i]}"); i=$((i + 1)); done
+  env "${envs[@]}" V2D_ALLOW_FC_SRC=1 V2D_FC_SRC="$TRAIN_SRC" stages/policy/fc_run_watched.sh "${tok[@]:$i}" || die "冒烟 $SM 训练退出码非零"
+fi
 grep -m1 -E '^training progress: ' "runs/logs/$SM.s1.log" | grep -q '^training progress: 349,999,104/354,095,104' || die "冒烟的起始步数不是 349999104：$(grep -m1 '^training progress: ' "runs/logs/$SM.s1.log")"
-[ "$(summary "$SM" curriculum/stage_index)" = 8 ] || die "冒烟课程段不是 8"
-[ "$(summary "$SM" curriculum/immediate_first_frame_probability)" = 1.0 ] || die "冒烟 immediate_first_frame_probability 不是 1.0"
+num_is() { python3 -c 'import sys; sys.exit(0 if float(sys.argv[1]) == float(sys.argv[2]) else 1)' "$1" "$2" 2>/dev/null; }   # W&B 把 1.0 存成整数 1
+num_is "$(summary "$SM" curriculum/stage_index)" 8 || die "冒烟课程段不是 8"
+num_is "$(summary "$SM" curriculum/immediate_first_frame_probability)" 1.0 || die "冒烟 immediate_first_frame_probability 不是 1.0：$(summary "$SM" curriculum/immediate_first_frame_probability)"
 python3 - "runs/flash_chord/$SM/wandb/latest-run/files/wandb-summary.json" <<'EOF' || die "冒烟 replay 没填满或没有更新"
 import json, math, sys
 d = json.load(open(sys.argv[1]))
