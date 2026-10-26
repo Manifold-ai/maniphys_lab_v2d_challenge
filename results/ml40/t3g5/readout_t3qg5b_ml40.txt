@@ -1,0 +1,7 @@
+# command  : bash stages/evaluate/t3g5_readout.sh t3qg5b ml40 
+# md5      : e101b173077936d5bfa8d7bd01c870d1  stages/evaluate/t3g5_readout.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-22T12:33:51+0800
+# ---------------------------------------------------------------
+T3G5_READOUT_DONE（eval 0、early 0、start 0、term 0）

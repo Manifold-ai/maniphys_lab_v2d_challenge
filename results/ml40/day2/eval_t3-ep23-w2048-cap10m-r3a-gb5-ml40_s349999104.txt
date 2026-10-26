@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep23-w2048-cap10m-r3a-gb5-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-22T12:04:06+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep23-w2048-cap10m-r3a-gb5-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep23-w2048-cap10m-r3a-gb5-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep23-w2048-cap10m-r3a-gb5-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep23-w2048-cap10m-r3a-gb5-ml40/policy_349999104.safetensors  sha256 ab306a074ab4b10c…
+  environment_steps 349999104  world_count 4096  step_count 946  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.7023725449156812
+  chord_sr                                       0.89599609375
+  maniptrans_sr                                  0.970703125
+  spider_sr_uncentered                           0.983154296875
+  mppe_cm                                        3.720800186460713
+  mean_add_m                                     0.047200866396790754
+  object_position_error_m                        0.035594886048524794
+  object_orientation_error_deg                   12.515241999795265
+  termination_cause_fraction (legacy object-centric) {'object': 0.076416015625, 'wrist': 0.076416015625}
+  reference_tracking.success_rate (= chord_sr)   0.89599609375
+  reference_tracking.failure_cause_fraction      {'object': 0.076416015625, 'palm': 0.076416015625, 'pelvis': 0.022216796875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.7023725449156812, "checkpoint": "/repo/runs/flash_chord/t3-ep23-w2048-cap10m-r3a-gb5-ml40/policy_349999104.safetensors", "checkpoint_sha256": "ab306a074ab4b10cbfff2eb5c412e9b32d7207f32cfa6849a1e7eb574461c118", "chord_sr": 0.89599609375, "environment_steps": 349999104, "maniptrans_sr": 0.970703125, "mean_add_m": 0.047200866396790754, "mppe_cm": 3.720800186460713, "object_orientation_error_deg": 12.515241999795265, "object_position_error_m": 0.035594886048524794, "parquet": "/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.076416015625, "palm": 0.076416015625, "pelvis": 0.022216796875}, "reference_end_fraction": 1.0, "success_rate": 0.89599609375}, "spider_sr_uncentered": 0.983154296875, "step_count": 946, "world_count": 4096}

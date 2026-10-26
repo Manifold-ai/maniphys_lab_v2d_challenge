@@ -1,0 +1,28 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep14-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep23-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep2-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep4-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep11-w2048-cap10m-r3a-gb5-ml40_s349999104.txt results/day2/eval_t3-ep25-w2048-cap10m-r3a-gb5-ml40_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : 97fdaa5dd07731cbc9a9e1024c81a2d9  results/day2/eval_t3-ep14-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : b48fc8f92c66287efcba378b49ae7254  results/day2/eval_t3-ep23-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : 32c43449d6c1b8ea36b0d97956419b6d  results/day2/eval_t3-ep2-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : 332e16c532453fa37021df5f84a2419b  results/day2/eval_t3-ep4-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : 075d9fcf85e2b562765f99ef8c34fdf2  results/day2/eval_t3-ep11-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# md5      : 5cf8df9d4c4f6fc378263016d198150f  results/day2/eval_t3-ep25-w2048-cap10m-r3a-gb5-ml40_s349999104.txt
+# source   : d138826fb9e3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-22T12:33:51+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep14-w2048-cap10m-r3a-gb5-ml40	349999104	4096	993	0.000	0.692	0.277	14.12	13.95	28.2	0.000	0.776	1.000	1.000	14fffc57c150
+t3-ep23-w2048-cap10m-r3a-gb5-ml40	349999104	4096	946	0.971	0.983	0.702	3.72	3.56	12.5	0.896	0.022	0.076	0.076	ab306a074ab4
+t3-ep2-w2048-cap10m-r3a-gb5-ml40	349999104	4096	980	0.000	0.000	0.090	70.46	70.30	71.3	0.000	1.000	1.000	1.000	c6d2f281b802
+t3-ep4-w2048-cap10m-r3a-gb5-ml40	349999104	4096	803	0.000	0.000	0.151	115.76	115.66	93.3	0.000	1.000	1.000	1.000	d4ae9725c697
+t3-ep11-w2048-cap10m-r3a-gb5-ml40	349999104	4096	901	0.000	0.000	0.065	59.47	59.18	115.7	0.000	0.999	1.000	1.000	db2ee3ebc643
+t3-ep25-w2048-cap10m-r3a-gb5-ml40	349999104	4096	859	0.000	0.000	0.125	118.27	118.16	104.2	0.000	0.999	1.000	1.000	4e7926a2f04a
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep14-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.692、MPPE 14.12 cm、MP-SR 0.000、ADD-AUC 0.277 → 仍跟丢
+  t3-ep23-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.983、MPPE 3.72 cm、MP-SR 0.971、ADD-AUC 0.702 → 跟上
+  t3-ep2-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.000、MPPE 70.46 cm、MP-SR 0.000、ADD-AUC 0.090 → 仍跟丢
+  t3-ep4-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.000、MPPE 115.76 cm、MP-SR 0.000、ADD-AUC 0.151 → 仍跟丢
+  t3-ep11-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.000、MPPE 59.47 cm、MP-SR 0.000、ADD-AUC 0.065 → 仍跟丢
+  t3-ep25-w2048-cap10m-r3a-gb5-ml40：SP-SR 0.000、MPPE 118.27 cm、MP-SR 0.000、ADD-AUC 0.125 → 仍跟丢
+T3G5_R1_DONE 跟上 1 / 共 6
