@@ -155,3 +155,5 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   这几天别队大量提交：NVSimranPatil 回到榜上（Tier 1 近满分，Tier 2 SR 与 MPPE 领先），nima arki 交了 Tier 3 并拿下 Tier 3 四个榜，MBZUAI-RCL、Chivatam、Izus_systems 等 Tier 1 大涨。
   maniphys.ai 没有第一的榜；读法 B 第 4（Kaggle 规则 59、官网规则 61），读法 A 第 4。ml40 B 段读数：6 集里 ep23 跟上，其余仍跟丢（`results/ml40/t3g5/eval_t3qg5b_ml40.txt`）。
   不交、不起链：先向 rxzhou 报告，等定提交规矩与下一步的 GPU 工作。
+- 10/26 13:20 MDT（`results/board/diff_1026_1320.txt`）：只有 wte09fl 在 Tier 1 重新提交，AUC、MPPE 小幅变好，仍在我们后面；我们 12 个榜名次不变，读法 B 59 / 61、读法 A 14 / 14，都是第 4。策略不变。
+  ml40 在训 t3s43（ep5 正式训练 94%，之后 ep10、3、14，预计 21:00 MDT 前后训评导出完）；mf4090 空着，等 trajopt E 段（训练里按比例从第 0 帧起跑）的计划与复核。
