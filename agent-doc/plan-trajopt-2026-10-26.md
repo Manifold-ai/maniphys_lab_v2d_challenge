@@ -60,23 +60,31 @@ A0 若判“速度是主因”，就不做这一步；若判“不是”，再�
 - mf4090 上有同一配方（基线配方、buffer 400 万）训好的难集 `t2-ep4-w2048-cap4m-mf4090`、`t2-ep25-w2048-cap4m-mf4090`、`t2-ep28-w2048-cap4m-p185-mf4090`，
   与没摔的集 `t2-ep6-w2048-cap4m-mf4090`、`t2-ep21-w2048-cap4m-mf4090`、`t2-ep23-w2048-cap4m-mf4090`（4096 世界 MPPE 4.0、8.2、4.4 cm，`results/day2/eval_*_s349999104.txt`）。
 
-**做法**（mf4090，每条约 3 分钟 GPU）：`diag_rollout.py <policy_349999104> --worlds 256 --actions 400 --action-worlds 256 --bodies`，6 条；新写 `stages/evaluate/residual_saturation.py`（CPU）：
-按 `residual_joint_names`（配置文件里的顺序，后接 14 个手指）把 `policy_action` 分成腿、腰、手臂、手指四组，算 |残差| ≥ 9.5（tanh ≥ 0.95）的帧 × 世界比例；
-窗口：难集取摔倒前 30 帧（每个世界的摔倒帧按 t12fall 的判法：躯干对参考倾斜 > 0.6 rad 的第一帧），没摔的集取接触后 150 帧；另报全程。
+**做法**（mf4090，`stages/evaluate/trajopt_c_chain.sh`，照 `t12sat_chain.sh`）：每条 `diag_rollout.py --worlds 256 --bodies --actions <参考帧数> --action-worlds 256` → `fall_mechanism.py --save`（每个世界的 t_f = 倾斜误差首过 0.6 rad、t_03 = 首过 0.3 rad）
+→ `residual_sat.py`（已有工具，加了分组与按世界取窗口）。先用 16 个世界跑 ep4 冒烟，核 `policy_action` 是 (帧数, 16, 43)、|动作| ≤ 10、`policy_action_worlds` 对得上，再跑 6 条 256 世界。
+窗口：摔了的世界取 pre30 = [t_f−30, t_f)、pre60 = [t_f−60, t_f−30)、prewhole = [0, t_f)；没摔的集报接触前 [0, t_c) 与接触后 [t_c, t_c+150)。
+相位对齐：ep4、ep28 在接触前摔（参考第一次接触 133、399），对没摔集的接触前段；ep25 接触后摔（接触 102），对没摔集的接触后段。
+训练回合平均长度（`results/trajopt/train_term_c_mf4090.txt`）：ep4 133、ep25 109、ep28 162、ep6 346、ep21 397、ep23 633 步；训练时物体与手掌终止开着、评测时关着，
+所以难集摔前的帧有一部分在训练几乎没见过的段（复核 MAJOR 2）。
 
-**判据（登记）**：
-- **卡上限**：三个难集里至少两集，腿或腰组在摔前 30 帧的贴上限比例 ≥ 0.3，且 ≥ 没摔三集同组最大值的 3 倍。
-- **不卡**：三个难集腿、腰两组的贴上限比例都 ≤ 0.1，或都不到没摔集的 1.5 倍。
+**判据（登记，第 3 版）**：
+- **D（额度不够）**：三个难集里至少两集同时满足：腿或腰组 pre30 贴上限比例 ≥ 0.3，且 ≥ 相位对齐的没摔集同组最大值的 3 倍；腿/腰第一次顶到头先于 t_03 的世界比例 ≥ 0.5；pre30 里落在训练长度以内的帧 ≥ 0.5。
+- **视野（回到终止线）**：贴上限的条件满足，但落在训练长度以内的帧 < 0.5，或先于 t_03 的世界比例 < 0.5（饱和是失衡之后的乱动，或出现在训练没见过的段）→ 回 `agent-doc/plan-t2term-2026-10-20.md` 一路（终止与回合长度），另写计划。
+- **不卡（学习信号）**：三个难集腿、腰两组 pre30 都 ≤ 0.1，或都不到没摔集的 1.5 倍；没摔集自己的贴上限比例 ≥ 0.4 时读作“顶到头是常态”，不当作卡上限的证据。
 - 其余只报数。
 
-**接下来**：卡上限 → 写 D 段：ep4、ep25 用 `action.residual_scale=0.3` 重训（FlashCHORD 的配置覆盖，评测按 checkpoint 自带的配置重建，交得上去），各一集约 2.3 小时，判据另登记；
-不卡 → 残差有余量却没学会纠正，问题在学习信号（奖励、课程、终止），另写计划。
+**接下来**：D → ep4、ep25 用 `action.residual_scale=0.3` 重训（Hydra 覆盖合法，评测按 checkpoint 自带配置重建，不碰 `action`；交得上去），各一集约 2.3 小时，
+判据另登记，并考虑 residual_scale 翻倍时探索噪声的物理幅度也翻倍（复核 MINOR 6）；视野 → 终止与回合长度那一路；不卡 → 奖励、课程，另写计划。
 
 ## 复核与改动（第 2 版，10/26 11:3x MDT，Fable）
 
 结论 GO WITH FIXES（1 BLOCKER、3 MAJOR、3 MINOR、1 NIT）。改动：BLOCKER 噪声让原 A 段读不出东西 → 推迟原 A 段，列出要先登记的滤波、着地规则、鞋底尺寸与窗口（第 2b 节）；
 更便宜更直接的检验（真实时长回放）提到最前面成为 A0；MINOR ep25 的窗口应为 [102, 173] 不是 195（记进第 2b 节的窗口规则，A0 不用）；URDF 钉死用评测副本 `fc_src/fc_8c778f9`；
 NIT Pinocchio 有解析的 `jacobianCenterOfMass`（B 段用它）。另补 A0 的限制：真实时长训出的策略交不上去。
+
+第 3 版 C 段复核（10/26 12:4x MDT，Fable）：GO WITH FIXES（4 MAJOR、2 MINOR、1 NIT）。事实核对都对（确定性动作 = tanh(均值) × 10，use_tanh false，6 条 run 配置只差 episode 与支撑面，residual_scale 覆盖合法且评测保留）。改动：
+MAJOR 1 不新写工具，扩 `residual_sat.py`（分组、按世界窗口）与 `fall_mechanism.py --save`，链照 `t12sat_chain.sh`；MAJOR 2 训练视野外的残差说明不了额度 → 报训练长度以内的占比、加“视野”一岔；
+MAJOR 3 因果方向 → 加 pre60 窗口与“先于 0.3 rad”的世界比例；MAJOR 4 对照相位对齐；MINOR 5 先 16 世界冒烟核 ActionRecorder；MINOR 6 D 段注意探索噪声；NIT 7 写明“顶到头是常态”的读法。
 
 ## 执行记录
 
