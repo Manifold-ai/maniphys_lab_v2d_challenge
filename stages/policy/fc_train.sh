@@ -10,7 +10,8 @@ has() { local k=$1; shift; for a in "$@"; do [[ $a == "$k="* ]] && return 0; don
 DEFAULTS=()
 has logging.mode "$@" || DEFAULTS+=(logging.mode=disabled)
 has hydra.run.dir "$@" || DEFAULTS+=("hydra.run.dir=${OUT}/hydra/$(date +%Y%m%d-%H%M%S)")
+has reset.seed "$@" || DEFAULTS+=(reset.seed=42)   # 续训换种子用（计划 agent-doc/plan-t2ft2-2026-10-26.md）；不给时与原来相同
 cd /workspace
 exec python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac \
   "task.parquet='${PARQ}'" "scene.world_count=${W}" "training.total_environment_steps=${STEPS}" \
-  reset.seed=42 "output_dir=${OUT}" "${DEFAULTS[@]}" "$@"
+  "output_dir=${OUT}" "${DEFAULTS[@]}" "$@"
