@@ -1,0 +1,27 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1026_1320.txt results/board/lb_1026_1333.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 4b77466d57caa4dd1a42b84ed8cc2bf2  results/board/lb_1026_1320.txt
+# md5      : 1e0fc74698c69ea0de7c70b4a39863e2  results/board/lb_1026_1333.txt
+# source   : 950d97358da6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-26T13:34:05-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1026_1320.txt；这一份 results/board/lb_1026_1333.txt
+## 变了的榜
+tier3-auc：maniphys.ai 0.10649 → 0.22590（2026-10-26 19:33）
+tier3-sp-sr：maniphys.ai 0.26666 → 0.33333（2026-10-26 19:33）
+tier3-mp-sr：maniphys.ai 0.00000 → 0.10000（2026-10-26 19:33）
+tier3-mppe：maniphys.ai 54.98984 → 49.93762（2026-10-26 19:33）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 9（0.58258，第 1 名 NVSimranPatil 0.93270，差 0.35012）；sp-sr 第 7（0.83333，第 1 名 NVSimranPatil 1.00000，差 0.16667）；mp-sr 第 9（0.70000，第 1 名 NVSimranPatil 1.00000，差 0.30000）；mppe 第 8（11.86661，第 1 名 NVSimranPatil 0.64172，差 11.22489）
+Tier 2：auc 第 3（0.51379，第 1 名 MBZUAI-RCL Group 0.56768，差 0.05389）；sp-sr 第 3（0.73333，第 1 名 NVSimranPatil 0.93333，差 0.20000）；mp-sr 第 4（0.53333，第 1 名 NVSimranPatil 0.80000，差 0.26667）；mppe 第 5（15.32195，第 1 名 NVSimranPatil 2.66392，差 12.65803）
+Tier 3：auc 第 2（0.22590，第 1 名 nima arki 0.32937，差 0.10347）；sp-sr 第 2（0.33333，第 1 名 nima arki 0.40000，差 0.06667）；mp-sr 第 2（0.10000，第 1 名 nima arki 0.10000，差 0.00000）；mppe 第 3（49.93762，第 1 名 nima arki 42.30358，差 7.63404）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 1 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 59（第 4） → 57（第 4）；前 4：NVSimranPatil 38、Xueyi Wang (FF) 48、nima arki 52、maniphys.ai 57
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 61（第 4） → 57（第 4）；前 4：NVSimranPatil 37、Xueyi Wang (FF) 52、nima arki 53、maniphys.ai 57
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 14（第 4） → 13（第 4）；前 4：NVSimranPatil 7、nima arki 9、Xueyi Wang (FF) 11、maniphys.ai 13
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 14（第 4） → 13（第 4）；前 4：NVSimranPatil 7、nima arki 9、Xueyi Wang (FF) 11、maniphys.ai 13
+BOARD_CHANGED 4 个榜
+BOARD_DIFF_DONE

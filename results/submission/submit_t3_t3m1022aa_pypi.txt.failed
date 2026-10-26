@@ -1,0 +1,13 @@
+# command  : uv run --no-project --python 3.12 --with-requirements third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt --with pandas\<3 python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier3_t3m1022aa.csv --track track_2_tier3 -m Tier\ 3\ t3m1022aa:\ t3m1022a\ with\ frame-0\ alignment\ \(official\ 10/21:\ Tier\ 1\ frame\ 0\ used\ for\ alignment\ only\) --wait 
+# md5      : a99ba38af8d3b3e26cf9cd12a93532de  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/requirements.txt
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : fff0dd72933b0c37da7f026f4e6ce70b  runs/submission/csv/track2_tier3_t3m1022aa.csv
+# source   : 950d97358da6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-26T13:32:53-0600
+# ---------------------------------------------------------------
+error: Request failed after 3 retries in 6.4s
+  cause: Failed to fetch: `https://pypi.org/simple/fast-simplification/`
+  cause: error sending request for url (https://pypi.org/simple/fast-simplification/)
+  cause: client error (Connect)
+  cause: Connection reset by peer (os error 54)
