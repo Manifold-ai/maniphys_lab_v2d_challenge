@@ -8,10 +8,14 @@ import yaml
 
 
 def flat(d, prefix=""):
+    # 列表按下标展开（curriculum.stages.8.immediate_first_frame_probability 这类键，计划 agent-doc/plan-t2ft-2026-10-26.md 复核 2）
     out = {}
     if isinstance(d, dict):
         for k, v in d.items():
             out.update(flat(v, f"{prefix}{k}."))
+    elif isinstance(d, list) and d:
+        for i, v in enumerate(d):
+            out.update(flat(v, f"{prefix}{i}."))
     else:
         out[prefix[:-1]] = d
     return out
