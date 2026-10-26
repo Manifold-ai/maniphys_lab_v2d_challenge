@@ -29,6 +29,8 @@ check_start() {
 }
 qline() { grep -v '^[[:space:]]*#' "$1" | awk -v r="$2" '{for (k = 1; k <= NF; k++) if ($k == r) {print; exit}}'; }
 runs_of() { grep -v '^[[:space:]]*#' "$1" | awk '{for (k = 1; k <= NF; k++) if ($k ~ /^(smoke-)?t2-ep[0-9]+-/) {print $k; break}}'; }
+# fc_config_check 的打印模式会建出只有 .lock 的空目录（fc_run.sh 第 49、54 行），只有 .lock 以外还有文件才算已有产物（同 arm_var_chain.sh）
+has_output() { [ -n "$(find "runs/flash_chord/$1" -mindepth 1 ! -name .lock -print -quit 2>/dev/null)" ]; }
 summary() { python3 -c 'import json, sys; d = json.load(open(sys.argv[1])); print(d.get(sys.argv[2]))' "runs/flash_chord/$1/wandb/latest-run/files/wandb-summary.json" "$2"; }
 
 say "t2ft 开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
@@ -57,7 +59,7 @@ say "配置核对与配方断言全过"
 
 # 3. 冒烟
 SM="$(runs_of "$SQ")"
-[ -e "runs/flash_chord/$SM" ] && die "runs/flash_chord/$SM 已存在（不重跑，复核 5）"
+has_output "$SM" && die "runs/flash_chord/$SM 里已有产物（不重跑，复核 5）"
 read -r -a tok <<< "$(qline "$SQ" "$SM")"; envs=(); i=0
 while [[ ${tok[$i]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do envs+=("${tok[$i]}"); i=$((i + 1)); done
 env "${envs[@]}" V2D_ALLOW_FC_SRC=1 V2D_FC_SRC="$TRAIN_SRC" stages/policy/fc_run_watched.sh "${tok[@]:$i}" || die "冒烟 $SM 训练退出码非零"
@@ -82,7 +84,7 @@ say "冒烟全过"
 # 4. 正式
 nd=0; nf=0
 for r in $(runs_of "$FQ"); do
-  if [ -e "runs/flash_chord/$r" ]; then say "$r 目录已存在：记失败、不重跑"; nf=$((nf + 1)); continue; fi
+  if has_output "$r"; then say "$r 目录里已有产物：记失败、不重跑"; nf=$((nf + 1)); continue; fi
   read -r -a tok <<< "$(qline "$FQ" "$r")"; envs=(); i=0
   while [[ ${tok[$i]} =~ ^[A-Z_][A-Z0-9_]*= ]]; do envs+=("${tok[$i]}"); i=$((i + 1)); done
   say "训练 $r"
