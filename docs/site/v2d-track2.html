@@ -316,27 +316,26 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-zh" lang="zh-CN">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 工作文档</h1>
-  <p class="lead">截至 10/21 19:02（UTC-6）。Track 2 名次和第 2（FF 第 1），Tier 2 SP-SR、Tier 3 SP-SR 两个榜第一。</p>
-  <h2>榜单（10/21 19:03）</h2>
+  <p class="lead">截至 10/26 14:00（UTC-6）。Track 2 名次和第 4（NVSimranPatil 第 1）。10/26 交了第 0 帧对齐的 Tier 3 清单，四项都变好；Tier 3 MP-SR 与 nima arki 同分。</p>
+  <h2>榜单（10/26 14:01）</h2>
   <div class="tbl"><table>
     <thead><tr><th>档位</th><th>AUC</th><th>SP-SR</th><th>MP-SR</th><th>MPPE</th></tr></thead>
     <tbody>
-      <tr><td>Tier 1</td><td>第 5</td><td>第 3</td><td>第 5</td><td>第 5</td></tr>
-      <tr><td>Tier 2</td><td>第 2（差 FF 0.004）</td><td><b>第 1</b></td><td>第 2（差 2 集）</td><td>第 3（差 nima arki 4.48 cm）</td></tr>
-      <tr><td>Tier 3</td><td>第 2（差 0.050）</td><td><b>第 1</b></td><td>第 2（差 1 集）</td><td>第 2（差 9.0 cm）</td></tr>
+      <tr><td>Tier 1</td><td>第 9（差 0.350）</td><td>第 7（差 5 集）</td><td>第 9（差 9 集）</td><td>第 8（差 11.2 cm）</td></tr>
+      <tr><td>Tier 2</td><td>第 3（差 MBZUAI-RCL Group 0.054）</td><td>第 3（差 6 集）</td><td>第 4（差 8 集）</td><td>第 5（差 12.7 cm）</td></tr>
+      <tr><td>Tier 3</td><td>第 2（差 nima arki 0.103）</td><td>第 2（差 2 集）</td><td>第 2（与 nima arki 同分，官网规则第 1）</td><td>第 3（差 7.6 cm）</td></tr>
     </tbody>
   </table></div>
-  <p>12 个榜名次相加：FF 25、maniphys.ai 33（Kaggle 同分规则；官网规则 26、35）；每个指标三档平均后排名：5 比 7（<code>results/board/diff_1021_1903.txt</code>）。</p>
+  <p>Tier 1、Tier 2 的第 1 名多是 NVSimranPatil。12 个榜名次相加：NVSimranPatil 38、FF 48、nima arki 52、maniphys.ai 57（Kaggle 同分规则；官网规则 37、52、53、57）；每个指标三档平均后排名：7、9、11、13（<code>results/board/diff_1026_1401.txt</code>）。</p>
   <h2>在做</h2>
   <ul class="todo">
-    <li><span class="pill w">在训</span><div><b><a href="#trial">Tier 3 gb5 重训 B 段（ml40）</a></b><span>A 段 7 集跟上 1 集（ep12）；B 段在训 ep11（19:02 时 56%），其后 ep25，约 23:30 训评完。</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill ok">已打包</span><div><b><a href="#official">Tier 3 帧参考对齐 Tier 1 第 0 帧</a></b><span>不重训；第 0 帧物体位置差降到 1 cm 以内。清单已打包、预演，没上传。</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill o">搁置</span><div><b><a href="#trial">Tier 3 跟丢集换“原地站”保底</a></b><span>试点 3 集过 1 集：另 2 集的物体在开局自己掉落；先搁置。</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill ok">已结束</span><div><b><a href="#next">Tier 2 放宽物体位置终止（t2mtr）</a></b><span>ep25 MPPE 降 13.7 cm，只到“信号”一档，不成立；下一个候选是 VOC 课程，计划待写。</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">在训</span><div><b><a href="#trial">Tier 3 差一点的 4 集换种子重训（ml40）</a></b><span>ep5、10、3、14 换 seed 43；ep5 训完，14:00 时 ep10 22%，约 21:00 训评导出完。过了跟踪门槛且好过现有 run 才换。</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">在训</span><div><b><a href="#progress">Tier 2 贴近评测条件的续训微调（mf4090）</a></b><span>ep25、ep4 从现有 checkpoint 续训 7000 万步：一组所有回合从第 0 帧起跑，一组课程不变作对照；约 16:30 训评完。</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">已提交</span><div><b><a href="#official">Tier 3 第 0 帧对齐版（10/26 13:33）</a></b><span>不重训，只对齐世界坐标系：AUC 0.106 → 0.226、SP-SR 0.267 → 0.333、MP-SR 0 → 0.10、MPPE 55.0 → 49.9 cm。</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">已结束</span><div><b><a href="#progress">难集摔倒的两项排查</a></b><span>按真实时长回放照样摔，速度不是主因；训好的策略残差没有被上限卡住（未核实）。</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>待定</h2>
   <ul class="bl">
-    <li>Tier 3 对齐版交不交（10/22 16:14 起有额度）。</li>
     <li>是否向组委会询问“原地站”保底是否有效。</li>
     <li>对齐后物体朝向仍差 30° 以上的 10 集，是否另立计划。</li>
   </ul>
@@ -358,27 +357,26 @@ body.en .pb.l-en{display:grid}
 <div class="pb l-en" lang="en">
   <div class="kicker">NVIDIA V2D Challenge · Track 2 Robotic Grounding · Unitree G1 + Dex3</div>
   <h1>V2D Track 2 working notes</h1>
-  <p class="lead">As of 19:02 on 10/21 (UTC-6). maniphys.ai is second in the Track 2 rank sum (FF is first). It is first on two boards: Tier 2 SP-SR and Tier 3 SP-SR.</p>
-  <h2>Boards (19:03 on 10/21)</h2>
+  <p class="lead">As of 14:00 on 10/26 (UTC-6). maniphys.ai is fourth in the Track 2 rank sum (NVSimranPatil is first). The Tier 3 list aligned at frame 0 was submitted on 10/26, and all four metrics improved. On Tier 3 MP-SR, maniphys.ai ties with nima arki.</p>
+  <h2>Boards (14:01 on 10/26)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Tier</th><th>AUC</th><th>SP-SR</th><th>MP-SR</th><th>MPPE</th></tr></thead>
     <tbody>
-      <tr><td>Tier 1</td><td>5th</td><td>3rd</td><td>5th</td><td>5th</td></tr>
-      <tr><td>Tier 2</td><td>2nd (0.004 behind FF)</td><td><b>1st</b></td><td>2nd (2 episodes behind)</td><td>3rd (4.48 cm behind nima arki)</td></tr>
-      <tr><td>Tier 3</td><td>2nd (0.050 behind)</td><td><b>1st</b></td><td>2nd (1 episode behind)</td><td>2nd (9.0 cm behind)</td></tr>
+      <tr><td>Tier 1</td><td>9th (0.350 behind)</td><td>7th (5 episodes behind)</td><td>9th (9 episodes behind)</td><td>8th (11.2 cm behind)</td></tr>
+      <tr><td>Tier 2</td><td>3rd (0.054 behind MBZUAI-RCL Group)</td><td>3rd (6 episodes behind)</td><td>4th (8 episodes behind)</td><td>5th (12.7 cm behind)</td></tr>
+      <tr><td>Tier 3</td><td>2nd (0.103 behind nima arki)</td><td>2nd (2 episodes behind)</td><td>2nd (tied with nima arki, 1st under the site rule)</td><td>3rd (7.6 cm behind)</td></tr>
     </tbody>
   </table></div>
-  <p>Rank sum over the 12 boards: FF 25, maniphys.ai 33 with the Kaggle tie rule, and 26 and 35 with the site rule. With the tiers averaged per metric first: 5 against 7 (<code>results/board/diff_1021_1903.txt</code>).</p>
+  <p>NVSimranPatil leads most Tier 1 and Tier 2 boards. Rank sum over the 12 boards: NVSimranPatil 38, FF 48, nima arki 52, maniphys.ai 57 with the Kaggle tie rule, and 37, 52, 53 and 57 with the site rule. With the tiers averaged per metric first: 7, 9, 11 and 13 (<code>results/board/diff_1026_1401.txt</code>).</p>
   <h2>In progress</h2>
   <ul class="todo">
-    <li><span class="pill w">Training</span><div><b><a href="#trial">Tier 3 gb5 retraining, segment B (ml40)</a></b><span>Segment A: 1 of 7 episodes tracks (ep12). Segment B trains ep11 (56% at 19:02), then ep25. It finishes training and evaluation around 23:30.</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill ok">Packed</span><div><b><a href="#official">Tier 3 frame references aligned to the first Tier 1 frame</a></b><span>No retraining. The frame-0 object position error is now below 1 cm. The list is packed and dry-run, and not uploaded.</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill o">On hold</span><div><b><a href="#trial">Standing fallback for lost Tier 3 episodes</a></b><span>The pilot passed on 1 of 3 episodes. In the other 2, the object falls by itself at the start. The work is on hold.</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill ok">Finished</span><div><b><a href="#next">Tier 2 relaxed object position termination (t2mtr)</a></b><span>ep25 MPPE dropped by 13.7 cm. This is only a signal, so the change does not hold. The next candidate is a VOC curriculum. Its plan is not written yet.</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">Training</span><div><b><a href="#trial">Reseed of 4 near-miss Tier 3 episodes (ml40)</a></b><span>ep5, 10, 3 and 14 retrain with seed 43. ep5 is trained, and ep10 was at 22% at 14:00. Training, evaluation and export finish around 21:00. A run replaces the current one only if it passes the tracking gate and beats the current run.</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill w">Training</span><div><b><a href="#progress">Tier 2 fine-tune under evaluation-like starts (mf4090)</a></b><span>ep25 and ep4 resume from their checkpoints for 70 M steps. One arm starts every episode at frame 0. The control arm keeps the curriculum. Training and evaluation finish around 16:30.</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">Submitted</span><div><b><a href="#official">Tier 3 list aligned at frame 0 (13:33 on 10/26)</a></b><span>No retraining, only the world frame is aligned: AUC 0.106 → 0.226, SP-SR 0.267 → 0.333, MP-SR 0 → 0.10, MPPE 55.0 → 49.9 cm.</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">Finished</span><div><b><a href="#progress">Two checks on why hard episodes fall</a></b><span>Real-time playback still falls, so speed is not the main cause. The trained residual is not capped (unverified).</span></div><span class="who">rxzhou</span></li>
   </ul>
   <h2>To be decided</h2>
   <ul class="bl">
-    <li>Whether to submit the aligned Tier 3 list (a slot opens at 16:14 on 10/22).</li>
     <li>Whether to ask the organizers if a standing fallback is valid.</li>
     <li>Whether to plan a fix for the 10 episodes whose object orientation still differs by more than 30° after alignment.</li>
   </ul>
@@ -403,7 +401,7 @@ body.en .pb.l-en{display:grid}
 <section class="pg" id="pg-progress" data-sec="progress" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
   <h1>进度</h1>
-  <p>截至 2026-10-18 07:30（UTC-6）。10/17 14:47 之后 maniphys.ai 没有新提交；新队 Vi Nguyễn Văn 的 Tier 1 AUC 0.96908 让 FF 与 maniphys.ai 在这个榜上各后移一名，两队之间不变。同分时 Kaggle 按先提交者在前，官网按队名字母序：12 个榜直接相加是 21 比 18（Kaggle）或 19 比 20（官网），先三档平均是 5 比 7。Tier 1 的 seed 43 换进 ep11、ep28，导出世界的 SP-SR 到 0.80000，4096 世界四项都变好；AUC 版 CSV（本地 0.56618，高于 FF）已打包，交不交待定。导出那 1 局读作独立的公平抽样。Tier 2 的接触标记提前在 ep2、11、17 上没用。ep25 现在交的两条几乎在每个世界都把瓶子碰下桌；mf4090 上的 checkpoint 扫描没有一份低于 100 cm，ml40 的在评。Tier 3 gb3 按规则 S 换 5 集，ep22 与提交待定；yqchen 生成了 gb4 版的交付。在训：Tier 1 ep14、ep11 的 seed 44。</p>
+  <p>截至 2026-10-26 14:00（UTC-6）。maniphys.ai 名次和第 4：NVSimranPatil 10/22 之后重新上榜，Tier 1、Tier 2 多数榜第一；nima arki 交了 Tier 3，拿下 Tier 3 的 AUC、SP-SR、MPPE。10/26 交了第 0 帧对齐的 Tier 3 清单，四项都变好。Tier 3 跟丢的 17 集里，8 集在 Tier 2 也做不成（动作本身难），9 集是重建的问题；差一点跟上的 4 集在 ml40 上换种子重训。Tier 1、Tier 2 难集摔倒的排查排除了回放速度这一解释，残差上限的解释也不成立（未核实）；mf4090 在跑贴近评测条件的续训微调。</p>
   <p>10/17：交了 Tier 1 与 Tier 3。Tier 1 四项都变好（AUC 0.56315、MPPE 13.92082），仍没有第一；Tier 3 MPPE、SP-SR 两项第一，判据 6 读作支持内参修正。FF 的 Tier 2 MPPE 13.87967，maniphys.ai 第二。官网与 FAQ 写明总排名按各指标名次相加、三档等权，档位与指标怎么合没有写明；每档每周最多 5 次提交。组委会账号仍不是仓库协作者。<br>10/16：FF 的新 Tier 2 MPPE 14.31296 cm，Tier 2 MPPE 榜改为 FF 第一；Tier 3 世界坐标系查清，重建流程用错了内参，内参 A/B 上榜后方格内参那版 MPPE、SP-SR 两项第一；r3o 两档都判“没用”，方向停；DAP 进了 Tier 1 的榜，MPPE 排第二。<br>10/15：Tier 3 第一次提交（探路版），MPPE 榜第一、AUC 为 0，读作重建与真值的对齐可能是瓶颈；FF 的 Tier 1 SP-SR 升到 0.80000，Tier 1 四个榜都是 FF 第一。Tier 1 的复现检查没过，10/14 定下挑选与汇报以 4096 个世界为主；逐帧终止分析显示跟丢的集先丢的是物体朝向。</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">现状</span><span class="jd">各环节能不能用、卡在哪；第 3 步配方试验与两台机器，Tier 2 第 1 批的判定，8c778f9 兼容性验证，方盒与 ep7 重训，提交前检查</span><span class="jk">7 个环节</span></a></li>
@@ -422,6 +420,11 @@ body.en .pb.l-en{display:grid}
   </div>
   <h2>此前进展</h2>
   <ul>
+    <li><b>10/26</b>：13:33 交 Tier 3 t3m1022aa（t3m1022a 只做第 0 帧对齐，不重训）：AUC 0.22590、SP-SR 0.33333、MP-SR 0.10000、MPPE 49.93762 cm，四项都比 gb1018e22 好（<code>results/submission/submit_t3_t3m1022aa.txt</code>）。
+      Tier 3 跟丢的 17 集分两类：8 集（ep1、2、4、9、11、17、25、28）在 Tier 2 也做不成，Tier 1 跟丢的 7 集全在其中；9 集是重建的问题，其中 ep3、5、10、14 差一点（<code>results/t3lost/classify.txt</code>）。这 4 集 10:46 起在 ml40 上换 seed 43 重训（<code>agent-doc/plan-t3s43-2026-10-26.md</code>）。
+      难集摔倒的排查（<code>agent-doc/plan-trajopt-2026-10-26.md</code>）：ep4、25、1 的零残差回放按真实时长放慢，照样每个世界都摔，速度不是主因；训好的策略摔倒前残差顶到上限的比例不比不摔的 ep23 高（ep23 腰部约四成时间顶到头），残差额度不是瓶颈（未核实）。训练课程最后两段已有最多一半回合从第 0 帧起跑；
+      还没练到的是“偏了之后接着跑”，因为训练里物体一偏就终止回合。14:00 起在 mf4090 上续训微调 ep25、ep4（<code>agent-doc/plan-t2ft-2026-10-26.md</code>）。10/22–10/25 两台机器没有新训练。</li>
+    <li><b>10/21</b>：Tier 3 gb5 重训 B 段 22:40 训评导出完：6 集里 ep23 跟上，其余仍跟丢（<code>results/ml40/t3g5/eval_t3qg5b_ml40.txt</code>）。</li>
     <li><b>10/17</b>：18:15 的榜 maniphys.ai 5 个第一、FF 7 个第一（<code>results/submission/leaderboard_1017_1815.txt</code>）。官网与 FAQ：各指标名次相加、和最小者第一，三个档位权重相同，档位与指标具体怎么合没有写明（<code>results/ops/challenge_faq_1017_sentences.txt</code>）；每档每周最多提交 5 次（最后三天不限）。14:39 交 Tier 1 c10_1017a（AUC 0.56315、SP-SR 0.76666、MP-SR 0.66666、MPPE 13.92082 cm），14:47 交 Tier 3 kfix1017（MPPE 55.76705 cm、SP-SR 0.13333、AUC 0.04885、MP-SR 0），判据 6 读作支持内参修正。换到 gb3 的计划重训 8 条，换的规则是候选 4096 世界 MPPE 不超过现选 run 加 4.0 cm 且 SP-SR ≥ 0.5（<code>agent-doc/plan-t3-gb3-switch-2026-10-17.md</code>）。</li>
     <li><b>10/16</b>：04:34 交 Tier 3 内参 A/B：按吊顶方格内参转 −4.65° 的一版 MPPE 56.87427 cm，反向转的对照版 63.44727 cm，按登记的规则记“支持方格内参”（<code>results/submission/leaderboard_1016_t3ab.txt</code>）。rxzhou 按标定内参给 7 集重新生成参考（<code>agent-doc/plan-t3-kfix-2026-10-16.md</code>）；现有 checkpoint 对新参考重评，只有 ep24、ep26 可换，mf4090 按新参考重训 ep0、18、29（<code>results/t3kfix/reexport_mf4090.txt</code>）。r3o 两段在 Tier 1、Tier 2 都没修好跟丢的集，判“没用”，这个方向停（<code>results/r3o/verdict_P1_mf4090.txt</code>、<code>results/ml40/r3o/verdict_P2_ml40.txt</code>）。Tier 1 跟丢的 7 集接触后 30 帧内物体自转中位 16.4°（其余各集 1.0°），据此在 ml40 上试“接触标记提前”（<code>agent-doc/plan-t1-contact-anticipation-2026-10-16.md</code>）。FF 交了新的 Tier 2，MPPE 14.31296 cm，Tier 2 MPPE 榜改为 FF 第一。</li>
     <li><b>10/15</b>：16:14 第一次交 Tier 3（探路版），MPPE 60.70360 cm 排第一、AUC 0.00000 排第三，按登记的读法记为“重建与真值的对齐可能是瓶颈”（<code>results/submission/leaderboard_1015_t3probe.txt</code>）。复现检查没过：Tier 1 已交的 ep19 checkpoint 按官方做法导出 3 次，得到 3 局不同的轨迹（<code>results/first/zero_ep19_ml40_rep2.txt</code>）。Tier 3 动力学修复版试点的主判据读作看不清，ep12 的 seed 43 复核（09:23）没复现 best_dyn4 的提升（<code>results/t3dyn/eval_table_t3qdyn_s43.txt</code>）。新配方 r3o（变体 A 加物体朝向奖励）起第一段。FF 的 Tier 1 SP-SR 升到 0.80000，Tier 1 四个榜都是 FF 第一。</li>
@@ -440,7 +443,7 @@ body.en .pb.l-en{display:grid}
 </div>
 <div class="pb l-en" lang="en">
   <h1>Progress</h1>
-  <p>As of 2026-10-18 07:30 (UTC-6). maniphys.ai has not submitted since 14:47 on 10/17. A new team, Vi Nguyễn Văn, has a Tier 1 AUC of 0.96908. This moves FF and maniphys.ai down one place on that board, and the order between the two does not change. On equal scores, Kaggle puts the earlier submission first, and the site orders by team name. The sum over the 12 boards gives 21 against 18 (Kaggle) or 19 against 20 (site). An average over the tiers first gives 5 against 7. Tier 1 seed 43 switches ep11 and ep28. The exported-world SP-SR reaches 0.80000, and all four 4096-world metrics improve. The AUC CSV (local 0.56618, above FF) is packed, and whether to submit it is to be decided. The exported world reads as an independent fair draw. Tier 2 contact anticipation shows no use on ep2, 11 and 17. The two current ep25 picks knock the bottle from the table in almost every world. The checkpoint sweep on mf4090 found none below 100 cm, and ml40 is still evaluating. Tier 3 gb3 switches 5 episodes under rule S. ep22 and the submission are to be decided. yqchen produced gb4 deliveries. Training: Tier 1 ep14 and ep11 seed 44.</p>
+  <p>As of 2026-10-26 14:00 (UTC-6). maniphys.ai is fourth in the rank sum. NVSimranPatil came back to the boards after 10/22 and leads most Tier 1 and Tier 2 boards. nima arki submitted Tier 3 and leads its AUC, SP-SR and MPPE boards. The Tier 3 list aligned at frame 0 was submitted on 10/26, and all four metrics improved. Of the 17 lost Tier 3 episodes, 8 also fail in Tier 2 (the motion itself is hard), and 9 are reconstruction problems. The 4 near misses retrain with a new seed on ml40. The checks on the hard Tier 1 and Tier 2 episodes ruled out playback speed. The residual cap does not explain the falls either (unverified). mf4090 runs a fine-tune under evaluation-like starts.</p>
   <p>10/17: Tier 1 and Tier 3 went in. Tier 1 improves on all four boards (AUC 0.56315, MPPE 13.92082) but leads none. Tier 3 leads MPPE and SP-SR, and criterion 6 reads as support for the intrinsics correction. FF's Tier 2 MPPE is 13.87967, and maniphys.ai is second. The site and FAQ state that the final ranking sums the metric ranks, with the three tiers weighted equally. They do not state how tiers and metrics combine. Each tier allows 5 submissions per week. The organizer account is still not a repository collaborator.<br>10/16: FF's new Tier 2 MPPE of 14.31296 cm makes FF first on the Tier 2 MPPE board. The Tier 3 world frame is settled, and the reconstruction pipeline used the wrong intrinsics. On the intrinsics A/B, the ceiling-grid entry leads MPPE and SP-SR. r3o is “no use” in both tiers, and the direction is stopped. DAP entered the Tier 1 boards and is second on MPPE.<br>10/15: Tier 3 went in for the first time (the probe). It leads the MPPE board with an AUC of 0, read as a possible bottleneck in the alignment of the reconstruction with the truth. FF raised Tier 1 SP-SR to 0.80000 and leads all four Tier 1 boards. The Tier 1 reproducibility check failed. On 10/14 selection and reports were set to lead with the 4096-world numbers. The frame-by-frame termination analysis shows that the lost episodes lose the object's orientation first.</p>
   <ul class="jump">
     <li><a href="#status"><span class="jt">Status</span><span class="jd">Which stages work and where the work is stuck. The step 3 recipe trial and both machines, Tier 2 batch 1 verdicts, the 8c778f9 compatibility check, the box and ep7 retrains, the pre-submission check</span><span class="jk">7 stages</span></a></li>
@@ -459,6 +462,11 @@ body.en .pb.l-en{display:grid}
   </div>
   <h2>Earlier progress</h2>
   <ul>
+    <li><b>10/26</b>: at 13:33 the Tier 3 list t3m1022aa was submitted (t3m1022a with frame-0 alignment only, no retraining): AUC 0.22590, SP-SR 0.33333, MP-SR 0.10000, MPPE 49.93762 cm. All four are better than gb1018e22 (<code>results/submission/submit_t3_t3m1022aa.txt</code>).
+      The 17 lost Tier 3 episodes fall in two groups. 8 episodes (ep1, 2, 4, 9, 11, 17, 25, 28) also fail in Tier 2, and they include all 7 lost Tier 1 episodes. 9 are reconstruction problems, and ep3, 5, 10 and 14 of them are near misses (<code>results/t3lost/classify.txt</code>). These 4 retrain with seed 43 on ml40 since 10:46 (<code>agent-doc/plan-t3s43-2026-10-26.md</code>).
+      Checks on why hard episodes fall (<code>agent-doc/plan-trajopt-2026-10-26.md</code>): the zero-residual replays of ep4, 25 and 1 still fall in every world at real-time speed, so speed is not the main cause. Before a fall, the trained policies saturate the residual no more often than the non-falling ep23 (whose waist saturates about 40% of the time), so the residual range is not the bottleneck (unverified). The last two curriculum stages already start up to half of the episodes at frame 0.
+      What training does not cover is running on after a deviation, because an object deviation ends the training episode. Since 14:00, ep25 and ep4 resume for a fine-tune on mf4090 (<code>agent-doc/plan-t2ft-2026-10-26.md</code>). From 10/22 to 10/25 neither machine trained.</li>
+    <li><b>10/21</b>: Tier 3 gb5 retraining segment B finished training, evaluation and export at 22:40. Of 6 episodes, ep23 tracks and the rest are still lost (<code>results/ml40/t3g5/eval_t3qg5b_ml40.txt</code>).</li>
     <li><b>10/17</b>: at 18:15 maniphys.ai led 5 of the 12 boards and FF led 7 (<code>results/submission/leaderboard_1017_1815.txt</code>). Site and FAQ: the lowest sum of metric ranks wins, and the three tiers carry equal weight. How tiers and metrics combine is not stated (<code>results/ops/challenge_faq_1017_sentences.txt</code>). Each tier allows at most 5 submissions per week, with no limit in the final three days. Tier 1 c10_1017a was submitted at 14:39 (AUC 0.56315, SP-SR 0.76666, MP-SR 0.66666, MPPE 13.92082 cm). Tier 3 kfix1017 was submitted at 14:47 (MPPE 55.76705 cm, SP-SR 0.13333, AUC 0.04885, MP-SR 0). Criterion 6 reads as support for the intrinsics correction. The gb3 switch plan retrains 8 runs. A candidate switches if its 4096-world MPPE is at most the current run's plus 4.0 cm and its SP-SR is ≥ 0.5 (<code>agent-doc/plan-t3-gb3-switch-2026-10-17.md</code>).</li>
     <li><b>10/16</b>: the Tier 3 intrinsics A/B was submitted at 04:34. The entry rotated by −4.65° per the ceiling-grid intrinsics scored MPPE 56.87427 cm, and the reverse control 63.44727 cm. By the registered rule this reads "supports the ceiling-grid intrinsics" (<code>results/submission/leaderboard_1016_t3ab.txt</code>). rxzhou regenerated the reference of 7 episodes with the calibrated intrinsics (<code>agent-doc/plan-t3-kfix-2026-10-16.md</code>). Against the new reference, only ep24 and ep26 of the existing checkpoints can switch. mf4090 retrains ep0, 18 and 29 on the new reference (<code>results/t3kfix/reexport_mf4090.txt</code>). Over two segments, r3o fixed no lost episode in Tier 1 or Tier 2. The verdict is "no use", and the direction stopped (<code>results/r3o/verdict_P1_mf4090.txt</code>, <code>results/ml40/r3o/verdict_P2_ml40.txt</code>). In the 7 lost Tier 1 episodes, the median object self-rotation in the 30 frames after first contact is 16.4° (1.0° in the others). ml40 therefore tries contact anticipation (<code>agent-doc/plan-t1-contact-anticipation-2026-10-16.md</code>). FF submitted a new Tier 2 entry with MPPE 14.31296 cm and took the lead on the Tier 2 MPPE board.</li>
     <li><b>10/15</b>: the first Tier 3 submission (the probe, 16:14) scored MPPE 60.70360 cm, first, and AUC 0.00000, third. The registered reading: the alignment of the reconstruction with the truth may be the bottleneck (<code>results/submission/leaderboard_1015_t3probe.txt</code>). The reproducibility check failed. Three official exports of the submitted Tier 1 ep19 checkpoint gave three different trajectories (<code>results/first/zero_ep19_ml40_rep2.txt</code>). The main criterion of the Tier 3 pilot on the dynamics-fixed versions reads as unclear. The ep12 seed 43 recheck (09:23) did not reproduce the best_dyn4 gain (<code>results/t3dyn/eval_table_t3qdyn_s43.txt</code>). The first segment of the new recipe r3o (variant A plus an object orientation reward) started. FF raised its Tier 1 SP-SR to 0.80000 and led all four Tier 1 boards.</li>

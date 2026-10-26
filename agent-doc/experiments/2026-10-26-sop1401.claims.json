@@ -1,0 +1,113 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "submit": {
+   "file": "results/submission/submit_t3_t3m1022aa.txt",
+   "grep": "COMPLETE"
+  },
+  "prev": {
+   "file": "results/submission/submit_t3_gb1018e22.txt",
+   "grep": "COMPLETE"
+  },
+  "board": {
+   "file": "results/board/diff_1026_1401.txt",
+   "grep": "读法|Tier 3"
+  },
+  "lost": {
+   "file": "agent-doc/diag-t3lost-2026-10-26.md",
+   "grep": "动作难 8 集|重建 9 集|差一点"
+  },
+  "a0": {
+   "file": "agent-doc/plan-trajopt-2026-10-26.md",
+   "grep": "A0 判据：ep4|三集两种回放的骨盆失败比例"
+  },
+  "c": {
+   "file": "agent-doc/plan-trajopt-2026-10-26.md",
+   "grep": "按判据：D 不成立|对照 ep23（256 世界"
+  },
+  "curr": {
+   "file": "agent-doc/plan-trajopt-2026-10-26.md",
+   "grep": "更正 C 段读法|课程 `configs/curriculum|从第 0 帧起跑”不对"
+  },
+  "t3diff": {
+   "file": "results/board/diff_1026_1333.txt",
+   "grep": "tier3-"
+  }
+ },
+ "claims": [
+  {
+   "id": "t3sub",
+   "evidence": [
+    "t3diff"
+   ],
+   "claim": "On the four Tier 3 boards, maniphys.ai improved: AUC rose from 0.10649 to 0.22590, SP-SR rose from 0.26666 to 0.33333, MP-SR rose from 0 to 0.10000, and MPPE fell from 54.98984 to 49.93762."
+  },
+  {
+   "id": "t3sub_ctl",
+   "evidence": [
+    "t3diff"
+   ],
+   "claim": "On the Tier 3 AUC board, maniphys.ai fell from 0.22590 to 0.10649.",
+   "control": "false"
+  },
+  {
+   "id": "rank",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 57 and is fourth, behind NVSimranPatil 38, Xueyi Wang (FF) 48 and nima arki 52."
+  },
+  {
+   "id": "rank_ctl",
+   "evidence": [
+    "board"
+   ],
+   "claim": "maniphys.ai is first in the 12-board rank sum.",
+   "control": "false"
+  },
+  {
+   "id": "lost",
+   "evidence": [
+    "lost"
+   ],
+   "claim": "Of the lost Tier 3 episodes, 8 also fail in Tier 2 and include all 7 lost Tier 1 episodes; 9 are reconstruction problems, and ep3, 5, 10 and 14 are near misses."
+  },
+  {
+   "id": "a0",
+   "evidence": [
+    "a0"
+   ],
+   "claim": "Zero-residual replays of ep4, ep25 and ep1 still fail in every world at real-time playback, so speed is read as not the main cause."
+  },
+  {
+   "id": "a0_ctl",
+   "evidence": [
+    "a0"
+   ],
+   "claim": "Real-time playback made the zero-residual replays of ep4 succeed in most worlds.",
+   "control": "false"
+  },
+  {
+   "id": "cap",
+   "evidence": [
+    "c"
+   ],
+   "claim": "The hard episodes do not saturate the residual more than the non-falling control ep23, whose waist saturates about 40% of the time, so the residual is read as not capped."
+  },
+  {
+   "id": "curr",
+   "evidence": [
+    "curr"
+   ],
+   "claim": "In the last two curriculum stages, 25% and then 50% of resets start at frame 0, like the evaluation."
+  },
+  {
+   "id": "curr_ctl",
+   "evidence": [
+    "curr"
+   ],
+   "claim": "Training never starts any episode at frame 0.",
+   "control": "false"
+  }
+ ]
+}

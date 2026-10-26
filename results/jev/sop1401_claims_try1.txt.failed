@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-26-sop1401.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 74216c07c8855f5957dc190b92be5b5c  agent-doc/experiments/2026-10-26-sop1401.claims.json
+# source   : bf2546f2977f-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-26T14:04:27-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3sub                P(supported)=0.30  UNVERIFIED             [submit, prev]  The new Tier 3 submission scored higher AUC, higher SP-SR, higher MP-SR and lower MPPE than the earlier gb1018e22 submission.
+t3sub_ctl            P(supported)=0.07  control(false) ok      [submit, prev]  The new Tier 3 submission scored a lower AUC than the earlier gb1018e22 submission.
+rank                 P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 57 and is fourth, behind NVSimranPatil 38, Xueyi Wang (FF) 48 and nima arki 52.
+rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+lost                 P(supported)=0.93  verified               [lost]  Of the lost Tier 3 episodes, 8 also fail in Tier 2 and include all 7 lost Tier 1 episodes; 9 are reconstruction problems, and ep3, 5, 10 and 14 are near misses.
+a0                   P(supported)=0.75  verified               [a0]  Zero-residual replays of ep4, ep25 and ep1 still fail in every world at real-time playback, so speed is read as not the main cause.
+a0_ctl               P(supported)=0.02  control(false) ok      [a0]  Real-time playback made the zero-residual replays of ep4 succeed in most worlds.
+cap                  P(supported)=0.76  verified               [c]  The hard episodes do not saturate the residual more than the non-falling control ep23, whose waist saturates about 40% of the time, so the residual is read as not capped.
+curr                 P(supported)=0.11  UNVERIFIED             [curr]  In the last two curriculum stages, 25% and then 50% of resets start at frame 0, like the evaluation.
+curr_ctl             P(supported)=0.37  CONTROL(false) FAILED  [curr]  Training never starts any episode at frame 0.
+CONTROLS MISBEHAVED: do not rely on this batch
