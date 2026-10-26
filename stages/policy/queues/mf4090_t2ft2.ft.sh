@@ -13,4 +13,4 @@ start_of() { case "$1" in *-c5-ftk-*) echo t2-ep25-w2048-cap4m-r3a-c5-mf4090/sta
 steps_of() { case "$1" in *-ftk2-*) echo 490000384 ;; *) echo 419999744 ;; esac; }
 p8_of() { echo 0.5; }
 ot_of() { case "$1" in *-c5-*) echo 0.1 ;; *) echo 0.3 ;; esac; }
-extra_of() { case "$1" in *-ftks43-*) echo "reset.seed=43 env.reset.seed=43" ;; *) echo "reset.seed=42 env.reset.seed=42" ;; esac; }
+extra_of() { case "$1" in *-ftks43-*) echo "reset.seed=43 env.reset.seed=43 training.seed=43" ;; *) echo "reset.seed=42 env.reset.seed=42 training.seed=42" ;; esac; }
