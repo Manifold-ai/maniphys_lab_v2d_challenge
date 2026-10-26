@@ -41,7 +41,7 @@ say "$SEG 开始，来历 $(cat .v2d-source-commit 2>/dev/null || echo unknown)"
 check_start
 
 # 2. 配置核对
-V2D_ALLOW_FC_SRC=1 V2D_FC_SRC="$TRAIN_SRC" stages/policy/fc_config_check.sh $SQ "$FQ" | tail -40
+V2D_ALLOW_FC_SRC=1 V2D_FC_SRC="$TRAIN_SRC" stages/policy/fc_config_check.sh $SQ "$FQ" | grep -E '^== |意外|共 |失败|通过|问题'   # 只打每条 run 的汇总与意外差异（复核 NIT 8）
 [ "${PIPESTATUS[0]}" = 0 ] || die "fc_config_check.sh 不过"
 cmds=""
 for r in ${SQ:+$(runs_of "$SQ")} $(runs_of "$FQ"); do
