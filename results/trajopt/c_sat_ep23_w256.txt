@@ -1,0 +1,21 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/residual_sat.py\ --npz\ /repo/runs/trajopt/c_t2-ep23-w2048-cap4m-mf4090_w256.npz\ --policy\ /repo/runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/policy_349999104.safetensors\ \ --window\ 0:98\ --window\ 98:248\ --fall-npz\ /repo/runs/trajopt/c_t2-ep23-w2048-cap4m-mf4090_w256_fall.npz\ --horizon\ 633\ --label\ ep23 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : bbd3ac2696fe1a42088264cb285a26a1  stages/evaluate/residual_sat.py
+# md5      : fe8611d95346c1902a425f99a1c451ac  runs/trajopt/c_t2-ep23-w2048-cap4m-mf4090_w256.npz
+# md5      : 68eaf870498dd401795ad3ae5d835c1e  runs/flash_chord/t2-ep23-w2048-cap4m-mf4090/policy_349999104.safetensors
+# md5      : b01771513b01ca982a859120e2ebe4f4  runs/trajopt/c_t2-ep23-w2048-cap4m-mf4090_w256_fall.npz
+# source   : d972da3dfc65
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-27T02:04:24+0800
+# ---------------------------------------------------------------
+ep23 /repo/runs/trajopt/c_t2-ep23-w2048-cap4m-mf4090_w256.npz：动作 (946, 256, 43)（步 × 世界 × 维），参考起始帧 0；action_scale 10，身体残差 29 维、手指 14 维；residual_scale 0.15；门槛 |tanh| > 0.95
+窗口（参考帧）	身体：顶到头比例	中位	p90	手指：顶到头比例	中位	p90	身体里顶到头最多的关节（比例）
+0:98	0.191	0.610	0.981	0.239	0.834	0.981	waist_pitch_joint 0.93，right_knee_joint 0.57，left_ankle_roll_joint 0.52，left_wrist_pitch_joint 0.45，right_wrist_pitch_joint 0.44，left_hip_pitch_joint 0.31，right_ankle_pitch_joint 0.29，waist_roll_joint 0.26
+98:248	0.176	0.652	0.978	0.280	0.854	0.980	waist_pitch_joint 0.97，left_elbow_joint 0.95，left_wrist_yaw_joint 0.75，right_ankle_pitch_joint 0.67，left_ankle_pitch_joint 0.43，right_elbow_joint 0.40，right_shoulder_pitch_joint 0.18，right_shoulder_roll_joint 0.10
+全程分组（参考帧 0:946）：腿 0.135，腰 0.404，手臂 0.200，手指 0.341
+摔了且抄了动作的世界 4/256；训练回合长度 633 步
+pre30	腿 0.159	腰 0.517	手臂 0.219	手指 0.170	训练长度以内 0.50
+pre60	腿 0.160	腰 0.433	手臂 0.267	手指 0.358	训练长度以内 0.50
+prewhole	腿 0.150	腰 0.409	手臂 0.199	手指 0.320	训练长度以内 0.80
+腿/腰第一次顶到头（摔前）：有 4/4 个世界；步中位 0；t_03 中位 81；先于 t_03 的世界比例 1.00
+RESIDUAL_SAT_DONE

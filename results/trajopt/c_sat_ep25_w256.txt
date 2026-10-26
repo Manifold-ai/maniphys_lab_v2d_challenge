@@ -1,0 +1,21 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/residual_sat.py\ --npz\ /repo/runs/trajopt/c_t2-ep25-w2048-cap4m-mf4090_w256.npz\ --policy\ /repo/runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/policy_349999104.safetensors\ \ --window\ 0:102\ --window\ 102:252\ --fall-npz\ /repo/runs/trajopt/c_t2-ep25-w2048-cap4m-mf4090_w256_fall.npz\ --horizon\ 109\ --label\ ep25 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : bbd3ac2696fe1a42088264cb285a26a1  stages/evaluate/residual_sat.py
+# md5      : 40cd1fbca71fe59de761d45fe467a282  runs/trajopt/c_t2-ep25-w2048-cap4m-mf4090_w256.npz
+# md5      : 5f8f3ae39d37794c16ce99034f96d787  runs/flash_chord/t2-ep25-w2048-cap4m-mf4090/policy_349999104.safetensors
+# md5      : dd97e9eecd27596dafc0cbd7f5556c96  runs/trajopt/c_t2-ep25-w2048-cap4m-mf4090_w256_fall.npz
+# source   : d972da3dfc65
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-27T01:58:17+0800
+# ---------------------------------------------------------------
+ep25 /repo/runs/trajopt/c_t2-ep25-w2048-cap4m-mf4090_w256.npz：动作 (859, 256, 43)（步 × 世界 × 维），参考起始帧 0；action_scale 10，身体残差 29 维、手指 14 维；residual_scale 0.15；门槛 |tanh| > 0.95
+窗口（参考帧）	身体：顶到头比例	中位	p90	手指：顶到头比例	中位	p90	身体里顶到头最多的关节（比例）
+0:102	0.296	0.840	0.987	0.212	0.813	0.976	left_shoulder_pitch_joint 0.67，right_elbow_joint 0.60，waist_pitch_joint 0.59，right_shoulder_pitch_joint 0.58，left_ankle_roll_joint 0.53，right_knee_joint 0.52，right_ankle_roll_joint 0.49，waist_roll_joint 0.38
+102:252	0.059	0.509	0.898	0.053	0.510	0.893	right_wrist_yaw_joint 0.19，left_ankle_roll_joint 0.19，waist_pitch_joint 0.14，right_knee_joint 0.14，right_shoulder_roll_joint 0.10，left_ankle_pitch_joint 0.10，right_elbow_joint 0.09，left_wrist_pitch_joint 0.08
+全程分组（参考帧 0:859）：腿 0.057，腰 0.060，手臂 0.064，手指 0.040
+摔了且抄了动作的世界 255/256；训练回合长度 109 步
+pre30	腿 0.007	腰 0.009	手臂 0.017	手指 0.006	训练长度以内 0.03
+pre60	腿 0.034	腰 0.040	手臂 0.038	手指 0.034	训练长度以内 0.08
+prewhole	腿 0.148	腰 0.182	手臂 0.124	手指 0.107	训练长度以内 0.39
+腿/腰第一次顶到头（摔前）：有 255/255 个世界；步中位 0；t_03 中位 15；先于 t_03 的世界比例 1.00
+RESIDUAL_SAT_DONE

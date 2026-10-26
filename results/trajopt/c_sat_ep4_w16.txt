@@ -1,0 +1,20 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/residual_sat.py\ --npz\ /repo/runs/trajopt/c_t2-ep4-w2048-cap4m-mf4090_w16.npz\ --policy\ /repo/runs/flash_chord/t2-ep4-w2048-cap4m-mf4090/policy_349999104.safetensors\ \ --window\ 0:133\ --fall-npz\ /repo/runs/trajopt/c_t2-ep4-w2048-cap4m-mf4090_w16_fall.npz\ --horizon\ 133\ --label\ ep4 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : bbd3ac2696fe1a42088264cb285a26a1  stages/evaluate/residual_sat.py
+# md5      : 890968a4b6795d5d3b225b6f4d372b32  runs/trajopt/c_t2-ep4-w2048-cap4m-mf4090_w16.npz
+# md5      : bf6c83970a3d75ac4bbafcf47597f6d2  runs/flash_chord/t2-ep4-w2048-cap4m-mf4090/policy_349999104.safetensors
+# md5      : f95bf050221db619492282f0e70e6e7b  runs/trajopt/c_t2-ep4-w2048-cap4m-mf4090_w16_fall.npz
+# source   : d972da3dfc65
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-27T01:54:47+0800
+# ---------------------------------------------------------------
+ep4 /repo/runs/trajopt/c_t2-ep4-w2048-cap4m-mf4090_w16.npz：动作 (803, 16, 43)（步 × 世界 × 维），参考起始帧 0；action_scale 10，身体残差 29 维、手指 14 维；residual_scale 0.15；门槛 |tanh| > 0.95
+窗口（参考帧）	身体：顶到头比例	中位	p90	手指：顶到头比例	中位	p90	身体里顶到头最多的关节（比例）
+0:133	0.208	0.663	0.979	0.154	0.717	0.966	waist_pitch_joint 0.75，waist_roll_joint 0.46，left_wrist_pitch_joint 0.43，right_ankle_roll_joint 0.42，left_hip_roll_joint 0.41，right_knee_joint 0.39，left_knee_joint 0.38，right_hip_roll_joint 0.33
+全程分组（参考帧 0:803）：腿 0.071，腰 0.118，手臂 0.056，手指 0.068
+摔了且抄了动作的世界 16/16；训练回合长度 133 步
+pre30	腿 0.298	腰 0.397	手臂 0.111	手指 0.195	训练长度以内 0.80
+pre60	腿 0.533	腰 0.585	手臂 0.165	手指 0.235	训练长度以内 1.00
+prewhole	腿 0.290	腰 0.438	手臂 0.096	手指 0.157	训练长度以内 0.96
+腿/腰第一次顶到头（摔前）：有 16/16 个世界；步中位 0；t_03 中位 63；先于 t_03 的世界比例 1.00
+RESIDUAL_SAT_DONE

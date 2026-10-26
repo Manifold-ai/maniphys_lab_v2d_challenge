@@ -1,0 +1,118 @@
+# command  : scripts/dev/in-flash-chord cd\ /workspace\ \&\&\ python\ /repo/stages/evaluate/diag_rollout.py\ /repo/runs/flash_chord/t2-ep6-w2048-cap4m-mf4090/policy_349999104.safetensors\ /repo/runs/trajopt/c_t2-ep6-w2048-cap4m-mf4090_w256\ --worlds\ 256\ --bodies\ --actions\ 546\ --action-worlds\ 256 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 98325b8f3fc15276feb231feb15c887c  stages/evaluate/diag_rollout.py
+# md5      : 39537e70448b7a9f628492fef4b8f0bc  runs/flash_chord/t2-ep6-w2048-cap4m-mf4090/policy_349999104.safetensors
+# source   : d972da3dfc65
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-27T01:59:56+0800
+# ---------------------------------------------------------------
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+[2026-10-26 18:00:03,224][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+/workspace/src/flash_chord/embodiments/binding.py:371: UserWarning: Inertia validation corrected 2 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize(device=device, skip_all_validations=True)
+/workspace/src/flash_chord/scene/builder.py:508: UserWarning: Inertia validation corrected 512 bodies. Set validate_inertia_detailed=True for detailed per-body warnings.
+  model = builder.finalize()
+[0;93m2026-10-26 18:00:19.023597417 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+[0;93m2026-10-26 18:00:19.045178014 [W:onnxruntime:, inference_session.cc:2647 Initialize] This model has shape massaging nodes that will execute on CPU. Use the graph capture feature with caution. As long as the intermediate shapes produced in the model using the representative input used to capture the graph, will match the shapes produced in the model for other inputs of the same shape as the representative input (common case), it is safe to use the graph capture feature.[m
+[0;93m2026-10-26 18:00:19.155910406 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+Warp 1.14.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 4090" (24 GiB, sm_89, mempool enabled)
+   Kernel cache:
+     /warp-cache/1.14.0
+Module newton._src.geometry.inertia 3654b45 load on device 'cuda:0' took 318.67 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 90f14cb load on device 'cpu' took 1.83 ms  (cached)
+Module newton._src.sim.articulation a705557 load on device 'cpu' took 0.30 ms  (cached)
+Module validate_and_correct_inertia_kernel_2d598dcb 2d598dc load on device 'cuda:0' took 49.18 ms  (cached)
+Module newton._src.sim.graph_coloring 8071a9f load on device 'cpu' took 0.34 ms  (cached)
+Module newton._src.solvers.mujoco.kernels 618b13f load on device 'cuda:0' took 2985.39 ms  (cached)
+Module repeat_array_kernel_2767062b bae2300 load on device 'cuda:0' took 17.90 ms  (cached)
+Module repeat_array_kernel_2767062b 122cd4b load on device 'cuda:0' took 27.20 ms  (cached)
+Module repeat_array_kernel_2767062b 70fd208 load on device 'cuda:0' took 36.96 ms  (cached)
+Module repeat_array_kernel_2767062b ad5e920 load on device 'cuda:0' took 46.40 ms  (cached)
+Module repeat_array_kernel_2767062b 4770c98 load on device 'cuda:0' took 56.35 ms  (cached)
+Module repeat_array_kernel_2767062b 4d9e605 load on device 'cuda:0' took 67.04 ms  (cached)
+Module repeat_array_kernel_2767062b beb7dd7 load on device 'cuda:0' took 77.06 ms  (cached)
+Module mujoco_warp._src.io 2f253d2 load on device 'cuda:0' took 1190.30 ms  (cached)
+Module mujoco_warp._src.smooth cf7a289 load on device 'cuda:0' took 1469.56 ms  (cached)
+Module _solve_LD_sparse_fused__locals__kernel_2cb438e4 e0be12c load on device 'cuda:0' took 28.72 ms  (cached)
+Module flash_chord.lifecycle.reset cab254d load on device 'cuda:0' took 590.28 ms  (cached)
+Module newton._src.sim.articulation 24ff67e load on device 'cuda:0' took 3242.00 ms  (cached)
+Module flash_chord.runtime.actions.sonic 9ac4ca7 load on device 'cuda:0' took 3646.34 ms  (cached)
+Module flash_chord.runtime.delay 49f6340 load on device 'cuda:0' took 126.70 ms  (cached)
+Module flash_chord.envs.base 7bb0f78 load on device 'cuda:0' took 46.75 ms  (cached)
+Module flash_chord.envs.rl 4c4513a load on device 'cuda:0' took 138.88 ms  (cached)
+Module flash_chord.envs.recon_body 6b7f5a5 load on device 'cuda:0' took 1759.50 ms  (cached)
+Module flash_chord.runtime.command 768bb56 load on device 'cuda:0' took 101.88 ms  (cached)
+Module flash_chord.runtime.object_control c5f9b6d load on device 'cuda:0' took 143.79 ms  (cached)
+Module mujoco_warp._src.collision_driver 621a3f9 load on device 'cuda:0' took 20.25 ms  (cached)
+Module _nxn_broadphase__locals__kernel_9dc7cca4 9dc7cca load on device 'cuda:0' took 34.17 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_f8e1da98 f8e1da9 load on device 'cuda:0' took 1973.99 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_1e139c24 1e139c2 load on device 'cuda:0' took 1704.46 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_702804f0 702804f load on device 'cuda:0' took 2045.86 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_f48963bf f48963b load on device 'cuda:0' took 1436.88 ms  (cached)
+Module ccd_kernel_builder__locals__ccd_kernel_6090cf8f 6090cf8 load on device 'cuda:0' took 1667.26 ms  (cached)
+Module _primitive_narrowphase__locals__primitive_narrowphase_420d472d 420d472 load on device 'cuda:0' took 766.25 ms  (cached)
+Module mujoco_warp._src.constraint e56f243 load on device 'cuda:0' took 958.23 ms  (cached)
+Module _efc_contact_init__locals__kernel_7561548c 7561548 load on device 'cuda:0' took 42.42 ms  (cached)
+Module _efc_contact_jac_sparse__locals__kernel_a4c07dfc a4c07df load on device 'cuda:0' took 43.26 ms  (cached)
+Module _efc_contact_update__locals__kernel_c8073923 c807392 load on device 'cuda:0' took 65.46 ms  (cached)
+Module mujoco_warp._src.forward f5bfed4 load on device 'cuda:0' took 512.79 ms  (cached)
+Module mujoco_warp._src.passive cc48b2a load on device 'cuda:0' took 319.68 ms  (cached)
+Module mujoco_warp._src.forward 46b3f78 load on device 'cuda:0' took 509.36 ms  (cached)
+Module mujoco_warp._src.support d1e71d9 load on device 'cuda:0' took 56.55 ms  (cached)
+Module mujoco_warp._src.solver d53b47b load on device 'cuda:0' took 582.17 ms  (cached)
+Module solve_init_jaref__locals__kernel_6242cfb6 6242cfb load on device 'cuda:0' took 43.81 ms  (cached)
+Module mul_m_sparse__locals___mul_m_sparse_57bd8101 57bd810 load on device 'cuda:0' took 66.79 ms  (cached)
+Module update_constraint_efc__locals__kernel_e7fd7693 e7fd769 load on device 'cuda:0' took 50.40 ms  (cached)
+Module update_constraint_gauss_cost__locals__kernel_27a5020c 27a5020 load on device 'cuda:0' took 35.47 ms  (cached)
+Module update_gradient_cholesky_blocked__locals__kernel_ff24a874 22c536e load on device 'cuda:0' took 1158.85 ms  (cached)
+Module linesearch_jv_fused__locals__kernel_f9422724 f942272 load on device 'cuda:0' took 44.50 ms  (cached)
+Module linesearch_iterative__locals__kernel_6637ae6e d82a261 load on device 'cuda:0' took 195.94 ms  (cached)
+Module update_constraint_efc__locals__kernel_565f38f0 565f38f load on device 'cuda:0' took 50.73 ms  (cached)
+Module update_gradient_cholesky_blocked_skip_unchanged__locals__kernel_e9533037 d389bb6 load on device 'cuda:0' took 1137.70 ms  (cached)
+Module mujoco_warp._src.sensor a993087 load on device 'cuda:0' took 1141.68 ms  (cached)
+Module mujoco_warp._src.derivative 212adeb load on device 'cuda:0' took 235.66 ms  (cached)
+Module flash_chord.runtime.joint_drive 1a1ab2a load on device 'cuda:0' took 187.07 ms  (cached)
+Module flash_chord.runtime.contact 6b5b079 load on device 'cuda:0' took 217.19 ms  (cached)
+Module flash_chord.lifecycle.termination 3e3f704 load on device 'cuda:0' took 296.29 ms  (cached)
+Module flash_chord.objectives.wrench 8e5d34b load on device 'cuda:0' took 243.98 ms  (cached)
+Module flash_chord.objectives.recon_body 0a954a1 load on device 'cuda:0' took 421.57 ms  (cached)
+Module diag_palms af918ad load on device 'cuda:0' took 92.21 ms  (cached)
+Module flash_chord.evaluation.rollout 43be27a load on device 'cuda:0' took 128.37 ms  (cached)
+evaluation step 1/546
+evaluation step 51/546
+evaluation step 101/546
+evaluation step 151/546
+evaluation step 201/546
+evaluation step 251/546
+evaluation step 301/546
+evaluation step 351/546
+evaluation step 401/546
+evaluation step 451/546
+evaluation step 501/546
+evaluation step 546/546
+{
+  "evaluation/add_auc": 0.2649310325091575,
+  "evaluation/add_std_m": 0.03440937298587892,
+  "evaluation/cause_fraction/object": 0.0078125,
+  "evaluation/cause_fraction/wrist": 0.05078125,
+  "evaluation/chord_sr": 0.9453125,
+  "evaluation/environment_steps": 349999104.0,
+  "evaluation/maniptrans_sr": 0.0,
+  "evaluation/mean_add_m": 0.07769829251178738,
+  "evaluation/mean_per_point_error_cm": 3.9976081475596503,
+  "evaluation/mppe_cm": 3.9976081475596503,
+  "evaluation/object_orientation_error_deg": 34.10332452714694,
+  "evaluation/object_orientation_error_std_deg": 2.0358836179452937,
+  "evaluation/object_position_error_m": 0.03351011732689205,
+  "evaluation/object_position_error_std_m": 0.0026998499180282036,
+  "evaluation/relative_position_error_cm": 0.0,
+  "evaluation/spider_position_error_centered_m": 0.023782565089872445,
+  "evaluation/spider_sr_uncentered": 0.0,
+  "evaluation/world_count": 256.0
+}
+report: /repo/runs/trajopt/c_t2-ep6-w2048-cap4m-mf4090_w256.json
+rollout: /repo/runs/trajopt/c_t2-ep6-w2048-cap4m-mf4090_w256.npz（T=546 W=256，包装调用 {'record': 1, 'score': 1}；trimesh 顶点与评测器一致 True）  report: /repo/runs/trajopt/c_t2-ep6-w2048-cap4m-mf4090_w256.json
