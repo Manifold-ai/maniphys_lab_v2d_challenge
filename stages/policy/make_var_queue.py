@@ -50,6 +50,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
 用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp|t2mx [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
+           python3 stages/policy/make_var_queue.py t3qs_s43 --episodes 5,10,3,14 --seed 43   （t3s43，没有预设段的清单）
   t1c（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）：ml40、1000 万，跟丢的 ep25、28、11、1 的变体 A seed 42，基线取法同 t1y，
       基线若是变体 A 的 run 就取它的基线配方 run（同 t1o）；parquet 的 /runs/motion/tier1/ 换成 /runs/motion/tier1_c10/，run 名带 -c10-。
       清单里还有 ep9、ep2（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 A）：make_var_queue.py t1c2 --episodes 9,2，预设段 t1c 不变。
@@ -140,6 +141,11 @@ SETS = {
               "base": None, "motion": "tier3_st", "tables": TABLES_ST, "run": "t3-ep{ep}-w2048-cap4m-r3a-st-mf4090",
               "smoke_extra": ["training.checkpoint.save_interval_environment_steps=409600"],
               "desc": "Tier 3 站立保底：跟丢的 15 集，参考是 runs/motion/tier3_st（机器人全程停在第 0 帧、物体轨迹照抄），变体 A seed 42（mf4090，buffer 400 万），冒烟每 409600 步存一份、只评第 409600 步；正式训练用停链标记挡住"},
+    # 10/26（计划 agent-doc/plan-t3s43-2026-10-26.md 第 2 版）：gb5 上差一点的 4 集换种子；没有预设段，用 t3qs_s43 --episodes 5,10,3,14 --seed 43 生成（复核 MAJOR 1）
+    "t3qs": {"plan": "agent-doc/plan-t3s43-2026-10-26.md", "tier": 3, "machine": "ml40", "cap": None,
+             "episodes": [5, 10, 3, 14], "parts": {}, "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5,
+             "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",
+             "desc": "Tier 3 gb5 差一点的 4 集（ep5、10、3、14）换种子：变体 A（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb5，支撑面按 gb5），种子由 --seed 给"},
     "t3qg5": {"plan": "agent-doc/plan-t3g5-2026-10-21.md", "tier": 3, "machine": "ml40", "cap": None,
               "episodes": [3, 12, 16, 14, 23, 2, 4, 11, 25], "parts": {"t3qg5a": [3, 12, 16], "t3qg5b": [14, 23, 2, 4, 11, 25]},
               "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",
