@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop1401.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f6903730655ab21d6739dfb1a22f8375  agent-doc/experiments/2026-10-27-sop1401.claims.json
+# source   : ba5a7caa1c49-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T14:05:02-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+board_same           P(supported)=0.98  verified               [board]  The snapshot reports no board change (BOARD_NO_CHANGE).
+rank_b               P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 55 and is third.
+rank_a               P(supported)=0.98  verified               [board]  Under reading A maniphys.ai has 11, tied with domoarigato, behind Xueyi Wang (FF) 8 and nima arki 10.
+rank_ctl             P(supported)=0.02  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+far_none             P(supported)=0.16  UNVERIFIED             [t3far]  For ep13, ep15, ep19 and ep27 the new run has an SP-SR of 0.000 and the decision is 不换 (no switch).
+far_health           P(supported)=0.98  verified               [t3far]  Both chains finished training with 0 failed and 0 diverged, and the ml40 export finished at 09:26.
+far_ctl              P(supported)=0.02  control(false) ok      [t3far]  ep15 passes R1 and switches.
+idle_list            P(supported)=0.96  verified               [idle]  The new Tier 3 list does not meet section 1 of the strategy: its best case reaches 14 episodes with a margin of exactly 0, and whether to submit is still to be decided.
+copy                 P(supported)=0.89  control(true) ok       [copy]  The copy finished with 1069 files.
+null_gate            P(supported)=0.98  verified               [fixA]  The null control has 1 accept at MIN_GAIN 0.05 and 0 at 0.08, and MIN_GAIN 0.08 is chosen.
+no_switch            P(supported)=0.91  verified               [fixA, fixArec]  At MIN_GAIN 0.08 no unit of the real candidates is accepted in the 30 episodes.
+no_switch_ctl        P(supported)=0.02  control(false) ok      [fixA, fixArec]  At MIN_GAIN 0.08 several real units switch.
+c_drift              P(supported)=0.94  verified               [fixC]  Only one segment, ep24 frames 0-95, is judged drift, and dyn7 already locks most untouched segments.
+c_ep16               P(supported)=0.96  verified               [fixC]  In ep16 the bottle moves in the reference at frames 110-129, which matches the video mask moving around frame 128, and the robot hand is the late party.
+c_ep19               P(supported)=0.98  verified               [fixC]  In ep16 and ep19 the segments before the hand touches the object are already locked on the delivered layer.
+gpu_idle             P(supported)=0.95  verified               [stmf, stml]  Both GPUs use 0 MiB at 0% and neither machine has a long-chain marker.
+gpu_ctl              P(supported)=0.01  control(false) ok      [stmf, stml]  The ml40 GPU runs at 100%.
+controls behaved as expected

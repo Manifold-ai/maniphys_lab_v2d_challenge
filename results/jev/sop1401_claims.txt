@@ -1,19 +1,26 @@
-# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-26-sop1401.claims.json 
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop1401.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : d419d0b6ffcbd439ede6366c133be12c  agent-doc/experiments/2026-10-26-sop1401.claims.json
-# source   : bf2546f2977f-dirty
+# md5      : 36d6e456d550a3146186cbe24a672714  agent-doc/experiments/2026-10-27-sop1401.claims.json
+# source   : ba5a7caa1c49-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-26T14:04:49-0600
+# run_at   : 2026-10-27T14:05:15-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-t3sub                P(supported)=0.96  verified               [t3diff]  On the four Tier 3 boards, maniphys.ai improved: AUC rose from 0.10649 to 0.22590, SP-SR rose from 0.26666 to 0.33333, MP-SR rose from 0 to 0.10000, and MPPE fell from 54.98984 to 49.93762.
-t3sub_ctl            P(supported)=0.04  control(false) ok      [t3diff]  On the Tier 3 AUC board, maniphys.ai fell from 0.22590 to 0.10649.
-rank                 P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 57 and is fourth, behind NVSimranPatil 38, Xueyi Wang (FF) 48 and nima arki 52.
-rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
-lost                 P(supported)=0.93  verified               [lost]  Of the lost Tier 3 episodes, 8 also fail in Tier 2 and include all 7 lost Tier 1 episodes; 9 are reconstruction problems, and ep3, 5, 10 and 14 are near misses.
-a0                   P(supported)=0.79  verified               [a0]  Zero-residual replays of ep4, ep25 and ep1 still fail in every world at real-time playback, so speed is read as not the main cause.
-a0_ctl               P(supported)=0.01  control(false) ok      [a0]  Real-time playback made the zero-residual replays of ep4 succeed in most worlds.
-cap                  P(supported)=0.68  UNVERIFIED             [c]  The hard episodes do not saturate the residual more than the non-falling control ep23, whose waist saturates about 40% of the time, so the residual is read as not capped.
-curr                 P(supported)=0.92  verified               [curr]  In the last two curriculum stages, 25% and then 50% of resets start at frame 0, like the evaluation.
-curr_ctl             P(supported)=0.01  control(false) ok      [curr]  Training never starts any episode at frame 0.
+board_same           P(supported)=0.98  verified               [board]  The snapshot reports no board change (BOARD_NO_CHANGE).
+rank_b               P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 55 and is third.
+rank_a               P(supported)=0.98  verified               [board]  Under reading A maniphys.ai has 11, tied with domoarigato, behind Xueyi Wang (FF) 8 and nima arki 10.
+rank_ctl             P(supported)=0.02  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+far_none             P(supported)=0.97  verified               [t3far]  Every row of the table has an SP-SR of 0.000 for the new run and the verdict 不换（F2）.
+far_health           P(supported)=0.98  verified               [t3far]  Both chains finished training with 0 failed and 0 diverged, and the ml40 export finished at 09:26.
+far_ctl              P(supported)=0.02  control(false) ok      [t3far]  ep15 passes R1 and switches.
+idle_list            P(supported)=0.96  verified               [idle]  The new Tier 3 list does not meet section 1 of the strategy: its best case reaches 14 episodes with a margin of exactly 0, and whether to submit is still to be decided.
+copy                 P(supported)=0.90  control(true) ok       [copy]  The copy finished with 1069 files.
+null_gate            P(supported)=0.98  verified               [fixA]  The null control has 1 accept at MIN_GAIN 0.05 and 0 at 0.08, and MIN_GAIN 0.08 is chosen.
+no_switch            P(supported)=0.91  verified               [fixA, fixArec]  At MIN_GAIN 0.08 no unit of the real candidates is accepted in the 30 episodes.
+no_switch_ctl        P(supported)=0.02  control(false) ok      [fixA, fixArec]  At MIN_GAIN 0.08 several real units switch.
+c_drift              P(supported)=0.93  verified               [fixC]  Only one segment, ep24 frames 0-95, is judged drift, and dyn7 already locks most untouched segments.
+c_ep16               P(supported)=0.96  verified               [fixC]  In ep16 the bottle moves in the reference at frames 110-129, which matches the video mask moving around frame 128, and the robot hand is the late party.
+c_ep19               P(supported)=0.98  verified               [fixC]  In ep16 and ep19 the segments before the hand touches the object are already locked on the delivered layer.
+gpu_idle             P(supported)=0.95  verified               [stmf, stml]  Both GPUs use 0 MiB at 0% and neither machine has a long-chain marker.
+gpu_ctl              P(supported)=0.01  control(false) ok      [stmf, stml]  The ml40 GPU runs at 100%.
 controls behaved as expected
