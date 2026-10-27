@@ -1,0 +1,27 @@
+# command  : bash -c ssh\ ml40\ \"bash\ -s\ ml40\"\ \<\ tools/status_remote.sh 
+# md5      : b9897c66344c4504808a3d1a2a9b7f7f  tools/status_remote.sh
+# source   : cee30361d3f4
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T01:01:33-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-27 15:01:36 CST
+NVIDIA L40S, 40305 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  964G  53% /lab_data
+-- tmux
+v2d-t3qs_s44-eval: 1 windows (created Tue Oct 27 12:33:35 2026)
+v2d-t3qs_s44-export: 1 windows (created Tue Oct 27 12:33:37 2026)
+v2d-t3qs_s44-train: 1 windows (created Tue Oct 27 12:33:33 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qs_s44_ml40-gate
+runs/.chain-active-t3qs_s44_eval_ml40
+runs/.chain-active-t3qs_s44_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40.log：training progress: 31,500,288/349,999,104 environment steps (9.0%); 41,561 env steps/s; elapsed 00:12:38; ETA 02:07:43
+runs/logs/t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40.nanwatch.log：10-27 01:00:36 MDT 30,001,152 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qs_s44_train_ml40.log：=== 2026-10-27 14:46:35 CST 正式 t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40
+runs/logs/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40.nanwatch.log：10-27 00:44:10 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40
+runs/logs/smoke-t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep14-w2048-cap10m-r3a-gb5-s44-ml40

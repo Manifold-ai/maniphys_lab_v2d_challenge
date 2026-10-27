@@ -1,0 +1,26 @@
+# command  : bash -c ssh\ mf4090\ \"bash\ -s\ mf4090\"\ \<\ tools/status_remote.sh 
+# md5      : b9897c66344c4504808a3d1a2a9b7f7f  tools/status_remote.sh
+# source   : cee30361d3f4
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T01:01:28-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-27 15:01:32 CST
+NVIDIA GeForce RTX 4090, 3545 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  228G   57G  80% /
+-- tmux
+v2d-t3pg5_s44-eval: 1 windows (created Tue Oct 27 12:33:02 2026)
+v2d-t3pg5_s44-export: 1 windows (created Tue Oct 27 12:33:04 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pg5_s44_mf4090-gate
+runs/.chain-active-t3pg5_s44_eval_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.eval_349999104_w4096.log：[0;93m2026-10-27 07:01:17.107395270 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+runs/logs/t3pg5_s44_eval_mf4090.log：=== 2026-10-27 15:00:02 CST start t3pg5_s44_eval_mf4090, source fa6fd983ac31, 期望表 stages/policy/queues/mf4090_t3pg5_s44.expect.tsv, 附加表 -, 评测步数 349999104
+runs/logs/t3pg5_s44_train_mf4090.log：=== 2026-10-27 14:59:21 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.nanwatch.log：10-27 00:56:15 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090
+runs/logs/smoke-t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090

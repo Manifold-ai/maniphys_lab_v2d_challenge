@@ -1,0 +1,111 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {
+   "file": "results/board/diff_1027_0101.txt",
+   "grep": "读法|Tier 1：|Tier 2：|Tier 3：|tier3-"
+  },
+  "t3s43": {
+   "file": "agent-doc/plan-t3s43-2026-10-26.md",
+   "grep": "^\\| ep|按登记判据|另查到|20:41"
+  },
+  "sel": {
+   "file": "stages/evaluate/exports/t3_select_t3m1022a.tsv",
+   "grep": "t3-ep(10|12|23)-"
+  },
+  "t3s44": {
+   "file": "agent-doc/plan-t3s44-2026-10-26.md",
+   "grep": "ARM_SEG_DONE|正式训练"
+  },
+  "stmf": {
+   "file": "results/ops/status_mf4090_1027_0101.txt",
+   "grep": "DAY2_TRAIN_DONE|start t3pg5_s44_eval"
+  },
+  "stml": {
+   "file": "results/ops/status_ml40_1027_0101.txt",
+   "grep": "training progress|completed"
+  }
+ },
+ "claims": [
+  {
+   "id": "ff_t3mppe",
+   "evidence": [
+    "board"
+   ],
+   "claim": "On the Tier 3 MPPE board, first place is Xueyi Wang (FF) with 35.00567."
+  },
+  {
+   "id": "us_t3mppe",
+   "evidence": [
+    "board"
+   ],
+   "claim": "maniphys.ai is third on the Tier 3 MPPE board."
+  },
+  {
+   "id": "rank",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 50 and is third, behind Xueyi Wang (FF) 40 and nima arki 45; under reading A it is third with 9."
+  },
+  {
+   "id": "rank_ctl",
+   "evidence": [
+    "board"
+   ],
+   "claim": "maniphys.ai is first in the 12-board rank sum.",
+   "control": "false"
+  },
+  {
+   "id": "ff_auc_same",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Xueyi Wang (FF) resubmitted Tier 3 AUC and its score did not change.",
+   "control": "true"
+  },
+  {
+   "id": "s43",
+   "evidence": [
+    "t3s43"
+   ],
+   "claim": "In t3s43, ep5, ep10 and ep14 are recorded as switch (换) under the registered criterion, and ep3 is not switched."
+  },
+  {
+   "id": "s43_ctl",
+   "evidence": [
+    "t3s43"
+   ],
+   "claim": "In t3s43, ep3 is recorded as switch (换).",
+   "control": "false"
+  },
+  {
+   "id": "sel",
+   "evidence": [
+    "sel"
+   ],
+   "claim": "In the selection t3m1022a, ep12 uses an hm run, ep23 uses a v2 run, and ep10 uses a run evaluated at 4096000 steps."
+  },
+  {
+   "id": "s44_arm",
+   "evidence": [
+    "t3s44"
+   ],
+   "claim": "t3s44 reached ARM_SEG_DONE on both ml40 and mf4090 at 22:33."
+  },
+  {
+   "id": "s44_mf",
+   "evidence": [
+    "stmf"
+   ],
+   "claim": "On mf4090 the t3pg5_s44 training chain is done and its evaluation chain has started."
+  },
+  {
+   "id": "s44_ml",
+   "evidence": [
+    "stml"
+   ],
+   "claim": "On ml40, ep3 of t3s44 completed its training steps, and ep14 is still training."
+  }
+ ]
+}

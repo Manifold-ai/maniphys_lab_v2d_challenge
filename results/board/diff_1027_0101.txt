@@ -1,0 +1,35 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1026_2221.txt results/board/lb_1027_0101.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : c8e8d4ec974495737f2998091ca2973d  results/board/lb_1026_2221.txt
+# md5      : 591b13d62795a48577543fd867352a17  results/board/lb_1027_0101.txt
+# source   : cee30361d3f4
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T01:01:53-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1026_2221.txt；这一份 results/board/lb_1027_0101.txt
+## 变了的榜
+tier1-auc：longbot 0.28850 → 0.32917（2026-10-27 05:24）
+tier1-sp-sr：longbot 重新提交，分数没变（0.13333，2026-10-27 05:25）
+tier1-mp-sr：longbot 0.10000 → 0.13333（2026-10-27 05:27）
+tier1-mppe：longbot 46.95805 → 39.21800（2026-10-27 05:28）
+tier2-auc：新进 Luai Abuelsamen 0.39076（2026-10-27 05:18）
+tier2-sp-sr：新进 Luai Abuelsamen 0.56666（2026-10-27 05:18）
+tier2-mp-sr：新进 Luai Abuelsamen 0.16666（2026-10-27 05:18）
+tier2-mppe：新进 Luai Abuelsamen 17.35839（2026-10-27 05:18）
+tier3-auc：Xueyi Wang (FF) 重新提交，分数没变（0.15606，2026-10-27 05:15）
+tier3-sp-sr：Xueyi Wang (FF) 重新提交，分数没变（0.16666，2026-10-27 05:16）
+tier3-mp-sr：Xueyi Wang (FF) 重新提交，分数没变（0.00000，2026-10-27 05:16）
+tier3-mppe：Xueyi Wang (FF) 45.98603 → 35.00567（2026-10-27 05:16）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 8（0.58258，第 1 名 MBZUAI-RCL Group 0.89354，差 0.31096）；sp-sr 第 6（0.83333，第 1 名 MBZUAI-RCL Group 0.96666，差 0.13333）；mp-sr 第 8（0.70000，第 1 名 MBZUAI-RCL Group 0.93333，差 0.23333）；mppe 第 7（11.86661，第 1 名 MBZUAI-RCL Group 2.78211，差 9.08450）
+Tier 2：auc 第 3（0.51379，第 1 名 MBZUAI-RCL Group 0.56768，差 0.05389）；sp-sr 第 2（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 3（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 4（15.32195，第 1 名 nima arki 10.84276，差 4.47919）
+Tier 3：auc 第 2（0.22590，第 1 名 nima arki 0.32937，差 0.10347）；sp-sr 第 2（0.33333，第 1 名 nima arki 0.40000，差 0.06667）；mp-sr 第 2（0.10000，第 1 名 nima arki 0.10000，差 0.00000）；mppe 第 3（49.93762，第 1 名 Xueyi Wang (FF) 35.00567，差 14.93195）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：1 → 1 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 50（第 3） → 50（第 3）；前 4：Xueyi Wang (FF) 40、nima arki 45、maniphys.ai 50、MBZUAI-RCL Group 54
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 50（第 3） → 50（第 3）；前 4：Xueyi Wang (FF) 43、nima arki 46、maniphys.ai 50、MBZUAI-RCL Group 54
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 9（第 3） → 9（第 3）；前 4：Xueyi Wang (FF) 7、nima arki 8、maniphys.ai 9、domoarigato 17
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 9（第 3） → 9（第 3）；前 4：Xueyi Wang (FF) 7、nima arki 8、maniphys.ai 9、domoarigato 17
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE

@@ -1,0 +1,17 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop0101.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1444132f3c036418b9becd88c2354c5e  agent-doc/experiments/2026-10-27-sop0101.claims.json
+# source   : cee30361d3f4-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T01:05:41-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ff_t3mppe            P(supported)=0.66  UNVERIFIED             [board]  Xueyi Wang (FF) improved its Tier 3 MPPE from 45.98603 to 35.00567 and is now first on the Tier 3 MPPE board, where maniphys.ai is third.
+rank                 P(supported)=0.96  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 50 and is third, behind Xueyi Wang (FF) 40 and nima arki 45; under reading A it is third with 9.
+rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+ff_auc_same          P(supported)=0.99  control(true) ok       [board]  Xueyi Wang (FF) resubmitted Tier 3 AUC and its score did not change.
+s43                  P(supported)=0.99  verified               [t3s43]  In t3s43, ep5, ep10 and ep14 are recorded as switch (换) under the registered criterion, and ep3 is not switched.
+s43_ctl              P(supported)=0.01  control(false) ok      [t3s43]  In t3s43, ep3 is recorded as switch (换).
+sel                  P(supported)=0.97  verified               [sel]  In the selection t3m1022a, ep12 uses an hm run, ep23 uses a v2 run, and ep10 uses a run evaluated at 4096000 steps.
+s44                  P(supported)=0.56  UNVERIFIED             [t3s44, stmf, stml]  t3s44 was armed at 22:33 on both machines; on mf4090 the ep5 training finished and evaluation started, and on ml40 ep3 completed training while ep14 is still training.
+controls behaved as expected
