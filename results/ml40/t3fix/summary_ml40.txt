@@ -1,0 +1,122 @@
+# command  : python3 stages/recovery/t3fx_summary.py /lab_data/rxzhou/v2d/t3recon/dev_t3fx/sil /lab_data/rxzhou/v2d/t3recon/dev_t3fx/onset 
+# md5      : d975ecff8a820129bdb43086905e0c4b  stages/recovery/t3fx_summary.py
+# source   : 36b859cb9baf-dirty
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T02:08:59+0800
+# ---------------------------------------------------------------
+A：30 集；C：30 集
+== G0 负对照（accept 单元数，30 集合计）与真实候选
+MIN_GAIN 0.05：负对照 1，真实 1
+MIN_GAIN 0.08：负对照 0，真实 0
+MIN_GAIN 0.10：负对照 0，真实 0
+MIN_GAIN 0.15：负对照 0，真实 0
+取 MIN_GAIN 0.08
+== 取定一档下真实候选的 accept 单元
+== 取定一档下各集 refuse 的理由
+ep00_tall_bar_stool：{'current-best': 4, 'evidence': 1}
+ep01_vacuum：{'gain': 2, 'evidence': 31, 'current-best': 3}
+ep02_blue_easter_basket：{'gain': 6, 'evidence': 61, 'below-gate': 1}
+ep03_contigo_coffee_mug：{'current-best': 4, 'evidence': 11, 'gain': 7}
+ep04_baseball_bat：{'current-best': 8, 'evidence': 11}
+ep05_big_black_box：{'gain': 5, 'evidence': 2, 'current-best': 2}
+ep06_monitor：{'current-best': 3}
+ep07_iron：{'current-best': 2, 'gain': 1}
+ep08_skinny_wood_chair：{'current-best': 6, 'evidence': 5}
+ep09_big_red_bowl：{'current-best': 5, 'evidence': 20}
+ep10_white_desk：{'current-best': 5, 'evidence': 2}
+ep11_light_blue_book：{'gain': 4, 'current-best': 2, 'evidence': 19, 'below-gate': 1}
+ep12_black_platform：{'current-best': 3}
+ep13_snack_box：{'current-best': 2, 'gain': 6, 'evidence': 54}
+ep14_round_table：{'current-best': 4}
+ep15_wet_floor_sign：{'gain': 2, 'evidence': 1, 'current-best': 2}
+ep16_spray_bottle：{'current-best': 3, 'evidence': 2, 'gain': 1}
+ep17_traffic_cone：{'gain': 4, 'evidence': 22}
+ep18_blue_trash_can：{'gain': 1, 'current-best': 6}
+ep19_cane：{'current-best': 3, 'gain': 4, 'evidence': 62, 'below-gate': 2, 'tie': 3}
+ep20_rice_cooker：{'gain': 2, 'current-best': 1}
+ep21_tall_bar_stool：{'current-best': 4, 'evidence': 1}
+ep22_step_ladder：{'current-best': 3}
+ep23_toy_stroller：{'current-best': 3}
+ep24_watering_can：{'current-best': 3}
+ep25_cyan_water_bottle：{'gain': 5, 'current-best': 1, 'evidence': 12}
+ep26_skateboard：{'current-best': 3}
+ep27_woven_basket：{'gain': 2, 'evidence': 9, 'current-best': 2}
+ep28_squeegee：{'gain': 4, 'evidence': 21, 'current-best': 3, 'below-gate': 4}
+ep29_rolling_luggage：{'current-best': 3, 'evidence': 1, 'gain': 1}
+== 逐集
+ep00_tall_bar_stool 帧 778 测 260 单元 5 被拿 0.683 当前中位 IoU 0.831 对称 1 候选 13 负对照 null_5deg
+ep01_vacuum 帧 747 测 249 单元 36 被拿 0.657 当前中位 IoU 0.5751 对称 1 候选 13 负对照 null_5deg
+ep02_blue_easter_basket 帧 980 测 267 单元 68 被拿 0.654 当前中位 IoU 0.774 对称 1 候选 13 负对照 null_5deg
+ep03_contigo_coffee_mug 帧 781 测 261 单元 22 被拿 0.786 当前中位 IoU 0.8428 对称 1 候选 3 负对照 null_5deg
+ep04_baseball_bat 帧 803 测 268 单元 19 被拿 0.757 当前中位 IoU 0.8134 对称 1+连续轴 候选 2 负对照 null_5deg,null_cont090
+ep05_big_black_box 帧 1003 测 335 单元 9 被拿 0.753 当前中位 IoU 0.9295 对称 1 候选 3 负对照 null_5deg
+ep06_monitor 帧 546 测 182 单元 3 被拿 0.656 当前中位 IoU 0.7512 对称 1 候选 3 负对照 null_5deg
+ep07_iron 帧 896 测 299 单元 3 被拿 0.794 当前中位 IoU 0.8872 对称 1 候选 13 负对照 null_5deg
+ep08_skinny_wood_chair 帧 708 测 236 单元 11 被拿 0.605 当前中位 IoU 0.8519 对称 1 候选 13 负对照 null_5deg
+ep09_big_red_bowl 帧 870 测 290 单元 25 被拿 0.716 当前中位 IoU 0.8784 对称 1+连续轴 候选 2 负对照 null_5deg,null_cont090
+ep10_white_desk 帧 794 测 265 单元 7 被拿 0.699 当前中位 IoU 0.7777 对称 1 候选 13 负对照 null_5deg
+ep11_light_blue_book 帧 901 测 293 单元 26 被拿 0.94 当前中位 IoU 0.8363 对称 2 候选 1 负对照 null_5deg,null_g1
+ep12_black_platform 帧 700 测 234 单元 3 被拿 0.65 当前中位 IoU 0.912 对称 1 候选 3 负对照 null_5deg
+ep13_snack_box 帧 922 测 308 单元 62 被拿 0.564 当前中位 IoU 0.9004 对称 2 候选 2 负对照 null_5deg,null_g1
+ep14_round_table 帧 993 测 331 单元 4 被拿 0.855 当前中位 IoU 0.8065 对称 1 候选 13 负对照 null_5deg
+ep15_wet_floor_sign 帧 715 测 237 单元 5 被拿 0.722 当前中位 IoU 0.8695 对称 1 候选 13 负对照 null_5deg
+ep16_spray_bottle 帧 477 测 153 单元 6 被拿 0.564 当前中位 IoU 0.8485 对称 1 候选 13 负对照 null_5deg
+ep17_traffic_cone 帧 440 测 134 单元 26 被拿 0.564 当前中位 IoU 0.8307 对称 1 候选 13 负对照 null_5deg
+ep18_blue_trash_can 帧 858 测 286 单元 7 被拿 0.65 当前中位 IoU 0.9386 对称 1 候选 13 负对照 null_5deg
+ep19_cane 帧 886 测 295 单元 74 被拿 0.843 当前中位 IoU 0.5586 对称 1 候选 13 负对照 null_5deg
+ep20_rice_cooker 帧 553 测 185 单元 3 被拿 0.673 当前中位 IoU 0.8993 对称 1 候选 3 负对照 null_5deg
+ep21_tall_bar_stool 帧 678 测 226 单元 5 被拿 0.704 当前中位 IoU 0.841 对称 1 候选 13 负对照 null_5deg
+ep22_step_ladder 帧 719 测 240 单元 3 被拿 0.626 当前中位 IoU 0.8274 对称 1 候选 3 负对照 null_5deg
+ep23_toy_stroller 帧 946 测 316 单元 3 被拿 0.86 当前中位 IoU 0.8316 对称 1 候选 3 负对照 null_5deg
+ep24_watering_can 帧 748 测 250 单元 3 被拿 0.753 当前中位 IoU 0.8387 对称 1 候选 3 负对照 null_5deg
+ep25_cyan_water_bottle 帧 859 测 287 单元 18 被拿 0.824 当前中位 IoU 0.8367 对称 1 候选 13 负对照 null_5deg
+ep26_skateboard 帧 669 测 223 单元 3 被拿 0.426 当前中位 IoU 0.8922 对称 2 候选 12 负对照 null_5deg,null_g1
+ep27_woven_basket 帧 565 测 187 单元 13 被拿 0.609 当前中位 IoU 0.8495 对称 2 候选 2 负对照 null_5deg,null_g1
+ep28_squeegee 帧 988 测 326 单元 32 被拿 0.548 当前中位 IoU 0.4922 对称 1 候选 13 负对照 null_5deg
+ep29_rolling_luggage 帧 467 测 156 单元 5 被拿 0.146 当前中位 IoU 0.8102 对称 1 候选 13 负对照 null_5deg
+== C 分类
+ep00_tall_bar_stool：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep01_vacuum：段 5 drift 0 hand_late 3 still 0 locked 2 判不了 0
+  hand_late 帧 243–260 参考移动 0.146 m 质心 43.1143 px IoU 0.0823 面积 1.0–1.5306 已锁 8 锁后变差 9
+  hand_late 帧 281–299 参考移动 0.1527 m 质心 14.7906 px IoU 0.4581 面积 0.7979–1.0 已锁 6 锁后变差 4
+  hand_late 帧 335–360 参考移动 0.1369 m 质心 36.5261 px IoU 0.0398 面积 0.9118–1.294 已锁 0 锁后变差 23
+ep02_blue_easter_basket：段 3 drift 0 hand_late 1 still 0 locked 1 判不了 1
+  hand_late 帧 269–406 参考移动 0.0191 m 质心 0.7281 px IoU 0.9286 面积 0.9286–1.0162 已锁 135 锁后变差 None
+ep03_contigo_coffee_mug：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep04_baseball_bat：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep05_big_black_box：段 4 drift 0 hand_late 0 still 0 locked 4 判不了 0
+ep06_monitor：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep07_iron：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep08_skinny_wood_chair：段 6 drift 0 hand_late 0 still 0 locked 6 判不了 0
+ep09_big_red_bowl：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep10_white_desk：段 4 drift 0 hand_late 0 still 0 locked 4 判不了 0
+ep11_light_blue_book：段 1 drift 0 hand_late 0 still 0 locked 1 判不了 0
+ep12_black_platform：段 2 drift 0 hand_late 0 still 1 locked 1 判不了 0
+ep13_snack_box：段 4 drift 0 hand_late 1 still 0 locked 3 判不了 0
+  hand_late 帧 475–677 参考移动 0.0099 m 质心 54.0315 px IoU 0.1559 面积 0.2378–1.047 已锁 199 锁后变差 None
+ep14_round_table：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep15_wet_floor_sign：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep16_spray_bottle：段 2 drift 0 hand_late 0 still 0 locked 1 判不了 1
+ep17_traffic_cone：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep18_blue_trash_can：段 4 drift 0 hand_late 0 still 0 locked 4 判不了 0
+ep19_cane：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep20_rice_cooker：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep21_tall_bar_stool：段 3 drift 0 hand_late 0 still 0 locked 3 判不了 0
+ep22_step_ladder：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep23_toy_stroller：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep24_watering_can：段 2 drift 1 hand_late 0 still 0 locked 1 判不了 0
+  drift 帧 0–95 参考移动 0.0709 m 质心 1.019 px IoU 0.9569 面积 0.9799–1.0299 已锁 83 锁后变差 0
+ep25_cyan_water_bottle：段 2 drift 0 hand_late 1 still 0 locked 1 判不了 0
+  hand_late 帧 0–91 参考移动 0.0198 m 质心 2.7658 px IoU 0.899 面积 0.9996–1.1042 已锁 88 锁后变差 None
+ep26_skateboard：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep27_woven_basket：段 2 drift 0 hand_late 0 still 0 locked 2 判不了 0
+ep28_squeegee：段 8 drift 0 hand_late 6 still 0 locked 1 判不了 1
+  hand_late 帧 206–314 参考移动 0.4799 m 质心 145.1361 px IoU 0.0 面积 0.8736–1.3561 已锁 47 锁后变差 46
+  hand_late 帧 533–548 参考移动 0.3928 m 质心 42.2969 px IoU 0.0778 面积 1.0–2.4513 已锁 0 锁后变差 1
+  hand_late 帧 606–625 参考移动 0.3216 m 质心 45.6271 px IoU 0.0 面积 0.6888–1.0 已锁 0 锁后变差 11
+  hand_late 帧 645–693 参考移动 0.4435 m 质心 86.1835 px IoU 0.0 面积 0.9834–1.2401 已锁 0 锁后变差 12
+  hand_late 帧 694–724 参考移动 0.5601 m 质心 141.0948 px IoU 0.0 面积 0.4155–1.0 已锁 0 锁后变差 1
+  hand_late 帧 901–988 参考移动 0.0164 m 质心 38.3141 px IoU 0.7679 面积 0.8746–1.1895 已锁 86 锁后变差 None
+ep29_rolling_luggage：段 3 drift 0 hand_late 1 still 0 locked 2 判不了 0
+  hand_late 帧 108–313 参考移动 0.2962 m 质心 76.0337 px IoU 0.1608 面积 0.9837–1.8182 已锁 195 锁后变差 84
+T3FX_SUMMARY_DONE 0.08
