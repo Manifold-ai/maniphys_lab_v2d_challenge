@@ -1,0 +1,30 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 53133483570a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T09:01:14-0600
+# ---------------------------------------------------------------
+== VM-1-2-<其他用户> 2026-10-27 23:01:15 CST
+NVIDIA GeForce RTX 4090, 13913 MiB, 24564 MiB, 0 %
+1642646, 13904 MiB
+## GPU 进程 1642646：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  1642646 本用户 04:03 [Tue Oct 27 22:57:12 2026] python scripts/evaluate_policy.py evaluation.checkpoint=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/policy_349999104.safetensors evaluation.world_count=4096 evaluation.metrics_output=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/eval_349999104_w4096.json hydra.run.dir=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/hydra/eval-349999104-w4096
+  1642615 root 04:03 [Tue Oct 27 22:57:12 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id efcc54fcfe0be6ce54ae087016048a0a97a0ade37d12fff978fe24bc0cbc6449 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-eval-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090
+image flash_chord:latest
+created 2026-10-27T14:57:12.629787041Z  started 2026-10-27T14:57:12.677586762Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","cd /workspace && python scripts/evaluate_policy.py evaluation.checkpoint=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/policy_349999104.safetensors evaluation.world_count=4096 evaluation.metrics_output=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/eval_349999104_w4096.json hydra.run.dir=/repo/runs/flash_chord/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090/hydra/eval-349999104-w4096 "]
+workdir /workspace
+mounts /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; /home/rxzhou/v2d/fc_src/fc_8c778f9 -> /workspace; /home/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /dev/null -> /repo/.env; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; 
+name /maniphys-visual-dev-worker-120
+image maniphys-visual-worker:dev-image2mesh-egl-20260928
+created 2026-10-04T10:44:51.020377077Z  started 2026-10-04T10:44:51.477371168Z
+entrypoint ["/usr/bin/tini"]
+cmd ["--","python","-m","maniphys_visual_worker.main"]
+workdir /src/services/visual_worker
+mounts /home/<其他用户>/maniphys-dev/visual-dev/work -> /var/lib/maniphys-visual; /home/<其他用户>/maniphys-dev/visual-dev/models/da3-oneformer-20260928 -> /models/release; 
+## 运行中的容器（列表）
+efcc54fcfe0b flash_chord:latest 4 minutes ago Up 4 minutes fc-eval-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090
+32dd4cefb482 maniphys-visual-worker:dev-image2mesh-egl-20260928 3 weeks ago Up 3 weeks maniphys-visual-dev-worker-120
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

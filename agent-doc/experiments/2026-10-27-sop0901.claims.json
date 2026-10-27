@@ -1,0 +1,187 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {
+   "file": "results/board/diff_1027_0901.txt",
+   "grep": "读法|Tier 1：|Tier 3：|tier1-|tier3-|ALERT"
+  },
+  "t3s44": {
+   "file": "agent-doc/plan-t3s44-2026-10-26.md",
+   "grep": "^\\| ep|结论"
+  },
+  "t3far": {
+   "file": "agent-doc/plan-t3far-2026-10-27.md",
+   "grep": "ARM_SEG_DONE|ep15、27 在 gb5|SP-SR 都是 0"
+  },
+  "stmf": {
+   "file": "results/ops/status_mf4090_1027_0901.txt",
+   "grep": "DAY2_TRAIN_DONE|chain-active|NVIDIA|/dev/vda2"
+  },
+  "stml": {
+   "file": "results/ops/status_ml40_1027_0901.txt",
+   "grep": "training progress|completed 349999104"
+  },
+  "places": {
+   "file": "results/board/diff_1027_0901.txt",
+   "grep": "^Tier 1：|^Tier 3："
+  },
+  "alerts": {
+   "file": "results/board/diff_1027_0901.txt",
+   "grep": "^ALERT"
+  }
+ },
+ "claims": [
+  {
+   "id": "domo_t3mppe",
+   "evidence": [
+    "board"
+   ],
+   "claim": "On tier3-mppe, the score of domoarigato changed from 66.51482 to 31.33930."
+  },
+  {
+   "id": "mf_done",
+   "evidence": [
+    "stmf"
+   ],
+   "claim": "The mf4090 train log shows DAY2_TRAIN_DONE with 2 done, 0 failed and 0 diverged."
+  },
+  {
+   "id": "mf_eval",
+   "evidence": [
+    "stmf"
+   ],
+   "claim": "The mf4090 snapshot shows an active eval chain marker for t3pg5c_s43."
+  },
+  {
+   "id": "rank_kaggle",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the Kaggle tie rule, the 12-board rank sums are Xueyi Wang (FF) 47, nima arki 47, maniphys.ai 55 and MBZUAI-RCL Group 58."
+  },
+  {
+   "id": "rank_site",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the site tie rule, the 12-board rank sum of maniphys.ai is 56, the same as domoarigato."
+  },
+  {
+   "id": "rank_a",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under reading A, maniphys.ai and domoarigato both have 11."
+  },
+  {
+   "id": "rank_ctl",
+   "evidence": [
+    "board"
+   ],
+   "claim": "maniphys.ai is first in the 12-board rank sum.",
+   "control": "false"
+  },
+  {
+   "id": "t3s44_none",
+   "evidence": [
+    "t3s44"
+   ],
+   "claim": "In t3s44, none of ep3, ep5 and ep14 switches."
+  },
+  {
+   "id": "t3s44_ctl",
+   "evidence": [
+    "t3s44"
+   ],
+   "claim": "In t3s44, ep14 switches.",
+   "control": "false"
+  },
+  {
+   "id": "far_launch",
+   "evidence": [
+    "t3far"
+   ],
+   "claim": "The t3far segments were armed on both machines at 04:40, with ep13 and ep19 on mf4090 and ep15 and ep27 on ml40."
+  },
+  {
+   "id": "ml_ep27",
+   "evidence": [
+    "stml"
+   ],
+   "claim": "On ml40, ep15 completed training and ep27 is at 91 percent."
+  },
+  {
+   "id": "ml_ctl",
+   "evidence": [
+    "stml"
+   ],
+   "claim": "On ml40, ep27 completed training.",
+   "control": "false"
+  },
+  {
+   "id": "true_ctl",
+   "evidence": [
+    "stmf"
+   ],
+   "claim": "The mf4090 snapshot shows an NVIDIA GeForce RTX 4090.",
+   "control": "true"
+  },
+  {
+   "id": "t1auc",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 9 on Tier 1 auc."
+  },
+  {
+   "id": "t1sp",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 7 on Tier 1 sp-sr."
+  },
+  {
+   "id": "t1mp",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 9 on Tier 1 mp-sr."
+  },
+  {
+   "id": "t1mppe",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 8 on Tier 1 mppe."
+  },
+  {
+   "id": "t3mppe",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 4 on Tier 3 mppe, and the first place is domoarigato."
+  },
+  {
+   "id": "t3mppe_ctl",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 1 on Tier 3 mppe.",
+   "control": "false"
+  },
+  {
+   "id": "t3sp_site",
+   "evidence": [
+    "alerts"
+   ],
+   "claim": "There is an alert that the tier3-sp-sr place changed from 2 to 3 under the site tie rule (同分 site)."
+  },
+  {
+   "id": "t1_alerts",
+   "evidence": [
+    "alerts"
+   ],
+   "claim": "There are alerts that the tier1-auc, tier1-sp-sr, tier1-mp-sr and tier1-mppe places each got worse under the Kaggle tie rule."
+  }
+ ]
+}

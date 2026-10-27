@@ -1,0 +1,45 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1027_0723.txt results/board/lb_1027_0901.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 271c37e9fa7a70ccbcdc9f6133c24221  results/board/lb_1027_0723.txt
+# md5      : ac122c942009100676e754d1282fb400  results/board/lb_1027_0901.txt
+# source   : 53133483570a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T09:02:06-0600
+# ---------------------------------------------------------------
+上一份 results/board/lb_1027_0723.txt；这一份 results/board/lb_1027_0901.txt
+## 变了的榜
+tier1-auc：domoarigato 0.37866 → 0.69517（2026-10-27 14:57）
+tier1-sp-sr：domoarigato 0.50000 → 0.86666（2026-10-27 14:57）
+tier1-mp-sr：domoarigato 0.20000 → 0.76666（2026-10-27 14:57）
+tier1-mppe：domoarigato 24.72285 → 7.78057（2026-10-27 14:57）
+tier3-auc：新进 Kelly To the H 0.16289（2026-10-27 14:28）；domoarigato 0.00000 → 0.18861（2026-10-27 14:02）
+tier3-sp-sr：新进 Kelly To the H 0.00000（2026-10-27 14:29）；domoarigato 0.00000 → 0.33333（2026-10-27 14:02）
+tier3-mp-sr：新进 Kelly To the H 0.00000（2026-10-27 14:29）；domoarigato 0.00000 → 0.03333（2026-10-27 14:02）
+tier3-mppe：新进 Kelly To the H 70.57017（2026-10-27 14:30）；domoarigato 66.51482 → 31.33930（2026-10-27 14:02）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 9（0.58258，第 1 名 MBZUAI-RCL Group 0.89354，差 0.31096）；sp-sr 第 7（0.83333，第 1 名 MBZUAI-RCL Group 0.96666，差 0.13333）；mp-sr 第 9（0.70000，第 1 名 MBZUAI-RCL Group 0.93333，差 0.23333）；mppe 第 8（11.86661，第 1 名 MBZUAI-RCL Group 2.78211，差 9.08450）
+Tier 2：auc 第 3（0.51379，第 1 名 MBZUAI-RCL Group 0.56768，差 0.05389）；sp-sr 第 2（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 3（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 4（15.32195，第 1 名 nima arki 10.84276，差 4.47919）
+Tier 3：auc 第 2（0.22590，第 1 名 nima arki 0.32937，差 0.10347）；sp-sr 第 2（0.33333，第 1 名 nima arki 0.40000，差 0.06667）；mp-sr 第 2（0.10000，第 1 名 nima arki 0.10000，差 0.00000）；mppe 第 4（49.93762，第 1 名 domoarigato 31.33930，差 18.59832）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：1 → 1 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 50（第 3） → 55（第 3）；前 4：Xueyi Wang (FF) 47、nima arki 47、maniphys.ai 55、MBZUAI-RCL Group 58
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 50（第 3） → 56（第 3，与 1 队同分）；前 4：nima arki 50、Xueyi Wang (FF) 51、domoarigato 56、maniphys.ai 56
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 9（第 3） → 11（第 3，与 1 队同分）；前 4：Xueyi Wang (FF) 8、nima arki 10、domoarigato 11、maniphys.ai 11
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 9（第 3） → 11（第 3，与 1 队同分）；前 4：Xueyi Wang (FF) 8、nima arki 10、domoarigato 11、maniphys.ai 11
+ALERT tier1-auc 名次 8 → 9（同分 kaggle）
+ALERT tier1-sp-sr 名次 6 → 7（同分 kaggle）
+ALERT tier1-mp-sr 名次 8 → 9（同分 kaggle）
+ALERT tier1-mppe 名次 7 → 8（同分 kaggle）
+ALERT tier3-mppe 名次 3 → 4（同分 kaggle）
+ALERT tier1-auc 名次 8 → 9（同分 site）
+ALERT tier1-sp-sr 名次 7 → 8（同分 site）
+ALERT tier1-mp-sr 名次 8 → 9（同分 site）
+ALERT tier1-mppe 名次 7 → 8（同分 site）
+ALERT tier3-sp-sr 名次 2 → 3（同分 site）
+ALERT tier3-mppe 名次 3 → 4（同分 site）
+ALERT 读法 B（12 个榜名次相加）（同分 site）总名次 3 → 3，并列
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 kaggle）总名次 3 → 3，并列
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 site）总名次 3 → 3，并列
+BOARD_CHANGED 8 个榜
+BOARD_DIFF_DONE

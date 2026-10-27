@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop0901.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : c8dba6b05a524952d608a7f5c99cde65  agent-doc/experiments/2026-10-27-sop0901.claims.json
+# source   : 53133483570a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T09:07:36-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+domo_t3mppe          P(supported)=0.99  verified               [board]  On tier3-mppe, the score of domoarigato changed from 66.51482 to 31.33930.
+us_t3mppe            P(supported)=0.43  UNVERIFIED             [board]  Under the Kaggle tie rule, maniphys.ai is fourth (第 4) on Tier 3 mppe, and the first place there is domoarigato.
+t1auc                P(supported)=0.58  UNVERIFIED             [board]  Under the Kaggle tie rule, the place of maniphys.ai on tier1-auc changed from 8 to 9.
+t1sp                 P(supported)=0.30  UNVERIFIED             [board]  Under the Kaggle tie rule, the place of maniphys.ai on tier1-sp-sr changed from 6 to 7.
+t1mp                 P(supported)=0.16  UNVERIFIED             [board]  Under the Kaggle tie rule, the place of maniphys.ai on tier1-mp-sr changed from 8 to 9.
+t1mppe               P(supported)=0.37  UNVERIFIED             [board]  Under the Kaggle tie rule, the place of maniphys.ai on tier1-mppe changed from 7 to 8.
+t3sp_site            P(supported)=0.16  UNVERIFIED             [board]  Under the site tie rule, the place of maniphys.ai on tier3-sp-sr changed from 2 to 3.
+mf_done              P(supported)=0.98  verified               [stmf]  The mf4090 train log shows DAY2_TRAIN_DONE with 2 done, 0 failed and 0 diverged.
+mf_eval              P(supported)=0.97  verified               [stmf]  The mf4090 snapshot shows an active eval chain marker for t3pg5c_s43.
+rank_kaggle          P(supported)=0.97  verified               [board]  Under the Kaggle tie rule, the 12-board rank sums are Xueyi Wang (FF) 47, nima arki 47, maniphys.ai 55 and MBZUAI-RCL Group 58.
+rank_site            P(supported)=0.98  verified               [board]  Under the site tie rule, the 12-board rank sum of maniphys.ai is 56, the same as domoarigato.
+rank_a               P(supported)=0.98  verified               [board]  Under reading A, maniphys.ai and domoarigato both have 11.
+rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+t3s44_none           P(supported)=0.98  verified               [t3s44]  In t3s44, none of ep3, ep5 and ep14 switches.
+t3s44_ctl            P(supported)=0.02  control(false) ok      [t3s44]  In t3s44, ep14 switches.
+far_launch           P(supported)=0.97  verified               [t3far]  The t3far segments were armed on both machines at 04:40, with ep13 and ep19 on mf4090 and ep15 and ep27 on ml40.
+ml_ep27              P(supported)=0.98  verified               [stml]  On ml40, ep15 completed training and ep27 is at 91 percent.
+ml_ctl               P(supported)=0.03  control(false) ok      [stml]  On ml40, ep27 completed training.
+true_ctl             P(supported)=0.98  control(true) ok       [stmf]  The mf4090 snapshot shows an NVIDIA GeForce RTX 4090.
+controls behaved as expected
