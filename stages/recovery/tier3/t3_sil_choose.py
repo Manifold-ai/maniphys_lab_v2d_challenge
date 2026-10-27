@@ -15,7 +15,7 @@ def _refuse(reason, med):
     return {"decision": "refuse", "name": None, "reason": reason, "median": med}
 
 
-def choose_pose(candidates: dict[str, list[float]]) -> dict:
+def choose_pose(candidates: dict[str, list[float]], min_gain: float = MIN_GAIN) -> dict:
     if "current" not in candidates:
         return _refuse("no-current", {})
     if any(len(scores) == 0 for scores in candidates.values()):
@@ -31,7 +31,7 @@ def choose_pose(candidates: dict[str, list[float]]) -> dict:
     best = med[best_name]
     if best < MIN_MEDIAN:
         return _refuse("below-gate", med)
-    if best - current + _SCORE_TOL < MIN_GAIN:
+    if best - current + _SCORE_TOL < min_gain:
         return _refuse("gain", med)
     others = [med[name] for name in alternatives if name != best_name]
     if others and best - max(others) + _SCORE_TOL < MIN_GAP:
