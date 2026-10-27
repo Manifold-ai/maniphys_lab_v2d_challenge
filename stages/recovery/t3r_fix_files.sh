@@ -9,7 +9,15 @@ set -euo pipefail
 SRC=${T3R_SRC:?要设 T3R_SRC}
 T=tier3
 cd "$SRC"
-emit() { while IFS= read -r f; do printf 'in\t%s\tt3fx/%s\n' "$f" "${f#"$T"/}"; done; }
+# 每个源：不含制表符、换行与 ..，realpath 落在 SRC 下（软链接解析后也一样），否则停（退出码 2）
+emit() {
+  local real_src; real_src="$(realpath "$SRC")"
+  while IFS= read -r f; do
+    case "$f" in *$'\t'*|*..*) echo "T3R_FIX_FILES_REFUSED 源路径不合格：$f" >&2; exit 2 ;; esac
+    case "$(realpath "$f")" in "$real_src"/*) ;; *) echo "T3R_FIX_FILES_REFUSED 源在 T3R_SRC 外：$f" >&2; exit 2 ;; esac
+    printf 'in\t%s\tt3fx/%s\n' "$f" "${f#"$T"/}"
+  done
+}
 {
   find -L "$T/input/meta" "$T/input/mesh" "$T/input/ground_plane" -type f
   find -L "$T/runs" -maxdepth 1 -type f \( -name 'tier3_cari4d_gb5_best.selection.json' -o -name 'tier3_cari4d_gb5_best_dr2s.*json' -o -name 'tier3_cari4d_gb5_best_dr2s_dyn7.*json' \)
@@ -20,14 +28,18 @@ emit() { while IFS= read -r f; do printf 'in\t%s\tt3fx/%s\n' "$f" "${f#"$T"/}"; 
   find -L "$T/runs/floor" -maxdepth 1 -type f
   [ -d "$T/runs/support" ] && find -L "$T/runs/support" -type f
   [ -d "$T/dev/walls" ] && find -L "$T/dev/walls" -type f
-  python3 - "$T/runs/tier3_cari4d_gb5_best.selection.json" <<'EOF'
-import json, sys
+  # -I：不把当前目录（她的目录）放进 sys.path，也不读 PYTHON* 环境变量
+  python3 -I - "$T/runs/tier3_cari4d_gb5_best.selection.json" <<'EOF'
+import json, re, sys
 from pathlib import Path
+OK = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.-]*$")
 work = {"convert": "work", "convert_v2": "work_v2", "convert_fp": "work_fp", "convert_pivot": "work_fp"}
 sel = Path(sys.argv[1])
 runs = sel.parent
 for r in json.loads(sel.read_text()):
     conv, name = r["convert"], r["episode"]
+    if not (OK.match(conv) and OK.match(name)) or ".." in conv or ".." in name:
+        sys.exit(f"选择表里的名字不合格：{conv!r} {name!r}")
     base = conv.removesuffix("_gb5").removesuffix("_gb4").removesuffix("_gb3")
     for p in sorted((runs / conv / name).rglob("*")):
         if p.is_file() and p.suffix != ".pt":

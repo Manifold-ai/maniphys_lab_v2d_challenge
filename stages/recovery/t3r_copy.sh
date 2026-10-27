@@ -14,6 +14,8 @@ mapfile -t ROWS < <(grep -v '^#' "$LIST" | grep -v '^[[:space:]]*$')
 missing=0
 for row in "${ROWS[@]}"; do
   IFS=$'\t' read -r kind rel dst <<< "$row"
+  case "$rel$dst" in *..*) echo "路径含 ..：${rel} ${dst}"; missing=$((missing + 1)); continue ;; esac
+  case "$dst" in /*) echo "目标是绝对路径：${dst}"; missing=$((missing + 1)); continue ;; esac
   [ -f "$SRC/$rel" ] || { echo "缺源：${kind} ${rel}"; missing=$((missing + 1)); }
   [ ! -e "$ROOT/$dst" ] || { echo "目标已存在：${dst}"; missing=$((missing + 1)); }
 done
