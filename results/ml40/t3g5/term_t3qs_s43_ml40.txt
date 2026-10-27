@@ -1,0 +1,12 @@
+# command  : python3 stages/evaluate/train_term_table.py 5:t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40 10:t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40 3:t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40 14:t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40 
+# md5      : 5caefd5d0f326abb914a277841838974  stages/evaluate/train_term_table.py
+# source   : cf5d27b6aa38
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-27T12:21:54+0800
+# ---------------------------------------------------------------
+ep	run	长度	进度	物体终止	手掌终止	骨盆终止	走到结尾	|动作|	记录步
+5	t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40	516.946	0.585	0.207	0.370	0	0.424	6.545	349999104
+10	t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40	475.279	0.710	0.269	0.221	0	0.510	6.128	349999104
+3	t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40	446.447	0.718	0.379	0.117	0	0.505	6.356	349999104
+14	t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40	515.424	0.559	0.612	0.376	0	0.012	6.479	349999104
+TRAIN_TERM_TABLE_DONE

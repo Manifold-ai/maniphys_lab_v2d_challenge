@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_early_motion.py\ t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40\ t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40\ t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40\ t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40\ --root\ /repo 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 0520f4dbf1036ffec89ef37fdfdb78a3  stages/evaluate/ref_early_motion.py
+# source   : cf5d27b6aa38
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-27T12:21:53+0800
+# ---------------------------------------------------------------
+== t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 0.2 cm、0.3°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 104 帧
+== t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 1.7 cm、0.8°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 156 帧
+== t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 1.1 cm、10.5°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 100 帧
+== t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40：从第 0 帧起 第 25 帧 0.0 cm、0.0°；第 51 帧 0.0 cm、0.0°；第 100 帧 1.4 cm、0.5°；第 0–51 帧相邻帧转角最大 0.0°；参考第一次接触第 94 帧
+REF_EARLY_MOTION_DONE

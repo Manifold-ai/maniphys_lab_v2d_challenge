@@ -158,3 +158,8 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
 - 10/26 13:20 MDT（`results/board/diff_1026_1320.txt`）：只有 wte09fl 在 Tier 1 重新提交，AUC、MPPE 小幅变好，仍在我们后面；我们 12 个榜名次不变，读法 B 59 / 61、读法 A 14 / 14，都是第 4。策略不变。
   ml40 在训 t3s43（ep5 正式训练 94%，之后 ep10、3、14，预计 21:00 MDT 前后训评导出完）；mf4090 空着，等 trajopt E 段（训练里按比例从第 0 帧起跑）的计划与复核。
 - 10/26 13:33 MDT：交了 Tier 3 t3m1022aa（rxzhou 同意），四项全涨（`results/submission/submit_t3_t3m1022aa.txt`，执行记录在 `plan-t3align-2026-10-21.md`）。Tier 3 离 nima arki：AUC 差 0.10、SP-SR 差 2 集、MP-SR 同分、MPPE 差 7.6 cm。读法 B 57 / 57，读法 A 13，仍第 4。
+- 10/26 19:01 MDT（`results/board/diff_1026_1901.txt`）：NVSimranPatil 从 12 个榜上全部不见了；我们没有新提交，名次因此前移：读法 B 50 / 50（Kaggle / 官网规则）、读法 A 9 / 9，都升到第 3（FF、nima arki 在前）。Tier 2 SP-SR 升到第 2（差 MBZUAI-RCL Group 2 集），Tier 2 MPPE 第 4（差 nima arki 4.5 cm）。它是被撤还是暂时不显示看不出来，回榜的话名次会退回去。t2ft2 18:51 结束，门不过，不推广、不交。
+- 10/26 22:21 MDT（`results/board/diff_1026_2221.txt`）：steven kerman 新进 Tier 1 四个榜、Open4D 重交 Tier 3（只 MPPE 小幅变好），都在我们后面；我们 12 个榜名次不变，读法 B 50 / 50、读法 A 9 / 9，第 3。
+  ml40 的 t3s43 20:41 训评导出完：ep5、10、14 按 S1 记“换”，ep3 不换（执行记录见 `plan-t3s43-2026-10-26.md`）。
+  策略：差距最小的是 Tier 3 SP-SR（差 nima arki 2 集）与 MP-SR（同分）。最快能拿回来的是 Tier 3：下一版清单可把 ep5、10、14（t3s43）与 ep12、23（t3g5，gb5 seed 42，没有进 t3m1022aa）换进去，占本周一次 Tier 3 额度；对自己参考跟上换算成榜上能算几集估不准，够不够“有把握领先”说不清，打包、交不交由 rxzhou 定（待定）。Tier 2 SP-SR 也差 2 集，但跟丢的 8 集都是动作难，短期没有能补上的 run。
+  两台卡 20:41 起空着：写了 `plan-t3s44-2026-10-26.md`（ep3、14 在 ml40、ep5 在 mf4090 换 seed 44），送独立复核，过了才起链。

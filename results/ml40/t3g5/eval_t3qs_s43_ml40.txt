@@ -1,0 +1,22 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt results/day2/eval_t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt results/day2/eval_t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt results/day2/eval_t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : e15ab1e279246814aa643136e09b8b7c  results/day2/eval_t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt
+# md5      : c541076e05aeb7ed42cbf835cede7055  results/day2/eval_t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt
+# md5      : 29646c53fe08a35f024a907338f366b6  results/day2/eval_t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt
+# md5      : eb2a5088e9dffee5906e1670a73293fc  results/day2/eval_t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40_s349999104.txt
+# source   : cf5d27b6aa38
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-27T12:21:53+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40	349999104	4096	1003	0.501	0.852	0.486	6.87	6.79	14.4	0.684	0.190	0.253	0.285	4be695211c62
+t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40	349999104	4096	794	0.000	0.949	0.308	5.25	5.19	11.0	0.806	0.076	0.108	0.175	95d2f7998199
+t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40	349999104	4096	781	0.564	0.653	0.545	29.17	28.92	44.6	0.441	0.333	0.515	0.480	36a85c350471
+t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40	349999104	4096	993	0.000	0.844	0.318	9.02	8.87	20.4	0.001	0.418	0.977	0.986	b5c04aaad129
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40：SP-SR 0.852、MPPE 6.87 cm、MP-SR 0.501、ADD-AUC 0.486 → 跟上
+  t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40：SP-SR 0.949、MPPE 5.25 cm、MP-SR 0.000、ADD-AUC 0.308 → 跟上
+  t3-ep3-w2048-cap10m-r3a-gb5-s43-ml40：SP-SR 0.653、MPPE 29.17 cm、MP-SR 0.564、ADD-AUC 0.545 → 仍跟丢
+  t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40：SP-SR 0.844、MPPE 9.02 cm、MP-SR 0.000、ADD-AUC 0.318 → 跟上
+T3G5_R1_DONE 跟上 3 / 共 4
