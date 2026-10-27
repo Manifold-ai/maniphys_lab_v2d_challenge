@@ -577,6 +577,33 @@ def test_t3qs_s43():
             assert ("scene.support=false" in x.split()) == ("-ep3-" not in x), x
 
 
+def test_t3far_parts():
+    """计划 agent-doc/plan-t3far-2026-10-27.md 第 1 节第 1 条：t3qf1 --episodes 15,27 生成 gb5、ml40（1000 万）的 seed 42 run，顺序 ep15、27；
+    t3pg5c_s43 --episodes 13,19 --seed 43 生成 gb5、mf4090（400 万）的 seed 43 run，顺序 ep13、19（10/21 B 段留下的 seed 42 空目录不重名）。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        p = gen(root, "t3qf1", "--episodes", "15,27")
+        assert p.returncode == 0, p.stdout + p.stderr
+        f = lines(q / "ml40_t3qf1.txt")
+        assert [x.split()[5] for x in f] == [f"t3-ep{e}-w2048-cap10m-r3a-gb5-ml40" for e in (15, 27)], f
+        p = gen(root, "t3pg5c_s43", "--episodes", "13,19", "--seed", "43")
+        assert p.returncode == 0, p.stdout + p.stderr
+        g = lines(q / "mf4090_t3pg5c_s43.txt")
+        assert [x.split()[5] for x in g] == [f"t3-ep{e}-w2048-cap4m-r3a-gb5-s43-mf4090" for e in (13, 19)], g
+        for x in f + lines(q / "ml40_t3qf1_smoke.txt"):
+            assert "seed=" not in x, x
+            assert "/runs/motion/tier3_gb5/" in x, x
+        for x in g + lines(q / "mf4090_t3pg5c_s43_smoke.txt"):
+            assert "reset.seed=43" in x.split() and "training.seed=43" in x.split(), x
+            assert "/runs/motion/tier3_gb5/" in x, x
+        for x in g:
+            assert "training.replay.capacity=4000000" in x.split(), x
+        for x in f:
+            assert "training.replay.capacity=4000000" not in x.split(), x
+
+
 def test_precision_parts():
     """计划 agent-doc/plan-precision-2026-10-18.md 第 1 节：t2mv 是 ep23 的变体 A（mf4090、400 万）；t2xp、t1xp 是 r3p（变体 A 只把 σ 改成 0.03），
     基线取现在交的 run 去掉 -r3a- 的那条，覆盖以 r3p 两项结尾，run 名带 -r3p-。计划 agent-doc/plan-t2mx-2026-10-19.md：t2mx 是 ep13、19、14 的变体 A（mf4090、400 万）。"""

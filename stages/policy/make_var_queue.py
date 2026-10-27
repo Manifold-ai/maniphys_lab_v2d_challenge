@@ -51,6 +51,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
            python3 stages/policy/make_var_queue.py t3qs_s43 --episodes 5,10,3,14 --seed 43   （t3s43，没有预设段的清单）
+           python3 stages/policy/make_var_queue.py t3qf1 --episodes 15,27   （t3far，没有预设段的清单，seed 42）
   t1c（计划 agent-doc/plan-t1-contact-anticipation-2026-10-16.md）：ml40、1000 万，跟丢的 ep25、28、11、1 的变体 A seed 42，基线取法同 t1y，
       基线若是变体 A 的 run 就取它的基线配方 run（同 t1o）；parquet 的 /runs/motion/tier1/ 换成 /runs/motion/tier1_c10/，run 名带 -c10-。
       清单里还有 ep9、ep2（计划 agent-doc/plan-c10-extend-2026-10-16.md 路 A）：make_var_queue.py t1c2 --episodes 9,2，预设段 t1c 不变。
@@ -146,6 +147,11 @@ SETS = {
              "episodes": [5, 10, 3, 14], "parts": {}, "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5,
              "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",
              "desc": "Tier 3 gb5 差一点的 4 集（ep5、10、3、14）换种子：变体 A（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb5，支撑面按 gb5），种子由 --seed 给"},
+    # 10/27（计划 agent-doc/plan-t3far-2026-10-27.md）：gb5 上只在 mf4090（400 万）训过、仍跟丢的 ep15、27 挪到 ml40（1000 万）重训，seed 42；没有预设段，用 t3qf1 --episodes 15,27 生成；同计划在 mf4090 上用 t3pg5c_s43 --episodes 13,19 --seed 43
+    "t3qf": {"plan": "agent-doc/plan-t3far-2026-10-27.md", "tier": 3, "machine": "ml40", "cap": None,
+             "episodes": [15, 27], "parts": {}, "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5,
+             "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",
+             "desc": "Tier 3 gb5 上只在 mf4090 训过的 ep15、27 挪到 ml40：变体 A seed 42（ml40，buffer 1000 万，参考是 runs/motion/tier3_gb5，支撑面按 gb5）"},
     "t3qg5": {"plan": "agent-doc/plan-t3g5-2026-10-21.md", "tier": 3, "machine": "ml40", "cap": None,
               "episodes": [3, 12, 16, 14, 23, 2, 4, 11, 25], "parts": {"t3qg5a": [3, 12, 16], "t3qg5b": [14, 23, 2, 4, 11, 25]},
               "base": None, "motion": "tier3_gb5", "tables": TABLES_GB5, "run": "t3-ep{ep}-w2048-cap10m-r3a-gb5-ml40",

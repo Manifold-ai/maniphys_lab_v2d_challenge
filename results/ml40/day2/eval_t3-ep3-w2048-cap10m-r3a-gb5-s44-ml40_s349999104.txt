@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : fa6fd983ac31
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-27T17:10:36+0800
+# ---------------------------------------------------------------
+fc_eval: t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40 policy_349999104（4096 世界）→ runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40/eval_349999104_w4096.json
+== runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40/policy_349999104.safetensors  sha256 b1091fc2e56f7cb3…
+  environment_steps 349999104  world_count 4096  step_count 781  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.5516254654614476
+  chord_sr                                       0.45361328125
+  maniptrans_sr                                  0.571533203125
+  spider_sr_uncentered                           0.6708984375
+  mppe_cm                                        27.36501754968176
+  mean_add_m                                     0.2770206557504581
+  object_position_error_m                        0.271431025329367
+  object_orientation_error_deg                   43.39837129171886
+  termination_cause_fraction (legacy object-centric) {'object': 0.514404296875, 'wrist': 0.98779296875}
+  reference_tracking.success_rate (= chord_sr)   0.45361328125
+  reference_tracking.failure_cause_fraction      {'object': 0.514404296875, 'palm': 0.4501953125, 'pelvis': 0.309326171875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.5516254654614476, "checkpoint": "/repo/runs/flash_chord/t3-ep3-w2048-cap10m-r3a-gb5-s44-ml40/policy_349999104.safetensors", "checkpoint_sha256": "b1091fc2e56f7cb3f5d093b17cbb592aa2b8c5b6b315fc9d5cb2989b41f75296", "chord_sr": 0.45361328125, "environment_steps": 349999104, "maniptrans_sr": 0.571533203125, "mean_add_m": 0.2770206557504581, "mppe_cm": 27.36501754968176, "object_orientation_error_deg": 43.39837129171886, "object_position_error_m": 0.271431025329367, "parquet": "/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.514404296875, "palm": 0.4501953125, "pelvis": 0.309326171875}, "reference_end_fraction": 1.0, "success_rate": 0.45361328125}, "spider_sr_uncentered": 0.6708984375, "step_count": 781, "world_count": 4096}

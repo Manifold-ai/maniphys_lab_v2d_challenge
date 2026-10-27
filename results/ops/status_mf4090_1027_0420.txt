@@ -1,0 +1,23 @@
+# command  : bash -c ssh\ mf4090\ \'bash\ -s\ mf4090\'\ \<\ tools/status_remote.sh 
+# md5      : b9897c66344c4504808a3d1a2a9b7f7f  tools/status_remote.sh
+# source   : 2b1fdf9e93d3
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T04:21:02-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-27 18:21:05 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  228G   57G  80% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3g5_readout_t3pg5_s44_mf4090.log：T3G5_READOUT_DONE（eval 0、early 0、start 0、term 0）
+runs/logs/cand_t3_t3pg5_s44_mf4090_gate.log：=== 2026-10-27 15:07:03 CST 导出链结束，退出码 0
+runs/logs/cand_t3_t3pg5_s44_mf4090.log：=== 2026-10-27 15:07:03 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090/export_8c778f9/s349999104_w1/episode_000005.parquet
+runs/logs/t3pg5_s44_eval_mf4090.log：=== 2026-10-27 15:05:55 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090/eval_349999104_w4096.json
+runs/logs/t3pg5_s44_train_mf4090.log：=== 2026-10-27 14:59:21 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep5-w2048-cap4m-r3a-gb5-s44-mf4090

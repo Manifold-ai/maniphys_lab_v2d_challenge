@@ -1,0 +1,33 @@
+# command  : python3 stages/policy/test_make_var_queue.py 
+# md5      : 26626501ab0974f0124ca2f6c646679d  stages/policy/test_make_var_queue.py
+# source   : 2b1fdf9e93d3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T04:27:05-0600
+# ---------------------------------------------------------------
+ok test_t2x_parts
+ok test_resume_part
+ok test_bad_parts_refuse
+ok test_t3p
+ok test_t3p2
+ok test_t3p3_parts
+ok test_t3pk_t3ps_parts
+ok test_t3p4_t3q_parts
+ok test_t1_parts
+ok test_seed_option
+ok test_t1_xeval_conflict_refuses
+ok test_unknown_override_refuses
+ok test_duplicate_export_row_refuses
+ok test_r3o_parts
+ok test_t1c_part
+ok test_t1c2_part
+ok test_t3pg_t3qg_parts
+ok test_t2m_part
+ok test_t2fc_part
+ok test_ho_parts
+ok test_t2tm_part
+ok test_t2mtr_part
+ok test_t3qs_s43
+ok test_t3far_parts
+ok test_precision_parts
+ok test_smoke_extra
+ALL_OK

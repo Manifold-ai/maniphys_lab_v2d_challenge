@@ -165,3 +165,4 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   两台卡 20:41 起空着：写了 `plan-t3s44-2026-10-26.md`（ep3、14 在 ml40、ep5 在 mf4090 换 seed 44），送独立复核，过了才起链。
 - 10/27 01:01 MDT（`results/board/diff_1027_0101.txt`）：FF 重交 Tier 3，MPPE 从 46.0 降到 35.0 cm，拿下 Tier 3 MPPE 第一，我们在这个榜仍第 3、差距变大；longbot（Tier 1）、Luai Abuelsamen（Tier 2 新进）都在我们后面。读法 B 50 / 50、读法 A 9 / 9，第 3；FF 的读法 B 41 → 40。
 - 10/27 01:20 MDT（`results/board/diff_1027_0120.txt`）：没变。mf4090 的 t3s44 ep5 读数 R1 不过、不换（`plan-t3s44-2026-10-26.md` 执行记录）；mf4090 暂不排新训练，理由同那里。策略不变：Tier 3 的下一版清单（ep5、10、14、12、23）仍是最快能拿回 SP-SR、MP-SR 的路，ml40 的 ep3、14 读数（约 03:40）出来后一起定，打包与上传待定（rxzhou）。
+- 10/27 04:20 MDT（`results/board/diff_1027_0420.txt`）：没变。ml40 的 t3s44 03:25 结束，ep3、ep14 都不换（`plan-t3s44-2026-10-26.md` 执行记录），三集都没换上。两台空着：写了 `plan-t3far-2026-10-27.md`（Tier 3 离跟上远的 4 集在 gb5 上补训），复核后才起链。策略不变，Tier 3 下一版清单待定（rxzhou）。
