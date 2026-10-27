@@ -1,0 +1,242 @@
+# command  : bash tools/board_snapshot.sh /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle 
+# md5      : 4d9927baefc81bfa2285352cf84bb21f  tools/board_snapshot.sh
+# source   : 79de6e6684b6
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T10:20:54-0600
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier1-auc
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Next Page Token = CfDJ8FwkkMkekkBCtzoFDl4Vj7iJymBS0sSWWNxnMnR2ED8tsUa0XulvGXOk0voEop8pm05j2y0syZlYmQREpqxfz-4
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172182  MBZUAI-RCL Group    2026-10-26 09:49:36.530000  0.89354  
+17163217  Chivatam            2026-10-22 10:10:19.730000  0.83047  
+17173538  Rice RobotPI Lab    2026-10-24 22:52:57.400000  0.82362  
+17165673  Izus_systems        2026-10-27 11:37:46.010000  0.80534  
+17164606  nima arki           2026-10-25 16:27:35.410000  0.75541  
+17130415  DAP                 2026-10-21 01:00:35.586000  0.73467  
+17089835  domoarigato         2026-10-27 14:57:21.070000  0.69517  
+16982570  Xueyi Wang (FF)     2026-10-24 17:16:11.556000  0.66803  
+17014806  maniphys.ai         2026-10-18 16:54:50.943000  0.58258  
+17192429  crisiumnih          2026-10-24 12:36:12.170000  0.58226  
+17073087  wte09fl             2026-10-26 16:42:17.923000  0.54183  
+16994370  CHORD Baseline      2026-09-30 23:35:44.560000  0.51038  
+17163407  Rohit Pardeshi      2026-10-25 09:35:39.456000  0.43394  
+17128874  Team OPS            2026-10-20 16:23:06.053000  0.38403  
+17099371  Open4D              2026-10-25 02:49:21.573000  0.33462  
+17179894  longbot             2026-10-27 05:24:08.253000  0.32917  
+17106868  Null Walker         2026-10-18 02:08:56.946000  0.30445  
+17210121  steven kerman       2026-10-27 02:48:50.030000  0.29657  
+17157527  Javier Medel, MSc.  2026-10-20 15:32:07.050000  0.24466  
+17092553  Kelly To the H      2026-10-27 16:02:18.746000  0.20048  
+== v2d-challenge-track2-tier1-sp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Next Page Token = CfDJ8FwkkMkekkBCtzoFDl4Vj7hwSLi26y08dvJE9bEE5W_vRR4Sw1yA6UZDyV7OTQTAdmNK4s5Av6qz6idR0IfZito
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172183  MBZUAI-RCL Group    2026-10-26 09:49:42.313000  0.96666  
+17163220  Chivatam            2026-10-22 10:10:25.203000  0.90000  
+16982573  Xueyi Wang (FF)     2026-10-24 17:16:13.920000  0.86666  
+17164608  nima arki           2026-10-25 16:27:37.816000  0.86666  
+17165674  Izus_systems        2026-10-27 11:37:49.760000  0.86666  
+17083360  domoarigato         2026-10-27 14:57:23.270000  0.86666  
+17015031  maniphys.ai         2026-10-18 16:54:53.650000  0.83333  
+17130416  DAP                 2026-10-21 01:00:42.466000  0.83333  
+17173541  Rice RobotPI Lab    2026-10-24 22:54:03.816000  0.83333  
+16994367  CHORD Baseline      2026-09-30 23:35:50.930000  0.70000  
+17073090  wte09fl             2026-10-26 16:42:24.300000  0.70000  
+17192430  crisiumnih          2026-10-24 12:36:17.833000  0.56666  
+17163411  Rohit Pardeshi      2026-10-25 09:35:41.783000  0.53333  
+17128889  Team OPS            2026-10-20 16:26:29.676000  0.50000  
+17099374  Open4D              2026-10-25 02:49:24.030000  0.30000  
+17106871  Null Walker         2026-10-18 02:09:05.493000  0.20000  
+17179899  longbot             2026-10-27 05:25:45.150000  0.13333  
+17210123  steven kerman       2026-10-27 02:48:52.196000  0.13333  
+17157536  Javier Medel, MSc.  2026-10-20 15:32:09.210000  0.10000  
+17107671  TheTensorGeek       2026-10-14 17:07:13.386000  0.00000  
+== v2d-challenge-track2-tier1-mp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Next Page Token = CfDJ8FwkkMkekkBCtzoFDl4Vj7iYVNQujxzQF-kx9SLna2MNKUZoUDB9Ng5bQEVqiqR6HR9wX5oelcrFYTQFJMAtTv4
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172185  MBZUAI-RCL Group    2026-10-26 09:49:48.080000  0.93333  
+17165676  Izus_systems        2026-10-27 11:37:53.350000  0.86666  
+16982577  Xueyi Wang (FF)     2026-10-24 17:16:16.436000  0.83333  
+17163222  Chivatam            2026-10-22 10:10:30.813000  0.83333  
+17173543  Rice RobotPI Lab    2026-10-24 22:54:19.303000  0.80000  
+17130417  DAP                 2026-10-21 01:00:49.970000  0.76666  
+17164610  nima arki           2026-10-25 16:27:39.910000  0.76666  
+17083341  domoarigato         2026-10-27 14:57:25.566000  0.76666  
+17015030  maniphys.ai         2026-10-18 16:54:56.443000  0.70000  
+17073093  wte09fl             2026-10-26 16:42:30.120000  0.53333  
+17192431  crisiumnih          2026-10-24 12:36:23.626000  0.46666  
+17163410  Rohit Pardeshi      2026-10-25 09:35:43.856000  0.30000  
+16994366  CHORD Baseline      2026-09-30 23:35:54.380000  0.20000  
+17128870  Team OPS            2026-10-20 16:27:26.510000  0.16666  
+17106872  Null Walker         2026-10-18 02:09:12.483000  0.13333  
+17179901  longbot             2026-10-27 05:27:16.633000  0.13333  
+17099379  Open4D              2026-10-25 02:49:26.950000  0.10000  
+17210126  steven kerman       2026-10-27 02:48:54.320000  0.06666  
+17157538  Javier Medel, MSc.  2026-10-20 15:32:11.626000  0.03333  
+17107675  TheTensorGeek       2026-10-14 17:08:47.703000  0.00000  
+== v2d-challenge-track2-tier1-mppe
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Next Page Token = CfDJ8FwkkMkekkBCtzoFDl4Vj7jmeAfN21iXg4YoHezRkOeUTxF09amjpNI1Aad6P_fDl0-jWqhgTqRHr7UcvM3rtJI
+  teamId  teamName            submissionDate              score     
+--------  ------------------  --------------------------  --------  
+17172186  MBZUAI-RCL Group    2026-10-26 09:49:53.686000  2.78211   
+16982578  Xueyi Wang (FF)     2026-10-24 17:16:18.966000  5.57387   
+17163225  Chivatam            2026-10-22 10:10:35.793000  6.72221   
+17164613  nima arki           2026-10-25 16:27:42.770000  7.47978   
+17173545  Rice RobotPI Lab    2026-10-24 22:54:28.273000  7.67799   
+17089838  domoarigato         2026-10-27 14:57:27.673000  7.78057   
+17165677  Izus_systems        2026-10-27 11:37:56.540000  10.45054  
+17015029  maniphys.ai         2026-10-18 16:54:58.746000  11.86661  
+17130418  DAP                 2026-10-21 01:00:56.716000  11.99700  
+17163409  Rohit Pardeshi      2026-10-25 09:35:46.133000  13.04419  
+17073096  wte09fl             2026-10-26 16:42:37.573000  14.16593  
+16994365  CHORD Baseline      2026-09-30 23:35:58.793000  17.73644  
+17126756  Team OPS            2026-10-20 16:27:26.556000  18.13099  
+17192432  crisiumnih          2026-10-24 12:36:29.976000  20.94891  
+17179902  longbot             2026-10-27 05:28:29.350000  39.21800  
+17099382  Open4D              2026-10-25 02:49:30.366000  41.22199  
+17106875  Null Walker         2026-10-18 02:09:19.513000  48.11927  
+17210128  steven kerman       2026-10-27 02:48:56.393000  49.40391  
+17157550  Javier Medel, MSc.  2026-10-20 15:32:13.876000  53.84820  
+17107659  TheTensorGeek       2026-10-14 17:05:44.096000  61.97241  
+== v2d-challenge-track2-tier2-auc
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172363  MBZUAI-RCL Group    2026-10-26 09:49:59.526000  0.56768  
+17040992  Xueyi Wang (FF)     2026-10-25 08:04:23.563000  0.51796  
+17028901  maniphys.ai         2026-10-20 23:06:05.093000  0.51379  
+17202742  Izus_systems        2026-10-27 11:38:24         0.48070  
+17170097  DAP                 2026-10-21 13:25:41.120000  0.44824  
+17136104  domoarigato         2026-10-18 04:48:09.076000  0.44253  
+17073088  wte09fl             2026-10-26 10:50:07         0.42885  
+17165752  nima arki           2026-10-23 18:33:07.150000  0.41581  
+17197340  Luai Abuelsamen     2026-10-27 05:18:29.153000  0.39076  
+16994356  CHORD Baseline      2026-09-30 23:36:01.736000  0.37374  
+17128892  Team OPS            2026-10-20 17:26:29.966000  0.34684  
+17178534  Chivatam            2026-10-23 00:47:32.310000  0.32825  
+17100142  Open4D              2026-10-25 20:50:53.606000  0.29080  
+17163424  Rohit Pardeshi      2026-10-22 03:39:03.113000  0.25726  
+17157535  Javier Medel, MSc.  2026-10-22 23:49:59.113000  0.22330  
+17205337  longbot             2026-10-26 06:24:23.223000  0.22281  
+17092564  Kelly To the H      2026-10-27 16:04:39.823000  0.20048  
+17126382  TheTensorGeek       2026-10-15 16:00:51.906000  0.19193  
+== v2d-challenge-track2-tier2-sp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172365  MBZUAI-RCL Group    2026-10-26 09:50:05.406000  0.80000  
+17018093  maniphys.ai         2026-10-14 22:47:07.843000  0.73333  
+17202744  Izus_systems        2026-10-27 11:38:27.370000  0.70000  
+17165755  nima arki           2026-10-23 18:33:09.443000  0.63333  
+17040994  Xueyi Wang (FF)     2026-10-25 08:04:25.830000  0.60000  
+17136108  domoarigato         2026-10-18 04:48:11.193000  0.56666  
+17073091  wte09fl             2026-10-26 10:50:13.566000  0.56666  
+17198366  Luai Abuelsamen     2026-10-27 05:18:36.436000  0.56666  
+16994357  CHORD Baseline      2026-09-30 23:36:05.073000  0.53333  
+17170095  DAP                 2026-10-21 13:28:19.010000  0.53333  
+17128878  Team OPS            2026-10-20 17:40:54.176000  0.40000  
+17178537  Chivatam            2026-10-23 00:47:37.263000  0.40000  
+17100146  Open4D              2026-10-25 20:50:56.286000  0.30000  
+17163419  Rohit Pardeshi      2026-10-22 03:39:05.213000  0.16666  
+17157534  Javier Medel, MSc.  2026-10-22 23:50:01.296000  0.03333  
+17126396  TheTensorGeek       2026-10-15 16:03:54.550000  0.00000  
+17092568  Kelly To the H      2026-10-27 16:05:10.933000  0.00000  
+17205338  longbot             2026-10-26 06:24:27.706000  0.00000  
+== v2d-challenge-track2-tier2-mp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName            submissionDate              score    
+--------  ------------------  --------------------------  -------  
+17172366  MBZUAI-RCL GROUP    2026-10-26 09:50:11.336000  0.80000  
+17040995  Xueyi Wang (FF)     2026-10-25 08:04:28.590000  0.60000  
+17018094  maniphys.ai         2026-10-14 22:47:12.896000  0.53333  
+17202757  Izus_systems        2026-10-27 11:38:30.496000  0.50000  
+17136109  domoarigato         2026-10-18 04:48:14.233000  0.40000  
+17073094  wte09fl             2026-10-26 10:50:20.563000  0.36666  
+17170094  DAP                 2026-10-21 13:29:08.570000  0.33333  
+17165758  nima arki           2026-10-23 18:33:11.696000  0.30000  
+17198367  Luai Abuelsamen     2026-10-27 05:18:43.083000  0.16666  
+17178539  Chivatam            2026-10-23 00:47:42.463000  0.10000  
+16994360  CHORD Baseline      2026-09-30 23:36:07.603000  0.06666  
+17128880  Team OPS            2026-10-20 17:33:42.190000  0.06666  
+17100149  Open4D              2026-10-25 20:50:59.026000  0.03333  
+17163420  Rohit Pardeshi      2026-10-22 03:39:07.333000  0.03333  
+17126402  TheTensorGeek       2026-10-15 16:05:36.260000  0.00000  
+17092571  Kelly To the H      2026-10-27 16:05:31.680000  0.00000  
+17157555  Javier Medel, MSc.  2026-10-22 23:50:03.550000  0.00000  
+17205339  longbot             2026-10-26 06:24:32.210000  0.00000  
+== v2d-challenge-track2-tier2-mppe
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName            submissionDate              score     
+--------  ------------------  --------------------------  --------  
+17165759  nima arki           2026-10-23 18:33:13.920000  10.84276  
+17172368  MBZUAI-RCL Group    2026-10-26 09:50:16.710000  11.52399  
+17040996  Xueyi Wang (FF)     2026-10-25 08:04:30.930000  13.17325  
+17018091  maniphys.ai         2026-10-14 22:47:16.666000  15.32195  
+17198369  Luai Abuelsamen     2026-10-27 05:18:49.830000  17.35839  
+17073097  wte09fl             2026-10-26 10:50:25.986000  18.08530  
+17136110  domoarigato         2026-10-18 04:48:16.220000  19.35874  
+16994362  CHORD Baseline      2026-09-30 23:36:10.586000  20.52402  
+17202752  Izus_systems        2026-10-27 11:38:33.943000  20.97937  
+17128872  Team OPS            2026-10-20 17:34:20.170000  21.78656  
+17170096  DAP                 2026-10-21 13:31:28.913000  25.69486  
+17178545  Chivatam            2026-10-23 00:47:48.763000  29.26549  
+17100150  Open4D              2026-10-25 20:51:01.720000  43.44247  
+17163423  Rohit Pardeshi      2026-10-22 03:39:09.460000  49.14697  
+17205340  longbot             2026-10-26 06:24:36.640000  59.14549  
+17157542  Javier Medel, MSc.  2026-10-22 23:50:05.810000  61.22802  
+17092577  Kelly To the H      2026-10-27 16:05:52.603000  64.20474  
+17126391  TheTensorGeek       2026-10-15 16:02:23.193000  65.49672  
+== v2d-challenge-track2-tier3-auc
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+17182209  nima arki                               2026-10-24 22:54:34.273000  0.32937  
+17126972  maniphys.ai                             2026-10-26 19:33:17.363000  0.22590  
+17136114  domoarigato                             2026-10-27 14:02:37.790000  0.18861  
+17092580  Kelly To the H                          2026-10-27 14:28:50.526000  0.16289  
+17040998  Xueyi Wang (FF)                         2026-10-27 05:15:58.906000  0.15606  
+17128881  Team OPS                                2026-10-20 17:37:20.363000  0.09026  
+17149708  Open4D                                  2026-10-27 02:43:46.510000  0.05042  
+16994352  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:13.670000  0.00226  
+== v2d-challenge-track2-tier3-sp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+17182218  nima arki                               2026-10-24 22:54:36.523000  0.40000  
+17126979  maniphys.ai                             2026-10-26 19:33:20.443000  0.33333  
+17136115  domoarigato                             2026-10-27 14:02:39.933000  0.33333  
+17128887  Team OPS                                2026-10-20 17:38:36.473000  0.16666  
+17041000  Xueyi Wang (FF)                         2026-10-27 05:16:01.476000  0.16666  
+17149712  Open4D                                  2026-10-27 02:43:50.046000  0.03333  
+16994349  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:16.266000  0.00000  
+17092583  Kelly To the H                          2026-10-27 14:29:13.216000  0.00000  
+== v2d-challenge-track2-tier3-mp-sr
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName                                submissionDate              score    
+--------  --------------------------------------  --------------------------  -------  
+17182221  nima arki                               2026-10-24 22:54:38.723000  0.10000  
+17126982  maniphys.ai                             2026-10-26 19:33:23.630000  0.10000  
+17149714  Open4D                                  2026-10-27 02:43:52.626000  0.03333  
+17136117  domoarigato                             2026-10-27 14:02:41.953000  0.03333  
+16994347  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:19.046000  0.00000  
+17041002  Xueyi Wang (FF)                         2026-10-27 05:16:03.893000  0.00000  
+17128883  Team OPS                                2026-10-20 17:39:03.390000  0.00000  
+17092584  Kelly To the H                          2026-10-27 14:29:37.823000  0.00000  
+== v2d-challenge-track2-tier3-mppe
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  teamId  teamName                                submissionDate              score     
+--------  --------------------------------------  --------------------------  --------  
+17136118  domoarigato                             2026-10-27 14:02:44.086000  31.33930  
+17041004  Xueyi Wang (FF)                         2026-10-27 05:16:06.106000  35.00567  
+17182228  nima arki                               2026-10-24 22:54:40.936000  42.30358  
+17126986  maniphys.ai                             2026-10-26 19:33:26.446000  49.93762  
+17128885  Team OPS                                2026-10-20 17:39:44.953000  62.29063  
+17149717  Open4D                                  2026-10-27 02:43:55.320000  67.10247  
+16994345  CHORD Baseline (CARI4D Reconstruction)  2026-09-30 23:36:21.900000  70.17205  
+17092590  Kelly To the H                          2026-10-27 14:30:00.960000  70.57017  
