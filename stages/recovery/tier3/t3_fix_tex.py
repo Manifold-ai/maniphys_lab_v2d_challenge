@@ -1,24 +1,31 @@
 """Texture orientation choice for symmetric and near-symmetric objects on a delivered Tier 3 version, t3fix part B1
 (Tier 3 inputs only: the exo video, the SAM2 masks, the mesh and the delivered layer).
 
-Plan: agent-doc/plan-t3fix-2026-10-27.md on track2/p1-training, version 3, section 1 B1 and criterion G0.
+Plan: agent-doc/plan-t3fix-2026-10-27.md on track2/p1-training, version 3.1, section 1 B1 and criterion G0.
 
 Per episode in scope (it has a non-identity symmetry, a continuous axis or a near-symmetry axis):
-  candidates  the non-identity symmetry rotations, STEP_DEG steps about the continuous axis and about the
-              near-symmetry axis (t3_fix_units.candidates' turnNNN), each turned about the centre of mass;
+  candidates  180 deg about each principal axis, the non-identity symmetry rotations, CONT_STEP_DEG steps about the
+              continuous axis and STEP_DEG steps about the near-symmetry axis, each turned about the centre of mass;
+              duplicates and the identity are dropped (no filter on the surface shift: a flip the shape hides is
+              exactly what the texture may show);
   gate        on GATE_FRAMES evidence frames, the point-splat silhouette against t3_object_check.rasterise (IoU median);
-  distinct    (a) on DISTINCT_FRAMES evidence frames, the NCC of the current render and each candidate's render on
-              their common covered pixels (both variants); median >= DISTINCT_NCC marks the candidate "not distinct";
+              the sample count doubles up to N_MAX while the gate fails;
+  distinct    (a) on DISTINCT_FRAMES evidence frames, per variant: NCC of the current render and each candidate's
+              render on their common covered pixels, and the self control (the current pose rendered from a second
+              sample set). A candidate is not distinct if its median is >= DISTINCT_NCC or >= self median - SELF_MARGIN;
+              it is distinct only if it is distinct in both variants;
   scores      (b) every stride-th evidence frame: NCC of render and video frame on render & object mask & not person,
-              variant i (no blur) and ii (sigma BLUR_SIGMA, the render blurred by normalised convolution); a pose
-              with fewer than MIN_TEX_PX region pixels gets nan; the null pose "shift1" is the current render moved by 1 px;
-  decisions   (c) one per segment between single-frame turns above JUMP_DEG (t3_tex.segments), on frames where every
-              pose of the set has a score; fewer than MIN_EVIDENCE frames: refuse "evidence". Real set: current and the
-              distinct candidates. Null set (d): current, shift1 and the candidates that are not distinct.
+              variants i and ii (t3_tex); fewer than MIN_TEX_PX region pixels gives nan;
+  nulls       (d) "shift1" (the current render moved by 1 px), "reseed" (the current pose from the second sample set),
+              "null_5deg" (NULL_DEG about the axis of least inertia) and the candidates that are not distinct;
+  positive    the most distinct candidate's second-sample render with Gaussian noise pasted into the masked region
+              of the frame; the real set is scored against that synthetic frame (report: the method must find it);
+  decisions   (c) one per segment (t3_tex.segments with the unheld flags), on frames where every pose of the set has a
+              score in the variant; t3_tex.decide_segment per variant, t3_tex.merge_variants across them.
 Nothing is written into the version.
 
-    python t3_fix_tex.py <tier3 root> <selection json> <version> <out dir> [stride=3] [only=<ep>,..] [stage=gate|full]
-Writes <out>/epNN.json (and epNN.npz, epNN_debug.png with stage=full); one json line per episode on stdout. CPU only.
+    python t3_fix_tex.py <tier3 root> <selection json> <version> <physics dir> <out dir> [stride=3] [only=<ep>,..] [stage=gate|full]
+Writes <out>/epNN.json (and epNN.npz with stage=full); one json line per episode on stdout. CPU only.
 """
 
 import json
@@ -28,14 +35,25 @@ import time
 from pathlib import Path
 
 import numpy as np
+from scipy.ndimage import binary_closing
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE / "gate"), str(HERE.parents[2] / "libs" / "v2d_infra")]
 
+GAP = 5  # frames, as t3_dynamics_post.GAP
 GATE_FRAMES = 20
 DISTINCT_FRAMES = 30
 GATE_IOU = 0.95
-N_MIN, N_MAX = 400_000, 3_000_000
+CONT_STEP_DEG = 10
+CONT_NEAR_DEG = 30
+N_MIN, N_MAX = 1_000_000, 4_000_000
+POS_NOISE = 6.0
+DEBUG_EPS = {11, 13, 26}
+VARIANTS = ("i", "ii")
+
+
+def angle_deg(a, b) -> float:
+    return float(np.degrees(np.arccos(np.clip((np.trace(a.T @ b) - 1) / 2, -1, 1))))
 
 
 def main() -> None:
@@ -46,16 +64,16 @@ def main() -> None:
     from tier_guard import forbid_lower_tiers
     forbid_lower_tiers()  # Tier 3: nothing from Tier 1 or Tier 2 (Kaggle 2.8.c)
     from t3_align_check import WORK, similarity, world_pose
-    from t3_fix_units import JUMP_DEG, MIN_EVIDENCE, STEP_DEG, about_com, candidates, principal, rot, turn_deg
+    from t3_fix_units import JUMP_DEG, MIN_EVIDENCE, NULL_DEG, STEP_DEG, about_com, candidates, principal, rot, turn_deg
     from t3_object_check import rasterise
     from t3_symmetry import SYM_M, Shape, symmetries
-    from t3_tex import (BLUR_SIGMA, DISTINCT_NCC, MIN_TEX_PX, SPLAT_PER_PX, blur, decide_segment, ncc, segments, splat,
-                        surface_samples, ycrcb)
+    from t3_tex import (DISTINCT_NCC, MIN_TEX_PX, SELF_MARGIN, SPLAT_PER_PX, band, decide_segment, merge_variants, ncc,
+                        segments, splat, surface_samples, ycrcb)
     from t3_track_check import MIN_MASK_PX
 
     args = [a for a in sys.argv[1:] if "=" not in a]
     kv = dict(a.split("=", 1) for a in sys.argv[1:] if "=" in a)
-    root, sel, version, out = Path(args[0]), Path(args[1]), args[2], Path(args[3])
+    root, sel, version, phys, out = Path(args[0]), Path(args[1]), args[2], Path(args[3]), Path(args[4])
     stride, stage = int(kv.get("stride", 3)), kv.get("stage", "full")
     only = {int(x) for x in kv.get("only", "").split(",") if x}
     out.mkdir(parents=True, exist_ok=True)
@@ -71,23 +89,46 @@ def main() -> None:
         verts, faces = np.asarray(mesh.vertices, np.float64), np.asarray(mesh.faces, np.int64)
         body = mesh if mesh.is_watertight else mesh.convex_hull
         com_b = np.asarray(body.center_mass, np.float64)
-        group, cont = symmetries(Shape(mesh, com_b), body.moment_inertia)
+        shape = Shape(mesh, com_b)
+        group, cont = symmetries(shape, body.moment_inertia)
         moments, axes = principal(body.moment_inertia)
-        cand = {f"sym_g{i}": np.asarray(g, np.float64) for i, g in enumerate(group) if i > 0}
-        if cont is not None:
-            cand.update({f"cont{d:03d}": rot(cont, d) for d in range(STEP_DEG, 360, STEP_DEG)})
-        cand.update({x: g for x, g in candidates(moments, axes, Shape(mesh, com_b).shift, SYM_M, group, cont).items() if x.startswith("turn")})
-        row = {"episode": name, "stage": stage, "symmetries": len(group), "continuous_axis": cont is not None, "candidates": sorted(cand)}
-        if not cand:
+        turns = {x: g for x, g in candidates(moments, axes, shape.shift, SYM_M, group, cont).items() if x.startswith("turn")}
+        row = {"episode": name, "stage": stage, "symmetries": len(group), "continuous_axis": cont is not None}
+        if len(group) == 1 and cont is None and not turns:
             row["skip"] = "not-in-scope"
+            (out / f"ep{ep:02d}.json").write_text(json.dumps(row, indent=1))
+            print(json.dumps(row), flush=True)
+            continue
+        raw = {f"flip_a{i}": rot(axes[:, i], 180) for i in range(3)}
+        raw.update({f"sym_g{i}": np.asarray(g, np.float64) for i, g in enumerate(group) if i > 0})
+        if cont is not None:
+            raw.update({f"cont{d:03d}": rot(cont, d) for d in range(CONT_STEP_DEG, 360, CONT_STEP_DEG)})
+        raw.update(turns)
+        cand = {}
+        for x, g in raw.items():
+            if angle_deg(g, np.eye(3)) > 1 and all(angle_deg(g, h) > 1 for h in cand.values()):
+                cand[x] = g
+        near = {}
+        for x in cand:
+            for fam, lim in (("cont", CONT_NEAR_DEG), ("turn", STEP_DEG)):
+                if x.startswith(fam):
+                    near[x] = {y for y in cand if y != x and y.startswith(fam) and angle_deg(cand[x], cand[y]) <= lim + 1e-6}
+        row["candidates"] = sorted(cand)
+        if mesh.visual.kind != "texture" or getattr(mesh.visual.material, "baseColorTexture", None) is None:
+            row["skip"] = "no-texture"
             (out / f"ep{ep:02d}.json").write_text(json.dumps(row, indent=1))
             print(json.dumps(row), flush=True)
             continue
         image = mesh.visual.material.baseColorTexture
         uv = np.asarray(mesh.visual.uv, np.float64)
-        G = {"current": np.eye(4), **{x: about_com(g, com_b) for x, g in cand.items()}}
+        G = {"current": np.eye(4), **{x: about_com(g, com_b) for x, g in cand.items()},
+             "null_5deg": about_com(rot(axes[:, 0], NULL_DEG), com_b)}
         Tw = world_pose(root, version, ep)
         n = len(Tw)
+        held = np.load(phys / "out" / f"{name}.npz")["held"].astype(bool)
+        if len(held) != n:
+            raise SystemExit(f"{name}: {len(held)} held flags for {n} frames")
+        held = binary_closing(held, np.ones(2 * GAP + 1, bool)) | held
         H = h5py.File(root / "runs" / WORK[conv] / name / "masks_k0.h5", "r")[f"episode_{ep:06d}"]
 
         def masks(f):
@@ -101,7 +142,6 @@ def main() -> None:
         hh, ww = masks(ev[0])[0].shape if ev else (0, 0)
         max_px = max(int(masks(f)[0].sum()) for f in ev[:: max(1, len(ev) // 30)]) if ev else 0
         n_pts = int(np.clip(SPLAT_PER_PX * 2.5 * max_px, N_MIN, N_MAX))
-        pts, col = surface_samples(verts, faces, uv, image, n_pts, seed=ep)
         rad = float(np.linalg.norm(verts - com_b, axis=1).max())
 
         def crop(T):
@@ -114,24 +154,31 @@ def main() -> None:
             x0, y0, x1, y1 = int(max(0, u - r)), int(max(0, v - r)), int(min(ww, u + r + 1)), int(min(hh, v + r + 1))
             return (x0, y0, x1, y1) if x1 > x0 and y1 > y0 else None
 
-        def render(T, box):
+        def render(T, box, sample=0):
             x0, y0, x1, y1 = box
             R_c = rot_.T @ T[:3, :3]
             p_c = rot_.T @ (T[:3, 3] - t) / s
             kk = k.copy()
             kk[0, 2] -= x0
             kk[1, 2] -= y0
-            return splat(pts @ R_c.T + p_c, col, kk, y1 - y0, x1 - x0), (R_c, p_c, kk)
+            p, c = samples[sample]
+            return splat(p @ R_c.T + p_c, c, kk, y1 - y0, x1 - x0), (R_c, p_c, kk)
 
-        # renderer gate
-        gate = []
-        for f in ev[:: max(1, len(ev) // GATE_FRAMES)][:GATE_FRAMES]:
-            box = crop(Tw[f])
-            if box is None:
-                continue
-            (img, cov), (R_c, p_c, kk) = render(Tw[f], box)
-            ras = rasterise(verts @ R_c.T + p_c, faces, kk, box[3] - box[1], box[2] - box[0])
-            gate.append(float((cov & ras).sum()) / max(1.0, float((cov | ras).sum())))
+        # renderer gate; the sample count doubles (up to N_MAX) while the gate fails
+        gate_frames = ev[:: max(1, len(ev) // GATE_FRAMES)][:GATE_FRAMES]
+        while True:
+            samples = [surface_samples(verts, faces, uv, image, n_pts, seed=ep)]
+            gate = []
+            for f in gate_frames:
+                box = crop(Tw[f])
+                if box is None:
+                    continue
+                (img, cov), (R_c, p_c, kk) = render(Tw[f], box)
+                ras = rasterise(verts @ R_c.T + p_c, faces, kk, box[3] - box[1], box[2] - box[0])
+                gate.append(float((cov & ras).sum()) / max(1.0, float((cov | ras).sum())))
+            if not gate or np.median(gate) >= GATE_IOU or n_pts >= N_MAX:
+                break
+            n_pts = min(2 * n_pts, N_MAX)
         row.update(points=n_pts, max_mask_px=max_px, evidence_frames=len(ev),
                    gate_iou_p50=round(float(np.median(gate)), 4) if gate else None)
         row["gate_ok"] = bool(gate) and row["gate_iou_p50"] >= GATE_IOU
@@ -139,65 +186,91 @@ def main() -> None:
             (out / f"ep{ep:02d}.json").write_text(json.dumps(row, indent=1))
             print(json.dumps(row), flush=True)
             continue
+        samples.append(surface_samples(verts, faces, uv, image, n_pts, seed=ep + 1000))
 
-        def blur_render(img, cov):
-            w = blur(cov.astype(np.float32))
-            return blur(img * cov[..., None]) / np.maximum(w, 1e-6)[..., None]
+        def feats(img, cov=None):
+            """Per variant: (image, contrast reference)."""
+            y = ycrcb(img)
+            return {"i": (y, y), "ii": (band(y, cov), y)}
 
-        # (a) texture distinctness
-        dist = {x: {"i": [], "ii": []} for x in cand}
+        # (a) texture distinctness, with the self control
+        dist = {x: {v: [] for v in VARIANTS} for x in ["reseed", *cand]}
         for f in ev[:: max(1, len(ev) // DISTINCT_FRAMES)][:DISTINCT_FRAMES]:
             box = crop(Tw[f])
             if box is None:
                 continue
             (ic, cc), _ = render(Tw[f], box)
-            for x in cand:
-                (ix, cx), _ = render(Tw[f] @ G[x], box)
+            fc = feats(ic, cc)
+            for x in dist:
+                (ix, cx), _ = render(Tw[f], box, 1) if x == "reseed" else render(Tw[f] @ G[x], box)
                 reg = cc & cx
                 if reg.sum() < MIN_TEX_PX:
                     continue
-                dist[x]["i"].append(ncc(ycrcb(ic), ycrcb(ix), reg))
-                dist[x]["ii"].append(ncc(ycrcb(blur_render(ic, cc)), ycrcb(blur_render(ix, cx)), reg))
-        dmed = {x: {v: (round(float(np.nanmedian(d[v])), 4) if np.isfinite(d[v]).any() else None) for v in d} for x, d in dist.items()}
-        distinct = {v: [x for x in cand if dmed[x][v] is not None and dmed[x][v] < DISTINCT_NCC] for v in ("i", "ii")}
+                fx = feats(ix, cx)
+                for v in VARIANTS:
+                    dist[x][v].append(ncc(fc[v][0], fx[v][0], reg, ref=fc[v][1]))
+        dmed = {x: {v: (round(float(np.nanmedian(d[v])), 4) if np.isfinite(d[v]).any() else None) for v in VARIANTS} for x, d in dist.items()}
 
-        # (b) scores against the video
-        poses = ["current", *cand, "shift1"]
-        sc = {v: {x: np.full(n, np.nan) for x in poses} for v in ("i", "ii")}
+        def distinct_in(x, v):
+            a, me = dmed[x][v], dmed["reseed"][v]
+            return a is not None and me is not None and a < DISTINCT_NCC and a < me - SELF_MARGIN
+
+        distinct = [x for x in cand if all(distinct_in(x, v) for v in VARIANTS)]
+        hidden = [x for x in cand if x not in distinct]
+        positive = min(distinct, key=lambda x: dmed[x]["i"]) if distinct else None
+
+        # (b) scores against the video, the nulls and the positive control
+        poses = ["current", *cand, "null_5deg", "reseed", "shift1"]
+        sc = {v: {x: np.full(n, np.nan) for x in poses} for v in VARIANTS}
+        pc = {v: {x: np.full(n, np.nan) for x in ["current", *distinct]} for v in VARIANTS}
         vis = []
+        rng = np.random.default_rng(ep)
         cap = cv2.VideoCapture(str(root / "input" / "videos" / f"episode_{ep:06d}.mp4"))
-        want, f_now, debug_done = set(ev), 0, False
+        want, f_now, debug_done = set(ev), 0, ep not in DEBUG_EPS
         while f_now < n:
             ok, frame = cap.read()
             if not ok:
                 break
             f = f_now
             f_now += 1
-            if f not in want:
-                continue
-            box = crop(Tw[f])
-            if box is None:
+            if f not in want or (box := crop(Tw[f])) is None:
                 continue
             x0, y0, x1, y1 = box
             obj, person = masks(f)
             ev_mask = (obj & ~person)[y0:y1, x0:x1]
             vid = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)[y0:y1, x0:x1].astype(np.float32)
-            vy, vyb = ycrcb(vid), ycrcb(blur(vid))
+            fv = feats(vid)
             rend = {}
             for x in poses:
                 if x == "shift1":
                     img, cov = rend["current"]
                     rend[x] = (np.roll(img, 1, axis=1), np.roll(cov, 1, axis=1))
+                elif x == "reseed":
+                    rend[x] = render(Tw[f], box, 1)[0]
                 else:
                     rend[x] = render(Tw[f] @ G[x], box)[0]
+            fr = {x: feats(img, cov) for x, (img, cov) in rend.items()}
             for x, (img, cov) in rend.items():
                 reg = cov & ev_mask
                 if x == "current":
                     vis.append(int(reg.sum()))
                 if reg.sum() < MIN_TEX_PX:
                     continue
-                sc["i"][x][f] = ncc(ycrcb(img), vy, reg)
-                sc["ii"][x][f] = ncc(ycrcb(blur_render(img, cov)), vyb, reg)
+                for v in VARIANTS:
+                    sc[v][x][f] = ncc(fr[x][v][0], fv[v][0], reg, ref=fr[x][v][1])
+            if positive is not None:
+                (pimg, pcov), _ = render(Tw[f] @ G[positive], box, 1)
+                paste = pcov & ev_mask
+                syn = vid.copy()
+                syn[paste] = np.clip(pimg[paste] + rng.normal(0, POS_NOISE, (int(paste.sum()), 3)), 0, 255)
+                fs = feats(syn)
+                for x in pc["i"]:
+                    img, cov = rend[x]
+                    reg = cov & paste
+                    if reg.sum() < MIN_TEX_PX:
+                        continue
+                    for v in VARIANTS:
+                        pc[v][x][f] = ncc(fr[x][v][0], fs[v][0], reg, ref=fr[x][v][1])
             if not debug_done:
                 img = rend["current"][0]
                 cv2.imwrite(str(out / f"ep{ep:02d}_debug.png"), cv2.cvtColor(np.concatenate([vid, img], axis=1).astype(np.uint8), cv2.COLOR_RGB2BGR))
@@ -205,26 +278,35 @@ def main() -> None:
         cap.release()
 
         # (c), (d) decisions per segment
-        segs = segments(turn_deg(Tw[:, :3, :3]), JUMP_DEG)
+        segs = segments(turn_deg(Tw[:, :3, :3]), JUMP_DEG, ~held)
 
-        def decide(v, names):
+        def decide(table, names):
             rows = []
             for a, b in segs:
-                fr = [f for f in range(a, b) if all(np.isfinite(sc[v][x][f]) for x in names)]
-                if len(fr) < MIN_EVIDENCE:
-                    rows.append({"start": a, "end": b, "evidence": len(fr), "decision": "refuse", "reason": "evidence"})
-                    continue
-                res = decide_segment({x: [float(sc[v][x][f]) for f in fr] for x in names})
-                rows.append({"start": a, "end": b, "evidence": len(fr), **res})
+                per = {}
+                for v in VARIANTS:
+                    fr_ = [f for f in range(a, b) if all(np.isfinite(table[v][x][f]) for x in names)]
+                    if len(fr_) < MIN_EVIDENCE:
+                        per[v] = {"evidence": len(fr_), "decision": "refuse", "name": None, "reason": "evidence"}
+                    else:
+                        per[v] = {"evidence": len(fr_), **decide_segment({x: [float(table[v][x][f]) for f in fr_] for x in names}, near)}
+                rows.append({"start": a, "end": b, "unheld": bool((~held[a:b]).all()), "variants": per, **merge_variants(per)})
             return rows
 
-        dec = {v: {"real": decide(v, ["current", *distinct[v]]) if distinct[v] else [],
-                   "null": decide(v, ["current", "shift1", *[x for x in cand if x not in distinct[v]]])} for v in ("i", "ii")}
-        np.savez_compressed(out / f"ep{ep:02d}.npz", **{f"{v}__{x}": a for v, d in sc.items() for x, a in d.items()})
-        row.update(distinct_ncc=dmed, distinct=distinct, visible_px_p50=int(np.median(vis)) if vis else 0,
-                   scored={v: int(np.isfinite(sc[v]["current"]).sum()) for v in sc}, segments=len(segs),
-                   accepts={v: {kind: sum(rw["decision"] == "accept" for rw in d[kind]) for kind in d} for v, d in dec.items()},
-                   blur_sigma=BLUR_SIGMA, min_tex_px=MIN_TEX_PX, seconds=round(time.time() - t0, 1))
+        dec = {"real": decide(sc, ["current", *distinct]) if distinct else [],
+               "null": decide(sc, ["current", "null_5deg", "reseed", "shift1", *hidden]),
+               "positive": decide(pc, ["current", *distinct]) if distinct else []}
+        null_any = sum(rw["variants"][v]["decision"] == "accept" for rw in dec["null"] for v in VARIANTS)
+        pos_ok = [rw for rw in dec["positive"] if all(rw["variants"][v].get("evidence", 0) >= 30 for v in VARIANTS)]
+        np.savez_compressed(out / f"ep{ep:02d}.npz", **{f"{v}__{x}": a for v, d in sc.items() for x, a in d.items()},
+                            **{f"pos_{v}__{x}": a for v, d in pc.items() for x, a in d.items()})
+        row.update(distinct_ncc=dmed, distinct=distinct, positive=positive,
+                   visible_px_p50=int(np.median(vis)) if vis else 0,
+                   scored={v: int(np.isfinite(sc[v]["current"]).sum()) for v in VARIANTS}, segments=len(segs),
+                   accepts={kind: sum(rw["decision"] == "accept" for rw in dec[kind]) for kind in dec},
+                   null_variant_accepts=null_any,
+                   positive_found=f"{sum(rw['decision'] == 'accept' and rw['name'] == positive for rw in pos_ok)}/{len(pos_ok)}",
+                   seconds=round(time.time() - t0, 1))
         (out / f"ep{ep:02d}.json").write_text(json.dumps({**row, "decisions": dec}, indent=1, default=float))
         print(json.dumps(row), flush=True)
 
