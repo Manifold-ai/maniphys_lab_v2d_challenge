@@ -1,0 +1,16 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090_s349999104.txt results/day2/eval_t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : 0875733eb5b5a8d10a3141fa596cee85  results/day2/eval_t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090_s349999104.txt
+# md5      : 4766a101dccae829d9bf4fcb009a34d0  results/day2/eval_t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090_s349999104.txt
+# source   : 7625402d45b9
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-27T23:42:25+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090	349999104	4096	922	0.000	0.000	0.129	91.97	91.76	122.3	0.000	1.000	1.000	1.000	61a05a508268
+t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090	349999104	4096	886	0.000	0.000	0.168	63.83	63.68	87.8	0.000	1.000	1.000	1.000	3a08ddbf42db
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090：SP-SR 0.000、MPPE 91.97 cm、MP-SR 0.000、ADD-AUC 0.129 → 仍跟丢
+  t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090：SP-SR 0.000、MPPE 63.83 cm、MP-SR 0.000、ADD-AUC 0.168 → 仍跟丢
+T3G5_R1_DONE 跟上 0 / 共 2
