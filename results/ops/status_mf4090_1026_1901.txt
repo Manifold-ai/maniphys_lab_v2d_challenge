@@ -1,0 +1,22 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : c867b5fb413e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-26T19:01:17-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-27 09:01:17 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  227G   58G  80% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t2ft2_mf4090.log：=== 2026-10-27 08:51:42 CST FT_CHAIN_DONE（完成 3、失败 0）
+runs/logs/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090.eval_490000384_w4096.log：report: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090/eval_490000384_w4096.json
+runs/logs/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090.s1.log：completed 490000384 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090
+runs/logs/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090.log：completed 490000384 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090
+runs/logs/t2-ep25-w2048-cap4m-r3a-ot3-ftk2-mf4090.nanwatch.log：10-26 18:44:36 MDT 480,018,432 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090.eval_419999744_w4096.log：report: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090/eval_419999744_w4096.json
+runs/logs/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090.s1.log：completed 419999744 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090
+runs/logs/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090.log：completed 419999744 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep25-w2048-cap4m-r3a-c5-ftk-mf4090

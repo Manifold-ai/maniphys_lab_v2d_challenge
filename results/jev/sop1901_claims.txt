@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-26-sop1901.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 3cfddf3dfbac817b5326f0a3de395265  agent-doc/experiments/2026-10-26-sop1901.claims.json
+# source   : c867b5fb413e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-26T19:04:47-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank                 P(supported)=0.95  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 50 and is third, behind Xueyi Wang (FF) 41 and nima arki 44.
+rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+t2b                  P(supported)=0.91  verified               [board]  maniphys.ai is second on the Tier 2 SP-SR board and fourth on the Tier 2 MPPE board, 4.47919 behind nima arki.
+t2ft                 P(supported)=0.95  verified               [t2ft]  On ep25, K reached an MPPE of 83.73 cm from the start's 103.43 cm, and F reached 87.25 cm, 3.52 cm higher than K.
+t2ft_ctl             P(supported)=0.16  control(false) ok      [t2ft]  On ep25, the frame-0-start fine-tune F1 holds (it is recorded as a useful fine-tune).
+c                    P(supported)=0.98  verified               [t2ft2]  All 7 checkpoints after the resume are at or below 93.43 cm, but 2 of the start run's last 4 checkpoints are too, so the result is downgraded to within the lineage's spread.
+c_ctl                P(supported)=0.08  control(false) ok      [t2ft2]  The resumed run is recorded as stably lower than its own lineage.
+a                    P(supported)=0.97  verified               [t2ft2]  The reset-seed repeat reached 87.40 cm and is recorded as repeated; the c5 start reached only 124.28 cm and is recorded as not repeated; 70 M more steps gave 92.58 cm, recorded as a plateau.
+gate                 P(supported)=0.98  verified               [t2ft2]  The gate fails, so continued training is not extended to other Tier 2 episodes and nothing is submitted this round.
+gate_ctl             P(supported)=0.01  control(false) ok      [t2ft2]  The gate passes and continued training is extended to the other hard Tier 2 episodes.
+t3s43                P(supported)=0.98  verified               [st]  On ml40 the ep14 seed-43 run is at about 51% of its training steps, and the ep3 and ep10 seed-43 runs completed.
+controls behaved as expected
