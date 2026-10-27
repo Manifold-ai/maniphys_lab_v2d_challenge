@@ -1,0 +1,27 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 9ae1b236401c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T07:23:31-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-27 21:23:35 CST
+NVIDIA GeForce RTX 4090, 23781 MiB, 24564 MiB, 97 %
+/dev/vda2       297G  228G   57G  81% /
+-- tmux
+v2d-t3pg5c_s43-eval: 1 windows (created Tue Oct 27 18:40:10 2026)
+v2d-t3pg5c_s43-export: 1 windows (created Tue Oct 27 18:40:12 2026)
+v2d-t3pg5c_s43-train: 1 windows (created Tue Oct 27 18:40:08 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pg5c_s43_mf4090-gate
+runs/.chain-active-t3pg5c_s43_eval_mf4090
+runs/.chain-active-t3pg5c_s43_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090.log：training progress: 105,000,960/349,999,104 environment steps (30.0%); 46,016 env steps/s; elapsed 00:38:02; ETA 01:28:44
+runs/logs/t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090.nanwatch.log：10-27 07:21:07 MDT 100,003,840 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3pg5c_s43_train_mf4090.log：=== 2026-10-27 20:43:05 CST 正式 t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090
+runs/logs/t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090
+runs/logs/t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090
+runs/logs/t3-ep13-w2048-cap4m-r3a-gb5-s43-mf4090.nanwatch.log：10-27 06:41:31 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090
+runs/logs/smoke-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep19-w2048-cap4m-r3a-gb5-s43-mf4090
