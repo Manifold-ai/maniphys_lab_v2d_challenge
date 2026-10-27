@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : af663ec08d52
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T13:21:15-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-28 03:21:19 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  960G  53% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3fx_onset.log：T3FX_AC_DONE（失败 0）
+runs/logs/t3fx_sil_1.log：{"episode": "ep25_cyan_water_bottle", "frames": 859, "stride": 3, "measured": 287, "faces": 86534, "com_b_m": [-0.0003, 0.0, -0.0018], "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a
+runs/logs/t3fx_sil_2.log：{"episode": "ep26_skateboard", "frames": 669, "stride": 3, "measured": 223, "faces": 86292, "com_b_m": [-0.0001, 0.0177, -0.0004], "symmetries": 2, "continuous_axis": false, "candidates": ["flip_a0", 
+runs/logs/t3fx_sil_4.log：{"episode": "ep28_squeegee", "frames": 988, "stride": 3, "measured": 326, "faces": 95575, "com_b_m": [-0.0035, 0.0015, -0.0215], "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0", "f
+runs/logs/t3fx_sil_0.log：{"episode": "ep24_watering_can", "frames": 748, "stride": 3, "measured": 250, "faces": 99174, "com_b_m": [-0.0043, 0.0025, 0.0102], "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0",
+runs/logs/t3fx_sil_3.log：{"episode": "ep27_woven_basket", "frames": 565, "stride": 3, "measured": 187, "faces": 97945, "com_b_m": [0.0013, -0.0084, 0.0019], "symmetries": 2, "continuous_axis": false, "candidates": ["flip_a0",
+runs/logs/t3fx_sil_5.log：{"episode": "ep29_rolling_luggage", "frames": 467, "stride": 3, "measured": 156, "faces": 97596, "com_b_m": [0.0016, -0.006, 0.049], "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0"
+runs/logs/t3fx_copy.log：EXIT 0
