@@ -1,0 +1,18 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python stages/recovery/t3fx_tex_summary.py /lab_data/rxzhou/v2d/t3recon/dev_t3fx/tex_smoke 
+# md5      : 52fb3af137b08d7d8090e99c5748ceb4  stages/recovery/t3fx_tex_summary.py
+# source   : 1e527a6ee733
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T05:50:32+0800
+# ---------------------------------------------------------------
+== 逐集
+ep13_snack_box：门槛 0.995，候选 3，能分 3（自对照 i 0.9633、ii 0.9966），可见像素中位 6399，段 56，负对照 accept 0，阳性对照 3/3，真实 accept 2
+  中位分（i）：{'current': 0.254, 'flip_a0': -0.031, 'flip_a1': 0.032, 'flip_a2': 0.483, 'null_5deg': 0.232, 'reseed': 0.253, 'shift1': 0.233}
+== G0 与停规则
+负对照 accept 合计（任一变体）：0；能分的集：1
+== 真实 accept 的段
+ep13_snack_box 帧 229–762 被拿/混合 → flip_a2（变体：当前、胜出、差、块一致、证据）{'i': (0.252, 0.541, 0.289, 1.0, 177), 'ii': (0.329, 0.7, 0.371, 1.0, 177)}
+ep13_snack_box 帧 783–922 被拿/混合 → flip_a2（变体：当前、胜出、差、块一致、证据）{'i': (0.145, 0.482, 0.337, 1.0, 46), 'ii': (0.22, 0.591, 0.371, 1.0, 46)}
+== 真实判定的 refuse 理由
+合并后：{'none': 54, 'accept': 2}
+各变体：{'i:current-best': 1, 'ii:current-best': 1, 'i:evidence': 53, 'ii:evidence': 53, 'i:accept': 2, 'ii:accept': 2}
+T3FX_TEX_SUMMARY_DONE ok 1

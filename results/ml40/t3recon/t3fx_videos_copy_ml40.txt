@@ -1,0 +1,37 @@
+# command  : stages/recovery/t3r_run.sh /bin/bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_copy.sh /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3fx_video_files.tsv 
+# md5      : effae3bdaf6b3adc8ef194437d27df01  stages/recovery/t3r_run.sh
+# source   : cd76d8d71941
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T05:32:12+0800
+# ---------------------------------------------------------------
+in 8e0c8217247dd9c420d59b5695ab11a0eebcde6b4c6f1df170adbba5279fe1f0 24069401 t3fx/input/videos/episode_000000.mp4
+in 6f7926d80ea706ccb895e321dc9e48d5b685f7af649051abe533168d5631a814 21799633 t3fx/input/videos/episode_000001.mp4
+in 04793a84f65cd3b8ca85ee366887ee8106910ff9924f167b326f11099f2d6550 30288483 t3fx/input/videos/episode_000002.mp4
+in cfe6394ad7586502687a62d7e17d5b5a5a19b3cb093019a2555a14c078d5d130 24694371 t3fx/input/videos/episode_000003.mp4
+in d04d0255040e40f91621b942008ab89809e2c68aef9c5314e9fc5f23c775c19f 23743749 t3fx/input/videos/episode_000004.mp4
+in 9fe5b6797fe91a3a696e70ab86c0500a6e238330cf7916c0fe86c21e37fce3b2 31632938 t3fx/input/videos/episode_000005.mp4
+in d1ccb3de77dcdb1b603339907e378ac5151f1230452d582f141172ff8d66afda 15484106 t3fx/input/videos/episode_000006.mp4
+in 884bd4d4aaecee5052711c96ea5e03163b4972bb1f38936db633dfdfdce78d22 24989307 t3fx/input/videos/episode_000007.mp4
+in 840251ac5f76b6be5db9f481161f2cf657ca51adef088267603cd40edc22f7fc 20226570 t3fx/input/videos/episode_000008.mp4
+in 2d35a36d5680ebcffeb88dcf0994febdf577c5f7a65ae805ca0272aa867fd35d 25204920 t3fx/input/videos/episode_000009.mp4
+in 9d52402823157bb7f071cf0f9f8c36177308a7cde677be8b3ea779ad676493c9 31489885 t3fx/input/videos/episode_000010.mp4
+in a457df19380aaab0349c47eff62c1c705b31c14845f6e147071ecf61025ae7a3 33226981 t3fx/input/videos/episode_000011.mp4
+in d05bfd63875db6fc11448cca4b38e0b21683b835e05121fa2c868ace6465c4f5 18737223 t3fx/input/videos/episode_000012.mp4
+in b2a5fa4d9cb6b6690dbe4993bb21cd2a6d6ff42f63180c5eadf184e9ca40e525 26883933 t3fx/input/videos/episode_000013.mp4
+in 4035b694f5815c455d5d263fdfad6b05aacf8b548849911edab5d14ae09560ed 26089675 t3fx/input/videos/episode_000014.mp4
+in 734a5392a5d21063e3d1f696451caf09a3ac24c086a0ce302f33de0641cbe341 21554933 t3fx/input/videos/episode_000015.mp4
+in 36f1b4bb8d66fe670fe50ce49ed48344da6ae8fabd73e7d241216e35294259b3 12977144 t3fx/input/videos/episode_000016.mp4
+in 1c58daf56a852e2496498a6044747a6017db86bac5a2c442fd80eab01d3f28b6 14168280 t3fx/input/videos/episode_000017.mp4
+in a89aad83737b91674583dfa16e96cf20e40dda18fc8245b3894283900d165fde 25867689 t3fx/input/videos/episode_000018.mp4
+in 0910300cfc6027204306cf9b54548e53bee607136d8d415552d431355edc270d 25478983 t3fx/input/videos/episode_000019.mp4
+in 28a12675cd23b7043d2007e4582a023bee32e08283c063dc57926f2401474557 16802229 t3fx/input/videos/episode_000020.mp4
+in 7aafd9136f9b08ccb50b6ba48082bf62899c54199b8a760c3e51ff4d7b84570c 20158142 t3fx/input/videos/episode_000021.mp4
+in 5379339cff68b91bfc8420b0eaace96f5a8f3a7a4aba78dfe95647c4cafe976f 20569801 t3fx/input/videos/episode_000022.mp4
+in 724d5142ac561d28c6af4146dfbf8ef60feef85a29a8abfdbcd867f7f507d10e 28669144 t3fx/input/videos/episode_000023.mp4
+in af998a1d6b3eb4b89bd8c959d9ebd202eea515f90b523ff3c0d8dd213600e1d0 20461923 t3fx/input/videos/episode_000024.mp4
+in 7b8717e26cff7519102af958496263ec058f4a39dd505c537231f4045c52f02d 23330721 t3fx/input/videos/episode_000025.mp4
+in b46f350754ac45bb9ab099e14991b27f4072409ac28b0b3ede962917c63a0e64 18696443 t3fx/input/videos/episode_000026.mp4
+in 6077389dc15cd5719841e033b40487c66768f08bea6100c340133466eaf5975d 17326556 t3fx/input/videos/episode_000027.mp4
+in 184dae782cb0dfc593c7956df050b97ef8ab7838aee1714a1d7f76ddd56b5529 28512527 t3fx/input/videos/episode_000028.mp4
+in 9f542f7a3614cf332f6d01892ccc7d4dea9184b965034d5e4ccf2e0222dea0c0 12988779 t3fx/input/videos/episode_000029.mp4
+T3R_COPY_DONE 30 686124469
