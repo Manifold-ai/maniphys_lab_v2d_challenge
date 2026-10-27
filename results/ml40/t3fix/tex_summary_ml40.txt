@@ -1,0 +1,67 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python stages/recovery/t3fx_tex_summary.py /lab_data/rxzhou/v2d/t3recon/dev_t3fx/tex 
+# md5      : 52fb3af137b08d7d8090e99c5748ceb4  stages/recovery/t3fx_tex_summary.py
+# source   : e9af3ef8695c
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T06:31:17+0800
+# ---------------------------------------------------------------
+== 逐集
+ep00_tall_bar_stool：门槛 0.987，候选 13，能分 13（自对照 i 0.9813、ii 0.9978），可见像素中位 17295，段 1，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.389, 'flip_a0': 0.017, 'flip_a1': 0.03, 'flip_a2': -0.05, 'turn030': 0.098, 'turn060': 0.009, 'turn090': 0.197, 'turn120': -0.068, 'turn150': -0.027, 'turn210': -0.019, 'turn240': -0.077, 'turn270': 0.145, 'turn300': 0.032, 'turn330': -0.044, 'null_5deg': 0.28, 'reseed': 0.39, 'shift1': 0.381}
+ep01_vacuum：门槛 0.9821，候选 13，能分 13（自对照 i 0.988、ii 0.999），可见像素中位 3646，段 31，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.457, 'flip_a0': 0.057, 'flip_a1': -0.139, 'flip_a2': 0.195, 'turn030': 0.33, 'turn060': 0.211, 'turn090': 0.153, 'turn120': 0.13, 'turn150': 0.036, 'turn210': 0.079, 'turn240': 0.145, 'turn270': 0.302, 'turn300': 0.447, 'turn330': 0.549, 'null_5deg': 0.435, 'reseed': 0.457, 'shift1': 0.43}
+ep02_blue_easter_basket：门槛 0.9915，候选 13，能分 13（自对照 i 0.9719、ii 0.9944），可见像素中位 1928，段 66，负对照 accept 0，阳性对照 3/3，真实 accept 0
+  中位分（i）：{'current': -0.049, 'flip_a0': 0.06, 'flip_a1': 0.129, 'flip_a2': -0.043, 'turn030': -0.051, 'turn060': -0.067, 'turn090': -0.075, 'turn120': -0.152, 'turn150': -0.047, 'turn210': -0.044, 'turn240': -0.047, 'turn270': 0.002, 'turn300': -0.029, 'turn330': -0.045, 'null_5deg': -0.044, 'reseed': -0.051, 'shift1': -0.047}
+ep03_contigo_coffee_mug：不进 B1（not-in-scope）
+ep04_baseball_bat：门槛 0.9868，候选 37，能分 37（自对照 i 0.9928、ii 0.9987），可见像素中位 2220，段 17，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.331, 'flip_a0': 0.4, 'flip_a1': -0.283, 'flip_a2': -0.434, 'cont010': 0.311, 'cont020': 0.314, 'cont030': 0.334, 'cont040': 0.385, 'cont050': 0.443, 'cont060': 0.493, 'cont070': 0.505, 'cont080': 0.48, 'cont090': 0.413, 'cont100': 0.325, 'cont110': 0.28, 'cont120': 0.259, 'cont130': 0.253, 'cont140': 0.29, 'cont150': 0.325, 'cont160': 0.359, 'cont170': 0.381, 'cont190': 0.421, 'cont200': 0.48, 'cont210': 0.43, 'cont220': 0.411, 'cont230': 0.41, 'cont240': 0.398, 'cont250': 0.398, 'cont260': 0.386, 'cont270': 0.401, 'cont280': 0.419, 'cont290': 0.429, 'cont300': 0.459, 'cont310': 0.465, 'cont320': 0.458, 'cont330': 0.51, 'cont340': 0.51, 'cont350': 0.378, 'null_5deg': 0.317, 'reseed': 0.332, 'shift1': 0.323}
+ep05_big_black_box：不进 B1（not-in-scope）
+ep06_monitor：不进 B1（not-in-scope）
+ep07_iron：门槛 0.9884，候选 13，能分 13（自对照 i 0.9876、ii 0.9988），可见像素中位 1926，段 1，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.415, 'flip_a0': 0.027, 'flip_a1': -0.119, 'flip_a2': 0.027, 'turn030': 0.211, 'turn060': 0.116, 'turn090': -0.004, 'turn120': 0.143, 'turn150': 0.203, 'turn210': 0.093, 'turn240': -0.083, 'turn270': -0.209, 'turn300': -0.13, 'turn330': 0.124, 'null_5deg': 0.374, 'reseed': 0.415, 'shift1': 0.37}
+ep08_skinny_wood_chair：门槛 0.9875，候选 13，能分 13（自对照 i 0.9814、ii 0.9933），可见像素中位 13227，段 1，负对照 accept 1，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.62, 'flip_a0': 0.191, 'flip_a1': -0.21, 'flip_a2': -0.274, 'turn030': 0.517, 'turn060': 0.35, 'turn090': 0.374, 'turn120': 0.335, 'turn150': 0.069, 'turn210': 0.347, 'turn240': 0.341, 'turn270': 0.383, 'turn300': 0.249, 'turn330': 0.291, 'null_5deg': 0.646, 'reseed': 0.62, 'shift1': 0.598}
+ep09_big_red_bowl：门槛 0.992，候选 37，能分 37（自对照 i 0.9711、ii 0.9961），可见像素中位 2756，段 23，负对照 accept 0，阳性对照 2/2，真实 accept 0
+  中位分（i）：{'current': 0.23, 'flip_a0': 0.04, 'flip_a1': 0.235, 'flip_a2': 0.118, 'cont010': 0.215, 'cont020': 0.196, 'cont030': 0.188, 'cont040': 0.206, 'cont050': 0.221, 'cont060': 0.227, 'cont070': 0.242, 'cont080': 0.252, 'cont090': 0.254, 'cont100': 0.236, 'cont110': 0.208, 'cont120': 0.174, 'cont130': 0.164, 'cont140': 0.139, 'cont150': 0.113, 'cont160': 0.107, 'cont170': 0.113, 'cont190': 0.104, 'cont200': 0.099, 'cont210': 0.089, 'cont220': 0.094, 'cont230': 0.09, 'cont240': 0.09, 'cont250': 0.132, 'cont260': 0.174, 'cont270': 0.2, 'cont280': 0.237, 'cont290': 0.244, 'cont300': 0.247, 'cont310': 0.255, 'cont320': 0.265, 'cont330': 0.266, 'cont340': 0.259, 'cont350': 0.246, 'null_5deg': 0.243, 'reseed': 0.227, 'shift1': 0.224}
+ep10_white_desk：门槛 0.9053（点数 4000000），未过
+ep11_light_blue_book：门槛 0.9885，候选 3，能分 3（自对照 i 0.8901、ii 0.9842），可见像素中位 1465，段 25，负对照 accept 0，阳性对照 2/3，真实 accept 0
+  中位分（i）：{'current': 0.051, 'flip_a0': -0.073, 'flip_a1': -0.099, 'flip_a2': -0.15, 'null_5deg': 0.016, 'reseed': 0.048, 'shift1': 0.064}
+ep12_black_platform：不进 B1（not-in-scope）
+ep13_snack_box：门槛 0.995，候选 3，能分 3（自对照 i 0.9633、ii 0.9966），可见像素中位 6399，段 56，负对照 accept 0，阳性对照 3/3，真实 accept 2
+  中位分（i）：{'current': 0.254, 'flip_a0': -0.031, 'flip_a1': 0.032, 'flip_a2': 0.483, 'null_5deg': 0.232, 'reseed': 0.253, 'shift1': 0.233}
+ep14_round_table：门槛 0.942（点数 4000000），未过
+ep15_wet_floor_sign：门槛 0.9898，候选 13，能分 13（自对照 i 0.975、ii 0.9972），可见像素中位 7543，段 3，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.388, 'flip_a0': 0.34, 'flip_a1': -0.013, 'flip_a2': -0.025, 'turn030': 0.169, 'turn060': 0.192, 'turn090': 0.146, 'turn120': 0.152, 'turn150': 0.248, 'turn210': 0.175, 'turn240': 0.182, 'turn270': 0.165, 'turn300': 0.145, 'turn330': 0.242, 'null_5deg': 0.362, 'reseed': 0.388, 'shift1': 0.356}
+ep16_spray_bottle：门槛 0.9873，候选 13，能分 13（自对照 i 0.9799、ii 0.9981），可见像素中位 1729，段 2，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.483, 'flip_a0': 0.256, 'flip_a1': -0.101, 'flip_a2': -0.12, 'turn030': 0.356, 'turn060': 0.204, 'turn090': 0.172, 'turn120': 0.217, 'turn150': 0.256, 'turn210': 0.224, 'turn240': 0.231, 'turn270': 0.223, 'turn300': 0.234, 'turn330': 0.38, 'null_5deg': 0.462, 'reseed': 0.482, 'shift1': 0.467}
+ep17_traffic_cone：门槛 0.9928，候选 13，能分 13（自对照 i 0.9912、ii 0.9989），可见像素中位 3761，段 24，负对照 accept 0，阳性对照 2/2，真实 accept 0
+  中位分（i）：{'current': 0.664, 'flip_a0': 0.723, 'flip_a1': -0.28, 'flip_a2': -0.253, 'turn030': 0.663, 'turn060': 0.691, 'turn090': 0.719, 'turn120': 0.723, 'turn150': 0.726, 'turn210': 0.71, 'turn240': 0.701, 'turn270': 0.689, 'turn300': 0.687, 'turn330': 0.683, 'null_5deg': 0.664, 'reseed': 0.664, 'shift1': 0.672}
+ep18_blue_trash_can：门槛 0.9614，候选 13，能分 13（自对照 i 0.9526、ii 0.9926），可见像素中位 34679，段 1，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.5, 'flip_a0': 0.364, 'flip_a1': 0.066, 'flip_a2': 0.107, 'turn030': 0.371, 'turn060': 0.227, 'turn090': 0.126, 'turn120': 0.242, 'turn150': 0.318, 'turn210': 0.252, 'turn240': 0.224, 'turn270': 0.235, 'turn300': 0.258, 'turn330': 0.318, 'null_5deg': 0.473, 'reseed': 0.5, 'shift1': 0.492}
+ep19_cane：门槛 0.9687，候选 13，能分 12（自对照 i 0.9934、ii 0.9994），可见像素中位 1247，段 73，负对照 accept 0，阳性对照 0/0，真实 accept 0
+  中位分（i）：{'current': 0.397, 'flip_a0': 0.271, 'flip_a1': -0.122, 'flip_a2': -0.075, 'turn030': 0.424, 'turn060': 0.323, 'turn090': 0.235, 'turn120': 0.223, 'turn150': 0.242, 'turn210': 0.242, 'turn240': 0.271, 'turn270': 0.351, 'turn300': 0.379, 'turn330': 0.384, 'null_5deg': 0.43, 'reseed': 0.397, 'shift1': 0.358}
+ep20_rice_cooker：不进 B1（not-in-scope）
+ep21_tall_bar_stool：门槛 0.9871，候选 13，能分 13（自对照 i 0.9723、ii 0.9964），可见像素中位 15438，段 1，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.171, 'flip_a0': 0.214, 'flip_a1': 0.012, 'flip_a2': 0.004, 'turn030': 0.029, 'turn060': -0.011, 'turn090': 0.01, 'turn120': 0.033, 'turn150': -0.008, 'turn210': 0.066, 'turn240': 0.104, 'turn270': 0.122, 'turn300': -0.001, 'turn330': 0.021, 'null_5deg': 0.11, 'reseed': 0.171, 'shift1': 0.182}
+ep22_step_ladder：不进 B1（not-in-scope）
+ep23_toy_stroller：不进 B1（not-in-scope）
+ep24_watering_can：不进 B1（not-in-scope）
+ep25_cyan_water_bottle：门槛 0.989，候选 13，能分 13（自对照 i 0.9948、ii 0.9995），可见像素中位 2050，段 16，负对照 accept 0，阳性对照 3/3，真实 accept 0
+  中位分（i）：{'current': 0.422, 'flip_a0': 0.186, 'flip_a1': -0.052, 'flip_a2': -0.038, 'turn030': 0.424, 'turn060': 0.352, 'turn090': 0.28, 'turn120': 0.202, 'turn150': 0.177, 'turn210': 0.195, 'turn240': 0.192, 'turn270': 0.213, 'turn300': 0.266, 'turn330': 0.392, 'null_5deg': 0.431, 'reseed': 0.422, 'shift1': 0.438}
+ep26_skateboard：门槛 0.9918，候选 13，能分 13（自对照 i 0.9811、ii 0.9985），可见像素中位 6079，段 1，负对照 accept 1，阳性对照 1/1，真实 accept 1
+  中位分（i）：{'current': 0.36, 'flip_a0': 0.01, 'flip_a1': 0.024, 'flip_a2': 0.43, 'turn030': 0.171, 'turn060': -0.007, 'turn090': -0.026, 'turn120': -0.022, 'turn150': 0.066, 'turn210': 0.048, 'turn240': -0.011, 'turn270': 0.004, 'turn300': -0.046, 'turn330': 0.008, 'null_5deg': 0.423, 'reseed': 0.36, 'shift1': 0.322}
+ep27_woven_basket：门槛 0.9876，候选 3，能分 3（自对照 i 0.9342、ii 0.9878），可见像素中位 1758，段 11，负对照 accept 0，阳性对照 2/2，真实 accept 0
+  中位分（i）：{'current': 0.23, 'flip_a0': 0.199, 'flip_a1': -0.029, 'flip_a2': -0.046, 'null_5deg': 0.286, 'reseed': 0.223, 'shift1': 0.233}
+ep28_squeegee：门槛 0.9794，候选 13，能分 13（自对照 i 0.9942、ii 0.9992），可见像素中位 1746，段 19，负对照 accept 0，阳性对照 1/1，真实 accept 0
+  中位分（i）：{'current': 0.336, 'flip_a0': 0.365, 'flip_a1': -0.163, 'flip_a2': -0.154, 'turn030': 0.454, 'turn060': 0.434, 'turn090': 0.445, 'turn120': 0.455, 'turn150': 0.491, 'turn210': 0.235, 'turn240': 0.252, 'turn270': 0.433, 'turn300': 0.511, 'turn330': 0.479, 'null_5deg': 0.355, 'reseed': 0.337, 'shift1': 0.315}
+ep29_rolling_luggage：门槛 0.9888，候选 13，能分 13（自对照 i 0.9277、ii 0.9897），可见像素中位 16132，段 2，负对照 accept 0，阳性对照 2/2，真实 accept 0
+  中位分（i）：{'current': -0.01, 'flip_a0': -0.036, 'flip_a1': -0.064, 'flip_a2': -0.097, 'turn030': -0.127, 'turn060': -0.016, 'turn090': 0.021, 'turn120': -0.053, 'turn150': -0.064, 'turn210': 0.019, 'turn240': 0.015, 'turn270': -0.019, 'turn300': -0.038, 'turn330': -0.006, 'null_5deg': -0.03, 'reseed': -0.01, 'shift1': -0.016}
+== G0 与停规则
+负对照 accept 合计（任一变体）：2；能分的集：20
+== 真实 accept 的段
+ep13_snack_box 帧 229–762 被拿/混合 → flip_a2（变体：当前、胜出、差、块一致、证据）{'i': (0.252, 0.541, 0.289, 1.0, 177), 'ii': (0.329, 0.7, 0.371, 1.0, 177)}
+ep13_snack_box 帧 783–922 被拿/混合 → flip_a2（变体：当前、胜出、差、块一致、证据）{'i': (0.145, 0.482, 0.337, 1.0, 46), 'ii': (0.22, 0.591, 0.371, 1.0, 46)}
+ep26_skateboard 帧 0–669 被拿/混合 → flip_a2（变体：当前、胜出、差、块一致、证据）{'i': (0.36, 0.43, 0.07, 0.91, 223), 'ii': (0.418, 0.494, 0.077, 0.91, 223)}
+== 真实判定的 refuse 理由
+合并后：{'none': 370, 'variants': 1, 'accept': 3}
+各变体：{'i:current-best': 19, 'ii:current-best': 15, 'i:evidence': 338, 'ii:evidence': 338, 'i:blocks': 1, 'ii:blocks': 2, 'i:below-gate': 7, 'ii:below-gate': 9, 'i:gap': 5, 'i:accept': 4, 'ii:gap': 7, 'ii:accept': 3}
+T3FX_TEX_SUMMARY_DONE fail 20
