@@ -1,7 +1,7 @@
 """导出那 1 局里仿真物体与参考物体的逐帧位置误差（训练机上经 scripts/dev/in-flash-chord 在容器里跑，只用 CPU，只读导出 parquet；只报不判）。
 起因：agent-doc/plan-t3hand-2026-10-27.md 复核 BLOCKER 1：P1 的前提是 ep16 在“手到晚”的那段（第 126–137 帧）就丢，要用现有导出核。
 对每份导出：按 object_onset_rollout.py 的读法取最小 environment_id、第一个 object_body_id、按 step 排序；
-误差 = |achieved_position − reference_position|；报首次 > 5 / 10 / 20 cm 的帧、若干标记帧的误差，以及 --range a:b:s 里每 s 帧一行。
+误差 = |achieved_position − reference_position|；报首次 > 5 / 10 / 20 cm 的帧、若干标记帧的误差，以及 --range a:b:s 里每 s 帧一行（每行另报参考与仿真的物体 z，分辨"漂了"与"掉了"）。
 朝向误差 = achieved_quaternion 与 reference_quaternion 的夹角（rad）；--ori-range a:b 另报这段帧里朝向误差的均值与中位（plan-t3ocoff 的 O2），不给就报全集。
 用法（容器内）：python /repo/stages/evaluate/rollout_object_error.py [--range 100:320:10] [--ori-range 0:497] <导出 parquet>...   最后一行 ROLLOUT_OBJECT_ERROR_DONE
 """
@@ -59,13 +59,17 @@ def main() -> int:
             o0, o1 = (int(x) for x in a.ori_range.split(":")) if a.ori_range else (0, len(oe))
             seg = oe[o0:o1]
             print(f"  朝向误差（rad）第 {o0}–{o1} 帧：均值 {seg.mean():.3f}、中位 {np.median(seg):.3f}、> 0.5 rad 的帧占 {np.mean(seg > 0.5):.2f}；全集均值 {oe.mean():.3f}")
-        print("  帧\t误差 cm\t参考相对第 0 帧的平移 m")
+        print("  帧\t误差 cm\t参考相对第 0 帧的平移 m\t参考 z m\t仿真 z m\t参考较上一行移动 cm\t仿真较上一行移动 cm")
         rows = [f for f in MARKS if f < len(err)]
         if a.range:
             s0, s1, st = (int(x) for x in a.range.split(":"))
             rows = sorted(set(rows) | set(range(s0, min(s1, len(err)), st)))
+        prev = None
         for f in rows:
-            print(f"  {f}\t{err[f] * 100:.1f}\t{np.linalg.norm(r[f] - r[0]):.3f}")
+            dr = np.linalg.norm(r[f] - r[prev]) * 100 if prev is not None else 0.0
+            dp = np.linalg.norm(p[f] - p[prev]) * 100 if prev is not None else 0.0
+            print(f"  {f}\t{err[f] * 100:.1f}\t{np.linalg.norm(r[f] - r[0]):.3f}\t{r[f, 2]:.3f}\t{p[f, 2]:.3f}\t{dr:.1f}\t{dp:.1f}")
+            prev = f
     print("ROLLOUT_OBJECT_ERROR_DONE")
     return 0
 
