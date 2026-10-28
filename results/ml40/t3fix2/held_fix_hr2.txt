@@ -1,0 +1,6 @@
+# command  : env T3_HELD_FIX_MAX_D=25 T3_ALLOW_UNDEPLOYED=1 PYTHONDONTWRITEBYTECODE=1 /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_held_fix.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s /lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s tier3_cari4d_gb5_best_dr2s_hr2 27 
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:36:59+0800
+# ---------------------------------------------------------------
+{"episode": "ep27_woven_basket", "tier": "tier3_cari4d_gb5_best_dr2s_hr2", "frames": 565, "symmetries": 2, "continuous_axis": false, "held_share": 0.609, "locked_share": 0.391, "free_jump_frames_before_after": [10, 0], "runs": [{"start": 132, "end": 476, "held_share": 1.0, "jumps": [182, 195], "storms": [["bridged", 181, 189], ["switched", 194, 197]], "end_mismatch_deg": 22.7, "spread_deg_per_frame": 0.07}], "skipped_runs": [], "changed_frames": 344, "changed_share": 0.609, "max_turn_from_input_deg": 180.0, "max_turn_per_frame_before_after_deg": [173.7, 174.6], "free_window8_turn_max_before_after_deg": [179.4, 179.8], "processed_boundary_turn_max_before_after_deg": [2.4, 174.6], "refused": []}

@@ -7,7 +7,7 @@
 #   3. 物理检查 tier3_cari4d_gb5_best_dr2s_hr_dyn7；
 #   4. gate 仓库里 mkroot（集名 gb5hrdyn7）→ eps.sh 重定向 → t3_support_usda.py，只对给定的集。
 # 每步经 stages/recovery/t3r_run.sh（她的目录只读、能力全丢、docker socket 盖住）；代码用部署在 t3recon/code 的副本（dyn7、物理检查、gate 脚本都在那里）。
-# 用法：stages/recovery/t3fx_build.sh <ep>...   日志 runs/logs/t3fx_build.log，最后一行 T3FX_BUILD_DONE 或 T3FX_BUILD_FAILED <步>。
+# 用法：[T3FX_HR=<_hr 层> T3FX_SET=<集名>] stages/recovery/t3fx_build.sh <ep>...   日志 runs/logs/t3fx_build.log，最后一行 T3FX_BUILD_DONE 或 T3FX_BUILD_FAILED <步>。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
@@ -15,7 +15,8 @@ EPS=("$@"); [ ${#EPS[@]} -gt 0 ] || { echo "用法：t3fx_build.sh <ep>..." >&2;
 R=/lab_data/rxzhou/v2d/t3recon; T3="$R/t3fx"; CODE="$R/code"; S="$CODE/stages/recovery/tier3"; C="$S/gate"
 SOMA="$REPO/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma"
 IMG=ca1774d94cd9
-HR=tier3_cari4d_gb5_best_dr2s_hr; DYN=${HR}_dyn7; SET=gb5hrdyn7
+HR=${T3FX_HR:-tier3_cari4d_gb5_best_dr2s_hr}; DYN=${HR}_dyn7; SET=${T3FX_SET:-gb5hrdyn7}   # 10/28 plan-t3fix2：ep27 用 T3FX_HR=…_hr2 T3FX_SET=gb5hr2dyn7
+RP=""; [ "$SET" = gb5hrdyn7 ] || RP="${SET}_"   # 记录名前缀：默认集沿用旧名，其它集不覆盖旧记录
 LOG="$REPO/runs/logs/t3fx_build.log"
 mkdir -p "$REPO/runs/logs"
 exec >> "$LOG" 2>&1
@@ -27,7 +28,7 @@ export T3R_ROOT="$T3" T3R_ALLOW="$GPY:$HPY" T3R_GATE_VENV_BIN="$GATE_VENV_BIN"
 GUARD="$REPO/stages/recovery/t3r_run.sh"
 G="$GDIR"; GR="$G/repo"
 DK=(docker run --rm --user 1003:1005 --entrypoint "" --network none -e HOME=/tmp -w /workspace/v2d_cari4d/lib/cari4d)
-rec() { local n=$1; shift; "$REPO/scripts/dev/record" "ml40/t3hand/build_$n" "$@" > /dev/null 2>&1 || fail "$n（results/ml40/t3hand/build_$n.txt.failed）"; say "$n 过"; }
+rec() { local n=$1; shift; "$REPO/scripts/dev/record" "ml40/t3hand/build_$RP$n" "$@" > /dev/null 2>&1 || fail "$n（results/ml40/t3hand/build_$RP$n.txt.failed）"; say "$n 过"; }
 
 [ -d "$T3/runs/$HR" ] || fail "没有 $T3/runs/$HR"
 [ -f "$T3/runs/$HR.depth_post.json" ] || fail "没有 $T3/runs/$HR.depth_post.json"

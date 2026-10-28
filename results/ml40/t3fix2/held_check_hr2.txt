@@ -1,0 +1,7 @@
+# command  : env T3_ALLOW_UNDEPLOYED=1 PYTHONDONTWRITEBYTECODE=1 /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_held_check.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/t3fx/runs/tier3_cari4d_gb5_best.selection.json tier3_cari4d_gb5_best_dr2s tier3_cari4d_gb5_best_dr2s_hr2 
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:37:20+0800
+# ---------------------------------------------------------------
+{"episode": "ep27_woven_basket", "replaced_frames": 344, "evidence_frames": 414, "iou_all_p50_before_after": [0.8317, 0.8267], "iou_replaced_p50_before_after": [0.8021, 0.8023], "replaced_evidence": 340, "a_ok": true, "untouched_same": true}
+T3_HELD_CHECK_DONE 0

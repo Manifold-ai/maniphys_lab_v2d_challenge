@@ -1,0 +1,8 @@
+# command  : bash /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/stages/recovery/t3r_run.sh /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/code/stages/recovery/tier3/t3_dynamics_post.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s_hr2 runs/physics/tier3_cari4d_gb5_best_dr2s_hr2 tier3_cari4d_gb5_best_dr2s_hr2_dyn7 27 
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:39:28+0800
+# ---------------------------------------------------------------
+T3R_EXE /lab_data/rxzhou/v2d/t3recon/env/.py/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11 sha256 08ad3f0a96b53608
+T3R_EXE /usr/bin/python3.10 sha256 a2f33a6e00698927
+{"episode": "ep27_woven_basket", "tier": "tier3_cari4d_gb5_best_dr2s_hr2_dyn7", "frames": 565, "symmetries": 2, "continuous_axis": false, "symmetric_switch_frames": 97, "held_share": 0.609, "unheld_in_air_frames": 0, "floor_lifted_frames": 7, "locked_share": 0.391, "rot_offsets_dropped": [], "unlocked_turn_from_input_deg_p99_max": [9.7, 12.0], "com_shift_m_p50_p95_max": [0.0054, 0.0274, 0.054], "lowest_m_min_before_after": [-0.0002, -0.0], "com_step_max_m": 0.0581}

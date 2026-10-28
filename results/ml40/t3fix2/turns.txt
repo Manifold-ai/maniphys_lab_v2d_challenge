@@ -1,0 +1,14 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_object_turns.py\ --window\ 170:210\ /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2c63da4f850bca9f0bcd3c1d4935bc3e  stages/retarget/ref_object_turns.py
+# md5      : 83952b3113c88a15b3b2521e420fa800  runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+# md5      : a29df3f016866c41b207dc9754d57c29  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:45:37+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet：565 帧；转角 > 24° 的帧 0 个 []；转角 99% 4.1°、最大 14.0°（第 190 帧）
+  170:0 171:0 172:0 173:1 174:0 175:1 176:2 177:0 178:3 179:1 180:2 181:2 182:1 183:2 184:3 185:5 186:2 187:1 188:3 189:4 190:14 191:7 192:5 193:2 194:1 195:3 196:2 197:3 198:1 199:1 200:1 201:2 202:1 203:1 204:1 205:1 206:1 207:1 208:0 209:0
+/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet：565 帧；转角 > 24° 的帧 10 个 [182, 183, 184, 185, 186, 187, 188, 189, 195, 197]；转角 99% 121.3°、最大 174.0°（第 187 帧）
+  170:0 171:0 172:0 173:1 174:0 175:1 176:2 177:0 178:3 179:1 180:3 181:1 182:160 183:162 184:162 185:172 186:168 187:174 188:86 189:90 190:23 191:0 192:4 193:0 194:0 195:100 196:0 197:69 198:0 199:0 200:1 201:1 202:1 203:1 204:1 205:1 206:1 207:1 208:1 209:0
+REF_OBJECT_TURNS_DONE

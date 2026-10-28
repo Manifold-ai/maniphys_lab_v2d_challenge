@@ -1,0 +1,18 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/policy/check_inputs.py\ /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2a0e15271f47730573e44480294a4077  stages/policy/check_inputs.py
+# md5      : 83952b3113c88a15b3b2521e420fa800  runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:45:36+0800
+# ---------------------------------------------------------------
+== /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+  行数 1，列 44，sha256 63d830a5c44d601b…
+  fps = [30.0]
+  列 object_name = '2026-05-01_11-15-05_woven_basket_ground_desk_10_object'
+  列 object_body_names = ['object']
+  列 object_mesh_paths = ['/repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.obj']
+  列 object_urdf_paths = ['/repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.urdf']
+  OK  object_mesh_paths: /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.obj
+  OK  object_urdf_paths: /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/object/textured_mesh.urdf
+  support：/repo/runs/motion/tier3_gb5hr2dyn7/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
