@@ -1,0 +1,26 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/rollout_object_error.py\ --ori-range\ 0:715\ /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 5a645f95ce7406c07b8473893ccd9cb7  stages/evaluate/rollout_object_error.py
+# md5      : 24d0a25e4bdbc170f483c38bde0cb4fe  runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:51:50+0800
+# ---------------------------------------------------------------
+/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet：715 帧；误差首次 > 5 / 10 / 20 cm 的帧 193 / None / None；误差中位 1.6 cm、最大 8.6 cm（第 494 帧）
+  朝向误差（rad）第 0–715 帧：均值 0.826、中位 0.164、> 0.5 rad 的帧占 0.32；全集均值 0.826
+  帧	误差 cm	参考相对第 0 帧的平移 m	参考 z m	仿真 z m	参考较上一行移动 cm	仿真较上一行移动 cm
+  0	0.1	0.000	0.306	0.306	0.0	0.0
+  50	0.6	0.000	0.306	0.306	0.0	0.5
+  100	0.6	0.000	0.306	0.306	0.0	0.0
+  120	0.7	0.002	0.308	0.306	0.2	0.0
+  130	2.6	0.046	0.319	0.315	4.5	2.1
+  140	1.7	0.037	0.317	0.317	0.9	0.2
+  150	1.1	0.022	0.310	0.317	1.6	0.7
+  175	2.4	0.055	0.343	0.356	6.7	5.0
+  200	2.7	0.306	0.576	0.581	27.2	27.3
+  250	1.7	0.590	0.545	0.535	39.9	36.8
+  300	2.5	0.765	0.456	0.438	40.9	39.2
+  400	2.1	1.241	0.420	0.400	116.0	115.1
+  500	2.5	0.438	0.390	0.367	165.0	165.2
+  600	1.9	1.058	0.307	0.322	101.8	101.1
+ROLLOUT_OBJECT_ERROR_DONE
