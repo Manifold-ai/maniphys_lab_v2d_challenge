@@ -1,0 +1,14 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python -c $'\nimport json, numpy as np, pyarrow.parquet as pq, trimesh\nfrom scipy.spatial.transform import Rotation\nT="/lab_data/rxzhou/v2d/t3recon/t3fx/"\nm=[json.loads(l) for l in open(T+"input/meta/episodes_metadata.jsonl") if json.loads(l)["episode_index"]==19][0]\npose=np.stack(pq.read_table(T+"runs/tier3_cari4d_gb5_best_dr2s/data/chunk-000/episode_000019.parquet").column("observation.object.pose").to_numpy(zero_copy_only=False)).astype(float)\nR=Rotation.from_quat(np.c_[pose[:,4:7],pose[:,3:4]]).as_matrix()\nmesh=trimesh.load(T+"input/"+m["mesh"],force="mesh"); body=mesh if mesh.is_watertight else mesh.convex_hull\nw,ax=np.linalg.eigh(np.asarray(body.moment_inertia)); a=ax[:,0]\nu=R@a\ndu=np.degrees(np.arccos(np.clip(np.sum(u[1:]*u[:-1],1),-1,1)))\ntot=np.array([np.degrees(Rotation.from_matrix(R[t-1].T@R[t]).magnitude()) for t in range(1,len(R))])\nspin=np.sqrt(np.maximum(tot**2-du**2,0))\nJ=np.flatnonzero(tot>24)+1\nprint("大跳变",len(J),"帧")\niso=lambda t: (du[t-2] if t>=2 else 0)<12 and (du[t] if t<len(du) else 0)<12\ncls={"自转为主（长轴方向变 <12°）":0,"首尾颠倒（长轴方向变 >120°）":0,"长轴方向变 12–120°、前后帧平稳（孤立）":0,"长轴方向变 12–120°、前后帧也在快转（像真挥动）":0}\nfor t in J:\n    d=du[t-1]\n    if d<12: cls["自转为主（长轴方向变 <12°）"]+=1\n    elif d>120: cls["首尾颠倒（长轴方向变 >120°）"]+=1\n    elif iso(t): cls["长轴方向变 12–120°、前后帧平稳（孤立）"]+=1\n    else: cls["长轴方向变 12–120°、前后帧也在快转（像真挥动）"]+=1\nfor k,v in cls.items(): print(" ",k,v)\nprint("长轴方向每帧转角：中位 %.1f°、95%% %.1f°、99%% %.1f°；大跳变帧以外最大 %.1f°"%(np.median(du),np.percentile(du,95),np.percentile(du,99),np.max(np.delete(du,J-1))))\nfor a_,b_ in ((91,190),(190,500),(500,851)):\n    s=slice(a_,b_); print(f"  帧 {a_}–{b_}：长轴方向每帧转角 95% {np.percentile(du[s],95):.1f}°，大跳变 {int(((J>=a_)&(J<b_)).sum())} 帧")\n' 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T07:20:12+0800
+# ---------------------------------------------------------------
+大跳变 88 帧
+  自转为主（长轴方向变 <12°） 27
+  首尾颠倒（长轴方向变 >120°） 6
+  长轴方向变 12–120°、前后帧平稳（孤立） 14
+  长轴方向变 12–120°、前后帧也在快转（像真挥动） 41
+长轴方向每帧转角：中位 1.7°、95% 26.5°、99% 106.0°；大跳变帧以外最大 14.7°
+  帧 91–190：长轴方向每帧转角 95% 5.6°，大跳变 1 帧
+  帧 190–500：长轴方向每帧转角 95% 7.7°，大跳变 20 帧
+  帧 500–851：长轴方向每帧转角 95% 72.8°，大跳变 66 帧
