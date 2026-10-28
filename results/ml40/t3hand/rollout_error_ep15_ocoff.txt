@@ -1,0 +1,41 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/rollout_object_error.py\ --range\ 440:620:10\ /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : e5ce19cdf0fcda6e7a3f071470881bf0  stages/evaluate/rollout_object_error.py
+# md5      : a3aa738d72f9011ba37c412e0a4a0ef3  runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet
+# source   : ac1764858b18
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T14:35:37+0800
+# ---------------------------------------------------------------
+/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet：715 帧；误差首次 > 5 / 10 / 20 cm 的帧 473 / None / None；误差中位 1.6 cm、最大 5.6 cm（第 474 帧）
+  帧	误差 cm	参考相对第 0 帧的平移 m
+  0	0.1	0.000
+  50	0.6	0.000
+  100	0.6	0.000
+  120	1.0	0.002
+  130	2.2	0.046
+  140	1.2	0.037
+  150	2.4	0.022
+  175	1.6	0.055
+  200	3.3	0.306
+  250	3.7	0.590
+  300	1.7	0.765
+  400	2.0	1.241
+  440	4.4	0.678
+  450	2.4	0.555
+  460	3.6	0.469
+  470	4.1	0.342
+  480	2.8	0.176
+  490	1.4	0.285
+  500	4.1	0.438
+  510	1.9	0.626
+  520	4.8	0.702
+  530	3.5	0.713
+  540	1.9	0.755
+  550	3.7	0.850
+  560	1.5	0.939
+  570	3.5	0.989
+  580	3.9	1.021
+  590	2.1	1.066
+  600	2.9	1.058
+  610	1.6	1.074
+ROLLOUT_OBJECT_ERROR_DONE
