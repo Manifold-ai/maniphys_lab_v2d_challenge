@@ -1,0 +1,36 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_held_check.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/t3fx/runs/tier3_cari4d_gb5_best.selection.json tier3_cari4d_gb5_best_dr2s tier3_cari4d_gb5_best_dr2s_hr 
+# source   : ac1764858b18
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T13:32:33+0800
+# ---------------------------------------------------------------
+{"episode": "ep00_tall_bar_stool", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep01_vacuum", "replaced_frames": 350, "evidence_frames": 482, "iou_all_p50_before_after": [0.5553, 0.5397], "iou_replaced_p50_before_after": [0.5348, 0.4995], "replaced_evidence": 350, "a_ok": false, "untouched_same": true}
+{"episode": "ep02_blue_easter_basket", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep03_contigo_coffee_mug", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep04_baseball_bat", "replaced_frames": 608, "evidence_frames": 674, "iou_all_p50_before_after": [0.7972, 0.7967], "iou_replaced_p50_before_after": [0.7813, 0.7816], "replaced_evidence": 608, "a_ok": true, "untouched_same": true}
+{"episode": "ep05_big_black_box", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep06_monitor", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep07_iron", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep08_skinny_wood_chair", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep09_big_red_bowl", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep10_white_desk", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep11_light_blue_book", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep12_black_platform", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep13_snack_box", "replaced_frames": 393, "evidence_frames": 570, "iou_all_p50_before_after": [0.8884, 0.8877], "iou_replaced_p50_before_after": [0.8713, 0.8711], "replaced_evidence": 393, "a_ok": true, "untouched_same": true}
+{"episode": "ep14_round_table", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep15_wet_floor_sign", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep16_spray_bottle", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep17_traffic_cone", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep18_blue_trash_can", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep19_cane", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep20_rice_cooker", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep21_tall_bar_stool", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep22_step_ladder", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep23_toy_stroller", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep24_watering_can", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep25_cyan_water_bottle", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep26_skateboard", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep27_woven_basket", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep28_squeegee", "replaced_frames": 0, "untouched_same": true}
+{"episode": "ep29_rolling_luggage", "replaced_frames": 0, "untouched_same": true}
+T3_HELD_CHECK_DONE 1
