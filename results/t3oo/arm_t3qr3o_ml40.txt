@@ -1,0 +1,21 @@
+# command  : stages/policy/arm_var_chain.sh t3qr3o 
+# md5      : 05e1ee52109262c60461b18e7b0eb210  stages/policy/arm_var_chain.sh
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T23:16:24+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg10-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg10-ml40.yaml：4 条断言，全过
+核对：t3qr3o 在 ml40，2 条 run，来历 5a43362f0679，可用 980762 MB，训练副本 v040_p185_nfg_oo，4 份配置的 precheck 与配方断言全过
+v2d-t3qr3o-eval: 1 windows (created Wed Oct 28 23:16:28 2026)
+v2d-t3qr3o-export: 1 windows (created Wed Oct 28 23:16:30 2026)
+v2d-t3qr3o-train: 1 windows (created Wed Oct 28 23:16:26 2026)
+t3qr3o_train_ml40：=== 2026-10-28 23:16:27 CST 冒烟 smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40
+t3qr3o_eval_ml40：=== 2026-10-28 23:16:28 CST 等 runs/logs/t3qr3o_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3qr3o_ml40：
+runs/.chain-active-cand_t3_t3qr3o_ml40-gate
+runs/.chain-active-t3qr3o_eval_ml40
+runs/.chain-active-t3qr3o_train_ml40
+ARMED
