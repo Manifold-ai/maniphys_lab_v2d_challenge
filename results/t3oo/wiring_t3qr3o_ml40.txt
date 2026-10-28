@@ -1,0 +1,14 @@
+# command  : bash -c for\ r\ in\ smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40\ smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg10-ml40\;\ do\ echo\ \"==\ \$r\"\;\ grep\ -h\ \"V2D\ object_orientation\ term\"\ runs/logs/\$r.log\ \|\ head\ -1\;\ f=\$\(ls\ runs/flash_chord/\$r/wandb/run-\*/files/wandb-summary.json\ 2\>/dev/null\ \|\ head\ -1\)\;\ \[\ -n\ \"\$f\"\ \]\ \&\&\ python3\ -c\ \"import\ json\,sys\;\ d=json.load\(open\(sys.argv\[1\]\)\)\;\ ks=\[k\ for\ k\ in\ d\ if\ \\\"object_orientation\\\"\ in\ k\ or\ \\\"orientation_error\\\"\ in\ k\]\;\ \[print\(k\,\ d\[k\]\)\ for\ k\ in\ sorted\(ks\)\]\"\ \"\$f\"\;\ done\;\ echo\ WIRING_DONE 
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T23:26:49+0800
+# ---------------------------------------------------------------
+== smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg04-ml40
+V2D object_orientation term: weight=1.0 std=0.4 (V2D_OBJ_ORI_WEIGHT, V2D_OBJ_ORI_STD)
+reward_components/object_orientation_weighted_mean_per_env_step 0.01893097162246704
+tracking_error/object_orientation_rad_mean_env_max_per_step 0.0679456815123558
+== smoke-t3-ep15-w2048-cap10m-r3o-gb5-ocoff-sg10-ml40
+V2D object_orientation term: weight=1.0 std=1.0 (V2D_OBJ_ORI_WEIGHT, V2D_OBJ_ORI_STD)
+reward_components/object_orientation_weighted_mean_per_env_step 0.019786881282925606
+tracking_error/object_orientation_rad_mean_env_max_per_step 0.0728263333439827
+WIRING_DONE
