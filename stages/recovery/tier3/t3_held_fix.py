@@ -22,8 +22,9 @@ post-process (the dr2s layer) and only touches the frames the dynamics post-proc
              angle(D) / length. A run at the episode's end has no neighbour after it and keeps D = 0.
   caps       a run whose spread would exceed MAX_SPREAD_DEG per frame is left as it is (reported as skipped); an episode
              is refused only if a processed run still turns above JUMP_DEG somewhere.
-The centre of mass keeps its own path (pos = com - R @ com_b), so only the orientation target changes. Frames the step does
-not change keep the input bytes (also the ones the symmetry step would have turned: the dynamics post-process redoes it).
+The centre of mass keeps its own path (pos = com - R @ com_b), so only the orientation target changes. Processed runs are
+written whole on their branch; every other frame keeps the input bytes (the rests stay on the input branch: the dynamics
+post-process locks them and turns them onto the neighbouring branch by its symmetry step).
 Writes runs/<out version>{,_suspect}/ with the same layout and meta as the input, copies the input's depth_post.json
 under the output name (positions and anchors are unchanged), runs/<out version>.held_fix.json and .provenance.json.
 
@@ -257,7 +258,7 @@ def main() -> None:
             refused = bool(reasons)
             if refused:
                 new_R, rows_runs = Rc.copy(), []
-            changed = np.array([angle(Rc[t], new_R[t]) > 1e-6 for t in range(n)])  # frames only the symmetry step turned keep the input bytes
+            changed = np.array([angle(R[t], new_R[t]) > 1e-6 for t in range(n)]) & processed  # processed runs are written whole (one branch); other frames keep the input bytes
             wt0 = np.array([np.degrees(angle(Rc[t], Rc[min(n - 1, t + win)])) for t in range(n)])
             wt1 = np.array([np.degrees(angle(new_R[t], new_R[min(n - 1, t + win)])) for t in range(n)])
             free = ~locked
