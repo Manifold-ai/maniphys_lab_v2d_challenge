@@ -1,0 +1,21 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/object_onset_rollout.py\ /repo/runs/flash_chord/t3-ep27-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000027.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9588bdb71f1ade0a8c95b2346fb60821  stages/evaluate/object_onset_rollout.py
+# md5      : ae74be1591d475ddaa3828979dadcc3e  runs/flash_chord/t3-ep27-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000027.parquet
+# source   : ee023bfddd7f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:22:31+0800
+# ---------------------------------------------------------------
+/repo/runs/flash_chord/t3-ep27-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000027.parquet：565 帧；仿真里物体第一次离开（平移 > 3.0 cm 或转角 > 10.0°）在第 151 帧，参考里物体第一次平移 > 3.0 cm 在第 152 帧；最终平移 0.426 m、转角 179.4°、高度变化 +0.008 m；第 0 帧仿真与参考的位置差 0.001 m
+  帧	仿真平移 m	仿真转角 °	仿真高度变化 m	参考平移 m
+  0	0.000	0.0	+0.000	0.000
+  5	0.003	1.5	-0.003	0.000
+  10	0.003	2.6	-0.003	0.000
+  25	0.002	2.8	-0.002	0.000
+  50	0.002	2.8	-0.002	0.000
+  100	0.002	2.8	-0.002	0.000
+  150	0.026	3.3	+0.026	0.015
+  200	0.555	49.1	+0.547	0.811
+  300	0.381	176.0	+0.016	1.072
+  400	0.426	179.4	+0.008	1.543
+OBJECT_ONSET_DONE

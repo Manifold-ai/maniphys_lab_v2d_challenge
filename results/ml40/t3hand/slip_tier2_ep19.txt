@@ -1,0 +1,30 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_hand_object_slip.py\ --range\ 150:230:5\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 90901cc7b04471fef58b4324c73f662b  stages/retarget/ref_hand_object_slip.py
+# md5      : 26fe471df4df7c9cef243b97f883c63e  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+# source   : ee023bfddd7f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T11:21:51+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet：886 帧；手 right，接触 135 帧（首次 92）；接触帧滑移速度 中位 0.355 m/s、95% 0.762 m/s、> 0.3 m/s 的 76 帧；接触帧物体速度中位 0.646 m/s、最大 1.786 m/s
+  接触段 92–155（63 帧）：rel 偏离段中位 中位 0.047 m、95% 0.172 m、最大 0.208 m
+  接触段 174–193（19 帧）：rel 偏离段中位 中位 0.043 m、95% 0.084 m、最大 0.098 m
+  接触段 221–262（41 帧）：rel 偏离段中位 中位 0.110 m、95% 0.235 m、最大 0.269 m
+  帧	接触	物体 m/s	手掌 m/s	滑移 m/s	rel 相对接触起点 m
+  150	1	0.94	0.15	0.71	0.255
+  155	0	0.83	0.22	0.28	0.314
+  160	0	0.43	0.11	0.32	0.355
+  165	0	0.22	0.20	0.20	0.395
+  170	0	0.88	0.30	0.24	0.381
+  175	1	1.26	0.36	0.45	0.301
+  180	1	1.47	0.53	0.18	0.249
+  185	1	1.53	0.49	0.26	0.204
+  190	1	1.30	0.42	0.18	0.170
+  195	0	1.02	0.10	0.65	0.124
+  200	0	0.67	0.23	0.11	0.102
+  205	0	0.28	0.09	0.12	0.099
+  210	0	0.44	0.13	0.06	0.092
+  215	0	1.02	0.28	0.24	0.104
+  220	0	1.45	0.41	0.40	0.161
+  225	1	1.61	0.52	0.42	0.248
+REF_SLIP_DONE

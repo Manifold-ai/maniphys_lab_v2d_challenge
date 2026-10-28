@@ -5,6 +5,8 @@
    物体速度（物理检查 speed）、物体轮廓是否对得上视频（t3_frame_confidence 的逐帧标签，若有）。分开的那段里人手也分开 = 重建的人与物体不一致；
    人手没分开 = 重定向把手放错了。
 2. ep19：gb5 交付层第 60–220 帧物体的速度与相邻帧转角，标出单帧转角超过 24°（dyn7 的 JUMP_DEG）或速度超过 2 m/s 的帧。
+3. 5 集在导出那一局丢物体的那段（results/ml40/t3hand/rollout_error_*.txt）前后，参考物体的最低点高度 obj_low（负 = 穿地）、脚的高度 feet、
+   速度与相邻帧转角，每 5 帧一行；另报整集 obj_low < −2 cm 的帧数。
 用法：python t3hand_probe.py <t3recon 根> <t3hand 记录目录>   最后一行 T3HAND_PROBE_DONE
 """
 import json
@@ -66,6 +68,16 @@ def main() -> None:
         print(f"{t}\t{sp[t]:.2f} m/s\t{td[t]:.1f}°{mark}")
     bad = [t for t in range(len(td)) if td[t] > 24]
     print(f"整集转角 > 24° 的帧 {len(bad)} 个：{bad[:40]}")
+    # 3. 丢物体那段的参考物体高度
+    for ep, (a, b) in {16: (200, 330), 15: (460, 560), 27: (150, 240), 13: (160, 230), 19: (170, 240)}.items():
+        name = sel[ep]
+        z = np.load(root / PHYS / f"{name}.npz")
+        Tw = world_pose(root, VERSION, ep)
+        td = turn_deg(Tw[:, :3, :3])
+        ol, ft, sp = z["obj_low"], z["feet"], z["speed"]
+        print(f"== {name}：第 {a}–{b} 帧 参考物体最低点高度 / 脚高 / 速度 / 转角；整集 obj_low < −2 cm 的帧 {int((ol < -0.02).sum())}，最低 {ol.min():.3f} m（第 {int(ol.argmin())} 帧）")
+        for t in range(a, min(b, len(ol)) + 1, 5):
+            print(f"{t}\t{ol[t]:+.3f}\t{ft[t]:+.3f}\t{sp[t]:.2f}\t{td[t]:.1f}°")
     print("T3HAND_PROBE_DONE")
 
 

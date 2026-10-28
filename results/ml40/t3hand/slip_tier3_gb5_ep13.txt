@@ -1,0 +1,34 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_hand_object_slip.py\ --range\ 150:230:5\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 90901cc7b04471fef58b4324c73f662b  stages/retarget/ref_hand_object_slip.py
+# md5      : 3df791327d17b49fd96ddc6e89c8fe07  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+# source   : ee023bfddd7f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T11:21:49+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet：922 帧；手 right，接触 299 帧（首次 93）；接触帧滑移速度 中位 0.641 m/s、95% 1.769 m/s、> 0.3 m/s 的 241 帧；接触帧物体速度中位 0.408 m/s、最大 2.147 m/s
+  接触段 103–126（23 帧）：rel 偏离段中位 中位 0.026 m、95% 0.038 m、最大 0.048 m
+  接触段 189–204（15 帧）：rel 偏离段中位 中位 0.043 m、95% 0.148 m、最大 0.163 m
+  接触段 205–243（38 帧）：rel 偏离段中位 中位 0.085 m、95% 0.146 m、最大 0.173 m
+  接触段 251–323（72 帧）：rel 偏离段中位 中位 0.038 m、95% 0.111 m、最大 0.115 m
+  接触段 684–710（26 帧）：rel 偏离段中位 中位 0.026 m、95% 0.073 m、最大 0.092 m
+  接触段 717–767（50 帧）：rel 偏离段中位 中位 0.057 m、95% 0.123 m、最大 0.143 m
+  接触段 813–828（15 帧）：rel 偏离段中位 中位 0.020 m、95% 0.064 m、最大 0.067 m
+  帧	接触	物体 m/s	手掌 m/s	滑移 m/s	rel 相对接触起点 m
+  150	0	0.55	0.23	0.47	0.093
+  155	1	0.17	0.33	0.18	0.082
+  160	1	0.31	0.45	0.43	0.109
+  165	1	0.22	0.28	0.52	0.121
+  170	0	0.31	0.32	0.14	0.149
+  175	0	0.53	0.09	0.56	0.134
+  180	1	0.57	0.74	0.55	0.168
+  185	1	0.66	0.62	0.84	0.124
+  190	1	0.39	0.32	0.64	0.160
+  195	1	0.79	0.31	0.29	0.114
+  200	1	1.54	0.54	0.96	0.184
+  205	1	1.48	0.98	1.91	0.205
+  210	1	1.34	0.57	0.90	0.136
+  215	1	0.69	0.78	1.01	0.146
+  220	1	0.85	0.20	1.36	0.142
+  225	1	0.56	0.92	1.08	0.117
+REF_SLIP_DONE

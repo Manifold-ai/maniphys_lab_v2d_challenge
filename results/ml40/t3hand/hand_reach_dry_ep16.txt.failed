@@ -1,0 +1,34 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/hand_reach.py\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5_h16\ --dry-run 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : f576c6955e5b3cd64c2d7e59ee02ee04  stages/retarget/hand_reach.py
+# md5      : f0e47ddf0aa1ef89b2fc884443e7c49e  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet
+# source   : ee023bfddd7f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:29:20+0800
+# ---------------------------------------------------------------
+参考 /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-03-12_15-06-36_spray_bottle_left_desk_ground_02/robot_name=g1/data.parquet：477 帧，43 个关节；URDF /workspace/src/flash_chord/assets/urdfs/g1/main_with_hand.urdf
+  自检 left_hand_palm_link：位置最大差 0.00 mm
+  自检 right_hand_palm_link：位置最大差 0.00 mm
+  目标距离 D 0.0 mm
+  手 left：接触标记 137 帧起，原参考第 132 帧贴到目标；物体第 129 帧动；窗口 [114, 132)，18 帧；手掌点 300 个
+  帧	改前mm	IK后mm	过渡后mm	迭代
+  114	58.0	11.3	56.7	1000
+  115	63.4	14.8	57.3	1000
+  116	65.3	15.0	51.7	1000
+  117	63.1	12.4	45.6	1000
+  118	66.7	13.6	40.6	1000
+  119	64.9	13.9	31.4	1000
+  120	62.1	13.7	19.2	1000
+  121	58.7	11.8	11.2	1000
+  122	56.4	13.4	13.5	1000
+  123	60.3	13.9	13.9	1000
+  124	58.5	16.6	16.6	1000
+  125	55.8	18.7	18.7	1000
+  126	55.8	23.4	23.4	1000
+  127	56.7	18.7	18.7	1000
+  128	43.6	13.0	13.0	1000
+  129	28.7	6.7	6.7	1000
+  130	15.9	4.4	4.4	0
+  131	5.2	7.3	7.3	1000
+  手臂关节改动最大 9.3°、相邻帧转角最大 14.2°（原参考 14.2°，多出最大 3.8°）；改了 18 帧
+HAND_REACH_FAIL 过渡区外 7 帧没到目标距离（[124, 125, 126, 127, 128, 129, 131]）

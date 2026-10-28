@@ -1,0 +1,25 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_hand_object_slip.py\ --range\ 90:200:10\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 90901cc7b04471fef58b4324c73f662b  stages/retarget/ref_hand_object_slip.py
+# md5      : 34a81b510062de76613c97ae977ca12a  runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet
+# source   : ee023bfddd7f
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T11:21:53+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet：946 帧；手 left，接触 665 帧（首次 98）；接触帧滑移速度 中位 0.141 m/s、95% 0.288 m/s、> 0.3 m/s 的 30 帧；接触帧物体速度中位 0.169 m/s、最大 0.551 m/s
+  接触段 98–332（234 帧）：rel 偏离段中位 中位 0.022 m、95% 0.051 m、最大 0.060 m
+  接触段 450–777（327 帧）：rel 偏离段中位 中位 0.055 m、95% 0.074 m、最大 0.084 m
+  接触段 797–891（94 帧）：rel 偏离段中位 中位 0.032 m、95% 0.059 m、最大 0.067 m
+  帧	接触	物体 m/s	手掌 m/s	滑移 m/s	rel 相对接触起点 m
+  90	0	0.00	0.39	0.49	0.097
+  100	1	0.00	0.32	0.35	0.020
+  110	1	0.02	0.08	0.08	0.090
+  120	1	0.08	0.10	0.16	0.088
+  130	1	0.10	0.08	0.15	0.070
+  140	1	0.17	0.03	0.22	0.056
+  150	1	0.19	0.15	0.06	0.062
+  160	1	0.21	0.07	0.16	0.059
+  170	1	0.11	0.13	0.25	0.065
+  180	1	0.11	0.25	0.17	0.073
+  190	1	0.09	0.17	0.12	0.072
+REF_SLIP_DONE

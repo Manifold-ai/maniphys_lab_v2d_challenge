@@ -65,8 +65,8 @@ def penetration(path: Path):
     if not path.exists():
         return None
     txt = path.read_text(encoding="utf-8", errors="replace")
-    lines = [ln for ln in txt.splitlines() if "\t" in ln and not ln.startswith("#")]
-    return {"line": lines[-1][:220]} if lines else None
+    lines = [ln for ln in txt.splitlines() if "\t" in ln and not ln.startswith("#") and "REF_PENETRATION" not in ln]
+    return {"line": " || ".join(ln[:220] for ln in lines)} if lines else None
 
 
 def main() -> None:
