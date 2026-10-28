@@ -15,7 +15,8 @@ post-process (the dr2s layer) and only touches the frames the dynamics post-proc
   unwrap     inside a free run, the output is the measured orientation times a body-frame correction that is constant
              between jumps; at a turn above JUMP_DEG the correction is reset so the output continues the previous frame's
              motion (the branch switch is an artifact, the motion measured on the new branch is kept, re-expressed);
-  match      the rebuilt run then ends D away from the measured last frame (and from the locked run after it). D is spread
+  match      the rebuilt run then ends D away from the next rest's robust mean, taken modulo the shape's symmetry group
+             (plan-t3flip13 review: a rest on an equivalent branch is what the dynamics post-process would turn anyway). D is spread
              over the run as a slow twist about the centre of mass with a cosine weight from 0 at the run's first frame
              to 1 at its last, so both ends meet their neighbours and no frame turns faster than the measured motion plus
              angle(D) / length. A run at the episode's end has no neighbour after it and keeps D = 0.
@@ -38,12 +39,15 @@ from pathlib import Path
 
 import numpy as np
 from scipy.ndimage import binary_closing
-from scipy.spatial.transform import Rotation
+from scipy.spatial.transform import Rotation, Slerp
 
 FPS = 30.0
 GAP = 5  # frames, as t3_dynamics_post.GAP
 JUMP_DEG = float(np.degrees(4 * np.pi) / FPS)  # 24 deg per frame, as t3_fix_units.JUMP_DEG
 MAX_SPREAD_DEG = 3.0  # per frame
+STORM_GAP = 5  # frames: jumps closer than this form one storm
+RETURN_RATE_DEG = 6.0  # per frame: a storm whose two ends (modulo the symmetry group) are reachable at this rate is bridged by slerp
+RETURN_MAX_DEG = 90.0
 MAX_D_DEG = 20.0  # as t3_dynamics_post.MAX_OFFSET_DEG
 MIN_RUN = 3  # frames, as t3_dynamics_post.MIN_RUN
 WINDOW = 8  # frames, for the windowed turn report
@@ -74,15 +78,61 @@ def so3(M: np.ndarray) -> np.ndarray:
     return Rm
 
 
-def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True, R_target=None) -> tuple[np.ndarray, list[int], float]:
+def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True, R_target=None, group=(), storms_out=None) -> tuple[np.ndarray, list[int], float]:
     """(R with frames s..e-1 rebuilt, the jump frames, angle(D) in deg). Inside the run the output is R[t] @ C with a
     body-frame correction C that is constant between jumps; at a jump C is reset so that the output continues the previous
     frame's motion (R[t] @ C = out[t-1] @ rel_prev), i.e. the branch switch is removed and the motion measured on the new
     branch is kept. match_end spreads the end mismatch D (output end vs measured end) over the run as a cosine twist."""
     out = R.copy()
     jumps = []
+    # storms: clusters of jumps (no mask evidence inside, the reconstruction is lost there). A storm whose two ends agree
+    # modulo the symmetry group is a returning glitch and is bridged by slerp; a storm that ends on another branch is left
+    # to the constant-correction pass below (the branch switch is removed there).
+    td = turn_deg(out[s:e])
+    jf = [s + t for t in range(1, e - s) if td[t] > jump_deg]
+    storms, i = [], 0
+    while i < len(jf):
+        j = i
+        while j + 1 < len(jf) and jf[j + 1] - jf[j] <= STORM_GAP:
+            j += 1
+        storms.append((jf[i] - 1, min(e - 1, jf[j])))
+        i = j + 1
+    bridged, switched = [], []
+    for a, b in storms:
+        if b - a < 2:
+            continue
+        g_best = min([np.eye(3), *group], key=lambda g: angle(out[a], out[b] @ np.asarray(g)))
+        if np.degrees(angle(out[a], out[b] @ np.asarray(g_best))) <= min(RETURN_MAX_DEG, RETURN_RATE_DEG * (b - a)):
+            key = Rotation.from_matrix(np.stack([out[a], so3(out[b] @ np.asarray(g_best))]))
+            sl = Slerp([a, b], key)
+            out[a + 1:b] = sl(np.arange(a + 1, b)).as_matrix()
+            out[b] = so3(out[b] @ np.asarray(g_best))
+            bridged.append((a, b))
+        else:
+            # a branch switch: the frames inside the storm carry no usable motion (the reconstruction is lost there),
+            # so they hold the last good pose and the switch becomes one jump at b, removed by the pass below
+            out[a + 1:b] = out[a]
+            switched.append((a, b))
+    inside = {}
+    for a_, b_ in bridged:
+        for t in range(a_ + 1, b_ + 1):
+            inside[t] = ("bridged", a_, b_)
+    for a_, b_ in switched:
+        for t in range(a_ + 1, b_ + 1):
+            inside[t] = ("switched", a_, b_)
     C = np.eye(3)
     for t in range(s + 1, e):
+        if t in inside:
+            kind, a_, b_ = inside[t]
+            if t < b_:
+                continue  # interior of a storm: already held (switched) or interpolated (bridged)
+            if kind == "switched":
+                rel_prev = out[a_ - 1].T @ out[a_] if a_ - 1 >= s else np.eye(3)
+                C = so3(R[t].T @ out[a_] @ rel_prev)
+                out[t] = so3(R[t] @ C)
+            else:
+                C = so3(R[t].T @ out[t])  # out[b] was already turned onto the returning branch
+            continue
         cand = so3(R[t] @ C)
         if np.degrees(angle(out[t - 1], cand)) > jump_deg:
             jumps.append(t)
@@ -90,10 +140,17 @@ def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_
             C = so3(R[t].T @ out[t - 1] @ rel_prev)
             cand = so3(R[t] @ C)
         out[t] = cand
-    if not jumps:
+    if storms_out is not None:
+        storms_out.extend([("bridged", a, b) for a, b in bridged] + [("switched", a, b) for a, b in switched])
+    if not jumps and not bridged and not switched:
         return R.copy(), [], 0.0
+    jumps = sorted(set(jumps) | {a + 1 for a, b in bridged} | {a + 1 for a, b in switched})
     tgt = R[e - 1] if R_target is None else R_target
-    D = so3(out[e - 1].T @ tgt)  # body-frame twist that brings the rebuilt end onto the target (the next rest's robust mean)
+    # the target modulo the shape's symmetry group: the rest after the run may sit on an equivalent branch, which the
+    # dynamics post-process would turn onto this run's branch anyway (its symmetry step is a continuity rule)
+    best = min([np.eye(3), *group], key=lambda g: angle(out[e - 1], tgt @ np.asarray(g)))
+    tgt = so3(tgt @ np.asarray(best))
+    D = so3(out[e - 1].T @ tgt)  # body-frame twist that brings the rebuilt end onto the target
     ang = np.degrees(angle(out[e - 1], tgt))
     if match_end and e - s > 1:
         rv = Rotation.from_matrix(D).as_rotvec()
@@ -180,17 +237,18 @@ def main() -> None:
                     nxt = next(((a, b) for a, b in lock_runs if a == e), None)
                     if nxt is not None:
                         tgt = robust_mean(Rc[nxt[0]:nxt[1]])[0]
-                rr, jumps, dang = unwrap_run(new_R, s, e, match_end=match_end, R_target=tgt)
+                st_ = []
+                rr, jumps, dang = unwrap_run(new_R, s, e, match_end=match_end, R_target=tgt, group=[np.asarray(g) for g in G[1:]], storms_out=st_)
                 if not jumps:
                     continue
                 spread = dang / max(1, e - s - 1) if match_end else 0.0
                 if dang > MAX_D_DEG or spread > MAX_SPREAD_DEG:
-                    skipped.append({"start": s, "end": e, "jumps": jumps, "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2),
+                    skipped.append({"start": s, "end": e, "jumps": jumps, "storms": st_, "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2),
                                     "why": "D above cap" if dang > MAX_D_DEG else "spread above cap"})
                     continue
                 new_R = rr
                 processed[s:e] = True
-                rows_runs.append({"start": s, "end": e, "held_share": round(float(held[s:e].mean()), 2), "jumps": jumps,
+                rows_runs.append({"start": s, "end": e, "held_share": round(float(held[s:e].mean()), 2), "jumps": jumps, "storms": st_,
                                   "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2)})
             td1 = turn_deg(new_R)
             left = [t for t in range(1, n) if processed[t] and processed[t - 1] and td1[t] > JUMP_DEG + 1e-6]
