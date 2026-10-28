@@ -1,0 +1,51 @@
+# command  : python3 stages/recovery/t3flip13_summary.py /lab_data/rxzhou/v2d/t3recon/dev_t3fx/flip13_null /lab_data/rxzhou/v2d/t3recon/dev_t3fx/flip13_inject 
+# md5      : f8e9d492c85c86f62e2db7d8bcf12232  stages/recovery/t3flip13_summary.py
+# source   : ac1764858b18
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T14:18:01+0800
+# ---------------------------------------------------------------
+== F0 负对照（门槛 0.27，±5°、±10° 三轴 + 平移 1 px + 换采样点）
+ep00_tall_bar_stool：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep01_vacuum：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep02_blue_easter_basket：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep03_contigo_coffee_mug：not-in-scope
+ep04_baseball_bat：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep05_big_black_box：not-in-scope
+ep06_monitor：not-in-scope
+ep07_iron：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep08_skinny_wood_chair：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep09_big_red_bowl：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep10_white_desk：渲染门槛不过
+ep11_light_blue_book：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep12_black_platform：not-in-scope
+ep13_snack_box：负对照 accept 0 []；真实 accept 2；负对照 15 个
+ep14_round_table：渲染门槛不过
+ep15_wet_floor_sign：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep16_spray_bottle：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep17_traffic_cone：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep18_blue_trash_can：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep19_cane：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep20_rice_cooker：not-in-scope
+ep21_tall_bar_stool：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep22_step_ladder：not-in-scope
+ep23_toy_stroller：not-in-scope
+ep24_watering_can：not-in-scope
+ep25_cyan_water_bottle：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep26_skateboard：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep27_woven_basket：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep28_squeegee：负对照 accept 0 []；真实 accept 0；负对照 15 个
+ep29_rolling_luggage：负对照 accept 0 []；真实 accept 0；负对照 15 个
+F0 合计 0
+== F1 注入阳性对照（只报）
+ep00_tall_bar_stool：注入 flip_a0 帧 [233, 544]，找回 0/1，判错 0
+ep01_vacuum：注入 flip_a0 帧 [224, 522]，找回 0/25，判错 0
+ep07_iron：注入 flip_a0 帧 [268, 627]，找回 0/1，判错 0
+ep08_skinny_wood_chair：注入 flip_a0 帧 [212, 495]，找回 0/1，判错 0
+ep15_wet_floor_sign：注入 flip_a0 帧 [214, 500]，找回 0/3，判错 0
+ep16_spray_bottle：注入 flip_a0 帧 [143, 333]，找回 0/1，判错 0
+ep17_traffic_cone：注入 flip_a0 帧 [132, 308]，找回 0/23，判错 0
+ep18_blue_trash_can：注入 flip_a0 帧 [257, 600]，找回 0/1，判错 0
+ep21_tall_bar_stool：注入 flip_a0 帧 [203, 474]，找回 0/1，判错 0
+ep25_cyan_water_bottle：注入 flip_a0 帧 [257, 601]，找回 0/3，判错 0
+ep29_rolling_luggage：注入 flip_a0 帧 [140, 326]，找回 0/1，判错 0
+T3FLIP13_SUMMARY_DONE 0 0/11
