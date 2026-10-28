@@ -3,7 +3,7 @@
 # （训练机 ml40 上执行，放 setsid；只用 CPU）。计划 agent-doc/plan-t3hand-2026-10-27.md 第 3 版 P1 第 6 条。
 # 步骤照 stages/recovery/t3r_level1.sh（physics、dyn7）与 t3r_level1_usda.sh（mkroot、重定向 eps.sh、support_usda），版本名换成 _hr：
 #   1. 物理检查 tier3_cari4d_gb5_best_dr2s_hr（宿主机提取、镜像里检查）；
-#   2. dyn7：tier3_cari4d_gb5_best_dr2s_hr → tier3_cari4d_gb5_best_dr2s_hr_dyn7（全部 30 集；dyn7 读 _hr 的 depth_post.json 锚点，t3_held_fix 已照抄）；
+#   2. dyn7：tier3_cari4d_gb5_best_dr2s_hr → tier3_cari4d_gb5_best_dr2s_hr_dyn7（只出给定的集；dyn7 读 _hr 的 depth_post.json 锚点，t3_held_fix 已照抄）；
 #   3. 物理检查 tier3_cari4d_gb5_best_dr2s_hr_dyn7；
 #   4. gate 仓库里 mkroot（集名 gb5hrdyn7）→ eps.sh 重定向 → t3_support_usda.py，只对给定的集。
 # 每步经 stages/recovery/t3r_run.sh（她的目录只读、能力全丢、docker socket 盖住）；代码用部署在 t3recon/code 的副本（dyn7、物理检查、gate 脚本都在那里）。
@@ -43,7 +43,8 @@ physics() {   # physics <版本>：宿主机提取、镜像里检查
   rec "physics_check_$V" "${DK[@]}" --cpus 8 -v "$S:/s:ro" -v "$T3:/t:ro" -v "$SOMA:/a:ro" -v "$T3/runs/physics/$V:/o" "$IMG" python /s/t3_physics_check.py check /t /o/npz /a /o/out
 }
 physics "$HR"
-rec dyn7 bash "$GUARD" "$GPY" "$S/t3_dynamics_post.py" "$T3" "$HR" "runs/physics/$HR" "$DYN"
+EPL="$(IFS=,; echo "${EPS[*]}")"
+rec dyn7 bash "$GUARD" "$GPY" "$S/t3_dynamics_post.py" "$T3" "$HR" "runs/physics/$HR" "$DYN" "$EPL"   # 只出给定的集（_suspect 里的集没有物理检查，dyn7 全跑会找不到 npz）
 physics "$DYN"
 [ -e "$T3/code" ] || ln -s ../code "$T3/code"
 [ "$(realpath -e "$T3/code")" = "$R/code" ] || fail "$T3/code 没有指向 $R/code"
