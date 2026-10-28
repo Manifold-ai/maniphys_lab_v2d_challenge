@@ -2,7 +2,8 @@
 起因：agent-doc/plan-t3hand-2026-10-27.md 复核 BLOCKER 1：P1 的前提是 ep16 在“手到晚”的那段（第 126–137 帧）就丢，要用现有导出核。
 对每份导出：按 object_onset_rollout.py 的读法取最小 environment_id、第一个 object_body_id、按 step 排序；
 误差 = |achieved_position − reference_position|；报首次 > 5 / 10 / 20 cm 的帧、若干标记帧的误差，以及 --range a:b:s 里每 s 帧一行。
-用法（容器内）：python /repo/stages/evaluate/rollout_object_error.py [--range 100:320:10] <导出 parquet>...   最后一行 ROLLOUT_OBJECT_ERROR_DONE
+朝向误差 = achieved_quaternion 与 reference_quaternion 的夹角（rad）；--ori-range a:b 另报这段帧里朝向误差的均值与中位（plan-t3ocoff 的 O2），不给就报全集。
+用法（容器内）：python /repo/stages/evaluate/rollout_object_error.py [--range 100:320:10] [--ori-range 0:497] <导出 parquet>...   最后一行 ROLLOUT_OBJECT_ERROR_DONE
 """
 import argparse
 import sys
@@ -12,12 +13,23 @@ import pyarrow.parquet as pq
 
 POS = ("achieved_position_x", "achieved_position_y", "achieved_position_z")
 REF = ("reference_position_x", "reference_position_y", "reference_position_z")
+QA = ("achieved_quaternion_x", "achieved_quaternion_y", "achieved_quaternion_z", "achieved_quaternion_w")
+QR = ("reference_quaternion_x", "reference_quaternion_y", "reference_quaternion_z", "reference_quaternion_w")
+
+
+def ori_err(qa, qr):
+    """每帧两个四元数（xyzw）的夹角（rad）。"""
+    qa = qa / np.linalg.norm(qa, axis=1, keepdims=True)
+    qr = qr / np.linalg.norm(qr, axis=1, keepdims=True)
+    d = np.abs(np.sum(qa * qr, axis=1))
+    return 2 * np.arccos(np.clip(d, 0, 1))
 MARKS = (0, 50, 100, 120, 130, 140, 150, 175, 200, 250, 300, 400, 500, 600, 800)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--range", default=None, help="a:b:s，另按这个范围每 s 帧打一行")
+    ap.add_argument("--ori-range", default=None, help="a:b，朝向误差均值与中位的统计范围（默认全集）")
     ap.add_argument("parquet", nargs="+")
     a = ap.parse_args()
     for path in a.parquet:
@@ -36,8 +48,17 @@ def main() -> int:
         p = np.stack([np.asarray(d[c], dtype=float)[order] for c in POS], axis=1)
         r = np.stack([np.asarray(d[c], dtype=float)[order] for c in REF], axis=1)
         err = np.linalg.norm(p - r, axis=1)
+        oe = None
+        if all(c in d for c in QA + QR):
+            qa = np.stack([np.asarray(d[c], dtype=float)[order] for c in QA], axis=1)
+            qr = np.stack([np.asarray(d[c], dtype=float)[order] for c in QR], axis=1)
+            oe = ori_err(qa, qr)
         firsts = {th: (int(np.flatnonzero(err > th / 100)[0]) if (err > th / 100).any() else None) for th in (5, 10, 20)}
         print(f"{path}：{len(err)} 帧；误差首次 > 5 / 10 / 20 cm 的帧 {firsts[5]} / {firsts[10]} / {firsts[20]}；误差中位 {np.median(err) * 100:.1f} cm、最大 {err.max() * 100:.1f} cm（第 {int(err.argmax())} 帧）")
+        if oe is not None:
+            o0, o1 = (int(x) for x in a.ori_range.split(":")) if a.ori_range else (0, len(oe))
+            seg = oe[o0:o1]
+            print(f"  朝向误差（rad）第 {o0}–{o1} 帧：均值 {seg.mean():.3f}、中位 {np.median(seg):.3f}、> 0.5 rad 的帧占 {np.mean(seg > 0.5):.2f}；全集均值 {oe.mean():.3f}")
         print("  帧\t误差 cm\t参考相对第 0 帧的平移 m")
         rows = [f for f in MARKS if f < len(err)]
         if a.range:
