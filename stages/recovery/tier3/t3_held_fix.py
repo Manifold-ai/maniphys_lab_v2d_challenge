@@ -44,6 +44,9 @@ FPS = 30.0
 GAP = 5  # frames, as t3_dynamics_post.GAP
 JUMP_DEG = float(np.degrees(4 * np.pi) / FPS)  # 24 deg per frame, as t3_fix_units.JUMP_DEG
 MAX_SPREAD_DEG = 3.0  # per frame
+MAX_D_DEG = 20.0  # as t3_dynamics_post.MAX_OFFSET_DEG
+MIN_RUN = 3  # frames, as t3_dynamics_post.MIN_RUN
+WINDOW = 8  # frames, for the windowed turn report
 
 
 def angle(a, b) -> float:
@@ -71,7 +74,7 @@ def so3(M: np.ndarray) -> np.ndarray:
     return Rm
 
 
-def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True) -> tuple[np.ndarray, list[int], float]:
+def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True, R_target=None) -> tuple[np.ndarray, list[int], float]:
     """(R with frames s..e-1 rebuilt, the jump frames, angle(D) in deg). Inside the run the output is R[t] @ C with a
     body-frame correction C that is constant between jumps; at a jump C is reset so that the output continues the previous
     frame's motion (R[t] @ C = out[t-1] @ rel_prev), i.e. the branch switch is removed and the motion measured on the new
@@ -89,8 +92,9 @@ def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_
         out[t] = cand
     if not jumps:
         return R.copy(), [], 0.0
-    D = so3(out[e - 1].T @ R[e - 1])  # body-frame twist that brings the rebuilt end back onto the measured end
-    ang = np.degrees(angle(out[e - 1], R[e - 1]))
+    tgt = R[e - 1] if R_target is None else R_target
+    D = so3(out[e - 1].T @ tgt)  # body-frame twist that brings the rebuilt end onto the target (the next rest's robust mean)
+    ang = np.degrees(angle(out[e - 1], tgt))
     if match_end and e - s > 1:
         rv = Rotation.from_matrix(D).as_rotvec()
         w = 0.5 - 0.5 * np.cos(np.pi * np.arange(e - s) / (e - s - 1))
@@ -109,7 +113,7 @@ def main() -> None:
     from tier_guard import forbid_lower_tiers
     forbid_lower_tiers()  # Tier 3: nothing from Tier 1 or Tier 2 (Kaggle 2.8.c)
     import t3_provenance
-    from t3_dynamics_post import to_q, to_R
+    from t3_dynamics_post import robust_mean, to_q, to_R
     from t3_symmetry import SYM_M, Shape, nearest_equivalent, symmetries
 
     root, version, phys, out_v = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), sys.argv[4]
@@ -122,6 +126,7 @@ def main() -> None:
     rec = rn / f"{version}.height_post.json"
     rec = rec if rec.exists() else rn / f"{version}.depth_post.json"
     anchors = {row["episode"]: [(a["start"], a["end"]) for a in row["anchors"]] for row in json.loads(rec.read_text())}
+    win = WINDOW
     report = []
     for src_v, dst_v in ((version, out_v), (f"{version}_suspect", f"{out_v}_suspect")):
         for f in sorted((rn / src_v / "data" / "chunk-000").glob("episode_*.parquet")):
@@ -154,22 +159,34 @@ def main() -> None:
             if len(held) != n:
                 raise SystemExit(f"{name}: {len(held)} held flags for {n} frames")
             held = binary_closing(held, np.ones(2 * GAP + 1, bool)) | held
+            if name not in anchors:
+                raise SystemExit(f"{name}: no anchors in {rec.name} (the dynamics post-process would stop too)")
             resting = np.zeros(n, bool)
-            for a, b in anchors.get(name, []):
+            for a, b in anchors[name]:
                 resting[a:b] = True
             locked = ~held & resting
+            for a, b in runs(locked):  # as the dynamics post-process: a rest shorter than MIN_RUN is not locked
+                if b - a < MIN_RUN:
+                    locked[a:b] = False
             td0 = turn_deg(Rc)
             new_R = Rc.copy()
             rows_runs, skipped, reasons = [], [], []
             processed = np.zeros(n, bool)
+            lock_runs = runs(locked)
             for s, e in runs(~locked):
                 match_end = e < n
-                rr, jumps, dang = unwrap_run(new_R, s, e, match_end=match_end)
+                tgt = None
+                if match_end:
+                    nxt = next(((a, b) for a, b in lock_runs if a == e), None)
+                    if nxt is not None:
+                        tgt = robust_mean(Rc[nxt[0]:nxt[1]])[0]
+                rr, jumps, dang = unwrap_run(new_R, s, e, match_end=match_end, R_target=tgt)
                 if not jumps:
                     continue
                 spread = dang / max(1, e - s - 1) if match_end else 0.0
-                if spread > MAX_SPREAD_DEG:
-                    skipped.append({"start": s, "end": e, "jumps": jumps, "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2)})
+                if dang > MAX_D_DEG or spread > MAX_SPREAD_DEG:
+                    skipped.append({"start": s, "end": e, "jumps": jumps, "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2),
+                                    "why": "D above cap" if dang > MAX_D_DEG else "spread above cap"})
                     continue
                 new_R = rr
                 processed[s:e] = True
@@ -183,6 +200,14 @@ def main() -> None:
             if refused:
                 new_R, rows_runs = Rc.copy(), []
             changed = np.array([angle(Rc[t], new_R[t]) > 1e-6 for t in range(n)])  # frames only the symmetry step turned keep the input bytes
+            wt0 = np.array([np.degrees(angle(Rc[t], Rc[min(n - 1, t + win)])) for t in range(n)])
+            wt1 = np.array([np.degrees(angle(new_R[t], new_R[min(n - 1, t + win)])) for t in range(n)])
+            free = ~locked
+            bnd0, bnd1 = [], []
+            for r_ in rows_runs:
+                for t in (r_["start"], r_["end"]):
+                    if 1 <= t < n:
+                        bnd0.append(td0[t]); bnd1.append(td1[t])
             new_pos = com - new_R @ com_b
             out = pose.copy()
             out[changed, :3] = new_pos[changed]
@@ -199,7 +224,6 @@ def main() -> None:
             (rn / dst_v / "meta").mkdir(exist_ok=True)
             mf = rn / src_v / "meta" / f"episode_{ep:06d}.metadata.json"
             (rn / dst_v / "meta" / mf.name).write_bytes(mf.read_bytes())
-            free = ~locked
             jumps0 = int(sum(td0[t] > JUMP_DEG for t in range(1, n) if free[t] and free[t - 1]))
             jumps1 = int(sum(td1[t] > JUMP_DEG for t in range(1, n) if free[t] and free[t - 1]))
             row = {"episode": name, "tier": dst_v, "frames": n, "symmetries": len(G), "continuous_axis": sym_axis is not None,
@@ -208,9 +232,12 @@ def main() -> None:
                    "changed_frames": int(changed.sum()), "changed_share": round(float(changed.mean()), 3),
                    "max_turn_from_input_deg": round(float(max([np.degrees(angle(R[t], new_R[t])) for t in np.flatnonzero(changed)], default=0.0)), 1),
                    "max_turn_per_frame_before_after_deg": [round(float(td0.max()), 1), round(float(td1.max()), 1)],
+                   "free_window8_turn_max_before_after_deg": [round(float(wt0[free].max()), 1) if free.any() else 0.0, round(float(wt1[free].max()), 1) if free.any() else 0.0],
+                   "processed_boundary_turn_max_before_after_deg": [round(float(max(bnd0, default=0.0)), 1), round(float(max(bnd1, default=0.0)), 1)],
+                   "changed": np.flatnonzero(changed).tolist(),
                    "refused": reasons}
             report.append(row)
-            print(json.dumps(row), flush=True)
+            print(json.dumps({k: v for k, v in row.items() if k != "changed"}), flush=True)
     shutil.copy2(rec, rn / f"{out_v}.{rec.name.split('.', 1)[1]}")
     (rn / f"{out_v}.held_fix.json").write_text(json.dumps(report, indent=1))
     t3_provenance.write(rn / f"{out_v}.provenance.json", prov | {"made_by": "t3_held_fix.py", "from_version": version})

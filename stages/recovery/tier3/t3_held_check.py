@@ -1,6 +1,6 @@
 """H0 checks of the held-run jump repair: silhouette IoU before and after, and byte identity of untouched frames (Tier 3 inputs only).
 
-Plan: agent-doc/plan-t3hand-2026-10-27.md on track2/p1-training, version 2, section 1 P1 and criterion H0 (a), (d).
+Plan: agent-doc/plan-t3hand-2026-10-27.md on track2/p1-training, version 3.1, section 1 P1 and criterion H0 (a), (d). The changed frames come from the held_fix record; every episode is checked.
 
 For every episode the repair touched (runs/<out version>.held_fix.json): the silhouette IoU of the input and the output
 version on every stride-th evidence frame (t3_frame_confidence.silhouette, as t3_fix_sil.py), the medians over the whole
@@ -43,14 +43,15 @@ def main() -> None:
     for r in json.loads(sel.read_text()):
         ep, name, conv = r["episode_index"], r["episode"], r["convert"]
         row = rep.get(name)
-        if row is None or not row["runs"]:
+        if row is None:
             continue
         m = metas[ep]
         s, rot_, t, k, _ = similarity(root / "runs" / conv / name)
         verts, faces = load_mesh(root / "input" / m["mesh"])
         T0, T1 = world_pose(root, v_in, ep), world_pose(root, v_out, ep)
         n = len(T0)
-        replaced = np.array([np.degrees(np.arccos(np.clip((np.trace(T0[t, :3, :3].T @ T1[t, :3, :3]) - 1) / 2, -1, 1))) > 0.5 for t in range(n)])
+        replaced = np.zeros(n, bool)
+        replaced[row["changed"]] = True
         # (d) untouched frames keep the input bytes
         same = True
         for sub in ("", "_suspect"):
@@ -60,6 +61,10 @@ def main() -> None:
                 p0 = np.stack(pq.read_table(f0).column("observation.object.pose").to_numpy(zero_copy_only=False))
                 p1 = np.stack(pq.read_table(f1).column("observation.object.pose").to_numpy(zero_copy_only=False))
                 same = bool(np.array_equal(p0[~replaced], p1[~replaced]))
+        if not replaced.any():
+            bad += int(not same)
+            print(json.dumps({"episode": name, "replaced_frames": 0, "untouched_same": same}), flush=True)
+            continue
         H = h5py.File(root / "runs" / WORK[conv] / name / "masks_k0.h5", "r")[f"episode_{ep:06d}"]
         iou0, iou1 = np.full(n, np.nan), np.full(n, np.nan)
         frames = sorted(set(range(0, n, stride)) | set(np.flatnonzero(replaced).tolist()))
