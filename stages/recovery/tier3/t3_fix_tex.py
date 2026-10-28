@@ -25,6 +25,10 @@ Per episode in scope (it has a non-identity symmetry, a continuous axis or a nea
 Nothing is written into the version.
 
     python t3_fix_tex.py <tier3 root> <selection json> <version> <physics dir> <out dir> [stride=3] [only=<ep>,..] [stage=gate|full]
+                         [gap=0.05] [nulls=tilt] [inject=<a>:<b>]
+  gap     MIN_GAP override (plan-t3flip13: 0.27);  nulls=tilt adds +-5 and +-10 deg about each principal axis to the null set;
+  inject  positive control: the first distinct candidate is applied to the pose on frames [a*n, b*n) (fractions) before
+          scoring, and the report says whether the real set accepts that candidate back on those frames (positive_inject).
 Writes <out>/epNN.json (and epNN.npz with stage=full); one json line per episode on stdout. CPU only.
 """
 
@@ -67,7 +71,7 @@ def main() -> None:
     from t3_fix_units import JUMP_DEG, MIN_EVIDENCE, NULL_DEG, STEP_DEG, about_com, candidates, principal, rot, turn_deg
     from t3_object_check import rasterise
     from t3_symmetry import SYM_M, Shape, symmetries
-    from t3_tex import (DISTINCT_NCC, MIN_TEX_PX, SELF_MARGIN, SPLAT_PER_PX, band, decide_segment, merge_variants, ncc,
+    from t3_tex import (DISTINCT_NCC, MIN_GAP, MIN_TEX_PX, SELF_MARGIN, SPLAT_PER_PX, band, decide_segment, merge_variants, ncc,
                         segments, splat, surface_samples, ycrcb)
     from t3_track_check import MIN_MASK_PX
 
@@ -75,6 +79,9 @@ def main() -> None:
     kv = dict(a.split("=", 1) for a in sys.argv[1:] if "=" in a)
     root, sel, version, phys, out = Path(args[0]), Path(args[1]), args[2], Path(args[3]), Path(args[4])
     stride, stage = int(kv.get("stride", 3)), kv.get("stage", "full")
+    gap_override = float(kv["gap"]) if "gap" in kv else None
+    tilt_nulls = kv.get("nulls") == "tilt"
+    inject = tuple(float(x) for x in kv["inject"].split(":")) if "inject" in kv else None
     only = {int(x) for x in kv.get("only", "").split(",") if x}
     out.mkdir(parents=True, exist_ok=True)
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
@@ -123,8 +130,15 @@ def main() -> None:
         uv = np.asarray(mesh.visual.uv, np.float64)
         G = {"current": np.eye(4), **{x: about_com(g, com_b) for x, g in cand.items()},
              "null_5deg": about_com(rot(axes[:, 0], NULL_DEG), com_b)}
+        tilt = {}
+        if tilt_nulls:
+            for i in range(3):
+                for d in (5, -5, 10, -10):
+                    tilt[f"tilt_a{i}_{d:+d}"] = about_com(rot(axes[:, i], d), com_b)
+        G.update(tilt)
         Tw = world_pose(root, version, ep)
         n = len(Tw)
+        inj_name, inj_frames = None, None
         held = np.load(phys / "out" / f"{name}.npz")["held"].astype(bool)
         if len(held) != n:
             raise SystemExit(f"{name}: {len(held)} held flags for {n} frames")
@@ -218,9 +232,15 @@ def main() -> None:
         distinct = [x for x in cand if all(distinct_in(x, v) for v in VARIANTS)]
         hidden = [x for x in cand if x not in distinct]
         positive = min(distinct, key=lambda x: dmed[x]["i"]) if distinct else None
+        if inject is not None and distinct:
+            inj_name = next((x for x in distinct if x.startswith("flip_")), distinct[0])
+            a_, b_ = int(inject[0] * n), int(inject[1] * n)
+            inj_frames = (a_, b_)
+            Tw = Tw.copy()
+            Tw[a_:b_] = Tw[a_:b_] @ G[inj_name]  # a 180 deg flip is its own inverse: the method should accept it back
 
         # (b) scores against the video, the nulls and the positive control
-        poses = ["current", *cand, "null_5deg", "reseed", "shift1"]
+        poses = ["current", *cand, "null_5deg", *tilt, "reseed", "shift1"]
         sc = {v: {x: np.full(n, np.nan) for x in poses} for v in VARIANTS}
         pc = {v: {x: np.full(n, np.nan) for x in ["current", *distinct]} for v in VARIANTS}
         vis = []
@@ -289,18 +309,29 @@ def main() -> None:
                     if len(fr_) < MIN_EVIDENCE:
                         per[v] = {"evidence": len(fr_), "decision": "refuse", "name": None, "reason": "evidence"}
                     else:
-                        per[v] = {"evidence": len(fr_), **decide_segment({x: [float(table[v][x][f]) for f in fr_] for x in names}, near)}
+                        kw = {"min_gap": gap_override} if gap_override is not None else {}
+                        per[v] = {"evidence": len(fr_), **decide_segment({x: [float(table[v][x][f]) for f in fr_] for x in names}, near, **kw)}
                 rows.append({"start": a, "end": b, "unheld": bool((~held[a:b]).all()), "variants": per, **merge_variants(per)})
             return rows
 
         dec = {"real": decide(sc, ["current", *distinct]) if distinct else [],
-               "null": decide(sc, ["current", "null_5deg", "reseed", "shift1", *hidden]),
+               "null": decide(sc, ["current", "null_5deg", *tilt, "reseed", "shift1", *hidden]),
                "positive": decide(pc, ["current", *distinct]) if distinct else []}
+        inj_rows = []
+        if inj_frames is not None:
+            a_, b_ = inj_frames
+            for rw in dec["real"]:
+                ov = max(0, min(rw["end"], b_) - max(rw["start"], a_))
+                if ov >= 0.5 * (rw["end"] - rw["start"]):
+                    inj_rows.append({"start": rw["start"], "end": rw["end"], "decision": rw["decision"], "name": rw["name"], "reason": rw["reason"]})
         null_any = sum(rw["variants"][v]["decision"] == "accept" for rw in dec["null"] for v in VARIANTS)
         pos_ok = [rw for rw in dec["positive"] if all(rw["variants"][v].get("evidence", 0) >= 30 for v in VARIANTS)]
         np.savez_compressed(out / f"ep{ep:02d}.npz", **{f"{v}__{x}": a for v, d in sc.items() for x, a in d.items()},
                             **{f"pos_{v}__{x}": a for v, d in pc.items() for x, a in d.items()})
-        row.update(distinct_ncc=dmed, distinct=distinct, positive=positive,
+        row.update(distinct_ncc=dmed, distinct=distinct, positive=positive, gap=gap_override if gap_override is not None else MIN_GAP,
+                   tilt_nulls=sorted(tilt), inject=inj_name, inject_frames=inj_frames,
+                   inject_found=(f"{sum(r['decision'] == 'accept' and r['name'] == inj_name for r in inj_rows)}/{len(inj_rows)}" if inj_frames else None),
+                   inject_wrong=(sum(r['decision'] == 'accept' and r['name'] != inj_name for r in inj_rows) if inj_frames else None),
                    visible_px_p50=int(np.median(vis)) if vis else 0,
                    scored={v: int(np.isfinite(sc[v]["current"]).sum()) for v in VARIANTS}, segments=len(segs),
                    accepts={kind: sum(rw["decision"] == "accept" for rw in dec[kind]) for kind in dec},
