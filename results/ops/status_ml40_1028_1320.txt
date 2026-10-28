@@ -1,0 +1,26 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : c4301c3cd37c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T13:21:13-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-29 03:21:14 CST
+NVIDIA L40S, 40271 MiB, 46068 MiB, 96 %
+/dev/vdb        2.0T  1.1T  957G  53% /lab_data
+-- tmux
+v2d-t3qhr27-eval: 1 windows (created Thu Oct 29 01:54:51 2026)
+v2d-t3qhr27-export: 1 windows (created Thu Oct 29 01:54:53 2026)
+v2d-t3qhr27-train: 1 windows (created Thu Oct 29 01:54:49 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qhr27_ml40-gate
+runs/.chain-active-t3qhr27_eval_ml40
+runs/.chain-active-t3qhr27_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.log：training progress: 216,999,936/349,999,104 environment steps (62.0%); 45,793 env steps/s; elapsed 01:18:59; ETA 00:48:24
+runs/logs/t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.nanwatch.log：10-28 13:19:48 MDT 210,008,064 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qhr27_train_ml40.log：=== 2026-10-29 01:59:42 CST 正式 t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+runs/logs/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+runs/logs/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+runs/logs/cand_t3_t3qhr27_ml40_gate.log：=== 2026-10-29 01:54:53 CST 等 runs/logs/t3qhr27_eval_ml40.log 的最后一行变成评测链的结束行
+runs/logs/t3qhr27_eval_ml40.log：=== 2026-10-29 01:54:51 CST 等 runs/logs/t3qhr27_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/cand_t3_t3qr3o_ml40_gate.log：=== 2026-10-29 01:51:33 CST 导出链结束，退出码 0
