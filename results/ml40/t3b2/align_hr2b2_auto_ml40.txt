@@ -1,0 +1,10 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ python\ align_frefs_t3.py\ /repo/runs/t3b2/frefs_hr2b2\ /repo/runs/t3b2/al_hr2b2_auto\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --variant\ auto 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# source   : 0d00f4318624
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:44:16+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	理由	静止帧	第0帧位置差cm	转角差°	倾斜°	偏航(物体)°	偏航(人体)°	F0对F̂ cm/°	人体根 前→后 cm	Tier3第0帧可见
+27	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 2.11° ≤ 3.0°	30	4.44	2.17	2.11	0.51	0.48	0.00/0.00	5.87→6.87	True
+ALIGN_FREFS_OK 1

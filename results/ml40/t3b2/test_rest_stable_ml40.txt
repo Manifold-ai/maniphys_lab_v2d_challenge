@@ -1,0 +1,9 @@
+# command  : bash -c cd\ /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3\ \&\&\ /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python\ test_t3_rest_stable.py 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:30:28+0800
+# ---------------------------------------------------------------
+ok test_com_outside_the_support_is_not_stable
+ok test_on_an_edge_is_not_stable
+ok test_standing_is_stable
+3 passed

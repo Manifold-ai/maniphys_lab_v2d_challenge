@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_b2_apply.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s_hr2 /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/b2_choice_hr2.json tier3_cari4d_gb5_best_dr2s_hr2b2 27 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:35:40+0800
+# ---------------------------------------------------------------
+{"episode": 27, "object": "woven_basket", "from": "tier3_cari4d_gb5_best_dr2s_hr2", "g_deg": 180.0, "surface_shift_m": 0.00754, "com_moved_m_max": 4.440892098500626e-16, "turns_changed_max": 6.687339484251487e-13, "rule": "t3b2-2.1", "tier1_sha256": "84a7a29f6e6b7cc3c5f6a9c0e0d41c4f819ca5195b680c36808e2107b95c579d"}
+B2_APPLY_OK 1

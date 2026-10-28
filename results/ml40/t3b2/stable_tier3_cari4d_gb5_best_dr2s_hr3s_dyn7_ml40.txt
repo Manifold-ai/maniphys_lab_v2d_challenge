@@ -1,0 +1,8 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_rest_stable.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s_hr3s_dyn7 15 0:110 626:715 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:35:19+0800
+# ---------------------------------------------------------------
+{"episode": 15, "version": "tier3_cari4d_gb5_best_dr2s_hr3s_dyn7", "range": [0, 110], "mid_frame": 55, "mid_stable": true, "mid_margin_m": 0.135, "mid_support_points": 60, "stable_share": 1.0, "mid_lowest_m": 0.0, "up_body": [0.0097, 0.0106, 0.9999]}
+{"episode": 15, "version": "tier3_cari4d_gb5_best_dr2s_hr3s_dyn7", "range": [626, 715], "mid_frame": 670, "mid_stable": true, "mid_margin_m": 0.0294, "mid_support_points": 42, "stable_share": 1.0, "mid_lowest_m": -0.0, "up_body": [0.0213, -0.0188, 0.9996]}
+REST_STABLE_DONE

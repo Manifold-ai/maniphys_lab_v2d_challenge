@@ -1,0 +1,9 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/parquet_repath.py\ /repo/runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet\ /lab_data/rxzhou/v2d/t3recon/gate_e/repo\ /repo 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 3fac2f676fa461b5dd341628f0fe37a4  stages/retarget/parquet_repath.py
+# md5      : 25bac2e913890c82375b243a15c9b2fa  runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:38:38+0800
+# ---------------------------------------------------------------
+PARQUET_REPATH_DONE 2

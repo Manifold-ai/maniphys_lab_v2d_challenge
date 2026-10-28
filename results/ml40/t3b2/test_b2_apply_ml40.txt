@@ -1,0 +1,7 @@
+# command  : bash -c cd\ /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3\ \&\&\ /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python\ test_t3_b2_apply.py 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:35:08+0800
+# ---------------------------------------------------------------
+ok test_apply_g
+1 passed

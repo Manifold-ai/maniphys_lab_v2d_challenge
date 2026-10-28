@@ -1,0 +1,6 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_held_fix.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s /lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s tier3_cari4d_gb5_best_dr2s_hr3r 15 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:29:03+0800
+# ---------------------------------------------------------------
+{"episode": "ep15_wet_floor_sign", "tier": "tier3_cari4d_gb5_best_dr2s_hr3r", "frames": 715, "symmetries": 1, "continuous_axis": false, "held_share": 0.722, "locked_share": 0.278, "free_jump_frames_before_after": [3, 0], "runs": [{"start": 110, "end": 626, "jumps": [498], "storms": [["switched", 497, 502]], "mode": "carry", "end_mismatch_deg": 2.06}], "skipped_runs": [], "changed_frames": 217, "changed_share": 0.303, "max_turn_from_input_deg": 154.9, "max_turn_per_frame_before_after_deg": [148.9, 13.6], "free_window8_turn_max_before_after_deg": [154.8, 26.1], "processed_boundary_turn_max_before_after_deg": [1.2, 1.8], "modes": [{"mode": "carry", "start": 110, "end": 626, "rest": [626, 715], "storm": [497, 502], "C_deg": 117.0, "C_axis_vs_floor_normal_deg": 17.0, "d_prime_deg": 2.06, "reseat_shift_m_min_max": [0.042, 0.0495]}], "refused": []}

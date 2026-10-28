@@ -1,0 +1,14 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_object_turns.py\ --window\ 478:522\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2c63da4f850bca9f0bcd3c1d4935bc3e  stages/retarget/ref_object_turns.py
+# md5      : 43db5955c906882cad190c3cd366169b  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# md5      : 9bb76b6aa19461d40a17fb3c845bf9c8  runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:39:19+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet：715 帧；转角 > 24° 的帧 2 个 [498, 499]；转角 99% 3.2°、最大 145.0°（第 498 帧）
+  478:1 479:1 480:1 481:0 482:0 483:1 484:2 485:0 486:2 487:1 488:1 489:2 490:0 491:2 492:1 493:1 494:1 495:1 496:1 497:0 498:145 499:71 500:0 501:5 502:22 503:6 504:0 505:0 506:0 507:1 508:1 509:1 510:1 511:1 512:2 513:2 514:2 515:2 516:2 517:2 518:2 519:2 520:2 521:2
+/repo/runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet：715 帧；转角 > 24° 的帧 0 个 []；转角 99% 6.1°、最大 15.4°（第 498 帧）
+  478:1 479:1 480:1 481:0 482:0 483:1 484:1 485:1 486:1 487:2 488:1 489:1 490:8 491:5 492:6 493:3 494:0 495:2 496:2 497:11 498:15 499:0 500:6 501:5 502:13 503:3 504:0 505:11 506:4 507:8 508:1 509:3 510:1 511:2 512:1 513:1 514:0 515:1 516:1 517:1 518:2 519:2 520:2 521:2
+REF_OBJECT_TURNS_DONE

@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python -c $'\nimport json,sys\nimport numpy as np, pyarrow.parquet as pq\nfrom scipy.spatial.transform import Rotation\nsys.path.insert(0, "/lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3")\nfrom t3_b2_apply import apply_g\nT="/lab_data/rxzhou/v2d/t3recon/t3fx/runs/"\nld=lambda v: np.stack(pq.read_table(T+v+"/data/chunk-000/episode_000027.parquet").column("observation.object.pose").to_numpy(zero_copy_only=False)).astype(np.float64)\na,b=ld("tier3_cari4d_gb5_best_dr2s_hr2_dyn7"),ld("tier3_cari4d_gb5_best_dr2s_hr2b2_dyn7")\nc=json.load(open("runs/t3b2/b2_choice_hr2.json"))["episodes"]["27"]\ng=np.array(c["g"]); cb=np.array(c["com_b"])\nRa=Rotation.from_quat(np.c_[a[:,4:7],a[:,3:4]]).as_matrix(); Rb=Rotation.from_quat(np.c_[b[:,4:7],b[:,3:4]]).as_matrix()\npe,Re=apply_g(a[:,:3],Ra,g,cb)\nang=np.degrees(np.arccos(np.clip((np.einsum("tji,tji->t",Re,Rb)-1)/2,-1,1)))\ndp=np.linalg.norm(pe-b[:,:3],axis=1)\nprint("frames",len(a),"orientation vs old_dyn7*g: max %.4f deg, p99 %.4f"%(ang.max(),np.percentile(ang,99)),"position max %.2e m"%dp.max())\nprint("B2_COMMUTE_OK" if ang.max()<0.1 and dp.max()<1e-3 else "B2_COMMUTE_FAIL")\n' 
+# source   : 0d00f4318624
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:44:02+0800
+# ---------------------------------------------------------------
+frames 565 orientation vs old_dyn7*g: max 0.0000 deg, p99 0.0000 position max 9.50e-04 m
+B2_COMMUTE_OK

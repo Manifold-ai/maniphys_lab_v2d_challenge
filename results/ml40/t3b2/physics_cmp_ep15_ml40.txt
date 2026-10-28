@@ -1,0 +1,9 @@
+# command  : python3 -c $'\nimport json\nP="/lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/"\nfor v in ("tier3_cari4d_gb5_best_dr2s","tier3_cari4d_gb5_best_dr2s_hr3s","tier3_cari4d_gb5_best_dr2s_hr3s_dyn7","tier3_cari4d_gb5_best_dr2s_hr3r_dyn7"):\n    d=json.load(open(P+v+"/out/ep15_wet_floor_sign.json"))\n    f={x["check"]:x["frames"] for x in d["findings"]}\n    print(v, "合计", sum(f.values()), f)\n' 
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:39:19+0800
+# ---------------------------------------------------------------
+tier3_cari4d_gb5_best_dr2s 合计 20 {'feet_penetration': 20}
+tier3_cari4d_gb5_best_dr2s_hr3s 合计 20 {'feet_penetration': 20}
+tier3_cari4d_gb5_best_dr2s_hr3s_dyn7 合计 20 {'feet_penetration': 20}
+tier3_cari4d_gb5_best_dr2s_hr3r_dyn7 合计 67 {'object_floor_penetration': 47, 'feet_penetration': 20}
