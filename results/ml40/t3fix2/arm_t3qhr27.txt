@@ -1,0 +1,19 @@
+# command  : stages/policy/arm_var_chain.sh t3qhr27 
+# md5      : 05e1ee52109262c60461b18e7b0eb210  stages/policy/arm_var_chain.sh
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:54:47+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.yaml：4 条断言，全过
+核对：t3qhr27 在 ml40，1 条 run，来历 5a43362f0679，可用 979933 MB，训练副本 v040_p185_nfg，2 份配置的 precheck 与配方断言全过
+v2d-t3qhr27-eval: 1 windows (created Thu Oct 29 01:54:51 2026)
+v2d-t3qhr27-export: 1 windows (created Thu Oct 29 01:54:53 2026)
+v2d-t3qhr27-train: 1 windows (created Thu Oct 29 01:54:49 2026)
+t3qhr27_train_ml40：=== 2026-10-29 01:54:50 CST 冒烟 smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+t3qhr27_eval_ml40：=== 2026-10-29 01:54:51 CST 等 runs/logs/t3qhr27_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3qhr27_ml40：
+runs/.chain-active-cand_t3_t3qhr27_ml40-gate
+runs/.chain-active-t3qhr27_eval_ml40
+runs/.chain-active-t3qhr27_train_ml40
+ARMED

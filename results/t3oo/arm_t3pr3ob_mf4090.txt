@@ -1,0 +1,19 @@
+# command  : stages/policy/arm_var_chain.sh t3pr3ob 
+# md5      : 05e1ee52109262c60461b18e7b0eb210  stages/policy/arm_var_chain.sh
+# source   : 5a43362f0679
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-29T01:54:58+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090.yaml：4 条断言，全过
+/repo/runs/cfgcheck/smoke-t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090.yaml：4 条断言，全过
+核对：t3pr3ob 在 mf4090，1 条 run，来历 5a43362f0679，可用 55826 MB，训练副本 v040_p185_nfg_oo，2 份配置的 precheck 与配方断言全过
+v2d-t3pr3ob-eval: 1 windows (created Thu Oct 29 01:55:01 2026)
+v2d-t3pr3ob-export: 1 windows (created Thu Oct 29 01:55:03 2026)
+v2d-t3pr3ob-train: 1 windows (created Thu Oct 29 01:54:59 2026)
+t3pr3ob_train_mf4090：=== 2026-10-29 01:55:00 CST 冒烟 smoke-t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090
+t3pr3ob_eval_mf4090：=== 2026-10-29 01:55:01 CST 等 runs/logs/t3pr3ob_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+cand_t3_t3pr3ob_mf4090：
+runs/.chain-active-cand_t3_t3pr3ob_mf4090-gate
+runs/.chain-active-t3pr3ob_eval_mf4090
+runs/.chain-active-t3pr3ob_train_mf4090
+ARMED
