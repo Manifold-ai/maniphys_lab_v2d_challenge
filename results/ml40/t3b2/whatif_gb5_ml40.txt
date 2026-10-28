@@ -1,0 +1,65 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ PYTHONPATH=/repo/stages/evaluate\ python\ /repo/runs/t3b2/tools/t3_align_whatif.py\ /repo/runs/t3b2/frefs_gb5\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --sym\ /repo/runs/t3b2/sym_t3fx.json\ --episodes\ 2\,4\,5\,12\,14\,17\,23\,27 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 63f9cbaf4f831d5383f79b553bc8c31b  runs/t3b2/tools/t3_align_whatif.py
+# md5      : c4eef6d3f16267cba21478e55ae1d020  runs/t3b2/sym_t3fx.json
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T07:08:21+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep2 episode_000002.parquet sha256 ac7063548bde13b4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep4 episode_000004.parquet sha256 9b5796e50133f90a 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep14 episode_000014.parquet sha256 3a94f6e897cdf569 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep17 episode_000017.parquet sha256 ebc23d6052c823a3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep23 episode_000023.parquet sha256 2a3388abb6251772 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep2（tier3_gb5，980 帧，自动方案 yaw_hum）：E 转角 106.8°；质心离第 0 帧最远 104 cm，相对第 0 帧最大转角 176°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.3 cm、朝向 106.8°、6 点 5.5 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 83.4 cm、朝向 28.3°、6 点 83.5 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 83.2 cm、朝向 27.0°、6 点 83.2 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 1.7 cm、朝向 105.2°、6 点 5.9 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 2 主轴 105°，表面最多移动 2.6 cm）后 yaw_hum：位置 0.2 cm、朝向 8.8°、6 点 0.6 cm，SP-SR 过、MP-SR 过
+ep4（tier3_gb5，803 帧，自动方案 yaw_obj）：E 转角 98.1°；质心离第 0 帧最远 202 cm，相对第 0 帧最大转角 180°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.2 cm、朝向 98.1°、6 点 5.1 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 3.2 cm、朝向 98.1°、6 点 6.5 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 162.9 cm、朝向 96.6°、6 点 163.0 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 1.8 cm、朝向 98.1°、6 点 5.8 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 0 主轴 260°，表面最多移动 0.6 cm）后 yaw_hum：位置 0.1 cm、朝向 4.0°、6 点 0.3 cm，SP-SR 过、MP-SR 过
+ep5（tier3_gb5，1003 帧，自动方案 obj）：E 转角 2.4°；质心离第 0 帧最远 82 cm，相对第 0 帧最大转角 125°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.1 cm、朝向 2.4°、6 点 0.2 cm，SP-SR 过、MP-SR 过
+  yaw_obj  位置 1.6 cm、朝向 2.3°、6 点 1.6 cm，SP-SR 过、MP-SR 过
+  obj      位置 1.9 cm、朝向 2.6°、6 点 1.9 cm，SP-SR 过、MP-SR 过
+  pos      位置 3.2 cm、朝向 3.4°、6 点 3.2 cm，SP-SR 过、MP-SR 不过
+  近对称 g（第 0 主轴 355°，表面最多移动 2.2 cm）后 yaw_hum：位置 0.1 cm、朝向 3.7°、6 点 0.3 cm，SP-SR 过、MP-SR 过
+ep12（tier3_gb5，700 帧，自动方案 yaw_hum）：E 转角 179.9°；质心离第 0 帧最远 49 cm，相对第 0 帧最大转角 180°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 3.0 cm、朝向 179.9°、6 点 7.9 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 37.9 cm、朝向 57.4°、6 点 38.3 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 38.0 cm、朝向 57.1°、6 点 38.4 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 3.0 cm、朝向 179.7°、6 点 8.0 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 2 主轴 180°，表面最多移动 3.5 cm）后 yaw_hum：位置 0.0 cm、朝向 1.0°、6 点 0.1 cm，SP-SR 过、MP-SR 过
+ep14（tier3_gb5，993 帧，自动方案 yaw_hum）：E 转角 141.7°；质心离第 0 帧最远 139 cm，相对第 0 帧最大转角 180°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 1.4 cm、朝向 141.7°、6 点 6.8 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 126.7 cm、朝向 80.3°、6 点 126.7 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 127.1 cm、朝向 79.8°、6 点 127.1 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 2.0 cm、朝向 141.6°、6 点 7.1 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 0 主轴 220°，表面最多移动 12.4 cm）后 yaw_hum：位置 2.3 cm、朝向 6.3°、6 点 2.4 cm，SP-SR 过、MP-SR 过
+ep17（tier3_gb5，440 帧，自动方案 yaw_hum）：E 转角 93.9°；质心离第 0 帧最远 191 cm，相对第 0 帧最大转角 159°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.6 cm、朝向 93.9°、6 点 5.1 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 99.6 cm、朝向 11.0°、6 点 99.6 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 99.8 cm、朝向 11.1°、6 点 99.8 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 5.8 cm、朝向 89.0°、6 点 8.2 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 0 主轴 95°，表面最多移动 3.7 cm）后 yaw_hum：位置 0.0 cm、朝向 1.8°、6 点 0.1 cm，SP-SR 过、MP-SR 过
+ep23（tier3_gb5，946 帧，自动方案 obj）：E 转角 4.0°；质心离第 0 帧最远 137 cm，相对第 0 帧最大转角 180°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.0 cm、朝向 4.0°、6 点 0.3 cm，SP-SR 过、MP-SR 过
+  yaw_obj  位置 5.5 cm、朝向 0.4°、6 点 5.5 cm，SP-SR 过、MP-SR 不过
+  obj      位置 5.5 cm、朝向 0.5°、6 点 5.5 cm，SP-SR 过、MP-SR 不过
+  pos      位置 4.5 cm、朝向 0.8°、6 点 4.6 cm，SP-SR 过、MP-SR 不过
+  近对称 g（第 0 主轴 355°，表面最多移动 1.7 cm）后 yaw_hum：位置 0.1 cm、朝向 2.5°、6 点 0.2 cm，SP-SR 过、MP-SR 过
+ep27（tier3_gb5，565 帧，自动方案 yaw_hum）：E 转角 180.0°；质心离第 0 帧最远 156 cm，相对第 0 帧最大转角 180°（假设 H-body：真值 = 我们 · E，按 yaw_hum 对齐）
+  yaw_hum  位置 0.4 cm、朝向 180.0°、6 点 6.8 cm，SP-SR 不过、MP-SR 不过
+  yaw_obj  位置 114.6 cm、朝向 7.0°、6 点 114.7 cm，SP-SR 不过、MP-SR 不过
+  obj      位置 118.6 cm、朝向 6.3°、6 点 118.6 cm，SP-SR 不过、MP-SR 不过
+  pos      位置 0.4 cm、朝向 179.5°、6 点 6.8 cm，SP-SR 不过、MP-SR 不过
+  近对称 g（第 2 主轴 180°，表面最多移动 0.8 cm）后 yaw_hum：位置 0.0 cm、朝向 2.1°、6 点 0.1 cm，SP-SR 过、MP-SR 过
+ALIGN_WHATIF_DONE 8

@@ -1,0 +1,12 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python -c $'\nimport numpy as np, json\nd=np.load("/lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s_hr_dyn7/out/ep13_snack_box.npz")\nprint("keys", list(d.keys()))\nh=d["held"].astype(bool)\nfor a,b in ((300,340),(340,390),(390,480),(480,560)):\n    print(f"帧 {a}-{b}: held 比例 {h[a:b].mean():.2f}")\nj=json.load(open("/lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s_hr_dyn7/out/ep13_snack_box.json"))\nprint({k:v for k,v in j["thresholds"].items()})\nprint(json.dumps(j["measurements"])[:600])\n' 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T07:10:02+0800
+# ---------------------------------------------------------------
+keys ['obj_low', 'feet', 'sole_low', 'hand_d', 'speed', 'acc', 'held']
+帧 300-340: held 比例 0.68
+帧 340-390: held 比例 0.80
+帧 390-480: held 比例 0.83
+帧 480-560: held 比例 0.00
+{'G': 9.81, 'FLOOR_TOL_M': 0.03, 'FEET_FLOAT_M': 0.05, 'HOLD_M': 0.1, 'MOVE_MPS': 0.15, 'REST_MPS': 0.05, 'FALL_TOL': 4.905, 'DRIFT_M': 0.03, 'JITTER_M': 0.01, 'ACC_MAX': 30.0, 'JUMP_M': 0.1, 'SMOOTH': 5, 'MIN_SEGMENT': 8}
+{"object_lowest_m_p5_p50_p95": [0.0, 0.0315, 0.9264], "feet_lowest_m_p5_p50_p95": [-0.07, -0.0262, 0.0394], "held_share": 0.5542, "moving_share": 0.3829, "rest_segments": [{"start": 0, "end": 86, "drift_m": 0.0, "jitter_rms_m": 0.0, "lowest_median_m": 0.876, "on": "off_floor"}, {"start": 330, "end": 350, "drift_m": 0.0038, "jitter_rms_m": 0.0018, "lowest_median_m": -0.0, "on": "floor"}, {"start": 477, "end": 583, "drift_m": 0.0099, "jitter_rms_m": 0.001, "lowest_median_m": 0.0, "on": "floor"}, {"start": 586, "end": 676, "drift_m": 0.0, "jitter_rms_m": 0.0, "lowest_median_m": 0.0, "on": "floor"
