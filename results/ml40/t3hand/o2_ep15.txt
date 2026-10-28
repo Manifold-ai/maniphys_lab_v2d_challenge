@@ -1,0 +1,44 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/rollout_object_error.py\ --ori-range\ 0:497\ /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet\ /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 73b9a1f1e76dae5b331492a49a530ad9  stages/evaluate/rollout_object_error.py
+# md5      : a3aa738d72f9011ba37c412e0a4a0ef3  runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet
+# md5      : df1b23e0916b41f53d9e3d9a6ef5214d  runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet
+# source   : 4c5c9843ebd9
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T14:46:33+0800
+# ---------------------------------------------------------------
+/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ocoff-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet：715 帧；误差首次 > 5 / 10 / 20 cm 的帧 473 / None / None；误差中位 1.6 cm、最大 5.6 cm（第 474 帧）
+  朝向误差（rad）第 0–497 帧：均值 0.414、中位 0.462、> 0.5 rad 的帧占 0.45；全集均值 0.572
+  帧	误差 cm	参考相对第 0 帧的平移 m
+  0	0.1	0.000
+  50	0.6	0.000
+  100	0.6	0.000
+  120	1.0	0.002
+  130	2.2	0.046
+  140	1.2	0.037
+  150	2.4	0.022
+  175	1.6	0.055
+  200	3.3	0.306
+  250	3.7	0.590
+  300	1.7	0.765
+  400	2.0	1.241
+  500	4.1	0.438
+  600	2.9	1.058
+/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet：715 帧；误差首次 > 5 / 10 / 20 cm 的帧 498 / 500 / 531；误差中位 2.5 cm、最大 67.7 cm（第 610 帧）
+  朝向误差（rad）第 0–497 帧：均值 0.278、中位 0.329、> 0.5 rad 的帧占 0.09；全集均值 0.728
+  帧	误差 cm	参考相对第 0 帧的平移 m
+  0	0.1	0.000
+  50	0.6	0.000
+  100	0.6	0.000
+  120	0.7	0.002
+  130	2.8	0.046
+  140	0.9	0.037
+  150	0.6	0.022
+  175	2.3	0.055
+  200	0.7	0.306
+  250	4.6	0.590
+  300	2.9	0.765
+  400	0.9	1.241
+  500	10.7	0.438
+  600	65.5	1.058
+ROLLOUT_OBJECT_ERROR_DONE
