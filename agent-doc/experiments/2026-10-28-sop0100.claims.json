@@ -1,0 +1,180 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {
+   "file": "results/board/diff_1028_0101.txt",
+   "grep": "读法|^tier1-auc|^tier1-mppe|BOARD_"
+  },
+  "board2220": {
+   "file": "results/board/diff_1027_2220.txt",
+   "grep": "^tier2-mppe"
+  },
+  "places": {
+   "file": "results/board/diff_1028_0101.txt",
+   "grep": "^Tier 2：|^Tier 3："
+  },
+  "ep15": {
+   "file": "results/ml40/t3g5/eval_t3qcoff_ml40.txt",
+   "grep": "ocoff-ml40"
+  },
+  "ep15o2": {
+   "file": "results/ml40/t3hand/o2_ep15.txt",
+   "grep": "parquet：|朝向误差"
+  },
+  "ep13p0": {
+   "file": "results/t3hand/rollout_error_ep13_ocoff.txt",
+   "grep": "parquet"
+  },
+  "f4": {
+   "file": "results/ml40/t3hand/flip13_f4_ml40.txt",
+   "grep": "current-best|accepts"
+  },
+  "f0f1": {
+   "file": "results/ml40/t3hand/flip13_f0f1_ml40.txt",
+   "grep": "F0 合计|T3FLIP13"
+  },
+  "chk": {
+   "file": "results/ml40/t3hand/flip13_checks_dyn7.txt",
+   "grep": "H0|DONE"
+  },
+  "turns": {
+   "file": "results/ml40/t3hand/flip13_turns_parquet.txt",
+   "grep": "帧；转角"
+  },
+  "stmf": {
+   "file": "results/ops/status_mf4090_1028_0101.txt",
+   "grep": "NVIDIA|training progress|正式"
+  },
+  "stml": {
+   "file": "results/ops/status_ml40_1028_0101.txt",
+   "grep": "NVIDIA|training progress|正式"
+  }
+ },
+ "claims": [
+  {
+   "id": "ff_t1auc",
+   "evidence": [
+    "board"
+   ],
+   "claim": "On tier1-auc, Xueyi Wang (FF) changed from 0.66803 to 0.74038."
+  },
+  {
+   "id": "rank_b",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the Kaggle tie rule the 12-board rank sums are Xueyi Wang (FF) 47, nima arki 50, maniphys.ai 56 and MBZUAI-RCL Group 59, and maniphys.ai stays third."
+  },
+  {
+   "id": "rank_a",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under reading A maniphys.ai has 12 and is fourth."
+  },
+  {
+   "id": "rank_ctl",
+   "evidence": [
+    "board"
+   ],
+   "claim": "maniphys.ai is first in the 12-board rank sum.",
+   "control": "false"
+  },
+  {
+   "id": "ff_t2mppe",
+   "evidence": [
+    "board2220"
+   ],
+   "claim": "On tier2-mppe, Xueyi Wang (FF) changed from 13.17325 to 9.28429."
+  },
+  {
+   "id": "t2mppe_place",
+   "evidence": [
+    "places"
+   ],
+   "claim": "maniphys.ai is 第 5 on Tier 2 mppe with 15.32195."
+  },
+  {
+   "id": "ep15_pos",
+   "evidence": [
+    "ep15"
+   ],
+   "claim": "The ocoff ep15 run has MPPE 3.32 cm, CHORD_SR 0.960 and SP-SR 0.002 on 4096 worlds."
+  },
+  {
+   "id": "ep15_ctl",
+   "evidence": [
+    "ep15"
+   ],
+   "claim": "The ocoff ep15 run has SP-SR above 0.5.",
+   "control": "false"
+  },
+  {
+   "id": "ep15_o2",
+   "evidence": [
+    "ep15o2"
+   ],
+   "claim": "For the first parquet (the ocoff run) the mean orientation error over frames 0-497 is 0.414 rad, and for the second parquet (the gb5 run) it is 0.278 rad."
+  },
+  {
+   "id": "ep13_p0",
+   "evidence": [
+    "ep13p0"
+   ],
+   "claim": "The ocoff ep13 export's error first exceeds 20 cm at frame 227."
+  },
+  {
+   "id": "f4",
+   "evidence": [
+    "f4"
+   ],
+   "claim": "On the new layer the ep13 decision is current-best with 0 real accepts."
+  },
+  {
+   "id": "f0",
+   "evidence": [
+    "f0f1"
+   ],
+   "claim": "The F0 null-control total is 0 and the injected flips were recovered in 0 of 11 episodes."
+  },
+  {
+   "id": "f0_ctl",
+   "evidence": [
+    "f0f1"
+   ],
+   "claim": "The injected flips were recovered in 11 of 11 episodes.",
+   "control": "false"
+  },
+  {
+   "id": "chk",
+   "evidence": [
+    "chk"
+   ],
+   "claim": "The H0(f) checks pass: the pre-burst part within 1.7 degrees and the post-burst parts within 2.5 and 2.6 degrees of the old layer times flip_a2, with 0 fails."
+  },
+  {
+   "id": "turns",
+   "evidence": [
+    "turns"
+   ],
+   "claim": "The tier3_gb5hrdyn7 parquet has 0 frames turning more than 24 degrees while the tier3_gb5 parquet has 55."
+  },
+  {
+   "id": "gpu",
+   "evidence": [
+    "stmf",
+    "stml"
+   ],
+   "claim": "Both GPUs are busy: mf4090 trains t3-ep27-w2048-cap4m-r3a-gb5-ocoff-mf4090 and ml40 trains t3-ep13-w2048-cap10m-r3a-gb5hrdyn7-ml40."
+  },
+  {
+   "id": "gpu_ctl",
+   "evidence": [
+    "stmf",
+    "stml"
+   ],
+   "claim": "Both GPUs are idle at 0 MiB.",
+   "control": "false"
+  }
+ ]
+}

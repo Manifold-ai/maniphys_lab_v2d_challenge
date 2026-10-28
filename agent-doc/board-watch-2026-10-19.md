@@ -174,3 +174,4 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   策略：Tier 2 MPPE 不是短期能拿回的榜（续训 t2ft2 已证明没有额外提升，差 nima arki 4.5 cm）；最快的路仍是 Tier 3，但新清单不满足第 1 节。`plan-t3fix` 的 B1 全量跑完没过 G0（负对照里 5° 转动在 ep08、ep26 被判换），不改任何集。两台空着，下一项是重定向一侧“机器人手到晚”的修法：先量 5 集跟丢集与对照集里机器人手与人手各自到物体的距离时序，再定修法，写成 `plan-t3hand` 送独立复核（正在写）。
 - 10/27 22:20 MDT（`results/board/diff_1027_2220.txt`）：FF 重交 Tier 2，MPPE 13.2 → 9.3 cm 拿下 Tier 2 MPPE 第一（越过 nima arki 的 10.8），AUC、SP-SR 也小幅变好；我们 12 个榜名次都没变，读法 B 56 / 57（Kaggle / 官网，第 3）、读法 A 12（第 4）；FF 的读法 B 49 → 47，nima arki 49 → 50。
   策略不变：Tier 2 MPPE 与第一的差距拉到 6 cm，更不是短期能拿回的榜。两台在跑 `plan-t3hand` 的 P0 对照臂（mf4090 ep13、ml40 ep15，朝向终止关掉），约 01:00–01:30 MDT 出读数，按它定 P1 做不做。
+- 10/28 01:01 MDT（SOP 更新时的快照，`results/board/diff_1028_0101.txt`）：FF 重交 Tier 1，AUC 0.668 → 0.740、MPPE 5.6 → 5.2 cm（SP-SR、MP-SR 没变）；我们 12 个榜名次都没变，读法 B 56 / 57（第 3）、读法 A 12（第 4）；FF 的读法 B 47 / 48。策略不变：两台在训 `plan-t3flip13` 的 ep13（ml40）与 `plan-t3ocoff` 的 ep27、ep19（mf4090）。
