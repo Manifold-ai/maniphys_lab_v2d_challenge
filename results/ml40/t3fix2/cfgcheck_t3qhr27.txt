@@ -1,0 +1,47 @@
+# command  : stages/policy/fc_config_check.sh stages/policy/queues/ml40_t3qhr27_smoke.txt stages/policy/queues/ml40_t3qhr27.txt 
+# md5      : 9a8a48b5b32b655319e549ed686c83c1  stages/policy/fc_config_check.sh
+# md5      : 4ff8d7b01d67a5c9611a7a1d654f461d  stages/policy/queues/ml40_t3qhr27_smoke.txt
+# md5      : 30ffec9bba96c967acebda8fc42db10a  stages/policy/queues/ml40_t3qhr27.txt
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T01:48:39+0800
+# ---------------------------------------------------------------
+=== 队列 stages/policy/queues/ml40_t3qhr27_smoke.txt
+== smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g…
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40-s1'
+  允许  training.total_environment_steps: 配方=349999104 → 本次=4096000
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-selftest'
+  共 615 个键；与官方配方不同 15 个，其中意外 0 个
+=== 队列 stages/policy/queues/ml40_t3qhr27.txt
+== t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40
+  命令：bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier3_gb5hr2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g…
+  官方配方沿用 runs/cfgcheck/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.recipe.yaml（同一 parquet）
+  允许  env.objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  env.termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  logging.entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  logging.experiment: 配方='g1_sonic_recon_body' → 本次='t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  logging.project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  允许  logging.run_name: 配方='g1_recon_body_flash_sac' → 本次='t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40-s1'
+  允许  logging.upload_checkpoints: 配方=True → 本次=False
+  允许  objective.object_position_std: 配方=0.2 → 本次=0.05
+  允许  output_dir: 配方=None → 本次='/repo/runs/flash_chord/t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  termination.object_orientation_threshold: 配方=1.5 → 本次=0.6
+  允许  training.experiment_name: 配方='g1_sonic_recon_body' → 本次='t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40'
+  允许  training.run_name: 配方='g1_recon_body_flash_sac' → 本次='t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40-s1'
+  允许  training.wandb_entity: 配方='nvidia-isaac' → 本次='zhou-rongx-northeastern-university'
+  允许  training.wandb_project: 配方='v2d-flash-chord' → 本次='v2d-track2'
+  共 615 个键；与官方配方不同 14 个，其中意外 0 个
+== 配置核对通过
