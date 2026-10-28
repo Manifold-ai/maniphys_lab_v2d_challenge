@@ -146,6 +146,12 @@ def one(ep: int, run: str, step: str, out: Path, host: str, export: Path | None 
     if not m:
         raise ValueError(f"{where}的 parquet 不是 Tier 3 的 motion parquet：{p or '没有'}")
     tdir, seq = m.groups()
+    return (tdir, seq) + build(ep, tdir, seq, out)
+
+
+def build(ep: int, tdir: str, seq: str, out: Path) -> tuple:
+    """runs/motion_src/<档位目录>/<序列>/poses.npy → <out>/episode_XXXXXX.npz（不经 run；frefs_from_motion_t3.py 也用，计划 agent-doc/plan-t3b2-2026-10-28.md 第 1 步）。
+    返回（帧数、poses.npy 的 sha256、来源 parquet 的 sha256、文件名、文件 sha256、|RᵀR − I| 最大、转回最大差、不可见帧数）。"""
     src = ROOT / "runs/motion_src" / tdir / seq
     meta = json.loads((src / "v2d_meta.json").read_text())
     ops = meta.get("object_pose_source") or {}
@@ -183,7 +189,7 @@ def one(ep: int, run: str, step: str, out: Path, host: str, export: Path | None 
     except Exception:
         path.unlink(missing_ok=True)
         raise
-    return tdir, seq, T, sha256(src / "poses.npy"), psha, path.name, sha256(path), ortho, back, nfill
+    return T, sha256(src / "poses.npy"), psha, path.name, sha256(path), ortho, back, nfill
 
 
 def main() -> int:
