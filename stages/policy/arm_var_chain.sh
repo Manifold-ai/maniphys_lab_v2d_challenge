@@ -19,7 +19,8 @@
 #   - 正式 run 的目录里没有训练产物（目录不存在，或只有 fc_config_check.sh 经 fc_run.sh 打印模式建的空 .lock；不续训、不覆盖）；
 #     冒烟的目录要么也没有产物，要么已有 DONE（续跑、补跑时冒烟已经过了，训练链会重判），有产物没 DONE 的就停
 #   - 全部配置的 runs/cfgcheck/<run>.yaml 都在（fc_config_check.sh 先生成），precheck_expect.sh 全过；
-#     配方断言：objective.object_position_std 与 termination.object_orientation_threshold（顶层与 env 下各一份）都是变体 A 的 0.05、0.6；r3p 段的 σ 是 0.03
+#     配方断言：objective.object_position_std 与 termination.object_orientation_threshold（顶层与 env 下各一份）都是变体 A 的 0.05、0.6；r3p 段的 σ 是 0.03；
+#     队列里每一行都写了同一个朝向终止值（如对照臂 oc15 的 1.5）就断言那个值
 # 起三个会话（<段名> 如 t2xa）：
 #   v2d-<段名>-train   训练链（环境给 V2D_ALLOW_FC_SRC=1 V2D_FC_SRC=<副本>/v040_p185_nfg；t3p 另加冒烟判过后删 state、可用不到 1200 MB 就停）；
 #                      V2D_GPU_WAIT_S=21600：GPU 被别人占着时每分钟看一次，最多等 6 小时（审查 M3）；要让卡时建 runs/.chain-stop-<段名>_train_<机器>
@@ -125,6 +126,11 @@ if [ "$np" = 0 ] && [ "$ns" = 0 ]; then SIG=0.05
 elif [ "$np" = "$nq" ] && [ "$ns" = "$nq" ]; then SIG=0.03
 else stop "队列里 r3p 的行与变体 A 的行混在一起（${nq} 行里 -r3p- ${np} 行、σ 0.03 ${ns} 行）"; fi
 VAR="objective.object_position_std=$SIG env.objective.object_position_std=$SIG termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
+# 物体朝向终止（计划 agent-doc/plan-t3hand-2026-10-27.md 第 3 版 P0 的对照臂 oc15）：队列里每一行都写了同一个值就断言那个值（变体 A 的行本来就写 0.6），混在一起就停
+nr="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'termination.object_orientation_threshold=' || true)"
+rv="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_orientation_threshold=[0-9.]*' | sort -u || true)"
+if [ "$nr" = "$nq" ] && [ "$(grep -c . <<< "$rv")" = 1 ]; then VAR="${VAR//termination.object_orientation_threshold=0.6/$rv}"
+elif [ "$nr" != 0 ]; then stop "队列里物体朝向终止的覆盖不一致（${nq} 行里 ${nr} 行写了：${rv//$'\n'/ }）"; fi
 # 物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md 复核 MINOR 4）：队列里每一行都写了同一个值就正向断言它，混在一起就停
 no="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'termination.object_position_threshold=' || true)"
 ov="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_position_threshold=[0-9.]*' | sort -u || true)"   # 没有这一项时 grep 返回 1，set -e 下要接住（10/21 t3pg5a 预演因此静默退出）
