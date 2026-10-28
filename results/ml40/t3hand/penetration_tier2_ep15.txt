@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_penetration.py\ --every\ 3\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 82bab590f8e879d0dce8ca52152dbe12  stages/retarget/ref_penetration.py
+# md5      : 57222c32074313e8cdbc78b9170945cc  runs/motion/tier2/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+# source   : b3748be8e1e4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:14:57+0800
+# ---------------------------------------------------------------
+序列	帧	水密	符号	手	接触帧	手掌最小有向距离 10/50/90 mm	手指最小有向距离 10/50/90 mm	手掌有点在里面的帧比例
+2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	False	法向	—	符号自检不过（质心 +0.078 m、外点 +1.540 m），这一集不报
+REF_PENETRATION_DONE

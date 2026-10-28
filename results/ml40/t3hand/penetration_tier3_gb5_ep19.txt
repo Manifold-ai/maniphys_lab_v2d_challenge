@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_penetration.py\ --every\ 3\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 82bab590f8e879d0dce8ca52152dbe12  stages/retarget/ref_penetration.py
+# md5      : 9f373f0c84d105b43eb34d39eaecbf5f  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+# source   : b3748be8e1e4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:13:46+0800
+# ---------------------------------------------------------------
+序列	帧	水密	符号	手	接触帧	手掌最小有向距离 10/50/90 mm	手指最小有向距离 10/50/90 mm	手掌有点在里面的帧比例
+2026-05-19_10-19-48_cane_swing_05	886	False	法向	left	226	-12.4 / -2.3 / 10.5	-12.5 / -5.1 / 13.3	0.55
+2026-05-19_10-19-48_cane_swing_05	886	False	法向	right	169	-10.1 / -1.6 / 11.0	-12.0 / -4.5 / 19.8	0.54
+REF_PENETRATION_DONE

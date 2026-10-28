@@ -1,0 +1,10 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_contact_window.py\ --summary\ /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 6bda8a0df857a0c3ea0b8090ac781d2a  stages/evaluate/ref_contact_window.py
+# md5      : da26e8d5a1ad72d7ce24294fffef34e4  runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+# source   : b3748be8e1e4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:15:56+0800
+# ---------------------------------------------------------------
+/repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet	帧 700	首次接触 165	物体首次平移>3cm 212	首次接触时已平移 m 0.000	无接触而在动的帧 8	这些帧的平移合计 m 0.055
+REF_CONTACT_WINDOW_DONE

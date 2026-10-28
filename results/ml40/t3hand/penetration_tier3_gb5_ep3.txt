@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_penetration.py\ --every\ 3\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 82bab590f8e879d0dce8ca52152dbe12  stages/retarget/ref_penetration.py
+# md5      : 3dc32b0a501152fe3ea08faa407ed7cf  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05/robot_name=g1/data.parquet
+# source   : b3748be8e1e4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:15:22+0800
+# ---------------------------------------------------------------
+序列	帧	水密	符号	手	接触帧	手掌最小有向距离 10/50/90 mm	手指最小有向距离 10/50/90 mm	手掌有点在里面的帧比例
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	left	0	—	—	—
+2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	right	515	-5.9 / 3.2 / 16.7	-27.3 / -7.2 / 0.6	0.38
+REF_PENETRATION_DONE

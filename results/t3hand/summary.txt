@@ -1,0 +1,41 @@
+# command  : python3 stages/retarget/t3hand_summary.py results/ml40/t3hand 
+# md5      : 4b9b3ecdbf7c52b6314d68fef07e5d19  stages/retarget/t3hand_summary.py
+# source   : b3748be8e1e4-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T20:17:37-0600
+# ---------------------------------------------------------------
+集	档	接触t_c	手首≤20mm	手首≤50mm	接触前30帧最小mm	接触段中位/90%mm	接触段双手>50mm比例	物体首动	接触时已移m	无接触而动帧
+ep16	tier3_gb5	137	132	111	-3.4	5.5/431.7	0.28	129	0.213	62
+ep16	tier2	109	99	96	-16.7	1.3/426.3	0.25	125	0.005	165
+ep19	tier3_gb5	94	93	93	18.6	7.2/177.3	0.2	117	0.017	347
+ep19	tier2	92	93	90	30.7	43.5/331.0	0.47	120	0.003	435
+ep13	tier3_gb5	93	54	54	40.3	108.4/414.2	0.52	89	0.032	77
+ep13	tier2	103	105	96	25.3	90.2/524.5	0.51	151	0.000	54
+ep15	tier3_gb5	127	132	111	28.3	-15.8/443.0	0.14	129	0.022	105
+ep15	tier2	126	129	120	42.5	-9.2/37.4	0.06	172	0.000	225
+ep27	tier3_gb5	142	81	78	-28.8	-15.6/190.6	0.2	152	0.006	11
+ep27	tier2	141	0	0	-294.6	-26.2/207.6	0.23	151	0.010	4
+ep3	tier3_gb5	100	108	96	45.2	7.8/278.2	0.19	104	0.011	13
+ep3	tier2	98	99	96	41.5	1.8/255.7	0.14	136	0.006	31
+ep12	tier3_gb5	168	42	42	7.5	-14.1/236.7	0.17	163	0.040	23
+ep12	tier2	165	138	138	-371.9	-11.4/524.7	0.17	212	0.000	8
+ep23	tier3_gb5	93	96	93	58.1	-6.1/7.3	0.06	132	0.009	191
+ep23	tier2	98	99	96	40.1	-9.3/12.8	0.06	138	0.000	77
+== 穿透（接触帧里手掌点最小有向距离；原始行）
+ep16	tier3_gb5	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	False	法向	right	0	—	—	—
+ep16	tier2	2026-03-12_15-06-36_spray_bottle_left_desk_ground_02	477	False	法向	right	0	—	—	—
+ep19	tier3_gb5	2026-05-19_10-19-48_cane_swing_05	886	False	法向	right	169	-10.1 / -1.6 / 11.0	-12.0 / -4.5 / 19.8	0.54
+ep19	tier2	2026-05-19_10-19-48_cane_swing_05	886	False	法向	right	135	-12.1 / -3.0 / 14.3	-13.9 / -8.8 / 9.9	0.58
+ep13	tier3_gb5	2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	right	299	-41.5 / -5.2 / 12.2	-59.9 / -11.3 / 11.9	0.60
+ep13	tier2	2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	right	252	-22.4 / -1.4 / 14.2	-47.2 / -32.0 / -14.0	0.51
+ep15	tier3_gb5	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	False	法向	—	符号自检不过（质心 +0.078 m、外点 +1.540 m），这一集不报
+ep15	tier2	2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08	715	False	法向	—	符号自检不过（质心 +0.078 m、外点 +1.540 m），这一集不报
+ep27	tier3_gb5	2026-05-01_11-15-05_woven_basket_ground_desk_10	565	False	法向	—	符号自检不过（质心 +0.010 m、外点 +1.772 m），这一集不报
+ep27	tier2	2026-05-01_11-15-05_woven_basket_ground_desk_10	565	False	法向	—	符号自检不过（质心 +0.010 m、外点 +1.772 m），这一集不报
+ep3	tier3_gb5	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	right	515	-5.9 / 3.2 / 16.7	-27.3 / -7.2 / 0.6	0.38
+ep3	tier2	2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05	781	False	法向	right	471	-25.3 / -9.0 / 9.4	-34.5 / -18.8 / -1.1	0.69
+ep12	tier3_gb5	2026-04-25_17-20-04_black_platform_turn_05	700	False	法向	right	343	-33.3 / -14.0 / -6.5	-31.2 / -17.3 / -8.5	0.97
+ep12	tier2	2026-04-25_17-20-04_black_platform_turn_05	700	False	法向	right	339	-31.8 / -9.6 / 4.8	-28.6 / -12.3 / -7.9	0.87
+ep23	tier3_gb5	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	False	法向	—	符号自检不过（质心 +0.047 m、外点 +1.177 m），这一集不报
+ep23	tier2	2026-06-03_15-08-03_toy_stroller_back_forth_ground_04	946	False	法向	—	符号自检不过（质心 +0.047 m、外点 +1.177 m），这一集不报
+T3HAND_SUMMARY_DONE

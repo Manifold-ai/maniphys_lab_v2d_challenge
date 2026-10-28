@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/retarget/ref_penetration.py\ --every\ 3\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 82bab590f8e879d0dce8ca52152dbe12  stages/retarget/ref_penetration.py
+# md5      : 3df791327d17b49fd96ddc6e89c8fe07  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-06-09_10-19-09_snack_box_desk_through_06/robot_name=g1/data.parquet
+# source   : b3748be8e1e4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-28T10:14:14+0800
+# ---------------------------------------------------------------
+序列	帧	水密	符号	手	接触帧	手掌最小有向距离 10/50/90 mm	手指最小有向距离 10/50/90 mm	手掌有点在里面的帧比例
+2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	left	287	-54.0 / -17.7 / 10.8	-82.5 / -44.6 / 7.1	0.74
+2026-06-09_10-19-09_snack_box_desk_through_06	922	False	法向	right	299	-41.5 / -5.2 / 12.2	-59.9 / -11.3 / 11.9	0.60
+REF_PENETRATION_DONE
