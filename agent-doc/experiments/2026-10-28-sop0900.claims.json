@@ -1,0 +1,41 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {"file": "results/board/diff_1028_0903.txt", "grep": "读法|BOARD_"},
+  "ep13eval": {"file": "results/ml40/t3g5/eval_t3qhr13_ml40.txt", "grep": "hrdyn7-ml40"},
+  "ep13o2": {"file": "results/ml40/t3hand/o2_ep13_hrdyn7.txt", "grep": "parquet：|朝向误差"},
+  "ep13base": {"file": "results/t3hand/o2_ep13_base.txt", "grep": "parquet：|朝向误差"},
+  "ep13z": {"file": "results/ml40/t3hand/rollout_z_ep13_hrdyn7.txt", "grep": "^  (帧|3[0-9]0|4[0-9]0)\t"},
+  "ep13contact": {"file": "results/ml40/t3hand/contact_frames_ep13_300_500.txt", "grep": "接触段|^  (330|400|450|480)\t"},
+  "ep27eval": {"file": "results/t3g5/eval_t3pocoff_mf4090.txt", "grep": "ocoff-mf4090"},
+  "ep27o2": {"file": "results/t3hand/o2_ep27_ocoff.txt", "grep": "parquet：|朝向误差"},
+  "ep27post": {"file": "results/t3hand/o2_ep27_post.txt", "grep": "朝向误差"},
+  "ep19o2": {"file": "results/t3hand/o2_ep19_ocoff.txt", "grep": "parquet：|朝向误差"},
+  "term": {"file": "results/t3g5/term_t3pocoff_mf4090.txt", "grep": "^19\t"},
+  "stmf": {"file": "results/ops/status_mf4090_1028_0902.txt", "grep": "NVIDIA|training progress|正式"},
+  "stml": {"file": "results/ops/status_ml40_1028_0902.txt", "grep": "NVIDIA|training progress|正式"}
+ },
+ "claims": [
+  {"id": "rank_b", "evidence": ["board"], "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third, behind Xueyi Wang (FF) 47 and nima arki 50."},
+  {"id": "rank_a", "evidence": ["board"], "claim": "Under reading A maniphys.ai has 12 and is fourth."},
+  {"id": "rank_ctl", "evidence": ["board"], "claim": "maniphys.ai is first in the 12-board rank sum.", "control": "false"},
+  {"id": "nochange", "evidence": ["board"], "claim": "The boards did not change since the previous snapshot."},
+  {"id": "ep13_r1", "evidence": ["ep13eval"], "claim": "The ep13 run on the gb5hrdyn7 reference has SP-SR 0.000 and MPPE 53.04 cm on 4096 worlds."},
+  {"id": "ep13_ctl", "evidence": ["ep13eval"], "claim": "The ep13 run on the gb5hrdyn7 reference has SP-SR above 0.5.", "control": "false"},
+  {"id": "ep13_lost", "evidence": ["ep13o2"], "claim": "The gb5hrdyn7 ep13 export first exceeds 10 cm at frame 289 and 20 cm at frame 399."},
+  {"id": "ep13_ori", "evidence": ["ep13o2", "ep13base"], "claim": "Over frames 0-289 the gb5hrdyn7 ep13 export has a mean orientation error of 0.151 rad, and the s43 baseline export over frames 0-188 has 0.177 rad."},
+  {"id": "ep13_sim_still", "evidence": ["ep13z"], "claim": "In every printed row from frame 320 to frame 490 the last column (the simulated object's movement since the previous row) is 0.0 cm."},
+  {"id": "ep13_ref_moves", "evidence": ["ep13z"], "claim": "In the row for frame 410 the reference moved 12.6 cm since the previous row."},
+  {"id": "ep13_still_ctl", "evidence": ["ep13z"], "claim": "Between frames 400 and 410 the simulated object moves more than the reference.", "control": "false"},
+  {"id": "ep13_nocontact", "evidence": ["ep13contact"], "claim": "In both the tier3_gb5hrdyn7 and the tier2 reference, frames 330, 400, 450 and 480 have left contact 0 and right contact 0."},
+  {"id": "ep27_r1", "evidence": ["ep27eval"], "claim": "The ep27 ocoff run has MPPE 17.06 cm, CHORD_SR 0.733 and SP-SR 0.000 on 4096 worlds, and the ep19 ocoff run has MPPE 60.47 cm."},
+  {"id": "ep27_export", "evidence": ["ep27o2"], "claim": "The ep27 ocoff export never exceeds 10 cm (maximum 8.4 cm), and the gb5 baseline export first exceeds 20 cm at frame 191."},
+  {"id": "ep27_ori", "evidence": ["ep27o2"], "claim": "Over frames 0-181 the ep27 ocoff export has a mean orientation error of 0.127 rad and the baseline 0.109 rad."},
+  {"id": "ep27_post", "evidence": ["ep27post"], "claim": "Over frames 476-565 the first parquet (the ocoff run) has a mean orientation error of 2.202 rad."},
+  {"id": "ep27_post_ctl", "evidence": ["ep27post"], "claim": "Over frames 476-565 the ocoff run has a mean orientation error below 0.5 rad.", "control": "false"},
+  {"id": "ep19_lost", "evidence": ["ep19o2"], "claim": "The ep19 ocoff export first exceeds 10 cm at frame 193 and the s43 baseline at frame 195."},
+  {"id": "ep19_term", "evidence": ["term"], "claim": "The ep19 ocoff run's training rollouts reach 15.7% of the episode on average."},
+  {"id": "gpu_idle", "evidence": ["stmf", "stml"], "claim": "Both GPUs show 0 MiB used."},
+  {"id": "gpu_ctl", "evidence": ["stmf", "stml"], "claim": "Both GPUs are busy with training.", "control": "false"}
+ ]
+}

@@ -1,0 +1,30 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-28-sop0900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 308f1c2ced50f3fea6e71c9c1e67f7ad  agent-doc/experiments/2026-10-28-sop0900.claims.json
+# source   : 3bb8a77c1fe9-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T09:07:26-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank_b               P(supported)=0.90  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third, behind Xueyi Wang (FF) 47 and nima arki 50.
+rank_a               P(supported)=0.99  verified               [board]  Under reading A maniphys.ai has 12 and is fourth.
+rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
+nochange             P(supported)=0.95  verified               [board]  The boards did not change since the previous snapshot.
+ep13_r1              P(supported)=0.97  verified               [ep13eval]  The ep13 run on the gb5hrdyn7 reference has SP-SR 0.000 and MPPE 53.04 cm on 4096 worlds.
+ep13_ctl             P(supported)=0.01  control(false) ok      [ep13eval]  The ep13 run on the gb5hrdyn7 reference has SP-SR above 0.5.
+ep13_lost            P(supported)=0.93  verified               [ep13o2]  The gb5hrdyn7 ep13 export first exceeds 10 cm at frame 289 and 20 cm at frame 399.
+ep13_ori             P(supported)=0.98  verified               [ep13o2, ep13base]  Over frames 0-289 the gb5hrdyn7 ep13 export has a mean orientation error of 0.151 rad, and the s43 baseline export over frames 0-188 has 0.177 rad.
+ep13_sim_still       P(supported)=0.42  UNVERIFIED             [ep13z]  In every printed row from frame 320 to frame 490 the last column (the simulated object's movement since the previous row) is 0.0 cm.
+ep13_ref_moves       P(supported)=0.99  verified               [ep13z]  In the row for frame 410 the reference moved 12.6 cm since the previous row.
+ep13_still_ctl       P(supported)=0.02  control(false) ok      [ep13z]  Between frames 400 and 410 the simulated object moves more than the reference.
+ep13_nocontact       P(supported)=0.78  verified               [ep13contact]  In both the tier3_gb5hrdyn7 and the tier2 reference, frames 330, 400, 450 and 480 have left contact 0 and right contact 0.
+ep27_r1              P(supported)=0.96  verified               [ep27eval]  The ep27 ocoff run has MPPE 17.06 cm, CHORD_SR 0.733 and SP-SR 0.000 on 4096 worlds, and the ep19 ocoff run has MPPE 60.47 cm.
+ep27_export          P(supported)=0.97  verified               [ep27o2]  The ep27 ocoff export never exceeds 10 cm (maximum 8.4 cm), and the gb5 baseline export first exceeds 20 cm at frame 191.
+ep27_ori             P(supported)=0.98  verified               [ep27o2]  Over frames 0-181 the ep27 ocoff export has a mean orientation error of 0.127 rad and the baseline 0.109 rad.
+ep27_post            P(supported)=0.94  verified               [ep27post]  Over frames 476-565 the first parquet (the ocoff run) has a mean orientation error of 2.202 rad.
+ep27_post_ctl        P(supported)=0.01  control(false) ok      [ep27post]  Over frames 476-565 the ocoff run has a mean orientation error below 0.5 rad.
+ep19_lost            P(supported)=0.97  verified               [ep19o2]  The ep19 ocoff export first exceeds 10 cm at frame 193 and the s43 baseline at frame 195.
+ep19_term            P(supported)=0.83  verified               [term]  The ep19 ocoff run's training rollouts reach 15.7% of the episode on average.
+gpu_idle             P(supported)=0.98  verified               [stmf, stml]  Both GPUs show 0 MiB used.
+gpu_ctl              P(supported)=0.02  control(false) ok      [stmf, stml]  Both GPUs are busy with training.
+controls behaved as expected
