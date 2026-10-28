@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_start_height.py\ t3-ep27-w2048-cap4m-r3a-gb5-ocoff-mf4090\ t3-ep19-w2048-cap4m-r3a-gb5-ocoff-mf4090\ --root\ /repo 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 6ef0c1e4d6ba859adf3506c8bd8f54ba  stages/evaluate/ref_start_height.py
+# source   : 83fb2b69eef8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-28T19:30:06+0800
+# ---------------------------------------------------------------
+== t3-ep27-w2048-cap4m-r3a-gb5-ocoff-mf4090：scene.support=True，物体网格半径 [0.18155530095100403]，565 帧；物体根 z：第 0 帧 0.035，第 25 帧 0.035，第 50 帧 0.035，第 75 帧 0.035，第 100 帧 0.035；第 0–100 帧最小 0.035
+   参考 /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_name=g1/data.parquet
+== t3-ep19-w2048-cap4m-r3a-gb5-ocoff-mf4090：scene.support=False，物体网格半径 [0.5848333239555359]，886 帧；物体根 z：第 0 帧 0.382，第 25 帧 0.382，第 50 帧 0.382，第 75 帧 0.382，第 100 帧 0.388；第 0–100 帧最小 0.380
+   参考 /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet
+REF_START_HEIGHT_DONE
