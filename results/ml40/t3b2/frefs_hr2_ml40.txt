@@ -1,0 +1,10 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/frefs_from_motion_t3.py\ tier3_gb5hr2dyn7\ 27\ --out\ runs/t3b2/frefs_hr2 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9f3b6759d6b40aedd873eeb48520d5f3  stages/evaluate/frefs_from_motion_t3.py
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:17:45+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考（motion 源，不经 run）：tier3_gb5hr2dyn7 的 1 集 → runs/t3b2/frefs_hr2
+  ok   ep27 tier3_gb5hr2dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10，565 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.6e-15，转回最大差 8.9e-16
+FRAME_REFS_MOTION_OK 1

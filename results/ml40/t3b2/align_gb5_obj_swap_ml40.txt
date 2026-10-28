@@ -1,0 +1,44 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ python\ align_frefs_t3.py\ /repo/runs/t3b2/frefs_gb5\ /repo/runs/t3b2/al_gb5_obj_swap\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --variant\ obj\ --swap-quat 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:22:09+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep1 episode_000001.parquet sha256 bca2d29dbc37c0e9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep2 episode_000002.parquet sha256 ac7063548bde13b4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep3 episode_000003.parquet sha256 d5f9412f0c46b20d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep4 episode_000004.parquet sha256 9b5796e50133f90a 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep9 episode_000009.parquet sha256 7838c26d6dbe7efb 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep10 episode_000010.parquet sha256 d4ea82c39e922978 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep11 episode_000011.parquet sha256 e2a9f15075069267 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep13 episode_000013.parquet sha256 f77a64ae12c4abe0 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep14 episode_000014.parquet sha256 3a94f6e897cdf569 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep15 episode_000015.parquet sha256 decef969180f0fdf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep16 episode_000016.parquet sha256 8128ab328b44dfc2 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep17 episode_000017.parquet sha256 ebc23d6052c823a3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep19 episode_000019.parquet sha256 f6a92df4aff1fad7 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep23 episode_000023.parquet sha256 2a3388abb6251772 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep25 episode_000025.parquet sha256 78a5dd5b82bb8465 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	理由	静止帧	第0帧位置差cm	转角差°	倾斜°	偏航(物体)°	偏航(人体)°	F0对F̂ cm/°	人体根 前→后 cm	Tier3第0帧可见
+1	obj	指定	30	5.07	173.16	30.62	-172.91	0.34	0.00/0.00	7.38→1157.50	True
+2	obj	指定	30	16.06	178.81	172.18	-162.50	-1.80	0.00/0.00	6.47→1002.31	True
+3	obj	指定	30	7.32	172.02	30.38	171.73	1.04	0.00/0.00	18.85→1232.32	True
+4	obj	指定	30	1.95	81.81	81.56	-7.10	-1.83	0.00/0.00	9.74→788.79	True
+5	obj	指定	30	4.55	146.13	145.49	21.90	-3.47	0.00/0.00	5.77→1129.34	True
+9	obj	指定	30	4.99	175.92	171.98	-118.75	1.75	0.00/0.00	9.59→604.32	True
+10	obj	指定	30	11.03	61.97	43.42	-45.33	2.91	0.00/0.00	5.54→496.45	True
+11	obj	指定	30	12.67	179.02	178.64	-88.33	2.64	0.00/0.00	14.71→860.19	True
+12	obj	指定	30	11.55	174.96	173.88	-69.09	-0.37	0.00/0.00	9.17→1145.70	True
+13	obj	指定	30	7.14	175.93	175.93	2.92	-2.80	0.00/0.00	9.03→191.50	True
+14	obj	指定	30	32.57	107.63	95.30	57.59	-0.92	0.00/0.00	13.24→863.90	True
+15	obj	指定	30	5.00	131.61	59.63	123.62	0.07	0.00/0.00	6.25→1124.78	True
+16	obj	指定	30	21.29	123.94	91.94	-94.92	3.82	0.00/0.00	11.04→800.68	True
+17	obj	指定	30	4.61	79.61	14.54	78.49	5.12	0.00/0.00	6.49→699.70	True
+19	obj	指定	30	3.98	156.95	25.23	-156.37	-0.48	0.00/0.00	8.77→1146.27	True
+23	obj	指定	30	3.26	138.42	108.63	-105.05	-3.31	0.00/0.00	11.82→736.05	True
+25	obj	指定	1	29.59	119.46	101.88	73.75	3.62	0.00/0.00	35.80→891.07	True
+27	obj	指定	30	4.59	178.79	174.70	153.69	0.48	0.00/0.00	5.87→300.50	True
+ALIGN_FREFS_OK 18

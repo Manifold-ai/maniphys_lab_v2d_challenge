@@ -1,0 +1,12 @@
+# command  : bash -c set\ -e\;\ for\ r\ in\ root_gb5hr2dyn7\ root_gb5hrdyn7\;\ do\ cd\ runs/tier3/\$r\;\ for\ f\ in\ data/chunk-000/\*.parquet\;\ do\ t=\$\(readlink\ -f\ \$f\)\;\ h0=\$\(sha256sum\ \<\ \$t\)\;\ rm\ \$f\;\ cp\ \$t\ \$f\;\ h1=\$\(sha256sum\ \<\ \$f\)\;\ \[\ \"\$h0\"\ =\ \"\$h1\"\ \]\;\ echo\ \"\$r\ \$f\ 实拷\ sha256\ \$\{h1:0:16\}\"\;\ done\;\ g=\$\(readlink\ -f\ ground_plane\)\;\ rm\ ground_plane\;\ cp\ -r\ \$g\ ground_plane\;\ echo\ \"\$r\ ground_plane\ 实拷\"\;\ rm\ mesh\;\ ln\ -s\ ../root_gb5/mesh\ mesh\;\ echo\ \"\$r\ mesh\ -\>\ ../root_gb5/mesh\"\;\ cd\ ../../..\;\ done\;\ echo\ DEREF_OK 
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:17:37+0800
+# ---------------------------------------------------------------
+root_gb5hr2dyn7 data/chunk-000/episode_000027.parquet 实拷 sha256 c208c7ae2efae52a
+root_gb5hr2dyn7 ground_plane 实拷
+root_gb5hr2dyn7 mesh -> ../root_gb5/mesh
+root_gb5hrdyn7 data/chunk-000/episode_000013.parquet 实拷 sha256 6f9af2c9deeaad49
+root_gb5hrdyn7 ground_plane 实拷
+root_gb5hrdyn7 mesh -> ../root_gb5/mesh
+DEREF_OK

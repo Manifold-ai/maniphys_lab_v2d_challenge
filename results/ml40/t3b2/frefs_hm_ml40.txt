@@ -1,0 +1,27 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/frefs_from_motion_t3.py\ tier3_hm\ 1\,2\,3\,4\,5\,9\,10\,11\,12\,13\,14\,15\,16\,17\,19\,21\,25\,27\ --out\ runs/t3b2/frefs_hm 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 9f3b6759d6b40aedd873eeb48520d5f3  stages/evaluate/frefs_from_motion_t3.py
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:17:03+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考（motion 源，不经 run）：tier3_hm 的 18 集 → runs/t3b2/frefs_hm
+  ok   ep1  tier3_hm/2026-05-18_17-06-21_vacuum_left_lean_02，747 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.6e-15，转回最大差 1.3e-15
+  ok   ep2  tier3_hm/2026-06-02_10-04-42_blue_easter_basket_place_10，980 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 1.1e-15
+  ok   ep3  tier3_hm/2026-04-27_11-50-10_contigo_coffee_mug_handle_table_05，781 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 8.9e-16，转回最大差 8.9e-16
+  ok   ep4  tier3_hm/2026-04-24_11-40-52_baseball_bat_rotate_05，803 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.3e-15，转回最大差 8.9e-16
+  ok   ep5  tier3_hm/2026-03-18_19-36-56_g1_box_rotate_01，1003 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 1.1e-15
+  ok   ep9  tier3_hm/2026-06-04_16-45-04_big_red_bowl_under_skinny_wood_chair_03，870 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.9e-15，转回最大差 1.3e-15
+  ok   ep10 tier3_hm/2026-05-01_11-36-40_white_desk_lower_to_ground_10，794 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 6.7e-16，转回最大差 8.9e-16
+  ok   ep11 tier3_hm/2026-04-24_13-56-58_light_blue_book_pick_place_09，901 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 1.1e-15
+  ok   ep12 tier3_hm/2026-04-25_17-20-04_black_platform_turn_05，700 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 8.9e-16
+  ok   ep13 tier3_hm/2026-06-09_10-19-09_snack_box_desk_through_06，922 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.6e-15，转回最大差 1.1e-15
+  ok   ep14 tier3_hm/2026-05-28_14-44-09_round_table_flip_08，993 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 1.1e-15
+  ok   ep15 tier3_hm/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08，715 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.4e-15，转回最大差 8.9e-16
+  ok   ep16 tier3_hm/2026-03-12_15-06-36_spray_bottle_left_desk_ground_02，477 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.3e-15，转回最大差 8.9e-16
+  ok   ep17 tier3_hm/2026-05-01_17-04-55_traffic_cone_ground_table_02，440 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.6e-15，转回最大差 8.9e-16
+  ok   ep19 tier3_hm/2026-05-19_10-19-48_cane_swing_05，886 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.3e-15，转回最大差 1.3e-15
+  ok   ep21 tier3_hm/2026-04-29_11-53-57_tall_bar_stool_pull_08，678 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.3e-15，转回最大差 8.9e-16
+  ok   ep25 tier3_hm/2026-03-20_11-59-57_cyan_water_bottle_rotate_01，859 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.3e-15，转回最大差 1.1e-15
+  ok   ep27 tier3_hm/2026-05-01_11-15-05_woven_basket_ground_desk_10，565 帧；不可见 0 帧按前一帧补；|RᵀR − I| 最大 1.8e-15，转回最大差 1.1e-15
+FRAME_REFS_MOTION_OK 18

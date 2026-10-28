@@ -1,0 +1,45 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ python\ t3_frame0_table.py\ /repo/runs/t3b2/cmp_t3m1022a\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --sym\ /repo/runs/t3b2/sym_t3fx.json\  
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : c4eef6d3f16267cba21478e55ae1d020  runs/t3b2/sym_t3fx.json
+# source   : b70e19850537
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:22:06+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep1 episode_000001.parquet sha256 bca2d29dbc37c0e9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep2 episode_000002.parquet sha256 ac7063548bde13b4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep3 episode_000003.parquet sha256 d5f9412f0c46b20d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep4 episode_000004.parquet sha256 9b5796e50133f90a 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep9 episode_000009.parquet sha256 7838c26d6dbe7efb 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep10 episode_000010.parquet sha256 d4ea82c39e922978 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep11 episode_000011.parquet sha256 e2a9f15075069267 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep13 episode_000013.parquet sha256 f77a64ae12c4abe0 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep14 episode_000014.parquet sha256 3a94f6e897cdf569 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep15 episode_000015.parquet sha256 decef969180f0fdf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep16 episode_000016.parquet sha256 8128ab328b44dfc2 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep17 episode_000017.parquet sha256 ebc23d6052c823a3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep19 episode_000019.parquet sha256 f6a92df4aff1fad7 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep21 episode_000021.parquet sha256 6cc8d0b209ee2647 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep25 episode_000025.parquet sha256 78a5dd5b82bb8465 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	档位目录	自动方案	转角差°(对齐前)	倾斜°	偏航物体°	偏航人体°	obj后°	yaw_obj后°	yaw_hum后°	pos后°	自动后°	固定对齐	对称	B2	B2理由	B2后自动方案	B2后自动差°	近对称最好(轴/度/差°/移动cm)	对齐输出差°
+1	tier3_hm	yaw_obj	5.19	5.09	1.00	3.80	0.00	5.09	5.81	5.19	5.09	yaw_hum	无	-	不是离散对称	-	-	2/5/4.0/5.80	-
+2	tier3_hm	obj	3.44	2.25	-2.60	2.29	0.06	2.31	5.39	3.46	0.06	yaw_hum	无	-	不是离散对称	-	-	2/355/2.0/1.00	-
+3	tier3_hm	yaw_hum	46.12	1.83	46.09	1.45	0.38	2.02	44.99	46.44	44.99	yaw_hum	无	-	不是离散对称	-	-	0/315/4.1/4.06	-
+4	tier3_hm	yaw_obj	67.59	67.51	-3.67	0.77	0.05	67.48	67.61	67.57	67.48	yaw_hum	连续轴	-	不是离散对称	-	-	0/70/4.3/0.39	-
+5	tier3_hm	yaw_obj	3.51	3.50	-0.23	1.03	0.14	3.62	3.82	3.63	3.62	yaw_hum	无	-	不是离散对称	-	-	2/355/1.9/3.73	-
+9	tier3_hm	yaw_hum	82.65	5.02	-82.53	0.49	0.00	5.02	83.14	82.65	83.14	yaw_hum	连续轴	-	不是离散对称	-	-	2/275/2.5/0.90	-
+10	tier3_hm	yaw_obj	4.38	3.38	2.79	6.66	0.08	3.36	5.08	4.41	3.36	yaw_hum	无	-	不是离散对称	-	-	1/5/3.6/3.79	-
+11	tier3_hm	yaw_hum	179.36	177.67	-148.06	2.60	0.30	177.54	179.35	179.29	179.35	yaw_hum	离散2	g1	179.3° → 3.8°	obj	0.30	1/180/3.8/0.75	-
+12	tier3_hm	yaw_hum	178.15	2.98	-178.15	1.44	0.00	2.98	179.59	178.15	179.59	yaw_hum	无	-	不是离散对称	-	-	2/180/1.5/3.53	-
+13	tier3_hm	yaw_hum	177.68	177.10	73.76	-0.12	0.50	176.71	177.56	177.56	177.56	yaw_hum	离散2	恒等	恒等已是最小	-	-	0/180/5.4/1.00	-
+14	tier3_hm	yaw_hum	143.00	1.43	143.00	2.44	0.00	1.43	140.57	143.00	140.57	yaw_hum	无	-	不是离散对称	-	-	0/220/8.1/12.38	-
+15	tier3_hm	obj	4.97	1.61	4.71	1.21	0.00	1.61	3.85	4.97	0.00	yaw_hum	无	-	不是离散对称	-	-	0/5/2.2/1.50	-
+16	tier3_hm	obj	3.19	1.96	2.51	7.11	0.66	2.60	5.46	3.47	0.66	yaw_hum	无	-	不是离散对称	-	-	0/355/2.5/0.35	-
+17	tier3_hm	yaw_hum	87.36	4.07	-87.29	7.29	0.75	4.73	95.00	87.72	95.00	yaw_hum	无	-	不是离散对称	-	-	0/95/4.2/3.69	-
+19	tier3_hm	obj	4.34	2.96	3.17	2.51	0.43	3.04	3.03	4.10	0.43	yaw_hum	无	-	不是离散对称	-	-	2/355/2.0/4.37	-
+21	tier3_hm	obj	2.42	0.40	-2.38	5.05	0.00	0.40	7.45	2.42	0.00	yaw_hum	无	-	不是离散对称	-	-	0/5/2.6/2.52	-
+25	tier3_hm	yaw_hum	98.99	2.91	-98.96	3.55	0.14	3.02	102.45	98.90	102.45	yaw_hum	无	-	不是离散对称	-	-	0/100/3.9/1.62	-
+27	tier3_hm	yaw_hum	65.55	30.94	-58.52	1.88	0.00	30.94	67.20	65.55	67.20	yaw_hum	离散2	恒等	恒等已是最小	-	-	2/300/30.7/4.34	-
+FRAME0_TABLE_OK 18（B2 选中 1 集：11）

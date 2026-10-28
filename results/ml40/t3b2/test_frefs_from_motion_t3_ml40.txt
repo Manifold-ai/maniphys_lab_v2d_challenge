@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/test_frefs_from_motion_t3.py 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : a55fb22899b1453ac76017ee76ec1230  stages/evaluate/test_frefs_from_motion_t3.py
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:14:10+0800
+# ---------------------------------------------------------------
+ok test_same_bytes
+ok test_failures_and_refusals
+ok test_tier1_guard
+TEST_FREFS_FROM_MOTION_T3_OK

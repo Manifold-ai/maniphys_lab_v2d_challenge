@@ -1,0 +1,15 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/test_make_frame_refs_t3.py 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 2fcd8e19849308733e5f23ac73fecd6c  stages/evaluate/test_make_frame_refs_t3.py
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:14:13+0800
+# ---------------------------------------------------------------
+  （没有 pandas：跳过用 kit 函数核四元数约定）
+ok  test_normal
+ok  test_row_failures
+ok  test_refusals
+  5. --from-export：参考取导出 JSON 的 parquet（tier3_kfix），manifest 记新档位目录、位置是新参考的；checkpoint 步数不符的一集判失败、不留 npz
+ok  test_from_export
+ok  test_tier1_blocked
+ALL_OK

@@ -1,0 +1,36 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_sym_dump.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/dev_t3fx/sym/sym_t3fx.json 
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:14:31+0800
+# ---------------------------------------------------------------
+ep00 tall_bar_stool: group 1, continuous False, smallest near shift 2.52 cm (axis 0, 5 deg)
+ep01 vacuum: group 1, continuous False, smallest near shift 0.94 cm (axis 0, 355 deg)
+ep02 blue_easter_basket: group 1, continuous False, smallest near shift 0.89 cm (axis 2, 5 deg)
+ep03 contigo_coffee_mug: group 1, continuous False, smallest near shift 0.60 cm (axis 0, 355 deg)
+ep04 baseball_bat: group 1, continuous True, smallest near shift 0.17 cm (axis 0, 5 deg)
+ep05 big_black_box: group 1, continuous False, smallest near shift 2.15 cm (axis 0, 355 deg)
+ep06 monitor: group 1, continuous False, smallest near shift 2.26 cm (axis 2, 5 deg)
+ep07 iron: group 1, continuous False, smallest near shift 0.61 cm (axis 0, 5 deg)
+ep08 skinny_wood_chair: group 1, continuous False, smallest near shift 2.91 cm (axis 0, 5 deg)
+ep09 big_red_bowl: group 1, continuous True, smallest near shift 0.40 cm (axis 2, 355 deg)
+ep10 white_desk: group 1, continuous False, smallest near shift 3.79 cm (axis 1, 5 deg)
+ep11 light_blue_book: group 2, continuous False, smallest near shift 0.75 cm (axis 1, 180 deg)
+ep12 black_platform: group 1, continuous False, smallest near shift 2.62 cm (axis 0, 5 deg)
+ep13 snack_box: group 2, continuous False, smallest near shift 0.46 cm (axis 2, 180 deg)
+ep14 round_table: group 1, continuous False, smallest near shift 2.90 cm (axis 0, 355 deg)
+ep15 wet_floor_sign: group 1, continuous False, smallest near shift 1.50 cm (axis 0, 5 deg)
+ep16 spray_bottle: group 1, continuous False, smallest near shift 0.33 cm (axis 0, 5 deg)
+ep17 traffic_cone: group 1, continuous False, smallest near shift 0.69 cm (axis 0, 355 deg)
+ep18 blue_trash_can: group 1, continuous False, smallest near shift 1.65 cm (axis 0, 355 deg)
+ep19 cane: group 1, continuous False, smallest near shift 0.94 cm (axis 0, 355 deg)
+ep20 rice_cooker: group 1, continuous False, smallest near shift 0.88 cm (axis 1, 5 deg)
+ep21 tall_bar_stool: group 1, continuous False, smallest near shift 2.52 cm (axis 0, 5 deg)
+ep22 step_ladder: group 1, continuous False, smallest near shift 2.02 cm (axis 0, 5 deg)
+ep23 toy_stroller: group 1, continuous False, smallest near shift 1.70 cm (axis 0, 5 deg)
+ep24 watering_can: group 1, continuous False, smallest near shift 0.88 cm (axis 0, 355 deg)
+ep25 cyan_water_bottle: group 1, continuous False, smallest near shift 0.38 cm (axis 0, 355 deg)
+ep26 skateboard: group 2, continuous False, smallest near shift 0.81 cm (axis 2, 180 deg)
+ep27 woven_basket: group 2, continuous False, smallest near shift 0.63 cm (axis 2, 355 deg)
+ep28 squeegee: group 1, continuous False, smallest near shift 1.74 cm (axis 0, 5 deg)
+ep29 rolling_luggage: group 1, continuous False, smallest near shift 1.53 cm (axis 0, 5 deg)
+SYM_DUMP_OK 30

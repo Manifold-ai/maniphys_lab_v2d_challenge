@@ -1,0 +1,12 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/test_t3_frame0_table.py 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : f56d3cb1f23b2d38e68001b0f6fbed47  stages/evaluate/test_t3_frame0_table.py
+# source   : 8fe3ac38a0bb
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:14:10+0800
+# ---------------------------------------------------------------
+ok test_right_mul
+ok test_b2_picks_g
+ok test_b2_rules
+ok test_frame0_diff
+TEST_T3_FRAME0_TABLE_OK
