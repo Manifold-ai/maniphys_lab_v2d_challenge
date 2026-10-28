@@ -43,16 +43,14 @@ def main() -> None:
     for r in json.loads(sel.read_text()):
         ep, name, conv = r["episode_index"], r["episode"], r["convert"]
         row = rep.get(name)
-        if row is None or not row["stretches"]:
+        if row is None or not row["runs"]:
             continue
         m = metas[ep]
         s, rot_, t, k, _ = similarity(root / "runs" / conv / name)
         verts, faces = load_mesh(root / "input" / m["mesh"])
         T0, T1 = world_pose(root, v_in, ep), world_pose(root, v_out, ep)
         n = len(T0)
-        replaced = np.zeros(n, bool)
-        for a, b in row["stretches"]:
-            replaced[a + 1:b] = True
+        replaced = np.array([np.degrees(np.arccos(np.clip((np.trace(T0[t, :3, :3].T @ T1[t, :3, :3]) - 1) / 2, -1, 1))) > 0.5 for t in range(n)])
         # (d) untouched frames keep the input bytes
         same = True
         for sub in ("", "_suspect"):
@@ -78,14 +76,13 @@ def main() -> None:
         ev = np.isfinite(iou0) & np.isfinite(iou1)
         all0, all1 = float(np.median(iou0[ev])) if ev.any() else np.nan, float(np.median(iou1[ev])) if ev.any() else np.nan
         rp = ev & replaced
-        rep0, rep1 = (float(np.median(iou0[rp])), float(np.median(iou1[rp])), int(rp.sum())) if rp.any() else (np.nan, np.nan, 0)
+        rep0, rep1 = (float(np.median(iou0[rp])), float(np.median(iou1[rp]))) if rp.any() else (np.nan, np.nan)
         a_ok = (all1 >= all0 - TOL) and (rp.sum() == 0 or rep1 >= rep0 - TOL)
         bad += int(not (a_ok and same))
         out = {"episode": name, "replaced_frames": int(replaced.sum()), "evidence_frames": int(ev.sum()),
                "iou_all_p50_before_after": [round(all0, 4), round(all1, 4)],
-               "iou_replaced_p50_before_after": [round(rep0, 4), round(rep1, 4), rep0 and None], "replaced_evidence": int(rp.sum()),
+               "iou_replaced_p50_before_after": [round(rep0, 4), round(rep1, 4)], "replaced_evidence": int(rp.sum()),
                "a_ok": bool(a_ok), "untouched_same": same}
-        out["iou_replaced_p50_before_after"] = [round(rep0, 4), round(rep1, 4)]
         print(json.dumps(out), flush=True)
     print(f"T3_HELD_CHECK_DONE {bad}")
 

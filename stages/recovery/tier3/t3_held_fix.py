@@ -1,22 +1,29 @@
-"""Orientation jumps inside held runs of a Tier 3 object trajectory, repaired by slerp across the jump stretch (Tier 3 inputs only).
+"""Orientation jumps of a Tier 3 object trajectory outside its resting runs, unwrapped and redistributed (Tier 3 inputs only).
 
-Plan: agent-doc/plan-t3hand-2026-10-27.md on track2/p1-training, version 2, section 1 P1 and criterion H0.
+Plan: agent-doc/plan-t3hand-2026-10-27.md on track2/p1-training, version 3, section 1 P1 and criterion H0.
 
-The rollouts of ep13, ep19 and ep27 lose the object at the frames where the reference orientation turns 24-170 deg in one
-frame inside a held run (results/ml40/t3hand/probe2_ml40.txt). A held rigid body cannot do that; it is the reconstruction
-switching branches. t3_dynamics_post.py keeps those frames on purpose (its outliers rule, set for ep03's rest). This step
-runs on the input of the dynamics post-process (the dr2s layer) and only touches held runs:
-  symmetry  as the dynamics post-process: frame by frame the orientation equivalent (gate/t3_symmetry.py) closest to the
-            previous frame, about the centre of mass, so turns between equivalent poses do not count as jumps;
-  held      the physics check's held flags of the input version, closed over GAP frames (as the dynamics post-process);
-  jumps     inside a held run, a frame whose turn from the previous frame exceeds JUMP_DEG. The stretch starts at the last
-            frame a before the jump and ends at the first frame b >= jump with angle(R_a, R_b) <= JUMP_DEG * (b - a) and
-            no jump in the GOOD_RUN frames after b; if none, b is the run's last frame. Frames a < t < b get the slerp
-            between R_a and R_b (about the centre of mass; the centre of mass keeps its own path, so only the position
-            column changes by the turn of the mesh origin about it). A stretch that would still leave a turn above
-            JUMP_DEG, or an episode whose replaced frames exceed MAX_SHARE, is refused (the episode is left as it is).
-Writes runs/<out version>{,_suspect}/ with the same layout and meta as the input (only observation.object.pose
-differs, and only on replaced frames), runs/<out version>.held_fix.json and runs/<out version>.provenance.json.
+The rollouts of ep13, ep15, ep19 and ep27 lose the object at the frames where the reference orientation turns 24-170 deg
+in one frame while the object is held or in the air (results/ml40/t3hand/probe2_ml40.txt, held_fix records). The recipe
+terminates a rollout at an orientation error of 0.6 rad, so a jump the simulated object cannot make ends the episode.
+t3_dynamics_post.py keeps those frames on purpose (its outliers rule). This step runs on the input of the dynamics
+post-process (the dr2s layer) and only touches the frames the dynamics post-process does not lock:
+  symmetry   as the dynamics post-process: frame by frame the orientation equivalent (gate/t3_symmetry.py) closest to the
+             previous frame, about the centre of mass, so turns between equivalent poses do not count as jumps;
+  locked     unheld frames inside the input's resting anchors (runs/<version>.depth_post.json, as the dynamics
+             post-process reads them; held from the physics check, closed over GAP frames). Everything else is one or
+             more "free" runs: held, or unheld in the air;
+  unwrap     inside a free run, the orientation is rebuilt from the measured frame-to-frame turns, except that a turn
+             above JUMP_DEG is dropped (the branch switch is an artifact, the motion measured after it is kept);
+  match      the rebuilt run then ends D away from the measured last frame (and from the locked run after it). D is spread
+             over the run as a slow twist about the centre of mass with a cosine weight from 0 at the run's first frame
+             to 1 at its last, so both ends meet their neighbours and no frame turns faster than the measured motion plus
+             angle(D) / length. A run at the episode's end has no neighbour after it and keeps D = 0.
+  caps       a run whose spread would exceed MAX_SPREAD_DEG per frame is left as it is (reported as skipped); an episode
+             is refused only if a processed run still turns above JUMP_DEG somewhere.
+The centre of mass keeps its own path (pos = com - R @ com_b), so only the orientation target changes. Frames the step does
+not change keep the input bytes (also the ones the symmetry step would have turned: the dynamics post-process redoes it).
+Writes runs/<out version>{,_suspect}/ with the same layout and meta as the input, copies the input's depth_post.json
+under the output name (positions and anchors are unchanged), runs/<out version>.held_fix.json and .provenance.json.
 
     python t3_held_fix.py <tier3 root> <version> <physics dir> <out version> [episode,...]
 One json line per episode on stdout. CPU only.
@@ -24,18 +31,18 @@ One json line per episode on stdout. CPU only.
 from __future__ import annotations
 
 import json
+import shutil
 import sys
 from pathlib import Path
 
 import numpy as np
 from scipy.ndimage import binary_closing
-from scipy.spatial.transform import Rotation, Slerp
+from scipy.spatial.transform import Rotation
 
 FPS = 30.0
 GAP = 5  # frames, as t3_dynamics_post.GAP
 JUMP_DEG = float(np.degrees(4 * np.pi) / FPS)  # 24 deg per frame, as t3_fix_units.JUMP_DEG
-GOOD_RUN = 5  # frames
-MAX_SHARE = 0.20
+MAX_SPREAD_DEG = 3.0  # per frame
 
 
 def angle(a, b) -> float:
@@ -53,38 +60,26 @@ def runs(mask) -> list[tuple[int, int]]:
     return list(zip(d[::2].tolist(), d[1::2].tolist()))
 
 
-def stretches(R: np.ndarray, held: np.ndarray, jump_deg: float = JUMP_DEG, good_run: int = GOOD_RUN) -> list[tuple[int, int]]:
-    """[a, b] pairs to interpolate across, inside held runs; a and b keep their orientation."""
-    td = turn_deg(R)
-    out = []
-    for s, e in runs(held):
-        t = s + 1
-        while t < e:
-            if td[t] <= jump_deg:
-                t += 1
-                continue
-            a = t - 1
-            b = None
-            for c in range(t, e):
-                if np.degrees(angle(R[a], R[c])) <= jump_deg * (c - a) and all(td[u] <= jump_deg for u in range(c + 1, min(c + 1 + good_run, e))):
-                    b = c
-                    break
-            if b is None:
-                b = e - 1
-            if b > a + 1:
-                out.append((a, b))
-            t = b + 1
-    return out
-
-
-def slerp_fill(R: np.ndarray, a: int, b: int) -> np.ndarray:
-    """R with frames a < t < b replaced by the slerp between R[a] and R[b]."""
+def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True) -> tuple[np.ndarray, list[int], float]:
+    """(R with frames s..e-1 rebuilt, the jump frames dropped, angle(D) in deg). match_end spreads the end mismatch D."""
     out = R.copy()
-    if b - a < 2:
-        return out
-    s = Slerp([a, b], Rotation.from_matrix(np.stack([R[a], R[b]])))
-    out[a + 1:b] = s(np.arange(a + 1, b)).as_matrix()
-    return out
+    jumps = []
+    for t in range(s + 1, e):
+        rel = R[t - 1].T @ R[t]
+        if np.degrees(angle(R[t - 1], R[t])) > jump_deg:
+            jumps.append(t)
+            rel = np.eye(3)
+        out[t] = out[t - 1] @ rel
+    if not jumps:
+        return R.copy(), [], 0.0
+    D = out[e - 1].T @ R[e - 1]  # body-frame twist that brings the rebuilt end back onto the measured end
+    ang = np.degrees(angle(out[e - 1], R[e - 1]))
+    if match_end and e - s > 1:
+        rv = Rotation.from_matrix(D).as_rotvec()
+        w = 0.5 - 0.5 * np.cos(np.pi * np.arange(e - s) / (e - s - 1))
+        for i, t in enumerate(range(s, e)):
+            out[t] = out[t] @ Rotation.from_rotvec(rv * w[i]).as_matrix()
+    return out, jumps, float(ang)
 
 
 def main() -> None:
@@ -107,6 +102,9 @@ def main() -> None:
         raise SystemExit(f"runs/{out_v} exists; pick a new name")
     prov = t3_provenance.stamp([root / "input", rn / version, rn / f"{version}_suspect", phys])
     metas = {m["episode_index"]: m for m in map(json.loads, (root / "input/meta/episodes_metadata.jsonl").read_text().splitlines()) if m}
+    rec = rn / f"{version}.height_post.json"
+    rec = rec if rec.exists() else rn / f"{version}.depth_post.json"
+    anchors = {row["episode"]: [(a["start"], a["end"]) for a in row["anchors"]] for row in json.loads(rec.read_text())}
     report = []
     for src_v, dst_v in ((version, out_v), (f"{version}_suspect", f"{out_v}_suspect")):
         for f in sorted((rn / src_v / "data" / "chunk-000").glob("episode_*.parquet")):
@@ -136,34 +134,44 @@ def main() -> None:
             if len(held) != n:
                 raise SystemExit(f"{name}: {len(held)} held flags for {n} frames")
             held = binary_closing(held, np.ones(2 * GAP + 1, bool)) | held
+            resting = np.zeros(n, bool)
+            for a, b in anchors.get(name, []):
+                resting[a:b] = True
+            locked = ~held & resting
             td0 = turn_deg(Rc)
-            st = stretches(Rc, held)
             new_R = Rc.copy()
-            for a, b in st:
-                new_R = slerp_fill(new_R, a, b)
-            replaced = np.zeros(n, bool)
-            for a, b in st:
-                replaced[a + 1:b] = True
+            rows_runs, skipped, reasons = [], [], []
+            processed = np.zeros(n, bool)
+            for s, e in runs(~locked):
+                match_end = e < n
+                rr, jumps, dang = unwrap_run(new_R, s, e, match_end=match_end)
+                if not jumps:
+                    continue
+                spread = dang / max(1, e - s - 1) if match_end else 0.0
+                if spread > MAX_SPREAD_DEG:
+                    skipped.append({"start": s, "end": e, "jumps": jumps, "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2)})
+                    continue
+                new_R = rr
+                processed[s:e] = True
+                rows_runs.append({"start": s, "end": e, "held_share": round(float(held[s:e].mean()), 2), "jumps": jumps,
+                                  "end_mismatch_deg": round(dang, 1), "spread_deg_per_frame": round(spread, 2)})
             td1 = turn_deg(new_R)
-            reasons = []
-            if replaced.mean() > MAX_SHARE:
-                reasons.append(f"replaced share {replaced.mean():.2f} > {MAX_SHARE}")
-            left = [t for t in range(1, n) if held[t] and held[t - 1] and td1[t] > JUMP_DEG + 1e-6]
+            left = [t for t in range(1, n) if processed[t] and processed[t - 1] and td1[t] > JUMP_DEG + 1e-6]
             if left:
-                reasons.append(f"{len(left)} held frames still turn above {JUMP_DEG:.0f} deg ({left[:6]})")
+                reasons.append(f"{len(left)} processed frames still turn above {JUMP_DEG:.0f} deg ({left[:6]})")
             refused = bool(reasons)
             if refused:
-                new_R, replaced = Rc.copy(), np.zeros(n, bool)
-            new_pos = com - new_R @ com_b  # the centre of mass keeps its path
+                new_R, rows_runs = Rc.copy(), []
+            changed = np.array([angle(Rc[t], new_R[t]) > 1e-6 for t in range(n)])  # frames only the symmetry step turned keep the input bytes
+            new_pos = com - new_R @ com_b
             out = pose.copy()
-            out[replaced, :3] = new_pos[replaced]
-            out[replaced, 3:7] = to_q(new_R[replaced])
-            # frames not replaced keep the input bytes (also the ones the symmetry step would have turned)
+            out[changed, :3] = new_pos[changed]
+            out[changed, 3:7] = to_q(new_R[changed])
             col = pa.FixedSizeListArray.from_arrays(pa.array(out.astype(np.float32).ravel(), pa.float32()), 7)
             i = table.schema.get_field_index("observation.object.pose")
             out_t = table.set_column(i, table.schema.field(i), col)
             md = dict(out_t.schema.metadata or {})
-            md[b"held_fix"] = json.dumps({"from": version, "stretches": st, "refused": reasons}).encode()
+            md[b"held_fix"] = json.dumps({"from": version, "runs": rows_runs, "skipped": skipped, "refused": reasons}).encode()
             out_t = out_t.replace_schema_metadata(md)
             dst = rn / dst_v / "data" / "chunk-000" / f.name
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -171,16 +179,19 @@ def main() -> None:
             (rn / dst_v / "meta").mkdir(exist_ok=True)
             mf = rn / src_v / "meta" / f"episode_{ep:06d}.metadata.json"
             (rn / dst_v / "meta" / mf.name).write_bytes(mf.read_bytes())
-            held_jumps0 = int(sum(td0[t] > JUMP_DEG for t in range(1, n) if held[t] and held[t - 1]))
-            held_jumps1 = int(sum(td1[t] > JUMP_DEG for t in range(1, n) if held[t] and held[t - 1]))
+            free = ~locked
+            jumps0 = int(sum(td0[t] > JUMP_DEG for t in range(1, n) if free[t] and free[t - 1]))
+            jumps1 = int(sum(td1[t] > JUMP_DEG for t in range(1, n) if free[t] and free[t - 1]))
             row = {"episode": name, "tier": dst_v, "frames": n, "symmetries": len(G), "continuous_axis": sym_axis is not None,
-                   "held_share": round(float(held.mean()), 3), "held_jump_frames_before_after": [held_jumps0, held_jumps1],
-                   "stretches": [[int(a), int(b)] for a, b in st], "replaced_frames": int(replaced.sum()),
-                   "replaced_share": round(float(replaced.mean()), 3),
-                   "max_turn_replaced_from_input_deg": round(float(max([np.degrees(angle(R[t], new_R[t])) for t in np.flatnonzero(replaced)], default=0.0)), 1),
+                   "held_share": round(float(held.mean()), 3), "locked_share": round(float(locked.mean()), 3),
+                   "free_jump_frames_before_after": [jumps0, jumps1], "runs": rows_runs, "skipped_runs": skipped,
+                   "changed_frames": int(changed.sum()), "changed_share": round(float(changed.mean()), 3),
+                   "max_turn_from_input_deg": round(float(max([np.degrees(angle(R[t], new_R[t])) for t in np.flatnonzero(changed)], default=0.0)), 1),
+                   "max_turn_per_frame_before_after_deg": [round(float(td0.max()), 1), round(float(td1.max()), 1)],
                    "refused": reasons}
             report.append(row)
             print(json.dumps(row), flush=True)
+    shutil.copy2(rec, rn / f"{out_v}.{rec.name.split('.', 1)[1]}")
     (rn / f"{out_v}.held_fix.json").write_text(json.dumps(report, indent=1))
     t3_provenance.write(rn / f"{out_v}.provenance.json", prov | {"made_by": "t3_held_fix.py", "from_version": version})
 

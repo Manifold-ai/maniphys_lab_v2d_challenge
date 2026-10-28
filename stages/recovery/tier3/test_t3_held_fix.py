@@ -1,13 +1,13 @@
-"""t3_held_fix: jump stretches inside held runs and the slerp repair.
+"""t3_held_fix: unwrapping of orientation jumps inside a free run and the end-matching twist.
 
-Plan agent-doc/plan-t3hand-2026-10-27.md (track2/p1-training) v2, section 1 P1. Contract RECOVERY-C005.
+Plan agent-doc/plan-t3hand-2026-10-27.md (track2/p1-training) v3, section 1 P1. Contract RECOVERY-C005.
 
 Runs without pytest: python test_t3_held_fix.py
 """
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from t3_held_fix import JUMP_DEG, slerp_fill, stretches, turn_deg
+from t3_held_fix import JUMP_DEG, turn_deg, unwrap_run
 
 
 def _slow_turn(n, deg_per_frame=2.0):
@@ -21,45 +21,38 @@ def _flip(R, t0, t1, deg=170.0):
     return out
 
 
-def test_no_jumps_no_stretches():
+def test_no_jumps_unchanged():
     R = _slow_turn(60)
-    assert stretches(R, np.ones(60, bool)) == []
+    out, jumps, d = unwrap_run(R, 0, 60)
+    assert jumps == [] and np.allclose(out, R) and d == 0
 
 
-def test_glitch_inside_held_run_is_bridged():
+def test_glitch_that_returns_is_removed_and_ends_match():
     R = _flip(_slow_turn(60), 20, 30)
-    held = np.ones(60, bool)
-    st = stretches(R, held)
-    assert st == [(19, 30)]
-    fixed = slerp_fill(R, 19, 30)
-    assert turn_deg(fixed).max() <= JUMP_DEG
-    assert np.allclose(fixed[19], R[19]) and np.allclose(fixed[30], R[30])
+    out, jumps, d = unwrap_run(R, 0, 60)
+    assert jumps == [20, 30] and d < 1e-3
+    assert np.abs(out - _slow_turn(60)).max() < 1e-4  # the measured motion inside the glitch is kept, the flip is gone
+    assert turn_deg(out).max() <= JUMP_DEG
 
 
-def test_jump_outside_held_run_is_ignored():
-    R = _flip(_slow_turn(60), 20, 30)
-    held = np.zeros(60, bool)
-    assert stretches(R, held) == []
+def test_branch_switch_is_spread_over_the_run():
+    R = _flip(_slow_turn(100), 40, 100)
+    out, jumps, d = unwrap_run(R, 0, 100)
+    assert jumps == [40] and abs(d - 170) < 1
+    assert np.abs(out[0] - R[0]).max() < 1e-4 and np.abs(out[99] - R[99]).max() < 1e-4  # both ends meet the measured poses
+    assert turn_deg(out).max() <= 2 + 170 / 99 * np.pi / 2 + 0.5  # slow turn plus the cosine-weighted twist
 
 
-def test_branch_switch_is_bridged_at_the_cap_rate():
-    R = _flip(_slow_turn(60), 40, 60)  # 170 deg switch that never returns: reachable at 24 deg/frame after 8 frames
-    held = np.ones(60, bool)
-    st = stretches(R, held)
-    assert st == [(39, 47)]
-    fixed = slerp_fill(R, 39, 47)
-    assert turn_deg(fixed).max() <= JUMP_DEG + 1e-9
+def test_run_at_the_episode_end_keeps_the_unwrapped_branch():
+    R = _flip(_slow_turn(100), 40, 100)
+    out, jumps, d = unwrap_run(R, 0, 100, match_end=False)
+    assert jumps == [40] and np.abs(out - _slow_turn(100)).max() < 1e-4
 
 
-def test_switch_too_close_to_the_run_end_runs_to_the_end():
-    R = _flip(_slow_turn(60), 56, 60)
-    st = stretches(R, np.ones(60, bool))
-    assert st == [(55, 59)]
-
-
-def test_real_fast_turn_under_the_cap_is_kept():
+def test_fast_turn_under_the_cap_is_not_a_jump():
     R = _slow_turn(60, deg_per_frame=20.0)
-    assert stretches(R, np.ones(60, bool)) == []
+    out, jumps, d = unwrap_run(R, 0, 60)
+    assert jumps == [] and np.allclose(out, R)
 
 
 if __name__ == "__main__":
