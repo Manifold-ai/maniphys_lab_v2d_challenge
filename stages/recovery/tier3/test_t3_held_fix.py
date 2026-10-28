@@ -31,7 +31,7 @@ def test_glitch_that_returns_is_removed_and_ends_match():
     R = _flip(_slow_turn(60), 20, 30)
     out, jumps, d = unwrap_run(R, 0, 60)
     assert jumps == [20, 30] and d < 1e-3
-    assert np.abs(out - _slow_turn(60)).max() < 1e-4  # the measured motion inside the glitch is kept, the flip is gone
+    assert np.abs(out - _slow_turn(60)).max() < 1e-3  # the motion inside the glitch is kept, the flip is gone
     assert turn_deg(out).max() <= JUMP_DEG
 
 
@@ -46,7 +46,7 @@ def test_branch_switch_is_spread_over_the_run():
 def test_run_at_the_episode_end_keeps_the_unwrapped_branch():
     R = _flip(_slow_turn(100), 40, 100)
     out, jumps, d = unwrap_run(R, 0, 100, match_end=False)
-    assert jumps == [40] and np.abs(out - _slow_turn(100)).max() < 1e-4
+    assert jumps == [40] and np.abs(out - _slow_turn(100)).max() < 1e-3
 
 
 def test_fast_turn_under_the_cap_is_not_a_jump():

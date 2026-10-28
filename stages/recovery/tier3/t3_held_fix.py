@@ -12,8 +12,9 @@ post-process (the dr2s layer) and only touches the frames the dynamics post-proc
   locked     unheld frames inside the input's resting anchors (runs/<version>.depth_post.json, as the dynamics
              post-process reads them; held from the physics check, closed over GAP frames). Everything else is one or
              more "free" runs: held, or unheld in the air;
-  unwrap     inside a free run, the orientation is rebuilt from the measured frame-to-frame turns, except that a turn
-             above JUMP_DEG is dropped (the branch switch is an artifact, the motion measured after it is kept);
+  unwrap     inside a free run, the output is the measured orientation times a body-frame correction that is constant
+             between jumps; at a turn above JUMP_DEG the correction is reset so the output continues the previous frame's
+             motion (the branch switch is an artifact, the motion measured on the new branch is kept, re-expressed);
   match      the rebuilt run then ends D away from the measured last frame (and from the locked run after it). D is spread
              over the run as a slow twist about the centre of mass with a cosine weight from 0 at the run's first frame
              to 1 at its last, so both ends meet their neighbours and no frame turns faster than the measured motion plus
@@ -60,19 +61,35 @@ def runs(mask) -> list[tuple[int, int]]:
     return list(zip(d[::2].tolist(), d[1::2].tolist()))
 
 
+def so3(M: np.ndarray) -> np.ndarray:
+    """Nearest rotation to M (polar decomposition), so products of many rotations stay orthonormal."""
+    U, _, Vt = np.linalg.svd(M)
+    Rm = U @ Vt
+    if np.linalg.det(Rm) < 0:
+        U[:, -1] *= -1
+        Rm = U @ Vt
+    return Rm
+
+
 def unwrap_run(R: np.ndarray, s: int, e: int, jump_deg: float = JUMP_DEG, match_end: bool = True) -> tuple[np.ndarray, list[int], float]:
-    """(R with frames s..e-1 rebuilt, the jump frames dropped, angle(D) in deg). match_end spreads the end mismatch D."""
+    """(R with frames s..e-1 rebuilt, the jump frames, angle(D) in deg). Inside the run the output is R[t] @ C with a
+    body-frame correction C that is constant between jumps; at a jump C is reset so that the output continues the previous
+    frame's motion (R[t] @ C = out[t-1] @ rel_prev), i.e. the branch switch is removed and the motion measured on the new
+    branch is kept. match_end spreads the end mismatch D (output end vs measured end) over the run as a cosine twist."""
     out = R.copy()
     jumps = []
+    C = np.eye(3)
     for t in range(s + 1, e):
-        rel = R[t - 1].T @ R[t]
-        if np.degrees(angle(R[t - 1], R[t])) > jump_deg:
+        cand = so3(R[t] @ C)
+        if np.degrees(angle(out[t - 1], cand)) > jump_deg:
             jumps.append(t)
-            rel = np.eye(3)
-        out[t] = out[t - 1] @ rel
+            rel_prev = out[t - 2].T @ out[t - 1] if t - 2 >= s else np.eye(3)
+            C = so3(R[t].T @ out[t - 1] @ rel_prev)
+            cand = so3(R[t] @ C)
+        out[t] = cand
     if not jumps:
         return R.copy(), [], 0.0
-    D = out[e - 1].T @ R[e - 1]  # body-frame twist that brings the rebuilt end back onto the measured end
+    D = so3(out[e - 1].T @ R[e - 1])  # body-frame twist that brings the rebuilt end back onto the measured end
     ang = np.degrees(angle(out[e - 1], R[e - 1]))
     if match_end and e - s > 1:
         rv = Rotation.from_matrix(D).as_rotvec()
@@ -117,6 +134,9 @@ def main() -> None:
             pose = np.stack(table.column("observation.object.pose").to_numpy(zero_copy_only=False)).astype(np.float64)
             pos, R = pose[:, :3], to_R(pose[:, 3:7])
             n = len(pos)
+            bad = [t for t in range(n) if abs(np.linalg.det(R[t]) - 1) > 1e-3 or np.abs(R[t] @ R[t].T - np.eye(3)).max() > 1e-3]
+            if bad:
+                raise SystemExit(f"{name}: {len(bad)} frames are not rotations (first {bad[:5]})")
             mesh = trimesh.load(root / "input" / m["mesh"], force="mesh")
             body = mesh if mesh.is_watertight else mesh.convex_hull
             com_b = np.asarray(body.center_mass)
