@@ -1,0 +1,7 @@
+# command  : bash -c set\ -e\;\ cd\ runs/tier3/root_gb5hr3sdyn7\;\ for\ f\ in\ data/chunk-000/\*.parquet\;\ do\ t=\$\(readlink\ -f\ \$f\)\;\ h0=\$\(sha256sum\ \<\ \$t\)\;\ rm\ \$f\;\ cp\ \$t\ \$f\;\ \[\ \"\$h0\"\ =\ \"\$\(sha256sum\ \<\ \$f\)\"\ \]\;\ echo\ \"\$f\ 实拷\"\;\ done\;\ g=\$\(readlink\ -f\ ground_plane\)\;\ rm\ ground_plane\;\ cp\ -r\ \$g\ ground_plane\;\ rm\ mesh\;\ ln\ -s\ ../root_gb5/mesh\ mesh\;\ echo\ DEREF_OK 
+# source   : 7e5d37575076
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:49:32+0800
+# ---------------------------------------------------------------
+data/chunk-000/episode_000015.parquet 实拷
+DEREF_OK

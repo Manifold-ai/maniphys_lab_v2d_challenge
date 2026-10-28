@@ -1,0 +1,9 @@
+# command  : bash -c set\ -o\ pipefail\;\ ssh\ -o\ BatchMode=yes\ ml40\ \"cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs\ \&\&\ tar\ -cf\ -\ motion/tier3_gb5hr3sdyn7\ motion_src/tier3_gb5hr3sdyn7\ tier3/root_gb5hr3sdyn7\ t3b2/relay_hr3s.sha256\"\ \|\ ssh\ -o\ BatchMode=yes\ mf4090\ \"cd\ /home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs\ \&\&\ mkdir\ -p\ t3b2\ \&\&\ tar\ -xf\ -\ \&\&\ sha256sum\ -c\ --quiet\ t3b2/relay_hr3s.sha256\ \&\&\ echo\ RELAY_SHA256_OK\ \\\$\(wc\ -l\ \<\ t3b2/relay_hr3s.sha256\)\ \&\&\ readlink\ tier3/root_gb5hr3sdyn7/mesh\ \&\&\ ls\ tier3/root_gb5/mesh\ \|\ head\ -2\" 
+# source   : 7e5d37575076
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T16:49:40-0600
+# ---------------------------------------------------------------
+RELAY_SHA256_OK 48
+../root_gb5/mesh
+baseball_bat
+big_black_box

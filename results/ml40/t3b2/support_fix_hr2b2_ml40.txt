@@ -1,0 +1,8 @@
+# command  : bash -c set\ -e\;\ D=runs/motion/tier3_gb5hr2b2dyn7/whole_body/reconstructed_stage\;\ sha256sum\ \$D/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\;\ cp\ /lab_data/rxzhou/v2d/t3recon/gate_e/support_usda_gb5hr2b2dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\ \$D/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\;\ sha256sum\ \$D/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda\;\ grep\ -c\ Cube\ \$D/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T06:53:48+0800
+# ---------------------------------------------------------------
+4f9e5e6f201460da52743b047998411c7d76908cbfb7558d578793b52b0aa216  runs/motion/tier3_gb5hr2b2dyn7/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+a9031a9b77b24f5111edb993ebdde522bb40f1c3d9161687fc81232fd5b1a5e8  runs/motion/tier3_gb5hr2b2dyn7/whole_body/reconstructed_stage/2026-05-01_11-15-05_woven_basket_ground_desk_10_support.usda
+1
