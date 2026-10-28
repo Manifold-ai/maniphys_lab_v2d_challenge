@@ -1,0 +1,13 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_cane19_anchor.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T07:55:55+0800
+# ---------------------------------------------------------------
+parquet ↔ dyn7 刚体映射：位置残差最大 0.000 mm，朝向残差最大 0.0000°
+右手握持：取自第 92 帧（右手掌离静止位姿表面 ≤ 15 cm 的第一帧）
+右手挂上 vs 原重建（91–390 的好帧 237 个）：长轴方向差中位 18.8°（90% 48.1°），原点差中位 27.4 cm
+换手窗口（两只手都离右手挂上的手杖 ≤ 15 cm）：29 帧，第 390–418 帧
+  左手握持 A（换手窗口）：窗口内对均值的朝向差中位 8.9°
+  左手握持 B（放下）：取自第 794 帧（往回找、左手掌离放下后静止位姿表面 ≤ 15 cm 的第一帧）
+A 对 B：完整朝向差 88.6°（长轴方向部分 62.2°），握点原点差 60.6 cm → 不一致（门槛 20°、10 cm）
+CANE19_ANCHOR_DONE disagree
