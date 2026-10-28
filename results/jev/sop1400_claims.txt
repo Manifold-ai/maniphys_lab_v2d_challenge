@@ -1,0 +1,25 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-28-sop1400.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : b00172eb6ec2da3819fbd4c18d0bb3b4  agent-doc/experiments/2026-10-28-sop1400.claims.json
+# source   : 89244dd3771b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T14:04:08-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank_b               P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third.
+rank_a               P(supported)=0.98  verified               [board]  In reading A maniphys.ai has 12 and is fourth, behind domoarigato.
+nochange             P(supported)=0.96  verified               [board]  No board changed since the previous snapshot.
+spdef_mean           P(supported)=0.74  verified               [spdef]  The single-pose success averages the per-frame errors over time before it compares them with the thresholds.
+ep15_sp0             P(supported)=0.97  verified               [ep15eval]  The ep15 sg04 run has SP-SR 0 on 4096 worlds.
+ep15_auc             P(supported)=0.98  verified               [ep15eval]  The ep15 sg04 run has ADD-AUC 0.529 and MPPE 4.03 cm.
+ep15_pre             P(supported)=0.99  verified               [ep15pre]  In the ep15 sg04 export, the mean orientation error over frames 0 to 497 is 0.126 rad.
+ep15_post            P(supported)=0.98  verified               [ep15post]  In the ep15 sg04 export, the mean orientation error over frames 503 to 715 is 2.426 rad and the whole-episode mean is 0.826 rad.
+ep27_mppe            P(supported)=0.97  verified               [ep27eval]  The ep27 sg04 run has MPPE 23.56 cm and SP-SR 0 on 4096 worlds.
+ep27_pre             P(supported)=0.99  verified               [ep27pre]  In the ep27 sg04 export, the mean orientation error over frames 0 to 181 is 0.106 rad.
+mf_run               P(supported)=0.98  verified               [stmf]  On mf4090 the run t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090 is training at 91 percent.
+ml_run               P(supported)=0.98  verified               [stml]  On ml40 the run t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40 is training at 93 percent.
+turns                P(supported)=0.87  verified               [turns]  The new ep27 training reference has no frame whose turn exceeds 24 degrees.
+ctl_true             P(supported)=0.95  control(true) ok       [ep15eval]  The ep15 sg04 run was evaluated on 4096 worlds.
+ctl_false1           P(supported)=0.01  control(false) ok      [ep15eval]  The ep15 sg04 run passes the success-rate line with SP-SR 1.0.
+ctl_false2           P(supported)=0.01  control(false) ok      [stml]  On ml40 no training run is in progress.
+controls behaved as expected

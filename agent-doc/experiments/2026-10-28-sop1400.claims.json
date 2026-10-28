@@ -1,0 +1,33 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {"file": "results/board/diff_1028_1401.txt", "grep": "读法|BOARD_"},
+  "spdef": {"file": "results/batch1/metric_threshold_facts.txt", "grep": "mean\\(axis=0\\)|spider_success|0\\.1|0\\.5"},
+  "ep15eval": {"file": "results/ml40/t3g5/eval_t3qr3o_ml40.txt", "grep": "sg04-ml40"},
+  "ep15pre": {"file": "results/ml40/t3oo/o2_ep15_sg04.txt", "grep": "parquet：|朝向误差"},
+  "ep15post": {"file": "results/ml40/t3oo/o3_ep15_sg04.txt", "grep": "朝向误差"},
+  "ep27eval": {"file": "results/t3g5/eval_t3pr3o_mf4090.txt", "grep": "sg04-mf4090"},
+  "ep27pre": {"file": "results/t3oo/o2_ep27_sg04.txt", "grep": "parquet：|朝向误差"},
+  "turns": {"file": "results/ml40/t3fix2/turns.txt"},
+  "stmf": {"file": "results/ops/sop_status_mf4090_1028_1401.txt", "grep": "training progress|chain-active"},
+  "stml": {"file": "results/ops/sop_status_ml40_1028_1401.txt", "grep": "training progress|chain-active"}
+ },
+ "claims": [
+  {"id": "rank_b", "evidence": ["board"], "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third."},
+  {"id": "rank_a", "evidence": ["board"], "claim": "In reading A maniphys.ai has 12 and is fourth, behind domoarigato."},
+  {"id": "nochange", "evidence": ["board"], "claim": "No board changed since the previous snapshot."},
+  {"id": "spdef_mean", "evidence": ["spdef"], "claim": "The single-pose success averages the per-frame errors over time before it compares them with the thresholds."},
+  {"id": "ep15_sp0", "evidence": ["ep15eval"], "claim": "The ep15 sg04 run has SP-SR 0 on 4096 worlds."},
+  {"id": "ep15_auc", "evidence": ["ep15eval"], "claim": "The ep15 sg04 run has ADD-AUC 0.529 and MPPE 4.03 cm."},
+  {"id": "ep15_pre", "evidence": ["ep15pre"], "claim": "In the ep15 sg04 export, the mean orientation error over frames 0 to 497 is 0.126 rad."},
+  {"id": "ep15_post", "evidence": ["ep15post"], "claim": "In the ep15 sg04 export, the mean orientation error over frames 503 to 715 is 2.426 rad and the whole-episode mean is 0.826 rad."},
+  {"id": "ep27_mppe", "evidence": ["ep27eval"], "claim": "The ep27 sg04 run has MPPE 23.56 cm and SP-SR 0 on 4096 worlds."},
+  {"id": "ep27_pre", "evidence": ["ep27pre"], "claim": "In the ep27 sg04 export, the mean orientation error over frames 0 to 181 is 0.106 rad."},
+  {"id": "mf_run", "evidence": ["stmf"], "claim": "On mf4090 the run t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090 is training at 91 percent."},
+  {"id": "ml_run", "evidence": ["stml"], "claim": "On ml40 the run t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40 is training at 93 percent."},
+  {"id": "turns", "evidence": ["turns"], "claim": "The new ep27 training reference has no frame whose turn exceeds 24 degrees."},
+  {"id": "ctl_true", "control": "true", "evidence": ["ep15eval"], "claim": "The ep15 sg04 run was evaluated on 4096 worlds."},
+  {"id": "ctl_false1", "control": "false", "evidence": ["ep15eval"], "claim": "The ep15 sg04 run passes the success-rate line with SP-SR 1.0."},
+  {"id": "ctl_false2", "control": "false", "evidence": ["stml"], "claim": "On ml40 no training run is in progress."}
+ ]
+}
