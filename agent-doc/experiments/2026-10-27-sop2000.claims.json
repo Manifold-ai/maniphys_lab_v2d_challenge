@@ -1,0 +1,29 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {"file": "results/board/diff_1027_2001.txt", "grep": "读法|^tier2-mppe|^tier1-auc|^ALERT"},
+  "places": {"file": "results/board/diff_1027_2001.txt", "grep": "^Tier 2：|^Tier 3："},
+  "tex": {"file": "results/ml40/t3fix/tex_summary_ml40.txt", "grep": "^== G0|负对照 accept 合计|ep08_skinny|ep26_skateboard：|ep13_snack_box：|ep10_white|ep14_round|T3FX_TEX_SUMMARY_DONE"},
+  "texacc": {"file": "results/ml40/t3fix/tex_summary_ml40.txt", "grep": "^ep13_snack_box 帧|^ep26_skateboard 帧"},
+  "fixrec": {"file": "agent-doc/plan-t3fix-2026-10-27.md", "grep": "G0 不过|整项不出数据|5° 的转动轮廓看不出|不可信"},
+  "stmf": {"file": "results/ops/status_mf4090_1027_2000.txt", "grep": "NVIDIA|长链标记|（没有）"},
+  "stml": {"file": "results/ops/status_ml40_1027_2000.txt", "grep": "NVIDIA|长链标记|（没有）"}
+ },
+ "claims": [
+  {"id": "luai_t2mppe", "evidence": ["board"], "claim": "On tier2-mppe, Luai Abuelsamen's score changed from 17.35839 to 14.14465."},
+  {"id": "t2mppe_place", "evidence": ["places"], "claim": "maniphys.ai is 第 5 on Tier 2 mppe with 15.32195, and the first place is nima arki with 10.84276."},
+  {"id": "t2mppe_ctl", "evidence": ["places"], "claim": "maniphys.ai is 第 1 on Tier 2 mppe.", "control": "false"},
+  {"id": "rank_b", "evidence": ["board"], "claim": "Under the Kaggle tie rule the 12-board rank sums are Xueyi Wang (FF) 49, nima arki 49, maniphys.ai 56 and MBZUAI-RCL Group 58, and maniphys.ai is third."},
+  {"id": "rank_a", "evidence": ["board"], "claim": "Under reading A maniphys.ai went from 11 (third) to 12 (fourth), behind Xueyi Wang (FF) 8, nima arki 9 and domoarigato 11."},
+  {"id": "alerts", "evidence": ["board"], "claim": "There are alerts that the tier2-mppe place changed from 4 to 5 and that the reading A total place changed from 3 to 4."},
+  {"id": "g0_fail", "evidence": ["tex"], "claim": "The null control accept total over all episodes is 2, and the summary ends with T3FX_TEX_SUMMARY_DONE fail."},
+  {"id": "g0_ctl", "evidence": ["tex"], "claim": "The null control accept total over all episodes is 0.", "control": "false"},
+  {"id": "gate_fail", "evidence": ["tex"], "claim": "ep10_white_desk and ep14_round_table did not pass the renderer gate."},
+  {"id": "ep13_acc", "evidence": ["texacc"], "claim": "ep13_snack_box has two accepted segments and both switch to flip_a2."},
+  {"id": "ep26_acc", "evidence": ["texacc"], "claim": "ep26_skateboard has one accepted segment switching to flip_a2 with a gap of about 0.07."},
+  {"id": "null_where", "evidence": ["tex"], "claim": "The null control accepts occur in ep08_skinny_wood_chair and ep26_skateboard, one each."},
+  {"id": "rec_nodata", "evidence": ["fixrec"], "claim": "The record states that because G0 fails, B1 produces no data and changes no episode, and that the 5-degree turn is invisible to the silhouette but visible to the texture."},
+  {"id": "gpu_idle", "evidence": ["stmf", "stml"], "claim": "Both GPUs use 0 MiB at 0% and neither machine has a long-chain marker."},
+  {"id": "gpu_ctl", "evidence": ["stmf", "stml"], "claim": "The mf4090 GPU runs at 100%.", "control": "false"}
+ ]
+}

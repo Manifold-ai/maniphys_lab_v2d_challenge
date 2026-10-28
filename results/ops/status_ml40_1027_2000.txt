@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 473405d172e1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T20:01:15-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-28 10:01:19 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  960G  53% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3fx_tex_0.log：T3FX_TEX_DONE（失败 0）
+runs/logs/t3fx_tex_4.log：{"episode": "ep28_squeegee", "stage": "full", "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2", "turn030", "turn060", "turn090", "turn120", "turn150", "turn210
+runs/logs/t3fx_tex_1.log：{"episode": "ep25_cyan_water_bottle", "stage": "full", "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2", "turn030", "turn060", "turn090", "turn120", "turn150",
+runs/logs/t3fx_tex_3.log：{"episode": "ep27_woven_basket", "stage": "full", "symmetries": 2, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2"], "points": 1000000, "max_mask_px": 2891, "evidence_frames":
+runs/logs/t3fx_tex_2.log：{"episode": "ep26_skateboard", "stage": "full", "symmetries": 2, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2", "turn030", "turn060", "turn090", "turn120", "turn150", "turn2
+runs/logs/t3fx_tex_5.log：{"episode": "ep29_rolling_luggage", "stage": "full", "symmetries": 1, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2", "turn030", "turn060", "turn090", "turn120", "turn150", "
+runs/logs/t3fx_tex_smoke.log：{"episode": "ep13_snack_box", "stage": "full", "symmetries": 2, "continuous_axis": false, "candidates": ["flip_a0", "flip_a1", "flip_a2"], "points": 1000000, "max_mask_px": 10617, "evidence_frames": 3
+runs/logs/t3fx_texgate_4.log：{"episode": "ep28_squeegee", "stage": "gate", "symmetries": 1, "continuous_axis": false, "candidates": ["turn030", "turn060", "turn090", "turn120", "turn150", "turn210", "turn240", "turn270", "turn300

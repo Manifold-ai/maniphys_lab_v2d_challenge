@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop2000.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 60d6c6afa0b900b45f1963ead2704abc  agent-doc/experiments/2026-10-27-sop2000.claims.json
+# source   : 473405d172e1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-27T20:07:36-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+luai_t2mppe          P(supported)=0.99  verified               [board]  On tier2-mppe, Luai Abuelsamen's score changed from 17.35839 to 14.14465.
+t2mppe_place         P(supported)=0.96  verified               [places]  maniphys.ai is 第 5 on Tier 2 mppe with 15.32195, and the first place is nima arki with 10.84276.
+t2mppe_ctl           P(supported)=0.01  control(false) ok      [places]  maniphys.ai is 第 1 on Tier 2 mppe.
+rank_b               P(supported)=0.97  verified               [board]  Under the Kaggle tie rule the 12-board rank sums are Xueyi Wang (FF) 49, nima arki 49, maniphys.ai 56 and MBZUAI-RCL Group 58, and maniphys.ai is third.
+rank_a               P(supported)=0.99  verified               [board]  Under reading A maniphys.ai went from 11 (third) to 12 (fourth), behind Xueyi Wang (FF) 8, nima arki 9 and domoarigato 11.
+alerts               P(supported)=0.99  verified               [board]  There are alerts that the tier2-mppe place changed from 4 to 5 and that the reading A total place changed from 3 to 4.
+g0_fail              P(supported)=0.91  verified               [tex]  The null control accept total over all episodes is 2, and the summary ends with T3FX_TEX_SUMMARY_DONE fail.
+g0_ctl               P(supported)=0.01  control(false) ok      [tex]  The null control accept total over all episodes is 0.
+gate_fail            P(supported)=0.98  verified               [tex]  ep10_white_desk and ep14_round_table did not pass the renderer gate.
+ep13_acc             P(supported)=0.56  UNVERIFIED             [texacc]  ep13_snack_box has two accepted segments, both switching to flip_a2, with gaps of about 0.29 to 0.37.
+ep26_acc             P(supported)=0.90  verified               [texacc]  ep26_skateboard has one accepted segment switching to flip_a2 with a gap of about 0.07.
+null_where           P(supported)=0.97  verified               [tex]  The null control accepts occur in ep08_skinny_wood_chair and ep26_skateboard, one each.
+rec_nodata           P(supported)=0.83  verified               [fixrec]  The record states that because G0 fails, B1 produces no data and changes no episode, and that the 5-degree turn is invisible to the silhouette but visible to the texture.
+gpu_idle             P(supported)=0.97  verified               [stmf, stml]  Both GPUs use 0 MiB at 0% and neither machine has a long-chain marker.
+gpu_ctl              P(supported)=0.01  control(false) ok      [stmf, stml]  The mf4090 GPU runs at 100%.
+controls behaved as expected
