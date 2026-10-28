@@ -1,0 +1,1 @@
+V2D object_orientation term: weight=1.0 std=1.0 (V2D_OBJ_ORI_WEIGHT, V2D_OBJ_ORI_STD)

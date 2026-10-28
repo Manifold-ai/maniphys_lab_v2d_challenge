@@ -1,0 +1,13 @@
+# command  : bash -c python3\ stages/evaluate/eval_table.py\ \"\$@\"\ \&\&\ python3\ stages/evaluate/t3g5_r1.py\ \"\$@\" _ results/day2/eval_t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40_s349999104.txt 
+# md5      : 639802609fe0dec26a8ee8cd9ad1fc3e  stages/evaluate/eval_table.py
+# md5      : 0a14468f246003c5d6d68492d886c507  stages/evaluate/t3g5_r1.py
+# md5      : b25c990d8b9ca847139e3e8ee45a7b8f  results/day2/eval_t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40_s349999104.txt
+# source   : 5a43362f0679
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T04:18:56+0800
+# ---------------------------------------------------------------
+run	步数	世界	帧	MP-SR	SP-SR	ADD-AUC	MPPE_cm	位置_cm	朝向_deg	CHORD_SR	失败_骨盆	失败_物体	失败_手掌	sha256
+t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40	349999104	4096	565	0.986	0.989	0.680	3.26	2.96	17.4	0.973	0.012	0.026	0.013	197f83c44f0b
+判据 R1（SP-SR ≥ 0.5 且 MPPE ≤ 10 cm，对自己参考、4096 世界）：
+  t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40：SP-SR 0.989、MPPE 3.26 cm、MP-SR 0.986、ADD-AUC 0.680 → 跟上
+T3G5_R1_DONE 跟上 1 / 共 1

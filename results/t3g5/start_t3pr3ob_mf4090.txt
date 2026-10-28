@@ -1,0 +1,10 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/ref_start_height.py\ t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090\ --root\ /repo 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 6ef0c1e4d6ba859adf3506c8bd8f54ba  stages/evaluate/ref_start_height.py
+# source   : 5a43362f0679
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-29T04:20:50+0800
+# ---------------------------------------------------------------
+== t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090：scene.support=False，物体网格半径 [0.38166144490242004]，715 帧；物体根 z：第 0 帧 0.306，第 25 帧 0.306，第 50 帧 0.306，第 75 帧 0.306，第 100 帧 0.306；第 0–100 帧最小 0.306
+   参考 /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet
+REF_START_HEIGHT_DONE
