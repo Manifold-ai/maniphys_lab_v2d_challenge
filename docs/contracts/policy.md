@@ -33,7 +33,7 @@
 | POLICY-I007 | r3o 物体朝向项 | 训练副本（`v040_p185_nfg_oo`）的 ReconBody 目标函数第 13 项 = exp(−θ²/σ²)，θ 与物体朝向终止用同一个量（同一刚体、`command.body_target_quat_w`、同一帧）；权重与 σ 只来自 `V2D_OBJ_ORI_WEIGHT`、`V2D_OBJ_ORI_STD`（默认 0、0.4），非法值报错；类里 `wp.launch` 的实参与 kernel 形参逐位对应 | `stages/policy/oo_test_kernels.py`<br>- O1<br>- O2<br>- O6<br>- O7 | 待审 | 已实现 |
 | POLICY-I008 | r3o 物体朝向项 | 第 13 项权重 0 时，目标函数 kernel 的前 12 项与分数与上游 v0.4.0 逐位相同（CPU 上测；GPU 上重编译的 kernel、学习器按 13 项重算奖励的归约顺序不在此列） | `stages/policy/oo_test_kernels.py`<br>- O1 | 待审 | 已实现 |
 | POLICY-I009 | r3o 物体朝向项 | checkpoint 存的解析后配置保持上游的样子：课程各段 `objective_weights` 只有上游 12 个名字，没有 `object_orientation_weight`、`object_orientation_std` 键，没有 `V2D_OBJ_ORI`；上游 8c778f9 评测器能读、能评 4096 世界、能导出 1 局；训练时课程没写的第 13 项由 `set_weights` 与 `weights_for` 补上环境变量的权重 | `stages/policy/oo_test_kernels.py`<br>- O3<br>- O4<br>- O5<br>`stages/policy/r3o_g1.sh`（GPU） | 待审 | 已实现 |
-| POLICY-I010 | r3o 物体朝向项 | run 名带 `-r3o-`、设了 `V2D_OBJ_ORI_WEIGHT`、训练副本打了物体朝向补丁，三者同时具备才训，缺一样 `fc_run.sh` 就拒绝；`arm_var_chain.sh` 对 r3o 段与其他段的队列行双向核对 | `stages/policy/test_fc_run_r3o_guard.py`<br>- test_guard | 待审 | 已实现 |
+| POLICY-I010 | r3o 物体朝向项 | run 名带 `-r3o-`、设了 `V2D_OBJ_ORI_WEIGHT`、训练副本打了物体朝向补丁，三者同时具备才训，缺一样 `fc_run.sh` 就拒绝；`arm_var_chain.sh` 对 r3o 段与其他段的队列行双向核对（规则在 `stages/policy/r3o_lines.awk`）：r3o 段每行权重 1.0、σ 每行自带且两个变量各正好一次，run 名带 `-sgDD-` 时 σ 必须等于 D.D，不带时 σ 是 0.4；普通副本的段一行都不许带这两个变量或 `-r3o-`（10/28 第 2 版：σ 从固定 0.4 改成与 run 名标签一致） | `stages/policy/test_fc_run_r3o_guard.py`<br>- test_guard<br>`stages/policy/test_r3o_lines.sh` | 待审 | 已实现 |
 
 ## 非目标
 

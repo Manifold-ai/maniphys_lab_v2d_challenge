@@ -1,0 +1,30 @@
+# command  : python3 stages/policy/fc_src_check.py /home/rxzhou/v2d/fc_src/v040_p185_nfg_oo third_party/patches/flash_chord-p185-nfg-oo.sha256 
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : b9cb137b415db09c540953f7c744b384  third_party/patches/flash_chord-p185-nfg-oo.sha256
+# source   : 83fb2b69eef8
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-28T23:08:55+0800
+# ---------------------------------------------------------------
+== 副本 /home/rxzhou/v2d/fc_src/v040_p185_nfg_oo，清单 third_party/patches/flash_chord-p185-nfg-oo.sha256
+  ok   对照 third_party/video_to_data 的 HEAD 33129dd = 33129dd（v0.4.0）
+  ok   对照的已跟踪文件没有改动
+  ok   SOURCE_V2D.txt：flash_chord v0.4.0（33129dd）+ third_party/patches/flash_chord-v0.4.0-cube-support-scale-8c778f9.patch + third_party/patches/flash_chord-v0.4.0-nonfinite-guard.patch + third_party/patches/flash_chord-v0.4.0-object-orientation.patch
+  info 对照 864 个文件，副本 866 个，不同 8 个
+       内容不同 src/flash_chord/envs/base.py
+       内容不同 src/flash_chord/lifecycle/curriculum.py
+       内容不同 src/flash_chord/lifecycle/termination.py
+       内容不同 src/flash_chord/objectives/recon_body.py
+       内容不同 src/flash_chord/scene/support.py
+       只在副本 src/flash_chord/training/flash_sac/nonfinite_guard.py
+       内容不同 src/flash_chord/training/flash_sac/runner.py
+       只在副本 src/flash_chord/v2d_extras.py
+  ok   不同的文件正好是清单里的 8 个
+  ok   src/flash_chord/envs/base.py sha256 8a097736b62a4d27…
+  ok   src/flash_chord/lifecycle/curriculum.py sha256 3c12015d875af156…
+  ok   src/flash_chord/lifecycle/termination.py sha256 f15ccbfab1c5b96a…
+  ok   src/flash_chord/objectives/recon_body.py sha256 fac8023ec8487622…
+  ok   src/flash_chord/scene/support.py sha256 8d82f6008f231066…
+  ok   src/flash_chord/training/flash_sac/nonfinite_guard.py sha256 fbd0776661ef8906…
+  ok   src/flash_chord/training/flash_sac/runner.py sha256 c35b0732ab82fb5c…
+  ok   src/flash_chord/v2d_extras.py sha256 322d1a59c26dbfcd…
+FC_SRC_OK

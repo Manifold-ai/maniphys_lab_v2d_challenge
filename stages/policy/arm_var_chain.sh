@@ -8,6 +8,8 @@
 #   t1o*、t2o*  r3o 试点（计划 agent-doc/plan-r3o-2026-10-15.md）：t1o* 同 t1x*（mf4090），t2o* 同 t2x*（ml40）；训练挂 v040_p185_nfg_oo、按
 #         third_party/patches/flash_chord-p185-nfg-oo.sha256 核对；冒烟与正式队列每行都要带 V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4、run 名带 -r3o-；
 #         其余段一行都不许带 V2D_OBJ_ORI_ 或 -r3o-（训练副本 v040_p185_nfg 不认这两个变量，带了也是白带）
+#   t3pr3o*、t3qr3o*  Tier 3 关朝向终止 + 物体朝向项（计划 agent-doc/plan-t3oo-2026-10-28.md）：同 t3p* / t3q* 的机器与限制，训练副本同 t1o*；
+#         σ 每行自带、run 名带 -sgDD-（σ = D.D），核对规则在 stages/policy/r3o_lines.awk（契约 POLICY-I010）
 # 队列与导出清单由 stages/policy/make_var_queue.py 按段生成。起之前确认（任何一条不过就停，什么也不起）：
 #   - GPU 型号对得上这份清单的机器；来历干净；三段日志、导出结果表、导出门的日志与标记、长链标记、停链标记、同名 tmux 会话都不存在；
 #     GPU 上没有进程；
@@ -34,6 +36,9 @@ N=${1:?用法：arm_var_chain.sh <段名>}
 [[ $N =~ ^[a-z0-9_]+$ ]] || { echo "段名非法：$N" >&2; exit 2; }
 case "$N" in
   t2x*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
+  t3pr3o*) M=mf4090; T=3; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # Tier 3 关朝向终止 + 物体朝向项（计划 agent-doc/plan-t3oo-2026-10-28.md）；要排在 t3p* 前面（t3po* 会吃掉 t3pocoff）
+  t3qr3o*) M=ml40; T=3; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; COPY=v040_p185_nfg_oo ;;   # 同上，ml40；要排在 t3q* 前面
   t3p*) M=mf4090; T=3; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
@@ -50,7 +55,7 @@ case "$N" in
   t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
   t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
   t2t*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 放宽物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md）
-  *) echo "段名要以 t2x、t3p、t3q、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
+  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
 esac
 COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
 [ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256
@@ -81,14 +86,10 @@ free_mb="$(df -Pk . | awk 'NR == 2 {print int($4 / 1024)}')"
 [ -f "$SRC/$COPY/SOURCE_V2D.txt" ] && [ -f "$SRC/fc_8c778f9/SOURCE_V2D.txt" ] || stop "$SRC 下缺副本（$COPY 或 fc_8c778f9）"
 python3 stages/policy/fc_src_check.py "$SRC/$COPY" "$MAN" | tail -1 | grep -q '^FC_SRC_OK' \
   || stop "$SRC/$COPY 按清单 $MAN 核对不过"
-R3O="V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"
-r3o_bad="$({ grep -vhE '^[[:space:]]*(#|$)' "${Q}_smoke.txt" "$Q.txt" || true; } | awk -v want=" $R3O " -v oo="$([ "$COPY" = v040_p185_nfg_oo ] && echo 1 || echo 0)" '
-  { has = index($0, want) > 0; any = index($0, "V2D_OBJ_ORI_") > 0; named = ($0 ~ /-r3o-/)
-    line = $0; nw = gsub(/V2D_OBJ_ORI_WEIGHT=/, "", line); line = $0; ns = gsub(/V2D_OBJ_ORI_STD=/, "", line)   # 每个变量正好一次（env 取最后一个）
-    if (oo == 1 && !(has && named && nw == 1 && ns == 1)) bad++
-    if (oo == 0 && (any || named)) bad++ }
-  END { print bad + 0 }')"
-[ "$r3o_bad" = 0 ] || stop "冒烟或正式队列里有 ${r3o_bad} 行的 r3o 环境变量或 run 名与训练副本 $COPY 不符"
+# r3o 行的核对在 stages/policy/r3o_lines.awk（权重 1.0；σ 每行自带，run 名带 -sgDD- 时 σ 必须等于 D.D，不带时 0.4；两个变量各正好一次；普通副本的段一行都不许带）
+r3o_out="$({ grep -vhE '^[[:space:]]*(#|$)' "${Q}_smoke.txt" "$Q.txt" || true; } | awk -v oo="$([ "$COPY" = v040_p185_nfg_oo ] && echo 1 || echo 0)" -f stages/policy/r3o_lines.awk)"
+r3o_bad="$(tail -1 <<< "$r3o_out")"
+[ "$r3o_bad" = 0 ] || { grep '^BAD:' <<< "$r3o_out" >&2; stop "冒烟或正式队列里有 ${r3o_bad} 行的 r3o 环境变量、σ 或 run 名与训练副本 $COPY 不符"; }
 
 runs=(); cfgs=(); seqs=()
 while IFS=$'\t' read -r run smoke seq _; do runs+=("$run"); cfgs+=("$run" "$smoke"); seqs+=("$seq"); done < <(tail -n +2 "$Q.expect.tsv" | grep -v '^[[:space:]]*$')

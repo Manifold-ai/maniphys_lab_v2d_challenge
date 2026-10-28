@@ -1,0 +1,25 @@
+# command  : stages/policy/test_r3o_lines.sh 
+# md5      : 16a112a75010bfe932f7699cff337bde  stages/policy/test_r3o_lines.sh
+# source   : ceadaf7499b9-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T09:10:40-0600
+# ---------------------------------------------------------------
+ok   oo=1 坏行 0
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=1 坏行 1
+ok   oo=0 坏行 0
+ok   oo=0 坏行 1
+ok   oo=0 坏行 1
+ok   队列 mf4090_t3pr3o 坏行 0
+ok   队列 ml40_t3qr3o 坏行 0
+ok   队列 mf4090_t1oa 坏行 0
+ok   队列 ml40_t2oa 坏行 0
+ok   队列 mf4090_t3pocoff 坏行 0
+ok   队列 ml40_t3qcoff 坏行 0
+ok   队列 ml40_t3qhr13 坏行 0
+R3O_LINES_OK
