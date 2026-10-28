@@ -16,6 +16,7 @@ R=/lab_data/rxzhou/v2d/t3recon; T3="$R/t3fx"; CODE="$R/code"; S="$CODE/stages/re
 SOMA="$REPO/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma"
 IMG=ca1774d94cd9
 HR=${T3FX_HR:-tier3_cari4d_gb5_best_dr2s_hr}; DYN=${HR}_dyn7; SET=${T3FX_SET:-gb5hrdyn7}   # 10/28 plan-t3fix2：ep27 用 T3FX_HR=…_hr2 T3FX_SET=gb5hr2dyn7
+[ "$([ -n "${T3FX_HR:-}" ] && echo 1)" = "$([ -n "${T3FX_SET:-}" ] && echo 1)" ] || { echo "T3FX_HR 与 T3FX_SET 要同时设或同时不设" >&2; exit 2; }
 RP=""; [ "$SET" = gb5hrdyn7 ] || RP="${SET}_"   # 记录名前缀：默认集沿用旧名，其它集不覆盖旧记录
 LOG="$REPO/runs/logs/t3fx_build.log"
 mkdir -p "$REPO/runs/logs"
