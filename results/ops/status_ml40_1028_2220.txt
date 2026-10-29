@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : ba36e1e5357a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T22:22:59-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-29 12:23:00 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  956G  53% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3fx_build.log：=== 2026-10-29 09:48:33 CST T3FX_BUILD_DONE
+runs/logs/cand_t3_t3qb2r27_ml40_gate.log：=== 2026-10-29 09:47:03 CST EXPORT_GATE_STOPPED
+runs/logs/t3qb2r27_eval_ml40.log：=== 2026-10-29 09:47:01 CST DAY2_EVAL_DONE（成功 0、失败 0）
+runs/logs/t3qb2r27_train_ml40.log：=== 2026-10-29 09:46:54 CST DAY2_TRAIN_FAILED
+runs/logs/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40
+runs/logs/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40
+runs/logs/arm_t3qb2r27_ml40.log：=== 2026-10-29 09:42:06 CST ARM_SEG_DONE
+runs/logs/t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40.log：
