@@ -1,0 +1,26 @@
+# command  : python3 stages/evaluate/t3_resub_table.py 
+# md5      : a043ced211c193ab09af41ff6ff384b4  stages/evaluate/t3_resub_table.py
+# source   : 139db13b428a-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T09:59:16-0600
+# ---------------------------------------------------------------
+== D2 已交清单 t3m1022a：导出那一局对自己参考
+SP 成功 10 集：[0, 6, 7, 8, 18, 20, 21, 22, 26, 29]
+MP 成功 8 集：[0, 7, 8, 18, 20, 21, 22, 26]
+没有导出记录：[]
+== D1 换入的集（4096 世界 | 导出那一局，都对各自参考）
+集	旧 run	旧 4096	旧 导出	新 run	新 4096	新 导出
+ep5	t3-ep5-w2048-cap10m-r3a-hm-ml40@349999104	SP 0.116 / MP 0.000 / MPPE 55.93 / AUC 0.084	SP 0.000 / MP 0.000 / MPPE 46.04 / AUC 0.095	t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40	SP 0.852 / MP 0.501 / MPPE 6.87 / AUC 0.486	SP 0.000 / MP 0.000 / MPPE 10.31 / AUC 0.480
+ep10	t3-ep10-w2048-cap10m-r3a-hm-ph-ml40@4096000	SP 0.000 / MP 0.000 / MPPE 102.37 / AUC 0.087	SP 0.000 / MP 0.000 / MPPE 76.65 / AUC 0.073	t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40	SP 0.949 / MP 0.000 / MPPE 5.25 / AUC 0.308	SP 1.000 / MP 0.000 / MPPE 4.06 / AUC 0.249
+ep12	t3-ep12-w2048-cap4m-r3a-hm-mf4090@349999104	SP 0.000 / MP 0.000 / MPPE 27.18 / AUC 0.159	SP 0.000 / MP 0.000 / MPPE 24.03 / AUC 0.159	t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40	SP 0.990 / MP 0.967 / MPPE 2.74 / AUC 0.507	SP 1.000 / MP 1.000 / MPPE 2.85 / AUC 0.483
+ep14	t3-ep14-w2048-cap4m-r3a-hm-mf4090@349999104	SP 0.121 / MP 0.000 / MPPE 21.51 / AUC 0.333	SP 0.000 / MP 0.000 / MPPE 55.61 / AUC 0.187	t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40	SP 0.844 / MP 0.000 / MPPE 9.02 / AUC 0.318	SP 1.000 / MP 0.000 / MPPE 6.00 / AUC 0.333
+ep15	t3-ep15-w2048-cap4m-r3a-hm-mf4090@349999104	SP 0.000 / MP 0.000 / MPPE 22.19 / AUC 0.310	SP 0.000 / MP 0.000 / MPPE 27.85 / AUC 0.307	t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40	无记录	SP 1.000 / MP 1.000 / MPPE 2.65 / AUC 0.540
+ep23	t3-ep23-w2048-cap4m-r3a-v2-mf4090@349999104	SP 0.000 / MP 0.000 / MPPE 95.73 / AUC 0.164	SP 0.000 / MP 0.000 / MPPE 131.54 / AUC 0.167	t3-ep23-w2048-cap10m-r3a-gb5-ml40	SP 0.983 / MP 0.971 / MPPE 3.72 / AUC 0.702	SP 1.000 / MP 1.000 / MPPE 2.23 / AUC 0.710
+ep27	t3-ep27-w2048-cap4m-r3a-hm-mf4090@349999104	SP 0.000 / MP 0.000 / MPPE 86.81 / AUC 0.002	SP 0.000 / MP 0.000 / MPPE 84.86 / AUC 0.002	t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40	SP 0.960 / MP 0.955 / MPPE 5.00 / AUC 0.705	SP 1.000 / MP 1.000 / MPPE 2.12 / AUC 0.714
+== D4 区间（榜上现为 SP 10 集、MP 3 集）
+换出的旧 run 里导出对自己参考 SP 成功：[]；MP 成功：[]
+换入的新 run 导出对自己参考 SP 成功：[10, 12, 14, 15, 23, 27]；MP 成功：[12, 15, 23, 27]
+新清单导出对自己参考：SP 16 集，MP 12 集
+SP 区间：下界 10，上界 16
+MP 区间：下界 3，上界 7
+T3_RESUB_TABLE_DONE

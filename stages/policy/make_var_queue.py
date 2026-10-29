@@ -47,7 +47,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp|t2mx [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp|t2mx|t1za|t1zp [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
            python3 stages/policy/make_var_queue.py t3qs_s43 --episodes 5,10,3,14 --seed 43   （t3s43，没有预设段的清单）
@@ -245,6 +245,15 @@ SETS = {
              "episodes": [25], "parts": {"t1ho": [25]}, "base": None, "motion": "tier1_ho", "strip_r3a": True,
              "run": "t1-ep{ep}-w2048-cap10m-r3a-ho-ml40",
              "desc": "Tier 1 保底：ep25 的变体 A seed 42，参考换成 runs/motion/tier1_ho（同 t2ho 的做法，只用 Tier 1 自己的参考；ml40，buffer 1000 万，基线取 Tier 1 现在交的清单）"},
+    # 10/29（计划 agent-doc/plan-t1push-2026-10-29.md）：Tier 1 冲第一
+    "t1za": {"plan": "agent-doc/plan-t1push-2026-10-29.md", "tier": 1, "machine": "ml40", "cap": None,
+             "episodes": [25, 4, 10, 28, 11, 9, 1, 17], "parts": {"t1za": [25, 4, 10, 28, 11, 9, 1, 17]}, "base": None,
+             "run": "t1-ep{ep}-w2048-cap10m-r3a-ml40",
+             "desc": "Tier 1 冲第一 A1：难集与 MP 偏弱集在原参考上的变体 A seed 42（ml40，buffer 1000 万，基线取 Tier 1 现在交的清单）"},
+    "t1zp": {"plan": "agent-doc/plan-t1push-2026-10-29.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+             "episodes": [8, 21, 17, 20], "parts": {"t1zp": [8, 21, 17]}, "base": None,
+             "run": "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
+             "desc": "Tier 1 冲第一 A2：变体 A 加物体朝向项 seed 42（ep20 另起 t1zp_s43 段，seed 43；mf4090，buffer 400 万，基线取 Tier 1 现在交的清单）"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
