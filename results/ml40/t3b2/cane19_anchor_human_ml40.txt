@@ -1,0 +1,9 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_cane19_anchor_human.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hands/ep19_hands.npz 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T11:26:23+0800
+# ---------------------------------------------------------------
+右手锚点第 95 帧；挂上后与原重建好帧（237 个）长轴方向差中位 17.1°（90% 49.0°），原点差中位 20.2 cm
+换手窗口 35 帧（388–422）；左手握持 A 的离散中位 10.7°
+第 790–866 帧左手到放下静止位姿表面的距离（cm，每 4 帧）：790:1.1 794:8.3 798:20.9 802:27.4 806:43.5 810:65.4 814:83.9 818:96.9 822:104.9 826:113.2 830:120.0 834:124.5 838:128.1 842:127.7 846:128.9 850:132.6 854:137.7 858:140.8 862:143.3 866:145.0
+CANE19_HUMAN_DONE stop: no usable release anchor (no frame 836-866 with the left hand within 3 cm of the rest surface)
