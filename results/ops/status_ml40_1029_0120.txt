@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : defd0de84a47
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T01:20:58-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-29 15:20:59 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  954G  53% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/gallery_ref_render.log：record: → results/ml40/gallery_pair/ref_render.txt（31 行）
+runs/logs/readout_t3qb2n12_ml40.log：T3G5_READOUT_DONE（eval 0、early 0、start 0、term 0）
+runs/logs/cand_t3_t3qb2n12_ml40_gate.log：=== 2026-10-29 15:10:54 CST 导出链结束，退出码 0
+runs/logs/cand_t3_t3qb2n12_ml40.log：=== 2026-10-29 15:10:54 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40/export_8c778f9/s349999104_w1/episode_000012.parquet
+runs/logs/t3qb2n12_eval_ml40.log：=== 2026-10-29 15:09:35 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40/eval_349999104_w4096.json
+runs/logs/t3qb2n12_train_ml40.log：=== 2026-10-29 15:03:36 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
