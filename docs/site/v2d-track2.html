@@ -334,7 +334,7 @@ body.en .pb.l-en{display:grid}
     <li><span class="pill w">在训</span><div><b><a href="#progress">ep12 近对称选支的新参考（t3b2n12，ml40）</a></b><span>平台绕竖直主轴转 180° 后重出参考。事先登记的检查都过：转动只改物体、不改锁定状态（一处单帧的“被拿着”判定抖动按登记的门槛不过，改为沿用转动前的判定后重出，过）；重定向与物体无关、两次结果相同；相邻帧转角最大 1.1°；两段静止仍立得住；第 0 帧与 Tier 1 第 0 帧差 1.05°。10/28 22:25 起训，训练已近完成，评测与导出约 01:30 完，判据 R1，并与 gb5 基线（SP-SR 0.932、MPPE 4.39 cm）对照。计划 <code>agent-doc/plan-t3b2n12-2026-10-28.md</code>。</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">已结束</span><div><b><a href="#progress">ep15 在摊开转动的新参考上重训（t3b2）</a></b><span>ml40 seed 42（buffer 1000 万）过 R1：4096 世界、对自己的新参考 SP-SR 0.886、MP-SR 0.878、MPPE 4.80 cm；导出那一局换握后（第 503–715 帧）朝向误差均值 0.326 rad（登记 ≤ 0.5），仿真里的牌子跟着参考转过去了，进下一版 Tier 3 清单的候选。mf4090 seed 43（buffer 400 万）不过 R1，但 SP-SR 0 → 0.327、MPPE 29.0 → 15.95 cm。两条差在 buffer 与种子，未分开核。它对真值对不对取决于“摊开”那一支，上榜才知道。计划 <code>agent-doc/plan-t3b2-2026-10-28.md</code>。</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">已结束</span><div><b><a href="#progress">人手接触给物体朝向打分（t3hand2）</a></b><span>用重建里人手的表面点与物体表面的距离给候选朝向打分，想修 ep14 的圆桌。正对照（把 ep10 的物体故意转 90°，要能认出来）没过，所以打分不作依据；18 集盲跑都分不出。ep14 的近对称转动在手上看不出来（差 1.6 cm，门槛 12.3 cm）。ep19 用人的手腕重做两处握持对比：放下处找不到可用的锚点，按登记停下；顺带看到左手在第 790 帧已贴着放下后的位置（1.1 cm），手杖很可能比重建锁定静止早约 60 帧就放下了。计划 <code>agent-doc/plan-t3hand2-2026-10-28.md</code>。</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">在做</span><div><b><a href="#gallery">画廊：人与 G1 做同一个动作</a></b><span>画廊页已上线（重建修正前后、策略回放、未解决的三集，共 13 段）。在加并排视频：左边是 exo 视频上叠重建的人体（SOMA）与物体，右边是 G1 的运动学参考。5 集（ep15、5、10、23、14）的人体栏已出，人体参数与版本逐列相同，人体轮廓对分割掩码的 IoU 中位 0.83–0.88（门槛 0.5）；G1 栏等 ml40 的训练链结束再渲。策略里的 G1 作为第二步，等 GPU 空闲。</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">已结束</span><div><b><a href="#gallery">画廊：人与 G1 做同一个动作</a></b><span>画廊新增“人与 G1 做同一个动作”一组，共 6 集（ep15、5、10、23、14、12），画廊合计 19 段。左边是 exo 视频上叠重建的人体（SOMA）与物体，右边是 G1 的运动学参考，两边逐帧对应。人体参数与版本逐列相同，人体轮廓对分割掩码的 IoU 中位 0.83–0.88（门槛 0.5）；参考集与版本的物体位姿、人体参数一致，两栏帧数相同、都是 30 fps。策略里的 G1 作为第二步，等 GPU 空闲。</span></div><span class="who">rxzhou</span></li>
 
     <li><span class="pill ok">已结束</span><div><b><a href="#progress">第 0 帧朝向表与对称物体选支（t3b2）</a></b><span>按对齐流程量参考第 0 帧朝向对 Tier 1 第 0 帧的差；工具在已交的帧参考上逐项复现 10/21 的对齐记录，正负对照都过。gb5 上 ep3、9、11、13、25 已对上（hm 版差 45–180°），ep2、4、12、14、17、27 仍差 94–180°。离散对称的物体在固定对齐下选对称元：只选中 ep27（180° → 2.1°），新参考已出、重定向过，重新评测排在 ml40 的 ep15 之后。</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">已结束</span><div><b><a href="#progress">ep12 近对称选支的初步验证</a></b><span>平台绕竖轴转 180°：九成表面移动不到 1 cm，最大 3.5 cm 在边沿；两段静止转过后都还立得住；手掌到表面的距离逐帧差中位 0.3 cm；按 Tier 1 第 0 帧选它后第 0 帧差 180° → 1°。10/28 定 ep12 用近对称选支，计划在写。</span></div><span class="who">rxzhou</span></li>
@@ -393,7 +393,7 @@ body.en .pb.l-en{display:grid}
     <li><span class="pill w">Training</span><div><b><a href="#progress">ep12 on the near-symmetric reference (t3b2n12, ml40)</a></b><span>The reference was rebuilt with the platform turned 180 degrees about its vertical principal axis. All registered checks pass: the turn changes only the object and not the lock states (a one-frame wobble of the held flag failed the registered threshold; with the flags kept from before the turn the rebuild passes); the retarget does not depend on the object and two runs give the same result; adjacent frames turn at most 1.1 degrees; both rests still stand; frame 0 is 1.05 degrees from Tier 1 frame 0. Training since 22:25 on 10/28 is nearly done; evaluation and export end around 01:30; criterion R1, compared with the gb5 baseline (SP-SR 0.932, MPPE 4.39 cm). Plan <code>agent-doc/plan-t3b2n12-2026-10-28.md</code>.</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">Finished</span><div><b><a href="#progress">ep15 retrained on a new reference that spreads the turn (t3b2)</a></b><span>Seed 42 on ml40 (buffer 10M) passes R1: 4096 worlds against its own new reference, SP-SR 0.886, MP-SR 0.878, MPPE 4.80 cm; in the export world the mean orientation error after the regrasp (frames 503–715) is 0.326 rad (registered ≤ 0.5), the simulated sign turns with the reference, and the run is a candidate for the next Tier 3 list. Seed 43 on mf4090 (buffer 4M) fails R1, but SP-SR goes from 0 to 0.327 and MPPE from 29.0 to 15.95 cm. The two runs differ in buffer and seed, which were not separated. Whether it is right against the ground truth depends on the spread branch and shows only on the board. Plan <code>agent-doc/plan-t3b2-2026-10-28.md</code>.</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">Finished</span><div><b><a href="#progress">Scoring the object orientation by hand contact (t3hand2)</a></b><span>Candidate orientations were scored by the distance from the reconstructed hand surface to the object surface, to fix ep14's round table. The positive control (ep10's object turned 90 degrees on purpose must be recognised) failed, so the score is not used as evidence; the blind run over 18 episodes separates nothing. The hands cannot see ep14's near-symmetric turn (1.6 cm against a 12.3 cm threshold). For ep19 the two-grip comparison was redone with the human wrist: no usable anchor exists at the put-down, so the test stopped as registered. It also showed that the left hand already touches the rest position at frame 790 (1.1 cm), so the cane was likely put down about 60 frames before the reconstruction locks the rest. Plan <code>agent-doc/plan-t3hand2-2026-10-28.md</code>.</span></div><span class="who">rxzhou</span></li>
-    <li><span class="pill w">In progress</span><div><b><a href="#gallery">Gallery: the human and G1 doing the same action</a></b><span>The gallery page is online (reconstruction before and after the fixes, policy rollouts, the three open episodes; 13 videos). Side-by-side videos are being added: on the left the reconstructed human (SOMA) and object over the exo video, on the right G1's kinematic reference. The human panes of 5 episodes (ep15, 5, 10, 23, 14) are done; the body parameters equal the version's column by column, and the median IoU of the body silhouette against the segmentation mask is 0.83–0.88 (threshold 0.5). The G1 panes are rendered after the ml40 training chain ends. G1 inside the policy rollout is the second step, when a GPU is free.</span></div><span class="who">rxzhou</span></li>
+    <li><span class="pill ok">Done</span><div><b><a href="#gallery">Gallery: the human and G1 doing the same action</a></b><span>The gallery has a new group, "The human and G1 doing the same action", with 6 episodes (ep15, 5, 10, 23, 14, 12); the gallery now holds 19 videos. On the left the reconstructed human (SOMA) and object over the exo video, on the right G1's kinematic reference, frame for frame. The body parameters equal the version's column by column, and the median IoU of the body silhouette against the segmentation mask is 0.83–0.88 (threshold 0.5); the reference set matches the version in object pose and body parameters, and both panes have the same frame count at 30 fps. G1 inside the policy rollout is the second step, when a GPU is free.</span></div><span class="who">rxzhou</span></li>
 
     <li><span class="pill ok">Finished</span><div><b><a href="#progress">Frame-0 orientation table and symmetry choice (t3b2)</a></b><span>Following the alignment procedure, the frame-0 orientation of each reference was compared with Tier 1 frame 0; on the submitted frame references the tool reproduces the 10/21 alignment record item by item, and the positive and negative controls pass. On gb5, ep3, 9, 11, 13 and 25 now agree (45–180 degrees off in the hm version); ep2, 4, 12, 14, 17 and 27 are still 94–180 degrees off. For objects with a discrete symmetry group the symmetry element is chosen under a fixed alignment: only ep27 is chosen (180 to 2.1 degrees); its new reference is built and retargeted, and the re-evaluation runs on ml40 after ep15.</span></div><span class="who">rxzhou</span></li>
     <li><span class="pill ok">Finished</span><div><b><a href="#progress">Preliminary checks of a near-symmetric choice for ep12</a></b><span>The platform turned 180 degrees about its vertical axis: 90% of the surface moves less than 1 cm, the largest 3.5 cm at the rim; both rests still stand after the turn; the palm-to-surface distances change by a median of 0.3 cm per frame; chosen by Tier 1 frame 0, the frame-0 difference goes from 180 to 1 degree. Decided on 10/28 to use the near-symmetric choice for ep12; the plan is being written.</span></div><span class="who">rxzhou</span></li>
@@ -3646,10 +3646,10 @@ body.en .pb.l-en{display:grid}
 </section>
 <section class="pg" id="pg-gallery" data-sec="exp" tabindex="-1">
 <div class="pb l-zh" lang="zh-CN">
-  <div class="kicker">2026-10-28（UTC-6）· Tier 3 · 13 段视频</div>
+  <div class="kicker">2026-10-29（UTC-6）· Tier 3 · 19 段视频</div>
   <h1>画廊</h1>
-  <p class="lead">Tier 3 从单目视频重建出的物体，叠在原视频上看：重建修正前后的对比、策略在物理仿真里推动的物体与参考的对比，以及几集仍未解决的情况。物体按自身坐标着色（颜色对得上，说明朝向一致），黄线是视频里物体的分割轮廓。</p>
-  <div class="adm"><span class="t">数据与署名</span><p>视频底图来自 NVIDIA Video to Data Challenge 数据集（Hugging Face <code>nvidia/video_to_data_challenge</code>，CC BY 4.0）；物体叠加与仿真回放由 rxzhou 生成。仿真回放是导出用的那一个世界，画面里的误差是仿真物体对参考的位置差，不是对真值的误差。</p></div>
+  <p class="lead">Tier 3 从单目视频重建出的物体，叠在原视频上看：重建修正前后的对比、策略在物理仿真里推动的物体与参考的对比、重建的人与 G1 并排做同一个动作，以及几集仍未解决的情况。物体按自身坐标着色（颜色对得上，说明朝向一致），黄线是视频里物体的分割轮廓。</p>
+  <div class="adm"><span class="t">数据与署名</span><p>视频底图来自 NVIDIA Video to Data Challenge 数据集（Hugging Face <code>nvidia/video_to_data_challenge</code>，CC BY 4.0）；人体与物体叠加、G1 回放与仿真回放由 rxzhou 生成。仿真回放是导出用的那一个世界，画面里的误差是仿真物体对参考的位置差，不是对真值的误差。</p></div>
   <h2>重建修正前后</h2>
   <div class="taskgrid">
     <section class="task">
@@ -3706,6 +3706,40 @@ body.en .pb.l-en{display:grid}
       <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/rollout_ep27.mp4" poster="media/gallery/rollout_ep27.jpg" muted loop playsinline controls preload="none" width="800" height="600"></video></div><figcaption><span class="l-zh">红字表示这一帧差 > 10 cm</span><span class="l-en">Red text marks frames more than 10 cm off</span></figcaption></figure>
     </section>
   </div>
+  <h2>人与 G1 做同一个动作</h2>
+  <p>左边是 exo 视频上叠重建出的人体（SOMA，按朝向明暗着色）与物体，右边是同一份参考重定向到 G1 + Dex3 后的运动学回放（不是策略）。人体参数与交付版本逐列相同，人体轮廓对视频人体分割的 IoU 中位 0.83–0.88。</p>
+  <div class="taskgrid">
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep15</span> wet_floor_sign_pick_place_ground_08</h3>
+      <p class="meta">参考：修正后的参考。警示牌在换手时转过去的那一段，人与 G1 动作一致。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep15.mp4" poster="media/gallery/pair_ep15.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep5</span> g1_box_rotate_01</h3>
+      <p class="meta">参考：gb5。人推转箱子，G1 弯腰用双手跟着转。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep5.mp4" poster="media/gallery/pair_ep5.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep10</span> white_desk_lower_to_ground_10</h3>
+      <p class="meta">参考：gb5。把白色小桌从桌面放到地上。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep10.mp4" poster="media/gallery/pair_ep10.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep23</span> toy_stroller_back_forth_ground_04</h3>
+      <p class="meta">参考：gb5。在地上前后推玩具推车。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep23.mp4" poster="media/gallery/pair_ep23.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep14</span> round_table_flip_08</h3>
+      <p class="meta">参考：gb5。翻转圆桌；这一集的近对称朝向还没修，见“仍未解决”。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep14.mp4" poster="media/gallery/pair_ep14.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep12</span> black_platform_turn_05</h3>
+      <p class="meta">参考：近对称选支后的参考。原地掉头转动平台；参考用选支修正后的朝向。</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep12.mp4" poster="media/gallery/pair_ep12.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+  </div>
   <h2>仍未解决</h2>
   <div class="taskgrid">
     <section class="task">
@@ -3726,10 +3760,10 @@ body.en .pb.l-en{display:grid}
   </div>
 </div>
 <div class="pb l-en" lang="en">
-  <div class="kicker">2026-10-28 (UTC-6) · Tier 3 · 13 videos</div>
+  <div class="kicker">2026-10-29 (UTC-6) · Tier 3 · 19 videos</div>
   <h1>Gallery</h1>
-  <p class="lead">Tier 3 objects reconstructed from the monocular video, drawn over that video: the reconstruction before and after the fixes, the object a policy moves in the physics simulation against the reference, and a few episodes that remain open. The object is coloured by its own body coordinates (matching colours mean matching orientation); the yellow line is the object's segmentation outline in the video.</p>
-  <div class="adm"><span class="t">Data and attribution</span><p>The background video comes from the NVIDIA Video to Data Challenge dataset (Hugging Face <code>nvidia/video_to_data_challenge</code>, CC BY 4.0); the object overlays and the simulation replays are produced by rxzhou. Each replay is the single exported world, and the on-screen error is the position difference between the simulated object and the reference, not an error against ground truth.</p></div>
+  <p class="lead">Tier 3 objects reconstructed from the monocular video, drawn over that video: the reconstruction before and after the fixes, the object a policy moves in the physics simulation against the reference, the reconstructed human and G1 side by side doing the same action, and a few episodes that remain open. The object is coloured by its own body coordinates (matching colours mean matching orientation); the yellow line is the object's segmentation outline in the video.</p>
+  <div class="adm"><span class="t">Data and attribution</span><p>The background video comes from the NVIDIA Video to Data Challenge dataset (Hugging Face <code>nvidia/video_to_data_challenge</code>, CC BY 4.0); the human and object overlays, the G1 replays and the simulation replays are produced by rxzhou. Each replay is the single exported world, and the on-screen error is the position difference between the simulated object and the reference, not an error against ground truth.</p></div>
   <h2>Reconstruction before and after</h2>
   <div class="taskgrid">
     <section class="task">
@@ -3784,6 +3818,40 @@ body.en .pb.l-en{display:grid}
       <h3><span class="mono">Tier 3 · ep27</span> reference: de-jumped reference</h3>
       <p class="meta">Median position difference to the reference 2.1 cm, at most 8.3 cm. The basket is tracked throughout; its frame-0 symmetric orientation is fixed separately (group above).</p>
       <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/rollout_ep27.mp4" poster="media/gallery/rollout_ep27.jpg" muted loop playsinline controls preload="none" width="800" height="600"></video></div><figcaption><span class="l-zh">红字表示这一帧差 > 10 cm</span><span class="l-en">Red text marks frames more than 10 cm off</span></figcaption></figure>
+    </section>
+  </div>
+  <h2>The human and G1 doing the same action</h2>
+  <p>On the left, the reconstructed human (SOMA, shaded by facing) and object over the exo video; on the right, the same reference retargeted to G1 + Dex3 and replayed kinematically (not a policy). The body parameters equal the delivered version column by column, and the median IoU of the body silhouette against the person segmentation in the video is 0.83–0.88.</p>
+  <div class="taskgrid">
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep15</span> wet_floor_sign_pick_place_ground_08</h3>
+      <p class="meta">Reference: fixed reference. Watch the hand-over, where the sign turns: the human and G1 move the same way.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep15.mp4" poster="media/gallery/pair_ep15.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep5</span> g1_box_rotate_01</h3>
+      <p class="meta">Reference: gb5. The person turns the box; G1 bends over and turns it with both hands.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep5.mp4" poster="media/gallery/pair_ep5.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep10</span> white_desk_lower_to_ground_10</h3>
+      <p class="meta">Reference: gb5. The small white desk goes from the table to the ground.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep10.mp4" poster="media/gallery/pair_ep10.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep23</span> toy_stroller_back_forth_ground_04</h3>
+      <p class="meta">Reference: gb5. The toy stroller is pushed back and forth on the ground.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep23.mp4" poster="media/gallery/pair_ep23.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep14</span> round_table_flip_08</h3>
+      <p class="meta">Reference: gb5. The round table is flipped; this episode's near-symmetric orientation is still unfixed, see Still open.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep14.mp4" poster="media/gallery/pair_ep14.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
+    </section>
+    <section class="task">
+      <h3><span class="mono">Tier 3 · ep12</span> black_platform_turn_05</h3>
+      <p class="meta">Reference: near-symmetric branch reference. The platform is turned in place; the reference uses the orientation after the branch fix.</p>
+      <figure class="vid wide"><div class="vwrap"><video data-src="media/gallery/pair_ep12.mp4" poster="media/gallery/pair_ep12.jpg" muted loop playsinline controls preload="none" width="1280" height="480"></video><span class="vlab l"><span class="l-zh">人（SOMA 重建）</span><span class="l-en">Human (SOMA reconstruction)</span></span><span class="vlab r"><span class="l-zh">G1 参考（重定向）</span><span class="l-en">G1 reference (retargeted)</span></span></div><figcaption><span class="l-zh">两边逐帧对应；物体在视频里看不见的帧，左边保持上一个可见帧的位姿</span><span class="l-en">Both panes match frame for frame; where the object is not visible in the video, the left pane holds its last visible pose</span></figcaption></figure>
     </section>
   </div>
   <h2>Still open</h2>

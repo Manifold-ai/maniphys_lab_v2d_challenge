@@ -1,0 +1,31 @@
+# command  : bash stages/policy/site_media_ref_t3.sh t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40 t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40 t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40 t3-ep23-w2048-cap10m-r3a-gb5-ml40 t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40 
+# md5      : 1838ad33e166475867efb36050dfb892  stages/policy/site_media_ref_t3.sh
+# source   : defd0de84a47
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T15:13:40+0800
+# ---------------------------------------------------------------
+=== 2026-10-29 15:13:41 CST t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 frames=715 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.mp4 (715 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 715, "reference_frames": 715, "first_nonfinite_frame": null, "min_body0_z": 0.7700366377830505, "max_robot_object_xy_m": 1.096767315428882}
+t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 → runs/site_media/gallery_ref/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.mp4 731374 B，参考 715 帧
+=== 2026-10-29 15:14:33 CST t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40 frames=700 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40.mp4 (700 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 700, "reference_frames": 700, "first_nonfinite_frame": null, "min_body0_z": 0.3856358826160431, "max_robot_object_xy_m": 0.9290752664702362}
+t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40 → runs/site_media/gallery_ref/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40.mp4 537064 B，参考 700 帧
+=== 2026-10-29 15:15:27 CST t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40 frames=1003 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40.mp4 (1003 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 1003, "reference_frames": 1003, "first_nonfinite_frame": null, "min_body0_z": 0.5913711786270142, "max_robot_object_xy_m": 1.168686025742744}
+t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40 → runs/site_media/gallery_ref/t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40.mp4 869288 B，参考 1003 帧
+=== 2026-10-29 15:16:22 CST t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40 frames=794 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40.mp4 (794 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 794, "reference_frames": 794, "first_nonfinite_frame": null, "min_body0_z": 0.61170494556427, "max_robot_object_xy_m": 1.1177075247177515}
+t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40 → runs/site_media/gallery_ref/t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40.mp4 651506 B，参考 794 帧
+=== 2026-10-29 15:17:12 CST t3-ep23-w2048-cap10m-r3a-gb5-ml40 frames=946 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep23-w2048-cap10m-r3a-gb5-ml40.mp4 (946 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 946, "reference_frames": 946, "first_nonfinite_frame": null, "min_body0_z": 0.6901538968086243, "max_robot_object_xy_m": 0.8215164396341236}
+t3-ep23-w2048-cap10m-r3a-gb5-ml40 → runs/site_media/gallery_ref/t3-ep23-w2048-cap10m-r3a-gb5-ml40.mp4 834188 B，参考 946 帧
+=== 2026-10-29 15:18:07 CST t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40 frames=993 scene.support=false fc_src=/lab_data/rxzhou/v2d/fc_src/v040_p185_nfg
+Video: /repo/runs/site_media/gallery_ref/t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40.mp4 (993 frames at 30 fps)
+REF_SUMMARY {"frames_rendered": 993, "reference_frames": 993, "first_nonfinite_frame": null, "min_body0_z": 0.603091835975647, "max_robot_object_xy_m": 1.149425240740073}
+t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40 → runs/site_media/gallery_ref/t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40.mp4 843390 B，参考 993 帧
+SITE_MEDIA_REF_T3_DONE fail=0

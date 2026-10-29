@@ -101,3 +101,7 @@ ep12、ep27 等 B2 / B2n 重训出读数后再补，用新 checkpoint。
   5 集人体栏全部过门：人体参数与版本 parquet 逐列相同（最大差 0），人体轮廓对 SAM2 人体掩码 IoU 中位 0.833（ep15）、0.844（ep5）、0.849（ep10）、0.868（ep23）、0.881（ep14），门槛 0.5。
   另修了 `crop=auto` 的一个旧问题：它取 h5 的前 n 个键，物体与人体掩码交替排列，实际只覆盖前一半帧；现在逐帧取。已发布的 13 段视频不重渲。
 - G1 参考栏（GPU）等 ml40 上 t3qb2n12 的链标记全部消失后再跑，之后同步、渲染、拼接。
+- 10/29 01:1x–01:2x MDT（15:13–15:19 CST）：ml40 上 `site_media_ref_t3.sh` 渲完 6 段 G1 参考（ep15、12、5、10、23、14），`SITE_MEDIA_REF_T3_DONE fail=0`，每段渲染帧数等于参考帧数、没有非有限帧（`results/ml40/gallery_pair/ref_render.txt`）。ep12 的人体栏也过门：参数最大差 0，IoU 中位 0.859（`human_ep12.txt`）。
+  这边等待渲染完成的循环查错了文件（`record` 把输出写进 `results/ml40/gallery_pair/ref_render.txt`，等待条件查的是外层日志），一直没有触发拼接，04:2x 发现后停掉，手动起拼接。
+- 10/29 04:22 MDT（18:21–18:22 CST）：`gallery_pair.sh pair` 6 集全过（`GALLERY_PAIR_PAIR_DONE 0`）：参考集与版本的物体位姿、人体参数最大差 0，人体栏与 G1 栏帧数相同、都是 30.00 fps（`results/ml40/gallery_pair/pair_ep*.txt`）。
+  画廊加"人与 G1 做同一个动作"一组（中英两版，6 集），画廊合计 19 段；`site_check` 过（带 `--media-dir`），禁用词计数不变，名字检查只有已知的误报。只把 12 个新素材经 `files` 发布（页面第 67 版）。第 1 步结束；第 2 步等修正落地。

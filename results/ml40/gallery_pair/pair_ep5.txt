@@ -1,0 +1,9 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_gallery_pair.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40 5 tier3_cari4d_gb5_best_dr2s_dyn7 /lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/human_ep5.mp4 runs/site_media/gallery_ref/t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40.mp4 /lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/pair_ep5.mp4 
+# md5      : dc455ac4ee11e9b4abcd84c05513d60c  runs/site_media/gallery_ref/t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40.mp4
+# source   : defd0de84a47
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T18:21:50+0800
+# ---------------------------------------------------------------
+t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40：参考集 tier3_gb5，root 与 tier3_cari4d_gb5_best_dr2s_dyn7 的物体位姿和人体参数最大差 0；版本 1003 帧，人体栏 1003 帧 30.00 fps，G1 参考栏 1003 帧 30.00 fps
+/lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/pair_ep5.mp4：1003 帧，2.0 MB
+GALLERY_PAIR_DONE 1003

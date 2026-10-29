@@ -1,0 +1,9 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_gallery_pair.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 15 tier3_cari4d_gb5_best_dr2s_hr3s_dyn7 /lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/human_ep15.mp4 runs/site_media/gallery_ref/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.mp4 /lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/pair_ep15.mp4 
+# md5      : 6729a8c66fc5bbf0912c0ad6595cdb55  runs/site_media/gallery_ref/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.mp4
+# source   : defd0de84a47
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T18:21:47+0800
+# ---------------------------------------------------------------
+t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40：参考集 tier3_gb5hr3sdyn7，root 与 tier3_cari4d_gb5_best_dr2s_hr3s_dyn7 的物体位姿和人体参数最大差 0；版本 715 帧，人体栏 715 帧 30.00 fps，G1 参考栏 715 帧 30.00 fps
+/lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/pair_ep15.mp4：715 帧，1.2 MB
+GALLERY_PAIR_DONE 715
