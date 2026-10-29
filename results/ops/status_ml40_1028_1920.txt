@@ -1,0 +1,23 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 01cb625d4987
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T19:21:01-0600
+# ---------------------------------------------------------------
+== ml40 2026-10-29 09:21:04 CST
+NVIDIA L40S, 829 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  956G  53% /lab_data
+-- tmux
+v2d-t3qhr3s-export: 1 windows (created Thu Oct 29 06:53:23 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qhr3s_ml40
+runs/.chain-active-cand_t3_t3qhr3s_ml40-gate
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40.export_8c778f9_s349999104_w4096_b2.log：  model = builder.finalize()
+runs/logs/cand_t3_t3qhr3s_ml40.log：=== 2026-10-29 09:20:23 CST GPU 上有别的进程（47736），每 60 秒看一次，最多等 7200 秒
+runs/logs/cand_t3_t3qhr3s_ml40_gate.log：=== 2026-10-29 09:20:23 CST 评测链成功 1 条、失败 0，开导出链 cand_t3_t3qhr3s_ml40
+runs/logs/t3b2_reexport.log：=== 2026-10-29 09:19:59 CST 开始，来历 591ff3e62bb2；后缀 _b2；参考 /repo/runs/motion/tier3_gb5hr2b2dyn7/whole_body/soma/sequence_id=2026-05-01_11-15-05_woven_basket_ground_desk_10/robot_na
+runs/logs/t3qhr3s_eval_ml40.log：=== 2026-10-29 09:19:28 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40/eval_349999104_w4096.json
+runs/logs/t3qhr3s_train_ml40.log：=== 2026-10-29 09:13:51 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40
