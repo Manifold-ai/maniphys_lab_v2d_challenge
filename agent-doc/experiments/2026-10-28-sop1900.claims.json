@@ -1,0 +1,38 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {"file": "results/board/diff_1028_1901.txt", "grep": "读法|nima arki 0"},
+  "stR": {"file": "results/ml40/t3b2/stable_tier3_cari4d_gb5_best_dr2s_hr3r_dyn7_ml40.txt", "grep": "range"},
+  "stS": {"file": "results/ml40/t3b2/stable_tier3_cari4d_gb5_best_dr2s_hr3s_dyn7_ml40.txt", "grep": "range"},
+  "stIn": {"file": "results/ml40/t3b2/stable_tier3_cari4d_gb5_best_dr2s_dyn7_ml40.txt", "grep": "range"},
+  "turns": {"file": "results/ml40/t3b2/turns_hr3s_ml40.txt", "grep": "帧；"},
+  "phys": {"file": "results/ml40/t3b2/physics_cmp_ep15_ml40.txt", "grep": "合计"},
+  "reexp": {"file": "results/ml40/t3b2/reexport_t3-ep15-w2048-cap10m-r3a-gb5-ml40_hr3s_w4096.txt", "grep": "spider_sr_uncentered  "},
+  "t27": {"file": "results/ml40/t3b2/table_hr2_ml40.txt", "grep": "^27"},
+  "cane": {"file": "results/ml40/t3b2/cane19_anchor_ml40.txt", "grep": "A 对 B|CANE19"},
+  "b2n": {"file": "results/ml40/t3b2/b2n_probe_ep12_ml40.txt", "grep": "静止段"},
+  "relay": {"file": "results/ops/relay_hr3s_ml40_to_mf4090.txt", "grep": "RELAY"},
+  "stml": {"file": "results/ops/sop_status_ml40_1028_1901.txt", "grep": "chain-active"},
+  "stmf": {"file": "results/ops/sop_status_mf4090_1028_1901.txt", "grep": "chain-active"}
+ },
+ "claims": [
+  {"id": "rank_b", "evidence": ["board"], "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third."},
+  {"id": "rank_a", "evidence": ["board"], "claim": "In reading A maniphys.ai has 12 and is fourth."},
+  {"id": "nima_t2", "evidence": ["board"], "claim": "nima arki's Tier 2 SP-SR rose from 0.66666 to 0.70000."},
+  {"id": "R_unstable", "evidence": ["stR"], "claim": "In this version the rest segment 626-715 is not statically stable."},
+  {"id": "S_stable", "evidence": ["stS"], "claim": "In this version the rest segment 626-715 is statically stable."},
+  {"id": "S_turns", "evidence": ["turns"], "claim": "The gb5hr3sdyn7 reference has no frame whose turn exceeds 24 degrees."},
+  {"id": "phys_S", "evidence": ["phys"], "claim": "The hr3s_dyn7 version has only feet penetration findings, the same as the dr2s input."},
+  {"id": "phys_R", "evidence": ["phys"], "claim": "The hr3r_dyn7 version adds object floor penetration findings."},
+  {"id": "reexp", "evidence": ["reexp"], "claim": "The single-pose success rate of this evaluation is close to zero."},
+  {"id": "b2_27", "evidence": ["t27"], "claim": "For episode 27 the B2 element reduces the frame-0 difference from 180.0 to 2.1 degrees."},
+  {"id": "cane", "evidence": ["cane"], "claim": "The two left-hand grip estimates disagree beyond the thresholds."},
+  {"id": "b2n_axis", "evidence": ["b2n"], "claim": "In both rest segments the turn axis is within 2 degrees of the floor normal."},
+  {"id": "b2n_stable", "evidence": ["b2n"], "claim": "In both rest segments the pose stays stable after the turn g."},
+  {"id": "relay", "evidence": ["relay"], "claim": "The relay check passed for all files."},
+  {"id": "chain_ml", "evidence": ["stml"], "claim": "A t3qhr3s training chain is active."},
+  {"id": "chain_mf", "evidence": ["stmf"], "claim": "A t3phr3s training chain is active."},
+  {"id": "ctrl_true", "evidence": ["stIn"], "claim": "In this version the rest segment 0-110 is statically stable.", "control": "true"},
+  {"id": "ctrl_false", "evidence": ["stR"], "claim": "In this version the rest segment 626-715 is statically stable with a positive margin.", "control": "false"}
+ ]
+}

@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 7083eea77b45
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T19:01:14-0600
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-29 09:01:14 CST
+NVIDIA L40S, 40273 MiB, 46068 MiB, 100 %
+4171148, 40264 MiB
+## GPU 进程 4171148：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  4171148 本用户 02:02:48 [Thu Oct 29 06:58:26 2026] python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac task.parquet='/repo/runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet' scene.world_count=2048 training.total_environment_steps=349999104 output_dir=/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 reset.seed=42 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 logging.run_name=t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40/hydra/s1 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6
+  4171119 root 02:02:48 [Thu Oct 29 06:58:26 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 9d9577b582bd723e3f8e3c12d816acae94168d30cf455709f6c1053f5d4c09f2 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40
+image flash_chord:latest
+created 2026-10-28T22:58:27.161450412Z  started 2026-10-28T22:58:27.206968753Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier3_gb5hr3sdyn7/whole_body/soma/sequence_id=2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08/robot_name=g1/data.parquet 2048 349999104 /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40 logging.run_name=t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40/hydra/s1 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 "]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+## 运行中的容器（列表）
+9d9577b582bd flash_chord:latest 2 hours ago Up 2 hours fc-t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

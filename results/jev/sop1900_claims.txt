@@ -1,0 +1,27 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-28-sop1900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 339024cb1e0d1cda497fc9704e155b34  agent-doc/experiments/2026-10-28-sop1900.claims.json
+# source   : 7083eea77b45-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-28T19:05:29-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank_b               P(supported)=0.94  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third.
+rank_a               P(supported)=0.99  verified               [board]  In reading A maniphys.ai has 12 and is fourth.
+nima_t2              P(supported)=0.99  verified               [board]  nima arki's Tier 2 SP-SR rose from 0.66666 to 0.70000.
+R_unstable           P(supported)=0.99  verified               [stR]  In this version the rest segment 626-715 is not statically stable.
+S_stable             P(supported)=0.97  verified               [stS]  In this version the rest segment 626-715 is statically stable.
+S_turns              P(supported)=0.98  verified               [turns]  The gb5hr3sdyn7 reference has no frame whose turn exceeds 24 degrees.
+phys_S               P(supported)=0.92  verified               [phys]  The hr3s_dyn7 version has only feet penetration findings, the same as the dr2s input.
+phys_R               P(supported)=0.98  verified               [phys]  The hr3r_dyn7 version adds object floor penetration findings.
+reexp                P(supported)=0.77  verified               [reexp]  The single-pose success rate of this evaluation is close to zero.
+b2_27                P(supported)=0.74  verified               [t27]  For episode 27 the B2 element reduces the frame-0 difference from 180.0 to 2.1 degrees.
+cane                 P(supported)=0.90  verified               [cane]  The two left-hand grip estimates disagree beyond the thresholds.
+b2n_axis             P(supported)=0.98  verified               [b2n]  In both rest segments the turn axis is within 2 degrees of the floor normal.
+b2n_stable           P(supported)=0.93  verified               [b2n]  In both rest segments the pose stays stable after the turn g.
+relay                P(supported)=0.84  verified               [relay]  The relay check passed for all files.
+chain_ml             P(supported)=0.97  verified               [stml]  A t3qhr3s training chain is active.
+chain_mf             P(supported)=0.96  verified               [stmf]  A t3phr3s training chain is active.
+ctrl_true            P(supported)=0.97  control(true) ok       [stIn]  In this version the rest segment 0-110 is statically stable.
+ctrl_false           P(supported)=0.01  control(false) ok      [stR]  In this version the rest segment 626-715 is statically stable with a positive margin.
+controls behaved as expected
