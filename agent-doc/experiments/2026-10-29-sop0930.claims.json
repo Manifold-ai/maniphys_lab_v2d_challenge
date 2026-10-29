@@ -1,0 +1,24 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "board0720": {"file": "results/board/diff_1029_0720.txt", "grep": "读法|Izus|变了|tier3"},
+  "board0932": {"file": "results/board/diff_1029_0932.txt"},
+  "ep12": {"file": "results/ml40/t3g5/eval_t3qb2n12_ml40.txt"},
+  "ep27a": {"file": "results/ml40/t3g5/eval_t3qb2r27_ml40.txt"},
+  "ep27b": {"file": "results/t3g5/eval_t3pb2r27_mf4090.txt"},
+  "ori27": {"file": "results/ml40/t3b2/ori_ep27_b2r_0_565_ml40.txt", "grep": "误差中位|朝向误差"},
+  "st40": {"file": "results/ops/status_ml40_1029_0900.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1029_0930.txt"}
+ },
+ "claims": [
+  {"id": "rank_b", "evidence": ["board0720"], "claim": "Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 59 and is fourth, and Izus_systems is first with 42."},
+  {"id": "rank_a", "evidence": ["board0720"], "claim": "Under reading A maniphys.ai has 16 and is fifth."},
+  {"id": "ff_t1", "evidence": ["board0932"], "claim": "FF's Tier 1 MPPE changed from 5.20072 to 3.68262, and the places of maniphys.ai did not change."},
+  {"id": "ep12", "evidence": ["ep12"], "claim": "The ep12 run passes criterion R1 with SP-SR 0.990 and MPPE 2.74 cm."},
+  {"id": "ep27_ml40", "evidence": ["ep27a"], "claim": "The ml40 ep27 run passes criterion R1 with SP-SR 0.960 and MPPE 5.00 cm."},
+  {"id": "ep27_mf", "evidence": ["ep27b"], "claim": "The mf4090 ep27 run does not pass criterion R1."},
+  {"id": "ori27", "evidence": ["ori27"], "claim": "In the export world the ep27 position error never exceeds 10 cm, and the mean orientation error is 0.278 rad."},
+  {"id": "idle", "evidence": ["st40", "st90"], "claim": "On both machines the GPU is at 0 % utilization and no long-chain markers exist."},
+  {"id": "ctl_true", "evidence": ["ep27a"], "claim": "The ep27 run on ml40 used a buffer of 10M.", "control": "true"},
+  {"id": "ctl_false1", "evidence": ["board0720"], "claim": "maniphys.ai is first under reading B.", "control": "false"},
+  {"id": "ctl_false2", "evidence": ["ep27b"], "claim": "The mf4090 ep27 run passes criterion R1.", "control": "false"}
+ ]}

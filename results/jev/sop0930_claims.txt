@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-sop0930.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4c6ffa55f334066853d16f13a9c8af3b  agent-doc/experiments/2026-10-29-sop0930.claims.json
+# source   : 6381b4eba415-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T09:35:55-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank_b               P(supported)=0.96  verified               [board0720]  Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 59 and is fourth, and Izus_systems is first with 42.
+rank_a               P(supported)=0.98  verified               [board0720]  Under reading A maniphys.ai has 16 and is fifth.
+ff_t1                P(supported)=0.94  verified               [board0932]  FF's Tier 1 MPPE changed from 5.20072 to 3.68262, and the places of maniphys.ai did not change.
+ep12                 P(supported)=0.99  verified               [ep12]  The ep12 run passes criterion R1 with SP-SR 0.990 and MPPE 2.74 cm.
+ep27_ml40            P(supported)=0.99  verified               [ep27a]  The ml40 ep27 run passes criterion R1 with SP-SR 0.960 and MPPE 5.00 cm.
+ep27_mf              P(supported)=0.98  verified               [ep27b]  The mf4090 ep27 run does not pass criterion R1.
+ori27                P(supported)=0.94  verified               [ori27]  In the export world the ep27 position error never exceeds 10 cm, and the mean orientation error is 0.278 rad.
+idle                 P(supported)=0.98  verified               [st40, st90]  On both machines the GPU is at 0 % utilization and no long-chain markers exist.
+ctl_true             P(supported)=0.90  control(true) ok       [ep27a]  The ep27 run on ml40 used a buffer of 10M.
+ctl_false1           P(supported)=0.01  control(false) ok      [board0720]  maniphys.ai is first under reading B.
+ctl_false2           P(supported)=0.02  control(false) ok      [ep27b]  The mf4090 ep27 run passes criterion R1.
+controls behaved as expected
