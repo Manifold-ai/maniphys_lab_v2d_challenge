@@ -1,0 +1,28 @@
+# command  : ssh -o ConnectTimeout=20 mf4090 bash\ -s\ mf4090 
+# source   : 838f0b6bd222
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T10:20:59-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-30 00:21:01 CST
+NVIDIA GeForce RTX 4090, 1443 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  231G   54G  82% /
+-- tmux
+v2d-t1zp_s43-eval: 1 windows (created Fri Oct 30 00:16:29 2026)
+v2d-t1zp_s43-export: 1 windows (created Fri Oct 30 00:16:31 2026)
+v2d-t1zp_s43-train: 1 windows (created Fri Oct 30 00:16:27 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zp_s43_mf4090-gate
+runs/.chain-active-t1zp_s43_eval_mf4090
+runs/.chain-active-t1zp_s43_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zp_mf4090.log：=== 2026-10-30 00:18:25 CST 来历与 t1zp 的队列：bfc78e83f8c4 2721456f349f18d46e55f861b9dee033  stages/policy/queues/mf4090_t1zp.expect.tsv 9a5b86f79ec4ba562b0067acdcda0bce  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t1zp_s43_train_mf4090.log：report: /repo/runs/diag/smoke-t1-ep20-w2048-cap4m-r3o-s43-mf4090/rollout_w256.json
+runs/logs/smoke-t1-ep20-w2048-cap4m-r3o-s43-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-r3o-s43-mf4090
+runs/logs/smoke-t1-ep20-w2048-cap4m-r3o-s43-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep20-w2048-cap4m-r3o-s43-mf4090
+runs/logs/t1-ep17-w2048-cap4m-r3o-mf4090.log：
+runs/logs/t1-ep21-w2048-cap4m-r3o-mf4090.log：
+runs/logs/t1-ep8-w2048-cap4m-r3o-mf4090.log：
+runs/logs/smoke-t1-ep17-w2048-cap4m-r3o-mf4090.log：
+runs/logs/smoke-t1-ep21-w2048-cap4m-r3o-mf4090.log：
