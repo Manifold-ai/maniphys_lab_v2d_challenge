@@ -1,0 +1,28 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py runs/submission/csv/track2_tier3_t3m1029a.csv --track track_2_tier3 -m Tier\ 3\ t3m1029a:\ t3m1022aa\ with\ 7\ episodes\ switched\ \(gb5\ seed\ 43\ ep5/10/14\,\ gb5\ ep23\,\ new\ references\ ep12/15/27\)\;\ frame-0\ alignment\ with\ Tier\ 1\ frame\ 0 --wait 
+# md5      : 8d6324379747ffae2952a6ed65b300f7  third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/submit/v2d_submit.py
+# md5      : 95fec7ccfb4e40afd9f4cfed1701c8f0  runs/submission/csv/track2_tier3_t3m1029a.csv
+# source   : 02a7b278b383
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:43:27-0600
+# ---------------------------------------------------------------
+runs/submission/csv/track2_tier3_t3m1029a.csv: 22,989 rows over 30 episodes, 12,133,205 B - looks valid
+Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction): 4 leaderboard(s)
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+  add_auc          v2d-challenge-track2-tier3-auc           5 left today
+  spider_sr        v2d-challenge-track2-tier3-sp-sr         5 left today
+  maniptrans_sr    v2d-challenge-track2-tier3-mp-sr         5 left today
+  mppe_cm          v2d-challenge-track2-tier3-mppe          5 left today
+Receipt: runs/submission/csv/track2_tier3_t3m1029a.csv.5fd625ca2b25.kaggle-receipt.json
+
+  add_auc          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - AUC (submission 57783386)
+  spider_sr        ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - SP-SR (submission 57783387)
+  maniptrans_sr    ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MP-SR (submission 57783388)
+  mppe_cm          ACCEPTED Successfully submitted to Track 2 - Robotic Grounding (Tier 3: bring your own reconstruction) - MPPE (cm) (submission 57783392)
+
+Waiting for scores...
+  add_auc          COMPLETE 0.28173 (submission 57783386)
+  spider_sr        COMPLETE 0.46666 (submission 57783387)
+  maniptrans_sr    COMPLETE 0.10000 (submission 57783388)
+  mppe_cm          COMPLETE 36.60061 (submission 57783392)
+Receipt: runs/submission/csv/track2_tier3_t3m1029a.csv.5fd625ca2b25.kaggle-receipt.json
