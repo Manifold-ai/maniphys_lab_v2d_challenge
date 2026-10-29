@@ -23,6 +23,9 @@ import align_frefs_t3 as al
 import tier1_frame0
 
 RULE = "t3b2-2.1"
+NEAR_RULE = "t3b2n12-1.1"
+NEAR_MAX_M = 0.04  # plan-t3b2n12 v1.1: set after seeing ep12's 3.53 cm; the next ep12 candidate moves 8.4 cm
+NEAR_DEGS = {60, 90, 120, 180, 240, 270, 300}  # n-fold turns, n in {2, 3, 4, 6}
 B2_FROM_DEG, B2_TO_DEG, B2_GAIN_DEG = 30.0, 30.0, 20.0
 VARIANTS = ("obj", "yaw_obj", "yaw_hum", "pos")
 
@@ -63,6 +66,25 @@ def b2_choose(d_fixed: dict, visible: bool) -> tuple:
     return k, f"{d0:.1f}° → {dk:.1f}°"
 
 
+def near_choose(d0: float, cands: list, visible: bool) -> tuple:
+    """B2n (plan-t3b2n12)：cands = [(名字, 差°)]，只含 n 重、表面移动 ≤ NEAR_MAX_M 的候选。返回（选中的名字或 None、理由）。"""
+    if not visible:
+        return None, "Tier 1 第 0 帧物体不可见"
+    if not cands:
+        return None, "没有 4 cm 内的 n 重候选"
+    if d0 <= B2_FROM_DEG:
+        return None, f"原差 {d0:.1f}° ≤ {B2_FROM_DEG:g}°"
+    ok = [(n, d) for n, d in cands if d <= B2_TO_DEG]
+    if not ok:
+        return None, f"候选后最小仍差 {min(d for _, d in cands):.1f}° > {B2_TO_DEG:g}°"
+    if len(ok) > 1:
+        return None, f"{len(ok)} 个候选都 ≤ {B2_TO_DEG:g}°，拒绝"
+    n, d = ok[0]
+    if d0 - d < B2_GAIN_DEG:
+        return None, f"只小 {d0 - d:.1f}° < {B2_GAIN_DEG:g}°"
+    return n, f"{d0:.1f}° → {d:.1f}°"
+
+
 def mesh_sha(t3: Path, tier_dir: str, ep: int) -> str:
     root = al.root_dir(t3, tier_dir)
     m = next(m for m in map(json.loads, (root / "meta" / "episodes_metadata.jsonl").read_text().splitlines()) if int(m["episode_index"]) == ep)
@@ -93,6 +115,7 @@ def main() -> int:
     ap.add_argument("--sym", type=Path, required=True)
     ap.add_argument("--aligned", type=Path, default=None)
     ap.add_argument("--choice", type=Path, default=None)
+    ap.add_argument("--near", default="", help="B2n（plan-t3b2n12）：这些集若不是离散对称，在 4 cm 内的 n 重近对称转动里选")
     a = ap.parse_args()
     if a.choice is not None and a.choice.exists():
         raise SystemExit(f"{a.choice} 已存在")
@@ -102,6 +125,7 @@ def main() -> int:
     print("ep\t档位目录\t自动方案\t转角差°(对齐前)\t倾斜°\t偏航物体°\t偏航人体°\t" + "\t".join(f"{v}后°" for v in VARIANTS)
           + "\t自动后°\t固定对齐\t对称\tB2\tB2理由\tB2后自动方案\tB2后自动差°\t近对称最好(轴/度/差°/移动cm)\t对齐输出差°")
     choice = {}
+    near_eps = {int(x) for x in a.near.split(",") if x.strip()}
     for ep in sorted(rows):
         r = rows[ep]
         P = poses(a.frefs, r)
@@ -142,7 +166,26 @@ def main() -> int:
                 choice[str(ep)] = {"g": G[k].tolist(), "com_b": s["com_b"], "tier1_sha256": truth["file_sha256"], "rule": RULE,
                                    "fixed_alignment": fixed, "d_fixed_before_deg": d_fixed[0], "d_fixed_after_deg": d_fixed[k],
                                    "tier_dir": r["tier_dir"], "sequence": r["sequence"], "mesh_sha256": s["mesh_sha256"],
-                                   "group_shift_m": s["group_shift_m"][k]}
+                                   "group_shift_m": s["group_shift_m"][k], "kind": "b2"}
+        if ep in near_eps and not discrete:
+            axes_n = np.asarray(s["principal_axes"], dtype=np.float64)
+            cands = [x for x in s["near"] if x["deg"] in NEAR_DEGS and x["shift_m"] <= NEAR_MAX_M]
+            d0 = frame0_diff(right_mul(P[:1], np.eye(3), s["com_b"]), R_F, R1)
+            scored = [(f"轴{x['axis']}/{x['deg']}°/{x['shift_m'] * 100:.2f}cm", frame0_diff(right_mul(P[:1], rot(axes_n[x["axis"]], x["deg"]), s["com_b"]), R_F, R1), x) for x in cands]
+            name, why = near_choose(d0, [(n_, d_) for n_, d_, _ in scored], truth["visible"])
+            print(f"B2n ep{ep}：固定对齐 {fixed} 下原差 {d0:.1f}°；候选 {len(scored)} 个：" + ("；".join(f"{n_} → {d_:.1f}°" for n_, d_, _ in scored) or "无") + f"；{'选 ' + name if name else '不改'}（{why}）")
+            if name:
+                x = next(x_ for n_, _, x_ in scored if n_ == name)
+                gn = rot(axes_n[x["axis"]], x["deg"])
+                P2 = right_mul(P, gn, s["com_b"])
+                _, _, rep2 = al.align_episode(P2, truth, n, human, "auto")
+                R_T2, _, _ = al.align_episode(P2, truth, n, human, rep2["choice"])
+                b2, why, after = f"b2n {name}", why, (rep2["choice"], frame0_diff(P2, R_T2, R1))
+                choice[str(ep)] = {"g": gn.tolist(), "com_b": s["com_b"], "tier1_sha256": truth["file_sha256"], "rule": NEAR_RULE,
+                                   "fixed_alignment": fixed, "d_fixed_before_deg": d0, "d_fixed_after_deg": dict((n_, d_) for n_, d_, _ in scored)[name],
+                                   "tier_dir": r["tier_dir"], "sequence": r["sequence"], "mesh_sha256": s["mesh_sha256"],
+                                   "group_shift_m": x["shift_m"], "kind": "b2n", "axis": x["axis"], "deg": x["deg"],
+                                   "candidates": [{"name": n_, "d_fixed_deg": d_} for n_, d_, _ in scored]}
         axes = np.asarray(s["principal_axes"], dtype=np.float64)
         best = min(s["near"], key=lambda x: frame0_diff(right_mul(P[:1], rot(axes[x["axis"]], x["deg"]), s["com_b"]), R_F, R1))
         bd = frame0_diff(right_mul(P[:1], rot(axes[best["axis"]], best["deg"]), s["com_b"]), R_F, R1)

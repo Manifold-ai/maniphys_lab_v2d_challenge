@@ -2,7 +2,8 @@
   1. right_mul：右乘 g 绕质心，质心的世界位置不变、朝向是 R g；g 为恒等时位姿不变；
   2. B2 选支：第 0 帧位姿是真值右乘 g⁻¹（加 3° 噪声）时，固定对齐下选回 g；
   3. b2_choose 的每条规则：原差 ≤ 30° 不改、最好的群元后仍 > 30° 不改、只小 < 20° 不改、Tier 1 不可见不改、恒等最小不改；
-  4. frame0_diff 与 align_frefs_t3.angle_deg 一致（R_T 为恒等时就是两个朝向的夹角）。
+  4. frame0_diff 与 align_frefs_t3.angle_deg 一致（R_T 为恒等时就是两个朝向的夹角）；
+  5. near_choose（plan-t3b2n12）：唯一候选可选；空集、两个候选都 ≤ 30°、候选后仍 > 30°、原差 ≤ 30°、不可见、改进 < 20° 都拒绝。
 用法：uv run --no-project --python 3.12 --with numpy --with pyarrow python stages/evaluate/test_t3_frame0_table.py
 """
 import sys
@@ -51,6 +52,16 @@ def test_b2_rules() -> None:
     assert ft.b2_choose({0: 170.0, 1: 3.0}, False)[0] == 0
     assert ft.b2_choose({0: 60.0, 1: 90.0}, True)[0] == 0
     assert ft.b2_choose({0: 170.0, 1: 3.0}, True) == (1, "170.0° → 3.0°")
+
+
+def test_near_choose() -> None:
+    assert ft.near_choose(179.9, [("a", 1.0)], True) == ("a", "179.9° → 1.0°")
+    assert ft.near_choose(179.9, [], True)[0] is None
+    assert ft.near_choose(179.9, [("a", 1.0), ("b", 20.0)], True)[0] is None  # 两个都 ≤ 30°：拒绝
+    assert ft.near_choose(179.9, [("a", 40.0)], True)[0] is None
+    assert ft.near_choose(25.0, [("a", 1.0)], True)[0] is None
+    assert ft.near_choose(179.9, [("a", 1.0)], False)[0] is None
+    assert ft.near_choose(45.0, [("a", 28.0)], True)[0] is None  # 只小 17°
 
 
 def test_frame0_diff() -> None:
