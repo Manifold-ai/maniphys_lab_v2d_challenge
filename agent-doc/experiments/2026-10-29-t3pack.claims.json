@@ -1,0 +1,22 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "align": {"file": "results/ml40/t3pack/align_t3m1029new_ml40.txt", "grep": "ALIGN_FREFS|^ep|^[0-9]+\t"},
+  "frefs": {"file": "results/ml40/t3pack/frefs_t3m1029new_ml40.txt", "grep": "FRAME_REFS"},
+  "packa": {"file": "results/submission/pack/t3_t3m1029a_dryrun.txt"},
+  "packb": {"file": "results/submission/pack/t3_t3m1029b_dryrun.txt"},
+  "f0a": {"file": "results/t3pack/csv_frame0_t3m1029a.txt", "grep": "^ep|^[0-9]+\t|CSV_FRAME0"},
+  "f0b": {"file": "results/t3pack/csv_frame0_t3m1029b.txt", "grep": "^ep|^[0-9]+\t|CSV_FRAME0"},
+  "diffa": {"file": "results/t3pack/csv_diff_t3m1029a.txt"},
+  "diffb": {"file": "results/t3pack/csv_diff_t3m1029b.txt"}
+ },
+ "claims": [
+  {"id": "frefs_ok", "evidence": ["frefs"], "claim": "Frame references for all 7 episodes were generated without failure."},
+  {"id": "align_ok", "evidence": ["align"], "claim": "All 7 episodes were aligned, and episode 14 used the yaw_hum choice because the object and human yaw disagree."},
+  {"id": "pack_ok", "evidence": ["packa", "packb"], "claim": "Both CSV files passed validation in the dry run, and nothing was submitted."},
+  {"id": "f0a_ok", "evidence": ["f0a"], "claim": "The frame-0 check of version a passes, and after alignment episode 12 and episode 27 have small orientation differences while episode 14 still has a large one."},
+  {"id": "f0b_ok", "evidence": ["f0b"], "claim": "The frame-0 check of version b passes."},
+  {"id": "diffa_ok", "evidence": ["diffa"], "claim": "Version a differs from the submitted CSV in exactly episodes 5, 10, 12, 14, 15, 23 and 27."},
+  {"id": "diffb_ok", "evidence": ["diffb"], "claim": "Version b differs from the submitted CSV in exactly episodes 5, 10, 14, 15 and 23, and episodes 12 and 27 are unchanged."},
+  {"id": "ctl_false1", "evidence": ["f0a"], "claim": "After alignment episode 14 has a frame-0 orientation difference below 5 degrees.", "control": "false"},
+  {"id": "ctl_false2", "evidence": ["diffb"], "claim": "Version b changes episode 27.", "control": "false"}
+ ]}

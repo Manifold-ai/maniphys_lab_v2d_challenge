@@ -1,0 +1,18 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-t3pack.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 513bd4bf1c8d230cb5856b1d1622c864  agent-doc/experiments/2026-10-29-t3pack.claims.json
+# source   : 2175e83e0c13-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:31:11-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+frefs_ok             P(supported)=0.80  verified               [frefs]  Frame references for all 7 episodes were generated without failure.
+align_ok             P(supported)=0.95  verified               [align]  All 7 episodes were aligned, and episode 14 used the yaw_hum choice because the object and human yaw disagree.
+pack_ok              P(supported)=0.98  verified               [packa, packb]  Both CSV files passed validation in the dry run, and nothing was submitted.
+f0a_ok               P(supported)=0.91  verified               [f0a]  The frame-0 check of version a passes, and after alignment episode 12 and episode 27 have small orientation differences while episode 14 still has a large one.
+f0b_ok               P(supported)=0.98  verified               [f0b]  The frame-0 check of version b passes.
+diffa_ok             P(supported)=0.97  verified               [diffa]  Version a differs from the submitted CSV in exactly episodes 5, 10, 12, 14, 15, 23 and 27.
+diffb_ok             P(supported)=0.69  UNVERIFIED             [diffb]  Version b differs from the submitted CSV in exactly episodes 5, 10, 14, 15 and 23, and episodes 12 and 27 are unchanged.
+ctl_false1           P(supported)=0.12  control(false) ok      [f0a]  After alignment episode 14 has a frame-0 orientation difference below 5 degrees.
+ctl_false2           P(supported)=0.01  control(false) ok      [diffb]  Version b changes episode 27.
+controls behaved as expected

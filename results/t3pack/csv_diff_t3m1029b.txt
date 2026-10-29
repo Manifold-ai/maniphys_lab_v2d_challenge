@@ -1,0 +1,14 @@
+# command  : python3 stages/evaluate/csv_episode_diff.py runs/submission/csv/track2_tier3_t3m1022aa.csv runs/submission/csv/track2_tier3_t3m1029b.csv 5\,10\,14\,15\,23 
+# md5      : ee11990711501c703dd048548ebec9d4  stages/evaluate/csv_episode_diff.py
+# md5      : fff0dd72933b0c37da7f026f4e6ce70b  runs/submission/csv/track2_tier3_t3m1022aa.csv
+# md5      : 04db8f8405e39a11d3bcca7b9417bac7  runs/submission/csv/track2_tier3_t3m1029b.csv
+# source   : 2175e83e0c13
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:30:43-0600
+# ---------------------------------------------------------------
+行数：旧 22989，新 22989
+逐行的行号都相同：True
+code_commit_url：[('https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/79350ca32461364b0b5bad38b60b524858b45b75', 'https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/2175e83e0c13b9ae2391d724f3d1c80c392b73d3')]
+内容不同的行（按 episode：不同行数/该集行数）：ep5 1003/1003，ep10 794/794，ep14 993/993，ep15 715/715，ep23 946/946
+不同的 episode 恰好是 [5, 10, 14, 15, 23]：True
+CSV_EPISODE_DIFF_OK
