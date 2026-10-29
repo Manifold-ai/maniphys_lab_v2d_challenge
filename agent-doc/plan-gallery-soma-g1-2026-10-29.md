@@ -96,7 +96,7 @@ ep12、ep27 等 B2 / B2n 重训出读数后再补，用新 checkpoint。
 
 ## 执行记录
 
-- 10/29 00:05–00:36 MDT：第一步的 CPU 部分在 ml40 跑完（t3sil ccc9114、9e 后的参数顺序修正；`gallery_pair.sh cpu`，记录在 ml40 `results/ml40/gallery_pair/`）。
+- 10/29 00:05–00:36 MDT：第一步的 CPU 部分在 ml40 跑完（t3sil ccc9114，参数顺序修正在 4ed6d39；`gallery_pair.sh cpu`，记录在 ml40 `results/ml40/gallery_pair/`）。
   第一次跑 `human_iou` 的参数顺序写反（s 与 K），ep15、ep5、ep10 报错，没有出片；修正后重跑。
   5 集人体栏全部过门：人体参数与版本 parquet 逐列相同（最大差 0），人体轮廓对 SAM2 人体掩码 IoU 中位 0.833（ep15）、0.844（ep5）、0.849（ep10）、0.868（ep23）、0.881（ep14），门槛 0.5。
   另修了 `crop=auto` 的一个旧问题：它取 h5 的前 n 个键，物体与人体掩码交替排列，实际只覆盖前一半帧；现在逐帧取。已发布的 13 段视频不重渲。
