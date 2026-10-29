@@ -1,0 +1,68 @@
+# command  : bash tools/submission_history.sh 
+# md5      : 563e3e7415126fad76df2d9fef12b388  tools/submission_history.sh
+# source   : a8fde7661019-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T09:00:25-0600
+# ---------------------------------------------------------------
+== v2d-challenge-track2-tier1-auc
+2026-10-18 16:54:50	track2_tier1_select_t1x1018.csv	COMPLETE	0.58258
+2026-10-17 20:39:37	track2_tier1_select_c10_1017a.csv	COMPLETE	0.56315
+2026-10-14 19:53:03	track2_tier1_select_t1c1014b.csv	COMPLETE	0.54623
+2026-10-13 23:53:19	track2_tier1_select_t1x1013.csv	COMPLETE	0.47127
+== v2d-challenge-track2-tier1-sp-sr
+2026-10-18 16:54:53	track2_tier1_select_t1x1018.csv	COMPLETE	0.83333
+2026-10-17 20:39:39	track2_tier1_select_c10_1017a.csv	COMPLETE	0.76666
+2026-10-14 19:53:08	track2_tier1_select_t1c1014b.csv	COMPLETE	0.73333
+2026-10-13 23:53:27	track2_tier1_select_t1x1013.csv	COMPLETE	0.60000
+== v2d-challenge-track2-tier1-mp-sr
+2026-10-18 16:54:56	track2_tier1_select_t1x1018.csv	COMPLETE	0.70000
+2026-10-17 20:39:42	track2_tier1_select_c10_1017a.csv	COMPLETE	0.66666
+2026-10-14 19:53:12	track2_tier1_select_t1c1014b.csv	COMPLETE	0.63333
+2026-10-13 23:55:57	track2_tier1_select_t1x1013.csv	COMPLETE	0.53333
+== v2d-challenge-track2-tier1-mppe
+2026-10-18 16:54:58	track2_tier1_select_t1x1018.csv	COMPLETE	11.86661
+2026-10-17 20:39:44	track2_tier1_select_c10_1017a.csv	COMPLETE	13.92082
+2026-10-14 19:53:16	track2_tier1_select_t1c1014b.csv	COMPLETE	16.55939
+2026-10-13 23:53:58	track2_tier1_select_t1x1013.csv	COMPLETE	24.53655
+== v2d-challenge-track2-tier2-auc
+2026-10-20 23:06:05	track2_tier2_select_b1019a.csv	COMPLETE	0.51091
+2026-10-14 22:47:04	track2_tier2_select_b1014.csv	COMPLETE	0.50890
+2026-10-14 06:05:14	track2_tier2_select_b1013.csv	COMPLETE	0.51379
+== v2d-challenge-track2-tier2-sp-sr
+2026-10-14 22:47:07	track2_tier2_select_b1014.csv	COMPLETE	0.73333
+2026-10-14 06:05:28	track2_tier2_select_b1013.csv	COMPLETE	0.73333
+== v2d-challenge-track2-tier2-mp-sr
+2026-10-14 22:47:12	track2_tier2_select_b1014.csv	COMPLETE	0.53333
+2026-10-14 06:05:46	track2_tier2_select_b1013.csv	COMPLETE	0.53333
+== v2d-challenge-track2-tier2-mppe
+2026-10-14 22:47:16	track2_tier2_select_b1014.csv	COMPLETE	15.32195
+2026-10-14 06:05:55	track2_tier2_select_b1013.csv	COMPLETE	16.54028
+== v2d-challenge-track2-tier3-auc
+2026-10-26 19:33:17	track2_tier3_t3m1022aa.csv	COMPLETE	0.22590
+2026-10-18 16:47:04	track2_tier3_gb1018e22.csv	COMPLETE	0.10649
+2026-10-17 20:47:04	track2_tier3_kfix1017.csv	COMPLETE	0.04885
+2026-10-16 10:34:34	track2_tier3_ab1016_manhattanB_yaw.csv	COMPLETE	0.00000
+2026-10-16 10:33:24	track2_tier3_ab1016_gridG_yaw.csv	COMPLETE	0.00690
+2026-10-15 22:14:38	track2_tier3_probe1015.csv	COMPLETE	0.00000
+== v2d-challenge-track2-tier3-sp-sr
+2026-10-26 19:33:20	track2_tier3_t3m1022aa.csv	COMPLETE	0.33333
+2026-10-18 16:47:07	track2_tier3_gb1018e22.csv	COMPLETE	0.26666
+2026-10-17 20:47:06	track2_tier3_kfix1017.csv	COMPLETE	0.13333
+2026-10-16 10:34:43	track2_tier3_ab1016_manhattanB_yaw.csv	COMPLETE	0.00000
+2026-10-16 10:33:33	track2_tier3_ab1016_gridG_yaw.csv	COMPLETE	0.03333
+2026-10-15 22:14:42	track2_tier3_probe1015.csv	COMPLETE	0.00000
+== v2d-challenge-track2-tier3-mp-sr
+2026-10-26 19:33:23	track2_tier3_t3m1022aa.csv	COMPLETE	0.10000
+2026-10-18 16:47:09	track2_tier3_gb1018e22.csv	COMPLETE	0.00000
+2026-10-17 20:47:09	track2_tier3_kfix1017.csv	COMPLETE	0.00000
+2026-10-16 10:34:52	track2_tier3_ab1016_manhattanB_yaw.csv	COMPLETE	0.00000
+2026-10-16 10:33:43	track2_tier3_ab1016_gridG_yaw.csv	COMPLETE	0.00000
+2026-10-15 22:14:46	track2_tier3_probe1015.csv	COMPLETE	0.00000
+== v2d-challenge-track2-tier3-mppe
+2026-10-26 19:33:26	track2_tier3_t3m1022aa.csv	COMPLETE	49.93762
+2026-10-18 16:47:11	track2_tier3_gb1018e22.csv	COMPLETE	54.98984
+2026-10-17 20:47:11	track2_tier3_kfix1017.csv	COMPLETE	55.76705
+2026-10-16 10:35:01	track2_tier3_ab1016_manhattanB_yaw.csv	COMPLETE	63.44727
+2026-10-16 10:33:52	track2_tier3_ab1016_gridG_yaw.csv	COMPLETE	56.87427
+2026-10-15 22:14:59	track2_tier3_probe1015.csv	COMPLETE	60.70360
+SUBMISSION_HISTORY_DONE rc=0
