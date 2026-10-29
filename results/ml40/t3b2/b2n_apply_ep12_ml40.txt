@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_b2_apply.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/b2n_choice_ep12.json tier3_cari4d_gb5_best_dr2s_b2n12 12 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T09:35:32+0800
+# ---------------------------------------------------------------
+{"episode": 12, "object": "black_platform", "from": "tier3_cari4d_gb5_best_dr2s", "g_deg": 180.0, "kind": "b2n", "surface_shift_m": 0.03534, "com_moved_m_max": 4.440892098500626e-16, "turns_changed_max": 5.96078525080812e-13, "rule": "t3b2n12-1.1", "tier1_sha256": "195a4598b1176c695b52de656040c33d2978a0e54f4cc0a8e0d63776c4245c34"}
+B2_APPLY_OK 1

@@ -1,0 +1,16 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/runs/t3b2/tools/parquet_robot_diff.py\ /repo/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet\ /repo/runs/motion/tier3_gb5b2n12hdyn7/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 8f09d9ac9df6b2b5313bcf9158ba2a86  runs/t3b2/tools/parquet_robot_diff.py
+# md5      : d5db29cbfd89acfd8258e158de9e0edf  runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+# md5      : 61b0c0f1c23d362744e385e366bacb09  runs/motion/tier3_gb5b2n12hdyn7/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet
+# source   : ad4fd4598183
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T09:49:19+0800
+# ---------------------------------------------------------------
+robot_joint_positions：形状 (700, 43)，最大差 7.141e-05
+robot_root_position：形状 (700, 3)，最大差 2.921e-06
+robot_root_wxyz：形状 (700, 4)，最大差 5.759e-06
+left 手接触帧：旧 0、新 0（差 0）
+right 手接触帧：旧 0、新 0（差 0）
+IK 误差中位：旧 0.787288、新 0.787293
+PARQUET_ROBOT_DIFF robot_joint_positions 最大差 7.141e-05；robot_root_position 最大差 2.921e-06；robot_root_wxyz 最大差 5.759e-06；IK 误差中位 0.787288 → 0.787293

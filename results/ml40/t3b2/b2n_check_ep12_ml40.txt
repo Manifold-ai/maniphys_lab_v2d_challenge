@@ -1,0 +1,9 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_b2n_check.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s_dyn7 tier3_cari4d_gb5_best_dr2s_b2n12_dyn7 /lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s /lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/tier3_cari4d_gb5_best_dr2s_b2n12 /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/b2n_choice_ep12.json 12 
+# source   : 7b6c46fba9c3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T09:42:52+0800
+# ---------------------------------------------------------------
+ep12_black_platform：held 不同的帧 1 个 [616]；锁定段 旧 [(0, 157), (616, 700)] 新 [(0, 157), (617, 700)]
+锁定状态相同的帧 699 / 700：朝向差最大 0.659452°，水平位置差最大 14.490 mm，沿法向差最大 0.64 cm
+过渡段或状态不同的帧 16 个（601–616）：朝向差最大 0.665°，水平位置差最大 1.52 cm
+B2N_CHECK_FAIL 相同状态帧超容差（朝向 0.0273°、水平 0.06 mm）；过渡段超容差（0.66°、1.52 cm）

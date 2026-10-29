@@ -1,0 +1,11 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ python\ t3_frame0_table.py\ /repo/runs/t3b2/frefs_b2n12h\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --sym\ /repo/runs/t3b2/sym_t3fx.json\ --aligned\ /repo/runs/t3b2/al_b2n12h_auto 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : c4eef6d3f16267cba21478e55ae1d020  runs/t3b2/sym_t3fx.json
+# source   : ad4fd4598183
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T09:50:09+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	档位目录	自动方案	转角差°(对齐前)	倾斜°	偏航物体°	偏航人体°	obj后°	yaw_obj后°	yaw_hum后°	pos后°	自动后°	固定对齐	对称	B2	B2理由	B2后自动方案	B2后自动差°	近对称最好(轴/度/差°/移动cm)	对齐输出差°
+12	tier3_gb5b2n12hdyn7	obj	1.08	1.04	-0.28	-0.37	0.00	1.04	1.05	1.08	0.00	yaw_hum	无	-	不是离散对称	-	-	0/5/4.2/2.62	0.00(obj)
+FRAME0_TABLE_OK 1（B2 选中 0 集：无）

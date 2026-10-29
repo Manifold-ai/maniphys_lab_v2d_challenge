@@ -1,0 +1,8 @@
+# command  : python3 -c $'\nimport json\nP="/lab_data/rxzhou/v2d/t3recon/t3fx/runs/physics/"\nfor v in ("tier3_cari4d_gb5_best_dr2s","tier3_cari4d_gb5_best_dr2s_b2n12h","tier3_cari4d_gb5_best_dr2s_b2n12h_dyn7"):\n    d=json.load(open(P+v+"/out/ep12_black_platform.json")); f={x["check"]:x["frames"] for x in d["findings"]}; print(v,"合计",sum(f.values()),f)\n' 
+# source   : ad4fd4598183
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T09:50:08+0800
+# ---------------------------------------------------------------
+tier3_cari4d_gb5_best_dr2s 合计 242 {'feet_penetration': 242}
+tier3_cari4d_gb5_best_dr2s_b2n12h 合计 242 {'feet_penetration': 242}
+tier3_cari4d_gb5_best_dr2s_b2n12h_dyn7 合计 242 {'feet_penetration': 242}
