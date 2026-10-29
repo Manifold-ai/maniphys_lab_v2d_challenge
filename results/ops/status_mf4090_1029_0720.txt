@@ -1,0 +1,22 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : b97ac878a2bb
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T07:20:57-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-29 21:20:59 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  231G   54G  82% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3pb2r27_readout_mf4090.log：T3G5_READOUT_DONE（eval 0、early 0、start 0、term 0）
+runs/logs/cand_t3_t3pb2r27_mf4090_gate.log：=== 2026-10-29 16:58:11 CST 导出链结束，退出码 0
+runs/logs/cand_t3_t3pb2r27_mf4090.log：=== 2026-10-29 16:58:11 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090/export_8c778f9/s349999104_w1/episode_000027.parquet
+runs/logs/t3pb2r27_eval_mf4090.log：=== 2026-10-29 16:56:18 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090/eval_349999104_w4096.json
+runs/logs/t3pb2r27_train_mf4090.log：=== 2026-10-29 16:51:46 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090
