@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-sop0100.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : fe78c31d5a0d6e022db8b4d9b88ddf9f  agent-doc/experiments/2026-10-29-sop0100.claims.json
+# source   : 34e94c951e8e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T01:03:54-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rank_b               P(supported)=0.92  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third, and no board changed.
+rank_a               P(supported)=0.99  verified               [board]  In reading A maniphys.ai has 12 and is fourth.
+ep15_r1              P(supported)=0.98  verified               [e15a]  The ep15 run on ml40 reaches SP-SR 0.886 and MPPE 4.80 cm against its own reference and passes criterion R1.
+ep15_s43             P(supported)=0.98  verified               [e15b]  The ep15 run on mf4090 does not pass criterion R1.
+ep15_ori             P(supported)=0.98  verified               [ori15]  In frames 503 to 715 the mean orientation error of the ep15 export is 0.326 rad.
+ep27_old             P(supported)=0.95  verified               [r27]  The old ep27 checkpoint on the B2 reference has a success rate of zero and an MPPE of about 88.5 cm.
+pos10                P(supported)=0.88  verified               [pos10]  With ep10 turned 90 degrees on purpose, the hand-contact score cannot pick out the turn.
+relay                P(supported)=0.87  verified               [relay]  48 files of the relay passed the sha256 check.
+t12                  P(supported)=0.86  verified               [t12]  At frame 0 the new ep12 reference is 1.05 degrees from Tier 1 frame 0 under the fixed yaw_hum alignment.
+mf_train             P(supported)=0.96  verified               [stmf]  On mf4090 the ep27 training on the gb5hr2b2dyn7 reference is running.
+h15                  P(supported)=0.95  verified               [h15]  For ep15 the body parameters equal the version parquet and the median IoU against the person mask is 0.833.
+h14                  P(supported)=0.98  verified               [h14]  For ep14 the median IoU of the body silhouette against the person mask is above 0.5.
+ctl_t                P(supported)=0.99  control(true) ok       [relay]  The relay check printed RELAY_SHA256_OK.
+ctl_f1               P(supported)=0.01  control(false) ok      [e15a]  The ep15 run on ml40 fails criterion R1 and does not track.
+ctl_f2               P(supported)=0.04  control(false) ok      [pos10]  In the injected ep10 control, one or more candidate turns pass the hand-contact rule.
+controls behaved as expected

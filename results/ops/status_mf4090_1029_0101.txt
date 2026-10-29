@@ -1,0 +1,27 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 34e94c951e8e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T01:01:17-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-29 15:01:21 CST
+NVIDIA GeForce RTX 4090, 23843 MiB, 24564 MiB, 97 %
+/dev/vda2       297G  231G   54G  82% /
+-- tmux
+v2d-t3pb2r27-eval: 1 windows (created Thu Oct 29 14:36:11 2026)
+v2d-t3pb2r27-export: 1 windows (created Thu Oct 29 14:36:13 2026)
+v2d-t3pb2r27-train: 1 windows (created Thu Oct 29 14:36:09 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pb2r27_mf4090-gate
+runs/.chain-active-t3pb2r27_eval_mf4090
+runs/.chain-active-t3pb2r27_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.log：training progress: 52,500,480/349,999,104 environment steps (15.0%); 46,555 env steps/s; elapsed 00:18:48; ETA 01:46:30
+runs/logs/t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.nanwatch.log：10-29 01:00:48 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3pb2r27_train_mf4090.log：=== 2026-10-29 14:40:47 CST 正式 t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090
+runs/logs/smoke-t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090
+runs/logs/smoke-t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep27-w2048-cap4m-r3a-gb5hr2b2dyn7-mf4090
+runs/logs/arm_t3pb2r27_mf4090.log：=== 2026-10-29 14:36:16 CST ARM_SEG_DONE
+runs/logs/cand_t3_t3pb2r27_mf4090_gate.log：=== 2026-10-29 14:36:13 CST 等 runs/logs/t3pb2r27_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/logs/t3pb2r27_eval_mf4090.log：=== 2026-10-29 14:36:11 CST 等 runs/logs/t3pb2r27_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED

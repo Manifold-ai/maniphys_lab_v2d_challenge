@@ -1,0 +1,8 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_gallery_video.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/t3fx/runs/tier3_cari4d_gb5_best.selection.json 10 /lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/human_ep10.mp4 human\ \(SOMA\,\ reconstructed\)=human:/lab_data/rxzhou/v2d/t3recon/dev_t3fx/soma/tier3_cari4d_gb5_best_dr2s/ep10_soma.npz@tier3_cari4d_gb5_best_dr2s_dyn7 width=640 crop=auto 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T14:18:09+0800
+# ---------------------------------------------------------------
+human (SOMA, reconstructed)：人体参数与版本 parquet 最大差 0；人体轮廓对 SAM2 人体掩码 IoU 中位 0.844（159 帧）
+/lab_data/rxzhou/v2d/t3recon/dev_t3fx/gallery_pair/human_ep10.mp4：794 帧，0.9 MB
+GALLERY_VIDEO_DONE 794

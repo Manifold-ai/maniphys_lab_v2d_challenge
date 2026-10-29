@@ -1,0 +1,22 @@
+# command  : docker run --rm --user 1003:1005 --entrypoint '' --network none -e HOME=/tmp -e CUDA_VISIBLE_DEVICES= -e PYTHONDONTWRITEBYTECODE=1 -w /workspace/v2d_cari4d/lib/cari4d --cpus 8 -v /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3:/s:ro -v /lab_data/rxzhou/v2d/t3recon/t3fx:/t:ro -v /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets/body_models/soma:/a:ro -v /lab_data/rxzhou/v2d/t3recon/dev_t3fx/soma/tier3_cari4d_gb5_best_dr2s:/o v2d_cari4d:latest python /s/t3_soma_verts_export.py /t/runs/physics/tier3_cari4d_gb5_best_dr2s/npz /a /o 10 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T14:05:38+0800
+# ---------------------------------------------------------------
+Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, CUDA driver not available (NVRTC compilation available)
+   Devices:
+     "cpu"      : "x86_64"
+   Kernel cache:
+     /tmp/.cache/warp/1.17.0
+/opt/conda/lib/python3.11/site-packages/soma/geometry/skeleton_transfer.py:248: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.sparse_rbf_matrix = torch.sparse_csr_tensor(
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: All-NaN slice encountered
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+/opt/conda/lib/python3.11/site-packages/trimesh/visual/texture.py:277: RuntimeWarning: invalid value encountered in cast
+  result.append(np.nanmedian(masks_nan, axis=0).astype(np.int64))
+Module soma.geometry.align_vectors_warp 5f6e29d load on device 'cpu' took 6044.84 ms  (compiled)
+Module soma.geometry.lbs_warp 202b92a load on device 'cpu' took 425.58 ms  (compiled)
+ep10 frames 794 vertices 18056 faces 36108
+SOMA_EXPORT_DONE 1

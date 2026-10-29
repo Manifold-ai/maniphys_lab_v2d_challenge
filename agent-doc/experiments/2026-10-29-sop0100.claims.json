@@ -1,0 +1,162 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board": {
+   "file": "results/board/diff_1029_0101.txt",
+   "grep": "读法|变了的榜|没有"
+  },
+  "e15a": {
+   "file": "results/ml40/t3g5/eval_t3qhr3s_ml40.txt",
+   "grep": "R1|→"
+  },
+  "e15b": {
+   "file": "results/t3g5/eval_t3phr3s_mf4090.txt",
+   "grep": "R1|→"
+  },
+  "ori15": {
+   "file": "results/ml40/t3b2/ori_ep15_hr3s_503_715_ml40.txt",
+   "grep": "朝向误差"
+  },
+  "r27": {
+   "file": "results/ml40/t3b2/reexport_t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40_b2_w4096.txt",
+   "grep": "spider_sr_uncentered  |mppe_cm  "
+  },
+  "pos10": {
+   "file": "results/ml40/t3b2/hand_orient_pos_ep10_90.txt",
+   "grep": "注入"
+  },
+  "relay": {
+   "file": "results/ops/relay_hr2b2_ml40_to_mf4090.txt",
+   "grep": "RELAY_SHA256_OK"
+  },
+  "t12": {
+   "file": "agent-doc/plan-t3b2n12-2026-10-28.md",
+   "grep": "新参考第 0 帧固定对齐"
+  },
+  "turn12": {
+   "file": "results/ml40/t3b2/turns_b2n12h_ml40.txt"
+  },
+  "stmf": {
+   "file": "results/ops/status_mf4090_1029_0101.txt",
+   "grep": "chain-active|training progress"
+  },
+  "h15": {
+   "file": "results/ml40/gallery_pair/human_ep15.txt",
+   "grep": "人体参数"
+  },
+  "h14": {
+   "file": "results/ml40/gallery_pair/human_ep14.txt",
+   "grep": "人体参数"
+  }
+ },
+ "claims": [
+  {
+   "id": "rank_b",
+   "evidence": [
+    "board"
+   ],
+   "claim": "Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third, and no board changed."
+  },
+  {
+   "id": "rank_a",
+   "evidence": [
+    "board"
+   ],
+   "claim": "In reading A maniphys.ai has 12 and is fourth."
+  },
+  {
+   "id": "ep15_r1",
+   "evidence": [
+    "e15a"
+   ],
+   "claim": "The ep15 run on ml40 reaches SP-SR 0.886 and MPPE 4.80 cm against its own reference and passes criterion R1."
+  },
+  {
+   "id": "ep15_s43",
+   "evidence": [
+    "e15b"
+   ],
+   "claim": "The ep15 run on mf4090 does not pass criterion R1."
+  },
+  {
+   "id": "ep15_ori",
+   "evidence": [
+    "ori15"
+   ],
+   "claim": "In frames 503 to 715 the mean orientation error of the ep15 export is 0.326 rad."
+  },
+  {
+   "id": "ep27_old",
+   "evidence": [
+    "r27"
+   ],
+   "claim": "The old ep27 checkpoint on the B2 reference has a success rate of zero and an MPPE of about 88.5 cm."
+  },
+  {
+   "id": "pos10",
+   "evidence": [
+    "pos10"
+   ],
+   "claim": "With ep10 turned 90 degrees on purpose, the hand-contact score cannot pick out the turn."
+  },
+  {
+   "id": "relay",
+   "evidence": [
+    "relay"
+   ],
+   "claim": "48 files of the relay passed the sha256 check."
+  },
+  {
+   "id": "t12",
+   "evidence": [
+    "t12"
+   ],
+   "claim": "At frame 0 the new ep12 reference is 1.05 degrees from Tier 1 frame 0 under the fixed yaw_hum alignment."
+  },
+  {
+   "id": "mf_train",
+   "evidence": [
+    "stmf"
+   ],
+   "claim": "On mf4090 the ep27 training on the gb5hr2b2dyn7 reference is running."
+  },
+  {
+   "id": "h15",
+   "evidence": [
+    "h15"
+   ],
+   "claim": "For ep15 the body parameters equal the version parquet and the median IoU against the person mask is 0.833."
+  },
+  {
+   "id": "h14",
+   "evidence": [
+    "h14"
+   ],
+   "claim": "For ep14 the median IoU of the body silhouette against the person mask is above 0.5."
+  },
+  {
+   "id": "ctl_t",
+   "evidence": [
+    "relay"
+   ],
+   "claim": "The relay check printed RELAY_SHA256_OK.",
+   "control": "true"
+  },
+  {
+   "id": "ctl_f1",
+   "evidence": [
+    "e15a"
+   ],
+   "claim": "The ep15 run on ml40 fails criterion R1 and does not track.",
+   "control": "false"
+  },
+  {
+   "id": "ctl_f2",
+   "evidence": [
+    "pos10"
+   ],
+   "claim": "In the injected ep10 control, one or more candidate turns pass the hand-contact rule.",
+   "control": "false"
+  }
+ ]
+}
