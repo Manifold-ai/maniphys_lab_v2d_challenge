@@ -1,25 +1,18 @@
-# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-28-sop1400.claims.json 
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-sop1400.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : b00172eb6ec2da3819fbd4c18d0bb3b4  agent-doc/experiments/2026-10-28-sop1400.claims.json
-# source   : 89244dd3771b-dirty
+# md5      : 436255512996894fa4d3ccf2d21f224a  agent-doc/experiments/2026-10-29-sop1400.claims.json
+# source   : d46168b2040f-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-28T14:04:08-0600
+# run_at   : 2026-10-29T14:04:03-0600
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-rank_b               P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 56 and is third.
-rank_a               P(supported)=0.98  verified               [board]  In reading A maniphys.ai has 12 and is fourth, behind domoarigato.
-nochange             P(supported)=0.96  verified               [board]  No board changed since the previous snapshot.
-spdef_mean           P(supported)=0.74  verified               [spdef]  The single-pose success averages the per-frame errors over time before it compares them with the thresholds.
-ep15_sp0             P(supported)=0.97  verified               [ep15eval]  The ep15 sg04 run has SP-SR 0 on 4096 worlds.
-ep15_auc             P(supported)=0.98  verified               [ep15eval]  The ep15 sg04 run has ADD-AUC 0.529 and MPPE 4.03 cm.
-ep15_pre             P(supported)=0.99  verified               [ep15pre]  In the ep15 sg04 export, the mean orientation error over frames 0 to 497 is 0.126 rad.
-ep15_post            P(supported)=0.98  verified               [ep15post]  In the ep15 sg04 export, the mean orientation error over frames 503 to 715 is 2.426 rad and the whole-episode mean is 0.826 rad.
-ep27_mppe            P(supported)=0.97  verified               [ep27eval]  The ep27 sg04 run has MPPE 23.56 cm and SP-SR 0 on 4096 worlds.
-ep27_pre             P(supported)=0.99  verified               [ep27pre]  In the ep27 sg04 export, the mean orientation error over frames 0 to 181 is 0.106 rad.
-mf_run               P(supported)=0.98  verified               [stmf]  On mf4090 the run t3-ep15-w2048-cap4m-r3o-gb5-ocoff-sg10-mf4090 is training at 91 percent.
-ml_run               P(supported)=0.98  verified               [stml]  On ml40 the run t3-ep27-w2048-cap10m-r3a-gb5hr2dyn7-ml40 is training at 93 percent.
-turns                P(supported)=0.87  verified               [turns]  The new ep27 training reference has no frame whose turn exceeds 24 degrees.
-ctl_true             P(supported)=0.95  control(true) ok       [ep15eval]  The ep15 sg04 run was evaluated on 4096 worlds.
-ctl_false1           P(supported)=0.01  control(false) ok      [ep15eval]  The ep15 sg04 run passes the success-rate line with SP-SR 1.0.
-ctl_false2           P(supported)=0.01  control(false) ok      [stml]  On ml40 no training run is in progress.
+luai_t3              P(supported)=0.81  verified               [board1320]  Luai Abuelsamen entered the Tier 3 boards for the first time, and maniphys.ai dropped from 3rd to 4th on Tier 3 AUC.
+rank_b               P(supported)=0.97  verified               [board1320]  Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 60 and is fourth.
+rank_a               P(supported)=0.98  verified               [board1320]  Under reading A maniphys.ai has 16 and is fifth.
+no_change            P(supported)=0.96  verified               [board1401]  The 14:01 snapshot shows no board change.
+r3o_worse            P(supported)=0.83  verified               [r3o43, r3a43]  The r3o seed 43 run of ep20 has a lower ADD-AUC, a lower MP-SR, a lower SP-SR and a higher MPPE than the r3a seed 43 run.
+ml40_busy            P(supported)=0.97  verified               [st40]  On ml40 the t1za chain is running and the ep4 run is in training.
+mf_busy              P(supported)=0.96  verified               [st90]  On mf4090 the t1zp chain is running and the ep8 r3o run is in training.
+ctl_false1           P(supported)=0.01  control(false) ok      [board1320]  maniphys.ai is first on Tier 3 AUC.
+ctl_false2           P(supported)=0.06  control(false) ok      [r3o43, r3a43]  The r3o seed 43 run of ep20 has a higher MP-SR than the r3a seed 43 run.
 controls behaved as expected

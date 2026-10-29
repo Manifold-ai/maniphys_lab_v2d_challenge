@@ -1,0 +1,20 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "board1320": {"file": "results/board/diff_1029_1320.txt"},
+  "board1401": {"file": "results/board/diff_1029_1401.txt", "grep": "读法|BOARD|变了"},
+  "r3o43": {"file": "results/day2/eval_t1-ep20-w2048-cap4m-r3o-s43-mf4090_s349999104.txt", "grep": "add_auc |maniptrans_sr |spider_sr_uncentered |mppe_cm "},
+  "r3a43": {"file": "results/day2/eval_t1-ep20-w2048-cap4m-r3a-s43-mf4090_s349999104.txt", "grep": "add_auc |maniptrans_sr |spider_sr_uncentered |mppe_cm "},
+  "st40": {"file": "results/ops/status_ml40_1029_1401.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1029_1401.txt"}
+ },
+ "claims": [
+  {"id": "luai_t3", "evidence": ["board1320"], "claim": "Luai Abuelsamen entered the Tier 3 boards for the first time, and maniphys.ai dropped from 3rd to 4th on Tier 3 AUC."},
+  {"id": "rank_b", "evidence": ["board1320"], "claim": "Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 60 and is fourth."},
+  {"id": "rank_a", "evidence": ["board1320"], "claim": "Under reading A maniphys.ai has 16 and is fifth."},
+  {"id": "no_change", "evidence": ["board1401"], "claim": "The 14:01 snapshot shows no board change."},
+  {"id": "r3o_worse", "evidence": ["r3o43", "r3a43"], "claim": "The r3o seed 43 run of ep20 has a lower ADD-AUC, a lower MP-SR, a lower SP-SR and a higher MPPE than the r3a seed 43 run."},
+  {"id": "ml40_busy", "evidence": ["st40"], "claim": "On ml40 the t1za chain is running and the ep4 run is in training."},
+  {"id": "mf_busy", "evidence": ["st90"], "claim": "On mf4090 the t1zp chain is running and the ep8 r3o run is in training."},
+  {"id": "ctl_false1", "evidence": ["board1320"], "claim": "maniphys.ai is first on Tier 3 AUC.", "control": "false"},
+  {"id": "ctl_false2", "evidence": ["r3o43", "r3a43"], "claim": "The r3o seed 43 run of ep20 has a higher MP-SR than the r3a seed 43 run.", "control": "false"}
+ ]}
