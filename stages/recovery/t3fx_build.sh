@@ -7,7 +7,7 @@
 #   3. 物理检查 tier3_cari4d_gb5_best_dr2s_hr_dyn7；
 #   4. gate 仓库里 mkroot（集名 gb5hrdyn7）→ eps.sh 重定向 → t3_support_usda.py，只对给定的集。
 # 每步经 stages/recovery/t3r_run.sh（她的目录只读、能力全丢、docker socket 盖住）；代码用部署在 t3recon/code 的副本（dyn7、物理检查、gate 脚本都在那里）。
-# 用法：[T3FX_HR=<_hr 层> T3FX_SET=<集名>] stages/recovery/t3fx_build.sh <ep>...   日志 runs/logs/t3fx_build.log，最后一行 T3FX_BUILD_DONE 或 T3FX_BUILD_FAILED <步>。
+# 用法：[T3FX_HR=<_hr 层> T3FX_SET=<集名>] [T3FX_DYN7_PHYS=runs/physics/<版本>] stages/recovery/t3fx_build.sh <ep>...   日志 runs/logs/t3fx_build.log，最后一行 T3FX_BUILD_DONE 或 T3FX_BUILD_FAILED <步>。
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$(pwd)"
@@ -46,7 +46,9 @@ physics() {   # physics <版本>：宿主机提取、镜像里检查
 }
 physics "$HR"
 EPL="$(IFS=,; echo "${EPS[*]}")"
-rec dyn7 bash "$GUARD" "$GPY" "$S/t3_dynamics_post.py" "$T3" "$HR" "runs/physics/$HR" "$DYN" "$EPL"   # 只出给定的集（_suspect 里的集没有物理检查，dyn7 全跑会找不到 npz）
+DPH=${T3FX_DYN7_PHYS:-runs/physics/$HR}   # 10/28 plan-t3b2n12 第 1.2 版：B2n 改了几何，"被拿着"在阈值边上会翻一帧；可指定 dyn7 沿用转动前那一层的物理检查
+[ -d "$T3/$DPH/out" ] || fail "没有 $T3/$DPH/out"
+rec dyn7 bash "$GUARD" "$GPY" "$S/t3_dynamics_post.py" "$T3" "$HR" "$DPH" "$DYN" "$EPL"   # 只出给定的集（_suspect 里的集没有物理检查，dyn7 全跑会找不到 npz）
 physics "$DYN"
 [ -e "$T3/code" ] || ln -s ../code "$T3/code"
 [ "$(realpath -e "$T3/code")" = "$R/code" ] || fail "$T3/code 没有指向 $R/code"
