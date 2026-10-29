@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_hand_orient.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hands /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/sym_t3fx.json /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hand_orient/pos_ep14_90.json 14 --inject 1:90 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T11:26:59+0800
+# ---------------------------------------------------------------
+ep14 round_table（注入 1:90）：零尺度 N 2.43 cm，门槛 4.86 cm；选中 第 1 主轴 270°（改进 19.30 cm、有信息帧 284、块 0.93）；通过 8 个；改进最大的三个：1/270° 19.30 cm（284 帧、块 0.93）；1/280° 18.99 cm（283 帧、块 0.97）；1/260° 15.69 cm（285 帧、块 0.90）
+HAND_ORIENT_DONE 1

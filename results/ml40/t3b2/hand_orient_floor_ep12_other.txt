@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_hand_orient.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hands /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/sym_t3fx.json /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hand_orient/floor_ep12_other.json 12 --inject 2:180 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T11:26:11+0800
+# ---------------------------------------------------------------
+ep12 black_platform（注入 2:180）：零尺度 N 0.81 cm，门槛 1.62 cm；分不出；通过 0 个；改进最大的三个：2/350° 0.12 cm（152 帧、块 0.62）；2/340° 0.07 cm（153 帧、块 0.56）；2/170° 0.07 cm（152 帧、块 0.56）
+HAND_ORIENT_DONE 1

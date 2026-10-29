@@ -1,0 +1,7 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_hand_orient.py /lab_data/rxzhou/v2d/t3recon/t3fx /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hands /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/sym_t3fx.json /lab_data/rxzhou/v2d/t3recon/dev_t3fx/hand_orient/pos_ep10_220.json 10 --inject 0:220 
+# source   : 322ab34e6aa3
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T11:31:11+0800
+# ---------------------------------------------------------------
+ep10 white_desk（注入 0:220）：零尺度 N 8.89 cm，门槛 17.78 cm；选中 第 0 主轴 140°（改进 19.92 cm、有信息帧 197、块 0.91）；通过 2 个；改进最大的三个：0/140° 19.92 cm（197 帧、块 0.91）；0/130° 18.44 cm（196 帧、块 0.90）；0/120° 17.42 cm（197 帧、块 0.67）
+HAND_ORIENT_DONE 1
