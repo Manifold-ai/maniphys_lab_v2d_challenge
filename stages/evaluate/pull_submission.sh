@@ -18,6 +18,7 @@
 #                                                 远端 <远端目录>/manifest_<机器>.tsv（make_frame_refs_t3.py 写的）与其中列出的 episode_XXXXXX.npz
 #                                                 → <目标目录>/，按 manifest 里的 sha256 核（计划 agent-doc/plan-r3o-2026-10-15.md 2.4.1）。两台拉进同一个
 #                                                 目标目录：npz 按 episode 区分，manifest 按机器区分；目标已有同名文件而内容不同就拒绝
+#                                                 V2D_FREFS_MANIFEST=aligned：改拉 align_frefs_t3.py 写的 manifest_aligned.tsv 与 ALIGN.json（计划 agent-doc/plan-t3pack-2026-10-29.md）
 #   pull_submission.sh select <选择清单> <结果表目录> <目标目录>
 #                                                 选择清单（select_t2.py 写的“档位 episode run 步数 机器”）里每条 run，在结果表目录的表里找
 #                                                 档位、run、步数相同、状态 ok 的行（必须恰好一行），从那台机器拉 JSON 与 parquet，按表里的 sha256 核，
@@ -118,12 +119,17 @@ case "$MODE" in
   frefs)
     M=${2:?用法：frefs <机器> <远端目录> <目标目录>}; SRC=${3:?用法见文件头}; DST=${4:?用法见文件头}; host_env "$M"
     for d in "$SRC" "$DST"; do [[ $d =~ ^runs/[A-Za-z0-9_./-]+$ && $d != *..* ]] || fail "目录要在 runs/ 下：$d"; done
-    echo "$SRC/manifest_$M.tsv" > "$TMP/m"; remote_sha "$TMP/m" "$TMP/msha"; stream "$TMP/m"
-    place "$TMP/x/$SRC/manifest_$M.tsv" "$DST/manifest_$M.tsv" "$(cut -d' ' -f1 < "$TMP/msha")"
+    case "${V2D_FREFS_MANIFEST:-}" in "") MN=$M ;; aligned) MN=aligned ;; *) fail "V2D_FREFS_MANIFEST 只认 aligned" ;; esac
+    echo "$SRC/manifest_$MN.tsv" > "$TMP/m"; [ "$MN" = aligned ] && echo "$SRC/ALIGN.json" >> "$TMP/m"
+    remote_sha "$TMP/m" "$TMP/msha"; stream "$TMP/m"
+    place "$TMP/x/$SRC/manifest_$MN.tsv" "$DST/manifest_$MN.tsv" "$(grep " $SRC/manifest_$MN.tsv\$" "$TMP/msha" | cut -d' ' -f1)"
+    [ "$MN" = aligned ] && place "$TMP/x/$SRC/ALIGN.json" "$DST/ALIGN.json" "$(grep " $SRC/ALIGN.json\$" "$TMP/msha" | cut -d' ' -f1)"
+    M=$MN
     tail -n +2 "$DST/manifest_$M.tsv" | cut -f9 | sed "s|^|$SRC/|" > "$TMP/list"
     [ -s "$TMP/list" ] || fail "manifest_$M.tsv 没有行"
     stream "$TMP/list"
     while IFS=$'\t' read -r ep _ _ _ _ _ _ _ f sha; do
+      sha=${sha%$'\r'}   # align_frefs_t3.py 用 csv 模块写，行尾是 CRLF
       [ "$f" = "episode_$(printf %06d "$ep").npz" ] || fail "manifest_$M.tsv 里 ep${ep} 的文件名是 $f"
       place "$TMP/x/$SRC/$f" "$DST/$f" "$sha"
     done < <(tail -n +2 "$DST/manifest_$M.tsv")

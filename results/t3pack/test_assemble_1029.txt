@@ -1,0 +1,7 @@
+# command  : python3 stages/evaluate/test_assemble_t3_results.py 
+# md5      : 09c46623bdc229b2c6bc20ee344e28c1  stages/evaluate/test_assemble_t3_results.py
+# source   : 2cab77905bc1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:26:57-0600
+# ---------------------------------------------------------------
+TEST_ASSEMBLE_T3_OK

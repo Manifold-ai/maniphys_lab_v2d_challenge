@@ -3,6 +3,7 @@ Tier 1 只经 stages/evaluate/tier1_frame0.py 读第 0 帧。CSV 的行 track_2/
 判据（登记）：ALIGN.json 里对齐了的每集（方案不是 none）——新 CSV 第 0 帧位置差 ≤ 2 cm，且小于旧 CSV 的；选了 obj 的集，新 CSV 第 0 帧朝向差 ≤ 5°。
 负对照：用 --swap-quat 生成的帧参考打出来的 CSV，这条核对必须报不过。
 用法：python csv_frame0_check.py <旧 CSV> <新 CSV> <新帧参考目录的 ALIGN.json> --tier1 <Tier 1 数据根>   最后一行 CSV_FRAME0_OK 或 CSV_FRAME0_FAIL（退出码 1）
+--episodes 5,10,…：只核 ALIGN.json 里这几集（每一集都必须在 ALIGN.json 里）；清单只换了一部分集时用（计划 agent-doc/plan-t3pack-2026-10-29.md 复核第 2 条）。
 """
 import argparse
 import csv
@@ -38,9 +39,16 @@ def main() -> int:
     ap.add_argument("new")
     ap.add_argument("align_json")
     ap.add_argument("--tier1", required=True)
+    ap.add_argument("--episodes", default="")
     a = ap.parse_args()
     old, new = frame0_rows(Path(a.old)), frame0_rows(Path(a.new))
     eps = json.loads(Path(a.align_json).read_text())["episodes"]
+    if a.episodes:
+        want = [str(int(x)) for x in a.episodes.split(",") if x.strip()]
+        missing = [k for k in want if k not in eps]
+        if missing:
+            raise SystemExit(f"--episodes 里的集不在 ALIGN.json 里：{','.join(missing)}")
+        eps = {k: eps[k] for k in want}
     bad = 0
     print("ep\t方案\t旧位置差cm\t新位置差cm\t旧朝向差°\t新朝向差°\t结论")
     for k in sorted(eps, key=int):

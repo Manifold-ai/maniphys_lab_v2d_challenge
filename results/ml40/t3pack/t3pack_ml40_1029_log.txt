@@ -1,0 +1,3 @@
+record: → results/t3pack/frefs_t3m1029new_ml40.txt（17 行）
+record: → results/t3pack/align_t3m1029new_ml40.txt（22 行）
+T3PACK_ML40_DONE rc=0

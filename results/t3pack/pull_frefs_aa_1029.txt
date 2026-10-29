@@ -1,0 +1,9 @@
+# command  : env V2D_FREFS_MANIFEST=aligned stages/evaluate/pull_submission.sh frefs ml40 runs/submission/frame_refs_t3_t3m1029new_aa runs/submission/t3m1029/frefs_new_aa 
+# md5      : 9d40bd5ea75632cec1e877bd6d1c8063  stages/evaluate/pull_submission.sh
+# source   : 2cab77905bc1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:27:55-0600
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+帧参考 aligned：7 集 → runs/submission/t3m1029/frefs_new_aa（目录里现有 7 个 npz）
+PULL_OK 9

@@ -1,0 +1,22 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo/stages/evaluate\ \&\&\ python\ align_frefs_t3.py\ /repo/runs/submission/frame_refs_t3_t3m1029new\ /repo/runs/submission/frame_refs_t3_t3m1029new_aa\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\ --variant\ auto 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# source   : bfc78e83f8c4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-30T05:26:36+0800
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep10 episode_000010.parquet sha256 d4ea82c39e922978 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep12 episode_000012.parquet sha256 195a4598b1176c69 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep14 episode_000014.parquet sha256 3a94f6e897cdf569 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep15 episode_000015.parquet sha256 decef969180f0fdf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep23 episode_000023.parquet sha256 2a3388abb6251772 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep27 episode_000027.parquet sha256 84a7a29f6e6b7cc3 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	理由	静止帧	第0帧位置差cm	转角差°	倾斜°	偏航(物体)°	偏航(人体)°	F0对F̂ cm/°	人体根 前→后 cm	Tier3第0帧可见
+5	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 1.67° ≤ 3.0°	30	4.55	2.43	1.67	-1.76	-3.47	0.00/0.00	5.77→22.43	True
+10	yaw_obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 3.37° > 3.0°	30	11.03	3.47	3.37	-0.82	2.91	0.00/0.00	5.54→14.03	True
+12	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 1.04° ≤ 3.0°	30	14.27	1.08	1.04	-0.28	-0.37	0.00/0.00	9.17→20.27	True
+14	yaw_hum	物体与人体偏航不一致（对称或朝向翻错）	30	32.57	140.81	1.30	140.81	-0.92	0.00/0.00	13.24→42.87	True
+15	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 1.38° ≤ 3.0°	30	5.00	2.45	1.38	2.02	0.07	0.00/0.00	6.25→20.31	True
+23	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 0.38° ≤ 3.0°	30	3.26	0.79	0.38	0.70	-3.31	0.00/0.00	11.82→13.96	True
+27	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 2.11° ≤ 3.0°	30	4.44	2.17	2.11	0.51	0.48	0.00/0.00	5.87→6.87	True
+ALIGN_FREFS_OK 7

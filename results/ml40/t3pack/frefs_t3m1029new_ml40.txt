@@ -1,0 +1,17 @@
+# command  : scripts/dev/in-flash-chord cd\ /repo\ \&\&\ python\ stages/evaluate/make_frame_refs_t3.py\ runs/t3pack/t3_select_t3m1029new.tsv\ ml40\ --out\ runs/submission/frame_refs_t3_t3m1029new 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : c1bb566c83953edf129af00ebd1bc7ec  stages/evaluate/make_frame_refs_t3.py
+# md5      : 7165957db828e3b45f0682b234fd7021  runs/t3pack/t3_select_t3m1029new.tsv
+# source   : bfc78e83f8c4
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-30T05:26:35+0800
+# ---------------------------------------------------------------
+== Tier 3 帧参考：ml40（VM-0-16-ubuntu）上 7 集（清单另有 0 集在别的机器）→ runs/submission/frame_refs_t3_t3m1029new（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep5  t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40：tier3_gb5/2026-03-18_19-36-56_g1_box_rotate_01，1003 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep10 t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40：tier3_gb5/2026-05-01_11-36-40_white_desk_lower_to_ground_10，794 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 6.7e-16，四元数转回矩阵最大差 6.7e-16
+  ok   ep12 t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40：tier3_gb5b2n12hdyn7/2026-04-25_17-20-04_black_platform_turn_05，700 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.8e-15，四元数转回矩阵最大差 1.3e-15
+  ok   ep14 t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40：tier3_gb5/2026-05-28_14-44-09_round_table_flip_08，993 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 1.1e-15
+  ok   ep15 t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40：tier3_gb5hr3sdyn7/2026-05-06_11-06-15_wet_floor_sign_pick_place_ground_08，715 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep23 t3-ep23-w2048-cap10m-r3a-gb5-ml40：tier3_gb5/2026-06-03_15-08-03_toy_stroller_back_forth_ground_04，946 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep27 t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40：tier3_gb5hr2b2dyn7/2026-05-01_11-15-05_woven_basket_ground_desk_10，565 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.2e-15，四元数转回矩阵最大差 7.8e-16
+FRAME_REFS_T3_OK 7

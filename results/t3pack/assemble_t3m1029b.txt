@@ -1,0 +1,38 @@
+# command  : python3 stages/evaluate/assemble_t3_results.py stages/evaluate/exports/t3_select_t3m1029b.tsv runs/submission/t3m1029b/t3 runs/submission/t3m1022a/t3 runs/submission/t3m1029/t3_new 
+# md5      : f372daf64b9be7d323eec58482c44d56  stages/evaluate/assemble_t3_results.py
+# md5      : db3f85881af8a204f98b81a5c9b973cd  stages/evaluate/exports/t3_select_t3m1029b.tsv
+# source   : 2cab77905bc1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T15:26:10-0600
+# ---------------------------------------------------------------
+0	t3-ep0-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+1	t3-ep1-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+2	t3-ep2-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+3	t3-ep3-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+4	t3-ep4-w2048-cap10m-r3a-hm-ml40	349999104	runs/submission/t3m1022a/t3
+5	t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40	349999104	runs/submission/t3m1029/t3_new
+6	t3-ep6-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+7	t3-ep7-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+8	t3-ep8-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+9	t3-ep9-w2048-cap10m-r3a-hm-ph-ml40	4096000	runs/submission/t3m1022a/t3
+10	t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40	349999104	runs/submission/t3m1029/t3_new
+11	t3-ep11-w2048-cap10m-r3a-hm-ph-ml40	4096000	runs/submission/t3m1022a/t3
+12	t3-ep12-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+13	t3-ep13-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+14	t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40	349999104	runs/submission/t3m1029/t3_new
+15	t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40	349999104	runs/submission/t3m1029/t3_new
+16	t3-ep16-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+17	t3-ep17-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+18	t3-ep18-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+19	t3-ep19-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+20	t3-ep20-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+21	t3-ep21-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+22	t3-ep22-w2048-cap4m-r3a-gb3-mf4090	349999104	runs/submission/t3m1022a/t3
+23	t3-ep23-w2048-cap10m-r3a-gb5-ml40	349999104	runs/submission/t3m1029/t3_new
+24	t3-ep24-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+25	t3-ep25-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+26	t3-ep26-w2048-cap4m-r3a-gb4-mf4090	349999104	runs/submission/t3m1022a/t3
+27	t3-ep27-w2048-cap4m-r3a-hm-mf4090	349999104	runs/submission/t3m1022a/t3
+28	t3-ep28-w2048-cap4m-r3a-hm28-ph-mf4090	4096000	runs/submission/t3m1022a/t3
+29	t3-ep29-w2048-cap4m-r3a-v2-mf4090	349999104	runs/submission/t3m1022a/t3
+ASSEMBLE_T3_OK 30
