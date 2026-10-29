@@ -1,0 +1,12 @@
+# command  : /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python /lab_data/rxzhou/v2d/t3recon/dev_t3fx/code/stages/recovery/tier3/t3_b2n_probe.py /lab_data/rxzhou/v2d/t3recon/t3fx tier3_cari4d_gb5_best_dr2s_dyn7 12 /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/motion/tier3_gb5/whole_body/soma/sequence_id=2026-04-25_17-20-04_black_platform_turn_05/robot_name=g1/data.parquet /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/t3b2/sym_t3fx.json 2 180 
+# source   : 591ff3e62bb2
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-29T08:33:15+0800
+# ---------------------------------------------------------------
+ep12 black_platform：g = 绕第 2 主轴 180°；表面移动 p50 0.37 cm、p90 0.95、p99 2.21、最大 3.53 cm；移动最大的 1% 点：沿轴高度 3.5 cm（全体 -7.4–6.8），离轴 35.4 cm（全体最大 48.7）
+静止段 0–157（第 78 帧）：转轴与地面法向夹角 1.5°；当前：稳（裕量 1.9 cm、支撑点 73）、最低点 0.0 cm；× g：稳（裕量 0.9 cm、支撑点 46）、最低点 -0.0 cm
+静止段 616–700（第 658 帧）：转轴与地面法向夹角 1.7°；当前：稳（裕量 2.4 cm、支撑点 25）、最低点 0.0 cm；× g：稳（裕量 1.5 cm、支撑点 23）、最低点 -0.0 cm
+parquet ↔ tier3_cari4d_gb5_best_dr2s_dyn7 刚体映射位置残差最大 0.000 mm
+left 手掌（离当前表面 ≤ 15 cm 的 450 帧）：到表面距离 当前 中位 2.5 cm / 90% 4.5；× g 中位 2.5 cm / 90% 4.3；逐帧差中位 0.3 cm
+right 手掌（离当前表面 ≤ 15 cm 的 449 帧）：到表面距离 当前 中位 3.1 cm / 90% 8.0；× g 中位 3.4 cm / 90% 8.3；逐帧差中位 0.3 cm
+B2N_PROBE_DONE
