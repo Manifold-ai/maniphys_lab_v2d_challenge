@@ -1,0 +1,24 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/palm_ref_gap.py\ /repo/runs/diag_t1hard/t1-ep4-w2048-cap10m-r3a-ml40_w1024.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 04878bd1061e8abc8b09a23f9d16bb73  stages/evaluate/palm_ref_gap.py
+# md5      : 876543c7dfa1408bd641e8bfb42132ce  runs/diag_t1hard/t1-ep4-w2048-cap10m-r3a-ml40_w1024.npz
+# source   : 6b4926d68222
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-31T04:44:22+0800
+# ---------------------------------------------------------------
+/repo/runs/diag_t1hard/t1-ep4-w2048-cap10m-r3a-ml40_w1024.npz：T=803 W=1024；失败世界 1024，t_o 中位 107
+== left 手：参考接触 475 帧
+  接触帧、全部世界 |机器人手掌 − 参考手掌| m：1.494 / 2.135 / 2.817
+  接触帧里早于 t_o 中位的帧：（无）（0 帧）
+  失败世界 t_o-40：中位 0.056 m
+  失败世界 t_o-20：中位 0.068 m
+  失败世界 t_o-10：中位 0.097 m
+  失败世界 t_o+0：中位 0.142 m
+== right 手：参考接触 561 帧
+  接触帧、全部世界 |机器人手掌 − 参考手掌| m：1.130 / 2.128 / 2.908
+  接触帧里早于 t_o 中位的帧：（无）（0 帧）
+  失败世界 t_o-40：中位 0.047 m
+  失败世界 t_o-20：中位 0.143 m
+  失败世界 t_o-10：中位 0.124 m
+  失败世界 t_o+0：中位 0.158 m
+PALM_REF_GAP_DONE
