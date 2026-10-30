@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-sop1700.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 8af620c0bd17ed40b08f5bded8362e7b  agent-doc/experiments/2026-10-29-sop1700.claims.json
+# source   : d1a1c4278a41-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T19:06:04-0600
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t3_sp_first          P(supported)=0.97  verified               [board1544]  After the 15:44 snapshot maniphys.ai is first on Tier 3 SP-SR.
+t3_auc_mppe          P(supported)=0.97  verified               [board1544]  After the 15:44 snapshot maniphys.ai is third on Tier 3 AUC and third on Tier 3 MPPE.
+izus_t1_mppe         P(supported)=0.96  verified               [board1620]  In the 16:20 snapshot the changed boards are the four Tier 1 boards of Izus_systems, and its Tier 1 MPPE went from 8.35 to 4.32.
+izus_t1_a            P(supported)=0.97  verified               [board1620]  In the 16:20 snapshot the reading A total place of maniphys.ai went from 3 to 4.
+no_change            P(supported)=0.90  verified               [board1901]  The 19:01 snapshot shows no board change.
+rank_b               P(supported)=0.98  verified               [board1901]  Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 56 and is fourth.
+frame0               P(supported)=0.95  verified               [strat]  It was decided that choosing a symmetry branch by Tier 1 frame 0 counts as alignment, and no organizer question is needed.
+ep14_stop            P(supported)=0.76  verified               [s14]  The ep14 turn fix stopped without GPU training because the rest stability check cannot pass.
+ml40_busy            P(supported)=0.96  verified               [st40]  On ml40 the t1za chain is running and the ep28 run is in training.
+mf_busy              P(supported)=0.93  verified               [st90]  On mf4090 the t1zp chain is running and the ep17 r3o run is in training.
+ctl_false1           P(supported)=0.01  control(false) ok      [board1544]  maniphys.ai is first on Tier 3 MPPE.
+ctl_false2           P(supported)=0.02  control(false) ok      [st90]  On mf4090 no chain is running and the GPU is idle.
+controls behaved as expected

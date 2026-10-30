@@ -1,0 +1,117 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "board1544": {
+   "file": "results/board/diff_1029_1544.txt"
+  },
+  "board1620": {
+   "file": "results/board/diff_1029_1620.txt"
+  },
+  "board1901": {
+   "file": "results/board/diff_1029_1901.txt",
+   "grep": "读法|BOARD|变了"
+  },
+  "strat": {
+   "file": "agent-doc/strategy-2026-10-19.md",
+   "grep": "10/29 15:5x"
+  },
+  "s14": {
+   "file": "agent-doc/plan-t3b2s14-2026-10-29.md",
+   "grep": "停|静止|稳定|手掌|GPU"
+  },
+  "st40": {
+   "file": "results/ops/status_ml40_1029_1901.txt"
+  },
+  "st90": {
+   "file": "results/ops/status_mf4090_1029_1901.txt"
+  }
+ },
+ "claims": [
+  {
+   "id": "t3_sp_first",
+   "evidence": [
+    "board1544"
+   ],
+   "claim": "After the 15:44 snapshot maniphys.ai is first on Tier 3 SP-SR."
+  },
+  {
+   "id": "t3_auc_mppe",
+   "evidence": [
+    "board1544"
+   ],
+   "claim": "After the 15:44 snapshot maniphys.ai is third on Tier 3 AUC and third on Tier 3 MPPE."
+  },
+  {
+   "id": "izus_t1_mppe",
+   "evidence": [
+    "board1620"
+   ],
+   "claim": "In the 16:20 snapshot the changed boards are the four Tier 1 boards of Izus_systems, and its Tier 1 MPPE went from 8.35 to 4.32."
+  },
+  {
+   "id": "izus_t1_a",
+   "evidence": [
+    "board1620"
+   ],
+   "claim": "In the 16:20 snapshot the reading A total place of maniphys.ai went from 3 to 4."
+  },
+  {
+   "id": "no_change",
+   "evidence": [
+    "board1901"
+   ],
+   "claim": "The 19:01 snapshot shows no board change."
+  },
+  {
+   "id": "rank_b",
+   "evidence": [
+    "board1901"
+   ],
+   "claim": "Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 56 and is fourth."
+  },
+  {
+   "id": "frame0",
+   "evidence": [
+    "strat"
+   ],
+   "claim": "It was decided that choosing a symmetry branch by Tier 1 frame 0 counts as alignment, and no organizer question is needed."
+  },
+  {
+   "id": "ep14_stop",
+   "evidence": [
+    "s14"
+   ],
+   "claim": "The ep14 turn fix stopped without GPU training because the rest stability check cannot pass."
+  },
+  {
+   "id": "ml40_busy",
+   "evidence": [
+    "st40"
+   ],
+   "claim": "On ml40 the t1za chain is running and the ep28 run is in training."
+  },
+  {
+   "id": "mf_busy",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "On mf4090 the t1zp chain is running and the ep17 r3o run is in training."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "board1544"
+   ],
+   "claim": "maniphys.ai is first on Tier 3 MPPE.",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "On mf4090 no chain is running and the GPU is idle.",
+   "control": "false"
+  }
+ ]
+}

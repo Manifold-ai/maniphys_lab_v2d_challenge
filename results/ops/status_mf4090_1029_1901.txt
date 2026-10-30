@@ -1,0 +1,28 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : d1a1c4278a41
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-29T19:01:32-0600
+# ---------------------------------------------------------------
+== mf4090 2026-10-30 09:01:35 CST
+NVIDIA GeForce RTX 4090, 23813 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  233G   52G  82% /
+-- tmux
+v2d-t1zp-eval: 1 windows (created Fri Oct 30 02:31:32 2026)
+v2d-t1zp-export: 1 windows (created Fri Oct 30 02:31:34 2026)
+v2d-t1zp-train: 1 windows (created Fri Oct 30 02:31:30 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zp_mf4090-gate
+runs/.chain-active-t1zp_eval_mf4090
+runs/.chain-active-t1zp_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zp_mf4090.log：=== 2026-10-30 02:31:37 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep17-w2048-cap4m-r3o-mf4090.log：training progress: 318,500,864/349,999,104 environment steps (91.0%); 48,283 env steps/s; elapsed 01:49:57; ETA 00:10:52
+runs/logs/t1-ep17-w2048-cap4m-r3o-mf4090.nanwatch.log：10-29 19:00:01 MDT 310,011,904 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zp_train_mf4090.log：=== 2026-10-30 07:09:53 CST 正式 t1-ep17-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep21-w2048-cap4m-r3o-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep21-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep21-w2048-cap4m-r3o-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep21-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep21-w2048-cap4m-r3o-mf4090.nanwatch.log：10-29 17:07:50 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep8-w2048-cap4m-r3o-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep8-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep8-w2048-cap4m-r3o-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep8-w2048-cap4m-r3o-mf4090
