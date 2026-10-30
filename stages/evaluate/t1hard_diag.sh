@@ -12,7 +12,7 @@ for e in 25 9 17 1 4; do
   run=t1-ep$e-w2048-cap10m-r3a-ml40
   pol=/repo/runs/flash_chord/$run/policy_349999104.safetensors
   out=/repo/runs/diag_t1hard/${run}_w$W
-  if scripts/dev/record t1hard/diag_rollout_ep${e} scripts/dev/in-flash-chord \
+  if V2D_GPU=1 V2D_CONTAINER_NAME="fc-diag-t1hard-ep$e" scripts/dev/record t1hard/diag_rollout_ep${e} scripts/dev/in-flash-chord \
        "python /repo/stages/evaluate/diag_rollout.py $pol $out --worlds $W --palms --fingers" >> "$LOG" 2>&1 \
      && scripts/dev/record t1hard/onset_ep${e} scripts/dev/in-flash-chord "python /repo/stages/evaluate/diag_onset.py $out.npz" >> "$LOG" 2>&1 \
      && scripts/dev/record t1hard/finger_facts_ep${e} scripts/dev/in-flash-chord "python /repo/stages/evaluate/finger_facts.py $out.npz" >> "$LOG" 2>&1; then
