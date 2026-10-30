@@ -260,9 +260,9 @@ SETS = {
              "run": "t1-ep{ep}-w2048-cap10m-r3h-ml40", "extra": ["objective.palm_position_std=0.05"],
              "desc": "Tier 1 r3h（变体 A 把手掌位置奖励的尺度从 0.2 收到 0.05）：难集 ep25、9、4 seed 42（ml40，buffer 1000 万，基线取 t1za 同配方的 r3a）"},
     "t1zq": {"plan": "agent-doc/plan-t1palm-2026-10-30.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
-             "episodes": [17, 1], "parts": {"t1zq": [17, 1]}, "base": None,
+             "episodes": [20, 17], "parts": {"t1zq": [20, 17]}, "base": None, "strip_r3a": True,
              "run": "t1-ep{ep}-w2048-cap4m-r3h-mf4090", "extra": ["objective.palm_position_std=0.05"],
-             "desc": "Tier 1 r3h（同 t1zh）：难集 ep17、1 seed 42（mf4090，buffer 400 万，ep17 基线 t1-ep17-w2048-cap4m-r3a-mf4090；ep1 只报）"},
+             "desc": "Tier 1 r3h（同 t1zh）：成功集对照 ep20 与难集 ep17 seed 42（mf4090，buffer 400 万；基线 t1-ep{20,17}-w2048-cap4m-r3a-mf4090，ep20 另有 seed 43）"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）

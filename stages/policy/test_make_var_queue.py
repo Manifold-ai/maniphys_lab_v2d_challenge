@@ -653,6 +653,33 @@ def test_smoke_extra():
         assert "冒烟另加 training.checkpoint.save_interval_environment_steps=409600" in (q / "mf4090_t2msd.txt").read_text().splitlines()[0]
 
 
+def test_t1palm_parts():
+    """计划 agent-doc/plan-t1palm-2026-10-30.md（复核 MINOR 7）：t1zh 的每一行等于 t1za 同集的行，只把 run 名的 -r3a- 换成 -r3h-、
+    标签 t1za 换成 t1zh，覆盖末尾多一项 objective.palm_position_std=0.05；t1zq（mf4090、400 万）每行覆盖以变体 A 加这一项结尾。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        for part in ("t1za", "t1zh", "t1zq"):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+        palm = "objective.palm_position_std=0.05"
+        for kind in ("", "_smoke"):
+            za = {x.split()[5].replace("-r3a-", "-r3h-"): x.split() for x in lines(q / f"ml40_t1za{kind}.txt")}
+            zh = lines(q / f"ml40_t1zh{kind}.txt")
+            assert [x.split()[5] for x in zh] == [("smoke-" if kind else "") + f"t1-ep{e}-w2048-cap10m-r3h-ml40" for e in (25, 9, 4)], zh
+            for x in zh:
+                t = x.split()
+                base = [v.replace("V2D_WANDB_TAG=t1za", "V2D_WANDB_TAG=t1zh") for v in za[t[5]]]
+                base[5] = t[5]
+                assert t == base + [palm], (t, base)
+            zq = lines(q / f"mf4090_t1zq{kind}.txt")
+            assert [x.split()[5] for x in zq] == [("smoke-" if kind else "") + f"t1-ep{e}-w2048-cap4m-r3h-mf4090" for e in (20, 17)], zq
+            for x in zq:
+                over = x.split()[9:]
+                assert over[0] == "training.replay.capacity=4000000" and over[-3:-1] == VAR and over[-1] == palm and over.count(palm) == 1, x
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
