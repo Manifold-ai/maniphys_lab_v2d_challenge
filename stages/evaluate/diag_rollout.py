@@ -14,9 +14,11 @@ stages/policy/fc_eval.sh。评测 JSON 由上游脚本自己写；存下的逐�
 还没乘 residual_scale；剔除非有限世界后的编号在 policy_action_worlds）。不加时与原来完全相同。
 --bodies（计划 agent-doc/plan-t12fall-2026-10-20.md）：另经 diag_palms.BodyRecorder 抄骨盆、躯干、两只脚踝的逐帧位姿（robot_body_pose，(T,W,4,7)，位置 + 四元数 xyzw，
 与 robot_body_names）。不加 --bodies 时与原来完全相同。
+--fingers（agent-doc/experiments/2026-10-30-t1hard-diag.md）：另经 diag_palms.FingerRecorder 抄 14 个 Dex3 手指关节的逐帧实际角度与 PD 目标角
+（robot_finger_q、robot_finger_target，(T,W,14)，与 robot_finger_names）。不加 --fingers 时与原来完全相同。
 --parquet <容器内路径>（计划 agent-doc/plan-t12ref-2026-10-20.md）：把 checkpoint 配置里的参考 parquet 换成这一份（包一层 harness._resolve_parquet），用零残差回放试改过的参考；
 评测 JSON 里的 parquet 不是它就作废；网格按它解析；npz 记 reference_parquet（不加时记 checkpoint 配置里那份）。
-用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies] [--parquet <p>]   （容器内路径）
+用法：python /repo/stages/evaluate/diag_rollout.py <policy.safetensors> <输出前缀> --worlds 4096 [--palms] [--bodies] [--fingers] [--parquet <p>]   （容器内路径）
 输出：<前缀>.npz 与 <前缀>.json（上游 evaluate_policy.py 写的评测报告，格式同 fc_eval）
 """
 import argparse
@@ -51,6 +53,7 @@ def main() -> int:
     ap.add_argument("--parquet", help="换掉 checkpoint 配置里的参考 parquet（容器内绝对路径；计划 agent-doc/plan-t12ref-2026-10-20.md：用零残差回放试改过的参考）")
     ap.add_argument("--actions", type=int, default=0, help="另抄前 N 步策略动作（diag_palms.ActionRecorder，计划 agent-doc/plan-t12sat-2026-10-20.md）")
     ap.add_argument("--action-worlds", type=int, default=256)
+    ap.add_argument("--fingers", action="store_true", help="另抄 14 个手指关节的逐帧角度与目标角（diag_palms.FingerRecorder）")
     ap.add_argument("--bodies", action="store_true", help="另抄骨盆、躯干、两只脚踝的逐帧位姿（diag_palms.BodyRecorder，计划 agent-doc/plan-t12fall-2026-10-20.md）")
     a = ap.parse_args()
     out = a.out_prefix
@@ -85,6 +88,15 @@ def main() -> int:
                 args[1] = cap["bodies"].wrap(args[1])
             else:
                 kwargs["jax_env"] = cap["bodies"].wrap(kwargs["jax_env"])
+        if a.fingers:   # 同一时机抄手指关节角与目标角
+            import diag_palms
+            args = list(args)
+            env = args[0] if args else kwargs["env"]
+            cap["fingers"] = diag_palms.FingerRecorder(env, kwargs["step_count"])
+            if len(args) > 1:
+                args[1] = cap["fingers"].wrap(args[1])
+            else:
+                kwargs["jax_env"] = cap["fingers"].wrap(kwargs["jax_env"])
         if a.actions > 0:   # 最外层：抄的是策略交给 step 的动作
             import diag_palms
             args = list(args)
@@ -187,6 +199,12 @@ def main() -> int:
         bodies[:, ~okb] = 0.0
         arrays["robot_body_pose"] = bodies.astype(np.float64)
         extra = {**extra, "robot_body_names": np.array(cap["bodies"].names)}
+    if a.fingers:
+        fq, ft = cap["fingers"].arrays()
+        okf = np.ones(W, bool); okf[list(r.non_finite_worlds)] = False
+        fq[:, ~okf] = 0.0; ft[:, ~okf] = 0.0
+        arrays["robot_finger_q"], arrays["robot_finger_target"] = fq, ft
+        extra = {**extra, "robot_finger_names": np.array(cap["fingers"].names)}
     if a.actions > 0:
         acts = cap["actions"].arrays()
         okw = [w for w in range(min(acts.shape[1], W)) if w not in set(r.non_finite_worlds)]

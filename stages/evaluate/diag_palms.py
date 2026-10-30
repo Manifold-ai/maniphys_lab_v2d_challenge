@@ -178,3 +178,55 @@ class ActionRecorder:
         if not self.rows:
             raise RuntimeError("一步动作也没抄到")
         return np.stack(self.rows)
+
+
+@wp.kernel
+def _gather_fingers(joint_q: wp.array(dtype=wp.float32), joint_target: wp.array(dtype=wp.float32), q_ids: wp.array(dtype=wp.int32),
+                    dof_ids: wp.array(dtype=wp.int32), q_per_world: int, dof_per_world: int, n: int, step: int, slots: int,
+                    out_q: wp.array(dtype=wp.float32), out_target: wp.array(dtype=wp.float32)):
+    w, k = wp.tid()
+    out_q[step * slots + w * n + k] = joint_q[w * q_per_world + q_ids[k]]
+    out_target[step * slots + w * n + k] = joint_target[w * dof_per_world + dof_ids[k]]
+
+
+class FingerRecorder:
+    """--fingers（agent-doc/experiments/2026-10-30-t1hard-diag.md 的第 2 件事）：每一步之后抄下 14 个 Dex3 手指关节的实际角度（state_0.joint_q）
+    与这一步交给 PD 的目标角（env.action.joint_target），时机同 PalmRecorder。关节编号用动作项自己的 finger_q_ids、finger_dof_ids
+    （runtime/actions/sonic.py：目标 = 参考手指角 + 每世界偏移 + finger_residual_scale × 残差），每世界的坐标数与自由度数按 model 的总数除以世界数。"""
+
+    def __init__(self, env, step_count: int):
+        act = env.action
+        missing = [x for x in ("finger_q_ids", "finger_dof_ids", "finger_joint_names", "joint_target") if not hasattr(act, x)]
+        if missing:
+            raise RuntimeError(f"env.action（{type(act).__name__}）缺 {missing}：不是 SONIC 动作项，--fingers 用不了")
+        self.env, self.device = env, env.device
+        self.world_count = int(env.termination.world_count)
+        self.q_per_world = int(env.model.joint_coord_count) // self.world_count
+        self.dof_per_world = int(env.model.joint_dof_count) // self.world_count
+        self.names = tuple(str(x) for x in act.finger_joint_names)
+        self.q_ids, self.dof_ids = act.finger_q_ids, act.finger_dof_ids
+        self.n = len(self.names)
+        if self.n != int(self.q_ids.shape[0]) or self.n != int(self.dof_ids.shape[0]):
+            raise RuntimeError(f"手指名 {self.n} 个，与 q_ids {self.q_ids.shape}、dof_ids {self.dof_ids.shape} 对不上")
+        self.steps = int(step_count)
+        self.slots = self.world_count * self.n
+        self.q = wp.zeros(self.steps * self.slots, dtype=wp.float32, device=self.device)
+        self.target = wp.zeros(self.steps * self.slots, dtype=wp.float32, device=self.device)
+        self.step = 0
+
+    def _after(self):
+        if self.step >= self.steps:
+            raise RuntimeError(f"jax_env.step 被调用超过 step_count（{self.steps}）次")
+        wp.launch(_gather_fingers, dim=(self.world_count, self.n), device=self.device,
+                  inputs=[self.env.state_0.joint_q, self.env.action.joint_target, self.q_ids, self.dof_ids, self.q_per_world,
+                          self.dof_per_world, self.n, self.step, self.slots], outputs=[self.q, self.target])
+        self.step += 1
+
+    def wrap(self, jax_env):
+        return _StepProxy(jax_env, self._after)
+
+    def arrays(self):
+        if self.step != self.steps:
+            raise RuntimeError(f"jax_env.step 被调用 {self.step} 次，应为 {self.steps} 次")
+        shape = (self.steps, self.world_count, self.n)
+        return self.q.numpy().reshape(shape), self.target.numpy().reshape(shape)
