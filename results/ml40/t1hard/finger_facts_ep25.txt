@@ -1,0 +1,40 @@
+# command  : scripts/dev/in-flash-chord python\ /repo/stages/evaluate/finger_facts.py\ /repo/runs/diag_t1hard/t1-ep25-w2048-cap10m-r3a-ml40_w1024.npz 
+# md5      : e9da320de42529bd6bd31ef06cc42b13  scripts/dev/in-flash-chord
+# md5      : 3612c5f454fafbe598edf09cf5f2060d  stages/evaluate/finger_facts.py
+# md5      : c9094a3c6fd02a0a5d668641f69d7b9c  runs/diag_t1hard/t1-ep25-w2048-cap10m-r3a-ml40_w1024.npz
+# source   : 2c4209e54b12
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-10-31T04:08:56+0800
+# ---------------------------------------------------------------
+/repo/runs/diag_t1hard/t1-ep25-w2048-cap10m-r3a-ml40_w1024.npz：T=859 W=1024（非有限 0）；物体误差超过 0.10 m 的世界 1024，t_o 分位 10/50/90 128.00 / 142.00 / 146.00
+== left 手：参考接触 380 帧（第 218–795 帧）
+  接触帧、全部世界：合手量 2.92 / 3.84 / 5.28 rad；目标量 4.19 / 5.07 / 6.28 rad；|目标−实际| 0.77 / 1.59 / 2.34 rad
+    left_hand_index_0_joint：实际中位 -0.005，目标中位 +0.348 rad
+    left_hand_middle_0_joint：实际中位 -0.041，目标中位 +0.038 rad
+    left_hand_thumb_0_joint：实际中位 -0.446，目标中位 -0.426 rad
+    left_hand_index_1_joint：实际中位 -1.215，目标中位 -1.214 rad
+    left_hand_middle_1_joint：实际中位 +0.000，目标中位 +0.522 rad
+    left_hand_thumb_1_joint：实际中位 +0.606，目标中位 +0.564 rad
+    left_hand_thumb_2_joint：实际中位 +1.174，目标中位 +1.176 rad
+  失败世界，相对 t_o	合手量	目标量	|目标−实际|	机器人手掌→物体 m	参考手掌→参考物体 m	参考接触
+  -20	6.08	7.61	3.71	0.665	0.598（第 122 帧）	0.00
+  -10	5.06	6.69	3.42	0.692	0.611（第 132 帧）	0.00
+  -5	4.53	4.78	3.08	0.691	0.621（第 137 帧）	0.00
+  +0	2.36	3.51	3.24	0.721	0.630（第 142 帧）	0.00
+  +5	2.42	4.10	2.39	0.813	0.643（第 147 帧）	0.00
+== right 手：参考接触 446 帧（第 100–739 帧）
+  接触帧、全部世界：合手量 2.19 / 5.05 / 7.00 rad；目标量 3.18 / 5.67 / 7.64 rad；|目标−实际| 0.35 / 1.01 / 2.80 rad
+    right_hand_index_0_joint：实际中位 +0.586，目标中位 +0.601 rad
+    right_hand_middle_0_joint：实际中位 +0.699，目标中位 +0.791 rad
+    right_hand_thumb_0_joint：实际中位 -0.612，目标中位 -0.755 rad
+    right_hand_index_1_joint：实际中位 +0.973，目标中位 +0.971 rad
+    right_hand_middle_1_joint：实际中位 +0.518，目标中位 +0.526 rad
+    right_hand_thumb_1_joint：实际中位 -0.856，目标中位 -0.883 rad
+    right_hand_thumb_2_joint：实际中位 -0.825，目标中位 -0.826 rad
+  失败世界，相对 t_o	合手量	目标量	|目标−实际|	机器人手掌→物体 m	参考手掌→参考物体 m	参考接触
+  -20	6.65	7.97	3.33	0.084	0.051（第 122 帧）	0.95
+  -10	4.18	6.63	5.17	0.108	0.041（第 132 帧）	0.95
+  -5	3.34	6.61	6.05	0.136	0.040（第 137 帧）	0.95
+  +0	1.62	4.59	4.94	0.169	0.042（第 142 帧）	0.96
+  +5	1.61	3.63	2.73	0.221	0.043（第 147 帧）	0.97
+FINGER_FACTS_DONE

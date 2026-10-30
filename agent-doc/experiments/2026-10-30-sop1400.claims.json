@@ -1,0 +1,180 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "plan": {
+   "file": "agent-doc/plan-t1push-2026-10-29.md",
+   "grep": "10/29 19:28|10/30 04:19|ep8 r3o|ep10 按|ep25、ep4|能不能拿第一|提交条件：按规则|A2 判据：三条|两台卡从这时"
+  },
+  "board1411": {
+   "file": "results/board/diff_1030_1411.txt"
+  },
+  "board0802": {
+   "file": "results/board/diff_1030_0802.txt",
+   "grep": "变了|tier1|读法"
+  },
+  "board1320": {
+   "file": "results/board/diff_1030_1320.txt",
+   "grep": "变了|tier|读法"
+  },
+  "survey": {
+   "file": "results/t2dg/ref_hand_survey_tier1_mf4090.txt"
+  },
+  "ff25": {
+   "file": "results/ml40/t1hard/finger_facts_ep25.txt"
+  },
+  "on25": {
+   "file": "results/ml40/t1hard/onset_ep25.txt"
+  },
+  "rerr": {
+   "file": "results/ml40/t1hard/rollout_error_t1za_ml40.txt",
+   "grep": "帧；误差首次"
+  },
+  "st40": {
+   "file": "results/ops/status_ml40_1030_1411.txt"
+  },
+  "st90": {
+   "file": "results/ops/status_mf4090_1030_1411.txt"
+  },
+  "board1901": {
+   "file": "results/board/diff_1029_1901.txt",
+   "grep": "Tier 1|Tier 2|Tier 3"
+  }
+ },
+ "claims": [
+  {
+   "id": "t1za_fix",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "In the t1za readout only ep10 and ep11 are switched in, and the other six episodes are not switched."
+  },
+  {
+   "id": "t1zp_swap",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "In the t1zp readout ep8 and ep21 are switched in and ep17 is not switched."
+  },
+  {
+   "id": "t1_first",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that first place on Tier 1 cannot be reached before the freeze."
+  },
+  {
+   "id": "t1_nosubmit",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that the packed list moves no Tier 1 board and is not submitted."
+  },
+  {
+   "id": "rank_b56",
+   "evidence": [
+    "board1411"
+   ],
+   "claim": "In the 14:11 snapshot, under reading B with the Kaggle tie rule, maniphys.ai and Xueyi Wang (FF) both have a rank sum of 56."
+  },
+  {
+   "id": "rank_a14",
+   "evidence": [
+    "board1411"
+   ],
+   "claim": "In the 14:11 snapshot, under reading A, maniphys.ai has 14 and is fourth."
+  },
+  {
+   "id": "ff_t1",
+   "evidence": [
+    "board0802"
+   ],
+   "claim": "In the 08:02 snapshot Xueyi Wang (FF) improved Tier 1 MP-SR from 0.83333 to 0.86666."
+  },
+  {
+   "id": "wte_t3",
+   "evidence": [
+    "board1320"
+   ],
+   "claim": "In the 13:20 snapshot wte09fl entered the four Tier 3 boards."
+  },
+  {
+   "id": "ep4_before",
+   "evidence": [
+    "rerr"
+   ],
+   "claim": "For ep4 the object error first goes above 10 cm at frame 102."
+  },
+  {
+   "id": "ep25_close",
+   "evidence": [
+    "ff25"
+   ],
+   "claim": "In the contact frames the median right-hand finger closure is about 5 rad."
+  },
+  {
+   "id": "ep25_kind",
+   "evidence": [
+    "on25"
+   ],
+   "claim": "Most failing worlds of ep25 are classified as 没贴住 (not attached)."
+  },
+  {
+   "id": "mf_idle",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "On mf4090 no chain marker is active."
+  },
+  {
+   "id": "t1_places_1411",
+   "evidence": [
+    "board1411"
+   ],
+   "claim": "In the 14:11 snapshot maniphys.ai is 9th on Tier 1 AUC, 7th on SP-SR, 9th on MP-SR and 8th on MPPE."
+  },
+  {
+   "id": "t1_places_1901",
+   "evidence": [
+    "board1901"
+   ],
+   "claim": "In the 10/29 19:01 snapshot maniphys.ai is 9th on Tier 1 AUC, 7th on SP-SR, 9th on MP-SR and 8th on MPPE."
+  },
+  {
+   "id": "t3_places_1411",
+   "evidence": [
+    "board1411"
+   ],
+   "claim": "In the 14:11 snapshot maniphys.ai is 3rd on Tier 3 AUC, 1st on SP-SR and 3rd on MPPE."
+  },
+  {
+   "id": "fingers_bottle",
+   "evidence": [
+    "survey"
+   ],
+   "claim": "For the cyan_water_bottle_rotate_01 sequence the maximum finger angle of the left hand and of the right hand is 0.000."
+  },
+  {
+   "id": "fingers_cone",
+   "evidence": [
+    "survey"
+   ],
+   "claim": "For the traffic_cone_ground_table_02 sequence the maximum finger angle of both hands is 0.000."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "on25"
+   ],
+   "claim": "Most failing worlds of ep25 are classified as 贴住后掉 (attached, then dropped).",
+   "control": "false"
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that the t1za readout switches in ep25 and ep4.",
+   "control": "false"
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+# command  : awk -F\\t NR\>8\ \&\&\ NF\>=11\ \&\&\ \$1\ ~\ /\^2026/\ \{n++\;\ if\ \(\$4+0\!=0\ \|\|\ \$5+0\!=0\)\ bad++\}\ END\ \{print\ \"rows\"\,\ n\,\ \"nonzero_finger_max\"\,\ bad+0\} results/t2dg/ref_hand_survey_tier1_mf4090.txt 
+# md5      : 10cebacb780a04b1d55c00114e0a27df  results/t2dg/ref_hand_survey_tier1_mf4090.txt
+# source   : 2c4209e54b12-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-30T16:14:34-0400
+# ---------------------------------------------------------------
+rows 30 nonzero_finger_max 0

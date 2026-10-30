@@ -1,0 +1,46 @@
+# command  : ssh -o ConnectTimeout=15 ml40 bash\ -s\ ml40 
+# source   : 2c4209e54b12
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-10-30T16:11:31-0400
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-10-31 04:11:32 CST
+NVIDIA L40S, 6729 MiB, 46068 MiB, 44 %
+1110370, 4514 MiB
+1110801, 1098 MiB
+1110969, 1098 MiB
+## GPU 进程 1110370：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  1110370 本用户 02:33 [Sat Oct 31 04:08:58 2026] python /repo/stages/evaluate/diag_rollout.py /repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3a-ml40/policy_349999104.safetensors /repo/runs/diag_t1hard/t1-ep9-w2048-cap10m-r3a-ml40_w1024 --worlds 1024 --palms --fingers
+  1110339 root 02:33 [Sat Oct 31 04:08:58 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id a8ea55275e2df597b2382d2fa69833ede31a90a548e696fb0e603a783aeb357a -address /run/containerd/containerd.sock
+## GPU 进程 1110801：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  1110801 本用户 02:19 [Sat Oct 31 04:09:12 2026] python /repo/stages/evaluate/policy_viewer.py evaluation.checkpoint=/repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-ml40/policy_349999104.safetensors viewer.backend=viser logging.mode=disabled
+  1110769 root 02:19 [Sat Oct 31 04:09:12 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 9bd801dd16bf6cf013af82aeda58f133a65f8bc5ae92e020944a8b2b3b535e69 -address /run/containerd/containerd.sock
+## GPU 进程 1110969：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  1110969 本用户 02:19 [Sat Oct 31 04:09:12 2026] python /repo/stages/evaluate/policy_viewer.py evaluation.checkpoint=/repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3a-ml40/policy_349999104.safetensors viewer.backend=viser logging.mode=disabled
+  1110939 root 02:19 [Sat Oct 31 04:09:12 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 1e3d61aa966f78f518d50c24aecc129ba22cf3d2263f5787bad31748e6deabbe -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /viser-8082
+image flash_chord:latest
+created 2026-10-30T20:09:13.728748085Z  started 2026-10-30T20:09:13.834779855Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","cd /workspace && V2D_VISER_PORT=8082 V2D_VIEW_LABEL=t1-ep9 python /repo/stages/evaluate/policy_viewer.py evaluation.checkpoint=/repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3a-ml40/policy_349999104.safetensors viewer.backend=viser logging.mode=disabled"]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/flash_chord -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+name /viser-8081
+image flash_chord:latest
+created 2026-10-30T20:09:13.397183467Z  started 2026-10-30T20:09:13.442295657Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","cd /workspace && V2D_VISER_PORT=8081 V2D_VIEW_LABEL=t1-ep25 python /repo/stages/evaluate/policy_viewer.py evaluation.checkpoint=/repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3a-ml40/policy_349999104.safetensors viewer.backend=viser logging.mode=disabled"]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/flash_chord -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+name /fc-diag-t1hard-ep9
+image flash_chord:latest
+created 2026-10-30T20:08:59.085856846Z  started 2026-10-30T20:08:59.135596594Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","python /repo/stages/evaluate/diag_rollout.py /repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3a-ml40/policy_349999104.safetensors /repo/runs/diag_t1hard/t1-ep9-w2048-cap10m-r3a-ml40_w1024 --worlds 1024 --palms --fingers"]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/flash_chord -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+## 运行中的容器（列表）
+1e3d61aa966f flash_chord:latest 2 minutes ago Up 2 minutes viser-8082
+9bd801dd16bf flash_chord:latest 2 minutes ago Up 2 minutes viser-8081
+a8ea55275e2d flash_chord:latest 2 minutes ago Up 2 minutes fc-diag-t1hard-ep9
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

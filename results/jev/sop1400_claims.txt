@@ -1,18 +1,28 @@
-# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-29-sop1400.claims.json 
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-30-sop1400.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : 436255512996894fa4d3ccf2d21f224a  agent-doc/experiments/2026-10-29-sop1400.claims.json
-# source   : d46168b2040f-dirty
+# md5      : 6e5ff624d5b8b2840a763bed42b3e5d7  agent-doc/experiments/2026-10-30-sop1400.claims.json
+# source   : 2c4209e54b12-dirty
 # host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-29T14:04:03-0600
+# run_at   : 2026-10-30T16:14:24-0400
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-luai_t3              P(supported)=0.81  verified               [board1320]  Luai Abuelsamen entered the Tier 3 boards for the first time, and maniphys.ai dropped from 3rd to 4th on Tier 3 AUC.
-rank_b               P(supported)=0.97  verified               [board1320]  Under reading B with the Kaggle tie rule, maniphys.ai has a rank sum of 60 and is fourth.
-rank_a               P(supported)=0.98  verified               [board1320]  Under reading A maniphys.ai has 16 and is fifth.
-no_change            P(supported)=0.96  verified               [board1401]  The 14:01 snapshot shows no board change.
-r3o_worse            P(supported)=0.83  verified               [r3o43, r3a43]  The r3o seed 43 run of ep20 has a lower ADD-AUC, a lower MP-SR, a lower SP-SR and a higher MPPE than the r3a seed 43 run.
-ml40_busy            P(supported)=0.97  verified               [st40]  On ml40 the t1za chain is running and the ep4 run is in training.
-mf_busy              P(supported)=0.96  verified               [st90]  On mf4090 the t1zp chain is running and the ep8 r3o run is in training.
-ctl_false1           P(supported)=0.01  control(false) ok      [board1320]  maniphys.ai is first on Tier 3 AUC.
-ctl_false2           P(supported)=0.06  control(false) ok      [r3o43, r3a43]  The r3o seed 43 run of ep20 has a higher MP-SR than the r3a seed 43 run.
+t1za_fix             P(supported)=0.95  verified               [plan]  In the t1za readout only ep10 and ep11 are switched in, and the other six episodes are not switched.
+t1zp_swap            P(supported)=0.97  verified               [plan]  In the t1zp readout ep8 and ep21 are switched in and ep17 is not switched.
+t1_first             P(supported)=0.98  verified               [plan]  The record states that first place on Tier 1 cannot be reached before the freeze.
+t1_nosubmit          P(supported)=0.97  verified               [plan]  The record states that the packed list moves no Tier 1 board and is not submitted.
+rank_b56             P(supported)=0.98  verified               [board1411]  In the 14:11 snapshot, under reading B with the Kaggle tie rule, maniphys.ai and Xueyi Wang (FF) both have a rank sum of 56.
+rank_a14             P(supported)=0.98  verified               [board1411]  In the 14:11 snapshot, under reading A, maniphys.ai has 14 and is fourth.
+ff_t1                P(supported)=0.90  verified               [board0802]  In the 08:02 snapshot Xueyi Wang (FF) improved Tier 1 MP-SR from 0.83333 to 0.86666.
+wte_t3               P(supported)=0.82  verified               [board1320]  In the 13:20 snapshot wte09fl entered the four Tier 3 boards.
+ep4_before           P(supported)=0.98  verified               [rerr]  For ep4 the object error first goes above 10 cm at frame 102.
+ep25_close           P(supported)=0.88  verified               [ff25]  In the contact frames the median right-hand finger closure is about 5 rad.
+ep25_kind            P(supported)=0.98  verified               [on25]  Most failing worlds of ep25 are classified as 没贴住 (not attached).
+mf_idle              P(supported)=0.96  verified               [st90]  On mf4090 no chain marker is active.
+t1_places_1411       P(supported)=0.98  verified               [board1411]  In the 14:11 snapshot maniphys.ai is 9th on Tier 1 AUC, 7th on SP-SR, 9th on MP-SR and 8th on MPPE.
+t1_places_1901       P(supported)=0.94  verified               [board1901]  In the 10/29 19:01 snapshot maniphys.ai is 9th on Tier 1 AUC, 7th on SP-SR, 9th on MP-SR and 8th on MPPE.
+t3_places_1411       P(supported)=0.98  verified               [board1411]  In the 14:11 snapshot maniphys.ai is 3rd on Tier 3 AUC, 1st on SP-SR and 3rd on MPPE.
+fingers_bottle       P(supported)=0.14  UNVERIFIED             [survey]  For the cyan_water_bottle_rotate_01 sequence the maximum finger angle of the left hand and of the right hand is 0.000.
+fingers_cone         P(supported)=0.23  UNVERIFIED             [survey]  For the traffic_cone_ground_table_02 sequence the maximum finger angle of both hands is 0.000.
+ctl_false1           P(supported)=0.01  control(false) ok      [on25]  Most failing worlds of ep25 are classified as 贴住后掉 (attached, then dropped).
+ctl_false2           P(supported)=0.01  control(false) ok      [plan]  The record states that the t1za readout switches in ep25 and ep4.
 controls behaved as expected
