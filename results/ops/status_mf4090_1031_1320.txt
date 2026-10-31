@@ -1,0 +1,31 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 060abf1537fd
+# host     : Mac
+# run_at   : 2026-10-31T15:21:09-0400
+# ---------------------------------------------------------------
+== mf4090 2026-11-01 03:21:13 CST
+NVIDIA GeForce RTX 4090, 23783 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  257G   28G  91% /
+-- tmux
+v2d-t1zt-eval: 1 windows (created Sun Nov  1 00:34:34 2026)
+v2d-t1zt-export: 1 windows (created Sun Nov  1 00:34:36 2026)
+v2d-t1zt-train: 1 windows (created Sun Nov  1 00:34:32 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zt_mf4090-gate
+runs/.chain-active-t1zt_eval_mf4090
+runs/.chain-active-t1zt_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zs_mf4090.log：=== 2026-10-31 16:52:44 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t1zt2_mf4090.log：=== 2026-11-01 02:16:46 CST 停掉：t1zt2、t1zt3 的接力改排在 t1hf 后面（计划 agent-doc/plan-t1hard-2026-10-31.md 第 2 节）
+runs/logs/arm_after_t1zt3_mf4090.log：=== 2026-11-01 02:16:46 CST 停掉：t1zt2、t1zt3 的接力改排在 t1hf 后面（计划 agent-doc/plan-t1hard-2026-10-31.md 第 2 节）
+runs/logs/arm_after_t1hf_mf4090.log：=== 2026-11-01 02:17:08 CST 来历与 t1hf 的队列：a81628f39756 e5c40ba8a5594a09a83c1e5e1327327f  stages/policy/queues/mf4090_t1hf.expect.tsv 88823f1684ea95cdba1dda87a5fcc355  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep13-w2048-cap4m-r3o-mf4090.log：training progress: 73,500,672/349,999,104 environment steps (21.0%); 51,727 env steps/s; elapsed 00:23:41; ETA 01:29:05
+runs/logs/t1-ep13-w2048-cap4m-r3o-mf4090.nanwatch.log：10-31 13:18:05 MDT 60,002,304 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zt_train_mf4090.log：=== 2026-11-01 02:56:04 CST 正式 t1-ep13-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep19-w2048-cap4m-r3o-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep19-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep19-w2048-cap4m-r3o-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep19-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep19-w2048-cap4m-r3o-mf4090.nanwatch.log：10-31 12:53:58 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t1-ep13-w2048-cap4m-r3o-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep13-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep13-w2048-cap4m-r3o-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep13-w2048-cap4m-r3o-mf4090

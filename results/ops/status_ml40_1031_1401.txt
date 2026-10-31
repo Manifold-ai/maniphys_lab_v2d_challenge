@@ -1,0 +1,29 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 060abf1537fd
+# host     : Mac
+# run_at   : 2026-10-31T16:01:17-0400
+# ---------------------------------------------------------------
+== ml40 2026-11-01 04:01:20 CST
+NVIDIA L40S, 40215 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  944G  54% /lab_data
+-- tmux
+v2d-t2xb_s43-eval: 1 windows (created Sun Nov  1 01:35:07 2026)
+v2d-t2xb_s43-export: 1 windows (created Sun Nov  1 01:35:09 2026)
+v2d-t2xb_s43-train: 1 windows (created Sun Nov  1 01:35:05 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2xb_s43_ml40-gate
+runs/.chain-active-t2xb_s43_eval_ml40
+runs/.chain-active-t2xb_s43_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 16:59:21 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t2xb_s43_ml40.log：=== 2026-11-01 01:35:12 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_ml40.log：=== 2026-11-01 02:16:56 CST 来历与 t1hr 的队列：a81628f39756 b9210db4f2402bbfd1a14fdbbcc5b911  stages/policy/queues/ml40_t1hr.expect.tsv 44a3034aa782e9180f0fde085b4b8c9d  stages/policy/queues/m
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep19-w2048-cap10m-r3a-s43-ml40.log：training progress: 56,000,512/349,999,104 environment steps (16.0%); 46,241 env steps/s; elapsed 00:20:11; ETA 01:45:58
+runs/logs/t2-ep19-w2048-cap10m-r3a-s43-ml40.nanwatch.log：10-31 13:59:29 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2xb_s43_train_ml40.log：=== 2026-11-01 03:39:28 CST 正式 t2-ep19-w2048-cap10m-r3a-s43-ml40
+runs/logs/t2-ep13-w2048-cap10m-r3a-s43-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep13-w2048-cap10m-r3a-s43-ml40
+runs/logs/t2-ep13-w2048-cap10m-r3a-s43-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep13-w2048-cap10m-r3a-s43-ml40
+runs/logs/t2-ep13-w2048-cap10m-r3a-s43-ml40.nanwatch.log：10-31 13:37:04 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t2-ep19-w2048-cap10m-r3a-s43-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep19-w2048-cap10m-r3a-s43-ml40
+runs/logs/smoke-t2-ep19-w2048-cap10m-r3a-s43-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep19-w2048-cap10m-r3a-s43-ml40

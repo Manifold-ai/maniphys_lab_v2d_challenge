@@ -1,0 +1,31 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d1401": {"file": "results/board/diff_1031_1401.txt"},
+  "st40": {"file": "results/ops/status_ml40_1031_1401.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1031_1401.txt"},
+  "zs": {"file": "agent-doc/plan-t12night-2026-10-30.md", "grep": "t1zs 读数|^  ep18 对|^  ep24 对|^  导出那一局两集|^  榜分：两集"},
+  "zj": {"file": "agent-doc/plan-t12night-2026-10-30.md", "grep": "t1zj_s43 读数|^  ep11 对|^  ep29 对|^  ep14 对|^  榜分：ep14"},
+  "hard": {"file": "agent-doc/plan-t1hard-2026-10-31.md", "grep": "^\\| `t1h|SP 失败的正是|ep17 物体没丢"}
+ },
+ "claims": [
+  {"id": "ff_t3", "evidence": ["d1401"], "claim": "Xueyi Wang (FF) raised its Tier 3 AUC from 0.15606 to 0.17126."},
+  {"id": "places", "evidence": ["d1401"], "claim": "Under the Kaggle tie rule, maniphys.ai is 1st on Tier 3 SP-SR, 2nd on Tier 3 MP-SR and 3rd on Tier 3 AUC."},
+  {"id": "sumB_k", "evidence": ["d1401"], "claim": "Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 64 and is 2nd, tied with 2 teams."},
+  {"id": "sumB_s", "evidence": ["d1401"], "claim": "Under the site tie rule, maniphys.ai has a 12-board rank sum of 66 and is 4th, tied with 1 team."},
+  {"id": "sumA", "evidence": ["d1401"], "claim": "In reading A with Kaggle ties, maniphys.ai has 14 and is 4th."},
+  {"id": "run90", "evidence": ["st90"], "claim": "On mf4090, the ep13 r3o run is at 56.0% of training."},
+  {"id": "run40", "evidence": ["st40"], "claim": "On ml40, the Tier 2 ep19 s43 run is at 16.0% of training."},
+  {"id": "ep18", "evidence": ["zs"], "claim": "The record says ep18 swaps in by rule (a) with MP-SR 0.776 → 0.989 and MPPE 8.89 → 1.94 cm."},
+  {"id": "ep24", "evidence": ["zs"], "claim": "The record says ep24 swaps in by rule (c) with AUC 0.580 → 0.948 and MPPE 3.24 → 1.00 cm."},
+  {"id": "nosub1", "evidence": ["zs"], "claim": "The record says no Tier 1 board moves up after the t1zs swaps, so nothing is submitted."},
+  {"id": "ep14", "evidence": ["zj"], "claim": "The record says ep14 swaps in by rule (a) with MP-SR 0.677 → 0.876 and MPPE 15.8 → 4.9 cm."},
+  {"id": "ep11", "evidence": ["zj"], "claim": "The record says ep11 is not swapped in and its MP-SR drops from 0.333 to 0.017."},
+  {"id": "ep29", "evidence": ["zj"], "claim": "The record says ep29 meets none of the three rules and is not swapped in."},
+  {"id": "plan_fc", "evidence": ["hard"], "claim": "The plan sets the force closure weight to 20 for ep25 and ep9 on mf4090."},
+  {"id": "plan_pt", "evidence": ["hard"], "claim": "The plan sets the palm position termination threshold to 0.08 m for ep25 and ep9 on ml40."},
+  {"id": "ctl_true", "evidence": ["d1401"], "control": "true", "claim": "maniphys.ai is 11th on Tier 1 AUC."},
+  {"id": "ctl_false1", "evidence": ["d1401"], "control": "false", "claim": "maniphys.ai is 1st on Tier 2 SP-SR."},
+  {"id": "ctl_false2", "evidence": ["zj"], "control": "false", "claim": "The record says ep11 swaps in by rule (a)."}
+ ]
+}

@@ -1,26 +1,27 @@
-# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-27-sop1401.claims.json 
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-sop1401.claims.json 
 # md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : 36d6e456d550a3146186cbe24a672714  agent-doc/experiments/2026-10-27-sop1401.claims.json
-# source   : ba5a7caa1c49-dirty
-# host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-27T14:05:15-0600
+# md5      : 62d7b3c1143ff24ca370a5be611d901e  agent-doc/experiments/2026-10-31-sop1401.claims.json
+# source   : 060abf1537fd-dirty
+# host     : Mac
+# run_at   : 2026-10-31T16:04:12-0400
 # ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-board_same           P(supported)=0.98  verified               [board]  The snapshot reports no board change (BOARD_NO_CHANGE).
-rank_b               P(supported)=0.98  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 55 and is third.
-rank_a               P(supported)=0.98  verified               [board]  Under reading A maniphys.ai has 11, tied with domoarigato, behind Xueyi Wang (FF) 8 and nima arki 10.
-rank_ctl             P(supported)=0.02  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
-far_none             P(supported)=0.97  verified               [t3far]  Every row of the table has an SP-SR of 0.000 for the new run and the verdict 不换（F2）.
-far_health           P(supported)=0.98  verified               [t3far]  Both chains finished training with 0 failed and 0 diverged, and the ml40 export finished at 09:26.
-far_ctl              P(supported)=0.02  control(false) ok      [t3far]  ep15 passes R1 and switches.
-idle_list            P(supported)=0.96  verified               [idle]  The new Tier 3 list does not meet section 1 of the strategy: its best case reaches 14 episodes with a margin of exactly 0, and whether to submit is still to be decided.
-copy                 P(supported)=0.90  control(true) ok       [copy]  The copy finished with 1069 files.
-null_gate            P(supported)=0.98  verified               [fixA]  The null control has 1 accept at MIN_GAIN 0.05 and 0 at 0.08, and MIN_GAIN 0.08 is chosen.
-no_switch            P(supported)=0.91  verified               [fixA, fixArec]  At MIN_GAIN 0.08 no unit of the real candidates is accepted in the 30 episodes.
-no_switch_ctl        P(supported)=0.02  control(false) ok      [fixA, fixArec]  At MIN_GAIN 0.08 several real units switch.
-c_drift              P(supported)=0.93  verified               [fixC]  Only one segment, ep24 frames 0-95, is judged drift, and dyn7 already locks most untouched segments.
-c_ep16               P(supported)=0.96  verified               [fixC]  In ep16 the bottle moves in the reference at frames 110-129, which matches the video mask moving around frame 128, and the robot hand is the late party.
-c_ep19               P(supported)=0.98  verified               [fixC]  In ep16 and ep19 the segments before the hand touches the object are already locked on the delivered layer.
-gpu_idle             P(supported)=0.95  verified               [stmf, stml]  Both GPUs use 0 MiB at 0% and neither machine has a long-chain marker.
-gpu_ctl              P(supported)=0.01  control(false) ok      [stmf, stml]  The ml40 GPU runs at 100%.
+ff_t3                P(supported)=0.98  verified               [d1401]  Xueyi Wang (FF) raised its Tier 3 AUC from 0.15606 to 0.17126.
+places               P(supported)=0.93  verified               [d1401]  Under the Kaggle tie rule, maniphys.ai is 1st on Tier 3 SP-SR, 2nd on Tier 3 MP-SR and 3rd on Tier 3 AUC.
+sumB_k               P(supported)=0.95  verified               [d1401]  Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 64 and is 2nd, tied with 2 teams.
+sumB_s               P(supported)=0.98  verified               [d1401]  Under the site tie rule, maniphys.ai has a 12-board rank sum of 66 and is 4th, tied with 1 team.
+sumA                 P(supported)=0.99  verified               [d1401]  In reading A with Kaggle ties, maniphys.ai has 14 and is 4th.
+run90                P(supported)=0.98  verified               [st90]  On mf4090, the ep13 r3o run is at 56.0% of training.
+run40                P(supported)=0.98  verified               [st40]  On ml40, the Tier 2 ep19 s43 run is at 16.0% of training.
+ep18                 P(supported)=0.98  verified               [zs]  The record says ep18 swaps in by rule (a) with MP-SR 0.776 → 0.989 and MPPE 8.89 → 1.94 cm.
+ep24                 P(supported)=0.98  verified               [zs]  The record says ep24 swaps in by rule (c) with AUC 0.580 → 0.948 and MPPE 3.24 → 1.00 cm.
+nosub1               P(supported)=0.97  verified               [zs]  The record says no Tier 1 board moves up after the t1zs swaps, so nothing is submitted.
+ep14                 P(supported)=0.99  verified               [zj]  The record says ep14 swaps in by rule (a) with MP-SR 0.677 → 0.876 and MPPE 15.8 → 4.9 cm.
+ep11                 P(supported)=0.98  verified               [zj]  The record says ep11 is not swapped in and its MP-SR drops from 0.333 to 0.017.
+ep29                 P(supported)=0.97  verified               [zj]  The record says ep29 meets none of the three rules and is not swapped in.
+plan_fc              P(supported)=0.99  verified               [hard]  The plan sets the force closure weight to 20 for ep25 and ep9 on mf4090.
+plan_pt              P(supported)=0.98  verified               [hard]  The plan sets the palm position termination threshold to 0.08 m for ep25 and ep9 on ml40.
+ctl_true             P(supported)=0.97  control(true) ok       [d1401]  maniphys.ai is 11th on Tier 1 AUC.
+ctl_false1           P(supported)=0.01  control(false) ok      [d1401]  maniphys.ai is 1st on Tier 2 SP-SR.
+ctl_false2           P(supported)=0.01  control(false) ok      [zj]  The record says ep11 swaps in by rule (a).
 controls behaved as expected
