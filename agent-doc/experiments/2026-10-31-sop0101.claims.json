@@ -1,0 +1,201 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d0101": {
+   "file": "results/board/diff_1031_0101.txt"
+  },
+  "d2241": {
+   "file": "results/board/diff_1030_2241.txt",
+   "grep": "abgstn|nima arki"
+  },
+  "st40": {
+   "file": "results/ops/status_ml40_1031_0101.txt"
+  },
+  "st90": {
+   "file": "results/ops/status_mf4090_1031_0101.txt"
+  },
+  "palm": {
+   "file": "agent-doc/plan-t1palm-2026-10-30.md",
+   "grep": "22:20|22:26|smoke_check|SMOKE_FAIL|V2D_WANDB_PROXY|ARM_SEG_DONE|0.804|ep25 与 ep9"
+  },
+  "night": {
+   "file": "agent-doc/plan-t12night-2026-10-30.md",
+   "grep": "t1zj_s43|t1zs|r3a-s43|ep14 的|7b\\."
+  }
+ },
+ "claims": [
+  {
+   "id": "dd_t1auc",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "Debajyoti Dasgupta newly entered Tier 1 AUC with 0.60729, and maniphys.ai's Tier 1 AUC place went from 9 to 10."
+  },
+  {
+   "id": "dd_t1mppe",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "maniphys.ai's Tier 1 MPPE place went from 8 to 9, and Debajyoti Dasgupta's Tier 1 MPPE is 11.66460."
+  },
+  {
+   "id": "dd_t1sp",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "Debajyoti Dasgupta's Tier 1 SP-SR (0.80000) is lower than maniphys.ai's Tier 1 SP-SR (0.83333)."
+  },
+  {
+   "id": "sumB",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "Under the Kaggle tie rule, maniphys.ai's 12-board rank sum is 57, tied with Xueyi Wang (FF) and nima arki, and Izus_systems has 36."
+  },
+  {
+   "id": "sumB_site",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "Under the site tie rule, the rank sums are Izus_systems 35, nima arki 55, Xueyi Wang (FF) 59 and maniphys.ai 59."
+  },
+  {
+   "id": "sumA",
+   "evidence": [
+    "d0101"
+   ],
+   "claim": "In reading A with Kaggle ties, maniphys.ai has 14 and is 4th, behind Izus_systems 8, Xueyi Wang (FF) 10 and nima arki 12."
+  },
+  {
+   "id": "abg",
+   "evidence": [
+    "d2241"
+   ],
+   "claim": "abgstn newly entered the four Tier 1 boards, and nima arki's Tier 2 MP-SR went from 0.30000 to 0.36666."
+  },
+  {
+   "id": "ml40_run",
+   "evidence": [
+    "st40"
+   ],
+   "claim": "On ml40 the ep25 r3i run completed 349999104 environment steps, and the ep9 r3i run is at about 21% of training."
+  },
+  {
+   "id": "mf_run",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "On mf4090 the ep20 r3i run completed 349999104 environment steps, and the ep17 r3i run is at 17.0% of training."
+  },
+  {
+   "id": "mf_disk",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "The root disk on mf4090 has 30G available."
+  },
+  {
+   "id": "nonfinite",
+   "evidence": [
+    "st40",
+    "st90"
+   ],
+   "claim": "The latest non-finite watch scans on both machines report 0 non-finite values."
+  },
+  {
+   "id": "relay",
+   "evidence": [
+    "st40",
+    "st90"
+   ],
+   "claim": "Both machines have an arm_after log for the next segment: t1zj_s43 on ml40 and t1zs on mf4090."
+  },
+  {
+   "id": "smokefail_a1",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says the smoke checks in the first arming reported SMOKE_FAIL because there was no W&B sync success line."
+  },
+  {
+   "id": "smokefail_a2",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says the formal runs of the first arming were SKIPPED."
+  },
+  {
+   "id": "smokefail_b",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says both GPUs were idle from 19:35."
+  },
+  {
+   "id": "rearm",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "After the fix, both segments were re-armed at 22:26/22:27, all four smokes passed with wandb: Synced, and the full runs started at 22:36."
+  },
+  {
+   "id": "gate",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The registered gate needs both ep25 and ep9 to improve clearly and the ep20 control to keep SP-SR and MP-SR at or above 0.804 and 0.794."
+  },
+  {
+   "id": "night_ml",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The ml40 segment t1zj_s43 trains ep11, ep29 and ep14 with a 10M buffer and seed 43."
+  },
+  {
+   "id": "night_mf",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The mf4090 segment t1zs trains ep18 and ep24 with r3o and a 4M buffer."
+  },
+  {
+   "id": "ep29swap",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The existing ep29 r3a-s43 run replaces the seed 42 run under rule (a), and its exported draw succeeds on SP and MP."
+  },
+  {
+   "id": "ep14exp",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The ep14 r3a seed 42 run qualifies under rule (a), but its exported draw fails on both SP and MP."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "d0101"
+   ],
+   "control": "true",
+   "claim": "maniphys.ai is 3rd on Tier 2 AUC."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "d0101"
+   ],
+   "control": "false",
+   "claim": "maniphys.ai is 1st on Tier 1 MP-SR."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "st90"
+   ],
+   "control": "false",
+   "claim": "The root disk on mf4090 has 120G available."
+  }
+ ]
+}

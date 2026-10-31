@@ -1,0 +1,27 @@
+# command  : ssh -o ConnectTimeout=15 ml40 bash\ -s\ ml40 
+# source   : 7f0e75d06eee
+# host     : Mac
+# run_at   : 2026-10-31T03:01:08-0400
+# ---------------------------------------------------------------
+== ml40 2026-10-31 15:01:12 CST
+NVIDIA L40S, 40271 MiB, 46068 MiB, 99 %
+/dev/vdb        2.0T  1.1T  947G  54% /lab_data
+-- tmux
+v2d-t1zi-eval: 1 windows (created Sat Oct 31 12:26:20 2026)
+v2d-t1zi-export: 1 windows (created Sat Oct 31 12:26:22 2026)
+v2d-t1zi-train: 1 windows (created Sat Oct 31 12:26:18 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zi_ml40-gate
+runs/.chain-active-t1zi_eval_ml40
+runs/.chain-active-t1zi_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 13:01:20 CST 来历与 t1zj_s43 的队列：ec942b063e52 d2d58a9f6ca02ea2b46bcad8d50e02ae  stages/policy/queues/ml40_t1zj_s43.expect.tsv 3717dfd16a7ea7c0467d639c4c4b171b  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep9-w2048-cap10m-r3i-ml40.log：training progress: 73,500,672/349,999,104 environment steps (21.0%); 45,692 env steps/s; elapsed 00:26:49; ETA 01:40:51
+runs/logs/t1-ep9-w2048-cap10m-r3i-ml40.nanwatch.log：10-31 01:00:12 MDT 70,002,688 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zi_train_ml40.log：=== 2026-10-31 14:32:10 CST 正式 t1-ep9-w2048-cap10m-r3i-ml40
+runs/logs/t1-ep25-w2048-cap10m-r3i-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3i-ml40
+runs/logs/t1-ep25-w2048-cap10m-r3i-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3i-ml40
+runs/logs/t1-ep25-w2048-cap10m-r3i-ml40.nanwatch.log：10-31 00:30:35 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t1-ep9-w2048-cap10m-r3i-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-r3i-ml40
+runs/logs/smoke-t1-ep9-w2048-cap10m-r3i-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-r3i-ml40

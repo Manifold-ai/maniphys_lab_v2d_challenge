@@ -1,0 +1,28 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 bash\ -s\ mf4090 
+# source   : 7f0e75d06eee
+# host     : Mac
+# run_at   : 2026-10-31T03:01:15-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-31 15:01:19 CST
+NVIDIA GeForce RTX 4090, 23811 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  255G   30G  90% /
+-- tmux
+v2d-t1zr-eval: 1 windows (created Sat Oct 31 12:27:18 2026)
+v2d-t1zr-export: 1 windows (created Sat Oct 31 12:27:20 2026)
+v2d-t1zr-train: 1 windows (created Sat Oct 31 12:27:16 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zr_mf4090-gate
+runs/.chain-active-t1zr_eval_mf4090
+runs/.chain-active-t1zr_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zs_mf4090.log：=== 2026-10-31 13:11:37 CST 来历与 t1zs 的队列：ec942b063e52 5fd9f0bc7a2a575c7cac8a5c3d5ff012  stages/policy/queues/mf4090_t1zs.expect.tsv 9abdb9146f01a4c94afb97ab6668c2d1  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep17-w2048-cap4m-r3i-mf4090.log：training progress: 59,500,544/349,999,104 environment steps (17.0%); 48,863 env steps/s; elapsed 00:20:18; ETA 01:39:05
+runs/logs/t1-ep17-w2048-cap4m-r3i-mf4090.nanwatch.log：10-31 00:59:22 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zr_train_mf4090.log：=== 2026-10-31 14:39:21 CST 正式 t1-ep17-w2048-cap4m-r3i-mf4090
+runs/logs/t1-ep20-w2048-cap4m-r3i-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3i-mf4090
+runs/logs/t1-ep20-w2048-cap4m-r3i-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3i-mf4090
+runs/logs/t1-ep20-w2048-cap4m-r3i-mf4090.nanwatch.log：10-31 00:36:29 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t1-ep17-w2048-cap4m-r3i-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep17-w2048-cap4m-r3i-mf4090
+runs/logs/smoke-t1-ep17-w2048-cap4m-r3i-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep17-w2048-cap4m-r3i-mf4090
