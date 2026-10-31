@@ -1,0 +1,12 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 $'cd ~/v2d/maniphys_lab_v2d_challenge && grep -H "CommError" runs/logs/t1-ep17-w2048-cap4m-r3h-mf4090.log | cut -c1-200; grep -E "�\255��\217|失败|�\214�\210\220" runs/logs/t1zq_train_mf4090.log | tail -6' 
+# source   : fc40fed76f05-dirty
+# host     : Mac
+# run_at   : 2026-10-30T21:05:15-0400
+# ---------------------------------------------------------------
+runs/logs/t1-ep17-w2048-cap4m-r3h-mf4090.log:wandb.errors.errors.CommError: Error uploading run: returned error 403: {"data":null,"errors":[{"message":"\u003c!doctype html\u003e\u003cmeta charset=\"ut
+fc_run: t1-ep20-w2048-cap4m-r3h-mf4090 完成
+=== 2026-10-31 07:00:48 CST t1-ep20-w2048-cap4m-r3h-mf4090 完成（1 段）
+=== 2026-10-31 07:00:48 CST 正式 t1-ep17-w2048-cap4m-r3h-mf4090
+fc_run: t1-ep17-w2048-cap4m-r3h-mf4090 重试 0 次仍失败（退出码 1）
+=== 2026-10-31 07:02:10 CST t1-ep17-w2048-cap4m-r3h-mf4090 失败（退出码 2），继续下一条
+=== 2026-10-31 07:02:10 CST DAY2_TRAIN_DONE（完成 1、失败 1、跳过 0、发散 0）

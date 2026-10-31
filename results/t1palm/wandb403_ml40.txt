@@ -1,0 +1,16 @@
+# command  : ssh -o ConnectTimeout=15 ml40 $'cd /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge && grep -H "CommError" runs/logs/t1-ep9-w2048-cap10m-r3h-ml40.log runs/logs/t1-ep4-w2048-cap10m-r3h-ml40.log | cut -c1-200; grep -E "�\255��\217|失败|�\214�\210\220" runs/logs/t1zh_train_ml40.log | tail -8; echo "api.wandb.ai: $(curl -s -o /dev/null -w %{http_code} --max-time 15 https://api.wandb.ai/graphql)"' 
+# source   : fc40fed76f05-dirty
+# host     : Mac
+# run_at   : 2026-10-30T21:05:13-0400
+# ---------------------------------------------------------------
+runs/logs/t1-ep9-w2048-cap10m-r3h-ml40.log:wandb.errors.errors.CommError: Error uploading run: returned error 403: {"data":null,"errors":[{"message":"\u003c!doctype html\u003e\u003cmeta charset=\"utf-
+runs/logs/t1-ep4-w2048-cap10m-r3h-ml40.log:wandb.errors.errors.CommError: Error uploading run: returned error 403: {"data":null,"errors":[{"message":"\u003c!doctype html\u003e\u003cmeta charset=\"utf-
+=== 2026-10-31 06:59:28 CST t1-ep25-w2048-cap10m-r3h-ml40 完成（1 段）
+=== 2026-10-31 06:59:28 CST 正式 t1-ep9-w2048-cap10m-r3h-ml40
+fc_run: t1-ep9-w2048-cap10m-r3h-ml40 重试 0 次仍失败（退出码 1）
+=== 2026-10-31 07:01:04 CST t1-ep9-w2048-cap10m-r3h-ml40 失败（退出码 2），继续下一条
+=== 2026-10-31 07:01:04 CST 正式 t1-ep4-w2048-cap10m-r3h-ml40
+fc_run: t1-ep4-w2048-cap10m-r3h-ml40 重试 0 次仍失败（退出码 1）
+=== 2026-10-31 07:02:24 CST t1-ep4-w2048-cap10m-r3h-ml40 失败（退出码 2），继续下一条
+=== 2026-10-31 07:02:24 CST DAY2_TRAIN_DONE（完成 1、失败 2、跳过 0、发散 0）
+api.wandb.ai: 403

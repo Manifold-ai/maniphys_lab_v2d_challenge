@@ -1,20 +1,18 @@
-# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-26-sop1901.claims.json 
-# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
-# md5      : 3cfddf3dfbac817b5326f0a3de395265  agent-doc/experiments/2026-10-26-sop1901.claims.json
-# source   : c867b5fb413e-dirty
-# host     : Rongxuans-MacBook-Air.local
-# run_at   : 2026-10-26T19:04:47-0600
-# ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-rank                 P(supported)=0.95  verified               [board]  Under the Kaggle tie rule maniphys.ai has a 12-board rank sum of 50 and is third, behind Xueyi Wang (FF) 41 and nima arki 44.
-rank_ctl             P(supported)=0.01  control(false) ok      [board]  maniphys.ai is first in the 12-board rank sum.
-t2b                  P(supported)=0.91  verified               [board]  maniphys.ai is second on the Tier 2 SP-SR board and fourth on the Tier 2 MPPE board, 4.47919 behind nima arki.
-t2ft                 P(supported)=0.95  verified               [t2ft]  On ep25, K reached an MPPE of 83.73 cm from the start's 103.43 cm, and F reached 87.25 cm, 3.52 cm higher than K.
-t2ft_ctl             P(supported)=0.16  control(false) ok      [t2ft]  On ep25, the frame-0-start fine-tune F1 holds (it is recorded as a useful fine-tune).
-c                    P(supported)=0.98  verified               [t2ft2]  All 7 checkpoints after the resume are at or below 93.43 cm, but 2 of the start run's last 4 checkpoints are too, so the result is downgraded to within the lineage's spread.
-c_ctl                P(supported)=0.08  control(false) ok      [t2ft2]  The resumed run is recorded as stably lower than its own lineage.
-a                    P(supported)=0.97  verified               [t2ft2]  The reset-seed repeat reached 87.40 cm and is recorded as repeated; the c5 start reached only 124.28 cm and is recorded as not repeated; 70 M more steps gave 92.58 cm, recorded as a plateau.
-gate                 P(supported)=0.98  verified               [t2ft2]  The gate fails, so continued training is not extended to other Tier 2 episodes and nothing is submitted this round.
-gate_ctl             P(supported)=0.01  control(false) ok      [t2ft2]  The gate passes and continued training is extended to the other hard Tier 2 episodes.
-t3s43                P(supported)=0.98  verified               [st]  On ml40 the ep14 seed-43 run is at about 51% of its training steps, and the ep3 and ep10 seed-43 runs completed.
+ep25_sr0             P(supported)=0.86  verified               [e25h]  In the 4096-world evaluation of ep25 with the palm scale 0.05 (r3h), spider_sr_uncentered and maniptrans_sr are both 0.0.
+ep25_mppe            P(supported)=0.97  verified               [e25h, e25a]  The MPPE of ep25 r3h (about 126 cm) is slightly higher than the MPPE of the ep25 r3a baseline (about 120 cm).
+ep20_sr              P(supported)=0.98  verified               [e20h]  In the 4096-world evaluation of ep20 r3h, spider_sr_uncentered and maniptrans_sr are both above 0.89, and mppe_cm is about 3.8.
+ep20_ctl             P(supported)=0.99  verified               [plan]  The record states that the ep20 control holds: its SP-SR, MP-SR and MPPE are not worse than the weaker seed 42 r3a run.
+w403_ml40            P(supported)=0.98  verified               [w40]  On ml40 the ep9 and ep4 r3h runs failed with a wandb CommError that returned error 403.
+w403_mf              P(supported)=0.95  verified               [w90]  On mf4090 the ep17 r3h run failed with a wandb CommError that returned error 403.
+w403_now             P(supported)=0.93  verified               [w40]  A later request from ml40 to api.wandb.ai still returned 403.
+chain40              P(supported)=0.95  verified               [st40]  The ml40 training chain t1zh ended with 1 done and 2 failed, and ml40 has no long-chain markers.
+chain90              P(supported)=0.96  verified               [st90]  The mf4090 training chain t1zq ended with 1 done and 1 failed, and mf4090 has no long-chain markers.
+gate                 P(supported)=0.98  verified               [plan]  The record states that the roll-out gate does not pass because ep25 did not clearly improve.
+next                 P(supported)=0.97  verified               [plan]  The record states that the next step is to be decided, that palm scale 0.1 needs a chain armed before the morning of 10/31, and that no chain is armed in this task.
+board                P(supported)=0.92  verified               [board]  No board changed, and the rank sum in reading B (Kaggle ties) is 56 and in reading A is 14, fourth.
+diag_mode            P(supported)=0.84  verified               [diag]  The diagnosis classifies ep25 and ep9 failing worlds mostly as 没贴住, ep17 as 贴住后掉, and voids the ep1 numbers.
+ctl_false1           P(supported)=0.01  control(false) ok      [e25h]  In the ep25 r3h evaluation, spider_sr_uncentered is above 0.10.
+ctl_false2           P(supported)=0.01  control(false) ok      [w90]  The ep17 r3h run on mf4090 finished training successfully.
+ctl_true1            P(supported)=0.99  control(true) ok       [e20h]  The ep20 r3h evaluation has world_count 4096.
 controls behaved as expected

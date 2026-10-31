@@ -1,0 +1,159 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "plan": {
+   "file": "agent-doc/plan-t1palm-2026-10-30.md",
+   "grep": "19:0x MDT 读出|健康：|wandb|ep25（|对照 ep20|AUC 0.703|判据：铺开|下一步待定|铺开的闸|明显变好"
+  },
+  "e25h": {
+   "file": "results/ml40/day2/eval_t1-ep25-w2048-cap10m-r3h-ml40_s349999104.txt",
+   "grep": "world_count 4096|^  add_auc |^  maniptrans_sr |^  spider_sr_uncentered |^  mppe_cm "
+  },
+  "e25a": {
+   "file": "results/ml40/day2/eval_t1-ep25-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "world_count 4096|^  add_auc |^  maniptrans_sr |^  spider_sr_uncentered |^  mppe_cm "
+  },
+  "e20h": {
+   "file": "results/day2/eval_t1-ep20-w2048-cap4m-r3h-mf4090_s349999104.txt",
+   "grep": "world_count 4096|^  add_auc |^  maniptrans_sr |^  spider_sr_uncentered |^  mppe_cm "
+  },
+  "w40": {
+   "file": "results/t1palm/wandb403_ml40.txt"
+  },
+  "w90": {
+   "file": "results/t1palm/wandb403_mf4090.txt"
+  },
+  "st40": {
+   "file": "results/ops/status_ml40_1030_1901.txt"
+  },
+  "st90": {
+   "file": "results/ops/status_mf4090_1030_1901.txt"
+  },
+  "board": {
+   "file": "results/board/diff_1030_1903.txt",
+   "grep": "变了|BOARD_|读法 B|读法 A"
+  },
+  "diag": {
+   "file": "agent-doc/experiments/2026-10-30-t1hard-diag.md",
+   "grep": "ep25 水瓶 \\| 没贴住|ep9 碗 \\| 没贴住|ep17 路锥 \\| 贴住|ep4 球棒 \\| 参考|ep1 对不上|策略都在合手"
+  }
+ },
+ "claims": [
+  {
+   "id": "ep25_sr0",
+   "evidence": [
+    "e25h"
+   ],
+   "claim": "In the 4096-world evaluation of ep25 with the palm scale 0.05 (r3h), spider_sr_uncentered and maniptrans_sr are both 0.0."
+  },
+  {
+   "id": "ep25_mppe",
+   "evidence": [
+    "e25h",
+    "e25a"
+   ],
+   "claim": "The MPPE of ep25 r3h (about 126 cm) is slightly higher than the MPPE of the ep25 r3a baseline (about 120 cm)."
+  },
+  {
+   "id": "ep20_sr",
+   "evidence": [
+    "e20h"
+   ],
+   "claim": "In the 4096-world evaluation of ep20 r3h, spider_sr_uncentered and maniptrans_sr are both above 0.89, and mppe_cm is about 3.8."
+  },
+  {
+   "id": "ep20_ctl",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that the ep20 control holds: its SP-SR, MP-SR and MPPE are not worse than the weaker seed 42 r3a run."
+  },
+  {
+   "id": "w403_ml40",
+   "evidence": [
+    "w40"
+   ],
+   "claim": "On ml40 the ep9 and ep4 r3h runs failed with a wandb CommError that returned error 403."
+  },
+  {
+   "id": "w403_mf",
+   "evidence": [
+    "w90"
+   ],
+   "claim": "On mf4090 the ep17 r3h run failed with a wandb CommError that returned error 403."
+  },
+  {
+   "id": "w403_now",
+   "evidence": [
+    "w40"
+   ],
+   "claim": "A later request from ml40 to api.wandb.ai still returned 403."
+  },
+  {
+   "id": "chain40",
+   "evidence": [
+    "st40"
+   ],
+   "claim": "The ml40 training chain t1zh ended with 1 done and 2 failed, and ml40 has no long-chain markers."
+  },
+  {
+   "id": "chain90",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "The mf4090 training chain t1zq ended with 1 done and 1 failed, and mf4090 has no long-chain markers."
+  },
+  {
+   "id": "gate",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that the roll-out gate does not pass because ep25 did not clearly improve."
+  },
+  {
+   "id": "next",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The record states that the next step is to be decided, that palm scale 0.1 needs a chain armed before the morning of 10/31, and that no chain is armed in this task."
+  },
+  {
+   "id": "board",
+   "evidence": [
+    "board"
+   ],
+   "claim": "No board changed, and the rank sum in reading B (Kaggle ties) is 56 and in reading A is 14, fourth."
+  },
+  {
+   "id": "diag_mode",
+   "evidence": [
+    "diag"
+   ],
+   "claim": "The diagnosis classifies ep25 and ep9 failing worlds mostly as 没贴住, ep17 as 贴住后掉, and voids the ep1 numbers."
+  },
+  {
+   "id": "ctl_false1",
+   "control": "false",
+   "evidence": [
+    "e25h"
+   ],
+   "claim": "In the ep25 r3h evaluation, spider_sr_uncentered is above 0.10."
+  },
+  {
+   "id": "ctl_false2",
+   "control": "false",
+   "evidence": [
+    "w90"
+   ],
+   "claim": "The ep17 r3h run on mf4090 finished training successfully."
+  },
+  {
+   "id": "ctl_true1",
+   "control": "true",
+   "evidence": [
+    "e20h"
+   ],
+   "claim": "The ep20 r3h evaluation has world_count 4096."
+  }
+ ]
+}
