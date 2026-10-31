@@ -1,0 +1,26 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-t1hard.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : f3d0505b332da8ac31cd5a15e9f9c822  agent-doc/experiments/2026-10-31-t1hard.claims.json
+# source   : e13744a7d579-dirty
+# host     : Mac
+# run_at   : 2026-10-31T14:07:43-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sp_thr               P(supported)=0.89  verified               [sp]  SP success needs mean position error at most 0.1 m and mean orientation error at most 0.5 rad.
+mp_thr               P(supported)=0.95  verified               [sp]  MP success needs mean position error below 0.03 m and mean orientation error below 30 degrees.
+e17_pos              P(supported)=0.98  verified               [e17]  The ep17 base run has an object position error of about 0.089 m.
+e17_ori              P(supported)=0.97  verified               [e17]  The ep17 base run has an object orientation error of about 42 degrees and an SP-SR of 0.
+e9                   P(supported)=0.98  verified               [e9b, e9a]  For ep9, the base run MPPE (about 40.5 cm) is lower than the variant A run MPPE (about 54.6 cm).
+e25                  P(supported)=0.98  verified               [e25b, e25a]  For ep25, the base run MPPE (about 114.1 cm) is lower than the variant A run MPPE (about 120.4 cm).
+d25                  P(supported)=0.98  verified               [diag]  In the diagnosis, ep25 failing worlds are 94% not attached, and the right palm is 8 to 17 cm from the bottle.
+d17                  P(supported)=0.75  verified               [diag]  In the diagnosis, ep17 failing worlds are 95% attached and then dropped.
+fcw                  P(supported)=0.89  verified               [fc]  The force closure weight in the recipe is 5.0.
+e14                  P(supported)=0.59  UNVERIFIED             [e14n, e14o]  The ep14 10M seed 43 run has a higher MP-SR (about 0.876) than the ep14 4M seed 42 run (about 0.677).
+e14m                 P(supported)=0.61  UNVERIFIED             [e14n, e14o]  The ep14 10M seed 43 run has a lower MPPE (about 4.9 cm) than the ep14 4M seed 42 run (about 15.8 cm).
+e11                  P(supported)=0.75  verified               [e11n, e11o]  The ep11 seed 43 run has a lower MP-SR (about 0.017) than the ep11 seed 42 run (about 0.333).
+x14                  P(supported)=0.83  verified               [x14]  The ep14 10M seed 43 exported draw succeeds on both SP-SR and MP-SR and passes the export check.
+brd                  P(supported)=0.92  verified               [board]  On the Tier 1 SP-SR board, maniphys.ai has 0.83333 and Chivatam, nima arki and Izus_systems each have 0.90000.
+ctl_t                P(supported)=0.08  CONTROL(true) FAILED   [e17]  The ep17 base run was evaluated on 4096 worlds.
+ctl_f1               P(supported)=0.01  control(false) ok      [fc]  The force closure weight in the recipe is 20.0.
+ctl_f2               P(supported)=0.19  control(false) ok      [e9b, e9a]  For ep9, the variant A run MPPE is lower than the base run MPPE.
+CONTROLS MISBEHAVED: do not rely on this batch

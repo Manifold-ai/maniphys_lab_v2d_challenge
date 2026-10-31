@@ -1,0 +1,203 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "sp": {
+   "file": "third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit/metric_code/track_2/SP-SR.py",
+   "grep": "THRESHOLD|mean\\(axis"
+  },
+  "e17": {
+   "file": "results/ml40/day2/eval_t1-ep17-w2048-cap10m-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|spider_sr_uncentered |object_position_error_m |object_orientation_error_deg |chord_sr |mppe_cm "
+  },
+  "e9b": {
+   "file": "results/ml40/day2/eval_t1-ep9-w2048-cap10m-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|mppe_cm "
+  },
+  "e9a": {
+   "file": "results/ml40/day2/eval_t1-ep9-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|mppe_cm "
+  },
+  "e25b": {
+   "file": "results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|mppe_cm "
+  },
+  "e25a": {
+   "file": "results/ml40/day2/eval_t1-ep25-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|mppe_cm "
+  },
+  "diag": {
+   "file": "agent-doc/experiments/2026-10-30-t1hard-diag.md",
+   "grep": "ep25 水瓶 \\| 没贴住|ep9 碗 \\| 没贴住|ep17 路锥 \\| 贴住后掉|125.7"
+  },
+  "fc": {
+   "file": "results/ops/fc_curriculum_1015.txt",
+   "grep": "force_closure_weight"
+  },
+  "e14n": {
+   "file": "results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|maniptrans_sr |mppe_cm "
+  },
+  "e14o": {
+   "file": "results/day2/eval_t1-ep14-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|maniptrans_sr |mppe_cm "
+  },
+  "e11n": {
+   "file": "results/ml40/day2/eval_t1-ep11-w2048-cap10m-r3a-s43-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|maniptrans_sr "
+  },
+  "e11o": {
+   "file": "results/ml40/day2/eval_t1-ep11-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|maniptrans_sr "
+  },
+  "x14": {
+   "file": "results/ml40/submission/exports/cand_t1_t1zj_s43_ml40_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104_check.txt",
+   "grep": "info add_auc|EXPORT_OK"
+  },
+  "board": {
+   "file": "results/board/lb_1031_1020.txt",
+   "grep": "tier1-sp-sr|maniphys.ai|Chivatam|nima arki|Izus_systems"
+  }
+ },
+ "claims": [
+  {
+   "id": "sp_thr",
+   "evidence": [
+    "sp"
+   ],
+   "claim": "SP success needs mean position error at most 0.1 m and mean orientation error at most 0.5 rad."
+  },
+  {
+   "id": "mp_thr",
+   "evidence": [
+    "sp"
+   ],
+   "claim": "MP success needs mean position error below 0.03 m and mean orientation error below 30 degrees."
+  },
+  {
+   "id": "e17_pos",
+   "evidence": [
+    "e17"
+   ],
+   "claim": "The ep17 base run has an object position error of about 0.089 m."
+  },
+  {
+   "id": "e17_ori",
+   "evidence": [
+    "e17"
+   ],
+   "claim": "The ep17 base run has an object orientation error of about 42 degrees and an SP-SR of 0."
+  },
+  {
+   "id": "e9",
+   "evidence": [
+    "e9b",
+    "e9a"
+   ],
+   "claim": "For ep9, the base run MPPE (about 40.5 cm) is lower than the variant A run MPPE (about 54.6 cm)."
+  },
+  {
+   "id": "e25",
+   "evidence": [
+    "e25b",
+    "e25a"
+   ],
+   "claim": "For ep25, the base run MPPE (about 114.1 cm) is lower than the variant A run MPPE (about 120.4 cm)."
+  },
+  {
+   "id": "d25",
+   "evidence": [
+    "diag"
+   ],
+   "claim": "In the diagnosis, ep25 failing worlds are 94% not attached, and the right palm is 8 to 17 cm from the bottle."
+  },
+  {
+   "id": "d17",
+   "evidence": [
+    "diag"
+   ],
+   "claim": "In the diagnosis, ep17 failing worlds are 95% attached and then dropped."
+  },
+  {
+   "id": "fcw",
+   "evidence": [
+    "fc"
+   ],
+   "claim": "The force closure weight in the recipe is 5.0."
+  },
+  {
+   "id": "e14n_mp",
+   "evidence": [
+    "e14n"
+   ],
+   "claim": "The run t1-ep14-w2048-cap10m-r3a-s43-ml40 has an MP-SR (maniptrans_sr) of about 0.876."
+  },
+  {
+   "id": "e14n_mppe",
+   "evidence": [
+    "e14n"
+   ],
+   "claim": "The run t1-ep14-w2048-cap10m-r3a-s43-ml40 has an MPPE of about 4.86 cm."
+  },
+  {
+   "id": "e14o_mp",
+   "evidence": [
+    "e14o"
+   ],
+   "claim": "The run t1-ep14-w2048-cap4m-r3a-mf4090 has an MP-SR (maniptrans_sr) of about 0.677."
+  },
+  {
+   "id": "e14o_mppe",
+   "evidence": [
+    "e14o"
+   ],
+   "claim": "The run t1-ep14-w2048-cap4m-r3a-mf4090 has an MPPE of about 15.76 cm."
+  },
+  {
+   "id": "e11",
+   "evidence": [
+    "e11n",
+    "e11o"
+   ],
+   "claim": "The ep11 seed 43 run has a lower MP-SR (about 0.017) than the ep11 seed 42 run (about 0.333)."
+  },
+  {
+   "id": "x14",
+   "evidence": [
+    "x14"
+   ],
+   "claim": "The ep14 10M seed 43 exported draw succeeds on both SP-SR and MP-SR and passes the export check."
+  },
+  {
+   "id": "brd",
+   "evidence": [
+    "board"
+   ],
+   "claim": "On the Tier 1 SP-SR board, maniphys.ai has 0.83333 and Chivatam, nima arki and Izus_systems each have 0.90000."
+  },
+  {
+   "id": "ctl_t",
+   "evidence": [
+    "e17"
+   ],
+   "control": "true",
+   "claim": "The ep17 base run was evaluated on 4096 worlds."
+  },
+  {
+   "id": "ctl_f1",
+   "evidence": [
+    "fc"
+   ],
+   "control": "false",
+   "claim": "The force closure weight in the recipe is 20.0."
+  },
+  {
+   "id": "ctl_f2",
+   "evidence": [
+    "e9b",
+    "e9a"
+   ],
+   "control": "false",
+   "claim": "For ep9, the variant A run MPPE is lower than the base run MPPE."
+  }
+ ]
+}

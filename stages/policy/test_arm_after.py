@@ -13,6 +13,7 @@
   8. V2D_AFTER_SYNC_FROM（计划 agent-doc/plan-t12night-2026-10-30.md 第 2 节）：链结束后从 runs/stage/ 下的暂存目录同步进仓库副本
      （改了的队列换成暂存的、仓库副本独有的源码文件删掉，.env、data、runs、results 留着，来历写成暂存的），再预演、起链；
      暂存目录不完整、或等待期间仓库副本的来历变了（有人同步过）时同步不做、不起。
+  9. V2D_POST_SYNC_CMD（计划 agent-doc/plan-t1hard-2026-10-31.md）：同步之后、预演之前跑；退出码非 0 不预演、不起；不同步时在前置命令之后跑；起链时已不在环境里。
 用法：python3 stages/policy/test_arm_after.py
 """
 import os
@@ -187,6 +188,28 @@ def test_sync_from_stage() -> None:
     assert rc == 1 and calls == ["PRE ran"] and "仓库副本的来历在等待期间变了" in last(out) and st["commit"] == "1234567890ab" and not st["old_gone"], (rc, calls, out, st)
     rc, calls, out, _, st = run(setup=lambda r: _stage(r, complete=False), post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234")
     assert rc == 1 and calls == ["PRE ran"] and "ARM_AFTER_STOPPED 暂存目录同步没过" in out and "暂存目录不完整" in out and st["commit"] == "a629fbdbf3e5" and not st["old_gone"], (rc, calls, out, st)
+
+
+
+def test_post_sync_cmd() -> None:
+    post_ok = 'echo "POST ran PRE=${V2D_PRE_CMD:+set}" >> calls.txt; [ -f stages/policy/queues/mf4090_t3p4b.txt ] && grep -q new stages/policy/queues/mf4090_t3p4b.txt'
+    arm_post = ARMED[1:]
+
+    def stage_bin(root: Path) -> None:   # 假的 timeout 等在仓库根的 bin/ 里，同步的 --delete 会删掉；暂存目录里放一份（训练机上用系统的 timeout）
+        _stage(root)
+        shutil.copytree(root / "bin", root / "runs/stage/b0c0ffee1234/bin")
+
+    # 同步之后跑：看得到暂存的新队列；calls.txt 被同步删掉，所以只剩后置命令与预演、起链
+    rc, calls, out, _, st = run(setup=stage_bin, post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234", V2D_POST_SYNC_CMD=post_ok)
+    assert rc == 0 and calls == ["POST ran PRE=set"] + arm_post and "后置命令退出码 0" in out and st["commit"] == "b0c0ffee1234", (rc, calls, out)
+    rc, calls, out, _, st = run(setup=stage_bin, post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234",
+                                V2D_POST_SYNC_CMD='echo "POST ran" >> calls.txt; exit 3')
+    assert rc == 1 and calls == ["POST ran"] and "ARM_AFTER_STOPPED 后置命令没过（退出码 3）" in last(out), (rc, calls, out)
+    # 不同步：前置命令之后跑；起链时环境里已经没有后置命令
+    rc, calls, out, _ = run(V2D_POST_SYNC_CMD='echo "POST ran" >> calls.txt')
+    assert rc == 0 and calls == ["PRE ran", "POST ran"] + ARMED[1:] and last(out).endswith("ARM_AFTER_ARMED"), (rc, calls, out)
+    rc, calls, out, _ = run(V2D_POST_SYNC_CMD='env | grep -q "^V2D_POST_SYNC_CMD=" && echo "POST env" >> calls.txt; exit 0')
+    assert calls[:2] == ["PRE ran", "POST env"] and all("POST" not in c for c in calls[2:]), (rc, calls, out)
 
 
 if __name__ == "__main__":

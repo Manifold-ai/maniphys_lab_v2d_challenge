@@ -1,0 +1,18 @@
+# command  : python3 stages/policy/test_arm_after.py 
+# md5      : 3f5b4edc52b9ac452ffb3a807d70f26b  stages/policy/test_arm_after.py
+# source   : e13744a7d579-dirty
+# host     : Mac
+# run_at   : 2026-10-31T14:04:16-0400
+# ---------------------------------------------------------------
+ok test_waits_then_arms
+ok test_previous_outcome_blocks_arm_not_delete
+ok test_independent_ignores_previous_outcome
+ok test_pre_cmd_fails
+ok test_machine_busy
+ok test_gpu_frees_up
+ok test_dryrun_or_arm_not_ok
+ok test_waits_for_markers_and_logs
+ok test_source_changed
+ok test_sync_from_stage
+ok test_post_sync_cmd
+ALL_OK

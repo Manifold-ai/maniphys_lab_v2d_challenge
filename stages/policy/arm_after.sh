@@ -15,13 +15,15 @@
 #    V2D_AFTER_INDEPENDENT=1（计划 agent-doc/plan-t3-gb3-switch-2026-10-17.md 做法 1d）：下一段与上一段无关时，这一步只把上一段的结局记进日志、不拦；
 #    第 2、3、6、8 步照旧。不设时与以前相同。
 # 6. 来历与 md5 跟第 1 步相同（这段时间没有同步、队列没变）。
-# 7. 从环境里去掉 HF 凭据、代理与前置命令（HF_TOKEN、https_proxy、HTTPS_PROXY、http_proxy、HTTP_PROXY、HF_ENDPOINT、V2D_PRE_CMD）。
+# 7. 从环境里去掉 HF 凭据、代理与前置、后置命令（HF_TOKEN、https_proxy、HTTPS_PROXY、http_proxy、HTTP_PROXY、HF_ENDPOINT、V2D_PRE_CMD、V2D_POST_SYNC_CMD）。
 # 8. V2D_ARM_DRYRUN=1 stages/policy/arm_var_chain.sh <段名>：退出码 0、最后一行 DRYRUN_OK 才起；再 stages/policy/arm_var_chain.sh <段名>：
 #    退出码 0、最后一行 ARMED。两次的核对都由 arm_var_chain.sh 自己做（GPU、来历、磁盘、配置等）。
 # V2D_AFTER_SYNC_FROM=<runs/stage/ 下的暂存目录>（计划 agent-doc/plan-t12night-2026-10-30.md 第 2 节）：下一段的代码还没同步上来（链在跑时
 #    不许同步）。第 1 步的来历与 md5 改从暂存目录里取，另记下仓库副本的来历；第 4 步之后先核仓库副本的来历没变（变了就停，不覆盖别人的同步），
 #    再用本脚本同目录的 stage_sync.sh 把暂存目录同步进仓库副本，
 #    第 6 步核"同步后的仓库副本与暂存目录相同"。不设时与以前相同。
+# V2D_POST_SYNC_CMD（计划 agent-doc/plan-t1hard-2026-10-31.md）：同步之后（不设 V2D_AFTER_SYNC_FROM 时就在前置命令之后）、第 5 步之前，在仓库根用 bash -c 跑，
+#    限时同前置命令，退出码 0 才往下。用来在新代码同步上来之后跑 fc_config_check.sh 与 precheck_expect.sh（arm_var_chain.sh 要 runs/cfgcheck/<run>.yaml；10/31 两台的接力就停在缺这份上）。
 # 抄进本日志的上一段的行把结束标记换成中文（同 train_after.sh：别的脚本按日志最后一行判结局）。
 # 最后一行 ARM_AFTER_ARMED，或 ARM_AFTER_STOPPED <原因>。
 # 测试：stages/policy/test_arm_after.py。
@@ -82,6 +84,13 @@ if [ -n "$SYNC" ]; then
   bash "$TOOLS/stage_sync.sh" "$SYNC" || stop "暂存目录同步没过（退出码 $?）"
 fi
 
+if [ -n "${V2D_POST_SYNC_CMD:-}" ]; then
+  say "后置命令开始（限时 ${PTO} 秒）"
+  timeout "$PTO" bash -c "$V2D_POST_SYNC_CMD"; rc=$?
+  say "后置命令退出码 ${rc}"
+  [ "$rc" = 0 ] || stop "后置命令没过（退出码 ${rc}$([ "$rc" = 124 ] && echo '，超时')）"
+fi
+
 if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then
   say "V2D_AFTER_INDEPENDENT=1：${N} 与上一段无关，上一段的结局只记录、不拦。训练：$(last "$PT" | demark)；评测：$(last "$PE" | demark)；导出：$(last "$PX" | demark)"
 else
@@ -92,7 +101,7 @@ fi
 [ "$(snap)" = "$S0" ] || stop "来历或 ${N} 的队列$([ -n "$SYNC" ] && echo '与暂存目录不同' || echo '在等待期间变了')：$(snap | tr '\n' ' ')"
 if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then say "来历与队列没变"; else say "上一段 ${PN} 条训练、评测、导出都做完；来历与队列没变"; fi
 
-unset HF_TOKEN https_proxy HTTPS_PROXY http_proxy HTTP_PROXY HF_ENDPOINT V2D_PRE_CMD
+unset HF_TOKEN https_proxy HTTPS_PROXY http_proxy HTTP_PROXY HF_ENDPOINT V2D_PRE_CMD V2D_POST_SYNC_CMD
 out="$(V2D_ARM_DRYRUN=1 bash stages/policy/arm_var_chain.sh "$N" 2>&1)"; rc=$?
 printf '%s\n' "$out"
 [ "$rc" = 0 ] && [ "$(tail -1 <<< "$out")" = DRYRUN_OK ] || stop "预演没过（退出码 ${rc}）"

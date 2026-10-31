@@ -703,6 +703,35 @@ def test_t1palm3_parts():
                     assert t == base and x.count("palm_position_std") == 1, (t, base)
 
 
+
+def test_t1hard_novar():
+    """计划 agent-doc/plan-t1hard-2026-10-31.md：t1hr、t1hp、t1hf 是基础配方（novar），不带变体 A 的覆盖；只多声明的那一项
+    （t1hr 两个 r3o 变量、run 名带 -r3o-；t1hp 手掌位置终止 0.08；t1hf 抓握闭合项 20 与 400 万容量），冒烟与正式一致。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t1hr": ("ml40", [], True, ["t1-ep17-w2048-cap10m-r3o-nv-ml40"]),
+                "t1hp": ("ml40", ["termination.palm_position_threshold=0.08"], False,
+                         ["t1-ep25-w2048-cap10m-pt08-ml40", "t1-ep9-w2048-cap10m-pt08-ml40"]),
+                "t1hf": ("mf4090", ["training.replay.capacity=4000000", "objective.force_closure_weight=20.0"], False,
+                         ["t1-ep25-w2048-cap4m-fc20-mf4090", "t1-ep9-w2048-cap4m-fc20-mf4090"])}
+        for part, (m, extra, r3o, runs) in want.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"{m}_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    t = x.split()
+                    assert "object_position_std" not in x and "object_orientation_threshold" not in x, x
+                    assert (" V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4 " in f" {x} ") == r3o, x
+                    i = next(k for k, v in enumerate(t) if v.isdigit() and k > 0 and t[k - 1] == "2048")
+                    over = [v for v in t[i + 1:] if v != "scene.support=false"]
+                    assert over == extra, (part, over)
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

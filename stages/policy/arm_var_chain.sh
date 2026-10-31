@@ -47,6 +47,10 @@ case "$N" in
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # r3o 铺开（计划 agent-doc/plan-t12night-2026-10-30.md），同 t1zp
   t1zt*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # r3o 铺到六集（计划 agent-doc/plan-t1r3o-2026-10-31.md），同 t1zs
+  t1hr*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; COPY=v040_p185_nfg_oo; NOVAR=1 ;;   # 跟丢的集，基础配方加物体朝向项（计划 agent-doc/plan-t1hard-2026-10-31.md）
+  t1hp*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; NOVAR=1 ;;   # 跟丢的集，手掌位置终止 0.08（同计划）
+  t1hf*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; NOVAR=1 ;;   # 跟丢的集，抓握闭合项权重 20（同计划）
   t1zj*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 400 万换 1000 万（同计划），同 t1za
   t1za*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # Tier 1 冲第一 A1
   t1zh*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 手掌尺度 0.05（计划 agent-doc/plan-t1palm-2026-10-30.md）
@@ -70,7 +74,7 @@ case "$N" in
   t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
   t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
   t2t*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 放宽物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md）
-  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1zs、t1zt、t1zj、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
+  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1zs、t1zt、t1hr、t1hp、t1hf、t1zj、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
 esac
 # 10/30 17:0x 起两台训练机直连 api.wandb.ai 返回 403（出口 IP 在 CN），经 V2D_PROXY（出口 SG）可达：所有段的 W&B 都走代理（fc_run.sh V2D_WANDB_PROXY）
 EXTRA="${EXTRA:+$EXTRA }V2D_WANDB_PROXY=1"
@@ -144,6 +148,11 @@ if [ "$np" = 0 ] && [ "$ns" = 0 ]; then SIG=0.05
 elif [ "$np" = "$nq" ] && [ "$ns" = "$nq" ]; then SIG=0.03
 else stop "队列里 r3p 的行与变体 A 的行混在一起（${nq} 行里 -r3p- ${np} 行、σ 0.03 ${ns} 行）"; fi
 VAR="objective.object_position_std=$SIG env.objective.object_position_std=$SIG termination.object_orientation_threshold=0.6 env.termination.object_orientation_threshold=0.6"
+# 基础配方的段（NOVAR=1，计划 agent-doc/plan-t1hard-2026-10-31.md）：不加变体 A，断言基础配方的 0.2 与 1.5；队列里出现变体 A 的覆盖就停
+if [ "${NOVAR:-0}" = 1 ]; then
+  ! grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -qE 'objective\.object_position_std=|termination\.object_orientation_threshold=' || stop "基础配方的段里有变体 A 的覆盖"
+  VAR="objective.object_position_std=0.2 env.objective.object_position_std=0.2 termination.object_orientation_threshold=1.5 env.termination.object_orientation_threshold=1.5"
+fi
 # 物体朝向终止（计划 agent-doc/plan-t3hand-2026-10-27.md 第 3 版 P0 的对照臂 oc15）：队列里每一行都写了同一个值就断言那个值（变体 A 的行本来就写 0.6），混在一起就停
 nr="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'termination.object_orientation_threshold=' || true)"
 rv="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'termination.object_orientation_threshold=[0-9.]*' | sort -u || true)"
@@ -162,6 +171,13 @@ case "$hv" in objective.palm_position_std=0.05) ht=-r3h- ;; objective.palm_posit
 nht=0; [ -z "$ht" ] || nht="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c -- "$ht" || true)"
 if [ "$nh" = "$nq" ] && [ -n "$ht" ] && [ "$nht" = "$nq" ] && [ "$nhr" = "$nq" ]; then VAR="$VAR $hv env.$hv"
 elif [ "$nh" != 0 ] || [ "$nhr" != 0 ]; then stop "队列里手掌尺度的覆盖或 -r3h-/-r3i- 不一致（${nq} 行里 ${nh} 行写了覆盖、${nhr} 行带标签：${hv//$'\n'/ }）"; fi
+# 抓握闭合项权重、手掌位置终止（同计划）：队列里每一行都写了同一个值就正向断言它（顶层与 env 下各一份），混在一起就停
+for k in objective.force_closure_weight termination.palm_position_threshold; do
+  nk="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c -- "$k=" || true)"
+  kv="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o -- "$k=[0-9.]*" | sort -u || true)"
+  if [ "$nk" = "$nq" ] && [ "$(grep -c . <<< "$kv")" = 1 ]; then VAR="$VAR $kv env.$kv"
+  elif [ "$nk" != 0 ]; then stop "队列里 $k 的覆盖不一致（${nq} 行里 ${nk} 行写了：${kv//$'\n'/ }）"; fi
+done
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"
