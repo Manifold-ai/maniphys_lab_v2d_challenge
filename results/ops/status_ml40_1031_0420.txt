@@ -1,0 +1,23 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : da000da48dd2
+# host     : Mac
+# run_at   : 2026-10-31T06:21:05-0400
+# ---------------------------------------------------------------
+== ml40 2026-10-31 18:21:09 CST
+NVIDIA L40S, 0 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  947G  54% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 16:59:21 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1zi_ml40_gate.log：=== 2026-10-31 16:58:33 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1zi_ml40.log：=== 2026-10-31 16:58:33 CST EXPORT_CHAIN_DONE（成功 2、失败 0）
+runs/logs/t1-ep9-w2048-cap10m-r3i-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3i-ml40/export_8c778f9/s349999104_w1/episode_000009.parquet
+runs/logs/t1-ep25-w2048-cap10m-r3i-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3i-ml40/export_8c778f9/s349999104_w1/episode_000025.parquet
+runs/logs/t1zi_eval_ml40.log：=== 2026-10-31 16:55:31 CST DAY2_EVAL_DONE（成功 2、失败 0）
+runs/logs/t1-ep9-w2048-cap10m-r3i-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep9-w2048-cap10m-r3i-ml40/eval_349999104_w4096.json
+runs/logs/t1-ep25-w2048-cap10m-r3i-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-r3i-ml40/eval_349999104_w4096.json
+runs/logs/t1zi_train_ml40.log：=== 2026-10-31 16:43:38 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）
