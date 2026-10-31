@@ -1,0 +1,225 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "e19o": {
+   "file": "results/day2/eval_t1-ep19-w2048-cap4m-r3o-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e19c": {
+   "file": "results/ml40/day2/eval_t1-ep19-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e13o": {
+   "file": "results/day2/eval_t1-ep13-w2048-cap4m-r3o-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e13c": {
+   "file": "results/ml40/day2/eval_t1-ep13-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e19a4": {
+   "file": "results/day2/eval_t1-ep19-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e13a4": {
+   "file": "results/day2/eval_t1-ep13-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e3a4": {
+   "file": "results/day2/eval_t1-ep3-w2048-cap4m-r3a-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "e16b4": {
+   "file": "results/day2/eval_t1-ep16-w2048-cap4m-mf4090_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "t13s": {
+   "file": "results/ml40/day2/eval_t2-ep13-w2048-cap10m-r3a-s43-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "t13c": {
+   "file": "results/ml40/day2/eval_t2-ep13-w2048-cap10m-r3a-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "t19s": {
+   "file": "results/ml40/day2/eval_t2-ep19-w2048-cap10m-r3a-s43-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "t19c": {
+   "file": "results/ml40/day2/eval_t2-ep19-w2048-cap10m-r3p-ml40_s349999104.txt",
+   "grep": "^fc_eval:|world_count|^  (add_auc|maniptrans_sr|spider_sr_uncentered|mppe_cm) "
+  },
+  "x13": {
+   "file": "results/ml40/submission/exports/cand_t2_t2xb_s43_ml40_t2-ep13-w2048-cap10m-r3a-s43-ml40_s349999104_check.txt"
+  },
+  "ld19": {
+   "file": "results/t1zw/linediff_ep19.txt"
+  },
+  "d1620": {
+   "file": "results/board/diff_1031_1620.txt"
+  },
+  "sel2": {
+   "file": "results/select_t2/select_b1019a.txt",
+   "grep": "ep1[39]"
+  }
+ },
+ "claims": [
+  {
+   "id": "e19o_sp",
+   "evidence": [
+    "e19o"
+   ],
+   "claim": "The ep19 r3o 4M run has spider_sr_uncentered 0.428 and maniptrans_sr 0 on 4096 worlds."
+  },
+  {
+   "id": "e19c_mp",
+   "evidence": [
+    "e19c"
+   ],
+   "claim": "The ep19 10M r3a run has maniptrans_sr 0.258 and spider_sr_uncentered 0.735 on 4096 worlds."
+  },
+  {
+   "id": "e13o_sp",
+   "evidence": [
+    "e13o"
+   ],
+   "claim": "The ep13 r3o 4M run has spider_sr_uncentered about 0.001 and mppe_cm about 23.5 on 4096 worlds."
+  },
+  {
+   "id": "e13c_mp",
+   "evidence": [
+    "e13c"
+   ],
+   "claim": "The ep13 10M r3a run has maniptrans_sr 0.451 and mppe_cm 7.9 on 4096 worlds."
+  },
+  {
+   "id": "e19a4",
+   "evidence": [
+    "e19a4"
+   ],
+   "claim": "The ep19 4M r3a run has spider_sr_uncentered about 0.001 and mppe_cm about 64.3."
+  },
+  {
+   "id": "e13a4",
+   "evidence": [
+    "e13a4"
+   ],
+   "claim": "The ep13 4M r3a run has spider_sr_uncentered 0 and mppe_cm about 26.9."
+  },
+  {
+   "id": "e3a4",
+   "evidence": [
+    "e3a4"
+   ],
+   "claim": "The ep3 4M r3a run has spider_sr_uncentered 0.456 and maniptrans_sr 0."
+  },
+  {
+   "id": "e16b4",
+   "evidence": [
+    "e16b4"
+   ],
+   "claim": "The ep16 4M base run has maniptrans_sr 0.0 and spider_sr_uncentered about 0.0002."
+  },
+  {
+   "id": "t13s",
+   "evidence": [
+    "t13s"
+   ],
+   "claim": "The Tier 2 ep13 seed 43 run has maniptrans_sr 0.449 and mppe_cm 9.4."
+  },
+  {
+   "id": "t13c",
+   "evidence": [
+    "t13c"
+   ],
+   "claim": "The Tier 2 ep13 r3a run has maniptrans_sr about 0.130 and mppe_cm about 12.71."
+  },
+  {
+   "id": "t19s",
+   "evidence": [
+    "t19s"
+   ],
+   "claim": "The Tier 2 ep19 seed 43 run has maniptrans_sr 0.074 and spider_sr_uncentered 0.855."
+  },
+  {
+   "id": "t19c",
+   "evidence": [
+    "t19c"
+   ],
+   "claim": "The Tier 2 ep19 r3p run has maniptrans_sr 0.083 and spider_sr_uncentered 0.900."
+  },
+  {
+   "id": "x13",
+   "evidence": [
+    "x13"
+   ],
+   "claim": "The export check of Tier 2 ep13 seed 43 has maniptrans_sr 1.0 and spider_sr_uncentered 1.0 and ends with EXPORT_OK."
+  },
+  {
+   "id": "sel13",
+   "evidence": [
+    "sel2"
+   ],
+   "claim": "The b1019a selection picks t2-ep13-w2048-cap10m-r3a-ml40 for ep13 and t2-ep19-w2048-cap10m-r3p-ml40 for ep19."
+  },
+  {
+   "id": "ld19",
+   "evidence": [
+    "ld19"
+   ],
+   "claim": "In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'."
+  },
+  {
+   "id": "dd_mp",
+   "evidence": [
+    "d1620"
+   ],
+   "claim": "Debajyoti Dasgupta raised Tier 1 MP-SR from 0.66666 to 0.80000."
+  },
+  {
+   "id": "mp_rank",
+   "evidence": [
+    "d1620"
+   ],
+   "claim": "maniphys.ai dropped from 10th to 11th on Tier 1 MP-SR."
+  },
+  {
+   "id": "sumB_k",
+   "evidence": [
+    "d1620"
+   ],
+   "claim": "Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 65 and is 2nd."
+  },
+  {
+   "id": "sumB_s",
+   "evidence": [
+    "d1620"
+   ],
+   "claim": "Under the site tie rule, maniphys.ai has a 12-board rank sum of 67 and is 5th."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "e13c"
+   ],
+   "control": "true",
+   "claim": "The run was evaluated on 4096 worlds."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "e19o"
+   ],
+   "control": "false",
+   "claim": "The ep19 r3o 4M run has maniptrans_sr above 0.5."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "d1620"
+   ],
+   "control": "false",
+   "claim": "maniphys.ai moved up to 1st on Tier 1 MP-SR."
+  }
+ ]
+}

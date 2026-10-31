@@ -1,0 +1,7 @@
+# command  : bash -c diff\ \<\(grep\ -h\ \'\ t1-ep22-w2048-cap4m-r3o-mf4090\ \'\ stages/policy/queues/mf4090_t1zt4.txt\ \|\ sed\ \'s/V2D_WANDB_TAG=\[a-z0-9\]\*//\'\)\ \<\(grep\ -h\ \'\ t1-ep22-w2048-cap4m-r3o-mf4090\ \'\ stages/policy/queues/mf4090_t1zt\[23\].txt\ \|\ sed\ \'s/V2D_WANDB_TAG=\[a-z0-9\]\*//\'\)\ \&\&\ echo\ SAME_AS_T1ZT23 
+# md5      : 5dcb0b49a0dbc1f3e5fde499f03ed830  stages/policy/queues/mf4090_t1zt4.txt
+# source   : e7d565d08ea2-dirty
+# host     : Mac
+# run_at   : 2026-10-31T18:30:25-0400
+# ---------------------------------------------------------------
+SAME_AS_T1ZT23

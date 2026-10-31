@@ -1,0 +1,11 @@
+# command  : bash tools/queue_line_diff.sh t1-ep13-w2048-cap10m-r3o-ml40 t1-ep13-w2048-cap10m-r3a-ml40 
+# md5      : 79fd1fc398b3b0c6d13c35d62e690314  tools/queue_line_diff.sh
+# source   : e7d565d08ea2-dirty
+# host     : Mac
+# run_at   : 2026-10-31T18:37:43-0400
+# ---------------------------------------------------------------
+  t1-ep13-w2048-cap10m-r3o-ml40 见 stages/policy/queues/ml40_t1zw.txt
+  t1-ep13-w2048-cap10m-r3a-ml40 见 stages/policy/queues/ml40_t1yb.txt
+== t1-ep13-w2048-cap10m-r3o-ml40 对 t1-ep13-w2048-cap10m-r3a-ml40
+< V2D_OBJ_ORI_STD=0.4
+< V2D_OBJ_ORI_WEIGHT=1.0

@@ -732,6 +732,29 @@ def test_t1hard_novar():
                     assert over == extra, (part, over)
 
 
+def test_t1zw_r3o_10m():
+    """计划 agent-doc/plan-t1r3o-2026-10-31.md 第 2 版：t1zw、t1zw2 在 ml40 用 1000 万（不写容量覆盖），t1zt4 在 mf4090 只含 ep7、22；
+    三段都是 r3o（变体 A 两项 + 两个物体朝向变量），run 名与段对应，冒烟与正式一致。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t1zw": ("ml40", ["t1-ep19-w2048-cap10m-r3o-ml40", "t1-ep13-w2048-cap10m-r3o-ml40"], False),
+                "t1zw2": ("ml40", ["t1-ep3-w2048-cap10m-r3o-ml40", "t1-ep16-w2048-cap10m-r3o-ml40"], False),
+                "t1zt4": ("mf4090", ["t1-ep7-w2048-cap4m-r3o-mf4090", "t1-ep22-w2048-cap4m-r3o-mf4090"], True)}
+        for part, (m, runs, cap4m) in want.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"{m}_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    assert " V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4 " in f" {x} ", x
+                    assert "objective.object_position_std=0.05" in x and "termination.object_orientation_threshold=0.6" in x, x
+                    assert ("training.replay.capacity=4000000" in x) == cap4m and x.count("capacity") <= 1, x
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

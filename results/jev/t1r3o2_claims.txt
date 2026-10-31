@@ -1,0 +1,31 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-t1r3o2.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7f63f9ea8fd01fa9f14ae6c991f6e196  agent-doc/experiments/2026-10-31-t1r3o2.claims.json
+# source   : e7d565d08ea2-dirty
+# host     : Mac
+# run_at   : 2026-10-31T18:33:07-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+e19o_sp              P(supported)=0.98  verified               [e19o]  The ep19 r3o 4M run has spider_sr_uncentered 0.428 and maniptrans_sr 0 on 4096 worlds.
+e19c_mp              P(supported)=0.93  verified               [e19c]  The ep19 10M r3a run has maniptrans_sr 0.258 and spider_sr_uncentered 0.735 on 4096 worlds.
+e13o_sp              P(supported)=0.98  verified               [e13o]  The ep13 r3o 4M run has spider_sr_uncentered about 0.001 and mppe_cm about 23.5 on 4096 worlds.
+e13c_mp              P(supported)=0.98  verified               [e13c]  The ep13 10M r3a run has maniptrans_sr 0.451 and mppe_cm 7.9 on 4096 worlds.
+e19a4                P(supported)=0.93  verified               [e19a4]  The ep19 4M r3a run has spider_sr_uncentered about 0.001 and mppe_cm about 64.3.
+e13a4                P(supported)=0.98  verified               [e13a4]  The ep13 4M r3a run has spider_sr_uncentered 0 and mppe_cm about 26.9.
+e3a4                 P(supported)=0.76  verified               [e3a4]  The ep3 4M r3a run has spider_sr_uncentered 0.456 and maniptrans_sr 0.
+e16b4                P(supported)=0.98  verified               [e16b4]  The ep16 4M base run has maniptrans_sr 0.0 and spider_sr_uncentered about 0.0002.
+t13s                 P(supported)=0.96  verified               [t13s]  The Tier 2 ep13 seed 43 run has maniptrans_sr 0.449 and mppe_cm 9.4.
+t13c                 P(supported)=0.99  verified               [t13c]  The Tier 2 ep13 r3a run has maniptrans_sr about 0.130 and mppe_cm about 12.71.
+t19s                 P(supported)=0.95  verified               [t19s]  The Tier 2 ep19 seed 43 run has maniptrans_sr 0.074 and spider_sr_uncentered 0.855.
+t19c                 P(supported)=0.84  verified               [t19c]  The Tier 2 ep19 r3p run has maniptrans_sr 0.083 and spider_sr_uncentered 0.900.
+x13                  P(supported)=0.99  verified               [x13]  The export check of Tier 2 ep13 seed 43 has maniptrans_sr 1.0 and spider_sr_uncentered 1.0 and ends with EXPORT_OK.
+sel13                P(supported)=0.78  verified               [sel2]  The b1019a selection picks t2-ep13-w2048-cap10m-r3a-ml40 for ep13 and t2-ep19-w2048-cap10m-r3p-ml40 for ep19.
+ld19                 P(supported)=0.92  verified               [ld19]  In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'.
+dd_mp                P(supported)=0.99  verified               [d1620]  Debajyoti Dasgupta raised Tier 1 MP-SR from 0.66666 to 0.80000.
+mp_rank              P(supported)=0.95  verified               [d1620]  maniphys.ai dropped from 10th to 11th on Tier 1 MP-SR.
+sumB_k               P(supported)=0.94  verified               [d1620]  Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 65 and is 2nd.
+sumB_s               P(supported)=0.98  verified               [d1620]  Under the site tie rule, maniphys.ai has a 12-board rank sum of 67 and is 5th.
+ctl_true             P(supported)=0.99  control(true) ok       [e13c]  The run was evaluated on 4096 worlds.
+ctl_false1           P(supported)=0.01  control(false) ok      [e19o]  The ep19 r3o 4M run has maniptrans_sr above 0.5.
+ctl_false2           P(supported)=0.01  control(false) ok      [d1620]  maniphys.ai moved up to 1st on Tier 1 MP-SR.
+controls behaved as expected
