@@ -1,0 +1,23 @@
+# command  : stages/policy/fc_eval.sh t1-ep18-w2048-cap4m-r3o-mf4090 349999104 
+# md5      : 68a3147faa6e62c48dbfc9b793ec372d  stages/policy/fc_eval.sh
+# source   : ec942b063e52
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-31T23:04:52+0800
+# ---------------------------------------------------------------
+fc_eval: t1-ep18-w2048-cap4m-r3o-mf4090 policy_349999104（4096 世界）→ runs/flash_chord/t1-ep18-w2048-cap4m-r3o-mf4090/eval_349999104_w4096.json
+== runs/flash_chord/t1-ep18-w2048-cap4m-r3o-mf4090/eval_349999104_w4096.json
+  checkpoint /repo/runs/flash_chord/t1-ep18-w2048-cap4m-r3o-mf4090/policy_349999104.safetensors  sha256 5c7d44a71b29da88…
+  environment_steps 349999104  world_count 4096  step_count 858  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.8246249218920728
+  chord_sr                                       0.983154296875
+  maniptrans_sr                                  0.9892578125
+  spider_sr_uncentered                           0.990478515625
+  mppe_cm                                        1.9367370304264682
+  mean_add_m                                     0.025957088482184674
+  object_position_error_m                        0.01905406126591984
+  object_orientation_error_deg                   4.929829138612549
+  termination_cause_fraction (legacy object-centric) {'object': 0.010986328125, 'wrist': 0.03662109375}
+  reference_tracking.success_rate (= chord_sr)   0.983154296875
+  reference_tracking.failure_cause_fraction      {'object': 0.010986328125, 'palm': 0.0166015625, 'pelvis': 0.01123046875}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.8246249218920728, "checkpoint": "/repo/runs/flash_chord/t1-ep18-w2048-cap4m-r3o-mf4090/policy_349999104.safetensors", "checkpoint_sha256": "5c7d44a71b29da88d3656085bb099b680bc2ab4bea46303dbffd109edc0acc54", "chord_sr": 0.983154296875, "environment_steps": 349999104, "maniptrans_sr": 0.9892578125, "mean_add_m": 0.025957088482184674, "mppe_cm": 1.9367370304264682, "object_orientation_error_deg": 4.929829138612549, "object_position_error_m": 0.01905406126591984, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-06_10-00-19_blue_trash_can_drag_sideways_08/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 0.010986328125, "palm": 0.0166015625, "pelvis": 0.01123046875}, "reference_end_fraction": 1.0, "success_rate": 0.983154296875}, "spider_sr_uncentered": 0.990478515625, "step_count": 858, "world_count": 4096}

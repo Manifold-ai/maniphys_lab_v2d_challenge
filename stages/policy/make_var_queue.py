@@ -47,7 +47,7 @@ W&B 标签用清单名（t2x、t3p、t3p2、t3p3、t1x、t1y、t1xb、t1yb）。
   段名必须以 _s<N> 结尾，段名以 _s<数字> 结尾时也必须给同一个 --seed（防止漏给种子时静默生成 seed 42、或生成与预设段同名的 run）。
   run 名在机器名前加 -s<N>（如 t1-ep14-w2048-cap4m-r3a-s43-mf4090，与 make_trial_queue.py 的 seed 43 命名一致），覆盖在基线覆盖之后、变体 A 两项之前
   加 reset.seed=<N> training.seed=<N>（同 make_trial_queue.py 的 SEED43），期望表的种子列写 N；其余照这份清单。不给 --seed 时一切照旧（seed 42）。
-用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp|t2mx|t1za|t1zp|t1zh|t1zq|t1zi|t1zr|t1zj|t1zs [--root <仓库根>]
+用法（仓库根）：python3 stages/policy/make_var_queue.py t2xa|t2xb|t3p|t3p2|t3p3a|t3p3b|t3pk|t3ps|t1xa|t1ya|t1xb|t1yb|t3p4a|t3p4b|t3qa|t3qb|t1oa|t1ob|t2oa|t2ob|t1c|t2m|t3pg|t3qg|t2mv|t2xp|t1xp|t2mx|t1za|t1zp|t1zh|t1zq|t1zi|t1zr|t1zj|t1zs|t1zt [--root <仓库根>]
            python3 stages/policy/make_var_queue.py <段名> --episodes 7,16 [--root <仓库根>]   （续跑、补跑）
            python3 stages/policy/make_var_queue.py t1xb_s43 --episodes 14 --seed 43   （新种子）
            python3 stages/policy/make_var_queue.py t3qs_s43 --episodes 5,10,3,14 --seed 43   （t3s43，没有预设段的清单）
@@ -281,6 +281,11 @@ SETS = {
              "episodes": [18, 24], "parts": {"t1zs": [18, 24]}, "base": None,
              "run": "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
              "desc": "Tier 1 补候选：r3o（变体 A 加物体朝向项）seed 42 铺到 ep18、24（mf4090，buffer 400 万，同 t1zp；ep18 的基线是同机同配方的 r3a seed 42，ep24 只有非变体 A 的基线）"},
+    # 10/31（计划 agent-doc/plan-t1r3o-2026-10-31.md）：t1zs 两集都按规则换入，r3o 铺到清单里跟得住、MP-SR 期望偏低的集
+    "t1zt": {"plan": "agent-doc/plan-t1r3o-2026-10-31.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+             "episodes": [19, 13, 7, 3, 22, 16], "parts": {"t1zt": [19, 13], "t1zt2": [7, 3], "t1zt3": [22, 16]}, "base": None,
+             "run": "t1-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
+             "desc": "Tier 1 r3o 铺开：seed 42，三段各两集（ep19、13；ep7、3；ep22、16），mf4090，buffer 400 万，同 t1zs；配方取 10/9 清单（t1_select_r3x.tsv）里同集的 run，换集时对照现在的规则清单"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
