@@ -1,0 +1,26 @@
+# command  : stages/evaluate/fc_export.sh smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090 409600 
+# md5      : 9dc3b640d31e0c9125397a84c125504b  stages/evaluate/fc_export.sh
+# source   : 5203f1e7b13f
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-10-22T07:07:31+0800
+# ---------------------------------------------------------------
+stages/evaluate/fc_export.sh: line 114: runs/logs/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090.export_8c778f9_s409600_w1.log: No such file or directory
+=== 2026-10-22 07:07:31 CST fc_export smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090 policy_409600 episode 1 world_count=1 traj=1 ===
+in-flash-chord: /workspace ← /home/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+fc_export: smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090 policy_409600（episode 1，1 世界）→ runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.json 与 runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.parquet
+== runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/export_8c778f9/s409600_w1/episode_000001.json
+  checkpoint /repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors  sha256 3454fe8e155c6a2f…
+  environment_steps 409600  world_count 1  step_count 747  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.011462516733601071
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        66.10183686293098
+  mean_add_m                                     0.7456030418720968
+  object_position_error_m                        0.6594609187204029
+  object_orientation_error_deg                   89.70635623921386
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 0.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 0.0, 'pelvis': 0.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.011462516733601071, "checkpoint": "/repo/runs/flash_chord/smoke-t3-ep1-w2048-cap4m-r3a-st-mf4090/policy_409600.safetensors", "checkpoint_sha256": "3454fe8e155c6a2fe81668e2b4894d8d7094b1611b9667526158811917afd3e2", "chord_sr": 0.0, "environment_steps": 409600, "maniptrans_sr": 0.0, "mean_add_m": 0.7456030418720968, "mppe_cm": 66.10183686293098, "object_orientation_error_deg": 89.70635623921386, "object_position_error_m": 0.6594609187204029, "parquet": "/repo/runs/motion/tier3_st/whole_body/soma/sequence_id=2026-05-18_17-06-21_vacuum_left_lean_02/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 0.0, "pelvis": 0.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 747, "world_count": 1}
