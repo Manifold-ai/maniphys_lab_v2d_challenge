@@ -1,0 +1,22 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 bash\ -s\ mf4090 
+# source   : b08b43e5082d
+# host     : Mac
+# run_at   : 2026-10-30T21:21:08-0400
+# ---------------------------------------------------------------
+== mf4090 2026-10-31 09:21:11 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  254G   31G  90% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1zq_mf4090_gate.log：=== 2026-10-31 07:08:32 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1zq_mf4090.log：=== 2026-10-31 07:08:32 CST EXPORT_CHAIN_DONE（成功 1、失败 1）
+runs/logs/t1-ep20-w2048-cap4m-r3h-mf4090.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3h-mf4090/export_8c778f9/s349999104_w1/episode_000020.parquet
+runs/logs/t1zq_eval_mf4090.log：=== 2026-10-31 07:06:34 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t1-ep20-w2048-cap4m-r3h-mf4090.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep20-w2048-cap4m-r3h-mf4090/eval_349999104_w4096.json
+runs/logs/t1zq_train_mf4090.log：=== 2026-10-31 07:02:10 CST DAY2_TRAIN_DONE（完成 1、失败 1、跳过 0、发散 0）
+runs/logs/t1-ep17-w2048-cap4m-r3h-mf4090.s1.log：[1;34mwandb[0m: Find logs at: [1;35m../repo/runs/flash_chord/t1-ep17-w2048-cap4m-r3h-mf4090/wandb/run-20261030_160202-t1-ep17-w2048-cap4m-r3h-mf4090-s1/logs[0m
+runs/logs/t1-ep17-w2048-cap4m-r3h-mf4090.log：[1;34mwandb[0m: Find logs at: [1;35m../repo/runs/flash_chord/t1-ep17-w2048-cap4m-r3h-mf4090/wandb/run-20261030_160202-t1-ep17-w2048-cap4m-r3h-mf4090-s1/logs[0m

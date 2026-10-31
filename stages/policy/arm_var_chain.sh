@@ -47,6 +47,10 @@ case "$N" in
   t1zh*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 手掌尺度 0.05（计划 agent-doc/plan-t1palm-2026-10-30.md）
   t1zq*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;   # 同上，mf4090
+  t1zi*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000
+        EXTRA="V2D_WANDB=0" ;;   # 手掌尺度 0.1（计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版）；10/30 17:0x 起 W&B 初始化返回 403，不连 W&B
+  t1zr*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 V2D_WANDB=0" ;;   # 同上，mf4090
   t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
@@ -61,7 +65,7 @@ case "$N" in
   t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
   t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
   t2t*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 放宽物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md）
-  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1za、t1zh、t1zq、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
+  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
 esac
 COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
 [ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256
@@ -146,9 +150,11 @@ elif [ "$no" != 0 ]; then stop "队列里物体位置终止的覆盖不一致（
 # 手掌位置奖励的尺度（计划 agent-doc/plan-t1palm-2026-10-30.md）：队列里每一行都写了同一个值、run 名都带 -r3h- 就正向断言它（顶层与 env 下各一份），混在一起就停
 nh="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c 'objective.palm_position_std=' || true)"
 hv="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -o 'objective.palm_position_std=[0-9.]*' | sort -u || true)"
-nhr="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c -- '-r3h-' || true)"
-if [ "$nh" = "$nq" ] && [ "$nhr" = "$nq" ] && [ "$(grep -c . <<< "$hv")" = 1 ]; then VAR="$VAR $hv env.$hv"
-elif [ "$nh" != 0 ] || [ "$nhr" != 0 ]; then stop "队列里手掌尺度的覆盖或 -r3h- 不一致（${nq} 行里 ${nh} 行写了覆盖、${nhr} 行带 -r3h-：${hv//$'\n'/ }）"; fi
+nhr="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -cE -- '-r3[hi]-' || true)"
+case "$hv" in objective.palm_position_std=0.05) ht=-r3h- ;; objective.palm_position_std=0.1) ht=-r3i- ;; *) ht="" ;; esac   # 第 3 版：0.05 配 -r3h-、0.1 配 -r3i-
+nht=0; [ -z "$ht" ] || nht="$(grep -hv '^#' "$Q.txt" "${Q}_smoke.txt" | grep -c -- "$ht" || true)"
+if [ "$nh" = "$nq" ] && [ -n "$ht" ] && [ "$nht" = "$nq" ] && [ "$nhr" = "$nq" ]; then VAR="$VAR $hv env.$hv"
+elif [ "$nh" != 0 ] || [ "$nhr" != 0 ]; then stop "队列里手掌尺度的覆盖或 -r3h-/-r3i- 不一致（${nq} 行里 ${nh} 行写了覆盖、${nhr} 行带标签：${hv//$'\n'/ }）"; fi
 cmds=""
 for r in "${cfgs[@]}"; do cmds+="python /repo/stages/policy/assert_cfg.py /repo/runs/cfgcheck/$r.yaml $VAR || bad=1; "; done
 scripts/dev/in-flash-chord "bad=0; ${cmds}exit \$bad" || stop "配方断言不过（见上）"

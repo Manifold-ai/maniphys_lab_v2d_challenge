@@ -680,6 +680,29 @@ def test_t1palm_parts():
                 assert over[0] == "training.replay.capacity=4000000" and over[-3:-1] == VAR and over[-1] == palm and over.count(palm) == 1, x
 
 
+def test_t1palm3_parts():
+    """计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版：t1zi、t1zr 与 t1zh、t1zq 逐行相同，只把 -r3h- 换成 -r3i-、标签换段名、
+    手掌尺度 0.05 换成 0.1；t1zi 只有 ep25、9。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        for part in ("t1za", "t1zh", "t1zq", "t1zi", "t1zr"):
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+        for kind in ("", "_smoke"):
+            for m, old, new, eps, cap in (("ml40", "t1zh", "t1zi", (25, 9), "cap10m"), ("mf4090", "t1zq", "t1zr", (20, 17), "cap4m")):
+                ref = {x.split()[5].replace("-r3h-", "-r3i-"): x.split() for x in lines(q / f"{m}_{old}{kind}.txt")}
+                got = lines(q / f"{m}_{new}{kind}.txt")
+                assert [x.split()[5] for x in got] == [("smoke-" if kind else "") + f"t1-ep{e}-w2048-{cap}-r3i-{m}" for e in eps], got
+                for x in got:
+                    t = x.split()
+                    base = [v.replace(f"V2D_WANDB_TAG={old}", f"V2D_WANDB_TAG={new}") for v in ref[t[5]]]
+                    base[5] = t[5]
+                    base[-1] = "objective.palm_position_std=0.1"
+                    assert t == base and x.count("palm_position_std") == 1, (t, base)
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
