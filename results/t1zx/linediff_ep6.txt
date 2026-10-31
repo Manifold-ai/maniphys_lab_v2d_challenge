@@ -1,0 +1,11 @@
+# command  : bash tools/queue_line_diff.sh t1-ep6-w2048-cap4m-r3o-s43-mf4090 t1-ep6-w2048-cap4m-r3a-s43-mf4090 
+# md5      : 79fd1fc398b3b0c6d13c35d62e690314  tools/queue_line_diff.sh
+# source   : 5bc16f756528-dirty
+# host     : Mac
+# run_at   : 2026-10-31T19:38:14-0400
+# ---------------------------------------------------------------
+  t1-ep6-w2048-cap4m-r3o-s43-mf4090 见 stages/policy/queues/mf4090_t1zx3.txt
+  t1-ep6-w2048-cap4m-r3a-s43-mf4090 见 stages/policy/queues/mf4090_r3t1bc.txt
+== t1-ep6-w2048-cap4m-r3o-s43-mf4090 对 t1-ep6-w2048-cap4m-r3a-s43-mf4090
+< V2D_OBJ_ORI_STD=0.4
+< V2D_OBJ_ORI_WEIGHT=1.0

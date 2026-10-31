@@ -1,0 +1,35 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "sel5": {"file": "results/ml40/select_t1/select_t1x1018.txt", "grep": "^CHOSEN ep5:"},
+  "sel15": {"file": "results/ml40/select_t1/select_t1x1018.txt", "grep": "^CHOSEN ep15:"},
+  "sel27": {"file": "results/ml40/select_t1/select_t1x1018.txt", "grep": "^CHOSEN ep27:"},
+  "sel0": {"file": "results/ml40/select_t1/select_t1x1018.txt", "grep": "^CHOSEN ep0:"},
+  "sel6": {"file": "results/ml40/select_t1/select_t1x1018.txt", "grep": "^CHOSEN ep6:"},
+  "e29": {"file": "results/day2/eval_t1-ep29-w2048-cap4m-r3a-s43-mf4090_s349999104.txt", "grep": "^fc_eval:|world_count|^  (maniptrans_sr|mppe_cm) "},
+  "n6b": {"file": "agent-doc/plan-t12night-2026-10-30.md", "grep": "^6b\\.|^   ep29 的|^   ep14 的"},
+  "base": {"file": "results/t1list/t1x1018_base.txt", "grep": "^TOTAL"},
+  "rule": {"file": "results/t1list/rule_1031.txt", "grep": "^TOTAL|^ep(20|21|29) "},
+  "lb": {"file": "results/board/lb_1031_1620.txt", "grep": "maniphys.ai"},
+  "ld5": {"file": "results/t1zx/linediff_ep5.txt"},
+  "ld27": {"file": "results/t1zx/linediff_ep27.txt"}
+ },
+ "claims": [
+  {"id": "sel5", "evidence": ["sel5"], "claim": "For ep5 the chosen run is t1-ep5-w2048-cap4m-r3a-mf4090 with a 4096-world MP-SR of about 0.308."},
+  {"id": "sel15", "evidence": ["sel15"], "claim": "For ep15 the chosen run is t1-ep15-w2048-cap4m-r3a-mf4090 with a 4096-world MP-SR of about 0.957."},
+  {"id": "sel27", "evidence": ["sel27"], "claim": "For ep27 the chosen run is t1-ep27-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.844."},
+  {"id": "sel0", "evidence": ["sel0"], "claim": "For ep0 the chosen run is t1-ep0-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.912."},
+  {"id": "sel6", "evidence": ["sel6"], "claim": "For ep6 the chosen run is t1-ep6-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.917."},
+  {"id": "e29", "evidence": ["e29"], "claim": "The ep29 r3a seed 43 run has maniptrans_sr about 0.499 on 4096 worlds."},
+  {"id": "n6b", "evidence": ["n6b"], "claim": "The record says the ep29 r3a-s43 run replaces the r3a seed 42 run by rule (a)."},
+  {"id": "base", "evidence": ["base"], "claim": "The t1x1018 total is add_auc 0.58258, spider_sr 0.83333, maniptrans_sr 0.70000 and mppe_cm 11.86661."},
+  {"id": "rule", "evidence": ["rule"], "claim": "The rule list total is add_auc 0.58811, spider_sr 23/30, maniptrans_sr 20/30 and mppe_cm 13.17701."},
+  {"id": "rule21", "evidence": ["rule"], "claim": "In the rule list, the ep21 and ep20 rows both have sp 0 and mp 0."},
+  {"id": "lb", "evidence": ["lb"], "claim": "maniphys.ai has a Tier 1 MPPE score of 11.86661 on the board."},
+  {"id": "ld5", "evidence": ["ld5"], "claim": "In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'."},
+  {"id": "ld27", "evidence": ["ld27"], "claim": "In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'."},
+  {"id": "ctl_true", "evidence": ["base"], "control": "true", "claim": "The total covers 30 episodes."},
+  {"id": "ctl_false1", "evidence": ["rule"], "control": "false", "claim": "The rule list total has maniptrans_sr 24/30."},
+  {"id": "ctl_false2", "evidence": ["sel5"], "control": "false", "claim": "For ep5 the chosen run is a 10M ml40 run."}
+ ]
+}

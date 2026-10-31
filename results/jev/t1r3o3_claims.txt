@@ -1,0 +1,25 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-t1r3o3.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 799c267e7bd5abfa204e792e55ea40ba  agent-doc/experiments/2026-10-31-t1r3o3.claims.json
+# source   : 5bc16f756528-dirty
+# host     : Mac
+# run_at   : 2026-10-31T19:38:39-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sel5                 P(supported)=0.97  verified               [sel5]  For ep5 the chosen run is t1-ep5-w2048-cap4m-r3a-mf4090 with a 4096-world MP-SR of about 0.308.
+sel15                P(supported)=0.97  verified               [sel15]  For ep15 the chosen run is t1-ep15-w2048-cap4m-r3a-mf4090 with a 4096-world MP-SR of about 0.957.
+sel27                P(supported)=0.96  verified               [sel27]  For ep27 the chosen run is t1-ep27-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.844.
+sel0                 P(supported)=0.97  verified               [sel0]  For ep0 the chosen run is t1-ep0-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.912.
+sel6                 P(supported)=0.97  verified               [sel6]  For ep6 the chosen run is t1-ep6-w2048-cap4m-r3a-s43-mf4090 with a 4096-world MP-SR of about 0.917.
+e29                  P(supported)=0.98  verified               [e29]  The ep29 r3a seed 43 run has maniptrans_sr about 0.499 on 4096 worlds.
+n6b                  P(supported)=0.97  verified               [n6b]  The record says the ep29 r3a-s43 run replaces the r3a seed 42 run by rule (a).
+base                 P(supported)=0.98  verified               [base]  The t1x1018 total is add_auc 0.58258, spider_sr 0.83333, maniptrans_sr 0.70000 and mppe_cm 11.86661.
+rule                 P(supported)=0.98  verified               [rule]  The rule list total is add_auc 0.58811, spider_sr 23/30, maniptrans_sr 20/30 and mppe_cm 13.17701.
+rule21               P(supported)=0.98  verified               [rule]  In the rule list, the ep21 and ep20 rows both have sp 0 and mp 0.
+lb                   P(supported)=0.56  UNVERIFIED             [lb]  maniphys.ai has a Tier 1 MPPE score of 11.86661 on the board.
+ld5                  P(supported)=0.92  verified               [ld5]  In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'.
+ld27                 P(supported)=0.94  verified               [ld27]  In the diff output, only two lines start with '<': V2D_OBJ_ORI_STD=0.4 and V2D_OBJ_ORI_WEIGHT=1.0. No line starts with '>'.
+ctl_true             P(supported)=0.96  control(true) ok       [base]  The total covers 30 episodes.
+ctl_false1           P(supported)=0.01  control(false) ok      [rule]  The rule list total has maniptrans_sr 24/30.
+ctl_false2           P(supported)=0.03  control(false) ok      [sel5]  For ep5 the chosen run is a 10M ml40 run.
+controls behaved as expected

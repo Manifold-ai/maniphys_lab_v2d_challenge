@@ -1,0 +1,9 @@
+# command  : python3 stages/policy/test_make_clone_queue.py 
+# md5      : bcc2d514ea96cbe59395617b018179de  stages/policy/test_make_clone_queue.py
+# source   : 5bc16f756528-dirty
+# host     : Mac
+# run_at   : 2026-10-31T19:37:55-0400
+# ---------------------------------------------------------------
+ok test_clone_only_three_changes
+ok test_refusals
+ALL_OK

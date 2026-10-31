@@ -1,0 +1,9 @@
+# command  : python3 stages/policy/test_relay_when_armed.py 
+# md5      : 23613e1f5b5623084a5d4334a48787c0  stages/policy/test_relay_when_armed.py
+# source   : 5bc16f756528-dirty
+# host     : Mac
+# run_at   : 2026-10-31T19:37:53-0400
+# ---------------------------------------------------------------
+ok test_armed_later_runs_command
+ok test_stopped_and_timeout
+ALL_OK

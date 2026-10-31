@@ -1,0 +1,7 @@
+# command  : awk /\^==\ /\{b=\$2\}\ /maniphys.ai/\ \&\&\ b\ ~\ /tier1-mppe\$/\ \{print\ b\,\ \$NF\} results/board/lb_1031_1620.txt 
+# md5      : 6782c88dade3caa717fc84b5b97becfb  results/board/lb_1031_1620.txt
+# source   : 5bc16f756528-dirty
+# host     : Mac
+# run_at   : 2026-10-31T19:38:45-0400
+# ---------------------------------------------------------------
+v2d-challenge-track2-tier1-mppe 11.86661
