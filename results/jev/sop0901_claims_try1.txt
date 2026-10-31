@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-sop0901.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : d5d58ca6e10c98330547dad167e7003d  agent-doc/experiments/2026-10-31-sop0901.claims.json
+# source   : 25d4cc5a1711-dirty
+# host     : Mac
+# run_at   : 2026-10-31T11:03:43-0400
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+md_t1                P(supported)=0.98  verified               [d0420]  Mahyar Dana newly entered the four Tier 1 boards with AUC 1.00000, SP-SR 1.00000, MP-SR 1.00000 and MPPE 0.00000.
+t1_places            P(supported)=0.98  verified               [d0420]  Under the Kaggle tie rule, maniphys.ai is 11th on Tier 1 AUC, 8th on SP-SR, 10th on MP-SR and 10th on MPPE.
+md_t2                P(supported)=0.98  verified               [d0721]  Mahyar Dana newly entered the Tier 2 boards with SP-SR 0.96666, MP-SR 1.00000, MPPE 2.36051 and AUC 0.42469.
+t2_places            P(supported)=0.97  verified               [d0721]  Under the Kaggle tie rule, maniphys.ai is 3rd on Tier 2 AUC, 3rd on SP-SR, 4th on MP-SR and 6th on MPPE.
+sumB                 P(supported)=0.98  verified               [d0721]  Under the Kaggle tie rule, the 12-board rank sums are Izus_systems 43 and maniphys.ai 64, and maniphys.ai is tied with Xueyi Wang (FF) and nima arki.
+sumB_site            P(supported)=0.95  verified               [d0721]  Under the site tie rule, the rank sums are Izus_systems 42, nima arki 62, Mahyar Dana 66 and Xueyi Wang (FF) 66, and maniphys.ai has 66.
+sumA                 P(supported)=0.98  verified               [d0721]  In reading A with Kaggle ties, maniphys.ai has 14 and is 4th, behind Izus_systems 8, Xueyi Wang (FF) 10 and nima arki 12.
+gate_zero            P(supported)=0.46  UNVERIFIED             [palm]  In the version 3 readout, ep25 and ep9 with r3i both have SP-SR and MP-SR of 0 on 4096 worlds.
+ctl                  P(supported)=0.98  verified               [palm]  In the version 3 readout, the ep20 r3i control has SP-SR 0.883, MP-SR 0.867 and MPPE 3.63 cm and is not swapped in.
+gate_fail            P(supported)=0.98  verified               [palm]  The record says the gate fails and the palm scale line stops without a version 4.
+relay_stop           P(supported)=0.85  verified               [night]  The record says both arm_after relays stopped because runs/cfgcheck yaml files were missing.
+rearm                P(supported)=0.95  verified               [night]  The record says both segments reached ARM_SEG_DONE at 04:23 MDT, and mf4090 needed V2D_FC_SRC pointed at the oo copy.
+t2xb                 P(supported)=0.95  verified               [night]  The record says the t2xb_s43 configuration check and precheck passed and its relay waits behind t1zj_s43.
+ml40_prog            P(supported)=0.98  verified               [st40]  On ml40 the ep14 r3a s43 run is at 7.0% of training, and the ep11 r3a s43 run completed 349999104 environment steps.
+mf_prog              P(supported)=0.98  verified               [st90]  On mf4090 the ep24 r3o run is at 97.0% of training, and the ep18 r3o run completed 349999104 environment steps.
+mf_disk              P(supported)=0.98  verified               [st90]  The root disk on mf4090 has 29G available.
+ctl_true             P(supported)=0.97  control(true) ok       [d0721]  maniphys.ai is 1st on Tier 3 SP-SR.
+ctl_false1           P(supported)=0.01  control(false) ok      [d0721]  maniphys.ai is 1st on Tier 2 MP-SR.
+ctl_false2           P(supported)=0.01  control(false) ok      [palm]  The record says the gate passes and version 4 is written.
+controls behaved as expected

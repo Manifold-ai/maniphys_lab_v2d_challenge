@@ -1,0 +1,28 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 25d4cc5a1711
+# host     : Mac
+# run_at   : 2026-10-31T11:01:08-0400
+# ---------------------------------------------------------------
+== ml40 2026-10-31 23:01:16 CST
+NVIDIA L40S, 40307 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  945G  54% /lab_data
+-- tmux
+v2d-t1zj_s43-eval: 1 windows (created Sat Oct 31 18:23:29 2026)
+v2d-t1zj_s43-export: 1 windows (created Sat Oct 31 18:23:31 2026)
+v2d-t1zj_s43-train: 1 windows (created Sat Oct 31 18:23:27 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zj_s43_ml40-gate
+runs/.chain-active-t1zj_s43_eval_ml40
+runs/.chain-active-t1zj_s43_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 16:59:21 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t2xb_s43_ml40.log：=== 2026-10-31 18:27:59 CST 来历与 t2xb_s43 的队列：ec942b063e52 a0dab1fe2283bd93d0ba06d87683aeb9  stages/policy/queues/ml40_t2xb_s43.expect.tsv 35d099078d54c752501c35496fa72331  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep14-w2048-cap10m-r3a-s43-ml40.nanwatch.log：10-31 09:01:05 MDT 20,000,768 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep14-w2048-cap10m-r3a-s43-ml40.log：training progress: 24,500,224/349,999,104 environment steps (7.0%); 40,603 env steps/s; elapsed 00:10:03; ETA 02:13:37
+runs/logs/t1zj_s43_train_ml40.log：=== 2026-10-31 22:49:04 CST 正式 t1-ep14-w2048-cap10m-r3a-s43-ml40
+runs/logs/t1-ep29-w2048-cap10m-r3a-s43-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep29-w2048-cap10m-r3a-s43-ml40
+runs/logs/t1-ep29-w2048-cap10m-r3a-s43-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep29-w2048-cap10m-r3a-s43-ml40
+runs/logs/t1-ep29-w2048-cap10m-r3a-s43-ml40.nanwatch.log：10-31 08:46:42 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep11-w2048-cap10m-r3a-s43-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-s43-ml40
+runs/logs/t1-ep11-w2048-cap10m-r3a-s43-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep11-w2048-cap10m-r3a-s43-ml40

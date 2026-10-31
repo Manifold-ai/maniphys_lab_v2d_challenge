@@ -1,0 +1,170 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d0420": {
+   "file": "results/board/diff_1031_0420.txt"
+  },
+  "d0721": {
+   "file": "results/board/diff_1031_0721.txt"
+  },
+  "st40": {
+   "file": "results/ops/status_ml40_1031_0901.txt"
+  },
+  "st90": {
+   "file": "results/ops/status_mf4090_1031_0901.txt"
+  },
+  "palm": {
+   "file": "agent-doc/plan-t1palm-2026-10-30.md",
+   "grep": "第 3 版读数|ep25 r3i|ep9 r3i|ep20 r3i|ep17 r3i|闸不过|四条都训完"
+  },
+  "night": {
+   "file": "agent-doc/plan-t12night-2026-10-30.md",
+   "grep": "10/31 04:|ARM_SEG_DONE|cfgcheck|t2xb_s43|V2D_FC_SRC|02:52"
+  }
+ },
+ "claims": [
+  {
+   "id": "md_t1",
+   "evidence": [
+    "d0420"
+   ],
+   "claim": "Mahyar Dana newly entered the four Tier 1 boards with AUC 1.00000, SP-SR 1.00000, MP-SR 1.00000 and MPPE 0.00000."
+  },
+  {
+   "id": "t1_places",
+   "evidence": [
+    "d0420"
+   ],
+   "claim": "Under the Kaggle tie rule, maniphys.ai is 11th on Tier 1 AUC, 8th on SP-SR, 10th on MP-SR and 10th on MPPE."
+  },
+  {
+   "id": "md_t2",
+   "evidence": [
+    "d0721"
+   ],
+   "claim": "Mahyar Dana newly entered the Tier 2 boards with SP-SR 0.96666, MP-SR 1.00000, MPPE 2.36051 and AUC 0.42469."
+  },
+  {
+   "id": "t2_places",
+   "evidence": [
+    "d0721"
+   ],
+   "claim": "Under the Kaggle tie rule, maniphys.ai is 3rd on Tier 2 AUC, 3rd on SP-SR, 4th on MP-SR and 6th on MPPE."
+  },
+  {
+   "id": "sumB",
+   "evidence": [
+    "d0721"
+   ],
+   "claim": "Under the Kaggle tie rule, the 12-board rank sums are Izus_systems 43 and maniphys.ai 64, and maniphys.ai is tied with Xueyi Wang (FF) and nima arki."
+  },
+  {
+   "id": "sumB_site",
+   "evidence": [
+    "d0721"
+   ],
+   "claim": "Under the site tie rule, the rank sums are Izus_systems 42, nima arki 62, Mahyar Dana 66 and Xueyi Wang (FF) 66, and maniphys.ai has 66."
+  },
+  {
+   "id": "sumA",
+   "evidence": [
+    "d0721"
+   ],
+   "claim": "In reading A with Kaggle ties, maniphys.ai has 14 and is 4th, behind Izus_systems 8, Xueyi Wang (FF) 10 and nima arki 12."
+  },
+  {
+   "id": "gate_ep25",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says ep25 r3i has SP-SR and MP-SR of 0."
+  },
+  {
+   "id": "gate_ep9",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says ep9 r3i has SP-SR and MP-SR of 0."
+  },
+  {
+   "id": "ctl",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "In the version 3 readout, the ep20 r3i control has SP-SR 0.883, MP-SR 0.867 and MPPE 3.63 cm and is not swapped in."
+  },
+  {
+   "id": "gate_fail",
+   "evidence": [
+    "palm"
+   ],
+   "claim": "The record says the gate fails and the palm scale line stops without a version 4."
+  },
+  {
+   "id": "relay_stop",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The record says both arm_after relays stopped because runs/cfgcheck yaml files were missing."
+  },
+  {
+   "id": "rearm",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The record says both segments reached ARM_SEG_DONE at 04:23 MDT, and mf4090 needed V2D_FC_SRC pointed at the oo copy."
+  },
+  {
+   "id": "t2xb",
+   "evidence": [
+    "night"
+   ],
+   "claim": "The record says the t2xb_s43 configuration check and precheck passed and its relay waits behind t1zj_s43."
+  },
+  {
+   "id": "ml40_prog",
+   "evidence": [
+    "st40"
+   ],
+   "claim": "On ml40 the ep14 r3a s43 run is at 7.0% of training, and the ep11 r3a s43 run completed 349999104 environment steps."
+  },
+  {
+   "id": "mf_prog",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "On mf4090 the ep24 r3o run is at 97.0% of training, and the ep18 r3o run completed 349999104 environment steps."
+  },
+  {
+   "id": "mf_disk",
+   "evidence": [
+    "st90"
+   ],
+   "claim": "The root disk on mf4090 has 29G available."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "d0721"
+   ],
+   "control": "true",
+   "claim": "maniphys.ai is 1st on Tier 3 SP-SR."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "d0721"
+   ],
+   "control": "false",
+   "claim": "maniphys.ai is 1st on Tier 2 MP-SR."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "palm"
+   ],
+   "control": "false",
+   "claim": "The record says the gate passes and version 4 is written."
+  }
+ ]
+}
