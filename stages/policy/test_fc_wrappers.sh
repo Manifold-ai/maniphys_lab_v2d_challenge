@@ -95,7 +95,7 @@ cat > "$R/scripts/dev/in-flash-chord" <<'EOF'
 #!/usr/bin/env bash
 if [ "${V2D_DETACH:-0}" != 1 ]; then echo "fake freeze for $*"; exit 0; fi   # image_fingerprint 的依赖 freeze
 echo "$*" >> "$CTR/cmds"
-echo "run=${WANDB_RUN_ID:-} tags=${WANDB_TAGS:-} key=${WANDB_API_KEY:+set} proxy=${V2D_PROXY:+set} timeout=${WANDB_INIT_TIMEOUT:-} name=${V2D_CONTAINER_NAME:-} gpu=${V2D_GPU:-} detach=${V2D_DETACH:-}" >> "$CTR/envs"
+echo "run=${WANDB_RUN_ID:-} tags=${WANDB_TAGS:-} key=${WANDB_API_KEY:+set} proxy=${V2D_PROXY:+set}${HTTPS_PROXY:+https} timeout=${WANDB_INIT_TIMEOUT:-} name=${V2D_CONTAINER_NAME:-} gpu=${V2D_GPU:-} detach=${V2D_DETACH:-}" >> "$CTR/envs"
 n="$V2D_CONTAINER_NAME"; [ -d "$CTR/$n" ] && { echo "Conflict. The container name \"/$n\" is already in use" >&2; exit 125; }
 mkdir -p "$CTR/$n"; echo "${FAKE_OWNER:-$ME}" > "$CTR/$n/owner"
 ( fake-train "$*" > "$CTR/$n/log" 2>&1; echo $? > "$CTR/$n/rc" ) &
@@ -242,6 +242,8 @@ mkdir -p runs/flash_chord/t18-lock; exec 8>runs/flash_chord/t18-lock/.lock; floc
 check "另一个 fc_run 持锁时拒绝" '[ "$(runfc t18-lock $PQ 2048 409600)" = 2 ] && grep -q 占用 $SB/out.txt'
 exec 8>&-
 check "V2D_WANDB=1 但 .env 没有 key → 拒绝" 'mv .env .env.bak; rc=$(runfc t18-nokey $PQ 2048 409600); mv .env.bak .env; [ "$rc" = 2 ]'
+check "V2D_WANDB_PROXY=1 → 容器拿到 HTTPS_PROXY、运行记录 wandb_proxy=on、代理密码不落盘" 'rc=$(V2D_WANDB_PROXY=1 runfc t19-proxy $PQ 2048 409600); [ "$rc" = 0 ] && grep "run=t19-proxy-s1" $CTR/envs | grep -q "proxy=https " && grep "\"event\": \"start\"" runs/flash_chord/t19-proxy/run_record.jsonl | grep -q "\"wandb_proxy\": \"on\"" && ! grep -rq secretproxy runs $CTR'
+check "V2D_WANDB_PROXY=1 但 .env 没有 V2D_PROXY → 拒绝" 'cp .env .env.bak; sed -i "/^V2D_PROXY=/d" .env; rc=$(V2D_WANDB_PROXY=1 runfc t20-noproxy $PQ 2048 409600); mv .env.bak .env; [ "$rc" = 2 ]'
 
 echo "== T19 队列：解析、逐行环境变量、失败即停、重跑跳过已完成"
 fresh

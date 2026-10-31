@@ -6,6 +6,7 @@
 #   V2D_WANDB=1|0             是否记到 W&B（默认 1）；V2D_WANDB_TAG=tier1 作为 W&B tag
 #   V2D_WANDB_ENTITY / V2D_WANDB_PROJECT  默认 zhou-rongx-northeastern-university / v2d-track2（自测用 v2d-selftest）
 #   V2D_WANDB_UPLOAD_CKPT=1|0 是否把 policy checkpoint 传成 W&B artifact（默认 1）
+#   V2D_WANDB_PROXY=1|0       W&B 是否走 .env 里的 V2D_PROXY（默认 0；10/30 起训练机直连 W&B 返回 403）
 #   V2D_GPU_SAMPLE_MS=2000    GPU 采样间隔；V2D_GPU_APPS=1 另记按进程的显存（.apps）
 #   V2D_MAX_RETRY=2           意外退出后从最新 checkpoint 重试的次数；V2D_RETRY_BACKOFF_S=30 每次重试前等 30×次数 秒
 #   V2D_KEEP_STATES=2         训练中与结束后保留的 state_* 份数（≥1；policy_* 全留）
@@ -60,6 +61,13 @@ if [ "${V2D_WANDB:-1}" = 1 ]; then
   WANDB_API_KEY="$(sed -n 's/^WANDB_API_KEY=//p' .env 2>/dev/null | tail -1)"
   [ -n "$WANDB_API_KEY" ] || die ".env 里没有 WANDB_API_KEY（或设 V2D_WANDB=0）"
   export WANDB_API_KEY WANDB_INIT_TIMEOUT="${WANDB_INIT_TIMEOUT:-180}"
+  # V2D_WANDB_PROXY=1：W&B 走 .env 里的 V2D_PROXY。10/30 起两台训练机直连 api.wandb.ai 返回 403（出口 IP 在 CN），
+  # 经代理（出口 SG）可达；值同 key 一样只经环境变量按名字转发进容器，不进 argv、日志与记录
+  if [ "${V2D_WANDB_PROXY:-0}" = 1 ]; then
+    HTTPS_PROXY="$(sed -n 's/^V2D_PROXY=//p' .env 2>/dev/null | tail -1)"
+    [ -n "$HTTPS_PROXY" ] || die ".env 里没有 V2D_PROXY（V2D_WANDB_PROXY=1 要用）"
+    export HTTPS_PROXY https_proxy="$HTTPS_PROXY" NO_PROXY=localhost,127.0.0.1 no_proxy=localhost,127.0.0.1
+  fi
 fi
 
 host_path() {  # 容器内路径 → 宿主机路径
@@ -198,7 +206,7 @@ while :; do
       image_base11_sha="$FP_BASE" deps_freeze_sha="$FP_FREEZE" \
       source_commit="$(cat .v2d-source-commit 2>/dev/null || echo unknown)" upstream="$UPSTREAM" \
       parquet="$PARQ" parquet_sha256="$PARQ_SHA" world_count="$W" total_steps="$STEPS" \
-      overrides="$OVR" resume_from="${LATEST:-none}" wandb_id="${WANDB_RUN_ID:-disabled}" \
+      overrides="$OVR" resume_from="${LATEST:-none}" wandb_id="${WANDB_RUN_ID:-disabled}" wandb_proxy="${HTTPS_PROXY:+on}" \
       fc_src="${V2D_FC_SRC:-image}" obj_ori_weight="${V2D_OBJ_ORI_WEIGHT:-}" obj_ori_std="${V2D_OBJ_ORI_STD:-}"
     echo "=== $(date '+%F %T %Z') fc_run $RUN 第 $seg 段（尝试 $attempt）resume_from=${LATEST:-none} ===" >> "$LOG"
     if ! V2D_DETACH=1 V2D_GPU=1 V2D_CONTAINER_NAME="$CNAME" scripts/dev/in-flash-chord "$CMD" >> "$LOG" 2>&1; then

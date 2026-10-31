@@ -48,9 +48,9 @@ case "$N" in
   t1zq*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;   # 同上，mf4090
   t1zi*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000
-        EXTRA="V2D_WANDB=0" ;;   # 手掌尺度 0.1（计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版）；10/30 17:0x 起 W&B 初始化返回 403，不连 W&B
+        EXTRA="V2D_WANDB_PROXY=1" ;;   # 手掌尺度 0.1（计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版）；10/30 17:0x 起直连 W&B 返回 403（出口 IP 在 CN），W&B 走 V2D_PROXY
   t1zr*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
-        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 V2D_WANDB=0" ;;   # 同上，mf4090
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 V2D_WANDB_PROXY=1" ;;   # 同上，mf4090
   t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
