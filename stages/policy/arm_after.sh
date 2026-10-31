@@ -18,6 +18,10 @@
 # 7. 从环境里去掉 HF 凭据、代理与前置命令（HF_TOKEN、https_proxy、HTTPS_PROXY、http_proxy、HTTP_PROXY、HF_ENDPOINT、V2D_PRE_CMD）。
 # 8. V2D_ARM_DRYRUN=1 stages/policy/arm_var_chain.sh <段名>：退出码 0、最后一行 DRYRUN_OK 才起；再 stages/policy/arm_var_chain.sh <段名>：
 #    退出码 0、最后一行 ARMED。两次的核对都由 arm_var_chain.sh 自己做（GPU、来历、磁盘、配置等）。
+# V2D_AFTER_SYNC_FROM=<runs/stage/ 下的暂存目录>（计划 agent-doc/plan-t12night-2026-10-30.md 第 2 节）：下一段的代码还没同步上来（链在跑时
+#    不许同步）。第 1 步的来历与 md5 改从暂存目录里取，另记下仓库副本的来历；第 4 步之后先核仓库副本的来历没变（变了就停，不覆盖别人的同步），
+#    再用本脚本同目录的 stage_sync.sh 把暂存目录同步进仓库副本，
+#    第 6 步核"同步后的仓库副本与暂存目录相同"。不设时与以前相同。
 # 抄进本日志的上一段的行把结束标记换成中文（同 train_after.sh：别的脚本按日志最后一行判结局）。
 # 最后一行 ARM_AFTER_ARMED，或 ARM_AFTER_STOPPED <原因>。
 # 测试：stages/policy/test_arm_after.py。
@@ -25,6 +29,7 @@ set -uo pipefail
 N=${1:?用法见文件头}; PT=${2:?}; PE=${3:?}; PX=${4:?}; PN=${5:?}
 [[ $N =~ ^[a-z0-9_]+$ ]] || { echo "arm_after: 段名非法：$N" >&2; exit 2; }
 [[ $PN =~ ^[1-9][0-9]*$ ]] || { echo "arm_after: 上一段条数必须是正整数：$PN" >&2; exit 2; }
+TOOLS="$(cd "$(dirname "$0")" && pwd -P)"
 cd "$(dirname "$0")/../.."
 [ -f stages/policy/arm_var_chain.sh ] || { echo "arm_after: 不在仓库根（找不到 stages/policy/arm_var_chain.sh）" >&2; exit 2; }
 POLL=${V2D_POLL_S:-60}; MAXA=${V2D_AFTER_MAX_POLLS:-720}; MAXG=${V2D_GPU_MAX_POLLS:-120}; PTO=${V2D_PRE_TIMEOUT_S:-3600}
@@ -37,7 +42,14 @@ last() { tail -1 "$1" 2>/dev/null; }
 demark() { sed -E 's/DAY2_TRAIN_(DONE|FAILED)/训练链结束（\1）/g; s/DAY2_EVAL_(DONE|FAILED)/评测链结束（\1）/g; s/EXPORT_CHAIN_(DONE|FAILED)/导出链结束（\1）/g'; }
 snap() { cat .v2d-source-commit 2>&1; md5sum stages/policy/queues/*_"$N".* stages/policy/queues/*_"$N"_* stages/evaluate/exports/cand_t*_"$N"_*.tsv 2>&1; }
 
-S0="$(snap)"
+SYNC=${V2D_AFTER_SYNC_FROM:-}
+if [ -n "$SYNC" ]; then
+  [ -f "$TOOLS/stage_sync.sh" ] || { echo "arm_after: V2D_AFTER_SYNC_FROM 要 $TOOLS/stage_sync.sh" >&2; exit 2; }
+  S0="$(cd "$SYNC" && snap)" || { echo "arm_after: 暂存目录不可读：$SYNC" >&2; exit 2; }
+  R0="$(cat .v2d-source-commit 2>&1)"   # 等待期间有人同步过仓库副本就不拿暂存的去盖（复核 MINOR 4）
+else
+  S0="$(snap)"
+fi
 say "等 runs/.chain-active-* 都消失、$PT 与 $PE 写完最后一行，再起 ${N}；前置命令：${V2D_PRE_CMD:-无}；可用 $(free_mb) MB"
 say "来历与 ${N} 的队列：$(tr '\n' ' ' <<< "$S0")"
 i=0
@@ -64,6 +76,12 @@ if [ -n "${V2D_PRE_CMD:-}" ]; then
   [ "$rc" = 0 ] || stop "前置命令没过（退出码 ${rc}$([ "$rc" = 124 ] && echo '，超时')）"
 fi
 
+if [ -n "$SYNC" ]; then
+  [ "$(cat .v2d-source-commit 2>&1)" = "$R0" ] || stop "仓库副本的来历在等待期间变了（${R0} → $(cat .v2d-source-commit 2>&1)），不拿暂存目录覆盖"
+  say "从暂存目录同步：${SYNC}（仓库副本原来是 ${R0}）"
+  bash "$TOOLS/stage_sync.sh" "$SYNC" || stop "暂存目录同步没过（退出码 $?）"
+fi
+
 if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then
   say "V2D_AFTER_INDEPENDENT=1：${N} 与上一段无关，上一段的结局只记录、不拦。训练：$(last "$PT" | demark)；评测：$(last "$PE" | demark)；导出：$(last "$PX" | demark)"
 else
@@ -71,7 +89,7 @@ else
   last "$PE" | grep -qE 'DAY2_EVAL_DONE（成功 [1-9][0-9]*、失败 0）' || stop "上一段评测有失败或没有正常结束"
   last "$PX" | grep -qF "EXPORT_CHAIN_DONE（成功 ${PN}、失败 0）" || stop "上一段导出没有全部成功（要 ${PN} 条成功、失败 0）"
 fi
-[ "$(snap)" = "$S0" ] || stop "来历或 ${N} 的队列在等待期间变了：$(snap | tr '\n' ' ')"
+[ "$(snap)" = "$S0" ] || stop "来历或 ${N} 的队列$([ -n "$SYNC" ] && echo '与暂存目录不同' || echo '在等待期间变了')：$(snap | tr '\n' ' ')"
 if [ "${V2D_AFTER_INDEPENDENT:-0}" = 1 ]; then say "来历与队列没变"; else say "上一段 ${PN} 条训练、评测、导出都做完；来历与队列没变"; fi
 
 unset HF_TOKEN https_proxy HTTPS_PROXY http_proxy HTTP_PROXY HF_ENDPOINT V2D_PRE_CMD

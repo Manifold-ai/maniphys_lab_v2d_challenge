@@ -9,7 +9,10 @@
   4. 卡一直被占、有导出进程、nvidia-smi 出错：停，不跑前置命令；卡占 2 秒后空出：照常往下；
   5. 预演最后一行不是 DRYRUN_OK：不真起；起链最后一行不是 ARMED：停；
   6. 标记一直不消失：等满次数后停；日志最后一行 2 秒后才变成结束行：一直等；
-  7. 前置命令期间来历变了（有人同步）：不预演、不起。
+  7. 前置命令期间来历变了（有人同步）：不预演、不起；
+  8. V2D_AFTER_SYNC_FROM（计划 agent-doc/plan-t12night-2026-10-30.md 第 2 节）：链结束后从 runs/stage/ 下的暂存目录同步进仓库副本
+     （改了的队列换成暂存的、仓库副本独有的源码文件删掉，.env、data、runs、results 留着，来历写成暂存的），再预演、起链；
+     暂存目录不完整、或等待期间仓库副本的来历变了（有人同步过）时同步不做、不起。
 用法：python3 stages/policy/test_arm_after.py
 """
 import os
@@ -36,12 +39,13 @@ ARMED = ["PRE ran", "arm t3p4b DRYRUN=1 TOKEN= PROXY= EP= PRE=", "arm t3p4b DRYR
 
 
 def run(train_last=TRAIN_DONE, eval_last=EVAL_DONE, export_last=EXPORT_DONE, marker_s=None, files=(), clear_after=None,
-        late_train=None, pre=PRE_OK, **env_extra) -> tuple:
+        late_train=None, pre=PRE_OK, setup=None, post=None, **env_extra) -> tuple:
     with tempfile.TemporaryDirectory() as t:
         root = Path(t)
         for d in ("runs/tools", "runs/logs", "stages/policy/queues", "stages/evaluate/exports", "bin"):
             (root / d).mkdir(parents=True)
         shutil.copy(HERE / "arm_after.sh", root / "runs/tools")
+        shutil.copy(HERE / "stage_sync.sh", root / "runs/tools")
         for path, text in (("stages/policy/arm_var_chain.sh", FAKE_ARM), ("bin/nvidia-smi", FAKE_SMI), ("bin/pgrep", FAKE_PGREP),
                            ("bin/timeout", FAKE_TIMEOUT)):
             (root / path).write_text(text, encoding="utf-8")
@@ -66,6 +70,8 @@ def run(train_last=TRAIN_DONE, eval_last=EVAL_DONE, export_last=EXPORT_DONE, mar
             mk.write_text("a")
             if marker_s:
                 threading.Timer(marker_s, mk.unlink).start()
+        if setup:
+            setup(root)
         env = dict(os.environ, PATH=f"{root / 'bin'}:{os.environ['PATH']}", V2D_POLL_S="1", V2D_AFTER_MAX_POLLS="8",
                    V2D_GPU_MAX_POLLS="3", HF_TOKEN="hf_fake", https_proxy="http://p", HTTP_PROXY="http://p",
                    HF_ENDPOINT="https://huggingface.co", V2D_PRE_CMD=pre, **env_extra)
@@ -73,7 +79,8 @@ def run(train_last=TRAIN_DONE, eval_last=EVAL_DONE, export_last=EXPORT_DONE, mar
         r = subprocess.run(["bash", str(root / "runs/tools/arm_after.sh"), "t3p4b", "runs/logs/a_train.log", "runs/logs/a_eval.log",
                             "runs/logs/a_export.log", "5"], cwd=root, env=env, capture_output=True, text=True, errors="replace", timeout=90)
         calls = (root / "calls.txt").read_text().split("\n")[:-1] if (root / "calls.txt").exists() else []
-        return r.returncode, calls, r.stdout + r.stderr, time.time() - t0
+        extra = post(root) if post else None
+        return (r.returncode, calls, r.stdout + r.stderr, time.time() - t0) + ((extra,) if post else ())
 
 
 def last(out: str) -> str:
@@ -145,6 +152,41 @@ def test_waits_for_markers_and_logs() -> None:
 def test_source_changed() -> None:
     rc, calls, out, _ = run(pre='echo "PRE ran" >> calls.txt; echo 1234567890ab > .v2d-source-commit')
     assert rc == 1 and calls == ["PRE ran"] and "来历或 t3p4b 的队列在等待期间变了" in last(out), (rc, calls, out)
+
+
+def _stage(root: Path, complete: bool = True) -> None:
+    (root / ".v2d-remote-root").write_text("")
+    for f, text in ((".env", "SECRET=1\n"), ("data/d.bin", "d"), ("results/r.txt", "r"), ("stages/old_only_here.sh", "x")):
+        (root / f).parent.mkdir(parents=True, exist_ok=True)
+        (root / f).write_text(text)
+    st = root / "runs/stage/b0c0ffee1234"
+    for d in ("stages/policy/queues", "stages/evaluate/exports"):
+        (st / d).mkdir(parents=True)
+    (st / ".v2d-source-commit").write_text("b0c0ffee1234\n")
+    if complete:
+        shutil.copy(root / "stages/policy/arm_var_chain.sh", st / "stages/policy/arm_var_chain.sh")
+    for q in ("mf4090_t3p4b.expect.tsv", "mf4090_t3p4b_smoke.txt", "mf4090_t3p4b.txt"):
+        (st / "stages/policy/queues" / q).write_text("new " + q + "\n")
+    (st / "stages/evaluate/exports/cand_t3_t3p4b_mf4090.tsv").write_text("y\n")
+
+
+def _after(root: Path) -> dict:
+    return {"commit": (root / ".v2d-source-commit").read_text().strip(),
+            "queue": (root / "stages/policy/queues/mf4090_t3p4b.txt").read_text().strip(),
+            "kept": all((root / f).exists() for f in (".env", "data/d.bin", "results/r.txt", "runs/logs/a_train.log")),
+            "old_gone": not (root / "stages/old_only_here.sh").exists()}
+
+
+def test_sync_from_stage() -> None:
+    rc, calls, out, _, st = run(setup=_stage, post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234")
+    # 前置命令的 calls.txt 在仓库根、暂存目录里没有，同步时被 --delete 删掉（与 scripts/dev/remote 的行为相同），所以只剩预演与起链两行
+    assert rc == 0 and calls == ARMED[1:] and "STAGE_SYNC_DONE b0c0ffee1234" in out, (rc, calls, out)
+    assert st == {"commit": "b0c0ffee1234", "queue": "new mf4090_t3p4b.txt", "kept": True, "old_gone": True}, st
+    rc, calls, out, _, st = run(setup=_stage, post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234",
+                                pre='echo "PRE ran" >> calls.txt; echo 1234567890ab > .v2d-source-commit')
+    assert rc == 1 and calls == ["PRE ran"] and "仓库副本的来历在等待期间变了" in last(out) and st["commit"] == "1234567890ab" and not st["old_gone"], (rc, calls, out, st)
+    rc, calls, out, _, st = run(setup=lambda r: _stage(r, complete=False), post=_after, V2D_AFTER_SYNC_FROM="runs/stage/b0c0ffee1234")
+    assert rc == 1 and calls == ["PRE ran"] and "ARM_AFTER_STOPPED 暂存目录同步没过" in out and "暂存目录不完整" in out and st["commit"] == "a629fbdbf3e5" and not st["old_gone"], (rc, calls, out, st)
 
 
 if __name__ == "__main__":

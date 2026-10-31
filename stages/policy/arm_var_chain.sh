@@ -43,14 +43,17 @@ case "$N" in
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1zp*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # Tier 1 冲第一 A2，r3o（计划 agent-doc/plan-t1push-2026-10-29.md）
+  t1zs*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; COPY=v040_p185_nfg_oo ;;   # r3o 铺开（计划 agent-doc/plan-t12night-2026-10-30.md），同 t1zp
+  t1zj*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 400 万换 1000 万（同计划），同 t1za
   t1za*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # Tier 1 冲第一 A1
   t1zh*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 手掌尺度 0.05（计划 agent-doc/plan-t1palm-2026-10-30.md）
   t1zq*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;   # 同上，mf4090
   t1zi*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000
-        EXTRA="V2D_WANDB_PROXY=1" ;;   # 手掌尺度 0.1（计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版）；10/30 17:0x 起直连 W&B 返回 403（出口 IP 在 CN），W&B 走 V2D_PROXY
+        EXTRA="" ;;   # 手掌尺度 0.1（计划 agent-doc/plan-t1palm-2026-10-30.md 第 3 版）
   t1zr*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
-        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200 V2D_WANDB_PROXY=1" ;;   # 同上，mf4090
+        EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;   # 同上，mf4090
   t1x*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200" ;;
   t1y*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;
@@ -65,8 +68,10 @@ case "$N" in
   t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
   t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
   t2t*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 放宽物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md）
-  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
+  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1zs、t1zj、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
 esac
+# 10/30 17:0x 起两台训练机直连 api.wandb.ai 返回 403（出口 IP 在 CN），经 V2D_PROXY（出口 SG）可达：所有段的 W&B 都走代理（fc_run.sh V2D_WANDB_PROXY）
+EXTRA="${EXTRA:+$EXTRA }V2D_WANDB_PROXY=1"
 COPY=${COPY:-v040_p185_nfg}; MAN=third_party/patches/flash_chord-p185-nfg.sha256
 [ "$COPY" = v040_p185_nfg ] || MAN=third_party/patches/flash_chord-p185-nfg-oo.sha256
 WAIT="V2D_GPU_WAIT_S=21600"
