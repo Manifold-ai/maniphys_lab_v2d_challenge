@@ -758,6 +758,42 @@ def test_t1mppe_pt08():
         r = gen(root, "t1hq", "--episodes", "25")
         assert r.returncode != 0, "预设段不许再给 --episodes"
 
+
+def test_t1fill():
+    """计划 agent-doc/plan-t1fill-2026-11-01.md：t1hq2 是 ep25 的基础配方加手掌位置终止 0.05；t1hr2 是 ep26、23 的基础配方加物体朝向项（-r3o-nv-）；
+    都不带变体 A，只多声明的那一项，冒烟与正式一致。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t1hq2": (["termination.palm_position_threshold=0.05"], False, ["t1-ep25-w2048-cap10m-pt05-ml40"]),
+                "t1hr2": ([], True, ["t1-ep26-w2048-cap10m-r3o-nv-ml40", "t1-ep23-w2048-cap10m-r3o-nv-ml40"])}
+        for part, (extra, r3o, runs) in want.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"ml40_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    t = x.split()
+                    assert "object_position_std" not in x and "object_orientation_threshold" not in x, x
+                    assert (" V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4 " in f" {x} ") == r3o, x
+                    i = next(k for k, v in enumerate(t) if v.isdigit() and k > 0 and t[k - 1] == "2048")
+                    over = [v for v in t[i + 1:] if v != "scene.support=false"]
+                    assert over == extra, (part, over)
+        r = gen(root, "t1zs2")
+        assert r.returncode == 0, r.stdout + r.stderr
+        for kind in ("", "_smoke"):
+            got = lines(q / f"mf4090_t1zs2{kind}.txt")
+            names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+            assert names == [("smoke-" if kind else "") + f"t1-ep{e}-w2048-cap4m-r3o-mf4090" for e in (26, 12)], names
+            for x in got:
+                assert " V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4 " in f" {x} ", x
+                assert "objective.object_position_std=0.05" in x and "termination.object_orientation_threshold=0.6" in x, x
+                assert "training.replay.capacity=4000000" in x and x.count("capacity") == 1, x
+
+
 def test_t1zw_r3o_10m():
     """计划 agent-doc/plan-t1r3o-2026-10-31.md 第 2 版：t1zw、t1zw2 在 ml40 用 1000 万（不写容量覆盖），t1zt4 在 mf4090 只含 ep7、22；
     三段都是 r3o（变体 A 两项 + 两个物体朝向变量），run 名与段对应，冒烟与正式一致。"""
