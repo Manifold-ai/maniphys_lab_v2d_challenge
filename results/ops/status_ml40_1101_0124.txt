@@ -1,0 +1,31 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 3dc871408e49
+# host     : Mac
+# run_at   : 2026-11-01T02:24:47-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-01 15:24:51 CST
+NVIDIA L40S, 40205 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  942G  54% /lab_data
+-- tmux
+v2d-t1zw-eval: 1 windows (created Sun Nov  1 12:55:37 2026)
+v2d-t1zw-export: 1 windows (created Sun Nov  1 12:55:39 2026)
+v2d-t1zw-train: 1 windows (created Sun Nov  1 12:55:35 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zw_ml40-gate
+runs/.chain-active-t1zw_eval_ml40
+runs/.chain-active-t1zw_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 16:59:21 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t2xb_s43_ml40.log：=== 2026-11-01 01:35:12 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_ml40.log：=== 2026-11-01 06:06:29 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hp_ml40.log：=== 2026-11-01 08:20:02 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zw_ml40.log：=== 2026-11-01 12:55:42 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep13-w2048-cap10m-r3o-ml40.log：training progress: 14,000,128/349,999,104 environment steps (4.0%); 50,090 env steps/s; elapsed 00:04:40; ETA 01:51:48
+runs/logs/t1-ep13-w2048-cap10m-r3o-ml40.nanwatch.log：11-01 01:23:48 MDT 10,000,384 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zw_train_ml40.log：=== 2026-11-01 15:17:47 CST 正式 t1-ep13-w2048-cap10m-r3o-ml40
+runs/logs/t1-ep19-w2048-cap10m-r3o-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40
+runs/logs/t1-ep19-w2048-cap10m-r3o-ml40.nanwatch.log：11-01 01:17:35 MDT 349,999,104 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep19-w2048-cap10m-r3o-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep13-w2048-cap10m-r3o-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep13-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep13-w2048-cap10m-r3o-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep13-w2048-cap10m-r3o-ml40
