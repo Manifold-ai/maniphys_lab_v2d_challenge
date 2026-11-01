@@ -1,0 +1,22 @@
+# command  : ssh ml40 bash\ -s 
+# source   : 5d3abb46bb88
+# host     : Mac
+# run_at   : 2026-10-31T21:01:26-0400
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-11-01 09:01:26 CST
+NVIDIA L40S, 40211 MiB, 46068 MiB, 100 %
+1916632, 40202 MiB
+## GPU 进程 1916632：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  1916632 本用户 31:23 [Sun Nov  1 08:30:02 2026] python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac task.parquet='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet' scene.world_count=2048 training.total_environment_steps=349999104 output_dir=/repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40 reset.seed=42 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep25-w2048-cap10m-pt08-ml40 logging.run_name=t1-ep25-w2048-cap10m-pt08-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40/hydra/s1 termination.palm_position_threshold=0.08
+  1916602 root 31:23 [Sun Nov  1 08:30:02 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 1fab018d64066a6d020d69bb75283dfe063e68bb20907bf598fc7f1967647bd8 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-t1-ep25-w2048-cap10m-pt08-ml40
+image flash_chord:latest
+created 2026-11-01T00:30:03.029880434Z  started 2026-11-01T00:30:03.087491338Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-20_11-59-57_cyan_water_bottle_rotate_01/robot_name=g1/data.parquet 2048 349999104 /repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep25-w2048-cap10m-pt08-ml40 logging.run_name=t1-ep25-w2048-cap10m-pt08-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40/hydra/s1 termination.palm_position_threshold=0.08 "]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+## 运行中的容器（列表）
+1fab018d6406 flash_chord:latest 31 minutes ago Up 31 minutes fc-t1-ep25-w2048-cap10m-pt08-ml40
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

@@ -1,0 +1,37 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d1903": {"file": "results/board/diff_1031_1903.txt"},
+  "cmp17": {"file": "results/t1hard/compare_ep17_mac.txt", "grep": "^# command|eval_t1-ep17"},
+  "hr": {"file": "agent-doc/plan-t1hard-2026-10-31.md", "grep": "t1hr` 读数|^  导出链退出码|^  按第 3 节读法|^  导出那一局 SP|^  打包后的榜分|^  19:03 的榜上|^  下一步按第 3 节"},
+  "lx": {"file": "results/t1list/t1x1018_ep17.txt", "grep": "^# command|^TOTAL"},
+  "st40": {"file": "results/ops/status_ml40_1031_1901.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1031_1901.txt"}
+ },
+ "claims": [
+  {"id": "mahyar", "evidence": ["d1903"], "claim": "Mahyar Dana no longer appears on the Tier 1 AUC board."},
+  {"id": "izus_t2", "evidence": ["d1903"], "claim": "Izus_systems lowered its Tier 2 MPPE from 17.05298 to 9.59295."},
+  {"id": "t1sp", "evidence": ["d1903"], "claim": "Under the Kaggle tie rule, maniphys.ai is 7th on Tier 1 SP-SR."},
+  {"id": "t1mppe", "evidence": ["d1903"], "claim": "Under the Kaggle tie rule, maniphys.ai is 9th on Tier 1 MPPE."},
+  {"id": "t2mppe", "evidence": ["d1903"], "claim": "Under the Kaggle tie rule, maniphys.ai fell from 6th to 7th on Tier 2 MPPE."},
+  {"id": "sumB_k", "evidence": ["d1903"], "claim": "Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 62 and is 4th."},
+  {"id": "sumB_s", "evidence": ["d1903"], "claim": "Under the site tie rule, maniphys.ai has a 12-board rank sum of 64 and is 4th."},
+  {"id": "sumA", "evidence": ["d1903"], "claim": "In reading A with Kaggle ties, maniphys.ai has 16 and is 4th."},
+  {"id": "sp17", "evidence": ["cmp17"], "claim": "The r3o-nv run of ep17 has spider_sr_uncentered 0.931884765625."},
+  {"id": "sp17c", "evidence": ["cmp17"], "claim": "The control run t1-ep17-w2048-cap10m-ml40 has spider_sr_uncentered 0.0."},
+  {"id": "ori17", "evidence": ["cmp17"], "claim": "The r3o-nv run of ep17 has an object orientation error of about 22.7 degrees."},
+  {"id": "mppe17c", "evidence": ["cmp17"], "claim": "The control run t1-ep17-w2048-cap10m-ml40 has mppe_cm 9.752116010790411."},
+  {"id": "health", "evidence": ["hr"], "claim": "The record says the t1hr training, evaluation and export all succeeded."},
+  {"id": "swap", "evidence": ["hr"], "claim": "The record says ep17 swaps in by rule (b)."},
+  {"id": "exp17", "evidence": ["hr"], "claim": "The record says the ep17 export draw succeeds on SP and fails on MP."},
+  {"id": "nomove", "evidence": ["hr"], "claim": "The record says no Tier 1 board moves up, so nothing is submitted."},
+  {"id": "need27", "evidence": ["hr"], "claim": "The record says 27/30 on SP-SR is needed for the Tier 1 SP-SR board to move up."},
+  {"id": "next", "evidence": ["hr"], "claim": "The record says the next step is one more seed (seed 43) for ep17."},
+  {"id": "lx_sp", "evidence": ["lx"], "claim": "With only the ep17 swap, the t1x1018 list scores spider_sr 26/30 on the export draw."},
+  {"id": "run40", "evidence": ["st40"], "claim": "On ml40, the ep25 pt08 run is at 26.0% of training."},
+  {"id": "run90", "evidence": ["st90"], "claim": "On mf4090, the ep9 fc20 run is at 83.0% of training."},
+  {"id": "ctl_true", "evidence": ["d1903"], "control": "true", "claim": "maniphys.ai is 1st on Tier 3 SP-SR."},
+  {"id": "ctl_false1", "evidence": ["cmp17"], "control": "false", "claim": "The r3o-nv run of ep17 has maniptrans_sr above 0.5."},
+  {"id": "ctl_false2", "evidence": ["hr"], "control": "false", "claim": "The record says ep17 is not swapped in."}
+ ]
+}

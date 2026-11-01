@@ -1,18 +1,33 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-10-31-sop1901.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 6dd1a69476f1482683757376e79dedd2  agent-doc/experiments/2026-10-31-sop1901.claims.json
+# source   : 5d3abb46bb88-dirty
+# host     : Mac
+# run_at   : 2026-10-31T21:04:47-0400
+# ---------------------------------------------------------------
 model jev-1.13.0; question: Does `source` support `claim`?
-ep25_sr0             P(supported)=0.86  verified               [e25h]  In the 4096-world evaluation of ep25 with the palm scale 0.05 (r3h), spider_sr_uncentered and maniptrans_sr are both 0.0.
-ep25_mppe            P(supported)=0.97  verified               [e25h, e25a]  The MPPE of ep25 r3h (about 126 cm) is slightly higher than the MPPE of the ep25 r3a baseline (about 120 cm).
-ep20_sr              P(supported)=0.98  verified               [e20h]  In the 4096-world evaluation of ep20 r3h, spider_sr_uncentered and maniptrans_sr are both above 0.89, and mppe_cm is about 3.8.
-ep20_ctl             P(supported)=0.99  verified               [plan]  The record states that the ep20 control holds: its SP-SR, MP-SR and MPPE are not worse than the weaker seed 42 r3a run.
-w403_ml40            P(supported)=0.98  verified               [w40]  On ml40 the ep9 and ep4 r3h runs failed with a wandb CommError that returned error 403.
-w403_mf              P(supported)=0.95  verified               [w90]  On mf4090 the ep17 r3h run failed with a wandb CommError that returned error 403.
-w403_now             P(supported)=0.93  verified               [w40]  A later request from ml40 to api.wandb.ai still returned 403.
-chain40              P(supported)=0.95  verified               [st40]  The ml40 training chain t1zh ended with 1 done and 2 failed, and ml40 has no long-chain markers.
-chain90              P(supported)=0.96  verified               [st90]  The mf4090 training chain t1zq ended with 1 done and 1 failed, and mf4090 has no long-chain markers.
-gate                 P(supported)=0.98  verified               [plan]  The record states that the roll-out gate does not pass because ep25 did not clearly improve.
-next                 P(supported)=0.97  verified               [plan]  The record states that the next step is to be decided, that palm scale 0.1 needs a chain armed before the morning of 10/31, and that no chain is armed in this task.
-board                P(supported)=0.92  verified               [board]  No board changed, and the rank sum in reading B (Kaggle ties) is 56 and in reading A is 14, fourth.
-diag_mode            P(supported)=0.84  verified               [diag]  The diagnosis classifies ep25 and ep9 failing worlds mostly as 没贴住, ep17 as 贴住后掉, and voids the ep1 numbers.
-ctl_false1           P(supported)=0.01  control(false) ok      [e25h]  In the ep25 r3h evaluation, spider_sr_uncentered is above 0.10.
-ctl_false2           P(supported)=0.01  control(false) ok      [w90]  The ep17 r3h run on mf4090 finished training successfully.
-ctl_true1            P(supported)=0.99  control(true) ok       [e20h]  The ep20 r3h evaluation has world_count 4096.
+mahyar               P(supported)=0.98  verified               [d1903]  Mahyar Dana no longer appears on the Tier 1 AUC board.
+izus_t2              P(supported)=0.99  verified               [d1903]  Izus_systems lowered its Tier 2 MPPE from 17.05298 to 9.59295.
+t1sp                 P(supported)=0.90  verified               [d1903]  Under the Kaggle tie rule, maniphys.ai is 7th on Tier 1 SP-SR.
+t1mppe               P(supported)=0.95  verified               [d1903]  Under the Kaggle tie rule, maniphys.ai is 9th on Tier 1 MPPE.
+t2mppe               P(supported)=0.59  UNVERIFIED             [d1903]  Under the Kaggle tie rule, maniphys.ai fell from 6th to 7th on Tier 2 MPPE.
+sumB_k               P(supported)=0.97  verified               [d1903]  Under the Kaggle tie rule, maniphys.ai has a 12-board rank sum of 62 and is 4th.
+sumB_s               P(supported)=0.98  verified               [d1903]  Under the site tie rule, maniphys.ai has a 12-board rank sum of 64 and is 4th.
+sumA                 P(supported)=0.98  verified               [d1903]  In reading A with Kaggle ties, maniphys.ai has 16 and is 4th.
+sp17                 P(supported)=0.99  verified               [cmp17]  The r3o-nv run of ep17 has spider_sr_uncentered 0.931884765625.
+sp17c                P(supported)=0.99  verified               [cmp17]  The control run t1-ep17-w2048-cap10m-ml40 has spider_sr_uncentered 0.0.
+ori17                P(supported)=0.99  verified               [cmp17]  The r3o-nv run of ep17 has an object orientation error of about 22.7 degrees.
+mppe17c              P(supported)=0.99  verified               [cmp17]  The control run t1-ep17-w2048-cap10m-ml40 has mppe_cm 9.752116010790411.
+health               P(supported)=0.85  verified               [hr]  The record says the t1hr training, evaluation and export all succeeded.
+swap                 P(supported)=0.93  verified               [hr]  The record says ep17 swaps in by rule (b).
+exp17                P(supported)=0.98  verified               [hr]  The record says the ep17 export draw succeeds on SP and fails on MP.
+nomove               P(supported)=0.93  verified               [hr]  The record says no Tier 1 board moves up, so nothing is submitted.
+need27               P(supported)=0.94  verified               [hr]  The record says 27/30 on SP-SR is needed for the Tier 1 SP-SR board to move up.
+next                 P(supported)=0.98  verified               [hr]  The record says the next step is one more seed (seed 43) for ep17.
+lx_sp                P(supported)=0.96  verified               [lx]  With only the ep17 swap, the t1x1018 list scores spider_sr 26/30 on the export draw.
+run40                P(supported)=0.98  verified               [st40]  On ml40, the ep25 pt08 run is at 26.0% of training.
+run90                P(supported)=0.98  verified               [st90]  On mf4090, the ep9 fc20 run is at 83.0% of training.
+ctl_true             P(supported)=0.94  control(true) ok       [d1903]  maniphys.ai is 1st on Tier 3 SP-SR.
+ctl_false1           P(supported)=0.01  control(false) ok      [cmp17]  The r3o-nv run of ep17 has maniptrans_sr above 0.5.
+ctl_false2           P(supported)=0.21  control(false) ok      [hr]  The record says ep17 is not swapped in.
 controls behaved as expected

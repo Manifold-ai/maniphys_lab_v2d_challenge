@@ -1,0 +1,8 @@
+# command  : grep -n ALERT\ tier2-mppe results/board/diff_1031_1903.txt 
+# md5      : 80f57907b5ef50229328540dbdbbfea1  results/board/diff_1031_1903.txt
+# source   : 5d3abb46bb88-dirty
+# host     : Mac
+# run_at   : 2026-10-31T21:04:52-0400
+# ---------------------------------------------------------------
+34:ALERT tier2-mppe 名次 6 → 7（同分 kaggle）
+36:ALERT tier2-mppe 名次 6 → 7（同分 site）

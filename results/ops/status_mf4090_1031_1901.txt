@@ -1,0 +1,32 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 5d3abb46bb88
+# host     : Mac
+# run_at   : 2026-10-31T21:01:17-0400
+# ---------------------------------------------------------------
+== mf4090 2026-11-01 09:01:20 CST
+NVIDIA GeForce RTX 4090, 23851 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  258G   27G  91% /
+-- tmux
+v2d-t1hf-eval: 1 windows (created Sun Nov  1 05:06:00 2026)
+v2d-t1hf-export: 1 windows (created Sun Nov  1 05:06:03 2026)
+v2d-t1hf-train: 1 windows (created Sun Nov  1 05:05:58 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1hf_mf4090-gate
+runs/.chain-active-t1hf_eval_mf4090
+runs/.chain-active-t1hf_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zs_mf4090.log：=== 2026-10-31 16:52:44 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t1hf_mf4090.log：=== 2026-11-01 05:06:06 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zt2_mf4090.log：=== 2026-11-01 06:39:18 CST 停掉：t1zt2、t1zt3 不跑，ep7、ep22 改由 t1zt4 接 t1hf，ep3、ep16 改到 ml40 的 t1zw2（计划 agent-doc/plan-t1r3o-2026-10-31.md 第 6 节）
+runs/logs/arm_after_t1zt3_mf4090.log：=== 2026-11-01 06:39:18 CST 停掉：t1zt2、t1zt3 不跑，ep7、ep22 改由 t1zt4 接 t1hf，ep3、ep16 改到 ml40 的 t1zw2（计划 agent-doc/plan-t1r3o-2026-10-31.md 第 6 节）
+runs/logs/arm_after_t1zt4_mf4090.log：=== 2026-11-01 06:39:27 CST 来历与 t1zt4 的队列：75d63abca81d 4993bf6a1171a9f53ae11ecd1669e148  stages/policy/queues/mf4090_t1zt4.expect.tsv 5dcb0b49a0dbc1f3e5fde499f03ed830  stages/policy/queu
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep9-w2048-cap4m-fc20-mf4090.log：training progress: 290,500,608/349,999,104 environment steps (83.0%); 44,779 env steps/s; elapsed 01:48:07; ETA 00:22:09
+runs/logs/t1-ep9-w2048-cap4m-fc20-mf4090.nanwatch.log：10-31 18:57:23 MDT 280,010,752 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/relay_t1zx3_mf4090.log：=== 2026-11-01 07:39:33 CST 等 runs/logs/arm_after_t1zx2_mf4090.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash -c exec bash runs/tools/arm_after.sh t1zx3 runs/logs/t1zx2_train_mf4090.log r
+runs/logs/relay_t1zx2_mf4090.log：=== 2026-11-01 07:39:33 CST 等 runs/logs/arm_after_t1zx_mf4090.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash -c exec bash runs/tools/arm_after.sh t1zx2 runs/logs/t1zx_train_mf4090.log run
+runs/logs/relay_t1zx_mf4090.log：=== 2026-11-01 07:39:33 CST 等 runs/logs/arm_after_t1zt4_mf4090.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash -c exec bash runs/tools/arm_after.sh t1zx runs/logs/t1zt4_train_mf4090.log ru
+runs/logs/t1hf_train_mf4090.log：=== 2026-11-01 07:11:16 CST 正式 t1-ep9-w2048-cap4m-fc20-mf4090
+runs/logs/t1-ep25-w2048-cap4m-fc20-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap4m-fc20-mf4090
+runs/logs/t1-ep25-w2048-cap4m-fc20-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap4m-fc20-mf4090
