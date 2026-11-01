@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-01-sop1400.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 98b02ce5a932d96c3fad3cd3df1ab3f2  agent-doc/experiments/2026-11-01-sop1400.claims.json
+# source   : b734c8343fd3-dirty
+# host     : Mac
+# run_at   : 2026-11-01T16:04:18-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+hy_auc               P(supported)=0.96  verified               [hy]  The pack total ADD-AUC is 0.63294.
+hy_mppe              P(supported)=0.93  verified               [hy]  The pack total MPPE is 9.49122 cm.
+hy_sp                P(supported)=0.98  verified               [hy]  The pack has 26 of 30 SP-SR successes.
+rule_sp              P(supported)=0.98  verified               [rule]  The pack has 24 of 30 SP-SR successes.
+ep6_auc              P(supported)=0.99  verified               [c6]  The add_auc of t1-ep6-w2048-cap4m-r3o-s43-mf4090 is about 0.838.
+ep25_s43             P(supported)=0.98  verified               [c25]  The pt08-s43 run has mppe_cm about 64.9.
+t2mppe8              P(supported)=0.97  verified               [bw]  maniphys.ai is 8th on the Tier 2 MPPE board.
+sumB67               P(supported)=0.99  verified               [bw]  Under reading B with Kaggle ties, maniphys.ai has a rank sum of 67 and is 5th.
+ops630               P(supported)=0.98  verified               [lb]  Team OPS raised its Tier 1 AUC score to 0.63000.
+ml40_run             P(supported)=0.95  verified               [st]  The t1hq2 chain is active on ml40.
+ctl_true             P(supported)=0.82  control(true) ok       [hy]  The pack has 21 of 30 MP-SR successes.
+ctl_false1           P(supported)=0.01  control(false) ok      [hy]  The pack total ADD-AUC is 0.58258.
+ctl_false2           P(supported)=0.01  control(false) ok      [bw]  maniphys.ai is 1st on the Tier 2 MPPE board.
+controls behaved as expected

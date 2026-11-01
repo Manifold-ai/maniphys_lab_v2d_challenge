@@ -1,0 +1,27 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "hy": {"file": "results/t1list/t1x1101_ep24_8_6.txt", "grep": "^TOTAL"},
+  "rule": {"file": "results/t1list/rule_1101_full_ep6.txt", "grep": "^TOTAL"},
+  "c6": {"file": "results/t1r3o/compare_ep6_t1zx3_mac.txt", "grep": "add_auc|mppe_cm"},
+  "c25": {"file": "results/t1mppe/compare_ep25_pt08s43_mac.txt", "grep": "add_auc|mppe_cm"},
+  "bw": {"file": "results/board/diff_1101_1401.txt", "grep": "^Tier 2|读法"},
+  "lb": {"file": "results/board/diff_1101_1102.txt", "grep": "^tier1-auc"},
+  "st": {"file": "results/ops/status_ml40_1101_1401.txt", "grep": "t1hq2|chain-active"}
+ },
+ "claims": [
+  {"id": "hy_auc", "evidence": ["hy"], "claim": "The pack total ADD-AUC is 0.63294."},
+  {"id": "hy_mppe", "evidence": ["hy"], "claim": "The pack total MPPE is 9.49122 cm."},
+  {"id": "hy_sp", "evidence": ["hy"], "claim": "The pack has 26 of 30 SP-SR successes."},
+  {"id": "rule_sp", "evidence": ["rule"], "claim": "The pack has 24 of 30 SP-SR successes."},
+  {"id": "ep6_auc", "evidence": ["c6"], "claim": "The add_auc of t1-ep6-w2048-cap4m-r3o-s43-mf4090 is about 0.838."},
+  {"id": "ep25_s43", "evidence": ["c25"], "claim": "The pt08-s43 run has mppe_cm about 64.9."},
+  {"id": "t2mppe8", "evidence": ["bw"], "claim": "maniphys.ai is 8th on the Tier 2 MPPE board."},
+  {"id": "sumB67", "evidence": ["bw"], "claim": "Under reading B with Kaggle ties, maniphys.ai has a rank sum of 67 and is 5th."},
+  {"id": "ops630", "evidence": ["lb"], "claim": "Team OPS raised its Tier 1 AUC score to 0.63000."},
+  {"id": "ml40_run", "evidence": ["st"], "claim": "The t1hq2 chain is active on ml40."},
+  {"id": "ctl_true", "evidence": ["hy"], "control": "true", "claim": "The pack has 21 of 30 MP-SR successes."},
+  {"id": "ctl_false1", "evidence": ["hy"], "control": "false", "claim": "The pack total ADD-AUC is 0.58258."},
+  {"id": "ctl_false2", "evidence": ["bw"], "control": "false", "claim": "maniphys.ai is 1st on the Tier 2 MPPE board."}
+ ]
+}
