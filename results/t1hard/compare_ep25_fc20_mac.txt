@@ -1,0 +1,19 @@
+# command  : awk /\^\ \ \(add_auc\|maniptrans_sr\|spider_sr_uncentered\|mppe_cm\|object_orientation_error_deg\|object_position_error_cm\|chord_sr\)\ /\{print\ FILENAME\,\ \$1\,\ \$2\} results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt 
+# md5      : c360f6ee3f988e723586559245cc83d6  results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt
+# md5      : 3bfbabf8b72a8ce84f505501abe56932  results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt
+# source   : 3bd3dff05ea3
+# host     : Mac
+# run_at   : 2026-10-31T23:06:40-0400
+# ---------------------------------------------------------------
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt add_auc 0.12503037547065993
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt chord_sr 0.0
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt maniptrans_sr 0.0
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt spider_sr_uncentered 0.0
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt mppe_cm 117.90927517938354
+results/mf4090/day2/eval_t1-ep25-w2048-cap4m-fc20-mf4090_s349999104.txt object_orientation_error_deg 107.04777776398427
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt add_auc 0.12633856350384715
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt chord_sr 0.0
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt maniptrans_sr 0.0
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt spider_sr_uncentered 0.0
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt mppe_cm 114.10193711291194
+results/ml40/day2/eval_t1-ep25-w2048-cap10m-ml40_s349999104.txt object_orientation_error_deg 107.57207025811348
