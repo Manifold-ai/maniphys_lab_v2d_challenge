@@ -1,0 +1,34 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d0101": {"file": "results/board/diff_1101_0101.txt"},
+  "d1920": {"file": "results/board/diff_1031_1920.txt"},
+  "cmp7": {"file": "results/t1r3o/compare_ep7_t1zt4_mac.txt", "grep": "^# command|eval_t1-ep7"},
+  "cmp22": {"file": "results/t1r3o/compare_ep22_t1zt4_mac.txt", "grep": "^# command|eval_t1-ep22"},
+  "cmp25p": {"file": "results/t1hard/compare_ep25_pt08_mac.txt", "grep": "^# command|eval_t1-ep25"},
+  "cmp9p": {"file": "results/t1hard/compare_ep9_pt08_mac.txt", "grep": "^# command|eval_t1-ep9"},
+  "cmp9f": {"file": "results/t1hard/compare_ep9_fc20_mac.txt", "grep": "^# command|eval_t1-ep9"},
+  "lx": {"file": "results/t1list/t1x1018_ep17_7_22.txt", "grep": "^# command|^TOTAL"},
+  "st40": {"file": "results/ops/status_ml40_1101_0101.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1101_0101.txt"},
+  "hard": {"file": "agent-doc/plan-t1hard-2026-10-31.md", "grep": "t1hp` 读数|^  按第 3 节读法：两集都不到"}
+ },
+ "claims": [
+  {"id": "ep7mp", "evidence": ["cmp7"], "claim": "The ep7 r3o run has maniptrans_sr 0.957 and the ep7 p185g control has maniptrans_sr 0.653."},
+  {"id": "ep22mp", "evidence": ["cmp22"], "claim": "The ep22 r3o run has maniptrans_sr 0.940 and the ep22 control has maniptrans_sr 0.764."},
+  {"id": "ep25pt", "evidence": ["cmp25p"], "claim": "The ep25 pt08 run has spider_sr_uncentered 0."},
+  {"id": "ep25pt_mppe", "evidence": ["cmp25p"], "claim": "The ep25 pt08 run has mppe_cm about 68.7 and its control has mppe_cm about 114.1."},
+  {"id": "ep9pt", "evidence": ["cmp9p"], "claim": "The ep9 pt08 run has a higher mppe_cm than its control."},
+  {"id": "ep9fc", "evidence": ["cmp9f"], "claim": "The ep9 fc20 run has spider_sr_uncentered 0."},
+  {"id": "list", "evidence": ["lx"], "claim": "The list scores add_auc about 0.609 and spider_sr 26/30."},
+  {"id": "hard_stop", "evidence": ["hard"], "claim": "The record says pt08 stops and neither run swaps in."},
+  {"id": "debajyoti", "evidence": ["d0101"], "claim": "Debajyoti Dasgupta raised its Tier 2 SP-SR from 0.70000 to 0.73333."},
+  {"id": "b_site", "evidence": ["d0101"], "claim": "Under the site tie rule, the reading B rank sum of maniphys.ai is 67."},
+  {"id": "izus_t3", "evidence": ["d1920"], "claim": "Izus_systems resubmitted Tier 3."},
+  {"id": "run40", "evidence": ["st40"], "claim": "On ml40, the ep19 r3o run is at 87.0% of training."},
+  {"id": "run90", "evidence": ["st90"], "claim": "On mf4090, the ep5 r3o run is at 27.0% of training."},
+  {"id": "ctl_true", "evidence": ["d0101"], "control": "true", "claim": "maniphys.ai is 3rd on Tier 2 AUC."},
+  {"id": "ctl_false1", "evidence": ["cmp22"], "control": "false", "claim": "The ep22 r3o run has maniptrans_sr below 0.5."},
+  {"id": "ctl_false2", "evidence": ["hard"], "control": "false", "claim": "The record says pt08 is fixable on ep25."}
+ ]
+}

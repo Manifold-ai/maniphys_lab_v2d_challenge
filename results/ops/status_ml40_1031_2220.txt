@@ -1,0 +1,31 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 590eb60c7c1d
+# host     : Mac
+# run_at   : 2026-11-01T00:21:07-0400
+# ---------------------------------------------------------------
+== ml40 2026-11-01 12:21:11 CST
+NVIDIA L40S, 40273 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  943G  54% /lab_data
+-- tmux
+v2d-t1hp-eval: 1 windows (created Sun Nov  1 08:19:57 2026)
+v2d-t1hp-export: 1 windows (created Sun Nov  1 08:19:59 2026)
+v2d-t1hp-train: 1 windows (created Sun Nov  1 08:19:55 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1hp_ml40-gate
+runs/.chain-active-t1hp_eval_ml40
+runs/.chain-active-t1hp_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zj_s43_ml40.log：=== 2026-10-31 16:59:21 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t2xb_s43_ml40.log：=== 2026-11-01 01:35:12 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_ml40.log：=== 2026-11-01 06:06:29 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zw_ml40.log：=== 2026-11-01 06:39:41 CST 来历与 t1zw 的队列：75d63abca81d e9e5335fb61eff5526f2f04ce2a6a61b  stages/policy/queues/ml40_t1zw.expect.tsv 32cbb50ac3b5c4ea1442ce15addf90e6  stages/policy/queues/m
+runs/logs/arm_after_t1hp_ml40.log：=== 2026-11-01 08:20:02 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep9-w2048-cap10m-pt08-ml40.log：training progress: 304,500,736/349,999,104 environment steps (87.0%); 44,643 env steps/s; elapsed 01:53:41; ETA 00:16:59
+runs/logs/t1-ep9-w2048-cap10m-pt08-ml40.nanwatch.log：10-31 22:19:56 MDT 300,011,520 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1hp_train_ml40.log：=== 2026-11-01 10:25:47 CST 正式 t1-ep9-w2048-cap10m-pt08-ml40
+runs/logs/t1-ep25-w2048-cap10m-pt08-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40
+runs/logs/t1-ep25-w2048-cap10m-pt08-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40
+runs/logs/t1-ep25-w2048-cap10m-pt08-ml40.nanwatch.log：10-31 20:24:10 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t1-ep9-w2048-cap10m-pt08-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-pt08-ml40
+runs/logs/smoke-t1-ep9-w2048-cap10m-pt08-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-pt08-ml40

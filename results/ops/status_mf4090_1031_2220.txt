@@ -1,0 +1,33 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 590eb60c7c1d
+# host     : Mac
+# run_at   : 2026-11-01T00:21:02-0400
+# ---------------------------------------------------------------
+== mf4090 2026-11-01 12:21:06 CST
+NVIDIA GeForce RTX 4090, 23845 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  258G   27G  91% /
+-- tmux
+v2d-t1zt4-eval: 1 windows (created Sun Nov  1 09:38:25 2026)
+v2d-t1zt4-export: 1 windows (created Sun Nov  1 09:38:27 2026)
+v2d-t1zt4-train: 1 windows (created Sun Nov  1 09:38:23 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zt4_mf4090-gate
+runs/.chain-active-t1zt4_eval_mf4090
+runs/.chain-active-t1zt4_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zs_mf4090.log：=== 2026-10-31 16:52:44 CST ARM_AFTER_STOPPED 预演没过（退出码 1）
+runs/logs/arm_after_t1hf_mf4090.log：=== 2026-11-01 05:06:06 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zt2_mf4090.log：=== 2026-11-01 06:39:18 CST 停掉：t1zt2、t1zt3 不跑，ep7、ep22 改由 t1zt4 接 t1hf，ep3、ep16 改到 ml40 的 t1zw2（计划 agent-doc/plan-t1r3o-2026-10-31.md 第 6 节）
+runs/logs/arm_after_t1zt3_mf4090.log：=== 2026-11-01 06:39:18 CST 停掉：t1zt2、t1zt3 不跑，ep7、ep22 改由 t1zt4 接 t1hf，ep3、ep16 改到 ml40 的 t1zw2（计划 agent-doc/plan-t1r3o-2026-10-31.md 第 6 节）
+runs/logs/arm_after_t1zt4_mf4090.log：=== 2026-11-01 09:38:30 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zx_mf4090.log：=== 2026-11-01 09:38:33 CST 来历与 t1zx 的队列：c05aa6dc7f9b bc7fc4630e6b7423adf4da1823c245b8  stages/policy/queues/mf4090_t1zx.expect.tsv 5fcaa583c24caf4c97c38bd11a94f122  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep22-w2048-cap4m-r3o-mf4090.log：training progress: 91,000,832/349,999,104 environment steps (26.0%); 45,699 env steps/s; elapsed 00:33:11; ETA 01:34:28
+runs/logs/t1-ep22-w2048-cap4m-r3o-mf4090.nanwatch.log：10-31 22:17:44 MDT 80,003,072 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zt4_train_mf4090.log：=== 2026-11-01 11:45:42 CST 正式 t1-ep22-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep7-w2048-cap4m-r3o-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep7-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep7-w2048-cap4m-r3o-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep7-w2048-cap4m-r3o-mf4090
+runs/logs/t1-ep7-w2048-cap4m-r3o-mf4090.nanwatch.log：10-31 21:42:32 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t1-ep22-w2048-cap4m-r3o-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep22-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep22-w2048-cap4m-r3o-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep22-w2048-cap4m-r3o-mf4090

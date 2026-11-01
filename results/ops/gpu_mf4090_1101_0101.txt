@@ -1,0 +1,30 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 590eb60c7c1d
+# host     : Mac
+# run_at   : 2026-11-01T02:01:19-0500
+# ---------------------------------------------------------------
+== VM-1-2-<其他用户> 2026-11-01 15:01:20 CST
+NVIDIA GeForce RTX 4090, 23845 MiB, 24564 MiB, 100 %
+4036561, 23836 MiB
+## GPU 进程 4036561：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  4036561 本用户 39:51 [Sun Nov  1 14:21:29 2026] python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac task.parquet='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet' scene.world_count=2048 training.total_environment_steps=349999104 output_dir=/repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3o-mf4090 reset.seed=42 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep5-w2048-cap4m-r3o-mf4090 logging.run_name=t1-ep5-w2048-cap4m-r3o-mf4090-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3o-mf4090/hydra/s1 training.replay.capacity=4000000 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6
+  4036532 root 39:51 [Sun Nov  1 14:21:29 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 8267fa9f5caa0183019eaa2c1159ef92ca4f446613f39d0e7d1a09f181ca98f3 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-t1-ep5-w2048-cap4m-r3o-mf4090
+image flash_chord:latest
+created 2026-11-01T06:21:29.541439139Z  started 2026-11-01T06:21:29.588262902Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-03-18_19-36-56_g1_box_rotate_01/robot_name=g1/data.parquet 2048 349999104 /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3o-mf4090 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep5-w2048-cap4m-r3o-mf4090 logging.run_name=t1-ep5-w2048-cap4m-r3o-mf4090-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3o-mf4090/hydra/s1 training.replay.capacity=4000000 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 "]
+workdir /workspace
+mounts /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; /home/rxzhou/v2d/fc_src/v040_p185_nfg_oo -> /workspace; /home/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /dev/null -> /repo/.env; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; 
+name /maniphys-visual-dev-worker-120
+image maniphys-visual-worker:dev-image2mesh-egl-20260928
+created 2026-10-04T10:44:51.020377077Z  started 2026-10-04T10:44:51.477371168Z
+entrypoint ["/usr/bin/tini"]
+cmd ["--","python","-m","maniphys_visual_worker.main"]
+workdir /src/services/visual_worker
+mounts /home/<其他用户>/maniphys-dev/visual-dev/work -> /var/lib/maniphys-visual; /home/<其他用户>/maniphys-dev/visual-dev/models/da3-oneformer-20260928 -> /models/release; 
+## 运行中的容器（列表）
+8267fa9f5caa flash_chord:latest 39 minutes ago Up 39 minutes fc-t1-ep5-w2048-cap4m-r3o-mf4090
+32dd4cefb482 maniphys-visual-worker:dev-image2mesh-egl-20260928 3 weeks ago Up 3 weeks maniphys-visual-dev-worker-120
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
