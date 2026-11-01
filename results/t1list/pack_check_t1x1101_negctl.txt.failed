@@ -1,0 +1,45 @@
+# command  : python3 tools/t1_pack_check.py results/ml40/select_t1/t1_select_t1x1018.tsv runs/submission/t1x1101/t1 
+# md5      : 053177c4f1a99f10d522f349619a24a6  tools/t1_pack_check.py
+# md5      : 2a35093e99e50ad88a9f38533f11a480  results/ml40/select_t1/t1_select_t1x1018.tsv
+# source   : 0343cfe2032d-dirty
+# host     : Mac
+# run_at   : 2026-11-01T13:00:41-0500
+# ---------------------------------------------------------------
+ep0   t1-ep0-w2048-cap4m-r3a-s43-mf4090          mf4090  7301f9cda940
+ep1   t1-ep1-w2048-cap10m-r3a-c10-ml40           ml40    8aa96a35cc20
+ep2   t1-ep2-w2048-cap10m-r3a-c10-ml40           ml40    1e490cecf002
+ep3   t1-ep3-w2048-cap10m-r3a-ml40               ml40    6b781ae9be94
+ep4   t1-ep4-w2048-cap10m-ml40                   ml40    012f77ae4cdf
+ep5   t1-ep5-w2048-cap4m-r3a-mf4090              mf4090  2dd1bcfb6011
+ep6   t1-ep6-w2048-cap4m-r3a-s43-mf4090          mf4090  6c33bf7e7316
+ep7   t1-ep7-w2048-cap4m-p185g-mf4090            mf4090  cdb5cc2c06ee
+ep8   t1-ep8-w2048-cap4m-r3a-mf4090              mf4090  980bf0350f5e
+ep9   t1-ep9-w2048-cap10m-ml40                   ml40    647787ba60de
+ep10  t1-ep10-w2048-cap4m-r3a-mf4090             mf4090  e124849523c9
+ep11  t1-ep11-w2048-cap10m-r3a-c10-s44-ml40      ml40    74cb29e654ef
+ep12  t1-ep12-w2048-cap10m-ml40                  ml40    e86ce7e08144
+ep13  t1-ep13-w2048-cap10m-r3a-ml40              ml40    d1646bb96002
+ep14  t1-ep14-w2048-cap4m-r3a-s44-mf4090         mf4090  360383e16ffb
+ep15  t1-ep15-w2048-cap4m-r3a-mf4090             mf4090  74362186eea1
+ep16  t1-ep16-w2048-cap10m-r3a-ml40              ml40    999c258e3a6f
+ep17  t1-ep17-w2048-cap10m-ml40                  ml40    14ebd861a98f
+ep18  t1-ep18-w2048-cap4m-r3a-mf4090             mf4090  de98e49e7a70
+ep19  t1-ep19-w2048-cap10m-r3a-ml40              ml40    729280de2d28
+ep20  t1-ep20-w2048-cap4m-r3a-mf4090             mf4090  cd71e8af5533
+ep21  t1-ep21-w2048-cap4m-r3a-mf4090             mf4090  1b7465db214e
+ep22  t1-ep22-w2048-cap4m-mf4090                 mf4090  b20520ac1ab5
+ep23  t1-ep23-w2048-cap10m-ml40                  ml40    0df7fe8f1f72
+ep24  t1-ep24-w2048-cap4m-mf4090                 mf4090  591286a715db
+ep25  t1-ep25-w2048-cap10m-ml40                  ml40    631c238d6b9d
+ep26  t1-ep26-w2048-cap10m-ml40                  ml40    062d15b76028
+ep27  t1-ep27-w2048-cap4m-r3a-s43-mf4090         mf4090  92e0d94382e7
+ep28  t1-ep28-w2048-cap10m-r3a-c10-s43-ml40      ml40    f51d49093e22
+ep29  t1-ep29-w2048-cap4m-r3a-mf4090             mf4090  49b8cbea9e67
+  不符：ep0：checkpoint /repo/runs/flash_chord/t1-ep0-w2048-cap4m-r3o-s43-mf4090/policy_349999104.safetensors，清单 t1-ep0-w2048-cap4m-r3a-s43-mf4090 349999104
+  不符：ep5：checkpoint /repo/runs/flash_chord/t1-ep5-w2048-cap4m-r3o-mf4090/policy_349999104.safetensors，清单 t1-ep5-w2048-cap4m-r3a-mf4090 349999104
+  不符：ep7：checkpoint /repo/runs/flash_chord/t1-ep7-w2048-cap4m-r3o-mf4090/policy_349999104.safetensors，清单 t1-ep7-w2048-cap4m-p185g-mf4090 349999104
+  不符：ep17：checkpoint /repo/runs/flash_chord/t1-ep17-w2048-cap10m-r3o-nv-ml40/policy_349999104.safetensors，清单 t1-ep17-w2048-cap10m-ml40 349999104
+  不符：ep22：checkpoint /repo/runs/flash_chord/t1-ep22-w2048-cap4m-r3o-mf4090/policy_349999104.safetensors，清单 t1-ep22-w2048-cap4m-mf4090 349999104
+  不符：ep25：checkpoint /repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40/policy_349999104.safetensors，清单 t1-ep25-w2048-cap10m-ml40 349999104
+  不符：ep27：checkpoint /repo/runs/flash_chord/t1-ep27-w2048-cap4m-r3o-s43-mf4090/policy_349999104.safetensors，清单 t1-ep27-w2048-cap4m-r3a-s43-mf4090 349999104
+T1_PACK_CHECK_FAIL 7

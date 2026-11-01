@@ -1,0 +1,41 @@
+# command  : bash stages/evaluate/pull_submission.sh tables runs/submission/t1x1101/tables mf4090:cand_t1_t1zx2_mf4090 mf4090:cand_t1_t1zx_mf4090 mf4090:cand_t1_1008b mf4090:cand_t1_t1zt4_mf4090 mf4090:cand_t1_t1xb_mf4090 mf4090:cand_t1_t1xb_s44_mf4090 mf4090:cand_t1_r3x_mf4090 mf4090:cand_t1_t1xa2_mf4090 mf4090:export2_mf4090 ml40:cand_t1_t1c_ml40 ml40:cand_t1_t1c2_ml40 ml40:cand_t1_t1yb_ml40 ml40:export2_ml40 ml40:cand_t1_t1c_s44_ml40 ml40:cand_t1_t1hr_ml40 ml40:cand_t1_t1hp_ml40 ml40:cand_t1_t1c_s43_ml40 
+# md5      : 9d40bd5ea75632cec1e877bd6d1c8063  stages/evaluate/pull_submission.sh
+# source   : 0343cfe2032d
+# host     : Mac
+# run_at   : 2026-11-01T12:59:22-0500
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1zx2_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1zx_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_1008b：ok 17  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1zt4_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1xb_mf4090：ok 5  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1xb_s44_mf4090：ok 1  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_r3x_mf4090：ok 6  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t1_t1xa2_mf4090：no_done 5  ok 1  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:export2_mf4090：ok 30  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1c_ml40：ok 4  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1c2_ml40：ok 2  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1yb_ml40：ok 5  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:export2_ml40：ok 30  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1c_s44_ml40：ok 1  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1hr_ml40：ok 1  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1hp_ml40：ok 2  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t1_t1c_s43_ml40：ok 3  
+PULL_OK 17
