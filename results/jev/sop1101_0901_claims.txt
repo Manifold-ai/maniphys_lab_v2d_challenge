@@ -1,0 +1,27 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-01-sop0901.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4e07c6a3f08962bffd83fdfc73573f4e  agent-doc/experiments/2026-11-01-sop0901.claims.json
+# source   : cad67e4a312c-dirty
+# host     : Mac
+# run_at   : 2026-11-01T11:05:39-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep27mp               P(supported)=0.99  verified               [cmp27]  The ep27 r3o run has maniptrans_sr about 0.978 and the ep27 r3a control has maniptrans_sr about 0.844.
+ep27mppe             P(supported)=0.99  verified               [cmp27]  The ep27 r3o run has mppe_cm about 3.08 and the ep27 r3a control has mppe_cm about 11.8.
+ep0auc               P(supported)=0.99  verified               [cmp0]  The ep0 r3o run has add_auc about 0.865 and the ep0 r3a control has add_auc about 0.806.
+ep0mppe              P(supported)=0.99  verified               [cmp0]  The ep0 r3o run has a lower mppe_cm than the ep0 r3a control.
+list_mppe            P(supported)=0.99  verified               [lx7]  The TOTAL line gives mppe_cm about 9.57.
+list_sp              P(supported)=0.99  verified               [lx7]  The TOTAL line gives spider_sr 26/30 and maniptrans_sr 21/30.
+ctl_mppe             P(supported)=0.99  verified               [ctl]  The TOTAL line gives mppe_cm 11.86661.
+ep25c                P(supported)=0.97  verified               [hard]  The record says ep25 pt08 meets rule (c) and swaps in.
+bk                   P(supported)=0.92  verified               [d0901]  Under the Kaggle tie rule, the reading B rank sum of maniphys.ai is 66 and its place is 5th.
+bs                   P(supported)=0.99  verified               [d0901]  Under the site tie rule, the reading B rank sum of maniphys.ai is 68.
+izus_t3              P(supported)=0.99  verified               [d0901]  Izus_systems raised its Tier 3 AUC from 0.35643 to 0.36127.
+t2sp                 P(supported)=0.79  verified               [d0720]  The Tier 2 SP-SR place of maniphys.ai goes from 3 to 4.
+izus_t1              P(supported)=0.99  verified               [d0420]  Izus_systems has a Tier 1 MPPE of 2.44373.
+run40                P(supported)=0.98  verified               [st40]  On ml40, the ep4 pt08 run is at 62.0% of training.
+run90                P(supported)=0.98  verified               [st90]  On mf4090, the ep6 r3o s43 run is at 7.0% of training.
+ctl_true             P(supported)=0.91  control(true) ok       [d0901]  maniphys.ai is 1st on Tier 3 SP-SR under the Kaggle tie rule.
+ctl_false1           P(supported)=0.01  control(false) ok      [cmp27]  The ep27 r3o run has maniptrans_sr below 0.5.
+ctl_false2           P(supported)=0.01  control(false) ok      [d0901]  maniphys.ai is 1st on Tier 1 MPPE.
+controls behaved as expected

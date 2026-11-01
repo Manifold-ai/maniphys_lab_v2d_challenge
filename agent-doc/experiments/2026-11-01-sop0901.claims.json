@@ -1,0 +1,35 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d0901": {"file": "results/board/diff_1101_0901.txt"},
+  "d0720": {"file": "results/board/diff_1101_0720.txt"},
+  "d0420": {"file": "results/board/diff_1101_0420.txt"},
+  "cmp27": {"file": "results/t1r3o/compare_ep27_t1zx2_mac.txt", "grep": "^# command|eval_t1-ep27|t1-ep27"},
+  "cmp0": {"file": "results/t1r3o/compare_ep0_t1zx2_mac.txt", "grep": "^# command|eval_t1-ep0|t1-ep0"},
+  "lx7": {"file": "results/t1list/t1x1018_ep17_7_22_5_25pt08_27_0.txt", "grep": "^# command|^TOTAL"},
+  "ctl": {"file": "results/t1list/t1x1018_noswap_ctl.txt", "grep": "^TOTAL"},
+  "st40": {"file": "results/ops/status_ml40_1101_0901.txt"},
+  "st90": {"file": "results/ops/status_mf4090_1101_0901.txt"},
+  "hard": {"file": "agent-doc/plan-t1hard-2026-10-31.md", "grep": "07:3x MST 更正|ep25 pt08 对清单"}
+ },
+ "claims": [
+  {"id": "ep27mp", "evidence": ["cmp27"], "claim": "The ep27 r3o run has maniptrans_sr about 0.978 and the ep27 r3a control has maniptrans_sr about 0.844."},
+  {"id": "ep27mppe", "evidence": ["cmp27"], "claim": "The ep27 r3o run has mppe_cm about 3.08 and the ep27 r3a control has mppe_cm about 11.8."},
+  {"id": "ep0auc", "evidence": ["cmp0"], "claim": "The ep0 r3o run has add_auc about 0.865 and the ep0 r3a control has add_auc about 0.806."},
+  {"id": "ep0mppe", "evidence": ["cmp0"], "claim": "The ep0 r3o run has a lower mppe_cm than the ep0 r3a control."},
+  {"id": "list_mppe", "evidence": ["lx7"], "claim": "The TOTAL line gives mppe_cm about 9.57."},
+  {"id": "list_sp", "evidence": ["lx7"], "claim": "The TOTAL line gives spider_sr 26/30 and maniptrans_sr 21/30."},
+  {"id": "ctl_mppe", "evidence": ["ctl"], "claim": "The TOTAL line gives mppe_cm 11.86661."},
+  {"id": "ep25c", "evidence": ["hard"], "claim": "The record says ep25 pt08 meets rule (c) and swaps in."},
+  {"id": "bk", "evidence": ["d0901"], "claim": "Under the Kaggle tie rule, the reading B rank sum of maniphys.ai is 66 and its place is 5th."},
+  {"id": "bs", "evidence": ["d0901"], "claim": "Under the site tie rule, the reading B rank sum of maniphys.ai is 68."},
+  {"id": "izus_t3", "evidence": ["d0901"], "claim": "Izus_systems raised its Tier 3 AUC from 0.35643 to 0.36127."},
+  {"id": "t2sp", "evidence": ["d0720"], "claim": "The Tier 2 SP-SR place of maniphys.ai goes from 3 to 4."},
+  {"id": "izus_t1", "evidence": ["d0420"], "claim": "Izus_systems has a Tier 1 MPPE of 2.44373."},
+  {"id": "run40", "evidence": ["st40"], "claim": "On ml40, the ep4 pt08 run is at 62.0% of training."},
+  {"id": "run90", "evidence": ["st90"], "claim": "On mf4090, the ep6 r3o s43 run is at 7.0% of training."},
+  {"id": "ctl_true", "evidence": ["d0901"], "control": "true", "claim": "maniphys.ai is 1st on Tier 3 SP-SR under the Kaggle tie rule."},
+  {"id": "ctl_false1", "evidence": ["cmp27"], "control": "false", "claim": "The ep27 r3o run has maniptrans_sr below 0.5."},
+  {"id": "ctl_false2", "evidence": ["d0901"], "control": "false", "claim": "maniphys.ai is 1st on Tier 1 MPPE."}
+ ]
+}
