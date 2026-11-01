@@ -1,0 +1,26 @@
+# command  : stages/evaluate/fc_export.sh t1-ep19-w2048-cap10m-r3o-ml40 349999104 
+# md5      : 9dc3b640d31e0c9125397a84c125504b  stages/evaluate/fc_export.sh
+# source   : 75d63abca81d
+# host     : VM-0-16-ubuntu
+# run_at   : 2026-11-01T17:25:40+0800
+# ---------------------------------------------------------------
+stages/evaluate/fc_export.sh: line 114: runs/logs/t1-ep19-w2048-cap10m-r3o-ml40.export_8c778f9_s349999104_w1.log: No such file or directory
+=== 2026-11-01 17:25:41 CST fc_export t1-ep19-w2048-cap10m-r3o-ml40 policy_349999104 episode 19 world_count=1 traj=1 ===
+in-flash-chord: /workspace ← /lab_data/rxzhou/v2d/fc_src/fc_8c778f9（flash_chord 8c778f905c（v0.4.0 33129dd + third_party/patches/flash_chord-v0.4.0-to-8c778f9.patch））
+fc_export: t1-ep19-w2048-cap10m-r3o-ml40 policy_349999104（episode 19，1 世界）→ runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40/export_8c778f9/s349999104_w1/episode_000019.json 与 runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40/export_8c778f9/s349999104_w1/episode_000019.parquet
+== runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40/export_8c778f9/s349999104_w1/episode_000019.json
+  checkpoint /repo/runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40/policy_349999104.safetensors  sha256 619bfefdb53db737…
+  environment_steps 349999104  world_count 1  step_count 886  start_frame 0  reset_mode explicit  non_finite_worlds []
+  add_auc                                        0.21966704288939048
+  chord_sr                                       0.0
+  maniptrans_sr                                  0.0
+  spider_sr_uncentered                           0.0
+  mppe_cm                                        40.01255963718886
+  mean_add_m                                     0.4373359261966263
+  object_position_error_m                        0.3984347912293323
+  object_orientation_error_deg                   58.1031892441422
+  termination_cause_fraction (legacy object-centric) {'object': 1.0, 'wrist': 1.0}
+  reference_tracking.success_rate (= chord_sr)   0.0
+  reference_tracking.failure_cause_fraction      {'object': 1.0, 'palm': 1.0, 'pelvis': 1.0}
+  reference_tracking.reference_end_fraction      1.0
+  summary_json {"add_auc": 0.21966704288939048, "checkpoint": "/repo/runs/flash_chord/t1-ep19-w2048-cap10m-r3o-ml40/policy_349999104.safetensors", "checkpoint_sha256": "619bfefdb53db737dac4aa3dcc62fce034649a5416c8d426de23e5f57fcbfd92", "chord_sr": 0.0, "environment_steps": 349999104, "maniptrans_sr": 0.0, "mean_add_m": 0.4373359261966263, "mppe_cm": 40.01255963718886, "object_orientation_error_deg": 58.1031892441422, "object_position_error_m": 0.3984347912293323, "parquet": "/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-05-19_10-19-48_cane_swing_05/robot_name=g1/data.parquet", "reference_tracking": {"failure_cause_fraction": {"object": 1.0, "palm": 1.0, "pelvis": 1.0}, "reference_end_fraction": 1.0, "success_rate": 0.0}, "spider_sr_uncentered": 0.0, "step_count": 886, "world_count": 1}

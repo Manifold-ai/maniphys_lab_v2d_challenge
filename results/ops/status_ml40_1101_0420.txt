@@ -1,0 +1,31 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : e5122809b2e5
+# host     : Mac
+# run_at   : 2026-11-01T06:21:03-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-01 19:21:08 CST
+NVIDIA L40S, 40241 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  941G  54% /lab_data
+-- tmux
+v2d-t1zw2-eval: 1 windows (created Sun Nov  1 17:28:21 2026)
+v2d-t1zw2-export: 1 windows (created Sun Nov  1 17:28:23 2026)
+v2d-t1zw2-train: 1 windows (created Sun Nov  1 17:28:19 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zw2_ml40-gate
+runs/.chain-active-t1zw2_eval_ml40
+runs/.chain-active-t1zw2_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t2xb_s43_ml40.log：=== 2026-11-01 01:35:12 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_ml40.log：=== 2026-11-01 06:06:29 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hp_ml40.log：=== 2026-11-01 08:20:02 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zw_ml40.log：=== 2026-11-01 12:55:42 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zw2_ml40.log：=== 2026-11-01 17:28:26 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep3-w2048-cap10m-r3o-ml40.log：training progress: 290,500,608/349,999,104 environment steps (83.0%); 48,143 env steps/s; elapsed 01:40:34; ETA 00:20:36
+runs/logs/t1-ep3-w2048-cap10m-r3o-ml40.nanwatch.log：11-01 05:18:00 MDT 280,010,752 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1zw2_train_ml40.log：=== 2026-11-01 17:37:52 CST 正式 t1-ep3-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep16-w2048-cap10m-r3o-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep16-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep16-w2048-cap10m-r3o-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep16-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep3-w2048-cap10m-r3o-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep3-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t1-ep3-w2048-cap10m-r3o-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep3-w2048-cap10m-r3o-ml40
+runs/logs/cand_t1_t1zw2_ml40_gate.log：=== 2026-11-01 17:28:23 CST 等 runs/logs/t1zw2_eval_ml40.log 的最后一行变成评测链的结束行
