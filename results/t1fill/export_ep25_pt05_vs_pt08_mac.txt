@@ -1,0 +1,11 @@
+# command  : bash -c grep\ -h\ \'summary_json\'\ results/ml40/submission/exports/\*_t1-ep25-w2048-cap10m-pt0\[58\]-ml40_s349999104.txt\ \|\ grep\ -oE\ \'\"\(add_auc\|mppe_cm\|checkpoint\)\":\ \[\^\,\]\*\' 
+# source   : de176ca780cf
+# host     : Mac
+# run_at   : 2026-11-01T18:22:13-0500
+# ---------------------------------------------------------------
+"add_auc": 0.18415308498253785
+"checkpoint": "/repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40/policy_349999104.safetensors"
+"mppe_cm": 52.61812564256737
+"add_auc": 0.056169965075669376
+"checkpoint": "/repo/runs/flash_chord/t1-ep25-w2048-cap10m-pt05-ml40/policy_349999104.safetensors"
+"mppe_cm": 122.81253658037743
