@@ -1,0 +1,29 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "sub": {"file": "results/submission/submit_t1x1101.txt", "grep": "COMPLETE|ACCEPTED"},
+  "pack": {"file": "results/submission/pack/t1_t1x1101.txt", "grep": "locally computed|^CSV"},
+  "pred": {"file": "results/t1list/t1x1018_ep17_7_22_5_25pt08_27_0.txt", "grep": "^TOTAL"},
+  "chk": {"file": "results/t1list/pack_check_t1x1101.txt", "grep": "T1_PACK_CHECK"},
+  "neg": {"file": "results/t1list/pack_check_t1x1101_negctl.txt.failed", "grep": "T1_PACK_CHECK"},
+  "dry": {"file": "results/submission/dryrun_t1x1101.txt", "grep": "valid|nothing submitted"},
+  "bw": {"file": "results/board/diff_1101_1102.txt", "grep": "^Tier 1|tier1-auc|读法"}
+ },
+ "claims": [
+  {"id": "mppe_board", "evidence": ["sub"], "claim": "The Tier 1 MPPE submission completed with score 9.57457."},
+  {"id": "auc_board", "evidence": ["sub"], "claim": "The Tier 1 AUC submission completed with score 0.61680."},
+  {"id": "sp_board", "evidence": ["sub"], "claim": "The Tier 1 SP-SR submission completed with score 0.86666."},
+  {"id": "mp_board", "evidence": ["sub"], "claim": "The Tier 1 MP-SR submission completed with score 0.70000."},
+  {"id": "local_eq", "evidence": ["pack"], "claim": "The packer computed MPPE 9.5746 and SP-SR 0.8667 locally."},
+  {"id": "pred_mppe", "evidence": ["pred"], "claim": "The predicted total MPPE is 9.57457."},
+  {"id": "chk_ok", "evidence": ["chk"], "claim": "The pack check passed for 30 episodes."},
+  {"id": "neg_fail", "evidence": ["neg"], "claim": "The pack check with the old list failed on 7 items."},
+  {"id": "dry_ok", "evidence": ["dry"], "claim": "The dry run found the CSV valid and submitted nothing."},
+  {"id": "mppe8", "evidence": ["bw"], "claim": "maniphys.ai is 8th on the Tier 1 MPPE board."},
+  {"id": "auc11", "evidence": ["bw"], "claim": "maniphys.ai is 11th on the Tier 1 AUC board."},
+  {"id": "ops_auc", "evidence": ["bw"], "claim": "Team OPS raised its Tier 1 AUC score from 0.38403 to 0.63000."},
+  {"id": "ctl_true", "evidence": ["sub"], "control": "true", "claim": "Four Tier 1 submissions were accepted."},
+  {"id": "ctl_false1", "evidence": ["sub"], "control": "false", "claim": "The Tier 1 MPPE submission completed with score 11.86661."},
+  {"id": "ctl_false2", "evidence": ["bw"], "control": "false", "claim": "maniphys.ai is 1st on the Tier 1 MPPE board."}
+ ]
+}

@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-01-t1x1101.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 03b4f91cf167ced4a969a24897ab64bd  agent-doc/experiments/2026-11-01-t1x1101.claims.json
+# source   : b889feeb652c-dirty
+# host     : Mac
+# run_at   : 2026-11-01T13:03:19-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+mppe_board           P(supported)=0.98  verified               [sub]  The Tier 1 MPPE submission completed with score 9.57457.
+auc_board            P(supported)=0.99  verified               [sub]  The Tier 1 AUC submission completed with score 0.61680.
+sp_board             P(supported)=0.99  verified               [sub]  The Tier 1 SP-SR submission completed with score 0.86666.
+mp_board             P(supported)=0.98  verified               [sub]  The Tier 1 MP-SR submission completed with score 0.70000.
+local_eq             P(supported)=0.98  verified               [pack]  The packer computed MPPE 9.5746 and SP-SR 0.8667 locally.
+pred_mppe            P(supported)=0.90  verified               [pred]  The predicted total MPPE is 9.57457.
+chk_ok               P(supported)=0.90  verified               [chk]  The pack check passed for 30 episodes.
+neg_fail             P(supported)=0.83  verified               [neg]  The pack check with the old list failed on 7 items.
+dry_ok               P(supported)=0.96  verified               [dry]  The dry run found the CSV valid and submitted nothing.
+mppe8                P(supported)=0.90  verified               [bw]  maniphys.ai is 8th on the Tier 1 MPPE board.
+auc11                P(supported)=0.92  verified               [bw]  maniphys.ai is 11th on the Tier 1 AUC board.
+ops_auc              P(supported)=0.99  verified               [bw]  Team OPS raised its Tier 1 AUC score from 0.38403 to 0.63000.
+ctl_true             P(supported)=0.97  control(true) ok       [sub]  Four Tier 1 submissions were accepted.
+ctl_false1           P(supported)=0.01  control(false) ok      [sub]  The Tier 1 MPPE submission completed with score 11.86661.
+ctl_false2           P(supported)=0.01  control(false) ok      [bw]  maniphys.ai is 1st on the Tier 1 MPPE board.
+controls behaved as expected

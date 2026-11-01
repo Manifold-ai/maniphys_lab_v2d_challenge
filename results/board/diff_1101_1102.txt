@@ -1,0 +1,34 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1101_1020.txt results/board/lb_1101_1102.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : ef61d43ded98aebf02c14a0f812570b3  results/board/lb_1101_1020.txt
+# md5      : 0ecad1497825f5dc1ae1f4267889e8ac  results/board/lb_1101_1102.txt
+# source   : b889feeb652c
+# host     : Mac
+# run_at   : 2026-11-01T13:02:51-0500
+# ---------------------------------------------------------------
+上一份 results/board/lb_1101_1020.txt；这一份 results/board/lb_1101_1102.txt
+## 变了的榜
+tier1-auc：Debajyoti Dasgupta 0.63445 → 0.64253（2026-11-01 17:41）；Team OPS 0.38403 → 0.63000（2026-11-01 17:38）；maniphys.ai 0.58258 → 0.61680（2026-11-01 18:02）
+tier1-sp-sr：Debajyoti Dasgupta 0.80000 → 0.83333（2026-11-01 17:41）；maniphys.ai 0.83333 → 0.86666（2026-11-01 18:02）
+tier1-mp-sr：Debajyoti Dasgupta 重新提交，分数没变（0.80000，2026-11-01 17:41）；maniphys.ai 重新提交，分数没变（0.70000，2026-11-01 18:02）
+tier1-mppe：Debajyoti Dasgupta 10.88589 → 10.86777（2026-11-01 17:41）；maniphys.ai 11.86661 → 9.57457（2026-11-01 18:02）
+tier2-auc：Team OPS 0.34684 → 0.42489（2026-11-01 17:43）
+tier2-sp-sr：Team OPS 0.40000 → 0.53333（2026-11-01 18:02）
+tier3-auc：Team OPS 0.09026 → 0.12867（2026-11-01 17:49）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.61680，第 1 名 MBZUAI-RCL Group 0.89354，差 0.27674）；sp-sr 第 7（0.86666，第 1 名 MBZUAI-RCL Group 0.96666，差 0.10000）；mp-sr 第 10（0.70000，第 1 名 MBZUAI-RCL Group 0.93333，差 0.23333）；mppe 第 8（9.57457，第 1 名 Izus_systems 2.44373，差 7.13084）
+Tier 2：auc 第 4（0.51379，第 1 名 MBZUAI-RCL Group 0.56768，差 0.05389）；sp-sr 第 4（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 5（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 7（15.32195，第 1 名 Izus_systems 7.00505，差 8.31690）
+Tier 3：auc 第 3（0.28173，第 1 名 Izus_systems 0.36127，差 0.07954）；sp-sr 第 1（0.46666，第 2 名 Izus_systems 0.46666，差 0.00000）；mp-sr 第 2（0.10000，第 1 名 Izus_systems 0.13333，差 0.03333）；mppe 第 4（36.60061，第 1 名 domoarigato 31.33930，差 5.26131）
+第一的榜（同分 kaggle）：1 → 1 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 66（第 5） → 66（第 5）；前 4：Izus_systems 26、nima arki 62、Xueyi Wang (FF) 64、Debajyoti Dasgupta 65
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 68（第 5） → 66（第 4）；前 4：Izus_systems 23、nima arki 60、Debajyoti Dasgupta 63、maniphys.ai 66
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 16（第 4） → 16（第 5）；前 4：Izus_systems 4、nima arki 14、Debajyoti Dasgupta 15、Xueyi Wang (FF) 15
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 16（第 4） → 16（第 5）；前 4：Izus_systems 4、nima arki 14、Debajyoti Dasgupta 15、Xueyi Wang (FF) 15
+ALERT tier1-auc 名次 10 → 11（同分 kaggle）
+ALERT tier1-auc 名次 10 → 11（同分 site）
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 kaggle）总名次 4 → 5
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 site）总名次 4 → 5
+BOARD_CHANGED 7 个榜
+BOARD_DIFF_DONE
