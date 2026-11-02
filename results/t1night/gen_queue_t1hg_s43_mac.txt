@@ -1,0 +1,10 @@
+# command  : python3 stages/policy/make_var_queue.py t1hg_s43 --episodes 4 --seed 43 
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# source   : ba62d9f0c067-dirty
+# host     : Mac
+# run_at   : 2026-11-01T23:58:52-0500
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t1hg_s43.expect.tsv（2 行）
+写 stages/policy/queues/ml40_t1hg_s43_smoke.txt（2 行）
+写 stages/policy/queues/ml40_t1hg_s43.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1hg_s43_ml40.tsv（2 行）

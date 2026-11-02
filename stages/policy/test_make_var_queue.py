@@ -832,6 +832,7 @@ def test_t1night_fc20():
                                 ["t1-ep1-w2048-cap4m-fc20-mf4090", "t1-ep4-w2048-cap4m-fc20-mf4090"]),
                 ("t1hf2_s43", ("--episodes", "9", "--seed", "43")): ("mf4090", ["training.replay.capacity=4000000", *s43, fc], False,
                                                                        ["t1-ep9-w2048-cap4m-fc20-s43-mf4090"]),
+                ("t1hg_s43", ("--episodes", "4", "--seed", "43")): ("ml40", [*s43, fc], False, ["t1-ep4-w2048-cap10m-fc20-s43-ml40"]),
                 ("t1hr_s43", ("--episodes", "17", "--seed", "43")): ("ml40", s43, True, ["t1-ep17-w2048-cap10m-r3o-nv-s43-ml40"]),
                 ("t1hr2_s43", ("--episodes", "26", "--seed", "43")): ("ml40", s43, True, ["t1-ep26-w2048-cap10m-r3o-nv-s43-ml40"])}
         for (part, args), (mach, extra, r3o, runs) in want.items():
