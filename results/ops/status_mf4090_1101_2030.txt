@@ -1,0 +1,31 @@
+# command  : ssh -o ConnectTimeout=15 mf4090 bash\ -s\ mf4090 
+# source   : 8f8e1a3433e3
+# host     : Mac
+# run_at   : 2026-11-01T22:30:31-0500
+# ---------------------------------------------------------------
+== mf4090 2026-11-02 11:30:35 CST
+NVIDIA GeForce RTX 4090, 23779 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  262G   23G  92% /
+-- tmux
+v2d-t1zs2-eval: 1 windows (created Mon Nov  2 09:41:59 2026)
+v2d-t1zs2-export: 1 windows (created Mon Nov  2 09:42:01 2026)
+v2d-t1zs2-train: 1 windows (created Mon Nov  2 09:41:57 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1zs2_mf4090-gate
+runs/.chain-active-t1zs2_eval_mf4090
+runs/.chain-active-t1zs2_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zx_mf4090.log：=== 2026-11-01 14:11:59 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zx2_mf4090.log：=== 2026-11-01 18:54:45 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zx3_mf4090.log：=== 2026-11-01 23:40:45 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zs2_mf4090.log：=== 2026-11-02 09:42:04 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep26-w2048-cap4m-r3o-mf4090.nanwatch.log：11-01 21:30:01 MDT 260,009,984 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep26-w2048-cap4m-r3o-mf4090.log：training progress: 262,500,352/349,999,104 environment steps (75.0%); 45,286 env steps/s; elapsed 01:36:36; ETA 00:32:12
+runs/logs/t1zs2_train_mf4090.log：=== 2026-11-02 09:51:54 CST 正式 t1-ep26-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep12-w2048-cap4m-r3o-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep12-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep12-w2048-cap4m-r3o-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep12-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep26-w2048-cap4m-r3o-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep26-w2048-cap4m-r3o-mf4090
+runs/logs/smoke-t1-ep26-w2048-cap4m-r3o-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep26-w2048-cap4m-r3o-mf4090
+runs/logs/cand_t1_t1zs2_mf4090_gate.log：=== 2026-11-02 09:42:01 CST 等 runs/logs/t1zs2_eval_mf4090.log 的最后一行变成评测链的结束行
