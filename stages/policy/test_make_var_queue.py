@@ -882,6 +882,29 @@ def test_t1ep1():
                     over = [v for v in t[i + 1:] if v != "scene.support=false" and not v.startswith("training.replay.capacity=") or v == cap]
                     assert sorted(over) == sorted(extra), (part, over)
 
+def test_t2auc2():
+    """计划 agent-doc/plan-t2auc2-2026-11-02.md：t2zo、t2zo2 是 mf4090 上 Tier 2 ep10、0 与 ep26、21 的 r3o（400 万），
+    t2o3、t2o3b 是 ml40 上同 4 集的 r3o（1000 万）；行里带 Tier 2 参考与物体朝向项，不出现 Tier 1 的参考。"""
+    cap = "training.replay.capacity=4000000"
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t2zo": ("mf4090", ["t2-ep10-w2048-cap4m-r3o-mf4090", "t2-ep0-w2048-cap4m-r3o-mf4090"]),
+                "t2zo2": ("mf4090", ["t2-ep26-w2048-cap4m-r3o-mf4090", "t2-ep21-w2048-cap4m-r3o-mf4090"]),
+                "t2o3": ("ml40", ["t2-ep10-w2048-cap10m-r3o-ml40", "t2-ep0-w2048-cap10m-r3o-ml40"]),
+                "t2o3b": ("ml40", ["t2-ep26-w2048-cap10m-r3o-ml40", "t2-ep21-w2048-cap10m-r3o-ml40"])}
+        for part, (mach, runs) in want.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"{mach}_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t2-", "smoke-t2-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    assert "V2D_OBJ_ORI_WEIGHT=1.0" in x and "/motion/tier2/" in x and "/motion/tier1" not in x, x
+                    assert (cap in x) == (mach == "mf4090"), x
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

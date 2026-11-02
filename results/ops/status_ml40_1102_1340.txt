@@ -1,0 +1,28 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 32e6c4e1e855
+# host     : Mac
+# run_at   : 2026-11-02T15:40:15-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-03 04:40:18 CST
+NVIDIA L40S, 8453 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  920G  55% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1hr2_ml40.log：=== 2026-11-02 06:47:33 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.try1.log：bash: runs/tools/relay_when_armed.sh: No such file or directory
+runs/logs/arm_after_t1hg_s43_ml40.log：=== 2026-11-02 17:57:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 20:19:37 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_ml40.log：=== 2026-11-02 22:46:53 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_s43_ml40.log：=== 2026-11-03 00:51:08 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1hg2_s43_ml40_gate.log：=== 2026-11-03 02:56:10 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1hg2_s43_ml40.log：=== 2026-11-03 02:56:10 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep1-w2048-cap10m-fc20-s43-ml40/export_8c778f9/s349999104_w1/episode_000001.parquet
+runs/logs/t1hg2_s43_eval_ml40.log：=== 2026-11-03 02:55:03 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep1-w2048-cap10m-fc20-s43-ml40/eval_349999104_w4096.json
+runs/logs/t1hg2_s43_train_ml40.log：=== 2026-11-03 02:49:08 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep1-w2048-cap10m-fc20-s43-ml40
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep1-w2048-cap10m-fc20-s43-ml40

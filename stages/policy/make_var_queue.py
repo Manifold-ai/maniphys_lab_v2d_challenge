@@ -344,6 +344,15 @@ SETS = {
               "episodes": [1], "parts": {"t1hp3": [1]}, "base": None, "novar": True,
               "run": "t1-ep{ep}-w2048-cap4m-pt08-mf4090", "extra": ["termination.palm_position_threshold=0.08"],
               "desc": "Tier 1 MPPE 榜：ep1 基础配方把手掌位置终止从 0.15 收到 0.08 m（pt08，不加变体 A）seed 42，mf4090，buffer 400 万；配方取 10/9 清单里同集的 run"},
+    # 11/02（计划 agent-doc/plan-t2auc2-2026-11-02.md）：Tier 2 跟得住、自己参考上 ADD-AUC 最低的 4 集加物体朝向项（r3o），只由 Tier 2 的数据挑集
+    "t2zo": {"plan": "agent-doc/plan-t2auc2-2026-11-02.md", "tier": 2, "machine": "mf4090", "cap": "4000000",
+             "episodes": [10, 0, 26, 21], "parts": {"t2zo": [10, 0], "t2zo2": [26, 21]}, "base": None,
+             "run": "t2-ep{ep}-w2048-cap4m-r3o-mf4090", "variant": "r3o",
+             "desc": "Tier 2 AUC 榜：跟得住、ADD-AUC 最低的 ep10、0、26、21 用 r3o（变体 A 加物体朝向项）seed 42，mf4090，buffer 400 万，基线取 Tier 2 导出清单"},
+    "t2o3": {"plan": "agent-doc/plan-t2auc2-2026-11-02.md", "tier": 2, "machine": "ml40", "cap": None,
+             "episodes": [10, 0, 26, 21], "parts": {"t2o3": [10, 0], "t2o3b": [26, 21]}, "base": None,
+             "run": "t2-ep{ep}-w2048-cap10m-r3o-ml40", "variant": "r3o",
+             "desc": "Tier 2 AUC 榜：同 t2zo 的 4 集，r3o seed 42，ml40，buffer 1000 万（与清单里的 1000 万变体 A 只差物体朝向项），基线取 Tier 2 导出清单"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）
