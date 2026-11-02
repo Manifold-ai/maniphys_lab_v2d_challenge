@@ -1,0 +1,24 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "cmp": {"file": "results/t1ep1/compare_ep1_b_mac.txt", "grep": "add_auc|mppe_cm|maniptrans_sr"},
+  "pk": {"file": "results/submission/pack/t1_t1x1102.txt", "grep": "locally computed|22989"},
+  "sb": {"file": "results/submission/submit_t1x1102.txt", "grep": "COMPLETE"},
+  "pc": {"file": "results/t1list/pack_check_t1x1102.txt", "grep": "T1_PACK_CHECK"},
+  "nc": {"file": "results/t1list/pack_check_t1x1102_negctl.txt.failed", "grep": "T1_PACK_CHECK|不符"},
+  "df": {"file": "results/board/diff_1102_1330.txt", "grep": "^Tier 1|读法|maniphys.ai 0.61680"}
+ },
+ "claims": [
+  {"id": "s43", "evidence": ["cmp"], "claim": "t1-ep1-w2048-cap10m-fc20-s43-ml40 has a higher mppe_cm than t1-ep1-w2048-cap10m-r3a-c10-ml40."},
+  {"id": "pt08", "evidence": ["cmp"], "claim": "t1-ep1-w2048-cap4m-pt08-mf4090 has a higher mppe_cm than t1-ep1-w2048-cap10m-r3a-c10-ml40."},
+  {"id": "pc", "evidence": ["pc"], "claim": "The pack check of the t1x1102 list passes on all 30 episodes."},
+  {"id": "nc", "evidence": ["nc"], "claim": "The control check with the old list fails on exactly 5 episodes: ep6, ep8, ep9, ep24 and ep26."},
+  {"id": "eq", "evidence": ["pk", "sb"], "claim": "The board scores of the submission (MPPE 8.46753, SP-SR 0.86666, MP-SR 0.70000) agree with the locally computed pack scores."},
+  {"id": "auc", "evidence": ["df"], "claim": "maniphys.ai is 11th on the Tier 1 AUC board and 8th on the Tier 1 MPPE board."},
+  {"id": "b", "evidence": ["df"], "claim": "With the Kaggle tie rule, the reading B total of maniphys.ai went from 72 to 70."},
+  {"id": "a", "evidence": ["df"], "claim": "The reading A total of maniphys.ai stays at 17."},
+  {"id": "ctl_true", "evidence": ["sb"], "control": "true", "claim": "The add_auc submission completed with the score 0.63535."},
+  {"id": "ctl_false1", "evidence": ["cmp"], "control": "false", "claim": "t1-ep1-w2048-cap4m-pt08-mf4090 has a maniptrans_sr above 0.5."},
+  {"id": "ctl_false2", "evidence": ["df"], "control": "false", "claim": "maniphys.ai is 1st on the Tier 1 MPPE board."}
+ ]
+}

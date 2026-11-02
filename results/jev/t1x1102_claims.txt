@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-02-t1x1102.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a01181849932f489320e73e80324a22c  agent-doc/experiments/2026-11-02-t1x1102.claims.json
+# source   : b59f6a6cb3f9-dirty
+# host     : Mac
+# run_at   : 2026-11-02T15:20:25-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+s43                  P(supported)=0.99  verified               [cmp]  t1-ep1-w2048-cap10m-fc20-s43-ml40 has a higher mppe_cm than t1-ep1-w2048-cap10m-r3a-c10-ml40.
+pt08                 P(supported)=0.98  verified               [cmp]  t1-ep1-w2048-cap4m-pt08-mf4090 has a higher mppe_cm than t1-ep1-w2048-cap10m-r3a-c10-ml40.
+pc                   P(supported)=0.90  verified               [pc]  The pack check of the t1x1102 list passes on all 30 episodes.
+nc                   P(supported)=0.98  verified               [nc]  The control check with the old list fails on exactly 5 episodes: ep6, ep8, ep9, ep24 and ep26.
+eq                   P(supported)=0.93  verified               [pk, sb]  The board scores of the submission (MPPE 8.46753, SP-SR 0.86666, MP-SR 0.70000) agree with the locally computed pack scores.
+auc                  P(supported)=0.86  verified               [df]  maniphys.ai is 11th on the Tier 1 AUC board and 8th on the Tier 1 MPPE board.
+b                    P(supported)=0.99  verified               [df]  With the Kaggle tie rule, the reading B total of maniphys.ai went from 72 to 70.
+a                    P(supported)=0.98  verified               [df]  The reading A total of maniphys.ai stays at 17.
+ctl_true             P(supported)=0.99  control(true) ok       [sb]  The add_auc submission completed with the score 0.63535.
+ctl_false1           P(supported)=0.01  control(false) ok      [cmp]  t1-ep1-w2048-cap4m-pt08-mf4090 has a maniptrans_sr above 0.5.
+ctl_false2           P(supported)=0.01  control(false) ok      [df]  maniphys.ai is 1st on the Tier 1 MPPE board.
+controls behaved as expected
