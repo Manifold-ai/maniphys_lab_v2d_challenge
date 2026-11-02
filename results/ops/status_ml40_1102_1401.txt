@@ -1,0 +1,33 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 73478de00f89
+# host     : Mac
+# run_at   : 2026-11-02T16:01:07-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-03 05:01:08 CST
+NVIDIA L40S, 931 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  919G  55% /lab_data
+-- tmux
+v2d-t2o3-eval: 1 windows (created Tue Nov  3 04:56:47 2026)
+v2d-t2o3-export: 1 windows (created Tue Nov  3 04:56:49 2026)
+v2d-t2o3-train: 1 windows (created Tue Nov  3 04:56:45 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2o3_ml40-gate
+runs/.chain-active-t2o3_eval_ml40
+runs/.chain-active-t2o3_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1hr2_ml40.log：=== 2026-11-02 06:47:33 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.try1.log：bash: runs/tools/relay_when_armed.sh: No such file or directory
+runs/logs/arm_after_t1hg_s43_ml40.log：=== 2026-11-02 17:57:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 20:19:37 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_ml40.log：=== 2026-11-02 22:46:53 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_s43_ml40.log：=== 2026-11-03 00:51:08 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2o3b_ml40.log：=== 2026-11-03 04:56:52 CST 来历与 t2o3b 的队列：e366f58caba3 ea2e3e661f997f4994a6ab7447b38bca  stages/policy/queues/ml40_t2o3b.expect.tsv bda11666534bd91f6e27ac3e08abb067  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t2o3_train_ml40.log：V2D object_orientation term: weight=0.0 std=0.4 (V2D_OBJ_ORI_WEIGHT, V2D_OBJ_ORI_STD)
+runs/logs/smoke-t2-ep10-w2048-cap10m-r3o-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep10-w2048-cap10m-r3o-ml40
+runs/logs/smoke-t2-ep10-w2048-cap10m-r3o-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep10-w2048-cap10m-r3o-ml40
+runs/logs/arm_t2o3_ml40.log：ARMED
+runs/logs/cand_t2_t2o3_ml40_gate.log：=== 2026-11-03 04:56:49 CST 等 runs/logs/t2o3_eval_ml40.log 的最后一行变成评测链的结束行
+runs/logs/t2o3_eval_ml40.log：=== 2026-11-03 04:56:47 CST 等 runs/logs/t2o3_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/t2-ep21-w2048-cap10m-r3o-ml40.log：
+runs/logs/t2-ep26-w2048-cap10m-r3o-ml40.log：

@@ -1,0 +1,12 @@
+# command  : ssh ml40 d=\$\(ls\ -d\ /lab_data/\*/v2d/seedance_recon\)\;\ u=\$\(stat\ -c\ %U\ \$d\)\;\ \{\ tail\ -4\ \$d/logs/run_recon.log\;\ cat\ \$d/input/meta/episodes_metadata.jsonl\;\ \}\ \|\ sed\ \"s/\$u/OTHER_USER/g\" 
+# source   : 73478de00f89-dirty
+# host     : Mac
+# run_at   : 2026-11-02T16:04:57-0500
+# ---------------------------------------------------------------
+11-03_04:50:38 ep18_blue_trash_can check rc=0
+11-03_04:50:51 ep18_blue_trash_can decode rc=0
+11-03_04:51:51 ep18_blue_trash_can soma rc=0
+11-03_04:51:51 DONE
+{"episode_index": 3, "object": "contigo_coffee_mug", "mesh": "mesh/contigo_coffee_mug/contigo_coffee_mug.glb", "frames": 341, "task": "Pick up the coffee mug from the table and put it back.", "notes": "seedance 2.5 edit-mode clip (748x562 24 fps) rescaled to 1536x1152 30 fps; synthetic, not a V2D episode"}
+{"episode_index": 7, "object": "iron", "mesh": "mesh/iron/iron.glb", "frames": 691, "task": "Push the iron on the table and stand it up.", "notes": "seedance 2.5 edit-mode clip (748x562 24 fps) rescaled to 1536x1152 30 fps; synthetic, not a V2D episode"}
+{"episode_index": 18, "object": "blue_trash_can", "mesh": "mesh/blue_trash_can/blue_trash_can.glb", "frames": 401, "task": "Lift the blue trash can with both hands, carry it and put it down.", "notes": "seedance 2.5 edit-mode clip (748x562 24 fps) rescaled to 1536x1152 30 fps; synthetic, not a V2D episode"}

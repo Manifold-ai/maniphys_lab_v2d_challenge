@@ -1,0 +1,25 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-02-sop1400.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 7b1caa6a88b20a08917db6de9aa0dd82  agent-doc/experiments/2026-11-02-sop1400.claims.json
+# source   : 73478de00f89-dirty
+# host     : Mac
+# run_at   : 2026-11-02T16:05:17-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sk                   P(supported)=0.94  verified               [d1040]  steven kerman entered Tier 1, and maniphys.ai fell from 11th to 12th on Tier 1 AUC and from 10th to 11th on Tier 1 MP-SR.
+b1040                P(supported)=0.51  UNVERIFIED             [d1040]  At 10:40, with the Kaggle tie rule, the reading B total of maniphys.ai was 72, 5th.
+sub                  P(supported)=0.97  verified               [sb]  The t1x1102 submission scored ADD-AUC 0.63535 and MPPE 8.46753.
+rk                   P(supported)=0.99  verified               [d1330]  On the Tier 1 boards the AUC score of maniphys.ai went from 0.61680 to 0.63535 and the MPPE score went from 9.57457 to 8.46753.
+r1401                P(supported)=0.97  verified               [d1401]  At 14:01 maniphys.ai is 11th on Tier 1 AUC, 8th on Tier 1 MPPE, 5th on Tier 2 AUC, and 1st on Tier 3 SP-SR.
+ab                   P(supported)=0.97  verified               [d1401]  At 14:01 the reading B total of maniphys.ai is 70 under both tie rules, and the reading A total is 17.
+ep1a                 P(supported)=0.99  verified               [ca]  t1-ep1-w2048-cap10m-fc20-ml40 has mppe_cm about 41.1 and t1-ep1-w2048-cap4m-pt05-mf4090 has mppe_cm about 49.1.
+ep1b                 P(supported)=0.97  verified               [cb]  t1-ep1-w2048-cap10m-fc20-s43-ml40 has mppe_cm about 47.9 and t1-ep1-w2048-cap4m-pt08-mf4090 has mppe_cm about 46.4, both above the 38.9 of t1-ep1-w2048-cap10m-r3a-c10-ml40.
+t2b                  P(supported)=0.76  verified               [base]  In 4096 worlds, t2-ep10-w2048-cap10m-r3a-ml40 has add_auc about 0.397 and t2-ep0-w2048-cap10m-r3a-ml40 has add_auc about 0.400.
+ep12                 P(supported)=0.99  verified               [base]  t2-ep12-w2048-cap10m-r3o-ml40 has maniptrans_sr about 0.735, lower than the 0.988 of t2-ep12-w2048-cap10m-r3a-ml40.
+arm                  P(supported)=0.97  verified               [plan]  The t2zo segment on mf4090 was armed at 13:54 MST and the t2o3 segment on ml40 at 13:56 MST.
+st                   P(supported)=0.84  verified               [st]  At 14:01 mf4090 runs t2zo tmux sessions and has about 21 GB of free disk.
+sd                   P(supported)=0.98  verified               [sd]  The Seedance reconstruction run on ml40 logged DONE, and its three clips are synthetic, not V2D episodes.
+ctl_true             P(supported)=0.69  CONTROL(true) FAILED   [sb]  The t1x1102 submission scored MP-SR 0.70000.
+ctl_false1           P(supported)=0.03  control(false) ok      [d1401]  At 14:01 maniphys.ai is 1st on Tier 1 AUC.
+ctl_false2           P(supported)=0.01  control(false) ok      [cb]  t1-ep1-w2048-cap4m-pt08-mf4090 has an mppe_cm below 30.
+CONTROLS MISBEHAVED: do not rely on this batch

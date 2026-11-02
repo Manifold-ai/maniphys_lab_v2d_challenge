@@ -1,0 +1,162 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d1040": {
+   "file": "results/board/diff_1102_1040.txt",
+   "grep": "steven kerman|读法|ALERT"
+  },
+  "d1401": {
+   "file": "results/board/diff_1102_1401.txt",
+   "grep": "^Tier|读法"
+  },
+  "d1330": {
+   "file": "results/board/diff_1102_1330.txt",
+   "grep": "tier1-auc|tier1-mppe|tier3-auc|tier2-auc"
+  },
+  "sb": {
+   "file": "results/submission/submit_t1x1102.txt",
+   "grep": "COMPLETE"
+  },
+  "ca": {
+   "file": "results/t1ep1/compare_ep1_a_mac.txt",
+   "grep": "add_auc|mppe_cm"
+  },
+  "cb": {
+   "file": "results/t1ep1/compare_ep1_b_mac.txt",
+   "grep": "add_auc|mppe_cm"
+  },
+  "base": {
+   "file": "results/t2auc2/base_t2_mac.txt",
+   "grep": "add_auc|maniptrans_sr"
+  },
+  "plan": {
+   "file": "agent-doc/plan-t2auc2-2026-11-02.md",
+   "grep": "13:5|ep26 `t2-ep26|0.735|0.0089|ARMED"
+  },
+  "st": {
+   "file": "results/ops/status_mf4090_1102_1401.txt",
+   "grep": "t2zo|/dev/vda2"
+  },
+  "sd": {
+   "file": "results/ops/t3_seedance_ml40_1102_1401.txt",
+   "grep": "DONE|synthetic"
+  }
+ },
+ "claims": [
+  {
+   "id": "sk",
+   "evidence": [
+    "d1040"
+   ],
+   "claim": "steven kerman entered Tier 1, and maniphys.ai fell from 11th to 12th on Tier 1 AUC and from 10th to 11th on Tier 1 MP-SR."
+  },
+  {
+   "id": "b1040",
+   "evidence": [
+    "d1040"
+   ],
+   "claim": "With the Kaggle tie rule, the reading B total of maniphys.ai went from 70 to 72 and stayed 5th."
+  },
+  {
+   "id": "sub",
+   "evidence": [
+    "sb"
+   ],
+   "claim": "The t1x1102 submission scored ADD-AUC 0.63535 and MPPE 8.46753."
+  },
+  {
+   "id": "rk",
+   "evidence": [
+    "d1330"
+   ],
+   "claim": "On the Tier 1 boards the AUC score of maniphys.ai went from 0.61680 to 0.63535 and the MPPE score went from 9.57457 to 8.46753."
+  },
+  {
+   "id": "r1401",
+   "evidence": [
+    "d1401"
+   ],
+   "claim": "At 14:01 maniphys.ai is 11th on Tier 1 AUC, 8th on Tier 1 MPPE, 5th on Tier 2 AUC, and 1st on Tier 3 SP-SR."
+  },
+  {
+   "id": "ab",
+   "evidence": [
+    "d1401"
+   ],
+   "claim": "At 14:01 the reading B total of maniphys.ai is 70 under both tie rules, and the reading A total is 17."
+  },
+  {
+   "id": "ep1a",
+   "evidence": [
+    "ca"
+   ],
+   "claim": "t1-ep1-w2048-cap10m-fc20-ml40 has mppe_cm about 41.1 and t1-ep1-w2048-cap4m-pt05-mf4090 has mppe_cm about 49.1."
+  },
+  {
+   "id": "ep1b",
+   "evidence": [
+    "cb"
+   ],
+   "claim": "t1-ep1-w2048-cap10m-fc20-s43-ml40 has mppe_cm about 47.9 and t1-ep1-w2048-cap4m-pt08-mf4090 has mppe_cm about 46.4, both above the 38.9 of t1-ep1-w2048-cap10m-r3a-c10-ml40."
+  },
+  {
+   "id": "t2b",
+   "evidence": [
+    "base"
+   ],
+   "claim": "In 4096 worlds, t2-ep10-w2048-cap10m-r3a-ml40 has add_auc about 0.397 and t2-ep0-w2048-cap10m-r3a-ml40 has add_auc about 0.400."
+  },
+  {
+   "id": "ep12",
+   "evidence": [
+    "base"
+   ],
+   "claim": "t2-ep12-w2048-cap10m-r3o-ml40 has maniptrans_sr about 0.735, lower than the 0.988 of t2-ep12-w2048-cap10m-r3a-ml40."
+  },
+  {
+   "id": "arm",
+   "evidence": [
+    "plan"
+   ],
+   "claim": "The t2zo segment on mf4090 was armed at 13:54 MST and the t2o3 segment on ml40 at 13:56 MST."
+  },
+  {
+   "id": "st",
+   "evidence": [
+    "st"
+   ],
+   "claim": "At 14:01 mf4090 runs t2zo tmux sessions and has about 21 GB of free disk."
+  },
+  {
+   "id": "sd",
+   "evidence": [
+    "sd"
+   ],
+   "claim": "The Seedance reconstruction run on ml40 logged DONE, and its three clips are synthetic, not V2D episodes."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "sb"
+   ],
+   "control": "true",
+   "claim": "The maniptrans_sr submission completed with the score 0.70000."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "d1401"
+   ],
+   "control": "false",
+   "claim": "At 14:01 maniphys.ai is 1st on Tier 1 AUC."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "cb"
+   ],
+   "control": "false",
+   "claim": "t1-ep1-w2048-cap4m-pt08-mf4090 has an mppe_cm below 30."
+  }
+ ]
+}

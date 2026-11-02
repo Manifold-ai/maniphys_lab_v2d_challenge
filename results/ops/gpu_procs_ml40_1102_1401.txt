@@ -1,0 +1,30 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 73478de00f89
+# host     : Mac
+# run_at   : 2026-11-02T16:01:08-0500
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-11-03 05:01:09 CST
+NVIDIA L40S, 931 MiB, 46068 MiB, 0 %
+3262185, 922 MiB
+## GPU 进程 3262185：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3262185 本用户 00:39 [Tue Nov  3 05:00:29 2026] python /repo/stages/evaluate/diag_rollout.py /repo/runs/flash_chord/smoke-t2-ep10-w2048-cap10m-r3o-ml40/policy_4096000.safetensors /repo/runs/diag/smoke-t2-ep10-w2048-cap10m-r3o-ml40/rollout_w256 --worlds 256
+  3262147 root 00:39 [Tue Nov  3 05:00:29 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id f098771c227970f506c277cd6c895b7b820efe504203f6f20540f0a179eedbf3 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /diag-smoke-t2-ep10-w2048-cap10m-r3o-ml40
+image flash_chord:latest
+created 2026-11-02T21:00:30.412105645Z  started 2026-11-02T21:00:30.468929207Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","cd /workspace && python /repo/stages/evaluate/diag_rollout.py /repo/runs/flash_chord/smoke-t2-ep10-w2048-cap10m-r3o-ml40/policy_4096000.safetensors /repo/runs/diag/smoke-t2-ep10-w2048-cap10m-r3o-ml40/rollout_w256 --worlds 256"]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+name /awesome_ptolemy
+image v2d_cari4d:latest
+created 2026-11-02T21:00:18.483610041Z  started 2026-11-02T21:00:18.57040116Z
+entrypoint null
+cmd ["python","/s/t3_convert_ep.py","focal","/o/ep18_blue_trash_can","/spec.json","/a","/m/blue_trash_can/blue_trash_can.glb"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/soma_assets -> /a; /lab_data/<其他用户>/v2d/seedance_recon/input/mesh -> /m; /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3 -> /s; /lab_data/<其他用户>/v2d/seedance_recon/focal_spec.json -> /spec.json; /lab_data/<其他用户>/v2d/seedance_recon/runs/convert/ep18_blue_trash_can -> /o/ep18_blue_trash_can; 
+## 运行中的容器（列表）
+f098771c2279 flash_chord:latest 39 seconds ago Up 39 seconds diag-smoke-t2-ep10-w2048-cap10m-r3o-ml40
+25b3371fa960 v2d_cari4d:latest 51 seconds ago Up 51 seconds awesome_ptolemy
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）
