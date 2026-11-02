@@ -327,13 +327,23 @@ SETS = {
     # 11/01 夜（计划 agent-doc/plan-t1night-2026-11-01.md）：MPPE 最大的跟丢集试抓握闭合项权重 20；t1hg 在 ml40 用 1000 万（ep4、9 的清单 run 是同机同配方），
     # t1hf2 在 mf4090 用 400 万（ep1、4；ep9 换种子走 t1hf2_s43 --episodes 9 --seed 43）
     "t1hg": {"plan": "agent-doc/plan-t1night-2026-11-01.md", "tier": 1, "machine": "ml40", "cap": None,
-             "episodes": [4, 9], "parts": {"t1hg": [4, 9]}, "base": None, "novar": True,
+             "episodes": [4, 9, 1], "parts": {"t1hg": [4, 9]}, "base": None, "novar": True,
              "run": "t1-ep{ep}-w2048-cap10m-fc20-ml40", "extra": ["objective.force_closure_weight=20.0"],
              "desc": "Tier 1 MPPE 榜：基础配方把抓握闭合项权重 5 → 20（fc20，不加变体 A）seed 42，ml40，buffer 1000 万；配方取 10/9 清单里同集的 run"},
     "t1hf2": {"plan": "agent-doc/plan-t1night-2026-11-01.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
               "episodes": [1, 4, 9], "parts": {"t1hf2": [1, 4]}, "base": None, "novar": True,
               "run": "t1-ep{ep}-w2048-cap4m-fc20-mf4090", "extra": ["objective.force_closure_weight=20.0"],
               "desc": "Tier 1 MPPE 榜：基础配方把抓握闭合项权重 5 → 20（fc20，不加变体 A），mf4090，buffer 400 万；配方取 10/9 清单里同集的 run"},
+    # 11/02（计划 agent-doc/plan-t1ep1-2026-11-02.md）：ep1 的 1000 万 fc20 走 t1hg2 --episodes 1（seed 43 另加 --seed 43）；
+    # mf4090 上 ep1 试手掌位置终止 0.05、0.08（400 万）
+    "t1hp2": {"plan": "agent-doc/plan-t1ep1-2026-11-02.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+              "episodes": [1], "parts": {"t1hp2": [1]}, "base": None, "novar": True,
+              "run": "t1-ep{ep}-w2048-cap4m-pt05-mf4090", "extra": ["termination.palm_position_threshold=0.05"],
+              "desc": "Tier 1 MPPE 榜：ep1 基础配方把手掌位置终止从 0.15 收到 0.05 m（pt05，不加变体 A）seed 42，mf4090，buffer 400 万；配方取 10/9 清单里同集的 run"},
+    "t1hp3": {"plan": "agent-doc/plan-t1ep1-2026-11-02.md", "tier": 1, "machine": "mf4090", "cap": "4000000",
+              "episodes": [1], "parts": {"t1hp3": [1]}, "base": None, "novar": True,
+              "run": "t1-ep{ep}-w2048-cap4m-pt08-mf4090", "extra": ["termination.palm_position_threshold=0.08"],
+              "desc": "Tier 1 MPPE 榜：ep1 基础配方把手掌位置终止从 0.15 收到 0.08 m（pt08，不加变体 A）seed 42，mf4090，buffer 400 万；配方取 10/9 清单里同集的 run"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）

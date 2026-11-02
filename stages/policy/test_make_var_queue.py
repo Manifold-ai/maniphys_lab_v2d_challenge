@@ -852,6 +852,36 @@ def test_t1night_fc20():
         r = gen(root, "t1hf2", "--episodes", "9")
         assert r.returncode != 0, "预设段不许再给 --episodes"
 
+
+def test_t1ep1():
+    """计划 agent-doc/plan-t1ep1-2026-11-02.md：t1hg2 --episodes 1 是 ml40 上 ep1 的基础配方加抓握闭合项权重 20（1000 万），再加 --seed 43 得 seed 43；
+    t1hp2、t1hp3 是 mf4090 上 ep1 的基础配方加手掌位置终止 0.05、0.08（400 万）。都不带变体 A，冒烟与正式一致；预设段 t1hg 仍只有 ep4、9。"""
+    fc = "objective.force_closure_weight=20.0"
+    s43 = ["reset.seed=43", "training.seed=43"]
+    cap = "training.replay.capacity=4000000"
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {("t1hg2", ("--episodes", "1")): ("ml40", [fc], ["t1-ep1-w2048-cap10m-fc20-ml40"]),
+                ("t1hg2_s43", ("--episodes", "1", "--seed", "43")): ("ml40", [*s43, fc], ["t1-ep1-w2048-cap10m-fc20-s43-ml40"]),
+                ("t1hp2", ()): ("mf4090", [cap, "termination.palm_position_threshold=0.05"], ["t1-ep1-w2048-cap4m-pt05-mf4090"]),
+                ("t1hp3", ()): ("mf4090", [cap, "termination.palm_position_threshold=0.08"], ["t1-ep1-w2048-cap4m-pt08-mf4090"]),
+                ("t1hg", ()): ("ml40", [fc], ["t1-ep4-w2048-cap10m-fc20-ml40", "t1-ep9-w2048-cap10m-fc20-ml40"])}
+        for (part, args), (mach, extra, runs) in want.items():
+            r = gen(root, part, *args)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"{mach}_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    t = x.split()
+                    assert "object_position_std" not in x and "V2D_OBJ_ORI_WEIGHT" not in x, x
+                    i = next(k for k, v in enumerate(t) if v.isdigit() and k > 0 and t[k - 1] == "2048")
+                    over = [v for v in t[i + 1:] if v != "scene.support=false" and not v.startswith("training.replay.capacity=") or v == cap]
+                    assert sorted(over) == sorted(extra), (part, over)
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
