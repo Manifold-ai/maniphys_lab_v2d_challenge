@@ -1,0 +1,20 @@
+# command  : awk /\^\ \ \(add_auc\|maniptrans_sr\|spider_sr_uncentered\|mppe_cm\)\ /\{print\ FILENAME\,\ \$1\,\ \$2\} results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt 
+# md5      : 13bc50049dffe1d90fd4cf2024697f35  results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt
+# md5      : fa335c6b4762c6f9ac3529fe724a19b9  results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt
+# md5      : 8f5e6bbc4c121ec5065dd93fece30e44  results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt
+# source   : 7d483db0afd5
+# host     : Mac
+# run_at   : 2026-11-02T11:54:16-0500
+# ---------------------------------------------------------------
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt add_auc 0.20826735490137635
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt maniptrans_sr 0.0
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt spider_sr_uncentered 0.0
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-r3a-c10-ml40_s349999104.txt mppe_cm 38.88053129430713
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt add_auc 0.22365840722917713
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt maniptrans_sr 0.0
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt spider_sr_uncentered 0.0
+results/ml40/day2/eval_t1-ep1-w2048-cap10m-fc20-ml40_s349999104.txt mppe_cm 41.08461211774778
+results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt add_auc 0.16792607850019872
+results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt maniptrans_sr 0.0
+results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt spider_sr_uncentered 0.0
+results/day2/eval_t1-ep1-w2048-cap4m-pt05-mf4090_s349999104.txt mppe_cm 49.09686333449914
