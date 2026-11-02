@@ -79,3 +79,14 @@
 | 7 | — | 档位合规：只动 Tier 1，确认 | — |
 
 ## 执行记录
+- 11/01 22:0x MST：提交 fe618523，ml40 普通同步（预演没有删除项），仓库副本来历 fe618523a772。`t1hg`、`t1hg_s43` 配置核对用默认副本、`t1hr_s43` 用 oo 副本，都通过，fc20 与种子的改动都在核对输出里；
+  三段 precheck 全过（`results/ml40/t1night/cfgcheck_*`、`precheck_*`）。`runs/tools/arm_after.sh` 与仓库 md5 相同（69413829…），`relay_when_armed.sh` 从仓库复制到 `runs/tools/`（ea77acde…）。
+  22:05 MST `arm_var_chain.sh t1hg` 预演 DRYRUN_OK 后起链（ARMED）；`t1hg_s43` 接力 `V2D_AFTER_INDEPENDENT=1 arm_after.sh t1hg_s43 …t1hg… 2`（`runs/logs/arm_after_t1hg_s43_ml40.log`，第一行记下来历与队列 md5）。
+  `t1hr_s43` 的等待进程第一次在 `relay_when_armed.sh` 复制到之前就跑了，报找不到脚本、没有挂上（`arm_after_t1hr_s43_ml40.try1.log`）；第二次把输出误重定向进 /dev/null，停掉这条自己的进程；
+  22:10 MST 第三次挂上：`relay_when_armed.sh` 等 `arm_after_t1hg_s43` 起链后跑 `arm_after.sh t1hr_s43 …t1hg_s43… 1`（`V2D_RELAY_MAX_POLLS=1200`、`V2D_AFTER_MAX_POLLS=1200`），日志 `runs/logs/arm_after_t1hr_s43_ml40.log`。
+
+- 11/01 22:14 MST：`scripts/dev/stage-remote` 暂存到 mf4090 的 `runs/stage/fe618523a772/`，五段队列都在；`runs/tools/` 的 `arm_after.sh`（69413829…）、`stage_sync.sh`（c7054abb…）、`relay_when_armed.sh`（ea77acde…）与暂存树 md5 相同。
+  `V2D_DRYRUN=1 stage_sync.sh` 没有删除项，在跑的 `t1zs2` 的队列不在改动里（`runs/logs/stage_sync_dry_fe618523.log`）。
+  `t1hf2` 接力：`V2D_AFTER_INDEPENDENT=1 V2D_AFTER_SYNC_FROM=runs/stage/fe618523a772 V2D_PRE_TIMEOUT_S=7200 arm_after.sh t1hf2 …t1zs2… 2`，后置命令跑 `t1hf2`、`t1hf2_s43` 的配置核对（默认副本）与两段 precheck，
+  记进 `results/t1night/`（`runs/logs/arm_after_t1hf2_mf4090.log`，第一行记下来历 fe618523a772 与队列 md5）。`t1hf2_s43`：`relay_when_armed.sh` 等 `t1hf2` 起链后跑 `arm_after.sh t1hf2_s43 …t1hf2… 2`（`runs/logs/arm_after_t1hf2_s43_mf4090.log`）。
+  不同步窗口：到 `t1hf2` 记 ARM_AFTER_ARMED（约 00:40 MST）为止，不对 mf4090 跑 `scripts/dev/remote`，看榜与站点的提交只推 git。
