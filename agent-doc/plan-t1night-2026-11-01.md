@@ -119,3 +119,4 @@
   在新榜上重算假如重交（`results/board/whatif_1102_0720_*`）：混合包（t1zs2 ep26）Tier 1 MPPE 回第 8，B 68，A 16；只加 ep9 回第 8，B 69，A 17；混合包（r3o-nv ep26）B 68，A 17。读法 A 的 MPPE 要超过 Debajyoti，Tier 1 MPPE 还要再降约 0.37 cm。
   决定：上传混合包仍要 rxzhou 定 ep26 并同意，本次不交。mf4090 06:35 MST 起空闲，本计划各段已读完，另写 `plan-t1ep1`（ep1 1000 万 fc20 两颗种子在 ml40，ep1 400 万 pt05、pt08 在 mf4090），复核通过后起链。
   ep25 pt05 不换：4096 世界更好，但它导出那一局 MPPE 122.8 cm，包里 pt08 那一局 52.6 cm。
+- 11/02 07:4x MST：`t1hr_s43`（ep17 `-r3o-nv-` seed 43）读完，健康（EXPORT_OK）。AUC 0.523 → 0.484、SP-SR 0.932 → 0.938、MP-SR 0、MPPE 8.34 → 7.47 cm：AUC 降，(a)–(e) 都不满足，不换（`results/t1night/compare_t1hr_s43_mac.txt`）。本计划各段都已读完，两台转到 `plan-t1ep1`。
