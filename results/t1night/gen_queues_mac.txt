@@ -1,0 +1,30 @@
+# command  : bash -c python3\ stages/policy/make_var_queue.py\ t1hg\ \&\&\ python3\ stages/policy/make_var_queue.py\ t1hr_s43\ --episodes\ 17\ --seed\ 43\ \&\&\ python3\ stages/policy/make_var_queue.py\ t1hr2_s43\ --episodes\ 26\ --seed\ 43\ \&\&\ python3\ stages/policy/make_var_queue.py\ t1hf2\ \&\&\ python3\ stages/policy/make_var_queue.py\ t1hf2_s43\ --episodes\ 9\ --seed\ 43 
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# md5      : 2101de49f7406f75e9f8da153c49b095  stages/policy/make_var_queue.py
+# source   : 9a6e8261bec4-dirty
+# host     : Mac
+# run_at   : 2026-11-01T23:53:45-0500
+# ---------------------------------------------------------------
+写 stages/policy/queues/ml40_t1hg.expect.tsv（3 行）
+写 stages/policy/queues/ml40_t1hg_smoke.txt（3 行）
+写 stages/policy/queues/ml40_t1hg.txt（3 行）
+写 stages/evaluate/exports/cand_t1_t1hg_ml40.tsv（3 行）
+写 stages/policy/queues/ml40_t1hr_s43.expect.tsv（2 行）
+写 stages/policy/queues/ml40_t1hr_s43_smoke.txt（2 行）
+写 stages/policy/queues/ml40_t1hr_s43.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1hr_s43_ml40.tsv（2 行）
+写 stages/policy/queues/ml40_t1hr2_s43.expect.tsv（2 行）
+写 stages/policy/queues/ml40_t1hr2_s43_smoke.txt（2 行）
+写 stages/policy/queues/ml40_t1hr2_s43.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1hr2_s43_ml40.tsv（2 行）
+写 stages/policy/queues/mf4090_t1hf2.expect.tsv（3 行）
+写 stages/policy/queues/mf4090_t1hf2_smoke.txt（3 行）
+写 stages/policy/queues/mf4090_t1hf2.txt（3 行）
+写 stages/evaluate/exports/cand_t1_t1hf2_mf4090.tsv（3 行）
+写 stages/policy/queues/mf4090_t1hf2_s43.expect.tsv（2 行）
+写 stages/policy/queues/mf4090_t1hf2_s43_smoke.txt（2 行）
+写 stages/policy/queues/mf4090_t1hf2_s43.txt（2 行）
+写 stages/evaluate/exports/cand_t1_t1hf2_s43_mf4090.tsv（2 行）

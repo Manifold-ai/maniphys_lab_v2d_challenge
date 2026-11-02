@@ -53,6 +53,7 @@ case "$N" in
   t1hr*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; COPY=v040_p185_nfg_oo; NOVAR=1 ;;   # 跟丢的集，基础配方加物体朝向项（计划 agent-doc/plan-t1hard-2026-10-31.md）
   t1hp*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; NOVAR=1 ;;   # 跟丢的集，手掌位置终止 0.08（同计划）
   t1hq*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; NOVAR=1 ;;   # MPPE 榜，手掌位置终止 0.08（计划 agent-doc/plan-t1mppe-2026-11-01.md）
+  t1hg*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA=""; NOVAR=1 ;;   # MPPE 榜，抓握闭合项权重 20，1000 万（计划 agent-doc/plan-t1night-2026-11-01.md）
   t1hf*) M=mf4090; T=1; GPU="NVIDIA GeForce RTX 4090"; SRC="$HOME/v2d/fc_src"; PEAK=24564; NEED_MB=2500
         EXTRA="V2D_PRUNE_SMOKE_STATE=1 V2D_MIN_FREE_MB=1200"; NOVAR=1 ;;   # 跟丢的集，抓握闭合项权重 20（同计划）
   t1zj*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 400 万换 1000 万（同计划），同 t1za
@@ -78,7 +79,7 @@ case "$N" in
   t2h*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 保底参考（计划 agent-doc/plan-t12lift-2026-10-20.md）
   t1h*) M=ml40; T=1; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 同上，Tier 1
   t2t*) M=ml40; T=2; GPU="NVIDIA L40S"; SRC=/lab_data/rxzhou/v2d/fc_src; PEAK=44000; NEED_MB=200000; EXTRA="" ;;   # 放宽物体位置终止（计划 agent-doc/plan-t2term-2026-10-20.md）
-  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1zs、t1zt、t1zw、t1zx、t1hr、t1hp、t1hf、t1hq、t1zj、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
+  *) echo "段名要以 t2x、t3pr3o、t3qr3o、t3p、t3q、t1zp、t1zs、t1zt、t1zw、t1zx、t1hr、t1hp、t1hg、t1hf、t1hq、t1zj、t1za、t1zh、t1zq、t1zi、t1zr、t1x、t1y、t1o、t2o、t1c、t2m、t2f、t2h、t1h 或 t2t 开头" >&2; exit 2 ;;
 esac
 # 10/30 17:0x 起两台训练机直连 api.wandb.ai 返回 403（出口 IP 在 CN），经 V2D_PROXY（出口 SG）可达：所有段的 W&B 都走代理（fc_run.sh V2D_WANDB_PROXY）
 EXTRA="${EXTRA:+$EXTRA }V2D_WANDB_PROXY=1"

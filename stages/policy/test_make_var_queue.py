@@ -817,6 +817,40 @@ def test_t1zw_r3o_10m():
                     assert ("training.replay.capacity=4000000" in x) == cap4m and x.count("capacity") <= 1, x
 
 
+
+def test_t1night_fc20():
+    """计划 agent-doc/plan-t1night-2026-11-01.md：t1hg 是 ml40 上 ep4、9 的基础配方加抓握闭合项权重 20（1000 万）；t1hf2 是 mf4090 上 ep1、4 的同一改动（400 万），
+    t1hf2_s43 --episodes 9 --seed 43 得 ep9 seed 43；t1hr_s43、t1hr2_s43 得 ep17、ep26 朝向项的 seed 43。都不带变体 A，冒烟与正式一致。"""
+    fc = "objective.force_closure_weight=20.0"
+    s43 = ["reset.seed=43", "training.seed=43"]
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {("t1hg", ()): ("ml40", [fc], False, ["t1-ep4-w2048-cap10m-fc20-ml40", "t1-ep9-w2048-cap10m-fc20-ml40"]),
+                ("t1hf2", ()): ("mf4090", ["training.replay.capacity=4000000", fc], False,
+                                ["t1-ep1-w2048-cap4m-fc20-mf4090", "t1-ep4-w2048-cap4m-fc20-mf4090"]),
+                ("t1hf2_s43", ("--episodes", "9", "--seed", "43")): ("mf4090", ["training.replay.capacity=4000000", *s43, fc], False,
+                                                                       ["t1-ep9-w2048-cap4m-fc20-s43-mf4090"]),
+                ("t1hr_s43", ("--episodes", "17", "--seed", "43")): ("ml40", s43, True, ["t1-ep17-w2048-cap10m-r3o-nv-s43-ml40"]),
+                ("t1hr2_s43", ("--episodes", "26", "--seed", "43")): ("ml40", s43, True, ["t1-ep26-w2048-cap10m-r3o-nv-s43-ml40"])}
+        for (part, args), (mach, extra, r3o, runs) in want.items():
+            r = gen(root, part, *args)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"{mach}_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t1-", "smoke-t1-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    t = x.split()
+                    assert "object_position_std" not in x and "object_orientation_threshold" not in x, x
+                    assert (" V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4 " in f" {x} ") == r3o, x
+                    i = next(k for k, v in enumerate(t) if v.isdigit() and k > 0 and t[k - 1] == "2048")
+                    over = [v for v in t[i + 1:] if v != "scene.support=false" and not v.startswith("training.replay.capacity=") or v == "training.replay.capacity=4000000"]
+                    assert sorted(over) == sorted(extra), (part, over)
+        r = gen(root, "t1hf2", "--episodes", "9")
+        assert r.returncode != 0, "预设段不许再给 --episodes"
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

@@ -1,0 +1,29 @@
+# command  : awk /\^\ \ \(add_auc\|maniptrans_sr\|spider_sr_uncentered\|mppe_cm\|object_orientation_error_deg\)\ /\{print\ FILENAME\,\ \$1\,\ \$2\} results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt 
+# md5      : a53866279acff253369bc04a176f74cf  results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt
+# md5      : 4761a0c206c45898631c40745409ddb3  results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt
+# md5      : fb4626823f388fc8eb43d63175c0196f  results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt
+# md5      : 41e5e427b85f3383a6bda49b221ee869  results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt
+# source   : 9a6e8261bec4-dirty
+# host     : Mac
+# run_at   : 2026-11-01T23:54:36-0500
+# ---------------------------------------------------------------
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt add_auc 0.5688898745139084
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt maniptrans_sr 0.999755859375
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt spider_sr_uncentered 1.0
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt mppe_cm 2.6844799904326146
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-r3o-nv-ml40_s349999104.txt object_orientation_error_deg 22.91681411677286
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt add_auc 0.49195715842938387
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt maniptrans_sr 0.9560546875
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt spider_sr_uncentered 0.9462890625
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt mppe_cm 2.7290883974250875
+results/ml40/day2/eval_t1-ep26-w2048-cap10m-ml40_s349999104.txt object_orientation_error_deg 27.07232216305823
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt add_auc 0.5009353347358946
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt maniptrans_sr 0.0
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt spider_sr_uncentered 0.999755859375
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt mppe_cm 4.90875074718868
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-r3o-nv-ml40_s349999104.txt object_orientation_error_deg 5.169887294281684
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt add_auc 0.7108745937871631
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt maniptrans_sr 0.97509765625
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt spider_sr_uncentered 0.99951171875
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt mppe_cm 2.8467358072550084
+results/ml40/day2/eval_t1-ep23-w2048-cap10m-ml40_s349999104.txt object_orientation_error_deg 9.382753604835834
