@@ -104,3 +104,5 @@
   Tier 1 AUC 榜第 10 名 Team OPS 0.630、第 9 名 Debajyoti Dasgupta 0.648：t1x1101 加 ep24、8、6、26（t1zs2）导出那一局高出第 10 名 0.014，到不了第 9；SP、MP 不变，MPPE 降 0.06 cm，过不了第 7 名。
 - 11/02 01:04 MST 看榜（`results/board/diff_1102_0104.txt`）：只有 Kelly To the H 重交 Tier 2、Tier 3，都在 maniphys.ai 之后；12 个榜名次、B 69（Kaggle 第 5、官网第 4）、A 16（第 5）都不变。策略不变，不交。
   卡：ml40 `t1hg` ep4 训完（00:27 MST），ep9 正式 00:30 起、23%，约 02:40 训完后两集评测、导出；mf4090 `t1hf2` ep1 58%，约 01:50 训完后接 ep4。两条 nanwatch 都是非有限 0。
+- 11/02 01:20 MST 看榜（`results/board/diff_1102_0120.txt`）：只有 Kelly To the H 再交 Tier 3（MPPE 小幅变好，SP、MP 同分重交），都在 maniphys.ai 之后；12 个榜名次、B 69、A 16 不变。策略不变，不交。
+  两台按计划在跑：ml40 ep9 fc20 38%，mf4090 ep1 fc20 75%。
