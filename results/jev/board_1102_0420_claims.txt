@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-02-board0420.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 68107ab0410aafa4d5dd5f87e3fd2c11  agent-doc/experiments/2026-11-02-board0420.claims.json
+# source   : 3e204672bd7e-dirty
+# host     : Mac
+# run_at   : 2026-11-02T06:24:56-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep9_10m              P(supported)=0.98  verified               [cmp]  t1-ep9-w2048-cap10m-fc20-ml40 has mppe_cm about 16.97, much lower than the 40.49 of t1-ep9-w2048-cap10m-ml40, and its add_auc (about 0.198) is less than 0.01 below that of t1-ep9-w2048-cap10m-ml40 (about 0.201).
+ep4_worse            P(supported)=0.98  verified               [cmp]  Both fc20 runs on ep4 (cap10m-fc20-ml40 and cap4m-fc20-mf4090) have a higher mppe_cm than t1-ep4-w2048-cap10m-ml40.
+ep1_worse            P(supported)=0.89  verified               [cmp]  t1-ep1-w2048-cap4m-fc20-mf4090 has a higher mppe_cm and a lower add_auc than t1-ep1-w2048-cap10m-r3a-c10-ml40.
+base_eq              P(supported)=0.98  verified               [pb, now]  The TOTAL mppe_cm of the base pack (9.57457) equals the Tier 1 MPPE score of maniphys.ai on the board.
+p9                   P(supported)=0.97  verified               [p9]  With the ep9 fc20 run swapped in, the pack TOTAL mppe_cm is about 8.55.
+pz                   P(supported)=0.77  verified               [pz]  The pack with ep24, ep8, ep6, the cap4m ep26 run and the ep9 fc20 run has TOTAL add_auc about 0.644 and mppe_cm about 8.41.
+deb                  P(supported)=0.96  verified               [bw]  Debajyoti Dasgupta resubmitted Tier 3 and the reading A total of maniphys.ai went from 16 to 17.
+wz                   P(supported)=0.98  verified               [wz]  In the what-if for the hybrid pack, reading A gives maniphys.ai 15 and reading B gives maniphys.ai 68.
+w9                   P(supported)=0.97  verified               [w9]  In the what-if for the ep9-only pack, reading A gives maniphys.ai 16 and reading B gives 69.
+ctl_true             P(supported)=0.99  control(true) ok       [cmp]  t1-ep4-w2048-cap10m-fc20-ml40 has maniptrans_sr 0.
+ctl_false1           P(supported)=0.02  control(false) ok      [cmp]  t1-ep9-w2048-cap10m-fc20-ml40 has a higher mppe_cm than t1-ep9-w2048-cap10m-ml40.
+ctl_false2           P(supported)=0.01  control(false) ok      [wz]  In the what-if for the hybrid pack, reading B gives maniphys.ai 60.
+controls behaved as expected

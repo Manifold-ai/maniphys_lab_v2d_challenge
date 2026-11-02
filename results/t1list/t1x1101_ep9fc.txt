@@ -1,0 +1,38 @@
+# command  : python3 tools/t1_list_export.py results/ml40/select_t1/select_t1x1018.txt --swap 17=t1-ep17-w2048-cap10m-r3o-nv-ml40 7=t1-ep7-w2048-cap4m-r3o-mf4090 22=t1-ep22-w2048-cap4m-r3o-mf4090 5=t1-ep5-w2048-cap4m-r3o-mf4090 25=t1-ep25-w2048-cap10m-pt08-ml40 27=t1-ep27-w2048-cap4m-r3o-s43-mf4090 0=t1-ep0-w2048-cap4m-r3o-s43-mf4090 9=t1-ep9-w2048-cap10m-fc20-ml40 
+# md5      : 410afce232499c1402efae2a9176f71d  tools/t1_list_export.py
+# md5      : 5b21bb37a8b5655ca9834eaa18e73060  results/ml40/select_t1/select_t1x1018.txt
+# source   : 3e204672bd7e
+# host     : Mac
+# run_at   : 2026-11-02T06:23:09-0500
+# ---------------------------------------------------------------
+ep0  t1-ep0-w2048-cap4m-r3o-s43-mf4090                auc 0.8849 sp 1 mp 1 mppe   1.2752  results/submission/exports/cand_t1_t1zx2_mf4090_t1-ep0-w2048-cap4m-r3o-s43-mf4090_s349999104_check.txt
+ep1  t1-ep1-w2048-cap10m-r3a-c10-ml40                 auc 0.2183 sp 0 mp 0 mppe  34.6795  results/ml40/select_t1/select_t1x1018.txt
+ep2  t1-ep2-w2048-cap10m-r3a-c10-ml40                 auc 0.6974 sp 1 mp 1 mppe   2.7308  results/ml40/select_t1/select_t1x1018.txt
+ep3  t1-ep3-w2048-cap10m-r3a-ml40                     auc 0.8384 sp 1 mp 1 mppe   2.0881  results/ml40/select_t1/select_t1x1018.txt
+ep4  t1-ep4-w2048-cap10m-ml40                         auc 0.1508 sp 0 mp 0 mppe  90.2293  results/ml40/select_t1/select_t1x1018.txt
+ep5  t1-ep5-w2048-cap4m-r3o-mf4090                    auc 0.8089 sp 1 mp 1 mppe   1.7605  results/submission/exports/cand_t1_t1zx_mf4090_t1-ep5-w2048-cap4m-r3o-mf4090_s349999104_check.txt
+ep6  t1-ep6-w2048-cap4m-r3a-s43-mf4090                auc 0.7487 sp 1 mp 1 mppe   2.0865  results/ml40/select_t1/select_t1x1018.txt
+ep7  t1-ep7-w2048-cap4m-r3o-mf4090                    auc 0.9552 sp 1 mp 1 mppe   1.1128  results/mf4090/submission/exports/cand_t1_t1zt4_mf4090_t1-ep7-w2048-cap4m-r3o-mf4090_s349999104_check.txt
+ep8  t1-ep8-w2048-cap4m-r3a-mf4090                    auc 0.8773 sp 1 mp 1 mppe   1.4181  results/ml40/select_t1/select_t1x1018.txt
+ep9  t1-ep9-w2048-cap10m-fc20-ml40                    auc 0.2045 sp 0 mp 0 mppe   9.9281  results/ml40/submission/exports/cand_t1_t1hg_ml40_t1-ep9-w2048-cap10m-fc20-ml40_s349999104_check.txt
+ep10 t1-ep10-w2048-cap4m-r3a-mf4090                   auc 0.3790 sp 1 mp 0 mppe   3.7720  results/ml40/select_t1/select_t1x1018.txt
+ep11 t1-ep11-w2048-cap10m-r3a-c10-s44-ml40            auc 0.5915 sp 1 mp 0 mppe   3.5613  results/ml40/select_t1/select_t1x1018.txt
+ep12 t1-ep12-w2048-cap10m-ml40                        auc 0.6712 sp 1 mp 1 mppe   2.0325  results/ml40/select_t1/select_t1x1018.txt
+ep13 t1-ep13-w2048-cap10m-r3a-ml40                    auc 0.6383 sp 1 mp 1 mppe   2.8769  results/ml40/select_t1/select_t1x1018.txt
+ep14 t1-ep14-w2048-cap4m-r3a-s44-mf4090               auc 0.4598 sp 1 mp 1 mppe   3.0414  results/ml40/select_t1/select_t1x1018.txt
+ep15 t1-ep15-w2048-cap4m-r3a-mf4090                   auc 0.7323 sp 1 mp 1 mppe   1.8268  results/ml40/select_t1/select_t1x1018.txt
+ep16 t1-ep16-w2048-cap10m-r3a-ml40                    auc 0.7723 sp 1 mp 1 mppe   1.8649  results/ml40/select_t1/select_t1x1018.txt
+ep17 t1-ep17-w2048-cap10m-r3o-nv-ml40                 auc 0.5094 sp 1 mp 0 mppe   4.6378  results/ml40/submission/exports/cand_t1_t1hr_ml40_t1-ep17-w2048-cap10m-r3o-nv-ml40_s349999104_check.txt
+ep18 t1-ep18-w2048-cap4m-r3a-mf4090                   auc 0.8194 sp 1 mp 1 mppe   1.5328  results/ml40/select_t1/select_t1x1018.txt
+ep19 t1-ep19-w2048-cap10m-r3a-ml40                    auc 0.4302 sp 1 mp 0 mppe   3.6813  results/ml40/select_t1/select_t1x1018.txt
+ep20 t1-ep20-w2048-cap4m-r3a-mf4090                   auc 0.8255 sp 1 mp 1 mppe   1.4969  results/ml40/select_t1/select_t1x1018.txt
+ep21 t1-ep21-w2048-cap4m-r3a-mf4090                   auc 0.6095 sp 1 mp 1 mppe   2.7959  results/ml40/select_t1/select_t1x1018.txt
+ep22 t1-ep22-w2048-cap4m-r3o-mf4090                   auc 0.9277 sp 1 mp 1 mppe   1.1712  results/mf4090/submission/exports/cand_t1_t1zt4_mf4090_t1-ep22-w2048-cap4m-r3o-mf4090_s349999104_check.txt
+ep23 t1-ep23-w2048-cap10m-ml40                        auc 0.7075 sp 1 mp 1 mppe   2.7865  results/ml40/select_t1/select_t1x1018.txt
+ep24 t1-ep24-w2048-cap4m-mf4090                       auc 0.5881 sp 1 mp 1 mppe   3.1929  results/ml40/select_t1/select_t1x1018.txt
+ep25 t1-ep25-w2048-cap10m-pt08-ml40                   auc 0.1842 sp 0 mp 0 mppe  52.6181  results/ml40/submission/exports/cand_t1_t1hp_ml40_t1-ep25-w2048-cap10m-pt08-ml40_s349999104_check.txt
+ep26 t1-ep26-w2048-cap10m-ml40                        auc 0.5008 sp 1 mp 1 mppe   2.5922  results/ml40/select_t1/select_t1x1018.txt
+ep27 t1-ep27-w2048-cap4m-r3o-s43-mf4090               auc 0.8152 sp 1 mp 1 mppe   2.1950  results/submission/exports/cand_t1_t1zx2_mf4090_t1-ep27-w2048-cap4m-r3o-s43-mf4090_s349999104_check.txt
+ep28 t1-ep28-w2048-cap10m-r3a-c10-s43-ml40            auc 0.2400 sp 1 mp 0 mppe   8.5444  results/ml40/select_t1/select_t1x1018.txt
+ep29 t1-ep29-w2048-cap4m-r3a-mf4090                   auc 0.7219 sp 1 mp 1 mppe   2.9759  results/ml40/select_t1/select_t1x1018.txt
+TOTAL n=30 add_auc 0.61694 spider_sr 0.86667（26/30） maniptrans_sr 0.70000（21/30） mppe_cm 8.55019

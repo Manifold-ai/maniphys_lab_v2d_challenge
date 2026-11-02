@@ -106,3 +106,11 @@
   卡：ml40 `t1hg` ep4 训完（00:27 MST），ep9 正式 00:30 起、23%，约 02:40 训完后两集评测、导出；mf4090 `t1hf2` ep1 58%，约 01:50 训完后接 ep4。两条 nanwatch 都是非有限 0。
 - 11/02 01:20 MST 看榜（`results/board/diff_1102_0120.txt`）：只有 Kelly To the H 再交 Tier 3（MPPE 小幅变好，SP、MP 同分重交），都在 maniphys.ai 之后；12 个榜名次、B 69、A 16 不变。策略不变，不交。
   两台按计划在跑：ml40 ep9 fc20 38%，mf4090 ep1 fc20 75%。
+- 11/02 04:20 MST 看榜与读数（`results/board/diff_1102_0420.txt`）：Debajyoti Dasgupta 重交 Tier 3（AUC、SP-SR、MPPE 变好，仍在 maniphys.ai 之后）。三档平均 MPPE 它比 maniphys.ai 低 0.13 cm，读法 A 的 MPPE 名次 maniphys.ai 从第 5 掉到第 6，A 16 → 17（第 5 不变）；B 69 与 12 个榜名次不变。
+  `t1hg` 导出 02:56 MST 结束，`t1hf2` 导出 04:10 MST 结束，四条 4096 世界评测与导出都健康（非有限世界 0，EXPORT_OK）。读数（`results/t1night/compare_t1hg_t1hf2_mac.txt`）：
+  - ep9 1000 万 fc20：MPPE 40.49 → 16.97 cm（−58%），AUC 0.201 → 0.198，满足 (d)；登记前的 400 万 fc20 seed 42（28.56 cm）也因此满足 (d)。三条里 `t1hf2_s43` 还没出，现有两条取 MPPE 最低的 `t1hg` ep9。`t1hf2_s43` 出来后若 MPPE 更低再换。
+  - ep4 两条 fc20 都更差（1000 万 117.4、400 万 118.7，清单 109.9），不换；ep1 400 万 fc20 MPPE 45.3、AUC 0.163，比清单 r3a-c10（38.9、0.208）差，不换。fc20 在 ep4、ep1 上无效，`t1hg_s43`（ep4 seed 43）预期也低。
+  打包（导出那一局；基线那份与榜上 MPPE 9.57457 一致）：t1x1101 加 ep9 MPPE 9.575 → 8.550，AUC 不变；t1x1101 加 ep24、8、6、26（t1zs2）、9 AUC 0.6441、MPPE 8.408；ep26 用 r3o-nv 的那份 AUC 0.6355、MPPE 8.468（`results/t1list/t1x1101_ep9fc.txt`、`t1x1101_ep24_8_6_26zs_9fc.txt`、`t1x1101_ep24_8_6_26nv_9fc.txt`）。
+  假如重交 Tier 1（`tools/board_whatif.py`，提交时间记作重交时刻，SP-SR 按榜上截断写 0.86666；`results/board/whatif_1102_*`）：只加 ep9，A 回到 16，B 69；混合包（t1zs2 ep26）A 15（AUC、MPPE 各进一名），B 68，两种同分规则一样；混合包（r3o-nv ep26）A 16，B 68。Tier 1 MPPE 榜三份都还是第 8（第 7 名 7.78）。
+  决定：ep9 按 (d) 换入。混合包（t1zs2 ep26）是目前最好的一份，要 rxzhou 定 ep26 用哪条、并同意上传才交；本次不交。`t1hf2_s43` 约 06:30 MST 训完，读完再定 ep9 用哪条。
+  卡：ml40 `t1hg_s43` ep4 60%（约 05:15 MST 训完），之后接 `t1hr_s43`；mf4090 `t1hf2_s43` ep9 3%。两台都在跑本计划。
