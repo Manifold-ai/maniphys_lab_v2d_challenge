@@ -1,0 +1,32 @@
+# command  : ssh -o ConnectTimeout=15 ml40 bash\ -s\ ml40 
+# source   : ec88198cdbfe
+# host     : Mac
+# run_at   : 2026-11-02T00:21:03-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-02 13:21:05 CST
+NVIDIA L40S, 2081 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  937G  54% /lab_data
+-- tmux
+v2d-t1hg-eval: 1 windows (created Mon Nov  2 13:05:35 2026)
+v2d-t1hg-export: 1 windows (created Mon Nov  2 13:05:37 2026)
+v2d-t1hg-train: 1 windows (created Mon Nov  2 13:05:33 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1hg_ml40-gate
+runs/.chain-active-t1hg_eval_ml40
+runs/.chain-active-t1hg_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zw2_ml40.log：=== 2026-11-01 17:28:26 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hq_s43_ml40.log：=== 2026-11-02 00:58:06 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr2_ml40.log：=== 2026-11-02 06:47:33 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.try1.log：bash: runs/tools/relay_when_armed.sh: No such file or directory
+runs/logs/arm_after_t1hg_s43_ml40.log：=== 2026-11-02 13:05:40 CST 来历与 t1hg_s43 的队列：fe618523a772 49956f2306bdf9688ce87969b54b67b2  stages/policy/queues/ml40_t1hg_s43.expect.tsv 56fb7d663ed22ac0927ebf46ef1c0c99  stages/policy/
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 13:10:15 CST 等 runs/logs/arm_after_t1hg_s43_ml40.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash runs/tools/arm_after.sh t1hr_s43 runs/logs/t1hg_s43_train_ml40.log runs/logs
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep4-w2048-cap10m-fc20-ml40.log：[0;93m2026-11-01 21:20:35.431763172 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+runs/logs/t1-ep4-w2048-cap10m-fc20-ml40.nanwatch.log：=== 11-01 23:19:47 MDT 开始看守 t1-ep4-w2048-cap10m-fc20-ml40：每 120 秒；连续 2 份非有限就 fc_stop；最长 43200 秒；脚本 md5 5a45f586937bd05b75c29f1b3d3ba1a9；src=fe618523a772
+runs/logs/t1hg_train_ml40.log：=== 2026-11-02 13:19:47 CST 正式 t1-ep4-w2048-cap10m-fc20-ml40
+runs/logs/smoke-t1-ep9-w2048-cap10m-fc20-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-fc20-ml40
+runs/logs/smoke-t1-ep9-w2048-cap10m-fc20-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep9-w2048-cap10m-fc20-ml40
+runs/logs/smoke-t1-ep4-w2048-cap10m-fc20-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep4-w2048-cap10m-fc20-ml40
+runs/logs/smoke-t1-ep4-w2048-cap10m-fc20-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep4-w2048-cap10m-fc20-ml40
+runs/logs/cand_t1_t1hg_ml40_gate.log：=== 2026-11-02 13:05:37 CST 等 runs/logs/t1hg_eval_ml40.log 的最后一行变成评测链的结束行

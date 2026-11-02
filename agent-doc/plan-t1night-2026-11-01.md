@@ -90,3 +90,8 @@
   `t1hf2` 接力：`V2D_AFTER_INDEPENDENT=1 V2D_AFTER_SYNC_FROM=runs/stage/fe618523a772 V2D_PRE_TIMEOUT_S=7200 arm_after.sh t1hf2 …t1zs2… 2`，后置命令跑 `t1hf2`、`t1hf2_s43` 的配置核对（默认副本）与两段 precheck，
   记进 `results/t1night/`（`runs/logs/arm_after_t1hf2_mf4090.log`，第一行记下来历 fe618523a772 与队列 md5）。`t1hf2_s43`：`relay_when_armed.sh` 等 `t1hf2` 起链后跑 `arm_after.sh t1hf2_s43 …t1hf2… 2`（`runs/logs/arm_after_t1hf2_s43_mf4090.log`）。
   不同步窗口：到 `t1hf2` 记 ARM_AFTER_ARMED（约 00:40 MST）为止，不对 mf4090 跑 `scripts/dev/remote`，看榜与站点的提交只推 git。
+- 11/01 22:20 MST 看榜（`results/board/diff_1101_2220.txt`）：Rice RobotPI Lab 19:39 MST 重交 Tier 1，四项都变好，SP-SR 0.833 → 0.967 越过 maniphys.ai（Tier 1 SP-SR 第 7 → 第 8；同为 26/30 的 FF、domoarigato 都比我们先交）；
+  其余三个 Tier 1 榜它本来就在前面，maniphys.ai 名次不变。nima arki 20:50 MST 重交 Tier 2，SP-SR 0.700 → 0.733 与 maniphys.ai 同分（我们 10/14 先交，Kaggle 规则仍第 4；官网规则按名字也仍在前），AUC、MP-SR 仍在后面，MPPE 同分重交。
+  名次和：读法 B 68 → 69（Kaggle 规则第 5；官网规则第 4）；读法 A 16 不变（第 5）。
+  决定：策略不变，不交。Tier 1 SP-SR 要回第 7 需要 27/30，即至少一个跟丢集（ep1、4、9、25）SP 成功，今晚各段都对着 MPPE、不会让这四集 SP 成功；Tier 2 SP-SR 同分时我们先交，不要重交 SP-SR 榜。
+  两台都在跑本计划：ml40 `t1hg` 冒烟过、ep4 正式 22:19 MST 开始；mf4090 `t1zs2` ep12 51%，`t1hf2` 接力在等。
