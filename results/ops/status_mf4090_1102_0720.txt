@@ -1,0 +1,26 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 76e646c8042b
+# host     : Mac
+# run_at   : 2026-11-02T09:21:07-0500
+# ---------------------------------------------------------------
+== mf4090 2026-11-02 22:21:12 CST
+NVIDIA GeForce RTX 4090, 0 MiB, 24564 MiB, 0 %
+/dev/vda2       297G  263G   22G  93% /
+-- tmux
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zx3_mf4090.log：=== 2026-11-01 23:40:45 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1zs2_mf4090.log：=== 2026-11-02 09:42:04 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hf2_mf4090.log：=== 2026-11-02 14:46:20 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hf2_s43_mf4090.log：=== 2026-11-02 19:11:12 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/cand_t1_t1hf2_s43_mf4090_gate.log：=== 2026-11-02 21:35:14 CST 导出链结束，退出码 0
+runs/logs/cand_t1_t1hf2_s43_mf4090.log：=== 2026-11-02 21:35:14 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+runs/logs/t1-ep9-w2048-cap4m-fc20-s43-mf4090.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t1-ep9-w2048-cap4m-fc20-s43-mf4090/export_8c778f9/s349999104_w1/episode_000009.parquet
+runs/logs/t1hf2_s43_eval_mf4090.log：=== 2026-11-02 21:33:38 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t1-ep9-w2048-cap4m-fc20-s43-mf4090.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t1-ep9-w2048-cap4m-fc20-s43-mf4090/eval_349999104_w4096.json
+runs/logs/t1hf2_s43_train_mf4090.log：=== 2026-11-02 21:27:52 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t1-ep9-w2048-cap4m-fc20-s43-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep9-w2048-cap4m-fc20-s43-mf4090
+runs/logs/t1-ep9-w2048-cap4m-fc20-s43-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t1-ep9-w2048-cap4m-fc20-s43-mf4090

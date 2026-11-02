@@ -1,0 +1,13 @@
+# command  : python3 tools/board_whatif.py results/board/lb_1102_0720.txt --tier 1 --auc 0.64408 --sp 0.86666 --mp 0.70000 --mppe 8.40806 --date 2026-11-02\ 15:00:00.000000 --out results/board/whatif_1102_0720_hybzs9.snap.txt 
+# md5      : e10a3f81b9e898e64571a682610069f8  tools/board_whatif.py
+# md5      : 0a279f08066ea3586c2f30cb3e914c3c  results/board/lb_1102_0720.txt
+# source   : 76e646c8042b
+# host     : Mac
+# run_at   : 2026-11-02T09:21:43-0500
+# ---------------------------------------------------------------
+Tier 1 auc：0.61680 → 0.64408
+Tier 1 sp-sr：0.86666 → 0.86666
+Tier 1 mp-sr：0.70000 → 0.70000
+Tier 1 mppe：9.57457 → 8.40806
+写入 results/board/whatif_1102_0720_hybzs9.snap.txt
+WHATIF_DONE

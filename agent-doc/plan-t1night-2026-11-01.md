@@ -114,3 +114,8 @@
   假如重交 Tier 1（`tools/board_whatif.py`，提交时间记作重交时刻，SP-SR 按榜上截断写 0.86666；`results/board/whatif_1102_*`）：只加 ep9，A 回到 16，B 69；混合包（t1zs2 ep26）A 15（AUC、MPPE 各进一名），B 68，两种同分规则一样；混合包（r3o-nv ep26）A 16，B 68。Tier 1 MPPE 榜三份都还是第 8（第 7 名 7.78）。
   决定：ep9 按 (d) 换入。混合包（t1zs2 ep26）是目前最好的一份，要 rxzhou 定 ep26 用哪条、并同意上传才交；本次不交。`t1hf2_s43` 约 06:30 MST 训完，读完再定 ep9 用哪条。
   卡：ml40 `t1hg_s43` ep4 60%（约 05:15 MST 训完），之后接 `t1hr_s43`；mf4090 `t1hf2_s43` ep9 3%。两台都在跑本计划。
+- 11/02 07:20 MST 看榜与读数（`results/board/diff_1102_0720.txt`）：Debajyoti Dasgupta 05:35 MST 重交 Tier 1（AUC 0.648 → 0.656，MPPE 10.66 → 9.52 cm），MPPE 超过 maniphys.ai（9.57），Tier 1 MPPE 名次 8 → 9；B 69 → 70（Kaggle 第 5、官网第 4），A 17（第 5）。
+  `t1hg_s43`（ep4 1000 万 fc20 seed 43）MPPE 109.9 → 108.6 cm，只低 1.2%，不满足 (d)，不换。`t1hf2_s43`（ep9 400 万 fc20 seed 43）MPPE 28.0 cm，满足 (d) 但高于 `t1hg` ep9 的 17.0，ep9 定用 `t1hg` 那条（`results/t1night/compare_s43_mac.txt`；两条都健康，EXPORT_OK）。
+  在新榜上重算假如重交（`results/board/whatif_1102_0720_*`）：混合包（t1zs2 ep26）Tier 1 MPPE 回第 8，B 68，A 16；只加 ep9 回第 8，B 69，A 17；混合包（r3o-nv ep26）B 68，A 17。读法 A 的 MPPE 要超过 Debajyoti，Tier 1 MPPE 还要再降约 0.37 cm。
+  决定：上传混合包仍要 rxzhou 定 ep26 并同意，本次不交。mf4090 06:35 MST 起空闲，本计划各段已读完，另写 `plan-t1ep1`（ep1 1000 万 fc20 两颗种子在 ml40，ep1 400 万 pt05、pt08 在 mf4090），复核通过后起链。
+  ep25 pt05 不换：4096 世界更好，但它导出那一局 MPPE 122.8 cm，包里 pt08 那一局 52.6 cm。
