@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-02-sop0900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a48a6e02fc9c6267af3e67d1a658083a  agent-doc/experiments/2026-11-02-sop0900.claims.json
+# source   : 36e338d7cf92-dirty
+# host     : Mac
+# run_at   : 2026-11-02T11:03:44-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep9                  P(supported)=0.99  verified               [c1]  t1-ep9-w2048-cap10m-fc20-ml40 has mppe_cm about 17.0 against 40.5 for t1-ep9-w2048-cap10m-ml40, and add_auc about 0.198 against 0.201.
+ep1                  P(supported)=0.98  verified               [c1]  t1-ep1-w2048-cap4m-fc20-mf4090 has mppe_cm about 45.3 and add_auc about 0.163, worse than t1-ep1-w2048-cap10m-r3a-c10-ml40 (about 38.9 and 0.208).
+ep4s43               P(supported)=0.99  verified               [c2]  t1-ep4-w2048-cap10m-fc20-s43-ml40 has mppe_cm about 108.6 and the ep9 4M seed 43 run has mppe_cm about 28.0.
+ep17                 P(supported)=0.57  UNVERIFIED             [c3]  The seed 43 ep17 run has add_auc about 0.484, lower than the 0.523 of the seed 42 run.
+pz                   P(supported)=0.98  verified               [pz]  The pack TOTAL has add_auc about 0.644 and mppe_cm about 8.41.
+pn                   P(supported)=0.97  verified               [pn]  The pack TOTAL has add_auc about 0.636 and mppe_cm about 8.47.
+wz                   P(supported)=0.52  UNVERIFIED             [wz]  In this what-if, maniphys.ai has reading B 68 and reading A 16, and is 10th on Tier 1 AUC and 8th on Tier 1 MPPE.
+wn                   P(supported)=0.98  verified               [wn]  In this what-if, maniphys.ai has reading B 68 and reading A 17.
+deb                  P(supported)=0.11  UNVERIFIED             [b7]  Debajyoti Dasgupta resubmitted Tier 1 with MPPE 9.51530 and maniphys.ai fell from 8th to 9th on Tier 1 MPPE; reading B went from 69 to 70.
+now                  P(supported)=0.97  verified               [b9]  At this snapshot no board changed, reading B is 70 for maniphys.ai and reading A is 17.
+run                  P(supported)=0.99  verified               [sl, sm]  The ml40 ep1 fc20 run is at about 61 percent and the mf4090 ep1 pt05 run is at about 74 percent.
+ctl_true             P(supported)=0.97  control(true) ok       [sm]  The mf4090 root disk has 22G available.
+ctl_false1           P(supported)=0.02  control(false) ok      [c1]  t1-ep4-w2048-cap10m-fc20-ml40 has a lower mppe_cm than t1-ep4-w2048-cap10m-ml40.
+ctl_false2           P(supported)=0.13  control(false) ok      [wz]  In this what-if, maniphys.ai has reading A 12.
+controls behaved as expected

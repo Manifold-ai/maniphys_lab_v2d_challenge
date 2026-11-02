@@ -1,0 +1,31 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 36e338d7cf92
+# host     : Mac
+# run_at   : 2026-11-02T11:01:18-0500
+# ---------------------------------------------------------------
+== mf4090 2026-11-03 00:01:22 CST
+NVIDIA GeForce RTX 4090, 23781 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  263G   22G  93% /
+-- tmux
+v2d-t1hp2-eval: 1 windows (created Mon Nov  2 22:32:35 2026)
+v2d-t1hp2-export: 1 windows (created Mon Nov  2 22:32:37 2026)
+v2d-t1hp2-train: 1 windows (created Mon Nov  2 22:32:33 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1hp2_mf4090-gate
+runs/.chain-active-t1hp2_eval_mf4090
+runs/.chain-active-t1hp2_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1zs2_mf4090.log：=== 2026-11-02 09:42:04 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hf2_mf4090.log：=== 2026-11-02 14:46:20 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hf2_s43_mf4090.log：=== 2026-11-02 19:11:12 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hp3_mf4090.log：=== 2026-11-02 22:33:02 CST 来历与 t1hp3 的队列：d7efb387ec5b 6900af62d69c6a41deabdfcb38a678dd  stages/policy/queues/mf4090_t1hp3.expect.tsv 41a7da3cd6904c2310ca61035334b701  stages/policy/queu
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep1-w2048-cap4m-pt05-mf4090.log：training progress: 259,000,320/349,999,104 environment steps (74.0%); 52,618 env steps/s; elapsed 01:22:02; ETA 00:28:49
+runs/logs/t1-ep1-w2048-cap4m-pt05-mf4090.nanwatch.log：11-02 09:59:11 MDT 250,009,600 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1hp2_train_mf4090.log：=== 2026-11-02 22:37:05 CST 正式 t1-ep1-w2048-cap4m-pt05-mf4090
+runs/logs/smoke-t1-ep1-w2048-cap4m-pt05-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep1-w2048-cap4m-pt05-mf4090
+runs/logs/smoke-t1-ep1-w2048-cap4m-pt05-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep1-w2048-cap4m-pt05-mf4090
+runs/logs/cand_t1_t1hp2_mf4090_gate.log：=== 2026-11-02 22:32:37 CST 等 runs/logs/t1hp2_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/logs/t1hp2_eval_mf4090.log：=== 2026-11-02 22:32:35 CST 等 runs/logs/t1hp2_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/t1-ep1-w2048-cap4m-pt08-mf4090.log：

@@ -1,0 +1,167 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "c1": {
+   "file": "results/t1night/compare_t1hg_t1hf2_mac.txt",
+   "grep": "add_auc|mppe_cm"
+  },
+  "c2": {
+   "file": "results/t1night/compare_s43_mac.txt",
+   "grep": "add_auc|mppe_cm"
+  },
+  "c3": {
+   "file": "results/t1night/compare_t1hr_s43_mac.txt",
+   "grep": "add_auc|mppe_cm"
+  },
+  "pz": {
+   "file": "results/t1list/t1x1101_ep24_8_6_26zs_9fc.txt",
+   "grep": "TOTAL"
+  },
+  "pn": {
+   "file": "results/t1list/t1x1101_ep24_8_6_26nv_9fc.txt",
+   "grep": "TOTAL"
+  },
+  "wz": {
+   "file": "results/board/whatif_1102_0720_hybzs9_rank_kaggle.txt",
+   "grep": "读法|^Tier 1"
+  },
+  "wn": {
+   "file": "results/board/whatif_1102_0720_hybnv9_rank_kaggle.txt",
+   "grep": "读法"
+  },
+  "b7": {
+   "file": "results/board/diff_1102_0720.txt",
+   "grep": "Debajyoti|ALERT|读法"
+  },
+  "b9": {
+   "file": "results/board/diff_1102_0901.txt",
+   "grep": "读法|BOARD_"
+  },
+  "sl": {
+   "file": "results/ops/status_ml40_1102_0901.txt",
+   "grep": "progress|t1hg2"
+  },
+  "sm": {
+   "file": "results/ops/status_mf4090_1102_0901.txt",
+   "grep": "progress|/dev/vda2"
+  }
+ },
+ "claims": [
+  {
+   "id": "ep9",
+   "evidence": [
+    "c1"
+   ],
+   "claim": "t1-ep9-w2048-cap10m-fc20-ml40 has mppe_cm about 17.0 against 40.5 for t1-ep9-w2048-cap10m-ml40, and add_auc about 0.198 against 0.201."
+  },
+  {
+   "id": "ep1",
+   "evidence": [
+    "c1"
+   ],
+   "claim": "t1-ep1-w2048-cap4m-fc20-mf4090 has mppe_cm about 45.3 and add_auc about 0.163, worse than t1-ep1-w2048-cap10m-r3a-c10-ml40 (about 38.9 and 0.208)."
+  },
+  {
+   "id": "ep4s43",
+   "evidence": [
+    "c2"
+   ],
+   "claim": "t1-ep4-w2048-cap10m-fc20-s43-ml40 has mppe_cm about 108.6 and the ep9 4M seed 43 run has mppe_cm about 28.0."
+  },
+  {
+   "id": "ep17",
+   "evidence": [
+    "c3"
+   ],
+   "claim": "t1-ep17-w2048-cap10m-r3o-nv-s43-ml40 has add_auc about 0.484, lower than the add_auc of about 0.523 of t1-ep17-w2048-cap10m-r3o-nv-ml40."
+  },
+  {
+   "id": "pz",
+   "evidence": [
+    "pz"
+   ],
+   "claim": "The pack TOTAL has add_auc about 0.644 and mppe_cm about 8.41."
+  },
+  {
+   "id": "pn",
+   "evidence": [
+    "pn"
+   ],
+   "claim": "The pack TOTAL has add_auc about 0.636 and mppe_cm about 8.47."
+  },
+  {
+   "id": "wz",
+   "evidence": [
+    "wz"
+   ],
+   "claim": "In this what-if, the Tier 1 rank of maniphys.ai is 10 on auc and 8 on mppe, and reading B gives maniphys.ai 68."
+  },
+  {
+   "id": "wn",
+   "evidence": [
+    "wn"
+   ],
+   "claim": "In this what-if, maniphys.ai has reading B 68 and reading A 17."
+  },
+  {
+   "id": "wzA",
+   "evidence": [
+    "wz"
+   ],
+   "claim": "In this what-if, reading A gives maniphys.ai 15 or 16."
+  },
+  {
+   "id": "deb",
+   "evidence": [
+    "b7"
+   ],
+   "claim": "On tier1-mppe, Debajyoti Dasgupta went from 10.65841 to 9.51530, and an ALERT says the tier1-mppe rank went from 8 to 9."
+  },
+  {
+   "id": "debB",
+   "evidence": [
+    "b7"
+   ],
+   "claim": "Under reading B with Kaggle ties, maniphys.ai went from 69 to 70."
+  },
+  {
+   "id": "now",
+   "evidence": [
+    "b9"
+   ],
+   "claim": "At this snapshot no board changed, reading B is 70 for maniphys.ai and reading A is 17."
+  },
+  {
+   "id": "run",
+   "evidence": [
+    "sl",
+    "sm"
+   ],
+   "claim": "The ml40 ep1 fc20 run is at about 61 percent and the mf4090 ep1 pt05 run is at about 74 percent."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "sm"
+   ],
+   "control": "true",
+   "claim": "The mf4090 root disk has 22G available."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "c1"
+   ],
+   "control": "false",
+   "claim": "t1-ep4-w2048-cap10m-fc20-ml40 has a lower mppe_cm than t1-ep4-w2048-cap10m-ml40."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "wz"
+   ],
+   "control": "false",
+   "claim": "In this what-if, maniphys.ai has reading A 12."
+  }
+ ]
+}
