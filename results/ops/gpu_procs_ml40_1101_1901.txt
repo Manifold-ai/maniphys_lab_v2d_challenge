@@ -1,0 +1,30 @@
+# command  : ssh -o ConnectTimeout=15 ml40 bash\ -s\ ml40 
+# source   : a72b2edcf5bc
+# host     : Mac
+# run_at   : 2026-11-01T21:01:11-0500
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-11-02 10:01:12 CST
+NVIDIA L40S, 40307 MiB, 46068 MiB, 99 %
+2639507, 40298 MiB
+## GPU 进程 2639507：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  2639507 本用户 52:21 [Mon Nov  2 09:08:51 2026] python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac task.parquet='/repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet' scene.world_count=2048 training.total_environment_steps=349999104 output_dir=/repo/runs/flash_chord/t1-ep23-w2048-cap10m-r3o-nv-ml40 reset.seed=42 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep23-w2048-cap10m-r3o-nv-ml40 logging.run_name=t1-ep23-w2048-cap10m-r3o-nv-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep23-w2048-cap10m-r3o-nv-ml40/hydra/s1 scene.support=false
+  2639476 root 52:21 [Mon Nov  2 09:08:51 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 47452c85000a9dfc2bb7d4c4cd06138fea028c1ad3373fe7b3045317f37e5b54 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /fc-t1-ep23-w2048-cap10m-r3o-nv-ml40
+image flash_chord:latest
+created 2026-11-02T01:08:52.818410179Z  started 2026-11-02T01:08:52.886942233Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier1/whole_body/soma/sequence_id=2026-06-03_15-08-03_toy_stroller_back_forth_ground_04/robot_name=g1/data.parquet 2048 349999104 /repo/runs/flash_chord/t1-ep23-w2048-cap10m-r3o-nv-ml40 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t1-ep23-w2048-cap10m-r3o-nv-ml40 logging.run_name=t1-ep23-w2048-cap10m-r3o-nv-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t1-ep23-w2048-cap10m-r3o-nv-ml40/hydra/s1 scene.support=false "]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+name /yq_seg_ep7_src
+image v2d_sam2:latest
+created 2026-11-02T00:21:40.890976201Z  started 2026-11-02T00:21:40.95537078Z
+entrypoint ["timeout"]
+cmd ["10800","python","-u","/w/seg_project_v2.py","/w/src_only/truth.npz","/weights","/w/src_only","source=/w/src_only/source_ep7.mp4"]
+workdir /app
+mounts /lab_data/<其他用户>/v2d/seedance_truth_align/ep7 -> /w; /lab_data/<其他用户>/v2d/weights/sam2 -> /weights; 
+## 运行中的容器（列表）
+47452c85000a flash_chord:latest 52 minutes ago Up 52 minutes fc-t1-ep23-w2048-cap10m-r3o-nv-ml40
+4da5cddb1374 v2d_sam2:latest 2 hours ago Up 2 hours yq_seg_ep7_src
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

@@ -1,0 +1,23 @@
+# command  : awk /\^\ \ \(add_auc\|maniptrans_sr\|spider_sr_uncentered\|mppe_cm\|object_orientation_error_deg\)\ /\{print\ FILENAME\,\ \$1\,\ \$2\} results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt 
+# md5      : 7f907ced1cc74128b8d0fd68d9740dae  results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt
+# md5      : 2e6a30d8f842cc0a66830cf0d9c21269  results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt
+# md5      : e72a8f1de3160a4ecca084e8a2cc029e  results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt
+# source   : a72b2edcf5bc
+# host     : Mac
+# run_at   : 2026-11-01T21:02:03-0500
+# ---------------------------------------------------------------
+results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt add_auc 0.48589144396517814
+results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt maniptrans_sr 0.484375
+results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt spider_sr_uncentered 0.592529296875
+results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt mppe_cm 18.174119492942005
+results/day2/eval_t1-ep14-w2048-cap4m-r3o-s44-mf4090_s349999104.txt object_orientation_error_deg 29.70403385248981
+results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt add_auc 0.5129108717074207
+results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt maniptrans_sr 0.876220703125
+results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt spider_sr_uncentered 0.922607421875
+results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt mppe_cm 4.860577359209794
+results/ml40/day2/eval_t1-ep14-w2048-cap10m-r3a-s43-ml40_s349999104.txt object_orientation_error_deg 12.969860892499124
+results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt add_auc 0.4064588902099856
+results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt maniptrans_sr 0.4853515625
+results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt spider_sr_uncentered 0.545654296875
+results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt mppe_cm 19.527616153343846
+results/day2/eval_t1-ep14-w2048-cap4m-r3a-s44-mf4090_s349999104.txt object_orientation_error_deg 29.3258714523503

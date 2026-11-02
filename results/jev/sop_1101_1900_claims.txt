@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-01-sop1900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 8aaec047b06281f9c568532c42096044  agent-doc/experiments/2026-11-01-sop1900.claims.json
+# source   : a72b2edcf5bc-dirty
+# host     : Mac
+# run_at   : 2026-11-01T21:03:56-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep25_mppe            P(supported)=0.99  verified               [c25]  The pt05 run has mppe_cm about 56.4 and the pt08 run has mppe_cm about 68.7.
+ep25_auc             P(supported)=0.96  verified               [c25]  The add_auc of the pt05 run (about 0.159) is only slightly above that of the pt08 run (about 0.158).
+ep25_export          P(supported)=0.98  verified               [e25]  In the export files, the pt05 checkpoint has a larger mppe_cm than the pt08 checkpoint.
+ep10_mp              P(supported)=0.99  verified               [c10]  t1-ep10-w2048-cap4m-r3o-mf4090 has maniptrans_sr about 0.050 and t1-ep10-w2048-cap10m-r3a-ml40 has maniptrans_sr about 0.939.
+ep10_auc             P(supported)=0.99  verified               [c10]  The add_auc of t1-ep10-w2048-cap4m-r3o-mf4090 is about 0.455 and that of t1-ep10-w2048-cap4m-r3a-mf4090 is about 0.378.
+ep14_auc             P(supported)=0.98  verified               [c14]  The add_auc of t1-ep14-w2048-cap4m-r3o-s44-mf4090 is about 0.486, below the 0.513 of t1-ep14-w2048-cap10m-r3a-s43-ml40.
+sumB                 P(supported)=0.99  verified               [bw]  Under reading B with Kaggle ties, maniphys.ai stays at a rank sum of 67 and 5th.
+sumA                 P(supported)=0.98  verified               [bw]  Under reading A, maniphys.ai stays at 16 and 5th.
+zs2                  P(supported)=0.94  verified               [st]  The t1zs2 chain is active on mf4090.
+ctl_true             P(supported)=0.99  control(true) ok       [bw]  abgstn raised its Tier 1 AUC score.
+ctl_false1           P(supported)=0.01  control(false) ok      [c10]  t1-ep10-w2048-cap4m-r3o-mf4090 has a higher maniptrans_sr than t1-ep10-w2048-cap10m-r3a-ml40.
+ctl_false2           P(supported)=0.01  control(false) ok      [bw]  Under reading B with Kaggle ties, maniphys.ai is 1st.
+controls behaved as expected

@@ -1,0 +1,25 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "c25": {"file": "results/t1fill/compare_ep25_pt05_mac.txt", "grep": "add_auc|mppe_cm"},
+  "e25": {"file": "results/t1fill/export_ep25_pt05_vs_pt08_mac.txt", "grep": "mppe_cm|add_auc|checkpoint"},
+  "c10": {"file": "results/t1fill/compare_ep10_t1zx4_mac.txt", "grep": "maniptrans_sr|add_auc"},
+  "c14": {"file": "results/t1fill/compare_ep14_t1zx4_mac.txt", "grep": "add_auc"},
+  "bw": {"file": "results/board/diff_1101_1901.txt", "grep": "读法|abgstn"},
+  "st": {"file": "results/ops/status_mf4090_1101_1901.txt", "grep": "t1zs2|/dev/vda2"}
+ },
+ "claims": [
+  {"id": "ep25_mppe", "evidence": ["c25"], "claim": "The pt05 run has mppe_cm about 56.4 and the pt08 run has mppe_cm about 68.7."},
+  {"id": "ep25_auc", "evidence": ["c25"], "claim": "The add_auc of the pt05 run (about 0.159) is only slightly above that of the pt08 run (about 0.158)."},
+  {"id": "ep25_export", "evidence": ["e25"], "claim": "In the export files, the pt05 checkpoint has a larger mppe_cm than the pt08 checkpoint."},
+  {"id": "ep10_mp", "evidence": ["c10"], "claim": "t1-ep10-w2048-cap4m-r3o-mf4090 has maniptrans_sr about 0.050 and t1-ep10-w2048-cap10m-r3a-ml40 has maniptrans_sr about 0.939."},
+  {"id": "ep10_auc", "evidence": ["c10"], "claim": "The add_auc of t1-ep10-w2048-cap4m-r3o-mf4090 is about 0.455 and that of t1-ep10-w2048-cap4m-r3a-mf4090 is about 0.378."},
+  {"id": "ep14_auc", "evidence": ["c14"], "claim": "The add_auc of t1-ep14-w2048-cap4m-r3o-s44-mf4090 is about 0.486, below the 0.513 of t1-ep14-w2048-cap10m-r3a-s43-ml40."},
+  {"id": "sumB", "evidence": ["bw"], "claim": "Under reading B with Kaggle ties, maniphys.ai stays at a rank sum of 67 and 5th."},
+  {"id": "sumA", "evidence": ["bw"], "claim": "Under reading A, maniphys.ai stays at 16 and 5th."},
+  {"id": "zs2", "evidence": ["st"], "claim": "The t1zs2 chain is active on mf4090."},
+  {"id": "ctl_true", "evidence": ["bw"], "control": "true", "claim": "abgstn raised its Tier 1 AUC score."},
+  {"id": "ctl_false1", "evidence": ["c10"], "control": "false", "claim": "t1-ep10-w2048-cap4m-r3o-mf4090 has a higher maniptrans_sr than t1-ep10-w2048-cap10m-r3a-ml40."},
+  {"id": "ctl_false2", "evidence": ["bw"], "control": "false", "claim": "Under reading B with Kaggle ties, maniphys.ai is 1st."}
+ ]
+}
