@@ -1,0 +1,31 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1101_2220.txt results/board/lb_1102_0104.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 6f48f36d3670b078d6e3f009caf116b9  results/board/lb_1101_2220.txt
+# md5      : b5e5ae72abdd0fc691f4b8a46ab86e8d  results/board/lb_1102_0104.txt
+# source   : 7720342d9e56
+# host     : Mac
+# run_at   : 2026-11-02T03:04:24-0500
+# ---------------------------------------------------------------
+上一份 results/board/lb_1101_2220.txt；这一份 results/board/lb_1102_0104.txt
+## 变了的榜
+tier2-auc：Kelly To the H 0.20654 → 0.21199（2026-11-02 07:59）
+tier2-sp-sr：Kelly To the H 重新提交，分数没变（0.00000，2026-11-02 08:00）
+tier2-mp-sr：Kelly To the H 重新提交，分数没变（0.00000，2026-11-02 08:00）
+tier2-mppe：Kelly To the H 62.50279 → 58.07113（2026-11-02 08:00）
+tier3-auc：Kelly To the H 0.16289 → 0.21199（2026-11-02 08:03）
+tier3-sp-sr：Kelly To the H 重新提交，分数没变（0.00000，2026-11-02 07:56）
+tier3-mp-sr：Kelly To the H 重新提交，分数没变（0.00000，2026-11-02 07:56）
+tier3-mppe：Kelly To the H 70.57017 → 61.63094（2026-11-02 07:57）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.61680，第 1 名 Rice RobotPI Lab 0.90927，差 0.29247）；sp-sr 第 8（0.86666，第 1 名 MBZUAI-RCL Group 0.96666，差 0.10000）；mp-sr 第 10（0.70000，第 1 名 MBZUAI-RCL Group 0.93333，差 0.23333）；mppe 第 8（9.57457，第 1 名 Izus_systems 2.44373，差 7.13084）
+Tier 2：auc 第 5（0.51379，第 1 名 Izus_systems 0.62241，差 0.10862）；sp-sr 第 4（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 5（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 8（15.32195，第 1 名 Izus_systems 6.70579，差 8.61616）
+Tier 3：auc 第 3（0.28173，第 1 名 Izus_systems 0.36158，差 0.07985）；sp-sr 第 1（0.46666，第 2 名 Izus_systems 0.46666，差 0.00000）；mp-sr 第 2（0.10000，第 1 名 Izus_systems 0.13333，差 0.03333）；mppe 第 4（36.60061，第 1 名 domoarigato 31.33930，差 5.26131）
+第一的榜（同分 kaggle）：1 → 1 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 69（第 5） → 69（第 5）；前 4：Izus_systems 26、nima arki 62、Debajyoti Dasgupta 64、Xueyi Wang (FF) 65
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 69（第 4） → 69（第 4）；前 4：Izus_systems 23、nima arki 61、Debajyoti Dasgupta 63、maniphys.ai 69
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 16（第 5） → 16（第 5）；前 4：Izus_systems 4、nima arki 14、Debajyoti Dasgupta 15、Xueyi Wang (FF) 15
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 16（第 5） → 16（第 5）；前 4：Izus_systems 4、nima arki 14、Debajyoti Dasgupta 15、Xueyi Wang (FF) 15
+BOARD_CHANGED 8 个榜
+BOARD_DIFF_DONE

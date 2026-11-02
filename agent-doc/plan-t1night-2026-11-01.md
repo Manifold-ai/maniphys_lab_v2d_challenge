@@ -95,3 +95,12 @@
   名次和：读法 B 68 → 69（Kaggle 规则第 5；官网规则第 4）；读法 A 16 不变（第 5）。
   决定：策略不变，不交。Tier 1 SP-SR 要回第 7 需要 27/30，即至少一个跟丢集（ep1、4、9、25）SP 成功，今晚各段都对着 MPPE、不会让这四集 SP 成功；Tier 2 SP-SR 同分时我们先交，不要重交 SP-SR 榜。
   两台都在跑本计划：ml40 `t1hg` 冒烟过、ep4 正式 22:19 MST 开始；mf4090 `t1zs2` ep12 51%，`t1hf2` 接力在等。
+- 11/02 01:0x MST：mf4090 `t1zs2` 读完（读数与健康见 `plan-t1fill` 执行记录）。`t1hf2` 接力 11/01 23:46 MST 起链（ARM_AFTER_ARMED），后置配置核对通过、两段 precheck 全过（`results/t1night/cfgcheck_t1hf2_mf4090.txt`、`precheck_t1hf2*_mf4090.txt`），ep1 正式 23:55 MST 起。
+  ep26：`t1zs2` 的 ep26 满足 (c)、(e)，第 3 节的条件成立，候选集合 {`-r3o-nv-` seed 42、`t1zs2` ep26} 两条都满足 (e)。
+  按登记的同分序（先 MP-SR、再 MPPE）取 `-r3o-nv-` seed 42：MP-SR 0.9998 对 0.9966（4096 世界里差 13 个世界）。`t1zs2` 那条 AUC 高 0.27（0.840 对 0.569）、MPPE 低 1.81 cm（0.87 对 2.68）。
+  按规则换入的是 `-r3o-nv-`。改取 `t1zs2` 是看过结果后改同分序，本计划不改；交哪一条由 rxzhou 定（待定）。
+  导出那一局（`results/t1list/`，各报两种 ep26）：t1x1101 加 ep6、ep26 AUC 0.6223（r3o-nv）/ 0.6309（t1zs2），SP 26/30、MP 21/30，MPPE 9.571 / 9.512；
+  规则清单加 ep26 AUC 0.6279 / 0.6364，SP 24/30、MP 20/30，MPPE 10.881 / 10.822；t1x1101 加 ep24、8、6、26 AUC 0.6355 / 0.6441，SP 26/30、MP 21/30，MPPE 9.492 / 9.432。
+  Tier 1 AUC 榜第 10 名 Team OPS 0.630、第 9 名 Debajyoti Dasgupta 0.648：t1x1101 加 ep24、8、6、26（t1zs2）导出那一局高出第 10 名 0.014，到不了第 9；SP、MP 不变，MPPE 降 0.06 cm，过不了第 7 名。
+- 11/02 01:04 MST 看榜（`results/board/diff_1102_0104.txt`）：只有 Kelly To the H 重交 Tier 2、Tier 3，都在 maniphys.ai 之后；12 个榜名次、B 69（Kaggle 第 5、官网第 4）、A 16（第 5）都不变。策略不变，不交。
+  卡：ml40 `t1hg` ep4 训完（00:27 MST），ep9 正式 00:30 起、23%，约 02:40 训完后两集评测、导出；mf4090 `t1hf2` ep1 58%，约 01:50 训完后接 ep4。两条 nanwatch 都是非有限 0。

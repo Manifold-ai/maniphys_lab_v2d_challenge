@@ -1,0 +1,12 @@
+# command  : stages/policy/precheck_expect.sh stages/policy/queues/mf4090_t1hf2_s43.expect.tsv stages/policy/queues/mf4090_t1hf2_s43_smoke.txt stages/policy/queues/mf4090_t1hf2_s43.txt 
+# md5      : 8cb6aaac0eedaa2341f5e4add86fbb2e  stages/policy/precheck_expect.sh
+# md5      : e60fd44eee13b32b6bb3ecbf7152f5b8  stages/policy/queues/mf4090_t1hf2_s43.expect.tsv
+# md5      : 775e077565fe16d3a77f228c8dd0dabc  stages/policy/queues/mf4090_t1hf2_s43_smoke.txt
+# md5      : 31831c7b338695fe5c451ca206e290a4  stages/policy/queues/mf4090_t1hf2_s43.txt
+# source   : fe618523a772
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-11-02T14:46:08+0800
+# ---------------------------------------------------------------
+/repo/runs/cfgcheck/smoke-t1-ep9-w2048-cap4m-fc20-s43-mf4090.yaml：11 条断言，全过
+/repo/runs/cfgcheck/t1-ep9-w2048-cap4m-fc20-s43-mf4090.yaml：11 条断言，全过
+PRECHECK_OK（1 条 run）

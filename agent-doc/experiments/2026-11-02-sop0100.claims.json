@@ -1,0 +1,32 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "cz": {"file": "results/t1night/compare_t1zs2_mac.txt", "grep": "add_auc|maniptrans_sr|spider_sr|mppe_cm"},
+  "hz": {"file": "results/t1list/t1x1101_ep24_8_6_26zs.txt", "grep": "TOTAL|^ep26"},
+  "hn": {"file": "results/t1list/t1x1101_ep24_8_6_26nv.txt", "grep": "TOTAL|^ep26"},
+  "lb": {"file": "results/board/lb_1102_0104.txt", "grep": "Team OPS|Debajyoti Dasgupta|maniphys.ai|== v2d"},
+  "bw": {"file": "results/board/diff_1102_0104.txt", "grep": "读法|Kelly|maniphys.ai 在|Tier 1：|Tier 2："},
+  "b22": {"file": "results/board/diff_1101_2220.txt", "grep": "Rice|nima arki"},
+  "b19": {"file": "results/board/diff_1101_1920.txt", "grep": "Izus_systems"},
+  "sl": {"file": "results/ops/status_ml40_1102_0100.txt", "grep": "progress|completed|tmux|t1hg"},
+  "sm": {"file": "results/ops/status_mf4090_1102_0100.txt", "grep": "progress|ARMED|/dev/vda2"}
+ },
+ "claims": [
+  {"id": "ep26_zs", "evidence": ["cz"], "claim": "t1-ep26-w2048-cap4m-r3o-mf4090 has add_auc about 0.840 and mppe_cm about 0.87, while t1-ep26-w2048-cap10m-ml40 has add_auc about 0.492 and mppe_cm about 2.73."},
+  {"id": "ep26_tie", "evidence": ["cz"], "claim": "The maniptrans_sr of t1-ep26-w2048-cap10m-r3o-nv-ml40 (about 0.9998) is slightly higher than that of t1-ep26-w2048-cap4m-r3o-mf4090 (about 0.9966)."},
+  {"id": "ep26_nv", "evidence": ["cz"], "claim": "t1-ep26-w2048-cap10m-r3o-nv-ml40 has add_auc about 0.569 and mppe_cm about 2.68."},
+  {"id": "ep12", "evidence": ["cz"], "claim": "t1-ep12-w2048-cap4m-r3o-mf4090 has a lower maniptrans_sr (about 0.738) and a higher mppe_cm (about 6.52) than t1-ep12-w2048-cap10m-ml40 (about 0.992 and 2.10)."},
+  {"id": "hyb_zs", "evidence": ["hz"], "claim": "The pack with the cap4m ep26 run has a TOTAL add_auc of about 0.644 and mppe_cm of about 9.43."},
+  {"id": "hyb_nv", "evidence": ["hn"], "claim": "The pack with the r3o-nv ep26 run has a TOTAL add_auc of about 0.636."},
+  {"id": "auc_10", "evidence": ["lb"], "claim": "On the Tier 1 AUC board, Team OPS has 0.63000 and Debajyoti Dasgupta has 0.64793."},
+  {"id": "sumB", "evidence": ["bw"], "claim": "Under reading B with Kaggle ties, maniphys.ai has a rank sum of 69 and is 5th."},
+  {"id": "sumA", "evidence": ["bw"], "claim": "Under reading A, maniphys.ai has 16 and is 5th."},
+  {"id": "rice", "evidence": ["b22"], "claim": "Rice RobotPI Lab raised its Tier 1 SP-SR from about 0.833 to about 0.967."},
+  {"id": "izus", "evidence": ["b19"], "claim": "Izus_systems raised its Tier 2 AUC from about 0.504 to about 0.622."},
+  {"id": "ml40", "evidence": ["sl"], "claim": "On ml40 the ep4 fc20 run completed training and the ep9 fc20 run is at about 23 percent."},
+  {"id": "mf", "evidence": ["sm"], "claim": "On mf4090 the t1hf2 relay is armed and the ep1 fc20 run is at about 58 percent."},
+  {"id": "ctl_true", "evidence": ["bw"], "control": "true", "claim": "Kelly To the H changed its Tier 2 MPPE score."},
+  {"id": "ctl_false1", "evidence": ["cz"], "control": "false", "claim": "t1-ep12-w2048-cap4m-r3o-mf4090 has a higher maniptrans_sr than t1-ep12-w2048-cap10m-ml40."},
+  {"id": "ctl_false2", "evidence": ["bw"], "control": "false", "claim": "Under reading B with Kaggle ties, maniphys.ai is 2nd."}
+ ]
+}

@@ -1,0 +1,25 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-02-sop0100.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 4642d1eb631d289002ae746f5879aaa6  agent-doc/experiments/2026-11-02-sop0100.claims.json
+# source   : 7720342d9e56-dirty
+# host     : Mac
+# run_at   : 2026-11-02T03:08:55-0500
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep26_zs              P(supported)=0.99  verified               [cz]  t1-ep26-w2048-cap4m-r3o-mf4090 has add_auc about 0.840 and mppe_cm about 0.87, while t1-ep26-w2048-cap10m-ml40 has add_auc about 0.492 and mppe_cm about 2.73.
+ep26_tie             P(supported)=0.99  verified               [cz]  The maniptrans_sr of t1-ep26-w2048-cap10m-r3o-nv-ml40 (about 0.9998) is slightly higher than that of t1-ep26-w2048-cap4m-r3o-mf4090 (about 0.9966).
+ep26_nv              P(supported)=0.99  verified               [cz]  t1-ep26-w2048-cap10m-r3o-nv-ml40 has add_auc about 0.569 and mppe_cm about 2.68.
+ep12                 P(supported)=0.99  verified               [cz]  t1-ep12-w2048-cap4m-r3o-mf4090 has a lower maniptrans_sr (about 0.738) and a higher mppe_cm (about 6.52) than t1-ep12-w2048-cap10m-ml40 (about 0.992 and 2.10).
+hyb_zs               P(supported)=0.98  verified               [hz]  The pack with the cap4m ep26 run has a TOTAL add_auc of about 0.644 and mppe_cm of about 9.43.
+hyb_nv               P(supported)=0.94  verified               [hn]  The pack with the r3o-nv ep26 run has a TOTAL add_auc of about 0.636.
+auc_10               P(supported)=0.99  verified               [lb]  On the Tier 1 AUC board, Team OPS has 0.63000 and Debajyoti Dasgupta has 0.64793.
+sumB                 P(supported)=0.98  verified               [bw]  Under reading B with Kaggle ties, maniphys.ai has a rank sum of 69 and is 5th.
+sumA                 P(supported)=0.98  verified               [bw]  Under reading A, maniphys.ai has 16 and is 5th.
+rice                 P(supported)=0.99  verified               [b22]  Rice RobotPI Lab raised its Tier 1 SP-SR from about 0.833 to about 0.967.
+izus                 P(supported)=0.99  verified               [b19]  Izus_systems raised its Tier 2 AUC from about 0.504 to about 0.622.
+ml40                 P(supported)=0.97  verified               [sl]  On ml40 the ep4 fc20 run completed training and the ep9 fc20 run is at about 23 percent.
+mf                   P(supported)=0.97  verified               [sm]  On mf4090 the t1hf2 relay is armed and the ep1 fc20 run is at about 58 percent.
+ctl_true             P(supported)=0.99  control(true) ok       [bw]  Kelly To the H changed its Tier 2 MPPE score.
+ctl_false1           P(supported)=0.01  control(false) ok      [cz]  t1-ep12-w2048-cap4m-r3o-mf4090 has a higher maniptrans_sr than t1-ep12-w2048-cap10m-ml40.
+ctl_false2           P(supported)=0.01  control(false) ok      [bw]  Under reading B with Kaggle ties, maniphys.ai is 2nd.
+controls behaved as expected
