@@ -1,0 +1,18 @@
+# command  : python3 stages/evaluate/track2_rank_sum.py results/board/whatif_1102_1040_hybnv9.snap.txt --teams maniphys.ai\,Debajyoti\ Dasgupta\,nima\ arki\,Xueyi\ Wang\ \(FF\) --tie kaggle 
+# md5      : 5d97cab1b5c4e35dc4b4ddc0a9f779be  stages/evaluate/track2_rank_sum.py
+# md5      : 5eb48b7ca105f9d291a55e90f1ae167f  results/board/whatif_1102_1040_hybnv9.snap.txt
+# source   : c42f17c0ab07
+# host     : Mac
+# run_at   : 2026-11-02T12:40:28-0500
+# ---------------------------------------------------------------
+快照 results/board/whatif_1102_1040_hybnv9.snap.txt；基线不计名次，同分按先提交者在前（Kaggle）
+Tier 1：auc maniphys.ai 11、Debajyoti Dasgupta 10、nima arki 5、Xueyi Wang (FF) 7；sp-sr maniphys.ai 8、Debajyoti Dasgupta 10、nima arki 5、Xueyi Wang (FF) 7；mp-sr maniphys.ai 11、Debajyoti Dasgupta 6、nima arki 7、Xueyi Wang (FF) 3；mppe maniphys.ai 8、Debajyoti Dasgupta 9、nima arki 5、Xueyi Wang (FF) 3；名次和 maniphys.ai 38、Debajyoti Dasgupta 35、nima arki 22、Xueyi Wang (FF) 20
+Tier 2：auc maniphys.ai 5、Debajyoti Dasgupta 3、nima arki 6、Xueyi Wang (FF) 4；sp-sr maniphys.ai 4、Debajyoti Dasgupta 2、nima arki 5、Xueyi Wang (FF) 7；mp-sr maniphys.ai 5、Debajyoti Dasgupta 2、nima arki 8、Xueyi Wang (FF) 4；mppe maniphys.ai 8、Debajyoti Dasgupta 4、nima arki 3、Xueyi Wang (FF) 2；名次和 maniphys.ai 22、Debajyoti Dasgupta 11、nima arki 22、Xueyi Wang (FF) 17
+Tier 3：auc maniphys.ai 3、Debajyoti Dasgupta 4、nima arki 2、Xueyi Wang (FF) 9；sp-sr maniphys.ai 1、Debajyoti Dasgupta 5、nima arki 3、Xueyi Wang (FF) 9；mp-sr maniphys.ai 2、Debajyoti Dasgupta 5、nima arki 4、Xueyi Wang (FF) 12；mppe maniphys.ai 4、Debajyoti Dasgupta 5、nima arki 6、Xueyi Wang (FF) 3；名次和 maniphys.ai 10、Debajyoti Dasgupta 19、nima arki 15、Xueyi Wang (FF) 33
+读法 B（12 个榜名次直接相加）：maniphys.ai 70、Debajyoti Dasgupta 65、nima arki 59、Xueyi Wang (FF) 70
+读法 A auc：maniphys.ai 0.47701（第 5）、Debajyoti Dasgupta 0.49613（第 3）、nima arki 0.52679（第 2）、Xueyi Wang (FF) 0.48220（第 4）
+读法 A sp-sr：maniphys.ai 0.68888（第 2）、Debajyoti Dasgupta 0.65555（第 4）、nima arki 0.67778（第 3）、Xueyi Wang (FF) 0.55555（第 6）
+读法 A mp-sr：maniphys.ai 0.44444（第 4）、Debajyoti Dasgupta 0.52222（第 2）、nima arki 0.43333（第 5）、Xueyi Wang (FF) 0.48889（第 3）；有同分，按各队在这一指标上最早的提交时间排
+读法 A mppe：maniphys.ai 20.13003（第 6）、Debajyoti Dasgupta 19.98593（第 5）、nima arki 19.65631（第 4）、Xueyi Wang (FF) 15.94432（第 2）
+读法 A（三档平均后 4 个名次相加，只算三档都交了的队伍）：maniphys.ai 17、Debajyoti Dasgupta 14、nima arki 14、Xueyi Wang (FF) 15
+RANK_SUM_DONE

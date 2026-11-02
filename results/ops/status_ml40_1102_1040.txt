@@ -1,0 +1,32 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : c42f17c0ab07
+# host     : Mac
+# run_at   : 2026-11-02T12:40:11-0500
+# ---------------------------------------------------------------
+== ml40 2026-11-03 01:40:14 CST
+NVIDIA L40S, 40209 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  934G  54% /lab_data
+-- tmux
+v2d-t1hg2_s43-eval: 1 windows (created Tue Nov  3 00:51:03 2026)
+v2d-t1hg2_s43-export: 1 windows (created Tue Nov  3 00:51:05 2026)
+v2d-t1hg2_s43-train: 1 windows (created Tue Nov  3 00:51:01 2026)
+-- 长链标记
+runs/.chain-active-cand_t1_t1hg2_s43_ml40-gate
+runs/.chain-active-t1hg2_s43_eval_ml40
+runs/.chain-active-t1hg2_s43_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1hr2_ml40.log：=== 2026-11-02 06:47:33 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.try1.log：bash: runs/tools/relay_when_armed.sh: No such file or directory
+runs/logs/arm_after_t1hg_s43_ml40.log：=== 2026-11-02 17:57:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 20:19:37 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_ml40.log：=== 2026-11-02 22:46:53 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_s43_ml40.log：=== 2026-11-03 00:51:08 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.nanwatch.log：11-02 11:39:52 MDT 130,004,992 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t1-ep1-w2048-cap10m-fc20-s43-ml40.log：training progress: 133,001,216/349,999,104 environment steps (38.0%); 52,302 env steps/s; elapsed 00:42:23; ETA 01:09:09
+runs/logs/t1hg2_s43_train_ml40.log：=== 2026-11-03 00:55:48 CST 正式 t1-ep1-w2048-cap10m-fc20-s43-ml40
+runs/logs/smoke-t1-ep1-w2048-cap10m-fc20-s43-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep1-w2048-cap10m-fc20-s43-ml40
+runs/logs/smoke-t1-ep1-w2048-cap10m-fc20-s43-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t1-ep1-w2048-cap10m-fc20-s43-ml40
+runs/logs/cand_t1_t1hg2_s43_ml40_gate.log：=== 2026-11-03 00:51:05 CST 等 runs/logs/t1hg2_s43_eval_ml40.log 的最后一行变成评测链的结束行
+runs/logs/t1hg2_s43_eval_ml40.log：=== 2026-11-03 00:51:03 CST 等 runs/logs/t1hg2_s43_train_ml40.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/cand_t1_t1hg2_ml40_gate.log：=== 2026-11-03 00:50:55 CST 导出链结束，退出码 0
