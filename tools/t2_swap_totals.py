@@ -9,7 +9,9 @@ Q3 以给定的清单为基准（现在是 b1014）。MP 分支：导出 MP 成�
 另按 agent-doc/plan-t2st-2026-10-19.md 第 2 节 S3 列 MPPE 分支：导出 MPPE 平均 ≤ 12.97，4096 世界 MPPE 平均 ≤ 16.0，导出 SP、MP 成功与两种 AUC 平均都不低于
 给定的清单，换上的每一集导出 MPPE ≤ 它 4096 世界 MPPE + 10 cm。第二次提交的门槛（要比上一次交的强）不在这里算。
 --write-tsv <新清单>：在给定清单上只改换掉的那几行（run、步数与机器，机器取 run 名最后一段），其余行逐字照抄；目标已存在就拒绝。
-用法：python3 tools/t2_swap_totals.py <清单.tsv> <导出目录> [ep<N>=<run>[@步数] …] [--write-tsv <新清单>]   最后一行 T2_SWAP_TOTALS_DONE
+--tier 3（agent-doc/plan-t3auc1-2026-11-03.md 第 2 节）：读清单的 Tier 3 行，换上的 run 找 cand_t3_* 的导出记录；4096 世界记录另在 results/[ml40/]t3static/ 下找
+（清单里 ep9、11、28 的站立保底 run）；只打合计与两种 AUC 平均的变化，不打 Tier 2 的 Q3、S3 两行。不给时是 Tier 2，一切照旧。
+用法：python3 tools/t2_swap_totals.py <清单.tsv> <导出目录> [ep<N>=<run>[@步数] …] [--tier 2|3] [--write-tsv <新清单>]   最后一行 T2_SWAP_TOTALS_DONE
 """
 
 import glob
@@ -17,6 +19,7 @@ import json
 import sys
 from pathlib import Path
 
+TIER = "2"
 KEYS = ("spider_sr_uncentered", "maniptrans_sr", "add_auc", "mppe_cm", "object_position_error_m")
 POS_NEW = 0.025
 
@@ -36,14 +39,15 @@ def check_ckpt(j: dict, run: str, step: str, src) -> None:
 
 
 def eval_4096(run: str, step: str) -> dict:
-    for d in ("results/day2", "results/ml40/day2", "results/l40n/day2"):
+    for d in ("results/day2", "results/ml40/day2", "results/l40n/day2") + (("results/t3static", "results/ml40/t3static") if TIER == "3" else ()):
         p = Path(d) / f"eval_{run}_s{step}.txt"
         if p.is_file():
             j = summary_of(p)
             check_ckpt(j, run, step, p)
             if j.get("world_count") != 4096 or str(j.get("environment_steps")) != step:
                 sys.exit(f"{p}：world_count {j.get('world_count')}，步数 {j.get('environment_steps')}")
-            return {k: float(j[k]) for k in KEYS}
+            m = j if all(k in j for k in KEYS) else j.get("metrics", {})   # t3static 的站立保底评测把指标放在 metrics 下
+            return {k: float(m[k]) for k in KEYS}
     sys.exit(f"找不到 {run} 第 {step} 步的 4096 世界评测记录")
 
 
@@ -56,7 +60,7 @@ def base_export(exp: Path, ep: int, run: str, step: str) -> dict:
 
 def swap_export(run: str, step: str) -> dict:
     hits = sorted(h for d in ("results/submission/exports", "results/ml40/submission/exports", "results/l40n/submission/exports")
-                  for h in glob.glob(f"{d}/cand_t2_*_{run}_s{step}.txt"))
+                  for h in glob.glob(f"{d}/cand_t{TIER}_*_{run}_s{step}.txt"))
     if len(hits) != 1:
         sys.exit(f"{run} 第 {step} 步的导出记录有 {len(hits)} 份：{hits}")
     p = Path(hits[0])
@@ -86,8 +90,15 @@ def ok(flag: bool) -> str:
 
 
 def main():
+    global TIER
     args = sys.argv[1:]
     out_tsv = None
+    if "--tier" in args:
+        i = args.index("--tier")
+        if i + 1 >= len(args) or args[i + 1] not in ("2", "3"):
+            sys.exit("--tier 后面只能是 2 或 3")
+        TIER = args[i + 1]
+        del args[i:i + 2]
     if "--write-tsv" in args:
         i = args.index("--write-tsv")
         if i + 1 >= len(args):
@@ -99,9 +110,9 @@ def main():
     if len(args) < 2:
         sys.exit(__doc__)
     sel_path, exp = Path(args[0]), Path(args[1])
-    rows = [l.split("\t") for l in sel_path.read_text().splitlines() if l.startswith("2\t")]
+    rows = [l.split("\t") for l in sel_path.read_text().splitlines() if l.startswith(f"{TIER}\t")]
     if len(rows) != 30:
-        sys.exit(f"清单里 Tier 2 有 {len(rows)} 行")
+        sys.exit(f"清单里 Tier {TIER} 有 {len(rows)} 行")
     base = {}
     for _, ep, run, step, *_ in rows:
         e = int(ep)
@@ -142,6 +153,11 @@ def main():
           f"AUC 平均 {xa0:.5f} → {xa1:.5f}，MPPE 平均 {xm0:.3f} → {xm1:.3f} cm")
     print(f"4096 世界：SP-SR 合计 {wsp0:.3f} → {wsp1:.3f}，MP-SR 合计 {wmp0:.3f} → {wmp1:.3f}（多出 {wmp1 - wmp0:.3f}），"
           f"AUC 平均 {wa0:.5f} → {wa1:.5f}，MPPE 平均 {wm0:.3f} → {wm1:.3f} cm")
+    if TIER == "3":
+        print(f"Tier 3 两种 AUC 平均的变化：导出 {xa1 - xa0:+.5f}，4096 世界 {wa1 - wa0:+.5f}，小的那个 {min(xa1 - xa0, wa1 - wa0):+.5f}")
+        write_tsv(out_tsv, sel_path, new, base)
+        print("T2_SWAP_TOTALS_DONE")
+        return
     mp_count = strict_mp >= 21 or mp1 >= 22
     mp_branch = mp_count and wmp1 - wmp0 >= 3 and sp1 >= 22
     print(f"Q3 MP 分支：导出 MP（严格计 {strict_mp} ≥ 21，或全计 {mp1} ≥ 22）{ok(mp_count)}；4096 世界 MP-SR 多出 {wmp1 - wmp0:.3f} ≥ 3 "
@@ -156,17 +172,21 @@ def main():
           (f"导出 AUC 平均 {xa1:.5f} ≥ {xa0:.5f}", xa1 >= xa0), (f"4096 世界 AUC 平均 {wa1:.5f} ≥ {wa0:.5f}", wa1 >= wa0),
           ("换上的每一集导出 MPPE ≤ 4096 世界 MPPE + 10", per_ok)]
     print("S3 MPPE 分支（plan-t2st）：" + "；".join(f"{k} {ok(v)}" for k, v in s3) + f"；分支{ok(all(v for _, v in s3))}")
+    write_tsv(out_tsv, sel_path, new, base)
+    print("T2_SWAP_TOTALS_DONE")
+
+
+def write_tsv(out_tsv, sel_path, new, base):
     if out_tsv is not None:
         lines = []
         for line in sel_path.read_text().splitlines():
             c = line.split("\t")
-            if c[0] == "2" and new[int(c[1])] is not base[int(c[1])]:
+            if c[0] == TIER and new[int(c[1])] is not base[int(c[1])]:
                 n = new[int(c[1])]
-                line = "\t".join(["2", c[1], n["run"], n["step"], n["run"].rsplit("-", 1)[1]])
+                line = "\t".join([TIER, c[1], n["run"], n["step"], n["run"].rsplit("-", 1)[1]])
             lines.append(line)
         out_tsv.write_text("\n".join(lines) + "\n")
         print(f"写 {out_tsv}（{len(lines)} 行，改了 {sum(1 for e in new if new[e] is not base[e])} 行）")
-    print("T2_SWAP_TOTALS_DONE")
 
 
 if __name__ == "__main__":

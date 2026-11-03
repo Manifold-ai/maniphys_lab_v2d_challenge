@@ -1,0 +1,9 @@
+# command  : bash tools/test_t2_swap_totals_t3.sh 
+# md5      : 891f07c1b95085ef2606d9a2db6353bf  tools/test_t2_swap_totals_t3.sh
+# source   : 9be39aa6bfa7-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T01:49:37-0700
+# ---------------------------------------------------------------
+T3_IDENTITY_OK
+T2_SAME_OK
+ALL_OK
