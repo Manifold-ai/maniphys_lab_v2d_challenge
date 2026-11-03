@@ -1,0 +1,17 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : 3fe23b07d041
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T00:40:50-0500
+# ---------------------------------------------------------------
+== l40n 2026-11-03 13:40:51 CST
+NVIDIA L40, 0 MiB, 46068 MiB, 0 %
+/dev/vda2       197G   30G  160G  16% /
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/build_flash_chord_l40n.log：#15 3584.4  Downloaded orbax-checkpoint
+runs/logs/hf_pull_l40n_env2_1102.log：HF_PULL_OK 5
+runs/logs/hf_pull_l40n_env_1102.log：HF_PULL_OK 4
