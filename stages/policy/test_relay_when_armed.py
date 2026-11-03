@@ -19,7 +19,7 @@ def test_armed_later_runs_command():
         log = Path(d) / "a.log"
         log.write_text("=== x 等\n", encoding="utf-8")
         out = Path(d) / "ran"
-        t = threading.Timer(0.5, lambda: log.write_text("=== x 等\n=== y ARM_AFTER_ARMED\n", encoding="utf-8"))
+        t = threading.Timer(0.5, lambda: log.write_text("=== x 等\n=== 2026-11-04 04:30:00 CST ARM_AFTER_ARMED\n", encoding="utf-8"))
         t.start()
         r = run(log, "bash", "-c", f"echo ok > {out}; exit 7", polls="50")
         t.join()
@@ -41,6 +41,22 @@ def test_stopped_and_timeout():
         assert r.returncode == 3 and not out.exists(), (r.returncode, r.stdout)
         r = run(Path(d) / "missing.log", "touch", str(out), polls="2")
         assert r.returncode == 3 and not out.exists(), (r.returncode, r.stdout)
+
+
+def test_relay_on_relay_waits():
+    """前一条也是 relay_when_armed.sh：它的等待行、“已起链”行里都有 ARM_AFTER_ARMED 这个词，不能当成已起链（11/03 final1）。"""
+    with tempfile.TemporaryDirectory() as d:
+        log = Path(d) / "a.log"
+        out = Path(d) / "ran"
+        log.write_text("=== 2026-11-04 04:25:55 CST 等 b.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash arm_after.sh x\n", encoding="utf-8")
+        r = run(log, "touch", str(out), polls="3")
+        assert r.returncode == 3 and not out.exists(), (r.returncode, r.stdout)
+        log.write_text("=== 2026-11-04 04:25:55 CST 前一条接力已起链：=== 2026-11-04 04:25:50 CST ARM_AFTER_ARMED\n", encoding="utf-8")
+        r = run(log, "touch", str(out), polls="3")
+        assert r.returncode == 3 and not out.exists(), (r.returncode, r.stdout)
+        log.write_text("=== 2026-11-04 04:30:00 CST ARM_AFTER_ARMED\n", encoding="utf-8")
+        r = run(log, "touch", str(out), polls="3")
+        assert r.returncode == 0 and out.exists(), (r.returncode, r.stdout)
 
 
 if __name__ == "__main__":
