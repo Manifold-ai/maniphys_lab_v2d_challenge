@@ -1,0 +1,17 @@
+# command  : stages/evaluate/pull_submission.sh tables runs/submission/t3m1103/tables ml40:cand_t3_t3qr3o2_ml40 ml40:cand_t3_t3qr3o2b_ml40 mf4090:cand_t3_t3pr3o2_mf4090 mf4090:cand_t3_t3pr3o2b_mf4090 mf4090:cand_t3_t3pr3o2c_mf4090 
+# md5      : d3b092063623dc39564ba756df791d07  stages/evaluate/pull_submission.sh
+# source   : 7db39d77f7c3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T16:28:14-0700
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qr3o2_ml40：ok 2  
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qr3o2b_ml40：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pr3o2_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pr3o2b_mf4090：ok 2  
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+结果表 mf4090:cand_t3_t3pr3o2c_mf4090：ok 2  
+PULL_OK 5

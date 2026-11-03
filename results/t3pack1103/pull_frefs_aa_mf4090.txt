@@ -1,0 +1,9 @@
+# command  : stages/evaluate/pull_submission.sh frefs mf4090 runs/submission/frame_refs_t3_t3m1103new_mf4090_aa runs/submission/t3m1103/frefs_new_aa_mf4090 
+# md5      : d3b092063623dc39564ba756df791d07  stages/evaluate/pull_submission.sh
+# source   : 7db39d77f7c3-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T16:29:19-0700
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+帧参考 aligned：5 集 → runs/submission/t3m1103/frefs_new_aa_mf4090（目录里现有 5 个 npz）
+PULL_OK 7
