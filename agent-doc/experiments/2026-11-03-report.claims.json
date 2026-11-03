@@ -1,0 +1,155 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "lb": {
+   "file": "results/board/diff_1103_1401.txt",
+   "grep": "maniphys.ai 在各榜|^Tier"
+  },
+  "t2sw": {
+   "file": "agent-doc/plan-t2auc2-2026-11-02.md",
+   "grep": "t2-ep10-w2048-cap10m-r3a-ml40. AUC|^  ep0：400 万|^  ep21（对照|自己参考上导出那一局 AUC 平均|榜上 0.51765"
+  },
+  "t2l3": {
+   "file": "results/t2auc3/swap_ep26_18_6_vs_t2a1102.txt",
+   "grep": "^集|^ep18"
+  },
+  "t3sw": {
+   "file": "results/t3auc1/swap_ab_vs_t3m1029a.txt",
+   "grep": "^ep"
+  },
+  "t3a": {
+   "file": "agent-doc/plan-t3auc1-2026-11-03.md",
+   "grep": "ep12（1000 万）|0.942|ep26 的 1000 万臂"
+  },
+  "t1r3o": {
+   "file": "agent-doc/plan-t1r3o-2026-10-31.md",
+   "grep": "0.580 → 0.948"
+  },
+  "t1n": {
+   "file": "results/t1night/compare_t1hg_t1hf2_mac.txt",
+   "grep": "ep9-w2048-cap10m.*(mppe_cm|add_auc)"
+  },
+  "t1h": {
+   "file": "agent-doc/plan-t1hard-2026-10-31.md",
+   "grep": "只差朝向项|compare_ep17_mac.txt.：SP-SR"
+  },
+  "t3sub": {
+   "file": "results/submission/submit_t3_gb1018e22.txt",
+   "grep": "COMPLETE"
+  },
+  "kfix": {
+   "file": "agent-doc/plan-t3-kfix-2026-10-16.md",
+   "grep": "866|830"
+  }
+ },
+ "claims": [
+  {
+   "id": "board",
+   "evidence": [
+    "lb"
+   ],
+   "claim": "maniphys.ai is 1st on Tier 3 SP-SR, 5th on Tier 3 AUC with 0.28173, and 9th on Tier 1 MPPE with 8.46753."
+  },
+  {
+   "id": "ratio",
+   "evidence": [
+    "t2sw"
+   ],
+   "claim": "A Tier 2 list with an own-reference export AUC gain of +0.0187 gained +0.0039 on the board."
+  },
+  {
+   "id": "t2ep0",
+   "evidence": [
+    "t2sw"
+   ],
+   "claim": "For Tier 2 ep0 the r3a control has AUC 0.400 and the 10M run with the orientation term has 0.774."
+  },
+  {
+   "id": "t2ep21",
+   "evidence": [
+    "t2sw"
+   ],
+   "claim": "For Tier 2 ep21 the 4M run has MP-SR 0.316 against a control MP-SR of 0.965."
+  },
+  {
+   "id": "t2ep18",
+   "evidence": [
+    "t2l3"
+   ],
+   "claim": "In the ep18 row, the 4096-world AUC goes from 0.521 for the r3a run to 0.855 for the r3o run."
+  },
+  {
+   "id": "t3sw",
+   "evidence": [
+    "t3sw"
+   ],
+   "claim": "On Tier 3, ep18 went from 0.626 to 0.826, ep24 from 0.731 to 0.835, and ep26 from 0.579 to 0.812 in 4096-world AUC."
+  },
+  {
+   "id": "t3ep12",
+   "evidence": [
+    "t3a"
+   ],
+   "claim": "Tier 3 ep12 rose in ADD-AUC to 0.672 but its MP-SR fell from 0.967 to 0.942, so it was not swapped."
+  },
+  {
+   "id": "t1ep24",
+   "evidence": [
+    "t1r3o"
+   ],
+   "claim": "On Tier 1 ep24 the orientation term raised AUC from 0.580 to 0.948."
+  },
+  {
+   "id": "t1ep9",
+   "evidence": [
+    "t1n"
+   ],
+   "claim": "The ep9 10M run with fc20 has a lower mppe_cm than the ep9 10M control, about 17 cm against about 40.5 cm."
+  },
+  {
+   "id": "t1ep17",
+   "evidence": [
+    "t1h"
+   ],
+   "claim": "Adding the orientation term to the ep17 control raised SP-SR from 0 to 0.932."
+  },
+  {
+   "id": "t3auc",
+   "evidence": [
+    "t3sub"
+   ],
+   "claim": "The 10/18 Tier 3 submission scored an add_auc of 0.10649."
+  },
+  {
+   "id": "focal",
+   "evidence": [
+    "kfix"
+   ],
+   "claim": "The calibrated focal length is about 866 pixels, against a default of 830."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "lb"
+   ],
+   "control": "true",
+   "claim": "The snapshot lists maniphys.ai on Tier 2."
+  },
+  {
+   "id": "ctl_false1",
+   "evidence": [
+    "t1n"
+   ],
+   "control": "false",
+   "claim": "On Tier 1 ep9 the grasp-closure weight raised MPPE above 60 cm."
+  },
+  {
+   "id": "ctl_false2",
+   "evidence": [
+    "lb"
+   ],
+   "control": "false",
+   "claim": "maniphys.ai is 1st on Tier 1 ADD-AUC."
+  }
+ ]
+}

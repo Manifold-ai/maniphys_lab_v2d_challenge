@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-03-report.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 93e7beca84823a1c9833c18e1debdccd  agent-doc/experiments/2026-11-03-report.claims.json
+# source   : 1883bb37e24d-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T14:59:51-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+board                P(supported)=0.98  verified               [lb]  maniphys.ai is 1st on Tier 3 SP-SR, 5th on Tier 3 AUC with 0.28173, and 9th on Tier 1 MPPE with 8.46753.
+ratio                P(supported)=0.94  verified               [t2sw]  A Tier 2 list with an own-reference export AUC gain of +0.0187 gained +0.0039 on the board.
+t2ep0                P(supported)=0.92  verified               [t2sw]  For Tier 2 ep0 the r3a control has AUC 0.400 and the 10M run with the orientation term has 0.774.
+t2ep21               P(supported)=0.97  verified               [t2sw]  For Tier 2 ep21 the 4M run has MP-SR 0.316 against a control MP-SR of 0.965.
+t2ep18               P(supported)=0.99  verified               [t2l3]  In the ep18 row, the 4096-world AUC goes from 0.521 for the r3a run to 0.855 for the r3o run.
+t3sw                 P(supported)=0.74  verified               [t3sw]  On Tier 3, ep18 went from 0.626 to 0.826, ep24 from 0.731 to 0.835, and ep26 from 0.579 to 0.812 in 4096-world AUC.
+t3ep12               P(supported)=0.96  verified               [t3a]  Tier 3 ep12 rose in ADD-AUC to 0.672 but its MP-SR fell from 0.967 to 0.942, so it was not swapped.
+t1ep24               P(supported)=0.84  verified               [t1r3o]  On Tier 1 ep24 the orientation term raised AUC from 0.580 to 0.948.
+t1ep9                P(supported)=0.98  verified               [t1n]  The ep9 10M run with fc20 has a lower mppe_cm than the ep9 10M control, about 17 cm against about 40.5 cm.
+t1ep17               P(supported)=0.92  verified               [t1h]  Adding the orientation term to the ep17 control raised SP-SR from 0 to 0.932.
+t3auc                P(supported)=0.96  verified               [t3sub]  The 10/18 Tier 3 submission scored an add_auc of 0.10649.
+focal                P(supported)=0.97  verified               [kfix]  The calibrated focal length is about 866 pixels, against a default of 830.
+ctl_true             P(supported)=0.98  control(true) ok       [lb]  The snapshot lists maniphys.ai on Tier 2.
+ctl_false1           P(supported)=0.01  control(false) ok      [t1n]  On Tier 1 ep9 the grasp-closure weight raised MPPE above 60 cm.
+ctl_false2           P(supported)=0.01  control(false) ok      [lb]  maniphys.ai is 1st on Tier 1 ADD-AUC.
+controls behaved as expected
