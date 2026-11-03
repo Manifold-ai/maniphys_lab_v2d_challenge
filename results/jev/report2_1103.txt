@@ -1,0 +1,16 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-03-report2.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 0501945fb362ad1124a1b458b59d4187  agent-doc/experiments/2026-11-03-report2.claims.json
+# source   : d21418328e33-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T15:07:55-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+ep17                 P(supported)=0.96  verified               [ep17]  On Tier 1 ep17 the base recipe had an object position error of 8.9 cm and an orientation error of 42.0 degrees, and adding the orientation term lowered the orientation error to 22.7 degrees and raised SP-SR from 0 to 0.932.
+seed                 P(supported)=0.93  verified               [seed]  On Tier 1, paired seeds of one recipe differed by up to about 0.35 in success rate.
+t1lost               P(supported)=0.98  verified               [t1lost]  Tier 1 has 7 lost episodes whose 4096-world MP-SR is 0 or near 0.
+t3lost               P(supported)=0.98  verified               [t3tab]  All nine listed Tier 3 episodes have add_auc at or below 0.25 and maniptrans_sr of 0.
+t2lost               P(supported)=0.85  verified               [t2tab]  All seven listed Tier 2 episodes have add_auc below 0.3 and maniptrans_sr of 0.
+ctl_true             P(supported)=0.95  control(true) ok       [t1lost]  The text describes lost Tier 1 episodes.
+ctl_false            P(supported)=0.01  control(false) ok      [t3tab]  All nine listed Tier 3 episodes have add_auc above 0.8.
+controls behaved as expected

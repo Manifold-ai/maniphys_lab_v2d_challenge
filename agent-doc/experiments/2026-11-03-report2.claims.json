@@ -1,0 +1,78 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "ep17": {
+   "file": "agent-doc/plan-t1hard-2026-10-31.md",
+   "grep": "基础配方没丢、只是朝向超线|位置在 SP 线内|compare_ep17_mac.txt.：SP-SR"
+  },
+  "seed": {
+   "file": "agent-doc/plan-r3o-2026-10-15.md",
+   "grep": "种子之间的差|ep29 的 0.151"
+  },
+  "t1lost": {
+   "file": "agent-doc/plan-r3o-2026-10-15.md",
+   "grep": "跟丢的 7 集"
+  },
+  "t3tab": {
+   "file": "results/t3auc1/table_4096_t3m1029a.txt",
+   "grep": "^ep\\trun|^(1|2|3|4|13|16|17|19|25)\\t"
+  },
+  "t2tab": {
+   "file": "results/t2auc2/table_4096_t2a1102.txt",
+   "grep": "^ep\\trun|^(28|25|4|11|1|9|17)\\t"
+  }
+ },
+ "claims": [
+  {
+   "id": "ep17",
+   "evidence": [
+    "ep17"
+   ],
+   "claim": "On Tier 1 ep17 the base recipe had an object position error of 8.9 cm and an orientation error of 42.0 degrees, and adding the orientation term lowered the orientation error to 22.7 degrees and raised SP-SR from 0 to 0.932."
+  },
+  {
+   "id": "seed",
+   "evidence": [
+    "seed"
+   ],
+   "claim": "On Tier 1, paired seeds of one recipe differed by up to about 0.35 in success rate."
+  },
+  {
+   "id": "t1lost",
+   "evidence": [
+    "t1lost"
+   ],
+   "claim": "Tier 1 has 7 lost episodes whose 4096-world MP-SR is 0 or near 0."
+  },
+  {
+   "id": "t3lost",
+   "evidence": [
+    "t3tab"
+   ],
+   "claim": "All nine listed Tier 3 episodes have add_auc at or below 0.25 and maniptrans_sr of 0."
+  },
+  {
+   "id": "t2lost",
+   "evidence": [
+    "t2tab"
+   ],
+   "claim": "All seven listed Tier 2 episodes have add_auc below 0.3 and maniptrans_sr of 0."
+  },
+  {
+   "id": "ctl_true",
+   "evidence": [
+    "t1lost"
+   ],
+   "control": "true",
+   "claim": "The text describes lost Tier 1 episodes."
+  },
+  {
+   "id": "ctl_false",
+   "evidence": [
+    "t3tab"
+   ],
+   "control": "false",
+   "claim": "All nine listed Tier 3 episodes have add_auc above 0.8."
+  }
+ ]
+}
