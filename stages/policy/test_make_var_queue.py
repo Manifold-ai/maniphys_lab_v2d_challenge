@@ -905,6 +905,26 @@ def test_t2auc2():
                     assert "V2D_OBJ_ORI_WEIGHT=1.0" in x and "/motion/tier2/" in x and "/motion/tier1" not in x, x
                     assert (cap in x) == (mach == "mf4090"), x
 
+def test_t2auc3():
+    """计划 agent-doc/plan-t2auc3-2026-11-02.md：t2l3、t2l3b 是第三台 l40n 上 Tier 2 ep18、6 与 ep15、8 的 r3o（1000 万）；
+    文件名与 run 名都带 l40n，行里带 Tier 2 参考与物体朝向项，不带 400 万 buffer，不出现 Tier 1 的参考。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t2l3": ["t2-ep18-w2048-cap10m-r3o-l40n", "t2-ep6-w2048-cap10m-r3o-l40n"],
+                "t2l3b": ["t2-ep15-w2048-cap10m-r3o-l40n", "t2-ep8-w2048-cap10m-r3o-l40n"]}
+        for part, runs in want.items():
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"l40n_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t2-", "smoke-t2-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    assert "V2D_OBJ_ORI_WEIGHT=1.0" in x and "/motion/tier2/" in x and "/motion/tier1" not in x, x
+                    assert "training.replay.capacity=4000000" not in x, x
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

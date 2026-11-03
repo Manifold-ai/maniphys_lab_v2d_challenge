@@ -36,7 +36,7 @@ def check_ckpt(j: dict, run: str, step: str, src) -> None:
 
 
 def eval_4096(run: str, step: str) -> dict:
-    for d in ("results/day2", "results/ml40/day2"):
+    for d in ("results/day2", "results/ml40/day2", "results/l40n/day2"):
         p = Path(d) / f"eval_{run}_s{step}.txt"
         if p.is_file():
             j = summary_of(p)
@@ -55,7 +55,7 @@ def base_export(exp: Path, ep: int, run: str, step: str) -> dict:
 
 
 def swap_export(run: str, step: str) -> dict:
-    hits = sorted(h for d in ("results/submission/exports", "results/ml40/submission/exports")
+    hits = sorted(h for d in ("results/submission/exports", "results/ml40/submission/exports", "results/l40n/submission/exports")
                   for h in glob.glob(f"{d}/cand_t2_*_{run}_s{step}.txt"))
     if len(hits) != 1:
         sys.exit(f"{run} 第 {step} 步的导出记录有 {len(hits)} 份：{hits}")

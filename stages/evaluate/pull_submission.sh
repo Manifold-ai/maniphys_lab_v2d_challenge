@@ -28,7 +28,7 @@ set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT"
 MODE=${1:?用法见文件头}
 fail() { echo "PULL_FAIL $*"; exit 1; }
-host_env() { case "$1" in mf4090) unset V2D_ENV ;; ml40) export V2D_ENV=ml40 ;; *) fail "机器只能是 mf4090 或 ml40：$1" ;; esac; . scripts/dev/_load-env; }
+host_env() { case "$1" in mf4090) unset V2D_ENV ;; ml40) export V2D_ENV=ml40 ;; l40n) export V2D_ENV=l40n ;; *) fail "机器只能是 mf4090、ml40 或 l40n：$1" ;; esac; . scripts/dev/_load-env; }
 lsha() { shasum -a 256 "$1" | cut -d' ' -f1; }
 mkdir -p runs/submission; TMP="$(mktemp -d runs/submission/.pull.XXXXXX)"; trap 'rm -rf "$TMP"' EXIT   # 临时目录放在 runs/ 下（不进 git），不用系统 /tmp
 n=0
@@ -140,7 +140,7 @@ case "$MODE" in
     [[ $DST =~ ^runs/[A-Za-z0-9_./-]+$ && $DST != *..* ]] || fail "目标目录要在 runs/ 下：$DST"
     [ -f "$SEL" ] && compgen -G "$TBL/*.tsv" > /dev/null || fail "缺选择清单 $SEL 或结果表目录 $TBL/*.tsv"
     total=$(awk -F'\t' 'NF >= 5' "$SEL" | wc -l | tr -d ' ')
-    for M in mf4090 ml40; do
+    for M in mf4090 ml40 l40n; do
       awk -F'\t' -v m="$M" 'NF >= 5 && $5 == m { print $1 "\t" $3 "\t" $4 }' "$SEL" > "$TMP/sel"
       [ -s "$TMP/sel" ] || continue
       : > "$TMP/rows"

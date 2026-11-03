@@ -353,6 +353,10 @@ SETS = {
              "episodes": [10, 0, 26, 21], "parts": {"t2o3": [10, 0], "t2o3b": [26, 21]}, "base": None,
              "run": "t2-ep{ep}-w2048-cap10m-r3o-ml40", "variant": "r3o",
              "desc": "Tier 2 AUC 榜：同 t2zo 的 4 集，r3o seed 42，ml40，buffer 1000 万（与清单里的 1000 万变体 A 只差物体朝向项），基线取 Tier 2 导出清单"},
+    "t2l3": {"plan": "agent-doc/plan-t2auc3-2026-11-02.md", "tier": 2, "machine": "l40n", "cap": None,
+             "episodes": [18, 6, 15, 8], "parts": {"t2l3": [18, 6], "t2l3b": [15, 8]}, "base": None,
+             "run": "t2-ep{ep}-w2048-cap10m-r3o-l40n", "variant": "r3o",
+             "desc": "Tier 2 AUC 榜：再换 4 集，r3o seed 42，第三台 l40n（L40），buffer 1000 万（配方同 t2o3），基线取 Tier 2 导出清单"},
 }
 VARIANT_P = ["objective.object_position_std=0.03" if v.startswith("objective.object_position_std=") else v for v in VARIANT]   # r3p：只改 σ
 R3O_ENV = "V2D_OBJ_ORI_WEIGHT=1.0 V2D_OBJ_ORI_STD=0.4"   # r3o 的物体朝向项（计划 agent-doc/plan-r3o-2026-10-15.md 2.1）

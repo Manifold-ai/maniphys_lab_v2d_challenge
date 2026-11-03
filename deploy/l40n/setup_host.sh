@@ -20,7 +20,7 @@ else
   echo "NEED_REBOOT 驱动装好了，模块现在载不上"
 fi
 
-apt-get install -y -qq docker.io || fail docker
+apt-get install -y -qq docker.io docker-buildx || fail docker   # buildx：Dockerfile 用 RUN --mount，要 BuildKit（11/03 第一次构建时缺它，补装）
 systemctl enable --now docker || fail docker-service
 usermod -aG docker ubuntu || fail docker-group
 echo "STEP_OK docker $(docker --version)"
