@@ -5,29 +5,33 @@
 #          加 TARS.sha256。目标目录已存在就停。最后一行 STAGE_OK <标签> 或 STAGE_FAIL <原因>。
 #   unpack （ml40 仓库根）：<下载目录>/runs/hf_src/<标签>/ 按 TARS.sha256 核对后解到 runs/ 下同样的相对位置；目标已存在就停（不覆盖）。
 #          最后一行 UNPACK_OK 或 UNPACK_FAIL <原因>。
+# 计划 agent-doc/plan-final-2026-11-03.md 第 1 节（ml40 的 t3qr3o2f）：V2D_GB4_SEQS="<序列> …" 换成别的序列；V2D_GB4_NO_ROOT=1 不打、不解 root.tar
+#   （ml40 上已有 runs/tier3/root_gb4，解包时目标已存在会停）。
 # 用法：bash tools/t3auc1_gb4_stage.sh stage <标签>；bash tools/t3auc1_gb4_stage.sh unpack <标签> <下载目录>
 set -uo pipefail
 MODE=${1:?用法：t3auc1_gb4_stage.sh stage|unpack <标签> [<下载目录>]}; TAG=${2:?标签}
 SEQS=(2026-06-04_14-16-23_tall_bar_stool_tip_up_04 2026-06-05_16-05-08_skateboard_rotate_ground_10 2026-05-06_10-00-19_blue_trash_can_drag_sideways_08)   # ep0、26、18（取自 mf4090_t3pg4.txt）
+[ -n "${V2D_GB4_SEQS:-}" ] && read -r -a SEQS <<< "$V2D_GB4_SEQS"
+ROOTP=tier3/root_gb4; TARS="motion msrc root"; [ "${V2D_GB4_NO_ROOT:-0}" = 1 ] && { ROOTP=""; TARS="motion msrc"; }
 fail() { echo "${MODE^^}_FAIL $*"; exit 1; }
 paths_motion() { for s in "${SEQS[@]}"; do echo "motion/tier3_gb4/whole_body/soma/sequence_id=$s"; echo "motion/tier3_gb4/whole_body/reconstructed_stage/${s}_support.usda"; done; }
 paths_msrc() { for s in "${SEQS[@]}"; do echo "motion_src/tier3_gb4/$s"; done; }
 case "$MODE" in
   stage)
     OUT="runs/hf_src/$TAG"; [ -e "$OUT" ] && fail "$OUT 已存在"
-    for p in $(paths_motion) $(paths_msrc) tier3/root_gb4; do [ -e "runs/$p" ] || fail "缺 runs/$p"; done
+    for p in $(paths_motion) $(paths_msrc) $ROOTP; do [ -e "runs/$p" ] || fail "缺 runs/$p"; done
     mkdir -p "$OUT" || fail mkdir
     tar -cf "$OUT/motion.tar" -C runs $(paths_motion) || fail motion
     tar -cf "$OUT/msrc.tar" -C runs $(paths_msrc) || fail msrc
-    tar -cf "$OUT/root.tar" -C runs tier3/root_gb4 || fail root
+    [ -z "$ROOTP" ] || tar -cf "$OUT/root.tar" -C runs tier3/root_gb4 || fail root
     ( cd "$OUT" && sha256sum *.tar > TARS.sha256 ) || fail sha
     ls -l "$OUT"; echo "STAGE_OK $TAG" ;;
   unpack)
     IN=${3:?下载目录}; D="$IN/runs/hf_src/$TAG"
     [ -f "$D/TARS.sha256" ] || fail "缺 $D/TARS.sha256"
     ( cd "$D" && sha256sum -c TARS.sha256 ) || fail sha256
-    for p in $(paths_motion) $(paths_msrc) tier3/root_gb4; do [ -e "runs/$p" ] && fail "runs/$p 已存在"; done
-    for t in motion msrc root; do tar -xf "$D/$t.tar" -C runs || fail "$t"; done
+    for p in $(paths_motion) $(paths_msrc) $ROOTP; do [ -e "runs/$p" ] && fail "runs/$p 已存在"; done
+    for t in $TARS; do tar -xf "$D/$t.tar" -C runs || fail "$t"; done
     du -sh runs/motion/tier3_gb4 runs/motion_src/tier3_gb4 runs/tier3/root_gb4; echo UNPACK_OK ;;
   *) fail "模式只能是 stage 或 unpack" ;;
 esac

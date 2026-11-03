@@ -64,7 +64,8 @@
 - 13:25 MST 挂接力（`V2D_AFTER_INDEPENDENT=1 V2D_AFTER_MAX_POLLS=1320`，每段的 `V2D_POST_SYNC_CMD` 跑 cfgcheck 与 precheck，记录在服务器 `results/final1/`）：
   mf4090 `t3pr3o2d`（带同步，等 `t3pr3o2c`）→ `t3pr3o2e` → `t3pr3o2f`；ml40 `t3qr3o2d`（带同步，等 `t3qr3o2c`）→ `t3qr3o2e`；l40n `t2l4`（带同步，等 `t2l3b`）→ `t2l4b` → `t2l4c`。第 2、3 段由 `relay_when_armed` 等前一条接力的 ARM_AFTER_ARMED。
   事故：mf4090 的 `t3pr3o2f` 第一次挂时，`relay_when_armed.sh` 把前一条接力（也是它自己）等待行里的 “ARM_AFTER_ARMED” 字样当成已起链，当场起了 `arm_after.sh t3pr3o2f`（还在等 e 段的日志，没起链）。停掉这个进程（我们自己的），日志改名 `.aborted_early`；改 `relay_when_armed.sh` 只认 arm_after 自己的结束行 “=== <时间> ARM_AFTER_ARMED”，加回归测试（Mac 与 mf4090 的 bash 5 都 ALL_OK，`results/final1/test_relay_when_armed_mac.txt`），提交 e 后的版本装成三台的 `runs/tools/relay_when_armed2.sh`（md5 6928cfe6934c），重挂 `t3pr3o2f`。正在跑的旧版本 relay（mf4090 `t3pr3o2e`）等的是 arm_after 的日志，不受这个问题影响，不动。
-- 待做：ml40 `t3qr3o2f`（第 1 节，先转 ep20、ep6 的 gb4 参考）。
+- 13:3x MST ml40 `t3qr3o2f`：`tools/t3auc1_gb4_stage.sh` 加 `V2D_GB4_SEQS`、`V2D_GB4_NO_ROOT`，在 mf4090 打包 ep20、ep6 的 gb4 参考（motion 59 MB、msrc 77 MB，不带 `root_gb4`），HF 中转库标签 `t3final_gb4_1103` HF_PUSH_OK 3，ml40 HF_PULL_OK 3，两个 tar sha256 OK，UNPACK_OK。`derive_r3o_rows.py --seg t3qr3o2f` 由 `mf4090_t3pg4` 加 `+10m` 派生 ep20、ep6（坏行 0；ep20 与对照一样带支撑面，没有 `scene.support=false`）。
+  提交后单独暂存到 ml40，`t3qr3o2f` 的接力用 `relay_when_armed2.sh` 等 `t3qr3o2e` 起链，再起带同步（新暂存目录）的 `arm_after.sh`；那时仓库副本已是 1ff201ef，同步不会撞上别的接力。
 
 ## 5. 独立复核（11/03 13:4x MST）
 
