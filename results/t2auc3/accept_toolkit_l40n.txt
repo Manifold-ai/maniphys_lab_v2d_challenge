@@ -1,0 +1,14 @@
+# command  : ssh l40n cd\ ~/v2d/maniphys_lab_v2d_challenge\ \&\&\ git\ -C\ third_party/video_to_data\ rev-parse\ HEAD\ \&\&\ echo\ \"porcelain_lines=\$\(git\ -C\ third_party/video_to_data\ status\ --porcelain\ --untracked-files=no\ \|\ wc\ -l\)\"\ \&\&\ python3\ stages/policy/fc_src_check.py\ \$HOME/v2d/fc_src/v040_p185_nfg_oo\ third_party/patches/flash_chord-p185-nfg-oo.sha256\ \|\ tail\ -1\ \&\&\ python3\ stages/policy/fc_src_check.py\ \$HOME/v2d/fc_src/v040_p185_nfg\ third_party/patches/flash_chord-p185-nfg.sha256\ \|\ tail\ -1\ \&\&\ nvidia-smi\ --query-gpu=name\,driver_version\ --format=csv\,noheader 
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : b9cb137b415db09c540953f7c744b384  third_party/patches/flash_chord-p185-nfg-oo.sha256
+# md5      : c337469ef59e2070e51e0f6797175441  stages/policy/fc_src_check.py
+# md5      : 04c5d1ec676f9d77d8c69a4bf28fc621  third_party/patches/flash_chord-p185-nfg.sha256
+# source   : b8d2e29263f4-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T01:01:42-0500
+# ---------------------------------------------------------------
+33129dd0f2d2dcfd1164d43fd076542660756ed2
+porcelain_lines=0
+FC_SRC_OK
+FC_SRC_OK
+NVIDIA L40, 580.178.04
