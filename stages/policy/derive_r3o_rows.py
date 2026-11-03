@@ -122,7 +122,7 @@ def main():
         srcs.append(f"{base}:{run}{' +10m' if ten else ''}")
     note = (f"# {a.seg}: r3o derived by stages/policy/derive_r3o_rows.py (plan agent-doc/plan-t3auc1-2026-11-03.md) from "
             + ", ".join(srcs) + "; only the two V2D_OBJ_ORI_ variables, -r3a- -> -r3o-, the formal W&B tag"
-            + (" and the 10M buffer" if any(s.endswith("+10m") for s in srcs) else "") + " differ.")
+            + (" and, for +10m rows, the 10M buffer and the machine name" if any(s.endswith("+10m") for s in srcs) else "") + " differ.")
     outs[".txt"].write_text(note + "\n" + "\n".join(formal) + "\n", encoding="utf-8")
     outs["_smoke.txt"].write_text(note + "\n" + "\n".join(smoke) + "\n", encoding="utf-8")
     outs[".expect.tsv"].write_text(header + "\n" + "\n".join(expect) + "\n", encoding="utf-8")
