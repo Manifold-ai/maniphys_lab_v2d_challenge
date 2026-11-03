@@ -925,6 +925,26 @@ def test_t2auc3():
                     assert "V2D_OBJ_ORI_WEIGHT=1.0" in x and "/motion/tier2/" in x and "/motion/tier1" not in x, x
                     assert "training.replay.capacity=4000000" not in x, x
 
+def test_final1():
+    """计划 agent-doc/plan-final-2026-11-03.md：t2l4、t2l4b、t2l4c 是 l40n 上 Tier 2 ep5、22，ep16、20，ep29、27 的 r3o（1000 万）；
+    规则同 test_t2auc3。"""
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        setup(root)
+        q = root / "stages" / "policy" / "queues"
+        want = {"t2l4": [5, 22], "t2l4b": [16, 20], "t2l4c": [29, 27]}
+        for part, eps in want.items():
+            runs = [f"t2-ep{e}-w2048-cap10m-r3o-l40n" for e in eps]
+            r = gen(root, part)
+            assert r.returncode == 0, r.stdout + r.stderr
+            for kind in ("", "_smoke"):
+                got = lines(q / f"l40n_{part}{kind}.txt")
+                names = [t for x in got for t in x.split() if t.startswith(("t2-", "smoke-t2-"))]
+                assert names == [("smoke-" if kind else "") + n for n in runs], names
+                for x in got:
+                    assert "V2D_OBJ_ORI_WEIGHT=1.0" in x and "/motion/tier2/" in x and "/motion/tier1" not in x, x
+                    assert "training.replay.capacity=4000000" not in x, x
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
