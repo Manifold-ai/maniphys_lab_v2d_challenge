@@ -1,0 +1,31 @@
+# command  : stages/evaluate/check_export.sh t2-ep0-w2048-cap4m-r3o-mf4090 349999104 1 
+# md5      : 99e58e42055c9f7c5c5413f5f5a0e8f0  stages/evaluate/check_export.sh
+# source   : e366f58caba3
+# host     : VM-1-2-ubuntu
+# run_at   : 2026-11-03T09:40:53+0800
+# ---------------------------------------------------------------
+== t2-ep0-w2048-cap4m-r3o-mf4090 第 349,999,104 步，1 世界：runs/flash_chord/t2-ep0-w2048-cap4m-r3o-mf4090/export_8c778f9/s349999104_w1
+  ok   恰好一份 episode_*.json（找到 1 份）
+  info policy sha256 44faf90b57c2ab32…；motion parquet /repo/runs/motion/tier2/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet（778 帧）
+  ok   JSON world_count 1 = 1
+  ok   JSON step_count 778 = motion 帧数 778
+  ok   JSON checkpoint_sha256 = policy 文件的 sha256
+  ok   JSON non_finite_worlds 为空（[]）
+  info add_auc 0.6278，chord_sr 0.0000，maniptrans_sr 1.0000，spider_sr_uncentered 1.0000，mppe_cm 2.4060，mean_per_point_error_cm 2.4060，relative_position_error_cm 0.0000
+  ok   有 episode_000000.parquet
+  ok   schema flash_chord_object_trajectories_v1
+  ok   单位 meter、四元数 xyzw
+  ok   元数据 world_count 1、object_body_count 1、start_frame 0
+  ok   元数据 step_count 778 = 778
+  ok   行数 778 = 778 × 1 世界 × 1 个刚体
+  ok   step 0..777 每步 1 行
+  ok   reference_frame = step（起始帧 0、连续）
+  ok   environment_valid 全真
+  ok   achieved / reference 位姿全有限
+  ok   元数据 checkpoint_sha256 = policy 文件的 sha256
+  ok   元数据 eval_code_sha256 b1b3ebe3ae4629d1… = 8c778f9 的 b1b3ebe3ae4629d1…
+  ok   元数据 eval_script_sha256 160d24f5fbeb70cc… = 8c778f9 的 160d24f5fbeb70cc…
+  ok   元数据 reference_parquet = JSON 的 parquet
+  info 元数据 episode_index （无，打包器按文件名 episode_000000.parquet）
+  info 评测器记下的参考位姿 vs motion parquet 的物体位姿：位置最大差 0.0000 mm，朝向最大差 0.0439°（只报，不作判据）
+EXPORT_OK
