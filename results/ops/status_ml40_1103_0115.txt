@@ -1,0 +1,27 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : b1f10d81908a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T01:15:04-0700
+# ---------------------------------------------------------------
+== ml40 2026-11-03 16:15:08 CST
+NVIDIA L40S, 17203 MiB, 46068 MiB, 73 %
+/dev/vdb        2.0T  1.1T  914G  55% /lab_data
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1hg_s43_ml40.log：=== 2026-11-02 17:57:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 20:19:37 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_ml40.log：=== 2026-11-02 22:46:53 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_s43_ml40.log：=== 2026-11-03 00:51:08 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2o3b_ml40.log：=== 2026-11-03 09:46:05 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/cand_t2_t2o3b_ml40_gate.log：=== 2026-11-03 14:31:07 CST 导出链结束，退出码 0
+runs/logs/cand_t2_t2o3b_ml40.log：=== 2026-11-03 14:31:07 CST EXPORT_CHAIN_DONE（成功 2、失败 0）
+runs/logs/t2-ep21-w2048-cap10m-r3o-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t2-ep21-w2048-cap10m-r3o-ml40/export_8c778f9/s349999104_w1/episode_000021.parquet
+runs/logs/t2-ep26-w2048-cap10m-r3o-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t2-ep26-w2048-cap10m-r3o-ml40/export_8c778f9/s349999104_w1/episode_000026.parquet
+runs/logs/t2o3b_eval_ml40.log：=== 2026-11-03 14:28:33 CST DAY2_EVAL_DONE（成功 2、失败 0）
+runs/logs/t2-ep21-w2048-cap10m-r3o-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t2-ep21-w2048-cap10m-r3o-ml40/eval_349999104_w4096.json
+runs/logs/t2-ep26-w2048-cap10m-r3o-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t2-ep26-w2048-cap10m-r3o-ml40/eval_349999104_w4096.json
+runs/logs/t2o3b_train_ml40.log：=== 2026-11-03 14:18:31 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）

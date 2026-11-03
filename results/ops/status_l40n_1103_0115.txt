@@ -1,0 +1,17 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : b1f10d81908a
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T01:15:09-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-03 16:15:10 CST
+NVIDIA L40, 0 MiB, 46068 MiB, 0 %
+/dev/vda2       197G  108G   81G  58% /
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/build_flash_chord_l40n.log：#15 12693.8  Downloaded tensorstore
+runs/logs/hf_pull_l40n_env2_1102.log：HF_PULL_OK 5
+runs/logs/hf_pull_l40n_env_1102.log：HF_PULL_OK 4
