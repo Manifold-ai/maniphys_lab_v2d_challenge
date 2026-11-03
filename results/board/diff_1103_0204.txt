@@ -1,0 +1,27 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1103_0114.txt results/board/lb_1103_0204.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 66bd1cd4d548f73faec693170085e8fd  results/board/lb_1103_0114.txt
+# md5      : 04032448021e3f670e1474ed14822d01  results/board/lb_1103_0204.txt
+# source   : b0b8807df2ab
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T02:04:23-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1103_0114.txt；这一份 results/board/lb_1103_0204.txt
+## 变了的榜
+tier2-auc：Chivatam 0.32825 → 0.43493（2026-11-03 08:43）
+tier2-sp-sr：Chivatam 0.40000 → 0.60000（2026-11-03 08:43）
+tier2-mp-sr：Chivatam 0.10000 → 0.13333（2026-11-03 08:43）
+tier2-mppe：Chivatam 29.26549 → 16.05874（2026-11-03 08:43）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 MBZUAI-RCL Group 0.92508，差 0.28973）；sp-sr 第 8（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 MBZUAI-RCL Group 0.96666，差 0.26666）；mppe 第 8（8.46753，第 1 名 MBZUAI-RCL Group 0.99347，差 7.47406）
+Tier 2：auc 第 5（0.51765，第 1 名 Izus_systems 0.63815，差 0.12050）；sp-sr 第 4（0.73333，第 1 名 Debajyoti Dasgupta 0.80000，差 0.06667）；mp-sr 第 5（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 8（15.32195，第 1 名 Izus_systems 6.66852，差 8.65343）
+Tier 3：auc 第 4（0.28173，第 1 名 Izus_systems 0.36158，差 0.07985）；sp-sr 第 1（0.46666，第 2 名 Izus_systems 0.46666，差 0.00000）；mp-sr 第 2（0.10000，第 1 名 Izus_systems 0.13333，差 0.03333）；mppe 第 4（36.60061，第 1 名 domoarigato 31.33930，差 5.26131）
+第一的榜（同分 kaggle）：1 → 1 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 71（第 5） → 71（第 5）；前 4：Izus_systems 25、nima arki 59、Debajyoti Dasgupta 62、Xueyi Wang (FF) 70
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 71（第 4） → 71（第 4，与 1 队同分）；前 4：Izus_systems 22、nima arki 58、Debajyoti Dasgupta 62、Xueyi Wang (FF) 71
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 17（第 5） → 17（第 5）；前 4：Izus_systems 4、Debajyoti Dasgupta 14、nima arki 14、Xueyi Wang (FF) 15
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 17（第 5） → 17（第 5）；前 4：Izus_systems 4、Debajyoti Dasgupta 14、nima arki 14、Xueyi Wang (FF) 15
+BOARD_CHANGED 4 个榜
+BOARD_DIFF_DONE

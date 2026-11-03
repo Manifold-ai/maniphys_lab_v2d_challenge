@@ -181,3 +181,7 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   策略：Tier 2 AUC 最近，`plan-t2auc2` 的 ep10、ep0 已过逐集判据与上传门槛（见该计划执行记录），按计划问 rxzhou；Tier 3 AUC 差 0.0054（30 集合计约 0.16），现在手上没有满足 Tier 3 判据、还没交的 run，两台都在跑 `t2auc2` 后两集，这一班不排新的 Tier 3 训练；新到的第三台 L40S 接通后先写计划再用。
 - 11/02 22:40 MST（`results/board/diff_1102_2240.txt`）：Tier 2 AUC 上是我们 20:32 MST 交的 t2a1102（0.51379 → 0.51765），仍第 5，差第 4 的 FF 0.00502；nima arki 重交 Tier 2（AUC 0.47084 → 0.47955，其余三个榜分数没变），仍在我们后面。12 个榜名次都没变，读法 B 71（Kaggle 第 5；官网第 4，与 1 队同分），读法 A 17（第 5）。
   策略不变：Tier 2 AUC 最近，mf4090、ml40 在训 `plan-t2auc2` 的 ep26、ep21（约 01:00 MST 出结果）；第三台 l40n 空着，`plan-t2auc3` 第 2 版已过复核，在做第 1 节的环境验收（镜像在构建、第二批文件在下载），验收全过才起链。
+- 11/03 01:14 MST（`results/board/diff_1103_0114.txt`）：Izus_systems 重交 Tier 2（AUC 0.62241 → 0.63815、MPPE 6.71 → 6.67 cm），原本就在我们前面；我们 12 个榜名次不变，读法 B 71、读法 A 17。
+  策略：Tier 3 AUC 差第 3 的 Debajyoti Dasgupta 0.0054，改为两台都跑 Tier 3（`plan-t3auc1`，复核 GO WITH FIXES，01:46 MST 起链）；Tier 2 的 ep26 满足换集条件但单独不到门槛，留给 `plan-t2auc3` 合并。
+- 11/03 02:04 MST（`results/board/diff_1103_0204.txt`）：Chivatam 重交 Tier 2，四项都变好（AUC 0.32825 → 0.43493、SP-SR 0.40 → 0.60、MP-SR 0.10 → 0.133、MPPE 29.27 → 16.06 cm），都还在我们后面（Tier 2 MPPE 我们 15.32 cm，差 0.74 cm）。12 个榜名次不变，读法 B 71（Kaggle 第 5；官网第 4，与 1 队同分），读法 A 17（第 5，两种同分规则相同）。
+  策略不变：mf4090、ml40 在训 `plan-t3auc1` 的 a 段（ep0、ep26 400 万；ep12、ep23 1000 万），各 5%、3%，约 07:00 MST 出第一批。l40n 的镜像改走代理重建（直连 PyPI 实测 37 KB/s、经代理 1.5 MB/s），在 `uv sync`；另一位成员 02:03 MST 起在 l40n 上跑重建任务（间歇占用约 11 GB 显存），我们不动她的进程，`t2l3` 起链后按 `V2D_GPU_WAIT_S` 等卡。Tier 2 MPPE 被 Chivatam 逼近到 0.74 cm，记下，现在没有针对它的 run。
