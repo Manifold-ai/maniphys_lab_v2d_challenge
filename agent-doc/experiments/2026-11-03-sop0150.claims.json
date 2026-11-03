@@ -1,0 +1,27 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d2023": {"file": "results/board/diff_1102_2023.txt", "grep": "tier3-auc|读法 B"},
+  "d0114": {"file": "results/board/diff_1103_0114.txt", "grep": "^Tier|读法|tier2-auc"},
+  "sb": {"file": "results/submission/submit_t2a1102_auc.txt", "grep": "COMPLETE|add_auc"},
+  "swap": {"file": "results/t2auc2/swap_ep26_vs_t2a1102.txt", "grep": "ep26|导出|4096"},
+  "e26": {"file": "results/ml40/day2/eval_t2-ep26-w2048-cap10m-r3o-ml40_s349999104.txt", "grep": "summary_json"},
+  "e21": {"file": "results/day2/eval_t2-ep21-w2048-cap4m-r3o-mf4090_s349999104.txt", "grep": "summary_json"},
+  "tab": {"file": "results/t3auc1/table_4096_t3m1029a.txt", "grep": "^(12|0|26|18|23|27|24|7|22)\\t"},
+  "plan": {"file": "agent-doc/plan-t3auc1-2026-11-03.md", "grep": "ARMED|HF_PULL_OK|17 GB|weight=1.0"}
+ },
+ "claims": [
+  {"id": "t3auc", "evidence": ["d2023"], "claim": "Debajyoti Dasgupta raised its Tier 3 AUC score from 0.27996 to 0.28710."},
+  {"id": "b0114", "evidence": ["d0114"], "claim": "At this snapshot the reading B total of maniphys.ai is 71 under the Kaggle tie rule, 5th, and reading A is 17, 5th."},
+  {"id": "t3rank", "evidence": ["d0114"], "claim": "maniphys.ai is 4th on Tier 3 AUC with 0.28173 and 1st on Tier 3 SP-SR with 0.46666."},
+  {"id": "sub", "evidence": ["sb"], "claim": "The add_auc submission of t2a1102 completed with the score 0.51765."},
+  {"id": "ep26", "evidence": ["e26"], "claim": "t2-ep26-w2048-cap10m-r3o-ml40 has an add_auc of about 0.715 and a maniptrans_sr of 1.0."},
+  {"id": "ep21", "evidence": ["e21"], "claim": "t2-ep21-w2048-cap4m-r3o-mf4090 has a maniptrans_sr of about 0.316."},
+  {"id": "swap", "evidence": ["swap"], "claim": "Swapping in ep26 raises the export-draw AUC mean from 0.52677 to 0.53468."},
+  {"id": "tab", "evidence": ["tab"], "claim": "In the t3m1029a table ep12 has add_auc 0.507 and ep0 has add_auc 0.528."},
+  {"id": "arm", "evidence": ["plan"], "claim": "The t3auc1 chains were armed at 01:46 MST and the orientation term line shows weight=1.0 std=0.4 in the smoke logs."},
+  {"id": "ctl_true", "evidence": ["sb"], "control": "true", "claim": "The t2a1102 submission is on the add_auc board."},
+  {"id": "ctl_false1", "evidence": ["d0114"], "control": "false", "claim": "At this snapshot maniphys.ai is 1st on Tier 2 AUC."},
+  {"id": "ctl_false2", "evidence": ["e26"], "control": "false", "claim": "t2-ep26-w2048-cap10m-r3o-ml40 has a maniptrans_sr below 0.5."}
+ ]
+}
