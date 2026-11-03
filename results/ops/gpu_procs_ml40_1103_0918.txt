@@ -1,0 +1,30 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 92787e30bb36
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T09:19:18-0700
+# ---------------------------------------------------------------
+== VM-0-16-<其他用户> 2026-11-04 00:19:19 CST
+NVIDIA L40S, 40239 MiB, 46068 MiB, 100 %
+3778379, 40230 MiB
+## GPU 进程 3778379：祖先链（自下而上：pid、归属、已运行、开始时间、命令行）
+  3778379 本用户 02:00:37 [Tue Nov  3 22:18:41 2026] python scripts/train_flash_sac.py experiment=g1_recon_body_flash_sac task.parquet='/repo/runs/motion/tier3_gb4/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet' scene.world_count=2048 training.total_environment_steps=349999104 output_dir=/repo/runs/flash_chord/t3-ep0-w2048-cap10m-r3o-gb4-ml40 reset.seed=42 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t3-ep0-w2048-cap10m-r3o-gb4-ml40 logging.run_name=t3-ep0-w2048-cap10m-r3o-gb4-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t3-ep0-w2048-cap10m-r3o-gb4-ml40/hydra/s1 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6
+  3778348 root 02:00:37 [Tue Nov  3 22:18:41 2026] /usr/bin/containerd-shim-runc-v2 -namespace moby -id 273716fbdba6aeeb58f8626dda4b4435520d35689615c92e413530b03ba0d660 -address /run/containerd/containerd.sock
+## 运行中的容器（只取镜像、命令、时间、工作目录与挂载）
+name /trusting_wozniak
+image v2d_cari4d:latest
+created 2026-11-03T15:30:34.560759265Z  started 2026-11-03T15:30:34.611300806Z
+entrypoint null
+cmd ["python","-c","\nimport runpy, sys, torch\ntorch.nn.Module.cuda = lambda self, *a, **k: self   # the probe calls .cuda(); run it on the CPU (deviation, see header)\ntorch.Tensor.cuda = lambda self, *a, **k: self\ntorch.set_num_threads(8)\nsys.path.insert(0, \"/s\"); sys.argv = [\"moge_ground_probe.py\", \"/t/input\", \"/t/runs/moge_ground\"]\nrunpy.run_path(\"/s/moge_ground_probe.py\", run_name=\"__main__\")"]
+workdir /workspace/v2d_cari4d/lib/cari4d
+mounts /lab_data/<其他用户>/v2d/tier3/code/stages/recovery/tier3 -> /s; /lab_data/<其他用户>/v2d/weights/cari4d -> /w; /lab_data/<其他用户>/v2d/seedance_t3/g1/input -> /t/input; /lab_data/<其他用户>/v2d/seedance_t3/g1/runs/moge_ground -> /t/runs/moge_ground; 
+name /fc-t3-ep0-w2048-cap10m-r3o-gb4-ml40
+image flash_chord:latest
+created 2026-11-03T14:18:42.486440058Z  started 2026-11-03T14:18:42.536547391Z
+entrypoint ["/bin/bash"]
+cmd ["-lc","bash /repo/stages/policy/fc_train.sh /repo/runs/motion/tier3_gb4/whole_body/soma/sequence_id=2026-06-04_14-16-23_tall_bar_stool_tip_up_04/robot_name=g1/data.parquet 2048 349999104 /repo/runs/flash_chord/t3-ep0-w2048-cap10m-r3o-gb4-ml40 logging.mode=online logging.entity=zhou-rongx-northeastern-university logging.project=v2d-track2 logging.experiment=t3-ep0-w2048-cap10m-r3o-gb4-ml40 logging.run_name=t3-ep0-w2048-cap10m-r3o-gb4-ml40-s1 logging.upload_checkpoints=false hydra.run.dir=/repo/runs/flash_chord/t3-ep0-w2048-cap10m-r3o-gb4-ml40/hydra/s1 scene.support=false objective.object_position_std=0.05 termination.object_orientation_threshold=0.6 "]
+workdir /workspace
+mounts /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge -> /repo; /home/rxzhou/.cache/flash_chord/warp -> /warp-cache; /lab_data/rxzhou/v2d/fc_src/v040_p185_nfg_oo -> /workspace; /home/rxzhou/.cache/flash_chord/oneoff/group -> /etc/group; /home/rxzhou/.cache/flash_chord/oneoff/passwd <略> /etc/passwd; /dev/null -> /repo/.env; /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/third_party/video_to_data/robotic_grounding/source/robotic_grounding/robotic_grounding/assets -> /v2d/assets; 
+## 运行中的容器（列表）
+6793323a2119 v2d_cari4d:latest 48 minutes ago Up 48 minutes trusting_wozniak
+273716fbdba6 flash_chord:latest 2 hours ago Up 2 hours fc-t3-ep0-w2048-cap10m-r3o-gb4-ml40
+## 其他用户在宿主机上的脚本类进程（pid、已运行、开始时间、命令行）

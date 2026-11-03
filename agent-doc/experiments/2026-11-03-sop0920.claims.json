@@ -1,0 +1,24 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d0740": {"file": "results/board/diff_1103_0740.txt", "grep": "domoarigato|ALERT tier"},
+  "d0919": {"file": "results/board/diff_1103_0919.txt", "grep": "Chivatam|读法|^Tier"},
+  "swap": {"file": "results/t3auc1/swap_a_vs_t3m1029a.txt", "grep": "ep0|ep23|ep26|变化|导出|4096"},
+  "e12": {"file": "results/ml40/day2/eval_t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40_s349999104.txt", "grep": "summary_json"},
+  "plan": {"file": "agent-doc/plan-t2auc3-2026-11-02.md", "grep": "ARM_WHEN_FREE_ARMED|ep18 正式|ep8 约"},
+  "st": {"file": "results/ops/status_l40n_1103_0918.txt", "grep": "progress|正式"}
+ },
+ "claims": [
+  {"id": "domo", "evidence": ["d0740"], "claim": "domoarigato raised its Tier 3 AUC from 0.18861 to 0.37004."},
+  {"id": "t2rank", "evidence": ["d0740"], "claim": "maniphys.ai fell from 5th to 6th on the Tier 2 AUC board under the Kaggle tie rule."},
+  {"id": "sum", "evidence": ["d0919"], "claim": "At this snapshot the reading B total of maniphys.ai is 77 under the Kaggle tie rule and reading A is 21."},
+  {"id": "chiv", "evidence": ["d0919"], "claim": "Chivatam entered the Tier 3 AUC board with 0.24862."},
+  {"id": "swap", "evidence": ["swap"], "claim": "Swapping in ep0, ep23 and ep26 raises the 4096-world AUC mean from 0.38618 to 0.40504."},
+  {"id": "ep26", "evidence": ["swap"], "claim": "The 4096-world ADD-AUC of ep26 goes from 0.579 to 0.812 with the r3o run."},
+  {"id": "ep12", "evidence": ["e12"], "claim": "t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40 has a maniptrans_sr of about 0.942."},
+  {"id": "l40n", "evidence": ["st"], "claim": "On l40n the run t2-ep6-w2048-cap10m-r3o-l40n is in formal training at about 73 percent."},
+  {"id": "ctl_true", "evidence": ["swap"], "control": "true", "claim": "The swap totals include the episode ep23."},
+  {"id": "ctl_false1", "evidence": ["d0919"], "control": "false", "claim": "At this snapshot maniphys.ai is 1st on Tier 3 AUC."},
+  {"id": "ctl_false2", "evidence": ["e12"], "control": "false", "claim": "t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40 has an add_auc below 0.5."}
+ ]
+}

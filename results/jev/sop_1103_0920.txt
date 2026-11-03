@@ -1,0 +1,20 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-03-sop0920.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : afcf648dde034d1533f0835190b057c2  agent-doc/experiments/2026-11-03-sop0920.claims.json
+# source   : 92787e30bb36-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T09:22:55-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+domo                 P(supported)=0.99  verified               [d0740]  domoarigato raised its Tier 3 AUC from 0.18861 to 0.37004.
+t2rank               P(supported)=0.98  verified               [d0740]  maniphys.ai fell from 5th to 6th on the Tier 2 AUC board under the Kaggle tie rule.
+sum                  P(supported)=0.45  UNVERIFIED             [d0919]  At this snapshot the reading B total of maniphys.ai is 77 under the Kaggle tie rule and reading A is 21.
+chiv                 P(supported)=0.99  verified               [d0919]  Chivatam entered the Tier 3 AUC board with 0.24862.
+swap                 P(supported)=0.99  verified               [swap]  Swapping in ep0, ep23 and ep26 raises the 4096-world AUC mean from 0.38618 to 0.40504.
+ep26                 P(supported)=0.99  verified               [swap]  The 4096-world ADD-AUC of ep26 goes from 0.579 to 0.812 with the r3o run.
+ep12                 P(supported)=0.99  verified               [e12]  t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40 has a maniptrans_sr of about 0.942.
+l40n                 P(supported)=0.97  verified               [st]  On l40n the run t2-ep6-w2048-cap10m-r3o-l40n is in formal training at about 73 percent.
+ctl_true             P(supported)=0.99  control(true) ok       [swap]  The swap totals include the episode ep23.
+ctl_false1           P(supported)=0.01  control(false) ok      [d0919]  At this snapshot maniphys.ai is 1st on Tier 3 AUC.
+ctl_false2           P(supported)=0.01  control(false) ok      [e12]  t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40 has an add_auc below 0.5.
+controls behaved as expected
