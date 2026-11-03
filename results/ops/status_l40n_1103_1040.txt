@@ -1,0 +1,27 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : f9b5bb265a31
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T10:42:01-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-04 01:42:05 CST
+NVIDIA L40, 40271 MiB, 46068 MiB, 100 %
+/dev/vda2       197G  155G   35G  82% /
+-- tmux
+v2d-t2l3b-eval: 1 windows (created Wed Nov  4 01:08:12 2026)
+v2d-t2l3b-export: 1 windows (created Wed Nov  4 01:08:14 2026)
+v2d-t2l3b-train: 1 windows (created Wed Nov  4 01:08:10 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2l3b_l40n-gate
+runs/.chain-active-t2l3b_eval_l40n
+runs/.chain-active-t2l3b_train_l40n
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t2l3b_l40n.log：=== 2026-11-04 01:08:17 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep15-w2048-cap10m-r3o-l40n.log：training progress: 59,500,544/349,999,104 environment steps (17.0%); 42,130 env steps/s; elapsed 00:23:32; ETA 01:54:55
+runs/logs/t2-ep15-w2048-cap10m-r3o-l40n.nanwatch.log：11-03 11:38:58 MDT 50,001,920 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2l3b_train_l40n.log：=== 2026-11-04 01:16:57 CST 正式 t2-ep15-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep8-w2048-cap10m-r3o-l40n.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep8-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep8-w2048-cap10m-r3o-l40n.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep8-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep15-w2048-cap10m-r3o-l40n.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep15-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep15-w2048-cap10m-r3o-l40n.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep15-w2048-cap10m-r3o-l40n
+runs/logs/cand_t2_t2l3b_l40n_gate.log：=== 2026-11-04 01:08:14 CST 等 runs/logs/t2l3b_eval_l40n.log 的最后一行变成评测链的结束行

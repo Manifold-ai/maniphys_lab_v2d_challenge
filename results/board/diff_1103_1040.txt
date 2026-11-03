@@ -1,0 +1,27 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1103_0919.txt results/board/lb_1103_1040.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : ecd20b4c15d42bf0d8ac0a5674ab627a  results/board/lb_1103_0919.txt
+# md5      : 79785eac322d4f3ae6d8e7da4201aad7  results/board/lb_1103_1040.txt
+# source   : f9b5bb265a31
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T10:41:35-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1103_0919.txt；这一份 results/board/lb_1103_1040.txt
+## 变了的榜
+tier1-auc：domoarigato 0.84853 → 0.85061（2026-11-03 17:12）；steven kerman 0.74053 → 0.76959（2026-11-03 16:24）
+tier1-sp-sr：domoarigato 重新提交，分数没变（1.00000，2026-11-03 17:12）；steven kerman 0.80000 → 0.86666（2026-11-03 16:25）
+tier1-mp-sr：domoarigato 重新提交，分数没变（0.93333，2026-11-03 17:12）；steven kerman 0.73333 → 0.80000（2026-11-03 16:25）
+tier1-mppe：domoarigato 1.54407 → 1.52555（2026-11-03 17:12）；steven kerman 9.94975 → 8.61931（2026-11-03 16:25）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 MBZUAI-RCL Group 0.92508，差 0.28973）；sp-sr 第 8（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 MBZUAI-RCL Group 0.96666，差 0.26666）；mppe 第 8（8.46753，第 1 名 MBZUAI-RCL Group 0.99347，差 7.47406）
+Tier 2：auc 第 6（0.51765，第 1 名 Izus_systems 0.64411，差 0.12646）；sp-sr 第 5（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 6（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 9（15.32195，第 1 名 Izus_systems 6.65765，差 8.66430）
+Tier 3：auc 第 5（0.28173，第 1 名 Izus_systems 0.37546，差 0.09373）；sp-sr 第 1（0.46666，第 2 名 domoarigato 0.46666，差 0.00000）；mp-sr 第 3（0.10000，第 1 名 domoarigato 0.16666，差 0.06666）；mppe 第 4（36.60061，第 1 名 domoarigato 25.19032，差 11.41029）
+第一的榜（同分 kaggle）：1 → 1 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 77（第 5） → 77（第 5）；前 4：Izus_systems 30、domoarigato 32、nima arki 67、Debajyoti Dasgupta 73
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 78（第 5） → 78（第 5）；前 4：Izus_systems 28、domoarigato 28、nima arki 67、Debajyoti Dasgupta 71
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 21（第 6） → 21（第 6）；前 4：Izus_systems 6、domoarigato 6、nima arki 17、Debajyoti Dasgupta 18
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 21（第 6） → 21（第 6）；前 4：Izus_systems 6、domoarigato 6、nima arki 17、Debajyoti Dasgupta 18
+BOARD_CHANGED 4 个榜
+BOARD_DIFF_DONE
