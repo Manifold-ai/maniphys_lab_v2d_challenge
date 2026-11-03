@@ -1,0 +1,23 @@
+{
+ "model": "jev-1.13.0",
+ "evidence": {
+  "d1340": {"file": "results/board/diff_1103_1340.txt", "grep": "steven kerman|读法|ALERT|^Tier"},
+  "swap": {"file": "results/t3auc1/swap_ab_vs_t3m1029a.txt", "grep": "ep18|ep24|ep26|ep0|变化|导出|4096"},
+  "e26": {"file": "results/ml40/day2/eval_t3-ep26-w2048-cap10m-r3o-gb4-ml40_s349999104.txt", "grep": "summary_json|non_finite"},
+  "e0": {"file": "results/ml40/day2/eval_t3-ep0-w2048-cap10m-r3o-gb4-ml40_s349999104.txt", "grep": "summary_json"},
+  "plan": {"file": "agent-doc/plan-final-2026-11-03.md", "grep": "22:00 UTC|t3final_gb4_1103|ep5、ep22|ep15、ep5|ep20、ep6"},
+  "yield": {"file": "agent-doc/plan-t3auc1-2026-11-03.md", "grep": "E1_DONE|11:58 MST|YIELD_REARMED"}
+ },
+ "claims": [
+  {"id": "sk", "evidence": ["d1340"], "claim": "steven kerman raised Tier 1 SP-SR from 0.86666 to 0.90000 and Tier 1 MPPE from 8.61931 to 7.74659."},
+  {"id": "rank", "evidence": ["d1340"], "claim": "Under the Kaggle tie rule the reading B total of maniphys.ai went from 77 to 79 and reading A went from 21 to 22."},
+  {"id": "swap", "evidence": ["swap"], "claim": "With the five swaps the exported-draw AUC mean rises by about 0.045 and the 4096-world AUC mean by about 0.030."},
+  {"id": "ep26", "evidence": ["e26"], "claim": "t3-ep26-w2048-cap10m-r3o-gb4-ml40 has maniptrans_sr 0.0 and spider_sr_uncentered 0.0."},
+  {"id": "ep0", "evidence": ["e0"], "claim": "t3-ep0-w2048-cap10m-r3o-gb4-ml40 has an add_auc of about 0.795."},
+  {"id": "plan", "evidence": ["plan"], "claim": "The final plan queues Tier 2 ep5 and ep22 on l40n and Tier 3 ep15 and ep5 on ml40, and the Kaggle deadline is 22:00 UTC."},
+  {"id": "yield", "evidence": ["yield"], "claim": "The other member's E1 run wrote E1_DONE and the third ml40 segment was re-armed afterwards."},
+  {"id": "ctl_true", "evidence": ["e0"], "control": "true", "claim": "The ep0 10M run record has a summary_json line."},
+  {"id": "ctl_false1", "evidence": ["d1340"], "control": "false", "claim": "maniphys.ai is 1st on the Tier 2 AUC board."},
+  {"id": "ctl_false2", "evidence": ["e26"], "control": "false", "claim": "t3-ep26-w2048-cap10m-r3o-gb4-ml40 has a maniptrans_sr above 0.9."}
+ ]
+}

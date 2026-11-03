@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-03-sop1400.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : fd563327b87672d0930090bbc941bd87  agent-doc/experiments/2026-11-03-sop1400.claims.json
+# source   : 066be6336cf4-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T14:04:43-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+sk                   P(supported)=0.90  verified               [d1340]  steven kerman raised Tier 1 SP-SR from 0.86666 to 0.90000 and Tier 1 MPPE from 8.61931 to 7.74659.
+rank                 P(supported)=0.98  verified               [d1340]  Under the Kaggle tie rule the reading B total of maniphys.ai went from 77 to 79 and reading A went from 21 to 22.
+swap                 P(supported)=0.96  verified               [swap]  With the five swaps the exported-draw AUC mean rises by about 0.045 and the 4096-world AUC mean by about 0.030.
+ep26                 P(supported)=0.99  verified               [e26]  t3-ep26-w2048-cap10m-r3o-gb4-ml40 has maniptrans_sr 0.0 and spider_sr_uncentered 0.0.
+ep0                  P(supported)=0.99  verified               [e0]  t3-ep0-w2048-cap10m-r3o-gb4-ml40 has an add_auc of about 0.795.
+plan                 P(supported)=0.94  verified               [plan]  The final plan queues Tier 2 ep5 and ep22 on l40n and Tier 3 ep15 and ep5 on ml40, and the Kaggle deadline is 22:00 UTC.
+yield                P(supported)=0.91  verified               [yield]  The other member's E1 run wrote E1_DONE and the third ml40 segment was re-armed afterwards.
+ctl_true             P(supported)=0.98  control(true) ok       [e0]  The ep0 10M run record has a summary_json line.
+ctl_false1           P(supported)=0.01  control(false) ok      [d1340]  maniphys.ai is 1st on the Tier 2 AUC board.
+ctl_false2           P(supported)=0.01  control(false) ok      [e26]  t3-ep26-w2048-cap10m-r3o-gb4-ml40 has a maniptrans_sr above 0.9.
+controls behaved as expected
