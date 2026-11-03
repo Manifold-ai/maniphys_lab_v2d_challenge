@@ -1,0 +1,9 @@
+# command  : python3 stages/policy/test_derive_r3o_rows.py 
+# md5      : 32574821f57402fbae3a223eb1cdc773  stages/policy/test_derive_r3o_rows.py
+# source   : b43cf52c3043-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T01:22:16-0700
+# ---------------------------------------------------------------
+POS_OK
+NEG_OK
+ALL_OK
