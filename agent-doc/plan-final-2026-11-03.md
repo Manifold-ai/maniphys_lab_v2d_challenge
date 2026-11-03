@@ -60,7 +60,11 @@
 
 ## 4. 执行记录
 
-（待写）
+- 11/03 13:2x MST：派生八段队列（Tier 3 五段 `derive_r3o_rows.py` DERIVE_R3O_OK，`r3o_lines.awk` 坏行 0；Tier 2 三段 `make_var_queue.py t2l4|t2l4b|t2l4c`，`test_make_var_queue.py` ALL_OK，`results/t2auc3/test_make_var_queue_final1_mac.txt`）。三台上八段的参考 parquet 都在（15 份 OK）。提交 1ff201ef，`scripts/dev/stage-remote` 暂存到三台的 `runs/stage/1ff201ef1a6d`。
+- 13:25 MST 挂接力（`V2D_AFTER_INDEPENDENT=1 V2D_AFTER_MAX_POLLS=1320`，每段的 `V2D_POST_SYNC_CMD` 跑 cfgcheck 与 precheck，记录在服务器 `results/final1/`）：
+  mf4090 `t3pr3o2d`（带同步，等 `t3pr3o2c`）→ `t3pr3o2e` → `t3pr3o2f`；ml40 `t3qr3o2d`（带同步，等 `t3qr3o2c`）→ `t3qr3o2e`；l40n `t2l4`（带同步，等 `t2l3b`）→ `t2l4b` → `t2l4c`。第 2、3 段由 `relay_when_armed` 等前一条接力的 ARM_AFTER_ARMED。
+  事故：mf4090 的 `t3pr3o2f` 第一次挂时，`relay_when_armed.sh` 把前一条接力（也是它自己）等待行里的 “ARM_AFTER_ARMED” 字样当成已起链，当场起了 `arm_after.sh t3pr3o2f`（还在等 e 段的日志，没起链）。停掉这个进程（我们自己的），日志改名 `.aborted_early`；改 `relay_when_armed.sh` 只认 arm_after 自己的结束行 “=== <时间> ARM_AFTER_ARMED”，加回归测试（Mac 与 mf4090 的 bash 5 都 ALL_OK，`results/final1/test_relay_when_armed_mac.txt`），提交 e 后的版本装成三台的 `runs/tools/relay_when_armed2.sh`（md5 6928cfe6934c），重挂 `t3pr3o2f`。正在跑的旧版本 relay（mf4090 `t3pr3o2e`）等的是 arm_after 的日志，不受这个问题影响，不动。
+- 待做：ml40 `t3qr3o2f`（第 1 节，先转 ep20、ep6 的 gb4 参考）。
 
 ## 5. 独立复核（11/03 13:4x MST）
 
