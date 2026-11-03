@@ -1,0 +1,22 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : 18119ec048b8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T04:40:21-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-03 19:40:25 CST
+NVIDIA L40, 9023 MiB, 46068 MiB, 100 %
+/dev/vda2       197G  153G   37G  81% /
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+-- 最近改动的 8 份链日志
+runs/logs/arm_when_free_t2l3_l40n.log：=== 2026-11-03 19:36:55 CST GPU 上又有计算进程，从头计数
+runs/logs/t2-ep8-w2048-cap10m-r3o-l40n.log：
+runs/logs/t2-ep15-w2048-cap10m-r3o-l40n.log：
+runs/logs/smoke-t2-ep8-w2048-cap10m-r3o-l40n.log：
+runs/logs/smoke-t2-ep15-w2048-cap10m-r3o-l40n.log：
+runs/logs/t2-ep6-w2048-cap10m-r3o-l40n.log：
+runs/logs/t2-ep18-w2048-cap10m-r3o-l40n.log：
+runs/logs/smoke-t2-ep6-w2048-cap10m-r3o-l40n.log：

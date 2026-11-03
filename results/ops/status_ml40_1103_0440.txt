@@ -1,0 +1,32 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 18119ec048b8
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T04:40:20-0700
+# ---------------------------------------------------------------
+== ml40 2026-11-03 19:40:21 CST
+NVIDIA L40S, 40305 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  910G  55% /lab_data
+-- tmux
+v2d-t3qr3o2-eval: 1 windows (created Tue Nov  3 16:46:51 2026)
+v2d-t3qr3o2-export: 1 windows (created Tue Nov  3 16:46:53 2026)
+v2d-t3qr3o2-train: 1 windows (created Tue Nov  3 16:46:49 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qr3o2_ml40-gate
+runs/.chain-active-t3qr3o2_eval_ml40
+runs/.chain-active-t3qr3o2_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t1hr_s43_ml40.log：=== 2026-11-02 20:19:37 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_ml40.log：=== 2026-11-02 22:46:53 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t1hg2_s43_ml40.log：=== 2026-11-03 00:51:08 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2o3b_ml40.log：=== 2026-11-03 09:46:05 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2b_ml40.log：=== 2026-11-03 16:53:45 CST 来历与 t3qr3o2b 的队列：f5c2b31b5ac9 10369bad315ab245cea0267550a4ad39  stages/policy/queues/ml40_t3qr3o2b.expect.tsv 568a44b0d7096e48823b7e90a74afd68  stages/policy/
+runs/logs/arm_after_t3qr3o2c_ml40.log：=== 2026-11-03 16:53:46 CST 来历与 t3qr3o2c 的队列：f5c2b31b5ac9 8786922f3afd57b9459a240fedf7c59a  stages/policy/queues/ml40_t3qr3o2c.expect.tsv bf7cd4c837b4f92b05f0bafeb5f02a8f  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep23-w2048-cap10m-r3o-gb5-ml40.log：training progress: 17,500,160/349,999,104 environment steps (5.0%); 41,673 env steps/s; elapsed 00:07:00; ETA 02:12:59
+runs/logs/t3-ep23-w2048-cap10m-r3o-gb5-ml40.nanwatch.log：11-03 05:36:31 MDT 10,000,384 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qr3o2_train_ml40.log：=== 2026-11-03 19:30:31 CST 正式 t3-ep23-w2048-cap10m-r3o-gb5-ml40
+runs/logs/t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40
+runs/logs/t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40
+runs/logs/t3-ep12-w2048-cap10m-r3o-gb5b2n12hdyn7-ml40.nanwatch.log：11-03 05:27:53 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep23-w2048-cap10m-r3o-gb5-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep23-w2048-cap10m-r3o-gb5-ml40
+runs/logs/smoke-t3-ep23-w2048-cap10m-r3o-gb5-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep23-w2048-cap10m-r3o-gb5-ml40

@@ -185,3 +185,5 @@ Person rule (user, 10/10 21:05 MDT, "sop内容上我是rxzhou 另外一个人是
   策略：Tier 3 AUC 差第 3 的 Debajyoti Dasgupta 0.0054，改为两台都跑 Tier 3（`plan-t3auc1`，复核 GO WITH FIXES，01:46 MST 起链）；Tier 2 的 ep26 满足换集条件但单独不到门槛，留给 `plan-t2auc3` 合并。
 - 11/03 02:04 MST（`results/board/diff_1103_0204.txt`）：Chivatam 重交 Tier 2，四项都变好（AUC 0.32825 → 0.43493、SP-SR 0.40 → 0.60、MP-SR 0.10 → 0.133、MPPE 29.27 → 16.06 cm），都还在我们后面（Tier 2 MPPE 我们 15.32 cm，差 0.74 cm）。12 个榜名次不变，读法 B 71（Kaggle 第 5；官网第 4，与 1 队同分），读法 A 17（第 5，两种同分规则相同）。
   策略不变：mf4090、ml40 在训 `plan-t3auc1` 的 a 段（ep0、ep26 400 万；ep12、ep23 1000 万），各 5%、3%，约 07:00 MST 出第一批。l40n 的镜像改走代理重建（直连 PyPI 实测 37 KB/s、经代理 1.5 MB/s），在 `uv sync`；另一位成员 02:03 MST 起在 l40n 上跑重建任务（间歇占用约 11 GB 显存），我们不动她的进程，`t2l3` 起链后按 `V2D_GPU_WAIT_S` 等卡。Tier 2 MPPE 被 Chivatam 逼近到 0.74 cm，记下，现在没有针对它的 run。
+- 11/03 04:40 MST（`results/board/diff_1103_0440.txt`）：Debajyoti Dasgupta 三档 12 个榜全部原分重交，提交时间变晚；没有和它同分的我们的榜，12 个榜名次不变，读法 B 71（Kaggle 第 5；官网第 4，与 1 队同分），读法 A 17（第 5）。
+  策略不变：t3auc1 a 段比预计快，mf4090 的 ep0、ml40 的 ep12 已训完在评测，ep26 约 06:20 MST、ep23 约 06:55 MST 训完；l40n 的 GPU 仍被另一位成员的任务连续占用，`t2l3` 的等卡脚本一直在从头计数，没起链。mf4090 根盘剩 15 GB，暂存的两份 HF 转运包（约 4.3 GB）留作余量，空间不够时按备份规则删。
