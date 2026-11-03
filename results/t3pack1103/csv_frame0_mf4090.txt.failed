@@ -1,0 +1,21 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python stages/evaluate/csv_frame0_check.py runs/submission/csv/track2_tier3_t3m1029a.csv runs/submission/csv/track2_tier3_t3m1103a.csv runs/submission/t3m1103/frefs_new_aa_mf4090/ALIGN.json --tier1 data/challenge/track_2/tier_1_multiview_caption --episodes 7\,18\,22\,24\,26 
+# md5      : 510b8d4b9afa0e5cdb4b205c89692391  stages/evaluate/csv_frame0_check.py
+# md5      : 95fec7ccfb4e40afd9f4cfed1701c8f0  runs/submission/csv/track2_tier3_t3m1029a.csv
+# md5      : c39c644c69d57802e32b0754f7875555  runs/submission/csv/track2_tier3_t3m1103a.csv
+# md5      : a6734654e484bb1adc14dc52f3cd160e  runs/submission/t3m1103/frefs_new_aa_mf4090/ALIGN.json
+# source   : 3dad5bde5d24
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T16:30:35-0700
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep7 episode_000007.parquet sha256 6232ec336f31fa42 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep18 episode_000018.parquet sha256 913ec5f8f80bbd94 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep22 episode_000022.parquet sha256 e25cc44536d8d9b9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep24 episode_000024.parquet sha256 ee42ecc73402d67d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep26 episode_000026.parquet sha256 38750aa5a90389b1 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	旧位置差cm	新位置差cm	旧朝向差°	新朝向差°	结论
+7	obj	0.06	0.14	0.3	0.2	不过
+18	obj	0.08	0.08	0.1	0.1	不过
+22	obj	0.14	0.14	0.3	0.3	过
+24	obj	0.05	0.05	0.3	0.3	不过
+26	obj	0.03	0.03	0.2	0.2	不过
+CSV_FRAME0_FAIL 4 集不过

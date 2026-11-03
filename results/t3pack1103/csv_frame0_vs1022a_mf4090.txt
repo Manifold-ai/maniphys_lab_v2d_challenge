@@ -1,0 +1,21 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python stages/evaluate/csv_frame0_check.py runs/submission/csv/track2_tier3_t3m1022a.csv runs/submission/csv/track2_tier3_t3m1103a.csv runs/submission/t3m1103/frefs_new_aa_mf4090/ALIGN.json --tier1 data/challenge/track_2/tier_1_multiview_caption --episodes 7\,18\,22\,24\,26 
+# md5      : 510b8d4b9afa0e5cdb4b205c89692391  stages/evaluate/csv_frame0_check.py
+# md5      : 6d3b6977c1d81ed48fde1772b6b9addb  runs/submission/csv/track2_tier3_t3m1022a.csv
+# md5      : c39c644c69d57802e32b0754f7875555  runs/submission/csv/track2_tier3_t3m1103a.csv
+# md5      : a6734654e484bb1adc14dc52f3cd160e  runs/submission/t3m1103/frefs_new_aa_mf4090/ALIGN.json
+# source   : 3dad5bde5d24
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T16:30:46-0700
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep7 episode_000007.parquet sha256 6232ec336f31fa42 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep18 episode_000018.parquet sha256 913ec5f8f80bbd94 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep22 episode_000022.parquet sha256 e25cc44536d8d9b9 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep24 episode_000024.parquet sha256 ee42ecc73402d67d 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep26 episode_000026.parquet sha256 38750aa5a90389b1 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	旧位置差cm	新位置差cm	旧朝向差°	新朝向差°	结论
+7	obj	9.80	0.14	2.0	0.2	过
+18	obj	3.95	0.08	1.4	0.1	过
+22	obj	4.07	0.14	1.1	0.3	过
+24	obj	3.67	0.05	4.0	0.3	过
+26	obj	3.19	0.03	0.8	0.2	过
+CSV_FRAME0_OK
