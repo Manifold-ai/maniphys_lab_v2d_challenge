@@ -1,0 +1,27 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : 333afbbce78e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T07:40:47-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-03 22:40:51 CST
+NVIDIA L40, 40307 MiB, 46068 MiB, 100 %
+/dev/vda2       197G  154G   36G  82% /
+-- tmux
+v2d-t2l3-eval: 1 windows (created Tue Nov  3 20:03:01 2026)
+v2d-t2l3-export: 1 windows (created Tue Nov  3 20:03:03 2026)
+v2d-t2l3-train: 1 windows (created Tue Nov  3 20:02:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2l3_l40n-gate
+runs/.chain-active-t2l3_eval_l40n
+runs/.chain-active-t2l3_train_l40n
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t2l3b_l40n.log：=== 2026-11-03 20:03:06 CST 来历与 t2l3b 的队列：18119ec048b8 8671083e2b019fb0ad51fb48dfe18baf  stages/policy/queues/l40n_t2l3b.expect.tsv d1b72f95d3ed1c7c7caf93c3883b7783  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep6-w2048-cap10m-r3o-l40n.log：training progress: 7,000,064/349,999,104 environment steps (2.0%); 41,441 env steps/s; elapsed 00:02:49; ETA 02:17:57
+runs/logs/t2-ep6-w2048-cap10m-r3o-l40n.nanwatch.log：11-03 08:38:07 MDT 报警信号：.wandb 里 NaN 字样 0 处（只报不停）
+runs/logs/t2l3_train_l40n.log：=== 2026-11-03 22:36:07 CST 正式 t2-ep6-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep18-w2048-cap10m-r3o-l40n.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep18-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep18-w2048-cap10m-r3o-l40n.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep18-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep18-w2048-cap10m-r3o-l40n.nanwatch.log：11-03 08:32:20 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t2-ep6-w2048-cap10m-r3o-l40n.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep6-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep6-w2048-cap10m-r3o-l40n.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep6-w2048-cap10m-r3o-l40n
