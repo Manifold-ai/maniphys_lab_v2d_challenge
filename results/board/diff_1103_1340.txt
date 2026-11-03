@@ -1,0 +1,40 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1103_1040.txt results/board/lb_1103_1340.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 79785eac322d4f3ae6d8e7da4201aad7  results/board/lb_1103_1040.txt
+# md5      : e35b3620eabb1948d6e52b1b862312aa  results/board/lb_1103_1340.txt
+# source   : 91463168d982
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T13:40:21-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1103_1040.txt；这一份 results/board/lb_1103_1340.txt
+## 变了的榜
+tier1-auc：Luai Abuelsamen 0.54808 → 0.60459（2026-11-03 20:26）；nima arki 0.80090 → 0.85372（2026-11-03 19:57）；steven kerman 0.76959 → 0.77795（2026-11-03 19:19）
+tier1-sp-sr：Luai Abuelsamen 0.70000 → 0.73333（2026-11-03 20:26）；nima arki 重新提交，分数没变（0.90000，2026-11-03 19:57）；steven kerman 0.86666 → 0.90000（2026-11-03 19:19）
+tier1-mp-sr：Luai Abuelsamen 0.50000 → 0.63333（2026-11-03 20:26）；nima arki 0.83333 → 0.90000（2026-11-03 19:57）；steven kerman 0.80000 → 0.83333（2026-11-03 19:19）
+tier1-mppe：Luai Abuelsamen 12.06020 → 11.72123（2026-11-03 20:26）；nima arki 5.67596 → 5.28689（2026-11-03 19:58）；steven kerman 8.61931 → 7.74659（2026-11-03 19:19）
+tier2-auc：Team OPS 0.42489 → 0.42601（2026-11-03 19:14）；nima arki 重新提交，分数没变（0.47955，2026-11-03 20:02）
+tier2-sp-sr：Team OPS 重新提交，分数没变（0.53333，2026-11-03 19:16）；nima arki 重新提交，分数没变（0.73333，2026-11-03 20:02）
+tier2-mp-sr：Team OPS 重新提交，分数没变（0.16666，2026-11-03 19:19）；nima arki 0.40000 → 0.50000（2026-11-03 20:02）
+tier2-mppe：Team OPS 13.23059 → 13.22444（2026-11-03 19:21）；nima arki 重新提交，分数没变（10.84276，2026-11-03 20:02）
+tier3-auc：Team OPS 0.12867 → 0.14149（2026-11-03 17:57）
+tier3-sp-sr：Team OPS 重新提交，分数没变（0.16666，2026-11-03 18:00）
+tier3-mp-sr：Team OPS 重新提交，分数没变（0.00000，2026-11-03 18:05）
+tier3-mppe：Team OPS 51.05933 → 48.46552（2026-11-03 18:08）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 MBZUAI-RCL Group 0.92508，差 0.28973）；sp-sr 第 9（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 MBZUAI-RCL Group 0.96666，差 0.26666）；mppe 第 9（8.46753，第 1 名 MBZUAI-RCL Group 0.99347，差 7.47406）
+Tier 2：auc 第 6（0.51765，第 1 名 Izus_systems 0.64411，差 0.12646）；sp-sr 第 5（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 6（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 9（15.32195，第 1 名 Izus_systems 6.65765，差 8.66430）
+Tier 3：auc 第 5（0.28173，第 1 名 Izus_systems 0.37546，差 0.09373）；sp-sr 第 1（0.46666，第 2 名 domoarigato 0.46666，差 0.00000）；mp-sr 第 3（0.10000，第 1 名 domoarigato 0.16666，差 0.06666）；mppe 第 4（36.60061，第 1 名 domoarigato 25.19032，差 11.41029）
+第一的榜（同分 kaggle）：1 → 1 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 77（第 5） → 79（第 6）；前 4：Izus_systems 31、domoarigato 33、nima arki 62、Debajyoti Dasgupta 73
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 78（第 5） → 80（第 5）；前 4：Izus_systems 29、domoarigato 29、nima arki 60、Debajyoti Dasgupta 72
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 21（第 6） → 22（第 6）；前 4：Izus_systems 6、domoarigato 6、nima arki 15、Debajyoti Dasgupta 18
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 21（第 6） → 22（第 6）；前 4：Izus_systems 6、domoarigato 6、nima arki 15、Debajyoti Dasgupta 18
+ALERT tier1-sp-sr 名次 8 → 9（同分 kaggle）
+ALERT tier1-mppe 名次 8 → 9（同分 kaggle）
+ALERT tier1-sp-sr 名次 7 → 8（同分 site）
+ALERT tier1-mppe 名次 8 → 9（同分 site）
+ALERT 读法 B（12 个榜名次相加）（同分 kaggle）总名次 5 → 6
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE
