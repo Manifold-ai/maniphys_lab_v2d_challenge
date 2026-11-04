@@ -1,0 +1,24 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-04-sop0900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 1d420d860e1018c33fa02aedc35c372f  agent-doc/experiments/2026-11-04-sop0900.claims.json
+# source   : 1c53d02f4435-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T09:04:32-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+rankB                P(supported)=0.92  verified               [d0901]  At 09:01 under reading B maniphys.ai has 86 (7th) under the Kaggle tie rule and 87 (6th) under the site rule, unchanged.
+rankA                P(supported)=0.98  verified               [d0901]  Under reading A maniphys.ai has 24 and is 5th, tied with one team.
+domo                 P(supported)=0.98  verified               [d0740]  domoarigato improved Tier 3 AUC from 0.37004 to 0.40938 and Tier 2 MPPE from 12.52789 to 9.40708.
+ep29                 P(supported)=0.98  verified               [swqe]  On 4096 worlds ep29 goes from ADD-AUC 0.377 to 0.644 and MP-SR from 0 to 0.456.
+ep14                 P(supported)=0.98  verified               [swqe]  On 4096 worlds ep14 SP-SR drops from 0.844 to 0.745 and MPPE rises from 9.02 to 10.99 cm.
+cum7                 P(supported)=0.98  verified               [cum7]  The seven swaps over t3m1103a raise the exported AUC average by about 0.031 and the 4096-world AUC average by about 0.031.
+packc                P(supported)=0.99  verified               [packc]  The t3m1104c CSV has 22989 rows.
+dryc                 P(supported)=0.97  verified               [dryc]  The t3m1104c dry run for add_auc on Tier 3 ran and nothing was submitted.
+dyn7                 P(supported)=0.93  verified               [plan]  The dyn7 parquets built for ep11 and ep17 are byte-identical to the other member's dyn7 output.
+ep17                 P(supported)=0.98  verified               [plan]  Formal training of ep17 on mf4090 started at 08:50 MST with export expected at about 11:05.
+mf90                 P(supported)=0.95  verified               [st90]  mf4090 has about 11 GB of free disk and its GPU is in use.
+ml40                 P(supported)=0.89  verified               [st40]  On ml40 the t3qr3o2f chain is still active.
+ctl_true             P(supported)=0.98  verified               [packc]  The pack record names a CSV file for t3m1104c.
+ctl_false1           P(supported)=0.01  UNVERIFIED             [d0901]  maniphys.ai is 1st on the Tier 3 AUC board at 09:01.
+ctl_false2           P(supported)=0.10  UNVERIFIED             [swqe]  ep10 reaches an MP-SR above 0.9 on 4096 worlds.
+controls behaved as expected

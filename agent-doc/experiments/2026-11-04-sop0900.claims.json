@@ -1,0 +1,31 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "d0901": {"file": "results/board/diff_1104_0901.txt", "grep": "读法|Tier 3：|tier1"},
+    "d0740": {"file": "results/board/diff_1104_0740.txt", "grep": "tier3|tier2-auc|tier2-mppe"},
+    "swqe": {"file": "results/final1/swap_qe_vs_t3m1104b.txt", "grep": "^ep|集\t"},
+    "cum7": {"file": "results/final1/swap_cum7_vs_t3m1103a.txt", "grep": "导出|4096 世界|两种 AUC"},
+    "packc": {"file": "results/submission/pack/t3_t3m1104c.txt", "grep": "rows|行"},
+    "dryc": {"file": "results/submission/dryrun_t3_t3m1104c.txt", "grep": "add_auc|dry-run"},
+    "plan": {"file": "agent-doc/plan-t3gb6-2026-11-04.md", "grep": "08:47|08:50|逐字节相同|SP-SR ≥ 0.5|约 12:05"},
+    "st90": {"file": "results/ops/status_mf4090_1104_0901.txt", "grep": "NVIDIA|/dev|t3pr3og6"},
+    "st40": {"file": "results/ops/status_ml40_1104_0901.txt", "grep": "NVIDIA|t3qr3o2f|chain-active"}
+  },
+  "claims": [
+    {"id": "rankB", "evidence": ["d0901"], "claim": "At 09:01 under reading B maniphys.ai has 86 (7th) under the Kaggle tie rule and 87 (6th) under the site rule, unchanged."},
+    {"id": "rankA", "evidence": ["d0901"], "claim": "Under reading A maniphys.ai has 24 and is 5th, tied with one team."},
+    {"id": "domo", "evidence": ["d0740"], "claim": "domoarigato improved Tier 3 AUC from 0.37004 to 0.40938 and Tier 2 MPPE from 12.52789 to 9.40708."},
+    {"id": "ep29", "evidence": ["swqe"], "claim": "On 4096 worlds ep29 goes from ADD-AUC 0.377 to 0.644 and MP-SR from 0 to 0.456."},
+    {"id": "ep14", "evidence": ["swqe"], "claim": "On 4096 worlds ep14 SP-SR drops from 0.844 to 0.745 and MPPE rises from 9.02 to 10.99 cm."},
+    {"id": "cum7", "evidence": ["cum7"], "claim": "The seven swaps over t3m1103a raise the exported AUC average by about 0.031 and the 4096-world AUC average by about 0.031."},
+    {"id": "packc", "evidence": ["packc"], "claim": "The t3m1104c CSV has 22989 rows."},
+    {"id": "dryc", "evidence": ["dryc"], "claim": "The t3m1104c dry run for add_auc on Tier 3 ran and nothing was submitted."},
+    {"id": "dyn7", "evidence": ["plan"], "claim": "The dyn7 parquets built for ep11 and ep17 are byte-identical to the other member's dyn7 output."},
+    {"id": "ep17", "evidence": ["plan"], "claim": "Formal training of ep17 on mf4090 started at 08:50 MST with export expected at about 11:05."},
+    {"id": "mf90", "evidence": ["st90"], "claim": "mf4090 has about 11 GB of free disk and its GPU is in use."},
+    {"id": "ml40", "evidence": ["st40"], "claim": "On ml40 the t3qr3o2f chain is still active."},
+    {"id": "ctl_true", "evidence": ["packc"], "claim": "The pack record names a CSV file for t3m1104c."},
+    {"id": "ctl_false1", "evidence": ["d0901"], "claim": "maniphys.ai is 1st on the Tier 3 AUC board at 09:01."},
+    {"id": "ctl_false2", "evidence": ["swqe"], "claim": "ep10 reaches an MP-SR above 0.9 on 4096 worlds."}
+  ]
+}
