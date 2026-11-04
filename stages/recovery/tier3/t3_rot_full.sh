@@ -6,7 +6,7 @@
 #      an episode that keeps 10 must select exactly as <BASE> did (dry run at 10 against the base work pkl, bit for bit);
 #   2. the episodes that take 5: work_fp copied into runs/work_rot_<V>, stages 06-08 cleared, the selection written
 #      (t3_fp_select.py --rot-deg=5), then, with the whole GPU (rxzhou's chain and every flash_chord gone, >= 44000 MiB
-#      free, QUIET_MIN minutes in a row), CARI4D 06-08 (T3_SKIP_RENDER=1) and convert (decode, soma, residual, focal,
+#      free, nothing on the GPU, for QUIET_S seconds in a row; checked again before every GPU step), CARI4D 06-08 (T3_SKIP_RENDER=1) and convert (decode, soma, residual, focal,
 #      world, as t3_sel_full.sh) into runs/convert_fp_<V>;
 #   3. every other convert dir of <V> COPIED from <BASE> (cp -a, never hard links: no later step may write into <BASE>'s
 #      files), floor fit and camera registration under the <V> names, then t3_gb_chain.sh <V> (its chain_check.sh also
@@ -14,7 +14,9 @@
 #   4. every episode that kept 10: its parquet and support usda byte-identical to <BASE>'s delivered ones; one differing
 #      file stops the run (the version is then not used: it would not be what this command makes).
 #   setsid nohup stages/recovery/tier3/t3_rot_full.sh gb6 gb5 > $T/logs/rot_full_gb6.log 2>&1 &
-# ROT_BASE_WORK (default work_b050): the base's selection work dir. QUIET_MIN (default 30): the GPU wait (10-10 rule).
+# ROT_BASE_WORK (default work_b050): the base's selection work dir. QUIET_S (default 1800, the 10-10 rule) and POLL_S
+# (default 60): the GPU wait. 11-04 (user): QUIET_S=20 POLL_S=5 takes the card as soon as rxzhou's segment (training and
+# its evaluation) has left it, before his relay arms the next one; the card is never shared either way.
 # ROT_STOP=$T/runs/ROT_STOP stops it while waiting for the GPU. Last line ROT_FULL_DONE or ROT_FULL_FAILED <step>.
 set -u
 S=$(cd "$(dirname "$0")" && pwd)
@@ -26,7 +28,7 @@ A=/lab_data/yqchen/v2d/soma_assets
 RX_RUNS=/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge/runs
 V=${1:?usage: t3_rot_full.sh <version> <base version>}; BASE=${2:?base version}
 BW=${ROT_BASE_WORK:-work_b050}
-QUIET_MIN=${QUIET_MIN:-30}
+QUIET_S=${QUIET_S:-1800}; POLL_S=${POLL_S:-60}
 WORK=work_rot_$V
 RULE=$T/runs/rot_rule_$V
 BV=tier3_cari4d_${BASE}_best_dr2s_dyn7
@@ -37,6 +39,15 @@ mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads,
 seq_of() { printf episode_%06d "$((10#${1:2:2}))"; }
 rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
+gpu_apps() { nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .; }
+wait_gpu() {  # rxzhou's chain and every flash_chord gone, nothing on the GPU, >= 44000 MiB free, QUIET_S seconds in a row
+  local quiet=0
+  while [ "$quiet" -lt "$QUIET_S" ]; do
+    [ -e runs/ROT_STOP ] && fail "ROT_STOP"
+    if rx_busy || [ "$(gpu_apps)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ]; then quiet=0; else quiet=$((quiet + POLL_S)); fi
+    [ "$quiet" -ge "$QUIET_S" ] || sleep "$POLL_S"
+  done
+}
 cd "$T" || exit 1
 log "deployed: $(cat code/DEPLOYED)"
 for v in tier3_cari4d_${V}_best tier3_cari4d_${V}_best_dr2s tier3_cari4d_${V}_best_dr2s_dyn7 $WORK rot_rule_$V \
@@ -99,15 +110,9 @@ for name in "${FIVE[@]}"; do
   log "$name selected: $(echo "$r" | cut -c1-200)"
 done
 if [ ${#FIVE[@]} -gt 0 ]; then
-  log "waiting for the GPU (rxzhou quiet, >= 44000 MiB free, $QUIET_MIN min in a row)"
-  q=0
-  while [ "$q" -lt "$QUIET_MIN" ]; do
-    [ -e runs/ROT_STOP ] && fail "ROT_STOP"
-    if rx_busy || [ "$(free_mib)" -lt 44000 ]; then q=0; else q=$((q + 1)); fi
-    sleep 60
-  done
-  log "GPU free"
+  log "waiting for the GPU (rxzhou quiet, nothing on the GPU, >= 44000 MiB free, ${QUIET_S}s in a row, polled every ${POLL_S}s)"
   for name in "${FIVE[@]}"; do
+    wait_gpu
     log "$name: CARI4D 06-08"
     T3_WORK=runs/$WORK T3_FP_MODE=register-every-frame T3_SKIP_RENDER=1 T3_LOG_TAG=_rot_$V "$S/t3_cari4d_ep.sh" "$name" \
       || fail "$name: CARI4D (logs/cari4d_${name}_rot_$V.log)"
@@ -117,6 +122,7 @@ if [ ${#FIVE[@]} -gt 0 ]; then
       grep -h -o "$st elapsed_seconds=[0-9.]*" "logs/cari4d_${name}_rot_$V.log" | tail -1 | grep -q -v -E 'elapsed_seconds=0(\.0*)?$' \
         || fail "$name: CARI4D did not run $st"
     done
+    wait_gpu
     log "$name: convert"
     convert_one "$name" > "logs/rot_convert_${name}_$V.log" 2>&1 || fail "$name: convert (logs/rot_convert_${name}_$V.log)"
   done
