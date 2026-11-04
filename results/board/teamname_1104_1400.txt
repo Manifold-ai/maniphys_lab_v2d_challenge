@@ -1,0 +1,17 @@
+# command  : bash -c K=/Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/kaggle\;\ for\ t\ in\ 1\ 2\ 3\;\ do\ for\ m\ in\ auc\ sp-sr\ mp-sr\ mppe\;\ do\ printf\ \"tier\$t-\$m\\t\"\;\ \$K\ competitions\ leaderboard\ v2d-challenge-track2-tier\$t-\$m\ -s\ 2\>/dev/null\ \|\ grep\ -E\ \"17014806\|17015031\|17015030\|17015029\|17028901\|17018093\|17018094\|17018091\|17126972\|17126979\|17126982\|17126986\"\ \|\ head\ -1\;\ done\;\ done 
+# source   : 5522ff8e3a2e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T14:01:38-0700
+# ---------------------------------------------------------------
+tier1-auc	17014806  Maniphys Lab        2026-11-02 20:19:11.966000  0.63535  
+tier1-sp-sr	17015031  Maniphys Lab        2026-11-02 20:19:14.330000  0.86666  
+tier1-mp-sr	17015030  Maniphys Lab        2026-11-02 20:19:16.696000  0.70000  
+tier1-mppe	17015029  Maniphys Lab        2026-11-02 20:19:19.173000  8.46753   
+tier2-auc	17028901  Maniphys Lab        2026-11-04 05:17:44.130000  0.51765  
+tier2-sp-sr	17018093  Maniphys Lab        2026-10-14 22:47:07.843000  0.73333  
+tier2-mp-sr	17018094  Maniphys Lab        2026-10-14 22:47:12.896000  0.53333  
+tier2-mppe	17018091  Maniphys Lab        2026-10-14 22:47:16.666000  15.32195  
+tier3-auc	17126972  Maniphys Lab                            2026-11-04 17:06:44.450000  0.33996  
+tier3-sp-sr	17126979  Maniphys Lab                            2026-10-29 21:43:43.933000  0.46666  
+tier3-mp-sr	17126982  Maniphys Lab                            2026-10-29 21:43:47.340000  0.10000  
+tier3-mppe	17126986  Maniphys Lab                            2026-10-29 21:44:01.100000  36.60061  

@@ -4,7 +4,7 @@
 读法 B 把 12 个榜的名次相加，缺榜的队按那个榜的最后一名再加 1 计（只为排总名次；官方没写缺榜怎么算）。读法 A 只算三档都交了的队。
 有下列情况就打印 ALERT 行：我们在某个榜的名次变差（任一同分规则）；任一读法、任一同分规则下我们的总名次变差。
 --exclude 队名（可重复）：两份快照里都去掉这些队再比（看“不计某队”时的名次；默认不去掉任何队）。
-用法：python3 stages/evaluate/board_diff.py <上一份快照> <这一份快照> [--us maniphys.ai] [--exclude 队名 ...]   最后一行 BOARD_DIFF_DONE
+用法：python3 stages/evaluate/board_diff.py <上一份快照> <这一份快照> [--us "Maniphys Lab"] [--exclude 队名 ...]   最后一行 BOARD_DIFF_DONE
 """
 import argparse
 import sys
@@ -14,10 +14,12 @@ from track2_rank_sum import METRICS, parse, rank, tie_key
 
 KEYS = [(t, m) for t in (1, 2, 3) for m in METRICS]
 TIES = ("kaggle", "site")
+# 11/04 14:00 MST 起 Kaggle 上的队名从 maniphys.ai 改成 Maniphys Lab（team ID 不变）；旧快照读进来时换成新名，前后两份才对得上。
+RENAMED = {"maniphys.ai": "Maniphys Lab"}
 
 
 def load(path: str) -> dict:
-    boards = parse(path)
+    boards = {k: [(RENAMED.get(team, team), date, score) for team, date, score in rows] for k, rows in parse(path).items()}
     if sorted(boards) != sorted(KEYS) or any(not boards[k] for k in KEYS):
         sys.exit(f"{path}：应有 12 个 Track 2 榜且每个榜都有队伍，读到 {len(boards)} 个")
     return boards
@@ -80,7 +82,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("old")
     ap.add_argument("new")
-    ap.add_argument("--us", default="maniphys.ai")
+    ap.add_argument("--us", default="Maniphys Lab")
     ap.add_argument("--exclude", action="append", default=[])
     a = ap.parse_args()
     old, new = load(a.old), load(a.new)
