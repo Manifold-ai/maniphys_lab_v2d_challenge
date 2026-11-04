@@ -1,0 +1,30 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : ac4628cd6929
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T19:40:34-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-04 10:40:40 CST
+NVIDIA L40, 40275 MiB, 46068 MiB, 100 %
+/dev/vda2       197G  156G   33G  83% /
+-- tmux
+v2d-t2l4-eval: 1 windows (created Wed Nov  4 06:06:46 2026)
+v2d-t2l4-export: 1 windows (created Wed Nov  4 06:06:48 2026)
+v2d-t2l4-train: 1 windows (created Wed Nov  4 06:06:44 2026)
+-- 长链标记
+runs/.chain-active-cand_t2_t2l4_l40n-gate
+runs/.chain-active-t2l4_eval_l40n
+runs/.chain-active-t2l4_train_l40n
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t2l3b_l40n.log：=== 2026-11-04 01:08:17 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2l4c_l40n.log：=== 2026-11-04 04:27:56 CST 等 runs/logs/arm_after_t2l4b_l40n.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash runs/tools/arm_after.sh t2l4c runs/logs/t2l4b_train_l40n.log runs/logs/t2l4b_ev
+runs/logs/arm_after_t2l4_l40n.log：=== 2026-11-04 06:06:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2l4b_l40n.log：=== 2026-11-04 06:06:57 CST 来历与 t2l4b 的队列：1ff201ef1a6d fd8f9940291043a9c90f16722a512485  stages/policy/queues/l40n_t2l4b.expect.tsv a158b9572ffc39dcac7d3c2b915b4697  stages/policy/queues
+-- 最近改动的 8 份链日志
+runs/logs/t2-ep22-w2048-cap10m-r3o-l40n.log：training progress: 287,000,576/349,999,104 environment steps (82.0%); 42,648 env steps/s; elapsed 01:52:10; ETA 00:24:37
+runs/logs/t2-ep22-w2048-cap10m-r3o-l40n.nanwatch.log：11-03 20:38:50 MDT 280,010,752 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t2l4_train_l40n.log：=== 2026-11-04 08:46:42 CST 正式 t2-ep22-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep5-w2048-cap10m-r3o-l40n.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep5-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep5-w2048-cap10m-r3o-l40n.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep5-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep5-w2048-cap10m-r3o-l40n.nanwatch.log：11-03 18:43:57 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t2-ep22-w2048-cap10m-r3o-l40n.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep22-w2048-cap10m-r3o-l40n
+runs/logs/smoke-t2-ep22-w2048-cap10m-r3o-l40n.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t2-ep22-w2048-cap10m-r3o-l40n

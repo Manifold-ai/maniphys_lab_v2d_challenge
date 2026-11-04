@@ -1,0 +1,15 @@
+# command  : bash stages/evaluate/pull_submission.sh tables runs/submission/select_t2_t2a1103/tables ml40:cand_t2_t2o3b_ml40 l40n:cand_t2_t2l3_l40n l40n:cand_t2_t2l3b_l40n l40n:cand_t2_t2l4_l40n 
+# md5      : d3b092063623dc39564ba756df791d07  stages/evaluate/pull_submission.sh
+# source   : ac4628cd6929-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T22:05:35-0700
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t2_t2o3b_ml40：ok 2  
+→ l40n:/home/ubuntu/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=l40n)
+结果表 l40n:cand_t2_t2l3_l40n：ok 2  
+→ l40n:/home/ubuntu/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=l40n)
+结果表 l40n:cand_t2_t2l3b_l40n：ok 2  
+→ l40n:/home/ubuntu/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=l40n)
+结果表 l40n:cand_t2_t2l4_l40n：ok 2  
+PULL_OK 4

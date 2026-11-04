@@ -1,0 +1,21 @@
+# command  : python3 tools/t2_swap_totals.py stages/evaluate/exports/t2_select_t2a1102.tsv runs/submission/select_t2_t2a1102/t2 ep26=t2-ep26-w2048-cap10m-r3o-ml40 ep18=t2-ep18-w2048-cap10m-r3o-l40n ep6=t2-ep6-w2048-cap10m-r3o-l40n ep8=t2-ep8-w2048-cap10m-r3o-l40n ep22=t2-ep22-w2048-cap10m-r3o-l40n --write-tsv stages/evaluate/exports/t2_select_t2a1103.tsv 
+# md5      : f34688b8f4c364bf04e294d63968b92f  tools/t2_swap_totals.py
+# md5      : 3238932588dd5dfc249d7462c59df46e  stages/evaluate/exports/t2_select_t2a1102.tsv
+# source   : ac4628cd6929
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T22:05:30-0700
+# ---------------------------------------------------------------
+集	原 run → 换上的 run	导出 SP / MP / AUC / MPPE cm / 位置 cm（原 → 换后）	4096 世界 SP-SR / MP-SR / AUC / MPPE cm（原 → 换后）
+ep6	t2-ep6-w2048-cap10m-r3a-ml40 → t2-ep6-w2048-cap10m-r3o-l40n	1 / 1 / 0.528 / 2.39 / 2.01 → 1 / 1 / 0.789 / 1.57 / 1.44	0.993 / 0.991 / 0.550 / 2.54 → 0.995 / 0.994 / 0.777 / 1.87
+ep8	t2-ep8-w2048-cap10m-r3a-ml40 → t2-ep8-w2048-cap10m-r3o-l40n	1 / 1 / 0.599 / 2.45 / 2.33 → 1 / 1 / 0.761 / 2.22 / 2.18	1.000 / 0.999 / 0.611 / 2.40 → 1.000 / 0.999 / 0.765 / 2.24
+ep18	t2-ep18-w2048-cap10m-r3a-ml40 → t2-ep18-w2048-cap10m-r3o-l40n	1 / 1 / 0.537 / 1.67 / 1.37 → 1 / 1 / 0.850 / 1.58 / 1.55	0.996 / 0.995 / 0.521 / 1.85 → 0.984 / 0.983 / 0.855 / 1.89
+ep22	t2-ep22-w2048-cap10m-r3a-ml40 → t2-ep22-w2048-cap10m-r3o-l40n	1 / 1 / 0.659 / 1.34 / 0.95 → 1 / 1 / 0.880 / 1.15 / 1.10	0.997 / 0.997 / 0.663 / 1.60 → 1.000 / 0.998 / 0.885 / 1.22
+ep26	t2-ep26-w2048-cap10m-r3a-s43-ml40 → t2-ep26-w2048-cap10m-r3o-ml40	1 / 1 / 0.468 / 1.49 / 0.99 → 1 / 1 / 0.705 / 1.25 / 1.10	1.000 / 1.000 / 0.465 / 1.55 → 1.000 / 1.000 / 0.715 / 1.23
+导出（对自己参考）：SP 成功 22 → 22 / 30，MP 成功 18 → 18 / 30（新增的成功只算位置 ≤ 0.025 m 的：18），AUC 平均 0.52677 → 0.56657，MPPE 平均 16.337 → 16.284 cm
+4096 世界：SP-SR 合计 21.219 → 21.213，MP-SR 合计 17.559 → 17.551（多出 -0.009），AUC 平均 0.51239 → 0.55195，MPPE 平均 19.152 → 19.102 cm
+Q3 MP 分支：导出 MP（严格计 18 ≥ 21，或全计 18 ≥ 22）不过；4096 世界 MP-SR 多出 -0.009 ≥ 3 不过；导出 SP 22 ≥ 22 过；分支不过
+Q3 AUC 分支：导出 AUC 平均 0.56657 ≥ 0.530 过；4096 世界 AUC 平均 0.55195 ≥ 0.515 过；导出 MP 18 ≥ 19 不过；导出 SP 22 ≥ 22 过；分支不过
+Q3：两条分支都不满足，不交
+S3 MPPE 分支（plan-t2st）：导出 MPPE 平均 16.284 ≤ 12.97 不过；4096 世界 MPPE 平均 19.102 ≤ 16.0 不过；导出 SP 22 ≥ 22 过；导出 MP 18 ≥ 18 过；导出 AUC 平均 0.56657 ≥ 0.52677 过；4096 世界 AUC 平均 0.55195 ≥ 0.51239 过；换上的每一集导出 MPPE ≤ 4096 世界 MPPE + 10 过；分支不过
+写 stages/evaluate/exports/t2_select_t2a1103.tsv（30 行，改了 5 行）
+T2_SWAP_TOTALS_DONE

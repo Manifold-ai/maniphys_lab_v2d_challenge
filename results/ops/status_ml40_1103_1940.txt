@@ -1,0 +1,32 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : ac4628cd6929
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T19:40:17-0700
+# ---------------------------------------------------------------
+== ml40 2026-11-04 10:40:34 CST
+NVIDIA L40S, 40281 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.1T  897G  56% /lab_data
+-- tmux
+v2d-t3qr3o2d-eval: 1 windows (created Wed Nov  4 08:41:56 2026)
+v2d-t3qr3o2d-export: 1 windows (created Wed Nov  4 08:41:58 2026)
+v2d-t3qr3o2d-train: 1 windows (created Wed Nov  4 08:41:54 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qr3o2d_ml40-gate
+runs/.chain-active-t3qr3o2d_eval_ml40
+runs/.chain-active-t3qr3o2d_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3qr3o2b_ml40.log：=== 2026-11-03 22:08:58 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2c_ml40.log：=== 2026-11-04 02:56:00 CST ARM_AFTER_ARMED
+runs/logs/arm_after_yield_t3qr3o2c_ml40.log：=== 2026-11-04 03:55:03 CST YIELD_REARMED t3qr3o2c
+runs/logs/arm_after_t3qr3o2f_ml40.log：=== 2026-11-04 04:31:17 CST 等 runs/logs/arm_after_t3qr3o2e_ml40.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash runs/tools/arm_after.sh t3qr3o2f runs/logs/t3qr3o2e_train_ml40.log runs/logs
+runs/logs/arm_after_t3qr3o2d_ml40.log：=== 2026-11-04 08:42:01 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2e_ml40.log：=== 2026-11-04 08:42:54 CST 来历与 t3qr3o2e 的队列：1ff201ef1a6d ba93cb9b8f02c4d1611b8619f056aa9d  stages/policy/queues/ml40_t3qr3o2e.expect.tsv 0b3d8a4967d5fa3f236ed818069012e7  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.log：training progress: 283,500,544/349,999,104 environment steps (81.0%); 45,102 env steps/s; elapsed 01:44:46; ETA 00:24:34
+runs/logs/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.nanwatch.log：11-03 20:39:24 MDT 280,010,752 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qr3o2d_train_ml40.log：=== 2026-11-04 08:53:16 CST 正式 t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40
+runs/logs/smoke-t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40
+runs/logs/smoke-t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40
+runs/logs/cand_t3_t3qr3o2d_ml40_gate.log：=== 2026-11-04 08:41:58 CST 等 runs/logs/t3qr3o2d_eval_ml40.log 的最后一行变成评测链的结束行
