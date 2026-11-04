@@ -1,0 +1,32 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 89f227138490
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:40:17-0700
+# ---------------------------------------------------------------
+== ml40 2026-11-04 16:40:22 CST
+NVIDIA L40S, 40209 MiB, 46068 MiB, 100 %
+/dev/vdb        2.0T  1.2T  877G  57% /lab_data
+-- tmux
+v2d-t3qr3o2e-eval: 1 windows (created Wed Nov  4 14:24:13 2026)
+v2d-t3qr3o2e-export: 1 windows (created Wed Nov  4 14:24:15 2026)
+v2d-t3qr3o2e-train: 1 windows (created Wed Nov  4 14:24:11 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qr3o2e_ml40-gate
+runs/.chain-active-t3qr3o2e_eval_ml40
+runs/.chain-active-t3qr3o2e_train_ml40
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3qr3o2b_ml40.log：=== 2026-11-03 22:08:58 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2c_ml40.log：=== 2026-11-04 02:56:00 CST ARM_AFTER_ARMED
+runs/logs/arm_after_yield_t3qr3o2c_ml40.log：=== 2026-11-04 03:55:03 CST YIELD_REARMED t3qr3o2c
+runs/logs/arm_after_t3qr3o2d_ml40.log：=== 2026-11-04 08:42:01 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2e_ml40.log：=== 2026-11-04 14:24:18 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2f_ml40.log：=== 2026-11-04 14:24:19 CST 来历与 t3qr3o2f 的队列：762ad7d0e370 a39a863505b96651bfd51c5a8b46ed87  stages/policy/queues/ml40_t3qr3o2f.expect.tsv b4baebdbd97987d1bf81a3bec9775678  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40.log：training progress: 329,000,960/349,999,104 environment steps (94.0%); 44,705 env steps/s; elapsed 02:02:39; ETA 00:07:50
+runs/logs/t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40.nanwatch.log：11-04 02:37:47 MDT 320,012,288 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3qr3o2e_train_ml40.log：=== 2026-11-04 14:35:38 CST 正式 t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/smoke-t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40
+runs/logs/cand_t3_t3qr3o2e_ml40_gate.log：=== 2026-11-04 14:24:15 CST 等 runs/logs/t3qr3o2e_eval_ml40.log 的最后一行变成评测链的结束行

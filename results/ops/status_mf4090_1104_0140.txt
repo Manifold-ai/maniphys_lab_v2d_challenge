@@ -1,0 +1,32 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 89f227138490
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:40:14-0700
+# ---------------------------------------------------------------
+== mf4090 2026-11-04 16:40:17 CST
+NVIDIA GeForce RTX 4090, 23781 MiB, 24564 MiB, 99 %
+/dev/vda2       297G  274G   11G  97% /
+-- tmux
+v2d-t3pr3o2f-eval: 1 windows (created Wed Nov  4 16:21:06 2026)
+v2d-t3pr3o2f-export: 1 windows (created Wed Nov  4 16:21:08 2026)
+v2d-t3pr3o2f-train: 1 windows (created Wed Nov  4 16:21:04 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pr3o2f_mf4090-gate
+runs/.chain-active-t3pr3o2f_eval_mf4090
+runs/.chain-active-t3pr3o2f_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3pr3o2b_mf4090.log：=== 2026-11-03 21:31:28 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2c_mf4090.log：=== 2026-11-04 02:27:30 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2d_mf4090.log：=== 2026-11-04 06:58:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2e_mf4090.log：=== 2026-11-04 11:33:52 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2f_mf4090.log：=== 2026-11-04 16:21:11 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep29-w2048-cap4m-r3o-v2-mf4090.log：training progress: 38,500,352/349,999,104 environment steps (11.0%); 48,688 env steps/s; elapsed 00:13:11; ETA 01:46:38
+runs/logs/t3-ep29-w2048-cap4m-r3o-v2-mf4090.nanwatch.log：11-04 02:37:29 MDT 30,001,152 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3pr3o2f_train_mf4090.log：=== 2026-11-04 16:25:28 CST 正式 t3-ep29-w2048-cap4m-r3o-v2-mf4090
+runs/logs/smoke-t3-ep29-w2048-cap4m-r3o-v2-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep29-w2048-cap4m-r3o-v2-mf4090
+runs/logs/smoke-t3-ep29-w2048-cap4m-r3o-v2-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep29-w2048-cap4m-r3o-v2-mf4090
+runs/logs/cand_t3_t3pr3o2f_mf4090_gate.log：=== 2026-11-04 16:21:08 CST 等 runs/logs/t3pr3o2f_eval_mf4090.log 的最后一行变成评测链的结束行
+runs/logs/t3pr3o2f_eval_mf4090.log：=== 2026-11-04 16:21:06 CST 等 runs/logs/t3pr3o2f_train_mf4090.log 的最后一行变成 DAY2_TRAIN_DONE / DAY2_TRAIN_FAILED
+runs/logs/cand_t3_t3pr3o2e_mf4090_gate.log：=== 2026-11-04 16:19:42 CST 导出链结束，退出码 0

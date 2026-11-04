@@ -1,0 +1,15 @@
+# command  : python3 tools/t2_swap_totals.py stages/evaluate/exports/t3_select_t3m1104b.tsv runs/submission/t3m1104b/t3 --tier 3 ep10=t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40 ep14=t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40 ep29=t3-ep29-w2048-cap4m-r3o-v2-mf4090 
+# md5      : f34688b8f4c364bf04e294d63968b92f  tools/t2_swap_totals.py
+# md5      : 826e782e6c248ca4394cb0139443dac8  stages/evaluate/exports/t3_select_t3m1104b.tsv
+# source   : 89f227138490
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T04:41:55-0700
+# ---------------------------------------------------------------
+集	原 run → 换上的 run	导出 SP / MP / AUC / MPPE cm / 位置 cm（原 → 换后）	4096 世界 SP-SR / MP-SR / AUC / MPPE cm（原 → 换后）
+ep10	t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40 → t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40	1 / 0 / 0.249 / 4.06 / 3.98 → 1 / 0 / 0.424 / 3.61 / 3.57	0.949 / 0.000 / 0.308 / 5.25 → 0.960 / 0.000 / 0.401 / 4.46
+ep14	t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40 → t3-ep14-w2048-cap10m-r3o-gb5-s43-ml40	1 / 0 / 0.333 / 6.00 / 5.87 → 0 / 0 / 0.451 / 12.77 / 12.59	0.844 / 0.000 / 0.318 / 9.02 → 0.745 / 0.332 / 0.476 / 10.99
+ep29	t3-ep29-w2048-cap4m-r3a-v2-mf4090 → t3-ep29-w2048-cap4m-r3o-v2-mf4090	1 / 0 / 0.355 / 5.48 / 5.44 → 0 / 0 / 0.474 / 10.14 / 10.07	0.713 / 0.000 / 0.377 / 8.00 → 0.924 / 0.456 / 0.644 / 4.37
+导出（对自己参考）：SP 成功 18 → 16 / 30，MP 成功 15 → 15 / 30（新增的成功只算位置 ≤ 0.025 m 的：15），AUC 平均 0.44926 → 0.46296，MPPE 平均 34.744 → 35.110 cm
+4096 世界：SP-SR 合计 17.009 → 17.132，MP-SR 合计 13.087 → 13.875（多出 0.787），AUC 平均 0.44035 → 0.45763，MPPE 平均 36.414 → 36.332 cm
+Tier 3 两种 AUC 平均的变化：导出 +0.01370，4096 世界 +0.01728，小的那个 +0.01370
+T2_SWAP_TOTALS_DONE

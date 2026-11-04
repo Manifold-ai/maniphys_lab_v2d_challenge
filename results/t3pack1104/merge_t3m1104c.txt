@@ -1,0 +1,8 @@
+# command  : python3 stages/evaluate/merge_frefs_t3.py --out runs/submission/t3m1104c/frefs --take runs/submission/t3m1104b/frefs=0\,1\,2\,3\,4\,5\,6\,7\,8\,9\,11\,12\,13\,14\,15\,16\,17\,18\,19\,20\,21\,22\,23\,24\,25\,26\,27\,28 --take runs/submission/t3m1104c/frefs_new_aa_ml40=10 --take runs/submission/t3m1104c/frefs_new_aa_mf4090=29 
+# md5      : ce3548f36c323cb051b5ae28f02034f9  stages/evaluate/merge_frefs_t3.py
+# source   : 89f227138490-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T04:43:57-0700
+# ---------------------------------------------------------------
+合并 30 集 → runs/submission/t3m1104c/frefs：frefs 28 集；frefs_new_aa_ml40 1 集；frefs_new_aa_mf4090 1 集
+MERGE_FREFS_OK 30
