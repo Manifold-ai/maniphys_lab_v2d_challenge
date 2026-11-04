@@ -122,7 +122,7 @@ if [ ${#FIVE[@]} -gt 0 ]; then
   # rxzhou's relay, which arms when nvidia-smi shows no process (reviewer 11-04); the hold is a CUDA context (~0.5 GB)
   trap release_hold EXIT; trap 'release_hold; exit 143' TERM INT
   docker run -d --rm --name "$HOLD" --gpus all --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp \
-    v2d_cari4d:latest python -c "import torch, time; torch.zeros(1, device='cuda'); time.sleep(10 ** 6)" > /dev/null || fail "hold"
+    v2d_cari4d:latest python -c "import torch, time; torch.zeros(1, device='cuda'); time.sleep(3 * 3600)" > /dev/null || fail "hold"
   for i in $(seq 60); do [ -n "$(hold_pids)" ] && nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -q -w -F "$(hold_pids | head -1)" && break; sleep 2; done
   nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -q -w -F "$(hold_pids | head -1)" || fail "hold not on the GPU"
   [ "$(foreign_apps)" -eq 0 ] || fail "another process took the GPU while the hold started"
