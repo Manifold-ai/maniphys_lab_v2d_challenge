@@ -67,6 +67,8 @@
 - 13:3x MST ml40 `t3qr3o2f`：`tools/t3auc1_gb4_stage.sh` 加 `V2D_GB4_SEQS`、`V2D_GB4_NO_ROOT`，在 mf4090 打包 ep20、ep6 的 gb4 参考（motion 59 MB、msrc 77 MB，不带 `root_gb4`），HF 中转库标签 `t3final_gb4_1103` HF_PUSH_OK 3，ml40 HF_PULL_OK 3，两个 tar sha256 OK，UNPACK_OK。`derive_r3o_rows.py --seg t3qr3o2f` 由 `mf4090_t3pg4` 加 `+10m` 派生 ep20、ep6（坏行 0；ep20 与对照一样带支撑面，没有 `scene.support=false`）。
   提交后单独暂存到 ml40，`t3qr3o2f` 的接力用 `relay_when_armed2.sh` 等 `t3qr3o2e` 起链，再起带同步（新暂存目录）的 `arm_after.sh`；那时仓库副本已是 1ff201ef，同步不会撞上别的接力。13:31 MST 挂上（`V2D_AFTER_SYNC_FROM=runs/stage/762ad7d0e370`），日志 `runs/logs/arm_after_t3qr3o2f_ml40.log`。
   预计：ml40 c 段约 17:50 MST 完，d 约 22:00，e 约 02:30，f 约 07:00（在 10:00 的截止线内）；mf4090 f 段约 05:00 完，之后空着。
+- 11/03 19:1x MST：ml40 `t3qr3o2c`（`plan-t3auc1` 的第三批）读完，记录写在 `plan-t3auc1` 执行记录；按本计划第 2 节的第二次上传条件不问（只换 ep18 时两种变化不都高于 t3m1103a）。
+  ml40 `t3qr3o2d` 17:41 MST 起链（ep15 在训，之后 ep5，读数约 22:45 MST）。l40n `t2l4` 的 ep5 训练完、ep22 在训，评测链等整段训完，读数约 20:30 MST；mf4090 `t3pr3o2d` 的 ep20 训完、ep6 在训，读数约 20:40 MST。
 
 ## 5. 独立复核（11/03 13:4x MST）
 

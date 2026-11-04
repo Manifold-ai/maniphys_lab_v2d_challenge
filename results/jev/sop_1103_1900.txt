@@ -1,0 +1,21 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-03-sop1900.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : e9795a02cab56dff0fcdcd768abad3da  agent-doc/experiments/2026-11-03-sop1900.claims.json
+# source   : d7372d2e6c7e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T19:24:40-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+asap                 P(supported)=0.85  verified               [d1910]  ASAP entered Tier 3 MPPE with 33.44131, and maniphys.ai dropped from 4th to 5th on Tier 3 MPPE.
+rank                 P(supported)=0.98  verified               [d1910]  Under reading B with the Kaggle tie rule maniphys.ai went from 78 to 79, and reading A stays at 21.
+t3auc                P(supported)=0.99  verified               [d1631]  maniphys.ai Tier 3 AUC went from 0.28173 to 0.32015.
+ep27                 P(supported)=0.99  verified               [swqc]  For ep27 the new run raises the 4096-world AUC from 0.705 to 0.745 and raises the 4096-world MPPE from 5.00 to 6.22 cm.
+ep18                 P(supported)=0.96  verified               [sw18]  Swapping only ep18 changes the exported-draw AUC mean by about -0.0005 and the 4096-world AUC mean by about +0.0002.
+ep18_auc             P(supported)=0.98  verified               [sw18]  For ep18 the 4096-world AUC goes from 0.826 to 0.831.
+health               P(supported)=0.99  verified               [e18, e27]  Both evaluation records have empty non_finite_worlds lists.
+ml40                 P(supported)=0.92  verified               [st40]  On ml40 the t3qr3o2d chain is running and the ep15 run is in training.
+l40n                 P(supported)=0.98  verified               [stl]  On l40n the ep5 run completed and the ep22 run is in training.
+ctl_true             P(supported)=0.99  control(true) ok       [e18]  The ep18 10M run record has a world_count of 4096.
+ctl_false1           P(supported)=0.01  control(false) ok      [d1910]  maniphys.ai is 1st on the Tier 3 AUC board.
+ctl_false2           P(supported)=0.01  control(false) ok      [e27]  The ep27 10M run has an mppe_cm below 3.
+controls behaved as expected

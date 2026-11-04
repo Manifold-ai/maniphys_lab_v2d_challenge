@@ -1,0 +1,25 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "d1910": {"file": "results/board/diff_1103_1910.txt", "grep": "tier3-mppe|ASAP|读法|Tier 3："},
+  "d1631": {"file": "results/board/diff_1103_1631.txt", "grep": "tier3-auc|读法"},
+  "e27": {"file": "results/ml40/day2/eval_t3-ep27-w2048-cap10m-r3o-gb5hr2b2dyn7-ml40_s349999104.txt", "grep": "add_auc |maniptrans_sr |spider_sr_uncentered |mppe_cm |non_finite"},
+  "e18": {"file": "results/ml40/day2/eval_t3-ep18-w2048-cap10m-r3o-gb4-ml40_s349999104.txt", "grep": "add_auc |maniptrans_sr |spider_sr_uncentered |mppe_cm |non_finite"},
+  "sw18": {"file": "results/final1/swap_q18_vs_t3m1103a.txt", "grep": "集\t|ep18|两种 AUC"},
+  "swqc": {"file": "results/final1/swap_qc_vs_t3m1103a.txt", "grep": "集\t|ep27"},
+  "st40": {"file": "results/ops/status_ml40_1103_1910.txt", "grep": "==|t3qr3o2d|ep15"},
+  "stl": {"file": "results/ops/status_l40n_1103_1910.txt", "grep": "==|t2l4|ep22|ep5"}
+ },
+ "claims": [
+  {"id": "asap", "evidence": ["d1910"], "claim": "ASAP entered Tier 3 MPPE with 33.44131, and maniphys.ai dropped from 4th to 5th on Tier 3 MPPE."},
+  {"id": "rank", "evidence": ["d1910"], "claim": "Under reading B with the Kaggle tie rule maniphys.ai went from 78 to 79, and reading A stays at 21."},
+  {"id": "t3auc", "evidence": ["d1631"], "claim": "maniphys.ai Tier 3 AUC went from 0.28173 to 0.32015."},
+  {"id": "ep27", "evidence": ["swqc"], "claim": "For ep27 the new run raises the 4096-world AUC from 0.705 to 0.745 and raises the 4096-world MPPE from 5.00 to 6.22 cm."},
+  {"id": "ep18", "evidence": ["sw18"], "claim": "Swapping only ep18 changes the exported-draw AUC mean by about -0.0005 and the 4096-world AUC mean by about +0.0002."},
+  {"id": "ep18_auc", "evidence": ["sw18"], "claim": "For ep18 the 4096-world AUC goes from 0.826 to 0.831."},
+  {"id": "health", "evidence": ["e18", "e27"], "claim": "Both evaluation records have empty non_finite_worlds lists."},
+  {"id": "ml40", "evidence": ["st40"], "claim": "On ml40 the t3qr3o2d chain is running and the ep15 run is in training."},
+  {"id": "l40n", "evidence": ["stl"], "claim": "On l40n the ep5 run completed and the ep22 run is in training."},
+  {"id": "ctl_true", "evidence": ["e18"], "control": "true", "claim": "The ep18 10M run record has a world_count of 4096."},
+  {"id": "ctl_false1", "evidence": ["d1910"], "control": "false", "claim": "maniphys.ai is 1st on the Tier 3 AUC board."},
+  {"id": "ctl_false2", "evidence": ["e27"], "control": "false", "claim": "The ep27 10M run has an mppe_cm below 3."}
+ ]}
