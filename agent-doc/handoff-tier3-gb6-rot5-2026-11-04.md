@@ -1,31 +1,30 @@
 # 交接：Tier 3 第二份 final `tier3_cari4d_gb6_best_dr2s_dyn7`（2026-11-04 EST）
 
-分支 `track2/tier3-recon`，代码 commit `af1f37f4`（L40S 部署版，`$T/code/DEPLOYED`）；之后的 `fc3a5a96` 只把 GPU 占位的睡眠上限改成 3 小时，不影响产出。计划与预期见 yqchen 本地 `~/v2d/synth-hoi/plan-tier3-rot5-submission-2026-11-04.md`（不在仓里，要点抄在下面）。
+分支 `track2/tier3-recon`。产出代码 `af1f37f4`（GPU 段）+ `e6e2f19e`（对齐修复，链路续跑）+ `8a9cc9ce`（驱动第 4 步比对）。版本说明在版本目录的 `DELIVERY.md`，登记在 `stages/recovery/tier3/versions.json`。计划在 yqchen 本地 `~/v2d/synth-hoi/plan-tier3-rot5-submission-2026-11-04.md`（不在仓里，要点在下面）。
 
 ## 是什么
 
-交付版 `tier3_cari4d_gb5_best_dr2s_dyn7` 那份提交不动，再交一份作为第二个 Final Submission（Kaggle 规则 §2.c：每个比赛最多选 2 个 final）。两者只差 FP 选择器的 `ROT_DEG` 一个参数，按集自动决定：
+第一个 final 不动，再交一份作为第二个 Final Submission（Kaggle §2.c：每个比赛最多 2 个 final）。用户 11-04 定：交；训练照抄第一个 final 里这两集的配置，只换重建（参考）；跟丢换跟丢也换。
 
-- 规则 `stages/recovery/tier3/t3_rot_rule.py`：只看走 FP 选择器的 13 集。每集在 `ROT_DEG` 10（交付值）和 5 下各选一次；在两次选择结果不同的帧上，比较物体轮廓与 SAM2 掩码的 IoU。5 的均值比 10 高出 0.02 以上，才用 5。只用 Tier 3 自己的输入。
-- 预期选中 **ep11、ep17** 两集，其余 28 集与 gb5 逐字节相同。
-- 一条命令：`stages/recovery/tier3/t3_rot_full.sh gb6 gb5`（L40S，日志 `$T/logs/rot_full_gb6.log`）。它依次跑规则、两集的选择、CARI4D 06–08、convert、`t3_gb_chain.sh`，最后逐字节比对 28 集。
+- 重建：FP 时间线选择器的 `ROT_DEG` 按集自动定（`stages/recovery/tier3/t3_rot_rule.py`，只用 Tier 3 输入），选中 **ep11、ep17** 用 5，其余用 10（交付值）。复现命令是 `stages/recovery/tier3/t3_rot_full.sh gb6 gb5`，但本次没有端到端跑通（链路对齐步停下后续跑、第 4 步另跑，按现在的代码重跑预期在第 4 步 ep01 停下），细节见 `DELIVERY.md` 的未完成项。
+- **第一个 final 里这两集的参考是 hm，不是 gb5**（ep17 `t3-ep17-w2048-cap4m-r3a-hm-mf4090`，ep11 占位 `t3-ep11-w2048-cap10m-r3a-hm-ph-ml40`）。所以两份提交在这两集上的差别是 hm → gb6（中间隔着 gb4、gb5 的选择器改动与 dr2s、dyn7），不只是 `ROT_DEG`。
+- 其余 28 集的数据表与 gb5 交付版相同（parquet 元数据只差记来历的版本名）。ep01 支撑面的依靠方块差约 1.4 mm（采样无种子，见 `DELIVERY.md` 已知问题）。这 28 集都不进第二份提交的改动，沿用第一个 final 的 checkpoint 与帧参考。
 
-## 什么时候能用
+## 要做的（rxzhou）
 
-- 日志末行 `ROT_FULL_DONE` 才算产出完成。末行 `ROT_FULL_FAILED <原因>` 表示这份不交。
-- GPU：驱动在你这一段（`t3qr3o2d`）的训练和评测结束、三个 `.chain-active-*` 标记撤掉、卡上没有进程之后 20 秒内上卡，先起占位容器 `rot_hold_gb6`（约 0.5 GB），占到 06–08 和 convert 跑完，日志里会写 `GPU steps done, hold released`，预计 01:00 EST 前后。看到这一行之后再放 `t3qr3o2e` 的接力。
-- 之后的后处理链只用 CPU，预计 02:15 EST 前后 `ROT_FULL_DONE`。
-- 如果占位残留（驱动不在了，容器还在），`docker stop rot_hold_gb6` 即可。看门狗 `/lab_data/yqchen/v2d/seedance_t3/rotrule/hold_watchdog.sh` 也会在驱动消失或占位超过 3 小时时自动停掉它。
+1. **入库**：用你自己的流程把 gb6 的 ep11、ep17 收进 `runs/motion/tier3_gb6`（同 gb5 那次：从版本目录取 parquet、元数据与 `support_surface/` 下我们的支撑面 usda，跑你的 retarget）。版本目录 `/lab_data/yqchen/v2d/tier3/runs/tier3_cari4d_gb6_best_dr2s_dyn7`（ep11、ep17 都在主目录，不在 `_suspect`）。我们门槛里的 retarget 输出（`$G/repo/runs/motion/tier3_gb6dyn7`）与你的 retarget 列不同、支撑面是空的，不要用。你的白名单（`tier3_pack_remote.sh`、`t3_episode_remote.sh`）要加 gb6 这个名字。
+2. **训练**（L40 `l40n`，卡空着；照抄第一个 final 的两行，只换 parquet 路径与 run 名）：
+   - ep17，照 `stages/policy/queues/mf4090_t3p4a.txt` 的 `t3-ep17-w2048-cap4m-r3a-hm-mf4090`：2048 世界、349999104 步、`training.replay.capacity=4000000 objective.object_position_std=0.05 termination.object_orientation_threshold=0.6`，训练副本 `v040_p185_nfg`，seed 42。建议名 `t3-ep17-w2048-cap4m-r3a-gb6-l40n`。约 2.1 小时（按 L40S 实测约 4.6 万步/秒，推断）。
+   - ep11，照第一个 final 的占位 `t3-ep11-w2048-cap10m-r3a-hm-ph-ml40`（10-15 `ffee511a`：`t3-ep11-w2048-cap10m-r3a-hm-ml40` 那行训到冒烟长度）：2048 世界、**4096000 步（刻意沿用占位长度，不要训满）**、`objective.object_position_std=0.05 termination.object_orientation_threshold=0.6`，replay 用默认 1000 万（那行没有 capacity 覆盖），训练副本 `v040_p185_nfg`，seed 42（`ml40_t3qa` 期望表）。建议名 `t3-ep11-w2048-cap10m-r3a-gb6-ph-l40n`。
+   - 评测用 `fc_8c778f9`，同你的链。
+3. **打包**：底是第一个 final 实际交的那个包，只换 ep11、ep17 两行与它们的帧参考（用 gb6 的参考建）。上传前核对 `CSV_EPISODE_DIFF_OK` 只差 11、17。
+4. **留档**：这份的打包文件、上传回执、工具包副本、两个新 checkpoint 与 28 个沿用的、评测器运行时，与第一个 final 分开存（工具包 `CONTAINER_SUBMISSION.md`）。`code_commit_url` 要同时含产出代码（`8a9cc9ce` 或之后）与你的训练配置。
 
-## 训练要做的
+## 时间
 
-- 只重训 `ROT_FULL_DONE` 时日志第 4 步列为「ROT_DEG 5」的集（预期 ep11、ep17）。其余 28 集的参考与 gb5 逐字节相同，沿用 gb5 那份提交用的 checkpoint。
-- 版本目录：`/lab_data/yqchen/v2d/tier3/runs/tier3_cari4d_gb6_best_dr2s_dyn7`（以及 `_suspect`），支撑面 usda 在 `$G/support_usda_gb6dyn7`。`ROT_FULL_DONE` 之后由 yqchen 用 `t3_deliver.sh` 把 usda 放进版本目录、写 `DELIVERY.md`，放好后另行通知；在那之前不要开训练。
-- 打包：`--frame-references` 用 gb6 的参考，所以这两集的参考是新的，其余 28 集与 gb5 相同。
-- 留档（容器复现要用，工具包 `CONTAINER_SUBMISSION.md`）：这份提交的打包文件、上传回执、打包用的工具包副本、30 个被评测的 checkpoint（2 个新训的加 28 个沿用的）、评测器运行时，都要和 gb5 那份提交的产物分开保存，不能覆盖。
-- `code_commit_url`：每行必须相同（§2.d），并且对应产出这份提交的代码（§9.a）。这个 commit 要同时包含 `af1f37f4` 的重建代码和你的训练配置，不能填分支链接。
+比赛 11-04 17:00 EST 截止。ep17 训练约 2.1 小时，打包上次约 1 小时：正式训练最晚 12:30 EST 前要起。
 
 ## 不做什么
 
-- 不动 gb5 那份提交，也不改交付版的任何文件（驱动只复制，不硬链接）。
-- 不按目测挑集（10-15 定的：Tier 3 的修复只能来自自动方法）。
+- 不动第一个 final 与 gb5 交付版的任何文件。
+- 不按目测挑集（10-15 定：Tier 3 的修复只来自自动方法）。

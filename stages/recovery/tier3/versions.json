@@ -270,6 +270,24 @@
    "date": "10-21",
    "from": "tier3_cari4d_gb5_best_dr2s",
    "purpose": "dyn7 dynamics post-process on gb5_best_dr2s; checked by gate/chain_check.sh set gb5dyn7 and the registered gb5 machine gate (ATTRIBUTE M5 M6 against gb4, attributed in agent-doc/handoff-tier3-rotation-2026-10-21-attr.md: the changes follow the selector's orientation changes; gb5 is right on some segments and wrong on others); user whole-batch review against gb4: old right, new wrong 3/75 frames (7/75 counting gb4 a little better), within the 10% line; DELIVERED 10-21 by user decision (report runs/<version>/DELIVERY.md, agent-doc/delivery-tier3-gb5_best_dr2s_dyn7-2026-10-21.md); support_surface updated in place 10-21 (user decision): ep01 gains two lean boxes from gate/t3_lean_support.py (bc1d566), parquet and the other 29 usda unchanged, our-support gate 30/30 identical line by line; the previous usda dir is $G/archive/support_usda_gb5dyn7_before_lean_1021"
+  },
+  "tier3_cari4d_gb6_best": {
+   "status": "candidate",
+   "date": "11-04",
+   "from": "tier3_cari4d_gb5_best",
+   "purpose": "gb5_best with ROT_DEG 5 (instead of 10) in the timeline selector on the episodes t3_rot_rule.py picks (changed-frame silhouette IoU gain > 0.02 at FP stage 05, Tier 3 inputs only; picked ep11, ep17), CARI4D 06-08 re-run for those two in runs/work_rot_gb6 and converted into convert_fp_gb6; the other episodes' convert dirs copied from gb5; gb4's floor fit and camera registration; made by t3_rot_full.sh gb6 gb5 (11-04; its chain check stopped on the alignment KeyError fixed in e6e2f19e and was resumed by dev/gb6_resume.sh)"
+  },
+  "tier3_cari4d_gb6_best_dr2s": {
+   "status": "candidate",
+   "date": "11-04",
+   "from": "tier3_cari4d_gb6_best",
+   "purpose": "depth correction along the viewing ray as best_dr2s (--move-human=3d), on gb6_best with supports runs/support/tier3_cari4d_gb6_best"
+  },
+  "tier3_cari4d_gb6_best_dr2s_dyn7": {
+   "status": "delivered",
+   "date": "11-04",
+   "from": "tier3_cari4d_gb6_best_dr2s",
+   "purpose": "dyn7 dynamics post-process on gb6_best_dr2s; the second Tier 3 final (user 11-04), gb5_best_dr2s_dyn7 stays delivered as the first; checked by gate/chain_check.sh set gb6dyn7 and gate/dyn/gb6_selfcheck_now.sh against gb5_best_dr2s_dyn7: dynamics, hand-object and the pose audit differ from gb5 only on ep11 and ep17; the other 28 episodes' tables equal gb5's (metadata differs only by the version name), their support usda byte-identical except ep01, whose two lean boxes moved about 1.4 mm (inferred: t3_lean_support.py samples the mesh unseeded under trimesh 4.5.1); ep17 delivered-layer dynamics violations 26 -> 46, not attributed; the chain was not run end to end (resumed after the alignment KeyError, step 4 run separately, no ROT_FULL_DONE); delivery-layer texture sheets not seen by the user; DELIVERED 11-04 by user decision (report runs/<version>/DELIVERY.md)"
   }
  },
  "work": {
@@ -284,6 +302,7 @@
   "work_b020": "archived 10-21 (runs/archive/work_b020): BETA 0.2 run of the 10-20 A/B; superseded by work_b050",
   "work_b030": "archived 10-21 (runs/archive/work_b030): BETA 0.3 run of the 10-20 A/B; superseded by work_b050",
   "work_sel": "archived 10-21 (runs/archive/work_sel): 10-19 timeline-selection pilot (BETA 0, ep03/04); superseded by work_b050",
-  "work_anchor": "archived 10-21 (runs/archive/work_anchor): 10-20 anchored-selection re-run with BETA 0.316 from the answer frames, stopped before 06 (stage 05 only; no evidence); superseded by work_b050"
+  "work_anchor": "archived 10-21 (runs/archive/work_anchor): 10-20 anchored-selection re-run with BETA 0.316 from the answer frames, stopped before 06 (stage 05 only; no evidence); superseded by work_b050",
+  "work_rot_gb6": "ROT_DEG 5 selection runs of ep11 and ep17 (copies of work_fp with stages 06-08 cleared and re-run, 08 render skipped); input to convert_fp_gb6 (gb6). rule records in runs/rot_rule_gb6 (t3_rot_full.sh)"
  }
 }
