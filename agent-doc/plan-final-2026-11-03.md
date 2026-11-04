@@ -70,6 +70,13 @@
 - 11/03 19:1x MST：ml40 `t3qr3o2c`（`plan-t3auc1` 的第三批）读完，记录写在 `plan-t3auc1` 执行记录；按本计划第 2 节的第二次上传条件不问（只换 ep18 时两种变化不都高于 t3m1103a）。
   ml40 `t3qr3o2d` 17:41 MST 起链（ep15 在训，之后 ep5，读数约 22:45 MST）。l40n `t2l4` 的 ep5 训练完、ep22 在训，评测链等整段训完，读数约 20:30 MST；mf4090 `t3pr3o2d` 的 ep20 训完、ep6 在训，读数约 20:40 MST。
 
+- 11/03 22:0x MST，rxzhou 同意把 l40n 让给另一位成员（Tier 3 调参版本重建与两集重训）。`t2l4b` 20:18 MST 已起链、ep16 训到 77%，建 `runs/.chain-stop-t2l4b_train_l40n`：ep16 训完照常评测、导出，ep20 不起；停掉我们自己等 `t2l4b` 的 `arm_after.sh t2l4c`（日志改名 `.yield_stopped`），`t2l4c` 不跑。之后在 l40n 跑的两集另写短计划、过独立复核。
+- 11/03 22:1x MST，l40n `t2l4` 读数（20:15 MST 评完、导出完；记录拉回 Mac 逐份 sha256 相同；两条日志都有 r3o 项那一行，nanwatch 非有限 0，`non_finite_worlds` 都为空，两份 EXPORT_OK，健康）：
+  ep22 ADD-AUC 0.663 → 0.885，SP-SR 0.997 → 1.000，MP-SR 0.997 → 0.998，MPPE 1.60 → 1.22 cm，过；ep5 0.622 → 0.687，但 SP-SR 0.971 → 0.907、MP-SR 0.956 → 0.851、MPPE 2.70 → 6.17 cm，不过。
+  合计（`results/final1/swap_t2l4_22_vs_t2a1102.txt`，换 ep26、18、6、8、22）：导出那一局 0.52677 → 0.56657（+0.0398），4096 世界 0.51239 → 0.55195（+0.0396）。门槛：前两条过；折算 0.51765 + 0.21 × 0.0396 = 0.52596 ≥ FF 0.52267 + 0.002 = 0.52467，过，余量 0.0013（22:04 的榜 FF 仍是 0.52267，第 5）。三条都满足，按第 2 节问 rxzhou。
+  打包：清单 `stages/evaluate/exports/t2_select_t2a1103.tsv`（t2a1102 只改这 5 行），PULL_OK 4 张表、PULL_OK 60，CHECK_T2_SELECT_OK，提交 44c15793；PACK 22989 行，CSV sha256 f3d1cf0b…（`results/submission/pack/t2_select_t2a1103.txt`）；CSV 核对 CHECK_T2_SELECT_OK；缓存环境预演 `--only add_auc` 通过（`results/submission/dryrun_t2a1103_auc.txt`）。
+- 11/03 22:2x MST，mf4090 `t3pr3o2d` 读数（20:30 MST 评完、导出完，健康，同上各项）：ep20 0.687 → 0.764，SP-SR 0.844 → 0.886，MP-SR 0.814 → 0.839，MPPE 4.98 → 4.12 cm，过；ep6 0.604 → 0.665，SP-SR 0.978 → 0.969，MP-SR 0.074 → 0.073，MPPE 3.97 → 4.19 cm（+0.22），过。
+  对 t3m1103a（`results/final1/swap_pd_vs_t3m1103a.txt`）：导出那一局 +0.0061，4096 世界 +0.0046，两种变化都比已交那份高，按第 2 节字面可以再问。读法（解释）：按 Tier 3 测到的约 1.1 换算，榜上约 +0.005，约 0.325，仍不到第 3 nima arki 0.32937，名次不变；建议攒到后面几段一起算，越过 nima arki 时再问一次。
 ## 5. 独立复核（11/03 13:4x MST）
 
 结论 GO WITH FIXES，8 条全部采纳：

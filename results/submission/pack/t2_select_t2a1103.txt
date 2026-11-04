@@ -1,0 +1,20 @@
+# command  : bash stages/evaluate/pack_tier.sh --inner 2 runs/submission/select_t2_t2a1103/t2 runs/submission/csv/track2_tier2_select_t2a1103.csv https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/44c15793765b45388b47e6a6c40751cf107227ae '' 
+# md5      : 4563fbc15e44eb1c4d248382afea4302  stages/evaluate/pack_tier.sh
+# source   : 44c15793765b
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T22:06:26-0700
+# ---------------------------------------------------------------
+Downloading pyarrow (35.6MiB)
+ Downloaded pyarrow
+Installed 39 packages in 127ms
+# python 3.12.14 numpy=2.5.4 pandas=2.3.3 pyarrow=26.0.1 trimesh=5.2.0 kaggle=2.2.5
+frame conversion reference: runs/submission/frame_refs_t2
+clean scoring reference: data/challenge/track_2/tier_1_multiview_caption
+note: 30 distinct checkpoints across the episodes, which is expected for per-sequence policies
+input reference check: one rigid frame transform per episode; maximum residual 1.52e-07 m, 1.63e-07 rad
+converted 30 Track 2 episode(s) into the released frame
+note: evaluator metrics use the policy input; local leaderboard scores use the clean reference
+
+wrote runs/submission/csv/track2_tier2_select_t2a1103.csv (22,989 rows, 12,138,346 B)
+upload with: python submit/v2d_submit.py runs/submission/csv/track2_tier2_select_t2a1103.csv --track track_2_tier2 -m '<message>'
+CSV runs/submission/csv/track2_tier2_select_t2a1103.csv：22989 行，sha256 f3d1cf0b298bd89c20274cb5d341386b4cec18192de7134bdef1f28853c286c7
