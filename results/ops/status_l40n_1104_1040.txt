@@ -1,0 +1,24 @@
+# command  : ssh l40n bash\ -s\ l40n 
+# source   : e06eb822fd03
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T10:41:02-0700
+# ---------------------------------------------------------------
+== l40n 2026-11-05 01:41:05 CST
+NVIDIA L40, 0 MiB, 46068 MiB, 0 %
+/dev/vda2       197G  157G   32G  84% /
+-- tmux
+（没有会话）
+-- 长链标记
+（没有）
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t2l4_l40n.log：=== 2026-11-04 06:06:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t2l4b_l40n.log：=== 2026-11-04 11:18:52 CST ARM_AFTER_ARMED
+-- 最近改动的 8 份链日志
+runs/logs/cand_t2_t2l4b_l40n_gate.log：=== 2026-11-04 13:35:39 CST 导出链结束，退出码 0
+runs/logs/cand_t2_t2l4b_l40n.log：=== 2026-11-04 13:35:39 CST EXPORT_CHAIN_DONE（成功 1、失败 1）
+runs/logs/t2-ep16-w2048-cap10m-r3o-l40n.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t2-ep16-w2048-cap10m-r3o-l40n/export_8c778f9/s349999104_w1/episode_000016.parquet
+runs/logs/t2l4b_eval_l40n.log：=== 2026-11-04 13:34:46 CST DAY2_EVAL_DONE（成功 1、失败 0）
+runs/logs/t2-ep16-w2048-cap10m-r3o-l40n.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t2-ep16-w2048-cap10m-r3o-l40n/eval_349999104_w4096.json
+runs/logs/t2l4b_train_l40n.log：=== 2026-11-04 13:31:21 CST DAY2_TRAIN_DONE（完成 1、失败 0、跳过 0、发散 0）
+runs/logs/t2-ep16-w2048-cap10m-r3o-l40n.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep16-w2048-cap10m-r3o-l40n
+runs/logs/t2-ep16-w2048-cap10m-r3o-l40n.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t2-ep16-w2048-cap10m-r3o-l40n

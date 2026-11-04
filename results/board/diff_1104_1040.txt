@@ -1,0 +1,39 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1104_1007.txt results/board/lb_1104_1040.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 734c2b62fdd55056cc04324446e2976d  results/board/lb_1104_1007.txt
+# md5      : 0a839552b1039a999a75f8e8b0310b06  results/board/lb_1104_1040.txt
+# source   : e06eb822fd03
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T10:40:49-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1104_1007.txt；这一份 results/board/lb_1104_1040.txt
+## 变了的榜
+tier1-auc：Rice RobotPI Lab 0.90927 → 0.94921（2026-11-04 17:17）
+tier1-sp-sr：新进 EmAI Robotics 0.66666（2026-11-04 17:28）；Rice RobotPI Lab 0.96666 → 1.00000（2026-11-04 17:17）；不见了 Rohit Pardeshi（原 0.56666）
+tier1-mp-sr：不见了 CHORD Baseline（原 0.20000）；新进 EmAI Robotics 0.23333（2026-11-04 17:28）；Rice RobotPI Lab 0.93333 → 1.00000（2026-11-04 17:18）
+tier1-mppe：新进 EmAI Robotics 15.47512（2026-11-04 17:28）；Rice RobotPI Lab 4.39963 → 0.83510（2026-11-04 17:18）；不见了 crisiumnih（原 20.94891）
+tier2-auc：新进 EmAI Robotics 0.38447（2026-11-04 17:29）；不见了 Javier Medel, MSc.（原 0.22330）；新进 Rice RobotPI Lab 0.82274（2026-11-04 17:39）；不见了 longbot（原 0.25073）
+tier2-sp-sr：新进 EmAI Robotics 0.53333（2026-11-04 17:29）；不见了 Javier Medel, MSc.（原 0.03333）；新进 Rice RobotPI Lab 0.96666（2026-11-04 17:40）；不见了 longbot（原 0.03333）
+tier2-mp-sr：新进 EmAI Robotics 0.10000（2026-11-04 17:29）；不见了 TheTensorGeek（原 0.00000）
+tier2-mppe：新进 EmAI Robotics 20.03682（2026-11-04 17:29）；不见了 longbot（原 55.10178）
+tier3-auc：新进 EmAI Robotics 0.08177（2026-11-04 17:31）
+tier3-sp-sr：新进 EmAI Robotics 0.03333（2026-11-04 17:31）
+tier3-mp-sr：新进 EmAI Robotics 0.00000（2026-11-04 17:31）
+tier3-mppe：新进 EmAI Robotics 53.46709（2026-11-04 17:31）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 Rice RobotPI Lab 0.94921，差 0.31386）；sp-sr 第 10（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 Rice RobotPI Lab 1.00000，差 0.30000）；mppe 第 10（8.46753，第 1 名 Rice RobotPI Lab 0.83510，差 7.63243）
+Tier 2：auc 第 7（0.51765，第 1 名 Rice RobotPI Lab 0.82274，差 0.30509）；sp-sr 第 6（0.73333，第 1 名 Rice RobotPI Lab 0.96666，差 0.23333）；mp-sr 第 6（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 10（15.32195，第 1 名 Izus_systems 6.65765，差 8.66430）
+Tier 3：auc 第 4（0.33996，第 1 名 MBZUAI-RCL Group 0.44671，差 0.10675）；sp-sr 第 2（0.46666，第 1 名 MBZUAI-RCL Group 0.50000，差 0.03334）；mp-sr 第 4（0.10000，第 1 名 MBZUAI-RCL Group 0.26666，差 0.16666）；mppe 第 6（36.60061，第 1 名 domoarigato 24.38354，差 12.21707）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 85（第 6） → 87（第 6）；前 4：Izus_systems 34、domoarigato 39、MBZUAI-RCL Group 43、nima arki 74
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 86（第 6） → 88（第 6）；前 4：domoarigato 33、Izus_systems 34、MBZUAI-RCL Group 48、nima arki 73
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 24（第 5） → 24（第 5，与 1 队同分）；前 4：domoarigato 7、Izus_systems 9、nima arki 18、Debajyoti Dasgupta 21
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 24（第 5） → 24（第 5，与 1 队同分）；前 4：domoarigato 7、Izus_systems 9、nima arki 18、Debajyoti Dasgupta 21
+ALERT tier2-auc 名次 6 → 7（同分 kaggle）
+ALERT tier2-sp-sr 名次 5 → 6（同分 kaggle）
+ALERT tier2-auc 名次 6 → 7（同分 site）
+ALERT tier2-sp-sr 名次 5 → 6（同分 site）
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE
