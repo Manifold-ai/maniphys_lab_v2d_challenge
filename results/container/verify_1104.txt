@@ -1,0 +1,45 @@
+WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be available.
+  PASS  checked-out commit matches code.commit_url: HEAD b59f6a6cb3f9, manifest b59f6a6cb3f9
+  PASS  no tracked file differs from the commit
+  PASS  submitted file is in the container: /submission/submitted/track2_tier1_t1x1102.csv sha256 ccabcc5183a3
+  PASS  provenance columns present
+  PASS  submitted code_commit_url is the container's commit: b59f6a6cb3f9
+  PASS  packer_script_sha256 matches the container: /submission/kit/tools/pack_submission.py 47a4589574ff
+  PASS  uploader_script_sha256 matches the container: /submission/kit/submit/v2d_submit.py fe5cb1dc86d1
+  PASS  eval_script_sha256 matches the container: /submission/kit/flash_chord/scripts/evaluate_policy.py 160d24f5fbeb
+  PASS  eval_code_sha256 matches the container: /workspace/src/flash_chord/evaluation b1b3ebe3ae46
+  PASS  checkpoint_sha256 matches the container for all 30 episodes
+  PASS  re-packed stored outputs match the submitted file
+11 pass, 0 fail, 0 warn, 0 skip
+VERIFY_EXIT tier1 0
+WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be available.
+  PASS  checked-out commit matches code.commit_url: HEAD c4f248dc60f3, manifest c4f248dc60f3
+  PASS  no tracked file differs from the commit
+  PASS  submitted file is in the container: /submission/submitted/track2_tier2_select_b1014.csv sha256 3f89908ae193
+  PASS  provenance columns present
+  PASS  submitted code_commit_url is the container's commit: c4f248dc60f3
+  PASS  packer_script_sha256 matches the container: /submission/kit/tools/pack_submission.py 47a4589574ff
+  PASS  uploader_script_sha256 matches the container: /submission/kit/submit/v2d_submit.py fe5cb1dc86d1
+  PASS  eval_script_sha256 matches the container: /submission/kit/flash_chord/scripts/evaluate_policy.py 160d24f5fbeb
+  PASS  eval_code_sha256 matches the container: /workspace/src/flash_chord/evaluation b1b3ebe3ae46
+  PASS  checkpoint_sha256 matches the container for all 30 episodes
+  PASS  re-packed stored outputs match the submitted file
+11 pass, 0 fail, 0 warn, 0 skip
+VERIFY_EXIT tier2 0
+WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be available.
+  PASS  checked-out commit matches code.commit_url: HEAD 2175e83e0c13, manifest 2175e83e0c13
+  PASS  no tracked file differs from the commit
+  PASS  submitted file is in the container: /submission/submitted/track2_tier3_t3m1029a.csv sha256 37a43a779aab
+  PASS  provenance columns present
+  PASS  submitted code_commit_url is the container's commit: 2175e83e0c13
+  PASS  packer_script_sha256 matches the container: /submission/kit/tools/pack_submission.py 47a4589574ff
+  PASS  uploader_script_sha256 matches the container: /submission/kit/submit/v2d_submit.py fe5cb1dc86d1
+  PASS  eval_script_sha256 matches the container: /submission/kit/flash_chord/scripts/evaluate_policy.py 160d24f5fbeb
+  PASS  eval_code_sha256 matches the container: /workspace/src/flash_chord/evaluation b1b3ebe3ae46
+  PASS  checkpoint_sha256 matches the container for all 30 episodes
+  PASS  re-packed stored outputs match the submitted file
+11 pass, 0 fail, 0 warn, 0 skip
+VERIFY_EXIT tier3 0
+---
+d0f6d4018d4d893886f405c22404e80caf7e7ac644df6a82f3c3b4f68d410d91  maniphys-lab-v2d-submission.tar.zst
+# image ID: sha256:d870d3ab5ceea2060bd40cf500e5c2cc2032249d855bf9f60201a679bd770f89

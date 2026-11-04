@@ -1,0 +1,28 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-04-report.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 2a94f6667c2dda04a88c3355c693907b  agent-doc/experiments/2026-11-04-report.claims.json
+# source   : 223d2320351b-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T15:06:51-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1board              P(supported)=0.96  verified               [s1]  The Tier 1 file t1x1102 scored ADD-AUC 0.63535, SP-SR 0.86666, MP-SR 0.70000 and MPPE 8.46753 cm on the leaderboard.
+t2board              P(supported)=0.94  verified               [s2]  The Tier 2 file b1014 scored ADD-AUC 0.50890, SP-SR 0.73333, MP-SR 0.53333 and MPPE 15.32195 cm on the leaderboard.
+t3board              P(supported)=0.97  verified               [s3]  The Tier 3 file t3m1029a scored ADD-AUC 0.28173, SP-SR 0.46666, MP-SR 0.10000 and MPPE 36.60061 cm on the leaderboard.
+t2mppe               P(supported)=0.98  verified               [s2old, s2]  Tier 2 board MPPE fell from 16.54028 cm with b1013 to 15.32195 cm with b1014, and ADD-AUC changed from 0.51379 to 0.50890.
+t2four               P(supported)=0.97  verified               [t2swap]  The b1014 selection list was generated from b1013 and changes only the rows of episodes 1, 4, 9 and 28.
+t2rule               P(supported)=0.91  verified               [t2rule]  The Tier 2 selection takes per episode the run with the higher 4096-world MP-SR, then the higher ADD-AUC, then keeps the currently submitted run.
+t2iso                P(supported)=0.94  verified               [t2guard]  The Tier 2 export script calls forbid_tier1() and v5.4 uses clean-room parameters derived only from Tier 2.
+t1five               P(supported)=0.95  verified               [t1swap]  t1x1102 is t1x1101 with episodes 24, 8, 6, 26 and 9 replaced, with ep26 a 10 M r3o-nv run and ep9 a 10 M fc20 run.
+recipe               P(supported)=0.98  verified               [facts]  The official recipe runs 349,999,104 environment steps with 2048 worlds; variant A sets the object position width to 0.05 m and the orientation termination to 0.6 rad; r3o adds an orientation term with weight 1.0 and sigma 0.4.
+r3ogain              P(supported)=0.77  verified               [facts]  On Tier 1, r3o raised the 4096-world ADD-AUC of ep24 from 0.580 to 0.948 and of ep7 from 0.622 to 0.915, and r3o-nv raised ep17 SP-SR from 0 to 0.932.
+faq                  P(supported)=0.85  verified               [faq]  The organizers stated that using the first frame of Tier 1 data to compute alignment is fine, provided the Tier 1 caption is not used in Tier 3 otherwise.
+b2                   P(supported)=0.96  verified               [b2]  For symmetric objects the orientation branch cannot be decided by physical constraints and is chosen with the frame-0 anchor (B2).
+t3seven              P(supported)=0.96  verified               [t3pack]  t3m1029a is t3m1022a with seven rows replaced, including ep12 with the near-symmetric branch B2n and ep27 with the symmetric branch B2.
+t3hist               P(supported)=0.99  verified               [s3gb, s3aa]  gb1018e22 scored Tier 3 ADD-AUC 0.10649 and MPPE 54.98984 cm, and t3m1022aa scored ADD-AUC 0.22590 and MPPE 49.93762 cm.
+t3ph                 P(supported)=0.97  verified               [inv3ph]  In t3m1029a, episodes 9, 11 and 28 use checkpoints at 4,096,000 steps.
+ctl_true             P(supported)=0.99  verified               [invprov]  The counted Tier 3 file t3m1029a records the code commit 2175e83e0c13b9ae2391d724f3d1c80c392b73d3.
+ctl_false1           P(supported)=0.01  UNVERIFIED             [s1]  The Tier 1 file t1x1102 scored an MPPE of 24.5 cm and an MP-SR of 0.30000 on the leaderboard.
+ctl_false2           P(supported)=0.10  UNVERIFIED             [t2swap]  b1014 replaces every one of the 30 Tier 2 episodes of b1013.
+ctl_false3           P(supported)=0.07  UNVERIFIED             [inv3ph]  In t3m1029a, episodes 9, 11 and 28 use fully trained 349,999,104-step checkpoints.
+controls behaved as expected

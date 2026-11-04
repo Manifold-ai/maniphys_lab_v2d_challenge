@@ -1,0 +1,206 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "s1": {
+      "file": "results/submission/submit_t1x1102.txt",
+      "grep": "COMPLETE"
+    },
+    "s2": {
+      "file": "results/submission/submit_b1014.txt",
+      "grep": "COMPLETE"
+    },
+    "s2old": {
+      "file": "results/submission/submit_b1013.txt",
+      "grep": "COMPLETE"
+    },
+    "s3": {
+      "file": "results/submission/submit_t3_t3m1029a.txt",
+      "grep": "COMPLETE"
+    },
+    "s3aa": {
+      "file": "results/submission/submit_t3_t3m1022aa.txt",
+      "grep": "COMPLETE"
+    },
+    "s3gb": {
+      "file": "results/submission/submit_t3_gb1018e22.txt",
+      "grep": "COMPLETE"
+    },
+    "inv3ph": {
+      "file": "results/freeze/counted_inventory.txt",
+      "grep": "^track2_tier3_t3m1029a\\.csv.(9|11|28).[0-9a-f]"
+    },
+    "invprov": {
+      "file": "results/freeze/counted_inventory.txt",
+      "grep": "^track2_(tier1_t1x1102|tier2_select_b1014|tier3_t3m1029a)\\.csv.tier"
+    },
+    "t1swap": {
+      "file": "agent-doc/plan-t1ep1-2026-11-02.md",
+      "grep": "t1x1102`：t1x1101 换"
+    },
+    "t2swap": {
+      "file": "agent-doc/plan-first-place-2026-10-14.md",
+      "grep": "只改 ep1、4、9、28"
+    },
+    "t2guard": {
+      "file": "stages/recovery/export_tier2.py",
+      "grep": "v5\\.4 = |forbid_tier1\\(\\)"
+    },
+    "t2rule": {
+      "file": "agent-doc/plan-t2-select-b-2026-10-12.md",
+      "grep": "取 4096 世界 MP-SR 高者"
+    },
+    "faq": {
+      "file": "agent-doc/plan-t3align-2026-10-21.md",
+      "grep": "first frame of Tier 1"
+    },
+    "facts": {
+      "file": "agent-doc/report-facts-2026-11-03.md",
+      "grep": "r3o: r3a|Variant A \\(r3a\\)|Official: 349|ep24 0.580|r3o-nv ep17|fc20 ep9"
+    },
+    "b2": {
+      "file": "agent-doc/plan-t3b2-2026-10-28.md",
+      "grep": "这就是 B2"
+    },
+    "t3pack": {
+      "file": "agent-doc/plan-t3pack-2026-10-29.md",
+      "grep": "t3m1022a 换掉这 7 行|ep12：|ep27："
+    }
+  },
+  "claims": [
+    {
+      "id": "t1board",
+      "evidence": [
+        "s1"
+      ],
+      "claim": "The Tier 1 file t1x1102 scored ADD-AUC 0.63535, SP-SR 0.86666, MP-SR 0.70000 and MPPE 8.46753 cm on the leaderboard."
+    },
+    {
+      "id": "t2board",
+      "evidence": [
+        "s2"
+      ],
+      "claim": "The Tier 2 file b1014 scored ADD-AUC 0.50890, SP-SR 0.73333, MP-SR 0.53333 and MPPE 15.32195 cm on the leaderboard."
+    },
+    {
+      "id": "t3board",
+      "evidence": [
+        "s3"
+      ],
+      "claim": "The Tier 3 file t3m1029a scored ADD-AUC 0.28173, SP-SR 0.46666, MP-SR 0.10000 and MPPE 36.60061 cm on the leaderboard."
+    },
+    {
+      "id": "t2mppe",
+      "evidence": [
+        "s2old",
+        "s2"
+      ],
+      "claim": "Tier 2 board MPPE fell from 16.54028 cm with b1013 to 15.32195 cm with b1014, and ADD-AUC changed from 0.51379 to 0.50890."
+    },
+    {
+      "id": "t2four",
+      "evidence": [
+        "t2swap"
+      ],
+      "claim": "The b1014 selection list was generated from b1013 and changes only the rows of episodes 1, 4, 9 and 28."
+    },
+    {
+      "id": "t2rule",
+      "evidence": [
+        "t2rule"
+      ],
+      "claim": "The Tier 2 selection takes per episode the run with the higher 4096-world MP-SR, then the higher ADD-AUC, then keeps the currently submitted run."
+    },
+    {
+      "id": "t2iso",
+      "evidence": [
+        "t2guard"
+      ],
+      "claim": "The Tier 2 export script calls forbid_tier1() and v5.4 uses clean-room parameters derived only from Tier 2."
+    },
+    {
+      "id": "t1five",
+      "evidence": [
+        "t1swap"
+      ],
+      "claim": "t1x1102 is t1x1101 with episodes 24, 8, 6, 26 and 9 replaced, with ep26 a 10 M r3o-nv run and ep9 a 10 M fc20 run."
+    },
+    {
+      "id": "recipe",
+      "evidence": [
+        "facts"
+      ],
+      "claim": "The official recipe runs 349,999,104 environment steps with 2048 worlds; variant A sets the object position width to 0.05 m and the orientation termination to 0.6 rad; r3o adds an orientation term with weight 1.0 and sigma 0.4."
+    },
+    {
+      "id": "r3ogain",
+      "evidence": [
+        "facts"
+      ],
+      "claim": "On Tier 1, r3o raised the 4096-world ADD-AUC of ep24 from 0.580 to 0.948 and of ep7 from 0.622 to 0.915, and r3o-nv raised ep17 SP-SR from 0 to 0.932."
+    },
+    {
+      "id": "faq",
+      "evidence": [
+        "faq"
+      ],
+      "claim": "The organizers stated that using the first frame of Tier 1 data to compute alignment is fine, provided the Tier 1 caption is not used in Tier 3 otherwise."
+    },
+    {
+      "id": "b2",
+      "evidence": [
+        "b2"
+      ],
+      "claim": "For symmetric objects the orientation branch cannot be decided by physical constraints and is chosen with the frame-0 anchor (B2)."
+    },
+    {
+      "id": "t3seven",
+      "evidence": [
+        "t3pack"
+      ],
+      "claim": "t3m1029a is t3m1022a with seven rows replaced, including ep12 with the near-symmetric branch B2n and ep27 with the symmetric branch B2."
+    },
+    {
+      "id": "t3hist",
+      "evidence": [
+        "s3gb",
+        "s3aa"
+      ],
+      "claim": "gb1018e22 scored Tier 3 ADD-AUC 0.10649 and MPPE 54.98984 cm, and t3m1022aa scored ADD-AUC 0.22590 and MPPE 49.93762 cm."
+    },
+    {
+      "id": "t3ph",
+      "evidence": [
+        "inv3ph"
+      ],
+      "claim": "In t3m1029a, episodes 9, 11 and 28 use checkpoints at 4,096,000 steps."
+    },
+    {
+      "id": "ctl_true",
+      "evidence": [
+        "invprov"
+      ],
+      "claim": "The counted Tier 3 file t3m1029a records the code commit 2175e83e0c13b9ae2391d724f3d1c80c392b73d3."
+    },
+    {
+      "id": "ctl_false1",
+      "evidence": [
+        "s1"
+      ],
+      "claim": "The Tier 1 file t1x1102 scored an MPPE of 24.5 cm and an MP-SR of 0.30000 on the leaderboard."
+    },
+    {
+      "id": "ctl_false2",
+      "evidence": [
+        "t2swap"
+      ],
+      "claim": "b1014 replaces every one of the 30 Tier 2 episodes of b1013."
+    },
+    {
+      "id": "ctl_false3",
+      "evidence": [
+        "inv3ph"
+      ],
+      "claim": "In t3m1029a, episodes 9, 11 and 28 use fully trained 349,999,104-step checkpoints."
+    }
+  ]
+}
