@@ -1,0 +1,9 @@
+# command  : bash stages/evaluate/pull_submission.sh tables runs/submission/t3m1104d/tables ml40:cand_t3_t3qr3o2f_ml40 
+# md5      : d3b092063623dc39564ba756df791d07  stages/evaluate/pull_submission.sh
+# source   : bf6270a1fb07-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T10:10:19-0700
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+结果表 ml40:cand_t3_t3qr3o2f_ml40：ok 2  
+PULL_OK 1

@@ -1,0 +1,18 @@
+# command  : ssh -n ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ scripts/dev/in-flash-chord\ \'cd\ /repo\ \&\&\ python\ stages/evaluate/make_frame_refs_t3.py\ runs/t3pack/t3_select_t3m1104dnew.tsv\ ml40\ --out\ runs/submission/frame_refs_t3_t3m1104dnew_ml40\'\ \&\&\ scripts/dev/in-flash-chord\ \'cd\ /repo/stages/evaluate\ \&\&\ python\ align_frefs_t3.py\ /repo/runs/submission/frame_refs_t3_t3m1104dnew_ml40\ /repo/runs/submission/frame_refs_t3_t3m1104dnew_ml40_aa\ --tier1\ /repo/data/challenge/track_2/tier_1_multiview_caption\ --t3\ /repo/runs/tier3\' 
+# md5      : 78dc14a82f336a3253a7f1afcda20ded  scripts/dev/in-flash-chord
+# md5      : c1bb566c83953edf129af00ebd1bc7ec  stages/evaluate/make_frame_refs_t3.py
+# md5      : 78dc14a82f336a3253a7f1afcda20ded  scripts/dev/in-flash-chord
+# source   : bf6270a1fb07-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T10:10:12-0700
+# ---------------------------------------------------------------
+== Tier 3 帧参考：ml40（VM-0-16-ubuntu）上 2 集（清单另有 0 集在别的机器）→ runs/submission/frame_refs_t3_t3m1104dnew_ml40（released_track2_world，xyzw，[T,1,7]，frame_index 0..T−1）
+  ok   ep6  t3-ep6-w2048-cap10m-r3o-gb4-ml40：tier3_gb4/2026-06-01_11-26-44_monitor_rotate_05，546 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.6e-15，四元数转回矩阵最大差 8.9e-16
+  ok   ep20 t3-ep20-w2048-cap10m-r3o-gb4-ml40：tier3_gb4/2026-06-08_16-57-34_rice_cooker_clockwise_04，553 帧；来源 parquet 的 sha256、frame_index、episode_index 与可见帧位姿都对得上（不可见 0 帧按前一帧补）；|RᵀR − I| 最大 1.3e-15，四元数转回矩阵最大差 8.9e-16
+FRAME_REFS_T3_OK 2
+TIER1_FRAME0 ep6 episode_000006.parquet sha256 7e472b98cc8dd6e4 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep20 episode_000020.parquet sha256 5d24335b44fe18c7 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	理由	静止帧	第0帧位置差cm	转角差°	倾斜°	偏航(物体)°	偏航(人体)°	F0对F̂ cm/°	人体根 前→后 cm	Tier3第0帧可见
+6	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 1.62° ≤ 3.0°	30	4.52	1.67	1.62	-0.42	2.72	0.00/0.00	16.77→19.07	True
+20	obj	物体与人体偏航一致（差 ≤ 15.0°），倾斜 1.43° ≤ 3.0°	30	6.03	1.45	1.43	0.24	3.51	0.00/0.00	6.25→13.46	True
+ALIGN_FREFS_OK 2
