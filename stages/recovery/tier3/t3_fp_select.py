@@ -37,10 +37,11 @@ on a frame when a palm point is within HOLD_M of the object surface at Foundatio
 only makes the relative turn large, so the min falls back to the static term. Handoff "做法 1".
 
     python t3_fp_select.py <cari4d episode dir> <candidates.npz> <official mesh> [--dry] [--beta=<BETA>] [--carry]
-        [--poses-out=<npz>]
+        [--rot-deg=<ROT_DEG>] [--poses-out=<npz>]
 
 --beta overrides BETA (10-20 A/B, t3_beta_ab.sh: the value is judged by an automatic metric, the checked frames only
 evaluate).
+--rot-deg overrides ROT_DEG (11-04, per-episode rule t3_rot_rule.py; not given = 10, the delivered value).
 --poses-out writes the chosen camera poses (and s2a) to an npz, also with --dry (offline trials).
 """
 
@@ -149,7 +150,7 @@ def holding_hands(ep_dir, seq, mesh, C0, s2a):
 
 
 def main():
-    global BETA, CARRY
+    global BETA, CARRY, ROT_DEG
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dry = "--dry" in sys.argv
     poses_out = None
@@ -157,6 +158,9 @@ def main():
         if a.startswith("--beta="):
             BETA = float(a.split("=", 1)[1])
             PARAMS["BETA"] = BETA
+        elif a.startswith("--rot-deg="):
+            ROT_DEG = float(a.split("=", 1)[1])
+            PARAMS["ROT_DEG"] = ROT_DEG
         elif a == "--carry":
             CARRY = True
             PARAMS["CARRY"] = CARRY
