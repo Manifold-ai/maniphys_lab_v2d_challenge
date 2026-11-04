@@ -39,3 +39,9 @@
 | Tier 3 | t3m1029a | 2175e83e0c13b9ae2391d724f3d1c80c392b73d3 |
 
 t2a1102、t3m1104c 当时只交了 AUC 一个榜，四个榜选同一份时选不了。按 14:18 MST 的快照估计：Tier 1、Tier 2 各榜名次不变；Tier 3 AUC 按 t3m1029a（0.28173）计约第 7（t3m1104c 是第 5）。Kaggle 页面上空着的第二个位置仍标为“自动候选”（Tier 1 MP-SR 标的是 t1x1018），我们勾选的只有上表这一份。容器只需复现这 3 份文件、3 个 commit；三份的 checkpoint 都在第 2 节核过。11/04 14:00 MST 起 12 个比赛的队名是 Maniphys Lab（`results/board/teamname_1104_1400.txt`）。
+
+## 5. 技术报告与容器（11/04 15:37 MST）
+
+- 容器 `maniphys-lab-v2d-submission:final`（image sha256:d870d3ab…）：三档各一份 manifest 与代码目录，90 个 checkpoint sha256 全对，FlashCHORD 8c778f9 放在 `/workspace`；`run.sh verify` 三档都是 11 项通过、0 项不过（`results/container/verify_1104.txt`）。压缩包 8.4 GB，sha256 d0f6d4018d4d893886f405c22404e80caf7e7ac644df6a82f3c3b4f68d410d91，与技术报告一起放在 HF 公开仓库 `Rongxuan-Zhou/maniphys-lab-v2d-track2-submission`；公开链接可下载，HF 记录的 sha256 相同，报告 PDF 从公开链接取回与本地新版逐字节相同。
+- 技术报告第 5 节照实写明 ep12、ep27 选对称分支用到了 Tier 1 第 0 帧、进了训练参考（`plan-t3b2` 里的待定项，11/04 15:4x MST rxzhou 定为照实写）。
+- 表单（Google Form）由 rxzhou 提交；提交前 GitHub 仓库要先给 Nvidia-V2D-Challenge 开访问权限（需 Manifold-ai 的 owner 或 admin）。
