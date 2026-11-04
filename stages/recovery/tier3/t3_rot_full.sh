@@ -39,15 +39,21 @@ mesh_of() { "$PY" -c "import json; print(next(m['mesh'] for m in map(json.loads,
 seq_of() { printf episode_%06d "$((10#${1:2:2}))"; }
 rx_busy() { compgen -G "$RX_RUNS/.chain-active-*" > /dev/null || docker ps --format '{{.Image}}' | grep -q '^flash_chord'; }
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | head -1; }
-gpu_apps() { nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .; }
-wait_gpu() {  # rxzhou's chain and every flash_chord gone, nothing on the GPU, >= 44000 MiB free, QUIET_S seconds in a row
-  local quiet=0
+HOLD=rot_hold_$V
+hold_pids() { docker top "$HOLD" -eo pid 2>/dev/null | tail -n +2; }
+foreign_apps() {  # compute processes on the GPU other than our hold
+  local h; h=" $(hold_pids | tr '\n' ' ') "
+  nvidia-smi --query-compute-apps=pid --format=csv,noheader | while read -r p; do [ -n "$p" ] && case "$h" in *" $p "*) ;; *) echo "$p";; esac; done | grep -c .
+}
+wait_gpu() {  # rxzhou's chain and every flash_chord gone, nothing else on the GPU, >= MIN_FREE MiB free, QUIET_S s in a row
+  local quiet=0 min_free=${1:-44000}
   while [ "$quiet" -lt "$QUIET_S" ]; do
     [ -e runs/ROT_STOP ] && fail "ROT_STOP"
-    if rx_busy || [ "$(gpu_apps)" -gt 0 ] || [ "$(free_mib)" -lt 44000 ]; then quiet=0; else quiet=$((quiet + POLL_S)); fi
+    if rx_busy || [ "$(foreign_apps)" -gt 0 ] || [ "$(free_mib)" -lt "$min_free" ]; then quiet=0; else quiet=$((quiet + POLL_S)); fi
     [ "$quiet" -ge "$QUIET_S" ] || sleep "$POLL_S"
   done
 }
+release_hold() { docker stop -t 5 "$HOLD" > /dev/null 2>&1 || true; }
 cd "$T" || exit 1
 log "deployed: $(cat code/DEPLOYED)"
 for v in tier3_cari4d_${V}_best tier3_cari4d_${V}_best_dr2s tier3_cari4d_${V}_best_dr2s_dyn7 $WORK rot_rule_$V \
@@ -111,8 +117,18 @@ for name in "${FIVE[@]}"; do
 done
 if [ ${#FIVE[@]} -gt 0 ]; then
   log "waiting for the GPU (rxzhou quiet, nothing on the GPU, >= 44000 MiB free, ${QUIET_S}s in a row, polled every ${POLL_S}s)"
+  wait_gpu
+  # hold the card for the whole GPU part: between our steps (decode is CPU for minutes) the card would look free to
+  # rxzhou's relay, which arms when nvidia-smi shows no process (reviewer 11-04); the hold is a CUDA context (~0.5 GB)
+  trap release_hold EXIT; trap 'release_hold; exit 143' TERM INT
+  docker run -d --rm --name "$HOLD" --gpus all --user "$(id -u):$(id -g)" --entrypoint "" --network none -e HOME=/tmp \
+    v2d_cari4d:latest python -c "import torch, time; torch.zeros(1, device='cuda'); time.sleep(10 ** 6)" > /dev/null || fail "hold"
+  for i in $(seq 60); do [ -n "$(hold_pids)" ] && nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -q -w -F "$(hold_pids | head -1)" && break; sleep 2; done
+  nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -q -w -F "$(hold_pids | head -1)" || fail "hold not on the GPU"
+  [ "$(foreign_apps)" -eq 0 ] || fail "another process took the GPU while the hold started"
+  log "GPU held ($HOLD)"
   for name in "${FIVE[@]}"; do
-    wait_gpu
+    wait_gpu 43000
     log "$name: CARI4D 06-08"
     T3_WORK=runs/$WORK T3_FP_MODE=register-every-frame T3_SKIP_RENDER=1 T3_LOG_TAG=_rot_$V "$S/t3_cari4d_ep.sh" "$name" \
       || fail "$name: CARI4D (logs/cari4d_${name}_rot_$V.log)"
@@ -122,11 +138,12 @@ if [ ${#FIVE[@]} -gt 0 ]; then
       grep -h -o "$st elapsed_seconds=[0-9.]*" "logs/cari4d_${name}_rot_$V.log" | tail -1 | grep -q -v -E 'elapsed_seconds=0(\.0*)?$' \
         || fail "$name: CARI4D did not run $st"
     done
-    wait_gpu
+    wait_gpu 43000
     log "$name: convert"
     convert_one "$name" > "logs/rot_convert_${name}_$V.log" 2>&1 || fail "$name: convert (logs/rot_convert_${name}_$V.log)"
   done
-  log "GPU steps done"
+  release_hold; trap - EXIT TERM INT
+  log "GPU steps done, hold released"
 fi
 
 # 3. the rest copied from the base, then the delivered chain (lean supports included)
