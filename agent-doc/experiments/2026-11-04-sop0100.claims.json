@@ -1,0 +1,28 @@
+{"model": "jev-1.13.0",
+ "evidence": {
+  "d0103": {"file": "results/board/diff_1104_0103.txt", "grep": "tier3-auc|MBZUAI|读法|Tier 3：|Tier 2："},
+  "d2204": {"file": "results/board/diff_1103_2204.txt", "grep": "DAP|读法"},
+  "sub": {"file": "results/submission/poll_t2a1103_auc.txt", "grep": "score|0.516|status|COMPLETE"},
+  "swqd": {"file": "results/final1/swap_qd_vs_t3m1103a.txt", "grep": "集\t|ep15|ep5|两种 AUC"},
+  "cum4": {"file": "results/final1/swap_cum4_vs_t3m1103a.txt", "grep": "导出|4096 世界|两种 AUC"},
+  "e5": {"file": "results/ml40/day2/eval_t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40_s349999104.txt", "grep": "add_auc |mppe_cm |world_count|non_finite"},
+  "st90": {"file": "results/ops/status_mf4090_1104_0100.txt", "grep": "==|t3pr3o2e|ep8|ep21|/dev"},
+  "st40": {"file": "results/ops/status_ml40_1104_0100.txt", "grep": "==|t3qr3o2e|ep10"},
+  "stl": {"file": "results/ops/status_l40n_1104_0100.txt", "grep": "==|tmux|没有|L40"}
+ },
+ "claims": [
+  {"id": "mbz", "evidence": ["d0103"], "claim": "MBZUAI-RCL Group entered Tier 3 AUC with 0.44671, and maniphys.ai dropped from 4th to 5th on Tier 3 AUC."},
+  {"id": "rankB", "evidence": ["d0103"], "claim": "Under reading B with the Kaggle tie rule maniphys.ai went from 81 (5th) to 86 (7th), and under the site rule from 82 to 87 (6th)."},
+  {"id": "rankA", "evidence": ["d0103"], "claim": "Under reading A maniphys.ai went from 21 to 24 and stays 5th."},
+  {"id": "dap", "evidence": ["d2204"], "claim": "DAP resubmitted Tier 1 and the reading B rank sum of maniphys.ai went from 79 to 81 under the Kaggle tie rule."},
+  {"id": "t2sub", "evidence": ["sub"], "claim": "The t2a1103 Tier 2 AUC submission scored 0.51653."},
+  {"id": "ep15", "evidence": ["swqd"], "claim": "For ep15 the new run raises the 4096-world AUC from 0.493 to 0.704 and lowers the 4096-world MPPE from 4.80 to 3.52 cm."},
+  {"id": "ep5", "evidence": ["swqd"], "claim": "For ep5 the new run raises the 4096-world MP-SR from 0.501 to 0.927 and lowers MPPE from 6.87 to 4.48 cm."},
+  {"id": "cum", "evidence": ["cum4"], "claim": "With four swaps the Tier 3 AUC mean changes by +0.01922 on the exported draw and by +0.01715 on 4096 worlds."},
+  {"id": "mf", "evidence": ["st90"], "claim": "On mf4090 the ep21 run completed and the ep8 run is at 95 percent of training."},
+  {"id": "ml", "evidence": ["st40"], "claim": "On ml40 the ep10 run of t3qr3o2e is at 64 percent of training."},
+  {"id": "l40n", "evidence": ["stl"], "claim": "l40n has no tmux sessions and its GPU shows 0 percent use."},
+  {"id": "ctl_true", "evidence": ["e5"], "claim": "The ep5 10M run record has a world_count of 4096."},
+  {"id": "ctl_false1", "evidence": ["d0103"], "claim": "maniphys.ai is 1st on the Tier 3 SP-SR board."},
+  {"id": "ctl_false2", "evidence": ["e5"], "claim": "The ep5 10M run has an add_auc above 0.9."}
+ ]}

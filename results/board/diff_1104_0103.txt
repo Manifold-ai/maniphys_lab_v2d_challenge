@@ -1,0 +1,47 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1103_2240.txt results/board/lb_1104_0103.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 0741b748b3fdfee3fcac076db4b83f76  results/board/lb_1103_2240.txt
+# md5      : 4f1a3d4f64e037cb82f13cf9d9975784  results/board/lb_1104_0103.txt
+# source   : 0ae0f5144c4e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:04:05-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1103_2240.txt；这一份 results/board/lb_1104_0103.txt
+## 变了的榜
+tier1-auc：新进 Neural Motion 0.57261（2026-11-04 07:14）；不见了 Open4D（原 0.34992）
+tier1-sp-sr：新进 Neural Motion 0.63333（2026-11-04 07:14）；不见了 Open4D（原 0.36666）
+tier1-mp-sr：新进 Neural Motion 0.60000（2026-11-04 07:14）；不见了 Null Walker（原 0.13333）
+tier1-mppe：新进 Neural Motion 16.47448（2026-11-04 07:14）；不见了 longbot（原 39.21800）
+tier2-auc：不见了 Kelly To the H（原 0.21199）；新进 Neural Motion 0.41332（2026-11-04 07:15）；不见了 TheTensorGeek（原 0.19193）；Xueyi Wang (FF) 重新提交，分数没变（0.52267，2026-11-04 06:18）；新进 steven kerman 0.41904（2026-11-04 06:07）
+tier2-sp-sr：不见了 Kelly To the H（原 0.00000）；新进 Neural Motion 0.43333（2026-11-04 07:15）；不见了 TheTensorGeek（原 0.00000）；Xueyi Wang (FF) 重新提交，分数没变（0.63333，2026-11-04 06:18）；新进 steven kerman 0.60000（2026-11-04 06:07）
+tier2-mp-sr：不见了 Javier Medel, MSc.（原 0.00000）；不见了 Kelly To the H（原 0.00000）；新进 Neural Motion 0.36666（2026-11-04 07:15）；Xueyi Wang (FF) 重新提交，分数没变（0.60000，2026-11-04 06:18）；新进 steven kerman 0.10000（2026-11-04 06:08）
+tier2-mppe：不见了 Javier Medel, MSc.（原 61.22802）；不见了 Kelly To the H（原 58.07113）；新进 Neural Motion 27.32454（2026-11-04 07:15）；Xueyi Wang (FF) 重新提交，分数没变（9.28429，2026-11-04 06:18）；新进 steven kerman 12.83723（2026-11-04 06:08）
+tier3-auc：新进 MBZUAI-RCL Group 0.44671（2026-11-04 06:53）
+tier3-sp-sr：新进 MBZUAI-RCL Group 0.50000（2026-11-04 06:53）
+tier3-mp-sr：新进 MBZUAI-RCL Group 0.26666（2026-11-04 06:53）
+tier3-mppe：新进 MBZUAI-RCL Group 26.60609（2026-11-04 06:53）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 MBZUAI-RCL Group 0.92508，差 0.28973）；sp-sr 第 10（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 MBZUAI-RCL Group 0.96666，差 0.26666）；mppe 第 10（8.46753，第 1 名 MBZUAI-RCL Group 0.99347，差 7.47406）
+Tier 2：auc 第 6（0.51765，第 1 名 Izus_systems 0.64411，差 0.12646）；sp-sr 第 5（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 6（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 10（15.32195，第 1 名 Izus_systems 6.65765，差 8.66430）
+Tier 3：auc 第 5（0.32015，第 1 名 MBZUAI-RCL Group 0.44671，差 0.12656）；sp-sr 第 2（0.46666，第 1 名 MBZUAI-RCL Group 0.50000，差 0.03334）；mp-sr 第 4（0.10000，第 1 名 MBZUAI-RCL Group 0.26666，差 0.16666）；mppe 第 6（36.60061，第 1 名 domoarigato 25.19032，差 11.41029）
+第一的榜（同分 kaggle）：1 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 81（第 5） → 86（第 7）；前 4：Izus_systems 34、domoarigato 36、MBZUAI-RCL Group 37、nima arki 70
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 82（第 5） → 87（第 6）；前 4：Izus_systems 31、domoarigato 33、MBZUAI-RCL Group 40、nima arki 69
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 21（第 5） → 24（第 5，与 1 队同分）；前 4：Izus_systems 8、domoarigato 9、nima arki 18、Debajyoti Dasgupta 21
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 21（第 5） → 24（第 5，与 1 队同分）；前 4：Izus_systems 8、domoarigato 9、nima arki 18、Debajyoti Dasgupta 21
+ALERT tier2-mppe 名次 9 → 10（同分 kaggle）
+ALERT tier3-auc 名次 4 → 5（同分 kaggle）
+ALERT tier3-sp-sr 名次 1 → 2（同分 kaggle）
+ALERT tier3-mp-sr 名次 3 → 4（同分 kaggle）
+ALERT tier3-mppe 名次 5 → 6（同分 kaggle）
+ALERT tier2-mppe 名次 9 → 10（同分 site）
+ALERT tier3-auc 名次 4 → 5（同分 site）
+ALERT tier3-sp-sr 名次 3 → 4（同分 site）
+ALERT tier3-mp-sr 名次 3 → 4（同分 site）
+ALERT tier3-mppe 名次 5 → 6（同分 site）
+ALERT 读法 B（12 个榜名次相加）（同分 kaggle）总名次 5 → 7
+ALERT 读法 B（12 个榜名次相加）（同分 site）总名次 5 → 6
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE

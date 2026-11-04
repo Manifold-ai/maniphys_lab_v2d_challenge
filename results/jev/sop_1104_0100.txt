@@ -1,0 +1,23 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-04-sop0100.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : a97121364ac8ee91d3f499eb2cb0adce  agent-doc/experiments/2026-11-04-sop0100.claims.json
+# source   : 0ae0f5144c4e-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:08:19-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+mbz                  P(supported)=0.74  verified               [d0103]  MBZUAI-RCL Group entered Tier 3 AUC with 0.44671, and maniphys.ai dropped from 4th to 5th on Tier 3 AUC.
+rankB                P(supported)=0.99  verified               [d0103]  Under reading B with the Kaggle tie rule maniphys.ai went from 81 (5th) to 86 (7th), and under the site rule from 82 to 87 (6th).
+rankA                P(supported)=0.98  verified               [d0103]  Under reading A maniphys.ai went from 21 to 24 and stays 5th.
+dap                  P(supported)=0.97  verified               [d2204]  DAP resubmitted Tier 1 and the reading B rank sum of maniphys.ai went from 79 to 81 under the Kaggle tie rule.
+t2sub                P(supported)=0.97  verified               [sub]  The t2a1103 Tier 2 AUC submission scored 0.51653.
+ep15                 P(supported)=0.99  verified               [swqd]  For ep15 the new run raises the 4096-world AUC from 0.493 to 0.704 and lowers the 4096-world MPPE from 4.80 to 3.52 cm.
+ep5                  P(supported)=0.99  verified               [swqd]  For ep5 the new run raises the 4096-world MP-SR from 0.501 to 0.927 and lowers MPPE from 6.87 to 4.48 cm.
+cum                  P(supported)=0.92  verified               [cum4]  With four swaps the Tier 3 AUC mean changes by +0.01922 on the exported draw and by +0.01715 on 4096 worlds.
+mf                   P(supported)=0.98  verified               [st90]  On mf4090 the ep21 run completed and the ep8 run is at 95 percent of training.
+ml                   P(supported)=0.93  verified               [st40]  On ml40 the ep10 run of t3qr3o2e is at 64 percent of training.
+l40n                 P(supported)=0.98  verified               [stl]  l40n has no tmux sessions and its GPU shows 0 percent use.
+ctl_true             P(supported)=0.99  verified               [e5]  The ep5 10M run record has a world_count of 4096.
+ctl_false1           P(supported)=0.01  UNVERIFIED             [d0103]  maniphys.ai is 1st on the Tier 3 SP-SR board.
+ctl_false2           P(supported)=0.01  UNVERIFIED             [e5]  The ep5 10M run has an add_auc above 0.9.
+controls behaved as expected

@@ -1,0 +1,32 @@
+# command  : ssh mf4090 bash\ -s\ mf4090 
+# source   : 0ae0f5144c4e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:02:00-0700
+# ---------------------------------------------------------------
+== mf4090 2026-11-04 16:02:02 CST
+NVIDIA GeForce RTX 4090, 23817 MiB, 24564 MiB, 100 %
+/dev/vda2       297G  274G   11G  97% /
+-- tmux
+v2d-t3pr3o2e-eval: 1 windows (created Wed Nov  4 11:33:47 2026)
+v2d-t3pr3o2e-export: 1 windows (created Wed Nov  4 11:33:49 2026)
+v2d-t3pr3o2e-train: 1 windows (created Wed Nov  4 11:33:45 2026)
+v2d-train: 1 windows (created Mon Sep 28 02:34:59 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3pr3o2e_mf4090-gate
+runs/.chain-active-t3pr3o2e_eval_mf4090
+runs/.chain-active-t3pr3o2e_train_mf4090
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3pr3o2b_mf4090.log：=== 2026-11-03 21:31:28 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2c_mf4090.log：=== 2026-11-04 02:27:30 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2d_mf4090.log：=== 2026-11-04 06:58:51 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2e_mf4090.log：=== 2026-11-04 11:33:52 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3pr3o2f_mf4090.log：=== 2026-11-04 11:34:38 CST 来历与 t3pr3o2f 的队列：1ff201ef1a6d 831df27df1a49b50decfba110b9d0625  stages/policy/queues/mf4090_t3pr3o2f.expect.tsv f44d62fcf36f0715ebbf41f55897e7a1  stages/polic
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep8-w2048-cap4m-r3o-gb4-mf4090.log：training progress: 332,500,992/349,999,104 environment steps (95.0%); 44,982 env steps/s; elapsed 02:03:12; ETA 00:06:29
+runs/logs/t3-ep8-w2048-cap4m-r3o-gb4-mf4090.nanwatch.log：11-04 02:01:08 MDT 330,012,672 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/t3pr3o2e_train_mf4090.log：=== 2026-11-04 13:56:58 CST 正式 t3-ep8-w2048-cap4m-r3o-gb4-mf4090
+runs/logs/t3-ep21-w2048-cap4m-r3o-hm-mf4090.s1.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep21-w2048-cap4m-r3o-hm-mf4090
+runs/logs/t3-ep21-w2048-cap4m-r3o-hm-mf4090.log：completed 349999104 environment steps; checkpoints: /repo/runs/flash_chord/t3-ep21-w2048-cap4m-r3o-hm-mf4090
+runs/logs/t3-ep21-w2048-cap4m-r3o-hm-mf4090.nanwatch.log：11-03 23:53:18 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+runs/logs/smoke-t3-ep8-w2048-cap4m-r3o-gb4-mf4090.s1.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep8-w2048-cap4m-r3o-gb4-mf4090
+runs/logs/smoke-t3-ep8-w2048-cap4m-r3o-gb4-mf4090.log：completed 4096000 environment steps; checkpoints: /repo/runs/flash_chord/smoke-t3-ep8-w2048-cap4m-r3o-gb4-mf4090

@@ -1,0 +1,29 @@
+# command  : ssh ml40 bash\ -s\ ml40 
+# source   : 0ae0f5144c4e
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T22:40:54-0700
+# ---------------------------------------------------------------
+== ml40 2026-11-04 13:40:58 CST
+NVIDIA L40S, 821 MiB, 46068 MiB, 0 %
+/dev/vdb        2.0T  1.1T  889G  56% /lab_data
+-- tmux
+v2d-t3qr3o2d-export: 1 windows (created Wed Nov  4 08:41:58 2026)
+-- 长链标记
+runs/.chain-active-cand_t3_t3qr3o2d_ml40
+runs/.chain-active-cand_t3_t3qr3o2d_ml40-gate
+-- arm_after 日志（近 24 小时改过的）
+runs/logs/arm_after_t3qr3o2b_ml40.log：=== 2026-11-03 22:08:58 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2c_ml40.log：=== 2026-11-04 02:56:00 CST ARM_AFTER_ARMED
+runs/logs/arm_after_yield_t3qr3o2c_ml40.log：=== 2026-11-04 03:55:03 CST YIELD_REARMED t3qr3o2c
+runs/logs/arm_after_t3qr3o2f_ml40.log：=== 2026-11-04 04:31:17 CST 等 runs/logs/arm_after_t3qr3o2e_ml40.log 的最后一行变成 ARM_AFTER_ARMED，再跑：bash runs/tools/arm_after.sh t3qr3o2f runs/logs/t3qr3o2e_train_ml40.log runs/logs
+runs/logs/arm_after_t3qr3o2d_ml40.log：=== 2026-11-04 08:42:01 CST ARM_AFTER_ARMED
+runs/logs/arm_after_t3qr3o2e_ml40.log：=== 2026-11-04 08:42:54 CST 来历与 t3qr3o2e 的队列：1ff201ef1a6d ba93cb9b8f02c4d1611b8619f056aa9d  stages/policy/queues/ml40_t3qr3o2e.expect.tsv 0b3d8a4967d5fa3f236ed818069012e7  stages/policy/
+-- 最近改动的 8 份链日志
+runs/logs/t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40.export_8c778f9_s349999104_w1.log：[0;93m2026-11-04 05:40:36.195488440 [W:onnxruntime:Default, onnxruntime_pybind_state.cc:711 operator()] No registered plugin EP device found for 'CUDAExecutionProvider' with device_id=0[m
+runs/logs/cand_t3_t3qr3o2d_ml40.log：=== 2026-11-04 13:40:14 CST Tier 3 ep15 t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40：第 349999104 步导出、核对都通过；4096 世界评测：world_count 4096，non_finite_worlds 0 个，step_co
+runs/logs/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.export_8c778f9_s349999104_w1.log：object trajectories: /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40/export_8c778f9/s349999104_w1/episode_000015.parquet
+runs/logs/cand_t3_t3qr3o2d_ml40_gate.log：=== 2026-11-04 13:38:59 CST 评测链成功 2 条、失败 0，开导出链 cand_t3_t3qr3o2d_ml40
+runs/logs/t3qr3o2d_eval_ml40.log：=== 2026-11-04 13:38:51 CST DAY2_EVAL_DONE（成功 2、失败 0）
+runs/logs/t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40/eval_349999104_w4096.json
+runs/logs/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40.eval_349999104_w4096.log：report: /repo/runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40/eval_349999104_w4096.json
+runs/logs/t3qr3o2d_train_ml40.log：=== 2026-11-04 13:26:53 CST DAY2_TRAIN_DONE（完成 2、失败 0、跳过 0、发散 0）

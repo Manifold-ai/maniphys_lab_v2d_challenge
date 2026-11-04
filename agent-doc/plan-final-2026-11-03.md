@@ -79,6 +79,11 @@
   对 t3m1103a（`results/final1/swap_pd_vs_t3m1103a.txt`）：导出那一局 +0.0061，4096 世界 +0.0046，两种变化都比已交那份高，按第 2 节字面可以再问。读法（解释）：按 Tier 3 测到的约 1.1 换算，榜上约 +0.005，约 0.325，仍不到第 3 nima arki 0.32937，名次不变；建议攒到后面几段一起算，越过 nima arki 时再问一次。
 - 11/03 22:17 MST rxzhou 同意（“交”），只交 Tier 2 AUC（`--only add_auc`，submission 57972299，`results/submission/submit_t2a1103_auc.txt`、`poll_t2a1103_auc.txt`）：t2a1103 得 0.51653，比榜上的 t2a1102（0.51765）低 0.0011；榜上仍显示 0.51765、第 6，提交时间变成 22:17（这一榜上下都没有同分，名次不受影响，`results/board/diff_1103_2218.txt`）。
   读法（解释）：自己参考上导出 +0.0398、4096 世界 +0.0396，榜上 −0.0011（t2a1102 为底）。Tier 2 换跟踪方式的 run 自己参考 → 榜的比例三次是 −（b1019a）、0.21（t2a1102）、约 −0.03（这次）；0.21 那一次是例外，Tier 2 上自己参考的涨幅不能拿来预测榜分。这次的五集里哪几集在榜上变差，没有逐集榜分，查不出。Tier 2 之后不再按自己参考交，l40n 上的 Tier 2 段不再起。
+- 11/04 01:0x MST，ml40 `t3qr3o2d` 读数（11/03 22:41 MST 导出链 EXPORT_CHAIN_DONE 成功 2；记录拉回 Mac 逐份 sha256 相同；两条日志都有 r3o 项那一行，nanwatch 非有限 0，`non_finite_worlds` 0，两份 EXPORT_OK，健康）：
+  ep15 ADD-AUC 0.493 → 0.704，SP-SR 0.886 → 0.951，MP-SR 0.878 → 0.939，MPPE 4.80 → 3.52 cm，过；ep5 0.486 → 0.651，SP-SR 0.852 → 0.938，MP-SR 0.501 → 0.927，MPPE 6.87 → 4.48 cm，过。
+  对 t3m1103a：只换这两集（`results/final1/swap_qd_vs_t3m1103a.txt`）导出那一局 +0.0131，4096 世界 +0.0126；连同 ep20、ep6 四集（`results/final1/swap_cum4_vs_t3m1103a.txt`）导出那一局 +0.0192，4096 世界 +0.0172。前两条门槛（+0.010、+0.005）过，两种变化都比已交那份高，按第 2 节问 rxzhou。
+  读法（解释）：按 t3m1103a 测到的约 1.1 换算，榜上约 0.339；换算比例只要不低于约 0.53，就越过 nima arki 0.32937。1.1 只来自一次读数。
+- 11/04 01:04 MST 的榜（`results/board/diff_1104_0103.txt`）：MBZUAI-RCL Group 新进 Tier 3 四个榜（AUC 0.44671，第 1），Tier 3 四个榜各后退一名（AUC 第 5、SP-SR 第 2、MP-SR 第 4、MPPE 第 6）；Neural Motion、steven kerman 新进 Tier 2，Tier 2 MPPE 第 10。读法 B 86（Kaggle，第 7）/ 87（官网，第 6），读法 A 24（第 5）。Tier 3 AUC 现在第 4 是 nima arki 0.32937，第 3 是 domoarigato 0.37004。
 ## 5. 独立复核（11/03 13:4x MST）
 
 结论 GO WITH FIXES，8 条全部采纳：
