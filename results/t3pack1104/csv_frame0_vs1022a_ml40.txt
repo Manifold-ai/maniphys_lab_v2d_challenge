@@ -1,0 +1,15 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python stages/evaluate/csv_frame0_check.py runs/submission/csv/track2_tier3_t3m1022a.csv runs/submission/csv/track2_tier3_t3m1104a.csv runs/submission/t3m1104/frefs_new_aa_ml40/ALIGN.json --tier1 data/challenge/track_2/tier_1_multiview_caption --episodes 5\,15 
+# md5      : 510b8d4b9afa0e5cdb4b205c89692391  stages/evaluate/csv_frame0_check.py
+# md5      : 6d3b6977c1d81ed48fde1772b6b9addb  runs/submission/csv/track2_tier3_t3m1022a.csv
+# md5      : 039aa835e67ce149521a9996b571bb2b  runs/submission/csv/track2_tier3_t3m1104a.csv
+# md5      : 6046189e81cc7775a691a8e85310e173  runs/submission/t3m1104/frefs_new_aa_ml40/ALIGN.json
+# source   : dc03d74d0d58
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T01:11:16-0700
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep5 episode_000005.parquet sha256 f3b8be40e98efdf5 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+TIER1_FRAME0 ep15 episode_000015.parquet sha256 decef969180f0fdf 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	旧位置差cm	新位置差cm	旧朝向差°	新朝向差°	结论
+5	obj	15.55	0.19	3.5	0.0	过
+15	obj	16.91	0.11	4.9	0.2	过
+CSV_FRAME0_OK
