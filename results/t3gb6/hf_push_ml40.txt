@@ -1,0 +1,10 @@
+# command  : tools/hf_remote.sh /lab_data/rxzhou/v2d/t3recon/env/gate/bin/python\ runs/tools/hf_transfer2.py\ push\ --repo\ Rongxuan-Zhou/v2d-track2-transfer\ --tag\ t3gb6_1104\ --dirs\ runs/hf_src/t3gb6_1104 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 807f9bbc895c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T08:39:00-0700
+# ---------------------------------------------------------------
+→ ml40:/lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge  (V2D_ENV=ml40)
+清单：4 个文件，90.3 MB；仓库里已有 0 个；暂存 runs/hf_xfer/t3gb6_1104；开始上传
+仓库里 t3gb6_1104/：清单 5 个（含 MANIFEST.sha256）；缺 0、不符 0、多出 0
+HF_PUSH_OK 4

@@ -135,8 +135,12 @@ def cmd_push(a) -> int:
             (root / rel).parent.mkdir(parents=True, exist_ok=True)
             os.link(rel, root / rel)
         (root / MANIFEST).write_bytes(man)
-        api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
-                                private=True, num_workers=2)
+        if hasattr(api, "upload_large_folder"):
+            api.upload_large_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+                                    private=True, num_workers=2)
+        else:  # 11/04 plan-t3gb6：ml40 gate 环境的 huggingface_hub 没有 upload_large_folder；仓库已存在且私有（上面核过），一次提交传 <标签>/
+            api.upload_folder(repo_id=a.repo, folder_path=str(STAGE), repo_type="model", allow_patterns=[f"{tag}/**"],
+                              commit_message=f"transfer {tag}")
     except BaseException:
         shutil.rmtree(root, ignore_errors=True)  # 只是硬链接，源文件不动
         shutil.rmtree(STAGE / ".cache", ignore_errors=True)

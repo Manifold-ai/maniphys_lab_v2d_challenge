@@ -1,0 +1,12 @@
+# command  : ssh mf4090 cd\ v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_GB4_SET=gb6dyn7\ V2D_GB4_SEQS=2026-05-01_17-04-55_traffic_cone_ground_table_02\ bash\ -s\ unpack\ t3gb6_1104\ runs/hf_pull/t3gb6_1104 
+# source   : 807f9bbc895c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T08:39:50-0700
+# ---------------------------------------------------------------
+motion.tar: OK
+msrc.tar: OK
+root.tar: OK
+28M	runs/motion/tier3_gb6dyn7
+37M	runs/motion_src/tier3_gb6dyn7
+23M	runs/tier3/root_gb6dyn7
+UNPACK_OK

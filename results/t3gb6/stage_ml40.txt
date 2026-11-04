@@ -1,0 +1,11 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ V2D_GB4_SET=gb6dyn7\ V2D_GB4_SEQS=2026-05-01_17-04-55_traffic_cone_ground_table_02\ bash\ -s\ stage\ t3gb6_1104 
+# source   : 807f9bbc895c
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T08:38:18-0700
+# ---------------------------------------------------------------
+total 88156
+-rw-rw-r-- 1 rxzhou rxzhou 28364800 Nov  4 23:38 motion.tar
+-rw-rw-r-- 1 rxzhou rxzhou 37918720 Nov  4 23:38 msrc.tar
+-rw-rw-r-- 1 rxzhou rxzhou 23982080 Nov  4 23:38 root.tar
+-rw-rw-r-- 1 rxzhou rxzhou      227 Nov  4 23:38 TARS.sha256
+STAGE_OK t3gb6_1104

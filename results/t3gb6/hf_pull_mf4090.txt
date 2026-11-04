@@ -1,0 +1,10 @@
+# command  : tools/hf_remote.sh python3\ runs/tools/hf_transfer.py\ pull\ --repo\ Rongxuan-Zhou/v2d-track2-transfer\ --tag\ t3gb6_1104\ --dest\ runs/hf_pull/t3gb6_1104 
+# md5      : a3113ce2a3af792060cb3675d31c8eb4  tools/hf_remote.sh
+# source   : 807f9bbc895c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T08:39:29-0700
+# ---------------------------------------------------------------
+→ mf4090:/home/rxzhou/v2d/maniphys_lab_v2d_challenge
+清单：4 个文件；开始下载到 runs/hf_pull/t3gb6_1104
+  4 / 4，90.3 MB
+HF_PULL_OK 4
