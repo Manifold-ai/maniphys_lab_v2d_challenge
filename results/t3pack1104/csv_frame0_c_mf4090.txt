@@ -1,0 +1,13 @@
+# command  : /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python stages/evaluate/csv_frame0_check.py runs/submission/csv/track2_tier3_t3m1022a.csv runs/submission/csv/track2_tier3_t3m1104c.csv runs/submission/t3m1104c/frefs_new_aa_mf4090/ALIGN.json --tier1 data/challenge/track_2/tier_1_multiview_caption --episodes 29 
+# md5      : 510b8d4b9afa0e5cdb4b205c89692391  stages/evaluate/csv_frame0_check.py
+# md5      : 6d3b6977c1d81ed48fde1772b6b9addb  runs/submission/csv/track2_tier3_t3m1022a.csv
+# md5      : ce3edb0fab1832d3b93c4d48140c361a  runs/submission/csv/track2_tier3_t3m1104c.csv
+# md5      : 5b0b085b607f6fcf7252c8649355542e  runs/submission/t3m1104c/frefs_new_aa_mf4090/ALIGN.json
+# source   : 75d4401f9d22
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T04:45:21-0700
+# ---------------------------------------------------------------
+TIER1_FRAME0 ep29 episode_000029.parquet sha256 10dcc0044722477e 只读第 0 帧：observation.object.pose, observation.object.visible, observation.human.translation, observation.human.pose（人体姿态只留 Hips）
+ep	方案	旧位置差cm	新位置差cm	旧朝向差°	新朝向差°	结论
+29	obj	14.16	0.48	6.3	0.7	过
+CSV_FRAME0_OK

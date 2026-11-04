@@ -91,7 +91,7 @@
 - 11/04 04:4x MST，ml40 `t3qr3o2e`、mf4090 `t3pr3o2f` 读数（ml40 11/04 04:27 MST、mf4090 03:32 MST 导出链 EXPORT_CHAIN_DONE；记录拉回 Mac 逐份 sha256 相同；三条日志都有 r3o 项那一行，nanwatch 非有限 0，`non_finite_worlds` 0，三份 EXPORT_OK，健康；`results/final1/swap_qe_vs_t3m1104b.txt`）：
   ep10 ADD-AUC 0.308 → 0.401，SP-SR 0.949 → 0.960，MP-SR 0 → 0，MPPE 5.25 → 4.46 cm，过；ep29 0.377 → 0.644，SP-SR 0.713 → 0.924，MP-SR 0 → 0.456，MPPE 8.00 → 4.37 cm，过；ep14 0.318 → 0.476，但 SP-SR 0.844 → 0.745、MPPE 9.02 → 10.99 cm，不过。
   对 t3m1103a 七集合计（`results/final1/swap_cum7_vs_t3m1103a.txt`）：导出那一局 +0.0310，4096 世界 +0.0310。t3m1104b 还没交，所以 t3m1104c 替换 t3m1104b 作为待问的那份。读法（解释）：按约 1.1 换算，榜上约 0.354，比第 4 名 nima arki 0.32937 高约 0.025，仍低于第 3 名 domoarigato 0.37004。
-  打包 t3m1104c（t3m1104b 再换 ep10、ep29；`results/t3pack1104/*_c*`）：清单 `stages/evaluate/exports/t3_select_t3m1104c.tsv`（t3m1104b 只改这 2 行），PULL_OK、ASSEMBLE_T3_OK 30；帧参考在 ml40（ep10）、mf4090（ep29）各建 1 集并对齐（ep10 的对齐方案与以前的包相同），MERGE_FREFS_OK 30。
+  打包 t3m1104c（t3m1104b 再换 ep10、ep29；`results/t3pack1104/*_c*`）：清单 `stages/evaluate/exports/t3_select_t3m1104c.tsv`（t3m1104b 只改这 2 行），PULL_OK、ASSEMBLE_T3_OK 30；帧参考在 ml40（ep10）、mf4090（ep29）各建 1 集并对齐（ep10 的对齐方案与以前的包相同），MERGE_FREFS_OK 30；提交 75d4401f。PACK 22989 行，CSV sha256 0dfc1c86…（`results/submission/pack/t3_t3m1104c.txt`）；CSV_EPISODE_DIFF_OK（5、6、8、10、15、20、29），两份 CSV_FRAME0_OK（ep10 0.16 cm、ep29 0.48 cm）；预演 `--only add_auc` 通过（`results/submission/dryrun_t3_t3m1104c.txt`，当天余 20 次）。等 rxzhou 定交不交。
   mf4090 从 03:32 MST 起空着：第 1 节表里的集都已跑完，余下没试过 r3o 的集都是跟丢的集，按第 1 节“第 3 段之后不另起新配方的 run”不再起。ml40 `t3qr3o2f`（ep20、ep6 的 1000 万臂）04:40 MST 在训 ep20，读数约 09:30 MST；过换集条件且同集取 ADD-AUC 高的那臂时，另打 t3m1104d。
 ## 5. 独立复核（11/03 13:4x MST）
 
