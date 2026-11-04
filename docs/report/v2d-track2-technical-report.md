@@ -77,7 +77,7 @@ Tier 1 trains directly on the retargeted clean trajectories. The list was built 
 
 By recipe, the 30 episodes of `t1x1102` are: 8 `r3o`, 2 `r3o-nv`, 15 variant A (4 of them with `c10`), 3 official, 1 `fc20` and 1 `pt08`. Fifteen use the 4 M buffer and fifteen the 10 M buffer. All are 349,999,104-step checkpoints.
 
-Two single-change fixes target lost episodes. The `fc20` change lowered the 4096-world MPPE of ep9 from 40.5 cm to 17.0 cm, and `pt08` lowered that of ep25 from 114.1 cm to 68.7 cm; neither change helped other lost episodes.
+Two single-change fixes target lost episodes. The `fc20` change lowered the 4096-world MPPE of ep9 from 40.5 cm to 17.0 cm, and `pt08` lowered that of ep25 from 114.1 cm to 68.7 cm.
 
 The leaderboard scores of `t1x1102` equal the local recomputation of the packer.
 
@@ -101,15 +101,15 @@ Frame-0 alignment and seven per-episode replacements on the latest reconstructio
 
 | Version | What it adds |
 |---|---|
-| `hm` | First complete CARI4D reconstruction, default focal length 830 px. |
-| `v2` | Earlier pilot reconstruction (ep29 only). |
+| `hm` | The first full CARI4D reconstruction (`best_hm`), before the intrinsics calibration of `gb3`. |
+| `v2` | An earlier reconstruction, used for ep29 only. |
 | `gb3` | Calibrated intrinsics (focal 866.3 px, principal point 701.8, 531.1 px), ground correction, depth correction (`dr2s`) and a dynamics pass (`dyn7`) that locks untouched static segments and removes pose jumps. |
 | `gb4` | gb3 with the object refit by a Kabsch fit to the mapped surface and the human re-solved with the SOMA pose inversion. |
 | `gb5` | gb4 with object poses re-selected among FoundationPose candidates for temporal consistency on 13 episodes. ep15 and ep27 also get a fix of a held segment (`hr`). |
 
 The world frame of our reconstruction is our own estimate: the main camera is the world camera, plus the ground correction and a scale fit.
 
-**Frame-0 alignment.** No camera calibration is released for Tier 3. On 21 October the organizers answered: "Using the first frame of Tier 1 data to compute alignment is fine, provided the Tier 1 caption isn't used in Tier 3 otherwise." We compute one rigid transform per episode that maps our frame 0 to the Tier 1 frame-0 pose. A fixed rule picks how: if the human pose is usable and the object yaw agrees with the human yaw within 15°, the full object pose is matched when the object tilt is at most 3° and only its yaw otherwise; if they disagree, the human yaw is matched; without a usable human pose, only the position is matched. The transform is applied to the frame references given to the packer. A single script reads Tier 1 frame 0, and no later Tier 1 frame is read. The alignment needs no retraining.
+**Frame-0 alignment.** No camera calibration is released for Tier 3. In the official FAQ (October 2026) the organizers answered: "Using the first frame of Tier 1 data to compute alignment is fine, provided the Tier 1 caption isn't used in Tier 3 otherwise." We compute one rigid transform per episode that maps our frame 0 to the Tier 1 frame-0 pose. A fixed rule picks how: if the human pose is usable and the object yaw agrees with the human yaw within 15°, the full object pose is matched when the object tilt is at most 3° and only its yaw otherwise; if they disagree, the human yaw is matched; without a usable human pose, only the position is matched. The transform is applied to the frame references given to the packer. A single script reads Tier 1 frame 0, and no later Tier 1 frame is read. The alignment needs no retraining.
 
 **Symmetric objects (ep12, ep27).** For two episodes the reconstruction cannot separate two orientation branches of a symmetric (ep27) or nearly symmetric (ep12) object, because shape, silhouette and continuity are equal for both. For these two episodes we picked the branch that agrees with the frame-0 alignment anchor and retrained on that reference. The frame-0 information therefore enters the training reference of these two episodes, not only the alignment transform.
 
