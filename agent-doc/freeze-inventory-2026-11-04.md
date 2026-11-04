@@ -20,20 +20,22 @@
 
 ## 3. 待处理
 
-- **t1x1018 的 commit 链接写错了。** CSV 里 22989 行的 `code_commit_url` 都是 `…/commit/c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75`，这个 sha 在本地和 GitHub 上都不存在。前 12 位 `c2dc9fbac355` 对应的真实 commit 是 `c2dc9fbac3554c7f49afa354e6ce249d6fcb16a1`（10/18 11:41 EDT，在 `origin/track2/p1-training` 上，GitHub 能查到）；完整 sha 的后 28 位与真实 commit 不同，而且打包时工作区有未提交的改动（来源记作 `c2dc9fbac355-dirty`）（`results/freeze/commit_t1x1018.txt`）。t1x1018 只在 Tier 1 MP-SR 上与 t1x1101、t1x1102 同分。容器按 t1x1102 覆盖 Tier 1；11/04 14:1x MST 已手选（第 4 节），t1x1018 不在选中之列。
+- **t1x1018 的 commit 链接写错了。** CSV 里 22989 行的 `code_commit_url` 都是 `…/commit/c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75`，这个 sha 在本地和 GitHub 上都不存在。前 12 位 `c2dc9fbac355` 对应的真实 commit 是 `c2dc9fbac3554c7f49afa354e6ce249d6fcb16a1`（10/18 11:41 EDT，在 `origin/track2/p1-training` 上，GitHub 能查到）；完整 sha 的后 28 位与真实 commit 不同，而且打包时工作区有未提交的改动（来源记作 `c2dc9fbac355-dirty`）（`results/freeze/commit_t1x1018.txt`）。t1x1018 只在 Tier 1 MP-SR 上与 t1x1101、t1x1102 同分。容器按 t1x1102 覆盖 Tier 1；11/04 14:51 MST 已手选（第 4 节），Tier 1 只选 t1x1102。
 - **组织方看不到仓库。** 仓库私有，协作者里没有 Nvidia-V2D-Challenge；我们的账号只有 maintain 权限，看不到待接受的邀请，也加不了。需要 Manifold-ai 的 owner 或仓库 admin 添加。
 - **9 份文件对应 9 个不同的 commit。** 容器模板里 `code` 只有一个 commit，多个 commit 怎么放，待向组织方确认或按 `skills/v2d-container/SKILL.md` 处理。其余 8 个 commit 都在远端分支上。
 - 冻结后：`eval_code_sha256` 与评测镜像里的 FlashCHORD 评测包核对；Tier 3 frame references（`runs/submission/{t3m1104c,t3m1029a,t3m1022a}/frefs`）与各文件的打包记录核对；搭容器前先写计划并复核。
 - 冻结期间计分文件背后的 checkpoint、rollout、frame references 和 `update_0f2f9f4b` 工具包不删、不改、不重新保存，评测镜像不升级。今天若再交 t3m1104e 并且分更高，Tier 3 AUC 的计分文件改为 e，重跑本清单。
 
-## 4. Final Submission（11/04 14:1x MST 手选）
+## 4. Final Submission（11/04 14:51 MST 定稿）
 
-Kaggle 每个榜最多选 2 份；选不满 2 份时，空位由 Kaggle 按公开分自动补（只选一份时 Tier 1 MP-SR 可能补上 t1x1018）。所以 12 个榜都选满两份，两份都是第 1 节核过来历的文件，t1x1018 不选。11/04 14:00 MST 起 12 个比赛的队名是 Maniphys Lab（team ID、分数与提交时间不变，`results/board/teamname_1104_1400.txt`）。
+官方提交表单（Google Form，“Final leaderboard submission IDs or URLs” 一项）原文：“Ensure you select the same single submission on each leaderboard for a given track or tier. Failure to do so can result in the delay or forfeiture of your prize if eligible.” 代码版本一项：Track 2 各档用不同 commit 时，按 Tier 1、Tier 2、Tier 3 分行给链接。表单没有写截止时间；私有仓库要在填表前把 Nvidia-V2D-Challenge 加为可访问。
 
-| 档位 | AUC | SP-SR、MP-SR、MPPE |
+14:1x MST 先在每个榜选了两份（Kaggle 每榜最多 2 份，选不满时按公开分自动补），看到表单后，经 rxzhou 同意，14:3x–14:51 MST 改成每档只选同一份：
+
+| 档位 | 四个榜都选 | commit |
 |---|---|---|
-| Tier 1 | t1x1102（57920552）、t1x1101（57879836） | t1x1102、t1x1101 |
-| Tier 2 | t2a1102（57931119）、b1013（57169480） | b1014、b1013 |
-| Tier 3 | t3m1104c（57992550）、t3m1029a（57783386） | t3m1029a、t3m1022aa |
+| Tier 1 | t1x1102 | b59f6a6cb3f97fc53ebdb28e2e8496534478c108 |
+| Tier 2 | b1014 | c4f248dc60f39f4c7b03c535fbace6ae6b422bc9 |
+| Tier 3 | t3m1029a | 2175e83e0c13b9ae2391d724f3d1c80c392b73d3 |
 
-每个榜的计分文件是两份里在隐藏数据上分高的那份，容器要两份都能复现。共 8 份文件（第 1 节的 9 份去掉 t1x1018），8 个 commit。每页选后计数都是 2/2。
+t2a1102、t3m1104c 当时只交了 AUC 一个榜，四个榜选同一份时选不了。按 14:18 MST 的快照估计：Tier 1、Tier 2 各榜名次不变；Tier 3 AUC 按 t3m1029a（0.28173）计约第 7（t3m1104c 是第 5）。Kaggle 页面上空着的第二个位置仍标为“自动候选”（Tier 1 MP-SR 标的是 t1x1018），我们勾选的只有上表这一份。容器只需复现这 3 份文件、3 个 commit；三份的 checkpoint 都在第 2 节核过。11/04 14:00 MST 起 12 个比赛的队名是 Maniphys Lab（`results/board/teamname_1104_1400.txt`）。
