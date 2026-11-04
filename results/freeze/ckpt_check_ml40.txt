@@ -1,0 +1,72 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ runs/inventory/ckpt_ml40.tsv 
+# md5      : 22c971c29272c667c75a1dab4daf7b3c  runs/inventory/ckpt_ml40.tsv
+# source   : 12dcfa084bc0-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T10:54:28-0700
+# ---------------------------------------------------------------
+OK	runs/flash_chord/t1-ep1-w2048-cap10m-r3a-c10-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep11-w2048-cap10m-r3a-c10-s44-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep12-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep13-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep16-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep17-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep17-w2048-cap10m-r3o-nv-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep19-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep2-w2048-cap10m-r3a-c10-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep23-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep25-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep25-w2048-cap10m-pt08-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep26-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep26-w2048-cap10m-r3o-nv-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep28-w2048-cap10m-r3a-c10-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep3-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep4-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep9-w2048-cap10m-fc20-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t1-ep9-w2048-cap10m-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep0-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep0-w2048-cap10m-r3o-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep1-w2048-cap10m-p185-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep1-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep10-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep10-w2048-cap10m-r3o-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep12-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep13-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep14-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep15-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep16-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep18-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep19-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep2-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep20-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep21-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep22-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep24-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep26-w2048-cap10m-r3a-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep27-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep28-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep29-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep3-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep4-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep5-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep6-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep7-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep8-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t2-ep9-w2048-cap10m-r3a-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep0-w2048-cap10m-r3o-gb4-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep10-w2048-cap10m-r3a-gb5-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep10-w2048-cap10m-r3a-hm-ph-ml40/policy_4096000.safetensors
+OK	runs/flash_chord/t3-ep10-w2048-cap10m-r3o-gb5-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep11-w2048-cap10m-r3a-hm-ph-ml40/policy_4096000.safetensors
+OK	runs/flash_chord/t3-ep12-w2048-cap10m-r3a-gb5b2n12hdyn7-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep14-w2048-cap10m-r3a-gb5-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep15-w2048-cap10m-r3a-gb5hr3sdyn7-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep15-w2048-cap10m-r3o-gb5hr3sdyn7-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep23-w2048-cap10m-r3a-gb5-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep23-w2048-cap10m-r3o-gb5-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep27-w2048-cap10m-r3a-gb5hr2b2dyn7-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep4-w2048-cap10m-r3a-hm-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep5-w2048-cap10m-r3a-gb5-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep5-w2048-cap10m-r3a-hm-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep5-w2048-cap10m-r3o-gb5-s43-ml40/policy_349999104.safetensors
+OK	runs/flash_chord/t3-ep9-w2048-cap10m-r3a-hm-ph-ml40/policy_4096000.safetensors
+CKPT_CHECK_DONE OK 65 MISMATCH 0 MISSING 0
