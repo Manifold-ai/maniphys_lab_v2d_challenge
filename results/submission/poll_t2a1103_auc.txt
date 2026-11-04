@@ -1,0 +1,11 @@
+# command  : bash -c cd\ third_party/v2d_submission_kit/update_0f2f9f4b/v2d_submission_kit\ \&\&\ /Users/rongxuanzhou/.cache/uv/archive-v0/uvfKxZAYaAMiPZYi/bin/python\ submit/v2d_submit.py\ --track\ track_2_tier2\ --poll-receipt\ /Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier2_select_t2a1103.csv.06a3b7014262.kaggle-receipt.json 
+# source   : 68375c90534f
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-03T22:18:06-0700
+# ---------------------------------------------------------------
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+
+Waiting for scores...
+  add_auc          COMPLETE 0.51653 (submission 57972299)
+Receipt: /Users/rongxuanzhou/V2D/runs/submission/csv/track2_tier2_select_t2a1103.csv.06a3b7014262.kaggle-receipt.json

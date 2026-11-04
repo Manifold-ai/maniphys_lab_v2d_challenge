@@ -77,6 +77,8 @@
   打包：清单 `stages/evaluate/exports/t2_select_t2a1103.tsv`（t2a1102 只改这 5 行），PULL_OK 4 张表、PULL_OK 60，CHECK_T2_SELECT_OK，提交 44c15793；PACK 22989 行，CSV sha256 f3d1cf0b…（`results/submission/pack/t2_select_t2a1103.txt`）；CSV 核对 CHECK_T2_SELECT_OK；缓存环境预演 `--only add_auc` 通过（`results/submission/dryrun_t2a1103_auc.txt`）。
 - 11/03 22:2x MST，mf4090 `t3pr3o2d` 读数（20:30 MST 评完、导出完，健康，同上各项）：ep20 0.687 → 0.764，SP-SR 0.844 → 0.886，MP-SR 0.814 → 0.839，MPPE 4.98 → 4.12 cm，过；ep6 0.604 → 0.665，SP-SR 0.978 → 0.969，MP-SR 0.074 → 0.073，MPPE 3.97 → 4.19 cm（+0.22），过。
   对 t3m1103a（`results/final1/swap_pd_vs_t3m1103a.txt`）：导出那一局 +0.0061，4096 世界 +0.0046，两种变化都比已交那份高，按第 2 节字面可以再问。读法（解释）：按 Tier 3 测到的约 1.1 换算，榜上约 +0.005，约 0.325，仍不到第 3 nima arki 0.32937，名次不变；建议攒到后面几段一起算，越过 nima arki 时再问一次。
+- 11/03 22:17 MST rxzhou 同意（“交”），只交 Tier 2 AUC（`--only add_auc`，submission 57972299，`results/submission/submit_t2a1103_auc.txt`、`poll_t2a1103_auc.txt`）：t2a1103 得 0.51653，比榜上的 t2a1102（0.51765）低 0.0011；榜上仍显示 0.51765、第 6，提交时间变成 22:17（这一榜上下都没有同分，名次不受影响，`results/board/diff_1103_2218.txt`）。
+  读法（解释）：自己参考上导出 +0.0398、4096 世界 +0.0396，榜上 −0.0011（t2a1102 为底）。Tier 2 换跟踪方式的 run 自己参考 → 榜的比例三次是 −（b1019a）、0.21（t2a1102）、约 −0.03（这次）；0.21 那一次是例外，Tier 2 上自己参考的涨幅不能拿来预测榜分。这次的五集里哪几集在榜上变差，没有逐集榜分，查不出。Tier 2 之后不再按自己参考交，l40n 上的 Tier 2 段不再起。
 ## 5. 独立复核（11/03 13:4x MST）
 
 结论 GO WITH FIXES，8 条全部采纳：
