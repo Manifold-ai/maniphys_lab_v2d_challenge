@@ -100,6 +100,9 @@
   打包 t3m1104d（t3m1104c 只改 ep6、ep20 两行；帧参考在 ml40 建 2 集并对齐，ALIGN_FREFS_OK 2，MERGE_FREFS_OK 30，ASSEMBLE_T3_OK 30；提交 b76a7201）：PACK 22989 行，CSV sha256 cef03599…（`results/submission/pack/t3_t3m1104d.txt`）；CSV_EPISODE_DIFF_OK（恰好 6、20），CSV_FRAME0_OK（第 0 帧位置差 0.10–0.25 cm）；`--only add_auc` 预演通过，当天剩 19 次。d 是 t3m1104e（gb6 重训的 ep11、ep17）的底。
 - 11/04 10:40 MST 的榜（`results/board/diff_1104_1040.txt`）：Rice RobotPI Lab 新进 Tier 2 四个榜中的 AUC（0.82274，第 1）、SP-SR（0.96666，第 1），Tier 1 AUC 0.909 → 0.949、MPPE 4.40 → 0.84 cm、SP-SR 与 MP-SR 到 1.000；EmAI Robotics 新进三档，各榜都在我们后面。我们 Tier 2 AUC 第 6 → 第 7、SP-SR 第 5 → 第 6，其余名次不变；读法 B 87（Kaggle，第 6）/ 88（官网，第 6），读法 A 24（第 5）。
   判断：策略不变。Tier 2 的差距（AUC 差第 1 名 0.305）不是冻结前能补的，自己参考上的 Tier 2 增益也不能拿来交（第 2 节）；冻结前能动的只剩 Tier 3。ml40 训 ep11、mf4090 训 ep17（`plan-t3gb6`），两台 GPU 都在跑已审过的计划；ep17 约 11:10 MST、ep11 约 12:00 MST 导出，过 `plan-t3gb6` 判据就在 t3m1104d 上打 t3m1104e，交前问 rxzhou。
+- 11/04 13:40 MST 的榜（`results/board/diff_1104_1340.txt`）：Rice RobotPI Lab 新进 Tier 3 四个榜，都是第 1（AUC 0.61643），Tier 2 MP-SR、MPPE 也到第 1；MBZUAI-RCL Group 三档都涨（Tier 2 AUC 0.629 → 0.714，Tier 3 AUC 0.447 → 0.469）；Neural Motion 新进 Tier 3，各榜在我们后面。我们 Tier 3 四个榜各掉 1 名（AUC 第 5、SP-SR 第 3），Tier 2 MP-SR、MPPE 各掉 1 名；读法 B 93（Kaggle，第 7）/ 94（官网，第 7），读法 A 28（第 6，与 1 队同分）。没有第一的榜。
+  判断：不交 t3m1104e。Tier 3 AUC 上一名是 Izus_systems 0.37546，比我们高 0.0355；d 比已交的 c 导出只高 0.0053，ep11、ep17 两集就算都过换集条件，也补不上这个差，交了名次不变，不满足“有把握带来非常领先的提升”。离我们自定的 14:00 MST 截止也不到 20 分钟，打包、核 CSV、预演来不及。ep17（mf4090，10:57 MST 导出完）、ep11（ml40，11:33 MST 导出完）的记录留在机器上，不读数，不打包。两台 GPU 13:40 MST 都空着，按冻结约定不再起新训练。冻结前剩下的事都在 Kaggle 上，由 rxzhou 操作：12 个榜手选 Final Submission，12 个比赛的队名改成 Maniphys Lab。
+
 ## 5. 独立复核（11/03 13:4x MST）
 
 结论 GO WITH FIXES，8 条全部采纳：

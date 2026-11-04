@@ -1,0 +1,51 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1104_1040.txt results/board/lb_1104_1340.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 0a839552b1039a999a75f8e8b0310b06  results/board/lb_1104_1040.txt
+# md5      : 5bf831efe67ee4d229c2803014d44753  results/board/lb_1104_1340.txt
+# source   : acd43530a924
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T13:40:13-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1104_1040.txt；这一份 results/board/lb_1104_1340.txt
+## 变了的榜
+tier1-auc：MBZUAI-RCL Group 0.92508 → 0.93096（2026-11-04 18:00）；Neural Motion 0.57261 → 0.59263（2026-11-04 19:48）
+tier1-sp-sr：MBZUAI-RCL Group 重新提交，分数没变（1.00000，2026-11-04 18:00）；Neural Motion 0.63333 → 0.66666（2026-11-04 19:48）
+tier1-mp-sr：MBZUAI-RCL Group 0.96666 → 1.00000（2026-11-04 18:00）；Neural Motion 0.60000 → 0.66666（2026-11-04 19:48）
+tier1-mppe：MBZUAI-RCL Group 0.99347 → 0.93014（2026-11-04 18:00）；Neural Motion 重新提交，分数没变（16.47448，2026-11-04 19:48）
+tier2-auc：Luai Abuelsamen 0.46522 → 0.47125（2026-11-04 19:21）；MBZUAI-RCL Group 0.62862 → 0.71441（2026-11-04 18:00）；Neural Motion 0.46548 → 0.48510（2026-11-04 19:48）
+tier2-sp-sr：Luai Abuelsamen 0.66666 → 0.70000（2026-11-04 19:22）；MBZUAI-RCL Group 0.80000 → 0.90000（2026-11-04 18:00）；Neural Motion 0.53333 → 0.56666（2026-11-04 19:49）
+tier2-mp-sr：Luai Abuelsamen 重新提交，分数没变（0.46666，2026-11-04 19:22）；MBZUAI-RCL GROUP 0.80000 → 0.90000（2026-11-04 18:01）；Neural Motion 0.50000 → 0.53333（2026-11-04 19:49）；新进 Rice RobotPI Lab 0.96666（2026-11-04 17:40）；不见了 longbot（原 0.03333）
+tier2-mppe：Luai Abuelsamen 14.12760 → 12.36556（2026-11-04 19:22）；MBZUAI-RCL Group 11.52399 → 4.11625（2026-11-04 18:01）；Neural Motion 21.36424 → 19.32515（2026-11-04 19:49）；新进 Rice RobotPI Lab 1.68862（2026-11-04 17:41）；不见了 Rohit Pardeshi（原 49.14697）
+tier3-auc：MBZUAI-RCL Group 0.44671 → 0.46911（2026-11-04 18:01）；新进 Neural Motion 0.00000（2026-11-04 20:17）；新进 Rice RobotPI Lab 0.61643（2026-11-04 17:42）
+tier3-sp-sr：MBZUAI-RCL Group 0.50000 → 0.56666（2026-11-04 18:01）；新进 Neural Motion 0.00000（2026-11-04 20:17）；新进 Rice RobotPI Lab 0.66666（2026-11-04 17:42）
+tier3-mp-sr：MBZUAI-RCL Group 重新提交，分数没变（0.26666，2026-11-04 18:01）；新进 Neural Motion 0.00000（2026-11-04 20:17）；新进 Rice RobotPI Lab 0.46666（2026-11-04 17:43）
+tier3-mppe：MBZUAI-RCL Group 26.60609 → 18.73475（2026-11-04 18:01）；新进 Neural Motion 78.09814（2026-11-04 20:17）；新进 Rice RobotPI Lab 10.99990（2026-11-04 17:43）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 Rice RobotPI Lab 0.94921，差 0.31386）；sp-sr 第 10（0.86666，第 1 名 domoarigato 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 Rice RobotPI Lab 1.00000，差 0.30000）；mppe 第 10（8.46753，第 1 名 Rice RobotPI Lab 0.83510，差 7.63243）
+Tier 2：auc 第 7（0.51765，第 1 名 Rice RobotPI Lab 0.82274，差 0.30509）；sp-sr 第 6（0.73333，第 1 名 Rice RobotPI Lab 0.96666，差 0.23333）；mp-sr 第 7（0.53333，第 1 名 Rice RobotPI Lab 0.96666，差 0.43333）；mppe 第 11（15.32195，第 1 名 Rice RobotPI Lab 1.68862，差 13.63333）
+Tier 3：auc 第 5（0.33996，第 1 名 Rice RobotPI Lab 0.61643，差 0.27647）；sp-sr 第 3（0.46666，第 1 名 Rice RobotPI Lab 0.66666，差 0.20000）；mp-sr 第 5（0.10000，第 1 名 Rice RobotPI Lab 0.46666，差 0.36666）；mppe 第 7（36.60061，第 1 名 Rice RobotPI Lab 10.99990，差 25.60071）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 87（第 6） → 93（第 7）；前 4：Rice RobotPI Lab 13、Izus_systems 42、MBZUAI-RCL Group 43、domoarigato 46
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 88（第 6） → 94（第 7）；前 4：Rice RobotPI Lab 15、MBZUAI-RCL Group 41、domoarigato 42、Izus_systems 44
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 24（第 5） → 28（第 6，与 1 队同分）；前 4：Rice RobotPI Lab 4、domoarigato 12、Izus_systems 14、nima arki 22
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 24（第 5） → 28（第 6，与 1 队同分）；前 4：Rice RobotPI Lab 4、domoarigato 12、Izus_systems 14、nima arki 22
+ALERT tier2-mp-sr 名次 6 → 7（同分 kaggle）
+ALERT tier2-mppe 名次 10 → 11（同分 kaggle）
+ALERT tier3-auc 名次 4 → 5（同分 kaggle）
+ALERT tier3-sp-sr 名次 2 → 3（同分 kaggle）
+ALERT tier3-mp-sr 名次 4 → 5（同分 kaggle）
+ALERT tier3-mppe 名次 6 → 7（同分 kaggle）
+ALERT tier2-mp-sr 名次 6 → 7（同分 site）
+ALERT tier2-mppe 名次 10 → 11（同分 site）
+ALERT tier3-auc 名次 4 → 5（同分 site）
+ALERT tier3-sp-sr 名次 4 → 5（同分 site）
+ALERT tier3-mp-sr 名次 4 → 5（同分 site）
+ALERT tier3-mppe 名次 6 → 7（同分 site）
+ALERT 读法 B（12 个榜名次相加）（同分 kaggle）总名次 6 → 7
+ALERT 读法 B（12 个榜名次相加）（同分 site）总名次 6 → 7
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 kaggle）总名次 5 → 6，并列
+ALERT 读法 A（三档平均后 4 个名次相加）（同分 site）总名次 5 → 6，并列
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE
