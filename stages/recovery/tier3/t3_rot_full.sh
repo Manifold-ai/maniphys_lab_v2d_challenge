@@ -158,11 +158,16 @@ echo "$(date '+%m-%d %T') reused floor_fit_$BASE.json and camera_register_$BASE.
 grep -q GB_CHAIN_DONE "logs/gb_chain_$V.log" || fail "chain: $(tail -1 "logs/gb_chain_$V.log")"
 log "chain done; lean supports: $(tail -1 "$G/logs/lean_support_${V}dyn7.txt" | cut -c1-200)"
 
-# 4. the episodes that kept 10 are byte-identical to the base's delivered ones
+# 4. the episodes that kept 10 are the base's delivered ones: the same table, support usda byte-identical, and parquet
+# metadata equal except the provenance "from" of depth_post / dynamics_post, which names the input version and so must be
+# the base's name with <V> for <BASE> (11-04: a whole-file compare cannot pass, the version name is in the metadata). The
+# ROT_DEG 5 episodes must have a different table.
 "$PY" - "$T" "$G" "$V" "$BASE" "${FIVE[@]}" <<'EOF' || fail "unchanged episodes differ from the base (logs/rot_full_$V.log)"
 import json, filecmp, sys
 from pathlib import Path
+import pyarrow.parquet as pq
 t, g, v, base, five = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4], set(sys.argv[5:])
+PROV = ("depth_post", "dynamics_post")
 def eps(ver):
     out = {}
     for sub in ("", "_suspect"):
@@ -171,20 +176,38 @@ def eps(ver):
             meta = json.loads(m.read_text()); i = int(m.name.split("_")[1].split(".")[0])
             out[i] = (d / "data/chunk-000" / f"episode_{i:06d}.parquet", Path(meta["support_surface"]).name, sub)
     return out
+def same_meta(a, b):  # a: new, b: base; only "from" may differ, and only by the version name
+    ma, mb = a.schema.metadata or {}, b.schema.metadata or {}
+    if set(ma) != set(mb):
+        return f"metadata keys {sorted(set(ma) ^ set(mb))}"
+    for k in ma:
+        if k.decode() not in PROV:
+            if ma[k] != mb[k]:
+                return f"metadata {k.decode()}"
+            continue
+        ja, jb = json.loads(ma[k]), json.loads(mb[k])
+        if set(ja) != set(jb) or any(ja[x] != jb[x] for x in ja if x != "from"):
+            return f"metadata {k.decode()} beyond from"
+        if ja["from"] != jb["from"].replace(f"tier3_cari4d_{base}_", f"tier3_cari4d_{v}_") or ja["from"] == jb["from"]:
+            return f"metadata {k.decode()} from {ja['from']} vs {jb['from']}"
+    return None
 new, old = eps(v), eps(base)
 assert sorted(new) == sorted(old) and len(new) == 30, (len(new), len(old))
 names = {int(r["episode_index"]): r["episode"] for r in json.loads((t / "runs" / f"tier3_cari4d_{v}_best.selection.json").read_text())}
 bad = []
-for i, (pq, usda, sub) in sorted(new.items()):
+for i, (pq_new, usda, sub) in sorted(new.items()):
+    a, b = pq.read_table(pq_new), pq.read_table(old[i][0])
+    same_table = a.equals(b, check_metadata=False)
     if names[i] in five:
-        if filecmp.cmp(pq, old[i][0], shallow=False):
-            bad.append(names[i] + " (ROT_DEG 5 but its parquet equals the base's)")
-        print(names[i], "ROT_DEG 5, parquet differs from the base:", not filecmp.cmp(pq, old[i][0], shallow=False)); continue
-    same_pq = filecmp.cmp(pq, old[i][0], shallow=False) and sub == old[i][2]
+        if same_table:
+            bad.append(names[i] + " (ROT_DEG 5 but its table equals the base's)")
+        print(names[i], "ROT_DEG 5, table differs from the base:", not same_table); continue
+    why = None if same_table else "table"
+    why = why or ("main/_suspect split" if sub != old[i][2] else None) or same_meta(a, b)
     same_us = filecmp.cmp(g / f"support_usda_{v}dyn7" / usda, t / "runs" / f"tier3_cari4d_{base}_best_dr2s_dyn7{old[i][2]}" / "support_surface" / usda, shallow=False)
-    if not (same_pq and same_us):
-        bad.append(names[i])
-    print(names[i], "parquet", "same" if same_pq else "DIFFERS", "usda", "same" if same_us else "DIFFERS")
+    if why or not same_us:
+        bad.append(f"{names[i]} ({why or 'usda'})")
+    print(names[i], "table+metadata", "same" if not why else "DIFFERS: " + why, "usda", "same" if same_us else "DIFFERS")
 if bad:
     raise SystemExit(f"differ: {bad}")
 EOF
