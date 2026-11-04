@@ -92,6 +92,8 @@
   ep10 ADD-AUC 0.308 → 0.401，SP-SR 0.949 → 0.960，MP-SR 0 → 0，MPPE 5.25 → 4.46 cm，过；ep29 0.377 → 0.644，SP-SR 0.713 → 0.924，MP-SR 0 → 0.456，MPPE 8.00 → 4.37 cm，过；ep14 0.318 → 0.476，但 SP-SR 0.844 → 0.745、MPPE 9.02 → 10.99 cm，不过。
   对 t3m1103a 七集合计（`results/final1/swap_cum7_vs_t3m1103a.txt`）：导出那一局 +0.0310，4096 世界 +0.0310。t3m1104b 还没交，所以 t3m1104c 替换 t3m1104b 作为待问的那份。读法（解释）：按约 1.1 换算，榜上约 0.354，比第 4 名 nima arki 0.32937 高约 0.025，仍低于第 3 名 domoarigato 0.37004。
   打包 t3m1104c（t3m1104b 再换 ep10、ep29；`results/t3pack1104/*_c*`）：清单 `stages/evaluate/exports/t3_select_t3m1104c.tsv`（t3m1104b 只改这 2 行），PULL_OK、ASSEMBLE_T3_OK 30；帧参考在 ml40（ep10）、mf4090（ep29）各建 1 集并对齐（ep10 的对齐方案与以前的包相同），MERGE_FREFS_OK 30；提交 75d4401f。PACK 22989 行，CSV sha256 0dfc1c86…（`results/submission/pack/t3_t3m1104c.txt`）；CSV_EPISODE_DIFF_OK（5、6、8、10、15、20、29），两份 CSV_FRAME0_OK（ep10 0.16 cm、ep29 0.48 cm）；预演 `--only add_auc` 通过（`results/submission/dryrun_t3_t3m1104c.txt`，当天余 20 次）。等 rxzhou 定交不交。
+- 11/04 07:40 MST 的榜（`results/board/diff_1104_0740.txt`）：domoarigato 重交三档中的 Tier 2、Tier 3，Tier 3 AUC 0.37004 → 0.40938（仍第 2）、MP-SR 0.167 → 0.200、MPPE 25.19 → 24.38 cm，Tier 2 AUC 0.603 → 0.624、SP-SR 0.767 → 0.800、MPPE 12.53 → 9.41 cm；nima arki 重交 Tier 2（MP-SR 0.500 → 0.533）；Rohit Pardeshi 重交 Tier 1。我们各榜名次不变，读法 B 86（Kaggle，第 7）/ 87（官网，第 6），读法 A 24（第 5）。Tier 3 AUC 现在第 3 是 Izus_systems 0.37546，第 4 是 nima arki 0.32937。
+  判断：策略不变。t3m1104c 按约 1.1 换算约 0.354，仍是第 4（第 3 要 0.375，差约 0.02，余下的 ml40 `t3qr3o2f` 两集补不上）；它仍是待问的那份。ml40 `t3qr3o2f` 的 ep20 06:44 MST 训完、ep6 在训，读数约 09:30 MST；mf4090、l40n 空着，理由同上一条。
   mf4090 从 03:32 MST 起空着：第 1 节表里的集都已跑完，余下没试过 r3o 的集都是跟丢的集，按第 1 节“第 3 段之后不另起新配方的 run”不再起。ml40 `t3qr3o2f`（ep20、ep6 的 1000 万臂）04:40 MST 在训 ep20，读数约 09:30 MST；过换集条件且同集取 ADD-AUC 高的那臂时，另打 t3m1104d。
 ## 5. 独立复核（11/03 13:4x MST）
 

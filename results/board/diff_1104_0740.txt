@@ -1,0 +1,35 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1104_0440.txt results/board/lb_1104_0740.txt 
+# md5      : 1b742c0bf559d6c585e7165d5c6454d5  stages/evaluate/board_diff.py
+# md5      : 52fbb2d4903e03d4b85aead928017909  results/board/lb_1104_0440.txt
+# md5      : ab515cc73464d9d8f3cc049afe9ce686  results/board/lb_1104_0740.txt
+# source   : 68f89a3a5a55
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T07:40:13-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1104_0440.txt；这一份 results/board/lb_1104_0740.txt
+## 变了的榜
+tier1-auc：Rohit Pardeshi 0.43394 → 0.43668（2026-11-04 11:50）
+tier1-sp-sr：Rohit Pardeshi 0.53333 → 0.56666（2026-11-04 11:50）
+tier1-mp-sr：Rohit Pardeshi 重新提交，分数没变（0.30000，2026-11-04 11:50）
+tier1-mppe：Rohit Pardeshi 13.04419 → 13.04281（2026-11-04 11:50）
+tier2-auc：domoarigato 0.60318 → 0.62407（2026-11-04 14:19）；nima arki 重新提交，分数没变（0.47955，2026-11-04 14:23）
+tier2-sp-sr：domoarigato 0.76666 → 0.80000（2026-11-04 14:19）；nima arki 重新提交，分数没变（0.73333，2026-11-04 14:23）
+tier2-mp-sr：domoarigato 重新提交，分数没变（0.73333，2026-11-04 14:19）；nima arki 0.50000 → 0.53333（2026-11-04 14:23）
+tier2-mppe：domoarigato 12.52789 → 9.40708（2026-11-04 14:19）；nima arki 重新提交，分数没变（10.84276，2026-11-04 14:23）
+tier3-auc：domoarigato 0.37004 → 0.40938（2026-11-04 14:07）
+tier3-sp-sr：domoarigato 重新提交，分数没变（0.46666，2026-11-04 14:07）
+tier3-mp-sr：domoarigato 0.16666 → 0.20000（2026-11-04 14:07）
+tier3-mppe：domoarigato 25.19032 → 24.38354（2026-11-04 14:07）
+## maniphys.ai 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 MBZUAI-RCL Group 0.92508，差 0.28973）；sp-sr 第 10（0.86666，第 1 名 MBZUAI-RCL Group 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 MBZUAI-RCL Group 0.96666，差 0.26666）；mppe 第 10（8.46753，第 1 名 MBZUAI-RCL Group 0.99347，差 7.47406）
+Tier 2：auc 第 6（0.51765，第 1 名 Izus_systems 0.64411，差 0.12646）；sp-sr 第 5（0.73333，第 1 名 MBZUAI-RCL Group 0.80000，差 0.06667）；mp-sr 第 6（0.53333，第 1 名 MBZUAI-RCL GROUP 0.80000，差 0.26667）；mppe 第 10（15.32195，第 1 名 Izus_systems 6.65765，差 8.66430）
+Tier 3：auc 第 5（0.32015，第 1 名 MBZUAI-RCL Group 0.44671，差 0.12656）；sp-sr 第 2（0.46666，第 1 名 MBZUAI-RCL Group 0.50000，差 0.03334）；mp-sr 第 4（0.10000，第 1 名 MBZUAI-RCL Group 0.26666，差 0.16666）；mppe 第 6（36.60061，第 1 名 domoarigato 24.38354，差 12.21707）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：maniphys.ai 86（第 7） → 86（第 7）；前 4：Izus_systems 32、domoarigato 35、MBZUAI-RCL Group 38、nima arki 71
+读法 B（12 个榜名次相加），同分 site：maniphys.ai 87（第 6） → 87（第 6）；前 4：domoarigato 28、Izus_systems 32、MBZUAI-RCL Group 42、nima arki 70
+读法 A（三档平均后 4 个名次相加），同分 kaggle：maniphys.ai 24（第 5） → 24（第 5，与 1 队同分）；前 4：domoarigato 7、Izus_systems 9、nima arki 18、Debajyoti Dasgupta 21
+读法 A（三档平均后 4 个名次相加），同分 site：maniphys.ai 24（第 5） → 24（第 5，与 1 队同分）；前 4：domoarigato 7、Izus_systems 9、nima arki 18、Debajyoti Dasgupta 21
+BOARD_CHANGED 12 个榜
+BOARD_DIFF_DONE
