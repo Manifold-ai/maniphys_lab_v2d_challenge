@@ -1,0 +1,30 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "board": {"file": "results/board/diff_1104_1418.txt", "grep": "^Tier [123]：|^读法|BOARD_"},
+    "name": {"file": "results/board/teamname_1104_1400.txt", "grep": "^tier"},
+    "h11": {"file": "results/t3gb6/health_ep11_ml40.txt", "grep": "r3o|非有限|EXPORT|SP-SR"},
+    "h17": {"file": "results/t3gb6/health_ep17_mf4090.txt", "grep": "r3o|非有限|EXPORT|SP-SR"},
+    "sub": {"file": "results/submission/poll_t3_t3m1104c_auc.txt", "grep": "COMPLETE|0\\.3"},
+    "gpu": {"file": "results/ops/status_mf4090_1104_1405.txt", "grep": "NVIDIA|/dev/"},
+    "gpu40": {"file": "results/ops/status_ml40_1104_1405.txt", "grep": "NVIDIA|tmux|会话"}
+  },
+  "claims": [
+    {"id": "t3auc5", "evidence": ["board"], "claim": "On the Tier 3 AUC board, Maniphys Lab is in 5th place."},
+    {"id": "t3sp3", "evidence": ["board"], "claim": "On the Tier 3 SP-SR board, Maniphys Lab is in 3rd place."},
+    {"id": "sumb", "evidence": ["board"], "claim": "Under reading B with the Kaggle tie rule, the rank sum of Maniphys Lab is 93, which is 7th."},
+    {"id": "suma", "evidence": ["board"], "claim": "Under reading A, the rank sum of Maniphys Lab is 28, which is 6th."},
+    {"id": "rice", "evidence": ["board"], "claim": "Rice RobotPI Lab is the first-place team named on all four Tier 3 boards."},
+    {"id": "rename", "evidence": ["name"], "claim": "Every listed board row shows the team name Maniphys Lab."},
+    {"id": "ep11h", "evidence": ["h11"], "claim": "For ep11, the nanwatch line reports 0 non-finite values, the export chain succeeded, and non_finite_worlds is 0."},
+    {"id": "ep11f", "evidence": ["h11"], "claim": "For ep11, SP-SR is below 0.5 and MPPE is above 10 cm."},
+    {"id": "ep17h", "evidence": ["h17"], "claim": "For ep17, the nanwatch line reports 0 non-finite values, the export chain succeeded, and non_finite_worlds is 0."},
+    {"id": "ep17f", "evidence": ["h17"], "claim": "For ep17, SP-SR is below 0.5 and MPPE is above 10 cm."},
+    {"id": "c033", "evidence": ["sub"], "claim": "The t3m1104c submission completed with a public score of 0.33996."},
+    {"id": "idle", "evidence": ["gpu", "gpu40"], "claim": "Both GPUs show 0 MiB memory used and 0 % utilization."},
+    {"id": "ctl_true", "evidence": ["h17"], "claim": "The ep17 health record ends with T3_HEALTH_DONE or lists a checkpoint hash."},
+    {"id": "ctl_false1", "evidence": ["board"], "claim": "Maniphys Lab is in first place on the Tier 3 SP-SR board."},
+    {"id": "ctl_false2", "evidence": ["h11"], "claim": "For ep11, SP-SR is at least 0.5."},
+    {"id": "ctl_false3", "evidence": ["name"], "claim": "At least one board row still shows the team name maniphys.ai."}
+  ]
+}

@@ -1,0 +1,12 @@
+# command  : ssh ml40 cd\ /lab_data/rxzhou/v2d/maniphys_lab_v2d_challenge\ \&\&\ bash\ -s\ t3-ep11-w2048-cap10m-r3o-gb6dyn7-ml40\ t3qr3og6 
+# source   : 4be3eea28386-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T14:11:57-0700
+# ---------------------------------------------------------------
+== t3-ep11-w2048-cap10m-r3o-gb6dyn7-ml40
+r3o 项 1 行：runs/logs/smoke-t3-ep11-w2048-cap10m-r3o-gb6dyn7-ml40.s1.log
+r3o 项 1 行：runs/logs/t3-ep11-w2048-cap10m-r3o-gb6dyn7-ml40.s1.log
+11-04 12:22:54 MDT 340,013,056 步：非有限 0 / 1207577（NaN 0，inf 0）
+=== 2026-11-05 02:33:50 CST EXPORT_CHAIN_DONE（成功 1、失败 0）
+non_finite_worlds 0；SP-SR 0.000，MP-SR 0.000，ADD-AUC 0.077，MPPE 66.89 cm；checkpoint de84cf4e0e17
+T3_HEALTH_DONE
