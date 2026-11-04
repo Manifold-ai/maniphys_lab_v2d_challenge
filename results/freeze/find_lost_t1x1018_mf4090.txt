@@ -1,0 +1,39 @@
+# command  : ssh mf4090 bash\ -s\ v2d/maniphys_lab_v2d_challenge/runs/inventory/lost_t1x1018.tsv\ \$HOME 
+# source   : af3686bd124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T11:02:54-0700
+# ---------------------------------------------------------------
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_320012288.safetensors	362bb05702c173a60ef0d0027e00e963a24dce7dd4fbead2ca6f0a72a4112524
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_340013056.safetensors	8d002ecf67beeba623bea9cd39ad9d06c7193c719f37fc459cc662594c9322ec
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_270010368.safetensors	a2fe40934a5b19ef35fcc99ac57b11c4892c2728682568a463c726168a001bc2
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_290011136.safetensors	68a582519e419f07e0f5bda480d9251d2503fc5f99f28a48de95d00896cc70a9
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_310011904.safetensors	2b5100be7f766352d84cbc89c432f9c441d3a0e582f09a78e37c356f91e359f6
+MATCH	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_300011520.safetensors	0c6445740c0c830a3dac7a95a1907e0cddacc3f378f7e08524ccd52a594cc8fd
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_280010752.safetensors	340a3e6a6532ea1600e0eed8f6d6e34735727d09fe005e4e018f46c7385196fa
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_330012672.safetensors	d6b523e778b977fdd734de9fda361a025dfec87bb1ecce6b565f07bdd805362b
+OTHER	t1-ep0-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/smoke-t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_4096000.safetensors	713aaf3f12228cfb4e20aad748090b9e96e196bcbce18113346712a9f46a0193
+RUN_DONE	t1-ep0-w2048-cap4m-r3a-s43-mf4090	找到 10 个
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_320012288.safetensors	620a3af689321214df1f16a4ff18d53474ae58d75783febf4224b604a8677049
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_340013056.safetensors	211276dae2fbd68469bee8329719c981de44547440f128f2560586981d5dfdbf
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_270010368.safetensors	8781ef676e73ce408c42271f81aa9bea0579afd6c7e659a815e85a6a2f2bdd7d
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_290011136.safetensors	efa211bd854b9fee5324b2245cce171e78298db0dabcc1c3f36a23a97c348eb7
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_310011904.safetensors	53e96e7bbe390bd0fac0b84730f4bf1625ef1dfddd0ce9fb9470e87c1929fe30
+MATCH	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_349999104.safetensors
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_300011520.safetensors	69ee12d26615d42def3ee5d7acaff495c2cee39b3138431d71ff66577dc7c55b
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_280010752.safetensors	32436ce9de2af395dadb6040eb1cbfeffa154c1e2d1ea4043973a731739d5a8a
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_330012672.safetensors	3cac5801efec3c535bc4f3ac8e4fdf157e18afb13f68891a2d3b785fd5f049d9
+OTHER	t1-ep5-w2048-cap4m-r3a-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/smoke-t1-ep5-w2048-cap4m-r3a-mf4090/policy_4096000.safetensors	c2453bcce31f8889b11d158d67bc6ee71329a052eb0a8cfc8efd853755905f58
+RUN_DONE	t1-ep5-w2048-cap4m-r3a-mf4090	找到 10 个
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_320012288.safetensors	e2de661c4864078d71370e9b9df1581b8d49def9722caf5bf29e0792a187c536
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_340013056.safetensors	7e37bbd3b22e6b95363d4f94b393f8bc59e6ddcc7a2a5d3ada4035c4386b5069
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_270010368.safetensors	7441a4acb57bb7110fab6ec9adffd205bf821d0f981840de284a28b3d50d9e8b
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_290011136.safetensors	12ef3eb3f4a00e8828c23a978673a6d16799162a49bec66806afa96de779b446
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_310011904.safetensors	803239f006c869a8d73f19caf1f5de897a18deca0533d8c4b294c10a76090c19
+MATCH	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_300011520.safetensors	3dcd091f7930163e9f5d7757f1354657281a42097b386ad5c732e0d7d32f26db
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_280010752.safetensors	77ce4b8665afabfa1aace9c596bcbeb288b09e24839b5f1203d466b0572288fb
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_330012672.safetensors	59b80c64c7fb72ca6f05e62603ee0759b0002816a2ddb2a8bb8c069ba71f226b
+OTHER	t1-ep27-w2048-cap4m-r3a-s43-mf4090	/home/rxzhou/v2d/maniphys_lab_v2d_challenge/runs/flash_chord/smoke-t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_4096000.safetensors	d0bcaec1810eef3f6c2f4eef29c06786dc38b5aa267857284ca6badecbefc043
+RUN_DONE	t1-ep27-w2048-cap4m-r3a-s43-mf4090	找到 10 个
+FIND_CKPT_DONE

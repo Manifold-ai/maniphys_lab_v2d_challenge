@@ -1,0 +1,9 @@
+# command  : ssh l40n bash\ -s\ /home/ubuntu/v2d/maniphys_lab_v2d_challenge/runs/inventory/lost_t1x1018.tsv\ /home/ubuntu 
+# source   : af3686bd124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T11:03:20-0700
+# ---------------------------------------------------------------
+RUN_DONE	t1-ep0-w2048-cap4m-r3a-s43-mf4090	找到 0 个
+RUN_DONE	t1-ep5-w2048-cap4m-r3a-mf4090	找到 0 个
+RUN_DONE	t1-ep27-w2048-cap4m-r3a-s43-mf4090	找到 0 个
+FIND_CKPT_DONE

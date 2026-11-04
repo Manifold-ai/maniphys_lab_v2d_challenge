@@ -1,0 +1,22 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-04-freeze-inventory.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : d6b2a21aebd8cdb3d94fb99fbd17dfae  agent-doc/experiments/2026-11-04-freeze-inventory.claims.json
+# source   : af3686bd124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T11:04:34-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+t1count              P(supported)=0.71  verified               [inv]  On all four Tier 1 boards, track2_tier1_t1x1102.csv is among the counted submissions.
+t1018tie             P(supported)=0.56  UNVERIFIED             [inv]  track2_tier1_select_t1x1018.csv is counted only on the tier1-mp-sr board, where three submissions tie at 0.70000.
+nine                 P(supported)=0.95  verified               [inv]  There are 9 counted files in total.
+nojson               P(supported)=0.97  verified               [inv]  Three episode checkpoints had no evaluator JSON path, and all three belong to track2_tier1_select_t1x1018.csv (ep0, ep5, ep27).
+ok40                 P(supported)=0.94  verified               [c40]  On ml40, all 65 listed checkpoints exist and match their recorded sha256, with no mismatch and none missing.
+ok90                 P(supported)=0.94  verified               [c90]  On mf4090, all 61 listed checkpoints exist and match their recorded sha256, with no mismatch and none missing.
+found                P(supported)=0.37  UNVERIFIED             [f90]  On mf4090, each of the three lost t1x1018 checkpoints (ep0, ep5, ep27 runs) was found with a matching sha256.
+notelse              P(supported)=0.97  verified               [f40, fl4]  On ml40 and l40n, the search found no files for the three lost t1x1018 runs.
+badsha               P(supported)=0.92  verified               [cmt]  The full commit sha in the t1x1018 CSV does not exist in the local git repository or on GitHub.
+realc                P(supported)=0.95  verified               [cmt]  A real commit with the same 12-character prefix c2dc9fbac355 exists, is on origin/track2/p1-training, and GitHub returns it.
+ctl_true             P(supported)=0.96  verified               [c90]  The mf4090 checkpoint check finished and printed a summary line.
+ctl_false1           P(supported)=0.01  UNVERIFIED             [c40]  On ml40, at least one listed checkpoint is missing.
+ctl_false2           P(supported)=0.03  UNVERIFIED             [f90]  On mf4090, none of the three lost t1x1018 checkpoints was found.
+controls behaved as expected

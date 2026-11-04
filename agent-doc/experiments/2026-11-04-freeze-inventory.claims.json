@@ -1,0 +1,138 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "inv": {
+      "file": "results/freeze/counted_inventory.txt",
+      "grep": "^tier[123]-|NO_JSON|^计分文件"
+    },
+    "c40": {
+      "file": "results/freeze/ckpt_check_ml40.txt",
+      "grep": "CKPT_CHECK_DONE"
+    },
+    "c90": {
+      "file": "results/freeze/ckpt_check_mf4090.txt",
+      "grep": "CKPT_CHECK_DONE"
+    },
+    "f90": {
+      "file": "results/freeze/find_lost_t1x1018_mf4090.txt",
+      "grep": "MATCH|RUN_DONE"
+    },
+    "f40": {
+      "file": "results/freeze/find_lost_t1x1018_ml40.txt",
+      "grep": "RUN_DONE"
+    },
+    "fl4": {
+      "file": "results/freeze/find_lost_t1x1018_l40n.txt",
+      "grep": "RUN_DONE"
+    },
+    "cmt": {
+      "file": "results/freeze/commit_t1x1018.txt",
+      "grep": "commit|sha|分支"
+    },
+    "sha90": {
+      "file": "results/freeze/lost_t1x1018_sha_mf4090.txt",
+      "grep": "^[0-9a-f]{64}|^tier|sha256"
+    }
+  },
+  "claims": [
+    {
+      "id": "t1count",
+      "evidence": [
+        "inv"
+      ],
+      "claim": "On all four Tier 1 boards, track2_tier1_t1x1102.csv is among the counted submissions."
+    },
+    {
+      "id": "t1018tie",
+      "evidence": [
+        "sha90"
+      ],
+      "claim": "t1x1018 appears as a counted submission only on the tier1-mp-sr board."
+    },
+    {
+      "id": "nine",
+      "evidence": [
+        "inv"
+      ],
+      "claim": "There are 9 counted files in total."
+    },
+    {
+      "id": "nojson",
+      "evidence": [
+        "inv"
+      ],
+      "claim": "Three episode checkpoints had no evaluator JSON path, and all three belong to track2_tier1_select_t1x1018.csv (ep0, ep5, ep27)."
+    },
+    {
+      "id": "ok40",
+      "evidence": [
+        "c40"
+      ],
+      "claim": "On ml40, all 65 listed checkpoints exist and match their recorded sha256, with no mismatch and none missing."
+    },
+    {
+      "id": "ok90",
+      "evidence": [
+        "c90"
+      ],
+      "claim": "On mf4090, all 61 listed checkpoints exist and match their recorded sha256, with no mismatch and none missing."
+    },
+    {
+      "id": "found",
+      "evidence": [
+        "sha90"
+      ],
+      "claim": "For each of the three t1x1018 runs (ep0, ep5, ep27), the actual sha256 of the file on mf4090 equals the recorded sha256."
+    },
+    {
+      "id": "notelse",
+      "evidence": [
+        "f40",
+        "fl4"
+      ],
+      "claim": "On ml40 and l40n, the search found no files for the three lost t1x1018 runs."
+    },
+    {
+      "id": "badsha",
+      "evidence": [
+        "cmt"
+      ],
+      "claim": "The full commit sha in the t1x1018 CSV does not exist in the local git repository or on GitHub."
+    },
+    {
+      "id": "realc",
+      "evidence": [
+        "cmt"
+      ],
+      "claim": "A real commit with the same 12-character prefix c2dc9fbac355 exists, is on origin/track2/p1-training, and GitHub returns it."
+    },
+    {
+      "id": "ctl_true",
+      "evidence": [
+        "c90"
+      ],
+      "claim": "The mf4090 checkpoint check finished and printed a summary line."
+    },
+    {
+      "id": "ctl_false1",
+      "evidence": [
+        "c40"
+      ],
+      "claim": "On ml40, at least one listed checkpoint is missing."
+    },
+    {
+      "id": "ctl_false2",
+      "evidence": [
+        "f90"
+      ],
+      "claim": "On mf4090, none of the three lost t1x1018 checkpoints was found."
+    },
+    {
+      "id": "ctl_false3",
+      "evidence": [
+        "sha90"
+      ],
+      "claim": "For the ep27 run, the actual sha256 on mf4090 differs from the recorded sha256."
+    }
+  ]
+}

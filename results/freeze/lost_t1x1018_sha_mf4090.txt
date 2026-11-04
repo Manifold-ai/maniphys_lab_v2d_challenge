@@ -1,0 +1,16 @@
+# command  : bash -c $'echo "è®°å½\225ç\232\204 sha256ï¼\210æ\235¥è\207ª t1x1018 CSVï¼\211ä¸\216 runï¼\232"; cat runs/inventory/lost_t1x1018.tsv; echo "mf4090 ä¸\212å®\236é\231\205æ\226\207ä»¶ç\232\204 sha256ï¼\232"; ssh -n mf4090 "cd v2d/maniphys_lab_v2d_challenge && sha256sum runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_349999104.safetensors runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors"; echo "t1x1018 å\207ºç\216°å\234¨ç¬¬ 1 è\212\202ç\232\204æ¦\234ï¼\232"; awk -F"\\t" "/^## 1/{f=1;next}/^## 2/{f=0}f && /t1x1018/{print \\$1}" results/freeze/counted_inventory.txt' 
+# md5      : 470c5ba484bc7be9eb08503fa5288347  results/freeze/counted_inventory.txt
+# source   : af3686bd124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T11:04:46-0700
+# ---------------------------------------------------------------
+è®°å½•çš„ sha256ï¼ˆæ¥è‡ª t1x1018 CSVï¼‰ä¸ runï¼š
+8bc3eea165ece9693ddc58dad84a54dd75b1e30f18ecc1eaee94b7564891d68b	t1-ep0-w2048-cap4m-r3a-s43-mf4090
+4153b5e837bca7e9b60e5b6d0582a13316e258437776bb14b54e633c63825438	t1-ep5-w2048-cap4m-r3a-mf4090
+509f624c3778c5820ce424ad38bdd59b82db3c62fd8e4c6829cdd629603d16a0	t1-ep27-w2048-cap4m-r3a-s43-mf4090
+mf4090 ä¸Šå®é™…æ–‡ä»¶çš„ sha256ï¼š
+8bc3eea165ece9693ddc58dad84a54dd75b1e30f18ecc1eaee94b7564891d68b  runs/flash_chord/t1-ep0-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors
+4153b5e837bca7e9b60e5b6d0582a13316e258437776bb14b54e633c63825438  runs/flash_chord/t1-ep5-w2048-cap4m-r3a-mf4090/policy_349999104.safetensors
+509f624c3778c5820ce424ad38bdd59b82db3c62fd8e4c6829cdd629603d16a0  runs/flash_chord/t1-ep27-w2048-cap4m-r3a-s43-mf4090/policy_349999104.safetensors
+t1x1018 å‡ºç°åœ¨ç¬¬ 1 èŠ‚çš„æ¦œï¼š
+tier1-mp-sr

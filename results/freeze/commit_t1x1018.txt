@@ -1,0 +1,14 @@
+# command  : bash -c $'echo "CSV é\207\214ç\232\204 code_commit_urlï¼\210è¡\214æ\225° é\223¾æ\216¥ï¼\211ï¼\232"; cut -d, -f14 runs/submission/csv/track2_tier1_select_t1x1018.csv | tail -n +2 | sort | uniq -c; echo "CSV é\207\214ç\232\204å®\214æ\225´ sha å\234¨æ\234¬å\234° git é\207\214ï¼\232$(git --no-optional-locks cat-file -t c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75 2>&1)"; echo "å\211\215ç¼\200 c2dc9fbac355 å¯¹åº\224ç\232\204ç\234\237å®\236 commitï¼\232$(git --no-optional-locks rev-parse c2dc9fbac355)"; echo "ç\234\237å®\236 commit æ\211\200å\234¨ç\232\204è¿\234ç«¯å\210\206æ\224¯ï¼\232$(git --no-optional-locks branch -r --contains c2dc9fbac355 | tr -d " ")"; echo "ç\234\237å®\236 commitï¼\232$(git --no-optional-locks log -1 --format="%ci %s" c2dc9fbac355 | cut -c1-100)"; echo "GitHub ä¸\212æ\237¥ CSV é\207\214ç\232\204å®\214æ\225´ shaï¼\232$(gh api repos/Manifold-ai/maniphys_lab_v2d_challenge/commits/c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75 --jq .sha 2>&1 | head -1)"; echo "GitHub ä¸\212æ\237¥ç\234\237å®\236 commitï¼\232$(gh api repos/Manifold-ai/maniphys_lab_v2d_challenge/commits/c2dc9fbac3554c7f49afa354e6ce249d6fcb16a1 --jq .sha 2>&1 | head -1)"' 
+# md5      : 9168555ec369b392526fdeefa09a985d  runs/submission/csv/track2_tier1_select_t1x1018.csv
+# source   : af3686bd124c-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T11:04:09-0700
+# ---------------------------------------------------------------
+CSV é‡Œçš„ code_commit_urlï¼ˆè¡Œæ•° é“¾æ¥ï¼‰ï¼š
+22989 https://github.com/Manifold-ai/maniphys_lab_v2d_challenge/commit/c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75
+CSV é‡Œçš„å®Œæ•´ sha åœ¨æœ¬åœ° git é‡Œï¼šfatal: git cat-file: could not get object info
+å‰ç¼€ c2dc9fbac355 å¯¹åº”çš„çœŸå® commitï¼šc2dc9fbac3554c7f49afa354e6ce249d6fcb16a1
+çœŸå® commit æ‰€åœ¨çš„è¿œç«¯åˆ†æ”¯ï¼šorigin/track2/p1-training
+çœŸå® commitï¼š2026-10-18 11:41:43 -0400 pack(Tier 3 gb1018, not uploaded): rule-S switches ep0, 6, 7, 8, 20 packed
+GitHub ä¸ŠæŸ¥ CSV é‡Œçš„å®Œæ•´ shaï¼š{"message":"No commit found for SHA: c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75","documentation_url":"https://docs.github.com/rest/commits/commits#get-a-commit","status":"422"}gh: No commit found for SHA: c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75 (HTTP 422)
+GitHub ä¸ŠæŸ¥çœŸå® commitï¼šc2dc9fbac3554c7f49afa354e6ce249d6fcb16a1

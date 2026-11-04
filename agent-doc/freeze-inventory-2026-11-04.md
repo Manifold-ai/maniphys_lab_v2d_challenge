@@ -16,11 +16,11 @@
 
 ## 2. checkpoint
 
-9 份文件每集的 `checkpoint_sha256` 共 270 行。其中 267 行在 `runs/submission/` 下的 evaluator JSON 里找到 checkpoint 路径，去重后 ml40 65 个、mf4090 61 个；两台逐个核 sha256，全部 OK（`results/freeze/ckpt_check_{ml40,mf4090}.txt`，`tools/ckpt_check_remote.sh`）。没找到路径的 3 行都属于 t1x1018（ep0、5、27）。
+9 份文件每集的 `checkpoint_sha256` 共 270 行。其中 267 行在 `runs/submission/` 下的 evaluator JSON 里找到 checkpoint 路径，去重后 ml40 65 个、mf4090 61 个；两台逐个核 sha256，全部 OK（`results/freeze/ckpt_check_{ml40,mf4090}.txt`，`tools/ckpt_check_remote.sh`）。没找到路径的 3 行都属于 t1x1018（ep0、5、27）。按 `results/ml40/select_t1/select_t1x1018.txt` 里选中的 run 在三台机器上找（`tools/find_ckpt_remote.sh`）：三个都在 mf4090 的 `runs/flash_chord/<run>/policy_349999104.safetensors`，sha256 与 CSV 记录相同（`results/freeze/lost_t1x1018_sha_mf4090.txt`）；ml40、l40n 上没有这三个 run 的文件。计分提交用到的 checkpoint 现在全部找到。
 
 ## 3. 待处理
 
-- **t1x1018 的 commit 不存在。** 它记下的 `c2dc9fbac355…` 在本地和 GitHub 上都找不到；当时的记录写的是 `c2dc9fbac355-dirty`，在没有推送的工作区上打的包。它只在 Tier 1 MP-SR 上与 t1x1101、t1x1102 同分。容器只能复现 t1x1102，所以 Tier 1 应以 t1x1102 为计分文件；是否在 Kaggle 上把 Tier 1 四个榜的 Final Submission 手选为 t1x1102，待定（Kaggle 操作由 rxzhou 决定）。
+- **t1x1018 的 commit 链接写错了。** CSV 里 22989 行的 `code_commit_url` 都是 `…/commit/c2dc9fbac35506e3a4bfe1e3e45047fa9b4e9c75`，这个 sha 在本地和 GitHub 上都不存在。前 12 位 `c2dc9fbac355` 对应的真实 commit 是 `c2dc9fbac3554c7f49afa354e6ce249d6fcb16a1`（10/18 11:41 EDT，在 `origin/track2/p1-training` 上，GitHub 能查到）；完整 sha 的后 28 位与真实 commit 不同，而且打包时工作区有未提交的改动（来源记作 `c2dc9fbac355-dirty`）（`results/freeze/commit_t1x1018.txt`）。t1x1018 只在 Tier 1 MP-SR 上与 t1x1101、t1x1102 同分。容器按 t1x1102 覆盖 Tier 1；是否在 Kaggle 上把 Tier 1 四个榜的 Final Submission 手选为 t1x1102，待定（Kaggle 操作由 rxzhou 决定）。
 - **组织方看不到仓库。** 仓库私有，协作者里没有 Nvidia-V2D-Challenge；我们的账号只有 maintain 权限，看不到待接受的邀请，也加不了。需要 Manifold-ai 的 owner 或仓库 admin 添加。
 - **9 份文件对应 9 个不同的 commit。** 容器模板里 `code` 只有一个 commit，多个 commit 怎么放，待向组织方确认或按 `skills/v2d-container/SKILL.md` 处理。其余 8 个 commit 都在远端分支上。
 - 冻结后：`eval_code_sha256` 与评测镜像里的 FlashCHORD 评测包核对；Tier 3 frame references（`runs/submission/{t3m1104c,t3m1029a,t3m1022a}/frefs`）与各文件的打包记录核对；搭容器前先写计划并复核。
