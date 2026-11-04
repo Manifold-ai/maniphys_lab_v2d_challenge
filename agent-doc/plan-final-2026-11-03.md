@@ -85,6 +85,8 @@
   读法（解释）：按 t3m1103a 测到的约 1.1 换算，榜上约 0.339；换算比例只要不低于约 0.53，就越过 nima arki 0.32937。1.1 只来自一次读数。
 - 11/04 01:04 MST 的榜（`results/board/diff_1104_0103.txt`）：MBZUAI-RCL Group 新进 Tier 3 四个榜（AUC 0.44671，第 1），Tier 3 四个榜各后退一名（AUC 第 5、SP-SR 第 2、MP-SR 第 4、MPPE 第 6）；Neural Motion、steven kerman 新进 Tier 2，Tier 2 MPPE 第 10。读法 B 86（Kaggle，第 7）/ 87（官网，第 6），读法 A 24（第 5）。Tier 3 AUC 现在第 4 是 nima arki 0.32937，第 3 是 domoarigato 0.37004。
 - 11/04 01:2x MST，打包 t3m1104a（照 `plan-t3pack` 的步骤，`results/t3pack1104/`）：清单 `stages/evaluate/exports/t3_select_t3m1104a.tsv`（t3m1103a 只改 ep20、6、15、5 四行），导出 PULL_OK 8，ASSEMBLE_T3_OK 30；帧参考在 ml40（ep5、15）、mf4090（ep6、20）各建 2 集并对齐，`TIER1_FRAME0` 各 2 行，MERGE_FREFS_OK 30；提交 dc03d74d。PACK 22989 行，CSV sha256 b9fca21e…（`results/submission/pack/t3_t3m1104a.txt`）；CSV_EPISODE_DIFF_OK（不同的恰好是 5、6、15、20），两份 CSV_FRAME0_OK（新 CSV 第 0 帧位置差 0.10–0.25 cm、朝向差 ≤ 0.2°）；缓存环境预演 `--only add_auc` 通过（`results/submission/dryrun_t3_t3m1104a.txt`）。等 rxzhou 定交不交；mf4090 的 ep21、ep8 过换集条件的话另打 t3m1104b。
+- 11/04 01:4x MST，mf4090 `t3pr3o2e` 读数（01:19 MST 导出链 EXPORT_CHAIN_DONE 成功 2；记录 sha256 相同，nanwatch 非有限 0，`non_finite_worlds` 0，两份 EXPORT_OK，健康）：ep8 ADD-AUC 0.816 → 0.873，SP-SR 0.979 → 0.999，MP-SR 0.978 → 0.999，MPPE 2.17 → 1.69 cm，过；ep21 0.558 → 0.501，SP-SR 0.876 → 0.565，MPPE 8.96 → 23.98 cm，不过（`results/final1/swap_pe_vs_t3m1104a.txt`）。
+  打包 t3m1104b（t3m1104a 再换 ep8；`results/t3pack1104/*_b*`）：PULL_OK、ASSEMBLE_T3_OK 30、MERGE_FREFS_OK 30，提交 51507c19；PACK 22989 行，CSV sha256 f8adeafe…；CSV_EPISODE_DIFF_OK（5、6、8、15、20），CSV_FRAME0_OK（ep8 0.12 cm、0.1°）；预演 `--only add_auc` 通过（`results/submission/dryrun_t3_t3m1104b.txt`）。对 t3m1103a 五集合计（`results/final1/swap_cum5_vs_t3m1103a.txt`）：导出那一局 +0.0212，4096 世界 +0.0191。等 rxzhou 定交不交。
 ## 5. 独立复核（11/03 13:4x MST）
 
 结论 GO WITH FIXES，8 条全部采纳：
