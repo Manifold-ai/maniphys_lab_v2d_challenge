@@ -1,0 +1,20 @@
+{
+  "model": "jev-1.13.0",
+  "evidence": {
+    "board": {"file": "results/board/diff_1104_2010.txt", "grep": "^读法|BOARD_|^第一的榜"},
+    "sel": {"file": "agent-doc/freeze-inventory-2026-11-04.md", "grep": "^\\| Tier [123] \\||同一份|14:51"},
+    "ver": {"file": "results/container/verify_1104.txt", "grep": "pass,|VERIFY_EXIT|image ID|tar.zst"}
+  },
+  "claims": [
+    {"id": "nochange", "evidence": ["board"], "claim": "The final board snapshot shows no change from the previous snapshot."},
+    {"id": "sumb", "evidence": ["board"], "claim": "Under reading B with the Kaggle tie rule, Maniphys Lab has rank sum 93 and is 7th; under the site rule it has 94 and is 7th."},
+    {"id": "suma", "evidence": ["board"], "claim": "Under reading A, Maniphys Lab has rank sum 28 and is 6th, tied with one team."},
+    {"id": "nofirst", "evidence": ["board"], "claim": "Maniphys Lab is first on no board."},
+    {"id": "sel", "evidence": ["sel"], "claim": "The Final Submissions are t1x1102 for Tier 1, b1014 for Tier 2 and t3m1029a for Tier 3, the same file on all four boards of each tier."},
+    {"id": "ver", "evidence": ["ver"], "claim": "The container verify passed 11 checks with 0 failures for each of the three tiers."},
+    {"id": "ctl_true", "evidence": ["ver"], "claim": "The verify record lists an image ID."},
+    {"id": "ctl_false1", "evidence": ["board"], "claim": "Maniphys Lab is first on at least one board."},
+    {"id": "ctl_false2", "evidence": ["sel"], "claim": "The Tier 3 Final Submission is t3m1104c."},
+    {"id": "ctl_false3", "evidence": ["ver"], "claim": "The container verify failed for tier2."}
+  ]
+}

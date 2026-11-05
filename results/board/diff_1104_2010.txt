@@ -1,0 +1,24 @@
+# command  : python3 stages/evaluate/board_diff.py results/board/lb_1104_1640.txt results/board/lb_1104_2010.txt 
+# md5      : 1d204dcd62002ad9ad1a5d4f88f74e38  stages/evaluate/board_diff.py
+# md5      : 7661b0a2c99aa856140d9e68e5d315e5  results/board/lb_1104_1640.txt
+# md5      : 2a498a666b7122c718b1109fd054b220  results/board/lb_1104_2010.txt
+# source   : 6f5ea108b5f1
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T20:10:48-0700
+# ---------------------------------------------------------------
+上一份 results/board/lb_1104_1640.txt；这一份 results/board/lb_1104_2010.txt
+## 变了的榜
+（没有）
+## Maniphys Lab 在各榜（同分按 Kaggle 规则；括号里是差距）
+Tier 1：auc 第 11（0.63535，第 1 名 Rice RobotPI Lab 0.94921，差 0.31386）；sp-sr 第 10（0.86666，第 1 名 domoarigato 1.00000，差 0.13334）；mp-sr 第 11（0.70000，第 1 名 Rice RobotPI Lab 1.00000，差 0.30000）；mppe 第 10（8.46753，第 1 名 Rice RobotPI Lab 0.83510，差 7.63243）
+Tier 2：auc 第 7（0.51765，第 1 名 Rice RobotPI Lab 0.82274，差 0.30509）；sp-sr 第 6（0.73333，第 1 名 Rice RobotPI Lab 0.96666，差 0.23333）；mp-sr 第 7（0.53333，第 1 名 Rice RobotPI Lab 0.96666，差 0.43333）；mppe 第 11（15.32195，第 1 名 Rice RobotPI Lab 1.68862，差 13.63333）
+Tier 3：auc 第 5（0.33996，第 1 名 Rice RobotPI Lab 0.61643，差 0.27647）；sp-sr 第 3（0.46666，第 1 名 Rice RobotPI Lab 0.66666，差 0.20000）；mp-sr 第 5（0.10000，第 1 名 Rice RobotPI Lab 0.46666，差 0.36666）；mppe 第 7（36.60061，第 1 名 Rice RobotPI Lab 10.99990，差 25.60071）
+第一的榜（同分 kaggle）：0 → 0 个
+第一的榜（同分 site）：0 → 0 个
+## 总名次（名次和小者在前）
+读法 B（12 个榜名次相加），同分 kaggle：Maniphys Lab 93（第 7） → 93（第 7）；前 4：Rice RobotPI Lab 13、Izus_systems 42、MBZUAI-RCL Group 43、domoarigato 46
+读法 B（12 个榜名次相加），同分 site：Maniphys Lab 94（第 7） → 94（第 7）；前 4：Rice RobotPI Lab 15、MBZUAI-RCL Group 41、domoarigato 42、Izus_systems 44
+读法 A（三档平均后 4 个名次相加），同分 kaggle：Maniphys Lab 28（第 6） → 28（第 6，与 1 队同分）；前 4：Rice RobotPI Lab 4、domoarigato 12、Izus_systems 14、nima arki 22
+读法 A（三档平均后 4 个名次相加），同分 site：Maniphys Lab 28（第 6） → 28（第 6，与 1 队同分）；前 4：Rice RobotPI Lab 4、domoarigato 12、Izus_systems 14、nima arki 22
+BOARD_NO_CHANGE
+BOARD_DIFF_DONE

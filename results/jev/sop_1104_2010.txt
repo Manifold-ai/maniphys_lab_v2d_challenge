@@ -1,0 +1,19 @@
+# command  : python3 tools/jev_claims.py agent-doc/experiments/2026-11-04-sop2010.claims.json 
+# md5      : f8354bbb6809ba85df98bbb43a4ec16d  tools/jev_claims.py
+# md5      : 25c0cfc2694786ae46eb2cfc76bd9630  agent-doc/experiments/2026-11-04-sop2010.claims.json
+# source   : 6f5ea108b5f1-dirty
+# host     : Rongxuans-MacBook-Air.local
+# run_at   : 2026-11-04T20:15:31-0700
+# ---------------------------------------------------------------
+model jev-1.13.0; question: Does `source` support `claim`?
+nochange             P(supported)=0.93  verified               [board]  The final board snapshot shows no change from the previous snapshot.
+sumb                 P(supported)=0.98  verified               [board]  Under reading B with the Kaggle tie rule, Maniphys Lab has rank sum 93 and is 7th; under the site rule it has 94 and is 7th.
+suma                 P(supported)=0.98  verified               [board]  Under reading A, Maniphys Lab has rank sum 28 and is 6th, tied with one team.
+nofirst              P(supported)=0.87  verified               [board]  Maniphys Lab is first on no board.
+sel                  P(supported)=0.91  verified               [sel]  The Final Submissions are t1x1102 for Tier 1, b1014 for Tier 2 and t3m1029a for Tier 3, the same file on all four boards of each tier.
+ver                  P(supported)=0.98  verified               [ver]  The container verify passed 11 checks with 0 failures for each of the three tiers.
+ctl_true             P(supported)=0.99  verified               [ver]  The verify record lists an image ID.
+ctl_false1           P(supported)=0.03  UNVERIFIED             [board]  Maniphys Lab is first on at least one board.
+ctl_false2           P(supported)=0.02  UNVERIFIED             [sel]  The Tier 3 Final Submission is t3m1104c.
+ctl_false3           P(supported)=0.01  UNVERIFIED             [ver]  The container verify failed for tier2.
+controls behaved as expected
